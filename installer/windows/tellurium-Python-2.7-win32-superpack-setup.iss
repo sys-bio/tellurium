@@ -5,7 +5,7 @@
 #define MyAppVersion "0.0.2"
 #define MyAppPublisher "University of Washington, Seattle, WA, USA"
 #define MyAppURL "http://tellurium.analogmachine.org/"
-#define MyAppSetupIconFile "Te.ico"
+#define MyAppSetupIconFile "tellurium_icon_64x64.ico"
 #define ThisInstallerPostfix "win32-superpack-setup"
 
 #define LibRoadRunnerInstaller "libroadrunner-1.0.1-win32-minimal-setup.exe"
