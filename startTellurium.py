@@ -28,9 +28,10 @@ def saveToFile (fileName, str):
     outFile.write(str)
     outFile.close()
     
-
-def loadAntModel (antStr):
-    return loadAntimonyModel (antStr)
+def loadSBMLModel (sbml):
+    rr = roadrunner.RoadRunner (sbml)
+    rr.simulateOptions.structuredResult = False
+    return rr
     
 # Load an Antimony file   
 def loadAntimonyModel (antStr):
