@@ -2,7 +2,7 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define MyAppName "tellurium"
-#define MyAppVersion "0.0.2"
+#define MyAppVersion "0.0.3"
 #define MyAppPublisher "University of Washington, Seattle, WA, USA"
 #define MyAppURL "http://tellurium.analogmachine.org/"
 #define MyAppSetupIconFile "tellurium_icon_64x64.ico"
@@ -10,7 +10,7 @@
 
 #define LibRoadRunnerInstaller "libroadrunner-1.0.1-win32-minimal-setup.exe"
 #define AntimonyInstaller "antimony-2.5.0-win32-minimal-setup.exe"
-#define TelPluginsInstaller "telplugins-01312014-13.02-Python-2.7-win32-minimal-setup.exe"
+#define TelPluginsInstaller "telplugins-0127204-11.27-Python-2.7-win32-minimal-setup.exe"
 #define PyInstaller "python-2.7.6.msi"
 #define NumpyInstaller "numpy-1.8.0-win32-superpack-python2.7.exe"
 #define MatplotlibInstaller "matplotlib-1.3.1.win32-py2.7.exe"
