@@ -2,15 +2,15 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define MyAppName "tellurium"
-#define MyAppVersion "0.0.1"
+#define MyAppVersion "0.0.2"
 #define MyAppPublisher "University of Washington, Seattle, WA, USA"
 #define MyAppURL "http://tellurium.analogmachine.org/"
 #define MyAppSetupIconFile "Te.ico"
 #define ThisInstallerPostfix "win32-superpack-setup"
 
-#define LibRoadRunnerInstaller "roadrunner-1.0.1-rc3-win32-minimal-setup.exe"
+#define LibRoadRunnerInstaller "libroadrunner-1.0.1-win32-minimal-setup.exe"
 #define AntimonyInstaller "antimony-2.5.0-win32-minimal-setup.exe"
-#define TelPluginsInstaller "telplugins-0127204-11.27-Python-2.7-win32-minimal-setup.exe"
+#define TelPluginsInstaller "telplugins-01312014-13.02-Python-2.7-win32-minimal-setup.exe"
 #define PyInstaller "python-2.7.6.msi"
 #define NumpyInstaller "numpy-1.8.0-win32-superpack-python2.7.exe"
 #define MatplotlibInstaller "matplotlib-1.3.1.win32-py2.7.exe"
@@ -21,7 +21,7 @@
 #define PyQtInstaller "PyQt4"
 #define SipInstaller "sip.pyd"
 #define PipInstaller "get-pip.py"
-#define SpyderInstaller "spyder-2.2.5.win32.exe"
+#define SpyderInstaller "spyder-2.3.0dev.win32-py2.7.exe"
 
 
 ;add spyder source
@@ -106,8 +106,7 @@ Source: "libRoadrunner-installer-dependencies\{#PipInstaller}"; DestDir: "{tmp}"
 Source: "spyder_dependencies\{#PyQtInstaller}\*"; DestDir: "C:\Python27\Lib\site-packages\{#PyQtInstaller}"; Flags: ignoreversion onlyifdoesntexist recursesubdirs createallsubdirs
 Source: "spyder_dependencies\{#SipInstaller}"; DestDir: "C:\Python27\Lib\site-packages"; Flags: ignoreversion onlyifdoesntexist
 Source: "spyder_dependencies\{#SpyderInstaller}"; DestDir: "{tmp}"; Flags: ignoreversion onlyifdoesntexist
-Source: "spyder_dependencies\scientific_startup.py"; DestDir: "{tmp}"; AfterInstall: MakeTelSpyder('C:\Python27\Lib\site-packages\spyderlib\scientific_startup.py'); Flags: ignoreversion
-
+;Spyder installer is a custom distro with the following mod at the end of scientific_startup.py
 ;from tellurium import *
 
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
@@ -430,9 +429,9 @@ end;
 
 //////////////////////////////////////////////////////////////////////////////
 // Install tellurium mod in spyder
-procedure MakeTelSpyder(FileName: String);
-begin
+//procedure MakeTelSpyder(FileName: String);
+//begin
     //tmpPy := ExpandConstant('{tmp}\{#PyInstaller}');
-    FileCopy(ExpandConstant('{tmp}\scientific_startup.py'), FileName, false);
-    Log(ExpandConstant('{tmp}\scientific_startup.py') + ' :to: ' + FileName)
-end;
+//    FileCopy(ExpandConstant('{tmp}\scientific_startup.py'), FileName, false);
+//    Log(ExpandConstant('{tmp}\scientific_startup.py') + ' :to: ' + FileName)
+//end;
