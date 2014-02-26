@@ -91,6 +91,8 @@ Name: "english"; MessagesFile: "compiler:Default.isl"
 [Files]
 Source: "../../startTellurium.py"; DestDir: "{app}"; Flags: ignoreversion
 Source: "../../__init__.py"; DestDir: "{app}"; Flags: ignoreversion
+Source: "../../NEWS.txt"; DestDir: "{app}"; Flags: ignoreversion
+Source: "../../LICENSE"; DestDir: "{app}"; Flags: ignoreversion
 Source: "super_installer_dependencies\{#LibRoadRunnerInstaller}"; DestDir: "{tmp}"; Flags: ignoreversion
 Source: "super_installer_dependencies\{#AntimonyInstaller}"; DestDir: "{tmp}"; Flags: ignoreversion
 Source: "super_installer_dependencies\{#TelPluginsInstaller}"; DestDir: "{tmp}"; Flags: ignoreversion
