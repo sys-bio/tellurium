@@ -19,6 +19,7 @@
 ;#define SixInstaller "six-1.5.2.win32-py2.7.exe"
 
 #define PyQtInstaller "PyQt4"
+#define SipInstaller "sip.pyd"
 #define PipInstaller "get-pip.py"
 #define SpyderInstaller "spyder"
 
@@ -35,6 +36,7 @@
 ;#define PyparsingInstallerURL "http://www.lfd.uci.edu/~gohlke/pythonlibs/#pyparsing" The one from "http://downloads.sourceforge.net/project/pyparsing/pyparsing/pyparsing-2.0.1/pyparsing-2.0.1.win32-py2.7.exe" did not work.
 ;#define SixInstallerURL "http://www.lfd.uci.edu/~gohlke/pythonlibs/#six"
 ;#define PyQtInstallerURL "http://sourceforge.net/projects/pyqt/files/PyQt4/PyQt-4.10.3/PyQt4-4.10.3-gpl-Py2.7-Qt4.8.5-x32.exe/download"
+;#define SipInstallerURL "http://www.riverbankcomputing.com/software/sip/download" #using file from bin install
 ;#define PipInstallerURL "https://raw.github.com/pypa/pip/master/contrib/get-pip.py"
  
 #define Py "Python"
@@ -97,9 +99,10 @@ Source: "libRoadrunner-installer-dependencies\{#MatplotlibInstaller}"; DestDir: 
 ;Source: "libRoadrunner-installer-dependencies\{#SixInstaller}"; DestDir: "{tmp}"; Flags: ignoreversion onlyifdoesntexist
 Source: "libRoadrunner-installer-dependencies\{#NumpyInstaller}"; DestDir: "{tmp}"; Flags: ignoreversion onlyifdoesntexist 
 Source: "libRoadrunner-installer-dependencies\{#PyInstaller}"; DestDir: "{tmp}"; Flags: ignoreversion onlyifdoesntexist
+Source: "libRoadrunner-installer-dependencies\{#PipInstaller}"; DestDir: "{tmp}"; Flags: ignoreversion onlyifdoesntexist
 
-Source: "super_installer_dependencies\{#PipInstaller}"; DestDir: "{tmp}"; Flags: ignoreversion onlyifdoesntexist
 Source: "spyder_dependencies\{#PyQtInstaller}\*"; DestDir: "C:\Python27\Lib\site-packages\{#PyQtInstaller}"; Flags: ignoreversion onlyifdoesntexist recursesubdirs createallsubdirs
+Source: "spyder_dependencies\{#SipInstaller}"; DestDir: "C:\Python27\Lib\site-packages"; Flags: ignoreversion onlyifdoesntexist
 
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
