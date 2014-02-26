@@ -21,7 +21,8 @@
 #define PyQtInstaller "PyQt4"
 #define SipInstaller "sip.pyd"
 #define PipInstaller "get-pip.py"
-#define SpyderInstaller "spyder"
+#define SpyderInstaller "spyder-2.2.5.win32.exe"
+
 
 ;add spyder source
 ;then do ":python setup.py install" to install
@@ -38,6 +39,7 @@
 ;#define PyQtInstallerURL "http://sourceforge.net/projects/pyqt/files/PyQt4/PyQt-4.10.3/PyQt4-4.10.3-gpl-Py2.7-Qt4.8.5-x32.exe/download"
 ;#define SipInstallerURL "http://www.riverbankcomputing.com/software/sip/download" #using file from bin install
 ;#define PipInstallerURL "https://raw.github.com/pypa/pip/master/contrib/get-pip.py"
+;#define SpyderInstaller "https://bitbucket.org/spyder-ide/spyderlib/downloads/spyder-2.2.5.win32.exe"
  
 #define Py "Python"
 #define PyVer "2.7"
@@ -103,6 +105,10 @@ Source: "libRoadrunner-installer-dependencies\{#PipInstaller}"; DestDir: "{tmp}"
 
 Source: "spyder_dependencies\{#PyQtInstaller}\*"; DestDir: "C:\Python27\Lib\site-packages\{#PyQtInstaller}"; Flags: ignoreversion onlyifdoesntexist recursesubdirs createallsubdirs
 Source: "spyder_dependencies\{#SipInstaller}"; DestDir: "C:\Python27\Lib\site-packages"; Flags: ignoreversion onlyifdoesntexist
+Source: "spyder_dependencies\{#SpyderInstaller}"; DestDir: "{tmp}"; Flags: ignoreversion onlyifdoesntexist
+Source: "spyder_dependencies\scientific_startup.py"; DestDir: "{tmp}"; AfterInstall: MakeTelSpyder('C:\Python27\Lib\site-packages\spyderlib\scientific_startup.py'); Flags: ignoreversion
+
+;from tellurium import *
 
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
@@ -121,6 +127,8 @@ Filename: "{#Pip}"; Parameters: "install psutil"; WorkingDir: "{tmp}"; Flags: sh
 Filename: "{#LibRoadRunnerInstaller}"; Parameters: "/SILENT"; WorkingDir: "{tmp}"; Flags: shellexec waituntilterminated runmaximized
 Filename: "{#AntimonyInstaller}"; Parameters: "/SILENT"; WorkingDir: "{tmp}"; Flags: shellexec waituntilterminated runmaximized
 Filename: "{#TelPluginsInstaller}"; Parameters: "/SILENT"; WorkingDir: "{tmp}"; Flags: shellexec waituntilterminated runmaximized
+Filename: "{#SpyderInstaller}"; Parameters: "/SILENT"; WorkingDir: "{tmp}"; Flags: shellexec waituntilterminated runmaximized
+
 
 ;SCIPY pip install has an error, may need a fortran compiler! mingw, but do we need Scipy?
 ;Filename: "{#Pip}"; Parameters: "install scipy"; WorkingDir: "{tmp}"; Flags: shellexec waituntilterminated runmaximized
@@ -418,4 +426,13 @@ begin
         end;
       end;
     end;
+end;
+
+//////////////////////////////////////////////////////////////////////////////
+// Install tellurium mod in spyder
+procedure MakeTelSpyder(FileName: String);
+begin
+    //tmpPy := ExpandConstant('{tmp}\{#PyInstaller}');
+    FileCopy(ExpandConstant('{tmp}\scientific_startup.py'), FileName, false);
+    Log(ExpandConstant('{tmp}\scientific_startup.py') + ' :to: ' + FileName)
 end;
