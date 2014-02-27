@@ -87,10 +87,10 @@ def plotArray (result):
     plt.show()
     return plt
 
-print ("Loading roadRunner")
+print ("Loading roadrunner")
 import roadrunner
 
-print ("Loading Antimony")
+print ("Loading libantimony")
 import libantimony
 
 
