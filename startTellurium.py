@@ -16,7 +16,7 @@ import tellurium
 def getTelluriumVersion():
     import os
     f = open(os.path.dirname(tellurium.__file__) +'\\VERSION', 'r')
-    ver = f.read()
+    ver = f.read().rstrip()
     f.close()
     return ver
     
@@ -89,7 +89,7 @@ def plotArray (result):
     plt.show()
     return plt
 
-print ('Loading tellurium '+ getTelluriumVersion())
+print ("Importing tellurium as 'te' v"+ getTelluriumVersion())
 
 print ("Loading roadrunner")
 import roadrunner

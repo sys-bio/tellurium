@@ -1,1 +1,1 @@
-cp spyderlib/*py ~/src/spyder-mgaldzic/spyderlib/
+cp -Rv spyderlib/* ~/src/spyder-mgaldzic/spyderlib/
