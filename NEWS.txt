@@ -2,6 +2,17 @@ tellurium
 
 Log of changes
 
+0.0.5
+example1.py loads by default as the opening script, just press be green 'play' button.
+Python console tab is now the default active console
+Option to open README.txt after install - currently blank
+Option to Run Spyder after install, default option
+tellurium imports as te - makes startTellurium.py commands available at te.*
+getTelluriumVersion.py - displays tellurium version correctly
+
+0.0.4
+telplugins updated - import bug persists
+
 0.0.3
 NEWS.txt added - log of changes
 reverted to telplugins-0127204-11.27
