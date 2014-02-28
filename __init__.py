@@ -1,1 +1,1 @@
-import startTellurium
+from startTellurium import *

@@ -10,13 +10,15 @@ pass Antimony models to roadRunner
 """
 
 import matplotlib.pyplot as plt
-import numpy
+import tellurium
 
-tellVersion = '1.01'
-
+#get version from VERSION file
 def getTelluriumVersion():
-    return tellVersion
-    
+    import os
+    f = open(os.path.dirname(tellurium.__file__) +'\\VERSION', 'r')
+    ver = f.read()
+    f.close()
+    return ver
     
 # Save a string to a file
 def saveToFile (fileName, str):
@@ -87,12 +89,14 @@ def plotArray (result):
     plt.show()
     return plt
 
+print ('Loading tellurium '+ getTelluriumVersion())
+
 print ("Loading roadrunner")
 import roadrunner
 
 print ("Loading libantimony")
 import libantimony
-
+__version__ = getTelluriumVersion()
 
 
 
