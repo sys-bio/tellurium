@@ -50,7 +50,7 @@
 #define AppDir "tellurium"
 #define Pip "pip.exe"
 
-#define VerFile FileOpen("../../VERSION")
+#define VerFile FileOpen("../../VERSION.txt")
 #define MyAppVersion FileRead(VerFile)
 #expr FileClose(VerFile)
 #undef VerFile
@@ -99,8 +99,8 @@ Source: "../../startTellurium.py"; DestDir: "{app}"; Flags: ignoreversion
 Source: "../../__init__.py"; DestDir: "{app}"; Flags: ignoreversion
 Source: "../../example1.py"; DestDir: "{app}"; Flags: ignoreversion
 Source: "../../NEWS.txt"; DestDir: "{app}"; Flags: ignoreversion
-Source: "../../LICENSE"; DestDir: "{app}"; Flags: ignoreversion
-Source: "../../VERSION"; DestDir: "{app}"; Flags: ignoreversion
+Source: "../../LICENSE.txt"; DestDir: "{app}"; Flags: ignoreversion
+Source: "../../VERSION.txt"; DestDir: "{app}"; Flags: ignoreversion
 Source: "../../README.txt"; DestDir: "{app}"; Flags: ignoreversion
 Source: "../../NOTICE.txt"; DestDir: "{app}"; Flags: ignoreversion
 Source: "super_installer_dependencies\{#LibRoadRunnerInstaller}"; DestDir: "{tmp}"; Flags: ignoreversion
