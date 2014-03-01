@@ -9,8 +9,8 @@
 #define ThisInstallerPostfix "win32-superpack-setup"
 
 #define LibRoadRunnerInstaller "libroadrunner-1.0.1-win32-minimal-setup.exe"
-#define AntimonyInstaller "antimony-2.5.0-win32-minimal-setup.exe"
-#define TelPluginsInstaller "telplugins-01312014-13.02-Python-2.7-win32-minimal-setup.exe"
+#define AntimonyInstaller "AntimonyPythonBindings-2.5.1-win32.exe"
+#define TelPluginsInstaller "telplugins-1.0.0-Python-2.7-win32-minimal-setup.exe"
 #define PyInstaller "python-2.7.6.msi"
 #define NumpyInstaller "numpy-1.8.0-win32-superpack-python2.7.exe"
 #define MatplotlibInstaller "matplotlib-1.3.1.win32-py2.7.exe"
@@ -71,7 +71,7 @@ AppPublisherURL={#MyAppURL}
 AppSupportURL={#MyAppURL}
 AppUpdatesURL={#MyAppURL}
 DisableWelcomePage=yes
-DefaultDirName={code:SetDefaultAppDirName}
+DefaultDirName={code:SetAppDirPath}
 ;DefaultDirName=C:\Python27\Lib\site-packages\{#AppDir}
 
 ;enable the next line for debug only
@@ -114,8 +114,8 @@ Source: "libRoadrunner-installer-dependencies\{#NumpyInstaller}"; DestDir: "{tmp
 Source: "libRoadrunner-installer-dependencies\{#PyInstaller}"; DestDir: "{tmp}"; Flags: ignoreversion onlyifdoesntexist
 Source: "libRoadrunner-installer-dependencies\{#PipInstaller}"; DestDir: "{tmp}"; Flags: ignoreversion onlyifdoesntexist
 
-Source: "spyder_dependencies\{#PyQtInstaller}\*"; DestDir: "C:\Python27\Lib\site-packages\{#PyQtInstaller}"; Flags: ignoreversion onlyifdoesntexist recursesubdirs createallsubdirs
-Source: "spyder_dependencies\{#SipInstaller}"; DestDir: "C:\Python27\Lib\site-packages"; Flags: ignoreversion onlyifdoesntexist
+Source: "spyder_dependencies\{#PyQtInstaller}\*"; DestDir: "{code:SetPythonSitePackagesPath}\{#PyQtInstaller}"; Flags: ignoreversion onlyifdoesntexist recursesubdirs createallsubdirs
+Source: "spyder_dependencies\{#SipInstaller}"; DestDir: "{code:SetPythonSitePackagesPath}"; Flags: ignoreversion onlyifdoesntexist
 Source: "spyder_dependencies\{#SpyderInstaller}"; DestDir: "{tmp}"; Flags: ignoreversion onlyifdoesntexist
 ;Spyder installer is a custom distro with the following mod at the end of scientific_startup.py
 ;from tellurium import *
@@ -139,7 +139,7 @@ Filename: "{#AntimonyInstaller}"; Parameters: "/SILENT"; WorkingDir: "{tmp}"; Fl
 Filename: "{#TelPluginsInstaller}"; Parameters: "/SILENT"; WorkingDir: "{tmp}"; Flags: shellexec waituntilterminated runmaximized
 Filename: "{#SpyderInstaller}"; Parameters: "/SILENT"; WorkingDir: "{tmp}"; Flags: shellexec waituntilterminated runmaximized
 Filename: "{app}\README.TXT"; Description: "View the README file"; Flags: postinstall shellexec skipifsilent unchecked
-Filename: "C:\Python27\python.exe"; Parameters:"C:\Python27\scripts\spyder"; Description: "Run TeSpyder"; Flags: postinstall shellexec skipifsilent
+Filename: "{code:SetPythonPath}\python.exe"; Parameters:"{code:SetPythonPath}\scripts\spyder"; Description: "Run TeSpyder"; Flags: postinstall shellexec skipifsilent
 
 
 ;SCIPY pip install has an error, may need a fortran compiler! mingw, but do we need Scipy?
@@ -160,15 +160,16 @@ const
 
 var
   installPython, installMatplot, installNumpy: Boolean;
-  DefaultAppDirName: String;
-
+  AppDirPath: String;
+  PythonPath: String;
+  PythonSitePackagesPath: String;
 
 //////////////////////////////////////////////////////////////////////////////
 procedure ExitProcess(exitCode:integer);
   external 'ExitProcess@kernel32.dll stdcall';
 
 //////////////////////////////////////////////////////////////////////////////
-function GetPathForPythonSitePackages(): string;
+function GetPathForPython(): string;
 var          
   InstallPath: string;
 begin
@@ -176,19 +177,19 @@ begin
   if RegQueryStringValue(HKEY_LOCAL_MACHINE, pyReg, '', InstallPath) then
     begin
     Log('HKLM pyReg: '+ InstallPath);
-    Result := InstallPath + 'Lib\site-packages\';
+    Result := InstallPath;
     end
   else
   if RegQueryStringValue(HKEY_CURRENT_USER, pyReg, '', InstallPath) then
     begin
     Log('HKCU pyReg: '+ InstallPath);
-    Result := InstallPath + 'Lib\site-packages\'; 
+    Result := InstallPath; 
     end
   else
   if RegQueryStringValue(HKEY_LOCAL_MACHINE, pyRegWow6443Node, '', InstallPath) then
     begin
     Log('HKLM pyRegWow6443Node: '+ InstallPath);
-    Result := InstallPath + 'Lib\site-packages\';
+    Result := InstallPath;
     end
   else
     begin
@@ -197,6 +198,12 @@ begin
     + ' location]\Lib\site-packages\{#AppDir} directory.',mbError,MB_OK);
     //ExitProcess(1);
     end
+end;
+
+//////////////////////////////////////////////////////////////////////////////
+function GetPathForPythonSitePackages(PythonPath: String): string;
+begin
+  Result := PythonPath + 'Lib\site-packages\';
 end;
 
 //////////////////////////////////////////////////////////////////////////////
@@ -226,9 +233,29 @@ begin
 end;
 
 //////////////////////////////////////////////////////////////////////////////
-function SetDefaultAppDirName(Value: String): String;
+procedure GetPythonPaths();
+begin  
+  PythonPath := GetPathForPython();
+  PythonSitePackagesPath := GetPathForPythonSitePackages(PythonPath);
+  AppDirPath := PythonSitePackagesPath + AppDir;
+end;
+
+//////////////////////////////////////////////////////////////////////////////
+function SetPythonPath(Param: String): String;
 begin
-  Result := DefaultAppDirName;
+  Result := PythonPath;
+end;
+
+//////////////////////////////////////////////////////////////////////////////
+function SetPythonSitePackagesPath(Param: String): String;
+begin
+  Result := PythonSitePackagesPath;
+end;
+
+//////////////////////////////////////////////////////////////////////////////
+function SetAppDirPath(Param: String): String;
+begin
+  Result := AppDirPath;
 end;
 
 //////////////////////////////////////////////////////////////////////////////
@@ -243,7 +270,7 @@ begin
   // Log('reg Python: ' + reg)
   
   //if Numpy/ matplotlib installed - direct check for file
-  InstallPath := GetPathForPythonSitePackages() + name + '/__init__.py'
+  InstallPath := PythonSitePackagesPath + name + '/__init__.py'
   Log('install dir: ' + InstallPath)
   if FileExists(InstallPath) then
   //if RegQueryStringValue(HKEY_CURRENT_USER, reg, 'InstallPath', InstallPath) then
@@ -300,8 +327,8 @@ begin
     Log('Python: ' + 'True');
     installPython := False;
     //Python must be installed, get its path
-    DefaultAppDirName := GetPathForPythonSitePackages() + AppDir;
-    Log('SetDefaultAppDirName: ' + DefaultAppDirName);    
+    GetPythonPaths();
+    Log('SetDefaultAppDirName: ' + AppDirPath);    
   end
   else //Add Python to tmp folder [ // or download list.. ]
   begin
@@ -312,28 +339,17 @@ begin
     ExtractTemporaryFile('{#PyInstaller}')
     Log('tmpPy: '+ tmpPy);
 
-    {//Check that the msi tmpPy installer file is present
-    if FileExists(tmpPy) then
-      begin
-      Log('tmpPy exists : ' + tmpPy);
-      end 
-    else 
-      begin
-      Log('MSI tmpPy does not exist : ' + tmpPy);
-      MsgBox('Could not find MSI' + tmpPy + ' installer',mbError,MB_OK);
-      ExitProcess(1);
-      //something went wrong: hell or high water python installer must be there
-      end;
-     }
-    DefaultAppDirName := 'C:\Python27\Lib\site-packages\{#AppDir}' //pretend default path 
-                                                                   //will be used when python is installed
-                                                                   //not seeing another way to prepopulate
-                                                                   //the Dir Destination page.
-                                                                   //installing Pyton earlier not an option
-                                                                   //as {tmp} was not created yet, so cant
-                                                                   //extract python installer yet 
+    AppDirPath := 'C:\Python27\Lib\site-packages\{#AppDir}' //pretend default path 
+                                                            //will be used when python is installed
+                                                            //not seeing another way to prepopulate
+                                                            //the Dir Destination page.
+                                                            //installing Pyton earlier not an option
+                                                            //as {tmp} was not created yet, so cant
+                                                            //extract python installer yet 
     //itd_addfile('{#PyInstallerURL}',ExpandConstant('{tmp}\{#PyInstaller}'));
     //itd_addfile('http://sbol.bhi.washington.edu/ppp/setup-dummyPython.exe',ExpandConstant('{tmp}\setup-dummyPython.exe'));
+    PythonPath := 'C:\Python27';
+    PythonSitePackagesPath := 'C:\Python27\Lib\site-packages\';
   end;
 
   Result := True; //Required for fwd progress, false would exist
@@ -349,8 +365,8 @@ begin
      RunMsiInstaller('{#PyInstaller}');
 
   //Python must be installed, get its path
-  DefaultAppDirName := GetPathForPythonSitePackages() + AppDir;
-  Log('SetDefaultAppDirName: ' + DefaultAppDirName);
+  GetPythonPaths();
+  Log('SetDefaultAppDirName: ' + AppDirPath);
 
   //Check if Numpy is installed
   if IsInstalled('{#Numpy}') then
