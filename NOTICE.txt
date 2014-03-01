@@ -1,9 +1,8 @@
 Tellurium v1.0.0
-      Copyright 2014 Michal Galdzicki, Herbert Sauro
-      http://tellurium.analogmachine.org/
+Copyright 2014 Michal Galdzicki, Herbert Sauro
+http://tellurium.analogmachine.org/
 
-
-This product makes use of the following software packages:
+This product makes use of the following open source software packages:
 
 telPlugins
     Copyright (C) 2012-2014 Totte Karlsson, Herbert Sauro
@@ -20,9 +19,7 @@ libantimony
    Distributed under BSD license
    http://antimony.sourceforge.net/
 
-Tellurium uses the following open source projects:
-
-Spyder 2.3.0dev
+Spyder 2.2.5 - modified
     Copyright 2009-2013 Pierre Raybaut. 
     Licensed under the terms of the MIT License
     https://code.google.com/p/spyderlib/
