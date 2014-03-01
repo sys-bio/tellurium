@@ -19,7 +19,7 @@ libantimony
    Distributed under BSD license
    http://antimony.sourceforge.net/
 
-Spyder 2.2.5 - modified
+Spyder 2.2.5 (modified)
     Copyright 2009-2013 Pierre Raybaut. 
     Licensed under the terms of the MIT License
     https://code.google.com/p/spyderlib/
