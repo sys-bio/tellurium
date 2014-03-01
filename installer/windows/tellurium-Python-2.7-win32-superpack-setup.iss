@@ -48,7 +48,7 @@
 #define Matplotlib "matplotlib"
 ;#define MatplotlibVer "1.0"
 #define AppDir "tellurium"
-#define Pip "C:\Python27\Scripts\pip.exe"
+#define Pip "pip.exe"
 
 #define VerFile FileOpen("../../VERSION")
 #define MyAppVersion FileRead(VerFile)
@@ -102,10 +102,10 @@ Source: "../../NEWS.txt"; DestDir: "{app}"; Flags: ignoreversion
 Source: "../../LICENSE"; DestDir: "{app}"; Flags: ignoreversion
 Source: "../../VERSION"; DestDir: "{app}"; Flags: ignoreversion
 Source: "../../README.txt"; DestDir: "{app}"; Flags: ignoreversion
+Source: "../../NOTICE.txt"; DestDir: "{app}"; Flags: ignoreversion
 Source: "super_installer_dependencies\{#LibRoadRunnerInstaller}"; DestDir: "{tmp}"; Flags: ignoreversion
 Source: "super_installer_dependencies\{#AntimonyInstaller}"; DestDir: "{tmp}"; Flags: ignoreversion
 Source: "super_installer_dependencies\{#TelPluginsInstaller}"; DestDir: "{tmp}"; Flags: ignoreversion
-Source: "libRoadrunner-installer-dependencies\NOTICE.TXT"; DestDir: "{app}"; DestName:"NOTICE2.TXT"; Flags: ignoreversion
 Source: "libRoadrunner-installer-dependencies\{#MatplotlibInstaller}"; DestDir: "{tmp}"; Flags: ignoreversion onlyifdoesntexist
 ;Source: "libRoadrunner-installer-dependencies\{#DateutilInstaller}"; DestDir: "{tmp}"; Flags: ignoreversion onlyifdoesntexist
 ;Source: "libRoadrunner-installer-dependencies\{#PyparsingInstaller}"; DestDir: "{tmp}"; Flags: ignoreversion onlyifdoesntexist 
@@ -124,16 +124,16 @@ Source: "spyder_dependencies\{#SpyderInstaller}"; DestDir: "{tmp}"; Flags: ignor
 
 [Run]
 Filename: "{tmp}\{#PipInstaller}"; Verb: "open"; WorkingDir: "{tmp}"; Flags: shellexec waituntilterminated runmaximized
-Filename: "{#Pip}"; Parameters: "install python-dateutil"; WorkingDir: "{tmp}"; Flags: shellexec waituntilterminated runmaximized
-Filename: "{#Pip}"; Parameters: "install pyparsing"; WorkingDir: "{tmp}"; Flags: shellexec waituntilterminated runmaximized
-Filename: "{#Pip}"; Parameters: "install six"; WorkingDir: "{tmp}"; Flags: shellexec waituntilterminated runmaximized
+Filename: "{code:SetPythonPath}\scripts\{#Pip}"; Parameters: "install python-dateutil"; WorkingDir: "{tmp}"; Flags: shellexec waituntilterminated runmaximized
+Filename: "{code:SetPythonPath}\scripts\{#Pip}"; Parameters: "install pyparsing"; WorkingDir: "{tmp}"; Flags: shellexec waituntilterminated runmaximized
+Filename: "{code:SetPythonPath}\scripts\{#Pip}"; Parameters: "install six"; WorkingDir: "{tmp}"; Flags: shellexec waituntilterminated runmaximized
 
-Filename: "{#Pip}"; Parameters: "install ipython[all]"; WorkingDir: "{tmp}"; Flags: shellexec waituntilterminated runmaximized
-Filename: "{#Pip}"; Parameters: "install sphinx"; WorkingDir: "{tmp}"; Flags: shellexec waituntilterminated runmaximized
-Filename: "{#Pip}"; Parameters: "install pyflakes"; WorkingDir: "{tmp}"; Flags: shellexec waituntilterminated runmaximized
-Filename: "{#Pip}"; Parameters: "install pylint"; WorkingDir: "{tmp}"; Flags: shellexec waituntilterminated runmaximized
-Filename: "{#Pip}"; Parameters: "install pep8"; WorkingDir: "{tmp}"; Flags: shellexec waituntilterminated runmaximized
-Filename: "{#Pip}"; Parameters: "install psutil"; WorkingDir: "{tmp}"; Flags: shellexec waituntilterminated runmaximized
+Filename: "{code:SetPythonPath}\scripts\{#Pip}"; Parameters: "install ipython[all]"; WorkingDir: "{tmp}"; Flags: shellexec waituntilterminated runmaximized
+Filename: "{code:SetPythonPath}\scripts\{#Pip}"; Parameters: "install sphinx"; WorkingDir: "{tmp}"; Flags: shellexec waituntilterminated runmaximized
+Filename: "{code:SetPythonPath}\scripts\{#Pip}"; Parameters: "install pyflakes"; WorkingDir: "{tmp}"; Flags: shellexec waituntilterminated runmaximized
+Filename: "{code:SetPythonPath}\scripts\{#Pip}"; Parameters: "install pylint"; WorkingDir: "{tmp}"; Flags: shellexec waituntilterminated runmaximized
+Filename: "{code:SetPythonPath}\scripts\{#Pip}"; Parameters: "install pep8"; WorkingDir: "{tmp}"; Flags: shellexec waituntilterminated runmaximized
+Filename: "{code:SetPythonPath}\scripts\{#Pip}"; Parameters: "install psutil"; WorkingDir: "{tmp}"; Flags: shellexec waituntilterminated runmaximized
 Filename: "{#LibRoadRunnerInstaller}"; Parameters: "/SILENT"; WorkingDir: "{tmp}"; Flags: shellexec waituntilterminated runmaximized
 Filename: "{#AntimonyInstaller}"; Parameters: "/SILENT"; WorkingDir: "{tmp}"; Flags: shellexec waituntilterminated runmaximized
 Filename: "{#TelPluginsInstaller}"; Parameters: "/SILENT"; WorkingDir: "{tmp}"; Flags: shellexec waituntilterminated runmaximized
