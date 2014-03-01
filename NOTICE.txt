@@ -1,0 +1,55 @@
+Tellurium v1.0.0
+      Copyright 2014 Michal Galdzicki, Herbert Sauro
+      http://tellurium.analogmachine.org/
+
+
+This product makes use of the following software packages:
+
+telPlugins
+    Copyright (C) 2012-2014 Totte Karlsson, Herbert Sauro
+    Distributed under Apache License, Version 2.0
+    http://tellurium.analogmachine.org/plugins/
+
+libRoadRunner
+    Copyright (C) 2012-2014 Andy Somogyi, Herbert Sauro
+    Distributed under Apache License, Version 2.0
+    http://libroadrunner.org/
+
+libantimony
+   Copyright (c) 2008-2014, Lucian Smith and Herbert Sauro
+
+six 1.5.2
+    Copyright (c) 2010-2014 Benjamin Peterson
+    Distributed under the MIT license
+    http://pypi.python.org/pypi/six/
+
+pyparsing 2.0.1
+    Paul McGuire
+    Distributed under the MIT license (no copyright statement)
+    http://pyparsing.wikispaces.com/
+
+python-dateutil 2.2
+    Copyright (c) 2003-2011 - Gustavo Niemeyer <gustavo@niemeyer.net>
+    Copyright (c) 2012 - Tomi Pievil吾伍五inen <tomi.pievilainen@iki.fi>
+    Distributed under Simplified BSD license
+    http://labix.org/python-dateutil
+
+matplotlib 1.3.1
+    Copyright (c) 2012-2013 Matplotlib Development Team; All Rights Reserved
+    Distributed under matplotlib license, based on the PSF license
+    http://matplotlib.org/
+
+numpy-1.8.0
+    Copyright 西西 2005-2013, NumPy Developers.
+    Distributed under BSD license, http://www.numpy.org/license.html#license
+    http://www.numpy.org
+
+Python 2.7.6
+    Copyright 西西 2001-2014 Python Software Foundation; All Rights Reserved
+    Distributed under PSF LICENSE FOR PYTHON 2.7.6, http://docs.python.org/2/license.html
+    http://python.org/
+
+
+
+
+
