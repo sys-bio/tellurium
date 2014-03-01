@@ -17,6 +17,26 @@ libRoadRunner
 
 libantimony
    Copyright (c) 2008-2014, Lucian Smith and Herbert Sauro
+   Distributed under BSD license
+   http://antimony.sourceforge.net/
+
+Tellurium uses the following open source projects:
+
+Spyder 2.3.0dev
+    Copyright 2009-2013 Pierre Raybaut. 
+    Licensed under the terms of the MIT License
+    https://code.google.com/p/spyderlib/
+
+PyQt4 (PyQt4-4.10.3-gpl-Py2.7-Qt4.8.5-x32)
+    Copyright (C) 2013 Riverbank Computing Limited <info@riverbankcomputing.com>
+    Lincensed under the terms of the GNU GPL 2, with Riverbank GPL Exception version 1.1
+    see GPL_EXCEPTION.TXT in the PyQt4 Source Code. The right to use Open Source Licenses not compatible with the GNU General Public License: Apache License 2.0
+    http://www.riverbankcomputing.com/
+
+iPython 1.2.0
+    Copyright (c) 2011, IPython Development Team
+    http://ipython.org/
+    IPython is licensed under the terms of the new or revised BSD license
 
 six 1.5.2
     Copyright (c) 2010-2014 Benjamin Peterson
@@ -40,12 +60,12 @@ matplotlib 1.3.1
     http://matplotlib.org/
 
 numpy-1.8.0
-    Copyright 西西 2005-2013, NumPy Developers.
+    Copyright (c) 2005-2013, NumPy Developers.
     Distributed under BSD license, http://www.numpy.org/license.html#license
     http://www.numpy.org
 
 Python 2.7.6
-    Copyright 西西 2001-2014 Python Software Foundation; All Rights Reserved
+    Copyright (c) 2001-2014 Python Software Foundation; All Rights Reserved
     Distributed under PSF LICENSE FOR PYTHON 2.7.6, http://docs.python.org/2/license.html
     http://python.org/
 
