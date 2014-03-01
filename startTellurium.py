@@ -96,6 +96,10 @@ import roadrunner
 
 print ("Loading libantimony")
 import libantimony
+
+print ("Loading telPlugins")
+import telplugins
+
 __version__ = getTelluriumVersion()
 
 
