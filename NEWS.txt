@@ -2,6 +2,12 @@ tellurium
 
 Log of changes
 
+0.0.6
+Updated to antimony-2.5.1 - statically linked libSBML
+Added telplugins-1.0.0 - statically linked libSBML, removed a dev ver of a plugin
+Installer updated to read PythonPath from Registry for all sub-installs
+NOTICE.txt updated
+
 0.0.5
 example1.py loads by default as the opening script, just press be green 'play' button.
 Python console tab is now the default active console
