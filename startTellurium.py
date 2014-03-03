@@ -10,6 +10,8 @@ pass Antimony models to roadRunner
 """
 
 import matplotlib.pyplot as plt
+import roadrunner
+import libantimony
 import tellurium
 
 #get version from VERSION file
@@ -91,14 +93,6 @@ def plotArray (result):
 
 print ("Importing tellurium as 'te' v"+ getTelluriumVersion())
 
-print ("Loading roadrunner")
-import roadrunner
-
-print ("Loading libantimony")
-import libantimony
-
-print ("Loading telPlugins")
-import telplugins
 
 __version__ = getTelluriumVersion()
 
