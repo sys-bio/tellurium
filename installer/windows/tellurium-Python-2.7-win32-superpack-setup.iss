@@ -21,7 +21,7 @@
 #define PyQtInstaller "PyQt4"
 #define SipInstaller "sip.pyd"
 #define PipInstaller "get-pip.py"
-#define SpyderInstaller "spyder-2.2.5.tel.win32.exe"
+#define SpyderInstaller "spyder-2.2.5-tellurium-0.0.7.win32.exe"
 
 
 ;add spyder source
@@ -123,7 +123,7 @@ Source: "spyder_dependencies\{#SpyderInstaller}"; DestDir: "{tmp}"; Flags: ignor
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [Run]
-Filename: "{tmp}\{#PipInstaller}"; Verb: "open"; WorkingDir: "{tmp}"; Flags: shellexec waituntilterminated runmaximized
+Filename: "{code:SetPythonPath}\python.exe"; Parameters: "{tmp}\{#PipInstaller}"; WorkingDir: "{tmp}"; Flags: shellexec waituntilterminated runmaximized
 Filename: "{code:SetPythonPath}\scripts\{#Pip}"; Parameters: "install python-dateutil"; WorkingDir: "{tmp}"; Flags: shellexec waituntilterminated runmaximized
 Filename: "{code:SetPythonPath}\scripts\{#Pip}"; Parameters: "install pyparsing"; WorkingDir: "{tmp}"; Flags: shellexec waituntilterminated runmaximized
 Filename: "{code:SetPythonPath}\scripts\{#Pip}"; Parameters: "install six"; WorkingDir: "{tmp}"; Flags: shellexec waituntilterminated runmaximized
