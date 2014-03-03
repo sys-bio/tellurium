@@ -21,7 +21,7 @@
 #define PyQtInstaller "PyQt4"
 #define SipInstaller "sip.pyd"
 #define PipInstaller "get-pip.py"
-#define SpyderInstaller "spyder-2.2.5-tellurium-0.0.7.win32.exe"
+#define SpyderInstaller "spyder-2.2.5-tellurium-0.0.8.win32.exe"
 
 
 ;add spyder source

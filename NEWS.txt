@@ -1,6 +1,8 @@
 tellurium 
 
 Log of changes
+0.0.8
+version increment, because SourceForge did not like a file with the same name
 
 0.0.7
 Fixed run pip, now using explicit python path
