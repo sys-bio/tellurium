@@ -15,7 +15,7 @@ import tellurium
 #get version from VERSION file
 def getTelluriumVersion():
     import os
-    f = open(os.path.dirname(tellurium.__file__) +'\\VERSION', 'r')
+    f = open(os.path.dirname(tellurium.__file__) +'\\VERSION.txt', 'r')
     ver = f.read().rstrip()
     f.close()
     return ver
