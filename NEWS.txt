@@ -2,6 +2,12 @@ tellurium
 
 Log of changes
 
+0.0.7
+Fixed run pip, now using explicit python path
+Fixed to read VERSION.txt instead of VERSION 
+Spyder console has roadrunner, antimony, and telplugins available to the user directly 
+Spyder version now reflects tellurium version (static)
+
 0.0.6
 Updated to antimony-2.5.1 - statically linked libSBML
 Added telplugins-1.0.0 - statically linked libSBML, removed a dev ver of a plugin
