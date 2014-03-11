@@ -1,6 +1,10 @@
 tellurium 
 
 Log of changes
+
+0.0.9
+Default working directory, File Open/Save is now "C:\Users\{user}\tellurium-files"
+
 0.0.8
 version increment, because SourceForge did not like a file with the same name
 
