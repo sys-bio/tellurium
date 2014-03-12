@@ -133,7 +133,7 @@ import roadrunner
 print ("Loading libantimony")
 import libantimony
 
-print ("Loading telPlugins")
+print ("Loading telplugins")
 import telplugins
 
 import tellurium as te
