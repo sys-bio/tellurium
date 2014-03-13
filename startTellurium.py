@@ -94,7 +94,6 @@ def plotArray (result):
 print ("Importing tellurium as 'te' v"+ getTelluriumVersion())
 
 
-__version__ = getTelluriumVersion()
 
 
 
