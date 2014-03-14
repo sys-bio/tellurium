@@ -2,6 +2,10 @@ tellurium
 
 Log of changes
 
+0.1.1
+Waveform example - fixed r.selections
+TelPlugins 1.0.7
+
 0.1.0
 TelPlugins 1.0.5
 Plugin examples included in Documents\{user}\tellurium-files
