@@ -22,6 +22,8 @@ def getTelluriumVersion():
     f.close()
     return ver
     
+__version__ = getTelluriumVersion()
+    
 # Save a string to a file
 def saveToFile (fileName, str):
     """Save a string to a file. Takes two arguments, 
@@ -32,6 +34,14 @@ def saveToFile (fileName, str):
     outFile.write(str)
     outFile.close()
     
+def readFromFile (fileName):
+    """Load a file and return contents as a string, 
+
+    str = readFromFile ('c:\\myfile.txt')"""
+ 
+    file = open(fileName, 'r')
+    return file.read()
+
 def loadSBMLModel (sbml):
     rr = roadrunner.RoadRunner (sbml)
     rr.simulateOptions.structuredResult = False
