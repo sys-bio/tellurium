@@ -5,8 +5,9 @@ Created on Tue Mar 11 15:15:16 2014
 @author: mgaldzic
 """
 
-# Generating different waveforms
 import tellurium as te
+
+# Generating different waveforms
 model = '''
   model waveforms()
      # All waves have the following amplitude and period
@@ -19,12 +20,12 @@ model = '''
      at sin(2*pi*time/period) <= 0, t0=false: UpDown = 0
 
      # Simple Sine wave with y displaced by 3
-     SineWave := amplitude/2*Sin (2*pi*time/period) + 3
+     SineWave := amplitude/2*sin(2*pi*time/period) + 3
 
      # Square wave with y displaced by 1.5
      SquareWave := amplitude*UpDown + 1.5
 
-     # Triangle wave form with given period and y displaced by 1
+     # Triangle waveform with given period and y displaced by 1
      TriangleWave = 1
      TriangleWave' = amplitude*2*(UpDown - 0.5)/period
 
@@ -39,7 +40,8 @@ model = '''
 '''
 
 r = te.loadAntimonyModel(model)
-r.selectionList = ['time', 'SineWave', 'SquareWave', 'SawTooth', 'TriangelWave']
+
+r.selections = ['time', 'SineWave', 'SquareWave', 'SawTooth', 'TriangleWave', 'Ramp']
 result = r.simulate (0, 90, 500)
 
 te.plotArray(result)
