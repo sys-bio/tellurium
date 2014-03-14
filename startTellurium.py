@@ -22,8 +22,6 @@ def getTelluriumVersion():
     f.close()
     return ver
     
-__version__ = getTelluriumVersion()
-    
 # Save a string to a file
 def saveToFile (fileName, str):
     """Save a string to a file. Takes two arguments, 
