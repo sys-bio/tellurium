@@ -21,7 +21,7 @@
 #define PyQtInstaller "PyQt4"
 #define SipInstaller "sip.pyd"
 #define PipInstaller "get-pip.py"
-#define SpyderInstaller "spyder-2.2.5-tellurium-0.0.9.win32.exe"
+#define SpyderInstaller "spyder-2.2.5-tellurium-0.1.0.win32.exe"
 
 
 ;add spyder source
@@ -97,6 +97,9 @@ Name: "english"; MessagesFile: "compiler:Default.isl"
 [Files]  
 Source: "../../startTellurium.py"; DestDir: "{app}"; Flags: ignoreversion
 Source: "../../__init__.py"; DestDir: "{app}"; Flags: ignoreversion
+;copy example to app dir, for temp file, this will open by default at first run
+Source: "../../examples/tellurium-files/*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs
+;copy example to tellurium-files as example file
 Source: "../../examples/tellurium-files/*"; DestDir: "{userdocs}\tellurium-files"; Flags: ignoreversion recursesubdirs
 
 Source: "../../NEWS.txt"; DestDir: "{app}"; Flags: ignoreversion
