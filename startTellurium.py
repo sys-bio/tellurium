@@ -13,6 +13,7 @@ import matplotlib.pyplot as plt
 import roadrunner
 import libantimony
 import tellurium
+from libsbml2matlab import sbml2matlab
 
 #get version from VERSION file
 def getTelluriumVersion():
@@ -90,6 +91,12 @@ def plotArray (result):
     plt.plot (result[:,0],result[:,1:], linewidth=2.5)
     plt.show()
     return plt
+
+def exportToMatlab (r, filename):
+    if not isinstance (r, roadrunner.RoadRunner):
+        raise Exception ('First argument must be a roadrunner variable')
+    matlab_str = sbml2matlab(r.getCurrentSBML())
+    saveToFile (filename, matlab_str)    
 
 print ("Importing tellurium as 'te' v"+ getTelluriumVersion())
 
