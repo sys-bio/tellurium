@@ -2,6 +2,9 @@ tellurium
 
 Log of changes
 
+0.1.3
+Added teRoadRunner(modelname) to set rr.conservedMoietyAnalysis = True
+
 0.1.2
 Removed te version number from spyder.__version__
 Renamed startTellurium.py -> tellurium.py
