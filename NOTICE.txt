@@ -66,6 +66,11 @@ Python 2.7.6
     Distributed under PSF LICENSE FOR PYTHON 2.7.6, http://docs.python.org/2/license.html
     http://python.org/
 
+UnZip 5.52
+    Copyright (c) 1990-2009 Info-ZIP. All rights reserved.
+    Distributed under BSD based licence ftp://ftp.info-zip.org/pub/infozip/license.html
+    http://www.info-zip.org/
+
 
 
 

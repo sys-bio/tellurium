@@ -1,6 +1,10 @@
 tellurium 
 
 Log of changes
+
+0.1.5
+Updated to install pylibroadrunner-1.1.0-alpha2-win_32, using python.exe setup.py install
+
 0.1.4
 loadAntimonyModel now configures rr.conservedMoietyAnalysis = True
 

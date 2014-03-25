@@ -8,7 +8,9 @@
 #define MyAppSetupIconFile "tellurium_icon_64x64.ico"
 #define ThisInstallerPostfix "win32-superpack-setup"
 
-#define LibRoadRunnerInstaller "libroadrunner-1.0.1-win32-minimal-setup.exe"
+#define LibRoadRunnerInstaller "pylibroadrunner-1.1.0-alpha2-win_32" 
+;leave .zip off the LibRoadRunnerInstaller var above
+
 #define AntimonyInstaller "AntimonyPythonBindings-2.5.1-win32.exe"
 #define TelPluginsInstaller "telplugins-1.0.7-Python-2.7-win32-minimal-setup.exe"
 #define PyInstaller "python-2.7.6.msi"
@@ -22,6 +24,7 @@
 #define SipInstaller "sip.pyd"
 #define PipInstaller "get-pip.py"
 #define SpyderInstaller "spyder-2.2.5-tellurium.win32.exe"
+#define Unzip "unzip.exe"
 
 
 ;add spyder source
@@ -39,7 +42,8 @@
 ;#define PyQtInstallerURL "http://sourceforge.net/projects/pyqt/files/PyQt4/PyQt-4.10.3/PyQt4-4.10.3-gpl-Py2.7-Qt4.8.5-x32.exe/download"
 ;#define SipInstallerURL "http://www.riverbankcomputing.com/software/sip/download" #using file from bin install
 ;#define PipInstallerURL "https://raw.github.com/pypa/pip/master/contrib/get-pip.py"
-;#define SpyderInstaller "https://bitbucket.org/spyder-ide/spyderlib/downloads/spyder-2.2.5.win32.exe"
+;#define SpyderInstallerURL "https://bitbucket.org/spyder-ide/spyderlib/downloads/spyder-2.2.5.win32.exe"
+;#define unzipURL "http://stahlworks.com/dev/unzip.exe"
  
 #define Py "Python"
 #define PyVer "2.7"
@@ -107,9 +111,10 @@ Source: "../../LICENSE.txt"; DestDir: "{app}"; Flags: ignoreversion
 Source: "../../VERSION.txt"; DestDir: "{app}"; Flags: ignoreversion
 Source: "../../README.txt"; DestDir: "{app}"; Flags: ignoreversion
 Source: "../../NOTICE.txt"; DestDir: "{app}"; Flags: ignoreversion
-Source: "super_installer_dependencies\{#LibRoadRunnerInstaller}"; DestDir: "{tmp}"; Flags: ignoreversion
+Source: "super_installer_dependencies\{#LibRoadRunnerInstaller}.zip"; DestDir: "{tmp}"; Flags: ignoreversion
 Source: "super_installer_dependencies\{#AntimonyInstaller}"; DestDir: "{tmp}"; Flags: ignoreversion
 Source: "super_installer_dependencies\{#TelPluginsInstaller}"; DestDir: "{tmp}"; Flags: ignoreversion
+Source: "super_installer_dependencies\{#Unzip}"; DestDir: "{tmp}"; Flags: ignoreversion deleteafterinstall
 Source: "libRoadrunner-installer-dependencies\{#MatplotlibInstaller}"; DestDir: "{tmp}"; Flags: ignoreversion onlyifdoesntexist
 ;-Source: "libRoadrunner-installer-dependencies\{#DateutilInstaller}"; DestDir: "{tmp}"; Flags: ignoreversion onlyifdoesntexist
 ;-Source: "libRoadrunner-installer-dependencies\{#PyparsingInstaller}"; DestDir: "{tmp}"; Flags: ignoreversion onlyifdoesntexist 
@@ -138,7 +143,9 @@ Filename: "{code:SetPythonPath}\scripts\{#Pip}"; Parameters: "install pyflakes";
 Filename: "{code:SetPythonPath}\scripts\{#Pip}"; Parameters: "install pylint"; WorkingDir: "{tmp}"; Flags: shellexec waituntilterminated runmaximized
 Filename: "{code:SetPythonPath}\scripts\{#Pip}"; Parameters: "install pep8"; WorkingDir: "{tmp}"; Flags: shellexec waituntilterminated runmaximized
 Filename: "{code:SetPythonPath}\scripts\{#Pip}"; Parameters: "install psutil"; WorkingDir: "{tmp}"; Flags: shellexec waituntilterminated runmaximized
-Filename: "{#LibRoadRunnerInstaller}"; Parameters: "/SILENT"; WorkingDir: "{tmp}"; Flags: shellexec waituntilterminated runmaximized
+
+Filename: "{tmp}\{#Unzip}"; Parameters: "{tmp}\{#LibRoadRunnerInstaller}.zip -d {tmp}"; WorkingDir: "{tmp}";
+Filename: "{code:SetPythonPath}\python.exe"; Parameters: "setup.py install"; WorkingDir: "{tmp}\{#LibRoadRunnerInstaller}"; Flags: shellexec waituntilterminated runmaximized
 Filename: "{#AntimonyInstaller}"; Parameters: "/SILENT"; WorkingDir: "{tmp}"; Flags: shellexec waituntilterminated runmaximized
 Filename: "{#TelPluginsInstaller}"; Parameters: "/SILENT"; WorkingDir: "{tmp}"; Flags: shellexec waituntilterminated runmaximized
 Filename: "{#SpyderInstaller}"; Parameters: "/SILENT"; WorkingDir: "{tmp}"; Flags: shellexec waituntilterminated runmaximized
