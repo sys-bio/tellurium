@@ -1,2 +1,2 @@
-from startTellurium import *
+from tellurium import *
 __version__ = getTelluriumVersion()
