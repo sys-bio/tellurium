@@ -19,7 +19,6 @@ def teRoadRunner (modelName = ''):
     rr.conservedMoietyAnalysis = True
     return rr
 
-
 #get version from VERSION file
 def getTelluriumVersion():
     import os
