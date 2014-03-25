@@ -66,6 +66,7 @@ def loadAntimonyModel (antStr):
     sbmlStr = libantimony.getSBMLString(Id)
     rr = roadrunner.RoadRunner()
     rr.simulateOptions.structuredResult = False
+    rr.conservedMoietyAnalysis = True
     rr.load(sbmlStr)
     return rr
 
