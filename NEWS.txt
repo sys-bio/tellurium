@@ -2,6 +2,11 @@ tellurium
 
 Log of changes
 
+0.1.2
+Removed te version number from spyder.__version__
+Renamed startTellurium.py -> tellurium.py
+Added te.readFromFile()
+
 0.1.1
 Waveform example - fixed r.selections
 TelPlugins 1.0.7
