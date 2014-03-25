@@ -21,7 +21,7 @@
 #define PyQtInstaller "PyQt4"
 #define SipInstaller "sip.pyd"
 #define PipInstaller "get-pip.py"
-#define SpyderInstaller "spyder-2.2.5-tellurium-0.1.1.win32.exe"
+#define SpyderInstaller "spyder-2.2.5-tellurium.win32.exe"
 
 
 ;add spyder source
@@ -95,7 +95,7 @@ SolidCompression=yes
 Name: "english"; MessagesFile: "compiler:Default.isl"
 
 [Files]  
-Source: "../../startTellurium.py"; DestDir: "{app}"; Flags: ignoreversion
+Source: "../../tellurium.py"; DestDir: "{app}"; Flags: ignoreversion
 Source: "../../__init__.py"; DestDir: "{app}"; Flags: ignoreversion
 ;copy example to app dir, for temp file, this will open by default at first run
 Source: "../../examples/tellurium-files/*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs
@@ -143,7 +143,7 @@ Filename: "{#AntimonyInstaller}"; Parameters: "/SILENT"; WorkingDir: "{tmp}"; Fl
 Filename: "{#TelPluginsInstaller}"; Parameters: "/SILENT"; WorkingDir: "{tmp}"; Flags: shellexec waituntilterminated runmaximized
 Filename: "{#SpyderInstaller}"; Parameters: "/SILENT"; WorkingDir: "{tmp}"; Flags: shellexec waituntilterminated runmaximized
 Filename: "{app}\README.TXT"; Description: "View the README file"; Flags: postinstall shellexec skipifsilent unchecked
-Filename: "{code:SetPythonPath}\pythonw.exe"; Parameters:"{code:SetPythonPath}\scripts\spyder -w {userdocs}\tellurium-files"; Description: "Run TeSpyder"; Flags: postinstall shellexec skipifsilent waituntilterminated
+Filename: "{code:SetPythonPath}\pythonw.exe"; Parameters:"{code:SetPythonPath}\scripts\spyder -w {userdocs}\tellurium-files"; Description: "Run Spyder for Tellurium"; Flags: postinstall shellexec skipifsilent waituntilterminated
 
 ;SCIPY pip install has an error, may need a fortran compiler! mingw, but do we need Scipy?
 ;Filename: "{#Pip}"; Parameters: "install scipy"; WorkingDir: "{tmp}"; Flags: shellexec waituntilterminated runmaximized
