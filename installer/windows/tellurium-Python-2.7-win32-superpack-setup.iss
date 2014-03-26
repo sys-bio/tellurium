@@ -8,7 +8,7 @@
 #define MyAppSetupIconFile "tellurium_icon_64x64.ico"
 #define ThisInstallerPostfix "win32-superpack-setup"
 
-#define LibRoadRunnerInstaller "pylibroadrunner-1.1.0-alpha2-win_32" 
+#define LibRoadRunnerInstaller "pylibroadrunner-1.1.0-beta1-win_32" 
 ;leave .zip off the LibRoadRunnerInstaller var above
 
 #define AntimonyInstaller "AntimonyPythonBindings-2.5.1-win32.exe"
@@ -115,40 +115,49 @@ Source: "super_installer_dependencies\{#LibRoadRunnerInstaller}.zip"; DestDir: "
 Source: "super_installer_dependencies\{#AntimonyInstaller}"; DestDir: "{tmp}"; Flags: ignoreversion
 Source: "super_installer_dependencies\{#TelPluginsInstaller}"; DestDir: "{tmp}"; Flags: ignoreversion
 Source: "super_installer_dependencies\{#Unzip}"; DestDir: "{tmp}"; Flags: ignoreversion deleteafterinstall
-Source: "libRoadrunner-installer-dependencies\{#MatplotlibInstaller}"; DestDir: "{tmp}"; Flags: ignoreversion onlyifdoesntexist
+Source: "libRoadrunner-installer-dependencies\{#MatplotlibInstaller}"; DestDir: "{tmp}"; Flags: ignoreversion
 ;-Source: "libRoadrunner-installer-dependencies\{#DateutilInstaller}"; DestDir: "{tmp}"; Flags: ignoreversion onlyifdoesntexist
 ;-Source: "libRoadrunner-installer-dependencies\{#PyparsingInstaller}"; DestDir: "{tmp}"; Flags: ignoreversion onlyifdoesntexist 
 ;-Source: "libRoadrunner-installer-dependencies\{#SixInstaller}"; DestDir: "{tmp}"; Flags: ignoreversion onlyifdoesntexist
-Source: "libRoadrunner-installer-dependencies\{#NumpyInstaller}"; DestDir: "{tmp}"; Flags: ignoreversion onlyifdoesntexist 
-Source: "libRoadrunner-installer-dependencies\{#PyInstaller}"; DestDir: "{tmp}"; Flags: ignoreversion onlyifdoesntexist
-Source: "libRoadrunner-installer-dependencies\{#PipInstaller}"; DestDir: "{tmp}"; Flags: ignoreversion onlyifdoesntexist
+Source: "libRoadrunner-installer-dependencies\{#NumpyInstaller}"; DestDir: "{tmp}"; Flags: ignoreversion
+Source: "libRoadrunner-installer-dependencies\{#PyInstaller}"; DestDir: "{tmp}"; Flags: ignoreversion
+Source: "libRoadrunner-installer-dependencies\{#PipInstaller}"; DestDir: "{tmp}"; Flags: ignoreversion
+Source: "super_installer_dependencies\pip_cache\*"; DestDir: "{tmp}\pip_cache"; Flags: ignoreversion recursesubdirs
 
-Source: "spyder_dependencies\{#PyQtInstaller}\*"; DestDir: "{code:SetPythonSitePackagesPath}\{#PyQtInstaller}"; Flags: ignoreversion onlyifdoesntexist recursesubdirs createallsubdirs
-Source: "spyder_dependencies\{#SipInstaller}"; DestDir: "{code:SetPythonSitePackagesPath}"; Flags: ignoreversion onlyifdoesntexist
+Source: "spyder_dependencies\{#PyQtInstaller}\*"; DestDir: "{code:SetPythonSitePackagesPath}\{#PyQtInstaller}"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "spyder_dependencies\{#SipInstaller}"; DestDir: "{code:SetPythonSitePackagesPath}"; Flags: ignoreversion
+;Source: "{#SpyderInstaller}\*"; DestDir: "{tmp}\{#SpyderInstaller}"; Flags: ignoreversion recursesubdirs createallsubdirs
+;the line above was tried to attempt a direct install using setup.py, but this process does not install icons/ shortcuts for windows, there is no way to do that w/o serious work
+;the line below copies the exe spyder installer
 Source: "spyder_dependencies\{#SpyderInstaller}"; DestDir: "{tmp}"; Flags: ignoreversion onlyifdoesntexist
 ;Spyder installer is a custom distro with the following mod at the end of scientific_startup.py
 ;from tellurium import *
+Source: "../../roadrunner.conf"; DestDir: "{tmp}"; Flags: ignoreversion ; AfterInstall: CopyConfToRoadRunner() 
+
 
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [Run]
-Filename: "{code:SetPythonPath}\python.exe"; Parameters: "{tmp}\{#PipInstaller}"; WorkingDir: "{tmp}"; Flags: shellexec waituntilterminated runmaximized
-Filename: "{code:SetPythonPath}\scripts\{#Pip}"; Parameters: "install python-dateutil"; WorkingDir: "{tmp}"; Flags: shellexec waituntilterminated runmaximized
-Filename: "{code:SetPythonPath}\scripts\{#Pip}"; Parameters: "install pyparsing"; WorkingDir: "{tmp}"; Flags: shellexec waituntilterminated runmaximized
-Filename: "{code:SetPythonPath}\scripts\{#Pip}"; Parameters: "install six"; WorkingDir: "{tmp}"; Flags: shellexec waituntilterminated runmaximized
+Filename: "{code:SetPythonPath}\python.exe"; Parameters: "{tmp}\{#PipInstaller}"; WorkingDir: "{tmp}"; Flags: shellexec waituntilterminated
+Filename: "{code:SetPythonPath}\scripts\{#Pip}"; Parameters: "install python-dateutil pyparsing six ipython[all] sphinx pyflakes pylint pep8 psutil --no-index --find-links"; WorkingDir: "{tmp}/pip_cache"; Flags: shellexec waituntilterminated
+;Filename: "{code:SetPythonPath}\scripts\{#Pip}"; Parameters: "install pyparsing"; WorkingDir: "{tmp}"; Flags: shellexec waituntilterminated
+;Filename: "{code:SetPythonPath}\scripts\{#Pip}"; Parameters: "install six"; WorkingDir: "{tmp}"; Flags: shellexec waituntilterminated
 
-Filename: "{code:SetPythonPath}\scripts\{#Pip}"; Parameters: "install ipython[all]"; WorkingDir: "{tmp}"; Flags: shellexec waituntilterminated runmaximized
-Filename: "{code:SetPythonPath}\scripts\{#Pip}"; Parameters: "install sphinx"; WorkingDir: "{tmp}"; Flags: shellexec waituntilterminated runmaximized
-Filename: "{code:SetPythonPath}\scripts\{#Pip}"; Parameters: "install pyflakes"; WorkingDir: "{tmp}"; Flags: shellexec waituntilterminated runmaximized
-Filename: "{code:SetPythonPath}\scripts\{#Pip}"; Parameters: "install pylint"; WorkingDir: "{tmp}"; Flags: shellexec waituntilterminated runmaximized
-Filename: "{code:SetPythonPath}\scripts\{#Pip}"; Parameters: "install pep8"; WorkingDir: "{tmp}"; Flags: shellexec waituntilterminated runmaximized
-Filename: "{code:SetPythonPath}\scripts\{#Pip}"; Parameters: "install psutil"; WorkingDir: "{tmp}"; Flags: shellexec waituntilterminated runmaximized
+;Filename: "{code:SetPythonPath}\scripts\{#Pip}"; Parameters: "install ipython[all]"; WorkingDir: "{tmp}"; Flags: shellexec waituntilterminated
+;Filename: "{code:SetPythonPath}\scripts\{#Pip}"; Parameters: "install sphinx"; WorkingDir: "{tmp}"; Flags: shellexec waituntilterminated
+;Filename: "{code:SetPythonPath}\scripts\{#Pip}"; Parameters: "install pyflakes"; WorkingDir: "{tmp}"; Flags: shellexec waituntilterminated
+;Filename: "{code:SetPythonPath}\scripts\{#Pip}"; Parameters: "install pylint"; WorkingDir: "{tmp}"; Flags: shellexec waituntilterminated
+;Filename: "{code:SetPythonPath}\scripts\{#Pip}"; Parameters: "install pep8"; WorkingDir: "{tmp}"; Flags: shellexec waituntilterminated
+;Filename: "{code:SetPythonPath}\scripts\{#Pip}"; Parameters: "install psutil"; WorkingDir: "{tmp}"; Flags: shellexec waituntilterminated
 
 Filename: "{tmp}\{#Unzip}"; Parameters: "{tmp}\{#LibRoadRunnerInstaller}.zip -d {tmp}"; WorkingDir: "{tmp}";
-Filename: "{code:SetPythonPath}\python.exe"; Parameters: "setup.py install"; WorkingDir: "{tmp}\{#LibRoadRunnerInstaller}"; Flags: shellexec waituntilterminated runmaximized
-Filename: "{#AntimonyInstaller}"; Parameters: "/SILENT"; WorkingDir: "{tmp}"; Flags: shellexec waituntilterminated runmaximized
-Filename: "{#TelPluginsInstaller}"; Parameters: "/SILENT"; WorkingDir: "{tmp}"; Flags: shellexec waituntilterminated runmaximized
-Filename: "{#SpyderInstaller}"; Parameters: "/SILENT"; WorkingDir: "{tmp}"; Flags: shellexec waituntilterminated runmaximized
+Filename: "{code:SetPythonPath}\python.exe"; Parameters: "setup.py install"; WorkingDir: "{tmp}\{#LibRoadRunnerInstaller}"; Flags: shellexec waituntilterminated
+Filename: "{#AntimonyInstaller}"; Parameters: "/SILENT"; WorkingDir: "{tmp}"; Flags: shellexec waituntilterminated
+Filename: "{#TelPluginsInstaller}"; Parameters: "/SILENT"; WorkingDir: "{tmp}"; Flags: shellexec waituntilterminated
+;Filename: "{code:SetPythonPath}\python.exe"; Parameters: "setup.py install --install-script spyder_win_post_install.py"; WorkingDir: "{tmp}\{#SpyderInstaller}"; Flags: shellexec waituntilterminated
+;the line above will not install the icons/ shortcuts for spyder in windows, bdist_wininst
+;the line below will run the exe spyder installer which will work properly
+Filename: "{#SpyderInstaller}"; Parameters: "/SILENT"; WorkingDir: "{tmp}"; Flags: shellexec waituntilterminated
 Filename: "{app}\README.TXT"; Description: "View the README file"; Flags: postinstall shellexec skipifsilent unchecked
 Filename: "{code:SetPythonPath}\pythonw.exe"; Parameters:"{code:SetPythonPath}\scripts\spyder -w {userdocs}\tellurium-files"; Description: "Run Spyder for Tellurium"; Flags: postinstall shellexec skipifsilent waituntilterminated
 
@@ -474,3 +483,13 @@ end;
 //    FileCopy(ExpandConstant('{tmp}\scientific_startup.py'), FileName, false);
 //    Log(ExpandConstant('{tmp}\scientific_startup.py') + ' :to: ' + FileName)
 //end;
+
+procedure CopyConfToRoadRunner();
+var 
+   FromFile: String;
+   ToFile: String;
+begin
+  FromFile := ExpandConstant('{tmp}/roadrunner.conf')
+  ToFile := PythonSitePackagesPath + '/roadrunner/roadrunner.conf'
+  FileCopy(FromFile, ToFile, true)
+end;
