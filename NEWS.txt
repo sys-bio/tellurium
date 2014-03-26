@@ -5,7 +5,7 @@ Log of changes
 0.1.5
 Updated to install pylibroadrunner-1.1.0-beta1-win_32 using python.exe setup.py install, from .zip distribution
 Added roadrunner.conf conserved moiety conversion = True - set as default
-Modified Pip install to not use online PyPi repo, all dependencies packaged with installer
+Working on modifying Pip install to not use online PyPi repo, all dependencies packaged with installer, *in progress* 
 
 0.1.4
 loadAntimonyModel now configures rr.conservedMoietyAnalysis = True
