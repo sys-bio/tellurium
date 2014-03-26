@@ -71,6 +71,11 @@ UnZip 5.52
     Distributed under BSD based licence ftp://ftp.info-zip.org/pub/infozip/license.html
     http://www.info-zip.org/
 
+Zip 2.32
+    Copyright (c) 1990-2006 Info-ZIP.  All rights reserved.
+    Distributed under BSD based licence ftp://ftp.info-zip.org/pub/infozip/license.html
+    http://www.info-zip.org/
+
 
 
 
