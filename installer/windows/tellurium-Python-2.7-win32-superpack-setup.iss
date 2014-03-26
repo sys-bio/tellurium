@@ -12,7 +12,7 @@
 ;leave .zip off the LibRoadRunnerInstaller var above
 
 #define AntimonyInstaller "AntimonyPythonBindings-2.5.1-win32.exe"
-#define TelPluginsInstaller "telplugins-1.0.7-Python-2.7-win32-minimal-setup.exe"
+#define TelPluginsInstaller "telplugins-1.0.9-Python-2.7-win32-minimal-setup.exe"
 #define PyInstaller "python-2.7.6.msi"
 #define NumpyInstaller "numpy-1.8.0-win32-superpack-python2.7.exe"
 #define MatplotlibInstaller "matplotlib-1.3.1.win32-py2.7.exe"
