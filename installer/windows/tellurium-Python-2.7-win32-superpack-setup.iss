@@ -139,7 +139,9 @@ Source: "../../roadrunner.conf"; DestDir: "{tmp}"; Flags: ignoreversion ; AfterI
 
 [Run]
 Filename: "{code:SetPythonPath}\python.exe"; Parameters: "{tmp}\{#PipInstaller}"; WorkingDir: "{tmp}"; Flags: shellexec waituntilterminated
-Filename: "{code:SetPythonPath}\scripts\{#Pip}"; Parameters: "install python-dateutil pyparsing six ipython[all] sphinx pyflakes pylint pep8 psutil --no-index --find-links"; WorkingDir: "{tmp}/pip_cache"; Flags: shellexec waituntilterminated
+;Filename: "{code:SetPythonPath}\scripts\{#Pip}"; Parameters: "install python-dateutil pyparsing six ipython[all] sphinx pyflakes pylint pep8 psutil pygments --no-index --find-links {tmp}/pip_cache"; WorkingDir: "{tmp}/pip_cache"; Flags: shellexec waituntilterminated
+;in the line above the --no-index --find-links {tmp}/pip_cache means no network, some subpackages are still missing, these flags are removed below
+Filename: "{code:SetPythonPath}\scripts\{#Pip}"; Parameters: "install python-dateutil pyparsing six sphinx pyflakes pylint pep8 psutil pygments docutils ipython[all]"; WorkingDir: "{tmp}/pip_cache"; Flags: shellexec waituntilterminated
 ;Filename: "{code:SetPythonPath}\scripts\{#Pip}"; Parameters: "install pyparsing"; WorkingDir: "{tmp}"; Flags: shellexec waituntilterminated
 ;Filename: "{code:SetPythonPath}\scripts\{#Pip}"; Parameters: "install six"; WorkingDir: "{tmp}"; Flags: shellexec waituntilterminated
 
@@ -149,6 +151,8 @@ Filename: "{code:SetPythonPath}\scripts\{#Pip}"; Parameters: "install python-dat
 ;Filename: "{code:SetPythonPath}\scripts\{#Pip}"; Parameters: "install pylint"; WorkingDir: "{tmp}"; Flags: shellexec waituntilterminated
 ;Filename: "{code:SetPythonPath}\scripts\{#Pip}"; Parameters: "install pep8"; WorkingDir: "{tmp}"; Flags: shellexec waituntilterminated
 ;Filename: "{code:SetPythonPath}\scripts\{#Pip}"; Parameters: "install psutil"; WorkingDir: "{tmp}"; Flags: shellexec waituntilterminated
+Filename: "{code:SetPythonPath}\scripts\{#Pip}"; Parameters: "install docutils"; WorkingDir: "{tmp}"; Flags: shellexec waituntilterminated
+Filename: "{code:SetPythonPath}\scripts\{#Pip}"; Parameters: "install jinja2"; WorkingDir: "{tmp}"; Flags: shellexec waituntilterminated
 
 Filename: "{tmp}\{#Unzip}"; Parameters: "{tmp}\{#LibRoadRunnerInstaller}.zip -d {tmp}"; WorkingDir: "{tmp}";
 Filename: "{code:SetPythonPath}\python.exe"; Parameters: "setup.py install"; WorkingDir: "{tmp}\{#LibRoadRunnerInstaller}"; Flags: shellexec waituntilterminated
