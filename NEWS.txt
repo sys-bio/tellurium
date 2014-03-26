@@ -2,6 +2,9 @@ tellurium
 
 Log of changes
 
+0.1.6
+
+
 0.1.5
 Updated to install pylibroadrunner-1.1.0-beta1-win_32 using python.exe setup.py install, from .zip distribution
 Added roadrunner.conf conserved moiety conversion = True - set as default
