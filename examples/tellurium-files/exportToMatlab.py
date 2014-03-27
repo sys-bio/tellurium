@@ -25,4 +25,6 @@ end'''
 
 rr = te.loadAntimonyModel(antStr)
 
+# This saves to the working directory.
+# To view, use File>Open, at the bottom switch to "All Files (*) (*.*)"
 te.exportToMatlab(rr, 'model.m')
