@@ -4,6 +4,7 @@ Log of changes
 
 0.1.6
 Updated to install telplugins-1.0.9
+sbml2matlab export added, see te.exportToMatlab('path')
 
 0.1.5
 Updated to install pylibroadrunner-1.1.0-beta1-win_32 using python.exe setup.py install, from .zip distribution
