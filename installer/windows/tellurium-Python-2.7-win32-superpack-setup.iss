@@ -122,7 +122,7 @@ Source: "libRoadrunner-installer-dependencies\{#MatplotlibInstaller}"; DestDir: 
 Source: "libRoadrunner-installer-dependencies\{#NumpyInstaller}"; DestDir: "{tmp}"; Flags: ignoreversion
 Source: "libRoadrunner-installer-dependencies\{#PyInstaller}"; DestDir: "{tmp}"; Flags: ignoreversion
 Source: "libRoadrunner-installer-dependencies\{#PipInstaller}"; DestDir: "{tmp}"; Flags: ignoreversion
-Source: "super_installer_dependencies\pip_cache\*"; DestDir: "{tmp}\pip_cache"; Flags: ignoreversion recursesubdirs
+Source: "super_installer_dependencies\cache\*"; DestDir: "{tmp}\cache"; Flags: ignoreversion recursesubdirs
 
 Source: "spyder_dependencies\{#PyQtInstaller}\*"; DestDir: "{code:SetPythonSitePackagesPath}\{#PyQtInstaller}"; Flags: ignoreversion recursesubdirs createallsubdirs
 Source: "spyder_dependencies\{#SipInstaller}"; DestDir: "{code:SetPythonSitePackagesPath}"; Flags: ignoreversion
@@ -139,7 +139,7 @@ Source: "../../roadrunner.conf"; DestDir: "{tmp}"; Flags: ignoreversion ; AfterI
 
 [Run]
 Filename: "{code:SetPythonPath}\python.exe"; Parameters: "{tmp}\{#PipInstaller}"; WorkingDir: "{tmp}"; Flags: shellexec waituntilterminated
-;Filename: "{code:SetPythonPath}\scripts\{#Pip}"; Parameters: "install python-dateutil pyparsing six ipython[all] sphinx pyflakes pylint pep8 psutil pygments --no-index --find-links {tmp}/pip_cache"; WorkingDir: "{tmp}/pip_cache"; Flags: shellexec waituntilterminated
+;;Filename: "{code:SetPythonPath}\scripts\{#Pip}"; Parameters: "install  --no-index --find-links {tmp}/cache jinja2 markupsafe astroid backports.ssl_match_hostname colorama docutils ipython logilab-common nose pep8 psutil pyflakes pylint pyparsing python-dateutil pyzmq six sphinx pygments tornado"; WorkingDir: "{tmp}"; Flags: shellexec waituntilterminated
 ;in the line above the --no-index --find-links {tmp}/pip_cache means no network, some subpackages are still missing, these flags are removed below
 Filename: "{code:SetPythonPath}\scripts\{#Pip}"; Parameters: "install python-dateutil pyparsing six sphinx pyflakes pylint pep8 psutil pygments docutils ipython[all]"; WorkingDir: "{tmp}/pip_cache"; Flags: shellexec waituntilterminated
 ;Filename: "{code:SetPythonPath}\scripts\{#Pip}"; Parameters: "install pyparsing"; WorkingDir: "{tmp}"; Flags: shellexec waituntilterminated
