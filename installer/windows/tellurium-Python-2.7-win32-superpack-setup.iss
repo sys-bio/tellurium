@@ -10,6 +10,9 @@
 
 #define LibRoadRunnerInstaller "pylibroadrunner-1.1.0-beta1-win_32" 
 ;leave .zip off the LibRoadRunnerInstaller var above
+;#define Sbml2matlabInstaller "sbml2matlab_1.2.0_win32"
+;leave .zip off the Sbml2matlabInstaller var above
+#define Sbml2matlabInstaller "sbml2matlab"
 
 #define AntimonyInstaller "AntimonyPythonBindings-2.5.1-win32.exe"
 #define TelPluginsInstaller "telplugins-1.0.9-Python-2.7-win32-minimal-setup.exe"
@@ -112,15 +115,17 @@ Source: "../../VERSION.txt"; DestDir: "{app}"; Flags: ignoreversion
 Source: "../../README.txt"; DestDir: "{app}"; Flags: ignoreversion
 Source: "../../NOTICE.txt"; DestDir: "{app}"; Flags: ignoreversion
 Source: "super_installer_dependencies\{#LibRoadRunnerInstaller}.zip"; DestDir: "{tmp}"; Flags: ignoreversion
+;Source: "super_installer_dependencies\{#Sbml2matlabInstaller}.zip"; DestDir: "{tmp}"; Flags: ignoreversion
+Source: "super_installer_dependencies\{#Sbml2matlabInstaller}\*"; DestDir: "{code:SetPythonSitePackagesPath}\libsbml2matlab"; Flags: ignoreversion recursesubdirs createallsubdirs
 Source: "super_installer_dependencies\{#AntimonyInstaller}"; DestDir: "{tmp}"; Flags: ignoreversion
 Source: "super_installer_dependencies\{#TelPluginsInstaller}"; DestDir: "{tmp}"; Flags: ignoreversion
 Source: "super_installer_dependencies\{#Unzip}"; DestDir: "{tmp}"; Flags: ignoreversion deleteafterinstall
-Source: "libRoadrunner-installer-dependencies\{#MatplotlibInstaller}"; DestDir: "{tmp}"; Flags: ignoreversion
+Source: "libRoadrunner-installer-dependencies\{#MatplotlibInstaller}"; DestDir: "{tmp}"; Flags: ignoreversion onlyifdoesntexist
 ;-Source: "libRoadrunner-installer-dependencies\{#DateutilInstaller}"; DestDir: "{tmp}"; Flags: ignoreversion onlyifdoesntexist
 ;-Source: "libRoadrunner-installer-dependencies\{#PyparsingInstaller}"; DestDir: "{tmp}"; Flags: ignoreversion onlyifdoesntexist 
 ;-Source: "libRoadrunner-installer-dependencies\{#SixInstaller}"; DestDir: "{tmp}"; Flags: ignoreversion onlyifdoesntexist
-Source: "libRoadrunner-installer-dependencies\{#NumpyInstaller}"; DestDir: "{tmp}"; Flags: ignoreversion
-Source: "libRoadrunner-installer-dependencies\{#PyInstaller}"; DestDir: "{tmp}"; Flags: ignoreversion
+Source: "libRoadrunner-installer-dependencies\{#NumpyInstaller}"; DestDir: "{tmp}"; Flags: ignoreversion onlyifdoesntexist
+Source: "libRoadrunner-installer-dependencies\{#PyInstaller}"; DestDir: "{tmp}"; Flags: ignoreversion onlyifdoesntexist
 Source: "libRoadrunner-installer-dependencies\{#PipInstaller}"; DestDir: "{tmp}"; Flags: ignoreversion
 Source: "super_installer_dependencies\cache\*"; DestDir: "{tmp}\cache"; Flags: ignoreversion recursesubdirs
 
@@ -139,9 +144,9 @@ Source: "../../roadrunner.conf"; DestDir: "{tmp}"; Flags: ignoreversion ; AfterI
 
 [Run]
 Filename: "{code:SetPythonPath}\python.exe"; Parameters: "{tmp}\{#PipInstaller}"; WorkingDir: "{tmp}"; Flags: shellexec waituntilterminated
-;;Filename: "{code:SetPythonPath}\scripts\{#Pip}"; Parameters: "install  --no-index --find-links {tmp}/cache jinja2 markupsafe astroid backports.ssl_match_hostname colorama docutils ipython logilab-common nose pep8 psutil pyflakes pylint pyparsing python-dateutil pyzmq six sphinx pygments tornado"; WorkingDir: "{tmp}"; Flags: shellexec waituntilterminated
+;;Filename: "{code:SetPythonPath}\scripts\{#Pip}"; Parameters: "install  --no-index --find-links {tmp}/cache jinja2 markupsafe astroid backports.ssl_match_hostname colorama ipython logilab-common nose pep8 psutil pyflakes pylint pyparsing python-dateutil pyzmq six sphinx pygments tornado"; WorkingDir: "{tmp}"; Flags: shellexec waituntilterminated
 ;in the line above the --no-index --find-links {tmp}/pip_cache means no network, some subpackages are still missing, these flags are removed below
-Filename: "{code:SetPythonPath}\scripts\{#Pip}"; Parameters: "install python-dateutil pyparsing six sphinx pyflakes pylint pep8 psutil pygments docutils ipython[all]"; WorkingDir: "{tmp}/pip_cache"; Flags: shellexec waituntilterminated
+Filename: "{code:SetPythonPath}\scripts\{#Pip}"; Parameters: "install python-dateutil docutils pyparsing six sphinx pyflakes pylint pep8 psutil pygments ipython[all]"; WorkingDir: "{tmp}/pip_cache"; Flags: shellexec waituntilterminated
 ;Filename: "{code:SetPythonPath}\scripts\{#Pip}"; Parameters: "install pyparsing"; WorkingDir: "{tmp}"; Flags: shellexec waituntilterminated
 ;Filename: "{code:SetPythonPath}\scripts\{#Pip}"; Parameters: "install six"; WorkingDir: "{tmp}"; Flags: shellexec waituntilterminated
 
@@ -151,11 +156,13 @@ Filename: "{code:SetPythonPath}\scripts\{#Pip}"; Parameters: "install python-dat
 ;Filename: "{code:SetPythonPath}\scripts\{#Pip}"; Parameters: "install pylint"; WorkingDir: "{tmp}"; Flags: shellexec waituntilterminated
 ;Filename: "{code:SetPythonPath}\scripts\{#Pip}"; Parameters: "install pep8"; WorkingDir: "{tmp}"; Flags: shellexec waituntilterminated
 ;Filename: "{code:SetPythonPath}\scripts\{#Pip}"; Parameters: "install psutil"; WorkingDir: "{tmp}"; Flags: shellexec waituntilterminated
-Filename: "{code:SetPythonPath}\scripts\{#Pip}"; Parameters: "install docutils"; WorkingDir: "{tmp}"; Flags: shellexec waituntilterminated
+Filename: "{code:SetPythonPath}\scripts\{#Pip}"; Parameters: "install python-dateutil"; WorkingDir: "{tmp}"; Flags: shellexec waituntilterminated
 Filename: "{code:SetPythonPath}\scripts\{#Pip}"; Parameters: "install jinja2"; WorkingDir: "{tmp}"; Flags: shellexec waituntilterminated
 
 Filename: "{tmp}\{#Unzip}"; Parameters: "{tmp}\{#LibRoadRunnerInstaller}.zip -d {tmp}"; WorkingDir: "{tmp}";
 Filename: "{code:SetPythonPath}\python.exe"; Parameters: "setup.py install"; WorkingDir: "{tmp}\{#LibRoadRunnerInstaller}"; Flags: shellexec waituntilterminated
+;Filename: "{tmp}\{#Unzip}"; Parameters: "{tmp}\{#Sbml2matlabInstaller}.zip -d {tmp}"; WorkingDir: "{tmp}";
+;Filename: "{code:SetPythonPath}\python.exe"; Parameters: "setup.py install"; WorkingDir: "{tmp}\{#Sbml2matlabInstaller}"; Flags: shellexec waituntilterminated
 Filename: "{#AntimonyInstaller}"; Parameters: "/SILENT"; WorkingDir: "{tmp}"; Flags: shellexec waituntilterminated
 Filename: "{#TelPluginsInstaller}"; Parameters: "/SILENT"; WorkingDir: "{tmp}"; Flags: shellexec waituntilterminated
 ;Filename: "{code:SetPythonPath}\python.exe"; Parameters: "setup.py install --install-script spyder_win_post_install.py"; WorkingDir: "{tmp}\{#SpyderInstaller}"; Flags: shellexec waituntilterminated
