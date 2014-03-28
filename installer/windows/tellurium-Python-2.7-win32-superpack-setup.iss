@@ -8,7 +8,7 @@
 #define MyAppSetupIconFile "tellurium_icon_64x64.ico"
 #define ThisInstallerPostfix "win32-superpack-setup"
 
-#define LibRoadRunnerInstaller "pylibroadrunner-1.1.0-beta1-win_32" 
+#define LibRoadRunnerInstaller "pylibroadrunner-1.1.0-beta2-win_32" 
 ;leave .zip off the LibRoadRunnerInstaller var above
 #define Sbml2matlabInstaller "sbml2matlab_1.2.0_win32"
 ;leave .zip off the Sbml2matlabInstaller var above
@@ -58,6 +58,7 @@
 #define AppDir "tellurium"
 #define Pip "pip.exe"
 
+; Get version from VERSION.txt file
 #define VerFile FileOpen("../../VERSION.txt")
 #define MyAppVersion FileRead(VerFile)
 #expr FileClose(VerFile)
