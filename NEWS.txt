@@ -2,6 +2,9 @@ tellurium
 
 Log of changes
 
+0.9.0
+sbml2matlab now installs directly from zip distribution, using setup.py install
+
 0.1.6
 Updated to install telplugins-1.0.9
 sbml2matlab export added, see te.exportToMatlab('path')

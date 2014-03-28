@@ -10,9 +10,8 @@
 
 #define LibRoadRunnerInstaller "pylibroadrunner-1.1.0-beta1-win_32" 
 ;leave .zip off the LibRoadRunnerInstaller var above
-;#define Sbml2matlabInstaller "sbml2matlab_1.2.0_win32"
+#define Sbml2matlabInstaller "sbml2matlab_1.2.0_win32"
 ;leave .zip off the Sbml2matlabInstaller var above
-#define Sbml2matlabInstaller "sbml2matlab"
 
 #define AntimonyInstaller "AntimonyPythonBindings-2.5.1-win32.exe"
 #define TelPluginsInstaller "telplugins-1.0.9-Python-2.7-win32-minimal-setup.exe"
@@ -115,8 +114,7 @@ Source: "../../VERSION.txt"; DestDir: "{app}"; Flags: ignoreversion
 Source: "../../README.txt"; DestDir: "{app}"; Flags: ignoreversion
 Source: "../../NOTICE.txt"; DestDir: "{app}"; Flags: ignoreversion
 Source: "super_installer_dependencies\{#LibRoadRunnerInstaller}.zip"; DestDir: "{tmp}"; Flags: ignoreversion
-;Source: "super_installer_dependencies\{#Sbml2matlabInstaller}.zip"; DestDir: "{tmp}"; Flags: ignoreversion
-Source: "super_installer_dependencies\{#Sbml2matlabInstaller}\*"; DestDir: "{code:SetPythonSitePackagesPath}\libsbml2matlab"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "super_installer_dependencies\{#Sbml2matlabInstaller}.zip"; DestDir: "{tmp}"; Flags: ignoreversion
 Source: "super_installer_dependencies\{#AntimonyInstaller}"; DestDir: "{tmp}"; Flags: ignoreversion
 Source: "super_installer_dependencies\{#TelPluginsInstaller}"; DestDir: "{tmp}"; Flags: ignoreversion
 Source: "super_installer_dependencies\{#Unzip}"; DestDir: "{tmp}"; Flags: ignoreversion deleteafterinstall
@@ -161,8 +159,8 @@ Filename: "{code:SetPythonPath}\scripts\{#Pip}"; Parameters: "install jinja2"; W
 
 Filename: "{tmp}\{#Unzip}"; Parameters: "{tmp}\{#LibRoadRunnerInstaller}.zip -d {tmp}"; WorkingDir: "{tmp}";
 Filename: "{code:SetPythonPath}\python.exe"; Parameters: "setup.py install"; WorkingDir: "{tmp}\{#LibRoadRunnerInstaller}"; Flags: shellexec waituntilterminated
-;Filename: "{tmp}\{#Unzip}"; Parameters: "{tmp}\{#Sbml2matlabInstaller}.zip -d {tmp}"; WorkingDir: "{tmp}";
-;Filename: "{code:SetPythonPath}\python.exe"; Parameters: "setup.py install"; WorkingDir: "{tmp}\{#Sbml2matlabInstaller}"; Flags: shellexec waituntilterminated
+Filename: "{tmp}\{#Unzip}"; Parameters: "{tmp}\{#Sbml2matlabInstaller}.zip -d {tmp}"; WorkingDir: "{tmp}";
+Filename: "{code:SetPythonPath}\python.exe"; Parameters: "setup.py install"; WorkingDir: "{tmp}\{#Sbml2matlabInstaller}"; Flags: shellexec waituntilterminated
 Filename: "{#AntimonyInstaller}"; Parameters: "/SILENT"; WorkingDir: "{tmp}"; Flags: shellexec waituntilterminated
 Filename: "{#TelPluginsInstaller}"; Parameters: "/SILENT"; WorkingDir: "{tmp}"; Flags: shellexec waituntilterminated
 ;Filename: "{code:SetPythonPath}\python.exe"; Parameters: "setup.py install --install-script spyder_win_post_install.py"; WorkingDir: "{tmp}\{#SpyderInstaller}"; Flags: shellexec waituntilterminated
