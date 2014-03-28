@@ -14,7 +14,7 @@ import matplotlib.pyplot as plt
 import roadrunner
 import libantimony
 import tellurium
-from libsbml2matlab import sbml2matlab
+from sbml2matlab import sbml2matlab
 
 def teRoadRunner (modelName = ''):
     rr = roadrunner.RoadRunner(modelName)
