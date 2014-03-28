@@ -24,10 +24,10 @@
 
 #define PyQtInstaller "PyQt4"
 #define SipInstaller "sip.pyd"
-#define PipInstaller "get-pip.py"
+#define PipInstaller "pip-1.5.4"
+#define SetupToolsInstaller "setuptools-3.3"
 #define SpyderInstaller "spyder-2.2.5-tellurium.win32.exe"
 #define Unzip "unzip.exe"
-
 
 ;add spyder source
 ;then do ":python setup.py install" to install
@@ -43,9 +43,11 @@
 ;#define SixInstallerURL "http://www.lfd.uci.edu/~gohlke/pythonlibs/#six"
 ;#define PyQtInstallerURL "http://sourceforge.net/projects/pyqt/files/PyQt4/PyQt-4.10.3/PyQt4-4.10.3-gpl-Py2.7-Qt4.8.5-x32.exe/download"
 ;#define SipInstallerURL "http://www.riverbankcomputing.com/software/sip/download" #using file from bin install
-;#define PipInstallerURL "https://raw.github.com/pypa/pip/master/contrib/get-pip.py"
+;#define PipInstallerURL "https://pypi.python.org/packages/source/p/pip/pip-1.5.4.tar.gz" #then it was untared and re-zipped
+;#define SetupToolsInstallerURL "https://pypi.python.org/packages/source/s/setuptools/setuptools-3.3.zip"
 ;#define SpyderInstallerURL "https://bitbucket.org/spyder-ide/spyderlib/downloads/spyder-2.2.5.win32.exe"
 ;#define unzipURL "http://stahlworks.com/dev/unzip.exe"
+
  
 #define Py "Python"
 #define PyVer "2.7"
@@ -124,8 +126,9 @@ Source: "libRoadrunner-installer-dependencies\{#MatplotlibInstaller}"; DestDir: 
 ;-Source: "libRoadrunner-installer-dependencies\{#SixInstaller}"; DestDir: "{tmp}"; Flags: ignoreversion onlyifdoesntexist
 Source: "libRoadrunner-installer-dependencies\{#NumpyInstaller}"; DestDir: "{tmp}"; Flags: ignoreversion onlyifdoesntexist
 Source: "libRoadrunner-installer-dependencies\{#PyInstaller}"; DestDir: "{tmp}"; Flags: ignoreversion onlyifdoesntexist
-Source: "libRoadrunner-installer-dependencies\{#PipInstaller}"; DestDir: "{tmp}"; Flags: ignoreversion
-Source: "super_installer_dependencies\cache\*"; DestDir: "{tmp}\cache"; Flags: ignoreversion recursesubdirs
+Source: "libRoadrunner-installer-dependencies\{#PipInstaller}.zip"; DestDir: "{tmp}"; Flags: ignoreversion
+Source: "libRoadrunner-installer-dependencies\{#SetupToolsInstaller}.zip"; DestDir: "{tmp}"; Flags: ignoreversion
+Source: "super_installer_dependencies\wheel\*"; DestDir: "{tmp}\wheel"; Flags: ignoreversion recursesubdirs
 
 Source: "spyder_dependencies\{#PyQtInstaller}\*"; DestDir: "{code:SetPythonSitePackagesPath}\{#PyQtInstaller}"; Flags: ignoreversion recursesubdirs createallsubdirs
 Source: "spyder_dependencies\{#SipInstaller}"; DestDir: "{code:SetPythonSitePackagesPath}"; Flags: ignoreversion
@@ -141,10 +144,13 @@ Source: "../../roadrunner.conf"; DestDir: "{tmp}"; Flags: ignoreversion ; AfterI
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [Run]
-Filename: "{code:SetPythonPath}\python.exe"; Parameters: "{tmp}\{#PipInstaller}"; WorkingDir: "{tmp}"; Flags: shellexec waituntilterminated
-;;Filename: "{code:SetPythonPath}\scripts\{#Pip}"; Parameters: "install  --no-index --find-links {tmp}/cache jinja2 markupsafe astroid backports.ssl_match_hostname colorama ipython logilab-common nose pep8 psutil pyflakes pylint pyparsing python-dateutil pyzmq six sphinx pygments tornado"; WorkingDir: "{tmp}"; Flags: shellexec waituntilterminated
+Filename: "{tmp}\{#Unzip}"; Parameters: "{tmp}\{#SetupToolsInstaller}.zip -d {tmp}"; WorkingDir: "{tmp}"; Flags: shellexec waituntilterminated
+Filename: "{code:SetPythonPath}\python.exe"; Parameters: "setup.py install"; WorkingDir: "{tmp}\{#SetupToolsInstaller}"; Flags: shellexec waituntilterminated
+Filename: "{tmp}\{#Unzip}"; Parameters: "{tmp}\{#PipInstaller}.zip -d {tmp}"; WorkingDir: "{tmp}"; Flags: shellexec waituntilterminated
+Filename: "{code:SetPythonPath}\python.exe"; Parameters: "setup.py install"; WorkingDir: "{tmp}\{#PipInstaller}"; Flags: shellexec waituntilterminated
+Filename: "{code:SetPythonPath}\scripts\{#Pip}"; Parameters: "install --no-index --find-links {tmp}/wheel astroid backports.ssl_match_hostname colorama docutils ipython jinja2 logilab-common markupsafe nose pep8 psutil pyflakes pygments pylint pyparsing python-dateutil pyzmq six sphinx tornado wheel"; WorkingDir: "{tmp}"; Flags: shellexec waituntilterminated
 ;in the line above the --no-index --find-links {tmp}/pip_cache means no network, some subpackages are still missing, these flags are removed below
-Filename: "{code:SetPythonPath}\scripts\{#Pip}"; Parameters: "install python-dateutil docutils pyparsing six sphinx pyflakes pylint pep8 psutil pygments ipython[all]"; WorkingDir: "{tmp}/pip_cache"; Flags: shellexec waituntilterminated
+;;Filename: "{code:SetPythonPath}\scripts\{#Pip}"; Parameters: "install python-dateutil docutils pyparsing six sphinx pyflakes pylint pep8 psutil pygments ipython[all]"; WorkingDir: "{tmp}/pip_cache"; Flags: shellexec waituntilterminated
 ;Filename: "{code:SetPythonPath}\scripts\{#Pip}"; Parameters: "install pyparsing"; WorkingDir: "{tmp}"; Flags: shellexec waituntilterminated
 ;Filename: "{code:SetPythonPath}\scripts\{#Pip}"; Parameters: "install six"; WorkingDir: "{tmp}"; Flags: shellexec waituntilterminated
 
@@ -154,8 +160,8 @@ Filename: "{code:SetPythonPath}\scripts\{#Pip}"; Parameters: "install python-dat
 ;Filename: "{code:SetPythonPath}\scripts\{#Pip}"; Parameters: "install pylint"; WorkingDir: "{tmp}"; Flags: shellexec waituntilterminated
 ;Filename: "{code:SetPythonPath}\scripts\{#Pip}"; Parameters: "install pep8"; WorkingDir: "{tmp}"; Flags: shellexec waituntilterminated
 ;Filename: "{code:SetPythonPath}\scripts\{#Pip}"; Parameters: "install psutil"; WorkingDir: "{tmp}"; Flags: shellexec waituntilterminated
-Filename: "{code:SetPythonPath}\scripts\{#Pip}"; Parameters: "install python-dateutil"; WorkingDir: "{tmp}"; Flags: shellexec waituntilterminated
-Filename: "{code:SetPythonPath}\scripts\{#Pip}"; Parameters: "install jinja2"; WorkingDir: "{tmp}"; Flags: shellexec waituntilterminated
+;;Filename: "{code:SetPythonPath}\scripts\{#Pip}"; Parameters: "install python-dateutil"; WorkingDir: "{tmp}"; Flags: shellexec waituntilterminated
+;;Filename: "{code:SetPythonPath}\scripts\{#Pip}"; Parameters: "install jinja2"; WorkingDir: "{tmp}"; Flags: shellexec waituntilterminated
 
 Filename: "{tmp}\{#Unzip}"; Parameters: "{tmp}\{#LibRoadRunnerInstaller}.zip -d {tmp}"; WorkingDir: "{tmp}";
 Filename: "{code:SetPythonPath}\python.exe"; Parameters: "setup.py install"; WorkingDir: "{tmp}\{#LibRoadRunnerInstaller}"; Flags: shellexec waituntilterminated
