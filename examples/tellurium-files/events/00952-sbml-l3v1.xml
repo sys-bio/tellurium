@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created by libAntimony version v1.4 on 2011-02-09 12:30 with libSBML version 5.0.0-b1. -->
+<sbml xmlns="http://www.sbml.org/sbml/level3/version1/core" level="3" version="1">
+  <model id="case00952" name="case00952">
+    <listOfParameters>
+      <parameter id="S" value="0"  constant="false"/>
+      <parameter id="Q" value="0" constant="false"/>
+      <parameter id="R" value="0" constant="false"/>
+      <parameter id="reset" value="0" constant="false"/>
+      <parameter id="error" value="0" constant="false"/>
+    </listOfParameters>
+    <listOfRules>
+      <assignmentRule variable="S">
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <apply>
+            <plus/>
+            <ci> Q </ci>
+            <ci> R </ci>
+          </apply>
+        </math>
+      </assignmentRule>
+    </listOfRules>
+    <listOfEvents>
+      <event id="Qinc" useValuesFromTriggerTime="true">
+        <trigger initialValue="true" persistent="false">
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <geq/>
+              <apply>
+                <minus/>
+                <csymbol encoding="text" definitionURL="http://www.sbml.org/sbml/symbols/time"> time </csymbol>
+                <ci> reset </ci>
+              </apply>
+              <cn> 0.01 </cn>
+            </apply>
+          </math>
+        </trigger>
+        <priority>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <cn type="integer"> 1 </cn>
+          </math>
+        </priority>
+        <listOfEventAssignments>
+          <eventAssignment variable="reset">
+            <math xmlns="http://www.w3.org/1998/Math/MathML">
+              <csymbol encoding="text" definitionURL="http://www.sbml.org/sbml/symbols/time"> time </csymbol>
+            </math>
+          </eventAssignment>
+          <eventAssignment variable="Q">
+            <math xmlns="http://www.w3.org/1998/Math/MathML">
+              <apply>
+                <plus/>
+                <ci> Q </ci>
+                <cn> 0.01 </cn>
+              </apply>
+            </math>
+          </eventAssignment>
+        </listOfEventAssignments>
+      </event>
+      <event id="Rinc" useValuesFromTriggerTime="true">
+        <trigger initialValue="true" persistent="false">
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <geq/>
+              <apply>
+                <minus/>
+                <csymbol encoding="text" definitionURL="http://www.sbml.org/sbml/symbols/time"> time </csymbol>
+                <ci> reset </ci>
+              </apply>
+              <cn> 0.01 </cn>
+            </apply>
+          </math>
+        </trigger>
+        <priority>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <cn type="integer"> 1 </cn>
+          </math>
+        </priority>
+        <listOfEventAssignments>
+          <eventAssignment variable="reset">
+            <math xmlns="http://www.w3.org/1998/Math/MathML">
+              <csymbol encoding="text" definitionURL="http://www.sbml.org/sbml/symbols/time"> time </csymbol>
+            </math>
+          </eventAssignment>
+          <eventAssignment variable="R">
+            <math xmlns="http://www.w3.org/1998/Math/MathML">
+              <apply>
+                <plus/>
+                <ci> R </ci>
+                <cn> 0.01 </cn>
+              </apply>
+            </math>
+          </eventAssignment>
+        </listOfEventAssignments>
+      </event>
+      <event id="error_check" useValuesFromTriggerTime="true">
+        <trigger initialValue="true" persistent="true">
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <geq/>
+              <apply>
+                <abs/>
+                <apply>
+                  <minus/>
+                  <ci> Q </ci>
+                  <ci> R </ci>
+                </apply>
+              </apply>
+              <cn type="integer"> 4 </cn>
+            </apply>
+          </math>
+        </trigger>
+        <listOfEventAssignments>
+          <eventAssignment variable="error">
+            <math xmlns="http://www.w3.org/1998/Math/MathML">
+              <cn type="integer"> 1 </cn>
+            </math>
+          </eventAssignment>
+        </listOfEventAssignments>
+      </event>
+    </listOfEvents>
+  </model>
+</sbml>
