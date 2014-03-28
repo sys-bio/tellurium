@@ -2,6 +2,9 @@ tellurium
 
 Log of changes
 
+0.9.1
+Using pip wheels to do the install of dependencies
+
 0.9.0
 sbml2matlab now installs directly from zip distribution, using setup.py install
 
