@@ -8,13 +8,13 @@
 #define MyAppSetupIconFile "tellurium_icon_64x64.ico"
 #define ThisInstallerPostfix "win32-superpack-setup"
 
-#define LibRoadRunnerInstaller "pylibroadrunner-1.1.0-beta2-win_32" 
+#define LibRoadRunnerInstaller "pylibroadrunner-1.1.0-beta4-win_32" 
 ;leave .zip off the LibRoadRunnerInstaller var above
 #define Sbml2matlabInstaller "sbml2matlab_1.2.0_win32"
 ;leave .zip off the Sbml2matlabInstaller var above
 
 #define AntimonyInstaller "AntimonyPythonBindings-2.5.1-win32.exe"
-#define TelPluginsInstaller "telplugins-1.0.9-Python-2.7-win32-minimal-setup.exe"
+#define TePluginsInstaller "teplugins-1.0.11-Python-2.7-win32-minimal-setup.exe"
 #define PyInstaller "python-2.7.6.msi"
 #define NumpyInstaller "numpy-1.8.0-win32-superpack-python2.7.exe"
 #define MatplotlibInstaller "matplotlib-1.3.1.win32-py2.7.exe"
@@ -119,7 +119,7 @@ Source: "../../NOTICE.txt"; DestDir: "{app}"; Flags: ignoreversion
 Source: "super_installer_dependencies\{#LibRoadRunnerInstaller}.zip"; DestDir: "{tmp}"; Flags: ignoreversion
 Source: "super_installer_dependencies\{#Sbml2matlabInstaller}.zip"; DestDir: "{tmp}"; Flags: ignoreversion
 Source: "super_installer_dependencies\{#AntimonyInstaller}"; DestDir: "{tmp}"; Flags: ignoreversion
-Source: "super_installer_dependencies\{#TelPluginsInstaller}"; DestDir: "{tmp}"; Flags: ignoreversion
+Source: "super_installer_dependencies\{#TePluginsInstaller}"; DestDir: "{tmp}"; Flags: ignoreversion
 Source: "super_installer_dependencies\{#Unzip}"; DestDir: "{tmp}"; Flags: ignoreversion deleteafterinstall
 Source: "libRoadrunner-installer-dependencies\{#MatplotlibInstaller}"; DestDir: "{tmp}"; Flags: ignoreversion onlyifdoesntexist
 ;-Source: "libRoadrunner-installer-dependencies\{#DateutilInstaller}"; DestDir: "{tmp}"; Flags: ignoreversion onlyifdoesntexist
@@ -169,7 +169,7 @@ Filename: "{code:SetPythonPath}\python.exe"; Parameters: "setup.py install"; Wor
 Filename: "{tmp}\{#Unzip}"; Parameters: "{tmp}\{#Sbml2matlabInstaller}.zip -d {tmp}"; WorkingDir: "{tmp}";
 Filename: "{code:SetPythonPath}\python.exe"; Parameters: "setup.py install"; WorkingDir: "{tmp}\{#Sbml2matlabInstaller}"; Flags: shellexec waituntilterminated
 Filename: "{#AntimonyInstaller}"; Parameters: "/SILENT"; WorkingDir: "{tmp}"; Flags: shellexec waituntilterminated
-Filename: "{#TelPluginsInstaller}"; Parameters: "/SILENT"; WorkingDir: "{tmp}"; Flags: shellexec waituntilterminated
+Filename: "{#TePluginsInstaller}"; Parameters: "/SILENT"; WorkingDir: "{tmp}"; Flags: shellexec waituntilterminated
 ;Filename: "{code:SetPythonPath}\python.exe"; Parameters: "setup.py install --install-script spyder_win_post_install.py"; WorkingDir: "{tmp}\{#SpyderInstaller}"; Flags: shellexec waituntilterminated
 ;the line above will not install the icons/ shortcuts for spyder in windows, bdist_wininst
 ;the line below will run the exe spyder installer which will work properly
