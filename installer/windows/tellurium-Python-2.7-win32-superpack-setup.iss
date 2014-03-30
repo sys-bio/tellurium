@@ -127,8 +127,8 @@ Source: "libRoadrunner-installer-dependencies\{#MatplotlibInstaller}"; DestDir: 
 ;-Source: "libRoadrunner-installer-dependencies\{#SixInstaller}"; DestDir: "{tmp}"; Flags: ignoreversion onlyifdoesntexist
 Source: "libRoadrunner-installer-dependencies\{#NumpyInstaller}"; DestDir: "{tmp}"; Flags: ignoreversion onlyifdoesntexist
 Source: "libRoadrunner-installer-dependencies\{#PyInstaller}"; DestDir: "{tmp}"; Flags: ignoreversion onlyifdoesntexist
-Source: "libRoadrunner-installer-dependencies\{#PipInstaller}.zip"; DestDir: "{tmp}"; Flags: ignoreversion
-Source: "libRoadrunner-installer-dependencies\{#SetupToolsInstaller}.zip"; DestDir: "{tmp}"; Flags: ignoreversion
+Source: "super_installer_dependencies\{#PipInstaller}.zip"; DestDir: "{tmp}"; Flags: ignoreversion
+Source: "super_installer_dependencies\{#SetupToolsInstaller}.zip"; DestDir: "{tmp}"; Flags: ignoreversion
 Source: "super_installer_dependencies\wheel\*"; DestDir: "{tmp}\wheel"; Flags: ignoreversion recursesubdirs
 
 Source: "spyder_dependencies\{#PyQtInstaller}\*"; DestDir: "{code:SetPythonSitePackagesPath}\{#PyQtInstaller}"; Flags: ignoreversion recursesubdirs createallsubdirs
@@ -174,6 +174,7 @@ Filename: "{#TelPluginsInstaller}"; Parameters: "/SILENT"; WorkingDir: "{tmp}"; 
 ;the line above will not install the icons/ shortcuts for spyder in windows, bdist_wininst
 ;the line below will run the exe spyder installer which will work properly
 Filename: "{#SpyderInstaller}"; Parameters: "/SILENT"; WorkingDir: "{tmp}"; Flags: shellexec waituntilterminated
+
 Filename: "{app}\README.TXT"; Description: "View the README file"; Flags: postinstall shellexec skipifsilent unchecked
 Filename: "{code:SetPythonPath}\pythonw.exe"; Parameters:"{code:SetPythonPath}\scripts\spyder -w {userdocs}\tellurium-files"; Description: "Run Spyder for Tellurium"; Flags: postinstall shellexec skipifsilent waituntilterminated
 
@@ -378,7 +379,7 @@ begin
                                                             //will be used when python is installed
                                                             //not seeing another way to prepopulate
                                                             //the Dir Destination page.
-                                                            //installing Pyton earlier not an option
+                                                            //installing Python earlier not an option
                                                             //as {tmp} was not created yet, so cant
                                                             //extract python installer yet 
     //itd_addfile('{#PyInstallerURL}',ExpandConstant('{tmp}\{#PyInstaller}'));
