@@ -3,7 +3,8 @@ tellurium
 Log of changes
 
 0.9.4
-fixed teplugins version to teplugins.getVersion()
+Fixed teplugins version to teplugins.getVersion()
+Updated to pylibroadrunner-1.1.0-win_32
 
 0.9.3
 Updated to pylibroadrunner-1.1.0-beta4-win_32.zip
