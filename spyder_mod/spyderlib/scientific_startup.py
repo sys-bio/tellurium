@@ -134,7 +134,7 @@ import libantimony
 print ("Importing libantimony "+ libantimony.LIBANTIMONY_VERSION_STRING)
 
 import teplugins
-print ("Importing teplugins "+ teplugins.__version__)
+print ("Importing teplugins "+ teplugins.getVersion())
 
 import tellurium as te
 
