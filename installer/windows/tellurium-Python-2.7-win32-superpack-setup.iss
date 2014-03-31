@@ -176,7 +176,7 @@ Filename: "{#TePluginsInstaller}"; Parameters: "/SILENT"; WorkingDir: "{tmp}"; F
 Filename: "{#SpyderInstaller}"; Parameters: "/SILENT"; WorkingDir: "{tmp}"; Flags: shellexec waituntilterminated
 
 Filename: "{app}\README.TXT"; Description: "View the README file"; Flags: postinstall shellexec skipifsilent unchecked
-Filename: "{code:SetPythonPath}\pythonw.exe"; Parameters:"{code:SetPythonPath}\scripts\spyder -w {userdocs}\tellurium-files"; Description: "Run Spyder for Tellurium"; Flags: postinstall shellexec skipifsilent waituntilterminated
+Filename: "{code:SetPythonPath}\pythonw.exe"; Parameters:"{code:SetPythonPath}\scripts\spyder -w {userdocs}\tellurium-files"; Description: "Run Spyder for Tellurium"; Flags: postinstall shellexec skipifsilent
 
 ;SCIPY pip install has an error, may need a fortran compiler! mingw, but do we need Scipy?
 ;Filename: "{#Pip}"; Parameters: "install scipy"; WorkingDir: "{tmp}"; Flags: shellexec waituntilterminated runmaximized
