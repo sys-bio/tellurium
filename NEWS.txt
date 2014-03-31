@@ -4,6 +4,7 @@ Log of changes
 
 0.9.5
 Updated to teplugins-1.0.12
+Updated to sbml2matlab_1.2.2_win32
 
 0.9.4
 Fixed teplugins version to teplugins.getVersion()

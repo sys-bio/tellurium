@@ -10,7 +10,7 @@
 
 #define LibRoadRunnerInstaller "pylibroadrunner-1.1.0-win_32" 
 ;leave .zip off the LibRoadRunnerInstaller var above
-#define Sbml2matlabInstaller "sbml2matlab_1.2.0_win32"
+#define Sbml2matlabInstaller "sbml2matlab_1.2.2_win32"
 ;leave .zip off the Sbml2matlabInstaller var above
 
 #define AntimonyInstaller "AntimonyPythonBindings-2.5.1-win32.exe"
