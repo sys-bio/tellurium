@@ -14,7 +14,7 @@
 ;leave .zip off the Sbml2matlabInstaller var above
 
 #define AntimonyInstaller "AntimonyPythonBindings-2.5.1-win32.exe"
-#define TePluginsInstaller "teplugins-1.0.11-Python-2.7-win32-minimal-setup.exe"
+#define TePluginsInstaller "teplugins-1.0.12-Python-2.7-win32-minimal-setup.exe"
 #define PyInstaller "python-2.7.6.msi"
 #define NumpyInstaller "numpy-1.8.0-win32-superpack-python2.7.exe"
 #define MatplotlibInstaller "matplotlib-1.3.1.win32-py2.7.exe"
