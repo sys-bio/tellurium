@@ -2,6 +2,12 @@ tellurium
 
 Log of changes
 
+0.9.10
+Added config reset lines to teplugins examples
+
+0.9.9
+Updated to teplugins-1.0.13, fix for the plotting issue
+
 0.9.5
 Updated to teplugins-1.0.12
 Updated to sbml2matlab_1.2.2_win32
