@@ -139,7 +139,7 @@ Source: "spyder_dependencies\{#SipInstaller}"; DestDir: "{code:SetPythonSitePack
 Source: "spyder_dependencies\{#SpyderInstaller}"; DestDir: "{tmp}"; Flags: ignoreversion onlyifdoesntexist
 ;Spyder installer is a custom distro with the following mod at the end of scientific_startup.py
 ;from tellurium import *
-Source: "../../roadrunner.conf"; DestDir: "{tmp}"; Flags: ignoreversion ; AfterInstall: CopyConfToRoadRunner() 
+Source: "../../roadrunner.conf"; DestDir: "{tmp}"; Flags: ignoreversion; AfterInstall: CopyConfToRoadRunner() 
 
 
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
@@ -503,10 +503,11 @@ end;
 
 procedure CopyConfToRoadRunner();
 var 
-   FromFile: String;
-   ToFile: String;
+   DestDir, FromFile, ToFile: String;
 begin
-  FromFile := ExpandConstant('{tmp}/roadrunner.conf')
-  ToFile := PythonSitePackagesPath + '/roadrunner/roadrunner.conf'
-  FileCopy(FromFile, ToFile, true)
+    DestDir := PythonSitePackagesPath + '/roadrunner/';
+    CreateDir(DestDir);
+    FromFile := ExpandConstant('{tmp}/roadrunner.conf');
+    ToFile := DestDir + 'roadrunner.conf';
+    FileCopy(FromFile, ToFile, true);
 end;
