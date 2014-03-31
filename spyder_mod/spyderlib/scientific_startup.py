@@ -127,13 +127,14 @@ print 'Type "scientific" for more details.'
 # Delete temp vars
 #==============================================================================
 del setscientific, __has_numpy, __has_scipy, __has_matplotlib, __imports
-print ("Loading roadrunner")
 import roadrunner
+print ("Importing roadrunner " + roadrunner.__version__.split(';')[0])
 
-print ("Loading libantimony")
 import libantimony
+print ("Importing libantimony "+ libantimony.LIBANTIMONY_VERSION_STRING)
 
-print ("Loading telplugins")
-import telplugins
+import teplugins
+print ("Importing teplugins "+ teplugins.__version__)
 
 import tellurium as te
+
