@@ -49,7 +49,6 @@ def readFromFile (fileName):
 
 def loadSBMLModel (sbml):
     rr = roadrunner.RoadRunner (sbml)
-    rr.simulateOptions.structuredResult = False
     return rr
     
 # Load an Antimony file   
@@ -65,10 +64,8 @@ def loadAntimonyModel (antStr):
        
     Id = libantimony.getMainModuleName()
     sbmlStr = libantimony.getSBMLString(Id)
-    rr = roadrunner.RoadRunner()
-    rr.simulateOptions.structuredResult = False
-    #rr.conservedMoietyAnalysis = True
-    rr.load(sbmlStr)
+
+    rr = roadrunner.RoadRunner(sbmlStr)
     return rr
 
 def plotWithLegend (r, result):
