@@ -22,7 +22,7 @@
 ;#define PyparsingInstaller "pyparsing-2.0.1.win32-py2.7.exe"
 ;#define SixInstaller "six-1.5.2.win32-py2.7.exe"
 
-#define PyQtInstaller "PyQt4"
+#define PyQtInstaller "PyQt4-4.10.3-gpl-Py2.7-Qt4.8.5-x32.exe"
 #define SipInstaller "sip.pyd"
 #define PipInstaller "pip-1.5.4"
 #define SetupToolsInstaller "setuptools-3.3"
@@ -131,7 +131,8 @@ Source: "super_installer_dependencies\{#PipInstaller}.zip"; DestDir: "{tmp}"; Fl
 Source: "super_installer_dependencies\{#SetupToolsInstaller}.zip"; DestDir: "{tmp}"; Flags: ignoreversion
 Source: "super_installer_dependencies\wheel\*"; DestDir: "{tmp}\wheel"; Flags: ignoreversion recursesubdirs
 
-Source: "spyder_dependencies\{#PyQtInstaller}\*"; DestDir: "{code:SetPythonSitePackagesPath}\{#PyQtInstaller}"; Flags: ignoreversion recursesubdirs createallsubdirs
+;Source: "spyder_dependencies\{#PyQtInstaller}\*"; DestDir: "{code:SetPythonSitePackagesPath}\{#PyQtInstaller}"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "spyder_dependencies\{#PyQtInstaller}"; DestDir: "{tmp}"; Flags: ignoreversion onlyifdoesntexist
 Source: "spyder_dependencies\{#SipInstaller}"; DestDir: "{code:SetPythonSitePackagesPath}"; Flags: ignoreversion
 ;Source: "{#SpyderInstaller}\*"; DestDir: "{tmp}\{#SpyderInstaller}"; Flags: ignoreversion recursesubdirs createallsubdirs
 ;the line above was tried to attempt a direct install using setup.py, but this process does not install icons/ shortcuts for windows, there is no way to do that w/o serious work
@@ -164,6 +165,7 @@ Filename: "{code:SetPythonPath}\scripts\{#Pip}"; Parameters: "install --no-index
 ;;Filename: "{code:SetPythonPath}\scripts\{#Pip}"; Parameters: "install python-dateutil"; WorkingDir: "{tmp}"; Flags: shellexec waituntilterminated
 ;;Filename: "{code:SetPythonPath}\scripts\{#Pip}"; Parameters: "install jinja2"; WorkingDir: "{tmp}"; Flags: shellexec waituntilterminated
 
+Filename: "{#PyQtInstaller}"; Parameters: "/SILENT"; WorkingDir: "{tmp}"; Flags: shellexec waituntilterminated
 Filename: "{tmp}\{#Unzip}"; Parameters: "{tmp}\{#LibRoadRunnerInstaller}.zip -d {tmp}"; WorkingDir: "{tmp}";
 Filename: "{code:SetPythonPath}\python.exe"; Parameters: "setup.py install"; WorkingDir: "{tmp}\{#LibRoadRunnerInstaller}"; Flags: shellexec waituntilterminated
 Filename: "{tmp}\{#Unzip}"; Parameters: "{tmp}\{#Sbml2matlabInstaller}.zip -d {tmp}"; WorkingDir: "{tmp}";
