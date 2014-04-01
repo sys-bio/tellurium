@@ -55,18 +55,40 @@ def loadSBMLModel (sbml):
 def loadAntimonyModel (antStr):
     """Load an Antimony string:
     
-    r = loadAntModel (antimonyStr)
+    r = loadAntimonyModel(antStr)
     """
-    err = libantimony.loadAntimonyString (antStr)
- 
-    if (err < 0):
-       raise Exception('Antimony: ' + libantimony.getLastError())
-       
-    Id = libantimony.getMainModuleName()
-    sbmlStr = libantimony.getSBMLString(Id)
+    sbmlStr = sbmlFromAntimony (antStr)
 
     rr = roadrunner.RoadRunner(sbmlStr)
     return rr
+
+def sbmlFromAntimony (antStr):
+    """Load an Antimony string:
+
+    sbmlStr = sbmlFromAntimony(antimonyStr)
+    """
+    err = libantimony.loadAntimonyString (antStr)
+
+    if (err < 0):
+       raise Exception('Antimony: ' + libantimony.getLastError())
+
+    Id = libantimony.getMainModuleName()
+    return libantimony.getSBMLString(Id)
+    
+
+def augmentRoadrunnerCtor():
+    """Hides the need to use Antimony directly from user
+    Overwrite the Roarunner Constructor to accept Antimony string
+    
+    This is done atthe begining of the tellurium startup
+    """
+     original_init = roadrunner.RoadRunner.__init__
+
+     def new_init(self, *args):
+         args = ((sbmlFromAntimony(args[0]),) + args[1:])
+         original_init(self, *args)
+
+     roadrunner.RoadRunner.__init__ = new_init
 
 def plotWithLegend (r, result):
     """
@@ -110,9 +132,25 @@ def exportToMatlab (r, filename):
     matlab_str = sbml2matlab(r.getCurrentSBML())
     saveToFile (filename, matlab_str)    
 
+augmentRoadrunnerCtor()
 print ("Importing tellurium as 'te' v"+ getTelluriumVersion())
 
 
 
+antStr = '''
+model feedback()
+   // Reactions:
+   J0: $X0 -> S1; (VM1 * (X0 - S1/Keq1))/(1 + X0 + S1 +   S4^h);
+   J1: S1 -> S2; (10 * S1 - 2 * S2) / (1 + S1 + S2);
+   J2: S2 -> S3; (10 * S2 - 2 * S3) / (1 + S2 + S3);
+   J3: S3 -> S4; (10 * S3 - 2 * S4) / (1 + S3 + S4);
+   J4: S4 -> $X1; (V4 * S4) / (KS4 + S4);
 
+  // Species initializations:
+  S1 = 0; S2 = 0; S3 = 0;
+  S4 = 0; X0 = 10; X1 = 0;
+
+  // Variable initialization:
+  VM1 = 10; Keq1 = 10; h = 10; V4 = 2.5; KS4 = 0.5;
+end'''
 
