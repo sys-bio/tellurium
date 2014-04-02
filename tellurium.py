@@ -16,11 +16,6 @@ import libantimony
 import tellurium
 from sbml2matlab import sbml2matlab
 
-def teRoadRunner (modelName = ''):
-    rr = roadrunner.RoadRunner(modelName)
-    rr.conservedMoietyAnalysis = True
-    return rr
-
 #get version from VERSION file
 def getTelluriumVersion():
     import os
