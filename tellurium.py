@@ -77,7 +77,14 @@ def augmentRoadrunnerCtor():
     original_init = roadrunner.RoadRunner.__init__
 
     def new_init(self, *args):
-        args = ((sbmlFromAntimony(args[0]),) + args[1:])
+        #get sbml and recompose args tuple
+        if (len(args) > 1):
+            args = ((sbmlFromAntimony(args[0]),) + args[1:])
+        elif (len(args) == 1):
+            args = (sbmlFromAntimony(args[0]),)
+        else:
+            pass
+            
         original_init(self, *args)
 
     roadrunner.RoadRunner.__init__ = new_init
