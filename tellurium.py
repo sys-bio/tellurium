@@ -57,10 +57,7 @@ def loadAntimonyModel (antStr):
     
     r = loadAntimonyModel(antStr)
     """
-    sbmlStr = sbmlFromAntimony (antStr)
-
-    rr = roadrunner.RoadRunner(sbmlStr)
-    return rr
+    return roadrunner.RoadRunner(antStr)
 
 def sbmlFromAntimony (antStr):
     """Load an Antimony string:
@@ -89,6 +86,9 @@ def augmentRoadrunnerCtor():
         original_init(self, *args)
 
     roadrunner.RoadRunner.__init__ = new_init
+
+def RoadRunner(args):
+    return roadrunner.RoadRunner(args)
 
 def plotWithLegend (r, result):
     """
