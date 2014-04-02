@@ -22,6 +22,9 @@ model feedback()
   VM1 = 10; Keq1 = 10; h = 10; V4 = 2.5; KS4 = 0.5;
 end'''
 
-rr = te.loadAntimonyModel (modelStr)
+rr = roadrunner.RoadRunner(antStr)
 result = rr.simulate(0, 40, 500)
 te.plotWithLegend (rr, result)
+r = te.RoadRunner(antStr)
+result = r.simulate(0, 40, 500)
+te.plotWithLegend (r, result)
