@@ -16,7 +16,7 @@ def install():
     """Function executed when running the script with the -install switch"""
     # Create Spyder start menu folder
     start_menu = osp.join(get_special_folder_path('CSIDL_COMMON_PROGRAMS'),
-                          'Spyder (Py%i.%i %i bit)' % (sys.version_info[0],
+                          'Tellurium (Py%i.%i %i bit)' % (sys.version_info[0],
                                                        sys.version_info[1],
                                                        struct.calcsize('P')*8))
     if not osp.isdir(start_menu):
@@ -33,9 +33,9 @@ def install():
     ico_dir = osp.join(lib_dir, 'spyderlib', 'windows')
 
     desc = 'Scientific Python Development EnvironmEnt, an alternative to IDLE'
-    fname = osp.join(start_menu, 'Spyder (full).lnk')
+    fname = osp.join(start_menu, 'Tellurium Spyder.lnk')
     create_shortcut(pythonw, desc, fname, '"%s"' % script, workdir,
-                    osp.join(ico_dir, 'spyder.ico'))
+                    osp.join(ico_dir, 'tellurium_icon_big.ico'))
     file_created(fname)
 
     desc += '. Light configuration: console and variable explorer only.'

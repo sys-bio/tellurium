@@ -4,6 +4,7 @@ Log of changes
 
 0.9.12
 RoadRunner constructor now accepts an antimony string 
+Start Menu Group and icons
 
 0.9.11
 Using PyQt4-4.10.3-gpl-Py2.7-Qt4.8.5-x32.exe to overcome user specific PyQt issues
