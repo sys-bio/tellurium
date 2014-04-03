@@ -136,5 +136,4 @@ def exportToMatlab (r, filename):
     saveToFile (filename, matlab_str)    
 
 augmentRoadrunnerCtor()
-print ("Importing tellurium as 'te' v"+ getTelluriumVersion())
 

@@ -16,6 +16,13 @@ __has_numpy = True
 __has_scipy = True
 __has_matplotlib = True
 
+#the tellurium packages
+__has_libantimony = True
+__has_sbml2matlab = True
+__has_roadrunner = True
+__has_teplugins = True
+__has_tellurium = True
+
 #==============================================================================
 # Pollute the namespace but also provide MATLAB-like experience
 #==============================================================================
@@ -43,20 +50,82 @@ try:
 except ImportError:
     __has_matplotlib = False
 
+#TELLURIUM IMPORTS
+
+try:
+    import sbml2matlab
+except ImportError:
+    __has_sbml2matlab = False
+
+try:
+    import roadrunner
+except ImportError:
+    __has_roadrunner = False
+
+try:
+    import libantimony
+except ImportError:
+    __has_libantimony = False
+
+try:
+    import teplugins
+except ImportError:
+    __has_teplugins = False
+
+try:
+    import tellurium as te
+except ImportError:
+    __has_tellurium = False
+
 #==============================================================================
 # Print what modules have been imported
 #==============================================================================
 __imports = ""
+if __has_roadrunner:
+    __imports += "Imported RoadRunner %s" % roadrunner.__version__.split(';')[0]
+if __has_libantimony:
+    __imports += ", libAntimony %s" % libantimony.LIBANTIMONY_VERSION_STRING
+if __has_sbml2matlab:
+    __imports += ", sbml2matlab %s" % sbml2matlab.__version__
+if __has_teplugins:
+    __imports += ", TePlugins %s" % teplugins.getVersion()
 if __has_numpy:
-    __imports += "Imported NumPy %s" % np.__version__
+    __imports += ", NumPy %s" % np.__version__
 if __has_scipy:
     __imports += ", SciPy %s" % sp.__version__
 if __has_matplotlib:
     __imports += ", Matplotlib %s" % mpl.__version__
+if __has_tellurium:
+    __imports += ", and Tellurium %s as 'te'" % te.__version__
 
-print ""
 if __imports:
     print __imports
+
+#Not imported/ missing
+__notimports = []
+if not __has_roadrunner:
+    __notimports.append("roadrunner")
+if not __has_libantimony:
+    __notimports.append("libantimony")
+if not __has_sbml2matlab:
+    __notimports.append("sbml2matlab")
+if not __has_teplugins:
+    __notimports.append("teplugins")
+if not __has_numpy:
+    __notimports.append("numpy")
+#if not __has_scipy:
+    #__notimports.append("scipy")
+if not __has_matplotlib:
+    __notimports.append("matplotlib")
+if not __has_tellurium:
+    __notimports.append("tellurium")
+
+if __notimports:
+    for fail in __notimports:
+        from colorama import Fore, Style
+    	print Fore.RED + Style.BRIGHT + "'import %s' failed" % fail
+
+    print(Style.RESET_ALL)
 
 import os
 if os.environ.get('QT_API') != 'pyside':
@@ -127,14 +196,6 @@ print 'Type "scientific" for more details.'
 # Delete temp vars
 #==============================================================================
 del setscientific, __has_numpy, __has_scipy, __has_matplotlib, __imports
-import roadrunner
-print ("Importing roadrunner " + roadrunner.__version__.split(';')[0])
+del __has_libantimony, __has_sbml2matlab, __has_roadrunner, __has_teplugins, __has_tellurium, __notimports
 
-import libantimony
-print ("Importing libantimony "+ libantimony.LIBANTIMONY_VERSION_STRING)
-
-import teplugins
-print ("Importing teplugins "+ teplugins.getVersion())
-
-import tellurium as te
 

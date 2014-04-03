@@ -325,11 +325,16 @@ class Editor(SpyderPluginWidget):
     """
     Multi-file Editor widget
     """
-    import tellurium
     CONF_SECTION = 'editor'
     CONFIGWIDGET_CLASS = EditorConfigPage
-    #TEMPFILE_PATH = get_conf_path('.temp.py')
-    TEMPFILE_PATH = osp.dirname(tellurium.__file__) +'\\example1.py'
+    try:
+    	import tellurium
+    	TEMPFILE_PATH = osp.dirname(tellurium.__file__) +'\\example1.py'
+    except ImportError:
+        TEMPFILE_PATH = get_conf_path('.temp.py')
+    	pass
+    else:
+        TEMPFILE_PATH = get_conf_path('.temp.py')
     TEMPLATE_PATH = get_conf_path('template.py')
     DISABLE_ACTIONS_WHEN_HIDDEN = False # SpyderPluginWidget class attribute
     def __init__(self, parent, ignore_last_opened_files=False):

@@ -2,6 +2,9 @@ tellurium
 
 Log of changes
 
+0.9.13
+Safely catch errors on first import
+
 0.9.12
 RoadRunner constructor now accepts an antimony string 
 Start Menu Group and icons
