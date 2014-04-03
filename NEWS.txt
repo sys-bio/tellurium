@@ -2,7 +2,7 @@ tellurium
 
 Log of changes
 
-0.9.13
+0.9.14
 Safely catch errors on first import
 
 0.9.12

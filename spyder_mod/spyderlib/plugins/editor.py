@@ -332,9 +332,9 @@ class Editor(SpyderPluginWidget):
     	TEMPFILE_PATH = osp.dirname(tellurium.__file__) +'\\example1.py'
     except ImportError:
         TEMPFILE_PATH = get_conf_path('.temp.py')
-    	pass
-    else:
-        TEMPFILE_PATH = get_conf_path('.temp.py')
+    except:
+        TEMPFILE_PATH = get_conf_path('.telluriumErrorOccured.py')
+
     TEMPLATE_PATH = get_conf_path('template.py')
     DISABLE_ACTIONS_WHEN_HIDDEN = False # SpyderPluginWidget class attribute
     def __init__(self, parent, ignore_last_opened_files=False):
