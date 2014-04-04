@@ -165,7 +165,7 @@ Filename: "{code:SetPythonPath}\scripts\{#Pip}"; Parameters: "install --no-index
 ;;Filename: "{code:SetPythonPath}\scripts\{#Pip}"; Parameters: "install python-dateutil"; WorkingDir: "{tmp}"; Flags: shellexec waituntilterminated
 ;;Filename: "{code:SetPythonPath}\scripts\{#Pip}"; Parameters: "install jinja2"; WorkingDir: "{tmp}"; Flags: shellexec waituntilterminated
 
-Filename: "{#PyQtInstaller}"; Parameters: "/S /ALLUSERS=1"; WorkingDir: "{tmp}"; Flags: shellexec waituntilterminated
+;Filename: "{#PyQtInstaller}"; Parameters: "/S /ALLUSERS=1"; WorkingDir: "{tmp}"; Flags: shellexec waituntilterminated
 ;Running PyQt installer as silent will cause issues for users with PyQt already installed
 Filename: "{#PyQtInstaller}"; WorkingDir: "{tmp}"; Flags: shellexec waituntilterminated
 Filename: "{tmp}\{#Unzip}"; Parameters: "{tmp}\{#LibRoadRunnerInstaller}.zip -d {tmp}"; WorkingDir: "{tmp}";
