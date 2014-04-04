@@ -2,6 +2,9 @@ tellurium
 
 Log of changes
 
+1.0.0
+bump version
+
 0.9.14
 Safely catch errors on first import
 
