@@ -81,7 +81,6 @@ def augmentRoadrunnerCtor():
         if (len(args) > 1 and libantimony.loadAntimonyString(args[0]) >= 0):
             args = ((sbmlFromAntimony(args[0]),) + args[1:])
         elif (len(args) == 1 and libantimony.loadAntimonyString(args[0]) >= 0):
-            print "here"
             args = (sbmlFromAntimony(args[0]),)
         else:
             pass
