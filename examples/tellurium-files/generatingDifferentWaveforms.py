@@ -6,6 +6,9 @@ Created on Tue Mar 11 15:15:16 2014
 """
 
 import tellurium as te
+from roadrunner import Config
+#We do not want CONSERVED MOIETIES set to true in this case
+Config.setValue(Config.LOADSBMLOPTIONS_CONSERVED_MOIETIES, False) 
 
 # Generating different waveforms
 model = '''
@@ -45,3 +48,6 @@ r.selections = ['time', 'SineWave', 'SquareWave', 'SawTooth', 'TriangleWave', 'R
 result = r.simulate (0, 90, 500)
 
 te.plotWithLegend (r, result)
+
+#reset to default config
+Config.setValue(Config.LOADSBMLOPTIONS_CONSERVED_MOIETIES, False) 
