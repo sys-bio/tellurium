@@ -106,7 +106,7 @@ def cellMLFileToSBML (CellMLFileName):
     """
     
     if libantimony.loadCellMLFile(CellMLFileName) < 0:
-       raise Exception ('Error calling loadCellMLFile'+ libantimony.getLastError()))
+       raise Exception ('Error calling loadCellMLFile'+ libantimony.getLastError())
     return libantimony.getSBMLString (None)
 
 
@@ -117,7 +117,7 @@ def cellMLStrToAntimony (CellMLStr):
     ant = cellMLStrToAntimony('mymodel.cellml')
     """
     if libantimony.loadCellMLFile(CellMLStr) < 0:
-       raise Exception ('Error calling cellMLStrToAntimony' + libantimony.getLastError()))
+       raise Exception ('Error calling cellMLStrToAntimony' + libantimony.getLastError())
     sbml = libantimony.getSBMLString (None)
     return libantimony.getAntimonyString (None)
     
@@ -129,7 +129,7 @@ def cellMLStrToSBML (CellMLStr):
     sbmlStr = cellMLStrToSBML('mymodel.cellml')
     """
     if libantimony.loadCellMLFile(CellMLStr) < 0:
-       raise Exception ('Error calling cellMLStrToSBML' + libantimony.getLastError()))
+       raise Exception ('Error calling cellMLStrToSBML' + libantimony.getLastError())
     return libantimony.getSBMLString (None)
     
     
