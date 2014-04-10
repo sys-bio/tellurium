@@ -67,12 +67,32 @@ def sbmlFromAntimony (antStr):
     Id = libantimony.getMainModuleName()
     return libantimony.getSBMLString(Id)
     
+def cellMLToAntimony (CellMLFileName):
+    """Load a cellml file and return the
+    equivalent antimony string:
+    
+    ant = cellMLToAntimony('mymodel.cellml')
+    """
+    libantimony.loadCellMLFile(CellMLFileName)
+    sbml = libantimony.getSBMLString (None)
+    return libantimony.getAntimonyString (None)
+    
+    
+def cellMLToSBML (CellMLFileName):
+    """Load a cellml file and return the
+    equivalent SBML string:
+    
+    sbmlStr = cellMLToSBML('mymodel.cellml')
+    """
+    libantimony.loadCellMLFile(CellMLFileName)
+    return libantimony.getSBMLString (None)
 
+    
 def augmentRoadrunnerCtor():
     """Hides the need to use Antimony directly from user
-    Overwrite the Roarunner Constructor to accept Antimony string
+    Overwrite the Roadrunner Constructor to accept Antimony string
     
-    This is done atthe begining of the tellurium startup
+    This is done at the begining of the tellurium startup
     """
     original_init = roadrunner.RoadRunner.__init__
 
