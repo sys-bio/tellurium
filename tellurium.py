@@ -70,6 +70,7 @@ def loadAntimonyModel (antStr):
     """
     return roadrunner.RoadRunner(antStr)
 
+
 def sbmlFromAntimony (antStr):
     """Load an Antimony string:
 
@@ -82,6 +83,7 @@ def sbmlFromAntimony (antStr):
 
     Id = libantimony.getMainModuleName()
     return libantimony.getSBMLString(Id)
+   
     
 def cellMLFileToAntimony (CellMLFileName):
     """Load a cellml file and return the
@@ -89,6 +91,8 @@ def cellMLFileToAntimony (CellMLFileName):
     
     ant = cellMLToAntimony('mymodel.cellml')
     """
+    if libantimony.loadCellMLFile(CellMLFileName) == -1:
+       raise Exception ('Error calling loadCellMLFile')
     libantimony.loadCellMLFile(CellMLFileName)
     sbml = libantimony.getSBMLString (None)
     return libantimony.getAntimonyString (None)
@@ -100,8 +104,11 @@ def cellMLFileToSBML (CellMLFileName):
     
     sbmlStr = cellMLToSBML('mymodel.cellml')
     """
-    libantimony.loadCellMLFile(CellMLFileName)
+    
+    if libantimony.loadCellMLFile(CellMLFileName) < 0:
+       raise Exception ('Error calling loadCellMLFile'+ libantimony.getLastError()))
     return libantimony.getSBMLString (None)
+
 
 def cellMLStrToAntimony (CellMLStr):
     """Convert a cellml string into the
@@ -109,7 +116,8 @@ def cellMLStrToAntimony (CellMLStr):
     
     ant = cellMLStrToAntimony('mymodel.cellml')
     """
-    libantimony.loadCellMLString (CellMLStr)
+    if libantimony.loadCellMLFile(CellMLStr) < 0:
+       raise Exception ('Error calling cellMLStrToAntimony' + libantimony.getLastError()))
     sbml = libantimony.getSBMLString (None)
     return libantimony.getAntimonyString (None)
     
@@ -120,7 +128,8 @@ def cellMLStrToSBML (CellMLStr):
     
     sbmlStr = cellMLStrToSBML('mymodel.cellml')
     """
-    libantimony.loadCellMLString(CellMLStr)
+    if libantimony.loadCellMLFile(CellMLStr) < 0:
+       raise Exception ('Error calling cellMLStrToSBML' + libantimony.getLastError()))
     return libantimony.getSBMLString (None)
     
     
