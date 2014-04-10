@@ -101,17 +101,23 @@ def plotWithLegend (r, result):
     
     plotWithLegend (r, result)
     """
-    if not isinstance (r, roadrunner.RoadRunner):
-        raise Exception ('First argument must be a roadrunner variable')
-    columns = result.shape[1]
-    legendItems = r.selections[1:]       
-    if columns-1 != len (legendItems):
-        raise Exception ('Legend list must match result array')
-    for i in range(columns-1):
-        plt.plot (result[:,0], result[:,i+1], linewidth=2.5, label=legendItems[i])
-    plt.legend (loc='upper left')    
-    plt.show()
-    return plt
+    if result.dtype.names is None:
+       if not isinstance (r, roadrunner.RoadRunner):
+          raise Exception ('First argument must be a roadrunner variable')
+       columns = result.shape[1]
+       legendItems = r.selections[1:]       
+       if columns-1 != len (legendItems):
+           raise Exception ('Legend list must match result array')
+       for i in range(columns-1):
+           plt.plot (result[:,0], result[:,i+1], linewidth=2.5, label=legendItems[i])
+       plt.legend (loc='upper left')    
+       plt.show()
+       return plt
+    else:
+        str = """The result array must be unstructured. Use the command: 
+        roadrunner.Config.setValue(rr.Config.SIMULATEOPTIONS_STRUCTURED_RESULT, False
+        to set the right mode."""       
+        raise Exception (str)
     
     
 # Plot a numpy array
@@ -135,4 +141,3 @@ def exportToMatlab (r, filename):
     saveToFile (filename, matlab_str)    
 
 augmentRoadrunnerCtor()
-
