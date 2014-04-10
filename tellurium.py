@@ -46,6 +46,21 @@ def loadSBMLModel (sbml):
     rr = roadrunner.RoadRunner (sbml)
     return rr
     
+def loadCellMLModel (cellML):
+    import os
+    """Load a cellml model into roadrunner, can
+    be a file or string
+
+    r = loadCellMLFileModel ('mymodel.cellml')"""
+    
+    if os.path.isfile (cellML):
+       sbmlstr = cellMLFileToSBML (cellML)
+    else:
+       sbmlstr = cellMLStrToSBML (cellML)
+    rr = roadrunner.RoadRunner (sbmlstr)
+    return rr
+    
+    
 # Load an Antimony file   
 def loadAntimonyModel (antStr):
     """Load an Antimony string:
