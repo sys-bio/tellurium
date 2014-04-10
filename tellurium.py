@@ -67,7 +67,7 @@ def sbmlFromAntimony (antStr):
     Id = libantimony.getMainModuleName()
     return libantimony.getSBMLString(Id)
     
-def cellMLToAntimony (CellMLFileName):
+def cellMLFileToAntimony (CellMLFileName):
     """Load a cellml file and return the
     equivalent antimony string:
     
@@ -78,7 +78,7 @@ def cellMLToAntimony (CellMLFileName):
     return libantimony.getAntimonyString (None)
     
     
-def cellMLToSBML (CellMLFileName):
+def cellMLFileToSBML (CellMLFileName):
     """Load a cellml file and return the
     equivalent SBML string:
     
@@ -87,6 +87,26 @@ def cellMLToSBML (CellMLFileName):
     libantimony.loadCellMLFile(CellMLFileName)
     return libantimony.getSBMLString (None)
 
+def cellMLStrToAntimony (CellMLStr):
+    """Convert a cellml string into the
+    equivalent antimony string:
+    
+    ant = cellMLStrToAntimony('mymodel.cellml')
+    """
+    libantimony.loadCellMLString (CellMLStr)
+    sbml = libantimony.getSBMLString (None)
+    return libantimony.getAntimonyString (None)
+    
+    
+def cellMLStrToSBML (CellMLStr):
+    """Convert a cellml string into the
+    equivalent SBML string:
+    
+    sbmlStr = cellMLStrToSBML('mymodel.cellml')
+    """
+    libantimony.loadCellMLString(CellMLStr)
+    return libantimony.getSBMLString (None)
+    
     
 def augmentRoadrunnerCtor():
     """Hides the need to use Antimony directly from user
