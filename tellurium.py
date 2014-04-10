@@ -46,12 +46,13 @@ def loadSBMLModel (sbml):
     rr = roadrunner.RoadRunner (sbml)
     return rr
     
+    
 def loadCellMLModel (cellML):
     import os
     """Load a cellml model into roadrunner, can
     be a file or string
 
-    r = loadCellMLFileModel ('mymodel.cellml')"""
+    r = loadCellMLModel ('mymodel.cellml')"""
     
     if os.path.isfile (cellML):
        sbmlstr = cellMLFileToSBML (cellML)
