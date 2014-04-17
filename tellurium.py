@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
 Created on Thu Oct 10 14:34:07 2013
-Updated march 25, 2014
+Updated: April 17, 2014
 
 @author: Herbert M Sauro
 
@@ -205,4 +205,16 @@ def exportToMatlab (r, filename):
     matlab_str = sbml2matlab(r.getCurrentSBML())
     saveToFile (filename, matlab_str)    
 
+def getTestModel (str):
+    """
+    Returns the model as a string from the test directory
+    """
+    return roadrunner.testing.getData (str)
+    
+def loadTestModel(str):
+    """
+    Loads the test model into roadrunner and returns a roadrunner variable
+    """
+    return roadrunner.RoadRunner (getTestModel (str)) 
+    
 augmentRoadrunnerCtor()
