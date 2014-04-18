@@ -180,10 +180,22 @@ def plotWithLegend (r, result):
        return plt
     else:
         str = """The result array must be unstructured. Use the command: 
-        roadrunner.Config.setValue(rr.Config.SIMULATEOPTIONS_STRUCTURED_RESULT, False
+        roadrunner.Config.setValue(rr.Config.SIMULATEOPTIONS_STRUCTURED_RESULT, False)
         to set the right mode."""       
         raise Exception (str)
+   
+def simulateAndPlot (rr, startTime=0, endTime=5, numberOfPoints=500):
+    """
+    Carry out a simulation and plot the results. 
     
+    Example:
+    
+    simulateAndPlot (rr)
+    
+    simulateAndPlot (rr, 0, 10, 100)
+    """
+    result = rr.simulate (startTime, endTime, numberOfPoints)
+    te.plotWithLegend (rr, result)    
     
 # Plot a numpy array
 def plotArray (result):
