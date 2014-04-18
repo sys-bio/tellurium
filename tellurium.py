@@ -186,7 +186,7 @@ def plotWithLegend (r, result):
    
 def simulateAndPlot (rr, startTime=0, endTime=5, numberOfPoints=500):
     """
-    Carry out a simulation and plot the results. 
+    Carry out a simulation and plot the results. Returns the result to the caller 
     
     Example:
     
@@ -195,7 +195,8 @@ def simulateAndPlot (rr, startTime=0, endTime=5, numberOfPoints=500):
     simulateAndPlot (rr, 0, 10, 100)
     """
     result = rr.simulate (startTime, endTime, numberOfPoints)
-    te.plotWithLegend (rr, result)    
+    te.plotWithLegend (rr, result)   
+    return result
     
 # Plot a numpy array
 def plotArray (result):
