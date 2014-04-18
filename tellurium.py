@@ -12,6 +12,7 @@ pass Antimony models to roadRunner
 
 import matplotlib.pyplot as plt
 import roadrunner
+import roadrunner.testing
 import libantimony
 import tellurium
 from sbml2matlab import sbml2matlab
