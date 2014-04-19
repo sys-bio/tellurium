@@ -134,6 +134,15 @@ def cellMLStrToSBML (CellMLStr):
     return libantimony.getSBMLString (None)
     
     
+def getEigenvalues (m):
+    """
+    Convenience method for computing the eigenvalues for a matrix, m
+    Uses numpy eig to compute the eigenvalues
+    """
+    from numpy import linalg as LA
+    w,v = LA.eig (m)
+    return w
+    
 def augmentRoadrunnerCtor():
     """Hides the need to use Antimony directly from user
     Overwrite the Roadrunner Constructor to accept Antimony string
