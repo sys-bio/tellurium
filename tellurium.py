@@ -1,12 +1,11 @@
 # -*- coding: utf-8 -*-
 """
 Created on Thu Oct 10 14:34:07 2013
-Updated: April 17, 2014
+Updated: April 23, 2014
 
 @author: Herbert M Sauro
 
-Supporting routines to help users easily 
-pass Antimony models to roadRunner
+Supporting routines for tellurium
 
 """
 
@@ -72,10 +71,10 @@ def loadAntimonyModel (antStr):
     return roadrunner.RoadRunner(antStr)
 
 
-def sbmlFromAntimony (antStr):
-    """Load an Antimony string:
+def antimonyTosbml (antStr):
+    """Convert an antimony string into SBML:
 
-    sbmlStr = sbmlFromAntimony(antimonyStr)
+    sbmlStr = antimonyTosbml (antimonyStr)
     """
     err = libantimony.loadAntimonyString (antStr)
 
@@ -85,8 +84,21 @@ def sbmlFromAntimony (antStr):
     Id = libantimony.getMainModuleName()
     return libantimony.getSBMLString(Id)
    
+   
+def sbmlToAntimony (str):
+     """Convert a SBML string into Antimony:
+
+    sbmlStr = sbmlToAntimony (antimonyStr)
+    """
+    err = libantimony.loadSBMLString (str)
+
+    if (err < 0):
+       raise Exception('Antimony: ' + libantimony.getLastError())
+
+    return libantimony.getAntimonyString(None)
     
-def cellMLFileToAntimony (CellMLFileName):
+    
+def cellmlFileToAntimony (CellMLFileName):
     """Load a cellml file and return the
     equivalent antimony string:
     
@@ -99,7 +111,7 @@ def cellMLFileToAntimony (CellMLFileName):
     return libantimony.getAntimonyString (None)
     
     
-def cellMLFileToSBML (CellMLFileName):
+def cellmlFileToSBML (CellMLFileName):
     """Load a cellml file and return the
     equivalent SBML string:
     
@@ -111,7 +123,7 @@ def cellMLFileToSBML (CellMLFileName):
     return libantimony.getSBMLString (None)
 
 
-def cellMLStrToAntimony (CellMLStr):
+def cellmlStrToAntimony (CellMLStr):
     """Convert a cellml string into the
     equivalent antimony string:
     
@@ -123,7 +135,7 @@ def cellMLStrToAntimony (CellMLStr):
     return libantimony.getAntimonyString (None)
     
     
-def cellMLStrToSBML (CellMLStr):
+def cellmlStrToSBML (CellMLStr):
     """Convert a cellml string into the
     equivalent SBML string:
     
