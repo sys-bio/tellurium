@@ -8,13 +8,13 @@
 #define MyAppSetupIconFile "tellurium_icon_64x64.ico"
 #define ThisInstallerPostfix "win32-superpack-setup"
 
-#define LibRoadRunnerInstaller "pylibroadrunner-1.1.0-win_32" 
+#define LibRoadRunnerInstaller "pylibroadrunner-1.2.0-beta6-win_32" 
 ;leave .zip off the LibRoadRunnerInstaller var above
 #define Sbml2matlabInstaller "sbml2matlab_1.2.2_win32"
 ;leave .zip off the Sbml2matlabInstaller var above
 
 #define AntimonyInstaller "AntimonyPythonBindings-2.5.1-win32.exe"
-#define TePluginsInstaller "teplugins-1.0.13-Python-2.7-win32-minimal-setup.exe"
+#define TePluginsInstaller "teplugins-1.0.15-Python-2.7-win32-minimal-setup.exe"
 #define PyInstaller "python-2.7.6.msi"
 #define NumpyInstaller "numpy-1.8.0-win32-superpack-python2.7.exe"
 #define MatplotlibInstaller "matplotlib-1.3.1.win32-py2.7.exe"
@@ -24,7 +24,7 @@
 
 #define PyQtInstaller "PyQt4-4.10.3-gpl-Py2.7-Qt4.8.5-x32.exe"
 #define SipInstaller "sip.pyd"
-#define PipInstaller "pip-1.5.4"
+#define PipInstaller "get-pip.py"
 #define SetupToolsInstaller "setuptools-3.3"
 #define SpyderInstaller "spyder-2.2.5-tellurium.win32.exe"
 #define Unzip "unzip.exe"
@@ -127,7 +127,7 @@ Source: "libRoadrunner-installer-dependencies\{#MatplotlibInstaller}"; DestDir: 
 ;-Source: "libRoadrunner-installer-dependencies\{#SixInstaller}"; DestDir: "{tmp}"; Flags: ignoreversion onlyifdoesntexist
 Source: "libRoadrunner-installer-dependencies\{#NumpyInstaller}"; DestDir: "{tmp}"; Flags: ignoreversion onlyifdoesntexist
 Source: "libRoadrunner-installer-dependencies\{#PyInstaller}"; DestDir: "{tmp}"; Flags: ignoreversion onlyifdoesntexist
-Source: "super_installer_dependencies\{#PipInstaller}.zip"; DestDir: "{tmp}"; Flags: ignoreversion
+Source: "super_installer_dependencies\{#PipInstaller}"; DestDir: "{tmp}"; Flags: ignoreversion
 Source: "super_installer_dependencies\{#SetupToolsInstaller}.zip"; DestDir: "{tmp}"; Flags: ignoreversion
 Source: "super_installer_dependencies\wheel\*"; DestDir: "{tmp}\wheel"; Flags: ignoreversion recursesubdirs
 
@@ -146,10 +146,9 @@ Source: "../../roadrunner.conf"; DestDir: "{tmp}"; Flags: ignoreversion; AfterIn
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [Run]
+Filename: "{tmp}\{#PipInstaller}"; Verb: "open"; WorkingDir: "{tmp}"; Flags: shellexec waituntilterminated runmaximized
 Filename: "{tmp}\{#Unzip}"; Parameters: "{tmp}\{#SetupToolsInstaller}.zip -d {tmp}"; WorkingDir: "{tmp}"; Flags: shellexec waituntilterminated
 Filename: "{code:SetPythonPath}\python.exe"; Parameters: "setup.py install"; WorkingDir: "{tmp}\{#SetupToolsInstaller}"; Flags: shellexec waituntilterminated
-Filename: "{tmp}\{#Unzip}"; Parameters: "{tmp}\{#PipInstaller}.zip -d {tmp}"; WorkingDir: "{tmp}"; Flags: shellexec waituntilterminated
-Filename: "{code:SetPythonPath}\python.exe"; Parameters: "setup.py install"; WorkingDir: "{tmp}\{#PipInstaller}"; Flags: shellexec waituntilterminated
 Filename: "{code:SetPythonPath}\scripts\{#Pip}"; Parameters: "install --no-index --find-links {tmp}/wheel astroid backports.ssl_match_hostname colorama docutils ipython jinja2 logilab-common markupsafe nose pep8 psutil pyflakes pygments pylint pyparsing python-dateutil pyzmq six sphinx tornado wheel"; WorkingDir: "{tmp}"; Flags: shellexec waituntilterminated
 ;in the line above the --no-index --find-links {tmp}/pip_cache means no network, some subpackages are still missing, these flags are removed below
 ;;Filename: "{code:SetPythonPath}\scripts\{#Pip}"; Parameters: "install python-dateutil docutils pyparsing six sphinx pyflakes pylint pep8 psutil pygments ipython[all]"; WorkingDir: "{tmp}/pip_cache"; Flags: shellexec waituntilterminated

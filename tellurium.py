@@ -55,9 +55,9 @@ def loadCellMLModel (cellML):
     r = loadCellMLModel ('mymodel.cellml')"""
     
     if os.path.isfile (cellML):
-       sbmlstr = cellMLFileToSBML (cellML)
+       sbmlstr = cellmlFileToSBML (cellML)
     else:
-       sbmlstr = cellMLStrToSBML (cellML)
+       sbmlstr = cellmlStrToSBML (cellML)
     rr = roadrunner.RoadRunner (sbmlstr)
     return rr
     
@@ -86,7 +86,7 @@ def antimonyTosbml (antStr):
    
    
 def sbmlToAntimony (str):
-     """Convert a SBML string into Antimony:
+    """Convert a SBML string into Antimony:
 
     sbmlStr = sbmlToAntimony (antimonyStr)
     """
@@ -107,7 +107,6 @@ def cellmlFileToAntimony (CellMLFileName):
     if libantimony.loadCellMLFile(CellMLFileName) == -1:
        raise Exception ('Error calling loadCellMLFile')
     libantimony.loadCellMLFile(CellMLFileName)
-    sbml = libantimony.getSBMLString (None)
     return libantimony.getAntimonyString (None)
     
     
@@ -131,7 +130,6 @@ def cellmlStrToAntimony (CellMLStr):
     """
     if libantimony.loadCellMLFile(CellMLStr) < 0:
        raise Exception ('Error calling cellMLStrToAntimony' + libantimony.getLastError())
-    sbml = libantimony.getSBMLString (None)
     return libantimony.getAntimonyString (None)
     
     
@@ -166,9 +164,9 @@ def augmentRoadrunnerCtor():
     def new_init(self, *args):
         #get sbml and recompose args tuple
         if (len(args) > 1 and libantimony.loadAntimonyString(args[0]) >= 0):
-            args = ((sbmlFromAntimony(args[0]),) + args[1:])
+            args = ((antimonyTosbml(args[0]),) + args[1:])
         elif (len(args) == 1 and libantimony.loadAntimonyString(args[0]) >= 0):
-            args = (sbmlFromAntimony(args[0]),)
+            args = (antimonyTosbml(args[0]),)
         else:
             pass
             
@@ -217,7 +215,7 @@ def simulateAndPlot (rr, startTime=0, endTime=5, numberOfPoints=500):
     simulateAndPlot (rr, 0, 10, 100)
     """
     result = rr.simulate (startTime, endTime, numberOfPoints)
-    te.plotWithLegend (rr, result)   
+    tellurium.plotWithLegend (rr, result)   
     return result
     
 # Plot a numpy array
