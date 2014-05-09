@@ -44,11 +44,22 @@ We summarize the changes in libRoadRunner 1.2.0 and Tellurium 1.1.0
 
 *   Continuous documentation updates and enhancements.
 
--- Changes to Tellurium, 1.0.1
+-- Changes to Tellurium, 1.1.0
 
 Added a range of new methods to the tellurium startup file:
 
-
+      def loadSBMLModel (sbml)
+      def loadCellMLModel (cellML)
+      def antimonyTosbml (antStr)
+      def sbmlToAntimony (str)
+      def cellmlFileToAntimony (CellMLFileName)
+      def cellmlFileToSBML (CellMLFileName)
+      def cellmlStrToAntimony (CellMLStr)
+      def cellmlStrToSBML (CellMLStr)
+      def getEigenvalues (m)
+      def exportToMatlab (r, filename)
+      
+      
 1.0.0
 bump version
 changed examples to use te.plotWithLegend()
