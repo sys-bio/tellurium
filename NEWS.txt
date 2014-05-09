@@ -2,6 +2,53 @@ tellurium
 
 Log of changes
 
+1.1.0
+
+We summarize the changes in libRoadRunner 1.2.0 and Tellurium 1.1.0
+
+-- Version 1.2.0
+
+*   Enabled mutable initial conditions when conserved moities are used, implemented Jacobian 
+    calculation when conserved moieties are used. 
+
+*   Fixed memory leaks related to how CVODE is used. With the mem leaks fixed, we leak a total of 16
+    bytes ONCE, in a 3rd party library  in the beginning for running the entire test suite. 
+
+*   Fixed bugs with stiff solver not being selected
+
+*   New getValue / setValue methods on SimulationOptions to set arbitrary settings, will be used by
+    future integrators. 
+
+*   Prototype Gillespie stochastic integrator
+
+*   Added missing init amount method to python API
+
+*   Clean up IL code generation
+
+*   Structured result disabled by default
+
+*   New parameters in simulate and plot methods (Herbert has these, waiting on feedback), 
+    simulate now accepts all SimulateOptions field names as keywords and has plot option,
+    i.e. simulate(plot=True)
+
+*   Raise exception on invalid selection strings
+
+*   Removed pointless bool return value on exception raising methods.
+
+*   All instance variables in public classes moved to private internal struct -- result is that we
+    can now add and remove instance variables and never break binary compatibility. Relevant to C++ 
+    users.
+
+*   Future versions may accept more complex types for configuration settings, API is set up so we
+    never break binary compatibility as we add new features like this.
+
+*   Continuous documentation updates and enhancements.
+
+-- Changes to Tellurium, 1.0.1
+
+Added a range of new methods to the tellurium startup file:
+
+
 1.0.0
 bump version
 changed examples to use te.plotWithLegend()
