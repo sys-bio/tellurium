@@ -153,6 +153,24 @@ def getEigenvalues (m):
     w,v = LA.eig (m)
     return w
     
+    
+def gillespie (r, startTime, endTime, numberOfPoints=None):
+    """Run a Gillespie stochastic simulation. 
+    Arguments are: roadrunner instance, startTime and endTime.
+    The fourth argumentis optional but if used specifies the number
+    of points to generate, that is the Gillespie results will be
+    spaced out on an even grid. Examples:
+    
+    result = te.gillespie (r, 0, 40)
+    
+    result = te.gillespie (r, 0, 40, 10)
+    """
+    if numberOfPoints is None:
+       result = r.simulate (startTime, endTime, integrator="gillespie")
+    else:
+       result = r.simulate (startTime, endTime, numberOfPoints, integrator="gillespie")
+
+
 def augmentRoadrunnerCtor():
     """Hides the need to use Antimony directly from user
     Overwrite the Roadrunner Constructor to accept Antimony string
