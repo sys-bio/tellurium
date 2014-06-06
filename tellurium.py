@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
 Created on Thu Oct 10 14:34:07 2013
-Updated: April 24, 2014
+Updated: June 7, 2014
 
 @author: Herbert M Sauro
 
