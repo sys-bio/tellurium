@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
 Created on Thu Oct 10 14:34:07 2013
-Updated: June 7, 2014
+Updated: June 12, 2014
 
 @author: Herbert M Sauro
 
@@ -166,9 +166,9 @@ def gillespie (r, startTime, endTime, numberOfPoints=None):
     result = te.gillespie (r, 0, 40, 10)
     """
     if numberOfPoints is None:
-       result = r.simulate (startTime, endTime, integrator="gillespie")
+       return r.simulate (startTime, endTime, integrator="gillespie")
     else:
-       result = r.simulate (startTime, endTime, numberOfPoints, integrator="gillespie")
+       return r.simulate (startTime, endTime, numberOfPoints, integrator="gillespie")
 
 
 def augmentRoadrunnerCtor():
