@@ -1,22 +1,31 @@
 # postinstall script for Spyder
-"""Create Spyder start menu entries"""
+"""Create Spyder start menu and desktop entries"""
+
+from __future__ import print_function
 
 import os
 import sys
 import os.path as osp
 import struct
-import _winreg as winreg
+try:
+    # Python 2
+    import _winreg as winreg
+except ImportError:
+    # Python 3
+    import winreg
+
 
 EWS = "Edit with Spyder"
 KEY_C = r"Software\Classes\%s"
 KEY_C0 = KEY_C % r"Python.%sFile\shell\%s"
 KEY_C1 = KEY_C0 + r"\command"
 
+
 def install():
     """Function executed when running the script with the -install switch"""
     # Create Spyder start menu folder
     start_menu = osp.join(get_special_folder_path('CSIDL_COMMON_PROGRAMS'),
-                          'Tellurium (Py%i.%i %i bit)' % (sys.version_info[0],
+                          'Spyder for Tellurium (Py%i.%i %i bit)' % (sys.version_info[0],
                                                        sys.version_info[1],
                                                        struct.calcsize('P')*8))
     if not osp.isdir(start_menu):
@@ -35,7 +44,7 @@ def install():
     desc = 'Scientific Python Development EnvironmEnt, an alternative to IDLE'
     fname = osp.join(start_menu, 'Tellurium Spyder.lnk')
     create_shortcut(pythonw, desc, fname, '"%s"' % script, workdir,
-                    osp.join(ico_dir, 'tellurium_icon_big.ico'))
+                    osp.join(ico_dir, 'Tellurium.ico'))
     file_created(fname)
 
     desc += '. Light configuration: console and variable explorer only.'
@@ -58,10 +67,18 @@ def install():
     winreg.SetValueEx(winreg.CreateKey(root, KEY_C1 % ("NoCon", EWS)),
                       "", 0, winreg.REG_SZ,
                       '"%s" "%s\Scripts\spyder" "%%1"' % (pythonw, sys.prefix))
+    
+    # Create desktop shortcut file
+    desktop_folder = get_special_folder_path("CSIDL_DESKTOPDIRECTORY")
+    fname = osp.join(desktop_folder, 'Spyder.lnk')
+    desc = 'Scientific Python Development EnvironmEnt, an alternative to IDLE'
+    create_shortcut(pythonw, desc, fname, '"%s"' % script, workdir,
+                    osp.join(ico_dir, 'spyder.ico'))
+    file_created(fname)
 
 
 def remove():
-    """Function executed when running the script with the -install switch"""
+    """Function executed when running the script with the -remove switch"""
     current = True  # only affects current user
     root = winreg.HKEY_CURRENT_USER if current else winreg.HKEY_LOCAL_MACHINE
     for key in (KEY_C1 % ("", EWS), KEY_C1 % ("NoCon", EWS),
@@ -78,9 +95,10 @@ if __name__=='__main__':
             try:
                 install()
             except OSError:
-                print >>sys.stderr, "Failed to create Start Menu items, "\
-                                    "try running installer as administrator."
+                print("Failed to create Start Menu items, try running "\
+                      "installer as administrator.", file=sys.stderr)
         elif sys.argv[1] == '-remove':
             remove()
         else:
-            print >>sys.stderr, "Unknown command line option %s" % sys.argv[1]
+            print("Unknown command line option %s" % sys.argv[1],
+                  file=sys.stderr)

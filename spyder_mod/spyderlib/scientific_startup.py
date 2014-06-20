@@ -10,7 +10,20 @@ Scientific Python startup script
 Requires NumPy, SciPy and Matplotlib
 """
 
-from __future__ import division
+# Need a temporary print function that is Python version agnostic.
+import sys
+
+def exec_print(string="", end_space=False):
+    if sys.version[0] == '2':
+        if end_space:
+            exec("print '" + string + "',")
+        else:
+            exec("print '" + string + "'")
+    else:
+        if end_space:
+            exec("print('" + string + "', end=' ')")
+        else:
+            exec("print('" + string + "')")
 
 __has_numpy = True
 __has_scipy = True
@@ -98,6 +111,7 @@ if __has_matplotlib:
 if __has_tellurium:
     __imports += ", and Tellurium %s as 'te'" % te.__version__
 
+exec_print("")
 if __imports:
     print __imports
 
@@ -123,7 +137,7 @@ if not __has_tellurium:
 if __notimports:
     for fail in __notimports:
         from colorama import Fore, Style
-    	print Fore.RED + Style.BRIGHT + "'import %s' failed" % fail
+        print Fore.RED + Style.BRIGHT + "'import %s' failed" % fail
 
     print(Style.RESET_ALL)
 
@@ -134,18 +148,16 @@ if os.environ.get('QT_API') != 'pyside':
         import guiqwt.pyplot as plt_
         import guidata
         plt_.ion()
-        print "+ guidata %s, guiqwt %s" % (guidata.__version__,
-                                           guiqwt.__version__)
+        exec_print("+ guidata %s, guiqwt %s" % (guidata.__version__,
+                                           guiqwt.__version__))
     except ImportError:
-        print
+        exec_print()
 
 #==============================================================================
 # Add help about the "scientific" command
 #==============================================================================
 def setscientific():
     """Set 'scientific' in __builtin__"""
-    import __builtin__
-    from site import _Printer
     infos = ""
     
     if __has_numpy:
@@ -186,11 +198,22 @@ Within Spyder, this interpreter also provides:
     * system commands, i.e. all commands starting with '!' are subprocessed
       (e.g. !dir on Windows or !ls on Linux, and so on)
 """
-    __builtin__.scientific = _Printer("scientific", infos)
+    try:
+        # Python 2
+        import __builtin__ as builtins
+    except ImportError:
+        # Python 3
+        import builtins
+    try:
+        from site import _Printer
+    except ImportError:
+        # Python 3.4
+        from _sitebuiltins import _Printer
+    builtins.scientific = _Printer("scientific", infos)
 
 
 setscientific()
-print 'Type "scientific" for more details.'
+exec_print('Type "scientific" for more details.')
 
 #==============================================================================
 # Delete temp vars

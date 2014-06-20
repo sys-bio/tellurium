@@ -13,15 +13,32 @@ The Scientific PYthon Development EnviRonment
 
 from __future__ import print_function
 
-from distutils.core import setup
-from distutils.command.build import build
-from distutils.command.install_data import install_data
-
 import os
 import os.path as osp
 import subprocess
 import sys
+import re
 import shutil
+
+from distutils.core import setup
+from distutils.command.build import build
+from distutils.command.install_data import install_data
+
+# Check for Python 3
+PY3 = sys.version_info[0] == 3
+
+# This is necessary to prevent an error while installing Spyder with pip
+# See http://stackoverflow.com/a/18961843/438386
+with_setuptools = False
+if 'USE_SETUPTOOLS' in os.environ or 'pip' in __file__:
+    try:
+        from setuptools.command.install import install
+        with_setuptools = True
+    except:
+        with_setuptools = False
+
+if not with_setuptools:
+    from distutils.command.install import install  # analysis:ignore
 
 
 def get_package_data(name, extlist):
@@ -44,14 +61,19 @@ def get_subpackages(name):
             splist.append(".".join(dirpath.split(os.sep)))
     return splist
 
+
 def get_data_files():
     """Return data_files in a platform dependent manner"""
     if sys.platform.startswith('linux'):
-        data_files = [('share/applications', ['scripts/spyder.desktop']),
-                      ('share/pixmaps', ['img_src/spyder.png'])]
+        if PY3:
+            data_files = [('share/applications', ['scripts/spyder3.desktop']),
+                          ('share/pixmaps', ['img_src/spyder3.png'])]
+        else:
+            data_files = [('share/applications', ['scripts/spyder.desktop']),
+                          ('share/pixmaps', ['img_src/Tellurium.png'])]
     elif os.name == 'nt':
-        data_files = [('scripts', ['img_src/tellurium_icon_big.ico',
-                                   'img_src/spyder_light.ico'])]
+        data_files = [('scripts', ['img_src/Tellurium.ico',
+                                   'img_src/Tellurium_light.ico'])]
     else:
         data_files = []
     return data_files
@@ -66,7 +88,6 @@ class MyInstallData(install_data):
             except:
                 print("ERROR: unable to update desktop database",
                       file=sys.stderr)
-
 CMDCLASS = {'install_data': MyInstallData}
 
 
@@ -85,17 +106,38 @@ try:
     from sphinx import setup_command
 
     class MyBuild(build):
-        def has_doc(self):
+        user_options = [('no-doc', None, "Don't build Spyder documentation")] \
+                       + build.user_options
+        def __init__(self, *args, **kwargs):
+            build.__init__(self, *args, **kwargs)
+            self.no_doc = False
+        def with_doc(self):
             setup_dir = os.path.dirname(os.path.abspath(__file__))
-            return os.path.isdir(os.path.join(setup_dir, 'doc'))
-        sub_commands = build.sub_commands + [('build_doc', has_doc)]
+            is_doc_dir = os.path.isdir(os.path.join(setup_dir, 'doc'))
+            install_obj = self.distribution.get_command_obj('install')
+            return (is_doc_dir and not self.no_doc and not install_obj.no_doc)
+        sub_commands = build.sub_commands + [('build_doc', with_doc)]
     CMDCLASS['build'] = MyBuild
+
+
+    class MyInstall(install):
+        user_options = [('no-doc', None, "Don't build Spyder documentation")] \
+                       + install.user_options
+        def __init__(self, *args, **kwargs):
+            install.__init__(self, *args, **kwargs)
+            self.no_doc = False
+    CMDCLASS['install'] = MyInstall
+
+
     class MyBuildDoc(setup_command.BuildDoc):
         def run(self):
             build = self.get_finalized_command('build')
             sys.path.insert(0, os.path.abspath(build.build_lib))
             dirname = self.distribution.get_command_obj('build').build_purelib
             self.builder_target_dir = osp.join(dirname, 'spyderlib', 'doc')
+            
+            if not osp.exists(self.builder_target_dir):
+                os.mkdir(self.builder_target_dir)
 
             hhc_exe = get_html_help_exe()
             self.builder = "html" if hhc_exe is None else "htmlhelp"
@@ -133,8 +175,14 @@ LIBNAME = 'spyderlib'
 from spyderlib import __version__, __project_url__
 
 
-WINDOWS_INSTALLER = 'bdist_wininst' in ''.join(sys.argv) or\
-                    'bdist_msi' in ''.join(sys.argv)
+JOINEDARGS = ''.join(sys.argv)
+WINDOWS_INSTALLER = 'bdist_wininst' in JOINEDARGS or 'bdist_msi' in JOINEDARGS
+TARGET_MATCH = re.search(r'--target-version=([0-9]*)\.([0-9]*)', JOINEDARGS)
+if TARGET_MATCH:
+    TARGET_VERSION = TARGET_MATCH.groups()
+else:
+    TARGET_VERSION = (str(sys.version_info.major), str(sys.version_info.minor))
+
 
 def get_packages():
     """Return package list"""
@@ -145,8 +193,9 @@ def get_packages():
         # Windows platforms, so...)
         import shutil
         import atexit
+        extdir = 'external-py' + TARGET_VERSION[0]
         for name in ('rope', 'pyflakes'):
-            srcdir = osp.join('external-py2', name)
+            srcdir = osp.join(extdir, name)
             if osp.isdir(srcdir):
                 dstdir = osp.join(LIBNAME, 'utils', 'external', name)
                 shutil.copytree(srcdir, dstdir)
@@ -156,8 +205,13 @@ def get_packages():
 
 # NOTE: the '[...]_win_post_install.py' script is installed even on non-Windows
 # platforms due to a bug in pip installation process (see Issue 1158)
-SCRIPTS = ['spyder', '%s_win_post_install.py' % NAME]
-EXTLIST = ['.mo', '.svg', '.png', '.css', '.html', '.js', '.chm']
+SCRIPTS = ['%s_win_post_install.py' % NAME]
+if PY3 and sys.platform.startswith('linux'):
+    SCRIPTS.append('spyder3')
+else:
+    SCRIPTS.append('spyder')
+EXTLIST = ['.mo', '.svg', '.png', '.css', '.html', '.js', '.chm', '.ini',
+           '.txt']
 if os.name == 'nt':
     SCRIPTS += ['spyder.bat']
     EXTLIST += ['.ico']
@@ -198,6 +252,7 @@ editor, Python console, etc.""",
                {"install_script": "%s_win_post_install.py" % NAME,
                 "title": "%s %s" % (NAME.capitalize(), __version__),
                 "bitmap": osp.join('img_src', 'tellurium-spyder-bdist_wininst.bmp'),
+                "target_version": '%s.%s' % TARGET_VERSION,
                 "user_access_control": "auto"},
                "bdist_msi":
                {"install_script": "%s_win_post_install.py" % NAME}},
@@ -207,9 +262,8 @@ editor, Python console, etc.""",
                    'Operating System :: OS Independent',
                    'Operating System :: POSIX',
                    'Operating System :: Unix',
-                   'Programming Language :: Python :: 2.5',
-                   'Programming Language :: Python :: 2.6',
                    'Programming Language :: Python :: 2.7',
+                   'Programming Language :: Python :: 3',
                    'Development Status :: 5 - Production/Stable',
                    'Topic :: Scientific/Engineering',
                    'Topic :: Software Development :: Widget Sets'],
