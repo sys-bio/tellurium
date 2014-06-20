@@ -2,6 +2,12 @@ tellurium
 
 Log of changes
 
+1.1.2
+*   Updated to use libroadrunner 1.2.2
+
+*   Fixed wrapper functions in tellurium.py for Gillespie simulation.
+
+
 1.1.1
 *   Updated to use libroadrunner 1.2.1
 

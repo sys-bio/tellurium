@@ -17,9 +17,9 @@ libRoadRunner-installer-dependencies/*
 spyder_dependencies/PyQt4-4.10.4-gpl-Py2.7-Qt4.8.5-x32.exe
   * http://www.riverbankcomputing.com/software/pyqt/download
 spyder_dependencies/PyQt4/
-  * Created when using the Spyder 'setup.py' command
+  * Created when using the Spyder 'setup.py' command.  Or maybe it used to be?  Can't seem to create it now.
 spyder_dependencies/spyder-2.2.5-tellurium.win32.exe
-  * Created when using the Spyder 'setup.py' command.  Source currently at https://code.google.com/p/tellurium/
+  * Created by using the Spyder command (from the root directory): 'python.exe setup.py bdist_wininst' command.  Source currently at https://code.google.com/p/tellurium/
 
 super_installer_dependencies/wheel/*.whl
   * Various files for local installations using pip.  Created by Mike using http://pip.readthedocs.org/en/latest/reference/pip_wheel.html
@@ -30,7 +30,9 @@ super_installer_dependencies/ez_setup.py
 super_installer_dependencies/get-pip.py
   * from https://raw.github.com/pypa/pip/master/contrib/get-pip.py
 super_installer_dependencies/pip-1.5.4.zip
+  * From https://pypi.python.org/pypi/pip#downloads
 super_installer_dependencies/pylibroadrunner-1.2.0-beta4.zip
+  * From 
 super_installer_dependencies/sbml2matlab_1.2.0_win32.zip
   * From   
 super_installer_dependencies/setuptools-3.3.zip
