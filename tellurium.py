@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
 Created on Thu Oct 10 14:34:07 2013
-Updated: June 12, 2014
+Updated: July 8, 2014
 
 @author: Herbert M Sauro
 
@@ -66,9 +66,17 @@ def loadCellMLModel (cellML):
 def loadAntimonyModel (antStr):
     """Load an Antimony string:
     
-    r = loadAntimonyModel(antStr)
+    r = loadAntModel (antimonyStr)
     """
-    return roadrunner.RoadRunner(antStr)
+    err = libantimony.loadAntimonyString (antStr)
+ 
+    if (err < 0):
+       raise Exception('Antimony: ' + libantimony.getLastError())
+       
+    Id = libantimony.getMainModuleName()
+    sbmlStr = libantimony.getSBMLString(Id)
+    rr = roadrunner.RoadRunner(sbmlStr)
+    return rr
 
 
 def antimonyTosbml (antStr):
@@ -165,32 +173,33 @@ def gillespie (r, startTime, endTime, numberOfPoints=None):
     
     result = te.gillespie (r, 0, 40, 10)
     """
+    opt = r.simulateOptions.copy()
     if numberOfPoints is None:
        return r.simulate (startTime, endTime, integrator="gillespie")
     else:
        return r.simulate (startTime, endTime, numberOfPoints, integrator="gillespie")
+    r.simulateOptions = opt
 
-
-def augmentRoadrunnerCtor():
-    """Hides the need to use Antimony directly from user
-    Overwrite the Roadrunner Constructor to accept Antimony string
-    
-    This is done at the begining of the tellurium startup
-    """
-    original_init = roadrunner.RoadRunner.__init__
-
-    def new_init(self, *args):
-        #get sbml and recompose args tuple
-        if (len(args) > 1 and libantimony.loadAntimonyString(args[0]) >= 0):
-            args = ((antimonyTosbml(args[0]),) + args[1:])
-        elif (len(args) == 1 and libantimony.loadAntimonyString(args[0]) >= 0):
-            args = (antimonyTosbml(args[0]),)
-        else:
-            pass
-            
-        original_init(self, *args)
-
-    roadrunner.RoadRunner.__init__ = new_init
+#def augmentRoadrunnerCtor():
+#    """Hides the need to use Antimony directly from user
+#    Overwrite the Roadrunner Constructor to accept Antimony string
+#    
+#    This is done at the begining of the tellurium startup
+#    """
+#    original_init = roadrunner.RoadRunner.__init__
+#
+#    def new_init(self, *args):
+#        #get sbml and recompose args tuple
+#        if (len(args) > 1 and libantimony.loadAntimonyString(args[0]) >= 0):
+#            args = ((antimonyTosbml(args[0]),) + args[1:])
+#        elif (len(args) == 1 and libantimony.loadAntimonyString(args[0]) >= 0):
+#            args = (antimonyTosbml(args[0]),)
+#        else:
+#            pass
+#            
+#        original_init(self, *args)
+#
+#    roadrunner.RoadRunner.__init__ = new_init
 
 def RoadRunner(args):
     return roadrunner.RoadRunner(args)
@@ -268,4 +277,4 @@ def loadTestModel(str):
     """
     return roadrunner.RoadRunner (getTestModel (str)) 
     
-augmentRoadrunnerCtor()
+#augmentRoadrunnerCtor()
