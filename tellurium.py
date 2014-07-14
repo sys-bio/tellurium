@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
 Created on Thu Oct 10 14:34:07 2013
-Updated: July 8, 2014
+Updated: July 12, 2014
 
 @author: Herbert M Sauro
 
@@ -162,22 +162,33 @@ def getEigenvalues (m):
     return w
     
     
-def gillespie (r, startTime, endTime, numberOfPoints=None):
+def gillespie (r, startTime, endTime, numberOfPoints=None, mySeed=None):
     """Run a Gillespie stochastic simulation. 
     Arguments are: roadrunner instance, startTime and endTime.
-    The fourth argumentis optional but if used specifies the number
-    of points to generate, that is the Gillespie results will be
-    spaced out on an even grid. Examples:
+    The fourth argumentis is optional but if used specifies the number
+    of points to generate, that is the simulation output will be
+    spaced out on an even grid. A named sixth argument can also be included
+    which is the seed value for the random number generator. Be careful
+    
+    Examples:
     
     result = te.gillespie (r, 0, 40)
     
     result = te.gillespie (r, 0, 40, 10)
+    
+    rsult = te.gillespie (r, 0, 40, seed = 123)
     """
     opt = r.simulateOptions.copy()
     if numberOfPoints is None:
-       return r.simulate (startTime, endTime, integrator="gillespie")
+       if seed is None:
+          return r.simulate (startTime, endTime, integrator="gillespie")
+       else:
+          return r.simulate (startTime, endTime, integrator="gillespie" seed=mySeed)         
     else:
-       return r.simulate (startTime, endTime, numberOfPoints, integrator="gillespie")
+       if see is None:
+          return r.simulate (startTime, endTime, numberOfPoints, integrator="gillespie")
+       else
+          return r.simulate (startTime, endTime, numberOfPoints, integrator="gillespie" see=mySeed)      
     r.simulateOptions = opt
 
 #def augmentRoadrunnerCtor():
