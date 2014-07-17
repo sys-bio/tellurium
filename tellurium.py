@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
 Created on Thu Oct 10 14:34:07 2013
-Updated: July 12, 2014
+Updated: July 18, 2014
 
 @author: Herbert M Sauro
 
@@ -161,7 +161,19 @@ def getEigenvalues (m):
     w,v = LA.eig (m)
     return w
     
+
+deg getSeed (r):
+    """
+    Return the current seed using by the random generator
+    """
+    return r.integrator['seed']
     
+def setSeed (r, seed):
+    """
+    Set the seed for the random number generator (used by gilespie for example)
+    """
+    r.integrator['seed'] = seed
+        
 def gillespie (r, startTime, endTime, numberOfPoints=None, mySeed=None):
     """Run a Gillespie stochastic simulation. 
     Arguments are: roadrunner instance, startTime and endTime.
@@ -178,18 +190,17 @@ def gillespie (r, startTime, endTime, numberOfPoints=None, mySeed=None):
     
     rsult = te.gillespie (r, 0, 40, seed = 123)
     """
-    opt = r.simulateOptions.copy()
+    r.setIntegrator('gillespie')
     if numberOfPoints is None:
        if seed is None:
-          return r.simulate (startTime, endTime, integrator="gillespie")
+          return r.simulate (startTime, endTime)
        else:
-          return r.simulate (startTime, endTime, integrator="gillespie" seed=mySeed)         
+          return r.simulate (startTime, endTime, seed=mySeed)         
     else:
-       if see is None:
-          return r.simulate (startTime, endTime, numberOfPoints, integrator="gillespie")
+       if seed is None:
+          return r.simulate (startTime, endTime, numberOfPoints)
        else
-          return r.simulate (startTime, endTime, numberOfPoints, integrator="gillespie" see=mySeed)      
-    r.simulateOptions = opt
+          return r.simulate (startTime, endTime, numberOfPoints, seed=mySeed)      
 
 #def augmentRoadrunnerCtor():
 #    """Hides the need to use Antimony directly from user
@@ -287,5 +298,9 @@ def loadTestModel(str):
     Loads the test model into roadrunner and returns a roadrunner variable
     """
     return roadrunner.RoadRunner (getTestModel (str)) 
-    
+ 
+RoadRunner.getSeed = getSeed
+RoadRunner.setSeed setSeed
+RoadRunner.gillespie = gillespie
+   
 #augmentRoadrunnerCtor()
