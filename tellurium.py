@@ -162,7 +162,7 @@ def getEigenvalues (m):
     return w
     
 
-deg getSeed (r):
+def getSeed (r):
     """
     Return the current seed using by the random generator
     """
@@ -199,7 +199,7 @@ def gillespie (r, startTime, endTime, numberOfPoints=None, mySeed=None):
     else:
        if seed is None:
           return r.simulate (startTime, endTime, numberOfPoints)
-       else
+       else:
           return r.simulate (startTime, endTime, numberOfPoints, seed=mySeed)      
 
 #def augmentRoadrunnerCtor():
@@ -300,7 +300,7 @@ def loadTestModel(str):
     return roadrunner.RoadRunner (getTestModel (str)) 
  
 RoadRunner.getSeed = getSeed
-RoadRunner.setSeed setSeed
+RoadRunner.setSeed = setSeed
 RoadRunner.gillespie = gillespie
    
 #augmentRoadrunnerCtor()
