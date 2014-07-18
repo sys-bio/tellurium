@@ -475,7 +475,7 @@ roadrunner.RoadRunner.getSeed = getSeed
 roadrunner.RoadRunner.setSeed = setSeed
 roadrunner.RoadRunner.gillespie = gillespie
 roadrunner.RoadRunner.getRatesOfChange = getRatesOfChange
-roadrunner.RoadRunner.waringsOff = noticesOff
-roadrunner.RoadRunner.waringsOn = noticesOn   
+roadrunner.RoadRunner.noticesOff = noticesOff
+roadrunner.RoadRunner.noticesOn = noticesOn   
    
 #augmentRoadrunnerCtor()
