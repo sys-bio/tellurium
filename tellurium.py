@@ -177,8 +177,7 @@ def setSeed (r, seed):
     else:
        r.setIntegrator ('gillespie')
        r.integrator['seed'] = seed
-       te_setSeedCalled = False
-        
+
 def gillespie (r, startTime, endTime, numberOfPoints=None, seed=None):
     """Run a Gillespie stochastic simulation. 
     Arguments are: roadrunner instance, startTime and endTime.
