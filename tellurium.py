@@ -461,8 +461,21 @@ def loadTestModel(str):
     """
     return roadrunner.RoadRunner (getTestModel (str)) 
  
+def noticesOff (self):
+    roadrunner.Logger.setLevel(roadrunner.Logger.LOG_WARNING)
+    
+def noticesOn (self):
+    roadrunner.Logger.setLevel(roadrunner.Logger.LOG_NOTICE)
+
+def getRatesOfChange (self):
+    return self.model.getStateVectorRate()
+ 
+ # Helper Routines we attach to roadrunner   
 roadrunner.RoadRunner.getSeed = getSeed
 roadrunner.RoadRunner.setSeed = setSeed
 roadrunner.RoadRunner.gillespie = gillespie
+roadrunner.RoadRunner.getRatesOfChange = getRatesOfChange
+roadrunner.RoadRunner.waringsOff = noticesOff
+roadrunner.RoadRunner.waringsOn = noticesOn   
    
 #augmentRoadrunnerCtor()
