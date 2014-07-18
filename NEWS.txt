@@ -2,6 +2,17 @@ tellurium
 
 Log of changes
 
+1.1.3
+
+*   Updated to use libroadrunner 1.2.3
+*   Updated gillespie method and added two new methods setSeed (x) and getSeed() which
+    set and get the random number generator seed, example:
+    
+    r = roadrunner.RoadRunner ('mymodel.xml')
+    r.setSeed (1234)
+    r.gillespie (0, 50)
+    r.plot()
+
 1.1.2
 *   Updated to use libroadrunner 1.2.2
 
