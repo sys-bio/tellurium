@@ -167,7 +167,7 @@ def getEigenvalues (m):
 
 def getSeed (r):
     """
-    Return the current seed using by the random generator
+    Return the current seed used by the random generator
     """
     intg = r.getIntegrator("gillespie")
     if intg is None:
