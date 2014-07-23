@@ -443,6 +443,9 @@ def plotArray (result):
     plt.show()
     return plt
 
+def plot (result):
+    return plotArray (result)
+    
 def exportToMatlab (r, filename):
     if not isinstance (r, roadrunner.RoadRunner):
         raise Exception ('First argument must be a roadrunner variable')
@@ -486,6 +489,5 @@ roadrunner.RoadRunner.gillespie = gillespie
 roadrunner.RoadRunner.getRatesOfChange = getRatesOfChange
 roadrunner.noticesOff = noticesOff
 roadrunner.noticesOn = noticesOn   
-roadrunner.plot = plotArray   
- 
+
 #augmentRoadrunnerCtor()
