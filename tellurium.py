@@ -486,5 +486,6 @@ roadrunner.RoadRunner.gillespie = gillespie
 roadrunner.RoadRunner.getRatesOfChange = getRatesOfChange
 roadrunner.noticesOff = noticesOff
 roadrunner.noticesOn = noticesOn   
-   
+roadrunner.plot = plotArray   
+ 
 #augmentRoadrunnerCtor()
