@@ -447,12 +447,12 @@ def plotArray (result):
 def plot (result):
     return plotArray (result)
     
-def exportToMatlab (self, filename):
-    if not isinstance (self, roadrunner.RoadRunner):
-        raise Exception ('First argument must be a roadrunner variable')
-    matlab_str = sbml2matlab(self.getCurrentSBML())
-    saveToFile (filename, matlab_str)    
-
+def getMatlab (self):
+    """
+    Returns Matlab string for current model
+    """
+    return sbml2matlab(self.getCurrentSBML())
+    
 def getTestModel (str):
     """
     Returns the model as a string from the test directory
@@ -585,7 +585,7 @@ roadrunner.RoadRunner.getSeed = getSeed
 roadrunner.RoadRunner.setSeed = setSeed
 roadrunner.RoadRunner.gillespie = gillespie
 roadrunner.RoadRunner.getRatesOfChange = getRatesOfChange
-roadrunner.RoadRunner.exportToMatlab = exportToMatlab
+roadrunner.RoadRunner.getMatlab = getMatlab
 
 roadrunner.noticesOff = noticesOff
 roadrunner.noticesOn = noticesOn  
