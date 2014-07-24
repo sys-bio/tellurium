@@ -482,15 +482,119 @@ def getRatesOfChange (self):
     """
     return self.model.getStateVectorRate()
  
+# Routines to support the Jarnac compatibility layer
+
 def getSm (self):
+    """
+    Returns the full reordered stoichiometry matrix.
+
+    Short-cut sm, eg
+    
+    print rr.sm()
+    """
     return self.getFullStoichiometryMatrix()
     
+def getRs (self):
+    """
+    Returns the list of reaction Identifiers
+
+    Short-cut rs, eg
+    
+    print rr.rs()
+    """
+    return self.model.getReactionIds()
+    
+def getFs (self):
+    """  
+    Returns the list of floating species identifiers
+
+    Short-cut fs, eg
+    
+    print rr.fs()
+    """
+    return self.model.getFloatingSpeciesIds()
+
+def getBs (self):
+    """  
+    Returns the list of boundary species identifiers
+
+    Short-cut bs, eg
+    
+    print rr.bs()
+    """
+    return self.model.getBoundarySpeciesIds()
+
+
+def getPs (self):
+    """  
+    Returns the list of global parameters in the model
+
+    Short-cut ps, eg
+    
+    print rr.ps()
+    """
+    return self.model.getGlobalParameterIds()
+    
+def getVs (self):
+    """  
+    Returns the list of compartment identifiers
+
+    Short-cut vs, eg
+    
+    print rr.vs()
+    """
+    return self.model.getCompartmentIds()
+    
+    
+def getDv (self):
+    """  
+    Returns the list of rates of change
+
+    Short-cut dv, eg
+    
+    print rr.dv()
+    """
+    return self.model.getStateVectorRate()
+    
+def getRv (self):
+    """  
+    Returns the list of reaction rates
+    
+    Short-cut rv, eg
+    
+    print rr.rv()
+    """
+    return self.model.getReactionRates()
+
+def getSv (self):
+    """  
+    Returns the list of flaoting species concentrations
+
+    Short-cut sv, eg
+    
+    print rr.sv()
+    """
+    return self.model.getFloatingSpeciesConcentrations()
+
+    
+
  # Helper Routines we attach to roadrunner   
 roadrunner.RoadRunner.getSeed = getSeed
 roadrunner.RoadRunner.setSeed = setSeed
 roadrunner.RoadRunner.gillespie = gillespie
 roadrunner.RoadRunner.getRatesOfChange = getRatesOfChange
 roadrunner.noticesOff = noticesOff
-roadrunner.noticesOn = noticesOn   
+roadrunner.noticesOn = noticesOn  
+# Jarnac compatibility layer
 roadrunner.RoadRunner.sm = getSm
+roadrunner.RoadRunner.fs = getFs
+roadrunner.RoadRunner.bs = getBs
+roadrunner.RoadRunner.rs = getRs
+roadrunner.RoadRunner.ps = getPs
+roadrunner.RoadRunner.vs = getVs
+
+roadrunner.RoadRunner.dv = getDv
+roadrunner.RoadRunner.rv = getRv
+roadrunner.RoadRunner.sv = getSv
+
 #augmentRoadrunnerCtor()
