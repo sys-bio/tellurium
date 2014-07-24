@@ -482,6 +482,9 @@ def getRatesOfChange (self):
     """
     return self.model.getStateVectorRate()
  
+def getSm (self):
+    return self.getFullStoichiometryMatrix()
+    
  # Helper Routines we attach to roadrunner   
 roadrunner.RoadRunner.getSeed = getSeed
 roadrunner.RoadRunner.setSeed = setSeed
@@ -489,5 +492,5 @@ roadrunner.RoadRunner.gillespie = gillespie
 roadrunner.RoadRunner.getRatesOfChange = getRatesOfChange
 roadrunner.noticesOff = noticesOff
 roadrunner.noticesOn = noticesOn   
-
+roadrunner.RoadRunner.sm = getSm
 #augmentRoadrunnerCtor()
