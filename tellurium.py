@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
 Created on Thu Oct 10 14:34:07 2013
-Updated: July 18, 2014
+Updated: July 24, 2014
 
 @author: Herbert M Sauro
 
@@ -45,6 +45,7 @@ def readFromFile (fileName):
     file = open(fileName, 'r')
     return file.read()
 
+    
 def loadSBMLModel (sbml):
     rr = roadrunner.RoadRunner (sbml)
     return rr
@@ -446,10 +447,10 @@ def plotArray (result):
 def plot (result):
     return plotArray (result)
     
-def exportToMatlab (r, filename):
-    if not isinstance (r, roadrunner.RoadRunner):
+def exportToMatlab (self, filename):
+    if not isinstance (self, roadrunner.RoadRunner):
         raise Exception ('First argument must be a roadrunner variable')
-    matlab_str = sbml2matlab(r.getCurrentSBML())
+    matlab_str = sbml2matlab(self.getCurrentSBML())
     saveToFile (filename, matlab_str)    
 
 def getTestModel (str):
@@ -481,7 +482,8 @@ def getRatesOfChange (self):
     Returns the rate of change of all state variables  (eg species) in the model
     """
     return self.model.getStateVectorRate()
- 
+
+# ---------------------------------------------------- 
 # Routines to support the Jarnac compatibility layer
 
 def getSm (self):
@@ -583,8 +585,11 @@ roadrunner.RoadRunner.getSeed = getSeed
 roadrunner.RoadRunner.setSeed = setSeed
 roadrunner.RoadRunner.gillespie = gillespie
 roadrunner.RoadRunner.getRatesOfChange = getRatesOfChange
+roadrunner.RoadRunner.exportToMatlab = exportToMatlab
+
 roadrunner.noticesOff = noticesOff
 roadrunner.noticesOn = noticesOn  
+
 # Jarnac compatibility layer
 roadrunner.RoadRunner.sm = getSm
 roadrunner.RoadRunner.fs = getFs
