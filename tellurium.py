@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
 Created on Thu Oct 10 14:34:07 2013
-Updated: July 24, 2014
+Updated: July 28, 2014
 
 @author: Herbert M Sauro
 
@@ -80,9 +80,14 @@ def loadAntimonyModel (antStr):
     Id = libantimony.getMainModuleName()
     sbmlStr = libantimony.getSBMLString(Id)
     rr = roadrunner.RoadRunner(sbmlStr)
+    
+    libantimony.clearPreviousLoads()
+    
     return rr
 
-
+def loada (antstr):
+    return loadAntimonyModel (antstr)
+    
 def antimonyTosbml (antStr):
     """Convert an antimony string into SBML:
 
@@ -452,7 +457,16 @@ def getMatlab (self):
     Returns Matlab string for current model
     """
     return sbml2matlab(self.getCurrentSBML())
+  
+def exportToMatlab (self, fileName):
+    """
+    Save the current model as a Matlab file to the give file name
     
+    eg
+    rr.exportToMatlab ('mymodel.m')
+    """
+    saveToFile (fileName, self.getMatlab())
+      
 def getTestModel (str):
     """
     Returns the model as a string from the test directory
@@ -585,6 +599,7 @@ roadrunner.RoadRunner.getSeed = getSeed
 roadrunner.RoadRunner.setSeed = setSeed
 roadrunner.RoadRunner.gillespie = gillespie
 roadrunner.RoadRunner.getRatesOfChange = getRatesOfChange
+roadrunner.RoadRunner.exportToMatlab = exportToMatlab
 roadrunner.RoadRunner.getMatlab = getMatlab
 
 roadrunner.noticesOff = noticesOff
