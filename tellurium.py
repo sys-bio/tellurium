@@ -14,6 +14,8 @@ import roadrunner
 import roadrunner.testing
 import libantimony
 import tellurium
+import numpy
+
 try:
     from sbml2matlab import sbml2matlab
 except ImportError as e:
@@ -495,7 +497,12 @@ def getRatesOfChange (self):
     """
     Returns the rate of change of all state variables  (eg species) in the model
     """
-    return self.model.getStateVectorRate()
+    if self.conservedMoietyAnalysis:
+       m1 = self.getLinkMatrix()
+       m2 = self.model.getStateVectorRate()
+       return m1.dot (m2) 
+    else:
+      return self.model.getStateVectorRate()
 
 # ---------------------------------------------------- 
 # Routines to support the Jarnac compatibility layer
