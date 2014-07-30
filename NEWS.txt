@@ -2,6 +2,11 @@ tellurium
 
 Log of changes
 
+1.1.4
+*   Updated to use libroadrunner 1.2.4
+
+
+
 1.1.3
 
 *   Updated to use libroadrunner 1.2.3

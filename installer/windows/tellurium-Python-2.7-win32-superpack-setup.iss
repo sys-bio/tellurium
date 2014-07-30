@@ -8,7 +8,7 @@
 #define MyAppSetupIconFile "tellurium_icon_64x64.ico"
 #define ThisInstallerPostfix "win32-superpack-setup"
 
-#define LibRoadRunnerInstaller "pylibroadrunner-1.2.3-win_32" 
+#define LibRoadRunnerInstaller "pylibroadrunner-1.2.4-win_32" 
 ;leave .zip off the LibRoadRunnerInstaller var above
 #define Sbml2matlabInstaller "sbml2matlab_1.2.2_win32"
 ;leave .zip off the Sbml2matlabInstaller var above
