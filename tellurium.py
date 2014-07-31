@@ -28,68 +28,68 @@ def getTelluriumVersion():
     ver = f.read().rstrip()
     f.close()
     return ver
-    
+
 # Save a string to a file
 def saveToFile (fileName, str):
-    """Save a string to a file. Takes two arguments, 
+    """Save a string to a file. Takes two arguments,
     the file name and the string to save:
-    
+
     saveToFile ('c:\\myfile.txt', strVariable)"""
     outFile = open(fileName, 'w')
     outFile.write(str)
     outFile.close()
-    
+
 def readFromFile (fileName):
-    """Load a file and return contents as a string, 
+    """Load a file and return contents as a string,
 
     str = readFromFile ('c:\\myfile.txt')"""
- 
+
     file = open(fileName, 'r')
     return file.read()
 
-    
+
 def loadSBMLModel (sbml):
     rr = roadrunner.RoadRunner (sbml)
     return rr
-    
-    
+
+
 def loadCellMLModel (cellML):
     import os
     """Load a cellml model into roadrunner, can
     be a file or string
 
     r = loadCellMLModel ('mymodel.cellml')"""
-    
+
     if os.path.isfile (cellML):
        sbmlstr = cellmlFileToSBML (cellML)
     else:
        sbmlstr = cellmlStrToSBML (cellML)
     rr = roadrunner.RoadRunner (sbmlstr)
     return rr
-    
-    
-# Load an Antimony file   
+
+
+# Load an Antimony file
 def loadAntimonyModel (antStr):
     """Load an Antimony string:
-    
+
     r = loadAntModel (antimonyStr)
     """
     err = libantimony.loadAntimonyString (antStr)
- 
+
     if (err < 0):
        raise Exception('Antimony: ' + libantimony.getLastError())
-       
+
     Id = libantimony.getMainModuleName()
     sbmlStr = libantimony.getSBMLString(Id)
     rr = roadrunner.RoadRunner(sbmlStr)
-    
+
     libantimony.clearPreviousLoads()
-    
+
     return rr
 
 def loada (antstr):
     return loadAntimonyModel (antstr)
-    
+
 def antimonyTosbml (antStr):
     """Convert an antimony string into SBML:
 
@@ -102,8 +102,8 @@ def antimonyTosbml (antStr):
 
     Id = libantimony.getMainModuleName()
     return libantimony.getSBMLString(Id)
-   
-   
+
+
 def sbmlToAntimony (str):
     """Convert a SBML string into Antimony:
 
@@ -115,27 +115,27 @@ def sbmlToAntimony (str):
        raise Exception('Antimony: ' + libantimony.getLastError())
 
     return libantimony.getAntimonyString(None)
-    
-    
+
+
 def cellmlFileToAntimony (CellMLFileName):
     """Load a cellml file and return the
     equivalent antimony string:
-    
+
     ant = cellMLToAntimony('mymodel.cellml')
     """
     if libantimony.loadCellMLFile(CellMLFileName) == -1:
        raise Exception ('Error calling loadCellMLFile')
     libantimony.loadCellMLFile(CellMLFileName)
     return libantimony.getAntimonyString (None)
-    
-    
+
+
 def cellmlFileToSBML (CellMLFileName):
     """Load a cellml file and return the
     equivalent SBML string:
-    
+
     sbmlStr = cellMLToSBML('mymodel.cellml')
     """
-    
+
     if libantimony.loadCellMLFile(CellMLFileName) < 0:
        raise Exception ('Error calling loadCellMLFile'+ libantimony.getLastError())
     return libantimony.getSBMLString (None)
@@ -144,25 +144,25 @@ def cellmlFileToSBML (CellMLFileName):
 def cellmlStrToAntimony (CellMLStr):
     """Convert a cellml string into the
     equivalent antimony string:
-    
+
     ant = cellMLStrToAntimony('mymodel.cellml')
     """
     if libantimony.loadCellMLFile(CellMLStr) < 0:
        raise Exception ('Error calling cellMLStrToAntimony' + libantimony.getLastError())
     return libantimony.getAntimonyString (None)
-    
-    
+
+
 def cellmlStrToSBML (CellMLStr):
     """Convert a cellml string into the
     equivalent SBML string:
-    
+
     sbmlStr = cellMLStrToSBML('mymodel.cellml')
     """
     if libantimony.loadCellMLFile(CellMLStr) < 0:
        raise Exception ('Error calling cellMLStrToSBML' + libantimony.getLastError())
     return libantimony.getSBMLString (None)
-    
-    
+
+
 def getEigenvalues (m):
     """
     Convenience method for computing the eigenvalues for a matrix, m
@@ -171,7 +171,7 @@ def getEigenvalues (m):
     from numpy import linalg as LA
     w,v = LA.eig (m)
     return w
-    
+
 
 def getSeed (r):
     """
@@ -181,7 +181,7 @@ def getSeed (r):
     if intg is None:
         raise ValueError("model is not loaded")
     return intg['seed']
-        
+
 def setSeed (r, seed):
     """
     Set the seed for the random number generator (used by gillespie for example)
@@ -190,134 +190,134 @@ def setSeed (r, seed):
     if intg is None:
         raise ValueError("model is not loaded")
 
-    # there are some issues converting big Python (greater than 4,294,967,295) integers 
-    # to C integers on 64 bit machines. If its converted to float before, works around the issue. 
+    # there are some issues converting big Python (greater than 4,294,967,295) integers
+    # to C integers on 64 bit machines. If its converted to float before, works around the issue.
     intg['seed'] = float(seed)
 
 def gillespie (r, *args, **kwargs):
     """
-    Run a Gillespie stochastic simulation. 
+    Run a Gillespie stochastic simulation.
     Arguments are: roadrunner instance, startTime and endTime.
     The fourth argumentis is optional but if used specifies the number
     of points to generate, that is the simulation output will be
     spaced out on an even grid. A named sixth argument can also be included
-    which is the seed value for the random number generator. 
+    which is the seed value for the random number generator.
 
     Examples:
-    
+
     result = te.gillespie (r, 0, 40)
-    
+
     result = te.gillespie (r, 0, 40, 10)
-    
+
     rsult = te.gillespie (r, 0, 40, seed = 123)
 
 
-    This method also accepts all of the arugments that simulate does. In fact, 
+    This method also accepts all of the arugments that simulate does. In fact,
     this is idential to calling simulate with integrator='gillespie', except that
-    it resets the integrator back to what it was before. 
+    it resets the integrator back to what it was before.
 
     Simulate the optionally plot current SBML model. This is the one stop shopping method
     for simulation and ploting.
-    
+
     simulate accepts a up to four positional arguments and a large number of keyword args.
-    
+
     The first four (optional) arguments are treated as:
-    
+
     1: Start Time, if this is a number.
-    
+
     2: End Time, if this is a number.
-    
+
     3: Number of Steps, if this is a number.
-    
+
     4: List of Selections.
-    
+
     All four of the positional arguments are optional. If any of the positional arguments are
     a list of string instead of a number, then they are interpreted as a list of selections.
-    
-    
+
+
     There are a number of ways to call simulate.
-    
+
     1. With no arguments. In this case, the current set of `SimulateOptions` will
     be used for the simulation. The current set may be changed either directly
     via setSimulateOptions() or with one of the two alternate ways of calling
     simulate.
-    
+
     2: With single `SimulateOptions` argument. In this case, all of the settings
     in the given options are copied and will be used for the current and future
     simulations.
-    
+
     3: With the three positions arguments, `timeStart`, `timeEnd`, `steps`. In this case
     these three values are copied and will be used for the current and future simulations.
-    
+
     4: With keyword arguments where keywords are the property names of the SimulateOptions
     class. To reset the model, simulate from 0 to 10 in 1000 steps and plot we can::
-    
+
     rr.simulate(end=10, start=0, steps=1000, resetModel=True, plot=True)
-    
+
     The options given in the 2nd and 3rd forms will remain in effect until changed. So, if
     one calls::
-    
+
     rr.simulate (0, 3, 100)
-    
+
     The start time of 0, end time of 3 and steps of 100 will remain in effect, so that if this
     is followed by a call to::
-    
+
     rr.simulate()
-    
+
     This simulation will use the previous values.
-    
+
     simulate accepts the following list of keyword arguments:
-    
+
     integrator
     A text string specifying which integrator to use. Currently supports "cvode"
     for deterministic simulation (default) and "gillespie" for stochastic
     simulation.
-    
+
     sel or selections
     A list of strings specifying what values to display in the output.
-    
+
     plot
     True or False
     If True, RoadRunner will create a basic plot of the simulation result using
     the built in plot routine which uses MatPlotLib.
-    
+
     absolute
     A number representing the absolute difference permitted for the integrator
     tolerance.
-    
+
     duration
     The duration of the simulation run, in the model's units of time.
     Note, setting the duration automatically sets the end time and visa versa.
-    
+
     end
     The simulation end time. Note, setting the end time automatically sets
     the duration accordingly and visa versa.
-    
+
     relative
     A float-point number representing the relative difference permitted.
     Defaults 0.0001
-    
+
     resetModel (or just "reset"???)
     True or False
     Causes the model to be reset to the original conditions specified in
     the SBML when the simulation is run.
-    
+
     start
     The start time of the simulation time-series data. Often this is 0,
     but not necessarily.
-    
+
     steps
     The number of steps at which the output is sampled. The samples are evenly spaced.
     When a simulation system calculates the data points to record, it will typically
     divide the duration by the number of time steps. Thus, for N steps, the output
     will have N+1 data rows.
-    
+
     stiff
     True or False
     Use the stiff integrator. Only use this if the model is stiff and causes issues
     with the regular integrator. The stiff integrator is slower than the conventional
     integrator.
-    
+
     multiStep
     True or False
     Perform a multi step integration.
@@ -328,36 +328,36 @@ def gillespie (r, *args, **kwargs):
     initialTimeStep
     A user specified initial time step. If this is <= 0, the integrator will attempt
     to determine a safe initial time step.
-    
+
     Note, for each number of steps given to RoadRunner.simulate or RoadRunner.integrate
     the internal integrator may take many many steps to reach one of the external time steps.
     This value specifies an initial value for the internal integrator time step.
-    
+
     minimumTimeStep
     Specify the minimum time step that the internal integrator will use.
     Uses integrator estimated value if <= 0.
-    
+
     maximumTimeStep
     Specify the maximum time step size that the internal integrator will use.
     Uses integrator estimated value if <= 0.
-    
+
     maximumNumSteps
     Specify the maximum number of steps the internal integrator will use before
     reaching the user specified time span. Uses the integrator default value if <= 0.
-    
+
     seed
     Specify a seed to use for the random number generator for stochastic simulations.
     The seed is used whenever the integrator is reset, i.e. `r.reset()`.
-    If no seed is specified, the current system time is used for seed. 
-    
-    
+    If no seed is specified, the current system time is used for seed.
+
+
     :returns: a numpy array with each selected output time series being a
     :rtype: numpy.ndarray
 
     """
     if r.integrator is None:
         raise ValueError("model is not loaded")
-    
+
     prev = r.integrator.name
 
     if kwargs is not None:
@@ -375,7 +375,7 @@ def gillespie (r, *args, **kwargs):
 #def augmentRoadrunnerCtor():
 #    """Hides the need to use Antimony directly from user
 #    Overwrite the Roadrunner Constructor to accept Antimony string
-#    
+#
 #    This is done at the begining of the tellurium startup
 #    """
 #    original_init = roadrunner.RoadRunner.__init__
@@ -388,7 +388,7 @@ def gillespie (r, *args, **kwargs):
 #            args = (antimonyTosbml(args[0]),)
 #        else:
 #            pass
-#            
+#
 #        original_init(self, *args)
 #
 #    roadrunner.RoadRunner.__init__ = new_init
@@ -398,52 +398,52 @@ def RoadRunner(args):
 
 def plotWithLegend (r, result):
     """
-    Plot an array and include a legend. The first argument must be a roadrunner variable. 
+    Plot an array and include a legend. The first argument must be a roadrunner variable.
     The second argument must be an array containing data to plot. The first column of the array will
     be the x-axis and remaining columns the y-axis. Returns
     a handle to the plotting object.
-    
+
     plotWithLegend (r, result)
     """
     if result.dtype.names is None:
        if not isinstance (r, roadrunner.RoadRunner):
           raise Exception ('First argument must be a roadrunner variable')
        columns = result.shape[1]
-       legendItems = r.selections[1:]       
+       legendItems = r.selections[1:]
        if columns-1 != len (legendItems):
            raise Exception ('Legend list must match result array')
        for i in range(columns-1):
            plt.plot (result[:,0], result[:,i+1], linewidth=2.5, label=legendItems[i])
-       plt.legend (loc='upper left')    
+       plt.legend (loc='upper left')
        plt.show()
        return plt
     else:
-        str = """The result array must be unstructured. Use the command: 
+        str = """The result array must be unstructured. Use the command:
         roadrunner.Config.setValue(rr.Config.SIMULATEOPTIONS_STRUCTURED_RESULT, False)
-        to set the right mode."""       
+        to set the right mode."""
         raise Exception (str)
-   
+
 def simulateAndPlot (rr, startTime=0, endTime=5, numberOfPoints=500):
     """
-    Carry out a simulation and plot the results. Returns the result to the caller 
-    
+    Carry out a simulation and plot the results. Returns the result to the caller
+
     Example:
-    
+
     simulateAndPlot (rr)
-    
+
     simulateAndPlot (rr, 0, 10, 100)
     """
     result = rr.simulate (startTime, endTime, numberOfPoints)
-    tellurium.plotWithLegend (rr, result)   
+    tellurium.plotWithLegend (rr, result)
     return result
-    
+
 # Plot a numpy array
 def plotArray (result):
     """
     Plot an array. The first column of the array will
     be the x-axis and remaining columns the y-axis. Returns
     a handle to the plotting object.
-    
+
     result = numpy.array([[1,2,3],[7.2,6.5,8.8], [9.8, 6.5, 4.3]])
     plotArray (result)
     """
@@ -453,40 +453,76 @@ def plotArray (result):
 
 def plot (result):
     return plotArray (result)
-    
+
+
+def plotParameterScan(r, param1, param1Range, param2, param2Range, start=0, end=100, steps=100):
+    '''Create a 2D parameter scan plot.
+    Arguments:
+    r -- roadrunner instance with model loaded
+    param1 -- String of first parameter name
+    param1Range -- List of values to assign to first parameter
+    param2 -- String of second parameter name
+    param2Range -- List of values to assign to second parameter
+
+    Keyword arguments:
+    start -- simulation start time (default 0)
+    end -- simulation end time (default 100)
+    steps-- number of simulation time steps (default 100)
+    '''
+    import matplotlib.pyplot as p
+
+    f, axarr = p.subplots(len(param1Range), len(param2Range) , sharex='col', sharey='row')
+
+    for i,k1 in enumerate(param1Range):
+        for j,k2 in enumerate(param2Range):
+            r.reset()
+            r.model[param1], r.model[param2] = k1, k2
+            result = r.simulate(start, end, steps)
+            columns = result.shape[1]
+            legendItems = r.selections[1:]
+            if columns-1 != len (legendItems):
+               raise Exception ('Legend list must match result array')
+            for c in range(columns-1):
+                axarr[i, j].plot(result[:,0], result[:,c+1], linewidth=2, label=legendItems[c])
+
+            if (i is 2):
+                axarr[i, j].set_xlabel('%s = %.2f' % (param2, k2))
+            if (j is 0):
+                axarr[i, j].set_ylabel('%s = %.2f' % (param1, k1))
+
 def getMatlab (self):
     """
     Returns Matlab string for current model
     """
     return sbml2matlab(self.getCurrentSBML())
-  
+
 def exportToMatlab (self, fileName):
     """
     Save the current model as a Matlab file to the give file name
-    
+
     eg
     rr.exportToMatlab ('mymodel.m')
     """
     saveToFile (fileName, self.getMatlab())
-      
+
 def getTestModel (str):
     """
     Returns the model as a string from the test directory
     """
     return roadrunner.testing.getData (str)
-    
+
 def loadTestModel(str):
     """
     Loads the test model into roadrunner and returns a roadrunner variable
     """
-    return roadrunner.RoadRunner (getTestModel (str)) 
- 
+    return roadrunner.RoadRunner (getTestModel (str))
+
 def noticesOff ():
     """
     Switch off the generation of notices to the user
     """
     roadrunner.Logger.setLevel(roadrunner.Logger.LOG_WARNING)
-    
+
 def noticesOn ():
     """
     Switch on notice generation to the user
@@ -500,11 +536,11 @@ def getRatesOfChange (self):
     if self.conservedMoietyAnalysis:
        m1 = self.getLinkMatrix()
        m2 = self.model.getStateVectorRate()
-       return m1.dot (m2) 
+       return m1.dot (m2)
     else:
       return self.model.getStateVectorRate()
 
-# ---------------------------------------------------- 
+# ----------------------------------------------------
 # Routines to support the Jarnac compatibility layer
 
 def getSm (self):
@@ -512,96 +548,96 @@ def getSm (self):
     Returns the full reordered stoichiometry matrix.
 
     Short-cut sm, eg
-    
+
     print rr.sm()
     """
     return self.getFullStoichiometryMatrix()
-    
+
 def getRs (self):
     """
     Returns the list of reaction Identifiers
 
     Short-cut rs, eg
-    
+
     print rr.rs()
     """
     return self.model.getReactionIds()
-    
+
 def getFs (self):
-    """  
+    """
     Returns the list of floating species identifiers
 
     Short-cut fs, eg
-    
+
     print rr.fs()
     """
     return self.model.getFloatingSpeciesIds()
 
 def getBs (self):
-    """  
+    """
     Returns the list of boundary species identifiers
 
     Short-cut bs, eg
-    
+
     print rr.bs()
     """
     return self.model.getBoundarySpeciesIds()
 
 
 def getPs (self):
-    """  
+    """
     Returns the list of global parameters in the model
 
     Short-cut ps, eg
-    
+
     print rr.ps()
     """
     return self.model.getGlobalParameterIds()
-    
+
 def getVs (self):
-    """  
+    """
     Returns the list of compartment identifiers
 
     Short-cut vs, eg
-    
+
     print rr.vs()
     """
     return self.model.getCompartmentIds()
-    
-    
+
+
 def getDv (self):
-    """  
+    """
     Returns the list of rates of change
 
     Short-cut dv, eg
-    
+
     print rr.dv()
     """
     return self.model.getStateVectorRate()
-    
+
 def getRv (self):
-    """  
+    """
     Returns the list of reaction rates
-    
+
     Short-cut rv, eg
-    
+
     print rr.rv()
     """
     return self.model.getReactionRates()
 
 def getSv (self):
-    """  
+    """
     Returns the list of flaoting species concentrations
 
     Short-cut sv, eg
-    
+
     print rr.sv()
     """
     return self.model.getFloatingSpeciesConcentrations()
 
-    
 
- # Helper Routines we attach to roadrunner   
+
+ # Helper Routines we attach to roadrunner
 roadrunner.RoadRunner.getSeed = getSeed
 roadrunner.RoadRunner.setSeed = setSeed
 roadrunner.RoadRunner.gillespie = gillespie
@@ -610,7 +646,7 @@ roadrunner.RoadRunner.exportToMatlab = exportToMatlab
 roadrunner.RoadRunner.getMatlab = getMatlab
 
 roadrunner.noticesOff = noticesOff
-roadrunner.noticesOn = noticesOn  
+roadrunner.noticesOn = noticesOn
 
 # Jarnac compatibility layer
 roadrunner.RoadRunner.sm = getSm
