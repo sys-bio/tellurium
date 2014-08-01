@@ -1,7 +1,10 @@
+##@Module Tellurium
+#This module allows access to the rr_c_api.dll from python"""
+
 # -*- coding: utf-8 -*-
 """
 Created on Thu Oct 10 14:34:07 2013
-Updated: July 30, 2014
+Updated: August 1, 2014
 
 @author: Herbert M Sauro
 
@@ -21,15 +24,27 @@ try:
 except ImportError as e:
     roadrunner.Logger.log(roadrunner.Logger.LOG_WARNING, str(e))
 
-#get version from VERSION file
+# ---------------------------------------------------------------------
+##\ingroup utility
+#@{
+
+##\brief Returns the version number for Tellurium
+#\return Returns a string representing the version number
 def getTelluriumVersion():
     import os
     f = open(os.path.dirname(tellurium.__file__) +'/VERSION.txt', 'r')
     ver = f.read().rstrip()
     f.close()
     return ver
-    
-# Save a string to a file
+##@}  
+ 
+  
+# ---------------------------------------------------------------------
+##\ingroup filefunctions
+#@{
+
+##\brief Save a string to a file
+#\return Saves a string to a file
 def saveToFile (fileName, str):
     """Save a string to a file. Takes two arguments, 
     the file name and the string to save:
@@ -38,7 +53,9 @@ def saveToFile (fileName, str):
     outFile = open(fileName, 'w')
     outFile.write(str)
     outFile.close()
-    
+
+##\brief Reads a text file into a string
+#\return Returns a string representing the contents of the text file
 def readFromFile (fileName):
     """Load a file and return contents as a string, 
 
@@ -46,29 +63,21 @@ def readFromFile (fileName):
  
     file = open(fileName, 'r')
     return file.read()
+##@} 
 
-    
+
+# ---------------------------------------------------------------------   
+##\ingroup loadingModels
+#@{
+
+##\brief Load an SBML model into roadRunner
+#\return Returns a reference to the roadrunner model
 def loadSBMLModel (sbml):
     rr = roadrunner.RoadRunner (sbml)
     return rr
     
-    
-def loadCellMLModel (cellML):
-    import os
-    """Load a cellml model into roadrunner, can
-    be a file or string
-
-    r = loadCellMLModel ('mymodel.cellml')"""
-    
-    if os.path.isfile (cellML):
-       sbmlstr = cellmlFileToSBML (cellML)
-    else:
-       sbmlstr = cellmlStrToSBML (cellML)
-    rr = roadrunner.RoadRunner (sbmlstr)
-    return rr
-    
-    
-# Load an Antimony file   
+##\brief Reads an antimony string into roadrunner
+#\return Returns a reference to the roadrunner model
 def loadAntimonyModel (antStr):
     """Load an Antimony string:
     
@@ -87,9 +96,34 @@ def loadAntimonyModel (antStr):
     
     return rr
 
+##\brief Reads an antimony string into roadrunner, short-cut to loadAntimonyModel()
+#\return Returns a reference to the roadrunner model
 def loada (antstr):
     return loadAntimonyModel (antstr)
+   
+##\brief Reads a CellMl string into roadrunner
+#\return Returns a reference to the roadrunner model  
+def loadCellMLModel (cellML):
+    import os
+    """Load a cellml model into roadrunner, can
+    be a file or string
+
+    r = loadCellMLModel ('mymodel.cellml')"""
     
+    if os.path.isfile (cellML):
+       sbmlstr = cellmlFileToSBML (cellML)
+    else:
+       sbmlstr = cellmlStrToSBML (cellML)
+    rr = roadrunner.RoadRunner (sbmlstr)
+    return rr
+##@}    
+ 
+# ---------------------------------------------------------------------
+##\ingroup interconversion
+#@{
+
+##\brief Converts an Antimony model into SBML
+#\return Returns the SBML model as a string
 def antimonyTosbml (antStr):
     """Convert an antimony string into SBML:
 
@@ -101,9 +135,10 @@ def antimonyTosbml (antStr):
        raise Exception('Antimony: ' + libantimony.getLastError())
 
     Id = libantimony.getMainModuleName()
-    return libantimony.getSBMLString(Id)
-   
-   
+    return libantimony.getSBMLString(Id)    
+ 
+##\brief Converts a SBML model to Antimony
+#\return Returns the Antimony model as a string
 def sbmlToAntimony (str):
     """Convert a SBML string into Antimony:
 
@@ -115,8 +150,7 @@ def sbmlToAntimony (str):
        raise Exception('Antimony: ' + libantimony.getLastError())
 
     return libantimony.getAntimonyString(None)
-    
-    
+      
 def cellmlFileToAntimony (CellMLFileName):
     """Load a cellml file and return the
     equivalent antimony string:
@@ -127,7 +161,7 @@ def cellmlFileToAntimony (CellMLFileName):
        raise Exception ('Error calling loadCellMLFile')
     libantimony.loadCellMLFile(CellMLFileName)
     return libantimony.getAntimonyString (None)
-    
+ 
     
 def cellmlFileToSBML (CellMLFileName):
     """Load a cellml file and return the
@@ -161,8 +195,12 @@ def cellmlStrToSBML (CellMLStr):
     if libantimony.loadCellMLFile(CellMLStr) < 0:
        raise Exception ('Error calling cellMLStrToSBML' + libantimony.getLastError())
     return libantimony.getSBMLString (None)
-    
-    
+##@}     
+
+# ---------------------------------------------------------------------
+##\ingroup math
+#@{
+   
 def getEigenvalues (m):
     """
     Convenience method for computing the eigenvalues for a matrix, m
@@ -171,7 +209,12 @@ def getEigenvalues (m):
     from numpy import linalg as LA
     w,v = LA.eig (m)
     return w
+##@} 
+
     
+# ---------------------------------------------------------------------
+##\ingroup stochastic
+#@{
 
 def getSeed (r):
     """
@@ -370,7 +413,7 @@ def gillespie (r, *args, **kwargs):
     r.setIntegrator(prev)
 
     return result
-
+##@} 
 
 #def augmentRoadrunnerCtor():
 #    """Hides the need to use Antimony directly from user
@@ -395,6 +438,10 @@ def gillespie (r, *args, **kwargs):
 
 def RoadRunner(args):
     return roadrunner.RoadRunner(args)
+
+# ---------------------------------------------------------------------
+##\ingroup plotting
+#@{
 
 def plotWithLegend (r, result):
     """
@@ -453,7 +500,12 @@ def plotArray (result):
 
 def plot (result):
     return plotArray (result)
-    
+##@} 
+ 
+# ---------------------------------------------------------------------
+##\ingroup export
+#@{
+   
 def getMatlab (self):
     """
     Returns Matlab string for current model
@@ -468,7 +520,8 @@ def exportToMatlab (self, fileName):
     rr.exportToMatlab ('mymodel.m')
     """
     saveToFile (fileName, self.getMatlab())
-      
+##@} 
+
 def getTestModel (str):
     """
     Returns the model as a string from the test directory
@@ -504,6 +557,9 @@ def getRatesOfChange (self):
     else:
       return self.model.getStateVectorRate()
 
+# ---------------------------------------------------------------------
+##\ingroup resetmethods
+#@{
 def resetToOrigin(self):
     """ This resets the model back to the state is was when it 
     was FIRST loaded, this includes all init() and parameters such as k1 etc.
@@ -524,9 +580,14 @@ def resetAll (self):
     """
     
     self.reset(SelectionRecord.TIME | SelectionRecord.RATE | SelectionRecord.FLOATING | SelectionRecord.PARAMETER)
+##@} 
 
 # ---------------------------------------------------- 
 # Routines to support the Jarnac compatibility layer
+
+# ---------------------------------------------------------------------
+##\ingroup jarnac
+#@{
 
 def getSm (self):
     """
@@ -619,7 +680,7 @@ def getSv (self):
     print rr.sv()
     """
     return self.model.getFloatingSpeciesConcentrations()
-
+##@} 
 
  # Helper Routines we attach to roadrunner   
 roadrunner.RoadRunner.getSeed = getSeed
@@ -649,3 +710,51 @@ roadrunner.RoadRunner.rv = getRv
 roadrunner.RoadRunner.sv = getSv
 
 #augmentRoadrunnerCtor()
+
+##\mainpage notitle
+#\section Introduction
+#Tellurium is a cross-platform and open source Python based environment that integrates a variety of useful packages for systems biology modeling. The IDE is based on the spyder2 IDE (https://code.google.com/p/spyderlib/)
+#
+#\par Example:
+#\par
+#@code
+#
+#r = te.loada ('S1 -> S2; k1*S1; k1 = 0.1; S1 = 10')
+#r.simulate (0, 10, 100)
+#r.plot()
+#@endcode
+#
+#
+#\par Screen-shot of Tellurium
+#\par 
+#\image html http://i.imgur.com/luH3rs6.png
+#
+##\defgroup utility Utility Methods
+# \brief Various utility methods
+
+##\defgroup filefunctions  File Help Functions
+# \brief Save and Read file methods
+
+##\defgroup loadingModels  Loading Models
+# \brief Methods to load models in different formats
+
+##\defgroup interconversion  Interconversion Methods
+# \brief Methods to interconvert different formats
+
+##\defgroup stochastic  Stochastic Simulation Methods
+# \brief Methods to carry out stochastic simulations
+
+##\defgroup math  Math Utilities
+# \brief Useful math utilities
+
+##\defgroup plotting  Plotting Utilities
+# \brief Useful plotting utilities
+
+##\defgroup resetmethods  Model Reset Methods
+# \brief Model reset methods
+
+##\defgroup export Matlab Export Utilities
+# \brief Matlab export utilities
+
+##\defgroup jarnac Short-cut methods
+# \brief Useful short-cut methods
