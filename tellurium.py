@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
 Created on Thu Oct 10 14:34:07 2013
-Updated: July 28, 2014
+Updated: July 30, 2014
 
 @author: Herbert M Sauro
 
@@ -504,6 +504,27 @@ def getRatesOfChange (self):
     else:
       return self.model.getStateVectorRate()
 
+def resetToOrigin(self):
+    """ This resets the model back to the state is was when it 
+    was FIRST loaded, this includes all init() and parameters such as k1 etc.
+    """
+    self.reset(SelectionRecord.ALL)
+   
+def reset(self):
+    """
+    This resets the variables, S1, S2 etc to the CURRENT init(X) values. 
+    It DOES NOT CHANGE the parameters, k1, etc
+    """
+    self.reset(SelectionRecord.TIME | SelectionRecord.RATE | SelectionRecord.FLOATING)
+
+def resetAll (self):    
+    """
+    This resets all variables, S1, S2 etc to the CURRENT init(X) values. It also resets all
+    parameter back to the values they had when the model was first loaded 
+    """
+    
+    self.reset(SelectionRecord.TIME | SelectionRecord.RATE | SelectionRecord.FLOATING | SelectionRecord.PARAMETER)
+
 # ---------------------------------------------------- 
 # Routines to support the Jarnac compatibility layer
 
@@ -599,7 +620,6 @@ def getSv (self):
     """
     return self.model.getFloatingSpeciesConcentrations()
 
-    
 
  # Helper Routines we attach to roadrunner   
 roadrunner.RoadRunner.getSeed = getSeed
@@ -611,6 +631,10 @@ roadrunner.RoadRunner.getMatlab = getMatlab
 
 roadrunner.noticesOff = noticesOff
 roadrunner.noticesOn = noticesOn  
+
+roadrunner.RoadRunner.resetToOrigin = resetToOrigin
+roadrunner.RoadRunner.reset = reset
+roadrunner.RoadRunner.resetAll = resetAll
 
 # Jarnac compatibility layer
 roadrunner.RoadRunner.sm = getSm
