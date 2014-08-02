@@ -43,6 +43,27 @@ def getTelluriumVersion():
     ver = f.read().rstrip()
     f.close()
     return ver
+    
+##\brief Turn off warning messages. Call this to stop roadrunner from printing warning message to the console
+#
+#Example: roadrunner.noticesOff()
+#
+def noticesOff ():
+    """
+    Switch off the generation of notices to the user
+    """
+    roadrunner.Logger.setLevel(roadrunner.Logger.LOG_WARNING)
+    
+##\brief Turn on warning messages. Call this to enable roadrunner to print warning messages to the console
+#
+#Example: roadrunner.noticesOn()
+#
+def noticesOn ():
+    """
+    Switch on notice generation to the user
+    """
+    roadrunner.Logger.setLevel(roadrunner.Logger.LOG_NOTICE)
+    
 ##@}  
  
   
@@ -286,165 +307,27 @@ def setSeed (r, seed):
 #
 def gillespie (r, *args, **kwargs):
     """
-    Run a Gillespie stochastic simulation. 
-    Arguments are: roadrunner instance, startTime and endTime.
-    The fourth argumentis is optional but if used specifies the number
-    of points to generate, that is the simulation output will be
-    spaced out on an even grid. A named sixth argument can also be included
-    which is the seed value for the random number generator. 
-
+    Run a Gillespie stochastic simulation.  
+    
     Examples:
     
-    result = te.gillespie (r, 0, 40)
+    rr = te.loada ('S1 -> S2; k1*S1; k1 = 0.1; S1 = 40')
     
-    result = te.gillespie (r, 0, 40, 10)
+    # Simulate from time zero to 40 time units
+    result = rr.gillespie (0, 40)
     
-    rsult = te.gillespie (r, 0, 40, seed = 123)
-
-
-    This method also accepts all of the arugments that simulate does. In fact, 
-    this is idential to calling simulate with integrator='gillespie', except that
-    it resets the integrator back to what it was before. 
-
-    Simulate the optionally plot current SBML model. This is the one stop shopping method
-    for simulation and ploting.
+    # Simulate on a grid with 10 points from start 0 to end time 40
+    result = rr.gillespie (0, 40, 10)
+         
+    # Simulate from time zero to 40 time units using the given selection list
+    # This means that the first column will be time and the second column species S1
+    result = rr.gillespie (0, 40, ['time', 'S1'])
     
-    simulate accepts a up to four positional arguments and a large number of keyword args.
-    
-    The first four (optional) arguments are treated as:
-    
-    1: Start Time, if this is a number.
-    
-    2: End Time, if this is a number.
-    
-    3: Number of Steps, if this is a number.
-    
-    4: List of Selections.
-    
-    All four of the positional arguments are optional. If any of the positional arguments are
-    a list of string instead of a number, then they are interpreted as a list of selections.
-    
-    
-    There are a number of ways to call simulate.
-    
-    1. With no arguments. In this case, the current set of `SimulateOptions` will
-    be used for the simulation. The current set may be changed either directly
-    via setSimulateOptions() or with one of the two alternate ways of calling
-    simulate.
-    
-    2: With single `SimulateOptions` argument. In this case, all of the settings
-    in the given options are copied and will be used for the current and future
-    simulations.
-    
-    3: With the three positions arguments, `timeStart`, `timeEnd`, `steps`. In this case
-    these three values are copied and will be used for the current and future simulations.
-    
-    4: With keyword arguments where keywords are the property names of the SimulateOptions
-    class. To reset the model, simulate from 0 to 10 in 1000 steps and plot we can::
-    
-    rr.simulate(end=10, start=0, steps=1000, resetModel=True, plot=True)
-    
-    The options given in the 2nd and 3rd forms will remain in effect until changed. So, if
-    one calls::
-    
-    rr.simulate (0, 3, 100)
-    
-    The start time of 0, end time of 3 and steps of 100 will remain in effect, so that if this
-    is followed by a call to::
-    
-    rr.simulate()
-    
-    This simulation will use the previous values.
-    
-    simulate accepts the following list of keyword arguments:
-    
-    integrator
-    A text string specifying which integrator to use. Currently supports "cvode"
-    for deterministic simulation (default) and "gillespie" for stochastic
-    simulation.
-    
-    sel or selections
-    A list of strings specifying what values to display in the output.
-    
-    plot
-    True or False
-    If True, RoadRunner will create a basic plot of the simulation result using
-    the built in plot routine which uses MatPlotLib.
-    
-    absolute
-    A number representing the absolute difference permitted for the integrator
-    tolerance.
-    
-    duration
-    The duration of the simulation run, in the model's units of time.
-    Note, setting the duration automatically sets the end time and visa versa.
-    
-    end
-    The simulation end time. Note, setting the end time automatically sets
-    the duration accordingly and visa versa.
-    
-    relative
-    A float-point number representing the relative difference permitted.
-    Defaults 0.0001
-    
-    resetModel (or just "reset"???)
-    True or False
-    Causes the model to be reset to the original conditions specified in
-    the SBML when the simulation is run.
-    
-    start
-    The start time of the simulation time-series data. Often this is 0,
-    but not necessarily.
-    
-    steps
-    The number of steps at which the output is sampled. The samples are evenly spaced.
-    When a simulation system calculates the data points to record, it will typically
-    divide the duration by the number of time steps. Thus, for N steps, the output
-    will have N+1 data rows.
-    
-    stiff
-    True or False
-    Use the stiff integrator. Only use this if the model is stiff and causes issues
-    with the regular integrator. The stiff integrator is slower than the conventional
-    integrator.
-    
-    multiStep
-    True or False
-    Perform a multi step integration.
-    * Experimental *
-    Perform a multi-step simulation. In multi-step simulation, one may monitor the
-    variable time stepping via the IntegratorListener events system.
-
-    initialTimeStep
-    A user specified initial time step. If this is <= 0, the integrator will attempt
-    to determine a safe initial time step.
-    
-    Note, for each number of steps given to RoadRunner.simulate or RoadRunner.integrate
-    the internal integrator may take many many steps to reach one of the external time steps.
-    This value specifies an initial value for the internal integrator time step.
-    
-    minimumTimeStep
-    Specify the minimum time step that the internal integrator will use.
-    Uses integrator estimated value if <= 0.
-    
-    maximumTimeStep
-    Specify the maximum time step size that the internal integrator will use.
-    Uses integrator estimated value if <= 0.
-    
-    maximumNumSteps
-    Specify the maximum number of steps the internal integrator will use before
-    reaching the user specified time span. Uses the integrator default value if <= 0.
-    
-    seed
-    Specify a seed to use for the random number generator for stochastic simulations.
-    The seed is used whenever the integrator is reset, i.e. `r.reset()`.
-    If no seed is specified, the current system time is used for seed. 
-    
-    
-    :returns: a numpy array with each selected output time series being a
-    :rtype: numpy.ndarray
-
+    # Simulate from time zero to 40 time units, on a grid with 20 points
+    # using the give selection list
+    result = rr.gillespie (0, 40, 20, ['time', 'S1'])  
     """
+    
     if r.integrator is None:
         raise ValueError("model is not loaded")
     
@@ -626,18 +509,6 @@ def listTestModels():
 ##@} 	
 	
 # ---------------------------------------------------------------------
-def noticesOff ():
-    """
-    Switch off the generation of notices to the user
-    """
-    roadrunner.Logger.setLevel(roadrunner.Logger.LOG_WARNING)
-    
-def noticesOn ():
-    """
-    Switch on notice generation to the user
-    """
-    roadrunner.Logger.setLevel(roadrunner.Logger.LOG_NOTICE)
-
 def getRatesOfChange (self):
     """
     Returns the rate of change of all state variables  (eg species) in the model
