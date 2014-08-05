@@ -836,7 +836,7 @@ roadrunner.RoadRunner.sv = getSv
 #      
 #      k1= 0.1; k2 = 0.2; 
 #      S1 = 10; S2 = 0; S3 = 0;
-#  '''
+#  ''')
 #  result = r.simulate (0, 10, 100)
 #  r.plot (result)
 #@endcode
