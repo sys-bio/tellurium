@@ -13,6 +13,7 @@ Log of changes
         Added getMatlab and getAntimony methods
         Added listOfModels(), loadTestModel(), getTestModel
         Added reset, resetAll and resetToOrigin methods
+        Added loada shortcut to loadAntimonyModel
         
 
 
