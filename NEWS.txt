@@ -6,6 +6,14 @@ Log of changes
 *   Updated to use libroadrunner 1.2.5
 *   Updated to use modified version of Spyder 2.3.0
 *   Installs (but does not yet use) libSEDML 0.3.0
+*   Additional methods available:
+        All Tellurium methods now documented in new Docs on Tell web site
+        New examples and model sincluded with distribution
+        Added Jarnac compatiblity methods
+        Added getMatlab and getAntimony methods
+        Added listOfModels(), loadTestModel(), getTestModel
+        Added reset, resetAll and resetToOrigin methods
+        
 
 
 1.1.4
