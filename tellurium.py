@@ -4,7 +4,7 @@
 # -*- coding: utf-8 -*-
 """
 Created on Thu Oct 10 14:34:07 2013
-Updated: August 3, 2014
+Updated: August 5, 2014
 
 @author: Herbert M Sauro
 
@@ -462,6 +462,16 @@ def exportToMatlab (self, fileName):
     rr.exportToMatlab ('mymodel.m')
     """
     saveToFile (fileName, self.getMatlab())
+    
+##\brief Returns the Antimony script for the current model
+#
+#Example: print rr.getAntimony()
+#\return Returns a string containing the Antimony script
+def getAntimony (self):
+    """
+    Returns Antimony script as a string for the current model
+    """
+    return sbmlToAntimony (self.getCurrentSBML())
 ##@} 
 
 # ---------------------------------------------------------------------
@@ -697,6 +707,22 @@ def getSv (self):
     print rr.sv()
     """
     return self.model.getFloatingSpeciesConcentrations()
+    
+##\brief Returns the full Jacobian for the currnet model at the current state
+#
+
+#
+#Example: jacobian = rr.getfJac()  
+def getfJac (self):
+    """  
+    Returns the full Jacobian for the current model at the current state.
+
+    Short-cut fjac, eg
+    
+    print rr.fjac()
+    """
+    return self.getFullJacobian()
+
 ##@} 
 
  # Helper Routines we attach to roadrunner   
@@ -706,6 +732,7 @@ roadrunner.RoadRunner.gillespie = gillespie
 roadrunner.RoadRunner.getRatesOfChange = getRatesOfChange
 roadrunner.RoadRunner.exportToMatlab = exportToMatlab
 roadrunner.RoadRunner.getMatlab = getMatlab
+roadrunner.RoadRunner.getAntimony = getAntimony
 roadrunner.RoadRunner.plotAS = roadrunner.RoadRunner.plot
 roadrunner.RoadRunner.plot = plot
 
@@ -726,6 +753,7 @@ roadrunner.RoadRunner.bs = getBs
 roadrunner.RoadRunner.rs = getRs
 roadrunner.RoadRunner.ps = getPs
 roadrunner.RoadRunner.vs = getVs
+roadrunner.RoadRunner.fjac = getfJac;
 
 roadrunner.RoadRunner.dv = getDv
 roadrunner.RoadRunner.rv = getRv
