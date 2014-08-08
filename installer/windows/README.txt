@@ -31,10 +31,10 @@ super_installer_dependencies/get-pip.py
   * from https://raw.github.com/pypa/pip/master/contrib/get-pip.py
 super_installer_dependencies/pip-1.5.4.zip
   * From https://pypi.python.org/pypi/pip#downloads
-super_installer_dependencies/pylibroadrunner-1.2.0-beta4.zip
-  * From 
+super_installer_dependencies/pylibroadrunner-*.zip
+  * From http://sourceforge.net/projects/libroadrunner/files/
 super_installer_dependencies/sbml2matlab_1.2.0_win32.zip
-  * From   
+  * From 
 super_installer_dependencies/setuptools-3.3.zip
   * From https://pypi.python.org/packages/source/s/setuptools/setuptools-3.3.zip#md5=284fa92c5e32c113a4bc00bd20c4eef8
 super_installer_dependencies/telplugins-1.0.15-Python-2.7-win32-minimal-setup.exe

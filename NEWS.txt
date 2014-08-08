@@ -2,6 +2,12 @@ tellurium
 
 Log of changes
 
+1.1.5
+*   Updated to use libroadrunner 1.2.5
+*   Updated to use modified version of Spyder 2.3.0
+*   Installs (but does not yet use) libSEDML 0.3.0
+
+
 1.1.4
 *   Updated to use libroadrunner 1.2.4
 

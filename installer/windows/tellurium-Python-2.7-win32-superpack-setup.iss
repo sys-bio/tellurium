@@ -8,7 +8,7 @@
 #define MyAppSetupIconFile "tellurium_icon_64x64.ico"
 #define ThisInstallerPostfix "win32-superpack-setup"
 
-#define LibRoadRunnerInstaller "pylibroadrunner-1.2.4-win_32" 
+#define LibRoadRunnerInstaller "pylibroadrunner-1.2.5-win_32" 
 ;leave .zip off the LibRoadRunnerInstaller var above
 #define Sbml2matlabInstaller "sbml2matlab_1.2.2_win32"
 ;leave .zip off the Sbml2matlabInstaller var above
@@ -18,6 +18,7 @@
 #define PyInstaller "python-2.7.6.msi"
 #define NumpyInstaller "numpy-1.8.0-win32-superpack-python2.7.exe"
 #define MatplotlibInstaller "matplotlib-1.3.1.win32-py2.7.exe"
+#define LibSedMLInstaller "LibSEDMLPythonBindings-0.3.0-win32.exe"
 ;#define DateutilInstaller "python-dateutil-2.2.win32-py2.7.exe"
 ;#define PyparsingInstaller "pyparsing-2.0.1.win32-py2.7.exe"
 ;#define SixInstaller "six-1.5.2.win32-py2.7.exe"
@@ -26,7 +27,7 @@
 #define SipInstaller "sip.pyd"
 #define PipInstaller "get-pip.py"
 #define SetupToolsInstaller "setuptools-3.3"
-#define SpyderInstaller "spyder-2.2.5-tellurium.win32.exe"
+#define SpyderInstaller "spyder-2.3.0.win32-py2.7.exe"
 #define Unzip "unzip.exe"
 
 ;add spyder source
@@ -120,6 +121,7 @@ Source: "super_installer_dependencies\{#LibRoadRunnerInstaller}.zip"; DestDir: "
 Source: "super_installer_dependencies\{#Sbml2matlabInstaller}.zip"; DestDir: "{tmp}"; Flags: ignoreversion
 Source: "super_installer_dependencies\{#AntimonyInstaller}"; DestDir: "{tmp}"; Flags: ignoreversion
 Source: "super_installer_dependencies\{#TePluginsInstaller}"; DestDir: "{tmp}"; Flags: ignoreversion
+Source: "super_installer_dependencies\{#LibSedMLInstaller}"; DestDir: "{tmp}"; Flags: ignoreversion
 Source: "super_installer_dependencies\{#Unzip}"; DestDir: "{tmp}"; Flags: ignoreversion deleteafterinstall
 Source: "libRoadrunner-installer-dependencies\{#MatplotlibInstaller}"; DestDir: "{tmp}"; Flags: ignoreversion onlyifdoesntexist
 ;-Source: "libRoadrunner-installer-dependencies\{#DateutilInstaller}"; DestDir: "{tmp}"; Flags: ignoreversion onlyifdoesntexist
@@ -173,6 +175,7 @@ Filename: "{tmp}\{#Unzip}"; Parameters: "{tmp}\{#Sbml2matlabInstaller}.zip -d {t
 Filename: "{code:SetPythonPath}\python.exe"; Parameters: "setup.py install"; WorkingDir: "{tmp}\{#Sbml2matlabInstaller}"; Flags: shellexec waituntilterminated
 Filename: "{#AntimonyInstaller}"; Parameters: "/SILENT"; WorkingDir: "{tmp}"; Flags: shellexec waituntilterminated
 Filename: "{#TePluginsInstaller}"; Parameters: "/SILENT"; WorkingDir: "{tmp}"; Flags: shellexec waituntilterminated
+Filename: "{#LibSedMLInstaller}"; Parameters: "/SILENT"; WorkingDir: "{tmp}"; Flags: shellexec waituntilterminated
 ;Filename: "{code:SetPythonPath}\python.exe"; Parameters: "setup.py install --install-script spyder_win_post_install.py"; WorkingDir: "{tmp}\{#SpyderInstaller}"; Flags: shellexec waituntilterminated
 ;the line above will not install the icons/ shortcuts for spyder in windows, bdist_wininst
 ;the line below will run the exe spyder installer which will work properly
