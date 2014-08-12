@@ -1,7 +1,7 @@
 import teParameterScan as tps
 import tellurium as te
 
-# PS1 Test
+#PS1 Test
 
 cell = '''
     J1: $Xo -> x; 0.1 + k1*x^4/(k2+x^4);
@@ -19,19 +19,18 @@ p = tps.ParameterScan1.parameterScan(rr)
 p.startTime = 0
 p.endTime = 15
 p.numberOfPoints = 50
-p.interval = 0.2
+p.polyNumber = 10
 p.endValue = 1.8
 p.alpha = 0.8
 p.parameter = "x"
 p.selection = "x"
-p.colorSelect = ['#050514', '#0F0F3D', '#141452', '#1A1A66', '#1F1F7A', '#24248F', '#2929A3',
+p.color = ['#0F0F3D', '#141452', '#1A1A66', '#1F1F7A', '#24248F', '#2929A3',
                  '#2E2EB8', '#3333CC', '#4747D1', '#5C5CD6']
 
 p.threeDPlot()
-print rr.model["x"]
 
 
-# PS2 Test
+#PS2 Test
 
 cell = '''
     $Xo -> S1; vo;
@@ -43,13 +42,13 @@ cell = '''
 '''
 
 rr = te.loadAntimonyModel(cell)
-p = tps.ParameterScan2.parameterScan(rr)
+p = tps.ParameterScan1.parameterScan(rr)
 
 p.startTime = 0
 p.endTime = 6
 p.numberOfPoints = 50
-p.startInd = 1
-p.endInd = 5
+p.startValue = 1
+p.endValue = 5
 p.colormap = "cool"
 
 p.independent = ["Time", "k1"]
