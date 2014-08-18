@@ -4,7 +4,7 @@ from mpl_toolkits.mplot3d import Axes3D
 from matplotlib.ticker import LinearLocator, FormatStrFormatter
 import numpy as np
 
-class parameterScan (object):
+class ParameterScan (object):
     def __init__(self, rr):
         self.startTime = 0
         self.endTime = 20
