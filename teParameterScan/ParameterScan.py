@@ -218,7 +218,7 @@ class ParameterScan (object):
                         linewidth = self.width,
                         label = legendItems[c])
 
-                if (i is 2):
+                if (i == (len(param1Range) - 1)):
                     axarr[i, j].set_xlabel('%s = %.2f' % (param2, k2))
-                if (j is 0):
+                if (j == 0):
                     axarr[i, j].set_ylabel('%s = %.2f' % (param1, k1))
