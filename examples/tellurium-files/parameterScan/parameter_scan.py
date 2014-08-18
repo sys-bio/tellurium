@@ -27,7 +27,7 @@ p.selection = "x"
 p.color = ['#0F0F3D', '#141452', '#1A1A66', '#1F1F7A', '#24248F', '#2929A3',
                  '#2E2EB8', '#3333CC', '#4747D1', '#5C5CD6']
 
-p.threeDPlot()
+p.plotPolyArray()
 
 
 #PS2 Test
@@ -58,5 +58,5 @@ p.xlabel = "Time"
 p.ylabel = "x"
 p.title = "Model"
 
-p.surfacePlot()
+p.plotSurface()
 

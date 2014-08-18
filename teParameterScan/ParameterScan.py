@@ -201,22 +201,22 @@ class ParameterScan (object):
             
         if self.color is None:
             self.color = ['b', 'g', 'r', 'k']
-
+        
         for i, k1 in enumerate(param1Range):
             for j, k2 in enumerate(param2Range):
                 self.rr.reset()
                 self.rr.model[param1], self.rr.model[param2] = k1, k2
-                result = self.Sim()
+                result = self.rr.simulate(self.startTime, self.endTime, self.numberOfPoints)
                 columns = result.shape[1]
                 legendItems = self.rr.selections[1:]
                 if columns-1 != len(legendItems):
                     raise Exception('Legend list must match result array')
                 for c in range(columns-1):
                     axarr[i, j].plot(
-                    result[:, 0], self.color[0],
-                    result[:, c+1], self.color[c+1],
-                    linewidth = self.width,
-                    label=legendItems[c])
+                        result[:, 0], 
+                        result[:, c+1],
+                        linewidth = self.width,
+                        label = legendItems[c])
 
                 if (i is 2):
                     axarr[i, j].set_xlabel('%s = %.2f' % (param2, k2))
