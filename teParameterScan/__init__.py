@@ -1,2 +1,1 @@
-import ParameterScan1
-import ParameterScan2
+import ParameterScan
