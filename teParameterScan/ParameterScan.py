@@ -48,7 +48,7 @@ class ParameterScan (object):
         if self.color is None:
             plt.plot(result[:,0], result[:,1:], linewidth = self.width)
         else: 
-            plt.plot(result[:,0], result[:,1:], color = self.color, linewidth = self.width)    
+            plt.plot(result[:,0], result[:,1:], self.color, linewidth = self.width)    
         
         if self.ylabel is not None:
             plt.ylabel(self.ylabel) 
@@ -93,7 +93,7 @@ class ParameterScan (object):
                 plt.plot(result[:,0], result[:,(i+1)], color = self.color[i], 
                          linewidth = self.width)
                             
-    def threeDPlot(self):
+    def plotPolyArray(self):
         """Plots results as individual graphs parallel to each other in 3D space using results
         from graduatedSim()."""
         result = self.graduatedSim()
@@ -132,7 +132,7 @@ class ParameterScan (object):
         ax.set_zlabel(self.parameter)
         plt.show()
         
-    def surfacePlot(self):
+    def plotSurface(self):
         """ Plots results of simulation as a colored surface. Takes three variables, two independent
         and one dependent. Legal colormap names can be found at 
         http://matplotlib.org/examples/color/colormaps_reference.html. 
@@ -186,3 +186,39 @@ class ParameterScan (object):
                 del self.color[-(i+1)]
             print self.color
         return self.color
+        
+    def plotMultiArray(self, param1, param1Range, param2, param2Range):
+        """Plots separate arrays for each possible combination of the contents of param1range and 
+        param2range as an array of subplots. The ranges are lists of values that determine the
+        initial conditions of each simulation. 
+        
+        p.multiArrayPlot('S1', [1, 2, 3], 'S2', [1, 2])"""
+        f, axarr = plt.subplots(
+            len(param1Range),
+            len(param2Range),
+            sharex='col',
+            sharey='row')
+            
+        if self.color is None:
+            self.color = ['b', 'g', 'r', 'k']
+        
+        for i, k1 in enumerate(param1Range):
+            for j, k2 in enumerate(param2Range):
+                self.rr.reset()
+                self.rr.model[param1], self.rr.model[param2] = k1, k2
+                result = self.rr.simulate(self.startTime, self.endTime, self.numberOfPoints)
+                columns = result.shape[1]
+                legendItems = self.rr.selections[1:]
+                if columns-1 != len(legendItems):
+                    raise Exception('Legend list must match result array')
+                for c in range(columns-1):
+                    axarr[i, j].plot(
+                        result[:, 0], 
+                        result[:, c+1],
+                        linewidth = self.width,
+                        label = legendItems[c])
+
+                if (i == (len(param1Range) - 1)):
+                    axarr[i, j].set_xlabel('%s = %.2f' % (param2, k2))
+                if (j == 0):
+                    axarr[i, j].set_ylabel('%s = %.2f' % (param1, k1))
