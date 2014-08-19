@@ -8,14 +8,14 @@ class ParameterScan (object):
     def __init__(self, rr):
         self.startTime = 0
         self.endTime = 20
-        self.numberOfPoints = 100
+        self.numberOfPoints = 50
         self.polyNumber = 10
         self.startValue = None
-        self.endValue = 10
+        self.endValue = 2
         self.parameter = "S1"
-        self.independent = ["Time", "k2"]
+        self.independent = None
         self.selection = None
-        self.dependent = ["S1"]
+        self.dependent = None
         self.integrator = "cvode"
         self.rr = rr
         self.color = None
@@ -43,7 +43,9 @@ class ParameterScan (object):
         return result
                              
     def plotArray(self):
-        """Plots result of simulation with options for linewdith and line color."""
+        """Plots result of simulation with options for linewdith and line color.
+        
+        pplotArray()"""
         result = self.Sim()
         if self.color is None:
             plt.plot(result[:,0], result[:,1:], linewidth = self.width)
@@ -80,7 +82,9 @@ class ParameterScan (object):
           
     def plotGraduatedArray(self):
         """Plots array with either default multiple colors or user sepcified colors using 
-        results from graduatedSim()."""
+        results from graduatedSim().
+        
+        p.plotGraduatedArray()"""
         result = self.graduatedSim()
         if self.color is None and self.sameColor is True:
             plt.plot(result[:,0], result[:,1:], linewidth = self.width, color = 'b')
@@ -95,7 +99,9 @@ class ParameterScan (object):
                             
     def plotPolyArray(self):
         """Plots results as individual graphs parallel to each other in 3D space using results
-        from graduatedSim()."""
+        from graduatedSim().
+        
+        p.plotPolyArray()"""
         result = self.graduatedSim()
         interval = ((self.endValue - self.startValue) / (self.polyNumber - 1))
         self.rr.reset()
@@ -137,7 +143,22 @@ class ParameterScan (object):
         and one dependent. Legal colormap names can be found at 
         http://matplotlib.org/examples/color/colormaps_reference.html. 
         
-        p.surfacePlot()"""
+        p.plotSurface()"""
+        if self.independent is None or self.dependent is None:
+            self.independent = ['Time']
+            aa = self.rr.model.getGlobalParameterIds()[0]
+            self.independent.append(aa)
+            self.dependent = self.rr.model.getFloatingSpeciesIds()[0].split()
+            print 'Warning: self.independent and self.dependent not set. Using' \
+            ' self.independent = %s and self.dependent = %s' % (self.independent, self.dependent)
+        if not isinstance(self.independent, list) or not isinstance(self.dependent, list):
+            raise Exception('self.indpendent and self.dependent must be lists')
+        if self.startValue is None:
+            if self.independent[0] != 'Time' and self.independent[0] != 'time':
+                self.startValue = self.rr.model[self.independent[0]]
+            else:
+                self.startValue = self.rr.model[self.independent[1]]
+                
         fig = plt.figure()
         ax = fig.gca(projection='3d')
         interval = (self.endTime - self.startTime) / float(self.numberOfPoints - 1)
