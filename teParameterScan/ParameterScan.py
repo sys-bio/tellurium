@@ -3,19 +3,20 @@ from matplotlib.collections import PolyCollection
 from mpl_toolkits.mplot3d import Axes3D
 from matplotlib.ticker import LinearLocator, FormatStrFormatter
 import numpy as np
+import matplotlib
 
 class ParameterScan (object):
     def __init__(self, rr):
         self.startTime = 0
         self.endTime = 20
-        self.numberOfPoints = 100
+        self.numberOfPoints = 50
         self.polyNumber = 10
         self.startValue = None
-        self.endValue = 10
+        self.endValue = 2
         self.parameter = "S1"
-        self.independent = ["Time", "k2"]
+        self.independent = None
         self.selection = None
-        self.dependent = ["S1"]
+        self.dependent = None
         self.integrator = "cvode"
         self.rr = rr
         self.color = None
@@ -43,7 +44,9 @@ class ParameterScan (object):
         return result
                              
     def plotArray(self):
-        """Plots result of simulation with options for linewdith and line color."""
+        """Plots result of simulation with options for linewdith and line color.
+        
+        pplotArray()"""
         result = self.Sim()
         if self.color is None:
             plt.plot(result[:,0], result[:,1:], linewidth = self.width)
@@ -65,6 +68,9 @@ class ParameterScan (object):
             self.startValue = self.rr.model[self.parameter]
         else:
             self.startValue = self.startValue
+        if self.parameter is None:
+            self.parameter = self.rr.model.getFloatingSpeciesIds()[0]
+            print 'warning: self.parameter not set. Using self.parameter = %s' % self.parameter
         m = self.rr.simulate(self.startTime, self.endTime, self.numberOfPoints, 
                              ["Time", self.selection], integrator = self.integrator)
         interval = ((self.endValue - self.startValue) / (self.polyNumber - 1)) 
@@ -80,7 +86,9 @@ class ParameterScan (object):
           
     def plotGraduatedArray(self):
         """Plots array with either default multiple colors or user sepcified colors using 
-        results from graduatedSim()."""
+        results from graduatedSim().
+        
+        p.plotGraduatedArray()"""
         result = self.graduatedSim()
         if self.color is None and self.sameColor is True:
             plt.plot(result[:,0], result[:,1:], linewidth = self.width, color = 'b')
@@ -95,7 +103,9 @@ class ParameterScan (object):
                             
     def plotPolyArray(self):
         """Plots results as individual graphs parallel to each other in 3D space using results
-        from graduatedSim()."""
+        from graduatedSim().
+        
+        p.plotPolyArray()"""
         result = self.graduatedSim()
         interval = ((self.endValue - self.startValue) / (self.polyNumber - 1))
         self.rr.reset()
@@ -137,7 +147,22 @@ class ParameterScan (object):
         and one dependent. Legal colormap names can be found at 
         http://matplotlib.org/examples/color/colormaps_reference.html. 
         
-        p.surfacePlot()"""
+        p.plotSurface()"""
+        if self.independent is None or self.dependent is None:
+            self.independent = ['Time']
+            aa = self.rr.model.getGlobalParameterIds()[0]
+            self.independent.append(aa)
+            self.dependent = self.rr.model.getFloatingSpeciesIds()[0].split()
+            print 'Warning: self.independent and self.dependent not set. Using' \
+            ' self.independent = %s and self.dependent = %s' % (self.independent, self.dependent)
+        if not isinstance(self.independent, list) or not isinstance(self.dependent, list):
+            raise Exception('self.indpendent and self.dependent must be lists')
+        if self.startValue is None:
+            if self.independent[0] != 'Time' and self.independent[0] != 'time':
+                self.startValue = self.rr.model[self.independent[0]]
+            else:
+                self.startValue = self.rr.model[self.independent[1]]
+                
         fig = plt.figure()
         ax = fig.gca(projection='3d')
         interval = (self.endTime - self.startTime) / float(self.numberOfPoints - 1)
@@ -176,17 +201,6 @@ class ParameterScan (object):
 
         plt.show()
         
-    def colorCycle(self):
-        """Adjusts contents of self.color as needed for plotting function."""
-        if len(self.color) < self.polyNumber:
-            for i in range(self.polyNumber - len(self.color)):
-                self.color.append(self.color[i])
-        else:
-            for i in range(len(self.color) - self.polyNumber):
-                del self.color[-(i+1)]
-            print self.color
-        return self.color
-        
     def plotMultiArray(self, param1, param1Range, param2, param2Range):
         """Plots separate arrays for each possible combination of the contents of param1range and 
         param2range as an array of subplots. The ranges are lists of values that determine the
@@ -222,3 +236,31 @@ class ParameterScan (object):
                     axarr[i, j].set_xlabel('%s = %.2f' % (param2, k2))
                 if (j == 0):
                     axarr[i, j].set_ylabel('%s = %.2f' % (param1, k1))
+                    
+                    
+    def createColorMap(self, color1, color2):
+        """Creates a color map for plotSurface using two colors in RGB tuplets.
+        p.colormap = p.createColorMap([0,0,0], [1,1,1])"""
+        
+        cdict = {'red': ((0., 0., color1[0]),
+                         (1., color2[0], 0.)),
+    
+                 'green': ((0., 0., color1[1]),
+                           (1., color2[1], 0.)),
+
+                 'blue': ((0., 0., color1[2]),
+                          (1., color2[2], 0.))}
+        my_cmap = matplotlib.colors.LinearSegmentedColormap('my_colormap',cdict,256)
+        return my_cmap
+    
+    
+    def colorCycle(self):
+        """Adjusts contents of self.color as needed for plotting methods."""
+        if len(self.color) < self.polyNumber:
+            for i in range(self.polyNumber - len(self.color)):
+                self.color.append(self.color[i])
+        else:
+            for i in range(len(self.color) - self.polyNumber):
+                del self.color[-(i+1)]
+            print self.color
+        return self.color
