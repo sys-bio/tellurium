@@ -68,6 +68,9 @@ class ParameterScan (object):
             self.startValue = self.rr.model[self.parameter]
         else:
             self.startValue = self.startValue
+        if self.parameter is None:
+            self.parameter = self.rr.model.getFloatingSpeciesIds()[0]
+            print 'warning: self.parameter not set. Using self.parameter = %s' % self.parameter
         m = self.rr.simulate(self.startTime, self.endTime, self.numberOfPoints, 
                              ["Time", self.selection], integrator = self.integrator)
         interval = ((self.endValue - self.startValue) / (self.polyNumber - 1)) 

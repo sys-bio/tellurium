@@ -1,4 +1,4 @@
-from teParameterScan import ParameterScan as tps
+from teParameterScan import ParameterScan 
 import tellurium as te
 
 #PS1 Test
@@ -14,7 +14,7 @@ cell = '''
 '''
 
 rr = te.loadAntimonyModel(cell)
-p = tps.ParameterScan(rr)
+p = ParameterScan(rr)
 
 p.startTime = 0
 p.endTime = 15
@@ -42,7 +42,7 @@ cell = '''
 '''
 
 rr = te.loadAntimonyModel(cell)
-p = tps.ParameterScan(rr)
+p = ParameterScan(rr)
 
 p.startTime = 0
 p.endTime = 6
