@@ -1,4 +1,4 @@
-from teParameterScan import ParameterScan as tps
+from teParameterScan import ParameterScan
 import tellurium as te
 
 cell = '''
@@ -11,11 +11,13 @@ cell = '''
 '''
 
 rr = te.loadAntimonyModel(cell)
-p = tps.ParameterScan(rr)
+p = ParameterScan(rr)
 
 p.startTime = 0
 p.endTime = 20
 p.numberOfPoints = 50
 p.width = 2
+p.title = 'Cell'
+p.selection = ['Time', 'S1', 'S2']
 
 p.plotMultiArray('k1', [1, 1.5, 2], 'k3', [.5, 1, 1.5])

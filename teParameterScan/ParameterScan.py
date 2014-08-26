@@ -12,8 +12,8 @@ class ParameterScan (object):
         self.numberOfPoints = 50
         self.polyNumber = 10
         self.startValue = None
-        self.endValue = 2
-        self.parameter = "S1"
+        self.endValue = None
+        self.value = None
         self.independent = None
         self.selection = None
         self.dependent = None
@@ -46,7 +46,7 @@ class ParameterScan (object):
     def plotArray(self):
         """Plots result of simulation with options for linewdith and line color.
         
-        pplotArray()"""
+        p.plotArray()"""
         result = self.Sim()
         if self.color is None:
             plt.plot(result[:,0], result[:,1:], linewidth = self.width)
@@ -65,12 +65,16 @@ class ParameterScan (object):
         """Runs successive simulations with incremental changes in one species, and returns 
         results for a plotting function. Not intended to be called by user."""
         if self.startValue is None:
-            self.startValue = self.rr.model[self.parameter]
+            self.startValue = self.rr.model[self.value]
         else:
             self.startValue = self.startValue
-        if self.parameter is None:
-            self.parameter = self.rr.model.getFloatingSpeciesIds()[0]
-            print 'warning: self.parameter not set. Using self.parameter = %s' % self.parameter
+        if self.endValue is None:
+            self.endValue = self.startValue + 5
+        else:
+            self.endValue = self.endValue
+        if self.value is None:
+            self.value = self.rr.model.getFloatingSpeciesIds()[0]
+            print 'warning: self.value not set. Using self.value = %s' % self.value
         m = self.rr.simulate(self.startTime, self.endTime, self.numberOfPoints, 
                              ["Time", self.selection], integrator = self.integrator)
         interval = ((self.endValue - self.startValue) / (self.polyNumber - 1)) 
@@ -78,7 +82,7 @@ class ParameterScan (object):
         while start < (self.endValue - .00001):
             self.rr.reset()   
             start += interval
-            self.rr.model[self.parameter] = start   
+            self.rr.model[self.value] = start   
             m1 = self.rr.simulate(self.startTime, self.endTime, self.numberOfPoints, 
                                   [self.selection], integrator = self.integrator)
             m = np.hstack((m, m1))
@@ -100,6 +104,13 @@ class ParameterScan (object):
             for i in range(self.polyNumber):
                 plt.plot(result[:,0], result[:,(i+1)], color = self.color[i], 
                          linewidth = self.width)
+        if self.ylabel is not None:
+            plt.ylabel(self.ylabel) 
+        if self.xlabel is not None:
+            plt.xlabel(self.xlabel)
+        if self.title is not None:
+            plt.suptitle(self.title)
+        plt.show()
                             
     def plotPolyArray(self):
         """Plots results as individual graphs parallel to each other in 3D space using results
@@ -112,7 +123,7 @@ class ParameterScan (object):
         fig = plt.figure()
         ax = fig.gca(projection='3d')
         if self.startValue is None:
-            self.startValue = self.rr.model[self.parameter]
+            self.startValue = self.rr.model[self.value]
         columnNumber = int((((self.endValue - self.startValue) / self.polyNumber)) + 2)
         columnNumber = self.polyNumber
         lastPoint = [self.endTime]
@@ -137,9 +148,11 @@ class ParameterScan (object):
         ax.set_xlim3d(0, self.endTime)
         ax.set_ylim3d(0, (columnNumber - 1))
         ax.set_zlim3d(0, (self.endValue + interval))
-        ax.set_xlabel('Time')
-        ax.set_ylabel('Trial Number')
-        ax.set_zlabel(self.parameter)
+        ax.set_xlabel('Time') if self.xlabel is None else ax.set_xlabel(self.xlabel)
+        ax.set_ylabel('Trial Number') if self.ylabel is None else ax.set_ylabel(self.ylabel)
+        ax.set_zlabel(self.value) if self.zlabel is None else ax.set_zlabel(self.zlabel)
+        if self.title is not None:
+            ax.set_title(self.title)
         plt.show()
         
     def plotSurface(self):
@@ -162,6 +175,8 @@ class ParameterScan (object):
                 self.startValue = self.rr.model[self.independent[0]]
             else:
                 self.startValue = self.rr.model[self.independent[1]]
+        if self.endValue is None:
+            self.endValue = self.startValue + 5
                 
         fig = plt.figure()
         ax = fig.gca(projection='3d')
@@ -195,6 +210,8 @@ class ParameterScan (object):
         ax.set_xlabel(self.independent[0]) if self.xlabel is None else ax.set_xlabel(self.xlabel)
         ax.set_ylabel(self.independent[1]) if self.ylabel is None else ax.set_ylabel(self.ylabel)
         ax.set_zlabel(self.dependent[0]) if self.zlabel is None else ax.set_zlabel(self.zlabel)
+        if self.title is not None:
+            ax.set_title(self.title)
 
         if self.colorbar is True:
             fig.colorbar(surf, shrink=0.5, aspect=4)
@@ -220,7 +237,12 @@ class ParameterScan (object):
             for j, k2 in enumerate(param2Range):
                 self.rr.reset()
                 self.rr.model[param1], self.rr.model[param2] = k1, k2
-                result = self.rr.simulate(self.startTime, self.endTime, self.numberOfPoints)
+                if self.selection is None:
+                    result = self.rr.simulate(self.startTime, self.endTime, self.numberOfPoints, 
+                                              integrator = self.integrator)
+                else:
+                     result = self.rr.simulate(self.startTime, self.endTime, self.numberOfPoints, 
+                                               self.selection, integrator = self.integrator)         
                 columns = result.shape[1]
                 legendItems = self.rr.selections[1:]
                 if columns-1 != len(legendItems):
@@ -236,6 +258,8 @@ class ParameterScan (object):
                     axarr[i, j].set_xlabel('%s = %.2f' % (param2, k2))
                 if (j == 0):
                     axarr[i, j].set_ylabel('%s = %.2f' % (param1, k1))
+                if self.title is not None:
+                    plt.suptitle(self.title)
                     
                     
     def createColorMap(self, color1, color2):
@@ -264,3 +288,4 @@ class ParameterScan (object):
                 del self.color[-(i+1)]
             print self.color
         return self.color
+        
