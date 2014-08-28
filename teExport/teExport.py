@@ -26,8 +26,9 @@ class export (object):
         
         columnNumber = result.shape[1] - 1
         for i in range(columnNumber):  
-            if self.saveto is not None:
-                completeName = os.path.join(self.saveto, '%s_data%s.txt' % (self.filename, (i + 1)))
+            if self.location is not None:
+                completeName = os.path.join(self.location, 
+                                            '%s_data%s.txt' % (self.filename, (i + 1)))
             else:
                 completeName = '%s_data%s.txt' % (self.filename, (i + 1))
             with open(completeName, 'w') as f:
@@ -37,8 +38,8 @@ class export (object):
                     row = ' '.join(str(e) for e in row)
                     f.write("%s\n" %row)
                 
-        if self.saveto is not None:
-            completeName = os.path.join(self.saveto, '%s_code.txt' % self.filename)
+        if self.location is not None:
+            completeName = os.path.join(self.location, '%s_code.txt' % self.filename)
         else:
             completeName = '%s_code.txt' % self.filename
         f = open(completeName, 'w')
@@ -66,8 +67,8 @@ class export (object):
         f.close()
                     
         if self.exportClipboard is True:
-            if self.saveto is not None:
-                completeName = os.path.join(self.saveto, '%s_code.txt' % self.filename)
+            if self.location is not None:
+                completeName = os.path.join(self.location, '%s_code.txt' % self.filename)
             else:
                 completeName = '%s_code.txt' % self.filename
             with open(completeName, 'r') as f:
@@ -89,8 +90,8 @@ class export (object):
         p.exportOne(result, model1)"""
         
         columnNumber = result.shape[1] - 1
-        if self.saveto is not None:
-            completeName = os.path.join(self.saveto, '%s.txt' % self.filename)
+        if self.location is not None:
+            completeName = os.path.join(self.location, '%s.txt' % self.filename)
         else:
             completeName = '%s.txt' % self.filename
         with open(completeName, 'w') as f:
@@ -121,8 +122,8 @@ class export (object):
             if self.exportComplete is True: f.write('\\end{document}')
                 
         if self.exportClipboard is True:
-            if self.saveto is not None:
-                completeName = os.path.join(self.saveto, '%s.txt' % self.filename)
+            if self.location is not None:
+                completeName = os.path.join(self.location, '%s.txt' % self.filename)
             else:
                 completeName = '%s.txt' % self.filename
             with open(completeName, 'r') as f:

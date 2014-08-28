@@ -12,8 +12,8 @@ cell = '''
 
 rr = te.loadAntimonyModel(cell)
 p = ParameterScan(rr)
-
 p.endTime = 3
-p.colormap = p.createColorMap([.86,.08,.23], [.12,.56,1])
+p.colormap = p.createColormap([.86,.08,.23], [.12,.56,1])
+
 
 p.plotSurface()

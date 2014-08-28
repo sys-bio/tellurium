@@ -20,7 +20,7 @@ p.xlabel = 'Time'
 p.ylabel = 'Concentration'
 p.exportComplete = True
 p.exportClipboard = True
-p.saveto = 'C:\\Users\\user\\Documents\\LaTeX docs'
+p.location = 'C:\\Users\\user\\Documents\\LaTeX docs'
 p.filename = 'newModel'
 p.saveToFile(result)
 p.getString()

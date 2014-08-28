@@ -51,7 +51,11 @@ class ParameterScan (object):
         if self.color is None:
             plt.plot(result[:,0], result[:,1:], linewidth = self.width)
         else: 
-            plt.plot(result[:,0], result[:,1:], self.color, linewidth = self.width)    
+            if len(self.color) != result.shape[1]:
+                self.color = self.colorCycle()
+            for i in range(result.shape[1] - 1):
+                plt.plot(result[:,0], result[:,(i+1)], 
+                         color = self.color[i], linewidth = self.width)    
         
         if self.ylabel is not None:
             plt.ylabel(self.ylabel) 
@@ -262,7 +266,7 @@ class ParameterScan (object):
                     plt.suptitle(self.title)
                     
                     
-    def createColorMap(self, color1, color2):
+    def createColormap(self, color1, color2):
         """Creates a color map for plotSurface using two colors in RGB tuplets.
         p.colormap = p.createColorMap([0,0,0], [1,1,1])"""
         
@@ -288,4 +292,20 @@ class ParameterScan (object):
                 del self.color[-(i+1)]
             print self.color
         return self.color
+        
+        
+    def createColorPoints(self):
+        color = []
+        interval = 1.0 / self.polyNumber
+        print interval
+        count = 0
+        if isinstance(self.colormap, str) is True:
+            for i in range(self.polyNumber):
+                color.append(eval('matplotlib.pylab.cm.%s(%s)' % (self.colormap, count)))
+                count += interval
+        else:
+            for i in range(self.polyNumber):
+                color.append(self.colormap(count))
+                count += interval
+        self.color = color
         
