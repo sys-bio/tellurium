@@ -11,10 +11,9 @@ newModel = '''
 '''
 
 rr = te.loadAntimonyModel(newModel)
-result = rr.simulate (0, 30)
-te.plotWithLegend (rr, result)
-
+result = rr.simulate(0, 30)
 p = ex.export(rr)
+
 p.color = ['blue', 'green']
 p.legend = ['S1', 'S2']
 p.xlabel = 'Time'
@@ -22,5 +21,6 @@ p.ylabel = 'Concentration'
 p.exportComplete = True
 p.exportClipboard = True
 p.saveto = 'C:\\Users\\user\\Documents\\LaTeX docs'
-p.saveToFile(result, 'model')
+p.filename = 'newModel'
+p.saveToFile(result)
 p.getString()

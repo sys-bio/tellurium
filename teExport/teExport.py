@@ -12,8 +12,9 @@ class export (object):
         self.coorPerRow = 6
         self.saveto = None
         self.exportType = 'pgfplot'
+        self.fileName = 'Model'
         
-    def saveToFile(self, result, filename):
+    def saveToFile(self, result):
         """Creates .txt files for plotting result fo simulation with LaTeX. Outputs one file with
         code to be pasted into LaTeX, and one data file for each variable in results after the 
         first. Takes two arguments, results of simulation and name of file to be created. 
@@ -26,9 +27,9 @@ class export (object):
         columnNumber = result.shape[1] - 1
         for i in range(columnNumber):  
             if self.saveto is not None:
-                completeName = os.path.join(self.saveto, '%s_data%s.txt' % (filename, (i + 1)))
+                completeName = os.path.join(self.saveto, '%s_data%s.txt' % (self.filename, (i + 1)))
             else:
-                completeName = '%s_data%s.txt' % (filename, (i + 1))
+                completeName = '%s_data%s.txt' % (self.filename, (i + 1))
             with open(completeName, 'w') as f:
                 r = result[:, [0,(i + 1)]]
                 for row in r:
@@ -37,9 +38,9 @@ class export (object):
                     f.write("%s\n" %row)
                 
         if self.saveto is not None:
-            completeName = os.path.join(self.saveto, '%s_code.txt' % filename)
+            completeName = os.path.join(self.saveto, '%s_code.txt' % self.filename)
         else:
-            completeName = '%s_code.txt' % filename
+            completeName = '%s_code.txt' % self.filename
         f = open(completeName, 'w')
         if self.exportComplete is True:
             f.write('\\documentclass{article}\n')
@@ -51,7 +52,7 @@ class export (object):
                 ' ylabel near ticks\n'.format(self.xlabel, self.ylabel))
         for i in range(columnNumber):
             f.write('\\addplot[%s, thin] table {%s_data%s.txt};\n' 
-                    % (self.color[i], filename, (i + 1)))
+                    % (self.color[i], self.filename, (i + 1)))
             
         if self.legend is not None:
             f.write('\\legend{')
@@ -66,9 +67,9 @@ class export (object):
                     
         if self.exportClipboard is True:
             if self.saveto is not None:
-                completeName = os.path.join(self.saveto, '%s_code.txt' % filename)
+                completeName = os.path.join(self.saveto, '%s_code.txt' % self.filename)
             else:
-                completeName = '%s_code.txt' % filename
+                completeName = '%s_code.txt' % self.filename
             with open(completeName, 'r') as f:
                 s = f.read()
                 global exportString
@@ -80,7 +81,7 @@ class export (object):
                 r.destroy()
         
                 
-    def saveToOneFile(self, result, filename):
+    def saveToOneFile(self, result):
         """Creates one .txt file with LaTeX code and results. Takes two arguments, results of 
         simulation and name of file to be created. Same options as for saveToFile method.
         
@@ -89,9 +90,9 @@ class export (object):
         
         columnNumber = result.shape[1] - 1
         if self.saveto is not None:
-            completeName = os.path.join(self.saveto, '%s.txt' % filename)
+            completeName = os.path.join(self.saveto, '%s.txt' % self.filename)
         else:
-            completeName = '%s.txt' % filename
+            completeName = '%s.txt' % self.filename
         with open(completeName, 'w') as f:
             if self.exportComplete is True:
                 f.write('\\documentclass{article}\n')
@@ -121,9 +122,9 @@ class export (object):
                 
         if self.exportClipboard is True:
             if self.saveto is not None:
-                completeName = os.path.join(self.saveto, '%s.txt' % filename)
+                completeName = os.path.join(self.saveto, '%s.txt' % self.filename)
             else:
-                completeName = '%s.txt' % filename
+                completeName = '%s.txt' % self.filename
             with open(completeName, 'r') as f:
                 s = f.read()
                 global exportString
