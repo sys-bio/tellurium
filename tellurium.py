@@ -895,7 +895,7 @@ roadrunner.RoadRunner.getReactionIds = getReactionIds
 roadrunner.RoadRunner.getReactionRates = getReactionRates
 roadrunner.RoadRunner.getNumEvents = getNumEvents
 
-roadrunner.RoadRunner.getValue = getValue
+#roadrunner.RoadRunner.getValue = getValue
 roadrunner.RoadRunner.setValue = setValue
 roadrunner.RoadRunner.setStartTime = setStartTime # Start time
 roadrunner.RoadRunner.setEndTime = setEndTime # Start time
