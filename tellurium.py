@@ -1,16 +1,32 @@
 ##@Module Tellurium
-#This module allows access to the rr_c_api.dll from python"""
 
 # -*- coding: utf-8 -*-
 """
 Created on Thu Oct 10 14:34:07 2013
-Updated: August 5, 2014
+Updated: Sepyt 9, 2014
 
 @author: Herbert M Sauro
 
-Supporting routines for tellurium
+Support routines for tellurium
 
 """
+
+# provide emergency fix self install - no longer needed
+#if __name__ == "__main__":
+#    src = __file__
+#    import tellurium as te
+#    
+#    import shutil
+#    import os.path as path
+#    base = path.split(te.__file__)[0]
+#    dst = path.join(base, "tellurium.py")
+#    backup = path.join(base, "tellurium.backup")
+#
+#    print("backing up {} to {}".format(dst, backup))
+#    print("fixing {} with new file {}".format(dst, src))
+#    
+#    shutil.copyfile(dst, backup)
+#    shutil.copyfile(src, dst)
 
 import matplotlib.pyplot as plt
 import roadrunner
@@ -28,6 +44,7 @@ except ImportError as e:
     roadrunner.Logger.log(roadrunner.Logger.LOG_WARNING, str(e))
 
 tehold = False # Same as matlab hold
+
 
 # For some reason we can only access the tehold variable via methods
 def setHold (myHold):
@@ -365,7 +382,7 @@ def RoadRunner(args):
 #@{
 
 #\cond
-def plotWithLegend (r, result):
+def plotWithLegend (r, result, myloc = 'upper left'):
     """
     Plot an array and include a legend. The first argument must be a roadrunner variable. 
     The second argument must be an array containing data to plot. The first column of the array will
@@ -382,8 +399,8 @@ def plotWithLegend (r, result):
        if columns-1 != len (legendItems):
            raise Exception ('Legend list must match result array')
        for i in range(columns-1):
-           plt.plot (result[:,0], result[:,i+1], linewidth=2.5, label=legendItems[i])
-       plt.legend (loc='upper left')    
+           plt.plot (result[:,0], result[:,i+1], linewidth=2.5, label=legendItems[i])           
+       plt.legend (loc=myloc)    
        plt.show()
        return plt
     else:
@@ -428,8 +445,6 @@ def plotArray (result):
     p = plt.plot (result[:,0],result[:,1:], linewidth=2.5)
     if tehold == False:    
        plt.show()
-    else:
-       print "Show not called"
     return p
 
     
@@ -447,12 +462,12 @@ def plotArray (result):
 #
 #\param[in] result Data returned from a simulate or gillespie call
 #\return Returns the plot object
-def plot (self, result=None):
+def plot (self, result=None, loc='upper left'):
     if result is None:
 	   # Call Andy version if no results passed to call
-       return self.plotAS()
+      return self.plotAS()
     else:
-       return plotWithLegend (self, result)
+      return plotWithLegend (self, result, loc)
 ##@} 
  
 # ---------------------------------------------------------------------
@@ -524,30 +539,13 @@ def getTestModel (str):
 # 
 #\return Returns the list of available test model names
 def listTestModels():
-    # Get the path where roadrunner is installed
-	  d = os.path.abspath(roadrunner.__file__)
-	  rpath = os.path.dirname (d)
-	  # The test files are located in testing
-	  rpath = rpath + '\\testing'
-	  tmp = os.getcwd()
-	  os.chdir (rpath)
-	  modelList = glob.glob ('*.xml')
-	  os.chdir (tmp)
-	  return modelList
+    modelList = []
+    fileList = roadrunner.testing.dir ('*.xml')
+    for pathName in fileList:
+        modelList.append (os.path.basename (pathName))
+    return modelList
 ##@} 	
 	
-# ---------------------------------------------------------------------
-def getRatesOfChange (self):
-    """
-    Returns the rate of change of all state variables  (eg species) in the model
-    """
-    if self.conservedMoietyAnalysis:
-       m1 = self.getLinkMatrix()
-       m2 = self.model.getStateVectorRate()
-       return m1.dot (m2) 
-    else:
-      return self.model.getStateVectorRate()
-
 # ---------------------------------------------------------------------
 ##\ingroup resetmethods
 #@{
@@ -561,25 +559,15 @@ def resetToOrigin(self):
     """
     self.reset(roadrunner.SelectionRecord.ALL)
 
-##\brief Reset all the state variables to the current initial condition values
-#
-#Example: rr.reset ()
-#def reset(self):
-#    """
-#    This resets the variables, S1, S2 etc to the CURRENT init(X) values. 
-#    It DOES NOT CHANGE the parameters, k1, etc
-#    """
-#    self.reset(roadrunner.SelectionRecord.TIME | roadrunner.SelectionRecord.RATE | roadrunner.SelectionRecord.FLOATING)
 
 ##\brief Reset all the state variables to the current initial condition values and the global parameters back to when the model was first loaded.
 #
-#Example: rr.reset ()
+#Example: rr.resetAll ()
 def resetAll (self):    
     """
     This resets all variables, S1, S2 etc to the CURRENT init(X) values. It also resets all
     parameter back to the values they had when the model was first loaded 
     """
-    
     self.reset(roadrunner.SelectionRecord.TIME | roadrunner.SelectionRecord.RATE | roadrunner.SelectionRecord.FLOATING | roadrunner.SelectionRecord.PARAMETER)
 ##@} 
 
@@ -743,6 +731,119 @@ def getfJac (self):
 
 ##@} 
 
+# --------------------------------------------------------------------- 
+# Routines flattened from model, aves typing and easier for finding the methods
+# ---------------------------------------------------------------------
+##\ingroup Get Information Routines
+#@{
+def getRatesOfChange (self):
+    """
+    Returns the rate of change of all state variables  (eg species) in the model
+    """
+    if self.conservedMoietyAnalysis:
+       m1 = self.getLinkMatrix()
+       m2 = self.model.getStateVectorRate()
+       return m1.dot (m2) 
+    else:
+      return self.model.getStateVectorRate()
+      
+def getBoundarySpeciesConcentrations (self):
+    return self.model.getBoundarySpeciesConcentrations()
+
+def getBoundarySpeciesIds (self):
+    return self.model.getBoundarySpeciesIds()
+    
+def getNumBoundarySpecies (self):
+    return self.model.getNumBoundarySpecies()
+
+def getFloatingSpeciesConcentrations (self):
+    return self.model.getFloatingSpeciesConcentrations ()
+    
+def getFloatingSpeciesIds (self):
+    return self.model.getFloatingSpeciesIds()
+    
+def getNumFloatingSpecies (self):
+    return self.model.getNumFloatingSpecies()
+    
+def getGlobalParameterIds (self):
+    return self.model.getGlobalParameterIds()
+    
+def getGlobalParameterValues (self):
+    return self.model.getGlobalParameterValues() 
+    
+def getNumGlobalParameters (self):
+    return self.model.getNumGlobalParameters() 
+
+def getCompartmentIds (self):
+    return self.model.getCompartmentIds()
+        
+def getCompartmentVolumes (self):
+    return self.model.getCompartmentVolumes()
+        
+def getNumCompartments (self):
+    return self.model.getNumCompartments()
+
+def getConservedMoietyIds (self):
+    return self.model.getConservedMoietyIds()
+            
+def getConservedMoietyValues (self):
+    return self.model.getConservedMoietyValues()
+            
+def getNumConservedMoieties (self):
+    return self.model.getNumConservedMoieties()
+            
+def getNumDepFloatingSpecies (self):
+    return self.model.getNumDepFloatingSpecies()
+            
+def getNumIndFloatingSpecies (self):
+    return self.model.getNumIndFloatingSpecies()
+
+def getNumReactions (self):
+    return self.model.getNumReactions()
+    
+def getReactionIds (self):
+    return self.model.getNumReactions()
+    
+def getReactionRates (self):
+    return self.model.getNumReactions()
+    
+def getNumEvents (self):
+    return self.model.getNumReactions()
+ 
+def getValue (self, name):
+    return self.model.getalue (name)
+    
+def setValue (self, name, value):
+    self.model.setvalue (name, value)
+    
+def setStartTime (self, startTime):
+    self.model.setTime (startTime)
+    pass
+   
+def setEndTime (self, endTime):
+    self.simulateOptions.end = endTime
+
+def getStartTime (self):
+    return self.simulateOptions.start
+    
+def getEndTime (self):
+    return self.simulateOptions.start + self.simulateOptions.duration
+
+def getNumberOfPoints (self):
+    return self.simulateOptions.steps
+    
+def setNumberOfPoints (self, numberOfPoints):
+    self.simulateOptions.steps = numberOfPoints
+
+def getNumRateRules (self):
+    return self.model.getNumRateRules()
+##@}
+    
+# ---------------------------------------------------------------
+# End of routines
+# Now we assign the routines to the roadrunner instance
+# ---------------------------------------------------------------
+    
  # Helper Routines we attach to roadrunner   
 roadrunner.RoadRunner.getSeed = getSeed
 roadrunner.RoadRunner.setSeed = setSeed
@@ -761,8 +862,50 @@ roadrunner.loadTestModel = loadTestModel
 roadrunner.listTestModels = listTestModels
 
 roadrunner.RoadRunner.resetToOrigin = resetToOrigin
-#roadrunner.RoadRunner.reset = reset
 roadrunner.RoadRunner.resetAll = resetAll
+
+# Model flattening routines, saves user from having
+# to type r.model.methodname and from having to 
+# recall where the method is
+
+roadrunner.RoadRunner.getBoundarySpeciesConcentrations = getBoundarySpeciesConcentrations
+roadrunner.RoadRunner.getBoundarySpeciesIds = getBoundarySpeciesIds
+roadrunner.RoadRunner.getNumBoundarySpecies = getNumBoundarySpecies
+
+roadrunner.RoadRunner.getFloatingSpeciesConcentrations = getFloatingSpeciesConcentrations
+roadrunner.RoadRunner.getFloatingSpeciesIds = getFloatingSpeciesIds
+roadrunner.RoadRunner.getNumFloatingSpecies = getNumFloatingSpecies
+
+roadrunner.RoadRunner.getGlobalParameterIds = getGlobalParameterIds
+roadrunner.RoadRunner.getGlobalParameterValues = getGlobalParameterValues
+roadrunner.RoadRunner.getNumGlobalParameters = getNumGlobalParameters
+
+roadrunner.RoadRunner.getCompartmentIds = getCompartmentIds
+roadrunner.RoadRunner.getCompartmentVolumes = getCompartmentVolumes
+roadrunner.RoadRunner.getNumCompartments = getNumCompartments
+
+roadrunner.RoadRunner.getConservedMoietyIds = getConservedMoietyIds
+roadrunner.RoadRunner.getConservedMoietyValues = getConservedMoietyValues
+roadrunner.RoadRunner.getNumConservedMoieties = getNumConservedMoieties
+roadrunner.RoadRunner.getNumConservedMoieties = getNumConservedMoieties
+roadrunner.RoadRunner.getNumConservedMoieties = getNumConservedMoieties
+
+roadrunner.RoadRunner.getNumReactions = getNumReactions
+roadrunner.RoadRunner.getReactionIds = getReactionIds
+roadrunner.RoadRunner.getReactionRates = getReactionRates
+roadrunner.RoadRunner.getNumEvents = getNumEvents
+
+roadrunner.RoadRunner.getValue = getValue
+roadrunner.RoadRunner.setValue = setValue
+roadrunner.RoadRunner.setStartTime = setStartTime # Start time
+roadrunner.RoadRunner.setEndTime = setEndTime # Start time
+roadrunner.RoadRunner.getStartTime = getStartTime # End time
+roadrunner.RoadRunner.getEndTime = getEndTime # End time
+roadrunner.RoadRunner.getNumberOfPoints = getNumberOfPoints
+roadrunner.RoadRunner.setNumberOfPoints = setNumberOfPoints
+roadrunner.RoadRunner.getNumRateRules = getNumRateRules
+
+# -------------------------------------------------------
 
 # Jarnac compatibility layer
 roadrunner.RoadRunner.sm = getSm
@@ -777,7 +920,9 @@ roadrunner.RoadRunner.dv = getDv
 roadrunner.RoadRunner.rv = getRv
 roadrunner.RoadRunner.sv = getSv
 
-#augmentRoadrunnerCtor()
+# ---------------------------------------------------------------
+# NExt comes general documenation
+# ---------------------------------------------------------------
 
 ##\mainpage notitle
 #\section Introduction
