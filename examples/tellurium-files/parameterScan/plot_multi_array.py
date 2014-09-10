@@ -11,7 +11,6 @@ cell = '''
 '''
 
 rr = te.loadAntimonyModel(cell)
-
 p = ParameterScan(rr)
 
 p.startTime = 0
