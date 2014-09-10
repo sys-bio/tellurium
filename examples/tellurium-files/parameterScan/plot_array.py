@@ -17,7 +17,8 @@ p.startTime = 0
 p.endTime = 20
 p.numberOfPoints = 50
 p.width = 2
+p.xlabel = 'Time'
+p.ylabel = 'Concentration'
 p.title = 'Cell'
-p.selection = ['Time', 'S1', 'S2']
 
-p.plotMultiArray('k1', [1, 1.5, 2], 'k3', [.5, 1, 1.5])
+p.plotArray()

@@ -22,10 +22,10 @@ p.numberOfPoints = 50
 p.polyNumber = 10
 p.endValue = 1.8
 p.alpha = 0.8
-p.parameter = "x"
+p.value = "x"
 p.selection = "x"
 p.color = ['#0F0F3D', '#141452', '#1A1A66', '#1F1F7A', '#24248F', '#2929A3',
-                 '#2E2EB8', '#3333CC', '#4747D1', '#5C5CD6']
+           '#2E2EB8', '#3333CC', '#4747D1', '#5C5CD6']
 
 p.plotPolyArray()
 
