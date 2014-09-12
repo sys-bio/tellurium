@@ -568,7 +568,8 @@ def resetAll (self):
     This resets all variables, S1, S2 etc to the CURRENT init(X) values. It also resets all
     parameter back to the values they had when the model was first loaded 
     """
-    self.reset(roadrunner.SelectionRecord.TIME | roadrunner.SelectionRecord.RATE | roadrunner.SelectionRecord.FLOATING | roadrunner.SelectionRecord.PARAMETER)
+    self.reset(roadrunner.SelectionRecord.TIME | roadrunner.SelectionRecord.RATE | \
+               roadrunner.SelectionRecord.FLOATING | roadrunner.SelectionRecord.GLOBAL_PARAMETER)
 ##@} 
 
 # --------------------------------------------------------------------- 
@@ -810,11 +811,11 @@ def getReactionRates (self):
 def getNumEvents (self):
     return self.model.getNumReactions()
  
-def getValue (self, name):
-    return self.model.getalue (name)
+#def getValue (self, name):
+#    return self.model.getalue (name)
     
-def setValue (self, name, value):
-    self.model.setvalue (name, value)
+#def setValue (self, name, value):
+#    self.model.setvalue (name, value)
     
 def setStartTime (self, startTime):
     self.model.setTime (startTime)
@@ -896,7 +897,7 @@ roadrunner.RoadRunner.getReactionRates = getReactionRates
 roadrunner.RoadRunner.getNumEvents = getNumEvents
 
 #roadrunner.RoadRunner.getValue = getValue
-roadrunner.RoadRunner.setValue = setValue
+#roadrunner.RoadRunner.setValue = setValue
 roadrunner.RoadRunner.setStartTime = setStartTime # Start time
 roadrunner.RoadRunner.setEndTime = setEndTime # Start time
 roadrunner.RoadRunner.getStartTime = getStartTime # End time
