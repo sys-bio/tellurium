@@ -1,11 +1,11 @@
 import tellurium as te
-import teExport as ex
+import tellurium.Export as ex
 
 newModel = '''
        $Xo -> S1; k1*Xo;
        S1 -> S2; k2*S1;
-       S2 -> $X1; k3*S2; 
-       
+       S2 -> $X1; k3*S2;
+
        Xo = 50; S1 = 0; S2 = 0;
        k1 = 0.2; k2 = 0.4; k3 = 2;
 '''
