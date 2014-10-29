@@ -1,2 +1,0 @@
-from ParameterScan import ParameterScan
-from ParameterScan import SteadyStateScan
