@@ -8,5 +8,5 @@ setup(name='tellurium',
       version=version,
       description='Tellurium',
       url='https://github.com/sys-bio/tellurium',
-      packages=['', 'teExport', 'teParameterScan']
+      packages=['tellurium']
       )
