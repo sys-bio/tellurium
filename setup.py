@@ -13,6 +13,8 @@ setup(name='tellurium',
           'tellurium.analysis',
           'tellurium.Export',
           'tellurium.ParameterScan',
-          'tellurium.widgets'
+          'tellurium.widgets',
+          'tellurium.optimization',
+          'tellurium.analysis'
       ]
       )
