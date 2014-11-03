@@ -1,16 +1,20 @@
-import networkx as nx
-import libsbml
 class SBMLDiagram():
     '''
     Create a network diagram from a sbml model.
-
     '''
 
-    def __init__(self, sbml):
+    def __init__(self, sbml,
+                 species={},
+                 reactions={},
+                 reactants={},
+                 products={},
+                 modifiers={}):
         '''
-        sbml -- an SBML string, libsbml.SBMLDocument object, or libsbml.Model object
-
+        sbml -- an SBML string, libsbml.SBMLDocument object, or
+        libsbml.Model object
         '''
+        import pygraphviz as pgv
+        import libsbml
 
         if isinstance(sbml, basestring):
             self.doc = libsbml.readSBMLFromString(sbml)
@@ -23,67 +27,44 @@ class SBMLDiagram():
         else:
             raise Exception('SBML Input is not valid')
 
-        self.G = nx.DiGraph()
-        self.labels = {}
-        self.species = []
-        self.reactions = []
+        self.G = pgv.AGraph(strict=False, directed=True)
+
         for i, s in enumerate(self.model.species):
-            self.G.add_node(s.getId())
-            self.species.append(s.getId())
+            if s.getName():
+                label = s.getName()
+            else:
+                label = s.getId()
+            self.G.add_node(s.getId(), label=label, **species)
         for i, r in enumerate(self.model.reactions):
-            self.G.add_node(r.getId())
-            self.reactions.append(r.getId())
+            if r.getName():
+                label = r.getName()
+            else:
+                label = r.getId()
+            self.G.add_node(r.getId(), label=label, **reactions)
             for s in r.reactants:
-                self.G.add_edge(s.getSpecies(), r.getId(), kind='reactant')
+                self.G.add_edge(s.getSpecies(), r.getId(), **reactants)
             for s in r.products:
-                self.G.add_edge(r.getId(), s.getSpecies(), kind='product')
+                self.G.add_edge(r.getId(), s.getSpecies(), **products)
             for s in r.modifiers:
-                self.G.add_edge(s.getSpecies(), r.getId(), kind='modifier')
+                self.G.add_edge(s.getSpecies(), r.getId(), **modifiers)
 
-        self.modifier_edges = [key for key, val in nx.get_edge_attributes(self.G, 'kind').items() if val == 'modifier']
-        self.product_edges = [key for key, val in nx.get_edge_attributes(self.G, 'kind').items() if val == 'product']
-        self.reactant_edges = [key for key, val in nx.get_edge_attributes(self.G, 'kind').items() if val == 'reactant']
-        #mass_transfer_edges = [key for key, val in nx.get_edge_attributes(G, 'kind').items() if val != 'modifier']
-
-        # Default drawing options
-        self.options = {}
-        self.options['species'] = {
-            'size': 500,
-            'color': 'r',
-            'alpha': 0.8,
-            'label_size': 16
-        }
-        self.options
-
-
-    def draw(self, layout_type='spring_layout'):
+    def draw(self,
+             layout='neato'):
         '''
         Draw the graph
 
-        layout_type = The type of layout algorithm (Default = 'spring_layout')
+        Optional layout=['neato'|'dot'|'twopi'|'circo'|'fdp'|'nop']
+        will use specified graphviz layout method.
         '''
+        import tempfile
+        from IPython.display import Image, display
+        import os
 
-        import matplotlib.pyplot as plt
+        f = tempfile.NamedTemporaryFile()
+        fname = f.name + '.png'
+        self.G.layout(prog=layout)
+        self.G.draw(fname)
 
-        try:
-            pos = getattr(nx, layout_type)(self.G)
-        except:
-            raise Exception('layout_type of %s is not valid' % layout_type)
-
-
-        nx.draw_networkx_nodes(self.G,pos,
-                               nodelist=self.species,
-                               node_color=self.options['species']['color'],
-                               node_size=self.options['species']['size'],
-                               alpha=self.options['species']['alpha'])
-        nx.draw_networkx_edges(self.G, pos, edgelist=self.product_edges)
-        nx.draw_networkx_edges(self.G, pos, edgelist=self.reactant_edges, arrows=False)
-        nx.draw_networkx_edges(self.G, pos, edgelist=self.modifier_edges, style='dashed')
-
-        labels = {}
-        for n in self.G.nodes():
-            if n in self.species:
-                labels[n] = n
-        nx.draw_networkx_labels(self.G,pos,labels,font_size=self.options['species']['label_size'])
-        plt.axis('off')
-        plt.show()
+        i = Image(filename=fname)
+        display(i)
+        os.remove(fname)
