@@ -31,7 +31,7 @@ Support routines for tellurium
 import matplotlib.pyplot as plt
 import roadrunner
 import roadrunner.testing
-import libantimony
+import antimony
 import tellurium
 import numpy
 import os
@@ -157,16 +157,16 @@ def loadAntimonyModel (antStr):
     
     r = loadAntModel (antimonyStr)
     """
-    err = libantimony.loadAntimonyString (antStr)
+    err = antimony.loadAntimonyString (antStr)
  
     if (err < 0):
-       raise Exception('Antimony: ' + libantimony.getLastError())
+       raise Exception('Antimony: ' + antimony.getLastError())
        
-    Id = libantimony.getMainModuleName()
-    sbmlStr = libantimony.getSBMLString(Id)
+    Id = antimony.getMainModuleName()
+    sbmlStr = antimony.getSBMLString(Id)
     rr = roadrunner.RoadRunner(sbmlStr)
     
-    libantimony.clearPreviousLoads()
+    antimony.clearPreviousLoads()
     
     return rr
 
@@ -207,13 +207,13 @@ def antimonyTosbml (antStr):
 
     sbmlStr = antimonyTosbml (antimonyStr)
     """
-    err = libantimony.loadAntimonyString (antStr)
+    err = antimony.loadAntimonyString (antStr)
 
     if (err < 0):
-       raise Exception('Antimony: ' + libantimony.getLastError())
+       raise Exception('Antimony: ' + antimony.getLastError())
 
-    Id = libantimony.getMainModuleName()
-    return libantimony.getSBMLString(Id)    
+    Id = antimony.getMainModuleName()
+    return antimony.getSBMLString(Id)    
  
 ##\brief Converts a SBML model to Antimony
 #\return Returns the Antimony model as a string
@@ -222,12 +222,12 @@ def sbmlToAntimony (str):
 
     sbmlStr = sbmlToAntimony (antimonyStr)
     """
-    err = libantimony.loadSBMLString (str)
+    err = antimony.loadSBMLString (str)
 
     if (err < 0):
-       raise Exception('Antimony: ' + libantimony.getLastError())
+       raise Exception('Antimony: ' + antimony.getLastError())
 
-    return libantimony.getAntimonyString(None)
+    return antimony.getAntimonyString(None)
       
 def cellmlFileToAntimony (CellMLFileName):
     """Load a cellml file and return the
@@ -235,10 +235,10 @@ def cellmlFileToAntimony (CellMLFileName):
     
     ant = cellMLToAntimony('mymodel.cellml')
     """
-    if libantimony.loadCellMLFile(CellMLFileName) == -1:
+    if antimony.loadCellMLFile(CellMLFileName) == -1:
        raise Exception ('Error calling loadCellMLFile')
-    libantimony.loadCellMLFile(CellMLFileName)
-    return libantimony.getAntimonyString (None)
+    antimony.loadCellMLFile(CellMLFileName)
+    return antimony.getAntimonyString (None)
  
     
 def cellmlFileToSBML (CellMLFileName):
@@ -248,9 +248,9 @@ def cellmlFileToSBML (CellMLFileName):
     sbmlStr = cellMLToSBML('mymodel.cellml')
     """
     
-    if libantimony.loadCellMLFile(CellMLFileName) < 0:
-       raise Exception ('Error calling loadCellMLFile'+ libantimony.getLastError())
-    return libantimony.getSBMLString (None)
+    if antimony.loadCellMLFile(CellMLFileName) < 0:
+       raise Exception ('Error calling loadCellMLFile'+ antimony.getLastError())
+    return antimony.getSBMLString (None)
 
 
 def cellmlStrToAntimony (CellMLStr):
@@ -259,9 +259,9 @@ def cellmlStrToAntimony (CellMLStr):
     
     ant = cellMLStrToAntimony('mymodel.cellml')
     """
-    if libantimony.loadCellMLFile(CellMLStr) < 0:
-       raise Exception ('Error calling cellMLStrToAntimony' + libantimony.getLastError())
-    return libantimony.getAntimonyString (None)
+    if antimony.loadCellMLFile(CellMLStr) < 0:
+       raise Exception ('Error calling cellMLStrToAntimony' + antimony.getLastError())
+    return antimony.getAntimonyString (None)
     
     
 def cellmlStrToSBML (CellMLStr):
@@ -270,9 +270,9 @@ def cellmlStrToSBML (CellMLStr):
     
     sbmlStr = cellMLStrToSBML('mymodel.cellml')
     """
-    if libantimony.loadCellMLFile(CellMLStr) < 0:
-       raise Exception ('Error calling cellMLStrToSBML' + libantimony.getLastError())
-    return libantimony.getSBMLString (None)
+    if antimony.loadCellMLFile(CellMLStr) < 0:
+       raise Exception ('Error calling cellMLStrToSBML' + antimony.getLastError())
+    return antimony.getSBMLString (None)
 ##@}     
 
 # ---------------------------------------------------------------------
@@ -382,32 +382,50 @@ def RoadRunner(args):
 #@{
 
 #\cond
-def plotWithLegend (r, result, myloc = 'upper left'):
+def plotWithLegend (r, result=None, loc='upper left', show=True):
     """
     Plot an array and include a legend. The first argument must be a roadrunner variable. 
     The second argument must be an array containing data to plot. The first column of the array will
     be the x-axis and remaining columns the y-axis. Returns
     a handle to the plotting object.
     
-    plotWithLegend (r, result)
+    plotWithLegend (r)
     """
+    import matplotlib.pyplot as p
+    
+    if not isinstance (r, roadrunner.RoadRunner):
+        raise Exception ('First argument must be a roadrunner variable')
+
+    if result is None:
+        result = r.getSimulationData()
+
+    if result is None:
+        raise Exception("no simulation result")
+
     if result.dtype.names is None:
-       if not isinstance (r, roadrunner.RoadRunner):
-          raise Exception ('First argument must be a roadrunner variable')
        columns = result.shape[1]
        legendItems = r.selections[1:]       
        if columns-1 != len (legendItems):
            raise Exception ('Legend list must match result array')
        for i in range(columns-1):
            plt.plot (result[:,0], result[:,i+1], linewidth=2.5, label=legendItems[i])           
-       plt.legend (loc=myloc)    
-       plt.show()
-       return plt
     else:
-        str = """The result array must be unstructured. Use the command: 
-        roadrunner.Config.setValue(rr.Config.SIMULATEOPTIONS_STRUCTURED_RESULT, False)
-        to set the right mode."""       
-        raise Exception (str)
+        # result is structured array
+        if len(result.dtype.names) < 1:
+            raise Exception('no columns to plot')
+
+        time = result.dtype.names[0]
+
+        for name in result.dtype.names[1:]:
+            p.plot(result[time], result[name], label=name)
+
+    plt.legend (loc=loc)
+
+    if show:
+        plt.show()
+    return plt
+
+
 #\endcond
  
 #\cond  
@@ -462,12 +480,12 @@ def plotArray (result):
 #
 #\param[in] result Data returned from a simulate or gillespie call
 #\return Returns the plot object
-def plot (self, result=None, loc='upper left'):
+def plot (self, result=None, loc='upper left', show=True):
     if result is None:
 	   # Call Andy version if no results passed to call
       return self.plotAS()
     else:
-      return plotWithLegend (self, result, loc)
+      return plotWithLegend(self, result, loc)
 ##@} 
  
 # ---------------------------------------------------------------------
@@ -1210,9 +1228,9 @@ roadrunner.RoadRunner.sv = getSv
 #
 #    def new_init(self, *args):
 #        #get sbml and recompose args tuple
-#        if (len(args) > 1 and libantimony.loadAntimonyString(args[0]) >= 0):
+#        if (len(args) > 1 and antimony.loadAntimonyString(args[0]) >= 0):
 #            args = ((antimonyTosbml(args[0]),) + args[1:])
-#        elif (len(args) == 1 and libantimony.loadAntimonyString(args[0]) >= 0):
+#        elif (len(args) == 1 and antimony.loadAntimonyString(args[0]) >= 0):
 #            args = (antimonyTosbml(args[0]),)
 #        else:
 #            pass
