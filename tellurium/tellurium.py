@@ -1088,7 +1088,7 @@ roadrunner.RoadRunner.sv = getSv
 #    S1 -> S2; k1*S1;
 #    S2 -> S3; k2*S2; 
 #    k1 = 0.1; S1 = 10
-#  ''')
+#  '''
 #  # Generate the SBML format of the Antimony model
 #  print te.antimonyTosbml (antStr)
 #@endcode
