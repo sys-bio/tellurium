@@ -3,7 +3,7 @@
 # -*- coding: utf-8 -*-
 """
 Created on Thu Oct 10 14:34:07 2013
-Updated: Sepyt 9, 2014
+Updated: Jan 30, 2015
 
 @author: Herbert M Sauro
 
@@ -1052,12 +1052,16 @@ roadrunner.RoadRunner.sv = getSv
 #@endcode
 
 
-##\defgroup interconversion  Interconversion Methods
+##\defgroup interconversion Interconversion Methods
 # \brief Methods to interconvert different formats
 #
-# Use these routines interconvert verious standard formats
+# Use these routines interconvert various standard formats
 #
 #Examples:<br>
+#@code
+#  import tellurium as te
+#@endcode
+#<br>
 #@code
 #  # Convert an SBML model into Antimony
 #
@@ -1073,7 +1077,20 @@ roadrunner.RoadRunner.sv = getSv
 #  # Load an Antimony file
 #  antStr = te.readFromFile ('mymodel.ant')
 #  # Generate the SBML format of the Antimony model
-#  print te.antimonyToSBML (antStr)
+#  print te.antimonyTosbml (antStr)
+#@endcode
+#<br>
+#@code
+#  # Convert an Antimony model into SBML
+#
+#  # Load an Antimony file
+#  antStr = '''
+#    S1 -> S2; k1*S1;
+#    S2 -> S3; k2*S2; 
+#    k1 = 0.1; S1 = 10
+#  ''')
+#  # Generate the SBML format of the Antimony model
+#  print te.antimonyTosbml (antStr)
 #@endcode
 
 ##\defgroup stochastic  Stochastic Simulation Methods
