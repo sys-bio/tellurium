@@ -1,21 +1,37 @@
 ##@Module Tellurium
-#This module allows access to the rr_c_api.dll from python"""
 
 # -*- coding: utf-8 -*-
 """
 Created on Thu Oct 10 14:34:07 2013
-Updated: August 5, 2014
+Updated: March 25, 2015
 
 @author: Herbert M Sauro
 
-Supporting routines for tellurium
+Support routines for tellurium
 
 """
+
+# provide emergency fix self install - no longer needed
+#if __name__ == "__main__":
+#    src = __file__
+#    import tellurium as te
+#    
+#    import shutil
+#    import os.path as path
+#    base = path.split(te.__file__)[0]
+#    dst = path.join(base, "tellurium.py")
+#    backup = path.join(base, "tellurium.backup")
+#
+#    print("backing up {} to {}".format(dst, backup))
+#    print("fixing {} with new file {}".format(dst, src))
+#    
+#    shutil.copyfile(dst, backup)
+#    shutil.copyfile(src, dst)
 
 import matplotlib.pyplot as plt
 import roadrunner
 import roadrunner.testing
-import libantimony
+import antimony
 import tellurium
 import numpy
 import os
@@ -28,6 +44,7 @@ except ImportError as e:
     roadrunner.Logger.log(roadrunner.Logger.LOG_WARNING, str(e))
 
 tehold = False # Same as matlab hold
+
 
 # For some reason we can only access the tehold variable via methods
 def setHold (myHold):
@@ -140,16 +157,16 @@ def loadAntimonyModel (antStr):
     
     r = loadAntModel (antimonyStr)
     """
-    err = libantimony.loadAntimonyString (antStr)
+    err = antimony.loadAntimonyString (antStr)
  
     if (err < 0):
-       raise Exception('Antimony: ' + libantimony.getLastError())
+       raise Exception('Antimony: ' + antimony.getLastError())
        
-    Id = libantimony.getMainModuleName()
-    sbmlStr = libantimony.getSBMLString(Id)
+    Id = antimony.getMainModuleName()
+    sbmlStr = antimony.getSBMLString(Id)
     rr = roadrunner.RoadRunner(sbmlStr)
     
-    libantimony.clearPreviousLoads()
+    antimony.clearPreviousLoads()
     
     return rr
 
@@ -190,13 +207,13 @@ def antimonyTosbml (antStr):
 
     sbmlStr = antimonyTosbml (antimonyStr)
     """
-    err = libantimony.loadAntimonyString (antStr)
+    err = antimony.loadAntimonyString (antStr)
 
     if (err < 0):
-       raise Exception('Antimony: ' + libantimony.getLastError())
+       raise Exception('Antimony: ' + antimony.getLastError())
 
-    Id = libantimony.getMainModuleName()
-    return libantimony.getSBMLString(Id)    
+    Id = antimony.getMainModuleName()
+    return antimony.getSBMLString(Id)    
  
 ##\brief Converts a SBML model to Antimony
 #\return Returns the Antimony model as a string
@@ -205,12 +222,12 @@ def sbmlToAntimony (str):
 
     sbmlStr = sbmlToAntimony (antimonyStr)
     """
-    err = libantimony.loadSBMLString (str)
+    err = antimony.loadSBMLString (str)
 
     if (err < 0):
-       raise Exception('Antimony: ' + libantimony.getLastError())
+       raise Exception('Antimony: ' + antimony.getLastError())
 
-    return libantimony.getAntimonyString(None)
+    return antimony.getAntimonyString(None)
       
 def cellmlFileToAntimony (CellMLFileName):
     """Load a cellml file and return the
@@ -218,10 +235,10 @@ def cellmlFileToAntimony (CellMLFileName):
     
     ant = cellMLToAntimony('mymodel.cellml')
     """
-    if libantimony.loadCellMLFile(CellMLFileName) == -1:
+    if antimony.loadCellMLFile(CellMLFileName) == -1:
        raise Exception ('Error calling loadCellMLFile')
-    libantimony.loadCellMLFile(CellMLFileName)
-    return libantimony.getAntimonyString (None)
+    antimony.loadCellMLFile(CellMLFileName)
+    return antimony.getAntimonyString (None)
  
     
 def cellmlFileToSBML (CellMLFileName):
@@ -231,9 +248,9 @@ def cellmlFileToSBML (CellMLFileName):
     sbmlStr = cellMLToSBML('mymodel.cellml')
     """
     
-    if libantimony.loadCellMLFile(CellMLFileName) < 0:
-       raise Exception ('Error calling loadCellMLFile'+ libantimony.getLastError())
-    return libantimony.getSBMLString (None)
+    if antimony.loadCellMLFile(CellMLFileName) < 0:
+       raise Exception ('Error calling loadCellMLFile'+ antimony.getLastError())
+    return antimony.getSBMLString (None)
 
 
 def cellmlStrToAntimony (CellMLStr):
@@ -242,9 +259,9 @@ def cellmlStrToAntimony (CellMLStr):
     
     ant = cellMLStrToAntimony('mymodel.cellml')
     """
-    if libantimony.loadCellMLFile(CellMLStr) < 0:
-       raise Exception ('Error calling cellMLStrToAntimony' + libantimony.getLastError())
-    return libantimony.getAntimonyString (None)
+    if antimony.loadCellMLFile(CellMLStr) < 0:
+       raise Exception ('Error calling cellMLStrToAntimony' + antimony.getLastError())
+    return antimony.getAntimonyString (None)
     
     
 def cellmlStrToSBML (CellMLStr):
@@ -253,9 +270,9 @@ def cellmlStrToSBML (CellMLStr):
     
     sbmlStr = cellMLStrToSBML('mymodel.cellml')
     """
-    if libantimony.loadCellMLFile(CellMLStr) < 0:
-       raise Exception ('Error calling cellMLStrToSBML' + libantimony.getLastError())
-    return libantimony.getSBMLString (None)
+    if antimony.loadCellMLFile(CellMLStr) < 0:
+       raise Exception ('Error calling cellMLStrToSBML' + antimony.getLastError())
+    return antimony.getSBMLString (None)
 ##@}     
 
 # ---------------------------------------------------------------------
@@ -365,32 +382,50 @@ def RoadRunner(args):
 #@{
 
 #\cond
-def plotWithLegend (r, result):
+def plotWithLegend (r, result=None, loc='upper left', show=True):
     """
     Plot an array and include a legend. The first argument must be a roadrunner variable. 
     The second argument must be an array containing data to plot. The first column of the array will
     be the x-axis and remaining columns the y-axis. Returns
     a handle to the plotting object.
     
-    plotWithLegend (r, result)
+    plotWithLegend (r)
     """
+    import matplotlib.pyplot as p
+    
+    if not isinstance (r, roadrunner.RoadRunner):
+        raise Exception ('First argument must be a roadrunner variable')
+
+    if result is None:
+        result = r.getSimulationData()
+
+    if result is None:
+        raise Exception("no simulation result")
+
     if result.dtype.names is None:
-       if not isinstance (r, roadrunner.RoadRunner):
-          raise Exception ('First argument must be a roadrunner variable')
        columns = result.shape[1]
        legendItems = r.selections[1:]       
        if columns-1 != len (legendItems):
            raise Exception ('Legend list must match result array')
        for i in range(columns-1):
-           plt.plot (result[:,0], result[:,i+1], linewidth=2.5, label=legendItems[i])
-       plt.legend (loc='upper left')    
-       plt.show()
-       return plt
+           plt.plot (result[:,0], result[:,i+1], linewidth=2.5, label=legendItems[i])           
     else:
-        str = """The result array must be unstructured. Use the command: 
-        roadrunner.Config.setValue(rr.Config.SIMULATEOPTIONS_STRUCTURED_RESULT, False)
-        to set the right mode."""       
-        raise Exception (str)
+        # result is structured array
+        if len(result.dtype.names) < 1:
+            raise Exception('no columns to plot')
+
+        time = result.dtype.names[0]
+
+        for name in result.dtype.names[1:]:
+            p.plot(result[time], result[name], label=name)
+
+    plt.legend (loc=loc)
+
+    if show:
+        plt.show()
+    return plt
+
+
 #\endcond
  
 #\cond  
@@ -428,8 +463,6 @@ def plotArray (result):
     p = plt.plot (result[:,0],result[:,1:], linewidth=2.5)
     if tehold == False:    
        plt.show()
-    else:
-       print "Show not called"
     return p
 
     
@@ -447,12 +480,12 @@ def plotArray (result):
 #
 #\param[in] result Data returned from a simulate or gillespie call
 #\return Returns the plot object
-def plot (self, result=None):
+def plot (self, result=None, loc='upper left', show=True):
     if result is None:
 	   # Call Andy version if no results passed to call
-       return self.plotAS()
+      return self.plotAS()
     else:
-       return plotWithLegend (self, result)
+      return plotWithLegend(self, result, loc)
 ##@} 
  
 # ---------------------------------------------------------------------
@@ -524,30 +557,13 @@ def getTestModel (str):
 # 
 #\return Returns the list of available test model names
 def listTestModels():
-    # Get the path where roadrunner is installed
-	  d = os.path.abspath(roadrunner.__file__)
-	  rpath = os.path.dirname (d)
-	  # The test files are located in testing
-	  rpath = rpath + '\\testing'
-	  tmp = os.getcwd()
-	  os.chdir (rpath)
-	  modelList = glob.glob ('*.xml')
-	  os.chdir (tmp)
-	  return modelList
+    modelList = []
+    fileList = roadrunner.testing.dir ('*.xml')
+    for pathName in fileList:
+        modelList.append (os.path.basename (pathName))
+    return modelList
 ##@} 	
 	
-# ---------------------------------------------------------------------
-def getRatesOfChange (self):
-    """
-    Returns the rate of change of all state variables  (eg species) in the model
-    """
-    if self.conservedMoietyAnalysis:
-       m1 = self.getLinkMatrix()
-       m2 = self.model.getStateVectorRate()
-       return m1.dot (m2) 
-    else:
-      return self.model.getStateVectorRate()
-
 # ---------------------------------------------------------------------
 ##\ingroup resetmethods
 #@{
@@ -561,26 +577,17 @@ def resetToOrigin(self):
     """
     self.reset(roadrunner.SelectionRecord.ALL)
 
-##\brief Reset all the state variables to the current initial condition values
-#
-#Example: rr.reset ()
-#def reset(self):
-#    """
-#    This resets the variables, S1, S2 etc to the CURRENT init(X) values. 
-#    It DOES NOT CHANGE the parameters, k1, etc
-#    """
-#    self.reset(roadrunner.SelectionRecord.TIME | roadrunner.SelectionRecord.RATE | roadrunner.SelectionRecord.FLOATING)
 
 ##\brief Reset all the state variables to the current initial condition values and the global parameters back to when the model was first loaded.
 #
-#Example: rr.reset ()
+#Example: rr.resetAll ()
 def resetAll (self):    
     """
     This resets all variables, S1, S2 etc to the CURRENT init(X) values. It also resets all
     parameter back to the values they had when the model was first loaded 
     """
-    
-    self.reset(roadrunner.SelectionRecord.TIME | roadrunner.SelectionRecord.RATE | roadrunner.SelectionRecord.FLOATING | roadrunner.SelectionRecord.PARAMETER)
+    self.reset(roadrunner.SelectionRecord.TIME | roadrunner.SelectionRecord.RATE | \
+               roadrunner.SelectionRecord.FLOATING | roadrunner.SelectionRecord.GLOBAL_PARAMETER)
 ##@} 
 
 # --------------------------------------------------------------------- 
@@ -743,7 +750,120 @@ def getfJac (self):
 
 ##@} 
 
- # Helper Routines we attach to roadrunner   
+# --------------------------------------------------------------------- 
+# Routines flattened from model, aves typing and easier for finding the methods
+# ---------------------------------------------------------------------
+##\ingroup Get Information Routines
+#@{
+def getRatesOfChange (self):
+    """
+    Returns the rate of change of all state variables  (eg species) in the model
+    """
+    if self.conservedMoietyAnalysis:
+       m1 = self.getLinkMatrix()
+       m2 = self.model.getStateVectorRate()
+       return m1.dot (m2) 
+    else:
+      return self.model.getStateVectorRate()
+      
+def getBoundarySpeciesConcentrations (self):
+    return self.model.getBoundarySpeciesConcentrations()
+
+def getBoundarySpeciesIds (self):
+    return self.model.getBoundarySpeciesIds()
+    
+def getNumBoundarySpecies (self):
+    return self.model.getNumBoundarySpecies()
+
+def getFloatingSpeciesConcentrations (self):
+    return self.model.getFloatingSpeciesConcentrations ()
+    
+def getFloatingSpeciesIds (self):
+    return self.model.getFloatingSpeciesIds()
+    
+def getNumFloatingSpecies (self):
+    return self.model.getNumFloatingSpecies()
+    
+def getGlobalParameterIds (self):
+    return self.model.getGlobalParameterIds()
+    
+def getGlobalParameterValues (self):
+    return self.model.getGlobalParameterValues() 
+    
+def getNumGlobalParameters (self):
+    return self.model.getNumGlobalParameters() 
+
+def getCompartmentIds (self):
+    return self.model.getCompartmentIds()
+        
+def getCompartmentVolumes (self):
+    return self.model.getCompartmentVolumes()
+        
+def getNumCompartments (self):
+    return self.model.getNumCompartments()
+
+def getConservedMoietyIds (self):
+    return self.model.getConservedMoietyIds()
+            
+def getConservedMoietyValues (self):
+    return self.model.getConservedMoietyValues()
+            
+def getNumConservedMoieties (self):
+    return self.model.getNumConservedMoieties()
+            
+def getNumDepFloatingSpecies (self):
+    return self.model.getNumDepFloatingSpecies()
+            
+def getNumIndFloatingSpecies (self):
+    return self.model.getNumIndFloatingSpecies()
+
+def getNumReactions (self):
+    return self.model.getNumReactions()
+    
+def getReactionIds (self):
+    return self.model.getReactionIds()
+    
+def getReactionRates (self):
+    return self.model.getReactionRates()
+    
+def getNumEvents (self):
+    return self.model.getNumEvents()
+ 
+#def getValue (self, name):
+#    return self.model.getalue (name)
+    
+#def setValue (self, name, value):
+#    self.model.setvalue (name, value)
+    
+def setStartTime (self, startTime):
+    self.model.setTime (startTime)
+    pass
+   
+def setEndTime (self, endTime):
+    self.simulateOptions.end = endTime
+
+def getStartTime (self):
+    return self.simulateOptions.start
+    
+def getEndTime (self):
+    return self.simulateOptions.start + self.simulateOptions.duration
+
+def getNumberOfPoints (self):
+    return self.simulateOptions.steps
+    
+def setNumberOfPoints (self, numberOfPoints):
+    self.simulateOptions.steps = numberOfPoints
+
+def getNumRateRules (self):
+    return self.model.getNumRateRules()
+##@}
+    
+# ---------------------------------------------------------------
+# End of routines
+# Now we assign the routines to the roadrunner instance
+# ---------------------------------------------------------------
+    
+# Helper Routines we attach to roadrunner   
 roadrunner.RoadRunner.getSeed = getSeed
 roadrunner.RoadRunner.setSeed = setSeed
 roadrunner.RoadRunner.gillespie = gillespie
@@ -761,8 +881,50 @@ roadrunner.loadTestModel = loadTestModel
 roadrunner.listTestModels = listTestModels
 
 roadrunner.RoadRunner.resetToOrigin = resetToOrigin
-#roadrunner.RoadRunner.reset = reset
 roadrunner.RoadRunner.resetAll = resetAll
+
+# Model flattening routines, saves user from having
+# to type r.model.methodname and from having to 
+# recall where the method is
+
+roadrunner.RoadRunner.getBoundarySpeciesConcentrations = getBoundarySpeciesConcentrations
+roadrunner.RoadRunner.getBoundarySpeciesIds = getBoundarySpeciesIds
+roadrunner.RoadRunner.getNumBoundarySpecies = getNumBoundarySpecies
+
+roadrunner.RoadRunner.getFloatingSpeciesConcentrations = getFloatingSpeciesConcentrations
+roadrunner.RoadRunner.getFloatingSpeciesIds = getFloatingSpeciesIds
+roadrunner.RoadRunner.getNumFloatingSpecies = getNumFloatingSpecies
+
+roadrunner.RoadRunner.getGlobalParameterIds = getGlobalParameterIds
+roadrunner.RoadRunner.getGlobalParameterValues = getGlobalParameterValues
+roadrunner.RoadRunner.getNumGlobalParameters = getNumGlobalParameters
+
+roadrunner.RoadRunner.getCompartmentIds = getCompartmentIds
+roadrunner.RoadRunner.getCompartmentVolumes = getCompartmentVolumes
+roadrunner.RoadRunner.getNumCompartments = getNumCompartments
+
+roadrunner.RoadRunner.getConservedMoietyIds = getConservedMoietyIds
+roadrunner.RoadRunner.getConservedMoietyValues = getConservedMoietyValues
+roadrunner.RoadRunner.getNumConservedMoieties = getNumConservedMoieties
+roadrunner.RoadRunner.getNumConservedMoieties = getNumConservedMoieties
+roadrunner.RoadRunner.getNumConservedMoieties = getNumConservedMoieties
+
+roadrunner.RoadRunner.getNumReactions = getNumReactions
+roadrunner.RoadRunner.getReactionIds = getReactionIds
+roadrunner.RoadRunner.getReactionRates = getReactionRates
+roadrunner.RoadRunner.getNumEvents = getNumEvents
+
+#roadrunner.RoadRunner.getValue = getValue
+#roadrunner.RoadRunner.setValue = setValue
+roadrunner.RoadRunner.setStartTime = setStartTime # Start time
+roadrunner.RoadRunner.setEndTime = setEndTime # Start time
+roadrunner.RoadRunner.getStartTime = getStartTime # End time
+roadrunner.RoadRunner.getEndTime = getEndTime # End time
+roadrunner.RoadRunner.getNumberOfPoints = getNumberOfPoints
+roadrunner.RoadRunner.setNumberOfPoints = setNumberOfPoints
+roadrunner.RoadRunner.getNumRateRules = getNumRateRules
+
+# -------------------------------------------------------
 
 # Jarnac compatibility layer
 roadrunner.RoadRunner.sm = getSm
@@ -777,7 +939,9 @@ roadrunner.RoadRunner.dv = getDv
 roadrunner.RoadRunner.rv = getRv
 roadrunner.RoadRunner.sv = getSv
 
-#augmentRoadrunnerCtor()
+# ---------------------------------------------------------------
+# Next comes general documenation
+# ---------------------------------------------------------------
 
 ##\mainpage notitle
 #\section Introduction
@@ -1064,9 +1228,9 @@ roadrunner.RoadRunner.sv = getSv
 #
 #    def new_init(self, *args):
 #        #get sbml and recompose args tuple
-#        if (len(args) > 1 and libantimony.loadAntimonyString(args[0]) >= 0):
+#        if (len(args) > 1 and antimony.loadAntimonyString(args[0]) >= 0):
 #            args = ((antimonyTosbml(args[0]),) + args[1:])
-#        elif (len(args) == 1 and libantimony.loadAntimonyString(args[0]) >= 0):
+#        elif (len(args) == 1 and antimony.loadAntimonyString(args[0]) >= 0):
 #            args = (antimonyTosbml(args[0]),)
 #        else:
 #            pass
