@@ -3,7 +3,7 @@
 # -*- coding: utf-8 -*-
 """
 Created on Thu Oct 10 14:34:07 2013
-Updated: March 25, 2015
+Updated: April 2, 2015
 
 @author: Herbert M Sauro
 
@@ -58,6 +58,18 @@ def getHold():
 # ---------------------------------------------------------------------
 ##\ingroup utility
 #@{
+
+##\brief Returns version information for all Telluirum supported packages
+#
+#Example: print te.getVersionInfo()
+#
+#\return Returns a string representing the version number
+def getVersionInfo():
+    print "telluirum Version: ", getTelluriumVersion()
+    print "RoadRunner version:", roadrunner.getVersionStr()
+    print "Antimony version:", antimony.__version__
+    print "No information on sbnw viewer"
+    
 
 ##\brief Returns the version number for Tellurium
 #
