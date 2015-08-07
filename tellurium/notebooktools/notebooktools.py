@@ -7,7 +7,7 @@ import io
 import os
 import sys
 import types
-from IPython.nbformat import current
+import IPython
 from IPython.core.interactiveshell import InteractiveShell
 
 
@@ -45,7 +45,7 @@ class NotebookLoader(object):
 
         # load the notebook object
         with io.open(path, 'r', encoding='utf-8') as f:
-            nb = current.read(f, 'json')
+            nb = IPython.nbformat.read(f, IPython.nbformat.NO_CONVERT)
 
         # create the module and add it to sys.modules
         # if name in sys.modules:
