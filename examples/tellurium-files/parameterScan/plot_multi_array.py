@@ -1,4 +1,3 @@
-from teParameterScan import ParameterScan
 import tellurium as te
 
 cell = '''
@@ -11,7 +10,7 @@ cell = '''
 '''
 
 rr = te.loadAntimonyModel(cell)
-p = ParameterScan(rr)
+p = te.ParameterScan.ParameterScan(rr)
 
 p.startTime = 0
 p.endTime = 20
