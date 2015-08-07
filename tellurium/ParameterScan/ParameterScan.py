@@ -196,13 +196,13 @@ class ParameterScan (object):
         X, Y = np.meshgrid(X, Y)
         self.rr.reset()
         self.rr.model[self.independent[1]] = self.startValue
-        Z = self.rr.simulate(self.startTime, self.endTime, (self.numberOfPoints - 1),
+        Z = self.rr.simulate(self.startTime, self.endTime, (self.numberOfPoints),
                              self.dependent, integrator = self.integrator)
         Z = Z.T
         for i in range(self.numberOfPoints - 1):
             self.rr.reset()
             self.rr.model[self.independent[1]] = self.startValue + ((i + 1) * interval)
-            Z1 = self.rr.simulate(self.startTime, self.endTime, (self.numberOfPoints - 1),
+            Z1 = self.rr.simulate(self.startTime, self.endTime, (self.numberOfPoints),
                                  self.dependent, integrator = self.integrator)
             Z1 = Z1.T
             Z = np.concatenate ((Z, Z1))
