@@ -3,7 +3,7 @@
 # -*- coding: utf-8 -*-
 """
 Created on Thu Oct 10 14:34:07 2013
-Updated: April 2, 2015
+Updated: August 8, 2015
 
 @author: Herbert M Sauro
 
@@ -459,20 +459,24 @@ def simulateAndPlot (rr, startTime=0, endTime=5, numberOfPoints=500):
    
 ##\brief Plot a numpy array where the first column is considered the x axis and all remaining columns the y axis.
 #
-#Example: te.plotArray (result)
+#Example: te.plotArray (m, label='Flux')
 #\param[in] result Numpy Array
 #\return Returns the plot object
-def plotArray (result):
+def plotArray (*args, **kwargs):
     """
     Plot an array. The first column of the array will
     be the x-axis and remaining columns the y-axis. Returns
-    a handle to the plotting object.
+    a handle to the plotting object. Note that you can add
+	plotting options as named key values after the array. For
+	example to add a legend, include the label key value:
+	te.plotArray (m, label='A label')
+	then use pylab.legend() to make sure the legend is shown
     
-    result = numpy.array([[1,2,3],[7.2,6.5,8.8], [9.8, 6.5, 4.3]])
+    result = numpy.array([[1,2,3], [7.2,6.5,8.8], [9.8, 6.5, 4.3]])
     plotArray (result)
     """
     global tehold 
-    p = plt.plot (result[:,0],result[:,1:], linewidth=2.5)
+    p = plt.plot (args[0][:,0], args[0][:,1:], linewidth=2.5, **kwargs)
     if tehold == False:    
        plt.show()
     return p
