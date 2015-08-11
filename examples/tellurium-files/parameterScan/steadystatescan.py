@@ -1,4 +1,3 @@
-from teParameterScan import SteadyStateScan
 import matplotlib.pyplot as plt
 import tellurium as te
 import numpy as np
@@ -15,7 +14,7 @@ cell = '''
     
 rr = te.loadAntimonyModel(cell)
 
-p = SteadyStateScan(rr)
+p = te.ParameterScan.SteadyStateScan(rr)
 p.value = 'k3'
 p.startValue = 2
 p.endValue = 3

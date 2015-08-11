@@ -23,5 +23,5 @@ r = te.loadAntimonyModel(model)
 # Compute the steady state
 r.getSteadyStateValues()
 
-print "S1 =", r.model.S1, "S2 =", r.model.S2
+print "S1 =", r.S1, ", S2 =", r.S2
 
