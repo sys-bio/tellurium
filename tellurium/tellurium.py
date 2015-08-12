@@ -467,20 +467,22 @@ def plotArray (*args, **kwargs):
     Plot an array. The first column of the array will
     be the x-axis and remaining columns the y-axis. Returns
     a handle to the plotting object. Note that you can add
-	plotting options as named key values after the array. For
-	example to add a legend, include the label key value:
-	te.plotArray (m, label='A label')
-	then use pylab.legend() to make sure the legend is shown
+    plotting options as named key values after the array. For
+    example to add a legend, include the label key value:
+    te.plotArray (m, label='A label') then use pylab.legend()
+    to make sure the legend is shown. 
     
     result = numpy.array([[1,2,3], [7.2,6.5,8.8], [9.8, 6.5, 4.3]])
     plotArray (result)
     """
     global tehold 
     p = plt.plot (args[0][:,0], args[0][:,1:], linewidth=2.5, **kwargs)
+    # If user is building a legend don't show the plot yet    
+    if kwargs.has_key ('label'):
+       return p
     if tehold == False:    
        plt.show()
     return p
-
     
 ##\brief Plot results from a simulation carried out by the simulate or gillespie functions. This is a roadrunner method.
 #
