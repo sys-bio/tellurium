@@ -3,7 +3,7 @@
 # -*- coding: utf-8 -*-
 """
 Created on Thu Oct 10 14:34:07 2013
-Updated: August 8, 2015
+Updated: August 12, 2015
 
 @author: Herbert M Sauro
 
