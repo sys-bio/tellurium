@@ -51,7 +51,7 @@ p.endValue = 5
 p.colormap = "cool"
 
 p.independent = ["Time", "k1"]
-p.dependent = ["S1"]
+p.dependent = "S1"
 
 p.xlabel = "Time"
 p.ylabel = "x"

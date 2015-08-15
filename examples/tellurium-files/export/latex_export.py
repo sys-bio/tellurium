@@ -18,7 +18,6 @@ p.legend = ['S1', 'S2']
 p.xlabel = 'Time'
 p.ylabel = 'Concentration'
 p.exportComplete = True
-p.exportClipboard = True
 p.location = './'
 p.filename = 'newModel'
 p.saveToFile(result)

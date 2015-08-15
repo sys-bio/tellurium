@@ -19,4 +19,4 @@ p.width = 2
 p.title = 'Cell'
 p.selection = ['Time', 'S1', 'S2']
 
-p.plotMultiArray('k1', [1, 1.5, 2, 2.5], 'k3', [.5, 1, 1.5, 2])
+p.plotMultiArray('k1', [1, 1.5, 2], 'k3', [.5, 1, 1.5])

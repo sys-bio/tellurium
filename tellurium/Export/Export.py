@@ -7,12 +7,12 @@ class export (object):
         self.xlabel = 'x'
         self.ylabel = 'y'
         self.legend = None
-        self.exportClipboard = False
         self.exportComplete = False
         self.coorPerRow = 6
         self.saveto = None
         self.exportType = 'pgfplot'
         self.fileName = 'Model'
+        self.exportString = ''
         
     def saveToFile(self, result):
         """Creates .txt files for plotting result fo simulation with LaTeX. Outputs one file with
@@ -26,61 +26,48 @@ class export (object):
         
         columnNumber = result.shape[1] - 1
         for i in range(columnNumber):  
-            if self.location is not None:
-                completeName = os.path.join(self.location, 
-                                            '%s_data%s.txt' % (self.filename, (i + 1)))
+            if self.saveto is not None:
+                dataName = os.path.join(self.saveto, '{0}_data{1}.txt'.format(self.fileName, i+1))
             else:
-                completeName = '%s_data%s.txt' % (self.filename, (i + 1))
-            with open(completeName, 'w') as f:
+                dataName = '{0}_data{1}.txt'.format(self.fileName, i+1)
+                
+            with open(dataName, 'w') as f:
                 r = result[:, [0,(i + 1)]]
                 for row in r:
                     row.tolist()
                     row = ' '.join(str(e) for e in row)
-                    f.write("%s\n" %row)
-                
-        if self.location is not None:
-            completeName = os.path.join(self.location, '%s_code.txt' % self.filename)
-        else:
-            completeName = '%s_code.txt' % self.filename
-        f = open(completeName, 'w')
-        if self.exportComplete is True:
-            f.write('\\documentclass{article}\n')
-            f.write('\\usepackage[usenames,dvipsnames]{color}\n')
-            f.write('\\usepackage{pgfplots}\n')
-            f.write('\\begin{document}\n\n')
-        f.write('\\begin{tikzpicture}[scale = 1.0]\n')
-        f.write('\\begin{{axis}}[xlabel=${}$, ylabel=${}$, axis lines = middle, xlabel near ticks,'
-                ' ylabel near ticks\n'.format(self.xlabel, self.ylabel))
-        for i in range(columnNumber):
-            f.write('\\addplot[%s, thin] table {%s_data%s.txt};\n' 
-                    % (self.color[i], self.filename, (i + 1)))
-            
-        if self.legend is not None:
-            f.write('\\legend{')
-            for i in range(columnNumber - 1):
-                f.write('%s,' % self.legend[i])
-                f.write('%s}\n' % self.legend[i])
-                
-        f.write('\\end{axis}\n')
-        f.write('\\end{tikzpicture}\n\n')
-        if self.exportComplete is True: f.write('\\end{document}')
-        f.close()
+                    f.write("{0}\n".format(row))
                     
-        if self.exportClipboard is True:
-            if self.location is not None:
-                completeName = os.path.join(self.location, '%s_code.txt' % self.filename)
-            else:
-                completeName = '%s_code.txt' % self.filename
-            with open(completeName, 'r') as f:
-                s = f.read()
-                global exportString
-                exportString = s
-                r = Tk()
-                r.withdraw()
-                r.clipboard_clear()
-                r.clipboard_append('{}'.format(s))
-                r.destroy()
-        
+        if self.saveto is not None:
+            codeName = os.path.join(self.saveto, '{0}_code.txt'.format(self.fileName))
+        else:
+            codeName = '{0}_code.txt'.format(self.fileName)
+                    
+        with open(codeName, 'w') as f:
+            if self.exportComplete:
+                f.write('\\documentclass{article}\n')
+                f.write('\\usepackage[usenames,dvipsnames]{color}\n')
+                f.write('\\usepackage{pgfplots}\n')
+                f.write('\\begin{document}\n\n')
+                
+            f.write('\\begin{tikzpicture}[scale = 1.0]\n')
+            f.write('\\begin{{axis}}[xlabel=${}$, ylabel=${}$, axis lines = middle, xlabel near ticks,'
+                    ' ylabel near ticks\n'.format(self.xlabel, self.ylabel))
+            for i in range(columnNumber):
+                f.write('\\addplot[%s, thin] table {%s_data%s.txt};\n' 
+                        % (self.color[i], dataName, (i + 1)))
+                
+            if self.legend is not None:
+                f.write('\\legend{')
+                for i in range(columnNumber - 1):
+                    f.write('%s,' % self.legend[i])
+                    f.write('%s}\n' % self.legend[i])
+                    
+            f.write('\\end{axis}\n')
+            f.write('\\end{tikzpicture}\n\n')
+            
+            if self.exportComplete: f.write('\\end{document}')
+                    
                 
     def saveToOneFile(self, result):
         """Creates one .txt file with LaTeX code and results. Takes two arguments, results of 
@@ -90,16 +77,17 @@ class export (object):
         p.exportOne(result, model1)"""
         
         columnNumber = result.shape[1] - 1
-        if self.location is not None:
-            completeName = os.path.join(self.location, '%s.txt' % self.filename)
+        if self.saveto is not None:
+            completeName = os.path.join(self.saveto, '{0}.txt'.format(self.fileName))
         else:
-            completeName = '%s.txt' % self.filename
+            completeName = '{0}.txt'.format(self.fileName)
         with open(completeName, 'w') as f:
             if self.exportComplete is True:
                 f.write('\\documentclass{article}\n')
                 f.write('\\usepackage[usenames,dvipsnames]{color}\n')
                 f.write('\\usepackage{pgfplots}\n')
                 f.write('\\begin{document}\n\n')
+                
             f.write('\\begin{tikzpicture}[scale = 1.0]\n')
             f.write('\\begin{{axis}}[xlabel=${}$, ylabel=${}$, axis lines = middle, xlabel near'
                     ' ticks, ylabel near ticks\n'.format(self.xlabel, self.ylabel))
@@ -120,23 +108,8 @@ class export (object):
             f.write('\\end{axis}\n')
             f.write('\\end{tikzpicture}\n\n')
             if self.exportComplete is True: f.write('\\end{document}')
-                
-        if self.exportClipboard is True:
-            if self.location is not None:
-                completeName = os.path.join(self.location, '%s.txt' % self.filename)
-            else:
-                completeName = '%s.txt' % self.filename
-            with open(completeName, 'r') as f:
-                s = f.read()
-                global exportString
-                exportString = s
-                r = Tk()
-                r.withdraw()
-                r.clipboard_clear()
-                r.clipboard_append('{}'.format(s))
-                r.destroy() 
     
     def getString(self):
-        print exportString
+        print self.exportString
         
         
