@@ -36,6 +36,7 @@ import tellurium
 import numpy
 import os
 import glob
+import tecombine as combine
 
 
 try:
