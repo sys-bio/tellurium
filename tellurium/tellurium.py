@@ -825,6 +825,7 @@ def getNumCompartments (self):
     return self.model.getNumCompartments()
 
 def getConservedMoietyIds (self):
+    raise RuntimeError('getConservedMoietyIds deprecated; Use r.getDependentFloatingSpecies')
     return self.model.getConservedMoietyIds()
             
 def getConservedMoietyValues (self):
