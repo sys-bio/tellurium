@@ -417,7 +417,7 @@ def plotWithLegend (r, result=None, loc='upper left', show=True):
 
     if result.dtype.names is None:
        columns = result.shape[1]
-       legendItems = r.selections[1:]       
+       legendItems = r.timeCourseSelections[1:]
        if columns-1 != len (legendItems):
            raise Exception ('Legend list must match result array')
        for i in range(columns-1):
