@@ -36,7 +36,10 @@ import tellurium
 import numpy
 import os
 import glob
-import tecombine as combine
+try:
+    import tecombine as combine
+except ImportError as e:
+    roadrunner.Logger.log(roadrunner.Logger.LOG_WARNING, str(e))
 
 
 try:
@@ -923,7 +926,6 @@ roadrunner.RoadRunner.getCompartmentVolumes = getCompartmentVolumes
 roadrunner.RoadRunner.getNumCompartments = getNumCompartments
 
 roadrunner.RoadRunner.getConservedMoietyIds = getConservedMoietyIds
-roadrunner.RoadRunner.getConservedMoietyValues = getConservedMoietyValues
 roadrunner.RoadRunner.getNumConservedMoieties = getNumConservedMoieties
 roadrunner.RoadRunner.getNumConservedMoieties = getNumConservedMoieties
 roadrunner.RoadRunner.getNumConservedMoieties = getNumConservedMoieties
