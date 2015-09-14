@@ -20,6 +20,9 @@ lib64
 __pycache__
 MANIFEST
 
+# Text editors
+*.swp
+
 # Installer logs
 pip-log.txt
 
