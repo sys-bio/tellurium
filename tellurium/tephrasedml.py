@@ -28,11 +28,10 @@ class tePhrasedml(object):
         if type(antimonyStr) != str:
             raise Exception("Invalid Antimony string/model path")
         else:
-            if os.path.dirname(antimonyStr) != '':
-                if os.path.exists(antimonyStr):
-                    modelispath = True
-                else:
-                    raise Exception("The model file does not exist")
+            if os.path.exists(antimonyStr): #incomplete - load model path directly.
+                modelispath = True
+            else:
+                pass
         if type(phrasedmlStr) != str:
             raise Exception("Invalid PhrasedML string")
                 
@@ -58,6 +57,7 @@ class tePhrasedml(object):
             if len(reSearchModel) > 1:
                 modelsource = str(reSearchModel[2]).replace('"', '')
                 modelsource = str(modelsource).replace("'", '')
+                modelsource = str(modelsource).replace(".xml", '')
         
         sedmlstr = phrasedml.convertString(self.phrasedmlStr)
         
