@@ -6,6 +6,7 @@ from os.path import exists, isfile, basename
 from zipfile import ZipFile
 import phrasedml
 import antimony
+import re
 
 class CombineAsset(object):
     # Get the URI for sbml, sedml, etc.
@@ -226,8 +227,8 @@ def export(outfile, antimonyStr, SBMLName, *args):
 
     # remaining arguments are assumed to be phrasedml
     n = 1
-    for phrasedml in args:
-        m.addPhraSEDMLStr(phrasedml, 'experiment{}.xml'.format(n))
+    for phrasedmlStr in args:
+        m.addPhraSEDMLStr(phrasedmlStr, 'experiment{}.xml'.format(n))
         n += 1
 
     m.write(outfile)

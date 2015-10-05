@@ -40,8 +40,14 @@ try:
     import tecombine as combine
 except ImportError as e:
     roadrunner.Logger.log(roadrunner.Logger.LOG_WARNING, str(e))
-
-
+try:
+    import SedmlToRr
+except ImportError as e:
+    roadrunner.Logger.log(roadrunner.Logger.LOG_WARNING, str(e))    
+try:
+    import tephrasedml
+except ImportError as e:
+    roadrunner.Logger.log(roadrunner.Logger.LOG_WARNING, str(e))
 try:
     from sbml2matlab import sbml2matlab
 except ImportError as e:
@@ -290,6 +296,21 @@ def cellmlStrToSBML (CellMLStr):
        raise Exception ('Error calling cellMLStrToSBML' + antimony.getLastError())
     return antimony.getSBMLString (None)
 ##@}     
+
+# ---------------------------------------------------------------------
+##\ingroup phrasedmlSupport
+#@{
+ 
+##\brief Links a PhrasedML string with an antimony model
+#
+#\return Returns an experiment instance
+def experiment (antimonyStr, phrasedmlStr):
+    """
+    Create an experiment instance given an antimony string and a phrasedml string
+    """
+    return tephrasedml.tePhrasedml(antimonyStr, phrasedmlStr)
+
+##@} 
 
 # ---------------------------------------------------------------------
 ##\ingroup math
