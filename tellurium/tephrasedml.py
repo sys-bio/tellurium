@@ -104,7 +104,7 @@ class tePhrasedml(object):
         outputstr = self.createpython()
         print outputstr
     
-    def export(self, outputpath): # parameter outputpath must be a full path of a zip file you wish to create
+    def exportAsCombine(self, outputpath): # parameter outputpath must be a full path of a zip file you wish to create
         # Temporary failsafe - Should be revised once libphrasedml adopts returning of model name
         reModel = r"(\w*) = model (.*)"
         lines = self.phrasedmlStr.splitlines()
