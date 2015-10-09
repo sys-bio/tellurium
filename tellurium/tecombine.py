@@ -90,7 +90,10 @@ class CombinePhraSEDMLAsset(CombineAsset):
         return True
 
     def getSEDMLStr(self):
-        return phrasedml.convertString(self.getRawStr())
+        sedmlstr = phrasedml.convertString(self.getRawStr())
+        if sedmlstr == None:
+            raise Exception(phrasedml.getLastError())
+        return sedmlstr
 
     def getResourceURI(self):
         return CombineAsset.getCOMBINEResourceURI('sed-ml')

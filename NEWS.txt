@@ -2,6 +2,81 @@ tellurium
 
 Log of changes
 
+1.2.3
+*	Updated Winpython to 2.7.10.1 (Python 2.7.10, Spyder 2.3.5.2, PyQt 4.11.4, IPython 3.2.0 and more)
+*	Fixed stochiometry issue in simplesbml
+*	Updated tePlugins to 1.1.1
+*	New Plugin: openSBML
+*	New Package: phrasedML, matplotlib2tikz
+*	Updated SED-ML conversion
+*	Updated installer
+*	Updated Tellurium examples
+
+
+
+1.2.2
+*	Updated libRoadRunner to 1.3.4
+*	Updated tePlugins to 1.1.0
+*	Updated sbnw to 1.3.3
+*	New Plugin: Rate Law Templates
+*	Updated installer behavior when re-installing Tellurium
+
+
+
+1.2.1
+*	New package added: simpleSBML, jsonschema
+*	Improved translation from SED-ML to python
+*	Improved Import Plugins
+*	Updated sbnw to 1.3.2
+*	Changed default location of Tellurium docs
+
+
+
+1.2.0
+*	Updated Winpython to 2.7.9.4 (Spyder 2.3.4, numpy 1.9.2, matplotlib 1.4.3, scipy 0.15.1, and more)
+*	Incorporated pySBOL
+*	Updated libRoadRunner to 1.3.2
+*	Updated libSBML to 5.11.4
+*	Updated sbnw
+*	Improved installer UI and installation time
+*	Minor UI improvements
+*	Fixed text files
+
+
+
+1.1.8
+*	Now previous settings are carried over to newer installation
+*	New package added: control 0.6d
+*	Updated libRoadRunner to 1.3.1
+*	Updated Antimony to 2.7.0
+*	Updated sbnw
+*	New templates in Spyder will automatically import tellurium and roadrunner
+*	Minor bug fixes
+
+
+
+1.1.7
+*	Updated Tellurium installer using latest WinPython
+*	Updated libRoadRunner to 1.3.0
+*	Updated libAntimony to 2.6
+*	Improved sedml/archive import
+*	New network visualization plugin by Kyle Medley
+*	Fixed two minor bugs in the tellurium library (plotting and reaction rates)
+*	Fixed some errors in the documentation pages
+*	Updates to documentation (eg libroadrunner).
+
+
+
+1.1.6
+*	New completely self-contained Tellurium installer using WinPython
+*	Added new spyder plugins. – Sedml2py, Combine2py
+*	Added libSBML 5.10.0 Python bindings
+*	Updated to IPython 2.0.0
+*	Updated to Numpy 1.8.1
+*	Minor changes in Spyder config.py
+
+
+
 1.1.5
 *   Updated to use libroadrunner 1.2.5
 *   Updated to use modified version of Spyder 2.3.0

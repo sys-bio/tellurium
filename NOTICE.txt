@@ -1,82 +1,74 @@
-Tellurium v1.0.0
-Copyright 2014 Michal Galdzicki, Herbert Sauro
+Tellurium v1.2.4
+Copyright 2015 Michal Galdzicki, Herbert Sauro
 http://tellurium.analogmachine.org/
 
 This product makes use of the following open source software packages:
 
 telPlugins
-    Copyright (C) 2012-2014 Totte Karlsson, Herbert Sauro
+    Copyright (C) 2012-2015 Totte Karlsson, Herbert Sauro
     Distributed under Apache License, Version 2.0
     http://tellurium.analogmachine.org/plugins/
 
 libRoadRunner
-    Copyright (C) 2012-2014 Andy Somogyi, Herbert Sauro
+    Copyright (C) 2012-2015 Andy Somogyi, Herbert Sauro
     Distributed under Apache License, Version 2.0
     http://libroadrunner.org/
 
 libantimony
-   Copyright (c) 2008-2014, Lucian Smith and Herbert Sauro
+   Copyright (c) 2008-2015, Lucian Smith and Herbert Sauro
    Distributed under BSD license
    http://antimony.sourceforge.net/
 
-Spyder 2.2.5 (modified)
-    Copyright 2009-2013 Pierre Raybaut. 
+Spyder 2.3.5.2 (modified)
+    Copyright 2009-2015 Pierre Raybaut. 
     Licensed under the terms of the MIT License
     https://code.google.com/p/spyderlib/
 
 PyQt4 (PyQt4-4.10.3-gpl-Py2.7-Qt4.8.5-x32)
-    Copyright (C) 2013 Riverbank Computing Limited <info@riverbankcomputing.com>
+    Copyright (C) 2015 Riverbank Computing Limited <info@riverbankcomputing.com>
     Lincensed under the terms of the GNU GPL 2, with Riverbank GPL Exception version 1.1
     see GPL_EXCEPTION.TXT in the PyQt4 Source Code. The right to use Open Source Licenses not compatible with the GNU General Public License: Apache License 2.0
     http://www.riverbankcomputing.com/
 
-iPython 1.2.0
-    Copyright (c) 2011, IPython Development Team
+iPython 3.2.0
+    Copyright (c) 2015, IPython Development Team
     http://ipython.org/
     IPython is licensed under the terms of the new or revised BSD license
 
-six 1.5.2
-    Copyright (c) 2010-2014 Benjamin Peterson
+six 1.9.0
+    Copyright (c) 2010-2015 Benjamin Peterson
     Distributed under the MIT license
     http://pypi.python.org/pypi/six/
 
-pyparsing 2.0.1
+pyparsing 2.0.3
     Paul McGuire
     Distributed under the MIT license (no copyright statement)
     http://pyparsing.wikispaces.com/
 
-python-dateutil 2.2
+python-dateutil 2.4.2
     Copyright (c) 2003-2011 - Gustavo Niemeyer <gustavo@niemeyer.net>
     Copyright (c) 2012 - Tomi PievilŒ·ŒÈŒÂinen <tomi.pievilainen@iki.fi>
     Distributed under Simplified BSD license
     http://labix.org/python-dateutil
 
-matplotlib 1.3.1
-    Copyright (c) 2012-2013 Matplotlib Development Team; All Rights Reserved
+matplotlib 1.4.3
+    Copyright (c) 2012-2015 Matplotlib Development Team; All Rights Reserved
     Distributed under matplotlib license, based on the PSF license
     http://matplotlib.org/
 
-numpy-1.8.0
-    Copyright (c) 2005-2013, NumPy Developers.
+numpy-1.9.2
+    Copyright (c) 2005-2015, NumPy Developers.
     Distributed under BSD license, http://www.numpy.org/license.html#license
     http://www.numpy.org
 
-Python 2.7.6
-    Copyright (c) 2001-2014 Python Software Foundation; All Rights Reserved
+Python 2.7.10
+    Copyright (c) 2001-2015 Python Software Foundation; All Rights Reserved
     Distributed under PSF LICENSE FOR PYTHON 2.7.6, http://docs.python.org/2/license.html
     http://python.org/
 
-UnZip 5.52
-    Copyright (c) 1990-2009 Info-ZIP. All rights reserved.
-    Distributed under BSD based licence ftp://ftp.info-zip.org/pub/infozip/license.html
-    http://www.info-zip.org/
-
-Zip 2.32
-    Copyright (c) 1990-2006 Info-ZIP.  All rights reserved.
-    Distributed under BSD based licence ftp://ftp.info-zip.org/pub/infozip/license.html
-    http://www.info-zip.org/
-
-
-
-
+Winpython 2.7.10.1
+	Copyright (c) 2009-2013, Pierre Raybaut
+	Copyright (c) 2014, The Winpython Development Team
+	Licensed under the terms of the MIT License
+	https://winpython.github.io/
 
