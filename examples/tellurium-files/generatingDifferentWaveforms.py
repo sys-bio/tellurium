@@ -44,7 +44,7 @@ model = '''
 
 r = te.loadAntimonyModel(model)
 
-r.selections = ['time', 'SineWave', 'SquareWave', 'SawTooth', 'TriangleWave', 'Ramp']
+r.timeCourseSelections = ['time', 'SineWave', 'SquareWave', 'SawTooth', 'TriangleWave', 'Ramp']
 result = r.simulate (0, 90, 500)
 
 te.plotWithLegend (r, result)

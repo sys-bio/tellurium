@@ -1,6 +1,9 @@
 import matplotlib.pyplot as plt
 import tellurium as te
 import numpy as np
+from roadrunner import Config
+
+Config.setValue(Config.LOADSBMLOPTIONS_CONSERVED_MOIETIES, True) 
 
 cell = '''
     $Xo -> S1; vo;
@@ -21,3 +24,5 @@ p.endValue = 3
 p.numberOfPoints = 20
 p.selection = ['S1', 'S2']
 p.plotArray()
+
+Config.setValue(Config.LOADSBMLOPTIONS_CONSERVED_MOIETIES, False) 

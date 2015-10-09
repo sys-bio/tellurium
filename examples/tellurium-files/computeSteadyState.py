@@ -5,6 +5,9 @@ Created on Tue Mar 11 15:06:33 2014
 @author: mgaldzic
 """
 import tellurium as te
+from roadrunner import Config
+
+Config.setValue(Config.LOADSBMLOPTIONS_CONSERVED_MOIETIES, True) 
 model = '''
   model pathway()
      $Xo -> S1; k1*Xo - k2*S1
@@ -22,6 +25,6 @@ r = te.loadAntimonyModel(model)
 
 # Compute the steady state
 r.getSteadyStateValues()
-
+Config.setValue(Config.LOADSBMLOPTIONS_CONSERVED_MOIETIES, False) 
 print "S1 =", r.S1, ", S2 =", r.S2
 

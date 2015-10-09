@@ -58,14 +58,14 @@ class ParameterScan (object):
         p.plotArray()"""
         result = self.sim()
         if self.color is None:
-            for species in self.rr.selections[1:]:
+            for species in self.rr.timeCourseSelections[1:]:
                 plt.plot(result[:,0], result[species], linewidth = self.width, label = species)
         else:
             if len(self.color) != result.shape[1]:
                 self.color = self.colorCycle()
             for i in range(result.shape[1] - 1):
                 plt.plot(result[:,0], result[:,i+1], color = self.color[i], 
-                        linewidth = self.width, label = self.rr.selections[i+1])
+                        linewidth = self.width, label = self.rr.timeCourseSelections[i+1])
             
         if self.xlabel == 'toSet':
             plt.xlabel('time')
@@ -373,7 +373,7 @@ class ParameterScan (object):
                     result = self.rr.simulate(self.startTime, self.endTime, self.numberOfPoints,
                                                   self.selection, integrator = self.integrator)
                 columns = result.shape[1]
-                legendItems = self.rr.selections[1:]
+                legendItems = self.rr.timeCourseSelections[1:]
                 if columns-1 != len(legendItems):
                     raise Exception('Legend list must match result array')
                 for c in range(columns-1):
