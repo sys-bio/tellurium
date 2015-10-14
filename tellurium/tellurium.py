@@ -893,10 +893,10 @@ def getEndTime (self):
     return self.simulateOptions.start + self.simulateOptions.duration
 
 def getNumberOfPoints (self):
-    return self.simulateOptions.steps
+    return self.simulateOptions.steps + 1
     
 def setNumberOfPoints (self, numberOfPoints):
-    self.simulateOptions.steps = numberOfPoints
+    self.simulateOptions.steps = numberOfPoints - 1
 
 def getNumRateRules (self):
     return self.model.getNumRateRules()
