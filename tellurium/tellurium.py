@@ -397,7 +397,7 @@ def gillespie (r, *args, **kwargs):
     if r.integrator is None:
         raise ValueError("model is not loaded")
     
-    prev = r.integrator.name
+    prev = r.integrator.getName()
 
     if kwargs is not None:
         kwargs['integrator'] = 'gillespie'
