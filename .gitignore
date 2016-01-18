@@ -40,3 +40,8 @@ nosetests.xml
 .pydevproject
 
 .ropeproject
+
+# PyCharm
+.idea
+*~
+test/.ipynb_checkpoints/
