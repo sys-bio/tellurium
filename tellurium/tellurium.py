@@ -89,10 +89,13 @@ def getVersionInfo():
 #
 #\return Returns a string representing the version number
 def getTelluriumVersion():
-    import os
-    f = open(os.path.dirname(tellurium.__file__) +'/VERSION.txt', 'r')
-    ver = f.read().rstrip()
-    f.close()
+    try:
+        import os
+        f = open(os.path.join(os.path.dirname(__file__), 'VERSION.txt'), 'r')
+        ver = f.read().rstrip()
+        f.close()
+    except IOError:
+        ver = "1.2.4"
     return ver
     
 ##\brief Turn off warning messages. Call this to stop roadrunner from printing warning message to the console
