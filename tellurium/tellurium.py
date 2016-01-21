@@ -95,7 +95,7 @@ def getTelluriumVersion():
         ver = f.read().rstrip()
         f.close()
     except IOError:
-        ver = "1.2.4"
+        ver = "1.3.0"
     return ver
     
 ##\brief Turn off warning messages. Call this to stop roadrunner from printing warning message to the console
