@@ -6,11 +6,17 @@ Tellurium Methods
 Utility Methods
 ----------------
 The most useful methods here are the notices routines. Roadrunner will offen issue warning or informational messages. For repeated simulation such messages will clutter up the outputs. noticesOff and noticesOn can be used to turn on an off the messages.
+
+**Print Version information**
+:: 
+
+	import tellurium as te
+	te.getVersionInfo()
+
+**Repeat simulation without notification**
 ::
 
-	# Repeat a simulation many times
-
-	# Load an SBML file
+	# Load SBML file
 	r = roadrunner.RoadRunner('mymodel.xml')
 	# Turn of notices so they don't clutter the output
 	roadrunner.noticesOff()
@@ -21,15 +27,7 @@ The most useful methods here are the notices routines. Roadrunner will offen iss
 	# Turn the notices back on
 	roadrunner.noticesOn()
 
-.. autofunction:: tellurium.getVersionInfo
-.. autofunction:: tellurium.getTelluriumVersion
-.. autofunction:: tellurium.noticesOff
-.. autofunction:: tellurium.noticesOn
-
---------------------
-File Help Methods
---------------------
-Use these routines to save or read text files to and from disk.
+**File helpers for reading and writing**
 ::
 
 	r = te.loada('S1 -> S2; k1*S1; k1 = 0.1; S1 = 10')
@@ -37,13 +35,15 @@ Use these routines to save or read text files to and from disk.
 
 	sbmlstr = readFromFile('mymodel.xml')
 
-.. autofunction:: tellurium.saveToFile
-.. autofunction:: tellurium.readFromFile
+.. autofunction:: tellurium.getVersionInfo
+.. autofunction:: tellurium.getTelluriumVersion
 .. autofunction:: tellurium.noticesOff
 .. autofunction:: tellurium.noticesOn
+.. autofunction:: tellurium.saveToFile
+.. autofunction:: tellurium.readFromFile
 
 -------------------------
-Model Loading Utilities
+Model Loading 
 -------------------------
 There are a variety of methods to load models into libRoadrunner. At the most basic level one can load the model directly using libRoadRunner:
 ::
@@ -108,7 +108,7 @@ Use these routines interconvert verious standard formats
 .. autofunction:: tellurium.cellmlStrToSBML
 
 ----------------------------------------
-Stochastic Simulation Methods
+Stochastic Simulation
 ----------------------------------------
 Use these routines to carry out Gillespie style stochastic simulations.
 
@@ -138,12 +138,12 @@ Use these routines to carry out Gillespie style stochastic simulations.
 .. autofunction:: tellurium.gillespie
 
 ----------------------------------------
-SEDML Utilities
+SEDML
 ----------------------------------------
 .. autofunction:: tellurium.experiment
 
 ----------------------------------------
-Math Utilities
+Math
 ----------------------------------------
 Only one routine is currently available in this group which is a routine to compute the eigenvalues of given a matrix.
 ::
@@ -157,7 +157,7 @@ Only one routine is currently available in this group which is a routine to comp
 .. autofunction:: tellurium.getEigenvalues
 
 ----------------------------------------
-Plotting Utilities
+Plotting
 ----------------------------------------
 Two useful plotting routines. They assume that the first column in the array is the x-axis and the second and subsequent columns represent curves on the y-axis.
 ::
@@ -179,7 +179,7 @@ Two useful plotting routines. They assume that the first column in the array is 
 .. autofunction:: tellurium.plot
 
 ----------------------------------------
-Model Reset Utilities
+Model Reset
 ----------------------------------------
 Use these routines reset your model back to particular states
 ::
@@ -204,7 +204,7 @@ If you wish to reset a model back to the state it was what it was loaded, use th
 .. autofunction:: tellurium.resetAll
 
 ----------------------------------------
-Export Utilities
+Export
 ----------------------------------------
 **Matlab export utilities**
 
@@ -220,7 +220,7 @@ Use these routines to convert your model into a Matlab function.
 .. autofunction:: tellurium.getAntimony
 
 ----------------------------------------
-jarnac Short-cut Methods
+jarnac Short-cuts
 ----------------------------------------
 Routines to support the Jarnac compatibility layer
 
@@ -271,7 +271,7 @@ To look at one of the test model in Antimony form:
 .. autofunction:: tellurium.getTestModel
 
 ----------------------------------------
-Model Functions
+Model Methods
 ----------------------------------------
 Routines flattened from model, aves typing and easier for finding the methods
 

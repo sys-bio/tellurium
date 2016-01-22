@@ -1,4 +1,5 @@
 ===================
 API
 ===================
-.. autofunction:: tellurium
+.. automodule:: tellurium
+   :members:

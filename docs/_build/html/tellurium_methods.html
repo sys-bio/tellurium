@@ -85,18 +85,17 @@
 <li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="">Tellurium Methods</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#utility-methods">Utility Methods</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#file-help-methods">File Help Methods</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#model-loading-utilities">Model Loading Utilities</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#model-loading">Model Loading</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#interconversion-utilities">Interconversion Utilities</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#stochastic-simulation-methods">Stochastic Simulation Methods</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#sedml-utilities">SEDML Utilities</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#math-utilities">Math Utilities</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#plotting-utilities">Plotting Utilities</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#model-reset-utilities">Model Reset Utilities</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#export-utilities">Export Utilities</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#jarnac-short-cut-methods">jarnac Short-cut Methods</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#stochastic-simulation">Stochastic Simulation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#sedml">SEDML</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#math">Math</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#plotting">Plotting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#model-reset">Model Reset</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#export">Export</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#jarnac-short-cuts">jarnac Short-cuts</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#test-models">Test Models</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#model-functions">Model Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#model-methods">Model Methods</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="API.html">API</a></li>
@@ -149,9 +148,13 @@
 <div class="section" id="utility-methods">
 <h2>Utility Methods<a class="headerlink" href="#utility-methods" title="Permalink to this headline">¶</a></h2>
 <p>The most useful methods here are the notices routines. Roadrunner will offen issue warning or informational messages. For repeated simulation such messages will clutter up the outputs. noticesOff and noticesOn can be used to turn on an off the messages.</p>
-<div class="highlight-python"><div class="highlight"><pre># Repeat a simulation many times
-
-# Load an SBML file
+<p><strong>Print Version information</strong></p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">tellurium</span> <span class="kn">as</span> <span class="nn">te</span>
+<span class="n">te</span><span class="o">.</span><span class="n">getVersionInfo</span><span class="p">()</span>
+</pre></div>
+</div>
+<p><strong>Repeat simulation without notification</strong></p>
+<div class="highlight-python"><div class="highlight"><pre># Load SBML file
 r = roadrunner.RoadRunner(&#39;mymodel.xml&#39;)
 # Turn of notices so they don&#39;t clutter the output
 roadrunner.noticesOff()
@@ -161,6 +164,13 @@ for i in range (0:20):
   r.model.k1 = r.model.k1 + 0.2
 # Turn the notices back on
 roadrunner.noticesOn()
+</pre></div>
+</div>
+<p><strong>File helpers for reading and writing</strong></p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">r</span> <span class="o">=</span> <span class="n">te</span><span class="o">.</span><span class="n">loada</span><span class="p">(</span><span class="s1">&#39;S1 -&gt; S2; k1*S1; k1 = 0.1; S1 = 10&#39;</span><span class="p">)</span>
+<span class="n">saveToFile</span><span class="p">(</span><span class="s1">&#39;mymodel.m&#39;</span><span class="p">,</span> <span class="n">r</span><span class="o">.</span><span class="n">getMatlab</span><span class="p">())</span>
+
+<span class="n">sbmlstr</span> <span class="o">=</span> <span class="n">readFromFile</span><span class="p">(</span><span class="s1">&#39;mymodel.xml&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 <dl class="function">
@@ -206,16 +216,6 @@ see also <code class="xref py py-func docutils literal"><span class="pre">notice
 see also <code class="xref py py-func docutils literal"><span class="pre">noticesOff()</span></code></p>
 </dd></dl>
 
-</div>
-<div class="section" id="file-help-methods">
-<h2>File Help Methods<a class="headerlink" href="#file-help-methods" title="Permalink to this headline">¶</a></h2>
-<p>Use these routines to save or read text files to and from disk.</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">r</span> <span class="o">=</span> <span class="n">te</span><span class="o">.</span><span class="n">loada</span><span class="p">(</span><span class="s1">&#39;S1 -&gt; S2; k1*S1; k1 = 0.1; S1 = 10&#39;</span><span class="p">)</span>
-<span class="n">saveToFile</span><span class="p">(</span><span class="s1">&#39;mymodel.m&#39;</span><span class="p">,</span> <span class="n">r</span><span class="o">.</span><span class="n">getMatlab</span><span class="p">())</span>
-
-<span class="n">sbmlstr</span> <span class="o">=</span> <span class="n">readFromFile</span><span class="p">(</span><span class="s1">&#39;mymodel.xml&#39;</span><span class="p">)</span>
-</pre></div>
-</div>
 <dl class="function">
 <dt id="tellurium.saveToFile">
 <code class="descclassname">tellurium.</code><code class="descname">saveToFile</code><span class="sig-paren">(</span><em>fileName</em>, <em>str</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium.html#saveToFile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.saveToFile" title="Permalink to this definition">¶</a></dt>
@@ -244,7 +244,7 @@ see also <code class="xref py py-func docutils literal"><span class="pre">notice
 <dt id="tellurium.readFromFile">
 <code class="descclassname">tellurium.</code><code class="descname">readFromFile</code><span class="sig-paren">(</span><em>fileName</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium.html#readFromFile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.readFromFile" title="Permalink to this definition">¶</a></dt>
 <dd><p>Load a file and return contents as a string.</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="nb">str</span> <span class="o">=</span> <span class="n">readFromFile</span> <span class="p">(</span><span class="s1">&#39;c:\myfile.txt&#39;</span><span class="p">)</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="nb">str</span> <span class="o">=</span> <span class="n">readFromFile</span><span class="p">(</span><span class="s1">&#39;c:\myfile.txt&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 <table class="docutils field-list" frame="void" rules="none">
@@ -259,24 +259,9 @@ see also <code class="xref py py-func docutils literal"><span class="pre">notice
 </table>
 </dd></dl>
 
-<dl class="function">
-<dt>
-<code class="descclassname">tellurium.</code><code class="descname">noticesOff</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium.html#noticesOff"><span class="viewcode-link">[source]</span></a></dt>
-<dd><p>Switch off the generation of notices to the user.
-Call this to stop roadrunner from printing warning message to the console.
-see also <code class="xref py py-func docutils literal"><span class="pre">noticesOn()</span></code></p>
-</dd></dl>
-
-<dl class="function">
-<dt>
-<code class="descclassname">tellurium.</code><code class="descname">noticesOn</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium.html#noticesOn"><span class="viewcode-link">[source]</span></a></dt>
-<dd><p>Switch on notice generation to the user.
-see also <code class="xref py py-func docutils literal"><span class="pre">noticesOff()</span></code></p>
-</dd></dl>
-
 </div>
-<div class="section" id="model-loading-utilities">
-<h2>Model Loading Utilities<a class="headerlink" href="#model-loading-utilities" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="model-loading">
+<h2>Model Loading<a class="headerlink" href="#model-loading" title="Permalink to this headline">¶</a></h2>
 <p>There are a variety of methods to load models into libRoadrunner. At the most basic level one can load the model directly using libRoadRunner:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="n">r</span> <span class="o">=</span> <span class="n">roadrunner</span><span class="o">.</span><span class="n">RoadRunner</span><span class="p">(</span><span class="s1">&#39;mymodel.xml&#39;</span><span class="p">)</span>
 </pre></div>
@@ -514,8 +499,8 @@ see also: <cite>:func:loadAntimonyModel</cite></p>
 </dd></dl>
 
 </div>
-<div class="section" id="stochastic-simulation-methods">
-<h2>Stochastic Simulation Methods<a class="headerlink" href="#stochastic-simulation-methods" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="stochastic-simulation">
+<h2>Stochastic Simulation<a class="headerlink" href="#stochastic-simulation" title="Permalink to this headline">¶</a></h2>
 <p>Use these routines to carry out Gillespie style stochastic simulations.</p>
 <p><strong>Stochastic simulation</strong>:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="n">r</span> <span class="o">=</span> <span class="n">te</span><span class="o">.</span><span class="n">loada</span><span class="p">(</span><span class="s1">&#39;S1 -&gt; S2; k1*S1; k1 = 0.1; S1 = 40&#39;</span><span class="p">)</span>
@@ -617,8 +602,8 @@ rr.plot(np.vstack ((result1, result))
 </dd></dl>
 
 </div>
-<div class="section" id="sedml-utilities">
-<h2>SEDML Utilities<a class="headerlink" href="#sedml-utilities" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="sedml">
+<h2>SEDML<a class="headerlink" href="#sedml" title="Permalink to this headline">¶</a></h2>
 <dl class="function">
 <dt id="tellurium.experiment">
 <code class="descclassname">tellurium.</code><code class="descname">experiment</code><span class="sig-paren">(</span><em>antimonyStr</em>, <em>phrasedmlStr</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium.html#experiment"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.experiment" title="Permalink to this definition">¶</a></dt>
@@ -641,8 +626,8 @@ rr.plot(np.vstack ((result1, result))
 </dd></dl>
 
 </div>
-<div class="section" id="math-utilities">
-<h2>Math Utilities<a class="headerlink" href="#math-utilities" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="math">
+<h2>Math<a class="headerlink" href="#math" title="Permalink to this headline">¶</a></h2>
 <p>Only one routine is currently available in this group which is a routine to compute the eigenvalues of given a matrix.</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">tellurium</span> <span class="kn">as</span> <span class="nn">te</span>
@@ -670,8 +655,8 @@ Uses numpy eig to compute the eigenvalues.</p>
 </dd></dl>
 
 </div>
-<div class="section" id="plotting-utilities">
-<h2>Plotting Utilities<a class="headerlink" href="#plotting-utilities" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="plotting">
+<h2>Plotting<a class="headerlink" href="#plotting" title="Permalink to this headline">¶</a></h2>
 <p>Two useful plotting routines. They assume that the first column in the array is the x-axis and the second and subsequent columns represent curves on the y-axis.</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="c1"># Load a model and carry out a simulation generating 100 points</span>
 <span class="n">r</span> <span class="o">=</span> <span class="n">te</span><span class="o">.</span><span class="n">loada</span> <span class="p">(</span><span class="s1">&#39;S1 -&gt; S2; k1*S1; k1 = 0.1; S1 = 10&#39;</span><span class="p">)</span>
@@ -792,8 +777,8 @@ If no data is provided the data currently held by roadrunner generated in the la
 </dd></dl>
 
 </div>
-<div class="section" id="model-reset-utilities">
-<h2>Model Reset Utilities<a class="headerlink" href="#model-reset-utilities" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="model-reset">
+<h2>Model Reset<a class="headerlink" href="#model-reset" title="Permalink to this headline">¶</a></h2>
 <p>Use these routines reset your model back to particular states</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="n">r</span> <span class="o">=</span> <span class="n">te</span><span class="o">.</span><span class="n">loada</span> <span class="p">(</span><span class="s1">&#39;S1 -&gt; S2; k1*S1; k1 = 0.1; S1 = 10&#39;</span><span class="p">)</span>
 <span class="n">result</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">simulate</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
@@ -838,8 +823,8 @@ parameters back to the values they had when the model was first loaded.</p>
 </dd></dl>
 
 </div>
-<div class="section" id="export-utilities">
-<h2>Export Utilities<a class="headerlink" href="#export-utilities" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="export">
+<h2>Export<a class="headerlink" href="#export" title="Permalink to this headline">¶</a></h2>
 <p><strong>Matlab export utilities</strong></p>
 <p>Use these routines to convert your model into a Matlab function.</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="n">r</span> <span class="o">=</span> <span class="n">te</span><span class="o">.</span><span class="n">loada</span><span class="p">(</span><span class="s1">&#39;S1 -&gt; S2; k1*S1; k1 = 0.1; S1 = 10&#39;</span><span class="p">)</span>
@@ -898,8 +883,8 @@ parameters back to the values they had when the model was first loaded.</p>
 </dd></dl>
 
 </div>
-<div class="section" id="jarnac-short-cut-methods">
-<h2>jarnac Short-cut Methods<a class="headerlink" href="#jarnac-short-cut-methods" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="jarnac-short-cuts">
+<h2>jarnac Short-cuts<a class="headerlink" href="#jarnac-short-cuts" title="Permalink to this headline">¶</a></h2>
 <p>Routines to support the Jarnac compatibility layer</p>
 <dl class="function">
 <dt id="tellurium.getSm">
@@ -1143,8 +1128,8 @@ to easily try out roadrunner if so exmaple you don&#8217;t have a model at hand.
 </dd></dl>
 
 </div>
-<div class="section" id="model-functions">
-<h2>Model Functions<a class="headerlink" href="#model-functions" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="model-methods">
+<h2>Model Methods<a class="headerlink" href="#model-methods" title="Permalink to this headline">¶</a></h2>
 <p>Routines flattened from model, aves typing and easier for finding the methods</p>
 <dl class="function">
 <dt id="tellurium.getRatesOfChange">

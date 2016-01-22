@@ -83,7 +83,7 @@
                 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../tellurium_methods.html">Tellurium Methods</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../API.html">API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../_apidoc/tellurium.html">API (tellurium)</a></li>
 </ul>
 
             
@@ -171,19 +171,19 @@
 <span class="n">tehold</span> <span class="o">=</span> <span class="bp">False</span>  <span class="c1"># Same as matlab hold</span>
 
 <span class="c1"># For some reason we can only access the tehold variable via methods</span>
-<span class="k">def</span> <span class="nf">setHold</span><span class="p">(</span><span class="n">myHold</span><span class="p">):</span>
+<div class="viewcode-block" id="setHold"><a class="viewcode-back" href="../_apidoc/tellurium.html#tellurium.setHold">[docs]</a><span class="k">def</span> <span class="nf">setHold</span><span class="p">(</span><span class="n">myHold</span><span class="p">):</span>
     <span class="k">global</span> <span class="n">tehold</span>    
-    <span class="n">tehold</span> <span class="o">=</span> <span class="n">myHold</span>
+    <span class="n">tehold</span> <span class="o">=</span> <span class="n">myHold</span></div>
     
-<span class="k">def</span> <span class="nf">getHold</span><span class="p">():</span>
+<div class="viewcode-block" id="getHold"><a class="viewcode-back" href="../_apidoc/tellurium.html#tellurium.getHold">[docs]</a><span class="k">def</span> <span class="nf">getHold</span><span class="p">():</span>
     <span class="k">global</span> <span class="n">tehold</span>
-    <span class="k">return</span> <span class="n">tehold</span>
+    <span class="k">return</span> <span class="n">tehold</span></div>
 
 
 <span class="c1"># ---------------------------------------------------------------------</span>
 <span class="c1"># group: utility</span>
 <span class="c1"># ---------------------------------------------------------------------</span>
-<div class="viewcode-block" id="getVersionInfo"><a class="viewcode-back" href="../tellurium_methods.html#tellurium.getVersionInfo">[docs]</a><span class="k">def</span> <span class="nf">getVersionInfo</span><span class="p">():</span>
+<div class="viewcode-block" id="getVersionInfo"><a class="viewcode-back" href="../_apidoc/tellurium.html#tellurium.getVersionInfo">[docs]</a><span class="k">def</span> <span class="nf">getVersionInfo</span><span class="p">():</span>
     <span class="sd">&quot;&quot;&quot;Prints version information for tellurium supported packages.</span>
 
 <span class="sd">    :returns: None</span>
@@ -195,7 +195,7 @@
     <span class="k">print</span><span class="p">(</span><span class="s2">&quot;snbw_viewer: No information for sbnw viewer&quot;</span><span class="p">)</span></div>
     
 
-<div class="viewcode-block" id="getTelluriumVersion"><a class="viewcode-back" href="../tellurium_methods.html#tellurium.getTelluriumVersion">[docs]</a><span class="k">def</span> <span class="nf">getTelluriumVersion</span><span class="p">():</span>
+<div class="viewcode-block" id="getTelluriumVersion"><a class="viewcode-back" href="../_apidoc/tellurium.html#tellurium.getTelluriumVersion">[docs]</a><span class="k">def</span> <span class="nf">getTelluriumVersion</span><span class="p">():</span>
     <span class="sd">&quot;&quot;&quot;Version number of tellurium.</span>
 
 <span class="sd">    :returns: version string</span>
@@ -213,7 +213,7 @@
 <span class="n">__version__</span> <span class="o">=</span> <span class="n">getTelluriumVersion</span><span class="p">()</span>
 
 
-<div class="viewcode-block" id="noticesOff"><a class="viewcode-back" href="../tellurium_methods.html#tellurium.noticesOff">[docs]</a><span class="k">def</span> <span class="nf">noticesOff</span><span class="p">():</span>
+<div class="viewcode-block" id="noticesOff"><a class="viewcode-back" href="../_apidoc/tellurium.html#tellurium.noticesOff">[docs]</a><span class="k">def</span> <span class="nf">noticesOff</span><span class="p">():</span>
     <span class="sd">&quot;&quot;&quot;Switch off the generation of notices to the user.</span>
 <span class="sd">    Call this to stop roadrunner from printing warning message to the console.</span>
 <span class="sd">    see also :func:`noticesOn`</span>
@@ -221,17 +221,14 @@
     <span class="n">roadrunner</span><span class="o">.</span><span class="n">Logger</span><span class="o">.</span><span class="n">setLevel</span><span class="p">(</span><span class="n">roadrunner</span><span class="o">.</span><span class="n">Logger</span><span class="o">.</span><span class="n">LOG_WARNING</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="noticesOn"><a class="viewcode-back" href="../tellurium_methods.html#tellurium.noticesOn">[docs]</a><span class="k">def</span> <span class="nf">noticesOn</span><span class="p">():</span>
+<div class="viewcode-block" id="noticesOn"><a class="viewcode-back" href="../_apidoc/tellurium.html#tellurium.noticesOn">[docs]</a><span class="k">def</span> <span class="nf">noticesOn</span><span class="p">():</span>
     <span class="sd">&quot;&quot;&quot;Switch on notice generation to the user.</span>
 <span class="sd">    see also :func:`noticesOff`</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">roadrunner</span><span class="o">.</span><span class="n">Logger</span><span class="o">.</span><span class="n">setLevel</span><span class="p">(</span><span class="n">roadrunner</span><span class="o">.</span><span class="n">Logger</span><span class="o">.</span><span class="n">LOG_NOTICE</span><span class="p">)</span></div>
     
 
-<span class="c1"># ---------------------------------------------------------------------</span>
-<span class="c1"># File Help Methods</span>
-<span class="c1"># ---------------------------------------------------------------------</span>
-<div class="viewcode-block" id="saveToFile"><a class="viewcode-back" href="../tellurium_methods.html#tellurium.saveToFile">[docs]</a><span class="k">def</span> <span class="nf">saveToFile</span><span class="p">(</span><span class="n">fileName</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+<div class="viewcode-block" id="saveToFile"><a class="viewcode-back" href="../_apidoc/tellurium.html#tellurium.saveToFile">[docs]</a><span class="k">def</span> <span class="nf">saveToFile</span><span class="p">(</span><span class="n">fileName</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Save string to file.</span>
 <span class="sd">    ::</span>
 
@@ -246,11 +243,11 @@
     <span class="n">f</span><span class="o">.</span><span class="n">close</span><span class="p">()</span></div>
 
 
-<div class="viewcode-block" id="readFromFile"><a class="viewcode-back" href="../tellurium_methods.html#tellurium.readFromFile">[docs]</a><span class="k">def</span> <span class="nf">readFromFile</span><span class="p">(</span><span class="n">fileName</span><span class="p">):</span>
+<div class="viewcode-block" id="readFromFile"><a class="viewcode-back" href="../_apidoc/tellurium.html#tellurium.readFromFile">[docs]</a><span class="k">def</span> <span class="nf">readFromFile</span><span class="p">(</span><span class="n">fileName</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Load a file and return contents as a string.</span>
 <span class="sd">    ::</span>
 
-<span class="sd">        str = readFromFile (&#39;c:\\myfile.txt&#39;)</span>
+<span class="sd">        str = readFromFile(&#39;c:\\myfile.txt&#39;)</span>
 
 <span class="sd">    :param fileName: file path to read from</span>
 <span class="sd">    :returns: string representation of the contents of the file</span>
@@ -262,7 +259,7 @@
 <span class="c1"># ---------------------------------------------------------------------</span>
 <span class="c1"># Loading Models Methods</span>
 <span class="c1"># ---------------------------------------------------------------------</span>
-<div class="viewcode-block" id="loadSBMLModel"><a class="viewcode-back" href="../tellurium_methods.html#tellurium.loadSBMLModel">[docs]</a><span class="k">def</span> <span class="nf">loadSBMLModel</span><span class="p">(</span><span class="n">sbml</span><span class="p">):</span>
+<div class="viewcode-block" id="loadSBMLModel"><a class="viewcode-back" href="../_apidoc/tellurium.html#tellurium.loadSBMLModel">[docs]</a><span class="k">def</span> <span class="nf">loadSBMLModel</span><span class="p">(</span><span class="n">sbml</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Load an SBML model into roadRunner.</span>
 <span class="sd">    ::</span>
 
@@ -274,7 +271,7 @@
     <span class="k">return</span> <span class="n">roadrunner</span><span class="o">.</span><span class="n">RoadRunner</span><span class="p">(</span><span class="n">sbml</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="loadAntimonyModel"><a class="viewcode-back" href="../tellurium_methods.html#tellurium.loadAntimonyModel">[docs]</a><span class="k">def</span> <span class="nf">loadAntimonyModel</span><span class="p">(</span><span class="n">antStr</span><span class="p">):</span>
+<div class="viewcode-block" id="loadAntimonyModel"><a class="viewcode-back" href="../_apidoc/tellurium.html#tellurium.loadAntimonyModel">[docs]</a><span class="k">def</span> <span class="nf">loadAntimonyModel</span><span class="p">(</span><span class="n">antStr</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Load model from antimony string.</span>
 <span class="sd">    see also: `:func:loadAntimonyModel`</span>
 <span class="sd">    ::</span>
@@ -298,7 +295,7 @@
     <span class="k">return</span> <span class="n">rr</span></div>
 
 
-<div class="viewcode-block" id="loada"><a class="viewcode-back" href="../tellurium_methods.html#tellurium.loada">[docs]</a><span class="k">def</span> <span class="nf">loada</span><span class="p">(</span><span class="n">antStr</span><span class="p">):</span>
+<div class="viewcode-block" id="loada"><a class="viewcode-back" href="../_apidoc/tellurium.html#tellurium.loada">[docs]</a><span class="k">def</span> <span class="nf">loada</span><span class="p">(</span><span class="n">antStr</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Load model from antimony string.</span>
 <span class="sd">    see also: `:func:loadAntimonyModel`</span>
 <span class="sd">    ::</span>
@@ -311,7 +308,7 @@
     <span class="k">return</span> <span class="n">loadAntimonyModel</span><span class="p">(</span><span class="n">antStr</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="loadCellMLModel"><a class="viewcode-back" href="../tellurium_methods.html#tellurium.loadCellMLModel">[docs]</a><span class="k">def</span> <span class="nf">loadCellMLModel</span><span class="p">(</span><span class="n">cellML</span><span class="p">):</span>
+<div class="viewcode-block" id="loadCellMLModel"><a class="viewcode-back" href="../_apidoc/tellurium.html#tellurium.loadCellMLModel">[docs]</a><span class="k">def</span> <span class="nf">loadCellMLModel</span><span class="p">(</span><span class="n">cellML</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Load a cellml model into roadrunner.</span>
 <span class="sd">    ::</span>
 
@@ -331,7 +328,7 @@
 <span class="c1"># ---------------------------------------------------------------------</span>
 <span class="c1"># Interconversion Methods</span>
 <span class="c1"># ---------------------------------------------------------------------</span>
-<div class="viewcode-block" id="antimonyTosbml"><a class="viewcode-back" href="../tellurium_methods.html#tellurium.antimonyTosbml">[docs]</a><span class="k">def</span> <span class="nf">antimonyTosbml</span><span class="p">(</span><span class="n">antStr</span><span class="p">):</span>
+<div class="viewcode-block" id="antimonyTosbml"><a class="viewcode-back" href="../_apidoc/tellurium.html#tellurium.antimonyTosbml">[docs]</a><span class="k">def</span> <span class="nf">antimonyTosbml</span><span class="p">(</span><span class="n">antStr</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Convert antimony string to SBML string.</span>
 <span class="sd">    ::</span>
 
@@ -349,7 +346,7 @@
     <span class="k">return</span> <span class="n">antimony</span><span class="o">.</span><span class="n">getSBMLString</span><span class="p">(</span><span class="n">mid</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="sbmlToAntimony"><a class="viewcode-back" href="../tellurium_methods.html#tellurium.sbmlToAntimony">[docs]</a><span class="k">def</span> <span class="nf">sbmlToAntimony</span><span class="p">(</span><span class="nb">str</span><span class="p">):</span>
+<div class="viewcode-block" id="sbmlToAntimony"><a class="viewcode-back" href="../_apidoc/tellurium.html#tellurium.sbmlToAntimony">[docs]</a><span class="k">def</span> <span class="nf">sbmlToAntimony</span><span class="p">(</span><span class="nb">str</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Convert SBML string to antimony string.</span>
 <span class="sd">    ::</span>
 
@@ -365,7 +362,7 @@
     <span class="k">return</span> <span class="n">antimony</span><span class="o">.</span><span class="n">getAntimonyString</span><span class="p">(</span><span class="bp">None</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="cellmlFileToAntimony"><a class="viewcode-back" href="../tellurium_methods.html#tellurium.cellmlFileToAntimony">[docs]</a><span class="k">def</span> <span class="nf">cellmlFileToAntimony</span><span class="p">(</span><span class="n">CellMLFileName</span><span class="p">):</span>
+<div class="viewcode-block" id="cellmlFileToAntimony"><a class="viewcode-back" href="../_apidoc/tellurium.html#tellurium.cellmlFileToAntimony">[docs]</a><span class="k">def</span> <span class="nf">cellmlFileToAntimony</span><span class="p">(</span><span class="n">CellMLFileName</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Convert cellml file to antimony string.</span>
 <span class="sd">    ::</span>
 
@@ -380,7 +377,7 @@
     <span class="k">return</span> <span class="n">antimony</span><span class="o">.</span><span class="n">getAntimonyString</span><span class="p">(</span><span class="bp">None</span><span class="p">)</span></div>
  
     
-<div class="viewcode-block" id="cellmlFileToSBML"><a class="viewcode-back" href="../tellurium_methods.html#tellurium.cellmlFileToSBML">[docs]</a><span class="k">def</span> <span class="nf">cellmlFileToSBML</span><span class="p">(</span><span class="n">CellMLFileName</span><span class="p">):</span>
+<div class="viewcode-block" id="cellmlFileToSBML"><a class="viewcode-back" href="../_apidoc/tellurium.html#tellurium.cellmlFileToSBML">[docs]</a><span class="k">def</span> <span class="nf">cellmlFileToSBML</span><span class="p">(</span><span class="n">CellMLFileName</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Convert cellml file to SBML string.</span>
 <span class="sd">    ::</span>
 
@@ -394,7 +391,7 @@
     <span class="k">return</span> <span class="n">antimony</span><span class="o">.</span><span class="n">getSBMLString</span><span class="p">(</span><span class="bp">None</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="cellmlStrToAntimony"><a class="viewcode-back" href="../tellurium_methods.html#tellurium.cellmlStrToAntimony">[docs]</a><span class="k">def</span> <span class="nf">cellmlStrToAntimony</span><span class="p">(</span><span class="n">CellMLStr</span><span class="p">):</span>
+<div class="viewcode-block" id="cellmlStrToAntimony"><a class="viewcode-back" href="../_apidoc/tellurium.html#tellurium.cellmlStrToAntimony">[docs]</a><span class="k">def</span> <span class="nf">cellmlStrToAntimony</span><span class="p">(</span><span class="n">CellMLStr</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Convert cellml string to antimony string:</span>
 <span class="sd">    ::</span>
 
@@ -408,7 +405,7 @@
     <span class="k">return</span> <span class="n">antimony</span><span class="o">.</span><span class="n">getAntimonyString</span><span class="p">(</span><span class="bp">None</span><span class="p">)</span></div>
     
     
-<div class="viewcode-block" id="cellmlStrToSBML"><a class="viewcode-back" href="../tellurium_methods.html#tellurium.cellmlStrToSBML">[docs]</a><span class="k">def</span> <span class="nf">cellmlStrToSBML</span><span class="p">(</span><span class="n">CellMLStr</span><span class="p">):</span>
+<div class="viewcode-block" id="cellmlStrToSBML"><a class="viewcode-back" href="../_apidoc/tellurium.html#tellurium.cellmlStrToSBML">[docs]</a><span class="k">def</span> <span class="nf">cellmlStrToSBML</span><span class="p">(</span><span class="n">CellMLStr</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Convert cellml string to SBML string.</span>
 <span class="sd">    ::</span>
 
@@ -425,7 +422,7 @@
 <span class="c1"># ---------------------------------------------------------------------</span>
 <span class="c1"># SEDML Utilities</span>
 <span class="c1"># ---------------------------------------------------------------------</span>
-<div class="viewcode-block" id="experiment"><a class="viewcode-back" href="../tellurium_methods.html#tellurium.experiment">[docs]</a><span class="k">def</span> <span class="nf">experiment</span><span class="p">(</span><span class="n">antimonyStr</span><span class="p">,</span> <span class="n">phrasedmlStr</span><span class="p">):</span>
+<div class="viewcode-block" id="experiment"><a class="viewcode-back" href="../_apidoc/tellurium.html#tellurium.experiment">[docs]</a><span class="k">def</span> <span class="nf">experiment</span><span class="p">(</span><span class="n">antimonyStr</span><span class="p">,</span> <span class="n">phrasedmlStr</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Create an experiment instance given an antimony string and a phrasedml string.</span>
 
 <span class="sd">    :param antimonyStr: antimony string of model</span>
@@ -438,7 +435,7 @@
 <span class="c1"># ---------------------------------------------------------------------</span>
 <span class="c1"># Math Utilities</span>
 <span class="c1"># ---------------------------------------------------------------------</span>
-<div class="viewcode-block" id="getEigenvalues"><a class="viewcode-back" href="../tellurium_methods.html#tellurium.getEigenvalues">[docs]</a><span class="k">def</span> <span class="nf">getEigenvalues</span><span class="p">(</span><span class="n">m</span><span class="p">):</span>
+<div class="viewcode-block" id="getEigenvalues"><a class="viewcode-back" href="../_apidoc/tellurium.html#tellurium.getEigenvalues">[docs]</a><span class="k">def</span> <span class="nf">getEigenvalues</span><span class="p">(</span><span class="n">m</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Eigenvalues of matrix.</span>
 <span class="sd">    Convenience method for computing the eigenvalues of a matrix m</span>
@@ -455,7 +452,7 @@
 <span class="c1"># ---------------------------------------------------------------------</span>
 <span class="c1"># Stochastic Simulation Methods</span>
 <span class="c1"># ---------------------------------------------------------------------</span>
-<div class="viewcode-block" id="getSeed"><a class="viewcode-back" href="../tellurium_methods.html#tellurium.getSeed">[docs]</a><span class="k">def</span> <span class="nf">getSeed</span><span class="p">(</span><span class="n">r</span><span class="p">):</span>
+<div class="viewcode-block" id="getSeed"><a class="viewcode-back" href="../_apidoc/tellurium.html#tellurium.getSeed">[docs]</a><span class="k">def</span> <span class="nf">getSeed</span><span class="p">(</span><span class="n">r</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Current seed used by the random generator of the RoadRunner instance.</span>
 <span class="sd">    ::</span>
 
@@ -471,7 +468,7 @@
     <span class="k">return</span> <span class="n">intg</span><span class="p">[</span><span class="s1">&#39;seed&#39;</span><span class="p">]</span></div>
 
 
-<div class="viewcode-block" id="setSeed"><a class="viewcode-back" href="../tellurium_methods.html#tellurium.setSeed">[docs]</a><span class="k">def</span> <span class="nf">setSeed</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">seed</span><span class="p">):</span>
+<div class="viewcode-block" id="setSeed"><a class="viewcode-back" href="../_apidoc/tellurium.html#tellurium.setSeed">[docs]</a><span class="k">def</span> <span class="nf">setSeed</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">seed</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Set seed for random number generator (used by gillespie for example).</span>
 <span class="sd">    ::</span>
 
@@ -490,7 +487,7 @@
     <span class="n">intg</span><span class="p">[</span><span class="s1">&#39;seed&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">seed</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="gillespie"><a class="viewcode-back" href="../tellurium_methods.html#tellurium.gillespie">[docs]</a><span class="k">def</span> <span class="nf">gillespie</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="gillespie"><a class="viewcode-back" href="../_apidoc/tellurium.html#tellurium.gillespie">[docs]</a><span class="k">def</span> <span class="nf">gillespie</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Run a Gillespie stochastic simulation.</span>
 <span class="sd">    ::</span>
 
@@ -532,14 +529,14 @@
     <span class="k">return</span> <span class="n">result</span></div>
 
 
-<span class="k">def</span> <span class="nf">RoadRunner</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">):</span>
-    <span class="k">return</span> <span class="n">roadrunner</span><span class="o">.</span><span class="n">RoadRunner</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">)</span>
+<div class="viewcode-block" id="RoadRunner"><a class="viewcode-back" href="../_apidoc/tellurium.html#tellurium.RoadRunner">[docs]</a><span class="k">def</span> <span class="nf">RoadRunner</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">roadrunner</span><span class="o">.</span><span class="n">RoadRunner</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">)</span></div>
 
 
 <span class="c1"># ---------------------------------------------------------------------</span>
 <span class="c1"># Plotting Utilities</span>
 <span class="c1"># ---------------------------------------------------------------------</span>
-<div class="viewcode-block" id="plotWithLegend"><a class="viewcode-back" href="../tellurium_methods.html#tellurium.plotWithLegend">[docs]</a><span class="k">def</span> <span class="nf">plotWithLegend</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">result</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="s1">&#39;upper left&#39;</span><span class="p">,</span> <span class="n">show</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
+<div class="viewcode-block" id="plotWithLegend"><a class="viewcode-back" href="../_apidoc/tellurium.html#tellurium.plotWithLegend">[docs]</a><span class="k">def</span> <span class="nf">plotWithLegend</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">result</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="s1">&#39;upper left&#39;</span><span class="p">,</span> <span class="n">show</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Plot an array and include a legend.</span>
 <span class="sd">    The first argument must be a roadrunner variable.</span>
 <span class="sd">    The second argument must be an array containing data to plot.</span>
@@ -591,7 +588,7 @@
     <span class="k">return</span> <span class="n">plt</span></div>
 
 
-<div class="viewcode-block" id="simulateAndPlot"><a class="viewcode-back" href="../tellurium_methods.html#tellurium.simulateAndPlot">[docs]</a><span class="k">def</span> <span class="nf">simulateAndPlot</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">startTime</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">endTime</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">numberOfPoints</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="simulateAndPlot"><a class="viewcode-back" href="../_apidoc/tellurium.html#tellurium.simulateAndPlot">[docs]</a><span class="k">def</span> <span class="nf">simulateAndPlot</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">startTime</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">endTime</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">numberOfPoints</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Run simulation and plot the results.</span>
 <span class="sd">    ::</span>
 
@@ -610,7 +607,7 @@
     <span class="k">return</span> <span class="n">result</span></div>
  
 
-<div class="viewcode-block" id="plotArray"><a class="viewcode-back" href="../tellurium_methods.html#tellurium.plotArray">[docs]</a><span class="k">def</span> <span class="nf">plotArray</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="plotArray"><a class="viewcode-back" href="../_apidoc/tellurium.html#tellurium.plotArray">[docs]</a><span class="k">def</span> <span class="nf">plotArray</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; Plot an array.</span>
 <span class="sd">    The first column of the array will</span>
 <span class="sd">    be the x-axis and remaining columns the y-axis. Returns</span>
@@ -634,7 +631,7 @@
     <span class="k">return</span> <span class="n">p</span></div>
 
 
-<div class="viewcode-block" id="plot"><a class="viewcode-back" href="../tellurium_methods.html#tellurium.plot">[docs]</a><span class="k">def</span> <span class="nf">plot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">result</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="s1">&#39;upper left&#39;</span><span class="p">,</span> <span class="n">show</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
+<div class="viewcode-block" id="plot"><a class="viewcode-back" href="../_apidoc/tellurium.html#tellurium.plot">[docs]</a><span class="k">def</span> <span class="nf">plot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">result</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="s1">&#39;upper left&#39;</span><span class="p">,</span> <span class="n">show</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Plot data generated by a simulation.</span>
 <span class="sd">    Plot results from a simulation carried out by the simulate or gillespie</span>
 <span class="sd">    functions. This is a roadrunner method.</span>
@@ -660,7 +657,7 @@
 <span class="c1"># ---------------------------------------------------------------------</span>
 <span class="c1"># Export Utilities</span>
 <span class="c1"># ---------------------------------------------------------------------</span>
-<div class="viewcode-block" id="getMatlab"><a class="viewcode-back" href="../tellurium_methods.html#tellurium.getMatlab">[docs]</a><span class="k">def</span> <span class="nf">getMatlab</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="getMatlab"><a class="viewcode-back" href="../_apidoc/tellurium.html#tellurium.getMatlab">[docs]</a><span class="k">def</span> <span class="nf">getMatlab</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Matlab string of current model.</span>
 
 <span class="sd">    :returns: Matlab string</span>
@@ -668,7 +665,7 @@
     <span class="k">return</span> <span class="n">sbml2matlab</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">getCurrentSBML</span><span class="p">())</span></div>
 
 
-<div class="viewcode-block" id="exportToMatlab"><a class="viewcode-back" href="../tellurium_methods.html#tellurium.exportToMatlab">[docs]</a><span class="k">def</span> <span class="nf">exportToMatlab</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fileName</span><span class="p">):</span>
+<div class="viewcode-block" id="exportToMatlab"><a class="viewcode-back" href="../_apidoc/tellurium.html#tellurium.exportToMatlab">[docs]</a><span class="k">def</span> <span class="nf">exportToMatlab</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fileName</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Save current model as Matlab file.</span>
 <span class="sd">    ::</span>
 
@@ -680,7 +677,7 @@
     <span class="n">saveToFile</span><span class="p">(</span><span class="n">fileName</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">getMatlab</span><span class="p">())</span></div>
 
 
-<div class="viewcode-block" id="getAntimony"><a class="viewcode-back" href="../tellurium_methods.html#tellurium.getAntimony">[docs]</a><span class="k">def</span> <span class="nf">getAntimony</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="getAntimony"><a class="viewcode-back" href="../_apidoc/tellurium.html#tellurium.getAntimony">[docs]</a><span class="k">def</span> <span class="nf">getAntimony</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Antimony string of the current model state.</span>
 <span class="sd">    ::</span>
 
@@ -694,7 +691,7 @@
 <span class="c1"># ---------------------------------------------------------------------</span>
 <span class="c1"># Test Models</span>
 <span class="c1"># ---------------------------------------------------------------------</span>
-<div class="viewcode-block" id="loadTestModel"><a class="viewcode-back" href="../tellurium_methods.html#tellurium.loadTestModel">[docs]</a><span class="k">def</span> <span class="nf">loadTestModel</span> <span class="p">(</span><span class="nb">str</span><span class="p">):</span>
+<div class="viewcode-block" id="loadTestModel"><a class="viewcode-back" href="../_apidoc/tellurium.html#tellurium.loadTestModel">[docs]</a><span class="k">def</span> <span class="nf">loadTestModel</span> <span class="p">(</span><span class="nb">str</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Loads particular test model into roadrunner.</span>
 <span class="sd">    ::</span>
 
@@ -705,7 +702,7 @@
     <span class="k">return</span> <span class="n">roadrunner</span><span class="o">.</span><span class="n">testing</span><span class="o">.</span><span class="n">getRoadRunner</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="getTestModel"><a class="viewcode-back" href="../tellurium_methods.html#tellurium.getTestModel">[docs]</a><span class="k">def</span> <span class="nf">getTestModel</span><span class="p">(</span><span class="nb">str</span><span class="p">):</span>
+<div class="viewcode-block" id="getTestModel"><a class="viewcode-back" href="../_apidoc/tellurium.html#tellurium.getTestModel">[docs]</a><span class="k">def</span> <span class="nf">getTestModel</span><span class="p">(</span><span class="nb">str</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Returns the particular test model as a string.</span>
 <span class="sd">    ::</span>
 
@@ -716,7 +713,7 @@
     <span class="k">return</span> <span class="n">roadrunner</span><span class="o">.</span><span class="n">testing</span><span class="o">.</span><span class="n">getData</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span></div>
 
 
-<span class="k">def</span> <span class="nf">listTestModels</span><span class="p">():</span>
+<div class="viewcode-block" id="listTestModels"><a class="viewcode-back" href="../_apidoc/tellurium.html#tellurium.listTestModels">[docs]</a><span class="k">def</span> <span class="nf">listTestModels</span><span class="p">():</span>
     <span class="sd">&quot;&quot;&quot;List roadrunner SBML test models.</span>
 <span class="sd">    ::</span>
 
@@ -728,13 +725,13 @@
     <span class="n">fileList</span> <span class="o">=</span> <span class="n">roadrunner</span><span class="o">.</span><span class="n">testing</span><span class="o">.</span><span class="n">dir</span><span class="p">(</span><span class="s1">&#39;*.xml&#39;</span><span class="p">)</span>
     <span class="k">for</span> <span class="n">pathName</span> <span class="ow">in</span> <span class="n">fileList</span><span class="p">:</span>
         <span class="n">modelList</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">pathName</span><span class="p">))</span>
-    <span class="k">return</span> <span class="n">modelList</span>
+    <span class="k">return</span> <span class="n">modelList</span></div>
 
 
 <span class="c1"># ---------------------------------------------------------------------</span>
 <span class="c1"># Test Models</span>
 <span class="c1"># ---------------------------------------------------------------------</span>
-<div class="viewcode-block" id="resetToOrigin"><a class="viewcode-back" href="../tellurium_methods.html#tellurium.resetToOrigin">[docs]</a><span class="k">def</span> <span class="nf">resetToOrigin</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="resetToOrigin"><a class="viewcode-back" href="../_apidoc/tellurium.html#tellurium.resetToOrigin">[docs]</a><span class="k">def</span> <span class="nf">resetToOrigin</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Reset model to state when first loaded.</span>
 <span class="sd">    This resets the model back to the state when it was FIRST loaded,</span>
 <span class="sd">    this includes all init() and parameters such as k1 etc.</span>
@@ -748,7 +745,7 @@
     <span class="bp">self</span><span class="o">.</span><span class="n">reset</span><span class="p">(</span><span class="n">roadrunner</span><span class="o">.</span><span class="n">SelectionRecord</span><span class="o">.</span><span class="n">ALL</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="resetAll"><a class="viewcode-back" href="../tellurium_methods.html#tellurium.resetAll">[docs]</a><span class="k">def</span> <span class="nf">resetAll</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="resetAll"><a class="viewcode-back" href="../_apidoc/tellurium.html#tellurium.resetAll">[docs]</a><span class="k">def</span> <span class="nf">resetAll</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Reset all model variables to CURRENT init(X) values.</span>
 <span class="sd">    This resets all variables, S1, S2 etc to the CURRENT init(X) values. It also resets all</span>
 <span class="sd">    parameters back to the values they had when the model was first loaded.</span>
@@ -765,7 +762,7 @@
 <span class="c1"># --------------------------------------------------------------------- </span>
 <span class="c1"># Routines to support the Jarnac compatibility layer</span>
 <span class="c1"># ---------------------------------------------------------------------</span>
-<div class="viewcode-block" id="getSm"><a class="viewcode-back" href="../tellurium_methods.html#tellurium.getSm">[docs]</a><span class="k">def</span> <span class="nf">getSm</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="getSm"><a class="viewcode-back" href="../_apidoc/tellurium.html#tellurium.getSm">[docs]</a><span class="k">def</span> <span class="nf">getSm</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Returns the full reordered stoichiometry matrix.</span>
 <span class="sd">    Short-cut sm, e.g.</span>
 <span class="sd">    ::</span>
@@ -777,7 +774,7 @@
     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getFullStoichiometryMatrix</span><span class="p">()</span></div>
 
 
-<div class="viewcode-block" id="getRs"><a class="viewcode-back" href="../tellurium_methods.html#tellurium.getRs">[docs]</a><span class="k">def</span> <span class="nf">getRs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="getRs"><a class="viewcode-back" href="../_apidoc/tellurium.html#tellurium.getRs">[docs]</a><span class="k">def</span> <span class="nf">getRs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Returns the list of reaction Identifiers.</span>
 <span class="sd">    Short-cut rs, e.g.</span>
 <span class="sd">    ::</span>
@@ -789,7 +786,7 @@
     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">getReactionIds</span><span class="p">()</span></div>
 
 
-<div class="viewcode-block" id="getFs"><a class="viewcode-back" href="../tellurium_methods.html#tellurium.getFs">[docs]</a><span class="k">def</span> <span class="nf">getFs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="getFs"><a class="viewcode-back" href="../_apidoc/tellurium.html#tellurium.getFs">[docs]</a><span class="k">def</span> <span class="nf">getFs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Returns list of floating species identifiers.</span>
 <span class="sd">    Short-cut fs, e.g.</span>
 <span class="sd">    ::</span>
@@ -801,7 +798,7 @@
     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">getFloatingSpeciesIds</span><span class="p">()</span></div>
 
 
-<div class="viewcode-block" id="getBs"><a class="viewcode-back" href="../tellurium_methods.html#tellurium.getBs">[docs]</a><span class="k">def</span> <span class="nf">getBs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="getBs"><a class="viewcode-back" href="../_apidoc/tellurium.html#tellurium.getBs">[docs]</a><span class="k">def</span> <span class="nf">getBs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Returns list of boundary species identifiers.</span>
 <span class="sd">    Short-cut bs, e.g.</span>
 <span class="sd">    ::</span>
@@ -813,7 +810,7 @@
     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">getBoundarySpeciesIds</span><span class="p">()</span></div>
 
 
-<div class="viewcode-block" id="getPs"><a class="viewcode-back" href="../tellurium_methods.html#tellurium.getPs">[docs]</a><span class="k">def</span> <span class="nf">getPs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="getPs"><a class="viewcode-back" href="../_apidoc/tellurium.html#tellurium.getPs">[docs]</a><span class="k">def</span> <span class="nf">getPs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Returns list of global parameters in the model.</span>
 <span class="sd">    Short-cut ps, e.g.</span>
 <span class="sd">    ::</span>
@@ -825,7 +822,7 @@
     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">getGlobalParameterIds</span><span class="p">()</span></div>
 
 
-<div class="viewcode-block" id="getVs"><a class="viewcode-back" href="../tellurium_methods.html#tellurium.getVs">[docs]</a><span class="k">def</span> <span class="nf">getVs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="getVs"><a class="viewcode-back" href="../_apidoc/tellurium.html#tellurium.getVs">[docs]</a><span class="k">def</span> <span class="nf">getVs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;  </span>
 <span class="sd">    Returns the list of compartment identifiers.</span>
 <span class="sd">    Short-cut vs, e.g.</span>
@@ -838,7 +835,7 @@
     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">getCompartmentIds</span><span class="p">()</span></div>
 
 
-<div class="viewcode-block" id="getDv"><a class="viewcode-back" href="../tellurium_methods.html#tellurium.getDv">[docs]</a><span class="k">def</span> <span class="nf">getDv</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="getDv"><a class="viewcode-back" href="../_apidoc/tellurium.html#tellurium.getDv">[docs]</a><span class="k">def</span> <span class="nf">getDv</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Returns the list of rates of change.</span>
 <span class="sd">    Short-cut dv, e.g.</span>
 <span class="sd">    ::</span>
@@ -850,7 +847,7 @@
     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">getStateVectorRate</span><span class="p">()</span></div>
 
 
-<div class="viewcode-block" id="getRv"><a class="viewcode-back" href="../tellurium_methods.html#tellurium.getRv">[docs]</a><span class="k">def</span> <span class="nf">getRv</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="getRv"><a class="viewcode-back" href="../_apidoc/tellurium.html#tellurium.getRv">[docs]</a><span class="k">def</span> <span class="nf">getRv</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;  Returns the list of reaction rates.</span>
 <span class="sd">    Short-cut rv, e.g.</span>
 <span class="sd">    ::</span>
@@ -862,7 +859,7 @@
     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">getReactionRates</span><span class="p">()</span></div>
 
 
-<div class="viewcode-block" id="getSv"><a class="viewcode-back" href="../tellurium_methods.html#tellurium.getSv">[docs]</a><span class="k">def</span> <span class="nf">getSv</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="getSv"><a class="viewcode-back" href="../_apidoc/tellurium.html#tellurium.getSv">[docs]</a><span class="k">def</span> <span class="nf">getSv</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Returns the list of floating species concentrations.</span>
 <span class="sd">    Short-cut sv, e.g.</span>
 <span class="sd">    ::</span>
@@ -874,7 +871,7 @@
     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">getFloatingSpeciesConcentrations</span><span class="p">()</span></div>
 
 
-<div class="viewcode-block" id="getfJac"><a class="viewcode-back" href="../tellurium_methods.html#tellurium.getfJac">[docs]</a><span class="k">def</span> <span class="nf">getfJac</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="getfJac"><a class="viewcode-back" href="../_apidoc/tellurium.html#tellurium.getfJac">[docs]</a><span class="k">def</span> <span class="nf">getfJac</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Returns the full Jacobian for the current model at the current state.</span>
 <span class="sd">    Short-cut fjac, e.g.</span>
 <span class="sd">    ::</span>
@@ -889,7 +886,7 @@
 <span class="c1"># --------------------------------------------------------------------- </span>
 <span class="c1"># Routines flattened from model, aves typing and easier finding of methods</span>
 <span class="c1"># ---------------------------------------------------------------------</span>
-<div class="viewcode-block" id="getRatesOfChange"><a class="viewcode-back" href="../tellurium_methods.html#tellurium.getRatesOfChange">[docs]</a><span class="k">def</span> <span class="nf">getRatesOfChange</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="getRatesOfChange"><a class="viewcode-back" href="../_apidoc/tellurium.html#tellurium.getRatesOfChange">[docs]</a><span class="k">def</span> <span class="nf">getRatesOfChange</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Rate of change of all state variables in the model.</span>
 
 <span class="sd">    :returns: rate of change of all state variables (eg species) in the model.</span>
@@ -906,68 +903,68 @@
 <span class="c1"># i.e. the te.func() do not have any documentation associated.</span>
 <span class="c1"># make sure help(func) returns the info of help(self.model.func) (see wrap in functools)</span>
 
-<div class="viewcode-block" id="getBoundarySpeciesConcentrations"><a class="viewcode-back" href="../tellurium_methods.html#tellurium.getBoundarySpeciesConcentrations">[docs]</a><span class="k">def</span> <span class="nf">getBoundarySpeciesConcentrations</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="getBoundarySpeciesConcentrations"><a class="viewcode-back" href="../_apidoc/tellurium.html#tellurium.getBoundarySpeciesConcentrations">[docs]</a><span class="k">def</span> <span class="nf">getBoundarySpeciesConcentrations</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">getBoundarySpeciesConcentrations</span><span class="p">()</span></div>
 
-<div class="viewcode-block" id="getBoundarySpeciesIds"><a class="viewcode-back" href="../tellurium_methods.html#tellurium.getBoundarySpeciesIds">[docs]</a><span class="k">def</span> <span class="nf">getBoundarySpeciesIds</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="getBoundarySpeciesIds"><a class="viewcode-back" href="../_apidoc/tellurium.html#tellurium.getBoundarySpeciesIds">[docs]</a><span class="k">def</span> <span class="nf">getBoundarySpeciesIds</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">getBoundarySpeciesIds</span><span class="p">()</span></div>
     
-<div class="viewcode-block" id="getNumBoundarySpecies"><a class="viewcode-back" href="../tellurium_methods.html#tellurium.getNumBoundarySpecies">[docs]</a><span class="k">def</span> <span class="nf">getNumBoundarySpecies</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="getNumBoundarySpecies"><a class="viewcode-back" href="../_apidoc/tellurium.html#tellurium.getNumBoundarySpecies">[docs]</a><span class="k">def</span> <span class="nf">getNumBoundarySpecies</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">getNumBoundarySpecies</span><span class="p">()</span></div>
 
-<div class="viewcode-block" id="getFloatingSpeciesConcentrations"><a class="viewcode-back" href="../tellurium_methods.html#tellurium.getFloatingSpeciesConcentrations">[docs]</a><span class="k">def</span> <span class="nf">getFloatingSpeciesConcentrations</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="getFloatingSpeciesConcentrations"><a class="viewcode-back" href="../_apidoc/tellurium.html#tellurium.getFloatingSpeciesConcentrations">[docs]</a><span class="k">def</span> <span class="nf">getFloatingSpeciesConcentrations</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">getFloatingSpeciesConcentrations</span> <span class="p">()</span></div>
     
-<div class="viewcode-block" id="getFloatingSpeciesIds"><a class="viewcode-back" href="../tellurium_methods.html#tellurium.getFloatingSpeciesIds">[docs]</a><span class="k">def</span> <span class="nf">getFloatingSpeciesIds</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="getFloatingSpeciesIds"><a class="viewcode-back" href="../_apidoc/tellurium.html#tellurium.getFloatingSpeciesIds">[docs]</a><span class="k">def</span> <span class="nf">getFloatingSpeciesIds</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">getFloatingSpeciesIds</span><span class="p">()</span></div>
     
-<div class="viewcode-block" id="getNumFloatingSpecies"><a class="viewcode-back" href="../tellurium_methods.html#tellurium.getNumFloatingSpecies">[docs]</a><span class="k">def</span> <span class="nf">getNumFloatingSpecies</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="getNumFloatingSpecies"><a class="viewcode-back" href="../_apidoc/tellurium.html#tellurium.getNumFloatingSpecies">[docs]</a><span class="k">def</span> <span class="nf">getNumFloatingSpecies</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">getNumFloatingSpecies</span><span class="p">()</span></div>
     
-<div class="viewcode-block" id="getGlobalParameterIds"><a class="viewcode-back" href="../tellurium_methods.html#tellurium.getGlobalParameterIds">[docs]</a><span class="k">def</span> <span class="nf">getGlobalParameterIds</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="getGlobalParameterIds"><a class="viewcode-back" href="../_apidoc/tellurium.html#tellurium.getGlobalParameterIds">[docs]</a><span class="k">def</span> <span class="nf">getGlobalParameterIds</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">getGlobalParameterIds</span><span class="p">()</span></div>
     
-<div class="viewcode-block" id="getGlobalParameterValues"><a class="viewcode-back" href="../tellurium_methods.html#tellurium.getGlobalParameterValues">[docs]</a><span class="k">def</span> <span class="nf">getGlobalParameterValues</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="getGlobalParameterValues"><a class="viewcode-back" href="../_apidoc/tellurium.html#tellurium.getGlobalParameterValues">[docs]</a><span class="k">def</span> <span class="nf">getGlobalParameterValues</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">getGlobalParameterValues</span><span class="p">()</span> </div>
     
-<div class="viewcode-block" id="getNumGlobalParameters"><a class="viewcode-back" href="../tellurium_methods.html#tellurium.getNumGlobalParameters">[docs]</a><span class="k">def</span> <span class="nf">getNumGlobalParameters</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="getNumGlobalParameters"><a class="viewcode-back" href="../_apidoc/tellurium.html#tellurium.getNumGlobalParameters">[docs]</a><span class="k">def</span> <span class="nf">getNumGlobalParameters</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">getNumGlobalParameters</span><span class="p">()</span> </div>
 
-<div class="viewcode-block" id="getCompartmentIds"><a class="viewcode-back" href="../tellurium_methods.html#tellurium.getCompartmentIds">[docs]</a><span class="k">def</span> <span class="nf">getCompartmentIds</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="getCompartmentIds"><a class="viewcode-back" href="../_apidoc/tellurium.html#tellurium.getCompartmentIds">[docs]</a><span class="k">def</span> <span class="nf">getCompartmentIds</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">getCompartmentIds</span><span class="p">()</span></div>
         
-<div class="viewcode-block" id="getCompartmentVolumes"><a class="viewcode-back" href="../tellurium_methods.html#tellurium.getCompartmentVolumes">[docs]</a><span class="k">def</span> <span class="nf">getCompartmentVolumes</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="getCompartmentVolumes"><a class="viewcode-back" href="../_apidoc/tellurium.html#tellurium.getCompartmentVolumes">[docs]</a><span class="k">def</span> <span class="nf">getCompartmentVolumes</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">getCompartmentVolumes</span><span class="p">()</span></div>
         
-<div class="viewcode-block" id="getNumCompartments"><a class="viewcode-back" href="../tellurium_methods.html#tellurium.getNumCompartments">[docs]</a><span class="k">def</span> <span class="nf">getNumCompartments</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="getNumCompartments"><a class="viewcode-back" href="../_apidoc/tellurium.html#tellurium.getNumCompartments">[docs]</a><span class="k">def</span> <span class="nf">getNumCompartments</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">getNumCompartments</span><span class="p">()</span></div>
 
-<span class="k">def</span> <span class="nf">getConservedMoietyIds</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="getConservedMoietyIds"><a class="viewcode-back" href="../_apidoc/tellurium.html#tellurium.getConservedMoietyIds">[docs]</a><span class="k">def</span> <span class="nf">getConservedMoietyIds</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
     <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s1">&#39;getConservedMoietyIds deprecated; Use r.getDependentFloatingSpecies&#39;</span><span class="p">)</span>
-    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">getConservedMoietyIds</span><span class="p">()</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">getConservedMoietyIds</span><span class="p">()</span></div>
             
-<div class="viewcode-block" id="getConservedMoietyValues"><a class="viewcode-back" href="../tellurium_methods.html#tellurium.getConservedMoietyValues">[docs]</a><span class="k">def</span> <span class="nf">getConservedMoietyValues</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="getConservedMoietyValues"><a class="viewcode-back" href="../_apidoc/tellurium.html#tellurium.getConservedMoietyValues">[docs]</a><span class="k">def</span> <span class="nf">getConservedMoietyValues</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">getConservedMoietyValues</span><span class="p">()</span></div>
             
-<div class="viewcode-block" id="getNumConservedMoieties"><a class="viewcode-back" href="../tellurium_methods.html#tellurium.getNumConservedMoieties">[docs]</a><span class="k">def</span> <span class="nf">getNumConservedMoieties</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="getNumConservedMoieties"><a class="viewcode-back" href="../_apidoc/tellurium.html#tellurium.getNumConservedMoieties">[docs]</a><span class="k">def</span> <span class="nf">getNumConservedMoieties</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">getNumConservedMoieties</span><span class="p">()</span></div>
             
-<div class="viewcode-block" id="getNumDepFloatingSpecies"><a class="viewcode-back" href="../tellurium_methods.html#tellurium.getNumDepFloatingSpecies">[docs]</a><span class="k">def</span> <span class="nf">getNumDepFloatingSpecies</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="getNumDepFloatingSpecies"><a class="viewcode-back" href="../_apidoc/tellurium.html#tellurium.getNumDepFloatingSpecies">[docs]</a><span class="k">def</span> <span class="nf">getNumDepFloatingSpecies</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">getNumDepFloatingSpecies</span><span class="p">()</span></div>
             
-<div class="viewcode-block" id="getNumIndFloatingSpecies"><a class="viewcode-back" href="../tellurium_methods.html#tellurium.getNumIndFloatingSpecies">[docs]</a><span class="k">def</span> <span class="nf">getNumIndFloatingSpecies</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="getNumIndFloatingSpecies"><a class="viewcode-back" href="../_apidoc/tellurium.html#tellurium.getNumIndFloatingSpecies">[docs]</a><span class="k">def</span> <span class="nf">getNumIndFloatingSpecies</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">getNumIndFloatingSpecies</span><span class="p">()</span></div>
 
-<div class="viewcode-block" id="getNumReactions"><a class="viewcode-back" href="../tellurium_methods.html#tellurium.getNumReactions">[docs]</a><span class="k">def</span> <span class="nf">getNumReactions</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="getNumReactions"><a class="viewcode-back" href="../_apidoc/tellurium.html#tellurium.getNumReactions">[docs]</a><span class="k">def</span> <span class="nf">getNumReactions</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">getNumReactions</span><span class="p">()</span></div>
     
-<div class="viewcode-block" id="getReactionIds"><a class="viewcode-back" href="../tellurium_methods.html#tellurium.getReactionIds">[docs]</a><span class="k">def</span> <span class="nf">getReactionIds</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="getReactionIds"><a class="viewcode-back" href="../_apidoc/tellurium.html#tellurium.getReactionIds">[docs]</a><span class="k">def</span> <span class="nf">getReactionIds</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">getReactionIds</span><span class="p">()</span></div>
     
-<div class="viewcode-block" id="getReactionRates"><a class="viewcode-back" href="../tellurium_methods.html#tellurium.getReactionRates">[docs]</a><span class="k">def</span> <span class="nf">getReactionRates</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="getReactionRates"><a class="viewcode-back" href="../_apidoc/tellurium.html#tellurium.getReactionRates">[docs]</a><span class="k">def</span> <span class="nf">getReactionRates</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">getReactionRates</span><span class="p">()</span></div>
     
-<div class="viewcode-block" id="getNumEvents"><a class="viewcode-back" href="../tellurium_methods.html#tellurium.getNumEvents">[docs]</a><span class="k">def</span> <span class="nf">getNumEvents</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="getNumEvents"><a class="viewcode-back" href="../_apidoc/tellurium.html#tellurium.getNumEvents">[docs]</a><span class="k">def</span> <span class="nf">getNumEvents</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">getNumEvents</span><span class="p">()</span></div>
  
 <span class="c1">#def getValue (self, name):</span>
@@ -976,25 +973,25 @@
 <span class="c1">#def setValue (self, name, value):</span>
 <span class="c1">#    self.model.setvalue (name, value)</span>
     
-<div class="viewcode-block" id="setStartTime"><a class="viewcode-back" href="../tellurium_methods.html#tellurium.setStartTime">[docs]</a><span class="k">def</span> <span class="nf">setStartTime</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">startTime</span><span class="p">):</span>
+<div class="viewcode-block" id="setStartTime"><a class="viewcode-back" href="../_apidoc/tellurium.html#tellurium.setStartTime">[docs]</a><span class="k">def</span> <span class="nf">setStartTime</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">startTime</span><span class="p">):</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">setTime</span><span class="p">(</span><span class="n">startTime</span><span class="p">)</span></div>
    
-<div class="viewcode-block" id="setEndTime"><a class="viewcode-back" href="../tellurium_methods.html#tellurium.setEndTime">[docs]</a><span class="k">def</span> <span class="nf">setEndTime</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">endTime</span><span class="p">):</span>
+<div class="viewcode-block" id="setEndTime"><a class="viewcode-back" href="../_apidoc/tellurium.html#tellurium.setEndTime">[docs]</a><span class="k">def</span> <span class="nf">setEndTime</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">endTime</span><span class="p">):</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">simulateOptions</span><span class="o">.</span><span class="n">end</span> <span class="o">=</span> <span class="n">endTime</span></div>
 
-<div class="viewcode-block" id="getStartTime"><a class="viewcode-back" href="../tellurium_methods.html#tellurium.getStartTime">[docs]</a><span class="k">def</span> <span class="nf">getStartTime</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="getStartTime"><a class="viewcode-back" href="../_apidoc/tellurium.html#tellurium.getStartTime">[docs]</a><span class="k">def</span> <span class="nf">getStartTime</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">simulateOptions</span><span class="o">.</span><span class="n">start</span></div>
     
-<div class="viewcode-block" id="getEndTime"><a class="viewcode-back" href="../tellurium_methods.html#tellurium.getEndTime">[docs]</a><span class="k">def</span> <span class="nf">getEndTime</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="getEndTime"><a class="viewcode-back" href="../_apidoc/tellurium.html#tellurium.getEndTime">[docs]</a><span class="k">def</span> <span class="nf">getEndTime</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">simulateOptions</span><span class="o">.</span><span class="n">start</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">simulateOptions</span><span class="o">.</span><span class="n">duration</span></div>
 
-<div class="viewcode-block" id="getNumberOfPoints"><a class="viewcode-back" href="../tellurium_methods.html#tellurium.getNumberOfPoints">[docs]</a><span class="k">def</span> <span class="nf">getNumberOfPoints</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="getNumberOfPoints"><a class="viewcode-back" href="../_apidoc/tellurium.html#tellurium.getNumberOfPoints">[docs]</a><span class="k">def</span> <span class="nf">getNumberOfPoints</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">simulateOptions</span><span class="o">.</span><span class="n">steps</span> <span class="o">+</span> <span class="mi">1</span></div>
     
-<div class="viewcode-block" id="setNumberOfPoints"><a class="viewcode-back" href="../tellurium_methods.html#tellurium.setNumberOfPoints">[docs]</a><span class="k">def</span> <span class="nf">setNumberOfPoints</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">numberOfPoints</span><span class="p">):</span>
+<div class="viewcode-block" id="setNumberOfPoints"><a class="viewcode-back" href="../_apidoc/tellurium.html#tellurium.setNumberOfPoints">[docs]</a><span class="k">def</span> <span class="nf">setNumberOfPoints</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">numberOfPoints</span><span class="p">):</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">simulateOptions</span><span class="o">.</span><span class="n">steps</span> <span class="o">=</span> <span class="n">numberOfPoints</span> <span class="o">-</span> <span class="mi">1</span></div>
 
-<div class="viewcode-block" id="getNumRateRules"><a class="viewcode-back" href="../tellurium_methods.html#tellurium.getNumRateRules">[docs]</a><span class="k">def</span> <span class="nf">getNumRateRules</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="getNumRateRules"><a class="viewcode-back" href="../_apidoc/tellurium.html#tellurium.getNumRateRules">[docs]</a><span class="k">def</span> <span class="nf">getNumRateRules</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">getNumRateRules</span><span class="p">()</span></div>
 
 

@@ -13,7 +13,7 @@ Contents:
 
    introduction.rst
    tellurium_methods.rst
-   API.rst
+   API (tellurium) <_apidoc/tellurium.rst>
 
 
 Indices and tables

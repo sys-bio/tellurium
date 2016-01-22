@@ -1,32 +1,34 @@
 # Documentation of tellurium
 
-Documentation is build with sphinx and read the docs schema.
-The requirements are
+Documentation is build with sphinx and readthedocs schema.
+The necessary requirements to build the documentation are
 ```
 pip install sphinx sphinx-autobuild sphinx_rtd_theme
 ```
+All python objects are documented via docstrings in sphinx format
+http://www.sphinx-doc.org/en/stable/
+
 
 # Create Documentation 
-To create the documentation after changes to the docstrings use either
+The documentation should be created automatically before commits.
+At the moment the documentation can be created via the script `make_docs.sh` in the docs folder
 ```
-cd tellurium/docs
-make html
-```
+# remove old documentation
+rm -rf _apidoc
+rm -rf _built
 
-or sphinx-autobild which monitors when files change and automatically updates
-the documentation.
-```
-sphinx-autobuild docs docs/_build/html
+# create auto documentation for tellurium package.
+sphinx-apidoc -o _apidoc ../tellurium
+
+# create html documentation
+make html
+
+# view new documentation in docs/_built
+firefox _build/html/index.html
 ```
 
 # Open Issues
-TODO: Auto reload
-
-TODO: code examples in docstring
-```
-sphinx-apidoc -o _apidoc ../tellurium
-```
-
-TODO: Full API documentation
-TODO: links to other function documentation
+* Auto reload & commit hook for automatic generation
+* links between functions in documentation
+* python formating for all source examples
 

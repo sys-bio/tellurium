@@ -97,9 +97,6 @@ def noticesOn():
     roadrunner.Logger.setLevel(roadrunner.Logger.LOG_NOTICE)
     
 
-# ---------------------------------------------------------------------
-# File Help Methods
-# ---------------------------------------------------------------------
 def saveToFile(fileName, str):
     """Save string to file.
     ::
@@ -119,7 +116,7 @@ def readFromFile(fileName):
     """Load a file and return contents as a string.
     ::
 
-        str = readFromFile ('c:\\myfile.txt')
+        str = readFromFile('c:\\myfile.txt')
 
     :param fileName: file path to read from
     :returns: string representation of the contents of the file
