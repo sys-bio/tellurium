@@ -250,13 +250,13 @@ def loadCellMLModel(cellML):
 ##\brief Converts an Antimony model into SBML
 #\return Returns the SBML model as a string
 def antimonyTosbml(antStr):
-    """
-    Convert antimony string to SBML string.
+    """Convert antimony string to SBML string.
 
     sbmlStr = antimonyTosbml(antimonyStr)
 
     :param antStr: antimony string of model
-    :returns SBML model as string
+    :returns: SBML model as string
+
     """
     err = antimony.loadAntimonyString(antStr)
     if err < 0:

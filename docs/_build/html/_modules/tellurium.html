@@ -1,0 +1,1612 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>tellurium &mdash; tellurium 1.3.0 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="tellurium 1.3.0 documentation" href="../index.html"/>
+        <link rel="up" title="Module code" href="index.html"/> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> tellurium
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.3.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul class="simple">
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../index.html">tellurium</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="index.html">Module code</a> &raquo;</li>
+      
+    <li>tellurium</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for tellurium</h1><div class="highlight"><pre>
+<span class="c1">##@Module Tellurium</span>
+
+<span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Support routines for tellurium</span>
+
+<span class="sd">@author: Herbert M Sauro</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="c1"># FIXME: many functions are called with self as first argument (but are no methods)</span>
+<span class="c1"># -&gt; should be named r (RoadRunner instance)</span>
+
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">print_function</span><span class="p">,</span> <span class="n">division</span>
+
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">roadrunner</span>
+<span class="kn">import</span> <span class="nn">roadrunner.testing</span>
+<span class="kn">import</span> <span class="nn">antimony</span>
+<span class="kn">import</span> <span class="nn">tellurium</span>
+<span class="kn">import</span> <span class="nn">os</span>
+
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">import</span> <span class="nn">tecombine</span> <span class="kn">as</span> <span class="nn">combine</span>
+<span class="k">except</span> <span class="ne">ImportError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+    <span class="n">roadrunner</span><span class="o">.</span><span class="n">Logger</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">roadrunner</span><span class="o">.</span><span class="n">Logger</span><span class="o">.</span><span class="n">LOG_WARNING</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">))</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">import</span> <span class="nn">SedmlToRr</span>
+<span class="k">except</span> <span class="ne">ImportError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+    <span class="n">roadrunner</span><span class="o">.</span><span class="n">Logger</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">roadrunner</span><span class="o">.</span><span class="n">Logger</span><span class="o">.</span><span class="n">LOG_WARNING</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">))</span>    
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">import</span> <span class="nn">tephrasedml</span>
+<span class="k">except</span> <span class="ne">ImportError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+    <span class="n">roadrunner</span><span class="o">.</span><span class="n">Logger</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">roadrunner</span><span class="o">.</span><span class="n">Logger</span><span class="o">.</span><span class="n">LOG_WARNING</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">))</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">sbml2matlab</span> <span class="kn">import</span> <span class="n">sbml2matlab</span>
+<span class="k">except</span> <span class="ne">ImportError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+    <span class="n">roadrunner</span><span class="o">.</span><span class="n">Logger</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">roadrunner</span><span class="o">.</span><span class="n">Logger</span><span class="o">.</span><span class="n">LOG_WARNING</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">))</span>
+
+
+<span class="n">tehold</span> <span class="o">=</span> <span class="bp">False</span>  <span class="c1"># Same as matlab hold</span>
+
+<span class="c1"># For some reason we can only access the tehold variable via methods</span>
+<div class="viewcode-block" id="setHold"><a class="viewcode-back" href="../_apidoc/tellurium.html#tellurium.setHold">[docs]</a><span class="k">def</span> <span class="nf">setHold</span><span class="p">(</span><span class="n">myHold</span><span class="p">):</span>
+    <span class="k">global</span> <span class="n">tehold</span>    
+    <span class="n">tehold</span> <span class="o">=</span> <span class="n">myHold</span></div>
+    
+<div class="viewcode-block" id="getHold"><a class="viewcode-back" href="../_apidoc/tellurium.html#tellurium.getHold">[docs]</a><span class="k">def</span> <span class="nf">getHold</span><span class="p">():</span>
+    <span class="k">global</span> <span class="n">tehold</span>
+    <span class="k">return</span> <span class="n">tehold</span></div>
+    
+<span class="c1"># ---------------------------------------------------------------------</span>
+<span class="c1">##\ingroup utility</span>
+<span class="c1">#@{</span>
+
+
+<span class="c1">##\brief Prints version information of tellurium supported packages</span>
+<span class="c1">#</span>
+<span class="c1">#\return Returns None</span>
+<div class="viewcode-block" id="getVersionInfo"><a class="viewcode-back" href="../_apidoc/tellurium.html#tellurium.getVersionInfo">[docs]</a><span class="k">def</span> <span class="nf">getVersionInfo</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Prints version information for tellurium supported packages.</span>
+<span class="sd">    :return: None</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># FIXME: method name not reflecting function (get vs. print)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s2">&quot;tellurium: &quot;</span><span class="p">,</span> <span class="n">getTelluriumVersion</span><span class="p">())</span>
+    <span class="k">print</span><span class="p">(</span><span class="s2">&quot;roadrunner:&quot;</span><span class="p">,</span> <span class="n">roadrunner</span><span class="o">.</span><span class="n">__version__</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s2">&quot;antimony:&quot;</span><span class="p">,</span> <span class="n">antimony</span><span class="o">.</span><span class="n">__version__</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s2">&quot;snbw_viewer: No information for sbnw viewer&quot;</span><span class="p">)</span></div>
+    
+
+<span class="c1">##\brief Returns version number of tellurium</span>
+<span class="c1">#</span>
+<span class="c1">#\return Returns a string representing the version number</span>
+<div class="viewcode-block" id="getTelluriumVersion"><a class="viewcode-back" href="../_apidoc/tellurium.html#tellurium.getTelluriumVersion">[docs]</a><span class="k">def</span> <span class="nf">getTelluriumVersion</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Version number of tellurium.</span>
+<span class="sd">    Returns: version string</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="kn">import</span> <span class="nn">os</span>
+        <span class="n">f</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">__file__</span><span class="p">),</span> <span class="s1">&#39;VERSION.txt&#39;</span><span class="p">),</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span>
+        <span class="n">ver</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">()</span><span class="o">.</span><span class="n">rstrip</span><span class="p">()</span>
+        <span class="n">f</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+    <span class="k">except</span> <span class="ne">IOError</span><span class="p">:</span>
+        <span class="c1"># FIXME: the version should be encoded in exactly one place (bad hack)</span>
+        <span class="n">ver</span> <span class="o">=</span> <span class="s2">&quot;1.3.0&quot;</span>
+    <span class="k">return</span> <span class="n">ver</span></div>
+
+<span class="n">__version__</span> <span class="o">=</span> <span class="n">getTelluriumVersion</span><span class="p">()</span>
+
+
+<span class="c1">##\brief Turn off warning messages. </span>
+<span class="c1"># Call this to stop roadrunner from printing warning message to the console</span>
+<div class="viewcode-block" id="noticesOff"><a class="viewcode-back" href="../_apidoc/tellurium.html#tellurium.noticesOff">[docs]</a><span class="k">def</span> <span class="nf">noticesOff</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Switch off the generation of notices to the user.</span>
+<span class="sd">    Call this to stop roadrunner from printing warning message to the console.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">roadrunner</span><span class="o">.</span><span class="n">Logger</span><span class="o">.</span><span class="n">setLevel</span><span class="p">(</span><span class="n">roadrunner</span><span class="o">.</span><span class="n">Logger</span><span class="o">.</span><span class="n">LOG_WARNING</span><span class="p">)</span></div>
+
+
+<span class="c1">##\brief Turn on warning messages. </span>
+<span class="c1"># Call this to enable roadrunner to print warning messages to the console</span>
+<div class="viewcode-block" id="noticesOn"><a class="viewcode-back" href="../_apidoc/tellurium.html#tellurium.noticesOn">[docs]</a><span class="k">def</span> <span class="nf">noticesOn</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Switch on notice generation to the user.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">roadrunner</span><span class="o">.</span><span class="n">Logger</span><span class="o">.</span><span class="n">setLevel</span><span class="p">(</span><span class="n">roadrunner</span><span class="o">.</span><span class="n">Logger</span><span class="o">.</span><span class="n">LOG_NOTICE</span><span class="p">)</span></div>
+    
+<span class="c1">##@}</span>
+ 
+  
+<span class="c1"># ---------------------------------------------------------------------</span>
+<span class="c1">##\ingroup filefunctions</span>
+<span class="c1">#@{</span>
+
+<span class="c1">##\brief Save a string to a file</span>
+<span class="c1">#</span>
+<span class="c1">#Example: saveToFile (&#39;c:\\myfile.txt&#39;, strVariable)</span>
+<span class="c1">#</span>
+<span class="c1">#\param[in] fileName The current time in the simulation</span>
+<span class="c1">#\param[in] str The step size to use in the integration</span>
+<span class="c1">#\return Saves a string to a file</span>
+<div class="viewcode-block" id="saveToFile"><a class="viewcode-back" href="../_apidoc/tellurium.html#tellurium.saveToFile">[docs]</a><span class="k">def</span> <span class="nf">saveToFile</span><span class="p">(</span><span class="n">fileName</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Save string to a file.</span>
+
+<span class="sd">    saveToFile (&#39;c:\\myfile.txt&#39;, strVariable)</span>
+
+<span class="sd">    :param fileName: file path to save to</span>
+<span class="sd">    :param str: string to save</span>
+<span class="sd">    :returns None</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">f</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">fileName</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span>
+    <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span>
+    <span class="n">f</span><span class="o">.</span><span class="n">close</span><span class="p">()</span></div>
+
+<span class="c1">##\brief Reads a text file into a string</span>
+<span class="c1">#</span>
+<span class="c1">#Example: str = readFromFile (&#39;c:\\myfile.txt&#39;)</span>
+<span class="c1">#</span>
+<span class="c1">#\param[in] fileName The current time in the simulation</span>
+<span class="c1">#\return Returns a string representing the contents of the text file</span>
+<div class="viewcode-block" id="readFromFile"><a class="viewcode-back" href="../_apidoc/tellurium.html#tellurium.readFromFile">[docs]</a><span class="k">def</span> <span class="nf">readFromFile</span> <span class="p">(</span><span class="n">fileName</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Load a file and return contents as a string.</span>
+
+<span class="sd">    str = readFromFile (&#39;c:\\myfile.txt&#39;)</span>
+
+<span class="sd">    :param fileName: file path to read from</span>
+<span class="sd">    :returns string representation of the contents of the file</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">f</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">fileName</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">()</span></div>
+<span class="c1">##@} </span>
+
+
+<span class="c1"># ---------------------------------------------------------------------   </span>
+<span class="c1">##\ingroup loadingModels</span>
+<span class="c1">#@{</span>
+
+<span class="c1">##\brief Load an SBML model into roadRunner</span>
+<span class="c1">#</span>
+<span class="c1">#Example: rr = loadSBMLModel (&#39;c:\\myfile.txt&#39;)</span>
+<span class="c1">#</span>
+<span class="c1">#\param[in] sbml A filename or a string containing SBML</span>
+<span class="c1">#\return Returns a reference to the roadrunner model</span>
+<div class="viewcode-block" id="loadSBMLModel"><a class="viewcode-back" href="../_apidoc/tellurium.html#tellurium.loadSBMLModel">[docs]</a><span class="k">def</span> <span class="nf">loadSBMLModel</span><span class="p">(</span><span class="n">sbml</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Load an SBML model into roadRunner.</span>
+
+<span class="sd">    :param sbml: SBML filename, SBML string or SBML uri</span>
+<span class="sd">    :returns reference to roadrunner model</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">rr</span> <span class="o">=</span> <span class="n">roadrunner</span><span class="o">.</span><span class="n">RoadRunner</span><span class="p">(</span><span class="n">sbml</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">rr</span></div>
+
+
+<span class="c1">##\brief Reads an Antimony string into roadrunner</span>
+<span class="c1">#</span>
+<span class="c1">#Example: rr = loadAntimonyModel (modelStr)</span>
+<span class="c1">#</span>
+<span class="c1">#\param[in] antStr A string containing a Antimony model</span>
+<span class="c1">#\return Returns a reference to the roadrunner model</span>
+<div class="viewcode-block" id="loadAntimonyModel"><a class="viewcode-back" href="../_apidoc/tellurium.html#tellurium.loadAntimonyModel">[docs]</a><span class="k">def</span> <span class="nf">loadAntimonyModel</span><span class="p">(</span><span class="n">antStr</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Load model from antimony string.</span>
+<span class="sd">    </span>
+<span class="sd">    r = loadAntModel(antimonyStr)</span>
+
+<span class="sd">    :param antStr antimony string</span>
+<span class="sd">    :returns reference to roadrunner model</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">err</span> <span class="o">=</span> <span class="n">antimony</span><span class="o">.</span><span class="n">loadAntimonyString</span><span class="p">(</span><span class="n">antStr</span><span class="p">)</span>
+ 
+    <span class="k">if</span> <span class="n">err</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s1">&#39;Antimony: &#39;</span> <span class="o">+</span> <span class="n">antimony</span><span class="o">.</span><span class="n">getLastError</span><span class="p">())</span>
+       
+    <span class="n">mid</span> <span class="o">=</span> <span class="n">antimony</span><span class="o">.</span><span class="n">getMainModuleName</span><span class="p">()</span>
+    <span class="n">sbmlStr</span> <span class="o">=</span> <span class="n">antimony</span><span class="o">.</span><span class="n">getSBMLString</span><span class="p">(</span><span class="n">mid</span><span class="p">)</span>
+    <span class="n">rr</span> <span class="o">=</span> <span class="n">roadrunner</span><span class="o">.</span><span class="n">RoadRunner</span><span class="p">(</span><span class="n">sbmlStr</span><span class="p">)</span>
+    
+    <span class="n">antimony</span><span class="o">.</span><span class="n">clearPreviousLoads</span><span class="p">()</span>
+    
+    <span class="k">return</span> <span class="n">rr</span></div>
+
+
+<span class="c1">##\brief Reads an Antimony string into roadrunner, short-cut to loadAntimonyModel()</span>
+<span class="c1">#</span>
+<span class="c1">#Example: rr = loada (&#39;S1 -&gt; S2; k1*S1; k1 = 0.1; S2 = 10&#39;)</span>
+<span class="c1">#</span>
+<span class="c1">#\param[in] antStr A string containing a Antimony model</span>
+<span class="c1">#\return Returns reference to the roadrunner model</span>
+<div class="viewcode-block" id="loada"><a class="viewcode-back" href="../_apidoc/tellurium.html#tellurium.loada">[docs]</a><span class="k">def</span> <span class="nf">loada</span> <span class="p">(</span><span class="n">antStr</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Load model from antimony string.</span>
+
+<span class="sd">    r = loadAntModel(antimonyStr)</span>
+
+<span class="sd">    :param antStr: antimony string</span>
+<span class="sd">    :returns reference to roadrunner model</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">loadAntimonyModel</span><span class="p">(</span><span class="n">antStr</span><span class="p">)</span></div>
+
+
+<span class="c1">##\brief Reads a CellML string into roadrunner</span>
+<span class="c1">#\return Returns a reference to the roadrunner model  </span>
+<div class="viewcode-block" id="loadCellMLModel"><a class="viewcode-back" href="../_apidoc/tellurium.html#tellurium.loadCellMLModel">[docs]</a><span class="k">def</span> <span class="nf">loadCellMLModel</span><span class="p">(</span><span class="n">cellML</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Load a cellml model into roadrunner.</span>
+
+<span class="sd">    r = loadCellMLModel (&#39;mymodel.cellml&#39;)</span>
+
+<span class="sd">    :param cellML: model to load, can be file or string</span>
+<span class="sd">    :returns reference to roadrunner model</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">import</span> <span class="nn">os</span>
+    <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">cellML</span><span class="p">):</span>
+        <span class="n">sbmlstr</span> <span class="o">=</span> <span class="n">cellmlFileToSBML</span><span class="p">(</span><span class="n">cellML</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">sbmlstr</span> <span class="o">=</span> <span class="n">cellmlStrToSBML</span><span class="p">(</span><span class="n">cellML</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">roadrunner</span><span class="o">.</span><span class="n">RoadRunner</span><span class="p">(</span><span class="n">sbmlstr</span><span class="p">)</span></div>
+<span class="c1">##@}</span>
+ 
+<span class="c1"># ---------------------------------------------------------------------</span>
+<span class="c1">##\ingroup interconversion</span>
+<span class="c1">#@{</span>
+
+
+<span class="c1">##\brief Converts an Antimony model into SBML</span>
+<span class="c1">#\return Returns the SBML model as a string</span>
+<div class="viewcode-block" id="antimonyTosbml"><a class="viewcode-back" href="../_apidoc/tellurium.html#tellurium.antimonyTosbml">[docs]</a><span class="k">def</span> <span class="nf">antimonyTosbml</span><span class="p">(</span><span class="n">antStr</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Convert antimony string to SBML string.</span>
+
+<span class="sd">    sbmlStr = antimonyTosbml(antimonyStr)</span>
+
+<span class="sd">    :param antStr: antimony string of model</span>
+<span class="sd">    :returns: SBML model as string</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">err</span> <span class="o">=</span> <span class="n">antimony</span><span class="o">.</span><span class="n">loadAntimonyString</span><span class="p">(</span><span class="n">antStr</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">err</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s1">&#39;Antimony: &#39;</span> <span class="o">+</span> <span class="n">antimony</span><span class="o">.</span><span class="n">getLastError</span><span class="p">())</span>
+
+    <span class="n">mid</span> <span class="o">=</span> <span class="n">antimony</span><span class="o">.</span><span class="n">getMainModuleName</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">antimony</span><span class="o">.</span><span class="n">getSBMLString</span><span class="p">(</span><span class="n">mid</span><span class="p">)</span></div>
+
+
+<span class="c1">##\brief Converts a SBML model to Antimony</span>
+<span class="c1">#\return Returns the Antimony model as a string</span>
+<div class="viewcode-block" id="sbmlToAntimony"><a class="viewcode-back" href="../_apidoc/tellurium.html#tellurium.sbmlToAntimony">[docs]</a><span class="k">def</span> <span class="nf">sbmlToAntimony</span><span class="p">(</span><span class="nb">str</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Convert SBML string to antimony string.</span>
+
+<span class="sd">    sbmlStr = sbmlToAntimony(antimonyStr)</span>
+
+<span class="sd">    :param str: SBML model as string</span>
+<span class="sd">    :returns antimony string of model</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">err</span> <span class="o">=</span> <span class="n">antimony</span><span class="o">.</span><span class="n">loadSBMLString</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">err</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s1">&#39;Antimony: &#39;</span> <span class="o">+</span> <span class="n">antimony</span><span class="o">.</span><span class="n">getLastError</span><span class="p">())</span>
+
+    <span class="k">return</span> <span class="n">antimony</span><span class="o">.</span><span class="n">getAntimonyString</span><span class="p">(</span><span class="bp">None</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="cellmlFileToAntimony"><a class="viewcode-back" href="../_apidoc/tellurium.html#tellurium.cellmlFileToAntimony">[docs]</a><span class="k">def</span> <span class="nf">cellmlFileToAntimony</span><span class="p">(</span><span class="n">CellMLFileName</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Convert cellml file to antimony string.</span>
+<span class="sd">    </span>
+<span class="sd">    ant = cellMLToAntimony(&#39;mymodel.cellml&#39;)</span>
+
+<span class="sd">    :param CellMLFileName: CellML file</span>
+<span class="sd">    :returns antimony string of model</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">antimony</span><span class="o">.</span><span class="n">loadCellMLFile</span><span class="p">(</span><span class="n">CellMLFileName</span><span class="p">)</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s1">&#39;Error calling loadCellMLFile&#39;</span><span class="p">)</span>
+    <span class="n">antimony</span><span class="o">.</span><span class="n">loadCellMLFile</span><span class="p">(</span><span class="n">CellMLFileName</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">antimony</span><span class="o">.</span><span class="n">getAntimonyString</span><span class="p">(</span><span class="bp">None</span><span class="p">)</span></div>
+ 
+    
+<div class="viewcode-block" id="cellmlFileToSBML"><a class="viewcode-back" href="../_apidoc/tellurium.html#tellurium.cellmlFileToSBML">[docs]</a><span class="k">def</span> <span class="nf">cellmlFileToSBML</span><span class="p">(</span><span class="n">CellMLFileName</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Convert cellml file to SBML string.</span>
+<span class="sd">    </span>
+<span class="sd">    sbmlStr = cellMLToSBML(&#39;mymodel.cellml&#39;)</span>
+
+<span class="sd">    :param CellMLFileName: CellML file</span>
+<span class="sd">    :returns SBML string of model</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">antimony</span><span class="o">.</span><span class="n">loadCellMLFile</span><span class="p">(</span><span class="n">CellMLFileName</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s1">&#39;Error calling loadCellMLFile&#39;</span> <span class="o">+</span> <span class="n">antimony</span><span class="o">.</span><span class="n">getLastError</span><span class="p">())</span>
+    <span class="k">return</span> <span class="n">antimony</span><span class="o">.</span><span class="n">getSBMLString</span><span class="p">(</span><span class="bp">None</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="cellmlStrToAntimony"><a class="viewcode-back" href="../_apidoc/tellurium.html#tellurium.cellmlStrToAntimony">[docs]</a><span class="k">def</span> <span class="nf">cellmlStrToAntimony</span><span class="p">(</span><span class="n">CellMLStr</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Convert cellml string to antimony string:</span>
+<span class="sd">    </span>
+<span class="sd">    ant = cellMLStrToAntimony(&#39;mymodel.cellml&#39;)</span>
+
+<span class="sd">    :param CellMLStr: CellML string</span>
+<span class="sd">    :returns antimony string of model</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">antimony</span><span class="o">.</span><span class="n">loadCellMLFile</span><span class="p">(</span><span class="n">CellMLStr</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s1">&#39;Error calling cellMLStrToAntimony&#39;</span> <span class="o">+</span> <span class="n">antimony</span><span class="o">.</span><span class="n">getLastError</span><span class="p">())</span>
+    <span class="k">return</span> <span class="n">antimony</span><span class="o">.</span><span class="n">getAntimonyString</span><span class="p">(</span><span class="bp">None</span><span class="p">)</span></div>
+    
+    
+<div class="viewcode-block" id="cellmlStrToSBML"><a class="viewcode-back" href="../_apidoc/tellurium.html#tellurium.cellmlStrToSBML">[docs]</a><span class="k">def</span> <span class="nf">cellmlStrToSBML</span> <span class="p">(</span><span class="n">CellMLStr</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Convert cellml string to SBML string.</span>
+<span class="sd">    </span>
+<span class="sd">    sbmlStr = cellMLStrToSBML(&#39;mymodel.cellml&#39;)</span>
+
+<span class="sd">    :param CellMLStr: CellML string</span>
+<span class="sd">    :returns antimony string of model</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">antimony</span><span class="o">.</span><span class="n">loadCellMLFile</span><span class="p">(</span><span class="n">CellMLStr</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s1">&#39;Error calling cellMLStrToSBML&#39;</span> <span class="o">+</span> <span class="n">antimony</span><span class="o">.</span><span class="n">getLastError</span><span class="p">())</span>
+    <span class="k">return</span> <span class="n">antimony</span><span class="o">.</span><span class="n">getSBMLString</span><span class="p">(</span><span class="bp">None</span><span class="p">)</span></div>
+<span class="c1">##@}</span>
+
+<span class="c1"># ---------------------------------------------------------------------</span>
+<span class="c1">##\ingroup phrasedmlSupport</span>
+<span class="c1">#@{</span>
+ 
+<span class="c1">##\brief Links a PhrasedML string with an antimony model</span>
+<span class="c1">#</span>
+<span class="c1">#\return Returns an experiment instance</span>
+<div class="viewcode-block" id="experiment"><a class="viewcode-back" href="../_apidoc/tellurium.html#tellurium.experiment">[docs]</a><span class="k">def</span> <span class="nf">experiment</span><span class="p">(</span><span class="n">antimonyStr</span><span class="p">,</span> <span class="n">phrasedmlStr</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Create an experiment instance given an antimony string and a phrasedml string.</span>
+
+<span class="sd">    :param antimonyStr: antimony string of model</span>
+<span class="sd">    :param antimonyStr: phrasedml simulation description</span>
+<span class="sd">    :returns SEDML experiment description</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">tephrasedml</span><span class="o">.</span><span class="n">tePhrasedml</span><span class="p">(</span><span class="n">antimonyStr</span><span class="p">,</span> <span class="n">phrasedmlStr</span><span class="p">)</span></div>
+
+<span class="c1">##@} </span>
+
+<span class="c1"># ---------------------------------------------------------------------</span>
+<span class="c1">##\ingroup math</span>
+<span class="c1">#@{</span>
+
+
+<span class="c1">##\brief Compute the eigenvalues for numpy array</span>
+<span class="c1">#</span>
+<span class="c1">#Example: mat = rr.getEigenvalues(matrix)</span>
+<span class="c1">#</span>
+<span class="c1">#\param[in] m numpy array</span>
+<span class="c1">#\return Returns a numpy array containing the eigenvalues</span>
+<div class="viewcode-block" id="getEigenvalues"><a class="viewcode-back" href="../_apidoc/tellurium.html#tellurium.getEigenvalues">[docs]</a><span class="k">def</span> <span class="nf">getEigenvalues</span><span class="p">(</span><span class="n">m</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Eigenvalues of matrix.</span>
+<span class="sd">    Convenience method for computing the eigenvalues of a matrix m</span>
+<span class="sd">    Uses numpy eig to compute the eigenvalues.</span>
+
+<span class="sd">    :param m: numpy array</span>
+<span class="sd">    :returns numpy array containing the eigenvalues</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">from</span> <span class="nn">numpy</span> <span class="kn">import</span> <span class="n">linalg</span>
+    <span class="n">w</span><span class="p">,</span> <span class="n">v</span> <span class="o">=</span> <span class="n">linalg</span><span class="o">.</span><span class="n">eig</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">w</span></div>
+<span class="c1">##@} </span>
+
+    
+<span class="c1"># ---------------------------------------------------------------------</span>
+<span class="c1">##\ingroup stochastic</span>
+<span class="c1">#@{</span>
+
+<span class="c1">##\brief Return the current seed used by the internal random number generator</span>
+<span class="c1">#</span>
+<span class="c1">#Example: myseed = rr.getSeed()</span>
+<span class="c1">#</span>
+<span class="c1">#\return The seed value</span>
+<div class="viewcode-block" id="getSeed"><a class="viewcode-back" href="../_apidoc/tellurium.html#tellurium.getSeed">[docs]</a><span class="k">def</span> <span class="nf">getSeed</span><span class="p">(</span><span class="n">r</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Current seed used by the random generator of the RoadRunner instance.</span>
+
+<span class="sd">    :param r: RoadRunner instance.</span>
+<span class="sd">    :returns current seed</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># FIXME: this should be via self not via a RoadRunner instance r</span>
+    <span class="n">intg</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">getIntegrator</span><span class="p">(</span><span class="s2">&quot;gillespie&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">intg</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;model is not loaded&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">intg</span><span class="p">[</span><span class="s1">&#39;seed&#39;</span><span class="p">]</span></div>
+
+
+<span class="c1">##\brief Set the seed used by the internal random number generator</span>
+<span class="c1">#</span>
+<span class="c1">#Example: rr.setSeed(12345)</span>
+<span class="c1">#</span>
+<div class="viewcode-block" id="setSeed"><a class="viewcode-back" href="../_apidoc/tellurium.html#tellurium.setSeed">[docs]</a><span class="k">def</span> <span class="nf">setSeed</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">seed</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Set seed for random number generator (used by gillespie for example).</span>
+
+<span class="sd">    :param r: RoadRunner instance.</span>
+<span class="sd">    :param seed: seed to set</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># FIXME: this should be via self not via a RoadRunner instance r</span>
+    <span class="n">intg</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">getIntegrator</span><span class="p">(</span><span class="s1">&#39;gillespie&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">intg</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;model is not loaded&quot;</span><span class="p">)</span>
+
+    <span class="c1"># there are some issues converting big Python (greater than 4,294,967,295) integers </span>
+    <span class="c1"># to C integers on 64 bit machines. If its converted to float before, works around the issue. </span>
+    <span class="n">intg</span><span class="p">[</span><span class="s1">&#39;seed&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">seed</span><span class="p">)</span></div>
+
+
+<span class="c1">##\brief Run a Gillespie simulation</span>
+<span class="c1">#</span>
+<span class="c1">#Example: result = rr.gillespie (0, 100)</span>
+<span class="c1">#</span>
+<div class="viewcode-block" id="gillespie"><a class="viewcode-back" href="../_apidoc/tellurium.html#tellurium.gillespie">[docs]</a><span class="k">def</span> <span class="nf">gillespie</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Run a Gillespie stochastic simulation.  </span>
+<span class="sd">    </span>
+<span class="sd">    Examples:</span>
+<span class="sd">    </span>
+<span class="sd">    rr = te.loada (&#39;S1 -&gt; S2; k1*S1; k1 = 0.1; S1 = 40&#39;)</span>
+<span class="sd">    </span>
+<span class="sd">    # Simulate from time zero to 40 time units</span>
+<span class="sd">    result = rr.gillespie (0, 40)</span>
+<span class="sd">    </span>
+<span class="sd">    # Simulate on a grid with 10 points from start 0 to end time 40</span>
+<span class="sd">    result = rr.gillespie (0, 40, 10)</span>
+<span class="sd">         </span>
+<span class="sd">    # Simulate from time zero to 40 time units using the given selection list</span>
+<span class="sd">    # This means that the first column will be time and the second column species S1</span>
+<span class="sd">    result = rr.gillespie (0, 40, [&#39;time&#39;, &#39;S1&#39;])</span>
+<span class="sd">    </span>
+<span class="sd">    # Simulate from time zero to 40 time units, on a grid with 20 points</span>
+<span class="sd">    # using the give selection list</span>
+<span class="sd">    result = rr.gillespie (0, 40, 20, [&#39;time&#39;, &#39;S1&#39;])</span>
+
+<span class="sd">    :param r: RoadRunner intance</span>
+<span class="sd">    :param *args &amp; **kwargs: parameters for simulate</span>
+<span class="sd">    :returns simulation results</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+    <span class="k">if</span> <span class="n">r</span><span class="o">.</span><span class="n">integrator</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;model is not loaded&quot;</span><span class="p">)</span>
+    
+    <span class="n">prev</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">integrator</span><span class="o">.</span><span class="n">getName</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="n">kwargs</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;integrator&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;gillespie&#39;</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">kwargs</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;integrator&#39;</span><span class="p">:</span> <span class="s1">&#39;gillespie&#39;</span><span class="p">}</span>
+
+    <span class="n">result</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">simulate</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+    <span class="n">r</span><span class="o">.</span><span class="n">setIntegrator</span><span class="p">(</span><span class="n">prev</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">result</span></div>
+<span class="c1">##@} </span>
+
+
+<div class="viewcode-block" id="RoadRunner"><a class="viewcode-back" href="../_apidoc/tellurium.html#tellurium.RoadRunner">[docs]</a><span class="k">def</span> <span class="nf">RoadRunner</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">roadrunner</span><span class="o">.</span><span class="n">RoadRunner</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">)</span></div>
+
+<span class="c1"># ---------------------------------------------------------------------</span>
+<span class="c1">##\ingroup plotting</span>
+<span class="c1">#@{</span>
+
+
+<span class="c1">#\cond</span>
+<div class="viewcode-block" id="plotWithLegend"><a class="viewcode-back" href="../_apidoc/tellurium.html#tellurium.plotWithLegend">[docs]</a><span class="k">def</span> <span class="nf">plotWithLegend</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">result</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="s1">&#39;upper left&#39;</span><span class="p">,</span> <span class="n">show</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Plot an array and include a legend. The first argument must be a roadrunner variable. </span>
+<span class="sd">    The second argument must be an array containing data to plot. The first column of the array will</span>
+<span class="sd">    be the x-axis and remaining columns the y-axis. Returns</span>
+<span class="sd">    a handle to the plotting object.</span>
+<span class="sd">    </span>
+<span class="sd">    plotWithLegend (r)</span>
+
+<span class="sd">    :param r: RoadRunner instance</span>
+<span class="sd">    :param result: results to plot</span>
+<span class="sd">    :param loc: location of plot legend</span>
+<span class="sd">    :param show: show the plot</span>
+<span class="sd">    :returns plt object</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">p</span>
+    
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">roadrunner</span><span class="o">.</span><span class="n">RoadRunner</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s1">&#39;First argument must be a roadrunner variable&#39;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">result</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">getSimulationData</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="n">result</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;no simulation result&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">result</span><span class="o">.</span><span class="n">dtype</span><span class="o">.</span><span class="n">names</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="n">columns</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">legendItems</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">timeCourseSelections</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
+        <span class="k">if</span> <span class="n">columns</span><span class="o">-</span><span class="mi">1</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">legendItems</span><span class="p">):</span>
+           <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s1">&#39;Legend list must match result array&#39;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">columns</span><span class="o">-</span><span class="mi">1</span><span class="p">):</span>
+           <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">result</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">result</span><span class="p">[:,</span> <span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">],</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">2.5</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">legendItems</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c1"># result is structured array</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">dtype</span><span class="o">.</span><span class="n">names</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s1">&#39;no columns to plot&#39;</span><span class="p">)</span>
+
+        <span class="n">time</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">dtype</span><span class="o">.</span><span class="n">names</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">result</span><span class="o">.</span><span class="n">dtype</span><span class="o">.</span><span class="n">names</span><span class="p">[</span><span class="mi">1</span><span class="p">:]:</span>
+            <span class="n">p</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="n">time</span><span class="p">],</span> <span class="n">result</span><span class="p">[</span><span class="n">name</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="n">name</span><span class="p">)</span>
+
+    <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="n">loc</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">show</span><span class="p">:</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">plt</span></div>
+
+
+<span class="c1">#\endcond</span>
+
+<span class="c1">#\cond</span>
+<div class="viewcode-block" id="simulateAndPlot"><a class="viewcode-back" href="../_apidoc/tellurium.html#tellurium.simulateAndPlot">[docs]</a><span class="k">def</span> <span class="nf">simulateAndPlot</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">startTime</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">endTime</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">numberOfPoints</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Run simulation and plot the results.</span>
+
+<span class="sd">    simulateAndPlot (rr)</span>
+<span class="sd">    simulateAndPlot (rr, 0, 10, 100)</span>
+
+<span class="sd">    :param r: RoadRunner instance</span>
+<span class="sd">    :param startTime: start time of simulation</span>
+<span class="sd">    :param endTime: end time of simulation</span>
+<span class="sd">    :param numberOfPoints: number of points in simulation</span>
+<span class="sd">    :returns simulation results</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># FIXME: arguments should have the same names like the named arguments in simulate (start, end, ...)</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">simulate</span><span class="p">(</span><span class="n">startTime</span><span class="p">,</span> <span class="n">endTime</span><span class="p">,</span> <span class="n">numberOfPoints</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="n">plotWithLegend</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">result</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">result</span></div>
+<span class="c1">#\endcond</span>
+ 
+   
+<span class="c1">##\brief Plot a numpy array where the first column is considered the x axis and all remaining columns the y axis.</span>
+<span class="c1">#</span>
+<span class="c1">#Example: te.plotArray (m, label=&#39;Flux&#39;)</span>
+<span class="c1">#\param[in] result Numpy Array</span>
+<span class="c1">#\return Returns the plot object</span>
+<div class="viewcode-block" id="plotArray"><a class="viewcode-back" href="../_apidoc/tellurium.html#tellurium.plotArray">[docs]</a><span class="k">def</span> <span class="nf">plotArray</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Plot an array.</span>
+<span class="sd">    The first column of the array will</span>
+<span class="sd">    be the x-axis and remaining columns the y-axis. Returns</span>
+<span class="sd">    a handle to the plotting object. Note that you can add</span>
+<span class="sd">    plotting options as named key values after the array. For</span>
+<span class="sd">    example to add a legend, include the label key value:</span>
+<span class="sd">    te.plotArray (m, label=&#39;A label&#39;) then use pylab.legend()</span>
+<span class="sd">    to make sure the legend is shown. </span>
+<span class="sd">    </span>
+<span class="sd">    result = numpy.array([[1,2,3], [7.2,6.5,8.8], [9.8, 6.5, 4.3]])</span>
+<span class="sd">    plotArray (result)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">global</span> <span class="n">tehold</span> 
+    <span class="n">p</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">][:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">][:,</span> <span class="mi">1</span><span class="p">:],</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">2.5</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="c1"># If user is building a legend don&#39;t show the plot yet    </span>
+    <span class="k">if</span> <span class="s1">&#39;label&#39;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">p</span>
+    <span class="k">if</span> <span class="n">tehold</span> <span class="o">==</span> <span class="bp">False</span><span class="p">:</span>    
+        <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">p</span></div>
+
+
+<span class="c1">##\brief Plot results from a simulation carried out by the simulate or gillespie functions. This is a roadrunner method.</span>
+<span class="c1">#</span>
+<span class="c1"># Plot data generated by a simulation:</span>
+<span class="c1">#</span>
+<span class="c1">#Example: rr.plot (result)</span>
+<span class="c1">#</span>
+<span class="c1"># Data is a numpy array where the first column is considered the x axis and all remaining columns the y axis.</span>
+<span class="c1">#</span>
+<span class="c1"># Plot data currently held by roadrunner that was generated in the last simulation.</span>
+<span class="c1">#</span>
+<span class="c1">#Example : rr.plot()</span>
+<span class="c1">#</span>
+<span class="c1">#\param[in] result Data returned from a simulate or gillespie call</span>
+<span class="c1">#\return Returns the plot object</span>
+<div class="viewcode-block" id="plot"><a class="viewcode-back" href="../_apidoc/tellurium.html#tellurium.plot">[docs]</a><span class="k">def</span> <span class="nf">plot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">result</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="s1">&#39;upper left&#39;</span><span class="p">,</span> <span class="n">show</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    :param self: RoadRunner instance</span>
+<span class="sd">    :param result: results to plot</span>
+<span class="sd">    :param loc: location of plot legend</span>
+<span class="sd">    :param show: show the plot</span>
+<span class="sd">    :returns ?</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">result</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="c1"># Call Andy version if no results passed to call</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">plotAS</span><span class="p">()</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">plotWithLegend</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">result</span><span class="p">,</span> <span class="n">loc</span><span class="p">,</span> <span class="n">show</span><span class="o">=</span><span class="n">show</span><span class="p">)</span></div>
+<span class="c1">##@}</span>
+
+
+<span class="c1"># ---------------------------------------------------------------------</span>
+<span class="c1">##\ingroup export</span>
+<span class="c1">#@{</span>
+
+<span class="c1">##\brief Returns a Matlab function that represents the current model</span>
+<span class="c1">#</span>
+<span class="c1">#Example: print rr.getMatlab()</span>
+<span class="c1">#\return Returns a string representing the Matlab code</span>
+<div class="viewcode-block" id="getMatlab"><a class="viewcode-back" href="../_apidoc/tellurium.html#tellurium.getMatlab">[docs]</a><span class="k">def</span> <span class="nf">getMatlab</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Matlab string of current model.</span>
+<span class="sd">    :returns Matlab string</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">sbml2matlab</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">getCurrentSBML</span><span class="p">())</span></div>
+
+
+<span class="c1">##\brief Convenience method for exporting the current model as a Matlab function to a file</span>
+<span class="c1">#</span>
+<span class="c1">#Example: rr.exportToMatlab (&#39;c:\\mymodel.m&#39;)</span>
+<div class="viewcode-block" id="exportToMatlab"><a class="viewcode-back" href="../_apidoc/tellurium.html#tellurium.exportToMatlab">[docs]</a><span class="k">def</span> <span class="nf">exportToMatlab</span> <span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fileName</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Save current model as Matlab file.</span>
+
+<span class="sd">    rr.exportToMatlab (&#39;mymodel.m&#39;)</span>
+
+<span class="sd">    :param fileName: file path of matlab file</span>
+<span class="sd">    :returns:</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">saveToFile</span><span class="p">(</span><span class="n">fileName</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">getMatlab</span><span class="p">())</span></div>
+
+
+<span class="c1">##\brief Returns the Antimony script for the current model</span>
+<span class="c1">#</span>
+<span class="c1">#Example: print rr.getAntimony()</span>
+<span class="c1">#\return Returns a string containing the Antimony script</span>
+<div class="viewcode-block" id="getAntimony"><a class="viewcode-back" href="../_apidoc/tellurium.html#tellurium.getAntimony">[docs]</a><span class="k">def</span> <span class="nf">getAntimony</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Antimony string of the current model state.</span>
+
+<span class="sd">    :returns antimony string</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">sbmlToAntimony</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">getCurrentSBML</span><span class="p">())</span></div>
+<span class="c1">##@}</span>
+
+
+<span class="c1"># ---------------------------------------------------------------------</span>
+<span class="c1">##\ingroup testmodels</span>
+<span class="c1">#@{</span>
+
+<span class="c1">##\brief Loads a particular test model into roadrunner</span>
+<span class="c1">#</span>
+<span class="c1">#Example: rr = roadrunner.loadTestModel (&#39;feedback.xml&#39;) </span>
+<span class="c1"># </span>
+<span class="c1">#\return Returns a reference to roadrunner</span>
+<div class="viewcode-block" id="loadTestModel"><a class="viewcode-back" href="../_apidoc/tellurium.html#tellurium.loadTestModel">[docs]</a><span class="k">def</span> <span class="nf">loadTestModel</span> <span class="p">(</span><span class="nb">str</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Loads the test model into roadrunner.</span>
+
+<span class="sd">    :returns RoadRunner instance with test model loaded</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">roadrunner</span><span class="o">.</span><span class="n">testing</span><span class="o">.</span><span class="n">getRoadRunner</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span></div>
+
+
+<span class="c1">##\brief Returns the SBML for a particular test model</span>
+<span class="c1">#</span>
+<span class="c1">#Example: sbmlStr = roadrunner.getTestModel (&#39;feedback.xml&#39;) </span>
+<span class="c1"># </span>
+<span class="c1">#\return Returns a string containing the test model in SBML format</span>
+<div class="viewcode-block" id="getTestModel"><a class="viewcode-back" href="../_apidoc/tellurium.html#tellurium.getTestModel">[docs]</a><span class="k">def</span> <span class="nf">getTestModel</span><span class="p">(</span><span class="nb">str</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Returns the test model as a string.</span>
+
+<span class="sd">    :returns string of test model</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">roadrunner</span><span class="o">.</span><span class="n">testing</span><span class="o">.</span><span class="n">getData</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span></div>
+
+
+<span class="c1">##\brief Returns the list of possible test models</span>
+<span class="c1">#</span>
+<span class="c1">#Example: print roadrunner.listTestModels() </span>
+<span class="c1"># </span>
+<span class="c1">#\return Returns the list of available test model names</span>
+<div class="viewcode-block" id="listTestModels"><a class="viewcode-back" href="../_apidoc/tellurium.html#tellurium.listTestModels">[docs]</a><span class="k">def</span> <span class="nf">listTestModels</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    List roadrunner SBML test models.</span>
+
+<span class="sd">    :returns list of test model paths</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">modelList</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">fileList</span> <span class="o">=</span> <span class="n">roadrunner</span><span class="o">.</span><span class="n">testing</span><span class="o">.</span><span class="n">dir</span><span class="p">(</span><span class="s1">&#39;*.xml&#39;</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">pathName</span> <span class="ow">in</span> <span class="n">fileList</span><span class="p">:</span>
+        <span class="n">modelList</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">pathName</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">modelList</span></div>
+<span class="c1">##@}</span>
+
+
+<span class="c1"># ---------------------------------------------------------------------</span>
+<span class="c1">##\ingroup resetmethods</span>
+<span class="c1">#@{</span>
+
+<span class="c1">##\brief Reset the model back to the state it was when it was first loaded</span>
+<span class="c1">#</span>
+<span class="c1">#Example: rr.resetToOrigin ()</span>
+<div class="viewcode-block" id="resetToOrigin"><a class="viewcode-back" href="../_apidoc/tellurium.html#tellurium.resetToOrigin">[docs]</a><span class="k">def</span> <span class="nf">resetToOrigin</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Reset model to state when first loaded.</span>
+<span class="sd">    This resets the model back to the state when it was FIRST loaded,</span>
+<span class="sd">    this includes all init() and parameters such as k1 etc.</span>
+
+<span class="sd">    te.resetToOrigin()</span>
+
+<span class="sd">    identical to:</span>
+<span class="sd">        te.reset(roadrunner.SelectionRecord.ALL)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">reset</span><span class="p">(</span><span class="n">roadrunner</span><span class="o">.</span><span class="n">SelectionRecord</span><span class="o">.</span><span class="n">ALL</span><span class="p">)</span></div>
+
+
+<span class="c1">##\brief Reset all the state variables to the current initial condition values and the global parameters back to when the model was first loaded.</span>
+<span class="c1">#</span>
+<span class="c1">#Example: rr.resetAll ()</span>
+<div class="viewcode-block" id="resetAll"><a class="viewcode-back" href="../_apidoc/tellurium.html#tellurium.resetAll">[docs]</a><span class="k">def</span> <span class="nf">resetAll</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Reset all model variables to CURRENT init(X) values.</span>
+<span class="sd">    This resets all variables, S1, S2 etc to the CURRENT init(X) values. It also resets all</span>
+<span class="sd">    parameters back to the values they had when the model was first loaded.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">reset</span><span class="p">(</span><span class="n">roadrunner</span><span class="o">.</span><span class="n">SelectionRecord</span><span class="o">.</span><span class="n">TIME</span> <span class="o">|</span>
+               <span class="n">roadrunner</span><span class="o">.</span><span class="n">SelectionRecord</span><span class="o">.</span><span class="n">RATE</span> <span class="o">|</span>
+               <span class="n">roadrunner</span><span class="o">.</span><span class="n">SelectionRecord</span><span class="o">.</span><span class="n">FLOATING</span> <span class="o">|</span>
+               <span class="n">roadrunner</span><span class="o">.</span><span class="n">SelectionRecord</span><span class="o">.</span><span class="n">GLOBAL_PARAMETER</span><span class="p">)</span></div>
+<span class="c1">##@} </span>
+
+
+<span class="c1"># --------------------------------------------------------------------- </span>
+<span class="c1"># Routines to support the Jarnac compatibility layer</span>
+<span class="c1"># ---------------------------------------------------------------------</span>
+<span class="c1">##\ingroup jarnac</span>
+<span class="c1">#@{</span>
+
+<span class="c1">##\brief Get the stoichiometry matrix for the current model</span>
+<span class="c1">#</span>
+<span class="c1"># Can be further shortened to rr.sm()</span>
+<span class="c1">#</span>
+<span class="c1">#Example: mat = rr.getSm()</span>
+<div class="viewcode-block" id="getSm"><a class="viewcode-back" href="../_apidoc/tellurium.html#tellurium.getSm">[docs]</a><span class="k">def</span> <span class="nf">getSm</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Returns the full reordered stoichiometry matrix.</span>
+<span class="sd">    Short-cut sm, e.g.</span>
+<span class="sd">    </span>
+<span class="sd">    print rr.sm()</span>
+<span class="sd">    :returns full reordered stoichiometry matrix</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getFullStoichiometryMatrix</span><span class="p">()</span></div>
+
+
+<span class="c1">##\brief Get the names for the reactions in the current model</span>
+<span class="c1">#</span>
+<span class="c1"># Can be further shortened to rr.rs()</span>
+<span class="c1">#</span>
+<span class="c1">#Example: reactionNames = rr.getRs()  </span>
+<div class="viewcode-block" id="getRs"><a class="viewcode-back" href="../_apidoc/tellurium.html#tellurium.getRs">[docs]</a><span class="k">def</span> <span class="nf">getRs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Returns the list of reaction Identifiers.</span>
+<span class="sd">    Short-cut rs, e.g.</span>
+<span class="sd">    </span>
+<span class="sd">    print(rr.rs())</span>
+
+<span class="sd">    :returns reaction identifiers</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">getReactionIds</span><span class="p">()</span></div>
+
+
+<span class="c1">##\brief Get the names for the floating species in the current model</span>
+<span class="c1">#</span>
+<span class="c1"># Can be further shortened to rr.fs()</span>
+<span class="c1">#</span>
+<span class="c1">#Example: floatingSpeciesNames = rr.getFs()  </span>
+<div class="viewcode-block" id="getFs"><a class="viewcode-back" href="../_apidoc/tellurium.html#tellurium.getFs">[docs]</a><span class="k">def</span> <span class="nf">getFs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;  </span>
+<span class="sd">    Returns list of floating species identifiers.</span>
+<span class="sd">    Short-cut fs, e.g.</span>
+<span class="sd">    </span>
+<span class="sd">    print (rr.fs())</span>
+
+<span class="sd">    :returns floating species identifiers</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">getFloatingSpeciesIds</span><span class="p">()</span></div>
+
+
+<span class="c1">##\brief Get the names for the boundary species in the current model</span>
+<span class="c1">#</span>
+<span class="c1"># Can be further shortened to rr.bs()</span>
+<span class="c1">#</span>
+<span class="c1">#Example: boundarySpeciesNames = rr.getBs()  </span>
+<div class="viewcode-block" id="getBs"><a class="viewcode-back" href="../_apidoc/tellurium.html#tellurium.getBs">[docs]</a><span class="k">def</span> <span class="nf">getBs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;  </span>
+<span class="sd">    Returns list of boundary species identifiers.</span>
+<span class="sd">    Short-cut bs, e.g.</span>
+<span class="sd">    </span>
+<span class="sd">    print(rr.bs())</span>
+
+<span class="sd">    :returns boundary species identifiers</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">getBoundarySpeciesIds</span><span class="p">()</span></div>
+
+
+<span class="c1">##\brief Get the names for the rglobal parameters in the model</span>
+<span class="c1">#</span>
+<span class="c1"># Can be further shortened to rr.ps()</span>
+<span class="c1">#</span>
+<span class="c1">#Example: parameterNames = rr.getPs()  </span>
+<div class="viewcode-block" id="getPs"><a class="viewcode-back" href="../_apidoc/tellurium.html#tellurium.getPs">[docs]</a><span class="k">def</span> <span class="nf">getPs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;  </span>
+<span class="sd">    Returns list of global parameters in the model.</span>
+<span class="sd">    Short-cut ps, e.g.</span>
+<span class="sd">    </span>
+<span class="sd">    print(rr.ps())</span>
+
+<span class="sd">    :returns global parameters</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">getGlobalParameterIds</span><span class="p">()</span></div>
+
+
+<span class="c1">##\brief Get the names for the compartments in the current model</span>
+<span class="c1">#</span>
+<span class="c1"># Can be further shortened to rr.vs()</span>
+<span class="c1">#</span>
+<span class="c1">#Example: compartmentNames = rr.getVs()   </span>
+<div class="viewcode-block" id="getVs"><a class="viewcode-back" href="../_apidoc/tellurium.html#tellurium.getVs">[docs]</a><span class="k">def</span> <span class="nf">getVs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;  </span>
+<span class="sd">    Returns the list of compartment identifiers.</span>
+<span class="sd">    Short-cut vs, e.g.</span>
+
+<span class="sd">    print(rr.vs())</span>
+
+<span class="sd">    :returns compartment identifiers</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">getCompartmentIds</span><span class="p">()</span></div>
+    
+  
+<span class="c1">##\brief Get all the rates of change in the current model</span>
+<span class="c1">#</span>
+<span class="c1"># Can be further shortened to rr.dv()</span>
+<span class="c1">#</span>
+<span class="c1">#Example: rateOfChange = rr.getDv()  </span>
+<div class="viewcode-block" id="getDv"><a class="viewcode-back" href="../_apidoc/tellurium.html#tellurium.getDv">[docs]</a><span class="k">def</span> <span class="nf">getDv</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;  </span>
+<span class="sd">    Returns the list of rates of change.</span>
+<span class="sd">    Short-cut dv, e.g.</span>
+<span class="sd">    </span>
+<span class="sd">    print(rr.dv())</span>
+
+<span class="sd">    :returns rate of change</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">getStateVectorRate</span><span class="p">()</span></div>
+
+
+<span class="c1">##\brief Get all the reaction rates in the current model</span>
+<span class="c1">#</span>
+<span class="c1"># Can be further shortened to rr.rv()</span>
+<span class="c1">#</span>
+<span class="c1">#Example: reactionRates = rr.getRv()  </span>
+<div class="viewcode-block" id="getRv"><a class="viewcode-back" href="../_apidoc/tellurium.html#tellurium.getRv">[docs]</a><span class="k">def</span> <span class="nf">getRv</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;  </span>
+<span class="sd">    Returns the list of reaction rates.</span>
+<span class="sd">    Short-cut rv, e.g.</span>
+<span class="sd">    </span>
+<span class="sd">    print(rr.rv())</span>
+
+<span class="sd">    :returns reaction rates</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">getReactionRates</span><span class="p">()</span></div>
+
+
+<span class="c1">##\brief Get all the floating species concentrations in the current model</span>
+<span class="c1">#</span>
+<span class="c1">#Example: reactionRates = rr.getSv()  </span>
+<div class="viewcode-block" id="getSv"><a class="viewcode-back" href="../_apidoc/tellurium.html#tellurium.getSv">[docs]</a><span class="k">def</span> <span class="nf">getSv</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;  </span>
+<span class="sd">    Returns the list of floating species concentrations.</span>
+<span class="sd">    Short-cut sv, e.g.</span>
+<span class="sd">    </span>
+<span class="sd">    print rr.sv()</span>
+
+<span class="sd">    :returns floating species concentrations</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">getFloatingSpeciesConcentrations</span><span class="p">()</span></div>
+
+
+<span class="c1">##\brief Returns the full Jacobian for the currnet model at the current state</span>
+<span class="c1">#</span>
+<span class="c1">#Example: jacobian = rr.getfJac()  </span>
+<div class="viewcode-block" id="getfJac"><a class="viewcode-back" href="../_apidoc/tellurium.html#tellurium.getfJac">[docs]</a><span class="k">def</span> <span class="nf">getfJac</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;  </span>
+<span class="sd">    Returns the full Jacobian for the current model at the current state.</span>
+<span class="sd">    Short-cut fjac, e.g.</span>
+<span class="sd">    </span>
+<span class="sd">    print(rr.fjac())</span>
+
+<span class="sd">    :returns Jacobian at current state</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getFullJacobian</span><span class="p">()</span></div>
+
+<span class="c1">##@} </span>
+
+<span class="c1"># --------------------------------------------------------------------- </span>
+<span class="c1"># Routines flattened from model, aves typing and easier for finding the methods</span>
+<span class="c1"># ---------------------------------------------------------------------</span>
+<span class="c1">##\ingroup Get Information Routines</span>
+<span class="c1">#@{</span>
+<div class="viewcode-block" id="getRatesOfChange"><a class="viewcode-back" href="../_apidoc/tellurium.html#tellurium.getRatesOfChange">[docs]</a><span class="k">def</span> <span class="nf">getRatesOfChange</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Rate of change of all state variables in the model.</span>
+
+<span class="sd">    returns: rate of change of all state variables (eg species) in the model.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">conservedMoietyAnalysis</span><span class="p">:</span>
+        <span class="n">m1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getLinkMatrix</span><span class="p">()</span>
+        <span class="n">m2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">getStateVectorRate</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">m1</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">m2</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">getStateVectorRate</span><span class="p">()</span></div>
+
+
+<span class="c1"># FIXME: by the following trick all the documentation gets lost!</span>
+<span class="c1"># i.e. the te.func() do not have any documentation associated.</span>
+<span class="c1"># make sure help(func) returns the info of help(self.model.func) (see wrap in functools)</span>
+
+<div class="viewcode-block" id="getBoundarySpeciesConcentrations"><a class="viewcode-back" href="../_apidoc/tellurium.html#tellurium.getBoundarySpeciesConcentrations">[docs]</a><span class="k">def</span> <span class="nf">getBoundarySpeciesConcentrations</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">getBoundarySpeciesConcentrations</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="getBoundarySpeciesIds"><a class="viewcode-back" href="../_apidoc/tellurium.html#tellurium.getBoundarySpeciesIds">[docs]</a><span class="k">def</span> <span class="nf">getBoundarySpeciesIds</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">getBoundarySpeciesIds</span><span class="p">()</span></div>
+    
+<div class="viewcode-block" id="getNumBoundarySpecies"><a class="viewcode-back" href="../_apidoc/tellurium.html#tellurium.getNumBoundarySpecies">[docs]</a><span class="k">def</span> <span class="nf">getNumBoundarySpecies</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">getNumBoundarySpecies</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="getFloatingSpeciesConcentrations"><a class="viewcode-back" href="../_apidoc/tellurium.html#tellurium.getFloatingSpeciesConcentrations">[docs]</a><span class="k">def</span> <span class="nf">getFloatingSpeciesConcentrations</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">getFloatingSpeciesConcentrations</span> <span class="p">()</span></div>
+    
+<div class="viewcode-block" id="getFloatingSpeciesIds"><a class="viewcode-back" href="../_apidoc/tellurium.html#tellurium.getFloatingSpeciesIds">[docs]</a><span class="k">def</span> <span class="nf">getFloatingSpeciesIds</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">getFloatingSpeciesIds</span><span class="p">()</span></div>
+    
+<div class="viewcode-block" id="getNumFloatingSpecies"><a class="viewcode-back" href="../_apidoc/tellurium.html#tellurium.getNumFloatingSpecies">[docs]</a><span class="k">def</span> <span class="nf">getNumFloatingSpecies</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">getNumFloatingSpecies</span><span class="p">()</span></div>
+    
+<div class="viewcode-block" id="getGlobalParameterIds"><a class="viewcode-back" href="../_apidoc/tellurium.html#tellurium.getGlobalParameterIds">[docs]</a><span class="k">def</span> <span class="nf">getGlobalParameterIds</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">getGlobalParameterIds</span><span class="p">()</span></div>
+    
+<div class="viewcode-block" id="getGlobalParameterValues"><a class="viewcode-back" href="../_apidoc/tellurium.html#tellurium.getGlobalParameterValues">[docs]</a><span class="k">def</span> <span class="nf">getGlobalParameterValues</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">getGlobalParameterValues</span><span class="p">()</span> </div>
+    
+<div class="viewcode-block" id="getNumGlobalParameters"><a class="viewcode-back" href="../_apidoc/tellurium.html#tellurium.getNumGlobalParameters">[docs]</a><span class="k">def</span> <span class="nf">getNumGlobalParameters</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">getNumGlobalParameters</span><span class="p">()</span> </div>
+
+<div class="viewcode-block" id="getCompartmentIds"><a class="viewcode-back" href="../_apidoc/tellurium.html#tellurium.getCompartmentIds">[docs]</a><span class="k">def</span> <span class="nf">getCompartmentIds</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">getCompartmentIds</span><span class="p">()</span></div>
+        
+<div class="viewcode-block" id="getCompartmentVolumes"><a class="viewcode-back" href="../_apidoc/tellurium.html#tellurium.getCompartmentVolumes">[docs]</a><span class="k">def</span> <span class="nf">getCompartmentVolumes</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">getCompartmentVolumes</span><span class="p">()</span></div>
+        
+<div class="viewcode-block" id="getNumCompartments"><a class="viewcode-back" href="../_apidoc/tellurium.html#tellurium.getNumCompartments">[docs]</a><span class="k">def</span> <span class="nf">getNumCompartments</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">getNumCompartments</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="getConservedMoietyIds"><a class="viewcode-back" href="../_apidoc/tellurium.html#tellurium.getConservedMoietyIds">[docs]</a><span class="k">def</span> <span class="nf">getConservedMoietyIds</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s1">&#39;getConservedMoietyIds deprecated; Use r.getDependentFloatingSpecies&#39;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">getConservedMoietyIds</span><span class="p">()</span></div>
+            
+<div class="viewcode-block" id="getConservedMoietyValues"><a class="viewcode-back" href="../_apidoc/tellurium.html#tellurium.getConservedMoietyValues">[docs]</a><span class="k">def</span> <span class="nf">getConservedMoietyValues</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">getConservedMoietyValues</span><span class="p">()</span></div>
+            
+<div class="viewcode-block" id="getNumConservedMoieties"><a class="viewcode-back" href="../_apidoc/tellurium.html#tellurium.getNumConservedMoieties">[docs]</a><span class="k">def</span> <span class="nf">getNumConservedMoieties</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">getNumConservedMoieties</span><span class="p">()</span></div>
+            
+<div class="viewcode-block" id="getNumDepFloatingSpecies"><a class="viewcode-back" href="../_apidoc/tellurium.html#tellurium.getNumDepFloatingSpecies">[docs]</a><span class="k">def</span> <span class="nf">getNumDepFloatingSpecies</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">getNumDepFloatingSpecies</span><span class="p">()</span></div>
+            
+<div class="viewcode-block" id="getNumIndFloatingSpecies"><a class="viewcode-back" href="../_apidoc/tellurium.html#tellurium.getNumIndFloatingSpecies">[docs]</a><span class="k">def</span> <span class="nf">getNumIndFloatingSpecies</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">getNumIndFloatingSpecies</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="getNumReactions"><a class="viewcode-back" href="../_apidoc/tellurium.html#tellurium.getNumReactions">[docs]</a><span class="k">def</span> <span class="nf">getNumReactions</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">getNumReactions</span><span class="p">()</span></div>
+    
+<div class="viewcode-block" id="getReactionIds"><a class="viewcode-back" href="../_apidoc/tellurium.html#tellurium.getReactionIds">[docs]</a><span class="k">def</span> <span class="nf">getReactionIds</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">getReactionIds</span><span class="p">()</span></div>
+    
+<div class="viewcode-block" id="getReactionRates"><a class="viewcode-back" href="../_apidoc/tellurium.html#tellurium.getReactionRates">[docs]</a><span class="k">def</span> <span class="nf">getReactionRates</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">getReactionRates</span><span class="p">()</span></div>
+    
+<div class="viewcode-block" id="getNumEvents"><a class="viewcode-back" href="../_apidoc/tellurium.html#tellurium.getNumEvents">[docs]</a><span class="k">def</span> <span class="nf">getNumEvents</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">getNumEvents</span><span class="p">()</span></div>
+ 
+<span class="c1">#def getValue (self, name):</span>
+<span class="c1">#    return self.model.getalue (name)</span>
+    
+<span class="c1">#def setValue (self, name, value):</span>
+<span class="c1">#    self.model.setvalue (name, value)</span>
+    
+<div class="viewcode-block" id="setStartTime"><a class="viewcode-back" href="../_apidoc/tellurium.html#tellurium.setStartTime">[docs]</a><span class="k">def</span> <span class="nf">setStartTime</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">startTime</span><span class="p">):</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">setTime</span> <span class="p">(</span><span class="n">startTime</span><span class="p">)</span>
+    <span class="k">pass</span></div>
+   
+<div class="viewcode-block" id="setEndTime"><a class="viewcode-back" href="../_apidoc/tellurium.html#tellurium.setEndTime">[docs]</a><span class="k">def</span> <span class="nf">setEndTime</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">endTime</span><span class="p">):</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">simulateOptions</span><span class="o">.</span><span class="n">end</span> <span class="o">=</span> <span class="n">endTime</span></div>
+
+<div class="viewcode-block" id="getStartTime"><a class="viewcode-back" href="../_apidoc/tellurium.html#tellurium.getStartTime">[docs]</a><span class="k">def</span> <span class="nf">getStartTime</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">simulateOptions</span><span class="o">.</span><span class="n">start</span></div>
+    
+<div class="viewcode-block" id="getEndTime"><a class="viewcode-back" href="../_apidoc/tellurium.html#tellurium.getEndTime">[docs]</a><span class="k">def</span> <span class="nf">getEndTime</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">simulateOptions</span><span class="o">.</span><span class="n">start</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">simulateOptions</span><span class="o">.</span><span class="n">duration</span></div>
+
+<div class="viewcode-block" id="getNumberOfPoints"><a class="viewcode-back" href="../_apidoc/tellurium.html#tellurium.getNumberOfPoints">[docs]</a><span class="k">def</span> <span class="nf">getNumberOfPoints</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">simulateOptions</span><span class="o">.</span><span class="n">steps</span> <span class="o">+</span> <span class="mi">1</span></div>
+    
+<div class="viewcode-block" id="setNumberOfPoints"><a class="viewcode-back" href="../_apidoc/tellurium.html#tellurium.setNumberOfPoints">[docs]</a><span class="k">def</span> <span class="nf">setNumberOfPoints</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">numberOfPoints</span><span class="p">):</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">simulateOptions</span><span class="o">.</span><span class="n">steps</span> <span class="o">=</span> <span class="n">numberOfPoints</span> <span class="o">-</span> <span class="mi">1</span></div>
+
+<div class="viewcode-block" id="getNumRateRules"><a class="viewcode-back" href="../_apidoc/tellurium.html#tellurium.getNumRateRules">[docs]</a><span class="k">def</span> <span class="nf">getNumRateRules</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">getNumRateRules</span><span class="p">()</span></div>
+<span class="c1">##@}</span>
+    
+<span class="c1"># ---------------------------------------------------------------</span>
+<span class="c1"># End of routines</span>
+<span class="c1"># Now we assign the routines to the roadrunner instance</span>
+<span class="c1"># ---------------------------------------------------------------</span>
+    
+<span class="c1"># Helper Routines we attach to roadrunner   </span>
+<span class="n">roadrunner</span><span class="o">.</span><span class="n">RoadRunner</span><span class="o">.</span><span class="n">getSeed</span> <span class="o">=</span> <span class="n">getSeed</span>
+<span class="n">roadrunner</span><span class="o">.</span><span class="n">RoadRunner</span><span class="o">.</span><span class="n">setSeed</span> <span class="o">=</span> <span class="n">setSeed</span>
+<span class="n">roadrunner</span><span class="o">.</span><span class="n">RoadRunner</span><span class="o">.</span><span class="n">gillespie</span> <span class="o">=</span> <span class="n">gillespie</span>
+<span class="n">roadrunner</span><span class="o">.</span><span class="n">RoadRunner</span><span class="o">.</span><span class="n">getRatesOfChange</span> <span class="o">=</span> <span class="n">getRatesOfChange</span>
+<span class="n">roadrunner</span><span class="o">.</span><span class="n">RoadRunner</span><span class="o">.</span><span class="n">exportToMatlab</span> <span class="o">=</span> <span class="n">exportToMatlab</span>
+<span class="n">roadrunner</span><span class="o">.</span><span class="n">RoadRunner</span><span class="o">.</span><span class="n">getMatlab</span> <span class="o">=</span> <span class="n">getMatlab</span>
+<span class="n">roadrunner</span><span class="o">.</span><span class="n">RoadRunner</span><span class="o">.</span><span class="n">getAntimony</span> <span class="o">=</span> <span class="n">getAntimony</span>
+<span class="n">roadrunner</span><span class="o">.</span><span class="n">RoadRunner</span><span class="o">.</span><span class="n">plotAS</span> <span class="o">=</span> <span class="n">roadrunner</span><span class="o">.</span><span class="n">RoadRunner</span><span class="o">.</span><span class="n">plot</span>
+<span class="n">roadrunner</span><span class="o">.</span><span class="n">RoadRunner</span><span class="o">.</span><span class="n">plot</span> <span class="o">=</span> <span class="n">plot</span>
+
+<span class="n">roadrunner</span><span class="o">.</span><span class="n">noticesOff</span> <span class="o">=</span> <span class="n">noticesOff</span>
+<span class="n">roadrunner</span><span class="o">.</span><span class="n">noticesOn</span> <span class="o">=</span> <span class="n">noticesOn</span>  
+<span class="n">roadrunner</span><span class="o">.</span><span class="n">getTestModel</span> <span class="o">=</span> <span class="n">getTestModel</span>
+<span class="n">roadrunner</span><span class="o">.</span><span class="n">loadTestModel</span> <span class="o">=</span> <span class="n">loadTestModel</span>
+<span class="n">roadrunner</span><span class="o">.</span><span class="n">listTestModels</span> <span class="o">=</span> <span class="n">listTestModels</span>
+
+<span class="n">roadrunner</span><span class="o">.</span><span class="n">RoadRunner</span><span class="o">.</span><span class="n">resetToOrigin</span> <span class="o">=</span> <span class="n">resetToOrigin</span>
+<span class="n">roadrunner</span><span class="o">.</span><span class="n">RoadRunner</span><span class="o">.</span><span class="n">resetAll</span> <span class="o">=</span> <span class="n">resetAll</span>
+
+<span class="c1"># Model flattening routines, saves user from having</span>
+<span class="c1"># to type r.model.methodname and from having to </span>
+<span class="c1"># recall where the method is</span>
+
+<span class="n">roadrunner</span><span class="o">.</span><span class="n">RoadRunner</span><span class="o">.</span><span class="n">getBoundarySpeciesConcentrations</span> <span class="o">=</span> <span class="n">getBoundarySpeciesConcentrations</span>
+<span class="n">roadrunner</span><span class="o">.</span><span class="n">RoadRunner</span><span class="o">.</span><span class="n">getBoundarySpeciesIds</span> <span class="o">=</span> <span class="n">getBoundarySpeciesIds</span>
+<span class="n">roadrunner</span><span class="o">.</span><span class="n">RoadRunner</span><span class="o">.</span><span class="n">getNumBoundarySpecies</span> <span class="o">=</span> <span class="n">getNumBoundarySpecies</span>
+
+<span class="n">roadrunner</span><span class="o">.</span><span class="n">RoadRunner</span><span class="o">.</span><span class="n">getFloatingSpeciesConcentrations</span> <span class="o">=</span> <span class="n">getFloatingSpeciesConcentrations</span>
+<span class="n">roadrunner</span><span class="o">.</span><span class="n">RoadRunner</span><span class="o">.</span><span class="n">getFloatingSpeciesIds</span> <span class="o">=</span> <span class="n">getFloatingSpeciesIds</span>
+<span class="n">roadrunner</span><span class="o">.</span><span class="n">RoadRunner</span><span class="o">.</span><span class="n">getNumFloatingSpecies</span> <span class="o">=</span> <span class="n">getNumFloatingSpecies</span>
+
+<span class="n">roadrunner</span><span class="o">.</span><span class="n">RoadRunner</span><span class="o">.</span><span class="n">getGlobalParameterIds</span> <span class="o">=</span> <span class="n">getGlobalParameterIds</span>
+<span class="n">roadrunner</span><span class="o">.</span><span class="n">RoadRunner</span><span class="o">.</span><span class="n">getGlobalParameterValues</span> <span class="o">=</span> <span class="n">getGlobalParameterValues</span>
+<span class="n">roadrunner</span><span class="o">.</span><span class="n">RoadRunner</span><span class="o">.</span><span class="n">getNumGlobalParameters</span> <span class="o">=</span> <span class="n">getNumGlobalParameters</span>
+
+<span class="n">roadrunner</span><span class="o">.</span><span class="n">RoadRunner</span><span class="o">.</span><span class="n">getCompartmentIds</span> <span class="o">=</span> <span class="n">getCompartmentIds</span>
+<span class="n">roadrunner</span><span class="o">.</span><span class="n">RoadRunner</span><span class="o">.</span><span class="n">getCompartmentVolumes</span> <span class="o">=</span> <span class="n">getCompartmentVolumes</span>
+<span class="n">roadrunner</span><span class="o">.</span><span class="n">RoadRunner</span><span class="o">.</span><span class="n">getNumCompartments</span> <span class="o">=</span> <span class="n">getNumCompartments</span>
+
+<span class="n">roadrunner</span><span class="o">.</span><span class="n">RoadRunner</span><span class="o">.</span><span class="n">getConservedMoietyIds</span> <span class="o">=</span> <span class="n">getConservedMoietyIds</span>
+<span class="n">roadrunner</span><span class="o">.</span><span class="n">RoadRunner</span><span class="o">.</span><span class="n">getNumConservedMoieties</span> <span class="o">=</span> <span class="n">getNumConservedMoieties</span>
+<span class="n">roadrunner</span><span class="o">.</span><span class="n">RoadRunner</span><span class="o">.</span><span class="n">getNumConservedMoieties</span> <span class="o">=</span> <span class="n">getNumConservedMoieties</span>
+<span class="n">roadrunner</span><span class="o">.</span><span class="n">RoadRunner</span><span class="o">.</span><span class="n">getNumConservedMoieties</span> <span class="o">=</span> <span class="n">getNumConservedMoieties</span>
+
+<span class="n">roadrunner</span><span class="o">.</span><span class="n">RoadRunner</span><span class="o">.</span><span class="n">getNumReactions</span> <span class="o">=</span> <span class="n">getNumReactions</span>
+<span class="n">roadrunner</span><span class="o">.</span><span class="n">RoadRunner</span><span class="o">.</span><span class="n">getReactionIds</span> <span class="o">=</span> <span class="n">getReactionIds</span>
+<span class="n">roadrunner</span><span class="o">.</span><span class="n">RoadRunner</span><span class="o">.</span><span class="n">getReactionRates</span> <span class="o">=</span> <span class="n">getReactionRates</span>
+<span class="n">roadrunner</span><span class="o">.</span><span class="n">RoadRunner</span><span class="o">.</span><span class="n">getNumEvents</span> <span class="o">=</span> <span class="n">getNumEvents</span>
+
+<span class="c1">#roadrunner.RoadRunner.getValue = getValue</span>
+<span class="c1">#roadrunner.RoadRunner.setValue = setValue</span>
+<span class="n">roadrunner</span><span class="o">.</span><span class="n">RoadRunner</span><span class="o">.</span><span class="n">setStartTime</span> <span class="o">=</span> <span class="n">setStartTime</span>
+<span class="n">roadrunner</span><span class="o">.</span><span class="n">RoadRunner</span><span class="o">.</span><span class="n">setEndTime</span> <span class="o">=</span> <span class="n">setEndTime</span>
+<span class="n">roadrunner</span><span class="o">.</span><span class="n">RoadRunner</span><span class="o">.</span><span class="n">getStartTime</span> <span class="o">=</span> <span class="n">getStartTime</span>
+<span class="n">roadrunner</span><span class="o">.</span><span class="n">RoadRunner</span><span class="o">.</span><span class="n">getEndTime</span> <span class="o">=</span> <span class="n">getEndTime</span>
+<span class="n">roadrunner</span><span class="o">.</span><span class="n">RoadRunner</span><span class="o">.</span><span class="n">getNumberOfPoints</span> <span class="o">=</span> <span class="n">getNumberOfPoints</span>
+<span class="n">roadrunner</span><span class="o">.</span><span class="n">RoadRunner</span><span class="o">.</span><span class="n">setNumberOfPoints</span> <span class="o">=</span> <span class="n">setNumberOfPoints</span>
+<span class="n">roadrunner</span><span class="o">.</span><span class="n">RoadRunner</span><span class="o">.</span><span class="n">getNumRateRules</span> <span class="o">=</span> <span class="n">getNumRateRules</span>
+
+<span class="c1"># -------------------------------------------------------</span>
+
+<span class="c1"># Jarnac compatibility layer</span>
+<span class="n">roadrunner</span><span class="o">.</span><span class="n">RoadRunner</span><span class="o">.</span><span class="n">sm</span> <span class="o">=</span> <span class="n">getSm</span>
+<span class="n">roadrunner</span><span class="o">.</span><span class="n">RoadRunner</span><span class="o">.</span><span class="n">fs</span> <span class="o">=</span> <span class="n">getFs</span>
+<span class="n">roadrunner</span><span class="o">.</span><span class="n">RoadRunner</span><span class="o">.</span><span class="n">bs</span> <span class="o">=</span> <span class="n">getBs</span>
+<span class="n">roadrunner</span><span class="o">.</span><span class="n">RoadRunner</span><span class="o">.</span><span class="n">rs</span> <span class="o">=</span> <span class="n">getRs</span>
+<span class="n">roadrunner</span><span class="o">.</span><span class="n">RoadRunner</span><span class="o">.</span><span class="n">ps</span> <span class="o">=</span> <span class="n">getPs</span>
+<span class="n">roadrunner</span><span class="o">.</span><span class="n">RoadRunner</span><span class="o">.</span><span class="n">vs</span> <span class="o">=</span> <span class="n">getVs</span>
+<span class="n">roadrunner</span><span class="o">.</span><span class="n">RoadRunner</span><span class="o">.</span><span class="n">fjac</span> <span class="o">=</span> <span class="n">getfJac</span>
+
+<span class="n">roadrunner</span><span class="o">.</span><span class="n">RoadRunner</span><span class="o">.</span><span class="n">dv</span> <span class="o">=</span> <span class="n">getDv</span>
+<span class="n">roadrunner</span><span class="o">.</span><span class="n">RoadRunner</span><span class="o">.</span><span class="n">rv</span> <span class="o">=</span> <span class="n">getRv</span>
+<span class="n">roadrunner</span><span class="o">.</span><span class="n">RoadRunner</span><span class="o">.</span><span class="n">sv</span> <span class="o">=</span> <span class="n">getSv</span>
+
+<span class="c1"># ---------------------------------------------------------------</span>
+<span class="c1"># Next comes general documentation</span>
+<span class="c1"># ---------------------------------------------------------------</span>
+
+<span class="c1">##\mainpage notitle</span>
+<span class="c1">#\section Introduction</span>
+<span class="c1">#Tellurium is a cross-platform and open source Python based environment that integrates a variety of useful packages for systems biology modeling. The IDE is based on the spyder2 IDE (https://code.google.com/p/spyderlib/)</span>
+<span class="c1">#</span>
+<span class="c1">#\par Simple Example:</span>
+<span class="c1">#\par</span>
+<span class="c1">#@code</span>
+<span class="c1">#</span>
+<span class="c1">#rr = te.loada (&#39;S1 -&gt; S2; k1*S1; k1 = 0.1; S1 = 10&#39;)</span>
+<span class="c1">#rr.simulate (0, 10, 100)</span>
+<span class="c1">#rr.plot()</span>
+<span class="c1">#</span>
+<span class="c1">#@endcode</span>
+<span class="c1">#</span>
+<span class="c1">#\par More Complex Example:</span>
+<span class="c1">#\par</span>
+<span class="c1">#@code</span>
+<span class="c1">#</span>
+<span class="c1">#import tellurium at te</span>
+<span class="c1">#</span>
+<span class="c1">#r = te.loada (&#39;&#39;&#39;</span>
+<span class="c1">#    # A dollar symbol means fix the species concentration</span>
+<span class="c1">#        $S1 -&gt; S2;  k1*S1; </span>
+<span class="c1">#     J2: S2 -&gt; S3;  k2*S2 - k3*S3;</span>
+<span class="c1">#         S3 -&gt; $S4; k4*S3;</span>
+<span class="c1">#    </span>
+<span class="c1">#    k1 = 0.1; S1 = 10</span>
+<span class="c1">#&#39;&#39;&#39;)</span>
+<span class="c1">#</span>
+<span class="c1">#result = r.simulate (0, 10, 100, [&#39;time&#39;, &#39;S1&#39;, &#39;S3&#39;, &#39;J1&#39;])</span>
+<span class="c1">#rr.plot (result)</span>
+<span class="c1">#</span>
+<span class="c1">#@endcode</span>
+<span class="c1">#</span>
+<span class="c1">#\par Screen-shot of Tellurium</span>
+<span class="c1">#\par </span>
+<span class="c1">#\image html http://i.imgur.com/luH3rs6.png</span>
+<span class="c1">#</span>
+<span class="c1">##\defgroup utility Utility Methods</span>
+<span class="c1"># \brief Various utility methods</span>
+<span class="c1">#</span>
+<span class="c1"># The most useful methods here are the notices routines. Roadrunner will offen issue warning or informational messages. For</span>
+<span class="c1"># repeated simulation such messages will clutter up the outputs. noticesOff and noticesOn can be used to turn on an off the messages.</span>
+<span class="c1">#</span>
+<span class="c1">#Examples:&lt;br&gt;</span>
+<span class="c1">#@code</span>
+<span class="c1">#  # Repeat a simulation many times</span>
+<span class="c1">#</span>
+<span class="c1">#  # Load an SBML file</span>
+<span class="c1">#  r = roadrunner.RoadRunner (&#39;mymodel.xml&#39;)</span>
+<span class="c1">#  # Turn of notices so they don&#39;t clutter the output</span>
+<span class="c1">#  roadrunner.noticesOff()</span>
+<span class="c1">#  for i in range (0:20):</span>
+<span class="c1">#      result = r.simulate (0, 10)</span>
+<span class="c1">#      r.plot (result)</span>
+<span class="c1">#      r.model.k1 = r.model.k1 + 0.2</span>
+<span class="c1">#  # Turn the notices back on</span>
+<span class="c1">#  roadrunner.noticesOn()</span>
+<span class="c1">#@endcode</span>
+
+<span class="c1">##\defgroup filefunctions  File Help Functions</span>
+<span class="c1"># \brief Save and Read file methods</span>
+<span class="c1">#</span>
+<span class="c1"># Use these routines to save or read text files to and from disk</span>
+<span class="c1">#</span>
+<span class="c1">#Examples:&lt;br&gt;</span>
+<span class="c1">#@code</span>
+<span class="c1">#</span>
+<span class="c1"># r = te.loada (&#39;S1 -&gt; S2; k1*S1; k1 = 0.1; S1 = 10&#39;)</span>
+<span class="c1"># saveToFile (&#39;mymodel.m&#39;, r.getMatlab())</span>
+<span class="c1">#</span>
+<span class="c1"># sbmlstr = readFromFile (&#39;mymodel.xml&#39;)</span>
+<span class="c1">#@endcode</span>
+
+<span class="c1">##\defgroup loadingModels  Loading Models</span>
+<span class="c1"># \brief Methods to load models in different formats</span>
+<span class="c1">#</span>
+<span class="c1"># There are a variety of methods to load models into libRoadrunner. At the most basic level one can load the model directly using</span>
+<span class="c1"># libRoadRunner:</span>
+<span class="c1">#@code</span>
+<span class="c1">#  r = roadrunner.RoadRunner (&#39;mymodel.xml&#39;)</span>
+<span class="c1">#@endcode</span>
+<span class="c1">#</span>
+<span class="c1">#Alternatively one can use these methods:</span>
+<span class="c1">#@code</span>
+<span class="c1">#  # This is the same as roadrunner.RoadRunner() but the method name is more suggestive of what it does</span>
+<span class="c1">#  # Like RoadRunner, loadSBML can accept a file name or a SBML string as it argument</span>
+<span class="c1">#</span>
+<span class="c1">#  r = te.loadSBMLModel (&#39;mymodel.xml&#39;)</span>
+<span class="c1">#</span>
+<span class="c1">#  # To load an Antimony model use:</span>
+<span class="c1">#  r = te.loadAntimonyModel (antStr)</span>
+<span class="c1">#</span>
+<span class="c1">#  # Or alternatively</span>
+<span class="c1">#  r = te.loadAntimonyModel (&#39;mymodel.ant&#39;)</span>
+<span class="c1">#</span>
+<span class="c1">#  # The method loada is simply a shortcut to loadAntimonyModel</span>
+<span class="c1">#  r = loada (&#39;&#39;&#39;</span>
+<span class="c1">#      S1 -&gt; S2; k1*S1;</span>
+<span class="c1">#      S2 -&gt; S3; k2*S2;</span>
+<span class="c1">#      </span>
+<span class="c1">#      k1= 0.1; k2 = 0.2; </span>
+<span class="c1">#      S1 = 10; S2 = 0; S3 = 0;</span>
+<span class="c1">#  &#39;&#39;&#39;)</span>
+<span class="c1">#  result = r.simulate (0, 10, 100)</span>
+<span class="c1">#  r.plot (result)</span>
+<span class="c1">#@endcode</span>
+
+
+<span class="c1">##\defgroup interconversion  Interconversion Methods</span>
+<span class="c1"># \brief Methods to interconvert different formats</span>
+<span class="c1">#</span>
+<span class="c1"># Use these routines interconvert verious standard formats</span>
+<span class="c1">#</span>
+<span class="c1">#Examples:&lt;br&gt;</span>
+<span class="c1">#@code</span>
+<span class="c1">#  # Convert an SBML model into Antimony</span>
+<span class="c1">#</span>
+<span class="c1">#  # Load an SBML file</span>
+<span class="c1">#  sbmlStr = te.readFromFile (&#39;mymodel.xml&#39;)</span>
+<span class="c1">#  # Generate the Antimony format of the SBML model</span>
+<span class="c1">#  print te.sbmlToAntimony (sbmlStr)</span>
+<span class="c1">#@endcode</span>
+<span class="c1">#&lt;br&gt;</span>
+<span class="c1">#@code</span>
+<span class="c1">#  # Convert an Antimony model into SBML</span>
+<span class="c1">#</span>
+<span class="c1">#  # Load an Antimony file</span>
+<span class="c1">#  antStr = te.readFromFile (&#39;mymodel.ant&#39;)</span>
+<span class="c1">#  # Generate the SBML format of the Antimony model</span>
+<span class="c1">#  print te.antimonyToSBML (antStr)</span>
+<span class="c1">#@endcode</span>
+
+<span class="c1">##\defgroup stochastic  Stochastic Simulation Methods</span>
+<span class="c1"># \brief Methods to carry out stochastic simulations</span>
+<span class="c1">#</span>
+<span class="c1"># Use these routines to carry out Gillespie style stochastic simulations</span>
+<span class="c1">#</span>
+<span class="c1">#Examples:&lt;br&gt;</span>
+<span class="c1">#@code</span>
+<span class="c1">#</span>
+<span class="c1">#  r = te.loada (&#39;S1 -&gt; S2; k1*S1; k1 = 0.1; S1 = 40&#39;)</span>
+<span class="c1">#  r.setSeed (87675)</span>
+<span class="c1">#  result = r.gillespie (0, 100)</span>
+<span class="c1">#  r.plot (result)</span>
+<span class="c1">#@endcode</span>
+<span class="c1">#</span>
+<span class="c1"># Run two simulations and combine the two:</span>
+<span class="c1">#</span>
+<span class="c1">#@code{.py}</span>
+<span class="c1">#  import numpy as np</span>
+<span class="c1">#  import tellurium as te</span>
+<span class="c1">#</span>
+<span class="c1">#  r = te.loadSBMLModel (&#39;mymodel.xml&#39;)</span>
+<span class="c1">#  seed= r.getSeed()</span>
+<span class="c1">#  result1 = r.gillespie (0, 100)</span>
+<span class="c1">#  r.model.k1 = r.model.k1*20</span>
+<span class="c1">#  result2 = r.gillespie (100, 200)</span>
+<span class="c1">#  # Merge the two runs together</span>
+<span class="c1">#  rr.plot (np.vstack ((result1, result))</span>
+<span class="c1">#@endcode</span>
+
+<span class="c1">##\defgroup math  Math Utilities</span>
+<span class="c1"># \brief Useful math utilities</span>
+<span class="c1">#</span>
+<span class="c1"># Only one routine is currently available in this group which is a routine to compute the eigenvalues of given a matrix.</span>
+<span class="c1">#</span>
+<span class="c1">#Examples:&lt;br&gt;</span>
+<span class="c1">#@code</span>
+<span class="c1">#</span>
+<span class="c1">#import numpy as np</span>
+<span class="c1">#import tellurium as te</span>
+<span class="c1">#</span>
+<span class="c1">#m = np.matrix ([[1,2],[5,7]])</span>
+<span class="c1">#</span>
+<span class="c1">#print te.getEigenvalues (m)</span>
+<span class="c1">#[-0.35889894  8.35889894]</span>
+<span class="c1">#@endcode</span>
+
+<span class="c1">##\defgroup plotting  Plotting Utilities</span>
+<span class="c1"># \brief Useful plotting utilities</span>
+<span class="c1">#</span>
+<span class="c1"># Two useful plotting routines. They assume that the first column in the array is the x-axis and the second and subsequent columns represent curves on the y-axis.</span>
+<span class="c1">#</span>
+<span class="c1">#Examples:&lt;br&gt;</span>
+<span class="c1">#@code</span>
+<span class="c1">#</span>
+<span class="c1">#  # Load a model and carry out a simulation generating 100 points</span>
+<span class="c1">#  r = te.loada (&#39;S1 -&gt; S2; k1*S1; k1 = 0.1; S1 = 10&#39;)</span>
+<span class="c1">#  result = r.simulate (0, 10, 100)</span>
+<span class="c1">#</span>
+<span class="c1">#  # No legend will be add to the plot, useful for plotting large </span>
+<span class="c1">#  # numbers of curves where a legend would get in the way</span>
+<span class="c1">#  te.plotArray (result)</span>
+<span class="c1">#</span>
+<span class="c1">#  # To get a legend use the roadrunner plot command</span>
+<span class="c1">#  r.plot (result)</span>
+<span class="c1">#@endcode</span>
+
+<span class="c1">##\defgroup resetmethods  Model Reset Methods</span>
+<span class="c1"># \brief Model reset methods</span>
+<span class="c1">#</span>
+<span class="c1"># Use these routines reset your model back to particular states</span>
+<span class="c1">#</span>
+<span class="c1">#Examples:&lt;br&gt;</span>
+<span class="c1">#@code</span>
+<span class="c1">#  r = te.loada (&#39;S1 -&gt; S2; k1*S1; k1 = 0.1; S1 = 10&#39;)</span>
+<span class="c1">#  result = r.simulate (0, 10, 100)</span>
+<span class="c1">#  p.model.S1 = 2.0</span>
+<span class="c1">#  result = r.simulate (0, 10, 100)</span>
+<span class="c1">#  # Reset the model back to its original state</span>
+<span class="c1">#  r.reset()</span>
+<span class="c1">#@endcode</span>
+<span class="c1">#</span>
+<span class="c1"># If you wish to reset a model back to the state it was what it was loaded, use the resetToOrigin method</span>
+<span class="c1">#</span>
+<span class="c1">#@code</span>
+<span class="c1">#  r = te.loada (&#39;S1 -&gt; S2; k1*S1; k1 = 0.1; S1 = 10&#39;)</span>
+<span class="c1">#  result = r.simulate (0, 10, 100)</span>
+<span class="c1">#  # Make lots of different kinds of changes to the model</span>
+<span class="c1">#  # Reset the model back to the state it had when it was created</span>
+<span class="c1">#  r.resetToOrigin()</span>
+<span class="c1">#@endcode</span>
+
+<span class="c1">##\defgroup export Matlab Export Utilities</span>
+<span class="c1">##\brief Matlab export utilities</span>
+<span class="c1">#</span>
+<span class="c1"># Use these routines to convert your model into a Matlab function.</span>
+<span class="c1">#</span>
+<span class="c1">#Examples:&lt;br&gt;</span>
+<span class="c1">#@code</span>
+<span class="c1">#</span>
+<span class="c1"># r = te.loada (&#39;S1 -&gt; S2; k1*S1; k1 = 0.1; S1 = 10&#39;)</span>
+<span class="c1"># print r.getMatlab()</span>
+<span class="c1"># r.exportToMatlab (&quot;mymodel.m&quot;)</span>
+<span class="c1">#@endcode</span>
+
+<span class="c1">##\defgroup jarnac Short-cut methods</span>
+<span class="c1"># \brief Useful short-cut methods</span>
+
+<span class="c1">##\defgroup testmodels Test Models</span>
+<span class="c1"># \brief Methods to acess the builtin test models</span>
+<span class="c1">#</span>
+<span class="c1"># RoadRunner has built into it a number of predefined models that can be use</span>
+<span class="c1"># to easily try out roadrunner if so exmaple you don&#39;t have a model at hand.</span>
+<span class="c1">#</span>
+<span class="c1">#Examples:&lt;br&gt;</span>
+<span class="c1">#@code</span>
+<span class="c1">#  # To get the number of builtin models use lisTestModels</span>
+<span class="c1">#  print roadrunner.listTestModels()</span>
+<span class="c1">#  [&#39;feedback.xml&#39;, &#39;test_1.xml&#39;]</span>
+<span class="c1">#@endcode</span>
+<span class="c1">#</span>
+<span class="c1"># To load one of the test models use loadTestModel:</span>
+<span class="c1">#@code</span>
+<span class="c1"># r = roadrunner.loadTestModel (&#39;feedback.xml&#39;)</span>
+<span class="c1"># result = r.simulate (0, 10, 100)</span>
+<span class="c1"># r.plot (result)</span>
+<span class="c1">#@endcode</span>
+<span class="c1">#</span>
+<span class="c1"># If you need to obtain the SBML for the test model, use getTestModel</span>
+<span class="c1">#</span>
+<span class="c1">#@code</span>
+<span class="c1">#  sbmlStr = roadrunner.getTestModel</span>
+<span class="c1">#  saveToFile (&#39;model.xml&#39;, sbmlStr)</span>
+<span class="c1">#@endcode</span>
+<span class="c1">#</span>
+<span class="c1">#To look at one of the test model in Antimony form:</span>
+<span class="c1">#</span>
+<span class="c1">#@code</span>
+<span class="c1">#  antstr = te.sbmlToAntimony (roadrunner.getTestModel (&#39;feedback.xml&#39;))</span>
+<span class="c1">#  print antStr</span>
+<span class="c1">#@endcode</span>
+
+<span class="c1"># OLD CODE----------------------------------------</span>
+<span class="c1">#def augmentRoadrunnerCtor():</span>
+<span class="c1">#    &quot;&quot;&quot;Hides the need to use Antimony directly from user</span>
+<span class="c1">#    Overwrite the Roadrunner Constructor to accept Antimony string</span>
+<span class="c1">#    </span>
+<span class="c1">#    This is done at the begining of the tellurium startup</span>
+<span class="c1">#    &quot;&quot;&quot;</span>
+<span class="c1">#    original_init = roadrplt.plot (result[:,0],result[:,1:], linewidth=2.5)unner.RoadRunner.__init__</span>
+<span class="c1">#</span>
+<span class="c1">#    def new_init(self, *args):</span>
+<span class="c1">#        #get sbml and recompose args tuple</span>
+<span class="c1">#        if (len(args) &gt; 1 and antimony.loadAntimonyString(args[0]) &gt;= 0):</span>
+<span class="c1">#            args = ((antimonyTosbml(args[0]),) + args[1:])</span>
+<span class="c1">#        elif (len(args) == 1 and antimony.loadAntimonyString(args[0]) &gt;= 0):</span>
+<span class="c1">#            args = (antimonyTosbml(args[0]),)</span>
+<span class="c1">#        else:</span>
+<span class="c1">#            pass</span>
+<span class="c1">#            </span>
+<span class="c1">#        original_init(self, *args)</span>
+<span class="c1">#</span>
+<span class="c1">#    roadrunner.RoadRunner.__init__ = new_init</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016, sys-bio.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'1.3.0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>
