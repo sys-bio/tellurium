@@ -6,6 +6,8 @@ Support routines for tellurium
 
 @author: Herbert M Sauro
 """
+# FIXME: many functions are called with self as first argument (but are no methods)
+# -> should be named r (RoadRunner instance)
 
 from __future__ import print_function, division
 
@@ -35,7 +37,7 @@ except ImportError as e:
     roadrunner.Logger.log(roadrunner.Logger.LOG_WARNING, str(e))
 
 
-tehold = False # Same as matlab hold
+tehold = False  # Same as matlab hold
 
 # For some reason we can only access the tehold variable via methods
 def setHold(myHold):
@@ -393,23 +395,32 @@ def getEigenvalues(m):
 #Example: myseed = rr.getSeed()
 #
 #\return The seed value
-def getSeed (r):
+def getSeed(r):
     """
-    Return the current seed used by the random generator
+    Current seed used by the random generator of the RoadRunner instance.
+
+    :param r: RoadRunner instance.
+    :returns current seed
     """
+    # FIXME: this should be via self not via a RoadRunner instance r
     intg = r.getIntegrator("gillespie")
     if intg is None:
         raise ValueError("model is not loaded")
     return intg['seed']
-        
+
+
 ##\brief Set the seed used by the internal random number generator
 #
 #Example: rr.setSeed(12345)
 #
-def setSeed (r, seed):
+def setSeed(r, seed):
     """
-    Set the seed for the random number generator (used by gillespie for example)
+    Set seed for random number generator (used by gillespie for example).
+
+    :param r: RoadRunner instance.
+    :param seed: seed to set
     """
+    # FIXME: this should be via self not via a RoadRunner instance r
     intg = r.getIntegrator('gillespie')
     if intg is None:
         raise ValueError("model is not loaded")
@@ -418,11 +429,12 @@ def setSeed (r, seed):
     # to C integers on 64 bit machines. If its converted to float before, works around the issue. 
     intg['seed'] = float(seed)
 
+
 ##\brief Run a Gillespie simulation
 #
 #Example: result = rr.gillespie (0, 100)
 #
-def gillespie (r, *args, **kwargs):
+def gillespie(r, *args, **kwargs):
     """
     Run a Gillespie stochastic simulation.  
     
@@ -442,7 +454,11 @@ def gillespie (r, *args, **kwargs):
     
     # Simulate from time zero to 40 time units, on a grid with 20 points
     # using the give selection list
-    result = rr.gillespie (0, 40, 20, ['time', 'S1'])  
+    result = rr.gillespie (0, 40, 20, ['time', 'S1'])
+
+    :param r: RoadRunner intance
+    :param *args & **kwargs: parameters for simulate
+    :returns simulation results
     """
     
     if r.integrator is None:
@@ -453,7 +469,7 @@ def gillespie (r, *args, **kwargs):
     if kwargs is not None:
         kwargs['integrator'] = 'gillespie'
     else:
-        kwargs = {'integrator' : 'gillespie'}
+        kwargs = {'integrator': 'gillespie'}
 
     result = r.simulate(*args, **kwargs)
 
@@ -462,15 +478,17 @@ def gillespie (r, *args, **kwargs):
     return result
 ##@} 
 
-def RoadRunner(args):
-    return roadrunner.RoadRunner(args)
+
+def RoadRunner(*args):
+    return roadrunner.RoadRunner(*args)
 
 # ---------------------------------------------------------------------
 ##\ingroup plotting
 #@{
 
+
 #\cond
-def plotWithLegend (r, result=None, loc='upper left', show=True):
+def plotWithLegend(r, result=None, loc='upper left', show=True):
     """
     Plot an array and include a legend. The first argument must be a roadrunner variable. 
     The second argument must be an array containing data to plot. The first column of the array will
@@ -478,11 +496,17 @@ def plotWithLegend (r, result=None, loc='upper left', show=True):
     a handle to the plotting object.
     
     plotWithLegend (r)
+
+    :param r: RoadRunner instance
+    :param result: results to plot
+    :param loc: location of plot legend
+    :param show: show the plot
+    :returns plt object
     """
     import matplotlib.pyplot as p
     
-    if not isinstance (r, roadrunner.RoadRunner):
-        raise Exception ('First argument must be a roadrunner variable')
+    if not isinstance(r, roadrunner.RoadRunner):
+        raise Exception('First argument must be a roadrunner variable')
 
     if result is None:
         result = r.getSimulationData()
@@ -491,12 +515,12 @@ def plotWithLegend (r, result=None, loc='upper left', show=True):
         raise Exception("no simulation result")
 
     if result.dtype.names is None:
-       columns = result.shape[1]
-       legendItems = r.timeCourseSelections[1:]
-       if columns-1 != len (legendItems):
-           raise Exception ('Legend list must match result array')
-       for i in range(columns-1):
-           plt.plot (result[:,0], result[:,i+1], linewidth=2.5, label=legendItems[i])           
+        columns = result.shape[1]
+        legendItems = r.timeCourseSelections[1:]
+        if columns-1 != len(legendItems):
+           raise Exception('Legend list must match result array')
+        for i in range(columns-1):
+           plt.plot(result[:, 0], result[:, i+1], linewidth=2.5, label=legendItems[i])
     else:
         # result is structured array
         if len(result.dtype.names) < 1:
@@ -507,7 +531,7 @@ def plotWithLegend (r, result=None, loc='upper left', show=True):
         for name in result.dtype.names[1:]:
             p.plot(result[time], result[name], label=name)
 
-    plt.legend (loc=loc)
+    plt.legend(loc=loc)
 
     if show:
         plt.show()
@@ -515,20 +539,24 @@ def plotWithLegend (r, result=None, loc='upper left', show=True):
 
 
 #\endcond
- 
-#\cond  
-def simulateAndPlot (rr, startTime=0, endTime=5, numberOfPoints=500):
+
+#\cond
+def simulateAndPlot(r, startTime=0, endTime=5, numberOfPoints=500, **kwargs):
     """
-    Carry out a simulation and plot the results. Returns the result to the caller 
-    
-    Example:
-    
+    Run simulation and plot the results.
+
     simulateAndPlot (rr)
-    
     simulateAndPlot (rr, 0, 10, 100)
+
+    :param r: RoadRunner instance
+    :param startTime: start time of simulation
+    :param endTime: end time of simulation
+    :param numberOfPoints: number of points in simulation
+    :returns simulation results
     """
-    result = rr.simulate (startTime, endTime, numberOfPoints)
-    tellurium.plotWithLegend (rr, result)   
+    # FIXME: arguments should have the same names like the named arguments in simulate (start, end, ...)
+    result = r.simulate(startTime, endTime, numberOfPoints, **kwargs)
+    plotWithLegend(r, result)
     return result
 #\endcond
  
@@ -538,9 +566,10 @@ def simulateAndPlot (rr, startTime=0, endTime=5, numberOfPoints=500):
 #Example: te.plotArray (m, label='Flux')
 #\param[in] result Numpy Array
 #\return Returns the plot object
-def plotArray (*args, **kwargs):
+def plotArray(*args, **kwargs):
     """
-    Plot an array. The first column of the array will
+    Plot an array.
+    The first column of the array will
     be the x-axis and remaining columns the y-axis. Returns
     a handle to the plotting object. Note that you can add
     plotting options as named key values after the array. For
@@ -552,14 +581,15 @@ def plotArray (*args, **kwargs):
     plotArray (result)
     """
     global tehold 
-    p = plt.plot (args[0][:,0], args[0][:,1:], linewidth=2.5, **kwargs)
+    p = plt.plot(args[0][:, 0], args[0][:, 1:], linewidth=2.5, **kwargs)
     # If user is building a legend don't show the plot yet    
-    if kwargs.has_key ('label'):
-       return p
+    if 'label' in kwargs:
+        return p
     if tehold == False:    
-       plt.show()
+        plt.show()
     return p
-    
+
+
 ##\brief Plot results from a simulation carried out by the simulate or gillespie functions. This is a roadrunner method.
 #
 # Plot data generated by a simulation:
@@ -574,14 +604,22 @@ def plotArray (*args, **kwargs):
 #
 #\param[in] result Data returned from a simulate or gillespie call
 #\return Returns the plot object
-def plot (self, result=None, loc='upper left', show=True):
+def plot(self, result=None, loc='upper left', show=True):
+    """
+    :param self: RoadRunner instance
+    :param result: results to plot
+    :param loc: location of plot legend
+    :param show: show the plot
+    :returns ?
+    """
     if result is None:
-	   # Call Andy version if no results passed to call
-      return self.plotAS()
+        # Call Andy version if no results passed to call
+        return self.plotAS()
     else:
-      return plotWithLegend(self, result, loc)
-##@} 
- 
+        return plotWithLegend(self, result, loc, show=show)
+##@}
+
+
 # ---------------------------------------------------------------------
 ##\ingroup export
 #@{
@@ -590,34 +628,42 @@ def plot (self, result=None, loc='upper left', show=True):
 #
 #Example: print rr.getMatlab()
 #\return Returns a string representing the Matlab code
-def getMatlab (self):
+def getMatlab(self):
     """
-    Returns Matlab string for current model
+    Matlab string of current model.
+    :returns Matlab string
     """
     return sbml2matlab(self.getCurrentSBML())
-  
+
+
 ##\brief Convenience method for exporting the current model as a Matlab function to a file
 #
 #Example: rr.exportToMatlab ('c:\\mymodel.m')
 def exportToMatlab (self, fileName):
     """
-    Save the current model as a Matlab file to the give file name
-    
-    eg
+    Save current model as Matlab file.
+
     rr.exportToMatlab ('mymodel.m')
+
+    :param fileName: file path of matlab file
+    :returns:
     """
-    saveToFile (fileName, self.getMatlab())
-    
+    saveToFile(fileName, self.getMatlab())
+
+
 ##\brief Returns the Antimony script for the current model
 #
 #Example: print rr.getAntimony()
 #\return Returns a string containing the Antimony script
-def getAntimony (self):
+def getAntimony(self):
     """
-    Returns Antimony script as a string for the current model
+    Antimony string of the current model state.
+
+    :returns antimony string
     """
-    return sbmlToAntimony (self.getCurrentSBML())
-##@} 
+    return sbmlToAntimony(self.getCurrentSBML())
+##@}
+
 
 # ---------------------------------------------------------------------
 ##\ingroup testmodels
@@ -630,34 +676,46 @@ def getAntimony (self):
 #\return Returns a reference to roadrunner
 def loadTestModel (str):
     """
-    Loads the test model into roadrunner
+    Loads the test model into roadrunner.
+
+    :returns RoadRunner instance with test model loaded
     """
     return roadrunner.testing.getRoadRunner(str)
+
 
 ##\brief Returns the SBML for a particular test model
 #
 #Example: sbmlStr = roadrunner.getTestModel ('feedback.xml') 
 # 
 #\return Returns a string containing the test model in SBML format
-def getTestModel (str):
+def getTestModel(str):
     """
-    Returns the model as a string from the test directory
+    Returns the test model as a string.
+
+    :returns string of test model
     """
-    return roadrunner.testing.getData (str)
-    
+    return roadrunner.testing.getData(str)
+
+
 ##\brief Returns the list of possible test models
 #
 #Example: print roadrunner.listTestModels() 
 # 
 #\return Returns the list of available test model names
 def listTestModels():
+    """
+    List roadrunner SBML test models.
+
+    :returns list of test model paths
+    """
     modelList = []
-    fileList = roadrunner.testing.dir ('*.xml')
+    fileList = roadrunner.testing.dir('*.xml')
     for pathName in fileList:
-        modelList.append (os.path.basename (pathName))
+        modelList.append(os.path.basename(pathName))
     return modelList
-##@} 	
-	
+##@}
+
+
 # ---------------------------------------------------------------------
 ##\ingroup resetmethods
 #@{
@@ -666,8 +724,15 @@ def listTestModels():
 #
 #Example: rr.resetToOrigin ()
 def resetToOrigin(self):
-    """ This resets the model back to the state is was when it 
-    was FIRST loaded, this includes all init() and parameters such as k1 etc.
+    """
+    Reset model to state when first loaded.
+    This resets the model back to the state when it was FIRST loaded,
+    this includes all init() and parameters such as k1 etc.
+
+    te.resetToOrigin()
+
+    identical to:
+        te.reset(roadrunner.SelectionRecord.ALL)
     """
     self.reset(roadrunner.SelectionRecord.ALL)
 
@@ -675,14 +740,18 @@ def resetToOrigin(self):
 ##\brief Reset all the state variables to the current initial condition values and the global parameters back to when the model was first loaded.
 #
 #Example: rr.resetAll ()
-def resetAll (self):    
+def resetAll(self):
     """
+    Reset all model variables to CURRENT init(X) values.
     This resets all variables, S1, S2 etc to the CURRENT init(X) values. It also resets all
-    parameter back to the values they had when the model was first loaded 
+    parameters back to the values they had when the model was first loaded.
     """
-    self.reset(roadrunner.SelectionRecord.TIME | roadrunner.SelectionRecord.RATE | \
-               roadrunner.SelectionRecord.FLOATING | roadrunner.SelectionRecord.GLOBAL_PARAMETER)
+    self.reset(roadrunner.SelectionRecord.TIME |
+               roadrunner.SelectionRecord.RATE |
+               roadrunner.SelectionRecord.FLOATING |
+               roadrunner.SelectionRecord.GLOBAL_PARAMETER)
 ##@} 
+
 
 # --------------------------------------------------------------------- 
 # Routines to support the Jarnac compatibility layer
@@ -695,58 +764,64 @@ def resetAll (self):
 # Can be further shortened to rr.sm()
 #
 #Example: mat = rr.getSm()
-def getSm (self):
+def getSm(self):
     """
     Returns the full reordered stoichiometry matrix.
-
-    Short-cut sm, eg
+    Short-cut sm, e.g.
     
     print rr.sm()
+    :returns full reordered stoichiometry matrix
     """
     return self.getFullStoichiometryMatrix()
- 
+
+
 ##\brief Get the names for the reactions in the current model
 #
 # Can be further shortened to rr.rs()
 #
 #Example: reactionNames = rr.getRs()  
-def getRs (self):
+def getRs(self):
     """
-    Returns the list of reaction Identifiers
-
-    Short-cut rs, eg
+    Returns the list of reaction Identifiers.
+    Short-cut rs, e.g.
     
-    print rr.rs()
+    print(rr.rs())
+
+    :returns reaction identifiers
     """
     return self.model.getReactionIds()
-    
+
+
 ##\brief Get the names for the floating species in the current model
 #
 # Can be further shortened to rr.fs()
 #
 #Example: floatingSpeciesNames = rr.getFs()  
-def getFs (self):
+def getFs(self):
     """  
-    Returns the list of floating species identifiers
-
-    Short-cut fs, eg
+    Returns list of floating species identifiers.
+    Short-cut fs, e.g.
     
-    print rr.fs()
+    print (rr.fs())
+
+    :returns floating species identifiers
     """
     return self.model.getFloatingSpeciesIds()
+
 
 ##\brief Get the names for the boundary species in the current model
 #
 # Can be further shortened to rr.bs()
 #
 #Example: boundarySpeciesNames = rr.getBs()  
-def getBs (self):
+def getBs(self):
     """  
-    Returns the list of boundary species identifiers
-
-    Short-cut bs, eg
+    Returns list of boundary species identifiers.
+    Short-cut bs, e.g.
     
-    print rr.bs()
+    print(rr.bs())
+
+    :returns boundary species identifiers
     """
     return self.model.getBoundarySpeciesIds()
 
@@ -758,24 +833,27 @@ def getBs (self):
 #Example: parameterNames = rr.getPs()  
 def getPs(self):
     """  
-    Returns the list of global parameters in the model.
+    Returns list of global parameters in the model.
     Short-cut ps, e.g.
     
-    print rr.ps()
+    print(rr.ps())
+
+    :returns global parameters
     """
     return self.model.getGlobalParameterIds()
- 
+
+
 ##\brief Get the names for the compartments in the current model
 #
 # Can be further shortened to rr.vs()
 #
 #Example: compartmentNames = rr.getVs()   
-def getVs (self):
+def getVs(self):
     """  
     Returns the list of compartment identifiers.
     Short-cut vs, e.g.
-    
-    print rr.vs()
+
+    print(rr.vs())
 
     :returns compartment identifiers
     """
@@ -797,7 +875,8 @@ def getDv(self):
     :returns rate of change
     """
     return self.model.getStateVectorRate()
-    
+
+
 ##\brief Get all the reaction rates in the current model
 #
 # Can be further shortened to rr.rv()
@@ -814,6 +893,7 @@ def getRv(self):
     """
     return self.model.getReactionRates()
 
+
 ##\brief Get all the floating species concentrations in the current model
 #
 #Example: reactionRates = rr.getSv()  
@@ -827,7 +907,8 @@ def getSv(self):
     :returns floating species concentrations
     """
     return self.model.getFloatingSpeciesConcentrations()
-    
+
+
 ##\brief Returns the full Jacobian for the currnet model at the current state
 #
 #Example: jacobian = rr.getfJac()  
