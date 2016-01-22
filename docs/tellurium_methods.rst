@@ -5,8 +5,6 @@ Tellurium Methods
 ----------------
 Utility Methods
 ----------------
-**Various utility methods**
-
 The most useful methods here are the notices routines. Roadrunner will offen issue warning or informational messages. For repeated simulation such messages will clutter up the outputs. noticesOff and noticesOn can be used to turn on an off the messages.
 ::
 
@@ -29,10 +27,8 @@ The most useful methods here are the notices routines. Roadrunner will offen iss
 .. autofunction:: tellurium.noticesOn
 
 --------------------
-File Help Functions
+File Help Methods
 --------------------
-**Save and Read file methods**
-
 Use these routines to save or read text files to and from disk.
 ::
 
@@ -41,11 +37,14 @@ Use these routines to save or read text files to and from disk.
 
 	sbmlstr = readFromFile('mymodel.xml')
 
---------------------
-Loading Models
---------------------
-**Methods to load models in different formats**
+.. autofunction:: tellurium.saveToFile
+.. autofunction:: tellurium.readFromFile
+.. autofunction:: tellurium.noticesOff
+.. autofunction:: tellurium.noticesOn
 
+-------------------------
+Model Loading Utilities
+-------------------------
 There are a variety of methods to load models into libRoadrunner. At the most basic level one can load the model directly using libRoadRunner:
 ::
 
@@ -75,11 +74,14 @@ This is the same as roadrunner.RoadRunner() but the method name is more suggesti
 		result = r.simulate (0, 10, 100)
 		r.plot (result)
 
-----------------------------------------
-Interconversion Methods
-----------------------------------------
-**Methods to interconvert different formats**
+.. autofunction:: tellurium.loadSBMLModel
+.. autofunction:: tellurium.loadAntimonyModel
+.. autofunction:: tellurium.loada
+.. autofunction:: tellurium.loadCellMLModel
 
+----------------------------------------
+Interconversion Utilities
+----------------------------------------
 Use these routines interconvert verious standard formats
 
 **Convert an SBML model into Antimony**
@@ -98,12 +100,16 @@ Use these routines interconvert verious standard formats
 	# Generate the SBML format of the Antimony model
 	print te.antimonyToSBML(antStr)
 
+.. autofunction:: tellurium.antimonyTosbml
+.. autofunction:: tellurium.sbmlToAntimony
+.. autofunction:: tellurium.cellmlFileToAntimony
+.. autofunction:: tellurium.cellmlFileToSBML
+.. autofunction:: tellurium.cellmlStrToAntimony
+.. autofunction:: tellurium.cellmlStrToSBML
 
 ----------------------------------------
 Stochastic Simulation Methods
 ----------------------------------------
-**Methods to carry out stochastic simulations**
-
 Use these routines to carry out Gillespie style stochastic simulations.
 
 **Stochastic simulation**::
@@ -126,11 +132,19 @@ Use these routines to carry out Gillespie style stochastic simulations.
 	# Merge the two runs together
 	rr.plot(np.vstack ((result1, result))
 
+
+.. autofunction:: tellurium.getSeed
+.. autofunction:: tellurium.setSeed
+.. autofunction:: tellurium.gillespie
+
+----------------------------------------
+SEDML Utilities
+----------------------------------------
+.. autofunction:: tellurium.experiment
+
 ----------------------------------------
 Math Utilities
 ----------------------------------------
-**Useful math utilities**
-
 Only one routine is currently available in this group which is a routine to compute the eigenvalues of given a matrix.
 ::
 
@@ -140,11 +154,11 @@ Only one routine is currently available in this group which is a routine to comp
 	m = np.matrix([[1,2],[5,7]])
 	print(te.getEigenvalues(m))
 
+.. autofunction:: tellurium.getEigenvalues
+
 ----------------------------------------
 Plotting Utilities
 ----------------------------------------
-**Useful plotting utilities**
-
 Two useful plotting routines. They assume that the first column in the array is the x-axis and the second and subsequent columns represent curves on the y-axis.
 ::
 
@@ -159,11 +173,14 @@ Two useful plotting routines. They assume that the first column in the array is 
 	# To get a legend use the roadrunner plot command
 	r.plot (result)
 
-----------------------------------------
-Model Reset Methods
-----------------------------------------
-**Model reset methods**
+.. autofunction:: tellurium.plotWithLegend
+.. autofunction:: tellurium.simulateAndPlot
+.. autofunction:: tellurium.plotArray
+.. autofunction:: tellurium.plot
 
+----------------------------------------
+Model Reset Utilities
+----------------------------------------
 Use these routines reset your model back to particular states
 ::
 
@@ -183,6 +200,9 @@ If you wish to reset a model back to the state it was what it was loaded, use th
 	# Reset the model back to the state it had when it was created
 	r.resetToOrigin()
 
+.. autofunction:: tellurium.resetToOrigin
+.. autofunction:: tellurium.resetAll
+
 ----------------------------------------
 Export Utilities
 ----------------------------------------
@@ -195,10 +215,25 @@ Use these routines to convert your model into a Matlab function.
 	print(r.getMatlab())
 	r.exportToMatlab("mymodel.m")
 
+.. autofunction:: tellurium.getMatlab
+.. autofunction:: tellurium.exportToMatlab
+.. autofunction:: tellurium.getAntimony
+
 ----------------------------------------
-jarnac Short-cut methods
+jarnac Short-cut Methods
 ----------------------------------------
-**Useful short-cut methods**
+Routines to support the Jarnac compatibility layer
+
+.. autofunction:: tellurium.getSm
+.. autofunction:: tellurium.getRs
+.. autofunction:: tellurium.getFs
+.. autofunction:: tellurium.getBs
+.. autofunction:: tellurium.getPs
+.. autofunction:: tellurium.getVs
+.. autofunction:: tellurium.getDv
+.. autofunction:: tellurium.getRv
+.. autofunction:: tellurium.getSv
+.. autofunction:: tellurium.getfJac
 
 ----------------------------------------
 Test Models
@@ -231,4 +266,41 @@ To look at one of the test model in Antimony form:
 
 	antstr = te.sbmlToAntimony (roadrunner.getTestModel ('feedback.xml'))
 	print(antStr)
+
+.. autofunction:: tellurium.loadTestModel
+.. autofunction:: tellurium.getTestModel
+
+----------------------------------------
+Model Functions
+----------------------------------------
+Routines flattened from model, aves typing and easier for finding the methods
+
+.. autofunction:: tellurium.getRatesOfChange
+.. autofunction:: tellurium.getBoundarySpeciesConcentrations
+.. autofunction:: tellurium.getBoundarySpeciesIds
+.. autofunction:: tellurium.getNumBoundarySpecies
+.. autofunction:: tellurium.getFloatingSpeciesConcentrations
+.. autofunction:: tellurium.getFloatingSpeciesIds
+.. autofunction:: tellurium.getNumFloatingSpecies
+.. autofunction:: tellurium.getGlobalParameterIds
+.. autofunction:: tellurium.getGlobalParameterValues
+.. autofunction:: tellurium.getNumGlobalParameters
+.. autofunction:: tellurium.getCompartmentIds
+.. autofunction:: tellurium.getCompartmentVolumes
+.. autofunction:: tellurium.getNumCompartments
+.. autofunction:: tellurium.getConservedMoietyValues
+.. autofunction:: tellurium.getNumConservedMoieties
+.. autofunction:: tellurium.getNumDepFloatingSpecies
+.. autofunction:: tellurium.getNumIndFloatingSpecies
+.. autofunction:: tellurium.getNumReactions
+.. autofunction:: tellurium.getReactionIds
+.. autofunction:: tellurium.getReactionRates
+.. autofunction:: tellurium.getNumEvents
+.. autofunction:: tellurium.setStartTime
+.. autofunction:: tellurium.setEndTime
+.. autofunction:: tellurium.getStartTime
+.. autofunction:: tellurium.getEndTime
+.. autofunction:: tellurium.getNumberOfPoints
+.. autofunction:: tellurium.setNumberOfPoints
+.. autofunction:: tellurium.getNumRateRules
 
