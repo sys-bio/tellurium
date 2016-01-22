@@ -1,0 +1,447 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Tellurium Methods &mdash; tellurium 1.3.0 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="tellurium 1.3.0 documentation" href="index.html"/>
+        <link rel="next" title="API" href="API.html"/>
+        <link rel="prev" title="Introduction" href="introduction.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> tellurium
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.3.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="">Tellurium Methods</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#utility-methods">Utility Methods</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#file-help-functions">File Help Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#loading-models">Loading Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#interconversion-methods">Interconversion Methods</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#stochastic-simulation-methods">Stochastic Simulation Methods</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#math-utilities">Math Utilities</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#plotting-utilities">Plotting Utilities</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#model-reset-methods">Model Reset Methods</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#export-utilities">Export Utilities</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#jarnac-short-cut-methods">jarnac Short-cut methods</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#test-models">Test Models</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="API.html">API</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="index.html">tellurium</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="index.html">Docs</a> &raquo;</li>
+      
+    <li>Tellurium Methods</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/tellurium_methods.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="tellurium-methods">
+<h1>Tellurium Methods<a class="headerlink" href="#tellurium-methods" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="utility-methods">
+<h2>Utility Methods<a class="headerlink" href="#utility-methods" title="Permalink to this headline">¶</a></h2>
+<p><strong>Various utility methods</strong></p>
+<p>The most useful methods here are the notices routines. Roadrunner will offen issue warning or informational messages. For repeated simulation such messages will clutter up the outputs. noticesOff and noticesOn can be used to turn on an off the messages.</p>
+<div class="highlight-python"><div class="highlight"><pre># Repeat a simulation many times
+
+# Load an SBML file
+r = roadrunner.RoadRunner(&#39;mymodel.xml&#39;)
+# Turn of notices so they don&#39;t clutter the output
+roadrunner.noticesOff()
+for i in range (0:20):
+  result = r.simulate (0, 10)
+  r.plot (result)
+  r.model.k1 = r.model.k1 + 0.2
+# Turn the notices back on
+roadrunner.noticesOn()
+</pre></div>
+</div>
+<dl class="function">
+<dt id="tellurium.getVersionInfo">
+<code class="descclassname">tellurium.</code><code class="descname">getVersionInfo</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium.html#getVersionInfo"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.getVersionInfo" title="Permalink to this definition">¶</a></dt>
+<dd><p>Prints version information for tellurium supported packages.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">None</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="tellurium.getTelluriumVersion">
+<code class="descclassname">tellurium.</code><code class="descname">getTelluriumVersion</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium.html#getTelluriumVersion"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.getTelluriumVersion" title="Permalink to this definition">¶</a></dt>
+<dd><p>Version number of tellurium.
+:returns: version string</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="tellurium.noticesOff">
+<code class="descclassname">tellurium.</code><code class="descname">noticesOff</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium.html#noticesOff"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.noticesOff" title="Permalink to this definition">¶</a></dt>
+<dd><p>Switch off the generation of notices to the user.
+Call this to stop roadrunner from printing warning message to the console.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="tellurium.noticesOn">
+<code class="descclassname">tellurium.</code><code class="descname">noticesOn</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium.html#noticesOn"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.noticesOn" title="Permalink to this definition">¶</a></dt>
+<dd><p>Switch on notice generation to the user.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="file-help-functions">
+<h2>File Help Functions<a class="headerlink" href="#file-help-functions" title="Permalink to this headline">¶</a></h2>
+<p><strong>Save and Read file methods</strong></p>
+<p>Use these routines to save or read text files to and from disk.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">r</span> <span class="o">=</span> <span class="n">te</span><span class="o">.</span><span class="n">loada</span><span class="p">(</span><span class="s1">&#39;S1 -&gt; S2; k1*S1; k1 = 0.1; S1 = 10&#39;</span><span class="p">)</span>
+<span class="n">saveToFile</span><span class="p">(</span><span class="s1">&#39;mymodel.m&#39;</span><span class="p">,</span> <span class="n">r</span><span class="o">.</span><span class="n">getMatlab</span><span class="p">())</span>
+
+<span class="n">sbmlstr</span> <span class="o">=</span> <span class="n">readFromFile</span><span class="p">(</span><span class="s1">&#39;mymodel.xml&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="loading-models">
+<h2>Loading Models<a class="headerlink" href="#loading-models" title="Permalink to this headline">¶</a></h2>
+<p><strong>Methods to load models in different formats</strong></p>
+<p>There are a variety of methods to load models into libRoadrunner. At the most basic level one can load the model directly using libRoadRunner:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">r</span> <span class="o">=</span> <span class="n">roadrunner</span><span class="o">.</span><span class="n">RoadRunner</span><span class="p">(</span><span class="s1">&#39;mymodel.xml&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Alternatively one can use these methods:</p>
+<p>This is the same as roadrunner.RoadRunner() but the method name is more suggestive of what it does. Like RoadRunner, loadSBML can accept a file name or a SBML string as it argument</p>
+<div class="highlight-python"><div class="highlight"><pre>r = te.loadSBMLModel (&#39;mymodel.xml&#39;)
+
+# To load an Antimony model use:
+r = te.loadAntimonyModel (antStr)
+
+# Or alternatively
+r = te.loadAntimonyModel (&#39;mymodel.ant&#39;)
+
+# The method loada is simply a shortcut to loadAntimonyModel
+r = loada (&#39;&#39;&#39;
+        S1 -&gt; S2; k1*S1;
+        S2 -&gt; S3; k2*S2;
+
+        k1= 0.1; k2 = 0.2;
+        S1 = 10; S2 = 0; S3 = 0;
+        &#39;&#39;&#39;)
+        result = r.simulate (0, 10, 100)
+        r.plot (result)
+</pre></div>
+</div>
+</div>
+<div class="section" id="interconversion-methods">
+<h2>Interconversion Methods<a class="headerlink" href="#interconversion-methods" title="Permalink to this headline">¶</a></h2>
+<p><strong>Methods to interconvert different formats</strong></p>
+<p>Use these routines interconvert verious standard formats</p>
+<p><strong>Convert an SBML model into Antimony</strong></p>
+<div class="highlight-python"><div class="highlight"><pre><span class="c1"># Load an SBML file</span>
+<span class="n">sbmlStr</span> <span class="o">=</span> <span class="n">te</span><span class="o">.</span><span class="n">readFromFile</span><span class="p">(</span><span class="s1">&#39;mymodel.xml&#39;</span><span class="p">)</span>
+<span class="c1"># Generate the Antimony format of the SBML model</span>
+<span class="k">print</span><span class="p">(</span><span class="n">te</span><span class="o">.</span><span class="n">sbmlToAntimony</span><span class="p">(</span><span class="n">sbmlStr</span><span class="p">))</span>
+</pre></div>
+</div>
+<p><strong>Convert an Antimony model into SBML</strong></p>
+<div class="highlight-python"><div class="highlight"><pre><span class="c1"># Load an Antimony file</span>
+<span class="n">antStr</span> <span class="o">=</span> <span class="n">te</span><span class="o">.</span><span class="n">readFromFile</span><span class="p">(</span><span class="s1">&#39;mymodel.ant&#39;</span><span class="p">)</span>
+<span class="c1"># Generate the SBML format of the Antimony model</span>
+<span class="k">print</span> <span class="n">te</span><span class="o">.</span><span class="n">antimonyToSBML</span><span class="p">(</span><span class="n">antStr</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="stochastic-simulation-methods">
+<h2>Stochastic Simulation Methods<a class="headerlink" href="#stochastic-simulation-methods" title="Permalink to this headline">¶</a></h2>
+<p><strong>Methods to carry out stochastic simulations</strong></p>
+<p>Use these routines to carry out Gillespie style stochastic simulations.</p>
+<p><strong>Stochastic simulation</strong>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">r</span> <span class="o">=</span> <span class="n">te</span><span class="o">.</span><span class="n">loada</span><span class="p">(</span><span class="s1">&#39;S1 -&gt; S2; k1*S1; k1 = 0.1; S1 = 40&#39;</span><span class="p">)</span>
+<span class="n">r</span><span class="o">.</span><span class="n">setSeed</span><span class="p">(</span><span class="mi">87675</span><span class="p">)</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">gillespie</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+<span class="n">r</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Run two simulations and combine the two</strong>:</p>
+<div class="highlight-python"><div class="highlight"><pre>import numpy as np
+import tellurium as te
+
+r = te.loadSBMLModel (&#39;mymodel.xml&#39;)
+seed= r.getSeed()
+result1 = r.gillespie (0, 100)
+r.model.k1 = r.model.k1*20
+result2 = r.gillespie (100, 200)
+# Merge the two runs together
+rr.plot(np.vstack ((result1, result))
+</pre></div>
+</div>
+</div>
+<div class="section" id="math-utilities">
+<h2>Math Utilities<a class="headerlink" href="#math-utilities" title="Permalink to this headline">¶</a></h2>
+<p><strong>Useful math utilities</strong></p>
+<p>Only one routine is currently available in this group which is a routine to compute the eigenvalues of given a matrix.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">tellurium</span> <span class="kn">as</span> <span class="nn">te</span>
+
+<span class="n">m</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">matrix</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">],[</span><span class="mi">5</span><span class="p">,</span><span class="mi">7</span><span class="p">]])</span>
+<span class="k">print</span><span class="p">(</span><span class="n">te</span><span class="o">.</span><span class="n">getEigenvalues</span><span class="p">(</span><span class="n">m</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="plotting-utilities">
+<h2>Plotting Utilities<a class="headerlink" href="#plotting-utilities" title="Permalink to this headline">¶</a></h2>
+<p><strong>Useful plotting utilities</strong></p>
+<p>Two useful plotting routines. They assume that the first column in the array is the x-axis and the second and subsequent columns represent curves on the y-axis.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="c1"># Load a model and carry out a simulation generating 100 points</span>
+<span class="n">r</span> <span class="o">=</span> <span class="n">te</span><span class="o">.</span><span class="n">loada</span> <span class="p">(</span><span class="s1">&#39;S1 -&gt; S2; k1*S1; k1 = 0.1; S1 = 10&#39;</span><span class="p">)</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">simulate</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+
+<span class="c1"># No legend will be add to the plot, useful for plotting large</span>
+<span class="c1"># numbers of curves where a legend would get in the way</span>
+<span class="n">te</span><span class="o">.</span><span class="n">plotArray</span> <span class="p">(</span><span class="n">result</span><span class="p">)</span>
+
+<span class="c1"># To get a legend use the roadrunner plot command</span>
+<span class="n">r</span><span class="o">.</span><span class="n">plot</span> <span class="p">(</span><span class="n">result</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="model-reset-methods">
+<h2>Model Reset Methods<a class="headerlink" href="#model-reset-methods" title="Permalink to this headline">¶</a></h2>
+<p><strong>Model reset methods</strong></p>
+<p>Use these routines reset your model back to particular states</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">r</span> <span class="o">=</span> <span class="n">te</span><span class="o">.</span><span class="n">loada</span> <span class="p">(</span><span class="s1">&#39;S1 -&gt; S2; k1*S1; k1 = 0.1; S1 = 10&#39;</span><span class="p">)</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">simulate</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+<span class="n">p</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">S1</span> <span class="o">=</span> <span class="mf">2.0</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">simulate</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+<span class="c1"># Reset the model back to its original state</span>
+<span class="n">r</span><span class="o">.</span><span class="n">reset</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>If you wish to reset a model back to the state it was what it was loaded, use the resetToOrigin method</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">r</span> <span class="o">=</span> <span class="n">te</span><span class="o">.</span><span class="n">loada</span> <span class="p">(</span><span class="s1">&#39;S1 -&gt; S2; k1*S1; k1 = 0.1; S1 = 10&#39;</span><span class="p">)</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">simulate</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+<span class="c1"># Make lots of different kinds of changes to the model</span>
+<span class="c1"># Reset the model back to the state it had when it was created</span>
+<span class="n">r</span><span class="o">.</span><span class="n">resetToOrigin</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="export-utilities">
+<h2>Export Utilities<a class="headerlink" href="#export-utilities" title="Permalink to this headline">¶</a></h2>
+<p><strong>Matlab export utilities</strong></p>
+<p>Use these routines to convert your model into a Matlab function.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">r</span> <span class="o">=</span> <span class="n">te</span><span class="o">.</span><span class="n">loada</span><span class="p">(</span><span class="s1">&#39;S1 -&gt; S2; k1*S1; k1 = 0.1; S1 = 10&#39;</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">getMatlab</span><span class="p">())</span>
+<span class="n">r</span><span class="o">.</span><span class="n">exportToMatlab</span><span class="p">(</span><span class="s2">&quot;mymodel.m&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="jarnac-short-cut-methods">
+<h2>jarnac Short-cut methods<a class="headerlink" href="#jarnac-short-cut-methods" title="Permalink to this headline">¶</a></h2>
+<p><strong>Useful short-cut methods</strong></p>
+</div>
+<div class="section" id="test-models">
+<h2>Test Models<a class="headerlink" href="#test-models" title="Permalink to this headline">¶</a></h2>
+<p><strong>Methods to acess the builtin test models.</strong></p>
+<p>RoadRunner has built into it a number of predefined models that can be use
+to easily try out roadrunner if so exmaple you don&#8217;t have a model at hand.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="c1"># To get the number of builtin models use listTestModels</span>
+<span class="k">print</span><span class="p">(</span><span class="n">roadrunner</span><span class="o">.</span><span class="n">listTestModels</span><span class="p">())</span>
+<span class="p">[</span><span class="s1">&#39;feedback.xml&#39;</span><span class="p">,</span> <span class="s1">&#39;test_1.xml&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>To load one of the test models use loadTestModel:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">r</span> <span class="o">=</span> <span class="n">roadrunner</span><span class="o">.</span><span class="n">loadTestModel</span> <span class="p">(</span><span class="s1">&#39;feedback.xml&#39;</span><span class="p">)</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">simulate</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+<span class="n">r</span><span class="o">.</span><span class="n">plot</span> <span class="p">(</span><span class="n">result</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>If you need to obtain the SBML for the test model, use getTestModel</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">sbmlStr</span> <span class="o">=</span> <span class="n">roadrunner</span><span class="o">.</span><span class="n">getTestModel</span><span class="p">()</span>
+<span class="n">saveToFile</span><span class="p">(</span><span class="s1">&#39;model.xml&#39;</span><span class="p">,</span> <span class="n">sbmlStr</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>To look at one of the test model in Antimony form:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">antstr</span> <span class="o">=</span> <span class="n">te</span><span class="o">.</span><span class="n">sbmlToAntimony</span> <span class="p">(</span><span class="n">roadrunner</span><span class="o">.</span><span class="n">getTestModel</span> <span class="p">(</span><span class="s1">&#39;feedback.xml&#39;</span><span class="p">))</span>
+<span class="k">print</span><span class="p">(</span><span class="n">antStr</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="API.html" class="btn btn-neutral float-right" title="API" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="introduction.html" class="btn btn-neutral" title="Introduction" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016, sys-bio.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'1.3.0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

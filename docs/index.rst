@@ -11,6 +11,9 @@ Contents:
 .. toctree::
    :maxdepth: 2
 
+   introduction.rst
+   tellurium_methods.rst
+   API.rst
 
 
 Indices and tables

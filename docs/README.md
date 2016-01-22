@@ -1,21 +1,24 @@
 # Documentation of tellurium
 
-Documentation is build with sphinx
+Documentation is build with sphinx and read the docs schema.
+The requirements are
 ```
-pip install sphinx sphinx-autobuild
+pip install sphinx sphinx-autobuild sphinx_rtd_theme
 ```
 
-# Create Documentatation 
+# Create Documentation 
+To create the documentation
 ```
+cd tellurium/docs
 make html
 ```
 
-Auto reload
+TODO: Auto reload
+TODO: sections
+TODO: Full API documentation
 ```
 make _apidoc _build html
 
 sphinx-apidoc -o _apidoc ../tellurium
 ```
 
-# read the docs schema
-https://github.com/snide/sphinx_rtd_theme

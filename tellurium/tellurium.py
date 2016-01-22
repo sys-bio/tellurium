@@ -47,19 +47,16 @@ def setHold(myHold):
 def getHold():
     global tehold
     return tehold
-    
+
+
 # ---------------------------------------------------------------------
-##\ingroup utility
-#@{
-
-
-##\brief Prints version information of tellurium supported packages
-#
-#\return Returns None
+# group: utility
+# ---------------------------------------------------------------------
 def getVersionInfo():
     """
     Prints version information for tellurium supported packages.
-    :return: None
+
+    :returns: None
     """
     # FIXME: method name not reflecting function (get vs. print)
     print("tellurium: ", getTelluriumVersion())
@@ -74,7 +71,7 @@ def getVersionInfo():
 def getTelluriumVersion():
     """
     Version number of tellurium.
-    Returns: version string
+    :returns: version string
     """
     try:
         import os
