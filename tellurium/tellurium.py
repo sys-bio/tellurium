@@ -72,12 +72,12 @@ def getTelluriumVersion():
     try:
         import os
         f = open(os.path.join(os.path.dirname(__file__), 'VERSION.txt'), 'r')
-        ver = f.read().rstrip()
+        version = f.read().rstrip()
         f.close()
     except IOError:
         # FIXME: the version should be encoded in exactly one place (bad hack)
-        ver = "1.3.0"
-    return ver
+        version = "1.3.0"
+    return version
 
 __version__ = getTelluriumVersion()
 
@@ -572,12 +572,16 @@ def loadTestModel (str):
 
 
 def getTestModel(str):
-    """Returns the particular test model as a string.
+    """SBML of given test model as a string.
     ::
 
-        sbmlStr = roadrunner.getTestModel ('feedback.xml')
+        # load test model as SBML
+        sbml = te.getTestModel('feedback.xml')
+        rr = te.loadSBMLModel(sbml)
+        # simulate
+        s = rr.simulate(0, 100, 200)
 
-    :returns: string of test model
+    :returns: SBML string of test model
     """
     return roadrunner.testing.getData(str)
 
