@@ -1,16 +1,31 @@
-# Documentation of tellurium code
+# tellurium API documentation
 
-The documentation for tellurium is build with sphinx from the python source code and the `*.rst` files in `tellurium/docs`.
+The API documentation of tellurium is build from the python source code and the `*.rst` files located in `tellurium/docs`. The documentation is based on sphinx and uses the information encoded in the docstrings. This replaces the old API documentation based on doxygen.
+
+## Build Documentation 
 The python requirements for building the documentation are
 ```
 pip install sphinx sphinx-autobuild sphinx_rtd_theme
 ```
-This replaces the documentation via doxygen.
+To build the API documentation use the build script `make_docs.sh` in the `tellurium/docs` folder, which mainly does
+```{shell}
+# remove old documentation
+rm -rf _apidoc
+rm -rf _built
 
-## Documentation of python objects
-Modules, classes, functions and methods are documented via their respective docstrings in sphinx format with information available at http://www.sphinx-doc.org/en/stable/
+# create auto documentation for tellurium packages
+sphinx-apidoc -o _apidoc ../tellurium
 
-An example of the sphinx syntax is provided below:
+# create html documentation
+make html
+
+# view documentation in docs/_built
+firefox _build/html/index.html
+```
+
+## HowTo document python code in tellurium
+Modules, classes, functions and methods can be documented via their respective docstrings in sphinx format (for information see http://www.sphinx-doc.org/en/stable/). An example of the sphinx syntax is provided below:
+
 ```{python}
 def function(arg1, arg2):
     """Short sentence describing the funtion. 
@@ -34,25 +49,7 @@ Important points are:
 
 There are many more options available, see the sphinx documentation for more details.
 
-## Create Documentation 
-At the moment the documentation can be created via the script `make_docs.sh` in the docs folder
-```
-# remove old documentation
-rm -rf _apidoc
-rm -rf _built
-
-# create auto documentation for tellurium package.
-sphinx-apidoc -o _apidoc ../tellurium
-
-# create html documentation
-make html
-
-# view new documentation in docs/_built
-firefox _build/html/index.html
-```
-The documentation should be created automatically before commits (currently not implemented).
-
 ## Open Issues
-* Auto reload & commit hook for automatic generation
-* links between functions in documentation
-* python formating for all source examples
+* commit hook for automatic generation (documentation should be created automatically on commits
+* links between functions in documentation (i.e. hyperlinks between functions for easy navigation in API)
+* python format of all source examples (if source examples provided make sure that they have python syntax highlighting)
