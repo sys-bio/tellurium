@@ -1,17 +1,28 @@
-# Author: J Kyle Medley
-# Date: 09/04/2015
+"""
+Utilities for working with combine archives.
 
-import os.path
+@author: J Kyle Medley
+@date: 09/04/2015
+"""
+from __future__ import print_function, division
+
 from os.path import exists, isfile, basename
 from zipfile import ZipFile
 import phrasedml
 import antimony
 import re
 
+
 class CombineAsset(object):
-    # Get the URI for sbml, sedml, etc.
     @classmethod
     def getCOMBINEResourceURI(cls, x):
+        """ Get URI for uri type."
+
+        :param x: uri type (either 'sbml' or 'sed-ml')
+        :type x: str
+        :return: uri of the combine specification
+        :rtype: str
+        """
         types = {
             'sbml': 'http://identifiers.org/combine.specifications/sbml',
             'sed-ml': 'http://identifiers.org/combine.specifications/sed-ml'
@@ -43,6 +54,7 @@ class CombineRawAsset(CombineAsset):
     def getExportedStr(self):
         return self.getRawStr()
 
+
 class CombineFileAsset(CombineAsset):
     def __init__(self, filename):
         self.filename = filename
@@ -72,6 +84,7 @@ class CombineSBMLAsset(CombineAsset):
     def getResourceURI(self):
         return CombineAsset.getCOMBINEResourceURI('sbml')
 
+
 class CombineAntimonyAsset(CombineAsset):
     def getSBMLStr(self):
         antimony.clearPreviousLoads()
@@ -81,9 +94,11 @@ class CombineAntimonyAsset(CombineAsset):
     def getResourceURI(self):
         return CombineAsset.getCOMBINEResourceURI('sbml')
 
+
 class CombineSEDMLAsset(CombineAsset):
     def getResourceURI(self):
         return CombineAsset.getCOMBINEResourceURI('sed-ml')
+
 
 class CombinePhraSEDMLAsset(CombineAsset):
     def isPhraSEDML():
@@ -131,7 +146,7 @@ class CombineAntimonyFileAsset(CombineFileAsset, CombineAntimonyAsset):
 
 # SEDML:
 
-class CombineSEDMLRawAsset(CombineRawAsset,   CombineSEDMLAsset):
+class CombineSEDMLRawAsset(CombineRawAsset, CombineSEDMLAsset):
     pass
 
 class CombineSEDMLFileAsset(CombineFileAsset, CombineSEDMLAsset):
@@ -139,10 +154,12 @@ class CombineSEDMLFileAsset(CombineFileAsset, CombineSEDMLAsset):
 
 # PhraSEDML:
 
+
 class CombinePhraSEDMLRawAsset(CombineRawAsset,   CombinePhraSEDMLAsset):
     # return SEDML, since COMBINE doesn't support PhraSEDML
     def getExportedStr(self):
         return self.getSEDMLStr()
+
 
 class CombinePhraSEDMLFileAsset(CombineFileAsset, CombinePhraSEDMLAsset):
     # converts a phrasedml extension to a sedml extension
@@ -159,6 +176,7 @@ class CombinePhraSEDMLFileAsset(CombineFileAsset, CombinePhraSEDMLAsset):
     # return SEDML, since COMBINE doesn't support PhraSEDML
     def getExportedStr(self):
         return self.getSEDMLStr()
+
 
 class MakeCombine:
     def __init__(self):

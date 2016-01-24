@@ -31,7 +31,7 @@
 
   
     <link rel="top" title="tellurium 1.3.0 documentation" href="index.html"/>
-        <link rel="next" title="API" href="API.html"/>
+        <link rel="next" title="tellurium package" href="_apidoc/tellurium.html"/>
         <link rel="prev" title="Introduction" href="introduction.html"/> 
 
   
@@ -98,7 +98,7 @@
 <li class="toctree-l2"><a class="reference internal" href="#model-methods">Model Methods</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="API.html">API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="_apidoc/tellurium.html">API (tellurium)</a></li>
 </ul>
 
             
@@ -1113,15 +1113,19 @@ to easily try out roadrunner if so exmaple you don&#8217;t have a model at hand.
 <dl class="function">
 <dt id="tellurium.getTestModel">
 <code class="descclassname">tellurium.</code><code class="descname">getTestModel</code><span class="sig-paren">(</span><em>str</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium.html#getTestModel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.getTestModel" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns the particular test model as a string.</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">sbmlStr</span> <span class="o">=</span> <span class="n">roadrunner</span><span class="o">.</span><span class="n">getTestModel</span> <span class="p">(</span><span class="s1">&#39;feedback.xml&#39;</span><span class="p">)</span>
+<dd><p>SBML of given test model as a string.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="c1"># load test model as SBML</span>
+<span class="n">sbml</span> <span class="o">=</span> <span class="n">te</span><span class="o">.</span><span class="n">getTestModel</span><span class="p">(</span><span class="s1">&#39;feedback.xml&#39;</span><span class="p">)</span>
+<span class="n">rr</span> <span class="o">=</span> <span class="n">te</span><span class="o">.</span><span class="n">loadSBMLModel</span><span class="p">(</span><span class="n">sbml</span><span class="p">)</span>
+<span class="c1"># simulate</span>
+<span class="n">s</span> <span class="o">=</span> <span class="n">rr</span><span class="o">.</span><span class="n">simulate</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">200</span><span class="p">)</span>
 </pre></div>
 </div>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">string of test model</td>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">SBML string of test model</td>
 </tr>
 </tbody>
 </table>
@@ -1290,7 +1294,7 @@ to easily try out roadrunner if so exmaple you don&#8217;t have a model at hand.
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="API.html" class="btn btn-neutral float-right" title="API" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="_apidoc/tellurium.html" class="btn btn-neutral float-right" title="tellurium package" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="introduction.html" class="btn btn-neutral" title="Introduction" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
