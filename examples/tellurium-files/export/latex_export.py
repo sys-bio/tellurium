@@ -1,3 +1,6 @@
+"""
+Export simulation result to latex.
+"""
 import tellurium as te
 
 newModel = '''
@@ -11,14 +14,12 @@ newModel = '''
 
 rr = te.loadAntimonyModel(newModel)
 result = rr.simulate(0, 30)
-p = te.Export.export(rr)
-
-p.color = ['blue', 'green']
-p.legend = ['S1', 'S2']
-p.xlabel = 'Time'
-p.ylabel = 'Concentration'
-p.exportComplete = True
-p.location = './'
-p.filename = 'newModel'
+p = te.Export.export(rr,
+                     color=['blue', 'green'],
+                     legend=['S1', 'S2'],
+                     xlabel='Time',
+                     ylabel='Concentration',
+                     exportComplete=True,
+                     saveto='./',
+                     fileName='newModel')
 p.saveToFile(result)
-p.getString()
