@@ -1,5 +1,5 @@
 """
-Utility functions for optimization.
+Utility functions for parameter estimation.
 """
 from __future__ import print_function, division
 import numpy as np
@@ -8,6 +8,10 @@ import matplotlib.pyplot as plt
 
 
 class DiffEvolution(object):
+    """ Differential evolution.
+    Differential evolution is an iterative heuristic optimization method that
+    can be used on nondifferentiable and discrete problems (Storn & Price 1997).
+    """
     def __init__(self, rr, fitnessFcn, simFcn,
                  ASYNC=False,
                  CROSSOVER_RATE=0.5,
@@ -87,7 +91,6 @@ class DiffEvolution(object):
                     raise(ex)
 
     def seedPopulation(self, firstGen):
-
         for i in range(self.POPULATION):
             newMember = self.createRandomMember()
             firstGen['members'].append(newMember)
