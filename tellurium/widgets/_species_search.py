@@ -7,7 +7,6 @@ import IPython.html.widgets as w
 from IPython.display import display, clear_output
 import bioservices
 
-
 class SearchBySpeciesForm(object):
     def __init__(self):
         self.s = bioservices.BioModels()
