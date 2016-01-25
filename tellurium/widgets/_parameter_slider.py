@@ -10,9 +10,14 @@ from roadrunner import SelectionRecord
 
 
 def simulateAndPlot(r, *args, **kwargs):
-    """ Simulate with r.simulate with given arguments and plot with tellurium. """
+    """ Simulate with r.simulate with given arguments and plot with tellurium.
+
+    :returns: simulation result
+    :rtype: NamedArray
+    """
     result = r.simulate(*args, **kwargs)
     te.plotWithLegend(r, result)
+    return result
 
 
 class ParameterSlider(object):
@@ -69,6 +74,7 @@ class ParameterSlider(object):
         kwargs = {}
 
         def runSimulation(start=0, stop=100, steps=100, **kwargs):
+            """ Function run in interact. """
             # full model reset
             r.reset(SelectionRecord.ALL)
             # set parameters, key:value pairs
@@ -82,14 +88,14 @@ class ParameterSlider(object):
                     warnings.warn(e)
             # simulate
             try:
-                simulateAndPlot(r, start, stop, steps)
+                results = simulateAndPlot(r, start, stop, steps=steps)
             except:
                 # error in simulation
                 e = sys.exc_info()
                 warnings.warn(e)
 
         # create FloatSlider for all parameters
-        for i, pid in enumerate(paramIds):
+        for pid in paramIds:
             val = r[pid]
             try:
                 r[pid] = val
