@@ -5,7 +5,17 @@ The requirements can be installed via
 pip install nose coverage 
 ```
 ## Run tests
-Tests should be run in the `tellurium/tests` folder and can be executed via
+### tellurium
+To run the test suite in tellurium do
+```{python}
+import tellurium.tests.test_runner as tetest
+runner = tetest.TestRunner()
+runner.te_passes_tests()
+```
+which returns `True` if all tests passed.
+
+### console
+Tests are run in the `tellurium/tests` folder and can be executed on the console via
 ```
 nosetests
 ```
