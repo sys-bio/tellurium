@@ -11,29 +11,31 @@ Support routines for tellurium
 
 from __future__ import print_function, division
 
-import matplotlib.pyplot as plt
+import os
 import roadrunner
 import roadrunner.testing
 import antimony
-import tellurium
-import os
-
+import matplotlib.pyplot as plt
 
 try:
     import tecombine as combine
 except ImportError as e:
+    combine = None
     roadrunner.Logger.log(roadrunner.Logger.LOG_WARNING, str(e))
 try:
     import SedmlToRr
 except ImportError as e:
+    SedmlToRr = None
     roadrunner.Logger.log(roadrunner.Logger.LOG_WARNING, str(e))    
 try:
     import tephrasedml
 except ImportError as e:
+    tephrasedml = None
     roadrunner.Logger.log(roadrunner.Logger.LOG_WARNING, str(e))
 try:
     from sbml2matlab import sbml2matlab
 except ImportError as e:
+    sbml2matlab = None
     roadrunner.Logger.log(roadrunner.Logger.LOG_WARNING, str(e))
 
 
@@ -78,8 +80,6 @@ def getTelluriumVersion():
         # FIXME: the version should be encoded in exactly one place (bad hack)
         version = "1.3.0"
     return version
-
-__version__ = getTelluriumVersion()
 
 
 def noticesOff():

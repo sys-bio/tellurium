@@ -1,5 +1,10 @@
-from Tkinter import Tk
+"""
+Export utilities.
+"""
+
+from __future__ import print_function, division
 import os.path
+
 
 class export (object):
     def __init__(self, rr):
@@ -70,11 +75,13 @@ class export (object):
                     
                 
     def saveToOneFile(self, result):
-        """Creates one .txt file with LaTeX code and results. Takes two arguments, results of 
+        """ Creates one .txt file with LaTeX code and results.
+        Takes two arguments, results of
         simulation and name of file to be created. Same options as for saveToFile method.
-        
-        result = rr.simulate(0, 6, 20, ['Time', 'S1', 'S2'])
-        p.exportOne(result, model1)"""
+        ::
+            result = rr.simulate(0, 6, 20, ['Time', 'S1', 'S2'])
+            p.exportOne(result, model1)
+        """
         
         columnNumber = result.shape[1] - 1
         if self.saveto is not None:
@@ -110,6 +117,4 @@ class export (object):
             if self.exportComplete is True: f.write('\\end{document}')
     
     def getString(self):
-        print self.exportString
-        
-        
+        print(self.exportString)

@@ -5,7 +5,6 @@ from __future__ import print_function, division
 import sys
 import ipywidgets
 import warnings
-import roadrunner
 from roadrunner import SelectionRecord
 
 
@@ -16,7 +15,7 @@ def simulateAndPlot(r, *args, **kwargs):
     te.plotWithLegend(r, result)
 
 
-class ParameterSlider:
+class ParameterSlider(object):
     """
     Create interactive sliders to change model parameters.
 

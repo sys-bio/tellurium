@@ -29,7 +29,7 @@ class CombineAsset(object):
         }
         return types[x]
 
-    def isPhraSEDML():
+    def isPhraSEDML(self):
         return False
 
 # Raw/file assets:
@@ -68,7 +68,7 @@ class CombineFileAsset(CombineAsset):
     def getFileName(self):
         return self.filename
 
-    def getArchName(self):
+    def getArchName(self, f):
         return self.getbasename(f)
 
     def getRawStr(self):
@@ -101,7 +101,7 @@ class CombineSEDMLAsset(CombineAsset):
 
 
 class CombinePhraSEDMLAsset(CombineAsset):
-    def isPhraSEDML():
+    def isPhraSEDML(self):
         return True
 
     def getSEDMLStr(self):
@@ -137,7 +137,7 @@ class CombineAntimonyFileAsset(CombineFileAsset, CombineAntimonyAsset):
             raise RuntimeError('Unrecognized file name: {}'.format(filename))
         return filename.replace(m.groups()[0], 'xml')
 
-    def getArchName(self):
+    def getArchName(self, f):
         return self.replace_ext(self.getbasename(f))
 
     # return SEDML, since COMBINE doesn't support PhraSEDML
@@ -170,7 +170,7 @@ class CombinePhraSEDMLFileAsset(CombineFileAsset, CombinePhraSEDMLAsset):
             raise RuntimeError('Unrecognized file name: {}'.format(filename))
         return filename.replace(m.groups()[0], 'xml')
 
-    def getArchName(self):
+    def getArchName(self, f):
         return self.replace_pml_ext(self.getbasename(f))
 
     # return SEDML, since COMBINE doesn't support PhraSEDML

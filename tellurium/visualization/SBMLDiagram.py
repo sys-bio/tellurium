@@ -1,7 +1,16 @@
-class SBMLDiagram():
-    '''
-    Create a network diagram from a sbml model.
-    '''
+"""
+SBMLDiagram extension via graphviz.
+"""
+from __future__ import print_function, division
+import os
+import tempfile
+import libsbml
+import pygraphviz as pgv
+from IPython.display import Image, display
+
+
+class SBMLDiagram(object):
+    """ Create a network diagram from a sbml model. """
 
     def __init__(self, sbml,
                  species={},
@@ -9,13 +18,19 @@ class SBMLDiagram():
                  reactants={},
                  products={},
                  modifiers={}):
-        '''
-        sbml -- an SBML string, libsbml.SBMLDocument object, or
-        libsbml.Model object
-        '''
-        import pygraphviz as pgv
-        import libsbml
-
+        """
+        :param sbml: SBML string, libsbml.SBMLDocument object, or libsbml.Model object
+        :param species:
+        :type species:
+        :param reactions:
+        :type reactions:
+        :param reactants:
+        :type reactants:
+        :param products:
+        :type products:
+        :param modifiers:
+        :type modifiers:
+        """
         if isinstance(sbml, basestring):
             self.doc = libsbml.readSBMLFromString(sbml)
             self.model = self.doc.getModel()
@@ -48,18 +63,14 @@ class SBMLDiagram():
             for s in r.modifiers:
                 self.G.add_edge(s.getSpecies(), r.getId(), **modifiers)
 
-    def draw(self,
-             layout='neato'):
-        '''
-        Draw the graph
-
+    def draw(self, layout='neato'):
+        """ Draw the graph.
         Optional layout=['neato'|'dot'|'twopi'|'circo'|'fdp'|'nop']
         will use specified graphviz layout method.
-        '''
-        import tempfile
-        from IPython.display import Image, display
-        import os
 
+        :param layout: pygraphviz layout algorithm (default: 'neato')
+        :type layout: str
+        """
         f = tempfile.NamedTemporaryFile()
         fname = f.name + '.png'
         self.G.layout(prog=layout)

@@ -1,9 +1,15 @@
+"""
+Utility classes for parameter scans.
+"""
+from __future__ import print_function, division
+import numpy as np
+import matplotlib
+
 import matplotlib.pyplot as plt
 from matplotlib.collections import PolyCollection
 from mpl_toolkits.mplot3d import Axes3D
 from matplotlib.ticker import LinearLocator, FormatStrFormatter
-import numpy as np
-import matplotlib
+
 
 class ParameterScan (object):
     def __init__(self, rr):
@@ -87,7 +93,7 @@ class ParameterScan (object):
         mdl = self.rr.model
         if self.value is None:
             self.value = mdl.getFloatingSpeciesIds()[0]
-            print 'Warning: self.value not set. Using self.value = {0}'.format(self.value)
+            print('Warning: self.value not set. Using self.value = {0}'.format(self.value))
         elif not isinstance(self.value, str):
             raise ValueError('self.value must be a string')
         elif self.value not in mdl.getFloatingSpeciesIds() and self.value not in mdl.getBoundarySpeciesIds():
@@ -265,11 +271,11 @@ class ParameterScan (object):
                 self.independent = ['Time']
                 defaultParameter = self.rr.model.getGlobalParameterIds()[0]
                 self.independent.append(defaultParameter)
-                print 'Warning: self.independent not set. Using: {0}'.format(self.independent)
+                print('Warning: self.independent not set. Using: {0}'.format(self.independent))
             if self.dependent is None:
                 defaultSpecies = self.rr.model.getFloatingSpeciesIds()[0]
                 self.dependent = defaultSpecies
-                print 'Warning: self.dependent not set. Using: {0}'.format(self.dependent)
+                print('Warning: self.dependent not set. Using: {0}'.format(self.dependent))
                 
             if len(self.independent) < 2:
                 raise ValueError('self.independent must contain two independent variables')
@@ -337,7 +343,7 @@ class ParameterScan (object):
             plt.show()
         
         except Exception as e:
-            print 'error: {0}'.format(e.message)
+            print('error: {0}'.format(e.message))
 
     def plotMultiArray(self, param1, param1Range, param2, param2Range):
         """Plots separate arrays for each possible combination of the contents of param1range and
@@ -403,13 +409,13 @@ class ParameterScan (object):
             try:
                 color1 = matplotlib.colors.colorConverter.to_rgb('%s' % color1)
             except ValueError:
-                print '"{0}" is not a valid color name, using default "blue" instead'.format(color1)
+                print('"{0}" is not a valid color name, using default "blue" instead'.format(color1))
                 color1 = matplotlib.colors.colorConverter.to_rgb('blue')
         if isinstance(color2, str) is True:
             try:
                 color2 = matplotlib.colors.colorConverter.to_rgb('%s' % color2)
             except ValueError:
-                print '"{0}" is not a valid color name, using default "blue" instead'.format(color2)
+                print('"{0}" is not a valid color name, using default "blue" instead'.format(color2))
                 color2 = matplotlib.colors.colorConverter.to_rgb('blue')
 
         cdict = {'red': ((0., 0., color1[0]),
@@ -484,7 +490,7 @@ class SteadyStateScan (object):
     def steadyStateSim(self):
         if self.value is None:
             self.value = self.rr.model.getFloatingSpeciesIds()[0]
-            print 'Warning: self.value not set. Using self.value = %s' % self.value
+            print('Warning: self.value not set. Using self.value = %s' % self.value)
         if self.startValue is None:
             self.startValue = self.rr.model[self.value]
         if self.endValue is None:
@@ -509,7 +515,7 @@ class SteadyStateScan (object):
 
     def plotArray(self):
         result = self.steadyStateSim()
-        print result
+        print(result)
         if self.color is None:
             plt.plot(result[:,0], result[:,1:], linewidth = self.width)
         else:

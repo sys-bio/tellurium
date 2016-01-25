@@ -14,9 +14,18 @@
 #
 # the .sedml extension indicates a sedml file, the .sedx extension indicates a sedml archive
 
-import sys, re, zipfile, shutil
+
+# from __future__ import print_function, division
+# FIXME: make print statements py3 conform, i.e. add () for print and uncomment the import line before
+
+import sys
 import os.path
+import re
+import zipfile
+import sedml2py.unzipy as uz
 import libsedml
+import StringIO
+import httplib
 from collections import namedtuple
 
 MatchingSetsOfVariableIDs = namedtuple("MatchingSetsOfVariableIDs", "datagenID, taskReference, sedmlID, sbmlID")
@@ -28,6 +37,7 @@ mapping = [ ('repeated','r'), ('Repeated','r'), ('task','t'), ('Task', 't'),
                        ('data','d'), ('Data','d'), ('generator','g'), ('Generator', 'g')]
                        # Map of replaced words
 
+
 # Entry point
 def sedml_to_python(fullPathName):      # full path name to SedML model
     from os.path import basename
@@ -35,7 +45,8 @@ def sedml_to_python(fullPathName):      # full path name to SedML model
 
     modelName = os.path.splitext(basename(fullPathName))[0]
     extension = os.path.splitext(basename(fullPathName))[1]
-    path = fullPathName.rsplit(basename(fullPathName),1)[0]
+    path = fullPathName.rsplit(basename(fullPathName), 1)[0]
+
     class Tee(object):
         def __init__(self, *files):
             self.files = files
@@ -44,7 +55,7 @@ def sedml_to_python(fullPathName):      # full path name to SedML model
                 f.write(obj)
 
     if extension == ".sedx":
-        import unzipy as uz
+
         zip = zipfile.ZipFile(fullPathName, 'r')
         path = path + modelName
         uz.unZip(path, zip)
@@ -52,41 +63,41 @@ def sedml_to_python(fullPathName):      # full path name to SedML model
         fullPathName = uz.readManifest(path + "/manifest.xml")
         k = fullPathName.rfind("/")
         fullPathName = fullPathName[k+1:]
-        fullPathName = path + "/" + fullPathName;
+        fullPathName = path + "/" + fullPathName
 
     sedmlDoc = libsedml.readSedML(fullPathName)
     if sedmlDoc.getErrorLog().getNumFailsWithSeverity(libsedml.LIBSEDML_SEV_ERROR) > 0:
-        print sedmlDoc.getErrorLog().toString()
+        print(sedmlDoc.getErrorLog().toString())
         sys.exit(2)
 
-    import StringIO
+
     f = StringIO.StringIO()
     original = sys.stdout
     #sys.stdout = Tee(sys.stdout, f)   # output to console and file
     sys.stdout = Tee(f)              # output to file only
 
-    print "# Translated SED-ML"
-    print "# Beginning of generated script"
-    print "import roadrunner"
-    print "import numpy as np"
-    print "import matplotlib.pyplot as plt"
-    print ""
+    print("# Translated SED-ML")
+    print("# Beginning of generated script")
+    print("import roadrunner")
+    print("import numpy as np")
+    print("import matplotlib.pyplot as plt")
+    print("")
     for i in range(0, sedmlDoc.getNumModels()):
         currentModel = sedmlDoc.getModel(i)
-        print "# Execute the tasks of model: " + currentModel.getId()
+        print("# Execute the tasks of model: " + currentModel.getId())
         rrName = currentModel.getId()
         #rrName = "rr" + str(i)
-        print rrName + " = roadrunner.RoadRunner()"
+        print(rrName + " = roadrunner.RoadRunner()")
         generateTasks(rrName, sedmlDoc, currentModel, path)
-        print ""
-    print "# List of Data Generators"
+        print("")
+    print("# List of Data Generators")
     dataGeneratorsList = []
     for i in range(0, sedmlDoc.getNumModels()):
         currentModel = sedmlDoc.getModel(i)
         generateData(sedmlDoc, currentModel, dataGeneratorsList)
-    print "# List of Outputs"
+    print("# List of Outputs")
     generateOutputs(sedmlDoc, dataGeneratorsList)
-    print "# End of generated script"
+    print("# End of generated script")
 
     contents = f.getvalue()
     sys.stdout = original  # restore print to stdout only
@@ -109,25 +120,25 @@ def generateTasks(rrName, sedmlDoc, currentModel, path):
                 variableName = variableName.rsplit("\'",1)[0]
                 aStr = rrName + ".model[\"" + variableName + "\"] = " + newValue    # set amount
                 listOfChanges.append(aStr)
-                print aStr
+                print(aStr)
             elif (("model" in variableName) and ("species" in variableName)):
                 variableName = variableName.rsplit("id=\'",1)[1]
                 variableName = variableName.rsplit("\'",1)[0]
                 aStr = rrName + ".model[\"init([" + variableName + "])\"] = " + newValue    # set amount
                 #aStr = rrName + ".model[\"[" + variableName + "]\"] = " + newValue    # set amount
                 listOfChanges.append(aStr)
-                print aStr
+                print(aStr)
             else:
-                print "# Unsupported changeAttribute target " + variableName
+                print("# Unsupported changeAttribute target " + variableName)
                 return          # nothing to do repeatedly since our change is bad
         else:
             aStr = "# Unsupported change " + aChange.getElementName() + " for model " + currentModel.getId()
-            print aStr
+            print(aStr)
             return
 
     # The 'selections' are a list of all the 'variable' elements from the dataGenerators
     # we first deal with normal tasks, if any
-    for e in range(0,sedmlDoc.getNumTasks()):
+    for e in range(0, sedmlDoc.getNumTasks()):
         task1 = sedmlDoc.getTask(e)
         if task1.getElementName() == "repeatedTask":
             pass
@@ -154,16 +165,16 @@ def generateTasks(rrName, sedmlDoc, currentModel, path):
                     continue
                 aRange = task1.getRange(0)       # we assume one single master range - we don't know how to deel flatten
                 if aRange.getElementName() != "uniformRange":
-                    print "# Only uniformRange ranges are supported at this time"
+                    print("# Only uniformRange ranges are supported at this time")
                     continue
 
                 # if resetModel is true we need to reapply all the changes from above
-                print ""
+                print("")
                 bResetModel = task1.getResetModel()
                 if bResetModel == True:
-                    print rrName + ".simulateOptions.resetModel = True"
+                    print(rrName + ".simulateOptions.resetModel = True")
                 else:
-                    print rrName + ".simulateOptions.resetModel = False"
+                    print(rrName + ".simulateOptions.resetModel = False")
 
                 # need to use the RepeatedTask because the data generators refer to it
                 variablesDictionary = []      # matching pairs of sedml variable ID and sbml variable ID
@@ -172,7 +183,7 @@ def generateTasks(rrName, sedmlDoc, currentModel, path):
                 # iterate over all changes
                 aChange = task1.getTaskChange(0)
                 if aChange.getElementName() != "setValue":
-                    print "# Only setValue changes are supported at this time"
+                    print("# Only setValue changes are supported at this time")
                     continue
                 variableName = aChange.getTarget()
                 vn = variableName
@@ -181,26 +192,27 @@ def generateTasks(rrName, sedmlDoc, currentModel, path):
                 # for each point in the range we compute the new values of the variables affected
                 # and generate a task
                 for j in range(0, aRange.getNumberOfPoints()):
-                    print ""
+                    print("")
                     if bResetModel == True: # if we reset the model we need to repeat again all the Changes from above
                         for aStr in listOfChanges:
-                            print aStr
+                            print(aStr)
                     start = aRange.getStart()
                     end = aRange.getEnd()
                     newValue = start + j * (end - start) / (aRange.getNumberOfPoints()-1)
                     if (("model" in variableName) and ("parameter" in variableName)):
-                        print rrName + ".model[\"" + vn + "\"] = " + str(newValue)                   # set amount
+                        print(rrName + ".model[\"" + vn + "\"] = " + str(newValue))                   # set amount
                     elif (("model" in variableName) and ("species" in variableName)):
-                        print rrName + ".model[\"init([" + vn + "])\"] = " + str(newValue)                   # set amount
+                        print(rrName + ".model[\"init([" + vn + "])\"] = " + str(newValue))                   # set amount
                     else:
-                        print "# Unsupported setValue target " + variableName
+                        print("# Unsupported setValue target " + variableName)
                         return          # nothing to do repeatedly since our change is bad
                     # need to use both the real Task (task2) because it has the reference to model and simulation
                     # and the repeated task (task1) because its Id is used for generating the flattened Id's
                     generateSimulation(rrName, sedmlDoc, currentModel, task2, variablesList, variablesDictionary, j, task1)
                     bFoundAtLeastOneTask = True
     if bFoundAtLeastOneTask == False:
-        print "# There are no simulations to run for this model: " + currentModel.getId();
+        print("# There are no simulations to run for this model: " + currentModel.getId())
+
 
 def loadModel(rrName, sedmlDoc, currentModel, path):
     global modelname
@@ -217,7 +229,7 @@ def loadModel(rrName, sedmlDoc, currentModel, path):
             string = string[3:]
         elif string.startswith("./"):
             string = string[2:]
-        print rrName + ".load('" + path.replace("\\","/") + string + "')"    # SBML model name recovered from "source" attr
+        print(rrName + ".load('" + path.replace("\\","/") + string + "')")    # SBML model name recovered from "source" attr
         #from os.path import expanduser
         #path = expanduser("~")
         #print(rrName + ".load('" + path + "\\" + string + "')")    # SBML model name recovered from "source" attr
@@ -229,7 +241,6 @@ def loadModel(rrName, sedmlDoc, currentModel, path):
         astr = astr[1]
         string = path + astr + ".xml"
         if os.path.exists(string) == False:
-            import httplib
             conn = httplib.HTTPConnection("www.ebi.ac.uk")
             conn.request("GET", "/biomodels-main/download?mid=" + astr)
             r1 = conn.getresponse()

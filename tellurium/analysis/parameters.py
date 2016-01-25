@@ -1,8 +1,18 @@
-def plot2DParameterScan(
-    r, param1, param1Range, param2, param2Range, start=0, end=100, steps=100
-):
-    import matplotlib.pyplot as p
-    f, axarr = p.subplots(
+"""
+Parameter scan utilities.
+"""
+
+from __future__ import print_function, division
+import matplotlib.pyplot as plt
+
+
+def plot2DParameterScan(r, param1, param1Range, param2, param2Range,
+                        start=0, end=100, steps=100):
+    """ Create a 2D Parameter scan and plot the results."""
+    # FIXME: refactor in plotting function & and parameter scan function. I.e.
+    # one function for performing simulations, the other only plots the results.
+
+    f, axarr = plt.subplots(
         len(param1Range),
         len(param2Range),
         sharex='col',

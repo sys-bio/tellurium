@@ -1,4 +1,13 @@
-class DiffEvolution():
+"""
+Utility functions for optimization.
+"""
+from __future__ import print_function, division
+import numpy as np
+import time
+import matplotlib.pyplot as plt
+
+
+class DiffEvolution(object):
     def __init__(self, rr, fitnessFcn, simFcn,
                  ASYNC=False,
                  CROSSOVER_RATE=0.5,
@@ -78,7 +87,7 @@ class DiffEvolution():
                     raise(ex)
 
     def seedPopulation(self, firstGen):
-        import numpy as np
+
         for i in range(self.POPULATION):
             newMember = self.createRandomMember()
             firstGen['members'].append(newMember)
@@ -94,18 +103,17 @@ class DiffEvolution():
             firstGen['fitness'].append(newFitness)
 
     def start(self):
-        import time
         start = time.time()
         while (len(self.generations) < self.MAX_GENS and
                self.BEST_FITNESS > self.FITNESS_THRESHOLD):
             gen = self.newGeneration()
             self.generations.append(gen)
 
-        print 'Finished after %s seconds' % str(time.time()-start)
-        print ('with population of %s and %s generations'
+        print('Finished after %s seconds' % str(time.time()-start))
+        print('with population of %s and %s generations'
                % (self.POPULATION, len(self.generations)))
-        print 'Best fitness value of %s' % self.BEST_FITNESS
-        print 'Best parameters of %s' % self.getBestMember().params
+        print('Best fitness value of %s' % self.BEST_FITNESS)
+        print('Best parameters of %s' % self.getBestMember().params)
 
     def newGeneration(self):
         gen = {}
@@ -126,7 +134,6 @@ class DiffEvolution():
         return gen
 
     def asyncGetMembersAndFitnesses(self, newMembers, newFitnesses, newSims):
-        import numpy as np
         numParams = len(self.paramRange)
         asyncSims = []
         asyncTrialMembers = []
@@ -188,7 +195,6 @@ class DiffEvolution():
                     newSims.append(memberSim)
 
     def getMembersAndFitnesses(self, newMembers, newFitnesses, newSims):
-        import numpy as np
         numParams = len(self.paramRange)
         for i, member in enumerate(self.generations[-1]['members']):
             # Pick two other members
@@ -243,7 +249,6 @@ class DiffEvolution():
         return False
 
     def mutate(self, x, a, b):
-        import numpy as np
         differential = [self.MIXING_RATE*(ai-bi)
                         for ai, bi
                         in
@@ -261,7 +266,6 @@ class DiffEvolution():
         return Member(mutantParams)
 
     def createRandomMember(self):
-        import numpy as np
         newParams = [np.random.uniform(self.paramRange[i][0],
                                        self.paramRange[i][1])
                      for i, p
@@ -271,13 +275,12 @@ class DiffEvolution():
         return newMember
 
     def plotFitnesses(self):
-        import matplotlib.pyplot as plt
+
         fitnesses = [min(g['fitness']) for g in self.generations]
         plt.plot(fitnesses)
         return plt.show()
 
     def plotBest(self, observed=None):
-        import matplotlib.pyplot as plt
         ind = self.generations[-1]['fitness'].index(self.BEST_FITNESS)
         params = self.generations[-1]['members'][ind].params
         if self.SAVE_RESULTS:
@@ -303,6 +306,6 @@ class DiffEvolution():
         return bestMember
 
 
-class Member():
+class Member(object):
     def __init__(self, params):
         self.params = params

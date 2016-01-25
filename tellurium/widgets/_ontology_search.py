@@ -1,8 +1,14 @@
-class OntologySearch():
+"""
+Ontology widgets.
+"""
+from __future__ import print_function, division
+import IPython.html.widgets as w
+from IPython.display import display, clear_output
+import bioservices
+
+
+class OntologySearch(object):
     def __init__(self):
-        import bioservices
-        import IPython.html.widgets as w
-        from IPython.display import display
         self.ch = bioservices.ChEBI()
         self.kegg = bioservices.KEGG()
 
@@ -30,12 +36,15 @@ class OntologySearch():
 #         self.widgets['selectModels'].on_trait_change(self.selectedModel)
         display(self.container)
         self.init_display()
+
     def init_display(self):
-        from IPython.display import clear_output
+
         clear_output()
         self.widgets['searchResults'].visible = False
+
     def show_results(self):
         self.widgets['searchResults'].visible = True
+
     def search(self, b):
         self.init_display()
         if self.widgets['ontologySelect'].value == 'ChEBI':

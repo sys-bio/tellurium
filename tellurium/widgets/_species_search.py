@@ -1,9 +1,15 @@
+"""
+Form for searching by species.
+"""
+from __future__ import print_function, division
+
 import IPython.html.widgets as w
 from IPython.display import display, clear_output
+import bioservices
 
-class SearchBySpeciesForm():
+
+class SearchBySpeciesForm(object):
     def __init__(self):
-        import bioservices
         self.s = bioservices.BioModels()
         self.ch = bioservices.ChEBI()
         self.widgets = {

@@ -1,7 +1,8 @@
-
 # coding: utf-8
-
-# In[2]:
+"""
+Utilities to work with ipython notebooks.
+"""
+from __future__ import print_function, division
 
 import io
 import os
@@ -12,12 +13,19 @@ from IPython.core.interactiveshell import InteractiveShell
 
 
 def find_notebook(fullname, path=None):
-    """find a notebook, given its fully qualified name and an optional path
-
+    """ Find a notebook, given its fully qualified name and an optional path.
     This turns "foo.bar" into "foo/bar.ipynb"
     and tries turning "Foo_Bar" into "Foo Bar" if Foo_Bar
     does not exist.
+
+    :param fullname: name of notebook (without .ipynb extension)
+    :type fullname: str
+    :param path: relative path information for search
+    :type path: str
+    :return: path of notebook
+    :rtype: str
     """
+
     name = fullname.rsplit('.', 1)[-1]
     if not path:
         path = ['']
@@ -32,13 +40,13 @@ def find_notebook(fullname, path=None):
 
 
 class NotebookLoader(object):
-    """Module Loader for IPython Notebooks"""
+    """ Module Loader for IPython Notebooks. """
     def __init__(self, path=None):
         self.shell = InteractiveShell.instance()
         self.path = path
 
     def load_module(self, fullname):
-        """import a notebook as a module"""
+        """ Import a notebook as a module. """
         path = find_notebook(fullname, self.path)
 
         print ("importing IPython notebook from %s" % path)
@@ -99,11 +107,12 @@ def loadNotebooksAsModules():
 
 
 def sideBySideOutput():
-	print '''
+	print('''
 For side-by-side output, add this to a new cell:
 
 %%html
 <style>
 div.cell {box-orient:horizontal;flex-direction:row;}
 div.cell *{width:100%;}div.prompt{width:80px;}</style>
-'''
+''')
+
