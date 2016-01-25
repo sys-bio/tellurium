@@ -14,7 +14,6 @@ sedml2py        # unzipy used in SedmlToRr but not available
 
 # for testing
 nose
-coverage
 
 # packed with Tellurium, but not required for tellurium
 #   tePlugins
