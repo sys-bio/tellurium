@@ -22,11 +22,18 @@ import sys
 import os.path
 import re
 import zipfile
-import sedml2py.unzipy as uz
+import roadrunner
 import libsedml
 import StringIO
 import httplib
 from collections import namedtuple
+
+try:
+    # FIXME: this should always be packed
+    import sedml2py.unzipy as uz
+except ImportError as e:
+    uz = None
+    roadrunner.Logger.log(roadrunner.Logger.LOG_WARNING, str(e))
 
 MatchingSetsOfVariableIDs = namedtuple("MatchingSetsOfVariableIDs", "datagenID, taskReference, sedmlID, sbmlID")
 MatchingSetsOfRepeatedTasksDataGenerators = namedtuple("MatchingSetsOfRepeatedTasksDataGenerators", "datagenID, rangeSize")

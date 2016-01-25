@@ -18,21 +18,25 @@ import antimony
 import matplotlib.pyplot as plt
 
 try:
+    # FIXME: this should always be packed
     import tecombine as combine
 except ImportError as e:
     combine = None
     roadrunner.Logger.log(roadrunner.Logger.LOG_WARNING, str(e))
 try:
+    # FIXME: this should always be packed
     import SedmlToRr
 except ImportError as e:
     SedmlToRr = None
     roadrunner.Logger.log(roadrunner.Logger.LOG_WARNING, str(e))    
 try:
+    # FIXME: this should always be packed
     import tephrasedml
 except ImportError as e:
     tephrasedml = None
     roadrunner.Logger.log(roadrunner.Logger.LOG_WARNING, str(e))
 try:
+    # FIXME: this should always be packed
     from sbml2matlab import sbml2matlab
 except ImportError as e:
     sbml2matlab = None

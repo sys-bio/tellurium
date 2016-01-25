@@ -2,11 +2,18 @@
 SBMLDiagram extension via graphviz.
 """
 from __future__ import print_function, division
+import roadrunner
 import os
 import tempfile
 import libsbml
-import pygraphviz as pgv
 from IPython.display import Image, display
+
+try:
+    # FIXME: this should always be packed
+    import pygraphviz as pgv
+except ImportError as e:
+    pgv = None
+    roadrunner.Logger.log(roadrunner.Logger.LOG_WARNING, str(e))
 
 
 class SBMLDiagram(object):
