@@ -5,3 +5,6 @@ To run the notebooks change in the notebook folder `tellurium/examples/notebooks
 ```
 jupyter notebook
 ```
+Available examples
+* parameter slider
+

@@ -45,3 +45,6 @@ nosetests.xml
 .idea
 *~
 test/.ipynb_checkpoints/
+
+# notebook checkpoints
+examples/notebooks/.ipynb_checkpoints/
