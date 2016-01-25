@@ -33,6 +33,17 @@ class TelluriumTestCase(unittest.TestCase):
         Nfailed = roadrunner.testing.runTester()
         self.assertEqual(Nfailed, 0)
 
+    def test_loada(self):
+        rr = te.loada('''
+            model example0
+              S1 -> S2; k1*S1
+              S1 = 10
+              S2 = 0
+              k1 = 0.1
+            end
+        ''')
+        self.assertIsNotNone(rr.getModel())
+
     def test_README_example(self):
         """ Tests the source example in the main README.md. """
         import tellurium as te

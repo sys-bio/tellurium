@@ -91,7 +91,6 @@
 <li class="toctree-l3"><a class="reference internal" href="tellurium.analysis.html">tellurium.analysis package</a></li>
 <li class="toctree-l3"><a class="reference internal" href="tellurium.notebooktools.html">tellurium.notebooktools package</a></li>
 <li class="toctree-l3"><a class="reference internal" href="tellurium.optimization.html">tellurium.optimization package</a></li>
-<li class="toctree-l3"><a class="reference internal" href="tellurium.tests.html">tellurium.tests package</a></li>
 <li class="toctree-l3"><a class="reference internal" href="tellurium.visualization.html">tellurium.visualization package</a></li>
 <li class="toctree-l3"><a class="reference internal" href="tellurium.widgets.html">tellurium.widgets package</a></li>
 </ul>
@@ -183,12 +182,6 @@
 <li class="toctree-l2"><a class="reference internal" href="tellurium.optimization.html#submodules">Submodules</a></li>
 <li class="toctree-l2"><a class="reference internal" href="tellurium.optimization.html#tellurium-optimization-diffevolution-module">tellurium.optimization.DiffEvolution module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="tellurium.optimization.html#module-contents">Module contents</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="tellurium.tests.html">tellurium.tests package</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="tellurium.tests.html#submodules">Submodules</a></li>
-<li class="toctree-l2"><a class="reference internal" href="tellurium.tests.html#tellurium-tests-test-tellurium-module">tellurium.tests.test_tellurium module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="tellurium.tests.html#module-contents">Module contents</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="tellurium.visualization.html">tellurium.visualization package</a><ul>
@@ -736,15 +729,19 @@ Short-cut sv, e.g.</p>
 <dl class="function">
 <dt id="tellurium.getTestModel">
 <code class="descclassname">tellurium.</code><code class="descname">getTestModel</code><span class="sig-paren">(</span><em>str</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/tellurium.html#getTestModel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.getTestModel" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns the particular test model as a string.</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">sbmlStr</span> <span class="o">=</span> <span class="n">roadrunner</span><span class="o">.</span><span class="n">getTestModel</span> <span class="p">(</span><span class="s1">&#39;feedback.xml&#39;</span><span class="p">)</span>
+<dd><p>SBML of given test model as a string.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="c1"># load test model as SBML</span>
+<span class="n">sbml</span> <span class="o">=</span> <span class="n">te</span><span class="o">.</span><span class="n">getTestModel</span><span class="p">(</span><span class="s1">&#39;feedback.xml&#39;</span><span class="p">)</span>
+<span class="n">rr</span> <span class="o">=</span> <span class="n">te</span><span class="o">.</span><span class="n">loadSBMLModel</span><span class="p">(</span><span class="n">sbml</span><span class="p">)</span>
+<span class="c1"># simulate</span>
+<span class="n">s</span> <span class="o">=</span> <span class="n">rr</span><span class="o">.</span><span class="n">simulate</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">200</span><span class="p">)</span>
 </pre></div>
 </div>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">string of test model</td>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">SBML string of test model</td>
 </tr>
 </tbody>
 </table>

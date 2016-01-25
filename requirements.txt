@@ -1,4 +1,15 @@
-matplotlib
 roadrunner
+antimony
+libsbml
+libsedml
+phrasedml
+sbml2matlab
 ipywidgets
 bioservices
+matplotlib
+
+# packed with Tellurium, but not required for tellurium
+#   tePlugins
+#   pySBOL
+#   py-control ?
+#   simplesbml
