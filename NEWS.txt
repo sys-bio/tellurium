@@ -2,6 +2,35 @@ tellurium
 
 Log of changes
 
+1.3.0
+
+*	Updated Roadrunner to 1.5.0
+*	Updated tellurium.py to 1.3.0
+*	Updated Spyder to 2.3.8
+*	Updated IPython to 4.0.3
+*	Updated simpleSBML
+*	Updated control to 0.7.0
+*	Updated libSBML to 5.12.0
+*	Updated matplotlib2tikz to 5.4.0
+*	Updated sbnw to 1.3.15
+
+
+
+1.2.4
+
+*	Updated Roadrunner to 1.4.0
+*	Updated Antimony to 2.8.0
+*	Updated PhrasedML to 0.5beta
+*	Using –reset and –default arguments for Spyder will function properly
+*	New plugins: import SEDML/combine as PhrasedML
+*	Updated SED-ML conversion
+*	Updated import combine, import SEDML, and openSBML plugins
+*	Updated simpleSBML
+*	New feature: Export to Combine
+*	Updated example files
+
+
+
 1.2.3
 *	Updated Winpython to 2.7.10.1 (Python 2.7.10, Spyder 2.3.5.2, PyQt 4.11.4, IPython 3.2.0 and more)
 *	Fixed stochiometry issue in simplesbml
