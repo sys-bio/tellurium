@@ -35,7 +35,7 @@ class SearchBySpeciesForm(object):
         # Define widgets
         # <Search>
         self.wSearchTerm = w.Text(description='Search biomodels by species:', value="CHEBI:17925")
-        self.wSearchTerm.on_submit(self.search)
+        self.wSearchTerm.on_submit(self.searchChebi)
         self.wSearchButton = w.Button(description='Search')
         self.wSearchButton.on_click(self.searchChebi)
         self.wSearchChebi = w.HBox(children=[
