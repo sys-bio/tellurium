@@ -13,6 +13,7 @@ Search via bioservices is done via
     print(type(results[0]))
     print(results[0].chebiId)
 
+see example notebook: `tellurium/examples/notebooks/species_search.ipynb`
 """
 from __future__ import print_function, division
 
@@ -33,8 +34,8 @@ class SearchBySpeciesForm(object):
 
         # Define widgets
         # <Search>
-        # w.HTML # TODO: HTML display
         self.wSearchTerm = w.Text(description='Search biomodels by species:', value="CHEBI:17925")
+        self.wSearchTerm.on_submit(self.search)
         self.wSearchButton = w.Button(description='Search')
         self.wSearchButton.on_click(self.searchChebi)
         self.wSearchChebi = w.HBox(children=[
@@ -42,6 +43,7 @@ class SearchBySpeciesForm(object):
         ])
 
         self.wSelectChebis = w.Select(description='Matching ChEBI:', width='600px', height='250px')
+        # FIXME: update the deprecated functions
         self.wSelectChebis.on_trait_change(self.selectChebi)
         self.wSelectModels = w.Select(description='Matching BioModels:', width='200px')
         self.wSelectModels.on_trait_change(self.selectedModel)
@@ -97,6 +99,7 @@ class SearchBySpeciesForm(object):
     def selectChebi(self, trait):
         """ Action happening on selection of Chebi Term.
         Search of corresponding BioModels.
+
         :param trait: ?
         :type trait: str
         """
@@ -114,6 +117,7 @@ class SearchBySpeciesForm(object):
     def selectedModel(self, trait):
         """ Action happening on selection of Model.
         Update of model information.
+
         :param trait: ?
         :type trait: str
         """
