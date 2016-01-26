@@ -1,5 +1,7 @@
 """
 IPython parameter slider.
+
+see example notebook: `tellurium/examples/notebooks/parameter_slider.ipynb`
 """
 from __future__ import print_function, division
 import sys

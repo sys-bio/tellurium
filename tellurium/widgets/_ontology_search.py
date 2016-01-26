@@ -1,79 +1,106 @@
 """
-Ontology widgets.
+Ontology search widget for ipython notebooks.
+
+see example notebook: `tellurium/examples/notebooks/ontology_search.ipynb`
 """
 from __future__ import print_function, division
-import IPython.html.widgets as w
+import ipywidgets as w
 from IPython.display import display, clear_output
 import bioservices
 
-
 class OntologySearch(object):
+    """ ipywidget form for searching in ontologies. """
     def __init__(self):
         self.ch = bioservices.ChEBI()
         self.kegg = bioservices.KEGG()
 
-        self.widgets = {
-            'ontologySelect': w.DropdownWidget(
-                description='Ontology:',
-                values=['ChEBI', 'KEGG.Reaction']),
-            'searchTerm': w.TextWidget(description='Search Term:'),
-            'searchButton': w.ButtonWidget(description='Search'),
-            'searchResults': w.ContainerWidget(children=[
-                w.SelectWidget(description='Results:'),
-                w.TextWidget(description='URL:')
-            ])
-        }
-        self.container = w.ContainerWidget(children=[
-            self.widgets['ontologySelect'],
-            self.widgets['searchTerm'],
-            self.widgets['searchButton'],
-            self.widgets['searchResults'],
+        self.wOntologySelect = w.Dropdown(description='Ontology:', options=['ChEBI', 'KEGG.Reaction'])
+        self.wSearchTerm = w.Text(description='Search Term:', value="glucose")
+        self.wSearchTerm.on_submit(self.search)
+        self.wSearchButton = w.Button(description='Search')
+        self.wSearchButton.on_click(self.search)
+
+        self.wResultsSelect = w.Select(description='Results:', width='100%')
+        self.wResultsSelect.on_trait_change(self.selectedTerm)
+        self.wResultsURL = w.Textarea(description='URL:', width='100%')
+        self.wResults = w.VBox(children=[
+                self.wResultsSelect,
+                self.wResultsURL
+        ], width='100%')
+        for ch in self.wResults.children:
+            ch.font_family = 'monospace'
+            ch.color = '#AAAAAA'
+            ch.background_color = 'black'
+
+        # <Container>
+        self.wContainer = w.FlexBox(children=[
+            self.wOntologySelect,
+            self.wSearchTerm,
+            self.wSearchButton,
+            self.wResults
         ])
-        self.widgets['searchTerm'].on_submit(self.search)
-        self.widgets['searchButton'].on_click(self.search)
-        self.widgets['searchResults'].children[0].on_trait_change(self.selectedTerm)
-#         self.widgets['selectChebis'].on_trait_change(self.selectChebi)
-#         self.widgets['selectModels'].on_trait_change(self.selectedModel)
-        display(self.container)
+
+        # display the container
+        display(self.wContainer)
         self.init_display()
 
     def init_display(self):
-
         clear_output()
-        self.widgets['searchResults'].visible = False
+        self.wResults.visible = False
+        self.wSearchButton.visible = True
 
     def show_results(self):
-        self.widgets['searchResults'].visible = True
+        self.wResults.visible = True
+        self.wSearchButton.visible = True
 
     def search(self, b):
+        """ Search the ontology for the given term.
+        Sets the search results.
+        :param b: ?
+        :type b: ?
+        """
         self.init_display()
-        if self.widgets['ontologySelect'].value == 'ChEBI':
-            results = self.ch.getLiteEntity(self.widgets['searchTerm'].value)
+        options = {}
+        term = self.wSearchTerm.value
+        self.wSearchButton.visible = False
+        print('... querying WebService ...')
+        # search ChEBI
+        if self.wOntologySelect.value == 'ChEBI':
+            results = self.ch.getLiteEntity(term)
             choices = [result['chebiId'] for result in results]
-            choiceText = ['%s (%s)' % (result['chebiId'], result['chebiAsciiName']) for result in results]
-            values = {}
+            choiceText = ['%s (%s)' % (result.chebiId, result.chebiAsciiName) for result in results]
+
             for choice, text in zip(choices, choiceText):
-                values[text] = choice
-            self.widgets['searchResults'].children[0].values = values
-            self.show_results()
-        elif self.widgets['ontologySelect'].value == 'KEGG.Reaction':
-            results = self.kegg.find('reaction', self.widgets['searchTerm'].value)
-            self.results = results
-            lines = [line.split('\t') for line in results.split('\n')]
-            values = {}
-            for line in lines:
-                left = line[0].split('rn:')
-                if len(left) == 2:
-                    values[line[1]] = left[1]
-            self.widgets['searchResults'].children[0].values = values
-            self.show_results()
+                options[text] = choice
+        # search Kegg Reaction
+        elif self.wOntologySelect.value == 'KEGG.Reaction':
+            # database: can be one of pathway, module, disease, drug,
+            # environ, ko, genome, compound, glycan, reaction, rpair, rclass,
+            # enzyme, genes, ligand or an organism
+            results = self.kegg.find(database='reaction', query=term)
+            if isinstance(results, unicode):
+                lines = results.split('\n')
+                for line in lines:
+                    tokens = line.split('\t')
+                    if len(tokens) == 2 and tokens[0].startswith('rn:'):
+                        options[tokens[0]] = tokens[1]
+        self.wResultsSelect.options = options
+        self.show_results()
 
     def selectedTerm(self, trait):
+        """ Action on selecting an ontology.
+        :param trait: ?
+        :type trait: ?
+        """
         if trait != 'value':
             return
-        if self.widgets['ontologySelect'].value == 'ChEBI':
-            chebi_id = self.widgets['searchResults'].children[0].value
-            self.widgets['searchResults'].children[1].value = 'http://identifiers.org/chebi/%s' % chebi_id
-        elif self.widgets['ontologySelect'].value == 'KEGG.Reaction':
-            kegg_id = self.widgets['searchResults'].children[0].value
-            self.widgets['searchResults'].children[1].value = 'http://identifiers.org/kegg.reaction/%s' % kegg_id
+
+        url = ''
+        sid = self.wResultsSelect.value
+        if self.wOntologySelect.value == 'ChEBI':
+            url = 'http://identifiers.org/chebi/{}'.format(sid)
+        elif self.wOntologySelect.value == 'KEGG.Reaction':
+            url = 'http://identifiers.org/kegg.reaction/{}'.format(sid)
+
+        self.wResultsURL.value = url
+        print(url)
