@@ -1,15 +1,29 @@
-Die Jan 26 16:48:47 CET 2016
+Die Jan 26 17:37:54 CET 2016
 --------------------------------------
 convert notebooks to rst
 --------------------------------------
 [NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/computeSteadyState.ipynb to rst
 [NbConvertApp] Executing notebook with kernel: python2
-[NbConvertApp] Writing 897 bytes to computeSteadyState.rst
+[NbConvertApp] Writing 984 bytes to computeSteadyState.rst
 [NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/consecutiveUniUniReactions.ipynb to rst
 [NbConvertApp] Executing notebook with kernel: python2
 [NbConvertApp] Support files will be in consecutiveUniUniReactions_files/
 [NbConvertApp] Making directory consecutiveUniUniReactions_files
-[NbConvertApp] Writing 766 bytes to consecutiveUniUniReactions.rst
+[NbConvertApp] Writing 811 bytes to consecutiveUniUniReactions.rst
+[NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/generatingDifferentWaveforms.ipynb to rst
+[NbConvertApp] Executing notebook with kernel: python2
+[NbConvertApp] Support files will be in generatingDifferentWaveforms_files/
+[NbConvertApp] Making directory generatingDifferentWaveforms_files
+[NbConvertApp] Writing 1899 bytes to generatingDifferentWaveforms.rst
+[NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/introduction.ipynb to rst
+[NbConvertApp] Executing notebook with kernel: python2
+[NbConvertApp] Support files will be in introduction_files/
+[NbConvertApp] Making directory introduction_files
+[NbConvertApp] Making directory introduction_files
+[NbConvertApp] Writing 860 bytes to introduction.rst
+[NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/template.ipynb to rst
+[NbConvertApp] Executing notebook with kernel: python2
+[NbConvertApp] Writing 211 bytes to template.rst
 --------------------------------------
 postprocessing rst
 --------------------------------------

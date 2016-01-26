@@ -1,4 +1,8 @@
 
+
+.. code:: python
+
+
 Steady state calculation
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -6,7 +10,6 @@ Steady states can be calculated using ``r.getSteadyStateValues``
 
 .. code:: python
 
-    from __future__ import print_function
     import tellurium as te
     from roadrunner import Config
     

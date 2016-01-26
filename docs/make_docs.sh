@@ -24,6 +24,8 @@ sphinx-apidoc -o _apidoc ../tellurium
 
 # create html documentation
 make html
+# make a pdf
+# make latexpdf
 
 # the new documentation is now in docs/_built
 firefox _build/html/index.html

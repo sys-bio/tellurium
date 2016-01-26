@@ -1,4 +1,8 @@
 
+
+.. code:: python
+
+
 Consecutive UniUni reactions using first-order mass-action kinetics
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -7,10 +11,6 @@ reactions S1 -> S2 -> S3 -> S4.
 
 .. code:: python
 
-
-.. code:: python
-
-    from __future__ import print_function
     import tellurium as te
     
     r = te.loada('''
@@ -30,6 +30,6 @@ reactions S1 -> S2 -> S3 -> S4.
 
 
 
-.. image:: _notebooks/core/consecutiveUniUniReactions_files/consecutiveUniUniReactions_2_0.png
+.. image:: _notebooks/core/consecutiveUniUniReactions_files/consecutiveUniUniReactions_3_0.png
 
 

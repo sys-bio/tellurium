@@ -25,8 +25,10 @@ echo "postprocessing rst"
 echo "--------------------------------------"
 cd $OUTDIR
 
-# remove the %matplotlib inline line
+# remove the following lines from the documentation
 sed -i '/%matplotlib inline/d' ./*.rst
+sed -i '/Back to the main `Index <..\/index.ipynb>`__/d' ./*.rst
+sed -i '/from __future__ import print_function/d' ./*.rst
 
 # change the image locations
 # .. image:: consecutiveUniUniReactions_files/consecutiveUniUniReactions_2_0.png
