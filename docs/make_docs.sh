@@ -11,6 +11,10 @@
 # remove old documentation
 rm -rf _apidoc
 rm -rf _built
+rm -rf _notebooks
+
+# create the rst files from the notebooks
+# 
 
 # create auto documentation for tellurium package.
 sphinx-apidoc -o _apidoc ../tellurium

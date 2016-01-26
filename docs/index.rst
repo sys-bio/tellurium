@@ -12,7 +12,9 @@ Contents:
    :maxdepth: 2
 
    introduction.rst
+   Use cases <notebooks.rst>
    tellurium_methods.rst
+   
    API (tellurium) <_apidoc/tellurium.rst>
 
 

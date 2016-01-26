@@ -11,6 +11,7 @@ Subpackages
     tellurium.analysis
     tellurium.notebooktools
     tellurium.optimization
+    tellurium.tests
     tellurium.visualization
     tellurium.widgets
 
