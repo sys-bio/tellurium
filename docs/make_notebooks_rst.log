@@ -1,0 +1,15 @@
+Die Jan 26 16:48:47 CET 2016
+--------------------------------------
+convert notebooks to rst
+--------------------------------------
+[NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/computeSteadyState.ipynb to rst
+[NbConvertApp] Executing notebook with kernel: python2
+[NbConvertApp] Writing 897 bytes to computeSteadyState.rst
+[NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/consecutiveUniUniReactions.ipynb to rst
+[NbConvertApp] Executing notebook with kernel: python2
+[NbConvertApp] Support files will be in consecutiveUniUniReactions_files/
+[NbConvertApp] Making directory consecutiveUniUniReactions_files
+[NbConvertApp] Writing 766 bytes to consecutiveUniUniReactions.rst
+--------------------------------------
+postprocessing rst
+--------------------------------------

@@ -1,0 +1,200 @@
+Die Jan 26 16:35:42 CET 2016
+--------------------------------------
+convert notebooks to rst
+--------------------------------------
+[NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/computeSteadyState.ipynb to rst
+[NbConvertApp] Executing notebook with kernel: python2
+[NbConvertApp] Writing 897 bytes to computeSteadyState.rst
+[NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/consecutiveUniUniReactions.ipynb to rst
+[NbConvertApp] Executing notebook with kernel: python2
+[NbConvertApp] Support files will be in consecutiveUniUniReactions_files/
+[NbConvertApp] Making directory consecutiveUniUniReactions_files
+[NbConvertApp] Writing 766 bytes to consecutiveUniUniReactions.rst
+--------------------------------------
+postprocessing rst
+--------------------------------------
+sed: can't read ./infile: No such file or directory
+Creating file _apidoc/tellurium.rst.
+Creating file _apidoc/tellurium.Export.rst.
+Creating file _apidoc/tellurium.ParameterScan.rst.
+Creating file _apidoc/tellurium.analysis.rst.
+Creating file _apidoc/tellurium.notebooktools.rst.
+Creating file _apidoc/tellurium.optimization.rst.
+Creating file _apidoc/tellurium.tests.rst.
+Creating file _apidoc/tellurium.visualization.rst.
+Creating file _apidoc/tellurium.widgets.rst.
+Creating file _apidoc/modules.rst.
+sphinx-build -b html -d _build/doctrees   . _build/html
+Running Sphinx v1.3.4
+loading pickled environment... done
+building [mo]: targets for 0 po files that are out of date
+building [html]: targets for 12 source files that are out of date
+updating environment: 0 added, 13 changed, 0 removed
+reading sources... [  7%] _apidoc/modules
+reading sources... [ 15%] _apidoc/tellurium
+[1m[33mWarning: No module named sedml2py.unzipy[0m
+[1m[33mWarning: No module named sbml2matlab[0m
+reading sources... [ 23%] _apidoc/tellurium.Export
+reading sources... [ 30%] _apidoc/tellurium.ParameterScan
+reading sources... [ 38%] _apidoc/tellurium.analysis
+reading sources... [ 46%] _apidoc/tellurium.notebooktools
+reading sources... [ 53%] _apidoc/tellurium.optimization
+reading sources... [ 61%] _apidoc/tellurium.tests
+reading sources... [ 69%] _apidoc/tellurium.visualization
+reading sources... [ 76%] _apidoc/tellurium.widgets
+reading sources... [ 84%] _notebooks/core/computeSteadyState
+reading sources... [ 92%] _notebooks/core/consecutiveUniUniReactions
+reading sources... [100%] notebooks
+
+/home/mkoenig/git/tellurium/docs/_apidoc/tellurium.rst:24: WARNING: autodoc: failed to import module u'tellurium.SedmlToRr'; the following exception was raised:
+Traceback (most recent call last):
+  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 385, in import_object
+    __import__(self.modname)
+ImportError: No module named SedmlToRr
+/home/mkoenig/git/tellurium/docs/_apidoc/tellurium.rst:32: WARNING: autodoc: failed to import module u'tellurium.tecombine'; the following exception was raised:
+Traceback (most recent call last):
+  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 385, in import_object
+    __import__(self.modname)
+ImportError: No module named tecombine
+/home/mkoenig/git/tellurium/docs/_apidoc/tellurium.rst:40: WARNING: autodoc: failed to import module u'tellurium.tellurium'; the following exception was raised:
+Traceback (most recent call last):
+  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 385, in import_object
+    __import__(self.modname)
+ImportError: No module named tellurium
+/home/mkoenig/git/tellurium/docs/_apidoc/tellurium.rst:48: WARNING: autodoc: failed to import module u'tellurium.tephrasedml'; the following exception was raised:
+Traceback (most recent call last):
+  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 385, in import_object
+    __import__(self.modname)
+ImportError: No module named tephrasedml
+/home/mkoenig/git/tellurium/docs/_apidoc/tellurium.Export.rst:10: WARNING: autodoc: failed to import module u'tellurium.Export.Export'; the following exception was raised:
+Traceback (most recent call last):
+  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 385, in import_object
+    __import__(self.modname)
+ImportError: No module named Export.Export
+/home/mkoenig/git/tellurium/docs/_apidoc/tellurium.Export.rst:19: WARNING: autodoc: failed to import module u'tellurium.Export'; the following exception was raised:
+Traceback (most recent call last):
+  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 385, in import_object
+    __import__(self.modname)
+ImportError: No module named Export
+/home/mkoenig/git/tellurium/docs/_apidoc/tellurium.ParameterScan.rst:10: WARNING: autodoc: failed to import module u'tellurium.ParameterScan.ParameterScan'; the following exception was raised:
+Traceback (most recent call last):
+  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 385, in import_object
+    __import__(self.modname)
+ImportError: No module named ParameterScan.ParameterScan
+/home/mkoenig/git/tellurium/docs/_apidoc/tellurium.ParameterScan.rst:19: WARNING: autodoc: failed to import module u'tellurium.ParameterScan'; the following exception was raised:
+Traceback (most recent call last):
+  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 385, in import_object
+    __import__(self.modname)
+ImportError: No module named ParameterScan
+/home/mkoenig/git/tellurium/docs/_apidoc/tellurium.analysis.rst:10: WARNING: autodoc: failed to import module u'tellurium.analysis.match'; the following exception was raised:
+Traceback (most recent call last):
+  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 385, in import_object
+    __import__(self.modname)
+ImportError: No module named analysis.match
+/home/mkoenig/git/tellurium/docs/_apidoc/tellurium.analysis.rst:18: WARNING: autodoc: failed to import module u'tellurium.analysis.parameters'; the following exception was raised:
+Traceback (most recent call last):
+  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 385, in import_object
+    __import__(self.modname)
+ImportError: No module named analysis.parameters
+/home/mkoenig/git/tellurium/docs/_apidoc/tellurium.analysis.rst:27: WARNING: autodoc: failed to import module u'tellurium.analysis'; the following exception was raised:
+Traceback (most recent call last):
+  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 385, in import_object
+    __import__(self.modname)
+ImportError: No module named analysis
+/home/mkoenig/git/tellurium/docs/_apidoc/tellurium.notebooktools.rst:10: WARNING: autodoc: failed to import module u'tellurium.notebooktools.notebooktools'; the following exception was raised:
+Traceback (most recent call last):
+  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 385, in import_object
+    __import__(self.modname)
+ImportError: No module named notebooktools.notebooktools
+/home/mkoenig/git/tellurium/docs/_apidoc/tellurium.notebooktools.rst:19: WARNING: autodoc: failed to import module u'tellurium.notebooktools'; the following exception was raised:
+Traceback (most recent call last):
+  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 385, in import_object
+    __import__(self.modname)
+ImportError: No module named notebooktools
+/home/mkoenig/git/tellurium/docs/_apidoc/tellurium.optimization.rst:10: WARNING: autodoc: failed to import module u'tellurium.optimization.DiffEvolution'; the following exception was raised:
+Traceback (most recent call last):
+  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 385, in import_object
+    __import__(self.modname)
+ImportError: No module named optimization.DiffEvolution
+/home/mkoenig/git/tellurium/docs/_apidoc/tellurium.optimization.rst:19: WARNING: autodoc: failed to import module u'tellurium.optimization'; the following exception was raised:
+Traceback (most recent call last):
+  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 385, in import_object
+    __import__(self.modname)
+ImportError: No module named optimization
+/home/mkoenig/git/tellurium/docs/_apidoc/tellurium.tests.rst:10: WARNING: autodoc: failed to import module u'tellurium.tests.test_Export'; the following exception was raised:
+Traceback (most recent call last):
+  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 385, in import_object
+    __import__(self.modname)
+ImportError: No module named tests.test_Export
+/home/mkoenig/git/tellurium/docs/_apidoc/tellurium.tests.rst:18: WARNING: autodoc: failed to import module u'tellurium.tests.test_runner'; the following exception was raised:
+Traceback (most recent call last):
+  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 385, in import_object
+    __import__(self.modname)
+ImportError: No module named tests.test_runner
+/home/mkoenig/git/tellurium/docs/_apidoc/tellurium.tests.rst:26: WARNING: autodoc: failed to import module u'tellurium.tests.test_tellurium'; the following exception was raised:
+Traceback (most recent call last):
+  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 385, in import_object
+    __import__(self.modname)
+ImportError: No module named tests.test_tellurium
+/home/mkoenig/git/tellurium/docs/_apidoc/tellurium.tests.rst:34: WARNING: autodoc: failed to import module u'tellurium.tests.test_tephrasedml'; the following exception was raised:
+Traceback (most recent call last):
+  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 385, in import_object
+    __import__(self.modname)
+ImportError: No module named tests.test_tephrasedml
+/home/mkoenig/git/tellurium/docs/_apidoc/tellurium.tests.rst:43: WARNING: autodoc: failed to import module u'tellurium.tests'; the following exception was raised:
+Traceback (most recent call last):
+  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 385, in import_object
+    __import__(self.modname)
+ImportError: No module named tests
+/home/mkoenig/git/tellurium/docs/_apidoc/tellurium.visualization.rst:10: WARNING: autodoc: failed to import module u'tellurium.visualization.SBMLDiagram'; the following exception was raised:
+Traceback (most recent call last):
+  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 385, in import_object
+    __import__(self.modname)
+ImportError: No module named visualization.SBMLDiagram
+/home/mkoenig/git/tellurium/docs/_apidoc/tellurium.visualization.rst:19: WARNING: autodoc: failed to import module u'tellurium.visualization'; the following exception was raised:
+Traceback (most recent call last):
+  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 385, in import_object
+    __import__(self.modname)
+ImportError: No module named visualization
+/home/mkoenig/git/tellurium/docs/_apidoc/tellurium.widgets.rst:7: WARNING: autodoc: failed to import module u'tellurium.widgets'; the following exception was raised:
+Traceback (most recent call last):
+  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 385, in import_object
+    __import__(self.modname)
+ImportError: No module named widgets
+internal padding after _notebooks/core/consecutiveUniUniReactions.rst:37: WARNING: image file not readable: consecutiveUniUniReactions_files/consecutiveUniUniReactions_2_0.png
+looking for now-outdated files... none found
+pickling environment... done
+checking consistency... /home/mkoenig/git/tellurium/docs/API.rst:: WARNING: document isn't included in any toctree
+/home/mkoenig/git/tellurium/docs/_apidoc/modules.rst:: WARNING: document isn't included in any toctree
+/home/mkoenig/git/tellurium/docs/_notebooks/core/computeSteadyState.rst:: WARNING: document isn't included in any toctree
+/home/mkoenig/git/tellurium/docs/_notebooks/core/consecutiveUniUniReactions.rst:: WARNING: document isn't included in any toctree
+done
+preparing documents... done
+writing output... [  7%] _apidoc/modules
+writing output... [ 14%] _apidoc/tellurium
+writing output... [ 21%] _apidoc/tellurium.Export
+writing output... [ 28%] _apidoc/tellurium.ParameterScan
+writing output... [ 35%] _apidoc/tellurium.analysis
+writing output... [ 42%] _apidoc/tellurium.notebooktools
+writing output... [ 50%] _apidoc/tellurium.optimization
+writing output... [ 57%] _apidoc/tellurium.tests
+writing output... [ 64%] _apidoc/tellurium.visualization
+writing output... [ 71%] _apidoc/tellurium.widgets
+writing output... [ 78%] _notebooks/core/computeSteadyState
+writing output... [ 85%] _notebooks/core/consecutiveUniUniReactions
+writing output... [ 92%] index
+writing output... [100%] notebooks
+
+generating indices... genindex py-modindex
+highlighting module code... [100%] tellurium
+
+writing additional pages... search
+copying images... [100%] _notebooks/core/consecutiveUniUniReactions_files/consecutiveUniUniReactions_2_0.png
+
+copying static files... done
+copying extra files... done
+dumping search index in English (code: en) ... done
+dumping object inventory... done
+build succeeded, 28 warnings.
+
+Build finished. The HTML pages are in _build/html.

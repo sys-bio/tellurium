@@ -6,6 +6,7 @@ Steady states can be calculated using ``r.getSteadyStateValues``
 
 .. code:: python
 
+    from __future__ import print_function
     import tellurium as te
     from roadrunner import Config
     
@@ -28,12 +29,12 @@ Steady states can be calculated using ``r.getSteadyStateValues``
     values = r.getSteadyStateValues()
     for sid, value in zip(r.steadyStateSelections, r.getSteadyStateValues()):
         print(sid, "=", value)
-    Config.setValue(Config.LOADSBMLOPTIONS_CONSERVED_MOIETIES, False) 
+    Config.setValue(Config.LOADSBMLOPTIONS_CONSERVED_MOIETIES, False)
 
 
 .. parsed-literal::
 
-    ('[S1]', '=', 0.17857142857142858)
-    ('[S2]', '=', 0.0)
+    [S1] = 0.178571428571
+    [S2] = 0.0
 
 

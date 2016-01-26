@@ -7,7 +7,6 @@ reactions S1 -> S2 -> S3 -> S4.
 
 .. code:: python
 
-    %matplotlib inline
 
 .. code:: python
 
@@ -31,6 +30,6 @@ reactions S1 -> S2 -> S3 -> S4.
 
 
 
-.. image:: notebooks/core/consecutiveUniUniReactions.png
+.. image:: _notebooks/core/consecutiveUniUniReactions_files/consecutiveUniUniReactions_2_0.png
 
 
