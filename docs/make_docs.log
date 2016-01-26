@@ -1,4 +1,4 @@
-Die Jan 26 19:34:24 CET 2016
+Die Jan 26 19:48:17 CET 2016
 --------------------------------------
 convert notebooks to rst
 --------------------------------------
@@ -83,31 +83,32 @@ Running Sphinx v1.3.4
 loading pickled environment... done
 building [mo]: targets for 0 po files that are out of date
 building [html]: targets for 18 source files that are out of date
-updating environment: 0 added, 21 changed, 10 removed
+updating environment: 1 added, 21 changed, 0 removed
 reading sources... [  4%] _apidoc/modules
 reading sources... [  9%] _apidoc/tellurium
 [1m[33mWarning: No module named sedml2py.unzipy[0m
 [1m[33mWarning: No module named sbml2matlab[0m
 [1m[33mWarning: /usr/local/lib/python2.7/dist-packages/pygraphviz/_graphviz.so: undefined symbol: Agundirected[0m
-reading sources... [ 14%] _apidoc/tellurium.Export
-reading sources... [ 19%] _apidoc/tellurium.ParameterScan
-reading sources... [ 23%] _apidoc/tellurium.analysis
-reading sources... [ 28%] _apidoc/tellurium.notebooktools
-reading sources... [ 33%] _apidoc/tellurium.optimization
-reading sources... [ 38%] _apidoc/tellurium.tests
-reading sources... [ 42%] _apidoc/tellurium.visualization
-reading sources... [ 47%] _apidoc/tellurium.widgets
-reading sources... [ 52%] _notebooks/core/computeSteadyState
-reading sources... [ 57%] _notebooks/core/consecutiveUniUniReactions
-reading sources... [ 61%] _notebooks/core/generatingDifferentWaveforms
-reading sources... [ 66%] _notebooks/core/introduction
-reading sources... [ 71%] _notebooks/core/nonUnitStoichiometries
-reading sources... [ 76%] _notebooks/core/parameter_scan
-reading sources... [ 80%] _notebooks/core/steadystate_scan
-reading sources... [ 85%] _notebooks/core/template
-reading sources... [ 90%] index
-reading sources... [ 95%] introduction
-reading sources... [100%] notebooks
+reading sources... [ 13%] _apidoc/tellurium.Export
+reading sources... [ 18%] _apidoc/tellurium.ParameterScan
+reading sources... [ 22%] _apidoc/tellurium.analysis
+reading sources... [ 27%] _apidoc/tellurium.notebooktools
+reading sources... [ 31%] _apidoc/tellurium.optimization
+reading sources... [ 36%] _apidoc/tellurium.tests
+reading sources... [ 40%] _apidoc/tellurium.visualization
+reading sources... [ 45%] _apidoc/tellurium.widgets
+reading sources... [ 50%] _notebooks/core/computeSteadyState
+reading sources... [ 54%] _notebooks/core/consecutiveUniUniReactions
+reading sources... [ 59%] _notebooks/core/generatingDifferentWaveforms
+reading sources... [ 63%] _notebooks/core/introduction
+reading sources... [ 68%] _notebooks/core/nonUnitStoichiometries
+reading sources... [ 72%] _notebooks/core/parameter_scan
+reading sources... [ 77%] _notebooks/core/steadystate_scan
+reading sources... [ 81%] _notebooks/core/template
+reading sources... [ 86%] index
+reading sources... [ 90%] introduction
+reading sources... [ 95%] notebooks
+reading sources... [100%] tellurium_methods
 
 /home/mkoenig/git/tellurium/docs/_notebooks/core/computeSteadyState.rst:3: ERROR: Content block expected for the "code" directive; none found.
 /home/mkoenig/git/tellurium/docs/_notebooks/core/consecutiveUniUniReactions.rst:3: ERROR: Content block expected for the "code" directive; none found.
@@ -125,7 +126,6 @@ reading sources... [100%] notebooks
 /home/mkoenig/git/tellurium/docs/_notebooks/core/steadystate_scan.rst:3: ERROR: Content block expected for the "code" directive; none found.
 /home/mkoenig/git/tellurium/docs/_notebooks/core/steadystate_scan.rst:69: WARNING: image file not readable: _notebooks/core/_notebooks/core/steadystate_scan_files/steadystate_scan_3_1.png
 /home/mkoenig/git/tellurium/docs/_notebooks/core/template.rst:3: ERROR: Content block expected for the "code" directive; none found.
-/home/mkoenig/git/tellurium/docs/index.rst:11: WARNING: toctree contains reference to nonexisting document u'tellurium_methods'
 _notebooks/core/introduction.rst:3: ERROR: Content block expected for the "code" directive; none found.
 _notebooks/core/nonUnitStoichiometries.rst:3: ERROR: Content block expected for the "code" directive; none found.
 _notebooks/core/nonUnitStoichiometries.rst:26: WARNING: Inline emphasis start-string without end-string.
@@ -150,25 +150,26 @@ done
 preparing documents... done
 writing output... [  4%] _apidoc/modules
 writing output... [  9%] _apidoc/tellurium
-writing output... [ 14%] _apidoc/tellurium.Export
-writing output... [ 19%] _apidoc/tellurium.ParameterScan
-writing output... [ 23%] _apidoc/tellurium.analysis
-writing output... [ 28%] _apidoc/tellurium.notebooktools
-writing output... [ 33%] _apidoc/tellurium.optimization
-writing output... [ 38%] _apidoc/tellurium.tests
-writing output... [ 42%] _apidoc/tellurium.visualization
-writing output... [ 47%] _apidoc/tellurium.widgets
-writing output... [ 52%] _notebooks/core/computeSteadyState
-writing output... [ 57%] _notebooks/core/consecutiveUniUniReactions
-writing output... [ 61%] _notebooks/core/generatingDifferentWaveforms
-writing output... [ 66%] _notebooks/core/introduction
-writing output... [ 71%] _notebooks/core/nonUnitStoichiometries
-writing output... [ 76%] _notebooks/core/parameter_scan
-writing output... [ 80%] _notebooks/core/steadystate_scan
-writing output... [ 85%] _notebooks/core/template
-writing output... [ 90%] index
-writing output... [ 95%] introduction
-writing output... [100%] notebooks
+writing output... [ 13%] _apidoc/tellurium.Export
+writing output... [ 18%] _apidoc/tellurium.ParameterScan
+writing output... [ 22%] _apidoc/tellurium.analysis
+writing output... [ 27%] _apidoc/tellurium.notebooktools
+writing output... [ 31%] _apidoc/tellurium.optimization
+writing output... [ 36%] _apidoc/tellurium.tests
+writing output... [ 40%] _apidoc/tellurium.visualization
+writing output... [ 45%] _apidoc/tellurium.widgets
+writing output... [ 50%] _notebooks/core/computeSteadyState
+writing output... [ 54%] _notebooks/core/consecutiveUniUniReactions
+writing output... [ 59%] _notebooks/core/generatingDifferentWaveforms
+writing output... [ 63%] _notebooks/core/introduction
+writing output... [ 68%] _notebooks/core/nonUnitStoichiometries
+writing output... [ 72%] _notebooks/core/parameter_scan
+writing output... [ 77%] _notebooks/core/steadystate_scan
+writing output... [ 81%] _notebooks/core/template
+writing output... [ 86%] index
+writing output... [ 90%] introduction
+writing output... [ 95%] notebooks
+writing output... [100%] tellurium_methods
 
 generating indices... genindex py-modindex
 highlighting module code... [  5%] tellurium.tephrasedml
@@ -179,16 +180,16 @@ highlighting module code... [ 27%] tellurium.widgets.ontology_search
 highlighting module code... [ 33%] tellurium.tellurium
 highlighting module code... [ 38%] tellurium.optimization.DiffEvolution
 highlighting module code... [ 44%] tellurium.analysis.match
-highlighting module code... [ 50%] tellurium.widgets.species_search
-highlighting module code... [ 55%] tellurium.widgets.parameter_slider
-highlighting module code... [ 61%] tellurium.SedmlToRr
-highlighting module code... [ 66%] tellurium.visualization.SBMLDiagram
-highlighting module code... [ 72%] tellurium.tests.test_tellurium
-highlighting module code... [ 77%] tellurium.tests.test_runner
+highlighting module code... [ 50%] tellurium.analysis.parameters
+highlighting module code... [ 55%] tellurium.SedmlToRr
+highlighting module code... [ 61%] tellurium.visualization.SBMLDiagram
+highlighting module code... [ 66%] tellurium.tests.test_tellurium
+highlighting module code... [ 72%] tellurium.tests.test_Export
+highlighting module code... [ 77%] tellurium.ParameterScan.ParameterScan
 highlighting module code... [ 83%] tellurium.tests.test_tephrasedml
-highlighting module code... [ 88%] tellurium.analysis.parameters
-highlighting module code... [ 94%] tellurium.ParameterScan.ParameterScan
-highlighting module code... [100%] tellurium.tests.test_Export
+highlighting module code... [ 88%] tellurium.widgets.species_search
+highlighting module code... [ 94%] tellurium.widgets.parameter_slider
+highlighting module code... [100%] tellurium.tests.test_runner
 
 writing additional pages... search
 copying images... [ 12%] _notebooks/core/introduction_files/introduction_3_0.png
@@ -204,6 +205,6 @@ copying static files... done
 copying extra files... done
 dumping search index in English (code: en) ... done
 dumping object inventory... done
-build succeeded, 35 warnings.
+build succeeded, 34 warnings.
 
 Build finished. The HTML pages are in _build/html.
