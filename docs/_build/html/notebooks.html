@@ -84,7 +84,10 @@
                 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="">Examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#non-unit-stoichiometries">Non-unit stoichiometries</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#consecutive-uniuni-reactions-using-first-order-mass-action-kinetics">Consecutive UniUni reactions using first-order mass-action kinetics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#parameter-scan">Parameter scan</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#steady-state-scan">Steady state scan</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#generate-different-wave-forms">Generate different wave forms</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#steady-state-calculation">Steady state calculation</a></li>
 </ul>
@@ -137,7 +140,59 @@
             
   <div class="section" id="examples">
 <h1>Examples<a class="headerlink" href="#examples" title="Permalink to this headline">¶</a></h1>
-<p>Example of tellurium use cases. All use cases are available as ipython notebooks.</p>
+<p>All tellurium examples are available as interactive notebooks (<a class="reference external" href="http://jupyter.readthedocs.org/en/latest/install.html">http://jupyter.readthedocs.org/en/latest/install.html</a>).</p>
+<p>To run the examples clone the git repository</p>
+<div class="highlight-python"><div class="highlight"><pre>git clone https://github.com/sys-bio/tellurium.git
+</pre></div>
+</div>
+<p>and start jupyter in the notebooks folder</p>
+<div class="highlight-python"><div class="highlight"><pre>cd tellurium/examples/notebooks
+jupyter notebook index.ipynb
+</pre></div>
+</div>
+<div class="section" id="non-unit-stoichiometries">
+<h2>Non-unit stoichiometries<a class="headerlink" href="#non-unit-stoichiometries" title="Permalink to this headline">¶</a></h2>
+<p>The following example demonstrates how to create a model with non-unit
+stoichiometries.</p>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">tellurium</span> <span class="kn">as</span> <span class="nn">te</span>
+
+<span class="n">r</span> <span class="o">=</span> <span class="n">te</span><span class="o">.</span><span class="n">loada</span><span class="p">(</span><span class="s1">&#39;&#39;&#39;</span>
+<span class="s1">  model pathway()</span>
+<span class="s1">    S1 + S2 -&gt; 2 S3; k1*S1*S2</span>
+<span class="s1">    3 S3 -&gt; 4 S4 + 6 S5; k2*S3^3</span>
+<span class="s1">    k1 = 0.1;k2 = 0.1;</span>
+<span class="s1">  end</span>
+<span class="s1">&#39;&#39;&#39;</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">getAntimony</span><span class="p">())</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre>// Created by libAntimony v2.8.1
+model *pathway()
+
+  // Compartments and Species:
+  species S1, S2, S3, S4, S5;
+
+  // Reactions:
+  _J0: S1 + S2 -&gt; 2S3; k1*S1*S2;
+  _J1: 3S3 -&gt; 4S4 + 6S5; k2*S3^3;
+
+  // Species initializations:
+  S1 = 0;
+  S2 = 0;
+  S3 = 0;
+  S4 = 0;
+  S5 = 0;
+
+  // Variable initializations:
+  k1 = 0.1;
+  k2 = 0.1;
+
+  // Other declarations:
+  const k1, k2;
+end
+</pre></div>
+</div>
+</div>
 <div class="section" id="consecutive-uniuni-reactions-using-first-order-mass-action-kinetics">
 <h2>Consecutive UniUni reactions using first-order mass-action kinetics<a class="headerlink" href="#consecutive-uniuni-reactions-using-first-order-mass-action-kinetics" title="Permalink to this headline">¶</a></h2>
 <p>Model creation and simulation of a simple irreversible chain of
@@ -161,6 +216,124 @@ reactions S1 -&gt; S2 -&gt; S3 -&gt; S4.</p>
 </pre></div>
 </div>
 <img alt="_images/consecutiveUniUniReactions_3_0.png" src="_images/consecutiveUniUniReactions_3_0.png" />
+</div>
+<div class="section" id="parameter-scan">
+<h2>Parameter scan<a class="headerlink" href="#parameter-scan" title="Permalink to this headline">¶</a></h2>
+<p>Perform a parameter scan.</p>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">tellurium</span> <span class="kn">as</span> <span class="nn">te</span>
+
+<span class="n">r</span> <span class="o">=</span> <span class="n">te</span><span class="o">.</span><span class="n">loada</span><span class="p">(</span><span class="s1">&#39;&#39;&#39;</span>
+<span class="s1">    J1: $Xo -&gt; x; 0.1 + k1*x^4/(k2+x^4);</span>
+<span class="s1">    x -&gt; $w; k3*x;</span>
+
+<span class="s1">    k1 = 0.9;</span>
+<span class="s1">    k2 = 0.3;</span>
+<span class="s1">    k3 = 0.7;</span>
+<span class="s1">    x = 0;</span>
+<span class="s1">&#39;&#39;&#39;</span><span class="p">)</span>
+
+<span class="c1"># parameter scan</span>
+<span class="n">p</span> <span class="o">=</span> <span class="n">te</span><span class="o">.</span><span class="n">ParameterScan</span><span class="o">.</span><span class="n">ParameterScan</span><span class="p">(</span><span class="n">r</span><span class="p">)</span>
+<span class="c1"># settings</span>
+<span class="n">p</span><span class="o">.</span><span class="n">startTime</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">p</span><span class="o">.</span><span class="n">endTime</span> <span class="o">=</span> <span class="mi">15</span>
+<span class="n">p</span><span class="o">.</span><span class="n">numberOfPoints</span> <span class="o">=</span> <span class="mi">50</span>
+<span class="n">p</span><span class="o">.</span><span class="n">polyNumber</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="n">p</span><span class="o">.</span><span class="n">endValue</span> <span class="o">=</span> <span class="mf">1.8</span>
+<span class="n">p</span><span class="o">.</span><span class="n">alpha</span> <span class="o">=</span> <span class="mf">0.8</span>
+<span class="n">p</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="s2">&quot;x&quot;</span>
+<span class="n">p</span><span class="o">.</span><span class="n">selection</span> <span class="o">=</span> <span class="s2">&quot;x&quot;</span>
+<span class="n">p</span><span class="o">.</span><span class="n">color</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;#0F0F3D&#39;</span><span class="p">,</span> <span class="s1">&#39;#141452&#39;</span><span class="p">,</span> <span class="s1">&#39;#1A1A66&#39;</span><span class="p">,</span> <span class="s1">&#39;#1F1F7A&#39;</span><span class="p">,</span> <span class="s1">&#39;#24248F&#39;</span><span class="p">,</span> <span class="s1">&#39;#2929A3&#39;</span><span class="p">,</span>
+           <span class="s1">&#39;#2E2EB8&#39;</span><span class="p">,</span> <span class="s1">&#39;#3333CC&#39;</span><span class="p">,</span> <span class="s1">&#39;#4747D1&#39;</span><span class="p">,</span> <span class="s1">&#39;#5C5CD6&#39;</span><span class="p">]</span>
+<span class="c1"># plot</span>
+<span class="n">p</span><span class="o">.</span><span class="n">plotPolyArray</span><span class="p">()</span>
+</pre></div>
+</div>
+<img alt="_images/parameter_scan_3_0.png" src="_images/parameter_scan_3_0.png" />
+<div class="code python highlight-python"><div class="highlight"><pre><span class="n">r</span> <span class="o">=</span> <span class="n">te</span><span class="o">.</span><span class="n">loada</span><span class="p">(</span><span class="s1">&#39;&#39;&#39;</span>
+<span class="s1">    $Xo -&gt; S1; vo;</span>
+<span class="s1">    S1 -&gt; S2; k1*S1 - k2*S2;</span>
+<span class="s1">    S2 -&gt; $X1; k3*S2;</span>
+
+<span class="s1">    vo = 1</span>
+<span class="s1">    k1 = 2; k2 = 0; k3 = 3;</span>
+<span class="s1">&#39;&#39;&#39;</span><span class="p">)</span>
+
+<span class="c1"># parameter scan</span>
+<span class="n">p</span> <span class="o">=</span> <span class="n">te</span><span class="o">.</span><span class="n">ParameterScan</span><span class="o">.</span><span class="n">ParameterScan</span><span class="p">(</span><span class="n">r</span><span class="p">)</span>
+<span class="c1"># settings</span>
+<span class="n">p</span><span class="o">.</span><span class="n">startTime</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">p</span><span class="o">.</span><span class="n">endTime</span> <span class="o">=</span> <span class="mi">6</span>
+<span class="n">p</span><span class="o">.</span><span class="n">numberOfPoints</span> <span class="o">=</span> <span class="mi">50</span>
+<span class="n">p</span><span class="o">.</span><span class="n">startValue</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">p</span><span class="o">.</span><span class="n">endValue</span> <span class="o">=</span> <span class="mi">5</span>
+<span class="n">p</span><span class="o">.</span><span class="n">colormap</span> <span class="o">=</span> <span class="s2">&quot;cool&quot;</span>
+<span class="n">p</span><span class="o">.</span><span class="n">independent</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;Time&quot;</span><span class="p">,</span> <span class="s2">&quot;k1&quot;</span><span class="p">]</span>
+<span class="n">p</span><span class="o">.</span><span class="n">dependent</span> <span class="o">=</span> <span class="s2">&quot;S1&quot;</span>
+<span class="n">p</span><span class="o">.</span><span class="n">xlabel</span> <span class="o">=</span> <span class="s2">&quot;Time&quot;</span>
+<span class="n">p</span><span class="o">.</span><span class="n">ylabel</span> <span class="o">=</span> <span class="s2">&quot;x&quot;</span>
+<span class="n">p</span><span class="o">.</span><span class="n">title</span> <span class="o">=</span> <span class="s2">&quot;Model&quot;</span>
+<span class="c1"># plot</span>
+<span class="n">p</span><span class="o">.</span><span class="n">plotSurface</span><span class="p">()</span>
+</pre></div>
+</div>
+<img alt="_images/parameter_scan_4_0.png" src="_images/parameter_scan_4_0.png" />
+</div>
+<div class="section" id="steady-state-scan">
+<h2>Steady state scan<a class="headerlink" href="#steady-state-scan" title="Permalink to this headline">¶</a></h2>
+<p>Using <code class="docutils literal"><span class="pre">te.ParameterScan.SteadyStateScan</span></code> for scanning the steady
+state.</p>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">tellurium</span> <span class="kn">as</span> <span class="nn">te</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">tellurium</span> <span class="kn">as</span> <span class="nn">te</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">roadrunner</span> <span class="kn">import</span> <span class="n">Config</span>
+
+<span class="n">Config</span><span class="o">.</span><span class="n">setValue</span><span class="p">(</span><span class="n">Config</span><span class="o">.</span><span class="n">LOADSBMLOPTIONS_CONSERVED_MOIETIES</span><span class="p">,</span> <span class="bp">True</span><span class="p">)</span>
+
+<span class="n">r</span> <span class="o">=</span> <span class="n">te</span><span class="o">.</span><span class="n">loada</span><span class="p">(</span><span class="s1">&#39;&#39;&#39;</span>
+<span class="s1">    $Xo -&gt; S1; vo;</span>
+<span class="s1">    S1 -&gt; S2; k1*S1 - k2*S2;</span>
+<span class="s1">    S2 -&gt; $X1; k3*S2;</span>
+
+<span class="s1">    vo = 1</span>
+<span class="s1">    k1 = 2; k2 = 0; k3 = 3;</span>
+<span class="s1">&#39;&#39;&#39;</span><span class="p">)</span>
+
+<span class="n">p</span> <span class="o">=</span> <span class="n">te</span><span class="o">.</span><span class="n">ParameterScan</span><span class="o">.</span><span class="n">SteadyStateScan</span><span class="p">(</span><span class="n">r</span><span class="p">)</span>
+<span class="n">p</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="s1">&#39;k3&#39;</span>
+<span class="n">p</span><span class="o">.</span><span class="n">startValue</span> <span class="o">=</span> <span class="mi">2</span>
+<span class="n">p</span><span class="o">.</span><span class="n">endValue</span> <span class="o">=</span> <span class="mi">3</span>
+<span class="n">p</span><span class="o">.</span><span class="n">numberOfPoints</span> <span class="o">=</span> <span class="mi">20</span>
+<span class="n">p</span><span class="o">.</span><span class="n">selection</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;S1&#39;</span><span class="p">,</span> <span class="s1">&#39;S2&#39;</span><span class="p">]</span>
+<span class="n">p</span><span class="o">.</span><span class="n">plotArray</span><span class="p">()</span>
+
+<span class="n">Config</span><span class="o">.</span><span class="n">setValue</span><span class="p">(</span><span class="n">Config</span><span class="o">.</span><span class="n">LOADSBMLOPTIONS_CONSERVED_MOIETIES</span><span class="p">,</span> <span class="bp">False</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre>[[ 2.05263158  0.5         0.48717949]
+ [ 2.10526316  0.5         0.475     ]
+ [ 2.15789474  0.5         0.46341463]
+ [ 2.21052632  0.5         0.45238095]
+ [ 2.26315789  0.5         0.44186047]
+ [ 2.31578947  0.5         0.43181818]
+ [ 2.36842105  0.5         0.42222222]
+ [ 2.42105263  0.5         0.41304348]
+ [ 2.47368421  0.5         0.40425532]
+ [ 2.52631579  0.5         0.39583333]
+ [ 2.57894737  0.5         0.3877551 ]
+ [ 2.63157895  0.5         0.38      ]
+ [ 2.68421053  0.5         0.37254902]
+ [ 2.73684211  0.5         0.36538462]
+ [ 2.78947368  0.5         0.35849057]
+ [ 2.84210526  0.5         0.35185185]
+ [ 2.89473684  0.5         0.34545455]
+ [ 2.94736842  0.5         0.33928571]
+ [ 3.          0.5         0.33333333]
+ [ 3.05263158  0.5         0.32758621]]
+</pre></div>
+</div>
+<img alt="_images/steadystate_scan_3_1.png" src="_images/steadystate_scan_3_1.png" />
 </div>
 <div class="section" id="generate-different-wave-forms">
 <h2>Generate different wave forms<a class="headerlink" href="#generate-different-wave-forms" title="Permalink to this headline">¶</a></h2>

@@ -1,4 +1,4 @@
-Die Jan 26 17:37:54 CET 2016
+Die Jan 26 18:13:20 CET 2016
 --------------------------------------
 convert notebooks to rst
 --------------------------------------
@@ -21,6 +21,20 @@ convert notebooks to rst
 [NbConvertApp] Making directory introduction_files
 [NbConvertApp] Making directory introduction_files
 [NbConvertApp] Writing 860 bytes to introduction.rst
+[NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/nonUnitStoichiometries.ipynb to rst
+[NbConvertApp] Executing notebook with kernel: python2
+[NbConvertApp] Writing 1011 bytes to nonUnitStoichiometries.rst
+[NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/parameter_scan.ipynb to rst
+[NbConvertApp] Executing notebook with kernel: python2
+[NbConvertApp] Support files will be in parameter_scan_files/
+[NbConvertApp] Making directory parameter_scan_files
+[NbConvertApp] Making directory parameter_scan_files
+[NbConvertApp] Writing 1501 bytes to parameter_scan.rst
+[NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/steadystate_scan.ipynb to rst
+[NbConvertApp] Executing notebook with kernel: python2
+[NbConvertApp] Support files will be in steadystate_scan_files/
+[NbConvertApp] Making directory steadystate_scan_files
+[NbConvertApp] Writing 1862 bytes to steadystate_scan.rst
 [NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/template.ipynb to rst
 [NbConvertApp] Executing notebook with kernel: python2
 [NbConvertApp] Writing 211 bytes to template.rst
