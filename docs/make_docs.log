@@ -1,19 +1,73 @@
-Die Jan 26 16:35:42 CET 2016
+Die Jan 26 19:34:24 CET 2016
 --------------------------------------
 convert notebooks to rst
 --------------------------------------
 [NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/computeSteadyState.ipynb to rst
 [NbConvertApp] Executing notebook with kernel: python2
-[NbConvertApp] Writing 897 bytes to computeSteadyState.rst
+[NbConvertApp] Writing 984 bytes to computeSteadyState.rst
 [NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/consecutiveUniUniReactions.ipynb to rst
 [NbConvertApp] Executing notebook with kernel: python2
 [NbConvertApp] Support files will be in consecutiveUniUniReactions_files/
 [NbConvertApp] Making directory consecutiveUniUniReactions_files
-[NbConvertApp] Writing 766 bytes to consecutiveUniUniReactions.rst
+[NbConvertApp] Writing 811 bytes to consecutiveUniUniReactions.rst
+[NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/generatingDifferentWaveforms.ipynb to rst
+[NbConvertApp] Executing notebook with kernel: python2
+[NbConvertApp] Support files will be in generatingDifferentWaveforms_files/
+[NbConvertApp] Making directory generatingDifferentWaveforms_files
+[NbConvertApp] Writing 1899 bytes to generatingDifferentWaveforms.rst
+[NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/introduction.ipynb to rst
+[NbConvertApp] Executing notebook with kernel: python2
+[NbConvertApp] Support files will be in introduction_files/
+[NbConvertApp] Making directory introduction_files
+[NbConvertApp] Making directory introduction_files
+[NbConvertApp] Writing 860 bytes to introduction.rst
+[NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/nonUnitStoichiometries.ipynb to rst
+[NbConvertApp] Executing notebook with kernel: python2
+[NbConvertApp] Writing 1011 bytes to nonUnitStoichiometries.rst
+[NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/parameter_scan.ipynb to rst
+[NbConvertApp] Executing notebook with kernel: python2
+[NbConvertApp] Support files will be in parameter_scan_files/
+[NbConvertApp] Making directory parameter_scan_files
+[NbConvertApp] Making directory parameter_scan_files
+[NbConvertApp] Writing 1501 bytes to parameter_scan.rst
+[NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/steadystate_scan.ipynb to rst
+[NbConvertApp] Executing notebook with kernel: python2
+[NbConvertApp] Support files will be in steadystate_scan_files/
+[NbConvertApp] Making directory steadystate_scan_files
+[NbConvertApp] Writing 1862 bytes to steadystate_scan.rst
+[NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/template.ipynb to rst
+[NbConvertApp] Executing notebook with kernel: python2
+[NbConvertApp] Writing 211 bytes to template.rst
 --------------------------------------
 postprocessing rst
 --------------------------------------
-sed: can't read ./infile: No such file or directory
+--------------------------------------
+create python code
+--------------------------------------
+[NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/computeSteadyState.ipynb to python
+[NbConvertApp] Executing notebook with kernel: python2
+[NbConvertApp] Writing 836 bytes to computeSteadyState.py
+[NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/consecutiveUniUniReactions.ipynb to python
+[NbConvertApp] Executing notebook with kernel: python2
+[NbConvertApp] Writing 632 bytes to consecutiveUniUniReactions.py
+[NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/generatingDifferentWaveforms.ipynb to python
+[NbConvertApp] Executing notebook with kernel: python2
+[NbConvertApp] Writing 1634 bytes to generatingDifferentWaveforms.py
+[NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/introduction.ipynb to python
+[NbConvertApp] Executing notebook with kernel: python2
+[NbConvertApp] Writing 680 bytes to introduction.py
+[NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/nonUnitStoichiometries.ipynb to python
+[NbConvertApp] Executing notebook with kernel: python2
+[NbConvertApp] Writing 466 bytes to nonUnitStoichiometries.py
+[NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/parameter_scan.ipynb to python
+[NbConvertApp] Executing notebook with kernel: python2
+[NbConvertApp] Writing 1189 bytes to parameter_scan.py
+[NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/steadystate_scan.ipynb to python
+[NbConvertApp] Executing notebook with kernel: python2
+[NbConvertApp] Writing 827 bytes to steadystate_scan.py
+[NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/template.ipynb to python
+[NbConvertApp] Executing notebook with kernel: python2
+[NbConvertApp] Writing 235 bytes to template.py
 Creating file _apidoc/tellurium.rst.
 Creating file _apidoc/tellurium.Export.rst.
 Creating file _apidoc/tellurium.ParameterScan.rst.
@@ -28,173 +82,128 @@ sphinx-build -b html -d _build/doctrees   . _build/html
 Running Sphinx v1.3.4
 loading pickled environment... done
 building [mo]: targets for 0 po files that are out of date
-building [html]: targets for 12 source files that are out of date
-updating environment: 0 added, 13 changed, 0 removed
-reading sources... [  7%] _apidoc/modules
-reading sources... [ 15%] _apidoc/tellurium
+building [html]: targets for 18 source files that are out of date
+updating environment: 0 added, 21 changed, 10 removed
+reading sources... [  4%] _apidoc/modules
+reading sources... [  9%] _apidoc/tellurium
 [1m[33mWarning: No module named sedml2py.unzipy[0m
 [1m[33mWarning: No module named sbml2matlab[0m
-reading sources... [ 23%] _apidoc/tellurium.Export
-reading sources... [ 30%] _apidoc/tellurium.ParameterScan
-reading sources... [ 38%] _apidoc/tellurium.analysis
-reading sources... [ 46%] _apidoc/tellurium.notebooktools
-reading sources... [ 53%] _apidoc/tellurium.optimization
-reading sources... [ 61%] _apidoc/tellurium.tests
-reading sources... [ 69%] _apidoc/tellurium.visualization
-reading sources... [ 76%] _apidoc/tellurium.widgets
-reading sources... [ 84%] _notebooks/core/computeSteadyState
-reading sources... [ 92%] _notebooks/core/consecutiveUniUniReactions
+[1m[33mWarning: /usr/local/lib/python2.7/dist-packages/pygraphviz/_graphviz.so: undefined symbol: Agundirected[0m
+reading sources... [ 14%] _apidoc/tellurium.Export
+reading sources... [ 19%] _apidoc/tellurium.ParameterScan
+reading sources... [ 23%] _apidoc/tellurium.analysis
+reading sources... [ 28%] _apidoc/tellurium.notebooktools
+reading sources... [ 33%] _apidoc/tellurium.optimization
+reading sources... [ 38%] _apidoc/tellurium.tests
+reading sources... [ 42%] _apidoc/tellurium.visualization
+reading sources... [ 47%] _apidoc/tellurium.widgets
+reading sources... [ 52%] _notebooks/core/computeSteadyState
+reading sources... [ 57%] _notebooks/core/consecutiveUniUniReactions
+reading sources... [ 61%] _notebooks/core/generatingDifferentWaveforms
+reading sources... [ 66%] _notebooks/core/introduction
+reading sources... [ 71%] _notebooks/core/nonUnitStoichiometries
+reading sources... [ 76%] _notebooks/core/parameter_scan
+reading sources... [ 80%] _notebooks/core/steadystate_scan
+reading sources... [ 85%] _notebooks/core/template
+reading sources... [ 90%] index
+reading sources... [ 95%] introduction
 reading sources... [100%] notebooks
 
-/home/mkoenig/git/tellurium/docs/_apidoc/tellurium.rst:24: WARNING: autodoc: failed to import module u'tellurium.SedmlToRr'; the following exception was raised:
-Traceback (most recent call last):
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 385, in import_object
-    __import__(self.modname)
-ImportError: No module named SedmlToRr
-/home/mkoenig/git/tellurium/docs/_apidoc/tellurium.rst:32: WARNING: autodoc: failed to import module u'tellurium.tecombine'; the following exception was raised:
-Traceback (most recent call last):
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 385, in import_object
-    __import__(self.modname)
-ImportError: No module named tecombine
-/home/mkoenig/git/tellurium/docs/_apidoc/tellurium.rst:40: WARNING: autodoc: failed to import module u'tellurium.tellurium'; the following exception was raised:
-Traceback (most recent call last):
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 385, in import_object
-    __import__(self.modname)
-ImportError: No module named tellurium
-/home/mkoenig/git/tellurium/docs/_apidoc/tellurium.rst:48: WARNING: autodoc: failed to import module u'tellurium.tephrasedml'; the following exception was raised:
-Traceback (most recent call last):
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 385, in import_object
-    __import__(self.modname)
-ImportError: No module named tephrasedml
-/home/mkoenig/git/tellurium/docs/_apidoc/tellurium.Export.rst:10: WARNING: autodoc: failed to import module u'tellurium.Export.Export'; the following exception was raised:
-Traceback (most recent call last):
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 385, in import_object
-    __import__(self.modname)
-ImportError: No module named Export.Export
-/home/mkoenig/git/tellurium/docs/_apidoc/tellurium.Export.rst:19: WARNING: autodoc: failed to import module u'tellurium.Export'; the following exception was raised:
-Traceback (most recent call last):
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 385, in import_object
-    __import__(self.modname)
-ImportError: No module named Export
-/home/mkoenig/git/tellurium/docs/_apidoc/tellurium.ParameterScan.rst:10: WARNING: autodoc: failed to import module u'tellurium.ParameterScan.ParameterScan'; the following exception was raised:
-Traceback (most recent call last):
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 385, in import_object
-    __import__(self.modname)
-ImportError: No module named ParameterScan.ParameterScan
-/home/mkoenig/git/tellurium/docs/_apidoc/tellurium.ParameterScan.rst:19: WARNING: autodoc: failed to import module u'tellurium.ParameterScan'; the following exception was raised:
-Traceback (most recent call last):
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 385, in import_object
-    __import__(self.modname)
-ImportError: No module named ParameterScan
-/home/mkoenig/git/tellurium/docs/_apidoc/tellurium.analysis.rst:10: WARNING: autodoc: failed to import module u'tellurium.analysis.match'; the following exception was raised:
-Traceback (most recent call last):
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 385, in import_object
-    __import__(self.modname)
-ImportError: No module named analysis.match
-/home/mkoenig/git/tellurium/docs/_apidoc/tellurium.analysis.rst:18: WARNING: autodoc: failed to import module u'tellurium.analysis.parameters'; the following exception was raised:
-Traceback (most recent call last):
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 385, in import_object
-    __import__(self.modname)
-ImportError: No module named analysis.parameters
-/home/mkoenig/git/tellurium/docs/_apidoc/tellurium.analysis.rst:27: WARNING: autodoc: failed to import module u'tellurium.analysis'; the following exception was raised:
-Traceback (most recent call last):
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 385, in import_object
-    __import__(self.modname)
-ImportError: No module named analysis
-/home/mkoenig/git/tellurium/docs/_apidoc/tellurium.notebooktools.rst:10: WARNING: autodoc: failed to import module u'tellurium.notebooktools.notebooktools'; the following exception was raised:
-Traceback (most recent call last):
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 385, in import_object
-    __import__(self.modname)
-ImportError: No module named notebooktools.notebooktools
-/home/mkoenig/git/tellurium/docs/_apidoc/tellurium.notebooktools.rst:19: WARNING: autodoc: failed to import module u'tellurium.notebooktools'; the following exception was raised:
-Traceback (most recent call last):
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 385, in import_object
-    __import__(self.modname)
-ImportError: No module named notebooktools
-/home/mkoenig/git/tellurium/docs/_apidoc/tellurium.optimization.rst:10: WARNING: autodoc: failed to import module u'tellurium.optimization.DiffEvolution'; the following exception was raised:
-Traceback (most recent call last):
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 385, in import_object
-    __import__(self.modname)
-ImportError: No module named optimization.DiffEvolution
-/home/mkoenig/git/tellurium/docs/_apidoc/tellurium.optimization.rst:19: WARNING: autodoc: failed to import module u'tellurium.optimization'; the following exception was raised:
-Traceback (most recent call last):
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 385, in import_object
-    __import__(self.modname)
-ImportError: No module named optimization
-/home/mkoenig/git/tellurium/docs/_apidoc/tellurium.tests.rst:10: WARNING: autodoc: failed to import module u'tellurium.tests.test_Export'; the following exception was raised:
-Traceback (most recent call last):
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 385, in import_object
-    __import__(self.modname)
-ImportError: No module named tests.test_Export
-/home/mkoenig/git/tellurium/docs/_apidoc/tellurium.tests.rst:18: WARNING: autodoc: failed to import module u'tellurium.tests.test_runner'; the following exception was raised:
-Traceback (most recent call last):
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 385, in import_object
-    __import__(self.modname)
-ImportError: No module named tests.test_runner
-/home/mkoenig/git/tellurium/docs/_apidoc/tellurium.tests.rst:26: WARNING: autodoc: failed to import module u'tellurium.tests.test_tellurium'; the following exception was raised:
-Traceback (most recent call last):
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 385, in import_object
-    __import__(self.modname)
-ImportError: No module named tests.test_tellurium
-/home/mkoenig/git/tellurium/docs/_apidoc/tellurium.tests.rst:34: WARNING: autodoc: failed to import module u'tellurium.tests.test_tephrasedml'; the following exception was raised:
-Traceback (most recent call last):
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 385, in import_object
-    __import__(self.modname)
-ImportError: No module named tests.test_tephrasedml
-/home/mkoenig/git/tellurium/docs/_apidoc/tellurium.tests.rst:43: WARNING: autodoc: failed to import module u'tellurium.tests'; the following exception was raised:
-Traceback (most recent call last):
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 385, in import_object
-    __import__(self.modname)
-ImportError: No module named tests
-/home/mkoenig/git/tellurium/docs/_apidoc/tellurium.visualization.rst:10: WARNING: autodoc: failed to import module u'tellurium.visualization.SBMLDiagram'; the following exception was raised:
-Traceback (most recent call last):
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 385, in import_object
-    __import__(self.modname)
-ImportError: No module named visualization.SBMLDiagram
-/home/mkoenig/git/tellurium/docs/_apidoc/tellurium.visualization.rst:19: WARNING: autodoc: failed to import module u'tellurium.visualization'; the following exception was raised:
-Traceback (most recent call last):
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 385, in import_object
-    __import__(self.modname)
-ImportError: No module named visualization
-/home/mkoenig/git/tellurium/docs/_apidoc/tellurium.widgets.rst:7: WARNING: autodoc: failed to import module u'tellurium.widgets'; the following exception was raised:
-Traceback (most recent call last):
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 385, in import_object
-    __import__(self.modname)
-ImportError: No module named widgets
-internal padding after _notebooks/core/consecutiveUniUniReactions.rst:37: WARNING: image file not readable: consecutiveUniUniReactions_files/consecutiveUniUniReactions_2_0.png
+/home/mkoenig/git/tellurium/docs/_notebooks/core/computeSteadyState.rst:3: ERROR: Content block expected for the "code" directive; none found.
+/home/mkoenig/git/tellurium/docs/_notebooks/core/consecutiveUniUniReactions.rst:3: ERROR: Content block expected for the "code" directive; none found.
+/home/mkoenig/git/tellurium/docs/_notebooks/core/consecutiveUniUniReactions.rst:35: WARNING: image file not readable: _notebooks/core/_notebooks/core/consecutiveUniUniReactions_files/consecutiveUniUniReactions_3_0.png
+/home/mkoenig/git/tellurium/docs/_notebooks/core/generatingDifferentWaveforms.rst:3: ERROR: Content block expected for the "code" directive; none found.
+/home/mkoenig/git/tellurium/docs/_notebooks/core/generatingDifferentWaveforms.rst:64: WARNING: image file not readable: _notebooks/core/_notebooks/core/generatingDifferentWaveforms_files/generatingDifferentWaveforms_3_0.png
+/home/mkoenig/git/tellurium/docs/_notebooks/core/introduction.rst:3: ERROR: Content block expected for the "code" directive; none found.
+/home/mkoenig/git/tellurium/docs/_notebooks/core/introduction.rst:20: WARNING: image file not readable: _notebooks/core/_notebooks/core/introduction_files/introduction_3_0.png
+/home/mkoenig/git/tellurium/docs/_notebooks/core/introduction.rst:44: WARNING: image file not readable: _notebooks/core/_notebooks/core/introduction_files/introduction_5_0.png
+/home/mkoenig/git/tellurium/docs/_notebooks/core/nonUnitStoichiometries.rst:3: ERROR: Content block expected for the "code" directive; none found.
+/home/mkoenig/git/tellurium/docs/_notebooks/core/nonUnitStoichiometries.rst:26: WARNING: Inline emphasis start-string without end-string.
+/home/mkoenig/git/tellurium/docs/_notebooks/core/parameter_scan.rst:3: ERROR: Content block expected for the "code" directive; none found.
+/home/mkoenig/git/tellurium/docs/_notebooks/core/parameter_scan.rst:45: WARNING: image file not readable: _notebooks/core/_notebooks/core/parameter_scan_files/parameter_scan_3_0.png
+/home/mkoenig/git/tellurium/docs/_notebooks/core/parameter_scan.rst:78: WARNING: image file not readable: _notebooks/core/_notebooks/core/parameter_scan_files/parameter_scan_4_0.png
+/home/mkoenig/git/tellurium/docs/_notebooks/core/steadystate_scan.rst:3: ERROR: Content block expected for the "code" directive; none found.
+/home/mkoenig/git/tellurium/docs/_notebooks/core/steadystate_scan.rst:69: WARNING: image file not readable: _notebooks/core/_notebooks/core/steadystate_scan_files/steadystate_scan_3_1.png
+/home/mkoenig/git/tellurium/docs/_notebooks/core/template.rst:3: ERROR: Content block expected for the "code" directive; none found.
+/home/mkoenig/git/tellurium/docs/index.rst:11: WARNING: toctree contains reference to nonexisting document u'tellurium_methods'
+_notebooks/core/introduction.rst:3: ERROR: Content block expected for the "code" directive; none found.
+_notebooks/core/nonUnitStoichiometries.rst:3: ERROR: Content block expected for the "code" directive; none found.
+_notebooks/core/nonUnitStoichiometries.rst:26: WARNING: Inline emphasis start-string without end-string.
+_notebooks/core/consecutiveUniUniReactions.rst:3: ERROR: Content block expected for the "code" directive; none found.
+_notebooks/core/parameter_scan.rst:3: ERROR: Content block expected for the "code" directive; none found.
+_notebooks/core/steadystate_scan.rst:3: ERROR: Content block expected for the "code" directive; none found.
+_notebooks/core/generatingDifferentWaveforms.rst:3: ERROR: Content block expected for the "code" directive; none found.
+_notebooks/core/computeSteadyState.rst:3: ERROR: Content block expected for the "code" directive; none found.
 looking for now-outdated files... none found
 pickling environment... done
 checking consistency... /home/mkoenig/git/tellurium/docs/API.rst:: WARNING: document isn't included in any toctree
 /home/mkoenig/git/tellurium/docs/_apidoc/modules.rst:: WARNING: document isn't included in any toctree
 /home/mkoenig/git/tellurium/docs/_notebooks/core/computeSteadyState.rst:: WARNING: document isn't included in any toctree
 /home/mkoenig/git/tellurium/docs/_notebooks/core/consecutiveUniUniReactions.rst:: WARNING: document isn't included in any toctree
+/home/mkoenig/git/tellurium/docs/_notebooks/core/generatingDifferentWaveforms.rst:: WARNING: document isn't included in any toctree
+/home/mkoenig/git/tellurium/docs/_notebooks/core/introduction.rst:: WARNING: document isn't included in any toctree
+/home/mkoenig/git/tellurium/docs/_notebooks/core/nonUnitStoichiometries.rst:: WARNING: document isn't included in any toctree
+/home/mkoenig/git/tellurium/docs/_notebooks/core/parameter_scan.rst:: WARNING: document isn't included in any toctree
+/home/mkoenig/git/tellurium/docs/_notebooks/core/steadystate_scan.rst:: WARNING: document isn't included in any toctree
+/home/mkoenig/git/tellurium/docs/_notebooks/core/template.rst:: WARNING: document isn't included in any toctree
 done
 preparing documents... done
-writing output... [  7%] _apidoc/modules
-writing output... [ 14%] _apidoc/tellurium
-writing output... [ 21%] _apidoc/tellurium.Export
-writing output... [ 28%] _apidoc/tellurium.ParameterScan
-writing output... [ 35%] _apidoc/tellurium.analysis
-writing output... [ 42%] _apidoc/tellurium.notebooktools
-writing output... [ 50%] _apidoc/tellurium.optimization
-writing output... [ 57%] _apidoc/tellurium.tests
-writing output... [ 64%] _apidoc/tellurium.visualization
-writing output... [ 71%] _apidoc/tellurium.widgets
-writing output... [ 78%] _notebooks/core/computeSteadyState
-writing output... [ 85%] _notebooks/core/consecutiveUniUniReactions
-writing output... [ 92%] index
+writing output... [  4%] _apidoc/modules
+writing output... [  9%] _apidoc/tellurium
+writing output... [ 14%] _apidoc/tellurium.Export
+writing output... [ 19%] _apidoc/tellurium.ParameterScan
+writing output... [ 23%] _apidoc/tellurium.analysis
+writing output... [ 28%] _apidoc/tellurium.notebooktools
+writing output... [ 33%] _apidoc/tellurium.optimization
+writing output... [ 38%] _apidoc/tellurium.tests
+writing output... [ 42%] _apidoc/tellurium.visualization
+writing output... [ 47%] _apidoc/tellurium.widgets
+writing output... [ 52%] _notebooks/core/computeSteadyState
+writing output... [ 57%] _notebooks/core/consecutiveUniUniReactions
+writing output... [ 61%] _notebooks/core/generatingDifferentWaveforms
+writing output... [ 66%] _notebooks/core/introduction
+writing output... [ 71%] _notebooks/core/nonUnitStoichiometries
+writing output... [ 76%] _notebooks/core/parameter_scan
+writing output... [ 80%] _notebooks/core/steadystate_scan
+writing output... [ 85%] _notebooks/core/template
+writing output... [ 90%] index
+writing output... [ 95%] introduction
 writing output... [100%] notebooks
 
 generating indices... genindex py-modindex
-highlighting module code... [100%] tellurium
+highlighting module code... [  5%] tellurium.tephrasedml
+highlighting module code... [ 11%] tellurium.tecombine
+highlighting module code... [ 16%] tellurium.Export.Export
+highlighting module code... [ 22%] tellurium.notebooktools.notebooktools
+highlighting module code... [ 27%] tellurium.widgets.ontology_search
+highlighting module code... [ 33%] tellurium.tellurium
+highlighting module code... [ 38%] tellurium.optimization.DiffEvolution
+highlighting module code... [ 44%] tellurium.analysis.match
+highlighting module code... [ 50%] tellurium.widgets.species_search
+highlighting module code... [ 55%] tellurium.widgets.parameter_slider
+highlighting module code... [ 61%] tellurium.SedmlToRr
+highlighting module code... [ 66%] tellurium.visualization.SBMLDiagram
+highlighting module code... [ 72%] tellurium.tests.test_tellurium
+highlighting module code... [ 77%] tellurium.tests.test_runner
+highlighting module code... [ 83%] tellurium.tests.test_tephrasedml
+highlighting module code... [ 88%] tellurium.analysis.parameters
+highlighting module code... [ 94%] tellurium.ParameterScan.ParameterScan
+highlighting module code... [100%] tellurium.tests.test_Export
 
 writing additional pages... search
-copying images... [100%] _notebooks/core/consecutiveUniUniReactions_files/consecutiveUniUniReactions_2_0.png
+copying images... [ 12%] _notebooks/core/introduction_files/introduction_3_0.png
+copying images... [ 25%] _notebooks/core/steadystate_scan_files/steadystate_scan_3_1.png
+copying images... [ 37%] _notebooks/core/parameter_scan_files/parameter_scan_3_0.png
+copying images... [ 50%] _notebooks/core/consecutiveUniUniReactions_files/consecutiveUniUniReactions_3_0.png
+copying images... [ 62%] ./images/tellurium_screenshot.png
+copying images... [ 75%] _notebooks/core/introduction_files/introduction_5_0.png
+copying images... [ 87%] _notebooks/core/parameter_scan_files/parameter_scan_4_0.png
+copying images... [100%] _notebooks/core/generatingDifferentWaveforms_files/generatingDifferentWaveforms_3_0.png
 
 copying static files... done
 copying extra files... done
 dumping search index in English (code: en) ... done
 dumping object inventory... done
-build succeeded, 28 warnings.
+build succeeded, 35 warnings.
 
 Build finished. The HTML pages are in _build/html.

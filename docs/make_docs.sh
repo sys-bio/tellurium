@@ -16,7 +16,7 @@ rm -rf _apidoc
 rm -rf _built
 rm -rf _notebooks
 
-# create the rst files from the notebooks
+# create rst & python files from the notebooks
 ./make_notebooks_rst.sh 2>&1 | tee ./make_notebooks_rst.log
 
 # create auto documentation for tellurium package.

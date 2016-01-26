@@ -1,0 +1,1741 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>tellurium package &mdash; tellurium 1.3.0 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="tellurium 1.3.0 documentation" href="index.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> tellurium
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.3.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul>
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notebooks.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="_apidoc/tellurium.html">API (tellurium)</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="index.html">tellurium</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="index.html">Docs</a> &raquo;</li>
+      
+    <li>tellurium package</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/tellurium.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="tellurium-package">
+<h1>tellurium package<a class="headerlink" href="#tellurium-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="subpackages">
+<h2>Subpackages<a class="headerlink" href="#subpackages" title="Permalink to this headline">¶</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tellurium.Export.html">tellurium.Export package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="tellurium.Export.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tellurium.Export.html#module-tellurium.Export.Export">tellurium.Export.Export module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tellurium.Export.html#module-tellurium.Export">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="tellurium.ParameterScan.html">tellurium.ParameterScan package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="tellurium.ParameterScan.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tellurium.ParameterScan.html#module-tellurium.ParameterScan.ParameterScan">tellurium.ParameterScan.ParameterScan module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tellurium.ParameterScan.html#module-tellurium.ParameterScan">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="tellurium.analysis.html">tellurium.analysis package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="tellurium.analysis.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tellurium.analysis.html#module-tellurium.analysis.match">tellurium.analysis.match module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tellurium.analysis.html#module-tellurium.analysis.parameters">tellurium.analysis.parameters module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tellurium.analysis.html#module-tellurium.analysis">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="tellurium.notebooktools.html">tellurium.notebooktools package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="tellurium.notebooktools.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tellurium.notebooktools.html#module-tellurium.notebooktools.notebooktools">tellurium.notebooktools.notebooktools module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tellurium.notebooktools.html#module-tellurium.notebooktools">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="tellurium.optimization.html">tellurium.optimization package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="tellurium.optimization.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tellurium.optimization.html#module-tellurium.optimization.DiffEvolution">tellurium.optimization.DiffEvolution module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tellurium.optimization.html#module-tellurium.optimization">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="tellurium.tests.html">tellurium.tests package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="tellurium.tests.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tellurium.tests.html#module-tellurium.tests.test_Export">tellurium.tests.test_Export module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tellurium.tests.html#module-tellurium.tests.test_runner">tellurium.tests.test_runner module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tellurium.tests.html#module-tellurium.tests.test_tellurium">tellurium.tests.test_tellurium module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tellurium.tests.html#module-tellurium.tests.test_tephrasedml">tellurium.tests.test_tephrasedml module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tellurium.tests.html#module-tellurium.tests">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="tellurium.visualization.html">tellurium.visualization package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="tellurium.visualization.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tellurium.visualization.html#module-tellurium.visualization.SBMLDiagram">tellurium.visualization.SBMLDiagram module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tellurium.visualization.html#module-tellurium.visualization">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="tellurium.widgets.html">tellurium.widgets package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="tellurium.widgets.html#module-tellurium.widgets">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-tellurium.SedmlToRr">
+<span id="tellurium-sedmltorr-module"></span><h2>tellurium.SedmlToRr module<a class="headerlink" href="#module-tellurium.SedmlToRr" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="tellurium.SedmlToRr.MatchingSetsOfRepeatedTasksDataGenerators">
+<em class="property">class </em><code class="descclassname">tellurium.SedmlToRr.</code><code class="descname">MatchingSetsOfRepeatedTasksDataGenerators</code><span class="sig-paren">(</span><em>datagenID</em>, <em>rangeSize</em><span class="sig-paren">)</span><a class="headerlink" href="#tellurium.SedmlToRr.MatchingSetsOfRepeatedTasksDataGenerators" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">tuple</span></code></p>
+<dl class="attribute">
+<dt id="tellurium.SedmlToRr.MatchingSetsOfRepeatedTasksDataGenerators.datagenID">
+<code class="descname">datagenID</code><a class="headerlink" href="#tellurium.SedmlToRr.MatchingSetsOfRepeatedTasksDataGenerators.datagenID" title="Permalink to this definition">¶</a></dt>
+<dd><p>Alias for field number 0</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="tellurium.SedmlToRr.MatchingSetsOfRepeatedTasksDataGenerators.rangeSize">
+<code class="descname">rangeSize</code><a class="headerlink" href="#tellurium.SedmlToRr.MatchingSetsOfRepeatedTasksDataGenerators.rangeSize" title="Permalink to this definition">¶</a></dt>
+<dd><p>Alias for field number 1</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="tellurium.SedmlToRr.MatchingSetsOfVariableIDs">
+<em class="property">class </em><code class="descclassname">tellurium.SedmlToRr.</code><code class="descname">MatchingSetsOfVariableIDs</code><span class="sig-paren">(</span><em>datagenID</em>, <em>taskReference</em>, <em>sedmlID</em>, <em>sbmlID</em><span class="sig-paren">)</span><a class="headerlink" href="#tellurium.SedmlToRr.MatchingSetsOfVariableIDs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">tuple</span></code></p>
+<dl class="attribute">
+<dt id="tellurium.SedmlToRr.MatchingSetsOfVariableIDs.datagenID">
+<code class="descname">datagenID</code><a class="headerlink" href="#tellurium.SedmlToRr.MatchingSetsOfVariableIDs.datagenID" title="Permalink to this definition">¶</a></dt>
+<dd><p>Alias for field number 0</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="tellurium.SedmlToRr.MatchingSetsOfVariableIDs.sbmlID">
+<code class="descname">sbmlID</code><a class="headerlink" href="#tellurium.SedmlToRr.MatchingSetsOfVariableIDs.sbmlID" title="Permalink to this definition">¶</a></dt>
+<dd><p>Alias for field number 3</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="tellurium.SedmlToRr.MatchingSetsOfVariableIDs.sedmlID">
+<code class="descname">sedmlID</code><a class="headerlink" href="#tellurium.SedmlToRr.MatchingSetsOfVariableIDs.sedmlID" title="Permalink to this definition">¶</a></dt>
+<dd><p>Alias for field number 2</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="tellurium.SedmlToRr.MatchingSetsOfVariableIDs.taskReference">
+<code class="descname">taskReference</code><a class="headerlink" href="#tellurium.SedmlToRr.MatchingSetsOfVariableIDs.taskReference" title="Permalink to this definition">¶</a></dt>
+<dd><p>Alias for field number 1</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="tellurium.SedmlToRr.checkEqualIvo">
+<code class="descclassname">tellurium.SedmlToRr.</code><code class="descname">checkEqualIvo</code><span class="sig-paren">(</span><em>lst</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/SedmlToRr.html#checkEqualIvo"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.SedmlToRr.checkEqualIvo" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="tellurium.SedmlToRr.generateData">
+<code class="descclassname">tellurium.SedmlToRr.</code><code class="descname">generateData</code><span class="sig-paren">(</span><em>sedmlDoc</em>, <em>currentModel</em>, <em>dataGeneratorsList</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/SedmlToRr.html#generateData"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.SedmlToRr.generateData" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="tellurium.SedmlToRr.generateDataLoop">
+<code class="descclassname">tellurium.SedmlToRr.</code><code class="descname">generateDataLoop</code><span class="sig-paren">(</span><em>sedmlDoc</em>, <em>currentModel</em>, <em>task1</em>, <em>variablesList</em>, <em>variablesDictionary</em>, <em>repeatedTaskIndex</em>, <em>repeatedTask=None</em>, <em>dataGeneratorsList=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/SedmlToRr.html#generateDataLoop"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.SedmlToRr.generateDataLoop" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="tellurium.SedmlToRr.generateOutputs">
+<code class="descclassname">tellurium.SedmlToRr.</code><code class="descname">generateOutputs</code><span class="sig-paren">(</span><em>sedmlDoc</em>, <em>dataGeneratorsList</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/SedmlToRr.html#generateOutputs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.SedmlToRr.generateOutputs" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="tellurium.SedmlToRr.generateSimulation">
+<code class="descclassname">tellurium.SedmlToRr.</code><code class="descname">generateSimulation</code><span class="sig-paren">(</span><em>rrName</em>, <em>sedmlDoc</em>, <em>currentModel</em>, <em>task1</em>, <em>variablesList</em>, <em>variablesDictionary</em>, <em>repeatedTaskIndex</em>, <em>repeatedTask=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/SedmlToRr.html#generateSimulation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.SedmlToRr.generateSimulation" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="tellurium.SedmlToRr.generateTasks">
+<code class="descclassname">tellurium.SedmlToRr.</code><code class="descname">generateTasks</code><span class="sig-paren">(</span><em>rrName</em>, <em>sedmlDoc</em>, <em>currentModel</em>, <em>path</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/SedmlToRr.html#generateTasks"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.SedmlToRr.generateTasks" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="tellurium.SedmlToRr.isId">
+<code class="descclassname">tellurium.SedmlToRr.</code><code class="descname">isId</code><span class="sig-paren">(</span><em>string</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/SedmlToRr.html#isId"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.SedmlToRr.isId" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="tellurium.SedmlToRr.loadModel">
+<code class="descclassname">tellurium.SedmlToRr.</code><code class="descname">loadModel</code><span class="sig-paren">(</span><em>rrName</em>, <em>sedmlDoc</em>, <em>currentModel</em>, <em>path</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/SedmlToRr.html#loadModel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.SedmlToRr.loadModel" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="tellurium.SedmlToRr.populateVariableLists">
+<code class="descclassname">tellurium.SedmlToRr.</code><code class="descname">populateVariableLists</code><span class="sig-paren">(</span><em>sedmlDoc</em>, <em>task1</em>, <em>variablesList</em>, <em>variablesDictionary</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/SedmlToRr.html#populateVariableLists"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.SedmlToRr.populateVariableLists" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="tellurium.SedmlToRr.sedml_to_python">
+<code class="descclassname">tellurium.SedmlToRr.</code><code class="descname">sedml_to_python</code><span class="sig-paren">(</span><em>fullPathName</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/SedmlToRr.html#sedml_to_python"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.SedmlToRr.sedml_to_python" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="module-tellurium.tecombine">
+<span id="tellurium-tecombine-module"></span><h2>tellurium.tecombine module<a class="headerlink" href="#module-tellurium.tecombine" title="Permalink to this headline">¶</a></h2>
+<p>Utilities for working with combine archives.</p>
+<p>&#64;author: J Kyle Medley
+&#64;date: 09/04/2015</p>
+<dl class="class">
+<dt id="tellurium.tecombine.CombineAntimonyAsset">
+<em class="property">class </em><code class="descclassname">tellurium.tecombine.</code><code class="descname">CombineAntimonyAsset</code><a class="reference internal" href="_modules/tellurium/tecombine.html#CombineAntimonyAsset"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tecombine.CombineAntimonyAsset" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#tellurium.tecombine.CombineAsset" title="tellurium.tecombine.CombineAsset"><code class="xref py py-class docutils literal"><span class="pre">tellurium.tecombine.CombineAsset</span></code></a></p>
+<dl class="method">
+<dt id="tellurium.tecombine.CombineAntimonyAsset.getResourceURI">
+<code class="descname">getResourceURI</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/tecombine.html#CombineAntimonyAsset.getResourceURI"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tecombine.CombineAntimonyAsset.getResourceURI" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="tellurium.tecombine.CombineAntimonyAsset.getSBMLStr">
+<code class="descname">getSBMLStr</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/tecombine.html#CombineAntimonyAsset.getSBMLStr"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tecombine.CombineAntimonyAsset.getSBMLStr" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="tellurium.tecombine.CombineAntimonyFileAsset">
+<em class="property">class </em><code class="descclassname">tellurium.tecombine.</code><code class="descname">CombineAntimonyFileAsset</code><span class="sig-paren">(</span><em>filename</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/tecombine.html#CombineAntimonyFileAsset"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tecombine.CombineAntimonyFileAsset" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#tellurium.tecombine.CombineFileAsset" title="tellurium.tecombine.CombineFileAsset"><code class="xref py py-class docutils literal"><span class="pre">tellurium.tecombine.CombineFileAsset</span></code></a>, <a class="reference internal" href="#tellurium.tecombine.CombineAntimonyAsset" title="tellurium.tecombine.CombineAntimonyAsset"><code class="xref py py-class docutils literal"><span class="pre">tellurium.tecombine.CombineAntimonyAsset</span></code></a></p>
+<dl class="method">
+<dt id="tellurium.tecombine.CombineAntimonyFileAsset.getArchName">
+<code class="descname">getArchName</code><span class="sig-paren">(</span><em>f</em><span class="sig-paren">)</span><a class="headerlink" href="#tellurium.tecombine.CombineAntimonyFileAsset.getArchName" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="tellurium.tecombine.CombineAntimonyFileAsset.getExportedStr">
+<code class="descname">getExportedStr</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#tellurium.tecombine.CombineAntimonyFileAsset.getExportedStr" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="tellurium.tecombine.CombineAntimonyFileAsset.replace_ext">
+<code class="descname">replace_ext</code><span class="sig-paren">(</span><em>filename</em><span class="sig-paren">)</span><a class="headerlink" href="#tellurium.tecombine.CombineAntimonyFileAsset.replace_ext" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="tellurium.tecombine.CombineAntimonyRawAsset">
+<em class="property">class </em><code class="descclassname">tellurium.tecombine.</code><code class="descname">CombineAntimonyRawAsset</code><span class="sig-paren">(</span><em>raw</em>, <em>archname</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/tecombine.html#CombineAntimonyRawAsset"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tecombine.CombineAntimonyRawAsset" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#tellurium.tecombine.CombineRawAsset" title="tellurium.tecombine.CombineRawAsset"><code class="xref py py-class docutils literal"><span class="pre">tellurium.tecombine.CombineRawAsset</span></code></a>, <a class="reference internal" href="#tellurium.tecombine.CombineAntimonyAsset" title="tellurium.tecombine.CombineAntimonyAsset"><code class="xref py py-class docutils literal"><span class="pre">tellurium.tecombine.CombineAntimonyAsset</span></code></a></p>
+<dl class="method">
+<dt id="tellurium.tecombine.CombineAntimonyRawAsset.getExportedStr">
+<code class="descname">getExportedStr</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#tellurium.tecombine.CombineAntimonyRawAsset.getExportedStr" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="tellurium.tecombine.CombineAsset">
+<em class="property">class </em><code class="descclassname">tellurium.tecombine.</code><code class="descname">CombineAsset</code><a class="reference internal" href="_modules/tellurium/tecombine.html#CombineAsset"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tecombine.CombineAsset" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<dl class="classmethod">
+<dt id="tellurium.tecombine.CombineAsset.getCOMBINEResourceURI">
+<em class="property">classmethod </em><code class="descname">getCOMBINEResourceURI</code><span class="sig-paren">(</span><em>x</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/tecombine.html#CombineAsset.getCOMBINEResourceURI"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tecombine.CombineAsset.getCOMBINEResourceURI" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get URI for uri type.&#8221;</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>x</strong> (<em>str</em>) &#8211; uri type (either &#8216;sbml&#8217; or &#8216;sed-ml&#8217;)</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">uri of the combine specification</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">str</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="tellurium.tecombine.CombineAsset.isPhraSEDML">
+<code class="descname">isPhraSEDML</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/tecombine.html#CombineAsset.isPhraSEDML"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tecombine.CombineAsset.isPhraSEDML" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="tellurium.tecombine.CombineFileAsset">
+<em class="property">class </em><code class="descclassname">tellurium.tecombine.</code><code class="descname">CombineFileAsset</code><span class="sig-paren">(</span><em>filename</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/tecombine.html#CombineFileAsset"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tecombine.CombineFileAsset" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#tellurium.tecombine.CombineAsset" title="tellurium.tecombine.CombineAsset"><code class="xref py py-class docutils literal"><span class="pre">tellurium.tecombine.CombineAsset</span></code></a></p>
+<dl class="method">
+<dt id="tellurium.tecombine.CombineFileAsset.getArchName">
+<code class="descname">getArchName</code><span class="sig-paren">(</span><em>f</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/tecombine.html#CombineFileAsset.getArchName"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tecombine.CombineFileAsset.getArchName" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="tellurium.tecombine.CombineFileAsset.getExportedStr">
+<code class="descname">getExportedStr</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/tecombine.html#CombineFileAsset.getExportedStr"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tecombine.CombineFileAsset.getExportedStr" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="tellurium.tecombine.CombineFileAsset.getFileName">
+<code class="descname">getFileName</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/tecombine.html#CombineFileAsset.getFileName"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tecombine.CombineFileAsset.getFileName" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="tellurium.tecombine.CombineFileAsset.getRawStr">
+<code class="descname">getRawStr</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/tecombine.html#CombineFileAsset.getRawStr"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tecombine.CombineFileAsset.getRawStr" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="tellurium.tecombine.CombineFileAsset.getbasename">
+<code class="descname">getbasename</code><span class="sig-paren">(</span><em>f</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/tecombine.html#CombineFileAsset.getbasename"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tecombine.CombineFileAsset.getbasename" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="tellurium.tecombine.CombineFileAsset.isFile">
+<code class="descname">isFile</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/tecombine.html#CombineFileAsset.isFile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tecombine.CombineFileAsset.isFile" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="tellurium.tecombine.CombinePhraSEDMLAsset">
+<em class="property">class </em><code class="descclassname">tellurium.tecombine.</code><code class="descname">CombinePhraSEDMLAsset</code><a class="reference internal" href="_modules/tellurium/tecombine.html#CombinePhraSEDMLAsset"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tecombine.CombinePhraSEDMLAsset" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#tellurium.tecombine.CombineAsset" title="tellurium.tecombine.CombineAsset"><code class="xref py py-class docutils literal"><span class="pre">tellurium.tecombine.CombineAsset</span></code></a></p>
+<dl class="method">
+<dt id="tellurium.tecombine.CombinePhraSEDMLAsset.getResourceURI">
+<code class="descname">getResourceURI</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/tecombine.html#CombinePhraSEDMLAsset.getResourceURI"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tecombine.CombinePhraSEDMLAsset.getResourceURI" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="tellurium.tecombine.CombinePhraSEDMLAsset.getSEDMLStr">
+<code class="descname">getSEDMLStr</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/tecombine.html#CombinePhraSEDMLAsset.getSEDMLStr"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tecombine.CombinePhraSEDMLAsset.getSEDMLStr" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="tellurium.tecombine.CombinePhraSEDMLAsset.isPhraSEDML">
+<code class="descname">isPhraSEDML</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/tecombine.html#CombinePhraSEDMLAsset.isPhraSEDML"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tecombine.CombinePhraSEDMLAsset.isPhraSEDML" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="tellurium.tecombine.CombinePhraSEDMLFileAsset">
+<em class="property">class </em><code class="descclassname">tellurium.tecombine.</code><code class="descname">CombinePhraSEDMLFileAsset</code><span class="sig-paren">(</span><em>filename</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/tecombine.html#CombinePhraSEDMLFileAsset"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tecombine.CombinePhraSEDMLFileAsset" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#tellurium.tecombine.CombineFileAsset" title="tellurium.tecombine.CombineFileAsset"><code class="xref py py-class docutils literal"><span class="pre">tellurium.tecombine.CombineFileAsset</span></code></a>, <a class="reference internal" href="#tellurium.tecombine.CombinePhraSEDMLAsset" title="tellurium.tecombine.CombinePhraSEDMLAsset"><code class="xref py py-class docutils literal"><span class="pre">tellurium.tecombine.CombinePhraSEDMLAsset</span></code></a></p>
+<dl class="method">
+<dt id="tellurium.tecombine.CombinePhraSEDMLFileAsset.getArchName">
+<code class="descname">getArchName</code><span class="sig-paren">(</span><em>f</em><span class="sig-paren">)</span><a class="headerlink" href="#tellurium.tecombine.CombinePhraSEDMLFileAsset.getArchName" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="tellurium.tecombine.CombinePhraSEDMLFileAsset.getExportedStr">
+<code class="descname">getExportedStr</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#tellurium.tecombine.CombinePhraSEDMLFileAsset.getExportedStr" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="tellurium.tecombine.CombinePhraSEDMLFileAsset.replace_pml_ext">
+<code class="descname">replace_pml_ext</code><span class="sig-paren">(</span><em>filename</em><span class="sig-paren">)</span><a class="headerlink" href="#tellurium.tecombine.CombinePhraSEDMLFileAsset.replace_pml_ext" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="tellurium.tecombine.CombinePhraSEDMLRawAsset">
+<em class="property">class </em><code class="descclassname">tellurium.tecombine.</code><code class="descname">CombinePhraSEDMLRawAsset</code><span class="sig-paren">(</span><em>raw</em>, <em>archname</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/tecombine.html#CombinePhraSEDMLRawAsset"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tecombine.CombinePhraSEDMLRawAsset" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#tellurium.tecombine.CombineRawAsset" title="tellurium.tecombine.CombineRawAsset"><code class="xref py py-class docutils literal"><span class="pre">tellurium.tecombine.CombineRawAsset</span></code></a>, <a class="reference internal" href="#tellurium.tecombine.CombinePhraSEDMLAsset" title="tellurium.tecombine.CombinePhraSEDMLAsset"><code class="xref py py-class docutils literal"><span class="pre">tellurium.tecombine.CombinePhraSEDMLAsset</span></code></a></p>
+<dl class="method">
+<dt id="tellurium.tecombine.CombinePhraSEDMLRawAsset.getExportedStr">
+<code class="descname">getExportedStr</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#tellurium.tecombine.CombinePhraSEDMLRawAsset.getExportedStr" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="tellurium.tecombine.CombineRawAsset">
+<em class="property">class </em><code class="descclassname">tellurium.tecombine.</code><code class="descname">CombineRawAsset</code><span class="sig-paren">(</span><em>raw</em>, <em>archname</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/tecombine.html#CombineRawAsset"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tecombine.CombineRawAsset" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#tellurium.tecombine.CombineAsset" title="tellurium.tecombine.CombineAsset"><code class="xref py py-class docutils literal"><span class="pre">tellurium.tecombine.CombineAsset</span></code></a></p>
+<dl class="method">
+<dt id="tellurium.tecombine.CombineRawAsset.getArchName">
+<code class="descname">getArchName</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/tecombine.html#CombineRawAsset.getArchName"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tecombine.CombineRawAsset.getArchName" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="tellurium.tecombine.CombineRawAsset.getExportedStr">
+<code class="descname">getExportedStr</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/tecombine.html#CombineRawAsset.getExportedStr"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tecombine.CombineRawAsset.getExportedStr" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="tellurium.tecombine.CombineRawAsset.getRawStr">
+<code class="descname">getRawStr</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/tecombine.html#CombineRawAsset.getRawStr"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tecombine.CombineRawAsset.getRawStr" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="tellurium.tecombine.CombineRawAsset.isFile">
+<code class="descname">isFile</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/tecombine.html#CombineRawAsset.isFile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tecombine.CombineRawAsset.isFile" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="tellurium.tecombine.CombineSBMLAsset">
+<em class="property">class </em><code class="descclassname">tellurium.tecombine.</code><code class="descname">CombineSBMLAsset</code><a class="reference internal" href="_modules/tellurium/tecombine.html#CombineSBMLAsset"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tecombine.CombineSBMLAsset" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#tellurium.tecombine.CombineAsset" title="tellurium.tecombine.CombineAsset"><code class="xref py py-class docutils literal"><span class="pre">tellurium.tecombine.CombineAsset</span></code></a></p>
+<dl class="method">
+<dt id="tellurium.tecombine.CombineSBMLAsset.getResourceURI">
+<code class="descname">getResourceURI</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/tecombine.html#CombineSBMLAsset.getResourceURI"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tecombine.CombineSBMLAsset.getResourceURI" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="tellurium.tecombine.CombineSBMLFileAsset">
+<em class="property">class </em><code class="descclassname">tellurium.tecombine.</code><code class="descname">CombineSBMLFileAsset</code><span class="sig-paren">(</span><em>filename</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/tecombine.html#CombineSBMLFileAsset"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tecombine.CombineSBMLFileAsset" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#tellurium.tecombine.CombineFileAsset" title="tellurium.tecombine.CombineFileAsset"><code class="xref py py-class docutils literal"><span class="pre">tellurium.tecombine.CombineFileAsset</span></code></a>, <a class="reference internal" href="#tellurium.tecombine.CombineSBMLAsset" title="tellurium.tecombine.CombineSBMLAsset"><code class="xref py py-class docutils literal"><span class="pre">tellurium.tecombine.CombineSBMLAsset</span></code></a></p>
+</dd></dl>
+
+<dl class="class">
+<dt id="tellurium.tecombine.CombineSBMLRawAsset">
+<em class="property">class </em><code class="descclassname">tellurium.tecombine.</code><code class="descname">CombineSBMLRawAsset</code><span class="sig-paren">(</span><em>raw</em>, <em>archname</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/tecombine.html#CombineSBMLRawAsset"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tecombine.CombineSBMLRawAsset" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#tellurium.tecombine.CombineRawAsset" title="tellurium.tecombine.CombineRawAsset"><code class="xref py py-class docutils literal"><span class="pre">tellurium.tecombine.CombineRawAsset</span></code></a>, <a class="reference internal" href="#tellurium.tecombine.CombineSBMLAsset" title="tellurium.tecombine.CombineSBMLAsset"><code class="xref py py-class docutils literal"><span class="pre">tellurium.tecombine.CombineSBMLAsset</span></code></a></p>
+</dd></dl>
+
+<dl class="class">
+<dt id="tellurium.tecombine.CombineSEDMLAsset">
+<em class="property">class </em><code class="descclassname">tellurium.tecombine.</code><code class="descname">CombineSEDMLAsset</code><a class="reference internal" href="_modules/tellurium/tecombine.html#CombineSEDMLAsset"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tecombine.CombineSEDMLAsset" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#tellurium.tecombine.CombineAsset" title="tellurium.tecombine.CombineAsset"><code class="xref py py-class docutils literal"><span class="pre">tellurium.tecombine.CombineAsset</span></code></a></p>
+<dl class="method">
+<dt id="tellurium.tecombine.CombineSEDMLAsset.getResourceURI">
+<code class="descname">getResourceURI</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/tecombine.html#CombineSEDMLAsset.getResourceURI"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tecombine.CombineSEDMLAsset.getResourceURI" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="tellurium.tecombine.CombineSEDMLFileAsset">
+<em class="property">class </em><code class="descclassname">tellurium.tecombine.</code><code class="descname">CombineSEDMLFileAsset</code><span class="sig-paren">(</span><em>filename</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/tecombine.html#CombineSEDMLFileAsset"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tecombine.CombineSEDMLFileAsset" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#tellurium.tecombine.CombineFileAsset" title="tellurium.tecombine.CombineFileAsset"><code class="xref py py-class docutils literal"><span class="pre">tellurium.tecombine.CombineFileAsset</span></code></a>, <a class="reference internal" href="#tellurium.tecombine.CombineSEDMLAsset" title="tellurium.tecombine.CombineSEDMLAsset"><code class="xref py py-class docutils literal"><span class="pre">tellurium.tecombine.CombineSEDMLAsset</span></code></a></p>
+</dd></dl>
+
+<dl class="class">
+<dt id="tellurium.tecombine.CombineSEDMLRawAsset">
+<em class="property">class </em><code class="descclassname">tellurium.tecombine.</code><code class="descname">CombineSEDMLRawAsset</code><span class="sig-paren">(</span><em>raw</em>, <em>archname</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/tecombine.html#CombineSEDMLRawAsset"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tecombine.CombineSEDMLRawAsset" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#tellurium.tecombine.CombineRawAsset" title="tellurium.tecombine.CombineRawAsset"><code class="xref py py-class docutils literal"><span class="pre">tellurium.tecombine.CombineRawAsset</span></code></a>, <a class="reference internal" href="#tellurium.tecombine.CombineSEDMLAsset" title="tellurium.tecombine.CombineSEDMLAsset"><code class="xref py py-class docutils literal"><span class="pre">tellurium.tecombine.CombineSEDMLAsset</span></code></a></p>
+</dd></dl>
+
+<dl class="class">
+<dt id="tellurium.tecombine.MakeCombine">
+<em class="property">class </em><code class="descclassname">tellurium.tecombine.</code><code class="descname">MakeCombine</code><a class="reference internal" href="_modules/tellurium/tecombine.html#MakeCombine"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tecombine.MakeCombine" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="method">
+<dt id="tellurium.tecombine.MakeCombine.addAntimonyFile">
+<code class="descname">addAntimonyFile</code><span class="sig-paren">(</span><em>filename</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/tecombine.html#MakeCombine.addAntimonyFile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tecombine.MakeCombine.addAntimonyFile" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="tellurium.tecombine.MakeCombine.addAntimonyStr">
+<code class="descname">addAntimonyStr</code><span class="sig-paren">(</span><em>rawstr</em>, <em>archname</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/tecombine.html#MakeCombine.addAntimonyStr"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tecombine.MakeCombine.addAntimonyStr" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="tellurium.tecombine.MakeCombine.addPhraSEDMLFile">
+<code class="descname">addPhraSEDMLFile</code><span class="sig-paren">(</span><em>filename</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/tecombine.html#MakeCombine.addPhraSEDMLFile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tecombine.MakeCombine.addPhraSEDMLFile" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="tellurium.tecombine.MakeCombine.addPhraSEDMLStr">
+<code class="descname">addPhraSEDMLStr</code><span class="sig-paren">(</span><em>rawstr</em>, <em>archname</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/tecombine.html#MakeCombine.addPhraSEDMLStr"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tecombine.MakeCombine.addPhraSEDMLStr" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="tellurium.tecombine.MakeCombine.addSBMLFile">
+<code class="descname">addSBMLFile</code><span class="sig-paren">(</span><em>filename</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/tecombine.html#MakeCombine.addSBMLFile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tecombine.MakeCombine.addSBMLFile" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="tellurium.tecombine.MakeCombine.addSBMLStr">
+<code class="descname">addSBMLStr</code><span class="sig-paren">(</span><em>rawstr</em>, <em>archname</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/tecombine.html#MakeCombine.addSBMLStr"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tecombine.MakeCombine.addSBMLStr" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="tellurium.tecombine.MakeCombine.addSEDMLFile">
+<code class="descname">addSEDMLFile</code><span class="sig-paren">(</span><em>filename</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/tecombine.html#MakeCombine.addSEDMLFile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tecombine.MakeCombine.addSEDMLFile" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="tellurium.tecombine.MakeCombine.addSEDMLStr">
+<code class="descname">addSEDMLStr</code><span class="sig-paren">(</span><em>rawstr</em>, <em>archname</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/tecombine.html#MakeCombine.addSEDMLStr"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tecombine.MakeCombine.addSEDMLStr" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="tellurium.tecombine.MakeCombine.checkfile">
+<code class="descname">checkfile</code><span class="sig-paren">(</span><em>filename</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/tecombine.html#MakeCombine.checkfile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tecombine.MakeCombine.checkfile" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="tellurium.tecombine.MakeCombine.write">
+<code class="descname">write</code><span class="sig-paren">(</span><em>outfile</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/tecombine.html#MakeCombine.write"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tecombine.MakeCombine.write" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="tellurium.tecombine.MakeCombine.writeAsset">
+<code class="descname">writeAsset</code><span class="sig-paren">(</span><em>zipfile</em>, <em>asset</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/tecombine.html#MakeCombine.writeAsset"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tecombine.MakeCombine.writeAsset" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="tellurium.tecombine.export">
+<code class="descclassname">tellurium.tecombine.</code><code class="descname">export</code><span class="sig-paren">(</span><em>outfile</em>, <em>antimonyStr</em>, <em>SBMLName</em>, <em>*args</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/tecombine.html#export"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tecombine.export" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="module-tellurium.tellurium">
+<span id="tellurium-tellurium-module"></span><h2>tellurium.tellurium module<a class="headerlink" href="#module-tellurium.tellurium" title="Permalink to this headline">¶</a></h2>
+<p>Support routines for tellurium</p>
+<p>&#64;author: Herbert M Sauro</p>
+<dl class="function">
+<dt id="tellurium.tellurium.RoadRunner">
+<code class="descclassname">tellurium.tellurium.</code><code class="descname">RoadRunner</code><span class="sig-paren">(</span><em>*args</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/tellurium.html#RoadRunner"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tellurium.RoadRunner" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="tellurium.tellurium.antimonyTosbml">
+<code class="descclassname">tellurium.tellurium.</code><code class="descname">antimonyTosbml</code><span class="sig-paren">(</span><em>antStr</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/tellurium.html#antimonyTosbml"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tellurium.antimonyTosbml" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert antimony string to SBML string.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">sbmlStr</span> <span class="o">=</span> <span class="n">antimonyTosbml</span><span class="p">(</span><span class="n">antimonyStr</span><span class="p">)</span>
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>antStr</strong> &#8211; antimony string of model</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">SBML model as string</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="tellurium.tellurium.cellmlFileToAntimony">
+<code class="descclassname">tellurium.tellurium.</code><code class="descname">cellmlFileToAntimony</code><span class="sig-paren">(</span><em>CellMLFileName</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/tellurium.html#cellmlFileToAntimony"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tellurium.cellmlFileToAntimony" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert cellml file to antimony string.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">ant</span> <span class="o">=</span> <span class="n">cellMLToAntimony</span><span class="p">(</span><span class="s1">&#39;mymodel.cellml&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>CellMLFileName</strong> &#8211; CellML file</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">antimony string of model</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="tellurium.tellurium.cellmlFileToSBML">
+<code class="descclassname">tellurium.tellurium.</code><code class="descname">cellmlFileToSBML</code><span class="sig-paren">(</span><em>CellMLFileName</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/tellurium.html#cellmlFileToSBML"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tellurium.cellmlFileToSBML" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert cellml file to SBML string.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">sbmlStr</span> <span class="o">=</span> <span class="n">cellMLToSBML</span><span class="p">(</span><span class="s1">&#39;mymodel.cellml&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>CellMLFileName</strong> &#8211; CellML file</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">SBML string of model</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="tellurium.tellurium.cellmlStrToAntimony">
+<code class="descclassname">tellurium.tellurium.</code><code class="descname">cellmlStrToAntimony</code><span class="sig-paren">(</span><em>CellMLStr</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/tellurium.html#cellmlStrToAntimony"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tellurium.cellmlStrToAntimony" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert cellml string to antimony string:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">ant</span> <span class="o">=</span> <span class="n">cellMLStrToAntimony</span><span class="p">(</span><span class="s1">&#39;mymodel.cellml&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>CellMLStr</strong> &#8211; CellML string</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">antimony string of model</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="tellurium.tellurium.cellmlStrToSBML">
+<code class="descclassname">tellurium.tellurium.</code><code class="descname">cellmlStrToSBML</code><span class="sig-paren">(</span><em>CellMLStr</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/tellurium.html#cellmlStrToSBML"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tellurium.cellmlStrToSBML" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert cellml string to SBML string.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">sbmlStr</span> <span class="o">=</span> <span class="n">cellMLStrToSBML</span><span class="p">(</span><span class="s1">&#39;mymodel.cellml&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>CellMLStr</strong> &#8211; CellML string</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">antimony string of model</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="tellurium.tellurium.experiment">
+<code class="descclassname">tellurium.tellurium.</code><code class="descname">experiment</code><span class="sig-paren">(</span><em>antimonyStr</em>, <em>phrasedmlStr</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/tellurium.html#experiment"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tellurium.experiment" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create an experiment instance given an antimony string and a phrasedml string.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>antimonyStr</strong> &#8211; antimony string of model</li>
+<li><strong>phrasedmlStr</strong> &#8211; phrasedml simulation description</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">SEDML experiment description</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="tellurium.tellurium.exportToMatlab">
+<code class="descclassname">tellurium.tellurium.</code><code class="descname">exportToMatlab</code><span class="sig-paren">(</span><em>self</em>, <em>fileName</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/tellurium.html#exportToMatlab"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tellurium.exportToMatlab" title="Permalink to this definition">¶</a></dt>
+<dd><p>Save current model as Matlab file.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">rr</span><span class="o">.</span><span class="n">exportToMatlab</span> <span class="p">(</span><span class="s1">&#39;mymodel.m&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>fileName</strong> &#8211; file path of matlab file</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">?</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="tellurium.tellurium.getAntimony">
+<code class="descclassname">tellurium.tellurium.</code><code class="descname">getAntimony</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/tellurium.html#getAntimony"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tellurium.getAntimony" title="Permalink to this definition">¶</a></dt>
+<dd><p>Antimony string of the current model state.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">print</span><span class="p">(</span><span class="n">rr</span><span class="o">.</span><span class="n">getAntimony</span><span class="p">())</span>
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">antimony string</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="tellurium.tellurium.getBoundarySpeciesConcentrations">
+<code class="descclassname">tellurium.tellurium.</code><code class="descname">getBoundarySpeciesConcentrations</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/tellurium.html#getBoundarySpeciesConcentrations"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tellurium.getBoundarySpeciesConcentrations" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="tellurium.tellurium.getBoundarySpeciesIds">
+<code class="descclassname">tellurium.tellurium.</code><code class="descname">getBoundarySpeciesIds</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/tellurium.html#getBoundarySpeciesIds"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tellurium.getBoundarySpeciesIds" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="tellurium.tellurium.getBs">
+<code class="descclassname">tellurium.tellurium.</code><code class="descname">getBs</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/tellurium.html#getBs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tellurium.getBs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns list of boundary species identifiers.
+Short-cut bs, e.g.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">print</span><span class="p">(</span><span class="n">rr</span><span class="o">.</span><span class="n">bs</span><span class="p">())</span>
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">boundary species identifiers</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="tellurium.tellurium.getCompartmentIds">
+<code class="descclassname">tellurium.tellurium.</code><code class="descname">getCompartmentIds</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/tellurium.html#getCompartmentIds"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tellurium.getCompartmentIds" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="tellurium.tellurium.getCompartmentVolumes">
+<code class="descclassname">tellurium.tellurium.</code><code class="descname">getCompartmentVolumes</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/tellurium.html#getCompartmentVolumes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tellurium.getCompartmentVolumes" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="tellurium.tellurium.getConservedMoietyIds">
+<code class="descclassname">tellurium.tellurium.</code><code class="descname">getConservedMoietyIds</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/tellurium.html#getConservedMoietyIds"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tellurium.getConservedMoietyIds" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="tellurium.tellurium.getConservedMoietyValues">
+<code class="descclassname">tellurium.tellurium.</code><code class="descname">getConservedMoietyValues</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/tellurium.html#getConservedMoietyValues"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tellurium.getConservedMoietyValues" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="tellurium.tellurium.getDv">
+<code class="descclassname">tellurium.tellurium.</code><code class="descname">getDv</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/tellurium.html#getDv"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tellurium.getDv" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the list of rates of change.
+Short-cut dv, e.g.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">print</span><span class="p">(</span><span class="n">rr</span><span class="o">.</span><span class="n">dv</span><span class="p">())</span>
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">rate of change</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="tellurium.tellurium.getEigenvalues">
+<code class="descclassname">tellurium.tellurium.</code><code class="descname">getEigenvalues</code><span class="sig-paren">(</span><em>m</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/tellurium.html#getEigenvalues"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tellurium.getEigenvalues" title="Permalink to this definition">¶</a></dt>
+<dd><p>Eigenvalues of matrix.
+Convenience method for computing the eigenvalues of a matrix m
+Uses numpy eig to compute the eigenvalues.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>m</strong> &#8211; numpy array</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">numpy array containing the eigenvalues</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="tellurium.tellurium.getEndTime">
+<code class="descclassname">tellurium.tellurium.</code><code class="descname">getEndTime</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/tellurium.html#getEndTime"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tellurium.getEndTime" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="tellurium.tellurium.getFloatingSpeciesConcentrations">
+<code class="descclassname">tellurium.tellurium.</code><code class="descname">getFloatingSpeciesConcentrations</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/tellurium.html#getFloatingSpeciesConcentrations"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tellurium.getFloatingSpeciesConcentrations" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="tellurium.tellurium.getFloatingSpeciesIds">
+<code class="descclassname">tellurium.tellurium.</code><code class="descname">getFloatingSpeciesIds</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/tellurium.html#getFloatingSpeciesIds"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tellurium.getFloatingSpeciesIds" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="tellurium.tellurium.getFs">
+<code class="descclassname">tellurium.tellurium.</code><code class="descname">getFs</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/tellurium.html#getFs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tellurium.getFs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns list of floating species identifiers.
+Short-cut fs, e.g.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">print</span><span class="p">(</span><span class="n">rr</span><span class="o">.</span><span class="n">fs</span><span class="p">())</span>
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">floating species identifiers</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="tellurium.tellurium.getGlobalParameterIds">
+<code class="descclassname">tellurium.tellurium.</code><code class="descname">getGlobalParameterIds</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/tellurium.html#getGlobalParameterIds"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tellurium.getGlobalParameterIds" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="tellurium.tellurium.getGlobalParameterValues">
+<code class="descclassname">tellurium.tellurium.</code><code class="descname">getGlobalParameterValues</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/tellurium.html#getGlobalParameterValues"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tellurium.getGlobalParameterValues" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="tellurium.tellurium.getHold">
+<code class="descclassname">tellurium.tellurium.</code><code class="descname">getHold</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/tellurium.html#getHold"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tellurium.getHold" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="tellurium.tellurium.getMatlab">
+<code class="descclassname">tellurium.tellurium.</code><code class="descname">getMatlab</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/tellurium.html#getMatlab"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tellurium.getMatlab" title="Permalink to this definition">¶</a></dt>
+<dd><p>Matlab string of current model.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">Matlab string</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="tellurium.tellurium.getNumBoundarySpecies">
+<code class="descclassname">tellurium.tellurium.</code><code class="descname">getNumBoundarySpecies</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/tellurium.html#getNumBoundarySpecies"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tellurium.getNumBoundarySpecies" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="tellurium.tellurium.getNumCompartments">
+<code class="descclassname">tellurium.tellurium.</code><code class="descname">getNumCompartments</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/tellurium.html#getNumCompartments"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tellurium.getNumCompartments" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="tellurium.tellurium.getNumConservedMoieties">
+<code class="descclassname">tellurium.tellurium.</code><code class="descname">getNumConservedMoieties</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/tellurium.html#getNumConservedMoieties"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tellurium.getNumConservedMoieties" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="tellurium.tellurium.getNumDepFloatingSpecies">
+<code class="descclassname">tellurium.tellurium.</code><code class="descname">getNumDepFloatingSpecies</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/tellurium.html#getNumDepFloatingSpecies"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tellurium.getNumDepFloatingSpecies" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="tellurium.tellurium.getNumEvents">
+<code class="descclassname">tellurium.tellurium.</code><code class="descname">getNumEvents</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/tellurium.html#getNumEvents"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tellurium.getNumEvents" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="tellurium.tellurium.getNumFloatingSpecies">
+<code class="descclassname">tellurium.tellurium.</code><code class="descname">getNumFloatingSpecies</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/tellurium.html#getNumFloatingSpecies"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tellurium.getNumFloatingSpecies" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="tellurium.tellurium.getNumGlobalParameters">
+<code class="descclassname">tellurium.tellurium.</code><code class="descname">getNumGlobalParameters</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/tellurium.html#getNumGlobalParameters"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tellurium.getNumGlobalParameters" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="tellurium.tellurium.getNumIndFloatingSpecies">
+<code class="descclassname">tellurium.tellurium.</code><code class="descname">getNumIndFloatingSpecies</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/tellurium.html#getNumIndFloatingSpecies"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tellurium.getNumIndFloatingSpecies" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="tellurium.tellurium.getNumRateRules">
+<code class="descclassname">tellurium.tellurium.</code><code class="descname">getNumRateRules</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/tellurium.html#getNumRateRules"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tellurium.getNumRateRules" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="tellurium.tellurium.getNumReactions">
+<code class="descclassname">tellurium.tellurium.</code><code class="descname">getNumReactions</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/tellurium.html#getNumReactions"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tellurium.getNumReactions" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="tellurium.tellurium.getNumberOfPoints">
+<code class="descclassname">tellurium.tellurium.</code><code class="descname">getNumberOfPoints</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/tellurium.html#getNumberOfPoints"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tellurium.getNumberOfPoints" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="tellurium.tellurium.getPs">
+<code class="descclassname">tellurium.tellurium.</code><code class="descname">getPs</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/tellurium.html#getPs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tellurium.getPs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns list of global parameters in the model.
+Short-cut ps, e.g.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">print</span><span class="p">(</span><span class="n">rr</span><span class="o">.</span><span class="n">ps</span><span class="p">())</span>
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">global parameters</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="tellurium.tellurium.getRatesOfChange">
+<code class="descclassname">tellurium.tellurium.</code><code class="descname">getRatesOfChange</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/tellurium.html#getRatesOfChange"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tellurium.getRatesOfChange" title="Permalink to this definition">¶</a></dt>
+<dd><p>Rate of change of all state variables in the model.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">rate of change of all state variables (eg species) in the model.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="tellurium.tellurium.getReactionIds">
+<code class="descclassname">tellurium.tellurium.</code><code class="descname">getReactionIds</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/tellurium.html#getReactionIds"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tellurium.getReactionIds" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="tellurium.tellurium.getReactionRates">
+<code class="descclassname">tellurium.tellurium.</code><code class="descname">getReactionRates</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/tellurium.html#getReactionRates"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tellurium.getReactionRates" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="tellurium.tellurium.getRs">
+<code class="descclassname">tellurium.tellurium.</code><code class="descname">getRs</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/tellurium.html#getRs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tellurium.getRs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the list of reaction Identifiers.
+Short-cut rs, e.g.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">print</span><span class="p">(</span><span class="n">rr</span><span class="o">.</span><span class="n">rs</span><span class="p">())</span>
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">reaction identifiers</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="tellurium.tellurium.getRv">
+<code class="descclassname">tellurium.tellurium.</code><code class="descname">getRv</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/tellurium.html#getRv"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tellurium.getRv" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the list of reaction rates.
+Short-cut rv, e.g.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">print</span><span class="p">(</span><span class="n">rr</span><span class="o">.</span><span class="n">rv</span><span class="p">())</span>
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">reaction rates</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="tellurium.tellurium.getSeed">
+<code class="descclassname">tellurium.tellurium.</code><code class="descname">getSeed</code><span class="sig-paren">(</span><em>r</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/tellurium.html#getSeed"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tellurium.getSeed" title="Permalink to this definition">¶</a></dt>
+<dd><p>Current seed used by the random generator of the RoadRunner instance.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">myseed</span> <span class="o">=</span> <span class="n">rr</span><span class="o">.</span><span class="n">getSeed</span><span class="p">()</span>
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>r</strong> &#8211; RoadRunner instance.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">current seed</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="tellurium.tellurium.getSm">
+<code class="descclassname">tellurium.tellurium.</code><code class="descname">getSm</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/tellurium.html#getSm"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tellurium.getSm" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the full reordered stoichiometry matrix.
+Short-cut sm, e.g.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">print</span><span class="p">(</span><span class="n">rr</span><span class="o">.</span><span class="n">sm</span><span class="p">())</span>
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">full reordered stoichiometry matrix</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="tellurium.tellurium.getStartTime">
+<code class="descclassname">tellurium.tellurium.</code><code class="descname">getStartTime</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/tellurium.html#getStartTime"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tellurium.getStartTime" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="tellurium.tellurium.getSv">
+<code class="descclassname">tellurium.tellurium.</code><code class="descname">getSv</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/tellurium.html#getSv"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tellurium.getSv" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the list of floating species concentrations.
+Short-cut sv, e.g.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">print</span><span class="p">(</span><span class="n">rr</span><span class="o">.</span><span class="n">sv</span><span class="p">())</span>
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">floating species concentrations</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="tellurium.tellurium.getTelluriumVersion">
+<code class="descclassname">tellurium.tellurium.</code><code class="descname">getTelluriumVersion</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/tellurium.html#getTelluriumVersion"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tellurium.getTelluriumVersion" title="Permalink to this definition">¶</a></dt>
+<dd><p>Version number of tellurium.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">version string</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="tellurium.tellurium.getTestModel">
+<code class="descclassname">tellurium.tellurium.</code><code class="descname">getTestModel</code><span class="sig-paren">(</span><em>str</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/tellurium.html#getTestModel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tellurium.getTestModel" title="Permalink to this definition">¶</a></dt>
+<dd><p>SBML of given test model as a string.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="c1"># load test model as SBML</span>
+<span class="n">sbml</span> <span class="o">=</span> <span class="n">te</span><span class="o">.</span><span class="n">getTestModel</span><span class="p">(</span><span class="s1">&#39;feedback.xml&#39;</span><span class="p">)</span>
+<span class="n">rr</span> <span class="o">=</span> <span class="n">te</span><span class="o">.</span><span class="n">loadSBMLModel</span><span class="p">(</span><span class="n">sbml</span><span class="p">)</span>
+<span class="c1"># simulate</span>
+<span class="n">s</span> <span class="o">=</span> <span class="n">rr</span><span class="o">.</span><span class="n">simulate</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">200</span><span class="p">)</span>
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">SBML string of test model</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="tellurium.tellurium.getVersionInfo">
+<code class="descclassname">tellurium.tellurium.</code><code class="descname">getVersionInfo</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/tellurium.html#getVersionInfo"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tellurium.getVersionInfo" title="Permalink to this definition">¶</a></dt>
+<dd><p>Prints version information for tellurium supported packages.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">None</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="tellurium.tellurium.getVs">
+<code class="descclassname">tellurium.tellurium.</code><code class="descname">getVs</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/tellurium.html#getVs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tellurium.getVs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the list of compartment identifiers.
+Short-cut vs, e.g.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">print</span><span class="p">(</span><span class="n">rr</span><span class="o">.</span><span class="n">vs</span><span class="p">())</span>
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">compartment identifiers</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="tellurium.tellurium.getfJac">
+<code class="descclassname">tellurium.tellurium.</code><code class="descname">getfJac</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/tellurium.html#getfJac"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tellurium.getfJac" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the full Jacobian for the current model at the current state.
+Short-cut fjac, e.g.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">print</span><span class="p">(</span><span class="n">rr</span><span class="o">.</span><span class="n">fjac</span><span class="p">())</span>
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">Jacobian at current state</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="tellurium.tellurium.gillespie">
+<code class="descclassname">tellurium.tellurium.</code><code class="descname">gillespie</code><span class="sig-paren">(</span><em>r</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/tellurium.html#gillespie"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tellurium.gillespie" title="Permalink to this definition">¶</a></dt>
+<dd><p>Run a Gillespie stochastic simulation.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">rr</span> <span class="o">=</span> <span class="n">te</span><span class="o">.</span><span class="n">loada</span> <span class="p">(</span><span class="s1">&#39;S1 -&gt; S2; k1*S1; k1 = 0.1; S1 = 40&#39;</span><span class="p">)</span>
+
+<span class="c1"># Simulate from time zero to 40 time units</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">rr</span><span class="o">.</span><span class="n">gillespie</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">40</span><span class="p">)</span>
+
+<span class="c1"># Simulate on a grid with 10 points from start 0 to end time 40</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">rr</span><span class="o">.</span><span class="n">gillespie</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">40</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+
+<span class="c1"># Simulate from time zero to 40 time units using the given selection list</span>
+<span class="c1"># This means that the first column will be time and the second column species S1</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">rr</span><span class="o">.</span><span class="n">gillespie</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">40</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;time&#39;</span><span class="p">,</span> <span class="s1">&#39;S1&#39;</span><span class="p">])</span>
+
+<span class="c1"># Simulate from time zero to 40 time units, on a grid with 20 points</span>
+<span class="c1"># using the give selection list</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">rr</span><span class="o">.</span><span class="n">gillespie</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">40</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;time&#39;</span><span class="p">,</span> <span class="s1">&#39;S1&#39;</span><span class="p">])</span>
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>r</strong> &#8211; RoadRunner instance</li>
+<li><strong>args</strong> &#8211; parameters for simulate</li>
+<li><strong>kwargs</strong> &#8211; parameters for simulate</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">simulation results</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="tellurium.tellurium.listTestModels">
+<code class="descclassname">tellurium.tellurium.</code><code class="descname">listTestModels</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/tellurium.html#listTestModels"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tellurium.listTestModels" title="Permalink to this definition">¶</a></dt>
+<dd><p>List roadrunner SBML test models.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">print</span><span class="p">(</span><span class="n">roadrunner</span><span class="o">.</span><span class="n">listTestModels</span><span class="p">())</span>
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">list of test model paths</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="tellurium.tellurium.loadAntimonyModel">
+<code class="descclassname">tellurium.tellurium.</code><code class="descname">loadAntimonyModel</code><span class="sig-paren">(</span><em>antStr</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/tellurium.html#loadAntimonyModel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tellurium.loadAntimonyModel" title="Permalink to this definition">¶</a></dt>
+<dd><p>Load model from antimony string.
+see also: <cite>:func:loadAntimonyModel</cite></p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">r</span> <span class="o">=</span> <span class="n">loadAntModel</span><span class="p">(</span><span class="n">antimonyStr</span><span class="p">)</span>
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>antStr</strong> &#8211; antimony string</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">reference to roadrunner model</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="tellurium.tellurium.loadCellMLModel">
+<code class="descclassname">tellurium.tellurium.</code><code class="descname">loadCellMLModel</code><span class="sig-paren">(</span><em>cellML</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/tellurium.html#loadCellMLModel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tellurium.loadCellMLModel" title="Permalink to this definition">¶</a></dt>
+<dd><p>Load a cellml model into roadrunner.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">r</span> <span class="o">=</span> <span class="n">loadCellMLModel</span> <span class="p">(</span><span class="s1">&#39;mymodel.cellml&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>cellML</strong> &#8211; model to load, can be file or string</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">reference to roadrunner model</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="tellurium.tellurium.loadSBMLModel">
+<code class="descclassname">tellurium.tellurium.</code><code class="descname">loadSBMLModel</code><span class="sig-paren">(</span><em>sbml</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/tellurium.html#loadSBMLModel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tellurium.loadSBMLModel" title="Permalink to this definition">¶</a></dt>
+<dd><p>Load an SBML model into roadRunner.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">r</span> <span class="o">=</span> <span class="n">loadSBMLModel</span><span class="p">(</span><span class="s1">&#39;c:\myfile.txt&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>sbml</strong> &#8211; SBML filename, SBML string or SBML uri</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">reference to roadrunner model</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="tellurium.tellurium.loadTestModel">
+<code class="descclassname">tellurium.tellurium.</code><code class="descname">loadTestModel</code><span class="sig-paren">(</span><em>str</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/tellurium.html#loadTestModel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tellurium.loadTestModel" title="Permalink to this definition">¶</a></dt>
+<dd><p>Loads particular test model into roadrunner.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">rr</span> <span class="o">=</span> <span class="n">roadrunner</span><span class="o">.</span><span class="n">loadTestModel</span><span class="p">(</span><span class="s1">&#39;feedback.xml&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">RoadRunner instance with test model loaded</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="tellurium.tellurium.loada">
+<code class="descclassname">tellurium.tellurium.</code><code class="descname">loada</code><span class="sig-paren">(</span><em>antStr</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/tellurium.html#loada"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tellurium.loada" title="Permalink to this definition">¶</a></dt>
+<dd><p>Load model from antimony string.
+see also: <cite>:func:loadAntimonyModel</cite></p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">r</span> <span class="o">=</span> <span class="n">loada</span><span class="p">(</span><span class="s1">&#39;S1 -&gt; S2; k1*S1; k1 = 0.1; S2 = 10&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>antStr</strong> &#8211; antimony string</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">reference to roadrunner model</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="tellurium.tellurium.noticesOff">
+<code class="descclassname">tellurium.tellurium.</code><code class="descname">noticesOff</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/tellurium.html#noticesOff"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tellurium.noticesOff" title="Permalink to this definition">¶</a></dt>
+<dd><p>Switch off the generation of notices to the user.
+Call this to stop roadrunner from printing warning message to the console.
+see also <a class="reference internal" href="#tellurium.tellurium.noticesOn" title="tellurium.tellurium.noticesOn"><code class="xref py py-func docutils literal"><span class="pre">noticesOn()</span></code></a></p>
+</dd></dl>
+
+<dl class="function">
+<dt id="tellurium.tellurium.noticesOn">
+<code class="descclassname">tellurium.tellurium.</code><code class="descname">noticesOn</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/tellurium.html#noticesOn"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tellurium.noticesOn" title="Permalink to this definition">¶</a></dt>
+<dd><p>Switch on notice generation to the user.
+see also <a class="reference internal" href="#tellurium.tellurium.noticesOff" title="tellurium.tellurium.noticesOff"><code class="xref py py-func docutils literal"><span class="pre">noticesOff()</span></code></a></p>
+</dd></dl>
+
+<dl class="function">
+<dt id="tellurium.tellurium.plot">
+<code class="descclassname">tellurium.tellurium.</code><code class="descname">plot</code><span class="sig-paren">(</span><em>self</em>, <em>result=None</em>, <em>loc='upper left'</em>, <em>show=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/tellurium.html#plot"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tellurium.plot" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plot data generated by a simulation.
+Plot results from a simulation carried out by the simulate or gillespie
+functions. This is a roadrunner method.
+Data is a numpy array where the first column is considered the x axis and all remaining columns the y axis.
+If no data is provided the data currently held by roadrunner generated in the last simulation is used.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">r</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>self</strong> &#8211; RoadRunner instance</li>
+<li><strong>result</strong> &#8211; results data to plot</li>
+<li><strong>loc</strong> &#8211; location of plot legend</li>
+<li><strong>show</strong> &#8211; show the plot</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><p>?</p>
+</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="tellurium.tellurium.plotArray">
+<code class="descclassname">tellurium.tellurium.</code><code class="descname">plotArray</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/tellurium.html#plotArray"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tellurium.plotArray" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plot an array.
+The first column of the array will
+be the x-axis and remaining columns the y-axis. Returns
+a handle to the plotting object. Note that you can add
+plotting options as named key values after the array. For
+example to add a legend, include the label key value:
+te.plotArray (m, label=&#8217;A label&#8217;) then use pylab.legend()
+to make sure the legend is shown.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">result</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">],</span> <span class="p">[</span><span class="mf">7.2</span><span class="p">,</span><span class="mf">6.5</span><span class="p">,</span><span class="mf">8.8</span><span class="p">],</span> <span class="p">[</span><span class="mf">9.8</span><span class="p">,</span> <span class="mf">6.5</span><span class="p">,</span> <span class="mf">4.3</span><span class="p">]])</span>
+<span class="n">plotArray</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="tellurium.tellurium.plotWithLegend">
+<code class="descclassname">tellurium.tellurium.</code><code class="descname">plotWithLegend</code><span class="sig-paren">(</span><em>r</em>, <em>result=None</em>, <em>loc='upper left'</em>, <em>show=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/tellurium.html#plotWithLegend"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tellurium.plotWithLegend" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plot an array and include a legend.
+The first argument must be a roadrunner variable.
+The second argument must be an array containing data to plot.
+The first column of the array will
+be the x-axis and remaining columns the y-axis. Returns
+a handle to the plotting object.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">plotWithLegend</span> <span class="p">(</span><span class="n">r</span><span class="p">)</span>
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>r</strong> &#8211; RoadRunner instance</li>
+<li><strong>result</strong> &#8211; results to plot</li>
+<li><strong>loc</strong> &#8211; location of plot legend</li>
+<li><strong>show</strong> &#8211; show the plot</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">plt object</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="tellurium.tellurium.readFromFile">
+<code class="descclassname">tellurium.tellurium.</code><code class="descname">readFromFile</code><span class="sig-paren">(</span><em>fileName</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/tellurium.html#readFromFile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tellurium.readFromFile" title="Permalink to this definition">¶</a></dt>
+<dd><p>Load a file and return contents as a string.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="nb">str</span> <span class="o">=</span> <span class="n">readFromFile</span><span class="p">(</span><span class="s1">&#39;c:\myfile.txt&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>fileName</strong> &#8211; file path to read from</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">string representation of the contents of the file</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="tellurium.tellurium.resetAll">
+<code class="descclassname">tellurium.tellurium.</code><code class="descname">resetAll</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/tellurium.html#resetAll"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tellurium.resetAll" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reset all model variables to CURRENT init(X) values.
+This resets all variables, S1, S2 etc to the CURRENT init(X) values. It also resets all
+parameters back to the values they had when the model was first loaded.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">rr</span><span class="o">.</span><span class="n">resetAll</span><span class="p">()</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="tellurium.tellurium.resetToOrigin">
+<code class="descclassname">tellurium.tellurium.</code><code class="descname">resetToOrigin</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/tellurium.html#resetToOrigin"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tellurium.resetToOrigin" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reset model to state when first loaded.
+This resets the model back to the state when it was FIRST loaded,
+this includes all init() and parameters such as k1 etc.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">te</span><span class="o">.</span><span class="n">resetToOrigin</span><span class="p">()</span>
+</pre></div>
+</div>
+<dl class="docutils">
+<dt>identical to:</dt>
+<dd>te.reset(roadrunner.SelectionRecord.ALL)</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="tellurium.tellurium.saveToFile">
+<code class="descclassname">tellurium.tellurium.</code><code class="descname">saveToFile</code><span class="sig-paren">(</span><em>fileName</em>, <em>str</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/tellurium.html#saveToFile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tellurium.saveToFile" title="Permalink to this definition">¶</a></dt>
+<dd><p>Save string to file.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">saveToFile</span> <span class="p">(</span><span class="s1">&#39;c:\myfile.txt&#39;</span><span class="p">,</span> <span class="n">strVariable</span><span class="p">)</span>
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>fileName</strong> &#8211; file path to save to</li>
+<li><strong>str</strong> &#8211; string to save</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">None</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="tellurium.tellurium.sbmlToAntimony">
+<code class="descclassname">tellurium.tellurium.</code><code class="descname">sbmlToAntimony</code><span class="sig-paren">(</span><em>str</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/tellurium.html#sbmlToAntimony"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tellurium.sbmlToAntimony" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert SBML string to antimony string.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">sbmlStr</span> <span class="o">=</span> <span class="n">sbmlToAntimony</span><span class="p">(</span><span class="n">antimonyStr</span><span class="p">)</span>
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>str</strong> &#8211; SBML model as string</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">antimony string of model</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="tellurium.tellurium.setEndTime">
+<code class="descclassname">tellurium.tellurium.</code><code class="descname">setEndTime</code><span class="sig-paren">(</span><em>self</em>, <em>endTime</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/tellurium.html#setEndTime"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tellurium.setEndTime" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="tellurium.tellurium.setHold">
+<code class="descclassname">tellurium.tellurium.</code><code class="descname">setHold</code><span class="sig-paren">(</span><em>myHold</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/tellurium.html#setHold"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tellurium.setHold" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="tellurium.tellurium.setNumberOfPoints">
+<code class="descclassname">tellurium.tellurium.</code><code class="descname">setNumberOfPoints</code><span class="sig-paren">(</span><em>self</em>, <em>numberOfPoints</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/tellurium.html#setNumberOfPoints"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tellurium.setNumberOfPoints" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="tellurium.tellurium.setSeed">
+<code class="descclassname">tellurium.tellurium.</code><code class="descname">setSeed</code><span class="sig-paren">(</span><em>r</em>, <em>seed</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/tellurium.html#setSeed"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tellurium.setSeed" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set seed for random number generator (used by gillespie for example).</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">rr</span><span class="o">.</span><span class="n">setSeed</span><span class="p">(</span><span class="mi">12345</span><span class="p">)</span>
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>r</strong> &#8211; RoadRunner instance.</li>
+<li><strong>seed</strong> &#8211; seed to set</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="tellurium.tellurium.setStartTime">
+<code class="descclassname">tellurium.tellurium.</code><code class="descname">setStartTime</code><span class="sig-paren">(</span><em>self</em>, <em>startTime</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/tellurium.html#setStartTime"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tellurium.setStartTime" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="tellurium.tellurium.simulateAndPlot">
+<code class="descclassname">tellurium.tellurium.</code><code class="descname">simulateAndPlot</code><span class="sig-paren">(</span><em>r</em>, <em>startTime=0</em>, <em>endTime=5</em>, <em>numberOfPoints=500</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/tellurium.html#simulateAndPlot"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tellurium.simulateAndPlot" title="Permalink to this definition">¶</a></dt>
+<dd><p>Run simulation and plot the results.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">simulateAndPlot</span> <span class="p">(</span><span class="n">rr</span><span class="p">)</span>
+<span class="n">simulateAndPlot</span> <span class="p">(</span><span class="n">rr</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>r</strong> &#8211; RoadRunner instance</li>
+<li><strong>startTime</strong> &#8211; start time of simulation</li>
+<li><strong>endTime</strong> &#8211; end time of simulation</li>
+<li><strong>numberOfPoints</strong> &#8211; number of points in simulation</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">simulation results</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="module-tellurium.tephrasedml">
+<span id="tellurium-tephrasedml-module"></span><h2>tellurium.tephrasedml module<a class="headerlink" href="#module-tellurium.tephrasedml" title="Permalink to this headline">¶</a></h2>
+<p>SEDML support for phrasedml.</p>
+<p>&#64;author: Kiri Choi</p>
+<dl class="class">
+<dt id="tellurium.tephrasedml.tePhrasedml">
+<em class="property">class </em><code class="descclassname">tellurium.tephrasedml.</code><code class="descname">tePhrasedml</code><span class="sig-paren">(</span><em>antimonyStr</em>, <em>phrasedmlStr</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/tephrasedml.html#tePhrasedml"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tephrasedml.tePhrasedml" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<p>phrasedml helper class.</p>
+<dl class="method">
+<dt id="tellurium.tephrasedml.tePhrasedml.createpython">
+<code class="descname">createpython</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/tephrasedml.html#tePhrasedml.createpython"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tephrasedml.tePhrasedml.createpython" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create and return python script given antimony and phrasedml strings.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">python string to execute</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">str</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="tellurium.tephrasedml.tePhrasedml.execute">
+<code class="descname">execute</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/tephrasedml.html#tePhrasedml.execute"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tephrasedml.tePhrasedml.execute" title="Permalink to this definition">¶</a></dt>
+<dd><p>Executes created python code.
+See <a class="reference internal" href="#tellurium.tephrasedml.tePhrasedml.createpython" title="tellurium.tephrasedml.tePhrasedml.createpython"><code class="xref py py-func docutils literal"><span class="pre">createpython()</span></code></a></p>
+</dd></dl>
+
+<dl class="method">
+<dt id="tellurium.tephrasedml.tePhrasedml.exportAsCombine">
+<code class="descname">exportAsCombine</code><span class="sig-paren">(</span><em>outputpath</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/tephrasedml.html#tePhrasedml.exportAsCombine"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tephrasedml.tePhrasedml.exportAsCombine" title="Permalink to this definition">¶</a></dt>
+<dd><p>Export as a combine archive.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>outputpath</strong> (<em>str</em>) &#8211; full path of the combine zip file to create</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="tellurium.tephrasedml.tePhrasedml.getAntimonyString">
+<code class="descname">getAntimonyString</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/tephrasedml.html#tePhrasedml.getAntimonyString"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tephrasedml.tePhrasedml.getAntimonyString" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get antimony string.
+:returns: antimony string
+:rtype: string</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="tellurium.tephrasedml.tePhrasedml.getPhrasedmlString">
+<code class="descname">getPhrasedmlString</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/tephrasedml.html#tePhrasedml.getPhrasedmlString"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tephrasedml.tePhrasedml.getPhrasedmlString" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get phrasedml string.
+:returns: phrasedml string
+:rtype: string</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="tellurium.tephrasedml.tePhrasedml.getSbmlString">
+<code class="descname">getSbmlString</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/tephrasedml.html#tePhrasedml.getSbmlString"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tephrasedml.tePhrasedml.getSbmlString" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get SBML string.
+:returns: SBML string
+:rtype: string</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="tellurium.tephrasedml.tePhrasedml.getSedmlString">
+<code class="descname">getSedmlString</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/tephrasedml.html#tePhrasedml.getSedmlString"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tephrasedml.tePhrasedml.getSedmlString" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get sedml string.
+:returns: sedml string
+:rtype: string</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="tellurium.tephrasedml.tePhrasedml.printpython">
+<code class="descname">printpython</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/tephrasedml.html#tePhrasedml.printpython"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tephrasedml.tePhrasedml.printpython" title="Permalink to this definition">¶</a></dt>
+<dd><p>Prints the created python string by <a class="reference internal" href="#tellurium.tephrasedml.tePhrasedml.createpython" title="tellurium.tephrasedml.tePhrasedml.createpython"><code class="xref py py-func docutils literal"><span class="pre">createpython()</span></code></a>.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-tellurium">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-tellurium" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016, sys-bio.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'1.3.0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

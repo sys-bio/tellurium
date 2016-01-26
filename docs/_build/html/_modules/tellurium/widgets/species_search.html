@@ -1,0 +1,332 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>tellurium.widgets.species_search &mdash; tellurium 1.3.0 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="tellurium 1.3.0 documentation" href="../../../index.html"/>
+        <link rel="up" title="Module code" href="../../index.html"/> 
+
+  
+  <script src="../../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> tellurium
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.3.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../notebooks.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../_apidoc/tellurium.html">API (tellurium)</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../../../index.html">tellurium</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../../index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+      
+    <li>tellurium.widgets.species_search</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for tellurium.widgets.species_search</h1><div class="highlight"><pre>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Form for searching BioModels by species information.</span>
+<span class="sd">Uses the bioservices WebServices to retrieve information.</span>
+
+<span class="sd">Search via bioservices is done via</span>
+<span class="sd">::</span>
+
+<span class="sd">    import bioservices</span>
+<span class="sd">    s = bioservices.BioModels()</span>
+<span class="sd">    ch = bioservices.ChEBI()</span>
+<span class="sd">    results = ch.getLiteEntity(&quot;D-glucose 6-sulfate&quot;)[0:5]</span>
+<span class="sd">    print(results)</span>
+<span class="sd">    print(type(results[0]))</span>
+<span class="sd">    print(results[0].chebiId)</span>
+
+<span class="sd">see example notebook: `tellurium/examples/notebooks/species_search.ipynb`</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">print_function</span><span class="p">,</span> <span class="n">division</span>
+
+<span class="kn">import</span> <span class="nn">ipywidgets</span> <span class="kn">as</span> <span class="nn">w</span>
+<span class="kn">from</span> <span class="nn">IPython.display</span> <span class="kn">import</span> <span class="n">display</span><span class="p">,</span> <span class="n">clear_output</span>
+<span class="kn">import</span> <span class="nn">bioservices</span>
+
+
+<div class="viewcode-block" id="SearchBySpeciesForm"><a class="viewcode-back" href="../../../_apidoc/tellurium.widgets.html#tellurium.widgets.species_search.SearchBySpeciesForm">[docs]</a><span class="k">class</span> <span class="nc">SearchBySpeciesForm</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; ipywidgets form for searching biomodels by species.&quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">debug</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Creates and displays the search form. &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">debug</span> <span class="o">=</span> <span class="n">debug</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">s</span> <span class="o">=</span> <span class="n">bioservices</span><span class="o">.</span><span class="n">BioModels</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ch</span> <span class="o">=</span> <span class="n">bioservices</span><span class="o">.</span><span class="n">ChEBI</span><span class="p">()</span>
+
+        <span class="c1"># Define widgets</span>
+        <span class="c1"># &lt;Search&gt;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">wSearchTerm</span> <span class="o">=</span> <span class="n">w</span><span class="o">.</span><span class="n">Text</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s1">&#39;Search biomodels by species:&#39;</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="s2">&quot;CHEBI:17925&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">wSearchTerm</span><span class="o">.</span><span class="n">on_submit</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">searchChebi</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">wSearchButton</span> <span class="o">=</span> <span class="n">w</span><span class="o">.</span><span class="n">Button</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s1">&#39;Search&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">wSearchButton</span><span class="o">.</span><span class="n">on_click</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">searchChebi</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">wSearchChebi</span> <span class="o">=</span> <span class="n">w</span><span class="o">.</span><span class="n">HBox</span><span class="p">(</span><span class="n">children</span><span class="o">=</span><span class="p">[</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">wSearchTerm</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">wSearchButton</span>
+        <span class="p">])</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">wSelectChebis</span> <span class="o">=</span> <span class="n">w</span><span class="o">.</span><span class="n">Select</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s1">&#39;Matching ChEBI:&#39;</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="s1">&#39;600px&#39;</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="s1">&#39;250px&#39;</span><span class="p">)</span>
+        <span class="c1"># FIXME: update the deprecated functions</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">wSelectChebis</span><span class="o">.</span><span class="n">on_trait_change</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">selectChebi</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">wSelectModels</span> <span class="o">=</span> <span class="n">w</span><span class="o">.</span><span class="n">Select</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s1">&#39;Matching BioModels:&#39;</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="s1">&#39;200px&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">wSelectModels</span><span class="o">.</span><span class="n">on_trait_change</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">selectedModel</span><span class="p">)</span>
+
+        <span class="c1"># &lt;Model&gt;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">wModelId</span> <span class="o">=</span> <span class="n">w</span><span class="o">.</span><span class="n">Text</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s1">&#39;Model ID:&#39;</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="s2">&quot;No model selected&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">wModelCode</span> <span class="o">=</span> <span class="n">w</span><span class="o">.</span><span class="n">Text</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s1">&#39;Install Code:&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">wModelImport</span> <span class="o">=</span> <span class="n">w</span><span class="o">.</span><span class="n">Text</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s1">&#39;Import module code:&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">wModelSbml</span> <span class="o">=</span> <span class="n">w</span><span class="o">.</span><span class="n">Textarea</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s1">&#39;Model SBML:&#39;</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="s1">&#39;800px&#39;</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="s1">&#39;300px&#39;</span><span class="p">)</span>
+
+        <span class="c1"># &lt;Container&gt;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">wModel</span> <span class="o">=</span> <span class="n">w</span><span class="o">.</span><span class="n">FlexBox</span><span class="p">(</span><span class="n">children</span><span class="o">=</span><span class="p">[</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">wModelId</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">wModelCode</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">wSelectModels</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">wModelImport</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">wModelSbml</span>
+        <span class="p">])</span>
+        <span class="k">for</span> <span class="n">ch</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">wModel</span><span class="o">.</span><span class="n">children</span><span class="p">:</span>
+            <span class="n">ch</span><span class="o">.</span><span class="n">font_family</span> <span class="o">=</span> <span class="s1">&#39;monospace&#39;</span>
+            <span class="n">ch</span><span class="o">.</span><span class="n">color</span> <span class="o">=</span> <span class="s1">&#39;#AAAAAA&#39;</span>
+            <span class="n">ch</span><span class="o">.</span><span class="n">background_color</span> <span class="o">=</span> <span class="s1">&#39;black&#39;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">wContainer</span> <span class="o">=</span> <span class="n">w</span><span class="o">.</span><span class="n">FlexBox</span><span class="p">(</span><span class="n">children</span><span class="o">=</span><span class="p">[</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">wSearchChebi</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">wSelectChebis</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">wModel</span>
+        <span class="p">])</span>
+
+        <span class="c1"># display the widgets</span>
+        <span class="n">display</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">wContainer</span><span class="p">)</span>
+        <span class="c1"># clear notebook output</span>
+        <span class="n">clear_output</span><span class="p">()</span>
+
+<div class="viewcode-block" id="SearchBySpeciesForm.searchChebi"><a class="viewcode-back" href="../../../_apidoc/tellurium.widgets.html#tellurium.widgets.species_search.SearchBySpeciesForm.searchChebi">[docs]</a>    <span class="k">def</span> <span class="nf">searchChebi</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Search Chebi with search term and updates the Chebi selection based on results.</span>
+
+<span class="sd">        :param b: ?</span>
+<span class="sd">        :type b: ?</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">term</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">wSearchTerm</span><span class="o">.</span><span class="n">value</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">debug</span><span class="p">:</span>
+            <span class="k">print</span><span class="p">(</span><span class="s2">&quot;searchTerm:&quot;</span><span class="p">,</span> <span class="n">term</span><span class="p">)</span>
+        <span class="n">results</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ch</span><span class="o">.</span><span class="n">getLiteEntity</span><span class="p">(</span><span class="n">term</span><span class="p">)</span>
+        <span class="n">choices</span> <span class="o">=</span> <span class="p">[</span><span class="n">res</span><span class="o">.</span><span class="n">chebiId</span> <span class="k">for</span> <span class="n">res</span> <span class="ow">in</span> <span class="n">results</span><span class="p">]</span>
+        <span class="n">choiceText</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;</span><span class="si">%s</span><span class="s1"> (</span><span class="si">%s</span><span class="s1">)&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">res</span><span class="o">.</span><span class="n">chebiId</span><span class="p">,</span> <span class="n">res</span><span class="o">.</span><span class="n">chebiAsciiName</span><span class="p">)</span> <span class="k">for</span> <span class="n">res</span> <span class="ow">in</span> <span class="n">results</span><span class="p">]</span>
+
+        <span class="n">options</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">choice</span><span class="p">,</span> <span class="n">text</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">choices</span><span class="p">,</span> <span class="n">choiceText</span><span class="p">):</span>
+            <span class="n">options</span><span class="p">[</span><span class="n">text</span><span class="p">]</span> <span class="o">=</span> <span class="n">choice</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">wSelectChebis</span><span class="o">.</span><span class="n">options</span> <span class="o">=</span> <span class="n">options</span></div>
+
+<div class="viewcode-block" id="SearchBySpeciesForm.selectChebi"><a class="viewcode-back" href="../../../_apidoc/tellurium.widgets.html#tellurium.widgets.species_search.SearchBySpeciesForm.selectChebi">[docs]</a>    <span class="k">def</span> <span class="nf">selectChebi</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">trait</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Action happening on selection of Chebi Term.</span>
+<span class="sd">        Search of corresponding BioModels.</span>
+
+<span class="sd">        :param trait: ?</span>
+<span class="sd">        :type trait: str</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">trait</span> <span class="o">==</span> <span class="s1">&#39;value&#39;</span><span class="p">:</span>
+            <span class="n">chebi</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">wSelectChebis</span><span class="o">.</span><span class="n">value</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">debug</span><span class="p">:</span>
+                <span class="k">print</span><span class="p">(</span><span class="s2">&quot;selected Chebi:&quot;</span><span class="p">,</span> <span class="n">chebi</span><span class="p">)</span>
+            <span class="n">modelIds</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">s</span><span class="o">.</span><span class="n">getModelsIdByChEBIId</span><span class="p">(</span><span class="n">chebi</span><span class="p">)</span>
+            <span class="n">options</span> <span class="o">=</span> <span class="p">{}</span>
+            <span class="k">if</span> <span class="n">modelIds</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">mid</span> <span class="ow">in</span> <span class="n">modelIds</span><span class="p">:</span>
+                    <span class="n">options</span><span class="p">[</span><span class="n">mid</span><span class="p">]</span> <span class="o">=</span> <span class="n">mid</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">wSelectModels</span><span class="o">.</span><span class="n">options</span> <span class="o">=</span> <span class="n">options</span></div>
+
+<div class="viewcode-block" id="SearchBySpeciesForm.selectedModel"><a class="viewcode-back" href="../../../_apidoc/tellurium.widgets.html#tellurium.widgets.species_search.SearchBySpeciesForm.selectedModel">[docs]</a>    <span class="k">def</span> <span class="nf">selectedModel</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">trait</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Action happening on selection of Model.</span>
+<span class="sd">        Update of model information.</span>
+
+<span class="sd">        :param trait: ?</span>
+<span class="sd">        :type trait: str</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">trait</span> <span class="o">==</span> <span class="s1">&#39;value&#39;</span><span class="p">:</span>
+            <span class="n">modelId</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">wSelectModels</span><span class="o">.</span><span class="n">value</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">debug</span><span class="p">:</span>
+                <span class="k">print</span><span class="p">(</span><span class="s2">&quot;selected Model:&quot;</span><span class="p">,</span> <span class="n">modelId</span><span class="p">)</span>
+            <span class="n">sbml</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">s</span><span class="o">.</span><span class="n">getModelById</span><span class="p">(</span><span class="n">modelId</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">wModelId</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">modelId</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">wModelCode</span> <span class="o">=</span> <span class="s1">&#39;pip install git+https://github.com/biomodels/</span><span class="si">%s</span><span class="s1">.git&#39;</span> <span class="o">%</span> <span class="n">modelId</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">wModelImport</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="s1">&#39;import </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">modelId</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">wModelSbml</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">sbml</span></div>
+
+<div class="viewcode-block" id="SearchBySpeciesForm.getSBML"><a class="viewcode-back" href="../../../_apidoc/tellurium.widgets.html#tellurium.widgets.species_search.SearchBySpeciesForm.getSBML">[docs]</a>    <span class="k">def</span> <span class="nf">getSBML</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Get the SBML string of the current search.</span>
+<span class="sd">        :return: SBML string</span>
+<span class="sd">        :rtype: str</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">wModelSbml</span><span class="o">.</span><span class="n">value</span><span class="p">)</span></div></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016, sys-bio.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../../',
+            VERSION:'1.3.0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

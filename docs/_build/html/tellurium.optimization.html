@@ -1,0 +1,279 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>tellurium.optimization package &mdash; tellurium 1.3.0 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="tellurium 1.3.0 documentation" href="index.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> tellurium
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.3.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul>
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notebooks.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="_apidoc/tellurium.html">API (tellurium)</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="index.html">tellurium</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="index.html">Docs</a> &raquo;</li>
+      
+    <li>tellurium.optimization package</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/tellurium.optimization.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="tellurium-optimization-package">
+<h1>tellurium.optimization package<a class="headerlink" href="#tellurium-optimization-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-tellurium.optimization.DiffEvolution">
+<span id="tellurium-optimization-diffevolution-module"></span><h2>tellurium.optimization.DiffEvolution module<a class="headerlink" href="#module-tellurium.optimization.DiffEvolution" title="Permalink to this headline">¶</a></h2>
+<p>Utility functions for parameter estimation.</p>
+<dl class="class">
+<dt id="tellurium.optimization.DiffEvolution.DiffEvolution">
+<em class="property">class </em><code class="descclassname">tellurium.optimization.DiffEvolution.</code><code class="descname">DiffEvolution</code><span class="sig-paren">(</span><em>rr</em>, <em>fitnessFcn</em>, <em>simFcn</em>, <em>ASYNC=False</em>, <em>CROSSOVER_RATE=0.5</em>, <em>FITNESS_THRESHOLD=1e-06</em>, <em>MAX_GENS=50</em>, <em>MIXING_RATE=0.8</em>, <em>NON_NEGATIVE=True</em>, <em>paramRangeDict=None</em>, <em>POPULATION=500</em>, <em>SAVE_RESULTS=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/optimization/DiffEvolution.html#DiffEvolution"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.optimization.DiffEvolution.DiffEvolution" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<p>Differential evolution.
+Differential evolution is an iterative heuristic optimization method that
+can be used on nondifferentiable and discrete problems (Storn &amp; Price 1997).</p>
+<dl class="method">
+<dt id="tellurium.optimization.DiffEvolution.DiffEvolution.asyncGetMembersAndFitnesses">
+<code class="descname">asyncGetMembersAndFitnesses</code><span class="sig-paren">(</span><em>newMembers</em>, <em>newFitnesses</em>, <em>newSims</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/optimization/DiffEvolution.html#DiffEvolution.asyncGetMembersAndFitnesses"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.optimization.DiffEvolution.DiffEvolution.asyncGetMembersAndFitnesses" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="tellurium.optimization.DiffEvolution.DiffEvolution.asyncSeedPopulation">
+<code class="descname">asyncSeedPopulation</code><span class="sig-paren">(</span><em>firstGen</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/optimization/DiffEvolution.html#DiffEvolution.asyncSeedPopulation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.optimization.DiffEvolution.DiffEvolution.asyncSeedPopulation" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="tellurium.optimization.DiffEvolution.DiffEvolution.createRandomMember">
+<code class="descname">createRandomMember</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/optimization/DiffEvolution.html#DiffEvolution.createRandomMember"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.optimization.DiffEvolution.DiffEvolution.createRandomMember" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="tellurium.optimization.DiffEvolution.DiffEvolution.getBestMember">
+<code class="descname">getBestMember</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/optimization/DiffEvolution.html#DiffEvolution.getBestMember"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.optimization.DiffEvolution.DiffEvolution.getBestMember" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="tellurium.optimization.DiffEvolution.DiffEvolution.getMembersAndFitnesses">
+<code class="descname">getMembersAndFitnesses</code><span class="sig-paren">(</span><em>newMembers</em>, <em>newFitnesses</em>, <em>newSims</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/optimization/DiffEvolution.html#DiffEvolution.getMembersAndFitnesses"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.optimization.DiffEvolution.DiffEvolution.getMembersAndFitnesses" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="tellurium.optimization.DiffEvolution.DiffEvolution.mutate">
+<code class="descname">mutate</code><span class="sig-paren">(</span><em>x</em>, <em>a</em>, <em>b</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/optimization/DiffEvolution.html#DiffEvolution.mutate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.optimization.DiffEvolution.DiffEvolution.mutate" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="tellurium.optimization.DiffEvolution.DiffEvolution.newGeneration">
+<code class="descname">newGeneration</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/optimization/DiffEvolution.html#DiffEvolution.newGeneration"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.optimization.DiffEvolution.DiffEvolution.newGeneration" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="tellurium.optimization.DiffEvolution.DiffEvolution.plotBest">
+<code class="descname">plotBest</code><span class="sig-paren">(</span><em>observed=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/optimization/DiffEvolution.html#DiffEvolution.plotBest"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.optimization.DiffEvolution.DiffEvolution.plotBest" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="tellurium.optimization.DiffEvolution.DiffEvolution.plotFitnesses">
+<code class="descname">plotFitnesses</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/optimization/DiffEvolution.html#DiffEvolution.plotFitnesses"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.optimization.DiffEvolution.DiffEvolution.plotFitnesses" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="tellurium.optimization.DiffEvolution.DiffEvolution.seedPopulation">
+<code class="descname">seedPopulation</code><span class="sig-paren">(</span><em>firstGen</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/optimization/DiffEvolution.html#DiffEvolution.seedPopulation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.optimization.DiffEvolution.DiffEvolution.seedPopulation" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="tellurium.optimization.DiffEvolution.DiffEvolution.start">
+<code class="descname">start</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/optimization/DiffEvolution.html#DiffEvolution.start"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.optimization.DiffEvolution.DiffEvolution.start" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="tellurium.optimization.DiffEvolution.DiffEvolution.updateBestFitness">
+<code class="descname">updateBestFitness</code><span class="sig-paren">(</span><em>newFitness</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/optimization/DiffEvolution.html#DiffEvolution.updateBestFitness"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.optimization.DiffEvolution.DiffEvolution.updateBestFitness" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="tellurium.optimization.DiffEvolution.Member">
+<em class="property">class </em><code class="descclassname">tellurium.optimization.DiffEvolution.</code><code class="descname">Member</code><span class="sig-paren">(</span><em>params</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/optimization/DiffEvolution.html#Member"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.optimization.DiffEvolution.Member" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-tellurium.optimization">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-tellurium.optimization" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016, sys-bio.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'1.3.0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

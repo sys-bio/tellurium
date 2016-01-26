@@ -85,7 +85,6 @@
                 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../notebooks.html">Examples</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../tellurium_methods.html">Tellurium Methods</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="tellurium.html">API (tellurium)</a><ul class="current">
 <li class="toctree-l2 current"><a class="reference internal" href="tellurium.html#subpackages">Subpackages</a><ul class="current">
 <li class="toctree-l3"><a class="reference internal" href="tellurium.Export.html">tellurium.Export package</a></li>
@@ -96,18 +95,18 @@
 <li class="toctree-l3"><a class="reference internal" href="tellurium.tests.html">tellurium.tests package</a></li>
 <li class="toctree-l3 current"><a class="current reference internal" href="">tellurium.visualization package</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#submodules">Submodules</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#tellurium-visualization-sbmldiagram-module">tellurium.visualization.SBMLDiagram module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#module-contents">Module contents</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-tellurium.visualization.SBMLDiagram">tellurium.visualization.SBMLDiagram module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-tellurium.visualization">Module contents</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="tellurium.widgets.html">tellurium.widgets package</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="tellurium.html#submodules">Submodules</a></li>
-<li class="toctree-l2"><a class="reference internal" href="tellurium.html#tellurium-sedmltorr-module">tellurium.SedmlToRr module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="tellurium.html#tellurium-tecombine-module">tellurium.tecombine module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="tellurium.html#tellurium-tellurium-module">tellurium.tellurium module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="tellurium.html#tellurium-tephrasedml-module">tellurium.tephrasedml module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tellurium.html#module-tellurium.SedmlToRr">tellurium.SedmlToRr module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tellurium.html#module-tellurium.tecombine">tellurium.tecombine module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tellurium.html#module-tellurium.tellurium">tellurium.tellurium module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tellurium.html#module-tellurium.tephrasedml">tellurium.tephrasedml module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="tellurium.html#module-tellurium">Module contents</a></li>
 </ul>
 </li>
@@ -162,11 +161,35 @@
 <div class="section" id="submodules">
 <h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
 </div>
-<div class="section" id="tellurium-visualization-sbmldiagram-module">
-<h2>tellurium.visualization.SBMLDiagram module<a class="headerlink" href="#tellurium-visualization-sbmldiagram-module" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-tellurium.visualization.SBMLDiagram">
+<span id="tellurium-visualization-sbmldiagram-module"></span><h2>tellurium.visualization.SBMLDiagram module<a class="headerlink" href="#module-tellurium.visualization.SBMLDiagram" title="Permalink to this headline">¶</a></h2>
+<p>SBMLDiagram extension via graphviz.</p>
+<dl class="class">
+<dt id="tellurium.visualization.SBMLDiagram.SBMLDiagram">
+<em class="property">class </em><code class="descclassname">tellurium.visualization.SBMLDiagram.</code><code class="descname">SBMLDiagram</code><span class="sig-paren">(</span><em>sbml</em>, <em>species={}</em>, <em>reactions={}</em>, <em>reactants={}</em>, <em>products={}</em>, <em>modifiers={}</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/tellurium/visualization/SBMLDiagram.html#SBMLDiagram"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.visualization.SBMLDiagram.SBMLDiagram" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<p>Create a network diagram from a sbml model.</p>
+<dl class="method">
+<dt id="tellurium.visualization.SBMLDiagram.SBMLDiagram.draw">
+<code class="descname">draw</code><span class="sig-paren">(</span><em>layout='neato'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/tellurium/visualization/SBMLDiagram.html#SBMLDiagram.draw"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.visualization.SBMLDiagram.SBMLDiagram.draw" title="Permalink to this definition">¶</a></dt>
+<dd><p>Draw the graph.
+Optional layout=[&#8216;neato&#8217;|&#8217;dot&#8217;|&#8217;twopi&#8217;|&#8217;circo&#8217;|&#8217;fdp&#8217;|&#8217;nop&#8217;]
+will use specified graphviz layout method.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>layout</strong> (<em>str</em>) &#8211; pygraphviz layout algorithm (default: &#8216;neato&#8217;)</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
 </div>
-<div class="section" id="module-contents">
-<h2>Module contents<a class="headerlink" href="#module-contents" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-tellurium.visualization">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-tellurium.visualization" title="Permalink to this headline">¶</a></h2>
 </div>
 </div>
 

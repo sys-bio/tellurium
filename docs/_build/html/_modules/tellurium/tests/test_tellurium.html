@@ -1,0 +1,327 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>tellurium.tests.test_tellurium &mdash; tellurium 1.3.0 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="tellurium 1.3.0 documentation" href="../../../index.html"/>
+        <link rel="up" title="Module code" href="../../index.html"/> 
+
+  
+  <script src="../../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> tellurium
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.3.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../notebooks.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../_apidoc/tellurium.html">API (tellurium)</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../../../index.html">tellurium</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../../index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+      
+    <li>tellurium.tests.test_tellurium</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for tellurium.tests.test_tellurium</h1><div class="highlight"><pre>
+<span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Unittests for tellurium.py</span>
+<span class="sd">Main module for tests.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="c1"># TODO: handle the plots, i.e. use the show=False option.</span>
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">print_function</span><span class="p">,</span> <span class="n">division</span>
+<span class="kn">import</span> <span class="nn">unittest</span>
+<span class="kn">import</span> <span class="nn">tellurium</span> <span class="kn">as</span> <span class="nn">te</span>
+
+
+<div class="viewcode-block" id="TelluriumTestCase"><a class="viewcode-back" href="../../../_apidoc/tellurium.tests.html#tellurium.tests.test_tellurium.TelluriumTestCase">[docs]</a><span class="k">class</span> <span class="nc">TelluriumTestCase</span><span class="p">(</span><span class="n">unittest</span><span class="o">.</span><span class="n">TestCase</span><span class="p">):</span></div>
+
+    <span class="k">def</span> <span class="nf">test_roadrunner</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># load test model as SBML</span>
+        <span class="n">sbml</span> <span class="o">=</span> <span class="n">te</span><span class="o">.</span><span class="n">getTestModel</span><span class="p">(</span><span class="s1">&#39;feedback.xml&#39;</span><span class="p">)</span>
+        <span class="n">rr</span> <span class="o">=</span> <span class="n">te</span><span class="o">.</span><span class="n">loadSBMLModel</span><span class="p">(</span><span class="n">sbml</span><span class="p">)</span>
+        <span class="c1"># simulate</span>
+        <span class="n">s</span> <span class="o">=</span> <span class="n">rr</span><span class="o">.</span><span class="n">simulate</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">100.0</span><span class="p">,</span> <span class="mi">200</span><span class="p">)</span>
+        <span class="c1"># FIXME: test plots</span>
+        <span class="c1"># te.setHold(True)</span>
+        <span class="c1"># te.plot(s)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertIsNotNone</span><span class="p">(</span><span class="n">rr</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertIsNotNone</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">200</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">s</span><span class="p">[</span><span class="s2">&quot;time&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertAlmostEqual</span><span class="p">(</span><span class="n">s</span><span class="p">[</span><span class="s2">&quot;time&quot;</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="mf">100.0</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">test_roadrunner_tests</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Run the roadrunner tests. &quot;&quot;&quot;</span>
+        <span class="kn">import</span> <span class="nn">roadrunner.testing</span>
+        <span class="n">Nfailed</span> <span class="o">=</span> <span class="n">roadrunner</span><span class="o">.</span><span class="n">testing</span><span class="o">.</span><span class="n">runTester</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">Nfailed</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">test_loada</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">rr</span> <span class="o">=</span> <span class="n">te</span><span class="o">.</span><span class="n">loada</span><span class="p">(</span><span class="s1">&#39;&#39;&#39;</span>
+<span class="s1">            model example0</span>
+<span class="s1">              S1 -&gt; S2; k1*S1</span>
+<span class="s1">              S1 = 10</span>
+<span class="s1">              S2 = 0</span>
+<span class="s1">              k1 = 0.1</span>
+<span class="s1">            end</span>
+<span class="s1">        &#39;&#39;&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertIsNotNone</span><span class="p">(</span><span class="n">rr</span><span class="o">.</span><span class="n">getModel</span><span class="p">())</span>
+
+    <span class="k">def</span> <span class="nf">test_README_example</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Tests the source example in the main README.md. &quot;&quot;&quot;</span>
+        <span class="kn">import</span> <span class="nn">tellurium</span> <span class="kn">as</span> <span class="nn">te</span>
+        <span class="n">rr</span> <span class="o">=</span> <span class="n">te</span><span class="o">.</span><span class="n">loada</span><span class="p">(</span><span class="s1">&#39;&#39;&#39;</span>
+<span class="s1">            model example0</span>
+<span class="s1">              S1 -&gt; S2; k1*S1</span>
+<span class="s1">              S1 = 10</span>
+<span class="s1">              S2 = 0</span>
+<span class="s1">              k1 = 0.1</span>
+<span class="s1">            end</span>
+<span class="s1">        &#39;&#39;&#39;</span><span class="p">)</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">rr</span><span class="o">.</span><span class="n">simulate</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">40</span><span class="p">,</span> <span class="mi">500</span><span class="p">)</span>
+        <span class="c1"># FIXME: test the plotting</span>
+        <span class="c1"># te.plotArray(result)</span>
+
+    <span class="c1"># def test_w_te_1(self):</span>
+    <span class="c1">#     &quot;&quot;&quot;</span>
+    <span class="c1">#     Created on Fri Mar 14 09:46:33 2014</span>
+    <span class="c1">#</span>
+    <span class="c1">#     @author: mgaldzic</span>
+    <span class="c1">#     &quot;&quot;&quot;</span>
+    <span class="c1">#     import tellurium as te</span>
+    <span class="c1">#     modelStr = &#39;&#39;&#39;</span>
+    <span class="c1">#     model feedback()</span>
+    <span class="c1">#        // Reactions:</span>
+    <span class="c1">#        J0: $X0 -&gt; S1; (VM1 * (X0 - S1/Keq1))/(1 + X0 + S1 + S4^h);</span>
+    <span class="c1">#        J1: S1 -&gt; S2; (10 * S1 - 2 * S2) / (1 + S1 + S2);</span>
+    <span class="c1">#        J2: S2 -&gt; S3; (10 * S2 - 2 * S3) / (1 + S2 + S3);</span>
+    <span class="c1">#        J3: S3 -&gt; S4; (10 * S3 - 2 * S4) / (1 + S3 + S4);</span>
+    <span class="c1">#        J4: S4 -&gt; $X1; (V4 * S4) / (KS4 + S4);</span>
+    <span class="c1">#</span>
+    <span class="c1">#       // Species initializations:</span>
+    <span class="c1">#       S1 = 0; S2 = 0; S3 = 0;</span>
+    <span class="c1">#       S4 = 0; X0 = 10; X1 = 0;</span>
+    <span class="c1">#</span>
+    <span class="c1">#       // Variable initialization:</span>
+    <span class="c1">#       VM1 = 10; Keq1 = 10; h = 10; V4 = 2.5; KS4 = 0.5;</span>
+    <span class="c1">#     end&#39;&#39;&#39;</span>
+    <span class="c1">#</span>
+    <span class="c1">#     rr = roadrunner.RoadRunner(antStr)</span>
+    <span class="c1">#     result = rr.simulate(0, 40, 500)</span>
+    <span class="c1">#     te.plotWithLegend (rr, result)</span>
+    <span class="c1">#     r = te.RoadRunner(antStr)</span>
+    <span class="c1">#     result = r.simulate(0, 40, 500)</span>
+    <span class="c1">#     te.plotWithLegend (r, result)</span>
+    <span class="c1">#</span>
+    <span class="c1"># def test_wo_te_0(self):</span>
+    <span class="c1">#     antStr = &#39;&#39;&#39;</span>
+    <span class="c1">#     model feedback()</span>
+    <span class="c1">#        // Reactions:</span>
+    <span class="c1">#        J0: $X0 -&gt; S1; (VM1 * (X0 - S1/Keq1))/(1 + X0 + S1 +   S4^h);</span>
+    <span class="c1">#        J1: S1 -&gt; S2; (10 * S1 - 2 * S2) / (1 + S1 + S2);</span>
+    <span class="c1">#        J2: S2 -&gt; S3; (10 * S2 - 2 * S3) / (1 + S2 + S3);</span>
+    <span class="c1">#        J3: S3 -&gt; S4; (10 * S3 - 2 * S4) / (1 + S3 + S4);</span>
+    <span class="c1">#        J4: S4 -&gt; $X1; (V4 * S4) / (KS4 + S4);</span>
+    <span class="c1">#</span>
+    <span class="c1">#       // Species initializations:</span>
+    <span class="c1">#       S1 = 0; S2 = 0; S3 = 0;</span>
+    <span class="c1">#       S4 = 0; X0 = 10; X1 = 0;</span>
+    <span class="c1">#</span>
+    <span class="c1">#       // Variable initialization:</span>
+    <span class="c1">#       VM1 = 10; Keq1 = 10; h = 10; V4 = 2.5; KS4 = 0.5;</span>
+    <span class="c1">#     end&#39;&#39;&#39;</span>
+    <span class="c1">#</span>
+    <span class="c1">#     import libantimony</span>
+    <span class="c1">#</span>
+    <span class="c1">#     libantimony.loadAntimonyString (antStr)</span>
+    <span class="c1">#     Id = libantimony.getMainModuleName()</span>
+    <span class="c1">#     sbmlStr = libantimony.getSBMLString(Id)</span>
+    <span class="c1">#</span>
+    <span class="c1">#     import roadrunner</span>
+    <span class="c1">#     r = roadrunner.RoadRunner()</span>
+    <span class="c1">#     r.load(sbmlStr)</span>
+    <span class="c1">#     r.simulateOptions.structuredResult = False</span>
+    <span class="c1">#     res = r.simulate(0, 40, 500)</span>
+    <span class="c1">#     import matplotlib.pyplot as plt</span>
+    <span class="c1">#     plt.plot (res[:,0],res[:,1:])</span>
+    <span class="c1">#     plt.show()</span>
+
+    <span class="k">def</span> <span class="nf">test_getTelluriumVersionInfo</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">version</span> <span class="o">=</span> <span class="n">te</span><span class="o">.</span><span class="n">getTelluriumVersion</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">version</span><span class="p">,</span> <span class="nb">str</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">version</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">version</span><span class="p">,</span> <span class="n">te</span><span class="o">.</span><span class="n">__version__</span><span class="p">)</span>
+
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">unittest</span><span class="o">.</span><span class="n">main</span><span class="p">()</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016, sys-bio.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../../',
+            VERSION:'1.3.0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>
