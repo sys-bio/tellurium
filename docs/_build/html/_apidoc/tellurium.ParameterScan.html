@@ -85,14 +85,13 @@
                 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../notebooks.html">Examples</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../tellurium_methods.html">Tellurium Methods</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="tellurium.html">API (tellurium)</a><ul class="current">
 <li class="toctree-l2 current"><a class="reference internal" href="tellurium.html#subpackages">Subpackages</a><ul class="current">
 <li class="toctree-l3"><a class="reference internal" href="tellurium.Export.html">tellurium.Export package</a></li>
 <li class="toctree-l3 current"><a class="current reference internal" href="">tellurium.ParameterScan package</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#submodules">Submodules</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#tellurium-parameterscan-parameterscan-module">tellurium.ParameterScan.ParameterScan module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#module-contents">Module contents</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-tellurium.ParameterScan.ParameterScan">tellurium.ParameterScan.ParameterScan module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-tellurium.ParameterScan">Module contents</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="tellurium.analysis.html">tellurium.analysis package</a></li>
@@ -104,10 +103,10 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="tellurium.html#submodules">Submodules</a></li>
-<li class="toctree-l2"><a class="reference internal" href="tellurium.html#tellurium-sedmltorr-module">tellurium.SedmlToRr module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="tellurium.html#tellurium-tecombine-module">tellurium.tecombine module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="tellurium.html#tellurium-tellurium-module">tellurium.tellurium module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="tellurium.html#tellurium-tephrasedml-module">tellurium.tephrasedml module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tellurium.html#module-tellurium.SedmlToRr">tellurium.SedmlToRr module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tellurium.html#module-tellurium.tecombine">tellurium.tecombine module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tellurium.html#module-tellurium.tellurium">tellurium.tellurium module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tellurium.html#module-tellurium.tephrasedml">tellurium.tephrasedml module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="tellurium.html#module-tellurium">Module contents</a></li>
 </ul>
 </li>
@@ -162,11 +161,112 @@
 <div class="section" id="submodules">
 <h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
 </div>
-<div class="section" id="tellurium-parameterscan-parameterscan-module">
-<h2>tellurium.ParameterScan.ParameterScan module<a class="headerlink" href="#tellurium-parameterscan-parameterscan-module" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-tellurium.ParameterScan.ParameterScan">
+<span id="tellurium-parameterscan-parameterscan-module"></span><h2>tellurium.ParameterScan.ParameterScan module<a class="headerlink" href="#module-tellurium.ParameterScan.ParameterScan" title="Permalink to this headline">¶</a></h2>
+<p>Utility classes for parameter scans.</p>
+<dl class="class">
+<dt id="tellurium.ParameterScan.ParameterScan.ParameterScan">
+<em class="property">class </em><code class="descclassname">tellurium.ParameterScan.ParameterScan.</code><code class="descname">ParameterScan</code><span class="sig-paren">(</span><em>rr</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/tellurium/ParameterScan/ParameterScan.html#ParameterScan"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.ParameterScan.ParameterScan.ParameterScan" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<dl class="method">
+<dt id="tellurium.ParameterScan.ParameterScan.ParameterScan.colorCycle">
+<code class="descname">colorCycle</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/tellurium/ParameterScan/ParameterScan.html#ParameterScan.colorCycle"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.ParameterScan.ParameterScan.ParameterScan.colorCycle" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adjusts contents of self.color as needed for plotting methods.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="tellurium.ParameterScan.ParameterScan.ParameterScan.createColorPoints">
+<code class="descname">createColorPoints</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/tellurium/ParameterScan/ParameterScan.html#ParameterScan.createColorPoints"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.ParameterScan.ParameterScan.ParameterScan.createColorPoints" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets self.color to a set of values that allow plotPolyArray, plotArray,
+or plotGraduatedArray to take on colors from a colormap. The colormap can either
+be user-defined using createColormap or one of the standard colormaps.</p>
+<p>p.createColorPoints()</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="tellurium.ParameterScan.ParameterScan.ParameterScan.createColormap">
+<code class="descname">createColormap</code><span class="sig-paren">(</span><em>color1</em>, <em>color2</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/tellurium/ParameterScan/ParameterScan.html#ParameterScan.createColormap"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.ParameterScan.ParameterScan.ParameterScan.createColormap" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates a color map for plotSurface using two colors as RGB tuplets, standard color
+names, e.g. &#8216;aqua&#8217;; or hex strings.</p>
+<p>p.colormap = p.createColorMap([0,0,0], [1,1,1])</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="tellurium.ParameterScan.ParameterScan.ParameterScan.graduatedSim">
+<code class="descname">graduatedSim</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/tellurium/ParameterScan/ParameterScan.html#ParameterScan.graduatedSim"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.ParameterScan.ParameterScan.ParameterScan.graduatedSim" title="Permalink to this definition">¶</a></dt>
+<dd><p>Runs successive simulations with incremental changes in one species, and returns
+results for a plotting function. Not intended to be called by user.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="tellurium.ParameterScan.ParameterScan.ParameterScan.plotArray">
+<code class="descname">plotArray</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/tellurium/ParameterScan/ParameterScan.html#ParameterScan.plotArray"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.ParameterScan.ParameterScan.ParameterScan.plotArray" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plots result of simulation with options for linewdith and line color.</p>
+<p>p.plotArray()</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="tellurium.ParameterScan.ParameterScan.ParameterScan.plotGraduatedArray">
+<code class="descname">plotGraduatedArray</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/tellurium/ParameterScan/ParameterScan.html#ParameterScan.plotGraduatedArray"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.ParameterScan.ParameterScan.ParameterScan.plotGraduatedArray" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plots array with either default multiple colors or user sepcified colors using
+results from graduatedSim().</p>
+<p>p.plotGraduatedArray()</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="tellurium.ParameterScan.ParameterScan.ParameterScan.plotMultiArray">
+<code class="descname">plotMultiArray</code><span class="sig-paren">(</span><em>param1</em>, <em>param1Range</em>, <em>param2</em>, <em>param2Range</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/tellurium/ParameterScan/ParameterScan.html#ParameterScan.plotMultiArray"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.ParameterScan.ParameterScan.ParameterScan.plotMultiArray" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plots separate arrays for each possible combination of the contents of param1range and
+param2range as an array of subplots. The ranges are lists of values that determine the
+initial conditions of each simulation.</p>
+<p>p.multiArrayPlot(&#8216;S1&#8217;, [1, 2, 3], &#8216;S2&#8217;, [1, 2])</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="tellurium.ParameterScan.ParameterScan.ParameterScan.plotPolyArray">
+<code class="descname">plotPolyArray</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/tellurium/ParameterScan/ParameterScan.html#ParameterScan.plotPolyArray"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.ParameterScan.ParameterScan.ParameterScan.plotPolyArray" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plots results as individual graphs parallel to each other in 3D space using results
+from graduatedSim().</p>
+<p>p.plotPolyArray()</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="tellurium.ParameterScan.ParameterScan.ParameterScan.plotSurface">
+<code class="descname">plotSurface</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/tellurium/ParameterScan/ParameterScan.html#ParameterScan.plotSurface"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.ParameterScan.ParameterScan.ParameterScan.plotSurface" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plots results of simulation as a colored surface. Takes three variables, two
+independent and one dependent. Legal colormap names can be found at
+<a class="reference external" href="http://matplotlib.org/examples/color/colormaps_reference.html">http://matplotlib.org/examples/color/colormaps_reference.html</a>.</p>
+<p>p.plotSurface()</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="tellurium.ParameterScan.ParameterScan.ParameterScan.sim">
+<code class="descname">sim</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/tellurium/ParameterScan/ParameterScan.html#ParameterScan.sim"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.ParameterScan.ParameterScan.ParameterScan.sim" title="Permalink to this definition">¶</a></dt>
+<dd><p>Runs a simulation and returns the result for a plotting function. Not intended to
+be called by user.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="tellurium.ParameterScan.ParameterScan.SteadyStateScan">
+<em class="property">class </em><code class="descclassname">tellurium.ParameterScan.ParameterScan.</code><code class="descname">SteadyStateScan</code><span class="sig-paren">(</span><em>rr</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/tellurium/ParameterScan/ParameterScan.html#SteadyStateScan"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.ParameterScan.ParameterScan.SteadyStateScan" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<dl class="method">
+<dt id="tellurium.ParameterScan.ParameterScan.SteadyStateScan.plotArray">
+<code class="descname">plotArray</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/tellurium/ParameterScan/ParameterScan.html#SteadyStateScan.plotArray"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.ParameterScan.ParameterScan.SteadyStateScan.plotArray" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="tellurium.ParameterScan.ParameterScan.SteadyStateScan.steadyStateSim">
+<code class="descname">steadyStateSim</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/tellurium/ParameterScan/ParameterScan.html#SteadyStateScan.steadyStateSim"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.ParameterScan.ParameterScan.SteadyStateScan.steadyStateSim" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
 </div>
-<div class="section" id="module-contents">
-<h2>Module contents<a class="headerlink" href="#module-contents" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-tellurium.ParameterScan">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-tellurium.ParameterScan" title="Permalink to this headline">¶</a></h2>
 </div>
 </div>
 

@@ -1,3 +1,3 @@
-from _species_search import SearchBySpeciesForm
-from _parameter_slider import ParameterSlider
-from _ontology_search import OntologySearch
+from species_search import SearchBySpeciesForm
+from parameter_slider import ParameterSlider
+from ontology_search import OntologySearch

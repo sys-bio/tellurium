@@ -1,0 +1,448 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>tellurium.tecombine &mdash; tellurium 1.3.0 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="tellurium 1.3.0 documentation" href="../../index.html"/>
+        <link rel="up" title="Module code" href="../index.html"/> 
+
+  
+  <script src="../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> tellurium
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.3.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../notebooks.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../_apidoc/tellurium.html">API (tellurium)</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../../index.html">tellurium</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+      
+    <li>tellurium.tecombine</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for tellurium.tecombine</h1><div class="highlight"><pre>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Utilities for working with combine archives.</span>
+
+<span class="sd">@author: J Kyle Medley</span>
+<span class="sd">@date: 09/04/2015</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">print_function</span><span class="p">,</span> <span class="n">division</span>
+
+<span class="kn">from</span> <span class="nn">os.path</span> <span class="kn">import</span> <span class="n">exists</span><span class="p">,</span> <span class="n">isfile</span><span class="p">,</span> <span class="n">basename</span>
+<span class="kn">from</span> <span class="nn">zipfile</span> <span class="kn">import</span> <span class="n">ZipFile</span>
+<span class="kn">import</span> <span class="nn">phrasedml</span>
+<span class="kn">import</span> <span class="nn">antimony</span>
+<span class="kn">import</span> <span class="nn">re</span>
+
+
+<div class="viewcode-block" id="CombineAsset"><a class="viewcode-back" href="../../_apidoc/tellurium.html#tellurium.tecombine.CombineAsset">[docs]</a><span class="k">class</span> <span class="nc">CombineAsset</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="CombineAsset.getCOMBINEResourceURI"><a class="viewcode-back" href="../../_apidoc/tellurium.html#tellurium.tecombine.CombineAsset.getCOMBINEResourceURI">[docs]</a>    <span class="k">def</span> <span class="nf">getCOMBINEResourceURI</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Get URI for uri type.&quot;</span>
+
+<span class="sd">        :param x: uri type (either &#39;sbml&#39; or &#39;sed-ml&#39;)</span>
+<span class="sd">        :type x: str</span>
+<span class="sd">        :return: uri of the combine specification</span>
+<span class="sd">        :rtype: str</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">types</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;sbml&#39;</span><span class="p">:</span> <span class="s1">&#39;http://identifiers.org/combine.specifications/sbml&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;sed-ml&#39;</span><span class="p">:</span> <span class="s1">&#39;http://identifiers.org/combine.specifications/sed-ml&#39;</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="n">types</span><span class="p">[</span><span class="n">x</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="CombineAsset.isPhraSEDML"><a class="viewcode-back" href="../../_apidoc/tellurium.html#tellurium.tecombine.CombineAsset.isPhraSEDML">[docs]</a>    <span class="k">def</span> <span class="nf">isPhraSEDML</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">False</span></div></div>
+
+<span class="c1"># Raw/file assets:</span>
+<span class="c1"># File assets specify a file path in the OS filesystem</span>
+<span class="c1"># Raw assets contain the raw string of the entire asset</span>
+
+<div class="viewcode-block" id="CombineRawAsset"><a class="viewcode-back" href="../../_apidoc/tellurium.html#tellurium.tecombine.CombineRawAsset">[docs]</a><span class="k">class</span> <span class="nc">CombineRawAsset</span><span class="p">(</span><span class="n">CombineAsset</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">raw</span><span class="p">,</span> <span class="n">archname</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">raw</span> <span class="o">=</span> <span class="n">raw</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">archname</span> <span class="o">=</span> <span class="n">archname</span>
+
+<div class="viewcode-block" id="CombineRawAsset.isFile"><a class="viewcode-back" href="../../_apidoc/tellurium.html#tellurium.tecombine.CombineRawAsset.isFile">[docs]</a>    <span class="k">def</span> <span class="nf">isFile</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">False</span></div>
+
+<div class="viewcode-block" id="CombineRawAsset.getArchName"><a class="viewcode-back" href="../../_apidoc/tellurium.html#tellurium.tecombine.CombineRawAsset.getArchName">[docs]</a>    <span class="k">def</span> <span class="nf">getArchName</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">archname</span></div>
+
+<div class="viewcode-block" id="CombineRawAsset.getRawStr"><a class="viewcode-back" href="../../_apidoc/tellurium.html#tellurium.tecombine.CombineRawAsset.getRawStr">[docs]</a>    <span class="k">def</span> <span class="nf">getRawStr</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">raw</span></div>
+
+    <span class="c1"># return a form suitable for exporting to COMBINE (uses dynamic binding)</span>
+<div class="viewcode-block" id="CombineRawAsset.getExportedStr"><a class="viewcode-back" href="../../_apidoc/tellurium.html#tellurium.tecombine.CombineRawAsset.getExportedStr">[docs]</a>    <span class="k">def</span> <span class="nf">getExportedStr</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getRawStr</span><span class="p">()</span></div></div>
+
+
+<div class="viewcode-block" id="CombineFileAsset"><a class="viewcode-back" href="../../_apidoc/tellurium.html#tellurium.tecombine.CombineFileAsset">[docs]</a><span class="k">class</span> <span class="nc">CombineFileAsset</span><span class="p">(</span><span class="n">CombineAsset</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">filename</span> <span class="o">=</span> <span class="n">filename</span>
+
+<div class="viewcode-block" id="CombineFileAsset.isFile"><a class="viewcode-back" href="../../_apidoc/tellurium.html#tellurium.tecombine.CombineFileAsset.isFile">[docs]</a>    <span class="k">def</span> <span class="nf">isFile</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">True</span></div>
+
+<div class="viewcode-block" id="CombineFileAsset.getbasename"><a class="viewcode-back" href="../../_apidoc/tellurium.html#tellurium.tecombine.CombineFileAsset.getbasename">[docs]</a>    <span class="k">def</span> <span class="nf">getbasename</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">f</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">basename</span><span class="p">(</span><span class="n">f</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="CombineFileAsset.getFileName"><a class="viewcode-back" href="../../_apidoc/tellurium.html#tellurium.tecombine.CombineFileAsset.getFileName">[docs]</a>    <span class="k">def</span> <span class="nf">getFileName</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">filename</span></div>
+
+<div class="viewcode-block" id="CombineFileAsset.getArchName"><a class="viewcode-back" href="../../_apidoc/tellurium.html#tellurium.tecombine.CombineFileAsset.getArchName">[docs]</a>    <span class="k">def</span> <span class="nf">getArchName</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">f</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getbasename</span><span class="p">(</span><span class="n">f</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="CombineFileAsset.getRawStr"><a class="viewcode-back" href="../../_apidoc/tellurium.html#tellurium.tecombine.CombineFileAsset.getRawStr">[docs]</a>    <span class="k">def</span> <span class="nf">getRawStr</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">getFileName</span><span class="p">())</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="CombineFileAsset.getExportedStr"><a class="viewcode-back" href="../../_apidoc/tellurium.html#tellurium.tecombine.CombineFileAsset.getExportedStr">[docs]</a>    <span class="k">def</span> <span class="nf">getExportedStr</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getRawStr</span><span class="p">()</span></div></div>
+
+<span class="c1"># Asset types: SBML, SEDML, etc.</span>
+
+<div class="viewcode-block" id="CombineSBMLAsset"><a class="viewcode-back" href="../../_apidoc/tellurium.html#tellurium.tecombine.CombineSBMLAsset">[docs]</a><span class="k">class</span> <span class="nc">CombineSBMLAsset</span><span class="p">(</span><span class="n">CombineAsset</span><span class="p">):</span>
+<div class="viewcode-block" id="CombineSBMLAsset.getResourceURI"><a class="viewcode-back" href="../../_apidoc/tellurium.html#tellurium.tecombine.CombineSBMLAsset.getResourceURI">[docs]</a>    <span class="k">def</span> <span class="nf">getResourceURI</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">CombineAsset</span><span class="o">.</span><span class="n">getCOMBINEResourceURI</span><span class="p">(</span><span class="s1">&#39;sbml&#39;</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="CombineAntimonyAsset"><a class="viewcode-back" href="../../_apidoc/tellurium.html#tellurium.tecombine.CombineAntimonyAsset">[docs]</a><span class="k">class</span> <span class="nc">CombineAntimonyAsset</span><span class="p">(</span><span class="n">CombineAsset</span><span class="p">):</span>
+<div class="viewcode-block" id="CombineAntimonyAsset.getSBMLStr"><a class="viewcode-back" href="../../_apidoc/tellurium.html#tellurium.tecombine.CombineAntimonyAsset.getSBMLStr">[docs]</a>    <span class="k">def</span> <span class="nf">getSBMLStr</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">antimony</span><span class="o">.</span><span class="n">clearPreviousLoads</span><span class="p">()</span>
+        <span class="n">antimony</span><span class="o">.</span><span class="n">loadString</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">getRawStr</span><span class="p">())</span>
+        <span class="k">return</span> <span class="n">antimony</span><span class="o">.</span><span class="n">getSBMLString</span><span class="p">(</span><span class="n">antimony</span><span class="o">.</span><span class="n">getModuleNames</span><span class="p">()[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span></div>
+
+<div class="viewcode-block" id="CombineAntimonyAsset.getResourceURI"><a class="viewcode-back" href="../../_apidoc/tellurium.html#tellurium.tecombine.CombineAntimonyAsset.getResourceURI">[docs]</a>    <span class="k">def</span> <span class="nf">getResourceURI</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">CombineAsset</span><span class="o">.</span><span class="n">getCOMBINEResourceURI</span><span class="p">(</span><span class="s1">&#39;sbml&#39;</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="CombineSEDMLAsset"><a class="viewcode-back" href="../../_apidoc/tellurium.html#tellurium.tecombine.CombineSEDMLAsset">[docs]</a><span class="k">class</span> <span class="nc">CombineSEDMLAsset</span><span class="p">(</span><span class="n">CombineAsset</span><span class="p">):</span>
+<div class="viewcode-block" id="CombineSEDMLAsset.getResourceURI"><a class="viewcode-back" href="../../_apidoc/tellurium.html#tellurium.tecombine.CombineSEDMLAsset.getResourceURI">[docs]</a>    <span class="k">def</span> <span class="nf">getResourceURI</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">CombineAsset</span><span class="o">.</span><span class="n">getCOMBINEResourceURI</span><span class="p">(</span><span class="s1">&#39;sed-ml&#39;</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="CombinePhraSEDMLAsset"><a class="viewcode-back" href="../../_apidoc/tellurium.html#tellurium.tecombine.CombinePhraSEDMLAsset">[docs]</a><span class="k">class</span> <span class="nc">CombinePhraSEDMLAsset</span><span class="p">(</span><span class="n">CombineAsset</span><span class="p">):</span>
+<div class="viewcode-block" id="CombinePhraSEDMLAsset.isPhraSEDML"><a class="viewcode-back" href="../../_apidoc/tellurium.html#tellurium.tecombine.CombinePhraSEDMLAsset.isPhraSEDML">[docs]</a>    <span class="k">def</span> <span class="nf">isPhraSEDML</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">True</span></div>
+
+<div class="viewcode-block" id="CombinePhraSEDMLAsset.getSEDMLStr"><a class="viewcode-back" href="../../_apidoc/tellurium.html#tellurium.tecombine.CombinePhraSEDMLAsset.getSEDMLStr">[docs]</a>    <span class="k">def</span> <span class="nf">getSEDMLStr</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">sedmlstr</span> <span class="o">=</span> <span class="n">phrasedml</span><span class="o">.</span><span class="n">convertString</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">getRawStr</span><span class="p">())</span>
+        <span class="k">if</span> <span class="n">sedmlstr</span> <span class="o">==</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="n">phrasedml</span><span class="o">.</span><span class="n">getLastError</span><span class="p">())</span>
+        <span class="k">return</span> <span class="n">sedmlstr</span></div>
+
+<div class="viewcode-block" id="CombinePhraSEDMLAsset.getResourceURI"><a class="viewcode-back" href="../../_apidoc/tellurium.html#tellurium.tecombine.CombinePhraSEDMLAsset.getResourceURI">[docs]</a>    <span class="k">def</span> <span class="nf">getResourceURI</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">CombineAsset</span><span class="o">.</span><span class="n">getCOMBINEResourceURI</span><span class="p">(</span><span class="s1">&#39;sed-ml&#39;</span><span class="p">)</span></div></div>
+
+<span class="c1"># SBML:</span>
+
+<div class="viewcode-block" id="CombineSBMLRawAsset"><a class="viewcode-back" href="../../_apidoc/tellurium.html#tellurium.tecombine.CombineSBMLRawAsset">[docs]</a><span class="k">class</span> <span class="nc">CombineSBMLRawAsset</span><span class="p">(</span><span class="n">CombineRawAsset</span><span class="p">,</span> <span class="n">CombineSBMLAsset</span><span class="p">):</span>
+    <span class="k">pass</span></div>
+
+<div class="viewcode-block" id="CombineSBMLFileAsset"><a class="viewcode-back" href="../../_apidoc/tellurium.html#tellurium.tecombine.CombineSBMLFileAsset">[docs]</a><span class="k">class</span> <span class="nc">CombineSBMLFileAsset</span><span class="p">(</span><span class="n">CombineFileAsset</span><span class="p">,</span> <span class="n">CombineSBMLAsset</span><span class="p">):</span>
+    <span class="k">pass</span></div>
+
+<span class="c1"># Antimony:</span>
+
+<div class="viewcode-block" id="CombineAntimonyRawAsset"><a class="viewcode-back" href="../../_apidoc/tellurium.html#tellurium.tecombine.CombineAntimonyRawAsset">[docs]</a><span class="k">class</span> <span class="nc">CombineAntimonyRawAsset</span><span class="p">(</span><span class="n">CombineRawAsset</span><span class="p">,</span> <span class="n">CombineAntimonyAsset</span><span class="p">):</span></div>
+    <span class="c1"># return SBML, since COMBINE doesn&#39;t support Antimony</span>
+    <span class="k">def</span> <span class="nf">getExportedStr</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getSBMLStr</span><span class="p">()</span>
+
+<div class="viewcode-block" id="CombineAntimonyFileAsset"><a class="viewcode-back" href="../../_apidoc/tellurium.html#tellurium.tecombine.CombineAntimonyFileAsset">[docs]</a><span class="k">class</span> <span class="nc">CombineAntimonyFileAsset</span><span class="p">(</span><span class="n">CombineFileAsset</span><span class="p">,</span> <span class="n">CombineAntimonyAsset</span><span class="p">):</span></div>
+    <span class="c1"># converts a phrasedml extension to a sedml extension</span>
+    <span class="k">def</span> <span class="nf">replace_ext</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">):</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s1">r&#39;.*\.([^.]*)&#39;</span><span class="p">)</span>
+        <span class="n">m</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">m</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s1">&#39;Unrecognized file name: {}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">filename</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">filename</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">groups</span><span class="p">()[</span><span class="mi">0</span><span class="p">],</span> <span class="s1">&#39;xml&#39;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">getArchName</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">f</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">replace_ext</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">getbasename</span><span class="p">(</span><span class="n">f</span><span class="p">))</span>
+
+    <span class="c1"># return SEDML, since COMBINE doesn&#39;t support PhraSEDML</span>
+    <span class="k">def</span> <span class="nf">getExportedStr</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getSBMLStr</span><span class="p">()</span>
+
+<span class="c1"># SEDML:</span>
+
+<div class="viewcode-block" id="CombineSEDMLRawAsset"><a class="viewcode-back" href="../../_apidoc/tellurium.html#tellurium.tecombine.CombineSEDMLRawAsset">[docs]</a><span class="k">class</span> <span class="nc">CombineSEDMLRawAsset</span><span class="p">(</span><span class="n">CombineRawAsset</span><span class="p">,</span> <span class="n">CombineSEDMLAsset</span><span class="p">):</span>
+    <span class="k">pass</span></div>
+
+<div class="viewcode-block" id="CombineSEDMLFileAsset"><a class="viewcode-back" href="../../_apidoc/tellurium.html#tellurium.tecombine.CombineSEDMLFileAsset">[docs]</a><span class="k">class</span> <span class="nc">CombineSEDMLFileAsset</span><span class="p">(</span><span class="n">CombineFileAsset</span><span class="p">,</span> <span class="n">CombineSEDMLAsset</span><span class="p">):</span>
+    <span class="k">pass</span></div>
+
+<span class="c1"># PhraSEDML:</span>
+
+
+<div class="viewcode-block" id="CombinePhraSEDMLRawAsset"><a class="viewcode-back" href="../../_apidoc/tellurium.html#tellurium.tecombine.CombinePhraSEDMLRawAsset">[docs]</a><span class="k">class</span> <span class="nc">CombinePhraSEDMLRawAsset</span><span class="p">(</span><span class="n">CombineRawAsset</span><span class="p">,</span>   <span class="n">CombinePhraSEDMLAsset</span><span class="p">):</span></div>
+    <span class="c1"># return SEDML, since COMBINE doesn&#39;t support PhraSEDML</span>
+    <span class="k">def</span> <span class="nf">getExportedStr</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getSEDMLStr</span><span class="p">()</span>
+
+
+<div class="viewcode-block" id="CombinePhraSEDMLFileAsset"><a class="viewcode-back" href="../../_apidoc/tellurium.html#tellurium.tecombine.CombinePhraSEDMLFileAsset">[docs]</a><span class="k">class</span> <span class="nc">CombinePhraSEDMLFileAsset</span><span class="p">(</span><span class="n">CombineFileAsset</span><span class="p">,</span> <span class="n">CombinePhraSEDMLAsset</span><span class="p">):</span></div>
+    <span class="c1"># converts a phrasedml extension to a sedml extension</span>
+    <span class="k">def</span> <span class="nf">replace_pml_ext</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">):</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s1">r&#39;.*\.([^.]*)&#39;</span><span class="p">)</span>
+        <span class="n">m</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">m</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s1">&#39;Unrecognized file name: {}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">filename</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">filename</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">groups</span><span class="p">()[</span><span class="mi">0</span><span class="p">],</span> <span class="s1">&#39;xml&#39;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">getArchName</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">f</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">replace_pml_ext</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">getbasename</span><span class="p">(</span><span class="n">f</span><span class="p">))</span>
+
+    <span class="c1"># return SEDML, since COMBINE doesn&#39;t support PhraSEDML</span>
+    <span class="k">def</span> <span class="nf">getExportedStr</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getSEDMLStr</span><span class="p">()</span>
+
+
+<div class="viewcode-block" id="MakeCombine"><a class="viewcode-back" href="../../_apidoc/tellurium.html#tellurium.tecombine.MakeCombine">[docs]</a><span class="k">class</span> <span class="nc">MakeCombine</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assets</span> <span class="o">=</span> <span class="p">[]</span>
+
+<div class="viewcode-block" id="MakeCombine.checkfile"><a class="viewcode-back" href="../../_apidoc/tellurium.html#tellurium.tecombine.MakeCombine.checkfile">[docs]</a>    <span class="k">def</span> <span class="nf">checkfile</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">exists</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">isfile</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s1">&#39;No such file: {}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">filename</span><span class="p">))</span></div>
+
+    <span class="c1"># Add raw strings:</span>
+<div class="viewcode-block" id="MakeCombine.addSBMLStr"><a class="viewcode-back" href="../../_apidoc/tellurium.html#tellurium.tecombine.MakeCombine.addSBMLStr">[docs]</a>    <span class="k">def</span> <span class="nf">addSBMLStr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rawstr</span><span class="p">,</span> <span class="n">archname</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assets</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">CombineSBMLRawAsset</span><span class="p">(</span><span class="n">rawstr</span><span class="p">,</span> <span class="n">archname</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="MakeCombine.addAntimonyStr"><a class="viewcode-back" href="../../_apidoc/tellurium.html#tellurium.tecombine.MakeCombine.addAntimonyStr">[docs]</a>    <span class="k">def</span> <span class="nf">addAntimonyStr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rawstr</span><span class="p">,</span> <span class="n">archname</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assets</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">CombineAntimonyRawAsset</span><span class="p">(</span><span class="n">rawstr</span><span class="p">,</span> <span class="n">archname</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="MakeCombine.addSEDMLStr"><a class="viewcode-back" href="../../_apidoc/tellurium.html#tellurium.tecombine.MakeCombine.addSEDMLStr">[docs]</a>    <span class="k">def</span> <span class="nf">addSEDMLStr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rawstr</span><span class="p">,</span> <span class="n">archname</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assets</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">CombineSEDMLRawAsset</span><span class="p">(</span><span class="n">rawstr</span><span class="p">,</span> <span class="n">archname</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="MakeCombine.addPhraSEDMLStr"><a class="viewcode-back" href="../../_apidoc/tellurium.html#tellurium.tecombine.MakeCombine.addPhraSEDMLStr">[docs]</a>    <span class="k">def</span> <span class="nf">addPhraSEDMLStr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rawstr</span><span class="p">,</span> <span class="n">archname</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assets</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">CombinePhraSEDMLRawAsset</span><span class="p">(</span><span class="n">rawstr</span><span class="p">,</span> <span class="n">archname</span><span class="p">))</span></div>
+
+    <span class="c1"># Add files:</span>
+<div class="viewcode-block" id="MakeCombine.addSBMLFile"><a class="viewcode-back" href="../../_apidoc/tellurium.html#tellurium.tecombine.MakeCombine.addSBMLFile">[docs]</a>    <span class="k">def</span> <span class="nf">addSBMLFile</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">checkfile</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assets</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">CombineSBMLFileAsset</span><span class="p">(</span><span class="n">filename</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="MakeCombine.addAntimonyFile"><a class="viewcode-back" href="../../_apidoc/tellurium.html#tellurium.tecombine.MakeCombine.addAntimonyFile">[docs]</a>    <span class="k">def</span> <span class="nf">addAntimonyFile</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">checkfile</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assets</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">CombineAntimonyFileAsset</span><span class="p">(</span><span class="n">filename</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="MakeCombine.addSEDMLFile"><a class="viewcode-back" href="../../_apidoc/tellurium.html#tellurium.tecombine.MakeCombine.addSEDMLFile">[docs]</a>    <span class="k">def</span> <span class="nf">addSEDMLFile</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">checkfile</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assets</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">CombineSEDMLFileAsset</span><span class="p">(</span><span class="n">filename</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="MakeCombine.addPhraSEDMLFile"><a class="viewcode-back" href="../../_apidoc/tellurium.html#tellurium.tecombine.MakeCombine.addPhraSEDMLFile">[docs]</a>    <span class="k">def</span> <span class="nf">addPhraSEDMLFile</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">checkfile</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assets</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">CombinePhraSEDMLFileAsset</span><span class="p">(</span><span class="n">filename</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="MakeCombine.writeAsset"><a class="viewcode-back" href="../../_apidoc/tellurium.html#tellurium.tecombine.MakeCombine.writeAsset">[docs]</a>    <span class="k">def</span> <span class="nf">writeAsset</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">zipfile</span><span class="p">,</span> <span class="n">asset</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">asset</span><span class="o">.</span><span class="n">isFile</span><span class="p">():</span>
+            <span class="n">zipfile</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">asset</span><span class="o">.</span><span class="n">getFileName</span><span class="p">(),</span> <span class="n">asset</span><span class="o">.</span><span class="n">getArchName</span><span class="p">())</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">zipfile</span><span class="o">.</span><span class="n">writestr</span><span class="p">(</span><span class="n">asset</span><span class="o">.</span><span class="n">getArchName</span><span class="p">(),</span> <span class="n">asset</span><span class="o">.</span><span class="n">getExportedStr</span><span class="p">())</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">manifest</span> <span class="o">+=</span> <span class="s1">&#39;    &lt;content location=&quot;./{}&quot; master=&quot;true&quot; format=&quot;{}&quot;/&gt;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+            <span class="n">asset</span><span class="o">.</span><span class="n">getArchName</span><span class="p">(),</span>
+            <span class="n">asset</span><span class="o">.</span><span class="n">getResourceURI</span><span class="p">()</span>
+            <span class="p">)</span></div>
+
+<div class="viewcode-block" id="MakeCombine.write"><a class="viewcode-back" href="../../_apidoc/tellurium.html#tellurium.tecombine.MakeCombine.write">[docs]</a>    <span class="k">def</span> <span class="nf">write</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">outfile</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">manifest</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+        <span class="k">with</span> <span class="n">ZipFile</span><span class="p">(</span><span class="n">outfile</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">z</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">manifest</span> <span class="o">+=</span> <span class="s1">&#39;&lt;?xml version=&quot;1.0&quot;  encoding=&quot;utf-8&quot;?&gt;</span><span class="se">\n</span><span class="s1">&lt;omexManifest  xmlns=&quot;http://identifiers.org/combine.specifications/omex-manifest&quot;&gt;</span><span class="se">\n</span><span class="s1">&#39;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">manifest</span> <span class="o">+=</span> <span class="s1">&#39;    &lt;content location=&quot;./manifest.xml&quot; format=&quot;http://identifiers.org/combine.specifications/omex-manifest&quot;/&gt;</span><span class="se">\n</span><span class="s1">&#39;</span>
+
+            <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">assets</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">writeAsset</span><span class="p">(</span><span class="n">z</span><span class="p">,</span> <span class="n">a</span><span class="p">)</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">manifest</span> <span class="o">+=</span> <span class="s1">&#39;&lt;/omexManifest&gt;</span><span class="se">\n</span><span class="s1">&#39;</span>
+
+            <span class="n">z</span><span class="o">.</span><span class="n">writestr</span><span class="p">(</span><span class="s1">&#39;manifest.xml&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">manifest</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="export"><a class="viewcode-back" href="../../_apidoc/tellurium.html#tellurium.tecombine.export">[docs]</a><span class="k">def</span> <span class="nf">export</span><span class="p">(</span><span class="n">outfile</span><span class="p">,</span> <span class="n">antimonyStr</span><span class="p">,</span> <span class="n">SBMLName</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
+    <span class="n">m</span> <span class="o">=</span> <span class="n">MakeCombine</span><span class="p">()</span>
+
+    <span class="n">m</span><span class="o">.</span><span class="n">addAntimonyStr</span><span class="p">(</span><span class="n">antimonyStr</span><span class="p">,</span> <span class="n">SBMLName</span><span class="p">)</span>
+
+    <span class="c1"># remaining arguments are assumed to be phrasedml</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="k">for</span> <span class="n">phrasedmlStr</span> <span class="ow">in</span> <span class="n">args</span><span class="p">:</span>
+        <span class="n">m</span><span class="o">.</span><span class="n">addPhraSEDMLStr</span><span class="p">(</span><span class="n">phrasedmlStr</span><span class="p">,</span> <span class="s1">&#39;experiment{}.xml&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">n</span><span class="p">))</span>
+        <span class="n">n</span> <span class="o">+=</span> <span class="mi">1</span>
+
+    <span class="n">m</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">outfile</span><span class="p">)</span></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016, sys-bio.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../',
+            VERSION:'1.3.0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

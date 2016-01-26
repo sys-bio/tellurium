@@ -85,16 +85,15 @@
                 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../notebooks.html">Examples</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../tellurium_methods.html">Tellurium Methods</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="tellurium.html">API (tellurium)</a><ul class="current">
 <li class="toctree-l2 current"><a class="reference internal" href="tellurium.html#subpackages">Subpackages</a><ul class="current">
 <li class="toctree-l3"><a class="reference internal" href="tellurium.Export.html">tellurium.Export package</a></li>
 <li class="toctree-l3"><a class="reference internal" href="tellurium.ParameterScan.html">tellurium.ParameterScan package</a></li>
 <li class="toctree-l3 current"><a class="current reference internal" href="">tellurium.analysis package</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#submodules">Submodules</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#tellurium-analysis-match-module">tellurium.analysis.match module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#tellurium-analysis-parameters-module">tellurium.analysis.parameters module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#module-contents">Module contents</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-tellurium.analysis.match">tellurium.analysis.match module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-tellurium.analysis.parameters">tellurium.analysis.parameters module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-tellurium.analysis">Module contents</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="tellurium.notebooktools.html">tellurium.notebooktools package</a></li>
@@ -105,10 +104,10 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="tellurium.html#submodules">Submodules</a></li>
-<li class="toctree-l2"><a class="reference internal" href="tellurium.html#tellurium-sedmltorr-module">tellurium.SedmlToRr module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="tellurium.html#tellurium-tecombine-module">tellurium.tecombine module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="tellurium.html#tellurium-tellurium-module">tellurium.tellurium module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="tellurium.html#tellurium-tephrasedml-module">tellurium.tephrasedml module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tellurium.html#module-tellurium.SedmlToRr">tellurium.SedmlToRr module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tellurium.html#module-tellurium.tecombine">tellurium.tecombine module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tellurium.html#module-tellurium.tellurium">tellurium.tellurium module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tellurium.html#module-tellurium.tephrasedml">tellurium.tephrasedml module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="tellurium.html#module-tellurium">Module contents</a></li>
 </ul>
 </li>
@@ -163,14 +162,85 @@
 <div class="section" id="submodules">
 <h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
 </div>
-<div class="section" id="tellurium-analysis-match-module">
-<h2>tellurium.analysis.match module<a class="headerlink" href="#tellurium-analysis-match-module" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-tellurium.analysis.match">
+<span id="tellurium-analysis-match-module"></span><h2>tellurium.analysis.match module<a class="headerlink" href="#module-tellurium.analysis.match" title="Permalink to this headline">¶</a></h2>
+<p>Utilities for matching species.</p>
+<dl class="function">
+<dt id="tellurium.analysis.match.getMatchingReactions">
+<code class="descclassname">tellurium.analysis.match.</code><code class="descname">getMatchingReactions</code><span class="sig-paren">(</span><em>modelOrList</em>, <em>idToMatch</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/tellurium/analysis/match.html#getMatchingReactions"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.analysis.match.getMatchingReactions" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a list of reactions that contains a reactant with the id to match.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>modelOrList</strong> (<em>libsbml.Model or list[libsbml.Reaction]</em>) &#8211; SBML Model or list of reactions</li>
+<li><strong>idToMatch</strong> (<em>str</em>) &#8211; reaction id for matching</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">list of reactions</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">list</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="tellurium.analysis.match.getMatchingSpecies">
+<code class="descclassname">tellurium.analysis.match.</code><code class="descname">getMatchingSpecies</code><span class="sig-paren">(</span><em>m1</em>, <em>m2</em>, <em>logging=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/tellurium/analysis/match.html#getMatchingSpecies"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.analysis.match.getMatchingSpecies" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a list of species with matching annotations URIs for two models</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>m1</strong> (<em>libsbml.Model</em>) &#8211; first SBML model</li>
+<li><strong>m2</strong> (<em>libsbml.Model</em>) &#8211; second SBML model</li>
+<li><strong>logging</strong> (<em>bool</em>) &#8211; log info</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">returns list of chebi annotation information for matching species</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">list</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="tellurium.analysis.match.printMatchingSpecies">
+<code class="descclassname">tellurium.analysis.match.</code><code class="descname">printMatchingSpecies</code><span class="sig-paren">(</span><em>matches</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/tellurium/analysis/match.html#printMatchingSpecies"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.analysis.match.printMatchingSpecies" title="Permalink to this definition">¶</a></dt>
+<dd><p>Prints the matches from <a class="reference internal" href="#tellurium.analysis.match.getMatchingSpecies" title="tellurium.analysis.match.getMatchingSpecies"><code class="xref py py-func docutils literal"><span class="pre">getMatchingSpecies()</span></code></a>-</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>matches</strong> (<em>list</em>) &#8211; matches from getMatchingSpecies</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
 </div>
-<div class="section" id="tellurium-analysis-parameters-module">
-<h2>tellurium.analysis.parameters module<a class="headerlink" href="#tellurium-analysis-parameters-module" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-tellurium.analysis.parameters">
+<span id="tellurium-analysis-parameters-module"></span><h2>tellurium.analysis.parameters module<a class="headerlink" href="#module-tellurium.analysis.parameters" title="Permalink to this headline">¶</a></h2>
+<p>Parameter scan utilities.</p>
+<dl class="function">
+<dt id="tellurium.analysis.parameters.plot2DParameterScan">
+<code class="descclassname">tellurium.analysis.parameters.</code><code class="descname">plot2DParameterScan</code><span class="sig-paren">(</span><em>r</em>, <em>param1</em>, <em>param1Range</em>, <em>param2</em>, <em>param2Range</em>, <em>start=0</em>, <em>end=100</em>, <em>steps=100</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/tellurium/analysis/parameters.html#plot2DParameterScan"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.analysis.parameters.plot2DParameterScan" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a 2D Parameter scan and plot the results.</p>
+</dd></dl>
+
 </div>
-<div class="section" id="module-contents">
-<h2>Module contents<a class="headerlink" href="#module-contents" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-tellurium.analysis">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-tellurium.analysis" title="Permalink to this headline">¶</a></h2>
 </div>
 </div>
 

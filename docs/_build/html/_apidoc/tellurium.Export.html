@@ -85,13 +85,12 @@
                 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../notebooks.html">Examples</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../tellurium_methods.html">Tellurium Methods</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="tellurium.html">API (tellurium)</a><ul class="current">
 <li class="toctree-l2 current"><a class="reference internal" href="tellurium.html#subpackages">Subpackages</a><ul class="current">
 <li class="toctree-l3 current"><a class="current reference internal" href="">tellurium.Export package</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#submodules">Submodules</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#tellurium-export-export-module">tellurium.Export.Export module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#module-contents">Module contents</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-tellurium.Export.Export">tellurium.Export.Export module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-tellurium.Export">Module contents</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="tellurium.ParameterScan.html">tellurium.ParameterScan package</a></li>
@@ -104,10 +103,10 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="tellurium.html#submodules">Submodules</a></li>
-<li class="toctree-l2"><a class="reference internal" href="tellurium.html#tellurium-sedmltorr-module">tellurium.SedmlToRr module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="tellurium.html#tellurium-tecombine-module">tellurium.tecombine module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="tellurium.html#tellurium-tellurium-module">tellurium.tellurium module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="tellurium.html#tellurium-tephrasedml-module">tellurium.tephrasedml module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tellurium.html#module-tellurium.SedmlToRr">tellurium.SedmlToRr module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tellurium.html#module-tellurium.tecombine">tellurium.tecombine module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tellurium.html#module-tellurium.tellurium">tellurium.tellurium module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tellurium.html#module-tellurium.tephrasedml">tellurium.tephrasedml module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="tellurium.html#module-tellurium">Module contents</a></li>
 </ul>
 </li>
@@ -162,11 +161,45 @@
 <div class="section" id="submodules">
 <h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
 </div>
-<div class="section" id="tellurium-export-export-module">
-<h2>tellurium.Export.Export module<a class="headerlink" href="#tellurium-export-export-module" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-tellurium.Export.Export">
+<span id="tellurium-export-export-module"></span><h2>tellurium.Export.Export module<a class="headerlink" href="#module-tellurium.Export.Export" title="Permalink to this headline">¶</a></h2>
+<p>Export utilities.
+Write to latex.</p>
+<dl class="class">
+<dt id="tellurium.Export.Export.export">
+<em class="property">class </em><code class="descclassname">tellurium.Export.Export.</code><code class="descname">export</code><span class="sig-paren">(</span><em>rr, color=['blue', 'green', 'red', 'black'], xlabel='x', ylabel='y', legend=None, exportComplete=False, coorPerRow=6, saveto=None, exportType='pgfplot', fileName='Model', exportString=''</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/tellurium/Export/Export.html#export"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.Export.Export.export" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<p>Class for exporting simulation to latex.</p>
+<dl class="method">
+<dt id="tellurium.Export.Export.export.saveToFile">
+<code class="descname">saveToFile</code><span class="sig-paren">(</span><em>result=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/tellurium/Export/Export.html#export.saveToFile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.Export.Export.export.saveToFile" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates .txt files for plotting result of simulation with LaTeX.
+Outputs one file with code to be pasted into LaTeX, and one data file
+for each variable in results after the first.</p>
+<p>Takes two arguments, results of simulation and name of file to be created.
+Setting self.exportClipboard to True also copies LaTeX code to clipboard, while 
+setting self.exportComplete to True adds necessary code to build doc right away.</p>
+<p>result = rr.simulate(0, 6, 20, [&#8216;Time&#8217;, &#8216;S1&#8217;, &#8216;S2&#8217;])
+p.export(result, model1)</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="tellurium.Export.Export.export.saveToOneFile">
+<code class="descname">saveToOneFile</code><span class="sig-paren">(</span><em>result=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/tellurium/Export/Export.html#export.saveToOneFile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.Export.Export.export.saveToOneFile" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates one .txt file with LaTeX code and results.
+Takes two arguments, results of
+simulation and name of file to be created. Same options as for saveToFile method.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">result</span> <span class="o">=</span> <span class="n">rr</span><span class="o">.</span><span class="n">simulate</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;Time&#39;</span><span class="p">,</span> <span class="s1">&#39;S1&#39;</span><span class="p">,</span> <span class="s1">&#39;S2&#39;</span><span class="p">])</span>
+<span class="n">p</span><span class="o">.</span><span class="n">exportOne</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">model1</span><span class="p">)</span>
+</pre></div>
 </div>
-<div class="section" id="module-contents">
-<h2>Module contents<a class="headerlink" href="#module-contents" title="Permalink to this headline">¶</a></h2>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-tellurium.Export">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-tellurium.Export" title="Permalink to this headline">¶</a></h2>
 </div>
 </div>
 

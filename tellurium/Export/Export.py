@@ -136,6 +136,7 @@ class export (object):
         Takes two arguments, results of
         simulation and name of file to be created. Same options as for saveToFile method.
         ::
+
             result = rr.simulate(0, 6, 20, ['Time', 'S1', 'S2'])
             p.exportOne(result, model1)
         """

@@ -47,6 +47,7 @@ class TestRunner(object):
     def te_passes_tests(self):
         """ Did tellurium pass the tests?
         ::
+
             import tellurium.tests.test_runner as tetest
             runner = tetest.TestRunner()
             runner.te_passes_tests()
