@@ -35,8 +35,7 @@ MOCK_MODULES = ['roadrunner',
 				'numpy'
 				'matplotlib'
 				'ipython'
-				'ipywidgets'
-				'bioservices']
+				'ipywidgets']
 sys.modules.update((mod_name, Mock()) for mod_name in MOCK_MODULES)
 
 
