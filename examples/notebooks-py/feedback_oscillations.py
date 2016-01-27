@@ -3,16 +3,12 @@
 
 # Back to the main [Index](../index.ipynb)
 
-# In[1]:
-
-#!!! DO NOT CHANGE !!! THIS FILE WAS CREATED AUTOMATICALLY FROM NOTEBOOKS !!! CHANGES WILL BE OVERWRITTEN !!! CHANGE CORRESPONDING NOTEBOOK FILE !!!
-
-
 # ### Feedback oscillations
 # Model oscillations via feedback 
 
-# In[2]:
+# In[1]:
 
+#!!! DO NOT CHANGE !!! THIS FILE WAS CREATED AUTOMATICALLY FROM NOTEBOOKS !!! CHANGES WILL BE OVERWRITTEN !!! CHANGE CORRESPONDING NOTEBOOK FILE !!!
 from __future__ import print_function
 import tellurium as te
 
@@ -37,7 +33,7 @@ res = r.simulate(0, 40, 500)
 r.plot()
 
 
-# In[3]:
+# In[2]:
 
 
 

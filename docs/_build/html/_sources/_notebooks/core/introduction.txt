@@ -1,8 +1,5 @@
 
 
-.. code:: python
-
-
 Simple Example
 ~~~~~~~~~~~~~~
 
@@ -15,7 +12,7 @@ Simple Example
 
 
 
-.. image:: _notebooks/core/introduction_files/introduction_3_0.png
+.. image:: _notebooks/core/introduction_files/introduction_2_0.png
 
 
 More Complex Example
@@ -39,6 +36,6 @@ More Complex Example
 
 
 
-.. image:: _notebooks/core/introduction_files/introduction_5_0.png
+.. image:: _notebooks/core/introduction_files/introduction_4_0.png
 
 

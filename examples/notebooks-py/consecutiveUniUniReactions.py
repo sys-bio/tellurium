@@ -3,16 +3,12 @@
 
 # Back to the main [Index](../index.ipynb)
 
-# In[1]:
-
-#!!! DO NOT CHANGE !!! THIS FILE WAS CREATED AUTOMATICALLY FROM NOTEBOOKS !!! CHANGES WILL BE OVERWRITTEN !!! CHANGE CORRESPONDING NOTEBOOK FILE !!!
-
-
 # ### Consecutive UniUni reactions using first-order mass-action kinetics
 # Model creation and simulation of a simple irreversible chain of reactions S1 -> S2 -> S3 -> S4.
 
-# In[2]:
+# In[1]:
 
+#!!! DO NOT CHANGE !!! THIS FILE WAS CREATED AUTOMATICALLY FROM NOTEBOOKS !!! CHANGES WILL BE OVERWRITTEN !!! CHANGE CORRESPONDING NOTEBOOK FILE !!!
 from __future__ import print_function
 import tellurium as te
 
@@ -32,7 +28,7 @@ result = r.simulate(0, 20, 51)
 te.plotArray(result);
 
 
-# In[3]:
+# In[2]:
 
 
 

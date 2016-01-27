@@ -1,8 +1,5 @@
 
 
-.. code:: python
-
-
 Feedback oscillations
 ~~~~~~~~~~~~~~~~~~~~~
 
@@ -34,6 +31,6 @@ Model oscillations via feedback
 
 
 
-.. image:: _notebooks/core/feedback_oscillations_files/feedback_oscillations_3_0.png
+.. image:: _notebooks/core/feedback_oscillations_files/feedback_oscillations_2_0.png
 
 

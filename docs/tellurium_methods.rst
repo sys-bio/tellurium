@@ -275,7 +275,7 @@ Model Methods
 ----------------------------------------
 Routines flattened from model, aves typing and easier for finding the methods
 
-.. autofunction:: tellurium.getRatesOfChange
+.. autofunction:: tellurium.tellurium.getRatesOfChange
 .. autofunction:: tellurium.getBoundarySpeciesConcentrations
 .. autofunction:: tellurium.getBoundarySpeciesIds
 .. autofunction:: tellurium.getNumBoundarySpecies

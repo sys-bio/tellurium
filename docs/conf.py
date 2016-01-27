@@ -25,6 +25,7 @@ class Mock(MagicMock):
             return Mock()
 
 MOCK_MODULES = ['roadrunner', 
+				'roadrunner.testing',
 				'antimony', 
 				'libsbml', 
 				'libsedml', 
@@ -36,8 +37,8 @@ MOCK_MODULES = ['roadrunner',
 				'matplotlib'
 				'ipython'
 				'ipywidgets']
-sys.modules.update((mod_name, Mock()) for mod_name in MOCK_MODULES)
 
+# sys.modules.update((mod_name, Mock()) for mod_name in MOCK_MODULES)
 
 
 # If extensions (or modules to document with autodoc) are in another directory,

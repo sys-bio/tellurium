@@ -32,7 +32,7 @@
   
     <link rel="top" title="tellurium 1.3.0 documentation" href="index.html"/>
         <link rel="next" title="Tellurium Methods" href="tellurium_methods.html"/>
-        <link rel="prev" title="Introduction" href="introduction.html"/> 
+        <link rel="prev" title="Installation" href="installation.html"/> 
 
   
   <script src="_static/js/modernizr.min.js"></script>
@@ -83,6 +83,7 @@
             
                 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="">Examples</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#model-building">Model Building</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#non-unit-stoichiometries">Non-unit stoichiometries</a></li>
@@ -147,7 +148,7 @@
             
   <div class="section" id="examples">
 <h1>Examples<a class="headerlink" href="#examples" title="Permalink to this headline">¶</a></h1>
-<p>All tellurium examples are available as interactive notebooks (<a class="reference external" href="http://jupyter.readthedocs.org/en/latest/install.html">http://jupyter.readthedocs.org/en/latest/install.html</a>).</p>
+<p>All tellurium examples are available as interactive <a class="reference external" href="http://jupyter.readthedocs.org/en/latest/install.html">jupyter notebooks</a>.</p>
 <p>To run the examples clone the git repository</p>
 <div class="highlight-python"><div class="highlight"><pre>git clone https://github.com/sys-bio/tellurium.git
 </pre></div>
@@ -224,7 +225,7 @@ reactions S1 -&gt; S2 -&gt; S3 -&gt; S4.</p>
 <span class="n">te</span><span class="o">.</span><span class="n">plotArray</span><span class="p">(</span><span class="n">result</span><span class="p">);</span>
 </pre></div>
 </div>
-<img alt="_images/consecutiveUniUniReactions_3_0.png" src="_images/consecutiveUniUniReactions_3_0.png" />
+<img alt="_images/consecutiveUniUniReactions_2_0.png" src="_images/consecutiveUniUniReactions_2_0.png" />
 </div>
 <div class="section" id="feedback-oscillations">
 <h3>Feedback oscillations<a class="headerlink" href="#feedback-oscillations" title="Permalink to this headline">¶</a></h3>
@@ -252,7 +253,7 @@ reactions S1 -&gt; S2 -&gt; S3 -&gt; S4.</p>
 <span class="n">r</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
 </pre></div>
 </div>
-<img alt="_images/feedback_oscillations_3_0.png" src="_images/feedback_oscillations_3_0.png" />
+<img alt="_images/feedback_oscillations_2_0.png" src="_images/feedback_oscillations_2_0.png" />
 </div>
 <div class="section" id="generate-different-wave-forms">
 <h3>Generate different wave forms<a class="headerlink" href="#generate-different-wave-forms" title="Permalink to this headline">¶</a></h3>
@@ -305,7 +306,7 @@ reactions S1 -&gt; S2 -&gt; S3 -&gt; S4.</p>
 <span class="n">Config</span><span class="o">.</span><span class="n">setValue</span><span class="p">(</span><span class="n">Config</span><span class="o">.</span><span class="n">LOADSBMLOPTIONS_CONSERVED_MOIETIES</span><span class="p">,</span> <span class="bp">False</span><span class="p">)</span>
 </pre></div>
 </div>
-<img alt="_images/generatingDifferentWaveforms_3_0.png" src="_images/generatingDifferentWaveforms_3_0.png" />
+<img alt="_images/generatingDifferentWaveforms_2_0.png" src="_images/generatingDifferentWaveforms_2_0.png" />
 </div>
 </div>
 <div class="section" id="parameter-scan">
@@ -342,7 +343,7 @@ reactions S1 -&gt; S2 -&gt; S3 -&gt; S4.</p>
 <span class="n">p</span><span class="o">.</span><span class="n">plotPolyArray</span><span class="p">()</span>
 </pre></div>
 </div>
-<img alt="_images/parameter_scan_3_0.png" src="_images/parameter_scan_3_0.png" />
+<img alt="_images/parameter_scan_2_0.png" src="_images/parameter_scan_2_0.png" />
 <div class="code python highlight-python"><div class="highlight"><pre><span class="n">r</span> <span class="o">=</span> <span class="n">te</span><span class="o">.</span><span class="n">loada</span><span class="p">(</span><span class="s1">&#39;&#39;&#39;</span>
 <span class="s1">    $Xo -&gt; S1; vo;</span>
 <span class="s1">    S1 -&gt; S2; k1*S1 - k2*S2;</span>
@@ -370,7 +371,7 @@ reactions S1 -&gt; S2 -&gt; S3 -&gt; S4.</p>
 <span class="n">p</span><span class="o">.</span><span class="n">plotSurface</span><span class="p">()</span>
 </pre></div>
 </div>
-<img alt="_images/parameter_scan_4_0.png" src="_images/parameter_scan_4_0.png" />
+<img alt="_images/parameter_scan_3_0.png" src="_images/parameter_scan_3_0.png" />
 </div>
 <div class="section" id="steady-state-scan">
 <h3>Steady state scan<a class="headerlink" href="#steady-state-scan" title="Permalink to this headline">¶</a></h3>
@@ -426,7 +427,7 @@ state.</p>
  [ 3.05263158  0.5         0.32758621]]
 </pre></div>
 </div>
-<img alt="_images/steadystate_scan_3_1.png" src="_images/steadystate_scan_3_1.png" />
+<img alt="_images/steadystate_scan_2_1.png" src="_images/steadystate_scan_2_1.png" />
 </div>
 <div class="section" id="steady-state-calculation">
 <h3>Steady state calculation<a class="headerlink" href="#steady-state-calculation" title="Permalink to this headline">¶</a></h3>
@@ -474,7 +475,7 @@ state.</p>
         <a href="tellurium_methods.html" class="btn btn-neutral float-right" title="Tellurium Methods" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="introduction.html" class="btn btn-neutral" title="Introduction" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="installation.html" class="btn btn-neutral" title="Installation" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

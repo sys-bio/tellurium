@@ -3,15 +3,11 @@
 
 # Back to the main [Index](../index.ipynb)
 
+# ### Simple Example
+
 # In[1]:
 
 #!!! DO NOT CHANGE !!! THIS FILE WAS CREATED AUTOMATICALLY FROM NOTEBOOKS !!! CHANGES WILL BE OVERWRITTEN !!! CHANGE CORRESPONDING NOTEBOOK FILE !!!
-
-
-# ### Simple Example
-
-# In[2]:
-
 from __future__ import print_function
 import tellurium as te
 r = te.loada('S1 -> S2; k1*S1; k1 = 0.1; S1 = 10')
@@ -21,7 +17,7 @@ r.plot()
 
 # ### More Complex Example
 
-# In[3]:
+# In[2]:
 
 import tellurium as te
 r = te.loada ('''
@@ -38,7 +34,7 @@ result = r.simulate (0, 10, 100, ['time', 'S1', 'S2', 'S3', 'J1'])
 r.plot(result);
 
 
-# In[4]:
+# In[3]:
 
 
 

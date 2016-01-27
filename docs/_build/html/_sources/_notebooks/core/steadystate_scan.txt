@@ -1,8 +1,5 @@
 
 
-.. code:: python
-
-
 Steady state scan
 ~~~~~~~~~~~~~~~~~
 
@@ -64,6 +61,6 @@ state.
 
 
 
-.. image:: _notebooks/core/steadystate_scan_files/steadystate_scan_3_1.png
+.. image:: _notebooks/core/steadystate_scan_files/steadystate_scan_2_1.png
 
 

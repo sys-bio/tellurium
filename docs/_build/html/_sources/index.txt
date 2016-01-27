@@ -5,7 +5,7 @@
 
 Welcome to tellurium's documentation!
 =====================================
-Model, simulate, and analyze biochemical systems using a single tool.
+Model, simulate, and analyse biochemical systems using a single tool.
 
 Contents:
 
@@ -27,3 +27,7 @@ Indices and tables
 * :ref:`modindex`
 * :ref:`search`
 
+
+.. |br| raw:: html
+
+   <br />
