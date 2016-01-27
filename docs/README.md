@@ -1,29 +1,29 @@
 # tellurium API documentation
 
-The API documentation of tellurium is build from the python source code and the `*.rst` files located in `tellurium/docs`. The documentation is based on sphinx and uses the information encoded in the docstrings. This replaces the old API documentation based on doxygen.
+The API documentation of tellurium is build from the python source code and restructured Text (reST) `*.rst` files located in `tellurium/docs`. The documentation is based on sphinx and uses the information encoded in the docstrings. The documentation is available at
 
-## Build Documentation 
-The python requirements for building the documentation are
-```
-pip install sphinx sphinx-autobuild sphinx_rtd_theme mock
-```
-To build the API documentation use the build script `make_docs.sh` in the `tellurium/docs` folder, which mainly does
-```{shell}
-# remove old documentation
-rm -rf _apidoc
-rm -rf _built
+**http://tellurium.readthedocs.org/en/latest/**
 
-# create auto documentation for tellurium packages
-sphinx-apidoc -o _apidoc ../tellurium
+## Documentation guidlines
+Documentation can be updated by changing `*.rst` files in `tellurium/docs`. Just edit the latest files in the git repository. Easy access is provided via the **Edit on GitHub** links in the documentation.
 
-# create html documentation
-make html
+Do **NOT** edit the `*.rst` files in 
+* `tellurium/docs/_apidoc`
+* `tellurium/docs/_notebooks`
+These are generated automatically from the python source code and the python notebooks. Changes to the API documentation or notebook examples have to be done in the respective python code (`tellurium/tellurium`) and notebook files (`tellurium/examples/notebooks`).
 
-# view documentation in docs/_built
-firefox _build/html/index.html
-```
+## Adding code examples to documentation
+Examples are added via notebooks via the following workflow
+* copy the notebook template `tellurium/examples/notebooks/core/template.ipynb` to a new file `tellurium/examples/notebooks/core/newExample.ipynb`
+* add your python code in the notebook `newExample.ipynb`
+* run the notebook to make sure everything works
+* add the notebook to the notebook index `tellurium/examples/notebooks/index.ipynb`
+* register the notebook in the docs in `tellurium/docs/notebooks.rst` via `.. include:: _notebooks/core/newExample.rst
+After the next complete rebuild the example is available in the docs. 
 
-## HowTo document python code in tellurium
+All examples added via notebooks are run when building the docs, so problems with the examples are directly visible and can be fixed.
+
+## Documentation of python source code
 Modules, classes, functions and methods can be documented via their respective docstrings in sphinx format (for information see http://www.sphinx-doc.org/en/stable/). An example of the sphinx syntax is provided below:
 
 ```{python}
@@ -49,7 +49,33 @@ Important points are:
 
 There are many more options available, see the sphinx documentation for more details.
 
+## Build Documentation 
+The python requirements for building the documentation are
+```
+pip install sphinx sphinx-autobuild sphinx_rtd_theme mock
+```
+
+### minimal build
+After changes to the `*.rst` files the updated documentation can be build and viewed locally via
+```
+make html && firefox _build/html/index.html
+```
+The minimal build just rebuilds the html from the changes in the rst. As soon as the changes are commited to the master branch the online documentation on  
+http://tellurium.readthedocs.org/en/latest/
+will be updated via a commit hook. The update can take a few minutes.
+
+The minimal build does not update 
+* `tellurium/docs/_apidoc`
+* `tellurium/docs/_notebooks`
+
+### complete build
+To build the complete API documentation use the build script `make_docs.sh` in the `tellurium/docs` folder, which mainly does
+
+* removes old `_apidoc` and `_notebook` files
+* creates the `_apidoc` `*.rst` from python source via `sphinx-apidoc`
+* creates the `_notebook` `*.rst` from notebook files in `tellurium/examples/notebooks` (the notebooks are executed, so all the example code in the documentation is run with the latest source)
+* creates the `*.py` code from notebook files in `tellurium/examples/notebook-py` (examples which can be loaded in Tellurium)
+* creates the `html` documentation (analoque to minimal build)
+
 ## Open Issues
-* commit hook for automatic generation (documentation should be created automatically on commits
 * links between functions in documentation (i.e. hyperlinks between functions for easy navigation in API)
-* python format of all source examples (if source examples provided make sure that they have python syntax highlighting)
