@@ -1,7 +1,7 @@
-<a href="http://tellurium.readthedocs.org/en/latest/?badge=latest" style="text-decoration: none;" onclick="$('#badge_markup').toggle(); return false;">
-        <img src="https://readthedocs.org/projects/tellurium/badge/?version=latest" />
-</a>
+
 # tellurium
+[![Documentation Status](https://readthedocs.org/projects/tellurium/badge/?version=latest)](http://tellurium.readthedocs.org/en/latest/?badge=latest)
+
 Copyright 2014  
 Michal Galdzicki, Herbert Sauro
 
@@ -12,9 +12,6 @@ In addition full access is available to other tools kits such as matplotlib.
 The Tellurium project is funded from the NIH/NIGMS (GM081070).
 
 Tellurium code is licensed under the Apache License, Version 2.0. Temporarily use PyQt4 GPL licensed code. Licences used include LGPL, Apache 2, MIT, and BSD.
-
-**API documentation**  
-http://tellurium.readthedocs.org/en/latest/
 
 **Usage**
 ```{python}
@@ -32,4 +29,7 @@ rr = te.loada('''
 result = rr.simulate(0, 40, 500) 
 te.plotArray(result)
 ```
+
+**API documentation**  
+http://tellurium.readthedocs.org/en/latest/
 
