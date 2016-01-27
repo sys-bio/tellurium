@@ -34,7 +34,8 @@ echo "DONE"
 echo "--------------------------------------"
 echo "create html docs"
 echo "--------------------------------------"
-make html
+# make html
+sphinx-build -b html . _build/html
 echo "DONE"
 
 # the new documentation is now in docs/_built

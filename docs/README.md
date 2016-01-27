@@ -78,4 +78,6 @@ To build the complete API documentation use the build script `make_docs.sh` in t
 * creates the `html` documentation (analoque to minimal build)
 
 ## Open Issues
+* API `.. autofunction::` & `automodule:: create` created locally but not on readthedocs.org
 * links between functions in documentation (i.e. hyperlinks between functions for easy navigation in API)
+
