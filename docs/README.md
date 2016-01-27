@@ -5,7 +5,7 @@ The API documentation of tellurium is build from the python source code and the 
 ## Build Documentation 
 The python requirements for building the documentation are
 ```
-pip install sphinx sphinx-autobuild sphinx_rtd_theme
+pip install sphinx sphinx-autobuild sphinx_rtd_theme mock
 ```
 To build the API documentation use the build script `make_docs.sh` in the `tellurium/docs` folder, which mainly does
 ```{shell}
