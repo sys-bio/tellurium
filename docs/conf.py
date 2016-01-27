@@ -31,7 +31,12 @@ MOCK_MODULES = ['roadrunner',
 				'phrasedml', 
 				'sbml2matlab',
 				'sedml2py',
-				'pygraphviz']
+				'pygraphviz'
+				'numpy'
+				'matplotlib'
+				'ipython'
+				'ipywidgets'
+				'bioservices']
 sys.modules.update((mod_name, Mock()) for mod_name in MOCK_MODULES)
 
 
