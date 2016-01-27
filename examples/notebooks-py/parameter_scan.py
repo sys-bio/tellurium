@@ -3,16 +3,12 @@
 
 # Back to the main [Index](../index.ipynb)
 
-# In[1]:
-
-#!!! DO NOT CHANGE !!! THIS FILE WAS CREATED AUTOMATICALLY FROM NOTEBOOKS !!! CHANGES WILL BE OVERWRITTEN !!! CHANGE CORRESPONDING NOTEBOOK FILE !!!
-
-
 # ### Parameter scan
 # Perform a parameter scan.
 
-# In[2]:
+# In[1]:
 
+#!!! DO NOT CHANGE !!! THIS FILE WAS CREATED AUTOMATICALLY FROM NOTEBOOKS !!! CHANGES WILL BE OVERWRITTEN !!! CHANGE CORRESPONDING NOTEBOOK FILE !!!
 from __future__ import print_function
 import tellurium as te
 
@@ -43,7 +39,7 @@ p.color = ['#0F0F3D', '#141452', '#1A1A66', '#1F1F7A', '#24248F', '#2929A3',
 p.plotPolyArray()
 
 
-# In[3]:
+# In[2]:
 
 r = te.loada('''
     $Xo -> S1; vo;
@@ -72,7 +68,7 @@ p.title = "Model"
 p.plotSurface()
 
 
-# In[4]:
+# In[3]:
 
 
 

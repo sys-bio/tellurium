@@ -1,8 +1,5 @@
 
 
-.. code:: python
-
-
 Parameter scan
 ~~~~~~~~~~~~~~
 
@@ -40,7 +37,7 @@ Perform a parameter scan.
 
 
 
-.. image:: _notebooks/core/parameter_scan_files/parameter_scan_3_0.png
+.. image:: _notebooks/core/parameter_scan_files/parameter_scan_2_0.png
 
 
 .. code:: python
@@ -73,6 +70,6 @@ Perform a parameter scan.
 
 
 
-.. image:: _notebooks/core/parameter_scan_files/parameter_scan_4_0.png
+.. image:: _notebooks/core/parameter_scan_files/parameter_scan_3_0.png
 
 

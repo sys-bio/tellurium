@@ -31,8 +31,8 @@
 
   
     <link rel="top" title="tellurium 1.3.0 documentation" href="index.html"/>
-        <link rel="next" title="tellurium package" href="_apidoc/tellurium.html"/>
-        <link rel="prev" title="Introduction" href="introduction.html"/> 
+        <link rel="next" title="Tellurium Methods" href="tellurium_methods.html"/>
+        <link rel="prev" title="Installation" href="installation.html"/> 
 
   
   <script src="_static/js/modernizr.min.js"></script>
@@ -83,15 +83,24 @@
             
                 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="">Examples</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#non-unit-stoichiometries">Non-unit stoichiometries</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#consecutive-uniuni-reactions-using-first-order-mass-action-kinetics">Consecutive UniUni reactions using first-order mass-action kinetics</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#parameter-scan">Parameter scan</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#steady-state-scan">Steady state scan</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#generate-different-wave-forms">Generate different wave forms</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#steady-state-calculation">Steady state calculation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#model-building">Model Building</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#non-unit-stoichiometries">Non-unit stoichiometries</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#consecutive-uniuni-reactions-using-first-order-mass-action-kinetics">Consecutive UniUni reactions using first-order mass-action kinetics</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#feedback-oscillations">Feedback oscillations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#generate-different-wave-forms">Generate different wave forms</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="#parameter-scan">Parameter scan</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id3">Parameter scan</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#steady-state-scan">Steady state scan</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#steady-state-calculation">Steady state calculation</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="tellurium_methods.html">Tellurium Methods</a></li>
 <li class="toctree-l1"><a class="reference internal" href="_apidoc/tellurium.html">API (tellurium)</a></li>
 </ul>
 
@@ -139,7 +148,7 @@
             
   <div class="section" id="examples">
 <h1>Examples<a class="headerlink" href="#examples" title="Permalink to this headline">¶</a></h1>
-<p>All tellurium examples are available as interactive notebooks (<a class="reference external" href="http://jupyter.readthedocs.org/en/latest/install.html">http://jupyter.readthedocs.org/en/latest/install.html</a>).</p>
+<p>All tellurium examples are available as interactive <a class="reference external" href="http://jupyter.readthedocs.org/en/latest/install.html">jupyter notebooks</a>.</p>
 <p>To run the examples clone the git repository</p>
 <div class="highlight-python"><div class="highlight"><pre>git clone https://github.com/sys-bio/tellurium.git
 </pre></div>
@@ -149,8 +158,10 @@
 jupyter notebook index.ipynb
 </pre></div>
 </div>
+<div class="section" id="model-building">
+<h2>Model Building<a class="headerlink" href="#model-building" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="non-unit-stoichiometries">
-<h2>Non-unit stoichiometries<a class="headerlink" href="#non-unit-stoichiometries" title="Permalink to this headline">¶</a></h2>
+<h3>Non-unit stoichiometries<a class="headerlink" href="#non-unit-stoichiometries" title="Permalink to this headline">¶</a></h3>
 <p>The following example demonstrates how to create a model with non-unit
 stoichiometries.</p>
 <div class="code python highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">tellurium</span> <span class="kn">as</span> <span class="nn">te</span>
@@ -193,7 +204,7 @@ end
 </div>
 </div>
 <div class="section" id="consecutive-uniuni-reactions-using-first-order-mass-action-kinetics">
-<h2>Consecutive UniUni reactions using first-order mass-action kinetics<a class="headerlink" href="#consecutive-uniuni-reactions-using-first-order-mass-action-kinetics" title="Permalink to this headline">¶</a></h2>
+<h3>Consecutive UniUni reactions using first-order mass-action kinetics<a class="headerlink" href="#consecutive-uniuni-reactions-using-first-order-mass-action-kinetics" title="Permalink to this headline">¶</a></h3>
 <p>Model creation and simulation of a simple irreversible chain of
 reactions S1 -&gt; S2 -&gt; S3 -&gt; S4.</p>
 <div class="code python highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">tellurium</span> <span class="kn">as</span> <span class="nn">te</span>
@@ -214,10 +225,94 @@ reactions S1 -&gt; S2 -&gt; S3 -&gt; S4.</p>
 <span class="n">te</span><span class="o">.</span><span class="n">plotArray</span><span class="p">(</span><span class="n">result</span><span class="p">);</span>
 </pre></div>
 </div>
-<img alt="_images/consecutiveUniUniReactions_3_0.png" src="_images/consecutiveUniUniReactions_3_0.png" />
+<img alt="_images/consecutiveUniUniReactions_2_0.png" src="_images/consecutiveUniUniReactions_2_0.png" />
+</div>
+<div class="section" id="feedback-oscillations">
+<h3>Feedback oscillations<a class="headerlink" href="#feedback-oscillations" title="Permalink to this headline">¶</a></h3>
+<p>Model oscillations via feedback</p>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">tellurium</span> <span class="kn">as</span> <span class="nn">te</span>
+
+<span class="n">r</span> <span class="o">=</span> <span class="n">te</span><span class="o">.</span><span class="n">loada</span> <span class="p">(</span><span class="s1">&#39;&#39;&#39;</span>
+<span class="s1">model feedback()</span>
+<span class="s1">   // Reactions:</span>
+<span class="s1">   J0: $X0 -&gt; S1; (VM1 * (X0 - S1/Keq1))/(1 + X0 + S1 + S4^h);</span>
+<span class="s1">   J1: S1 -&gt; S2; (10 * S1 - 2 * S2) / (1 + S1 + S2);</span>
+<span class="s1">   J2: S2 -&gt; S3; (10 * S2 - 2 * S3) / (1 + S2 + S3);</span>
+<span class="s1">   J3: S3 -&gt; S4; (10 * S3 - 2 * S4) / (1 + S3 + S4);</span>
+<span class="s1">   J4: S4 -&gt; $X1; (V4 * S4) / (KS4 + S4);</span>
+
+<span class="s1">  // Species initializations:</span>
+<span class="s1">  S1 = 0; S2 = 0; S3 = 0;</span>
+<span class="s1">  S4 = 0; X0 = 10; X1 = 0;</span>
+
+<span class="s1">  // Variable initialization:</span>
+<span class="s1">  VM1 = 10; Keq1 = 10; h = 10; V4 = 2.5; KS4 = 0.5;</span>
+<span class="s1">end&#39;&#39;&#39;</span><span class="p">)</span>
+
+<span class="n">res</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">simulate</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">40</span><span class="p">,</span> <span class="mi">500</span><span class="p">)</span>
+<span class="n">r</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+</pre></div>
+</div>
+<img alt="_images/feedback_oscillations_2_0.png" src="_images/feedback_oscillations_2_0.png" />
+</div>
+<div class="section" id="generate-different-wave-forms">
+<h3>Generate different wave forms<a class="headerlink" href="#generate-different-wave-forms" title="Permalink to this headline">¶</a></h3>
+<p>Example for how to create different wave form functions in tellurium.</p>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">tellurium</span> <span class="kn">as</span> <span class="nn">te</span>
+<span class="kn">from</span> <span class="nn">roadrunner</span> <span class="kn">import</span> <span class="n">Config</span>
+
+<span class="c1">#We do not want CONSERVED MOIETIES set to true in this case</span>
+<span class="n">Config</span><span class="o">.</span><span class="n">setValue</span><span class="p">(</span><span class="n">Config</span><span class="o">.</span><span class="n">LOADSBMLOPTIONS_CONSERVED_MOIETIES</span><span class="p">,</span> <span class="bp">False</span><span class="p">)</span>
+
+<span class="c1"># Generating different waveforms</span>
+<span class="n">model</span> <span class="o">=</span> <span class="s1">&#39;&#39;&#39;</span>
+<span class="s1">  model waveforms()</span>
+<span class="s1">     # All waves have the following amplitude and period</span>
+<span class="s1">     amplitude = 1</span>
+<span class="s1">     period = 10</span>
+
+<span class="s1">     # These events set the &#39;UpDown&#39; variable to 1 or 0 according to the period.</span>
+<span class="s1">     UpDown=0</span>
+<span class="s1">     at sin(2*pi*time/period) &gt;  0, t0=false: UpDown = 1</span>
+<span class="s1">     at sin(2*pi*time/period) &lt;= 0, t0=false: UpDown = 0</span>
+
+<span class="s1">     # Simple Sine wave with y displaced by 3</span>
+<span class="s1">     SineWave := amplitude/2*sin(2*pi*time/period) + 3</span>
+
+<span class="s1">     # Square wave with y displaced by 1.5</span>
+<span class="s1">     SquareWave := amplitude*UpDown + 1.5</span>
+
+<span class="s1">     # Triangle waveform with given period and y displaced by 1</span>
+<span class="s1">     TriangleWave = 1</span>
+<span class="s1">     TriangleWave&#39; = amplitude*2*(UpDown - 0.5)/period</span>
+
+<span class="s1">     # Saw tooth wave form with given period</span>
+<span class="s1">     SawTooth = amplitude/2</span>
+<span class="s1">     SawTooth&#39; = amplitude/period</span>
+<span class="s1">     at UpDown==0: SawTooth = 0</span>
+
+<span class="s1">     # Simple ramp</span>
+<span class="s1">     Ramp := 0.03*time</span>
+<span class="s1">  end</span>
+<span class="s1">&#39;&#39;&#39;</span>
+
+<span class="n">r</span> <span class="o">=</span> <span class="n">te</span><span class="o">.</span><span class="n">loada</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+
+<span class="n">r</span><span class="o">.</span><span class="n">timeCourseSelections</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;time&#39;</span><span class="p">,</span> <span class="s1">&#39;SineWave&#39;</span><span class="p">,</span> <span class="s1">&#39;SquareWave&#39;</span><span class="p">,</span> <span class="s1">&#39;SawTooth&#39;</span><span class="p">,</span> <span class="s1">&#39;TriangleWave&#39;</span><span class="p">,</span> <span class="s1">&#39;Ramp&#39;</span><span class="p">]</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">simulate</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">90</span><span class="p">,</span> <span class="mi">500</span><span class="p">)</span>
+<span class="n">te</span><span class="o">.</span><span class="n">plotWithLegend</span> <span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">result</span><span class="p">)</span>
+
+<span class="c1">#reset to default config</span>
+<span class="n">Config</span><span class="o">.</span><span class="n">setValue</span><span class="p">(</span><span class="n">Config</span><span class="o">.</span><span class="n">LOADSBMLOPTIONS_CONSERVED_MOIETIES</span><span class="p">,</span> <span class="bp">False</span><span class="p">)</span>
+</pre></div>
+</div>
+<img alt="_images/generatingDifferentWaveforms_2_0.png" src="_images/generatingDifferentWaveforms_2_0.png" />
+</div>
 </div>
 <div class="section" id="parameter-scan">
 <h2>Parameter scan<a class="headerlink" href="#parameter-scan" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id3">
+<h3>Parameter scan<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
 <p>Perform a parameter scan.</p>
 <div class="code python highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">tellurium</span> <span class="kn">as</span> <span class="nn">te</span>
 
@@ -248,7 +343,7 @@ reactions S1 -&gt; S2 -&gt; S3 -&gt; S4.</p>
 <span class="n">p</span><span class="o">.</span><span class="n">plotPolyArray</span><span class="p">()</span>
 </pre></div>
 </div>
-<img alt="_images/parameter_scan_3_0.png" src="_images/parameter_scan_3_0.png" />
+<img alt="_images/parameter_scan_2_0.png" src="_images/parameter_scan_2_0.png" />
 <div class="code python highlight-python"><div class="highlight"><pre><span class="n">r</span> <span class="o">=</span> <span class="n">te</span><span class="o">.</span><span class="n">loada</span><span class="p">(</span><span class="s1">&#39;&#39;&#39;</span>
 <span class="s1">    $Xo -&gt; S1; vo;</span>
 <span class="s1">    S1 -&gt; S2; k1*S1 - k2*S2;</span>
@@ -276,10 +371,10 @@ reactions S1 -&gt; S2 -&gt; S3 -&gt; S4.</p>
 <span class="n">p</span><span class="o">.</span><span class="n">plotSurface</span><span class="p">()</span>
 </pre></div>
 </div>
-<img alt="_images/parameter_scan_4_0.png" src="_images/parameter_scan_4_0.png" />
+<img alt="_images/parameter_scan_3_0.png" src="_images/parameter_scan_3_0.png" />
 </div>
 <div class="section" id="steady-state-scan">
-<h2>Steady state scan<a class="headerlink" href="#steady-state-scan" title="Permalink to this headline">¶</a></h2>
+<h3>Steady state scan<a class="headerlink" href="#steady-state-scan" title="Permalink to this headline">¶</a></h3>
 <p>Using <code class="docutils literal"><span class="pre">te.ParameterScan.SteadyStateScan</span></code> for scanning the steady
 state.</p>
 <div class="code python highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">tellurium</span> <span class="kn">as</span> <span class="nn">te</span>
@@ -332,63 +427,10 @@ state.</p>
  [ 3.05263158  0.5         0.32758621]]
 </pre></div>
 </div>
-<img alt="_images/steadystate_scan_3_1.png" src="_images/steadystate_scan_3_1.png" />
-</div>
-<div class="section" id="generate-different-wave-forms">
-<h2>Generate different wave forms<a class="headerlink" href="#generate-different-wave-forms" title="Permalink to this headline">¶</a></h2>
-<p>Example for how to create different wave form functions in tellurium.</p>
-<div class="code python highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">tellurium</span> <span class="kn">as</span> <span class="nn">te</span>
-<span class="kn">from</span> <span class="nn">roadrunner</span> <span class="kn">import</span> <span class="n">Config</span>
-
-<span class="c1">#We do not want CONSERVED MOIETIES set to true in this case</span>
-<span class="n">Config</span><span class="o">.</span><span class="n">setValue</span><span class="p">(</span><span class="n">Config</span><span class="o">.</span><span class="n">LOADSBMLOPTIONS_CONSERVED_MOIETIES</span><span class="p">,</span> <span class="bp">False</span><span class="p">)</span>
-
-<span class="c1"># Generating different waveforms</span>
-<span class="n">model</span> <span class="o">=</span> <span class="s1">&#39;&#39;&#39;</span>
-<span class="s1">  model waveforms()</span>
-<span class="s1">     # All waves have the following amplitude and period</span>
-<span class="s1">     amplitude = 1</span>
-<span class="s1">     period = 10</span>
-
-<span class="s1">     # These events set the &#39;UpDown&#39; variable to 1 or 0 according to the period.</span>
-<span class="s1">     UpDown=0</span>
-<span class="s1">     at sin(2*pi*time/period) &gt;  0, t0=false: UpDown = 1</span>
-<span class="s1">     at sin(2*pi*time/period) &lt;= 0, t0=false: UpDown = 0</span>
-
-<span class="s1">     # Simple Sine wave with y displaced by 3</span>
-<span class="s1">     SineWave := amplitude/2*sin(2*pi*time/period) + 3</span>
-
-<span class="s1">     # Square wave with y displaced by 1.5</span>
-<span class="s1">     SquareWave := amplitude*UpDown + 1.5</span>
-
-<span class="s1">     # Triangle waveform with given period and y displaced by 1</span>
-<span class="s1">     TriangleWave = 1</span>
-<span class="s1">     TriangleWave&#39; = amplitude*2*(UpDown - 0.5)/period</span>
-
-<span class="s1">     # Saw tooth wave form with given period</span>
-<span class="s1">     SawTooth = amplitude/2</span>
-<span class="s1">     SawTooth&#39; = amplitude/period</span>
-<span class="s1">     at UpDown==0: SawTooth = 0</span>
-
-<span class="s1">     # Simple ramp</span>
-<span class="s1">     Ramp := 0.03*time</span>
-<span class="s1">  end</span>
-<span class="s1">&#39;&#39;&#39;</span>
-
-<span class="n">r</span> <span class="o">=</span> <span class="n">te</span><span class="o">.</span><span class="n">loada</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
-
-<span class="n">r</span><span class="o">.</span><span class="n">timeCourseSelections</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;time&#39;</span><span class="p">,</span> <span class="s1">&#39;SineWave&#39;</span><span class="p">,</span> <span class="s1">&#39;SquareWave&#39;</span><span class="p">,</span> <span class="s1">&#39;SawTooth&#39;</span><span class="p">,</span> <span class="s1">&#39;TriangleWave&#39;</span><span class="p">,</span> <span class="s1">&#39;Ramp&#39;</span><span class="p">]</span>
-<span class="n">result</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">simulate</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">90</span><span class="p">,</span> <span class="mi">500</span><span class="p">)</span>
-<span class="n">te</span><span class="o">.</span><span class="n">plotWithLegend</span> <span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">result</span><span class="p">)</span>
-
-<span class="c1">#reset to default config</span>
-<span class="n">Config</span><span class="o">.</span><span class="n">setValue</span><span class="p">(</span><span class="n">Config</span><span class="o">.</span><span class="n">LOADSBMLOPTIONS_CONSERVED_MOIETIES</span><span class="p">,</span> <span class="bp">False</span><span class="p">)</span>
-</pre></div>
-</div>
-<img alt="_images/generatingDifferentWaveforms_3_0.png" src="_images/generatingDifferentWaveforms_3_0.png" />
+<img alt="_images/steadystate_scan_2_1.png" src="_images/steadystate_scan_2_1.png" />
 </div>
 <div class="section" id="steady-state-calculation">
-<h2>Steady state calculation<a class="headerlink" href="#steady-state-calculation" title="Permalink to this headline">¶</a></h2>
+<h3>Steady state calculation<a class="headerlink" href="#steady-state-calculation" title="Permalink to this headline">¶</a></h3>
 <p>Steady states can be calculated using <code class="docutils literal"><span class="pre">r.getSteadyStateValues</span></code></p>
 <div class="code python highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">tellurium</span> <span class="kn">as</span> <span class="nn">te</span>
 <span class="kn">from</span> <span class="nn">roadrunner</span> <span class="kn">import</span> <span class="n">Config</span>
@@ -421,6 +463,7 @@ state.</p>
 </div>
 </div>
 </div>
+</div>
 
 
            </div>
@@ -429,10 +472,10 @@ state.</p>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="_apidoc/tellurium.html" class="btn btn-neutral float-right" title="tellurium package" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="tellurium_methods.html" class="btn btn-neutral float-right" title="Tellurium Methods" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="introduction.html" class="btn btn-neutral" title="Introduction" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="installation.html" class="btn btn-neutral" title="Installation" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

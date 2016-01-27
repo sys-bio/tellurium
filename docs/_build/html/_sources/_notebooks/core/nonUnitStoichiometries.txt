@@ -1,8 +1,5 @@
 
 
-.. code:: python
-
-
 Non-unit stoichiometries
 ~~~~~~~~~~~~~~~~~~~~~~~~
 

@@ -1,8 +1,5 @@
 
 
-.. code:: python
-
-
 Steady state calculation
 ~~~~~~~~~~~~~~~~~~~~~~~~
 

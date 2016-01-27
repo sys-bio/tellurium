@@ -1,4 +1,7 @@
+
 # tellurium
+[![Documentation Status](https://readthedocs.org/projects/tellurium/badge/?version=latest)](http://tellurium.readthedocs.org/en/latest/?badge=latest)
+
 Copyright 2014  
 Michal Galdzicki, Herbert Sauro
 
@@ -26,4 +29,7 @@ rr = te.loada('''
 result = rr.simulate(0, 40, 500) 
 te.plotArray(result)
 ```
+
+**API documentation**  
+http://tellurium.readthedocs.org/en/latest/
 

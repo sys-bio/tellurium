@@ -3,16 +3,12 @@
 
 # Back to the main [Index](../index.ipynb)
 
-# In[1]:
-
-#!!! DO NOT CHANGE !!! THIS FILE WAS CREATED AUTOMATICALLY FROM NOTEBOOKS !!! CHANGES WILL BE OVERWRITTEN !!! CHANGE CORRESPONDING NOTEBOOK FILE !!!
-
-
 # ### Non-unit stoichiometries
 # The following example demonstrates how to create a model with non-unit stoichiometries.
 
-# In[2]:
+# In[1]:
 
+#!!! DO NOT CHANGE !!! THIS FILE WAS CREATED AUTOMATICALLY FROM NOTEBOOKS !!! CHANGES WILL BE OVERWRITTEN !!! CHANGE CORRESPONDING NOTEBOOK FILE !!!
 from __future__ import print_function
 import tellurium as te
 

@@ -3,16 +3,12 @@
 
 # Back to the main [Index](../index.ipynb)
 
-# In[1]:
-
-#!!! DO NOT CHANGE !!! THIS FILE WAS CREATED AUTOMATICALLY FROM NOTEBOOKS !!! CHANGES WILL BE OVERWRITTEN !!! CHANGE CORRESPONDING NOTEBOOK FILE !!!
-
-
 # ### Steady state scan
 # Using `te.ParameterScan.SteadyStateScan` for scanning the steady state.
 
-# In[2]:
+# In[1]:
 
+#!!! DO NOT CHANGE !!! THIS FILE WAS CREATED AUTOMATICALLY FROM NOTEBOOKS !!! CHANGES WILL BE OVERWRITTEN !!! CHANGE CORRESPONDING NOTEBOOK FILE !!!
 from __future__ import print_function
 import tellurium as te
 import matplotlib.pyplot as plt
@@ -42,7 +38,7 @@ p.plotArray()
 Config.setValue(Config.LOADSBMLOPTIONS_CONSERVED_MOIETIES, False) 
 
 
-# In[3]:
+# In[2]:
 
 
 

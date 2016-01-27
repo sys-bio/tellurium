@@ -1,73 +1,92 @@
-Die Jan 26 19:34:24 CET 2016
+Mit Jan 27 12:13:57 CET 2016
+--------------------------------------
+remove old documentation
+--------------------------------------
+DONE
+Mit Jan 27 12:13:57 CET 2016
 --------------------------------------
 convert notebooks to rst
 --------------------------------------
 [NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/computeSteadyState.ipynb to rst
 [NbConvertApp] Executing notebook with kernel: python2
-[NbConvertApp] Writing 984 bytes to computeSteadyState.rst
+[NbConvertApp] Writing 965 bytes to computeSteadyState.rst
 [NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/consecutiveUniUniReactions.ipynb to rst
 [NbConvertApp] Executing notebook with kernel: python2
 [NbConvertApp] Support files will be in consecutiveUniUniReactions_files/
 [NbConvertApp] Making directory consecutiveUniUniReactions_files
-[NbConvertApp] Writing 811 bytes to consecutiveUniUniReactions.rst
+[NbConvertApp] Writing 792 bytes to consecutiveUniUniReactions.rst
+[NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/feedback_oscillations.ipynb to rst
+[NbConvertApp] Executing notebook with kernel: python2
+[NbConvertApp] Support files will be in feedback_oscillations_files/
+[NbConvertApp] Making directory feedback_oscillations_files
+[NbConvertApp] Writing 919 bytes to feedback_oscillations.rst
 [NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/generatingDifferentWaveforms.ipynb to rst
 [NbConvertApp] Executing notebook with kernel: python2
 [NbConvertApp] Support files will be in generatingDifferentWaveforms_files/
 [NbConvertApp] Making directory generatingDifferentWaveforms_files
-[NbConvertApp] Writing 1899 bytes to generatingDifferentWaveforms.rst
+[NbConvertApp] Writing 1880 bytes to generatingDifferentWaveforms.rst
 [NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/introduction.ipynb to rst
 [NbConvertApp] Executing notebook with kernel: python2
 [NbConvertApp] Support files will be in introduction_files/
 [NbConvertApp] Making directory introduction_files
 [NbConvertApp] Making directory introduction_files
-[NbConvertApp] Writing 860 bytes to introduction.rst
+[NbConvertApp] Writing 841 bytes to introduction.rst
 [NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/nonUnitStoichiometries.ipynb to rst
 [NbConvertApp] Executing notebook with kernel: python2
-[NbConvertApp] Writing 1011 bytes to nonUnitStoichiometries.rst
+[NbConvertApp] Writing 992 bytes to nonUnitStoichiometries.rst
 [NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/parameter_scan.ipynb to rst
 [NbConvertApp] Executing notebook with kernel: python2
 [NbConvertApp] Support files will be in parameter_scan_files/
 [NbConvertApp] Making directory parameter_scan_files
 [NbConvertApp] Making directory parameter_scan_files
-[NbConvertApp] Writing 1501 bytes to parameter_scan.rst
+[NbConvertApp] Writing 1482 bytes to parameter_scan.rst
 [NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/steadystate_scan.ipynb to rst
 [NbConvertApp] Executing notebook with kernel: python2
 [NbConvertApp] Support files will be in steadystate_scan_files/
 [NbConvertApp] Making directory steadystate_scan_files
-[NbConvertApp] Writing 1862 bytes to steadystate_scan.rst
+[NbConvertApp] Writing 1843 bytes to steadystate_scan.rst
 [NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/template.ipynb to rst
 [NbConvertApp] Executing notebook with kernel: python2
-[NbConvertApp] Writing 211 bytes to template.rst
+[NbConvertApp] Writing 260 bytes to template.rst
+DONE
 --------------------------------------
 postprocessing rst
 --------------------------------------
+DONE
 --------------------------------------
 create python code
 --------------------------------------
 [NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/computeSteadyState.ipynb to python
 [NbConvertApp] Executing notebook with kernel: python2
-[NbConvertApp] Writing 836 bytes to computeSteadyState.py
+[NbConvertApp] Writing 824 bytes to computeSteadyState.py
 [NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/consecutiveUniUniReactions.ipynb to python
 [NbConvertApp] Executing notebook with kernel: python2
-[NbConvertApp] Writing 632 bytes to consecutiveUniUniReactions.py
+[NbConvertApp] Writing 620 bytes to consecutiveUniUniReactions.py
+[NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/feedback_oscillations.ipynb to python
+[NbConvertApp] Executing notebook with kernel: python2
+[NbConvertApp] Writing 784 bytes to feedback_oscillations.py
 [NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/generatingDifferentWaveforms.ipynb to python
 [NbConvertApp] Executing notebook with kernel: python2
-[NbConvertApp] Writing 1634 bytes to generatingDifferentWaveforms.py
+[NbConvertApp] Writing 1622 bytes to generatingDifferentWaveforms.py
 [NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/introduction.ipynb to python
 [NbConvertApp] Executing notebook with kernel: python2
-[NbConvertApp] Writing 680 bytes to introduction.py
+[NbConvertApp] Writing 668 bytes to introduction.py
 [NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/nonUnitStoichiometries.ipynb to python
 [NbConvertApp] Executing notebook with kernel: python2
-[NbConvertApp] Writing 466 bytes to nonUnitStoichiometries.py
+[NbConvertApp] Writing 454 bytes to nonUnitStoichiometries.py
 [NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/parameter_scan.ipynb to python
 [NbConvertApp] Executing notebook with kernel: python2
-[NbConvertApp] Writing 1189 bytes to parameter_scan.py
+[NbConvertApp] Writing 1177 bytes to parameter_scan.py
 [NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/steadystate_scan.ipynb to python
 [NbConvertApp] Executing notebook with kernel: python2
-[NbConvertApp] Writing 827 bytes to steadystate_scan.py
+[NbConvertApp] Writing 815 bytes to steadystate_scan.py
 [NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/template.ipynb to python
 [NbConvertApp] Executing notebook with kernel: python2
-[NbConvertApp] Writing 235 bytes to template.py
+[NbConvertApp] Writing 266 bytes to template.py
+DONE
+--------------------------------------
+create sphinx-apidoc
+--------------------------------------
 Creating file _apidoc/tellurium.rst.
 Creating file _apidoc/tellurium.Export.rst.
 Creating file _apidoc/tellurium.ParameterScan.rst.
@@ -78,12 +97,16 @@ Creating file _apidoc/tellurium.tests.rst.
 Creating file _apidoc/tellurium.visualization.rst.
 Creating file _apidoc/tellurium.widgets.rst.
 Creating file _apidoc/modules.rst.
+DONE
+--------------------------------------
+create html docs
+--------------------------------------
 sphinx-build -b html -d _build/doctrees   . _build/html
 Running Sphinx v1.3.4
 loading pickled environment... done
 building [mo]: targets for 0 po files that are out of date
-building [html]: targets for 18 source files that are out of date
-updating environment: 0 added, 21 changed, 10 removed
+building [html]: targets for 19 source files that are out of date
+updating environment: 0 added, 21 changed, 0 removed
 reading sources... [  4%] _apidoc/modules
 reading sources... [  9%] _apidoc/tellurium
 [1m[33mWarning: No module named sedml2py.unzipy[0m
@@ -99,47 +122,33 @@ reading sources... [ 42%] _apidoc/tellurium.visualization
 reading sources... [ 47%] _apidoc/tellurium.widgets
 reading sources... [ 52%] _notebooks/core/computeSteadyState
 reading sources... [ 57%] _notebooks/core/consecutiveUniUniReactions
-reading sources... [ 61%] _notebooks/core/generatingDifferentWaveforms
-reading sources... [ 66%] _notebooks/core/introduction
-reading sources... [ 71%] _notebooks/core/nonUnitStoichiometries
-reading sources... [ 76%] _notebooks/core/parameter_scan
-reading sources... [ 80%] _notebooks/core/steadystate_scan
-reading sources... [ 85%] _notebooks/core/template
-reading sources... [ 90%] index
+reading sources... [ 61%] _notebooks/core/feedback_oscillations
+reading sources... [ 66%] _notebooks/core/generatingDifferentWaveforms
+reading sources... [ 71%] _notebooks/core/introduction
+reading sources... [ 76%] _notebooks/core/nonUnitStoichiometries
+reading sources... [ 80%] _notebooks/core/parameter_scan
+reading sources... [ 85%] _notebooks/core/steadystate_scan
+reading sources... [ 90%] _notebooks/core/template
 reading sources... [ 95%] introduction
 reading sources... [100%] notebooks
 
-/home/mkoenig/git/tellurium/docs/_notebooks/core/computeSteadyState.rst:3: ERROR: Content block expected for the "code" directive; none found.
-/home/mkoenig/git/tellurium/docs/_notebooks/core/consecutiveUniUniReactions.rst:3: ERROR: Content block expected for the "code" directive; none found.
-/home/mkoenig/git/tellurium/docs/_notebooks/core/consecutiveUniUniReactions.rst:35: WARNING: image file not readable: _notebooks/core/_notebooks/core/consecutiveUniUniReactions_files/consecutiveUniUniReactions_3_0.png
-/home/mkoenig/git/tellurium/docs/_notebooks/core/generatingDifferentWaveforms.rst:3: ERROR: Content block expected for the "code" directive; none found.
-/home/mkoenig/git/tellurium/docs/_notebooks/core/generatingDifferentWaveforms.rst:64: WARNING: image file not readable: _notebooks/core/_notebooks/core/generatingDifferentWaveforms_files/generatingDifferentWaveforms_3_0.png
-/home/mkoenig/git/tellurium/docs/_notebooks/core/introduction.rst:3: ERROR: Content block expected for the "code" directive; none found.
-/home/mkoenig/git/tellurium/docs/_notebooks/core/introduction.rst:20: WARNING: image file not readable: _notebooks/core/_notebooks/core/introduction_files/introduction_3_0.png
-/home/mkoenig/git/tellurium/docs/_notebooks/core/introduction.rst:44: WARNING: image file not readable: _notebooks/core/_notebooks/core/introduction_files/introduction_5_0.png
-/home/mkoenig/git/tellurium/docs/_notebooks/core/nonUnitStoichiometries.rst:3: ERROR: Content block expected for the "code" directive; none found.
-/home/mkoenig/git/tellurium/docs/_notebooks/core/nonUnitStoichiometries.rst:26: WARNING: Inline emphasis start-string without end-string.
-/home/mkoenig/git/tellurium/docs/_notebooks/core/parameter_scan.rst:3: ERROR: Content block expected for the "code" directive; none found.
-/home/mkoenig/git/tellurium/docs/_notebooks/core/parameter_scan.rst:45: WARNING: image file not readable: _notebooks/core/_notebooks/core/parameter_scan_files/parameter_scan_3_0.png
-/home/mkoenig/git/tellurium/docs/_notebooks/core/parameter_scan.rst:78: WARNING: image file not readable: _notebooks/core/_notebooks/core/parameter_scan_files/parameter_scan_4_0.png
-/home/mkoenig/git/tellurium/docs/_notebooks/core/steadystate_scan.rst:3: ERROR: Content block expected for the "code" directive; none found.
-/home/mkoenig/git/tellurium/docs/_notebooks/core/steadystate_scan.rst:69: WARNING: image file not readable: _notebooks/core/_notebooks/core/steadystate_scan_files/steadystate_scan_3_1.png
-/home/mkoenig/git/tellurium/docs/_notebooks/core/template.rst:3: ERROR: Content block expected for the "code" directive; none found.
-/home/mkoenig/git/tellurium/docs/index.rst:11: WARNING: toctree contains reference to nonexisting document u'tellurium_methods'
-_notebooks/core/introduction.rst:3: ERROR: Content block expected for the "code" directive; none found.
-_notebooks/core/nonUnitStoichiometries.rst:3: ERROR: Content block expected for the "code" directive; none found.
-_notebooks/core/nonUnitStoichiometries.rst:26: WARNING: Inline emphasis start-string without end-string.
-_notebooks/core/consecutiveUniUniReactions.rst:3: ERROR: Content block expected for the "code" directive; none found.
-_notebooks/core/parameter_scan.rst:3: ERROR: Content block expected for the "code" directive; none found.
-_notebooks/core/steadystate_scan.rst:3: ERROR: Content block expected for the "code" directive; none found.
-_notebooks/core/generatingDifferentWaveforms.rst:3: ERROR: Content block expected for the "code" directive; none found.
-_notebooks/core/computeSteadyState.rst:3: ERROR: Content block expected for the "code" directive; none found.
+/home/mkoenig/git/tellurium/docs/_notebooks/core/consecutiveUniUniReactions.rst:32: WARNING: image file not readable: _notebooks/core/_notebooks/core/consecutiveUniUniReactions_files/consecutiveUniUniReactions_2_0.png
+/home/mkoenig/git/tellurium/docs/_notebooks/core/feedback_oscillations.rst:36: WARNING: image file not readable: _notebooks/core/_notebooks/core/feedback_oscillations_files/feedback_oscillations_2_0.png
+/home/mkoenig/git/tellurium/docs/_notebooks/core/generatingDifferentWaveforms.rst:61: WARNING: image file not readable: _notebooks/core/_notebooks/core/generatingDifferentWaveforms_files/generatingDifferentWaveforms_2_0.png
+/home/mkoenig/git/tellurium/docs/_notebooks/core/introduction.rst:17: WARNING: image file not readable: _notebooks/core/_notebooks/core/introduction_files/introduction_2_0.png
+/home/mkoenig/git/tellurium/docs/_notebooks/core/introduction.rst:41: WARNING: image file not readable: _notebooks/core/_notebooks/core/introduction_files/introduction_4_0.png
+/home/mkoenig/git/tellurium/docs/_notebooks/core/nonUnitStoichiometries.rst:23: WARNING: Inline emphasis start-string without end-string.
+/home/mkoenig/git/tellurium/docs/_notebooks/core/parameter_scan.rst:42: WARNING: image file not readable: _notebooks/core/_notebooks/core/parameter_scan_files/parameter_scan_2_0.png
+/home/mkoenig/git/tellurium/docs/_notebooks/core/parameter_scan.rst:75: WARNING: image file not readable: _notebooks/core/_notebooks/core/parameter_scan_files/parameter_scan_3_0.png
+/home/mkoenig/git/tellurium/docs/_notebooks/core/steadystate_scan.rst:66: WARNING: image file not readable: _notebooks/core/_notebooks/core/steadystate_scan_files/steadystate_scan_2_1.png
+_notebooks/core/nonUnitStoichiometries.rst:23: WARNING: Inline emphasis start-string without end-string.
 looking for now-outdated files... none found
 pickling environment... done
 checking consistency... /home/mkoenig/git/tellurium/docs/API.rst:: WARNING: document isn't included in any toctree
 /home/mkoenig/git/tellurium/docs/_apidoc/modules.rst:: WARNING: document isn't included in any toctree
 /home/mkoenig/git/tellurium/docs/_notebooks/core/computeSteadyState.rst:: WARNING: document isn't included in any toctree
 /home/mkoenig/git/tellurium/docs/_notebooks/core/consecutiveUniUniReactions.rst:: WARNING: document isn't included in any toctree
+/home/mkoenig/git/tellurium/docs/_notebooks/core/feedback_oscillations.rst:: WARNING: document isn't included in any toctree
 /home/mkoenig/git/tellurium/docs/_notebooks/core/generatingDifferentWaveforms.rst:: WARNING: document isn't included in any toctree
 /home/mkoenig/git/tellurium/docs/_notebooks/core/introduction.rst:: WARNING: document isn't included in any toctree
 /home/mkoenig/git/tellurium/docs/_notebooks/core/nonUnitStoichiometries.rst:: WARNING: document isn't included in any toctree
@@ -150,22 +159,23 @@ done
 preparing documents... done
 writing output... [  4%] _apidoc/modules
 writing output... [  9%] _apidoc/tellurium
-writing output... [ 14%] _apidoc/tellurium.Export
-writing output... [ 19%] _apidoc/tellurium.ParameterScan
-writing output... [ 23%] _apidoc/tellurium.analysis
-writing output... [ 28%] _apidoc/tellurium.notebooktools
-writing output... [ 33%] _apidoc/tellurium.optimization
-writing output... [ 38%] _apidoc/tellurium.tests
-writing output... [ 42%] _apidoc/tellurium.visualization
-writing output... [ 47%] _apidoc/tellurium.widgets
-writing output... [ 52%] _notebooks/core/computeSteadyState
-writing output... [ 57%] _notebooks/core/consecutiveUniUniReactions
-writing output... [ 61%] _notebooks/core/generatingDifferentWaveforms
-writing output... [ 66%] _notebooks/core/introduction
-writing output... [ 71%] _notebooks/core/nonUnitStoichiometries
-writing output... [ 76%] _notebooks/core/parameter_scan
-writing output... [ 80%] _notebooks/core/steadystate_scan
-writing output... [ 85%] _notebooks/core/template
+writing output... [ 13%] _apidoc/tellurium.Export
+writing output... [ 18%] _apidoc/tellurium.ParameterScan
+writing output... [ 22%] _apidoc/tellurium.analysis
+writing output... [ 27%] _apidoc/tellurium.notebooktools
+writing output... [ 31%] _apidoc/tellurium.optimization
+writing output... [ 36%] _apidoc/tellurium.tests
+writing output... [ 40%] _apidoc/tellurium.visualization
+writing output... [ 45%] _apidoc/tellurium.widgets
+writing output... [ 50%] _notebooks/core/computeSteadyState
+writing output... [ 54%] _notebooks/core/consecutiveUniUniReactions
+writing output... [ 59%] _notebooks/core/feedback_oscillations
+writing output... [ 63%] _notebooks/core/generatingDifferentWaveforms
+writing output... [ 68%] _notebooks/core/introduction
+writing output... [ 72%] _notebooks/core/nonUnitStoichiometries
+writing output... [ 77%] _notebooks/core/parameter_scan
+writing output... [ 81%] _notebooks/core/steadystate_scan
+writing output... [ 86%] _notebooks/core/template
 writing output... [ 90%] index
 writing output... [ 95%] introduction
 writing output... [100%] notebooks
@@ -191,19 +201,21 @@ highlighting module code... [ 94%] tellurium.ParameterScan.ParameterScan
 highlighting module code... [100%] tellurium.tests.test_Export
 
 writing additional pages... search
-copying images... [ 12%] _notebooks/core/introduction_files/introduction_3_0.png
-copying images... [ 25%] _notebooks/core/steadystate_scan_files/steadystate_scan_3_1.png
-copying images... [ 37%] _notebooks/core/parameter_scan_files/parameter_scan_3_0.png
-copying images... [ 50%] _notebooks/core/consecutiveUniUniReactions_files/consecutiveUniUniReactions_3_0.png
-copying images... [ 62%] ./images/tellurium_screenshot.png
-copying images... [ 75%] _notebooks/core/introduction_files/introduction_5_0.png
-copying images... [ 87%] _notebooks/core/parameter_scan_files/parameter_scan_4_0.png
-copying images... [100%] _notebooks/core/generatingDifferentWaveforms_files/generatingDifferentWaveforms_3_0.png
+copying images... [ 11%] _notebooks/core/parameter_scan_files/parameter_scan_2_0.png
+copying images... [ 22%] _notebooks/core/consecutiveUniUniReactions_files/consecutiveUniUniReactions_2_0.png
+copying images... [ 33%] _notebooks/core/generatingDifferentWaveforms_files/generatingDifferentWaveforms_2_0.png
+copying images... [ 44%] _notebooks/core/parameter_scan_files/parameter_scan_3_0.png
+copying images... [ 55%] _notebooks/core/introduction_files/introduction_2_0.png
+copying images... [ 66%] ./images/tellurium_screenshot2.png
+copying images... [ 77%] _notebooks/core/feedback_oscillations_files/feedback_oscillations_2_0.png
+copying images... [ 88%] _notebooks/core/introduction_files/introduction_4_0.png
+copying images... [100%] _notebooks/core/steadystate_scan_files/steadystate_scan_2_1.png
 
 copying static files... done
 copying extra files... done
 dumping search index in English (code: en) ... done
 dumping object inventory... done
-build succeeded, 35 warnings.
+build succeeded, 21 warnings.
 
 Build finished. The HTML pages are in _build/html.
+DONE

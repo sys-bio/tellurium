@@ -1,16 +1,19 @@
+# not installable via pip
 roadrunner
 antimony
-libsbml
 libsedml
 phrasedml
 sbml2matlab
+sedml2py        # unzipy used in SedmlToRr but not available
+
+# installable via pip
+python-libsbml
 ipywidgets
 bioservices
 matplotlib
 numpy
 pygraphviz
 ipython
-sedml2py        # unzipy used in SedmlToRr but not available
 
 # for testing
 nose
