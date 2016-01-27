@@ -14,9 +14,17 @@ and start jupyter in the notebooks folder
     cd tellurium/examples/notebooks
     jupyter notebook index.ipynb
 
+--------------------
+Model Building
+--------------------
 .. include:: _notebooks/core/nonUnitStoichiometries.rst
 .. include:: _notebooks/core/consecutiveUniUniReactions.rst
+.. include:: _notebooks/core/feedback_oscillations.rst
+.. include:: _notebooks/core/generatingDifferentWaveforms.rst
+
+--------------------
+Parameter scan
+--------------------
 .. include:: _notebooks/core/parameter_scan.rst
 .. include:: _notebooks/core/steadystate_scan.rst
-.. include:: _notebooks/core/generatingDifferentWaveforms.rst
 .. include:: _notebooks/core/computeSteadyState.rst

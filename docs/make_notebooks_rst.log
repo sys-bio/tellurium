@@ -1,4 +1,4 @@
-Die Jan 26 19:48:17 CET 2016
+Mit Jan 27 08:21:54 CET 2016
 --------------------------------------
 convert notebooks to rst
 --------------------------------------
@@ -10,6 +10,11 @@ convert notebooks to rst
 [NbConvertApp] Support files will be in consecutiveUniUniReactions_files/
 [NbConvertApp] Making directory consecutiveUniUniReactions_files
 [NbConvertApp] Writing 811 bytes to consecutiveUniUniReactions.rst
+[NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/feedback_oscillations.ipynb to rst
+[NbConvertApp] Executing notebook with kernel: python2
+[NbConvertApp] Support files will be in feedback_oscillations_files/
+[NbConvertApp] Making directory feedback_oscillations_files
+[NbConvertApp] Writing 938 bytes to feedback_oscillations.rst
 [NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/generatingDifferentWaveforms.ipynb to rst
 [NbConvertApp] Executing notebook with kernel: python2
 [NbConvertApp] Support files will be in generatingDifferentWaveforms_files/
@@ -50,6 +55,9 @@ create python code
 [NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/consecutiveUniUniReactions.ipynb to python
 [NbConvertApp] Executing notebook with kernel: python2
 [NbConvertApp] Writing 632 bytes to consecutiveUniUniReactions.py
+[NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/feedback_oscillations.ipynb to python
+[NbConvertApp] Executing notebook with kernel: python2
+[NbConvertApp] Writing 796 bytes to feedback_oscillations.py
 [NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/generatingDifferentWaveforms.ipynb to python
 [NbConvertApp] Executing notebook with kernel: python2
 [NbConvertApp] Writing 1634 bytes to generatingDifferentWaveforms.py

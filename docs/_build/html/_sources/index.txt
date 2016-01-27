@@ -5,6 +5,7 @@
 
 Welcome to tellurium's documentation!
 =====================================
+Model, simulate, and analyze biochemical systems using a single tool.
 
 Contents:
 
@@ -12,6 +13,7 @@ Contents:
    :maxdepth: 2
 
    introduction.rst
+   installation.rst
    Examples <notebooks.rst>
    tellurium_methods.rst
    
