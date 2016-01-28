@@ -92,6 +92,13 @@
 <li class="toctree-l3"><a class="reference internal" href="#generate-different-wave-forms">Generate different wave forms</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="#combine">Combine</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#phrasedml-sed-ml-support">phrasedml - SED-ML support</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#combine-archive">Combine Archive</a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="#parameter-scan">Parameter scan</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#id3">Parameter scan</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#steady-state-scan">Steady state scan</a></li>
@@ -307,6 +314,91 @@ reactions S1 -&gt; S2 -&gt; S3 -&gt; S4.</p>
 </pre></div>
 </div>
 <img alt="_images/generatingDifferentWaveforms_2_0.png" src="_images/generatingDifferentWaveforms_2_0.png" />
+</div>
+</div>
+<div class="section" id="combine">
+<h2>Combine<a class="headerlink" href="#combine" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="phrasedml-sed-ml-support">
+<h3>phrasedml - SED-ML support<a class="headerlink" href="#phrasedml-sed-ml-support" title="Permalink to this headline">¶</a></h3>
+<p>Tellurium provides support for simulation descriptions in SED-ML the
+export in Combine Archive format.</p>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">tellurium</span> <span class="kn">as</span> <span class="nn">te</span>
+
+<span class="n">antimony</span> <span class="o">=</span> <span class="s1">&#39;&#39;&#39;</span>
+<span class="s1">model myModel</span>
+<span class="s1">  S1 -&gt; S2; k1*S1</span>
+<span class="s1">  S1 = 10; S2 = 0</span>
+<span class="s1">  k1 = 1</span>
+<span class="s1">end</span>
+<span class="s1">&#39;&#39;&#39;</span>
+
+<span class="n">phrasedml</span> <span class="o">=</span> <span class="s1">&#39;&#39;&#39;</span>
+<span class="s1">  model1 = model &quot;myModel&quot;</span>
+<span class="s1">  sim1 = simulate uniform(0, 5, 100)</span>
+<span class="s1">  task1 = run sim1 on model1</span>
+<span class="s1">  plot &quot;Figure 1&quot; time vs S1, S2</span>
+<span class="s1">&#39;&#39;&#39;</span>
+
+<span class="c1"># create an experiment and perform it</span>
+<span class="n">exp</span> <span class="o">=</span> <span class="n">te</span><span class="o">.</span><span class="n">experiment</span><span class="p">(</span><span class="n">antimony</span><span class="p">,</span> <span class="n">phrasedml</span><span class="p">)</span>
+
+<span class="n">exp</span><span class="o">.</span><span class="n">execute</span><span class="p">()</span>
+<span class="n">exp</span><span class="o">.</span><span class="n">printpython</span><span class="p">()</span>
+</pre></div>
+</div>
+<img alt="_images/phrasedml_2_0.png" src="_images/phrasedml_2_0.png" />
+<div class="highlight-python"><div class="highlight"><pre><span class="n">myModel</span> <span class="o">=</span> <span class="s1">&#39;&#39;&#39;</span>
+<span class="s1">model myModel</span>
+<span class="s1">  S1 -&gt; S2; k1*S1</span>
+<span class="s1">  S1 = 10; S2 = 0</span>
+<span class="s1">  k1 = 1</span>
+<span class="s1">end</span>
+<span class="s1">&#39;&#39;&#39;</span>
+
+<span class="c1"># Translated SED-ML</span>
+<span class="c1"># Beginning of generated script</span>
+<span class="kn">import</span> <span class="nn">tellurium</span> <span class="kn">as</span> <span class="nn">te</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
+
+<span class="c1"># Execute the tasks of model: model1</span>
+<span class="n">model1</span> <span class="o">=</span> <span class="n">te</span><span class="o">.</span><span class="n">loada</span><span class="p">(</span><span class="n">myModel</span><span class="p">)</span>
+<span class="n">model1</span><span class="o">.</span><span class="n">timeCourseSelections</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;time&quot;</span><span class="p">,</span><span class="s2">&quot;S1&quot;</span><span class="p">,</span><span class="s2">&quot;S2&quot;</span><span class="p">]</span>
+<span class="n">t1</span> <span class="o">=</span> <span class="n">model1</span><span class="o">.</span><span class="n">simulate</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+
+<span class="c1"># List of Data Generators</span>
+<span class="n">plot_0_0_0</span> <span class="o">=</span> <span class="n">t1</span><span class="p">[</span><span class="mf">0.0</span><span class="p">:,</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">plot_0_0_1</span> <span class="o">=</span> <span class="n">t1</span><span class="p">[</span><span class="mf">0.0</span><span class="p">:,</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">plot_0_1_1</span> <span class="o">=</span> <span class="n">t1</span><span class="p">[</span><span class="mf">0.0</span><span class="p">:,</span><span class="mi">2</span><span class="p">]</span>
+
+<span class="c1"># List of Outputs</span>
+<span class="n">Y_0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">plot_0_0_1</span><span class="p">,</span> <span class="n">plot_0_1_1</span><span class="p">])</span><span class="o">.</span><span class="n">T</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">plot_0_0_0</span><span class="p">,</span> <span class="n">Y_0</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Figure 1&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="c1"># End of generated script</span>
+</pre></div>
+</div>
+<div class="section" id="combine-archive">
+<h4>Combine Archive<a class="headerlink" href="#combine-archive" title="Permalink to this headline">¶</a></h4>
+<p>The experiment, i.e. model with the simulation description, can be
+stored as Combine Archive.</p>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="c1"># create Combine Archive</span>
+<span class="kn">import</span> <span class="nn">tempfile</span>
+<span class="n">f</span> <span class="o">=</span> <span class="n">tempfile</span><span class="o">.</span><span class="n">NamedTemporaryFile</span><span class="p">()</span>
+<span class="n">exp</span><span class="o">.</span><span class="n">exportAsCombine</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+
+<span class="c1"># print the content of the Combine Archive</span>
+<span class="kn">import</span> <span class="nn">zipfile</span>
+<span class="nb">zip</span><span class="o">=</span><span class="n">zipfile</span><span class="o">.</span><span class="n">ZipFile</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="nb">zip</span><span class="o">.</span><span class="n">namelist</span><span class="p">())</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">[</span><span class="s1">&#39;myModel.xml&#39;</span><span class="p">,</span> <span class="s1">&#39;experiment1.xml&#39;</span><span class="p">,</span> <span class="s1">&#39;manifest.xml&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
 </div>
 </div>
 <div class="section" id="parameter-scan">

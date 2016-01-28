@@ -1,9 +1,9 @@
-Mit Jan 27 12:13:57 CET 2016
+Do 28. Jan 11:06:49 CET 2016
 --------------------------------------
 remove old documentation
 --------------------------------------
 DONE
-Mit Jan 27 12:13:57 CET 2016
+Do 28. Jan 11:06:49 CET 2016
 --------------------------------------
 convert notebooks to rst
 --------------------------------------
@@ -40,6 +40,11 @@ convert notebooks to rst
 [NbConvertApp] Making directory parameter_scan_files
 [NbConvertApp] Making directory parameter_scan_files
 [NbConvertApp] Writing 1482 bytes to parameter_scan.rst
+[NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/phrasedml.ipynb to rst
+[NbConvertApp] Executing notebook with kernel: python2
+[NbConvertApp] Support files will be in phrasedml_files/
+[NbConvertApp] Making directory phrasedml_files
+[NbConvertApp] Writing 2014 bytes to phrasedml.rst
 [NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/steadystate_scan.ipynb to rst
 [NbConvertApp] Executing notebook with kernel: python2
 [NbConvertApp] Support files will be in steadystate_scan_files/
@@ -77,6 +82,9 @@ create python code
 [NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/parameter_scan.ipynb to python
 [NbConvertApp] Executing notebook with kernel: python2
 [NbConvertApp] Writing 1177 bytes to parameter_scan.py
+[NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/phrasedml.ipynb to python
+[NbConvertApp] Executing notebook with kernel: python2
+[NbConvertApp] Writing 1015 bytes to phrasedml.py
 [NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/steadystate_scan.ipynb to python
 [NbConvertApp] Executing notebook with kernel: python2
 [NbConvertApp] Writing 815 bytes to steadystate_scan.py
@@ -101,37 +109,38 @@ DONE
 --------------------------------------
 create html docs
 --------------------------------------
-sphinx-build -b html -d _build/doctrees   . _build/html
 Running Sphinx v1.3.4
 loading pickled environment... done
 building [mo]: targets for 0 po files that are out of date
-building [html]: targets for 19 source files that are out of date
-updating environment: 0 added, 21 changed, 0 removed
+building [html]: targets for 20 source files that are out of date
+updating environment: 0 added, 22 changed, 0 removed
 reading sources... [  4%] _apidoc/modules
 reading sources... [  9%] _apidoc/tellurium
 [1m[33mWarning: No module named sedml2py.unzipy[0m
 [1m[33mWarning: No module named sbml2matlab[0m
 [1m[33mWarning: /usr/local/lib/python2.7/dist-packages/pygraphviz/_graphviz.so: undefined symbol: Agundirected[0m
-reading sources... [ 14%] _apidoc/tellurium.Export
-reading sources... [ 19%] _apidoc/tellurium.ParameterScan
-reading sources... [ 23%] _apidoc/tellurium.analysis
-reading sources... [ 28%] _apidoc/tellurium.notebooktools
-reading sources... [ 33%] _apidoc/tellurium.optimization
-reading sources... [ 38%] _apidoc/tellurium.tests
-reading sources... [ 42%] _apidoc/tellurium.visualization
-reading sources... [ 47%] _apidoc/tellurium.widgets
-reading sources... [ 52%] _notebooks/core/computeSteadyState
-reading sources... [ 57%] _notebooks/core/consecutiveUniUniReactions
-reading sources... [ 61%] _notebooks/core/feedback_oscillations
-reading sources... [ 66%] _notebooks/core/generatingDifferentWaveforms
-reading sources... [ 71%] _notebooks/core/introduction
-reading sources... [ 76%] _notebooks/core/nonUnitStoichiometries
-reading sources... [ 80%] _notebooks/core/parameter_scan
-reading sources... [ 85%] _notebooks/core/steadystate_scan
+reading sources... [ 13%] _apidoc/tellurium.Export
+reading sources... [ 18%] _apidoc/tellurium.ParameterScan
+reading sources... [ 22%] _apidoc/tellurium.analysis
+reading sources... [ 27%] _apidoc/tellurium.notebooktools
+reading sources... [ 31%] _apidoc/tellurium.optimization
+reading sources... [ 36%] _apidoc/tellurium.tests
+reading sources... [ 40%] _apidoc/tellurium.visualization
+reading sources... [ 45%] _apidoc/tellurium.widgets
+reading sources... [ 50%] _notebooks/core/computeSteadyState
+reading sources... [ 54%] _notebooks/core/consecutiveUniUniReactions
+reading sources... [ 59%] _notebooks/core/feedback_oscillations
+reading sources... [ 63%] _notebooks/core/generatingDifferentWaveforms
+reading sources... [ 68%] _notebooks/core/introduction
+reading sources... [ 72%] _notebooks/core/nonUnitStoichiometries
+reading sources... [ 77%] _notebooks/core/parameter_scan
+reading sources... [ 81%] _notebooks/core/phrasedml
+reading sources... [ 86%] _notebooks/core/steadystate_scan
 reading sources... [ 90%] _notebooks/core/template
 reading sources... [ 95%] introduction
 reading sources... [100%] notebooks
 
+/home/mkoenig/git/tellurium/tellurium/tellurium.py:docstring of tellurium.tellurium.getRatesOfChange:0: WARNING: duplicate object description of tellurium.tellurium.getRatesOfChange, other instance in /home/mkoenig/git/tellurium/docs/tellurium_methods.rst, use :noindex: for one of them
 /home/mkoenig/git/tellurium/docs/_notebooks/core/consecutiveUniUniReactions.rst:32: WARNING: image file not readable: _notebooks/core/_notebooks/core/consecutiveUniUniReactions_files/consecutiveUniUniReactions_2_0.png
 /home/mkoenig/git/tellurium/docs/_notebooks/core/feedback_oscillations.rst:36: WARNING: image file not readable: _notebooks/core/_notebooks/core/feedback_oscillations_files/feedback_oscillations_2_0.png
 /home/mkoenig/git/tellurium/docs/_notebooks/core/generatingDifferentWaveforms.rst:61: WARNING: image file not readable: _notebooks/core/_notebooks/core/generatingDifferentWaveforms_files/generatingDifferentWaveforms_2_0.png
@@ -140,6 +149,7 @@ reading sources... [100%] notebooks
 /home/mkoenig/git/tellurium/docs/_notebooks/core/nonUnitStoichiometries.rst:23: WARNING: Inline emphasis start-string without end-string.
 /home/mkoenig/git/tellurium/docs/_notebooks/core/parameter_scan.rst:42: WARNING: image file not readable: _notebooks/core/_notebooks/core/parameter_scan_files/parameter_scan_2_0.png
 /home/mkoenig/git/tellurium/docs/_notebooks/core/parameter_scan.rst:75: WARNING: image file not readable: _notebooks/core/_notebooks/core/parameter_scan_files/parameter_scan_3_0.png
+/home/mkoenig/git/tellurium/docs/_notebooks/core/phrasedml.rst:38: WARNING: image file not readable: _notebooks/core/_notebooks/core/phrasedml_files/phrasedml_2_0.png
 /home/mkoenig/git/tellurium/docs/_notebooks/core/steadystate_scan.rst:66: WARNING: image file not readable: _notebooks/core/_notebooks/core/steadystate_scan_files/steadystate_scan_2_1.png
 _notebooks/core/nonUnitStoichiometries.rst:23: WARNING: Inline emphasis start-string without end-string.
 looking for now-outdated files... none found
@@ -153,30 +163,32 @@ checking consistency... /home/mkoenig/git/tellurium/docs/API.rst:: WARNING: docu
 /home/mkoenig/git/tellurium/docs/_notebooks/core/introduction.rst:: WARNING: document isn't included in any toctree
 /home/mkoenig/git/tellurium/docs/_notebooks/core/nonUnitStoichiometries.rst:: WARNING: document isn't included in any toctree
 /home/mkoenig/git/tellurium/docs/_notebooks/core/parameter_scan.rst:: WARNING: document isn't included in any toctree
+/home/mkoenig/git/tellurium/docs/_notebooks/core/phrasedml.rst:: WARNING: document isn't included in any toctree
 /home/mkoenig/git/tellurium/docs/_notebooks/core/steadystate_scan.rst:: WARNING: document isn't included in any toctree
 /home/mkoenig/git/tellurium/docs/_notebooks/core/template.rst:: WARNING: document isn't included in any toctree
 done
 preparing documents... done
 writing output... [  4%] _apidoc/modules
-writing output... [  9%] _apidoc/tellurium
+writing output... [  8%] _apidoc/tellurium
 writing output... [ 13%] _apidoc/tellurium.Export
-writing output... [ 18%] _apidoc/tellurium.ParameterScan
-writing output... [ 22%] _apidoc/tellurium.analysis
-writing output... [ 27%] _apidoc/tellurium.notebooktools
-writing output... [ 31%] _apidoc/tellurium.optimization
-writing output... [ 36%] _apidoc/tellurium.tests
-writing output... [ 40%] _apidoc/tellurium.visualization
-writing output... [ 45%] _apidoc/tellurium.widgets
-writing output... [ 50%] _notebooks/core/computeSteadyState
-writing output... [ 54%] _notebooks/core/consecutiveUniUniReactions
-writing output... [ 59%] _notebooks/core/feedback_oscillations
-writing output... [ 63%] _notebooks/core/generatingDifferentWaveforms
-writing output... [ 68%] _notebooks/core/introduction
-writing output... [ 72%] _notebooks/core/nonUnitStoichiometries
-writing output... [ 77%] _notebooks/core/parameter_scan
-writing output... [ 81%] _notebooks/core/steadystate_scan
+writing output... [ 17%] _apidoc/tellurium.ParameterScan
+writing output... [ 21%] _apidoc/tellurium.analysis
+writing output... [ 26%] _apidoc/tellurium.notebooktools
+writing output... [ 30%] _apidoc/tellurium.optimization
+writing output... [ 34%] _apidoc/tellurium.tests
+writing output... [ 39%] _apidoc/tellurium.visualization
+writing output... [ 43%] _apidoc/tellurium.widgets
+writing output... [ 47%] _notebooks/core/computeSteadyState
+writing output... [ 52%] _notebooks/core/consecutiveUniUniReactions
+writing output... [ 56%] _notebooks/core/feedback_oscillations
+writing output... [ 60%] _notebooks/core/generatingDifferentWaveforms
+writing output... [ 65%] _notebooks/core/introduction
+writing output... [ 69%] _notebooks/core/nonUnitStoichiometries
+writing output... [ 73%] _notebooks/core/parameter_scan
+writing output... [ 78%] _notebooks/core/phrasedml
+writing output... [ 82%] _notebooks/core/steadystate_scan
 writing output... [ 86%] _notebooks/core/template
-writing output... [ 90%] index
+writing output... [ 91%] index
 writing output... [ 95%] introduction
 writing output... [100%] notebooks
 
@@ -190,32 +202,32 @@ highlighting module code... [ 33%] tellurium.tellurium
 highlighting module code... [ 38%] tellurium.optimization.DiffEvolution
 highlighting module code... [ 44%] tellurium.analysis.match
 highlighting module code... [ 50%] tellurium.widgets.species_search
-highlighting module code... [ 55%] tellurium.widgets.parameter_slider
-highlighting module code... [ 61%] tellurium.SedmlToRr
-highlighting module code... [ 66%] tellurium.visualization.SBMLDiagram
-highlighting module code... [ 72%] tellurium.tests.test_tellurium
-highlighting module code... [ 77%] tellurium.tests.test_runner
+highlighting module code... [ 55%] tellurium.SedmlToRr
+highlighting module code... [ 61%] tellurium.visualization.SBMLDiagram
+highlighting module code... [ 66%] tellurium.tests.test_tellurium
+highlighting module code... [ 72%] tellurium.tests.test_runner
+highlighting module code... [ 77%] tellurium.ParameterScan.ParameterScan
 highlighting module code... [ 83%] tellurium.tests.test_tephrasedml
 highlighting module code... [ 88%] tellurium.analysis.parameters
-highlighting module code... [ 94%] tellurium.ParameterScan.ParameterScan
+highlighting module code... [ 94%] tellurium.widgets.parameter_slider
 highlighting module code... [100%] tellurium.tests.test_Export
 
 writing additional pages... search
-copying images... [ 11%] _notebooks/core/parameter_scan_files/parameter_scan_2_0.png
-copying images... [ 22%] _notebooks/core/consecutiveUniUniReactions_files/consecutiveUniUniReactions_2_0.png
-copying images... [ 33%] _notebooks/core/generatingDifferentWaveforms_files/generatingDifferentWaveforms_2_0.png
-copying images... [ 44%] _notebooks/core/parameter_scan_files/parameter_scan_3_0.png
-copying images... [ 55%] _notebooks/core/introduction_files/introduction_2_0.png
-copying images... [ 66%] ./images/tellurium_screenshot2.png
-copying images... [ 77%] _notebooks/core/feedback_oscillations_files/feedback_oscillations_2_0.png
-copying images... [ 88%] _notebooks/core/introduction_files/introduction_4_0.png
+copying images... [ 10%] _notebooks/core/parameter_scan_files/parameter_scan_2_0.png
+copying images... [ 20%] _notebooks/core/consecutiveUniUniReactions_files/consecutiveUniUniReactions_2_0.png
+copying images... [ 30%] _notebooks/core/generatingDifferentWaveforms_files/generatingDifferentWaveforms_2_0.png
+copying images... [ 40%] _notebooks/core/parameter_scan_files/parameter_scan_3_0.png
+copying images... [ 50%] _notebooks/core/introduction_files/introduction_2_0.png
+copying images... [ 60%] ./images/tellurium_screenshot2.png
+copying images... [ 70%] _notebooks/core/feedback_oscillations_files/feedback_oscillations_2_0.png
+copying images... [ 80%] _notebooks/core/introduction_files/introduction_4_0.png
+copying images... [ 90%] _notebooks/core/phrasedml_files/phrasedml_2_0.png
 copying images... [100%] _notebooks/core/steadystate_scan_files/steadystate_scan_2_1.png
 
-copying static files... done
+copying static files... WARNING: html_static_path entry u'/home/mkoenig/git/tellurium/docs/_static' does not exist
+done
 copying extra files... done
 dumping search index in English (code: en) ... done
 dumping object inventory... done
-build succeeded, 21 warnings.
-
-Build finished. The HTML pages are in _build/html.
+build succeeded, 25 warnings.
 DONE

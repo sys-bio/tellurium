@@ -94,7 +94,7 @@ class tePhrasedml(object):
             if len(reSearchModel) > 1:
                 modelsource = str(reSearchModel[3])
 
-        phrasedml.setReferencedSBML(modelsource, te.antimonyToSbml(self.antimonyStr))
+        phrasedml.setReferencedSBML(modelsource, te.antimonyTosbml(self.antimonyStr))
         sedmlstr = phrasedml.convertString(self.phrasedmlStr)
         if sedmlstr is None:
             raise Exception(phrasedml.getLastError())
