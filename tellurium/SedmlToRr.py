@@ -28,12 +28,8 @@ import StringIO
 import httplib
 from collections import namedtuple
 
-try:
-    # FIXME: this should always be packed
-    import sedml2py.unzipy as uz
-except ImportError as e:
-    uz = None
-    roadrunner.Logger.log(roadrunner.Logger.LOG_WARNING, str(e))
+import warnings
+import unzipy as uz
 
 MatchingSetsOfVariableIDs = namedtuple("MatchingSetsOfVariableIDs", "datagenID, taskReference, sedmlID, sbmlID")
 MatchingSetsOfRepeatedTasksDataGenerators = namedtuple("MatchingSetsOfRepeatedTasksDataGenerators", "datagenID, rangeSize")
@@ -45,8 +41,17 @@ mapping = [ ('repeated','r'), ('Repeated','r'), ('task','t'), ('Task', 't'),
                        # Map of replaced words
 
 
-# Entry point
-def sedml_to_python(fullPathName):      # full path name to SedML model
+class SedmlException(Exception):
+    pass
+
+def sedml_to_python(fullPathName):
+    """ Convert sedml file to python code.
+
+    :param fullPathName: path to sedml file.
+    :type fullPathName: path
+    :return: contents
+    :rtype:
+    """
     from os.path import basename
     global modelname
 
@@ -74,8 +79,9 @@ def sedml_to_python(fullPathName):      # full path name to SedML model
 
     sedmlDoc = libsedml.readSedML(fullPathName)
     if sedmlDoc.getErrorLog().getNumFailsWithSeverity(libsedml.LIBSEDML_SEV_ERROR) > 0:
-        print(sedmlDoc.getErrorLog().toString())
-        sys.exit(2)
+        # print(sedmlDoc.getErrorLog().toString())
+        # sys.exit(2)
+        raise SedmlException(sedmlDoc.getErrorLog().toString())
 
 
     f = StringIO.StringIO()
