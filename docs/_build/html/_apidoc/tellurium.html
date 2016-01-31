@@ -99,10 +99,11 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#submodules">Submodules</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#module-tellurium.SedmlToRr">tellurium.SedmlToRr module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#module-tellurium.tecombine">tellurium.tecombine module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#module-tellurium.tellurium">tellurium.tellurium module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#module-tellurium.tephrasedml">tellurium.tephrasedml module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-tellurium.tesedml">tellurium.tesedml module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-tellurium.unzipy">tellurium.unzipy module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#module-tellurium">Module contents</a></li>
 </ul>
 </li>
@@ -188,9 +189,17 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="tellurium.tests.html">tellurium.tests package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="tellurium.tests.html#subpackages">Subpackages</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="tellurium.tests.testdata.html">tellurium.tests.testdata package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="tellurium.tests.testdata.html#module-tellurium.tests.testdata">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="tellurium.tests.html#submodules">Submodules</a></li>
 <li class="toctree-l2"><a class="reference internal" href="tellurium.tests.html#module-tellurium.tests.test_Export">tellurium.tests.test_Export module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="tellurium.tests.html#module-tellurium.tests.test_runner">tellurium.tests.test_runner module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tellurium.tests.html#module-tellurium.tests.test_sedml">tellurium.tests.test_sedml module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="tellurium.tests.html#module-tellurium.tests.test_tellurium">tellurium.tests.test_tellurium module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="tellurium.tests.html#module-tellurium.tests.test_tephrasedml">tellurium.tests.test_tephrasedml module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="tellurium.tests.html#module-tellurium.tests">Module contents</a></li>
@@ -215,107 +224,6 @@
 </div>
 <div class="section" id="submodules">
 <h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
-</div>
-<div class="section" id="module-tellurium.SedmlToRr">
-<span id="tellurium-sedmltorr-module"></span><h2>tellurium.SedmlToRr module<a class="headerlink" href="#module-tellurium.SedmlToRr" title="Permalink to this headline">¶</a></h2>
-<dl class="class">
-<dt id="tellurium.SedmlToRr.MatchingSetsOfRepeatedTasksDataGenerators">
-<em class="property">class </em><code class="descclassname">tellurium.SedmlToRr.</code><code class="descname">MatchingSetsOfRepeatedTasksDataGenerators</code><span class="sig-paren">(</span><em>datagenID</em>, <em>rangeSize</em><span class="sig-paren">)</span><a class="headerlink" href="#tellurium.SedmlToRr.MatchingSetsOfRepeatedTasksDataGenerators" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">tuple</span></code></p>
-<dl class="attribute">
-<dt id="tellurium.SedmlToRr.MatchingSetsOfRepeatedTasksDataGenerators.datagenID">
-<code class="descname">datagenID</code><a class="headerlink" href="#tellurium.SedmlToRr.MatchingSetsOfRepeatedTasksDataGenerators.datagenID" title="Permalink to this definition">¶</a></dt>
-<dd><p>Alias for field number 0</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="tellurium.SedmlToRr.MatchingSetsOfRepeatedTasksDataGenerators.rangeSize">
-<code class="descname">rangeSize</code><a class="headerlink" href="#tellurium.SedmlToRr.MatchingSetsOfRepeatedTasksDataGenerators.rangeSize" title="Permalink to this definition">¶</a></dt>
-<dd><p>Alias for field number 1</p>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="class">
-<dt id="tellurium.SedmlToRr.MatchingSetsOfVariableIDs">
-<em class="property">class </em><code class="descclassname">tellurium.SedmlToRr.</code><code class="descname">MatchingSetsOfVariableIDs</code><span class="sig-paren">(</span><em>datagenID</em>, <em>taskReference</em>, <em>sedmlID</em>, <em>sbmlID</em><span class="sig-paren">)</span><a class="headerlink" href="#tellurium.SedmlToRr.MatchingSetsOfVariableIDs" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">tuple</span></code></p>
-<dl class="attribute">
-<dt id="tellurium.SedmlToRr.MatchingSetsOfVariableIDs.datagenID">
-<code class="descname">datagenID</code><a class="headerlink" href="#tellurium.SedmlToRr.MatchingSetsOfVariableIDs.datagenID" title="Permalink to this definition">¶</a></dt>
-<dd><p>Alias for field number 0</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="tellurium.SedmlToRr.MatchingSetsOfVariableIDs.sbmlID">
-<code class="descname">sbmlID</code><a class="headerlink" href="#tellurium.SedmlToRr.MatchingSetsOfVariableIDs.sbmlID" title="Permalink to this definition">¶</a></dt>
-<dd><p>Alias for field number 3</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="tellurium.SedmlToRr.MatchingSetsOfVariableIDs.sedmlID">
-<code class="descname">sedmlID</code><a class="headerlink" href="#tellurium.SedmlToRr.MatchingSetsOfVariableIDs.sedmlID" title="Permalink to this definition">¶</a></dt>
-<dd><p>Alias for field number 2</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="tellurium.SedmlToRr.MatchingSetsOfVariableIDs.taskReference">
-<code class="descname">taskReference</code><a class="headerlink" href="#tellurium.SedmlToRr.MatchingSetsOfVariableIDs.taskReference" title="Permalink to this definition">¶</a></dt>
-<dd><p>Alias for field number 1</p>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="function">
-<dt id="tellurium.SedmlToRr.checkEqualIvo">
-<code class="descclassname">tellurium.SedmlToRr.</code><code class="descname">checkEqualIvo</code><span class="sig-paren">(</span><em>lst</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/tellurium/SedmlToRr.html#checkEqualIvo"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.SedmlToRr.checkEqualIvo" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="function">
-<dt id="tellurium.SedmlToRr.generateData">
-<code class="descclassname">tellurium.SedmlToRr.</code><code class="descname">generateData</code><span class="sig-paren">(</span><em>sedmlDoc</em>, <em>currentModel</em>, <em>dataGeneratorsList</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/tellurium/SedmlToRr.html#generateData"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.SedmlToRr.generateData" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="function">
-<dt id="tellurium.SedmlToRr.generateDataLoop">
-<code class="descclassname">tellurium.SedmlToRr.</code><code class="descname">generateDataLoop</code><span class="sig-paren">(</span><em>sedmlDoc</em>, <em>currentModel</em>, <em>task1</em>, <em>variablesList</em>, <em>variablesDictionary</em>, <em>repeatedTaskIndex</em>, <em>repeatedTask=None</em>, <em>dataGeneratorsList=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/tellurium/SedmlToRr.html#generateDataLoop"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.SedmlToRr.generateDataLoop" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="function">
-<dt id="tellurium.SedmlToRr.generateOutputs">
-<code class="descclassname">tellurium.SedmlToRr.</code><code class="descname">generateOutputs</code><span class="sig-paren">(</span><em>sedmlDoc</em>, <em>dataGeneratorsList</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/tellurium/SedmlToRr.html#generateOutputs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.SedmlToRr.generateOutputs" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="function">
-<dt id="tellurium.SedmlToRr.generateSimulation">
-<code class="descclassname">tellurium.SedmlToRr.</code><code class="descname">generateSimulation</code><span class="sig-paren">(</span><em>rrName</em>, <em>sedmlDoc</em>, <em>currentModel</em>, <em>task1</em>, <em>variablesList</em>, <em>variablesDictionary</em>, <em>repeatedTaskIndex</em>, <em>repeatedTask=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/tellurium/SedmlToRr.html#generateSimulation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.SedmlToRr.generateSimulation" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="function">
-<dt id="tellurium.SedmlToRr.generateTasks">
-<code class="descclassname">tellurium.SedmlToRr.</code><code class="descname">generateTasks</code><span class="sig-paren">(</span><em>rrName</em>, <em>sedmlDoc</em>, <em>currentModel</em>, <em>path</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/tellurium/SedmlToRr.html#generateTasks"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.SedmlToRr.generateTasks" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="function">
-<dt id="tellurium.SedmlToRr.isId">
-<code class="descclassname">tellurium.SedmlToRr.</code><code class="descname">isId</code><span class="sig-paren">(</span><em>string</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/tellurium/SedmlToRr.html#isId"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.SedmlToRr.isId" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="function">
-<dt id="tellurium.SedmlToRr.loadModel">
-<code class="descclassname">tellurium.SedmlToRr.</code><code class="descname">loadModel</code><span class="sig-paren">(</span><em>rrName</em>, <em>sedmlDoc</em>, <em>currentModel</em>, <em>path</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/tellurium/SedmlToRr.html#loadModel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.SedmlToRr.loadModel" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="function">
-<dt id="tellurium.SedmlToRr.populateVariableLists">
-<code class="descclassname">tellurium.SedmlToRr.</code><code class="descname">populateVariableLists</code><span class="sig-paren">(</span><em>sedmlDoc</em>, <em>task1</em>, <em>variablesList</em>, <em>variablesDictionary</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/tellurium/SedmlToRr.html#populateVariableLists"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.SedmlToRr.populateVariableLists" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="function">
-<dt id="tellurium.SedmlToRr.sedml_to_python">
-<code class="descclassname">tellurium.SedmlToRr.</code><code class="descname">sedml_to_python</code><span class="sig-paren">(</span><em>fullPathName</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/tellurium/SedmlToRr.html#sedml_to_python"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.SedmlToRr.sedml_to_python" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
 </div>
 <div class="section" id="module-tellurium.tecombine">
 <span id="tellurium-tecombine-module"></span><h2>tellurium.tecombine module<a class="headerlink" href="#module-tellurium.tecombine" title="Permalink to this headline">¶</a></h2>
@@ -1164,12 +1072,12 @@ Short-cut sv, e.g.</p>
 <dl class="function">
 <dt id="tellurium.tellurium.getVersionInfo">
 <code class="descclassname">tellurium.tellurium.</code><code class="descname">getVersionInfo</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/tellurium/tellurium.html#getVersionInfo"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tellurium.getVersionInfo" title="Permalink to this definition">¶</a></dt>
-<dd><p>Prints version information for tellurium supported packages.</p>
+<dd><p>Returns version information for tellurium included packages.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">None</td>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">list of tuples (package, version)</td>
 </tr>
 </tbody>
 </table>
@@ -1457,6 +1365,12 @@ a handle to the plotting object.</p>
 </dd></dl>
 
 <dl class="function">
+<dt id="tellurium.tellurium.printVersionInfo">
+<code class="descclassname">tellurium.tellurium.</code><code class="descname">printVersionInfo</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/tellurium/tellurium.html#printVersionInfo"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tellurium.printVersionInfo" title="Permalink to this definition">¶</a></dt>
+<dd><p>Prints version information for tellurium included packages.</p>
+</dd></dl>
+
+<dl class="function">
 <dt id="tellurium.tellurium.readFromFile">
 <code class="descclassname">tellurium.tellurium.</code><code class="descname">readFromFile</code><span class="sig-paren">(</span><em>fileName</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/tellurium/tellurium.html#readFromFile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tellurium.readFromFile" title="Permalink to this definition">¶</a></dt>
 <dd><p>Load a file and return contents as a string.</p>
@@ -1698,6 +1612,313 @@ See <a class="reference internal" href="#tellurium.tephrasedml.tePhrasedml.creat
 </dd></dl>
 
 </dd></dl>
+
+</div>
+<div class="section" id="module-tellurium.tesedml">
+<span id="tellurium-tesedml-module"></span><h2>tellurium.tesedml module<a class="headerlink" href="#module-tellurium.tesedml" title="Permalink to this headline">¶</a></h2>
+<p>Tellurium SED-ML support.
+This module reads SED-ML files (&#8216;.sedml&#8217; extension) or archives (&#8216;.sedx&#8217; extension)
+and generates executable python code.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="c1"># execute example sedml</span>
+<span class="kn">import</span> <span class="nn">tellurium.tesedml</span> <span class="kn">as</span> <span class="nn">s2p</span>
+<span class="n">ret</span> <span class="o">=</span> <span class="n">s2p</span><span class="o">.</span><span class="n">sedml_to_python</span><span class="p">(</span><span class="s1">&#39;example.sedml&#39;</span><span class="p">)</span>
+<span class="k">exec</span> <span class="n">ret</span>
+
+<span class="c1"># execute sedml archive (sedx)</span>
+<span class="kn">import</span> <span class="nn">SedmlToRr</span> <span class="kn">as</span> <span class="nn">s2p</span>
+<span class="n">ret</span> <span class="o">=</span> <span class="n">s2p</span><span class="o">.</span><span class="n">sedml_to_python</span><span class="p">(</span><span class="s2">&quot;example.sedx&quot;</span><span class="p">)</span>
+<span class="k">exec</span> <span class="n">ret</span>
+</pre></div>
+</div>
+<dl class="docutils">
+<dt>SED-ML is build of five main classes, which are translated in python code:</dt>
+<dd>the Model Class,
+the Simulation Class,
+the Task Class,
+the DataGenerator Class,
+and the Output Class.</dd>
+<dt>The Model Class</dt>
+<dd>The Model class is used to reference the models used in the simulation experiment.
+SED-ML itself is independent of the model encoding underlying the models. The only
+requirement is that the model needs to be referenced by using an unambiguous identifier
+which allows for finding it, for example using a MIRIAM URI. To specify the language in
+which the model is encoded, a set of predefined language URNs is provided.
+The SED-ML Change class allows the application of changes to the referenced models,
+including changes on the XML attributes, e.g. changing the value of an observable,
+computing the change of a value using mathematics, or general changes on any XML element
+of the model representation that is addressable by XPath expressions, e.g. substituting
+a piece of XML by an updated one.</dd>
+<dt>The Simulation Class</dt>
+<dd>The Simulation class defines the simulation settings and the steps taken during simulation.
+These include the particular type of simulation and the algorithm used for the execution of
+the simulation; preferably an unambiguous reference to such an algorithm should be given,
+using a controlled vocabulary, or ontologies. One example for an ontology of simulation
+algorithms is the Kinetic Simulation Algorithm Ontology KiSAO. Further information encodable
+in the Simulation class includes the step size, simulation duration, and other
+simulation-type dependent information.</dd>
+<dt>The Task Class</dt>
+<dd>SED-ML makes use of the notion of a Task class to combine a defined model (from the Model class)
+and a defined simulation setting (from the Simulation class). A task always holds one reference each.
+To refer to a specific model and to a specific simulation, the corresponding IDs are used.</dd>
+<dt>The DataGenerator Class</dt>
+<dd>The raw simulation result sometimes does not correspond to the desired output of the simulation,
+e.g. one might want to normalise a plot before output, or apply post-processing like mean-value calculation.
+The DataGenerator class allows for the encoding of such post-processings which need to be applied to the
+simulation result before output. To define data generators, any addressable variable or parameter
+of any defined model (from instances of the Model class) may be referenced, and new entities might
+be specified using MathML definitions.</dd>
+<dt>The Output Class</dt>
+<dd>The Output class defines the output of the simulation, in the sense that it specifies what shall be
+plotted in the output. To do so, an output type is defined, e.g. 2D-plot, 3D-plot or data table,
+and the according axes or columns are all assigned to one of the formerly specified instances
+of the DataGenerator class.</dd>
+</dl>
+<dl class="class">
+<dt id="tellurium.tesedml.MatchingSetsOfRepeatedTasksDataGenerators">
+<em class="property">class </em><code class="descclassname">tellurium.tesedml.</code><code class="descname">MatchingSetsOfRepeatedTasksDataGenerators</code><span class="sig-paren">(</span><em>datagenID</em>, <em>rangeSize</em><span class="sig-paren">)</span><a class="headerlink" href="#tellurium.tesedml.MatchingSetsOfRepeatedTasksDataGenerators" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">tuple</span></code></p>
+<dl class="attribute">
+<dt id="tellurium.tesedml.MatchingSetsOfRepeatedTasksDataGenerators.datagenID">
+<code class="descname">datagenID</code><a class="headerlink" href="#tellurium.tesedml.MatchingSetsOfRepeatedTasksDataGenerators.datagenID" title="Permalink to this definition">¶</a></dt>
+<dd><p>Alias for field number 0</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="tellurium.tesedml.MatchingSetsOfRepeatedTasksDataGenerators.rangeSize">
+<code class="descname">rangeSize</code><a class="headerlink" href="#tellurium.tesedml.MatchingSetsOfRepeatedTasksDataGenerators.rangeSize" title="Permalink to this definition">¶</a></dt>
+<dd><p>Alias for field number 1</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="tellurium.tesedml.MatchingSetsOfVariableIDs">
+<em class="property">class </em><code class="descclassname">tellurium.tesedml.</code><code class="descname">MatchingSetsOfVariableIDs</code><span class="sig-paren">(</span><em>datagenID</em>, <em>taskReference</em>, <em>sedmlID</em>, <em>sbmlID</em><span class="sig-paren">)</span><a class="headerlink" href="#tellurium.tesedml.MatchingSetsOfVariableIDs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">tuple</span></code></p>
+<dl class="attribute">
+<dt id="tellurium.tesedml.MatchingSetsOfVariableIDs.datagenID">
+<code class="descname">datagenID</code><a class="headerlink" href="#tellurium.tesedml.MatchingSetsOfVariableIDs.datagenID" title="Permalink to this definition">¶</a></dt>
+<dd><p>Alias for field number 0</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="tellurium.tesedml.MatchingSetsOfVariableIDs.sbmlID">
+<code class="descname">sbmlID</code><a class="headerlink" href="#tellurium.tesedml.MatchingSetsOfVariableIDs.sbmlID" title="Permalink to this definition">¶</a></dt>
+<dd><p>Alias for field number 3</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="tellurium.tesedml.MatchingSetsOfVariableIDs.sedmlID">
+<code class="descname">sedmlID</code><a class="headerlink" href="#tellurium.tesedml.MatchingSetsOfVariableIDs.sedmlID" title="Permalink to this definition">¶</a></dt>
+<dd><p>Alias for field number 2</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="tellurium.tesedml.MatchingSetsOfVariableIDs.taskReference">
+<code class="descname">taskReference</code><a class="headerlink" href="#tellurium.tesedml.MatchingSetsOfVariableIDs.taskReference" title="Permalink to this definition">¶</a></dt>
+<dd><p>Alias for field number 1</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="exception">
+<dt id="tellurium.tesedml.SedmlException">
+<em class="property">exception </em><code class="descclassname">tellurium.tesedml.</code><code class="descname">SedmlException</code><a class="reference internal" href="../_modules/tellurium/tesedml.html#SedmlException"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tesedml.SedmlException" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">exceptions.Exception</span></code></p>
+</dd></dl>
+
+<dl class="function">
+<dt id="tellurium.tesedml.checkEqualIvo">
+<code class="descclassname">tellurium.tesedml.</code><code class="descname">checkEqualIvo</code><span class="sig-paren">(</span><em>lst</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/tellurium/tesedml.html#checkEqualIvo"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tesedml.checkEqualIvo" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="tellurium.tesedml.generateData">
+<code class="descclassname">tellurium.tesedml.</code><code class="descname">generateData</code><span class="sig-paren">(</span><em>sedmlDoc</em>, <em>currentModel</em>, <em>dataGeneratorsList</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/tellurium/tesedml.html#generateData"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tesedml.generateData" title="Permalink to this definition">¶</a></dt>
+<dd><p>Handle the data generators.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"></td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="tellurium.tesedml.generateDataLoop">
+<code class="descclassname">tellurium.tesedml.</code><code class="descname">generateDataLoop</code><span class="sig-paren">(</span><em>sedmlDoc</em>, <em>currentModel</em>, <em>task1</em>, <em>variablesList</em>, <em>variablesDictionary</em>, <em>repeatedTaskIndex</em>, <em>repeatedTask=None</em>, <em>dataGeneratorsList=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/tellurium/tesedml.html#generateDataLoop"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tesedml.generateDataLoop" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generate data loops.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="tellurium.tesedml.generateOutputs">
+<code class="descclassname">tellurium.tesedml.</code><code class="descname">generateOutputs</code><span class="sig-paren">(</span><em>sedmlDoc</em>, <em>dataGeneratorsList</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/tellurium/tesedml.html#generateOutputs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tesedml.generateOutputs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generate the outputs.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>sedmlDoc</strong> &#8211; </li>
+<li><strong>dataGeneratorsList</strong> &#8211; </li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"></p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="tellurium.tesedml.generateSimulation">
+<code class="descclassname">tellurium.tesedml.</code><code class="descname">generateSimulation</code><span class="sig-paren">(</span><em>rrName</em>, <em>sedmlDoc</em>, <em>currentModel</em>, <em>task1</em>, <em>variablesList</em>, <em>variablesDictionary</em>, <em>repeatedTaskIndex</em>, <em>repeatedTask=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/tellurium/tesedml.html#generateSimulation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tesedml.generateSimulation" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generate simulation.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="tellurium.tesedml.generateTasks">
+<code class="descclassname">tellurium.tesedml.</code><code class="descname">generateTasks</code><span class="sig-paren">(</span><em>rrName</em>, <em>sedmlDoc</em>, <em>currentModel</em>, <em>path</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/tellurium/tesedml.html#generateTasks"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tesedml.generateTasks" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generate the SED-ML Tasks.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>rrName</strong> &#8211; </li>
+<li><strong>sedmlDoc</strong> &#8211; </li>
+<li><strong>currentModel</strong> &#8211; </li>
+<li><strong>path</strong> &#8211; </li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"></p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="tellurium.tesedml.isId">
+<code class="descclassname">tellurium.tesedml.</code><code class="descname">isId</code><span class="sig-paren">(</span><em>string</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/tellurium/tesedml.html#isId"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tesedml.isId" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="tellurium.tesedml.loadModel">
+<code class="descclassname">tellurium.tesedml.</code><code class="descname">loadModel</code><span class="sig-paren">(</span><em>rrName</em>, <em>sedmlDoc</em>, <em>currentModel</em>, <em>path</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/tellurium/tesedml.html#loadModel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tesedml.loadModel" title="Permalink to this definition">¶</a></dt>
+<dd><p>Load model.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>rrName</strong> &#8211; </li>
+<li><strong>sedmlDoc</strong> &#8211; </li>
+<li><strong>currentModel</strong> &#8211; </li>
+<li><strong>path</strong> &#8211; </li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"></p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="tellurium.tesedml.populateVariableLists">
+<code class="descclassname">tellurium.tesedml.</code><code class="descname">populateVariableLists</code><span class="sig-paren">(</span><em>sedmlDoc</em>, <em>task1</em>, <em>variablesList</em>, <em>variablesDictionary</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/tellurium/tesedml.html#populateVariableLists"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tesedml.populateVariableLists" title="Permalink to this definition">¶</a></dt>
+<dd><p>Populate variable lists.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>sedmlDoc</strong> &#8211; </li>
+<li><strong>task1</strong> &#8211; </li>
+<li><strong>variablesList</strong> &#8211; </li>
+<li><strong>variablesDictionary</strong> &#8211; </li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"></p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="tellurium.tesedml.sedml_to_python">
+<code class="descclassname">tellurium.tesedml.</code><code class="descname">sedml_to_python</code><span class="sig-paren">(</span><em>fullPathName</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/tellurium/tesedml.html#sedml_to_python"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tesedml.sedml_to_python" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert sedml file to python code.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>fullPathName</strong> (<em>path</em>) &#8211; path to sedml file.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">contents</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="module-tellurium.unzipy">
+<span id="tellurium-unzipy-module"></span><h2>tellurium.unzipy module<a class="headerlink" href="#module-tellurium.unzipy" title="Permalink to this headline">¶</a></h2>
+<p>#**********************************************************************
+# Description:
+#    Unzips the contents of a zip file into an existing folder
+#    Assumes COMBINE archive SED-ML format and returns location of SED-ML file from manifest 
+# Arguments:
+#  1 - input zip file
+#  2 - output folder - pathname to folder that will contain the contents of the zip file
+#**********************************************************************</p>
+<dl class="function">
+<dt id="tellurium.unzipy.main">
+<code class="descclassname">tellurium.unzipy.</code><code class="descname">main</code><span class="sig-paren">(</span><em>args</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/tellurium/unzipy.html#main"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.unzipy.main" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="tellurium.unzipy.readManifest">
+<code class="descclassname">tellurium.unzipy.</code><code class="descname">readManifest</code><span class="sig-paren">(</span><em>manifestPathName</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/tellurium/unzipy.html#readManifest"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.unzipy.readManifest" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read sed-ml location from manifest file.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>manifestPathName</strong> (<em>str</em>) &#8211; path for manifest</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="tellurium.unzipy.unZip">
+<code class="descclassname">tellurium.unzipy.</code><code class="descname">unZip</code><span class="sig-paren">(</span><em>path</em>, <em>zip</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/tellurium/unzipy.html#unZip"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.unzipy.unZip" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 
 </div>
 <div class="section" id="module-tellurium">

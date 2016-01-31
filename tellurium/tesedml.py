@@ -1,26 +1,77 @@
-# usage:
-#
-# import SedmlToRr as s2p
-# ret = s2p.sedml_to_python("full_path/sedml_file.sedml")
-# exec ret
-#
-# import SedmlToRr as s2p
-# ret = s2p.sedml_to_python("full_path/sedml_archive.sedx")
-# exec ret
-# a "full_path/sedml_archive" folder will be created and the unarchived files placed within
-#
-# import SedmlToRr as s2p
-# execfile("full_path/sedml_archive.py")
-#
-# the .sedml extension indicates a sedml file, the .sedx extension indicates a sedml archive
+"""
+Tellurium SED-ML support.
+This module reads SED-ML files ('.sedml' extension) or archives ('.sedx' extension)
+and generates executable python code.
 
-from __future__ import print_function, division # Python 3 support
+::
+
+    # execute example sedml
+    import tellurium.tesedml as s2p
+    ret = s2p.sedml_to_python('example.sedml')
+    exec ret
+
+    # execute sedml archive (sedx)
+    import SedmlToRr as s2p
+    ret = s2p.sedml_to_python("example.sedx")
+    exec ret
+
+
+SED-ML is build of five main classes, which are translated in python code:
+    the Model Class,
+    the Simulation Class,
+    the Task Class,
+    the DataGenerator Class,
+    and the Output Class.
+
+The Model Class
+    The Model class is used to reference the models used in the simulation experiment.
+    SED-ML itself is independent of the model encoding underlying the models. The only
+    requirement is that the model needs to be referenced by using an unambiguous identifier
+    which allows for finding it, for example using a MIRIAM URI. To specify the language in
+    which the model is encoded, a set of predefined language URNs is provided.
+    The SED-ML Change class allows the application of changes to the referenced models,
+    including changes on the XML attributes, e.g. changing the value of an observable,
+    computing the change of a value using mathematics, or general changes on any XML element
+    of the model representation that is addressable by XPath expressions, e.g. substituting
+    a piece of XML by an updated one.
+
+The Simulation Class
+    The Simulation class defines the simulation settings and the steps taken during simulation.
+    These include the particular type of simulation and the algorithm used for the execution of
+    the simulation; preferably an unambiguous reference to such an algorithm should be given,
+    using a controlled vocabulary, or ontologies. One example for an ontology of simulation
+    algorithms is the Kinetic Simulation Algorithm Ontology KiSAO. Further information encodable
+    in the Simulation class includes the step size, simulation duration, and other
+    simulation-type dependent information.
+
+The Task Class
+    SED-ML makes use of the notion of a Task class to combine a defined model (from the Model class)
+    and a defined simulation setting (from the Simulation class). A task always holds one reference each.
+    To refer to a specific model and to a specific simulation, the corresponding IDs are used.
+
+The DataGenerator Class
+    The raw simulation result sometimes does not correspond to the desired output of the simulation,
+    e.g. one might want to normalise a plot before output, or apply post-processing like mean-value calculation.
+    The DataGenerator class allows for the encoding of such post-processings which need to be applied to the
+    simulation result before output. To define data generators, any addressable variable or parameter
+    of any defined model (from instances of the Model class) may be referenced, and new entities might
+    be specified using MathML definitions.
+
+The Output Class
+    The Output class defines the output of the simulation, in the sense that it specifies what shall be
+    plotted in the output. To do so, an output type is defined, e.g. 2D-plot, 3D-plot or data table,
+    and the according axes or columns are all assigned to one of the formerly specified instances
+    of the DataGenerator class.
+"""
+# TODO: refactor with proper handling of the different SED-ML parts.
+# TODO: this module has to implement general SEDML functionality
+
+from __future__ import print_function, division
 
 import sys
 import os.path
 import re
 import zipfile
-import roadrunner
 import libsedml
 import StringIO
 import httplib
@@ -32,16 +83,45 @@ MatchingSetsOfRepeatedTasksDataGenerators = namedtuple("MatchingSetsOfRepeatedTa
 
 modelname = str()
 outdir = str()
-mapping = [ ('repeated','r'), ('Repeated','r'), ('task','t'), ('Task', 't'),
-                       ('data','d'), ('Data','d'), ('generator','g'), ('Generator', 'g')]
-                       # Map of replaced words
 
-# Legacy support
+# Map of replaced words
+mapping = [
+    ('repeated', 'r'),
+    ('Repeated', 'r'),
+    ('task', 't'),
+    ('Task', 't'),
+    ('data', 'd'),
+    ('Data', 'd'),
+    ('generator', 'g'),
+    ('Generator', 'g')
+]
+
+
+class SedmlException(Exception):
+    pass
+
+
 def sedml_to_python(inputstring):
+    """ Convert sedml file to python code.
+    Legacy support
+
+    :param inputstring:
+    :type inputstring:
+    :return:
+    :rtype:
+    """
     return sedmlToPython(inputstring)
 
-# Entry point
-def sedmlToPython(inputstring):      # full path name to SedML model or SED-ML string
+
+def sedmlToPython(inputstring):
+    """ Convert sedml file to python code.
+
+    :param inputstring: full path name to SedML model or SED-ML string
+    :type inputstring: path
+    :return: contents
+    :rtype:
+    """
+    from os.path import *
 
     class Tee(object):
         def __init__(self, *files):
@@ -49,14 +129,14 @@ def sedmlToPython(inputstring):      # full path name to SedML model or SED-ML s
         def write(self, obj):
             for f in self.files:
                 f.write(obj)
-                    
+
     if not isinstance(inputstring, basestring):
         raise TypeError("For SedmlToPy translation, input must be string")
-    
+
     if inputstring.startswith(r"<?"): # Check if string is a SED-ML string
         sedmlDoc = libsedml.readSedMLFromString(inputstring)
         path = os.getcwd() + "\\" # Temp. assumption
-    
+
     else: # Else assume file path
         if not os.path.exists(inputstring):
             raise IOError("Cannot find SED-ML file")
@@ -66,24 +146,24 @@ def sedmlToPython(inputstring):      # full path name to SedML model or SED-ML s
         modelName = os.path.splitext(os.path.basename(inputstring))[0]
         extension = os.path.splitext(os.path.basename(inputstring))[1]
         path = inputstring.rsplit(os.path.basename(inputstring), 1)[0]
-    
+
         if extension == ".sedx":
             zip = zipfile.ZipFile(inputstring, 'r')
             path = path + modelName
             if not isdir(path):
-                os.makedirs(path)    
+                os.makedirs(path)
             for each in zip.namelist():
             # check if the item includes a subdirectory
             # if it does, create the subdirectory in the output folder and write the file
             # otherwise, just write the file to the output folder
-                if not each.endswith('/'): 
+                if not each.endswith('/'):
                     root, name = split(each)
                     directory = normpath(join(path, root))
                     if not isdir(directory):
                         os.makedirs(directory)
                     file(join(directory, name), 'wb').write(zip.read(each))
             zip.close()
-            
+
             tree = et.parse(path + "/manifest.xml")
             root = tree.getroot()
             print(root)
@@ -91,16 +171,15 @@ def sedmlToPython(inputstring):      # full path name to SedML model or SED-ML s
                 format = child.attrib['format']
                 if(format.endswith("sed-ml")):
                     inputstring = child.attrib['location']
-            
+
             k = inputstring.rfind("/")
             inputstring = inputstring[k+1:]
             inputstring = path + "/" + inputstring
-    
+
         sedmlDoc = libsedml.readSedMLFromFile(inputstring)
-        
+
     if sedmlDoc.getErrorLog().getNumFailsWithSeverity(libsedml.LIBSEDML_SEV_ERROR) > 0:
-        print(sedmlDoc.getErrorLog().toString())
-        sys.exit(2)
+        raise SedmlException(sedmlDoc.getErrorLog().toString())
 
     f = StringIO.StringIO()
     original = sys.stdout
@@ -135,7 +214,21 @@ def sedmlToPython(inputstring):      # full path name to SedML model or SED-ML s
     f.close()
     return contents
 
+
 def generateTasks(rrName, sedmlDoc, currentModel, path):
+    """ Generate the SED-ML Tasks.
+
+    :param rrName:
+    :type rrName:
+    :param sedmlDoc:
+    :type sedmlDoc:
+    :param currentModel:
+    :type currentModel:
+    :param path:
+    :type path:
+    :return:
+    :rtype:
+    """
     listOfChanges = []
     loadModel(rrName, sedmlDoc, currentModel, path)
     #print(rrName + ".simulateOptions.structuredResult = False")
@@ -185,7 +278,7 @@ def generateTasks(rrName, sedmlDoc, currentModel, path):
             bFoundAtLeastOneTask = True
 
     # now deal with repeated tasks, if any
-    for e in range(0,sedmlDoc.getNumTasks()):
+    for e in range(0, sedmlDoc.getNumTasks()):
         task1 = sedmlDoc.getTask(e)
         if task1.getElementName() == "repeatedTask":
             for i in range(0, task1.getNumSubTasks()):
@@ -241,18 +334,32 @@ def generateTasks(rrName, sedmlDoc, currentModel, path):
                     # and the repeated task (task1) because its Id is used for generating the flattened Id's
                     generateSimulation(rrName, sedmlDoc, currentModel, task2, variablesList, variablesDictionary, j, task1)
                     bFoundAtLeastOneTask = True
+
     if bFoundAtLeastOneTask == False:
         print("# There are no simulations to run for this model: " + currentModel.getId())
 
 
 def loadModel(rrName, sedmlDoc, currentModel, path):
+    """ Load model.
+
+    :param rrName:
+    :type rrName:
+    :param sedmlDoc:
+    :type sedmlDoc:
+    :param currentModel:
+    :type currentModel:
+    :param path:
+    :type path:
+    :return:
+    :rtype:
+    """
     global modelname
     global outdir
     string = currentModel.getSource()
     string = string.replace("\\", "/")
     if isId(string):                             # it's the Id of a model
         originalModel = sedmlDoc.getModel(string)
-        if originalModel != None:
+        if originalModel is not None:
             string = originalModel.getSource()          #  !!! for now, we reuse the original model to which the current model is referring to
         else:
             pass
@@ -272,7 +379,7 @@ def loadModel(rrName, sedmlDoc, currentModel, path):
         astr = string.rsplit(':', 1)
         astr = astr[1]
         string = path + astr + ".xml"
-        if os.path.exists(string) == False:
+        if not os.path.exists(string):
             conn = httplib.HTTPConnection("www.ebi.ac.uk")
             conn.request("GET", "/biomodels-main/download?mid=" + astr)
             r1 = conn.getresponse()
@@ -280,7 +387,7 @@ def loadModel(rrName, sedmlDoc, currentModel, path):
             data1 = r1.read()
             conn.close()
             f1 = open(string, 'w')
-            f1.write(data1);
+            f1.write(data1)
             f1.close()
         else:
             pass
@@ -289,8 +396,21 @@ def loadModel(rrName, sedmlDoc, currentModel, path):
         string = string.replace("\\", "/")
         print(rrName + ".load('" + string + "')")
 
-def populateVariableLists(sedmlDoc, task1, variablesList, variablesDictionary):
 
+def populateVariableLists(sedmlDoc, task1, variablesList, variablesDictionary):
+    """ Populate variable lists.
+
+    :param sedmlDoc:
+    :type sedmlDoc:
+    :param task1:
+    :type task1:
+    :param variablesList:
+    :type variablesList:
+    :param variablesDictionary:
+    :type variablesDictionary:
+    :return:
+    :rtype:
+    """
     for i in range(0,  sedmlDoc.getNumDataGenerators()):
         current = sedmlDoc.getDataGenerator(i)
         vl = current.getListOfVariables()
@@ -320,21 +440,22 @@ def populateVariableLists(sedmlDoc, task1, variablesList, variablesDictionary):
                 sys.exit(5)
     return
 
-def generateSimulation(rrName, sedmlDoc, currentModel, task1, variablesList, variablesDictionary, repeatedTaskIndex, repeatedTask = None):
 
+def generateSimulation(rrName, sedmlDoc, currentModel, task1, variablesList, variablesDictionary, repeatedTaskIndex, repeatedTask = None):
+    """ Generate simulation. """
     __uniform = False
     __steady = False
 
     for j  in range(0, sedmlDoc.getNumSimulations()):
         currentSimulation = sedmlDoc.getSimulation(j)
         if task1.getSimulationReference() != currentSimulation.getId():
-            continue;
+            continue
         if currentSimulation.getTypeCode() == libsedml.SEDML_SIMULATION_UNIFORMTIMECOURSE:
-            if __steady == True:
+            if __steady:
                 print(rrName + ".conservedMoietyAnalysis = False")
             else:
                 pass
-            if __uniform == False:
+            if not __uniform:
                 string = rrName + ".timeCourseSelections = ["
                 for i in range(0, len(variablesList)):
                     if i > 0:
@@ -363,7 +484,7 @@ def generateSimulation(rrName, sedmlDoc, currentModel, task1, variablesList, var
             string += ")"
             print(string)
         elif currentSimulation.getTypeCode() == libsedml.SEDML_SIMULATION_STEADYSTATE:
-            if __steady == False:
+            if not __steady:
                 print(rrName + ".conservedMoietyAnalysis = True")
                 string = rrName + ".steadyStateSelections = ["
                 for i in range(0, len(variablesList)):
@@ -387,9 +508,9 @@ def generateSimulation(rrName, sedmlDoc, currentModel, task1, variablesList, var
                 taskId = taskId.replace(k, v)
             string = taskId + " = np.tile(" + rrName + ".getSteadyStateValues(), (2,1))"
             print(string)
-            print(taskId + "[1][0] = 10") # Default time for steady state
+            print(taskId + "[1][0] = 10")
         elif currentSimulation.getTypeCode() == libsedml.SEDML_SIMULATION_ONESTEP:
-            if __steady == True:
+            if __steady:
                 print(rrName + ".conservedMoietyAnalysis = False")
             else:
                 pass
@@ -401,7 +522,7 @@ def generateSimulation(rrName, sedmlDoc, currentModel, task1, variablesList, var
             string += "]"
             print(string)
             algorithm = currentSimulation.getAlgorithm()
-            if currentSimulation.isSetAlgorithm() == False:
+            if not currentSimulation.isSetAlgorithm():
                 print("# Algorithm not set for simulation " + currentSimulation.getName())
                 continue
             if algorithm.getKisaoID() != "KISAO:0000019":
@@ -414,7 +535,7 @@ def generateSimulation(rrName, sedmlDoc, currentModel, task1, variablesList, var
             for k, v in mapping:
                 taskId = taskId.replace(k, v)
             stepsize = currentSimulation.getStep()
-            if __uniform == True:
+            if __uniform:
                 string = taskId + " = " + rrName + ".simulate(" + str(variablesList[-2]) + ", " + str(variablesList[-2] + stepsize) + ", 1)"
             else:
                 string = taskId + " = " + rrName + ".simulate(0, " + str(stepsize) + ", 1)"
@@ -422,14 +543,21 @@ def generateSimulation(rrName, sedmlDoc, currentModel, task1, variablesList, var
         else:
             print("# Unsupported type " + str(currentSimulation.getTypeCode()) + " for simulation " + currentSimulation.getName())
 
-def generateData(sedmlDoc, currentModel, dataGeneratorsList):
 
+def generateData(sedmlDoc, currentModel, dataGeneratorsList):
+    """ Handle the data generators.
+
+    :return:
+    :rtype:
+    """
     variablesDictionary = []      # matching pairs of sedml variable ID and sbml variable ID
     variablesList = []            # the IDs of the sbml variables, non duplicate entries
     bFoundAtLeastOneTask = False
 
     for e in range(0,sedmlDoc.getNumTasks()):
         task1 = sedmlDoc.getTask(e)
+
+        # repeated task
         if task1.getElementName() == "repeatedTask":
             for i in range(0, task1.getNumSubTasks()):
                 task2 = task1.getSubTask(i)     # the subtask which points to the real task we need to call repeatedly for each value in range
@@ -454,7 +582,8 @@ def generateData(sedmlDoc, currentModel, dataGeneratorsList):
                     bFoundAtLeastOneTask = True
                     print("")
 
-        else:       # not a repeated task
+        # not a repeated task
+        else:
             if task1.getModelReference() != currentModel.getId():
                 continue
             variablesDictionary = []
@@ -473,13 +602,14 @@ def generateData(sedmlDoc, currentModel, dataGeneratorsList):
     else:
         print("")
 
-def generateDataLoop(sedmlDoc, currentModel, task1, variablesList, variablesDictionary, repeatedTaskIndex, repeatedTask = None, dataGeneratorsList = None):
 
+def generateDataLoop(sedmlDoc, currentModel, task1, variablesList, variablesDictionary, repeatedTaskIndex, repeatedTask = None, dataGeneratorsList = None):
+    """ Generate data loops. """
     # Each dataGenerator is calculated from the resulting output
     for s in range(0, sedmlDoc.getNumSimulations()):
         currentSimulation = sedmlDoc.getSimulation(s)
         if task1.getSimulationReference() == currentSimulation.getId():
-            break;            # we found the simulation referred to by this task (can't be more than one)
+            break           # we found the simulation referred to by this task (can't be more than one)
 
     dataGeneratorOutputList = []
     dataGeneratorTemp = str()
@@ -545,7 +675,17 @@ def generateDataLoop(sedmlDoc, currentModel, task1, variablesList, variablesDict
         dataGeneratorOutput = dataGeneratorOutput.replace(k, v)
     print(dataGeneratorOutput)
 
+
 def generateOutputs(sedmlDoc, dataGeneratorsList):
+    """ Generate the outputs.
+
+    :param sedmlDoc:
+    :type sedmlDoc:
+    :param dataGeneratorsList:
+    :type dataGeneratorsList:
+    :return:
+    :rtype:
+    """
     #The 'plot' len(dataGeneratorsList)output, minus the legend
     taskList = []
 
@@ -563,7 +703,7 @@ def generateOutputs(sedmlDoc, dataGeneratorsList):
             print("print '--------------------" + output.getName().replace("'","") + "--------------------'")
             print("import pandas")
             print("df = pandas.DataFrame(np.array(" + str(reportList).replace("'","") + ").T, \ncolumns=" + str(reportList) + ")")
-            print("print df.head(5)") # Default length printed
+            print("print df.head(5)")
             print("print '--------------------Report End--------------------'\n")
 
         elif typeCode == libsedml.SEDML_OUTPUT_PLOT2D:
@@ -698,12 +838,14 @@ def generateOutputs(sedmlDoc, dataGeneratorsList):
         else:
             print("# Unsupported output type")
 
+
 def isId(string):
     regular = re.compile('[\\/:-]')               # a SedML Id cannot contain these characters
     if regular.search(string):
         return False
     else:
         return True
+
 
 def checkEqualIvo(lst):
     return not lst or lst.count(lst[0]) == len(lst)

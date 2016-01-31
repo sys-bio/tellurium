@@ -23,6 +23,12 @@ Model Building
 .. include:: _notebooks/core/generatingDifferentWaveforms.rst
 
 --------------------
+SED-ML & Combine
+--------------------
+.. include:: _notebooks/core/phrasedml.rst
+.. include:: _notebooks/core/tesedml.rst
+
+--------------------
 Parameter scan
 --------------------
 .. include:: _notebooks/core/parameter_scan.rst

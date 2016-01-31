@@ -36,6 +36,7 @@ The most useful methods here are the notices routines. Roadrunner will offen iss
 	sbmlstr = readFromFile('mymodel.xml')
 
 .. autofunction:: tellurium.getVersionInfo
+.. autofunction:: tellurium.printVersionInfo
 .. autofunction:: tellurium.getTelluriumVersion
 .. autofunction:: tellurium.noticesOff
 .. autofunction:: tellurium.noticesOn

@@ -32,7 +32,7 @@
   
     <link rel="top" title="tellurium 1.3.0 documentation" href="../index.html"/>
         <link rel="up" title="tellurium package" href="tellurium.html"/>
-        <link rel="next" title="tellurium.visualization package" href="tellurium.visualization.html"/>
+        <link rel="next" title="tellurium.tests.testdata package" href="tellurium.tests.testdata.html"/>
         <link rel="prev" title="tellurium.optimization package" href="tellurium.optimization.html"/> 
 
   
@@ -95,9 +95,11 @@
 <li class="toctree-l3"><a class="reference internal" href="tellurium.notebooktools.html">tellurium.notebooktools package</a></li>
 <li class="toctree-l3"><a class="reference internal" href="tellurium.optimization.html">tellurium.optimization package</a></li>
 <li class="toctree-l3 current"><a class="current reference internal" href="">tellurium.tests package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#subpackages">Subpackages</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#submodules">Submodules</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#module-tellurium.tests.test_Export">tellurium.tests.test_Export module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#module-tellurium.tests.test_runner">tellurium.tests.test_runner module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-tellurium.tests.test_sedml">tellurium.tests.test_sedml module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#module-tellurium.tests.test_tellurium">tellurium.tests.test_tellurium module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#module-tellurium.tests.test_tephrasedml">tellurium.tests.test_tephrasedml module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#module-tellurium.tests">Module contents</a></li>
@@ -108,10 +110,11 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="tellurium.html#submodules">Submodules</a></li>
-<li class="toctree-l2"><a class="reference internal" href="tellurium.html#module-tellurium.SedmlToRr">tellurium.SedmlToRr module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="tellurium.html#module-tellurium.tecombine">tellurium.tecombine module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="tellurium.html#module-tellurium.tellurium">tellurium.tellurium module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="tellurium.html#module-tellurium.tephrasedml">tellurium.tephrasedml module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tellurium.html#module-tellurium.tesedml">tellurium.tesedml module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tellurium.html#module-tellurium.unzipy">tellurium.unzipy module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="tellurium.html#module-tellurium">Module contents</a></li>
 </ul>
 </li>
@@ -163,6 +166,17 @@
             
   <div class="section" id="tellurium-tests-package">
 <h1>tellurium.tests package<a class="headerlink" href="#tellurium-tests-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="subpackages">
+<h2>Subpackages<a class="headerlink" href="#subpackages" title="Permalink to this headline">¶</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tellurium.tests.testdata.html">tellurium.tests.testdata package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="tellurium.tests.testdata.html#module-tellurium.tests.testdata">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
 <div class="section" id="submodules">
 <h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
 </div>
@@ -240,6 +254,51 @@ and must be located in the directory of this module.</p>
 </dd></dl>
 
 </div>
+<div class="section" id="module-tellurium.tests.test_sedml">
+<span id="tellurium-tests-test-sedml-module"></span><h2>tellurium.tests.test_sedml module<a class="headerlink" href="#module-tellurium.tests.test_sedml" title="Permalink to this headline">¶</a></h2>
+<p>Testing tesedml.</p>
+<dl class="class">
+<dt id="tellurium.tests.test_sedml.tesedmlTestCase">
+<em class="property">class </em><code class="descclassname">tellurium.tests.test_sedml.</code><code class="descname">tesedmlTestCase</code><span class="sig-paren">(</span><em>methodName='runTest'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/tellurium/tests/test_sedml.html#tesedmlTestCase"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tests.test_sedml.tesedmlTestCase" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">unittest.case.TestCase</span></code></p>
+<dl class="method">
+<dt id="tellurium.tests.test_sedml.tesedmlTestCase.setUp">
+<code class="descname">setUp</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#tellurium.tests.test_sedml.tesedmlTestCase.setUp" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="tellurium.tests.test_sedml.tesedmlTestCase.single_check">
+<code class="descname">single_check</code><span class="sig-paren">(</span><em>f_sedml</em><span class="sig-paren">)</span><a class="headerlink" href="#tellurium.tests.test_sedml.tesedmlTestCase.single_check" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="tellurium.tests.test_sedml.tesedmlTestCase.tearDown">
+<code class="descname">tearDown</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#tellurium.tests.test_sedml.tesedmlTestCase.tearDown" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="tellurium.tests.test_sedml.tesedmlTestCase.test_app2sim">
+<code class="descname">test_app2sim</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#tellurium.tests.test_sedml.tesedmlTestCase.test_app2sim" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="tellurium.tests.test_sedml.tesedmlTestCase.test_asedml3repeat">
+<code class="descname">test_asedml3repeat</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#tellurium.tests.test_sedml.tesedmlTestCase.test_asedml3repeat" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="tellurium.tests.test_sedml.tesedmlTestCase.test_asedmlComplex">
+<code class="descname">test_asedmlComplex</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#tellurium.tests.test_sedml.tesedmlTestCase.test_asedmlComplex" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="tellurium.tests.test_sedml.tesedmlTestCase.test_constant_maybe">
+<code class="descname">test_constant_maybe</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#tellurium.tests.test_sedml.tesedmlTestCase.test_constant_maybe" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
 <div class="section" id="module-tellurium.tests.test_tellurium">
 <span id="tellurium-tests-test-tellurium-module"></span><h2>tellurium.tests.test_tellurium module<a class="headerlink" href="#module-tellurium.tests.test_tellurium" title="Permalink to this headline">¶</a></h2>
 <p>Unittests for tellurium.py
@@ -295,6 +354,51 @@ Main module for tests.</p>
 <code class="descname">tearDown</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#tellurium.tests.test_tephrasedml.tePhrasedMLTestCase.tearDown" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
+<dl class="method">
+<dt id="tellurium.tests.test_tephrasedml.tePhrasedMLTestCase.test_createpython">
+<code class="descname">test_createpython</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#tellurium.tests.test_tephrasedml.tePhrasedMLTestCase.test_createpython" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="tellurium.tests.test_tephrasedml.tePhrasedMLTestCase.test_execute">
+<code class="descname">test_execute</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#tellurium.tests.test_tephrasedml.tePhrasedMLTestCase.test_execute" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="tellurium.tests.test_tephrasedml.tePhrasedMLTestCase.test_experiment">
+<code class="descname">test_experiment</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#tellurium.tests.test_tephrasedml.tePhrasedMLTestCase.test_experiment" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="tellurium.tests.test_tephrasedml.tePhrasedMLTestCase.test_exportAsCombine">
+<code class="descname">test_exportAsCombine</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#tellurium.tests.test_tephrasedml.tePhrasedMLTestCase.test_exportAsCombine" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="tellurium.tests.test_tephrasedml.tePhrasedMLTestCase.test_getAntimonyString">
+<code class="descname">test_getAntimonyString</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#tellurium.tests.test_tephrasedml.tePhrasedMLTestCase.test_getAntimonyString" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="tellurium.tests.test_tephrasedml.tePhrasedMLTestCase.test_getPhrasedmlString">
+<code class="descname">test_getPhrasedmlString</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#tellurium.tests.test_tephrasedml.tePhrasedMLTestCase.test_getPhrasedmlString" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="tellurium.tests.test_tephrasedml.tePhrasedMLTestCase.test_getSbmlString">
+<code class="descname">test_getSbmlString</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#tellurium.tests.test_tephrasedml.tePhrasedMLTestCase.test_getSbmlString" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="tellurium.tests.test_tephrasedml.tePhrasedMLTestCase.test_getSedmlString">
+<code class="descname">test_getSedmlString</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#tellurium.tests.test_tephrasedml.tePhrasedMLTestCase.test_getSedmlString" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="tellurium.tests.test_tephrasedml.tePhrasedMLTestCase.test_printpython">
+<code class="descname">test_printpython</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#tellurium.tests.test_tephrasedml.tePhrasedMLTestCase.test_printpython" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 </dd></dl>
 
 </div>
@@ -310,7 +414,7 @@ Main module for tests.</p>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="tellurium.visualization.html" class="btn btn-neutral float-right" title="tellurium.visualization package" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="tellurium.tests.testdata.html" class="btn btn-neutral float-right" title="tellurium.tests.testdata package" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="tellurium.optimization.html" class="btn btn-neutral" title="tellurium.optimization package" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>

@@ -17,20 +17,16 @@ SEDML support for phrasedml.
 from __future__ import print_function, division
 
 import os.path
-import roadrunner
-import tellurium as te
 import tempfile
 import re
+import roadrunner
+import tellurium as te
+import tecombine
 
 try:
     import phrasedml
 except ImportError as e:
     phrasedml = None
-    roadrunner.Logger.log(roadrunner.Logger.LOG_WARNING, str(e))
-try:
-    import tecombine as combine
-except ImportError as e:
-    combine = None
     roadrunner.Logger.log(roadrunner.Logger.LOG_WARNING, str(e))
 
 
@@ -94,7 +90,7 @@ class tePhrasedml(object):
             if len(reSearchModel) > 1:
                 modelsource = str(reSearchModel[3])
 
-        phrasedml.setReferencedSBML(modelsource, te.antimonyToSbml(self.antimonyStr))
+        phrasedml.setReferencedSBML(modelsource, te.antimonyTosbml(self.antimonyStr))
         sedmlstr = phrasedml.convertString(self.phrasedmlStr)
         if sedmlstr is None:
             raise Exception(phrasedml.getLastError())
@@ -139,7 +135,7 @@ class tePhrasedml(object):
         fd1, sedmlfilepath = tempfile.mkstemp()
         os.write(fd1, sedmlstr)
 
-        pysedml = te.SedmlToRr.sedml_to_python(sedmlfilepath)
+        pysedml = te.tesedml.sedml_to_python(sedmlfilepath)
         if tePhrasedml.modelispath is False:
             lines = pysedml.splitlines()
             for k, line in enumerate(lines):
@@ -208,5 +204,5 @@ class tePhrasedml(object):
 
         # export the combine archive
         phrasedml.setReferencedSBML(modelname, te.antimonyTosbml(self.antimonyStr))
-        combine.export(outputpath, self.antimonyStr, modelname, revphrasedml)
+        tecombine.export(outputpath, self.antimonyStr, modelname, revphrasedml)
         phrasedml.clearReferencedSBML()

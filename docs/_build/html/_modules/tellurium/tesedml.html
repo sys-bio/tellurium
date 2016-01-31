@@ -1,0 +1,1004 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>tellurium.tesedml &mdash; tellurium 1.3.0 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="tellurium 1.3.0 documentation" href="../../index.html"/>
+        <link rel="up" title="Module code" href="../index.html"/> 
+
+  
+  <script src="../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> tellurium
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.3.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../notebooks.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tellurium_methods.html">Tellurium Methods</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../_apidoc/tellurium.html">API (tellurium)</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../../index.html">tellurium</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+      
+    <li>tellurium.tesedml</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for tellurium.tesedml</h1><div class="highlight"><pre>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Tellurium SED-ML support.</span>
+<span class="sd">This module reads SED-ML files (&#39;.sedml&#39; extension) or archives (&#39;.sedx&#39; extension)</span>
+<span class="sd">and generates executable python code.</span>
+
+<span class="sd">::</span>
+
+<span class="sd">    # execute example sedml</span>
+<span class="sd">    import tellurium.tesedml as s2p</span>
+<span class="sd">    ret = s2p.sedml_to_python(&#39;example.sedml&#39;)</span>
+<span class="sd">    exec ret</span>
+
+<span class="sd">    # execute sedml archive (sedx)</span>
+<span class="sd">    import SedmlToRr as s2p</span>
+<span class="sd">    ret = s2p.sedml_to_python(&quot;example.sedx&quot;)</span>
+<span class="sd">    exec ret</span>
+
+
+<span class="sd">SED-ML is build of five main classes, which are translated in python code:</span>
+<span class="sd">    the Model Class,</span>
+<span class="sd">    the Simulation Class,</span>
+<span class="sd">    the Task Class,</span>
+<span class="sd">    the DataGenerator Class,</span>
+<span class="sd">    and the Output Class.</span>
+
+<span class="sd">The Model Class</span>
+<span class="sd">    The Model class is used to reference the models used in the simulation experiment.</span>
+<span class="sd">    SED-ML itself is independent of the model encoding underlying the models. The only</span>
+<span class="sd">    requirement is that the model needs to be referenced by using an unambiguous identifier</span>
+<span class="sd">    which allows for finding it, for example using a MIRIAM URI. To specify the language in</span>
+<span class="sd">    which the model is encoded, a set of predefined language URNs is provided.</span>
+<span class="sd">    The SED-ML Change class allows the application of changes to the referenced models,</span>
+<span class="sd">    including changes on the XML attributes, e.g. changing the value of an observable,</span>
+<span class="sd">    computing the change of a value using mathematics, or general changes on any XML element</span>
+<span class="sd">    of the model representation that is addressable by XPath expressions, e.g. substituting</span>
+<span class="sd">    a piece of XML by an updated one.</span>
+
+<span class="sd">The Simulation Class</span>
+<span class="sd">    The Simulation class defines the simulation settings and the steps taken during simulation.</span>
+<span class="sd">    These include the particular type of simulation and the algorithm used for the execution of</span>
+<span class="sd">    the simulation; preferably an unambiguous reference to such an algorithm should be given,</span>
+<span class="sd">    using a controlled vocabulary, or ontologies. One example for an ontology of simulation</span>
+<span class="sd">    algorithms is the Kinetic Simulation Algorithm Ontology KiSAO. Further information encodable</span>
+<span class="sd">    in the Simulation class includes the step size, simulation duration, and other</span>
+<span class="sd">    simulation-type dependent information.</span>
+
+<span class="sd">The Task Class</span>
+<span class="sd">    SED-ML makes use of the notion of a Task class to combine a defined model (from the Model class)</span>
+<span class="sd">    and a defined simulation setting (from the Simulation class). A task always holds one reference each.</span>
+<span class="sd">    To refer to a specific model and to a specific simulation, the corresponding IDs are used.</span>
+
+<span class="sd">The DataGenerator Class</span>
+<span class="sd">    The raw simulation result sometimes does not correspond to the desired output of the simulation,</span>
+<span class="sd">    e.g. one might want to normalise a plot before output, or apply post-processing like mean-value calculation.</span>
+<span class="sd">    The DataGenerator class allows for the encoding of such post-processings which need to be applied to the</span>
+<span class="sd">    simulation result before output. To define data generators, any addressable variable or parameter</span>
+<span class="sd">    of any defined model (from instances of the Model class) may be referenced, and new entities might</span>
+<span class="sd">    be specified using MathML definitions.</span>
+
+<span class="sd">The Output Class</span>
+<span class="sd">    The Output class defines the output of the simulation, in the sense that it specifies what shall be</span>
+<span class="sd">    plotted in the output. To do so, an output type is defined, e.g. 2D-plot, 3D-plot or data table,</span>
+<span class="sd">    and the according axes or columns are all assigned to one of the formerly specified instances</span>
+<span class="sd">    of the DataGenerator class.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="c1"># TODO: refactor with proper handling of the different SED-ML parts.</span>
+<span class="c1"># TODO: this module has to implement general SEDML functionality</span>
+
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">print_function</span><span class="p">,</span> <span class="n">division</span>
+
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">os.path</span>
+<span class="kn">import</span> <span class="nn">re</span>
+<span class="kn">import</span> <span class="nn">zipfile</span>
+<span class="kn">import</span> <span class="nn">libsedml</span>
+<span class="kn">import</span> <span class="nn">StringIO</span>
+<span class="kn">import</span> <span class="nn">httplib</span>
+<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">namedtuple</span>
+
+<span class="kn">import</span> <span class="nn">unzipy</span> <span class="kn">as</span> <span class="nn">uz</span>
+
+<span class="n">MatchingSetsOfVariableIDs</span> <span class="o">=</span> <span class="n">namedtuple</span><span class="p">(</span><span class="s2">&quot;MatchingSetsOfVariableIDs&quot;</span><span class="p">,</span> <span class="s2">&quot;datagenID, taskReference, sedmlID, sbmlID&quot;</span><span class="p">)</span>
+<span class="n">MatchingSetsOfRepeatedTasksDataGenerators</span> <span class="o">=</span> <span class="n">namedtuple</span><span class="p">(</span><span class="s2">&quot;MatchingSetsOfRepeatedTasksDataGenerators&quot;</span><span class="p">,</span> <span class="s2">&quot;datagenID, rangeSize&quot;</span><span class="p">)</span>
+
+<span class="n">modelname</span> <span class="o">=</span> <span class="nb">str</span><span class="p">()</span>
+<span class="n">outdir</span> <span class="o">=</span> <span class="nb">str</span><span class="p">()</span>
+<span class="c1"># Map of replaced words</span>
+<span class="n">mapping</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">(</span><span class="s1">&#39;repeated&#39;</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">),</span>
+    <span class="p">(</span><span class="s1">&#39;Repeated&#39;</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">),</span>
+    <span class="p">(</span><span class="s1">&#39;task&#39;</span><span class="p">,</span> <span class="s1">&#39;t&#39;</span><span class="p">),</span>
+    <span class="p">(</span><span class="s1">&#39;Task&#39;</span><span class="p">,</span> <span class="s1">&#39;t&#39;</span><span class="p">),</span>
+    <span class="p">(</span><span class="s1">&#39;data&#39;</span><span class="p">,</span> <span class="s1">&#39;d&#39;</span><span class="p">),</span>
+    <span class="p">(</span><span class="s1">&#39;Data&#39;</span><span class="p">,</span> <span class="s1">&#39;d&#39;</span><span class="p">),</span>
+    <span class="p">(</span><span class="s1">&#39;generator&#39;</span><span class="p">,</span> <span class="s1">&#39;g&#39;</span><span class="p">),</span>
+    <span class="p">(</span><span class="s1">&#39;Generator&#39;</span><span class="p">,</span> <span class="s1">&#39;g&#39;</span><span class="p">)</span>
+<span class="p">]</span>
+
+
+<div class="viewcode-block" id="SedmlException"><a class="viewcode-back" href="../../_apidoc/tellurium.html#tellurium.tesedml.SedmlException">[docs]</a><span class="k">class</span> <span class="nc">SedmlException</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+    <span class="k">pass</span></div>
+
+
+<div class="viewcode-block" id="sedml_to_python"><a class="viewcode-back" href="../../_apidoc/tellurium.html#tellurium.tesedml.sedml_to_python">[docs]</a><span class="k">def</span> <span class="nf">sedml_to_python</span><span class="p">(</span><span class="n">fullPathName</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Convert sedml file to python code.</span>
+
+<span class="sd">    :param fullPathName: path to sedml file.</span>
+<span class="sd">    :type fullPathName: path</span>
+<span class="sd">    :return: contents</span>
+<span class="sd">    :rtype:</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">from</span> <span class="nn">os.path</span> <span class="kn">import</span> <span class="n">basename</span>
+
+    <span class="n">modelName</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">splitext</span><span class="p">(</span><span class="n">basename</span><span class="p">(</span><span class="n">fullPathName</span><span class="p">))[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">extension</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">splitext</span><span class="p">(</span><span class="n">basename</span><span class="p">(</span><span class="n">fullPathName</span><span class="p">))[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">path</span> <span class="o">=</span> <span class="n">fullPathName</span><span class="o">.</span><span class="n">rsplit</span><span class="p">(</span><span class="n">basename</span><span class="p">(</span><span class="n">fullPathName</span><span class="p">),</span> <span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+
+    <span class="k">class</span> <span class="nc">Tee</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+        <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">files</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">files</span> <span class="o">=</span> <span class="n">files</span>
+
+        <span class="k">def</span> <span class="nf">write</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">files</span><span class="p">:</span>
+                <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">extension</span> <span class="o">==</span> <span class="s2">&quot;.sedx&quot;</span><span class="p">:</span>
+        <span class="nb">zip</span> <span class="o">=</span> <span class="n">zipfile</span><span class="o">.</span><span class="n">ZipFile</span><span class="p">(</span><span class="n">fullPathName</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span>
+        <span class="n">path</span> <span class="o">=</span> <span class="n">path</span> <span class="o">+</span> <span class="n">modelName</span>
+        <span class="n">uz</span><span class="o">.</span><span class="n">unZip</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="nb">zip</span><span class="p">)</span>
+        <span class="nb">zip</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+        <span class="n">fullPathName</span> <span class="o">=</span> <span class="n">uz</span><span class="o">.</span><span class="n">readManifest</span><span class="p">(</span><span class="n">path</span> <span class="o">+</span> <span class="s2">&quot;/manifest.xml&quot;</span><span class="p">)</span>
+        <span class="n">k</span> <span class="o">=</span> <span class="n">fullPathName</span><span class="o">.</span><span class="n">rfind</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">)</span>
+        <span class="n">fullPathName</span> <span class="o">=</span> <span class="n">fullPathName</span><span class="p">[</span><span class="n">k</span><span class="o">+</span><span class="mi">1</span><span class="p">:]</span>
+        <span class="n">fullPathName</span> <span class="o">=</span> <span class="n">path</span> <span class="o">+</span> <span class="s2">&quot;/&quot;</span> <span class="o">+</span> <span class="n">fullPathName</span>
+
+    <span class="c1"># Read SED-ML</span>
+    <span class="n">sedmlDoc</span> <span class="o">=</span> <span class="n">libsedml</span><span class="o">.</span><span class="n">readSedML</span><span class="p">(</span><span class="n">fullPathName</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">sedmlDoc</span><span class="o">.</span><span class="n">getErrorLog</span><span class="p">()</span><span class="o">.</span><span class="n">getNumFailsWithSeverity</span><span class="p">(</span><span class="n">libsedml</span><span class="o">.</span><span class="n">LIBSEDML_SEV_ERROR</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">SedmlException</span><span class="p">(</span><span class="n">sedmlDoc</span><span class="o">.</span><span class="n">getErrorLog</span><span class="p">()</span><span class="o">.</span><span class="n">toString</span><span class="p">())</span>
+
+    <span class="n">f</span> <span class="o">=</span> <span class="n">StringIO</span><span class="o">.</span><span class="n">StringIO</span><span class="p">()</span>
+    <span class="n">original</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span>
+    <span class="c1">#sys.stdout = Tee(sys.stdout, f)   # output to console and file</span>
+    <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span> <span class="o">=</span> <span class="n">Tee</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>              <span class="c1"># output to file only</span>
+
+    <span class="k">print</span><span class="p">(</span><span class="s2">&quot;# Translated SED-ML&quot;</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s2">&quot;# Beginning of generated script&quot;</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s2">&quot;import roadrunner&quot;</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s2">&quot;import numpy as np&quot;</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s2">&quot;import matplotlib.pyplot as plt&quot;</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">sedmlDoc</span><span class="o">.</span><span class="n">getNumModels</span><span class="p">()):</span>
+        <span class="n">currentModel</span> <span class="o">=</span> <span class="n">sedmlDoc</span><span class="o">.</span><span class="n">getModel</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+        <span class="k">print</span><span class="p">(</span><span class="s2">&quot;# Execute the tasks of model: &quot;</span> <span class="o">+</span> <span class="n">currentModel</span><span class="o">.</span><span class="n">getId</span><span class="p">())</span>
+        <span class="n">rrName</span> <span class="o">=</span> <span class="n">currentModel</span><span class="o">.</span><span class="n">getId</span><span class="p">()</span>
+        <span class="c1">#rrName = &quot;rr&quot; + str(i)</span>
+        <span class="k">print</span><span class="p">(</span><span class="n">rrName</span> <span class="o">+</span> <span class="s2">&quot; = roadrunner.RoadRunner()&quot;</span><span class="p">)</span>
+        <span class="n">generateTasks</span><span class="p">(</span><span class="n">rrName</span><span class="p">,</span> <span class="n">sedmlDoc</span><span class="p">,</span> <span class="n">currentModel</span><span class="p">,</span> <span class="n">path</span><span class="p">)</span>
+        <span class="k">print</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s2">&quot;# List of Data Generators&quot;</span><span class="p">)</span>
+    <span class="n">dataGeneratorsList</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">sedmlDoc</span><span class="o">.</span><span class="n">getNumModels</span><span class="p">()):</span>
+        <span class="n">currentModel</span> <span class="o">=</span> <span class="n">sedmlDoc</span><span class="o">.</span><span class="n">getModel</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+        <span class="n">generateData</span><span class="p">(</span><span class="n">sedmlDoc</span><span class="p">,</span> <span class="n">currentModel</span><span class="p">,</span> <span class="n">dataGeneratorsList</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s2">&quot;# List of Outputs&quot;</span><span class="p">)</span>
+    <span class="n">generateOutputs</span><span class="p">(</span><span class="n">sedmlDoc</span><span class="p">,</span> <span class="n">dataGeneratorsList</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s2">&quot;# End of generated script&quot;</span><span class="p">)</span>
+
+    <span class="n">contents</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">getvalue</span><span class="p">()</span>
+    <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span> <span class="o">=</span> <span class="n">original</span>  <span class="c1"># restore print to stdout only</span>
+    <span class="n">f</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">contents</span></div>
+
+
+<div class="viewcode-block" id="generateTasks"><a class="viewcode-back" href="../../_apidoc/tellurium.html#tellurium.tesedml.generateTasks">[docs]</a><span class="k">def</span> <span class="nf">generateTasks</span><span class="p">(</span><span class="n">rrName</span><span class="p">,</span> <span class="n">sedmlDoc</span><span class="p">,</span> <span class="n">currentModel</span><span class="p">,</span> <span class="n">path</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Generate the SED-ML Tasks.</span>
+
+<span class="sd">    :param rrName:</span>
+<span class="sd">    :type rrName:</span>
+<span class="sd">    :param sedmlDoc:</span>
+<span class="sd">    :type sedmlDoc:</span>
+<span class="sd">    :param currentModel:</span>
+<span class="sd">    :type currentModel:</span>
+<span class="sd">    :param path:</span>
+<span class="sd">    :type path:</span>
+<span class="sd">    :return:</span>
+<span class="sd">    :rtype:</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">listOfChanges</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">loadModel</span><span class="p">(</span><span class="n">rrName</span><span class="p">,</span> <span class="n">sedmlDoc</span><span class="p">,</span> <span class="n">currentModel</span><span class="p">,</span> <span class="n">path</span><span class="p">)</span>
+    <span class="c1">#print(rrName + &quot;.simulateOptions.structuredResult = False&quot;)</span>
+    <span class="n">bFoundAtLeastOneTask</span> <span class="o">=</span> <span class="bp">False</span>
+
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">currentModel</span><span class="o">.</span><span class="n">getNumChanges</span><span class="p">()):</span>
+        <span class="n">aChange</span> <span class="o">=</span> <span class="n">currentModel</span><span class="o">.</span><span class="n">getChange</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">aChange</span><span class="o">.</span><span class="n">getElementName</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;changeAttribute&quot;</span><span class="p">:</span>
+            <span class="n">newValue</span> <span class="o">=</span> <span class="n">aChange</span><span class="o">.</span><span class="n">getNewValue</span><span class="p">()</span>
+            <span class="n">variableName</span> <span class="o">=</span> <span class="n">aChange</span><span class="o">.</span><span class="n">getTarget</span><span class="p">()</span>
+            <span class="k">if</span> <span class="p">((</span><span class="s2">&quot;model&quot;</span> <span class="ow">in</span> <span class="n">variableName</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="s2">&quot;parameter&quot;</span> <span class="ow">in</span> <span class="n">variableName</span><span class="p">)):</span>
+                <span class="n">variableName</span> <span class="o">=</span> <span class="n">variableName</span><span class="o">.</span><span class="n">rsplit</span><span class="p">(</span><span class="s2">&quot;id=</span><span class="se">\&#39;</span><span class="s2">&quot;</span><span class="p">,</span><span class="mi">1</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
+                <span class="n">variableName</span> <span class="o">=</span> <span class="n">variableName</span><span class="o">.</span><span class="n">rsplit</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\&#39;</span><span class="s2">&quot;</span><span class="p">,</span><span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+                <span class="n">aStr</span> <span class="o">=</span> <span class="n">rrName</span> <span class="o">+</span> <span class="s2">&quot;.model[</span><span class="se">\&quot;</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="n">variableName</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\&quot;</span><span class="s2">] = &quot;</span> <span class="o">+</span> <span class="n">newValue</span>    <span class="c1"># set amount</span>
+                <span class="n">listOfChanges</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">aStr</span><span class="p">)</span>
+                <span class="k">print</span><span class="p">(</span><span class="n">aStr</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="p">((</span><span class="s2">&quot;model&quot;</span> <span class="ow">in</span> <span class="n">variableName</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="s2">&quot;species&quot;</span> <span class="ow">in</span> <span class="n">variableName</span><span class="p">)):</span>
+                <span class="n">variableName</span> <span class="o">=</span> <span class="n">variableName</span><span class="o">.</span><span class="n">rsplit</span><span class="p">(</span><span class="s2">&quot;id=</span><span class="se">\&#39;</span><span class="s2">&quot;</span><span class="p">,</span><span class="mi">1</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
+                <span class="n">variableName</span> <span class="o">=</span> <span class="n">variableName</span><span class="o">.</span><span class="n">rsplit</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\&#39;</span><span class="s2">&quot;</span><span class="p">,</span><span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+                <span class="n">aStr</span> <span class="o">=</span> <span class="n">rrName</span> <span class="o">+</span> <span class="s2">&quot;.model[</span><span class="se">\&quot;</span><span class="s2">init([&quot;</span> <span class="o">+</span> <span class="n">variableName</span> <span class="o">+</span> <span class="s2">&quot;])</span><span class="se">\&quot;</span><span class="s2">] = &quot;</span> <span class="o">+</span> <span class="n">newValue</span>    <span class="c1"># set amount</span>
+                <span class="c1">#aStr = rrName + &quot;.model[\&quot;[&quot; + variableName + &quot;]\&quot;] = &quot; + newValue    # set amount</span>
+                <span class="n">listOfChanges</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">aStr</span><span class="p">)</span>
+                <span class="k">print</span><span class="p">(</span><span class="n">aStr</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">print</span><span class="p">(</span><span class="s2">&quot;# Unsupported changeAttribute target &quot;</span> <span class="o">+</span> <span class="n">variableName</span><span class="p">)</span>
+                <span class="k">return</span>          <span class="c1"># nothing to do repeatedly since our change is bad</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">aStr</span> <span class="o">=</span> <span class="s2">&quot;# Unsupported change &quot;</span> <span class="o">+</span> <span class="n">aChange</span><span class="o">.</span><span class="n">getElementName</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot; for model &quot;</span> <span class="o">+</span> <span class="n">currentModel</span><span class="o">.</span><span class="n">getId</span><span class="p">()</span>
+            <span class="k">print</span><span class="p">(</span><span class="n">aStr</span><span class="p">)</span>
+            <span class="k">return</span>
+
+    <span class="c1"># The &#39;selections&#39; are a list of all the &#39;variable&#39; elements from the dataGenerators</span>
+    <span class="c1"># we first deal with normal tasks, if any</span>
+    <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">sedmlDoc</span><span class="o">.</span><span class="n">getNumTasks</span><span class="p">()):</span>
+        <span class="n">task1</span> <span class="o">=</span> <span class="n">sedmlDoc</span><span class="o">.</span><span class="n">getTask</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">task1</span><span class="o">.</span><span class="n">getElementName</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;repeatedTask&quot;</span><span class="p">:</span>
+            <span class="k">pass</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">task1</span><span class="o">.</span><span class="n">getModelReference</span><span class="p">()</span> <span class="o">!=</span> <span class="n">currentModel</span><span class="o">.</span><span class="n">getId</span><span class="p">():</span>
+                <span class="k">continue</span>
+            <span class="n">variablesDictionary</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="n">variablesList</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="n">populateVariableLists</span><span class="p">(</span><span class="n">sedmlDoc</span><span class="p">,</span> <span class="n">task1</span><span class="p">,</span> <span class="n">variablesList</span><span class="p">,</span> <span class="n">variablesDictionary</span><span class="p">)</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">variablesList</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>  <span class="c1"># nothing to do if no data generators refer to this task</span>
+                <span class="k">continue</span>
+            <span class="n">generateSimulation</span><span class="p">(</span><span class="n">rrName</span><span class="p">,</span> <span class="n">sedmlDoc</span><span class="p">,</span> <span class="n">currentModel</span><span class="p">,</span> <span class="n">task1</span><span class="p">,</span> <span class="n">variablesList</span><span class="p">,</span> <span class="n">variablesDictionary</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+            <span class="n">bFoundAtLeastOneTask</span> <span class="o">=</span> <span class="bp">True</span>
+
+    <span class="c1"># now deal with repeated tasks, if any</span>
+    <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">sedmlDoc</span><span class="o">.</span><span class="n">getNumTasks</span><span class="p">()):</span>
+        <span class="n">task1</span> <span class="o">=</span> <span class="n">sedmlDoc</span><span class="o">.</span><span class="n">getTask</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">task1</span><span class="o">.</span><span class="n">getElementName</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;repeatedTask&quot;</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">task1</span><span class="o">.</span><span class="n">getNumSubTasks</span><span class="p">()):</span>
+                <span class="n">task2</span> <span class="o">=</span> <span class="n">task1</span><span class="o">.</span><span class="n">getSubTask</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>     <span class="c1"># the subtask which points to the real task we need to call repeatedly for each value in range</span>
+                <span class="n">task2</span> <span class="o">=</span> <span class="n">task2</span><span class="o">.</span><span class="n">getTask</span><span class="p">()</span>         <span class="c1"># the Id of the real task</span>
+                <span class="n">task2</span> <span class="o">=</span> <span class="n">sedmlDoc</span><span class="o">.</span><span class="n">getTask</span><span class="p">(</span><span class="n">task2</span><span class="p">)</span> <span class="c1"># get real task by Id</span>
+                <span class="k">if</span> <span class="n">task2</span><span class="o">.</span><span class="n">getModelReference</span><span class="p">()</span> <span class="o">!=</span> <span class="n">currentModel</span><span class="o">.</span><span class="n">getId</span><span class="p">():</span>
+                    <span class="k">continue</span>
+                <span class="n">aRange</span> <span class="o">=</span> <span class="n">task1</span><span class="o">.</span><span class="n">getRange</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>       <span class="c1"># we assume one single master range - we don&#39;t know how to deel flatten</span>
+                <span class="k">if</span> <span class="n">aRange</span><span class="o">.</span><span class="n">getElementName</span><span class="p">()</span> <span class="o">!=</span> <span class="s2">&quot;uniformRange&quot;</span><span class="p">:</span>
+                    <span class="k">print</span><span class="p">(</span><span class="s2">&quot;# Only uniformRange ranges are supported at this time&quot;</span><span class="p">)</span>
+                    <span class="k">continue</span>
+
+                <span class="c1"># if resetModel is true we need to reapply all the changes from above</span>
+                <span class="k">print</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+                <span class="n">bResetModel</span> <span class="o">=</span> <span class="n">task1</span><span class="o">.</span><span class="n">getResetModel</span><span class="p">()</span>
+                <span class="k">if</span> <span class="n">bResetModel</span> <span class="o">==</span> <span class="bp">True</span><span class="p">:</span>
+                    <span class="k">print</span><span class="p">(</span><span class="n">rrName</span> <span class="o">+</span> <span class="s2">&quot;.simulateOptions.resetModel = True&quot;</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">print</span><span class="p">(</span><span class="n">rrName</span> <span class="o">+</span> <span class="s2">&quot;.simulateOptions.resetModel = False&quot;</span><span class="p">)</span>
+
+                <span class="c1"># need to use the RepeatedTask because the data generators refer to it</span>
+                <span class="n">variablesDictionary</span> <span class="o">=</span> <span class="p">[]</span>      <span class="c1"># matching pairs of sedml variable ID and sbml variable ID</span>
+                <span class="n">variablesList</span> <span class="o">=</span> <span class="p">[]</span>            <span class="c1"># the IDs of the sbml variables, non duplicate entries</span>
+                <span class="n">populateVariableLists</span><span class="p">(</span><span class="n">sedmlDoc</span><span class="p">,</span> <span class="n">task1</span><span class="p">,</span> <span class="n">variablesList</span><span class="p">,</span> <span class="n">variablesDictionary</span><span class="p">)</span>
+                <span class="c1"># iterate over all changes</span>
+                <span class="n">aChange</span> <span class="o">=</span> <span class="n">task1</span><span class="o">.</span><span class="n">getTaskChange</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">aChange</span><span class="o">.</span><span class="n">getElementName</span><span class="p">()</span> <span class="o">!=</span> <span class="s2">&quot;setValue&quot;</span><span class="p">:</span>
+                    <span class="k">print</span><span class="p">(</span><span class="s2">&quot;# Only setValue changes are supported at this time&quot;</span><span class="p">)</span>
+                    <span class="k">continue</span>
+                <span class="n">variableName</span> <span class="o">=</span> <span class="n">aChange</span><span class="o">.</span><span class="n">getTarget</span><span class="p">()</span>
+                <span class="n">vn</span> <span class="o">=</span> <span class="n">variableName</span>
+                <span class="n">vn</span> <span class="o">=</span> <span class="n">vn</span><span class="o">.</span><span class="n">rsplit</span><span class="p">(</span><span class="s2">&quot;id=</span><span class="se">\&#39;</span><span class="s2">&quot;</span><span class="p">,</span><span class="mi">1</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
+                <span class="n">vn</span> <span class="o">=</span> <span class="n">vn</span><span class="o">.</span><span class="n">rsplit</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\&#39;</span><span class="s2">&quot;</span><span class="p">,</span><span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+                <span class="c1"># for each point in the range we compute the new values of the variables affected</span>
+                <span class="c1"># and generate a task</span>
+                <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">aRange</span><span class="o">.</span><span class="n">getNumberOfPoints</span><span class="p">()):</span>
+                    <span class="k">print</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="n">bResetModel</span> <span class="o">==</span> <span class="bp">True</span><span class="p">:</span> <span class="c1"># if we reset the model we need to repeat again all the Changes from above</span>
+                        <span class="k">for</span> <span class="n">aStr</span> <span class="ow">in</span> <span class="n">listOfChanges</span><span class="p">:</span>
+                            <span class="k">print</span><span class="p">(</span><span class="n">aStr</span><span class="p">)</span>
+                    <span class="n">start</span> <span class="o">=</span> <span class="n">aRange</span><span class="o">.</span><span class="n">getStart</span><span class="p">()</span>
+                    <span class="n">end</span> <span class="o">=</span> <span class="n">aRange</span><span class="o">.</span><span class="n">getEnd</span><span class="p">()</span>
+                    <span class="n">newValue</span> <span class="o">=</span> <span class="n">start</span> <span class="o">+</span> <span class="n">j</span> <span class="o">*</span> <span class="p">(</span><span class="n">end</span> <span class="o">-</span> <span class="n">start</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">aRange</span><span class="o">.</span><span class="n">getNumberOfPoints</span><span class="p">()</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="p">((</span><span class="s2">&quot;model&quot;</span> <span class="ow">in</span> <span class="n">variableName</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="s2">&quot;parameter&quot;</span> <span class="ow">in</span> <span class="n">variableName</span><span class="p">)):</span>
+                        <span class="k">print</span><span class="p">(</span><span class="n">rrName</span> <span class="o">+</span> <span class="s2">&quot;.model[</span><span class="se">\&quot;</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="n">vn</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\&quot;</span><span class="s2">] = &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">newValue</span><span class="p">))</span>                   <span class="c1"># set amount</span>
+                    <span class="k">elif</span> <span class="p">((</span><span class="s2">&quot;model&quot;</span> <span class="ow">in</span> <span class="n">variableName</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="s2">&quot;species&quot;</span> <span class="ow">in</span> <span class="n">variableName</span><span class="p">)):</span>
+                        <span class="k">print</span><span class="p">(</span><span class="n">rrName</span> <span class="o">+</span> <span class="s2">&quot;.model[</span><span class="se">\&quot;</span><span class="s2">init([&quot;</span> <span class="o">+</span> <span class="n">vn</span> <span class="o">+</span> <span class="s2">&quot;])</span><span class="se">\&quot;</span><span class="s2">] = &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">newValue</span><span class="p">))</span>                   <span class="c1"># set amount</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="k">print</span><span class="p">(</span><span class="s2">&quot;# Unsupported setValue target &quot;</span> <span class="o">+</span> <span class="n">variableName</span><span class="p">)</span>
+                        <span class="k">return</span>          <span class="c1"># nothing to do repeatedly since our change is bad</span>
+                    <span class="c1"># need to use both the real Task (task2) because it has the reference to model and simulation</span>
+                    <span class="c1"># and the repeated task (task1) because its Id is used for generating the flattened Id&#39;s</span>
+                    <span class="n">generateSimulation</span><span class="p">(</span><span class="n">rrName</span><span class="p">,</span> <span class="n">sedmlDoc</span><span class="p">,</span> <span class="n">currentModel</span><span class="p">,</span> <span class="n">task2</span><span class="p">,</span> <span class="n">variablesList</span><span class="p">,</span> <span class="n">variablesDictionary</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">task1</span><span class="p">)</span>
+                    <span class="n">bFoundAtLeastOneTask</span> <span class="o">=</span> <span class="bp">True</span>
+
+    <span class="k">if</span> <span class="n">bFoundAtLeastOneTask</span> <span class="o">==</span> <span class="bp">False</span><span class="p">:</span>
+        <span class="k">print</span><span class="p">(</span><span class="s2">&quot;# There are no simulations to run for this model: &quot;</span> <span class="o">+</span> <span class="n">currentModel</span><span class="o">.</span><span class="n">getId</span><span class="p">())</span></div>
+
+
+<div class="viewcode-block" id="loadModel"><a class="viewcode-back" href="../../_apidoc/tellurium.html#tellurium.tesedml.loadModel">[docs]</a><span class="k">def</span> <span class="nf">loadModel</span><span class="p">(</span><span class="n">rrName</span><span class="p">,</span> <span class="n">sedmlDoc</span><span class="p">,</span> <span class="n">currentModel</span><span class="p">,</span> <span class="n">path</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Load model.</span>
+
+<span class="sd">    :param rrName:</span>
+<span class="sd">    :type rrName:</span>
+<span class="sd">    :param sedmlDoc:</span>
+<span class="sd">    :type sedmlDoc:</span>
+<span class="sd">    :param currentModel:</span>
+<span class="sd">    :type currentModel:</span>
+<span class="sd">    :param path:</span>
+<span class="sd">    :type path:</span>
+<span class="sd">    :return:</span>
+<span class="sd">    :rtype:</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">global</span> <span class="n">modelname</span>
+    <span class="k">global</span> <span class="n">outdir</span>
+    <span class="n">string</span> <span class="o">=</span> <span class="n">currentModel</span><span class="o">.</span><span class="n">getSource</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">isId</span><span class="p">(</span><span class="n">string</span><span class="p">):</span>                             <span class="c1"># it&#39;s the Id of a model</span>
+        <span class="n">originalModel</span> <span class="o">=</span> <span class="n">sedmlDoc</span><span class="o">.</span><span class="n">getModel</span><span class="p">(</span><span class="n">string</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">originalModel</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">string</span> <span class="o">=</span> <span class="n">originalModel</span><span class="o">.</span><span class="n">getSource</span><span class="p">()</span>          <span class="c1">#  !!! for now, we reuse the original model to which the current model is referring to</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">pass</span>
+    <span class="k">if</span> <span class="n">string</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">):</span>                  <span class="c1"># relative location, we trust it but need it trimmed</span>
+        <span class="k">if</span> <span class="n">string</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;../&quot;</span><span class="p">):</span>
+            <span class="n">string</span> <span class="o">=</span> <span class="n">string</span><span class="p">[</span><span class="mi">3</span><span class="p">:]</span>
+        <span class="k">elif</span> <span class="n">string</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;./&quot;</span><span class="p">):</span>
+            <span class="n">string</span> <span class="o">=</span> <span class="n">string</span><span class="p">[</span><span class="mi">2</span><span class="p">:]</span>
+        <span class="k">print</span><span class="p">(</span><span class="n">rrName</span> <span class="o">+</span> <span class="s2">&quot;.load(&#39;&quot;</span> <span class="o">+</span> <span class="n">path</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\\</span><span class="s2">&quot;</span><span class="p">,</span><span class="s2">&quot;/&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="n">string</span> <span class="o">+</span> <span class="s2">&quot;&#39;)&quot;</span><span class="p">)</span>    <span class="c1"># SBML model name recovered from &quot;source&quot; attr</span>
+        <span class="c1">#from os.path import expanduser</span>
+        <span class="c1">#path = expanduser(&quot;~&quot;)</span>
+        <span class="c1">#print(rrName + &quot;.load(&#39;&quot; + path + &quot;\\&quot; + string + &quot;&#39;)&quot;)    # SBML model name recovered from &quot;source&quot; attr</span>
+    <span class="k">elif</span> <span class="s2">&quot;</span><span class="se">\\</span><span class="s2">&quot;</span> <span class="ow">or</span> <span class="s2">&quot;/&quot;</span> <span class="ow">or</span> <span class="s2">&quot;urn:miriam&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">string</span><span class="p">:</span>
+        <span class="k">print</span><span class="p">(</span><span class="n">rrName</span> <span class="o">+</span> <span class="s2">&quot;.load(&#39;&quot;</span> <span class="o">+</span> <span class="n">path</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\\</span><span class="s2">&quot;</span><span class="p">,</span><span class="s2">&quot;/&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="n">string</span> <span class="o">+</span> <span class="s2">&quot;&#39;)&quot;</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">string</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;urn:miriam&quot;</span><span class="p">):</span>
+        <span class="k">print</span><span class="p">(</span><span class="s2">&quot;Downloading model from BioModels Database...&quot;</span><span class="p">)</span>
+        <span class="n">astr</span> <span class="o">=</span> <span class="n">string</span><span class="o">.</span><span class="n">rsplit</span><span class="p">(</span><span class="s1">&#39;:&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="n">astr</span> <span class="o">=</span> <span class="n">astr</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">string</span> <span class="o">=</span> <span class="n">path</span> <span class="o">+</span> <span class="n">astr</span> <span class="o">+</span> <span class="s2">&quot;.xml&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">string</span><span class="p">):</span>
+            <span class="n">conn</span> <span class="o">=</span> <span class="n">httplib</span><span class="o">.</span><span class="n">HTTPConnection</span><span class="p">(</span><span class="s2">&quot;www.ebi.ac.uk&quot;</span><span class="p">)</span>
+            <span class="n">conn</span><span class="o">.</span><span class="n">request</span><span class="p">(</span><span class="s2">&quot;GET&quot;</span><span class="p">,</span> <span class="s2">&quot;/biomodels-main/download?mid=&quot;</span> <span class="o">+</span> <span class="n">astr</span><span class="p">)</span>
+            <span class="n">r1</span> <span class="o">=</span> <span class="n">conn</span><span class="o">.</span><span class="n">getresponse</span><span class="p">()</span>
+            <span class="c1">#print(r1.status, r1.reason)</span>
+            <span class="n">data1</span> <span class="o">=</span> <span class="n">r1</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+            <span class="n">conn</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+            <span class="n">f1</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">string</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span>
+            <span class="n">f1</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">data1</span><span class="p">)</span>
+            <span class="n">f1</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">pass</span>
+        <span class="k">print</span><span class="p">(</span><span class="n">rrName</span> <span class="o">+</span> <span class="s2">&quot;.load(&#39;&quot;</span> <span class="o">+</span> <span class="n">string</span> <span class="o">+</span><span class="s2">&quot;&#39;))&quot;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>         <span class="c1"># assume absolute path pointing to hard disk location</span>
+        <span class="n">string</span> <span class="o">=</span> <span class="n">string</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\\</span><span class="s2">&quot;</span><span class="p">,</span> <span class="s2">&quot;/&quot;</span><span class="p">)</span>
+        <span class="k">print</span><span class="p">(</span><span class="n">rrName</span> <span class="o">+</span> <span class="s2">&quot;.load(&#39;&quot;</span> <span class="o">+</span> <span class="n">string</span> <span class="o">+</span> <span class="s2">&quot;&#39;)&quot;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="populateVariableLists"><a class="viewcode-back" href="../../_apidoc/tellurium.html#tellurium.tesedml.populateVariableLists">[docs]</a><span class="k">def</span> <span class="nf">populateVariableLists</span><span class="p">(</span><span class="n">sedmlDoc</span><span class="p">,</span> <span class="n">task1</span><span class="p">,</span> <span class="n">variablesList</span><span class="p">,</span> <span class="n">variablesDictionary</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Populate variable lists.</span>
+
+<span class="sd">    :param sedmlDoc:</span>
+<span class="sd">    :type sedmlDoc:</span>
+<span class="sd">    :param task1:</span>
+<span class="sd">    :type task1:</span>
+<span class="sd">    :param variablesList:</span>
+<span class="sd">    :type variablesList:</span>
+<span class="sd">    :param variablesDictionary:</span>
+<span class="sd">    :type variablesDictionary:</span>
+<span class="sd">    :return:</span>
+<span class="sd">    :rtype:</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span>  <span class="n">sedmlDoc</span><span class="o">.</span><span class="n">getNumDataGenerators</span><span class="p">()):</span>
+        <span class="n">current</span> <span class="o">=</span> <span class="n">sedmlDoc</span><span class="o">.</span><span class="n">getDataGenerator</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+        <span class="n">vl</span> <span class="o">=</span> <span class="n">current</span><span class="o">.</span><span class="n">getListOfVariables</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">vl</span><span class="o">.</span><span class="n">size</span><span class="p">()):</span>
+            <span class="n">currentVar</span> <span class="o">=</span> <span class="n">vl</span><span class="p">[</span><span class="n">j</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">currentVar</span><span class="o">.</span><span class="n">getTaskReference</span><span class="p">()</span> <span class="o">!=</span> <span class="n">task1</span><span class="o">.</span><span class="n">getId</span><span class="p">():</span>
+                <span class="k">continue</span>
+            <span class="k">if</span> <span class="n">currentVar</span><span class="o">.</span><span class="n">isSetSymbol</span><span class="p">():</span>    <span class="c1"># symbol field of variable is set</span>
+                <span class="n">cvs</span> <span class="o">=</span> <span class="n">currentVar</span><span class="o">.</span><span class="n">getSymbol</span><span class="p">()</span>
+                <span class="n">astr</span> <span class="o">=</span> <span class="n">cvs</span><span class="o">.</span><span class="n">rsplit</span><span class="p">(</span><span class="s2">&quot;symbol:&quot;</span><span class="p">)</span>
+                <span class="n">astr</span> <span class="o">=</span> <span class="n">astr</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+                <span class="k">if</span> <span class="n">variablesList</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="n">astr</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
+                    <span class="n">variablesList</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">astr</span><span class="p">)</span>
+                <span class="n">m</span> <span class="o">=</span> <span class="n">MatchingSetsOfVariableIDs</span><span class="p">(</span><span class="n">current</span><span class="o">.</span><span class="n">getId</span><span class="p">(),</span> <span class="n">currentVar</span><span class="o">.</span><span class="n">getTaskReference</span><span class="p">(),</span> <span class="n">currentVar</span><span class="o">.</span><span class="n">getId</span><span class="p">(),</span> <span class="n">astr</span><span class="p">)</span>
+                <span class="c1">#print m</span>
+                <span class="n">variablesDictionary</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">currentVar</span><span class="o">.</span><span class="n">isSetTarget</span><span class="p">():</span>
+                <span class="n">cvt</span> <span class="o">=</span> <span class="n">currentVar</span><span class="o">.</span><span class="n">getTarget</span><span class="p">()</span>    <span class="c1"># target field of variable is set</span>
+                <span class="n">astr</span> <span class="o">=</span> <span class="n">cvt</span><span class="o">.</span><span class="n">rsplit</span><span class="p">(</span><span class="s2">&quot;@id=&#39;&quot;</span><span class="p">)</span>
+                <span class="n">astr</span> <span class="o">=</span> <span class="n">astr</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+                <span class="n">astr</span> <span class="o">=</span> <span class="n">astr</span><span class="p">[:</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span>
+                <span class="k">if</span> <span class="n">variablesList</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="n">astr</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
+                    <span class="n">variablesList</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">astr</span><span class="p">)</span>
+                <span class="n">m</span> <span class="o">=</span> <span class="n">MatchingSetsOfVariableIDs</span><span class="p">(</span><span class="n">current</span><span class="o">.</span><span class="n">getId</span><span class="p">(),</span> <span class="n">currentVar</span><span class="o">.</span><span class="n">getTaskReference</span><span class="p">(),</span> <span class="n">currentVar</span><span class="o">.</span><span class="n">getId</span><span class="p">(),</span> <span class="n">astr</span><span class="p">)</span>
+                <span class="n">variablesDictionary</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">print</span><span class="p">(</span><span class="s2">&quot;# Unrecognized data generator variable&quot;</span><span class="p">)</span>
+                <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+    <span class="k">return</span></div>
+
+
+<div class="viewcode-block" id="generateSimulation"><a class="viewcode-back" href="../../_apidoc/tellurium.html#tellurium.tesedml.generateSimulation">[docs]</a><span class="k">def</span> <span class="nf">generateSimulation</span><span class="p">(</span><span class="n">rrName</span><span class="p">,</span> <span class="n">sedmlDoc</span><span class="p">,</span> <span class="n">currentModel</span><span class="p">,</span> <span class="n">task1</span><span class="p">,</span> <span class="n">variablesList</span><span class="p">,</span> <span class="n">variablesDictionary</span><span class="p">,</span> <span class="n">repeatedTaskIndex</span><span class="p">,</span> <span class="n">repeatedTask</span> <span class="o">=</span> <span class="bp">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Generate simulation. &quot;&quot;&quot;</span>
+    <span class="n">__uniform</span> <span class="o">=</span> <span class="bp">False</span>
+    <span class="n">__steady</span> <span class="o">=</span> <span class="bp">False</span>
+
+    <span class="k">for</span> <span class="n">j</span>  <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">sedmlDoc</span><span class="o">.</span><span class="n">getNumSimulations</span><span class="p">()):</span>
+        <span class="n">currentSimulation</span> <span class="o">=</span> <span class="n">sedmlDoc</span><span class="o">.</span><span class="n">getSimulation</span><span class="p">(</span><span class="n">j</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">task1</span><span class="o">.</span><span class="n">getSimulationReference</span><span class="p">()</span> <span class="o">!=</span> <span class="n">currentSimulation</span><span class="o">.</span><span class="n">getId</span><span class="p">():</span>
+            <span class="k">continue</span>
+        <span class="k">if</span> <span class="n">currentSimulation</span><span class="o">.</span><span class="n">getTypeCode</span><span class="p">()</span> <span class="o">==</span> <span class="n">libsedml</span><span class="o">.</span><span class="n">SEDML_SIMULATION_UNIFORMTIMECOURSE</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">__steady</span><span class="p">:</span>
+                <span class="k">print</span><span class="p">(</span><span class="n">rrName</span> <span class="o">+</span> <span class="s2">&quot;.conservedMoietyAnalysis = False&quot;</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">pass</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">__uniform</span><span class="p">:</span>
+                <span class="n">string</span> <span class="o">=</span> <span class="n">rrName</span> <span class="o">+</span> <span class="s2">&quot;.timeCourseSelections = [&quot;</span>
+                <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">variablesList</span><span class="p">)):</span>
+                    <span class="k">if</span> <span class="n">i</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                        <span class="n">string</span> <span class="o">+=</span> <span class="s2">&quot;,&quot;</span>
+                    <span class="n">string</span> <span class="o">+=</span> <span class="s2">&quot;</span><span class="se">\&quot;</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="n">variablesList</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\&quot;</span><span class="s2">&quot;</span>
+                <span class="n">string</span> <span class="o">+=</span> <span class="s2">&quot;]&quot;</span>
+                <span class="k">print</span><span class="p">(</span><span class="n">string</span><span class="p">)</span>
+            <span class="n">__uniform</span> <span class="o">=</span> <span class="bp">True</span>
+            <span class="n">algorithm</span> <span class="o">=</span> <span class="n">currentSimulation</span><span class="o">.</span><span class="n">getAlgorithm</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">currentSimulation</span><span class="o">.</span><span class="n">isSetAlgorithm</span><span class="p">()</span> <span class="o">==</span> <span class="bp">False</span><span class="p">:</span>
+                <span class="k">print</span><span class="p">(</span><span class="s2">&quot;# Algorithm not set for simulation &quot;</span> <span class="o">+</span> <span class="n">currentSimulation</span><span class="o">.</span><span class="n">getName</span><span class="p">())</span>
+                <span class="k">continue</span>
+            <span class="k">if</span> <span class="n">algorithm</span><span class="o">.</span><span class="n">getKisaoID</span><span class="p">()</span> <span class="o">!=</span> <span class="s2">&quot;KISAO:0000019&quot;</span><span class="p">:</span>
+                <span class="k">print</span><span class="p">(</span><span class="s2">&quot;# Unsupported KisaoID &quot;</span> <span class="o">+</span> <span class="n">algorithm</span><span class="o">.</span><span class="n">getKisaoID</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot; for simulation &quot;</span> <span class="o">+</span> <span class="n">currentSimulation</span><span class="o">.</span><span class="n">getName</span><span class="p">())</span>
+                <span class="k">continue</span>
+            <span class="k">if</span> <span class="n">repeatedTaskIndex</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>    <span class="c1"># we expand the repeatedTask id because they need to be flattened for each element in ranges</span>
+                <span class="n">taskId</span> <span class="o">=</span> <span class="n">task1</span><span class="o">.</span><span class="n">getId</span><span class="p">()</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">taskId</span> <span class="o">=</span> <span class="n">repeatedTask</span><span class="o">.</span><span class="n">getId</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot;_&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">repeatedTaskIndex</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">mapping</span><span class="p">:</span>
+                <span class="n">taskId</span> <span class="o">=</span> <span class="n">taskId</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
+            <span class="n">string</span> <span class="o">=</span> <span class="n">taskId</span> <span class="o">+</span> <span class="s2">&quot; = &quot;</span> <span class="o">+</span> <span class="n">rrName</span> <span class="o">+</span> <span class="s2">&quot;.simulate(&quot;</span>
+            <span class="n">tc</span> <span class="o">=</span> <span class="n">currentSimulation</span>
+            <span class="n">totNumPoints</span> <span class="o">=</span> <span class="n">tc</span><span class="o">.</span><span class="n">getOutputEndTime</span><span class="p">()</span> <span class="o">*</span> <span class="n">tc</span><span class="o">.</span><span class="n">getNumberOfPoints</span><span class="p">()</span> <span class="o">/</span> <span class="p">(</span><span class="n">tc</span><span class="o">.</span><span class="n">getOutputEndTime</span><span class="p">()</span> <span class="o">-</span> <span class="n">tc</span><span class="o">.</span><span class="n">getOutputStartTime</span><span class="p">())</span>
+            <span class="n">string</span> <span class="o">+=</span> <span class="nb">str</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span> <span class="o">+</span> <span class="s2">&quot;, &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">tc</span><span class="o">.</span><span class="n">getOutputEndTime</span><span class="p">()))</span> <span class="o">+</span> <span class="s2">&quot;, &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">totNumPoints</span><span class="p">))</span>
+            <span class="n">string</span> <span class="o">+=</span> <span class="s2">&quot;)&quot;</span>
+            <span class="k">print</span><span class="p">(</span><span class="n">string</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">currentSimulation</span><span class="o">.</span><span class="n">getTypeCode</span><span class="p">()</span> <span class="o">==</span> <span class="n">libsedml</span><span class="o">.</span><span class="n">SEDML_SIMULATION_STEADYSTATE</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">__steady</span><span class="p">:</span>
+                <span class="k">print</span><span class="p">(</span><span class="n">rrName</span> <span class="o">+</span> <span class="s2">&quot;.conservedMoietyAnalysis = True&quot;</span><span class="p">)</span>
+                <span class="n">string</span> <span class="o">=</span> <span class="n">rrName</span> <span class="o">+</span> <span class="s2">&quot;.steadyStateSelections = [&quot;</span>
+                <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">variablesList</span><span class="p">)):</span>
+                    <span class="k">if</span> <span class="n">i</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                        <span class="n">string</span> <span class="o">+=</span> <span class="s2">&quot;,&quot;</span>
+                    <span class="n">string</span> <span class="o">+=</span> <span class="s2">&quot;</span><span class="se">\&quot;</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="n">variablesList</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\&quot;</span><span class="s2">&quot;</span>
+                <span class="n">string</span> <span class="o">+=</span> <span class="s2">&quot;]&quot;</span>
+                <span class="k">print</span><span class="p">(</span><span class="n">string</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">pass</span>
+            <span class="n">__steady</span> <span class="o">=</span> <span class="bp">True</span>
+            <span class="n">algorithm</span> <span class="o">=</span> <span class="n">currentSimulation</span><span class="o">.</span><span class="n">getAlgorithm</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">algorithm</span><span class="o">.</span><span class="n">getKisaoID</span><span class="p">()</span> <span class="o">!=</span> <span class="s2">&quot;KISAO:0000099&quot;</span><span class="p">:</span>
+                <span class="k">print</span><span class="p">(</span><span class="s2">&quot;# Unsupported KisaoID &quot;</span> <span class="o">+</span> <span class="n">algorithm</span><span class="o">.</span><span class="n">getKisaoID</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot; for simulation &quot;</span> <span class="o">+</span> <span class="n">currentSimulation</span><span class="o">.</span><span class="n">getName</span><span class="p">())</span>
+                <span class="k">continue</span>
+            <span class="k">if</span> <span class="n">repeatedTaskIndex</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+                <span class="n">taskId</span> <span class="o">=</span> <span class="n">task1</span><span class="o">.</span><span class="n">getId</span><span class="p">()</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">taskId</span> <span class="o">=</span> <span class="n">repeatedTask</span><span class="o">.</span><span class="n">getId</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot;_&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">repeatedTaskIndex</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">mapping</span><span class="p">:</span>
+                <span class="n">taskId</span> <span class="o">=</span> <span class="n">taskId</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
+            <span class="n">string</span> <span class="o">=</span> <span class="n">taskId</span> <span class="o">+</span> <span class="s2">&quot; = np.tile(&quot;</span> <span class="o">+</span> <span class="n">rrName</span> <span class="o">+</span> <span class="s2">&quot;.getSteadyStateValues(), (2,1))&quot;</span>
+            <span class="k">print</span><span class="p">(</span><span class="n">string</span><span class="p">)</span>
+            <span class="k">print</span><span class="p">(</span><span class="n">taskId</span> <span class="o">+</span> <span class="s2">&quot;[1][0] = 10&quot;</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">currentSimulation</span><span class="o">.</span><span class="n">getTypeCode</span><span class="p">()</span> <span class="o">==</span> <span class="n">libsedml</span><span class="o">.</span><span class="n">SEDML_SIMULATION_ONESTEP</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">__steady</span><span class="p">:</span>
+                <span class="k">print</span><span class="p">(</span><span class="n">rrName</span> <span class="o">+</span> <span class="s2">&quot;.conservedMoietyAnalysis = False&quot;</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">pass</span>
+            <span class="n">string</span> <span class="o">=</span> <span class="n">rrName</span> <span class="o">+</span> <span class="s2">&quot;.timeCourseSelections = [&quot;</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">variablesList</span><span class="p">)):</span>
+                <span class="k">if</span> <span class="n">i</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="n">string</span> <span class="o">+=</span> <span class="s2">&quot;,&quot;</span>
+                <span class="n">string</span> <span class="o">+=</span> <span class="s2">&quot;</span><span class="se">\&quot;</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="n">variablesList</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\&quot;</span><span class="s2">&quot;</span>
+            <span class="n">string</span> <span class="o">+=</span> <span class="s2">&quot;]&quot;</span>
+            <span class="k">print</span><span class="p">(</span><span class="n">string</span><span class="p">)</span>
+            <span class="n">algorithm</span> <span class="o">=</span> <span class="n">currentSimulation</span><span class="o">.</span><span class="n">getAlgorithm</span><span class="p">()</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">currentSimulation</span><span class="o">.</span><span class="n">isSetAlgorithm</span><span class="p">():</span>
+                <span class="k">print</span><span class="p">(</span><span class="s2">&quot;# Algorithm not set for simulation &quot;</span> <span class="o">+</span> <span class="n">currentSimulation</span><span class="o">.</span><span class="n">getName</span><span class="p">())</span>
+                <span class="k">continue</span>
+            <span class="k">if</span> <span class="n">algorithm</span><span class="o">.</span><span class="n">getKisaoID</span><span class="p">()</span> <span class="o">!=</span> <span class="s2">&quot;KISAO:0000019&quot;</span><span class="p">:</span>
+                <span class="k">print</span><span class="p">(</span><span class="s2">&quot;# Unsupported KisaoID &quot;</span> <span class="o">+</span> <span class="n">algorithm</span><span class="o">.</span><span class="n">getKisaoID</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot; for simulation &quot;</span> <span class="o">+</span> <span class="n">currentSimulation</span><span class="o">.</span><span class="n">getName</span><span class="p">())</span>
+                <span class="k">continue</span>
+            <span class="k">if</span> <span class="n">repeatedTaskIndex</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>    <span class="c1"># we expand the repeatedTask id because they need to be flattened for each element in ranges</span>
+                <span class="n">taskId</span> <span class="o">=</span> <span class="n">task1</span><span class="o">.</span><span class="n">getId</span><span class="p">()</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">taskId</span> <span class="o">=</span> <span class="n">repeatedTask</span><span class="o">.</span><span class="n">getId</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot;_&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">repeatedTaskIndex</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">mapping</span><span class="p">:</span>
+                <span class="n">taskId</span> <span class="o">=</span> <span class="n">taskId</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
+            <span class="n">stepsize</span> <span class="o">=</span> <span class="n">currentSimulation</span><span class="o">.</span><span class="n">getStep</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">__uniform</span><span class="p">:</span>
+                <span class="n">string</span> <span class="o">=</span> <span class="n">taskId</span> <span class="o">+</span> <span class="s2">&quot; = &quot;</span> <span class="o">+</span> <span class="n">rrName</span> <span class="o">+</span> <span class="s2">&quot;.simulate(&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">variablesList</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">])</span> <span class="o">+</span> <span class="s2">&quot;, &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">variablesList</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span> <span class="o">+</span> <span class="n">stepsize</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;, 1)&quot;</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">string</span> <span class="o">=</span> <span class="n">taskId</span> <span class="o">+</span> <span class="s2">&quot; = &quot;</span> <span class="o">+</span> <span class="n">rrName</span> <span class="o">+</span> <span class="s2">&quot;.simulate(0, &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">stepsize</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;, 1)&quot;</span>
+            <span class="k">print</span><span class="p">(</span><span class="n">string</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">print</span><span class="p">(</span><span class="s2">&quot;# Unsupported type &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">currentSimulation</span><span class="o">.</span><span class="n">getTypeCode</span><span class="p">())</span> <span class="o">+</span> <span class="s2">&quot; for simulation &quot;</span> <span class="o">+</span> <span class="n">currentSimulation</span><span class="o">.</span><span class="n">getName</span><span class="p">())</span></div>
+
+
+<div class="viewcode-block" id="generateData"><a class="viewcode-back" href="../../_apidoc/tellurium.html#tellurium.tesedml.generateData">[docs]</a><span class="k">def</span> <span class="nf">generateData</span><span class="p">(</span><span class="n">sedmlDoc</span><span class="p">,</span> <span class="n">currentModel</span><span class="p">,</span> <span class="n">dataGeneratorsList</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Handle the data generators.</span>
+
+<span class="sd">    :return:</span>
+<span class="sd">    :rtype:</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">variablesDictionary</span> <span class="o">=</span> <span class="p">[]</span>      <span class="c1"># matching pairs of sedml variable ID and sbml variable ID</span>
+    <span class="n">variablesList</span> <span class="o">=</span> <span class="p">[]</span>            <span class="c1"># the IDs of the sbml variables, non duplicate entries</span>
+    <span class="n">bFoundAtLeastOneTask</span> <span class="o">=</span> <span class="bp">False</span>
+
+    <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">sedmlDoc</span><span class="o">.</span><span class="n">getNumTasks</span><span class="p">()):</span>
+        <span class="n">task1</span> <span class="o">=</span> <span class="n">sedmlDoc</span><span class="o">.</span><span class="n">getTask</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+
+        <span class="c1"># repeated task</span>
+        <span class="k">if</span> <span class="n">task1</span><span class="o">.</span><span class="n">getElementName</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;repeatedTask&quot;</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">task1</span><span class="o">.</span><span class="n">getNumSubTasks</span><span class="p">()):</span>
+                <span class="n">task2</span> <span class="o">=</span> <span class="n">task1</span><span class="o">.</span><span class="n">getSubTask</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>     <span class="c1"># the subtask which points to the real task we need to call repeatedly for each value in range</span>
+                <span class="n">task2</span> <span class="o">=</span> <span class="n">task2</span><span class="o">.</span><span class="n">getTask</span><span class="p">()</span>         <span class="c1"># the Id of the real task</span>
+                <span class="n">task2</span> <span class="o">=</span> <span class="n">sedmlDoc</span><span class="o">.</span><span class="n">getTask</span><span class="p">(</span><span class="n">task2</span><span class="p">)</span> <span class="c1"># get real task by Id</span>
+                <span class="k">if</span> <span class="n">task2</span><span class="o">.</span><span class="n">getModelReference</span><span class="p">()</span> <span class="o">!=</span> <span class="n">currentModel</span><span class="o">.</span><span class="n">getId</span><span class="p">():</span>
+                    <span class="k">continue</span>
+                <span class="n">aRange</span> <span class="o">=</span> <span class="n">task1</span><span class="o">.</span><span class="n">getRange</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>       <span class="c1"># we assume one single master range - we don&#39;t know how to deel flatten</span>
+                <span class="k">if</span> <span class="n">aRange</span><span class="o">.</span><span class="n">getElementName</span><span class="p">()</span> <span class="o">!=</span> <span class="s2">&quot;uniformRange&quot;</span><span class="p">:</span>
+                    <span class="k">print</span><span class="p">(</span><span class="s2">&quot;# Only uniformRange ranges are supported at this time&quot;</span><span class="p">)</span>
+                    <span class="k">continue</span>
+                <span class="n">variablesDictionary</span> <span class="o">=</span> <span class="p">[]</span>
+                <span class="n">variablesList</span> <span class="o">=</span> <span class="p">[]</span>
+                <span class="c1"># need to use the RepeatedTask because the data generators refer to it</span>
+                <span class="n">populateVariableLists</span><span class="p">(</span><span class="n">sedmlDoc</span><span class="p">,</span> <span class="n">task1</span><span class="p">,</span> <span class="n">variablesList</span><span class="p">,</span> <span class="n">variablesDictionary</span><span class="p">)</span>
+                <span class="c1"># for each point in the range we compute the new values of the variables affected</span>
+                <span class="c1"># and generate a task</span>
+                <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">aRange</span><span class="o">.</span><span class="n">getNumberOfPoints</span><span class="p">()):</span>
+                    <span class="c1"># need to use both the real Task (task2) because it has the reference to model and simulation</span>
+                    <span class="c1"># and the repeated task (task1) because its Id is used for generating the flattened Id&#39;s</span>
+                    <span class="n">generateDataLoop</span><span class="p">(</span><span class="n">sedmlDoc</span><span class="p">,</span> <span class="n">currentModel</span><span class="p">,</span> <span class="n">task2</span><span class="p">,</span> <span class="n">variablesList</span><span class="p">,</span> <span class="n">variablesDictionary</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">task1</span><span class="p">,</span> <span class="n">dataGeneratorsList</span><span class="p">)</span>
+                    <span class="n">bFoundAtLeastOneTask</span> <span class="o">=</span> <span class="bp">True</span>
+                    <span class="k">print</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+
+        <span class="c1"># not a repeated task</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">task1</span><span class="o">.</span><span class="n">getModelReference</span><span class="p">()</span> <span class="o">!=</span> <span class="n">currentModel</span><span class="o">.</span><span class="n">getId</span><span class="p">():</span>
+                <span class="k">continue</span>
+            <span class="n">variablesDictionary</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="n">variablesList</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="n">populateVariableLists</span><span class="p">(</span><span class="n">sedmlDoc</span><span class="p">,</span> <span class="n">task1</span><span class="p">,</span> <span class="n">variablesList</span><span class="p">,</span> <span class="n">variablesDictionary</span><span class="p">)</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">variablesList</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="k">continue</span>
+            <span class="n">generateDataLoop</span><span class="p">(</span><span class="n">sedmlDoc</span><span class="p">,</span> <span class="n">currentModel</span><span class="p">,</span> <span class="n">task1</span><span class="p">,</span> <span class="n">variablesList</span><span class="p">,</span> <span class="n">variablesDictionary</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+            <span class="n">bFoundAtLeastOneTask</span> <span class="o">=</span> <span class="bp">True</span>
+
+    <span class="k">if</span> <span class="n">bFoundAtLeastOneTask</span> <span class="o">==</span> <span class="bp">False</span><span class="p">:</span>
+        <span class="k">pass</span>
+        <span class="c1">#print(&quot;# No dataGenerator for this model: &quot; + currentModel.getId());</span>
+    <span class="k">elif</span> <span class="n">task1</span><span class="o">.</span><span class="n">getElementName</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;repeatedTask&quot;</span><span class="p">:</span>
+        <span class="k">pass</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">print</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="generateDataLoop"><a class="viewcode-back" href="../../_apidoc/tellurium.html#tellurium.tesedml.generateDataLoop">[docs]</a><span class="k">def</span> <span class="nf">generateDataLoop</span><span class="p">(</span><span class="n">sedmlDoc</span><span class="p">,</span> <span class="n">currentModel</span><span class="p">,</span> <span class="n">task1</span><span class="p">,</span> <span class="n">variablesList</span><span class="p">,</span> <span class="n">variablesDictionary</span><span class="p">,</span> <span class="n">repeatedTaskIndex</span><span class="p">,</span> <span class="n">repeatedTask</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span> <span class="n">dataGeneratorsList</span> <span class="o">=</span> <span class="bp">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Generate data loops. &quot;&quot;&quot;</span>
+    <span class="c1"># Each dataGenerator is calculated from the resulting output</span>
+    <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">sedmlDoc</span><span class="o">.</span><span class="n">getNumSimulations</span><span class="p">()):</span>
+        <span class="n">currentSimulation</span> <span class="o">=</span> <span class="n">sedmlDoc</span><span class="o">.</span><span class="n">getSimulation</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">task1</span><span class="o">.</span><span class="n">getSimulationReference</span><span class="p">()</span> <span class="o">==</span> <span class="n">currentSimulation</span><span class="o">.</span><span class="n">getId</span><span class="p">():</span>
+            <span class="k">break</span>           <span class="c1"># we found the simulation referred to by this task (can&#39;t be more than one)</span>
+
+    <span class="n">dataGeneratorOutputList</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">dataGeneratorTemp</span> <span class="o">=</span> <span class="nb">str</span><span class="p">()</span>
+
+    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">variablesDictionary</span><span class="p">)):</span>
+        <span class="n">m</span> <span class="o">=</span> <span class="n">variablesDictionary</span><span class="p">[</span><span class="n">j</span><span class="p">]</span>
+        <span class="n">current</span> <span class="o">=</span> <span class="n">sedmlDoc</span><span class="o">.</span><span class="n">getDataGenerator</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">datagenID</span><span class="p">)</span>
+        <span class="n">dataGeneratorResult</span> <span class="o">=</span> <span class="n">libsedml</span><span class="o">.</span><span class="n">formulaToString</span><span class="p">(</span><span class="n">current</span><span class="o">.</span><span class="n">getMath</span><span class="p">())</span>
+
+        <span class="k">if</span> <span class="n">current</span><span class="o">.</span><span class="n">getId</span><span class="p">()</span> <span class="o">==</span> <span class="n">m</span><span class="o">.</span><span class="n">datagenID</span><span class="p">:</span>
+            <span class="n">stringToReplace</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="n">sedmlID</span>
+            <span class="n">position</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="n">sbmlID</span>
+            <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">variablesList</span><span class="p">)):</span>
+                <span class="k">if</span> <span class="n">position</span> <span class="o">==</span> <span class="n">variablesList</span><span class="p">[</span><span class="n">k</span><span class="p">]:</span>
+                    <span class="n">position</span> <span class="o">=</span> <span class="n">k</span>
+                    <span class="k">break</span>
+            <span class="k">if</span> <span class="n">repeatedTaskIndex</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+                <span class="n">taskId</span> <span class="o">=</span> <span class="n">task1</span><span class="o">.</span><span class="n">getId</span><span class="p">()</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">taskId</span> <span class="o">=</span> <span class="n">repeatedTask</span><span class="o">.</span><span class="n">getId</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot;_&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">repeatedTaskIndex</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">currentSimulation</span><span class="o">.</span><span class="n">getTypeCode</span><span class="p">()</span> <span class="o">==</span> <span class="n">libsedml</span><span class="o">.</span><span class="n">SEDML_SIMULATION_UNIFORMTIMECOURSE</span><span class="p">:</span>
+                <span class="n">tc</span> <span class="o">=</span> <span class="n">currentSimulation</span>
+                <span class="n">totNumPoints</span> <span class="o">=</span> <span class="n">tc</span><span class="o">.</span><span class="n">getOutputEndTime</span><span class="p">()</span> <span class="o">*</span> <span class="n">tc</span><span class="o">.</span><span class="n">getNumberOfPoints</span><span class="p">()</span> <span class="o">/</span> <span class="p">(</span><span class="n">tc</span><span class="o">.</span><span class="n">getOutputEndTime</span><span class="p">()</span> <span class="o">-</span> <span class="n">tc</span><span class="o">.</span><span class="n">getOutputStartTime</span><span class="p">())</span>
+                <span class="n">replacementString</span> <span class="o">=</span> <span class="n">taskId</span> <span class="o">+</span> <span class="s2">&quot;[&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">totNumPoints</span> <span class="o">-</span> <span class="n">currentSimulation</span><span class="o">.</span><span class="n">getNumberOfPoints</span><span class="p">())</span> <span class="o">+</span> <span class="s2">&quot;:,&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">position</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;]&quot;</span>
+            <span class="k">elif</span> <span class="n">currentSimulation</span><span class="o">.</span><span class="n">getTypeCode</span><span class="p">()</span> <span class="o">==</span> <span class="n">libsedml</span><span class="o">.</span><span class="n">SEDML_SIMULATION_STEADYSTATE</span><span class="p">:</span>
+                <span class="n">replacementString</span> <span class="o">=</span> <span class="n">taskId</span> <span class="o">+</span> <span class="s2">&quot;[0:,&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">position</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;]&quot;</span>
+            <span class="k">elif</span> <span class="n">currentSimulation</span><span class="o">.</span><span class="n">getTypeCode</span><span class="p">()</span> <span class="o">==</span> <span class="n">libsedml</span><span class="o">.</span><span class="n">SEDML_SIMULATION_ONESTEP</span><span class="p">:</span>
+                <span class="n">replacementString</span> <span class="o">=</span> <span class="n">taskId</span> <span class="o">+</span> <span class="s2">&quot;[0:,&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">position</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;]&quot;</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">print</span><span class="p">(</span><span class="s2">&quot;# Unsupported type &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">currentSimulation</span><span class="o">.</span><span class="n">getTypeCode</span><span class="p">())</span> <span class="o">+</span> <span class="s2">&quot; for simulation &quot;</span> <span class="o">+</span> <span class="n">currentSimulation</span><span class="o">.</span><span class="n">getName</span><span class="p">())</span>
+
+            <span class="k">if</span> <span class="n">dataGeneratorResult</span> <span class="o">!=</span> <span class="n">dataGeneratorTemp</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">stringToReplace</span> <span class="ow">in</span> <span class="n">dataGeneratorResult</span><span class="p">:</span>
+                    <span class="n">dataGeneratorReplaced</span> <span class="o">=</span> <span class="n">dataGeneratorResult</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">stringToReplace</span><span class="p">,</span> <span class="n">replacementString</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">dataGeneratorReplaced</span> <span class="o">=</span> <span class="n">stringToReplace</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">stringToReplace</span><span class="p">,</span> <span class="n">replacementString</span><span class="p">)</span>
+                <span class="n">dataGeneratorId</span> <span class="o">=</span> <span class="n">current</span><span class="o">.</span><span class="n">getId</span><span class="p">()</span>       <span class="c1"># we expand the datagen id because they need to be flattened for repeated tasks</span>
+                <span class="k">if</span> <span class="n">repeatedTaskIndex</span> <span class="o">!=</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+                    <span class="n">dataGeneratorId</span> <span class="o">+=</span> <span class="s2">&quot;_&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">repeatedTaskIndex</span><span class="p">)</span>
+                <span class="n">dataGeneratorElement</span> <span class="o">=</span> <span class="n">dataGeneratorId</span> <span class="o">+</span> <span class="s2">&quot; = &quot;</span> <span class="o">+</span> <span class="n">dataGeneratorReplaced</span>
+                <span class="n">dataGeneratorOutputList</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">dataGeneratorElement</span><span class="p">)</span>
+                <span class="n">dataGeneratorTemp</span> <span class="o">=</span> <span class="n">dataGeneratorResult</span>
+
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">dataGeneratorOutputList</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">dataGeneratorOutputList</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">stringToReplace</span><span class="p">,</span> <span class="n">replacementString</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">repeatedTaskIndex</span> <span class="o">!=</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>      <span class="c1"># list of data generators flattening (when part of a range)</span>
+                <span class="n">position</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+                <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">dataGeneratorsList</span><span class="p">)):</span>
+                    <span class="n">rtdg</span> <span class="o">=</span> <span class="n">dataGeneratorsList</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+                    <span class="k">if</span> <span class="n">rtdg</span><span class="o">.</span><span class="n">datagenID</span> <span class="o">==</span> <span class="n">current</span><span class="o">.</span><span class="n">getId</span><span class="p">():</span>   <span class="c1"># already present</span>
+                        <span class="n">position</span> <span class="o">=</span> <span class="n">i</span>
+                        <span class="k">break</span>
+                <span class="k">if</span> <span class="n">position</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>        <span class="c1"># create it</span>
+                    <span class="n">rtdg</span> <span class="o">=</span> <span class="n">MatchingSetsOfRepeatedTasksDataGenerators</span><span class="p">(</span><span class="n">current</span><span class="o">.</span><span class="n">getId</span><span class="p">(),</span> <span class="n">repeatedTaskIndex</span><span class="o">+</span><span class="mi">1</span> <span class="p">)</span>
+                    <span class="n">dataGeneratorsList</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">rtdg</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">rtdg</span> <span class="o">=</span> <span class="n">MatchingSetsOfRepeatedTasksDataGenerators</span><span class="p">(</span><span class="n">current</span><span class="o">.</span><span class="n">getId</span><span class="p">(),</span> <span class="n">repeatedTaskIndex</span><span class="o">+</span><span class="mi">1</span> <span class="p">)</span>
+                    <span class="n">dataGeneratorsList</span><span class="p">[</span><span class="n">position</span><span class="p">]</span> <span class="o">=</span> <span class="n">rtdg</span>
+
+    <span class="n">dataGeneratorOutput</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">dataGeneratorOutputList</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">mapping</span><span class="p">:</span>
+        <span class="n">dataGeneratorOutput</span> <span class="o">=</span> <span class="n">dataGeneratorOutput</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">dataGeneratorOutput</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="generateOutputs"><a class="viewcode-back" href="../../_apidoc/tellurium.html#tellurium.tesedml.generateOutputs">[docs]</a><span class="k">def</span> <span class="nf">generateOutputs</span><span class="p">(</span><span class="n">sedmlDoc</span><span class="p">,</span> <span class="n">dataGeneratorsList</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Generate the outputs.</span>
+
+<span class="sd">    :param sedmlDoc:</span>
+<span class="sd">    :type sedmlDoc:</span>
+<span class="sd">    :param dataGeneratorsList:</span>
+<span class="sd">    :type dataGeneratorsList:</span>
+<span class="sd">    :return:</span>
+<span class="sd">    :rtype:</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1">#The &#39;plot&#39; len(dataGeneratorsList)output, minus the legend</span>
+    <span class="n">taskList</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">sedmlDoc</span><span class="o">.</span><span class="n">getNumOutputs</span><span class="p">()):</span>
+        <span class="n">reportList</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">output</span> <span class="o">=</span> <span class="n">sedmlDoc</span><span class="o">.</span><span class="n">getOutput</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+        <span class="n">typeCode</span> <span class="o">=</span> <span class="n">output</span><span class="o">.</span><span class="n">getTypeCode</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">typeCode</span> <span class="o">==</span> <span class="n">libsedml</span><span class="o">.</span><span class="n">SEDML_OUTPUT_REPORT</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">output</span><span class="o">.</span><span class="n">getNumDataSets</span><span class="p">()):</span>
+                <span class="n">dataSet1</span> <span class="o">=</span> <span class="n">output</span><span class="o">.</span><span class="n">getDataSet</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">dataSet1</span><span class="o">.</span><span class="n">getLabel</span><span class="p">():</span>
+                    <span class="n">reportList</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">dataSet1</span><span class="o">.</span><span class="n">getDataReference</span><span class="p">())</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">reportList</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">dataSet1</span><span class="o">.</span><span class="n">getLabel</span><span class="p">())</span>
+            <span class="k">print</span><span class="p">(</span><span class="s2">&quot;print &#39;--------------------&quot;</span> <span class="o">+</span> <span class="n">output</span><span class="o">.</span><span class="n">getName</span><span class="p">()</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;&#39;&quot;</span><span class="p">,</span><span class="s2">&quot;&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;--------------------&#39;&quot;</span><span class="p">)</span>
+            <span class="k">print</span><span class="p">(</span><span class="s2">&quot;import pandas&quot;</span><span class="p">)</span>
+            <span class="k">print</span><span class="p">(</span><span class="s2">&quot;df = pandas.DataFrame(np.array(&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">reportList</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;&#39;&quot;</span><span class="p">,</span><span class="s2">&quot;&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;).T, </span><span class="se">\n</span><span class="s2">columns=&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">reportList</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;)&quot;</span><span class="p">)</span>
+            <span class="k">print</span><span class="p">(</span><span class="s2">&quot;print df.head(5)&quot;</span><span class="p">)</span>
+            <span class="k">print</span><span class="p">(</span><span class="s2">&quot;print &#39;--------------------Report End--------------------&#39;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="k">elif</span> <span class="n">typeCode</span> <span class="o">==</span> <span class="n">libsedml</span><span class="o">.</span><span class="n">SEDML_OUTPUT_PLOT2D</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">sedmlDoc</span><span class="o">.</span><span class="n">getNumTasks</span><span class="p">()):</span>
+                <span class="n">task1</span> <span class="o">=</span> <span class="n">sedmlDoc</span><span class="o">.</span><span class="n">getTask</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+                <span class="n">taskList</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">task1</span><span class="o">.</span><span class="n">getElementName</span><span class="p">())</span>
+            <span class="k">if</span> <span class="s2">&quot;repeatedTask&quot;</span> <span class="ow">in</span> <span class="n">taskList</span><span class="p">:</span>    <span class="c1">#For repeated tasks</span>
+                <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">sedmlDoc</span><span class="o">.</span><span class="n">getNumTasks</span><span class="p">()):</span>
+                    <span class="n">task1</span> <span class="o">=</span> <span class="n">sedmlDoc</span><span class="o">.</span><span class="n">getTask</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="n">task1</span><span class="o">.</span><span class="n">getElementName</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;repeatedTask&quot;</span><span class="p">:</span>
+                        <span class="k">for</span> <span class="n">z</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">task1</span><span class="o">.</span><span class="n">getNumSubTasks</span><span class="p">()):</span>
+                            <span class="n">aRange</span> <span class="o">=</span> <span class="n">task1</span><span class="o">.</span><span class="n">getRange</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+                            <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">aRange</span><span class="o">.</span><span class="n">getNumberOfPoints</span><span class="p">()):</span>
+                                <span class="k">if</span> <span class="n">output</span><span class="o">.</span><span class="n">getNumCurves</span><span class="p">()</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+                                    <span class="n">allX</span> <span class="o">=</span> <span class="p">[]</span>
+                                    <span class="n">allY</span> <span class="o">=</span> <span class="p">[]</span>
+                                    <span class="k">for</span> <span class="n">q</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">output</span><span class="o">.</span><span class="n">getNumCurves</span><span class="p">()):</span>
+                                        <span class="n">curve</span> <span class="o">=</span> <span class="n">output</span><span class="o">.</span><span class="n">getCurve</span><span class="p">(</span><span class="n">q</span><span class="p">)</span>
+                                        <span class="n">xDataReference</span> <span class="o">=</span> <span class="n">curve</span><span class="o">.</span><span class="n">getXDataReference</span><span class="p">()</span>
+                                        <span class="n">yDataReference</span> <span class="o">=</span> <span class="n">curve</span><span class="o">.</span><span class="n">getYDataReference</span><span class="p">()</span>
+                                        <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">mapping</span><span class="p">:</span>
+                                            <span class="n">xDataReference</span> <span class="o">=</span> <span class="n">xDataReference</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
+                                            <span class="n">yDataReference</span> <span class="o">=</span> <span class="n">yDataReference</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
+                                        <span class="k">if</span> <span class="ow">not</span> <span class="nb">len</span><span class="p">(</span><span class="n">dataGeneratorsList</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                                            <span class="n">allX</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">xDataReference</span> <span class="o">+</span> <span class="s2">&quot;_&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">))</span>
+                                            <span class="n">allY</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">yDataReference</span> <span class="o">+</span> <span class="s2">&quot;_&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">))</span>
+                                        <span class="k">else</span><span class="p">:</span>
+                                            <span class="n">allX</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">xDataReference</span><span class="p">)</span>
+                                            <span class="n">allY</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">yDataReference</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="s2">&quot;repeatedTask&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">taskList</span><span class="p">:</span>    <span class="c1">#There is no repeated tasks</span>
+                <span class="k">if</span> <span class="n">output</span><span class="o">.</span><span class="n">getNumCurves</span><span class="p">()</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="n">allX</span> <span class="o">=</span> <span class="p">[]</span>
+                    <span class="n">allY</span> <span class="o">=</span> <span class="p">[]</span>
+                    <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">output</span><span class="o">.</span><span class="n">getNumCurves</span><span class="p">()):</span>
+                        <span class="n">curve</span> <span class="o">=</span> <span class="n">output</span><span class="o">.</span><span class="n">getCurve</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>
+                        <span class="n">xDataReference</span> <span class="o">=</span> <span class="n">curve</span><span class="o">.</span><span class="n">getXDataReference</span><span class="p">()</span>
+                        <span class="n">yDataReference</span> <span class="o">=</span> <span class="n">curve</span><span class="o">.</span><span class="n">getYDataReference</span><span class="p">()</span>
+                        <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">mapping</span><span class="p">:</span>
+                            <span class="n">xDataReference</span> <span class="o">=</span> <span class="n">xDataReference</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
+                            <span class="n">yDataReference</span> <span class="o">=</span> <span class="n">yDataReference</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
+                        <span class="k">if</span> <span class="ow">not</span> <span class="nb">len</span><span class="p">(</span><span class="n">dataGeneratorsList</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                            <span class="n">allX</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">xDataReference</span> <span class="o">+</span> <span class="s2">&quot;_&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">))</span>
+                            <span class="n">allY</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">yDataReference</span> <span class="o">+</span> <span class="s2">&quot;_&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">))</span>
+                        <span class="k">else</span><span class="p">:</span>
+                            <span class="n">allX</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">xDataReference</span><span class="p">)</span>
+                            <span class="n">allY</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">yDataReference</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">checkEqualIvo</span><span class="p">(</span><span class="n">allX</span><span class="p">)</span> <span class="o">==</span> <span class="bp">True</span><span class="p">:</span>
+                <span class="k">pass</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">print</span><span class="p">(</span><span class="s2">&quot;X_&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot; = np.array(&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">allX</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;&#39;&quot;</span><span class="p">,</span><span class="s2">&quot;&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;).T&quot;</span><span class="p">)</span>
+            <span class="k">print</span><span class="p">(</span><span class="s2">&quot;Y_&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot; = np.array(&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">allY</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;&#39;&quot;</span><span class="p">,</span><span class="s2">&quot;&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;).T&quot;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">checkEqualIvo</span><span class="p">(</span><span class="n">allX</span><span class="p">)</span> <span class="o">==</span> <span class="bp">True</span><span class="p">:</span>
+                <span class="k">print</span><span class="p">(</span><span class="s2">&quot;plt.plot(&quot;</span> <span class="o">+</span> <span class="n">allX</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;, Y_&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;)&quot;</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">print</span><span class="p">(</span><span class="s2">&quot;plt.plot(X_&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;, Y_&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;)&quot;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">curve</span><span class="o">.</span><span class="n">getLogX</span><span class="p">()</span> <span class="o">==</span> <span class="bp">True</span><span class="p">:</span>
+                <span class="k">print</span><span class="p">(</span><span class="s2">&quot;plt.xscale(&#39;log&#39;)&quot;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">curve</span><span class="o">.</span><span class="n">getLogY</span><span class="p">()</span> <span class="o">==</span> <span class="bp">True</span><span class="p">:</span>
+                <span class="k">print</span><span class="p">(</span><span class="s2">&quot;plt.yscale(&#39;log&#39;)&quot;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">output</span><span class="o">.</span><span class="n">getName</span><span class="p">()</span> <span class="o">!=</span> <span class="s1">&#39;&#39;</span><span class="p">:</span>
+                <span class="k">print</span><span class="p">(</span><span class="s2">&quot;plt.title(&#39;&quot;</span> <span class="o">+</span> <span class="n">output</span><span class="o">.</span><span class="n">getName</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot;&#39;)&quot;</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">print</span><span class="p">(</span><span class="s2">&quot;plt.title(&#39;&quot;</span> <span class="o">+</span> <span class="n">output</span><span class="o">.</span><span class="n">getId</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot;&#39;)&quot;</span><span class="p">)</span>
+            <span class="k">print</span><span class="p">(</span><span class="s2">&quot;plt.show()</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">typeCode</span> <span class="o">==</span> <span class="n">libsedml</span><span class="o">.</span><span class="n">SEDML_OUTPUT_PLOT3D</span><span class="p">:</span>
+            <span class="k">print</span><span class="p">(</span><span class="s2">&quot;from mpl_toolkits.mplot3d import Axes3D&quot;</span><span class="p">)</span>
+            <span class="k">print</span><span class="p">(</span><span class="s2">&quot;fig = plt.figure()&quot;</span><span class="p">)</span>
+            <span class="k">print</span><span class="p">(</span><span class="s2">&quot;ax = fig.gca(projection=&#39;3d&#39;)&quot;</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">sedmlDoc</span><span class="o">.</span><span class="n">getNumTasks</span><span class="p">()):</span>
+                <span class="n">task1</span> <span class="o">=</span> <span class="n">sedmlDoc</span><span class="o">.</span><span class="n">getTask</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+                <span class="n">taskList</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">task1</span><span class="o">.</span><span class="n">getElementName</span><span class="p">())</span>
+            <span class="k">if</span> <span class="s2">&quot;repeatedTask&quot;</span> <span class="ow">in</span> <span class="n">taskList</span><span class="p">:</span>    <span class="c1">#For repeated tasks</span>
+                <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">sedmlDoc</span><span class="o">.</span><span class="n">getNumTasks</span><span class="p">()):</span>
+                    <span class="n">task1</span> <span class="o">=</span> <span class="n">sedmlDoc</span><span class="o">.</span><span class="n">getTask</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="n">task1</span><span class="o">.</span><span class="n">getElementName</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;repeatedTask&quot;</span><span class="p">:</span>
+                        <span class="k">for</span> <span class="n">z</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">task1</span><span class="o">.</span><span class="n">getNumSubTasks</span><span class="p">()):</span>
+                            <span class="n">aRange</span> <span class="o">=</span> <span class="n">task1</span><span class="o">.</span><span class="n">getRange</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+                            <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">aRange</span><span class="o">.</span><span class="n">getNumberOfPoints</span><span class="p">()):</span>
+                                <span class="k">if</span> <span class="n">output</span><span class="o">.</span><span class="n">getNumSurfaces</span><span class="p">()</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+                                    <span class="n">allX</span> <span class="o">=</span> <span class="p">[]</span>
+                                    <span class="n">allY</span> <span class="o">=</span> <span class="p">[]</span>
+                                    <span class="n">allZ</span> <span class="o">=</span> <span class="p">[]</span>
+                                    <span class="k">for</span> <span class="n">q</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">output</span><span class="o">.</span><span class="n">getNumSurfaces</span><span class="p">()):</span>
+                                        <span class="n">surface</span> <span class="o">=</span> <span class="n">output</span><span class="o">.</span><span class="n">getSurface</span><span class="p">(</span><span class="n">q</span><span class="p">)</span>
+                                        <span class="n">xDataReference</span> <span class="o">=</span> <span class="n">surface</span><span class="o">.</span><span class="n">getXDataReference</span><span class="p">()</span>
+                                        <span class="n">yDataReference</span> <span class="o">=</span> <span class="n">surface</span><span class="o">.</span><span class="n">getYDataReference</span><span class="p">()</span>
+                                        <span class="n">zDataReference</span> <span class="o">=</span> <span class="n">surface</span><span class="o">.</span><span class="n">getZDataReference</span><span class="p">()</span>
+                                        <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">mapping</span><span class="p">:</span>
+                                            <span class="n">xDataReference</span> <span class="o">=</span> <span class="n">xDataReference</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
+                                            <span class="n">yDataReference</span> <span class="o">=</span> <span class="n">yDataReference</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
+                                            <span class="n">zDataReference</span> <span class="o">=</span> <span class="n">zDataReference</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
+                                        <span class="k">if</span> <span class="ow">not</span> <span class="nb">len</span><span class="p">(</span><span class="n">dataGeneratorsList</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                                            <span class="n">allX</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">xDataReference</span> <span class="o">+</span> <span class="s2">&quot;_&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">))</span>
+                                            <span class="n">allY</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">yDataReference</span> <span class="o">+</span> <span class="s2">&quot;_&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">))</span>
+                                            <span class="n">allZ</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">zDataReference</span> <span class="o">+</span> <span class="s2">&quot;_&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">))</span>
+                                        <span class="k">else</span><span class="p">:</span>
+                                            <span class="n">allX</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">xDataReference</span><span class="p">)</span>
+                                            <span class="n">allY</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">yDataReference</span><span class="p">)</span>
+                                            <span class="n">allZ</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">zDataReference</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="s2">&quot;repeatedTask&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">taskList</span><span class="p">:</span>    <span class="c1">#There is no repeated tasks</span>
+                <span class="k">if</span> <span class="n">output</span><span class="o">.</span><span class="n">getNumSurfaces</span><span class="p">()</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="n">allX</span> <span class="o">=</span> <span class="p">[]</span>
+                    <span class="n">allY</span> <span class="o">=</span> <span class="p">[]</span>
+                    <span class="n">allZ</span> <span class="o">=</span> <span class="p">[]</span>
+                    <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">output</span><span class="o">.</span><span class="n">getNumSurfaces</span><span class="p">()):</span>
+                        <span class="n">surface</span> <span class="o">=</span> <span class="n">output</span><span class="o">.</span><span class="n">getSurface</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>
+                        <span class="n">xDataReference</span> <span class="o">=</span> <span class="n">surface</span><span class="o">.</span><span class="n">getXDataReference</span><span class="p">()</span>
+                        <span class="n">yDataReference</span> <span class="o">=</span> <span class="n">surface</span><span class="o">.</span><span class="n">getYDataReference</span><span class="p">()</span>
+                        <span class="n">zDataReference</span> <span class="o">=</span> <span class="n">surface</span><span class="o">.</span><span class="n">getZDataReference</span><span class="p">()</span>
+                        <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">mapping</span><span class="p">:</span>
+                            <span class="n">xDataReference</span> <span class="o">=</span> <span class="n">xDataReference</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
+                            <span class="n">yDataReference</span> <span class="o">=</span> <span class="n">yDataReference</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
+                            <span class="n">zDataReference</span> <span class="o">=</span> <span class="n">zDataReference</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
+                        <span class="k">if</span> <span class="ow">not</span> <span class="nb">len</span><span class="p">(</span><span class="n">dataGeneratorsList</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                            <span class="n">allX</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">xDataReference</span> <span class="o">+</span> <span class="s2">&quot;_&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">))</span>
+                            <span class="n">allY</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">yDataReference</span> <span class="o">+</span> <span class="s2">&quot;_&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">))</span>
+                            <span class="n">allZ</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">zDataReference</span> <span class="o">+</span> <span class="s2">&quot;_&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">))</span>
+                        <span class="k">else</span><span class="p">:</span>
+                            <span class="n">allX</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">xDataReference</span><span class="p">)</span>
+                            <span class="n">allY</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">yDataReference</span><span class="p">)</span>
+                            <span class="n">allZ</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">zDataReference</span><span class="p">)</span>
+            <span class="c1">#print &quot;X_&quot; + str(i) + &quot; = np.array(&quot; + str(allX).replace(&quot;&#39;&quot;,&quot;&quot;) + &quot;).T&quot;</span>
+            <span class="c1">#print &quot;Y_&quot; + str(i) + &quot; = np.array(&quot; + str(allY).replace(&quot;&#39;&quot;,&quot;&quot;) + &quot;).T&quot;</span>
+            <span class="c1">#print &quot;Z_&quot; + str(i) + &quot; = np.array(&quot; + str(allZ).replace(&quot;&#39;&quot;,&quot;&quot;) + &quot;).T&quot;</span>
+            <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">allX</span><span class="p">)):</span>
+                <span class="k">print</span><span class="p">(</span><span class="s2">&quot;ax.plot(&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">allX</span><span class="p">[</span><span class="n">x</span><span class="p">])</span> <span class="o">+</span> <span class="s2">&quot;, &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">allY</span><span class="p">[</span><span class="n">x</span><span class="p">])</span> <span class="o">+</span> <span class="s2">&quot;, &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">allZ</span><span class="p">[</span><span class="n">x</span><span class="p">])</span> <span class="o">+</span> <span class="s2">&quot;)&quot;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">output</span><span class="o">.</span><span class="n">getName</span><span class="p">()</span> <span class="o">!=</span> <span class="s1">&#39;&#39;</span><span class="p">:</span>
+                <span class="k">print</span><span class="p">(</span><span class="s2">&quot;plt.title(&#39;&quot;</span> <span class="o">+</span> <span class="n">output</span><span class="o">.</span><span class="n">getName</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot;&#39;)&quot;</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">print</span><span class="p">(</span><span class="s2">&quot;plt.title(&#39;&quot;</span> <span class="o">+</span> <span class="n">output</span><span class="o">.</span><span class="n">getId</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot;&#39;)&quot;</span><span class="p">)</span>
+            <span class="k">print</span><span class="p">(</span><span class="s2">&quot;plt.show()</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">print</span><span class="p">(</span><span class="s2">&quot;# Unsupported output type&quot;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="isId"><a class="viewcode-back" href="../../_apidoc/tellurium.html#tellurium.tesedml.isId">[docs]</a><span class="k">def</span> <span class="nf">isId</span><span class="p">(</span><span class="n">string</span><span class="p">):</span>
+    <span class="n">regular</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s1">&#39;[</span><span class="se">\\</span><span class="s1">/:-]&#39;</span><span class="p">)</span>               <span class="c1"># a SedML Id cannot contain these characters</span>
+    <span class="k">if</span> <span class="n">regular</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">string</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">False</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">True</span></div>
+
+
+<div class="viewcode-block" id="checkEqualIvo"><a class="viewcode-back" href="../../_apidoc/tellurium.html#tellurium.tesedml.checkEqualIvo">[docs]</a><span class="k">def</span> <span class="nf">checkEqualIvo</span><span class="p">(</span><span class="n">lst</span><span class="p">):</span>
+    <span class="k">return</span> <span class="ow">not</span> <span class="n">lst</span> <span class="ow">or</span> <span class="n">lst</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="n">lst</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">lst</span><span class="p">)</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016, sys-bio.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../',
+            VERSION:'1.3.0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

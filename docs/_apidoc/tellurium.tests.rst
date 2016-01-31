@@ -1,6 +1,13 @@
 tellurium.tests package
 =======================
 
+Subpackages
+-----------
+
+.. toctree::
+
+    tellurium.tests.testdata
+
 Submodules
 ----------
 
@@ -16,6 +23,14 @@ tellurium.tests.test_runner module
 ----------------------------------
 
 .. automodule:: tellurium.tests.test_runner
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+tellurium.tests.test_sedml module
+---------------------------------
+
+.. automodule:: tellurium.tests.test_sedml
     :members:
     :undoc-members:
     :show-inheritance:

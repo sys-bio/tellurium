@@ -1,0 +1,6 @@
+﻿<?xml version="1.0"  encoding="utf-8"?>
+<omexManifest  xmlns="http://identifiers.org/combine.specifications/omex-manifest">
+   <content location="./manifest.xml" format="http://identifiers.org/combine.specifications/omex-manifest"/>
+   <content location="./BioModel1_Application0.xml" format="http://identifiers.org/combine.specifications/sbml"/>
+   <content location="./app2sim.sedml" master="true" format="http://identifiers.org/combine.specifications/sed-ml"/>
+</omexManifest>

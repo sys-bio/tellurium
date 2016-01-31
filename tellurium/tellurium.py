@@ -17,30 +17,33 @@ import roadrunner.testing
 import antimony
 import matplotlib.pyplot as plt
 
+import tecombine as combine
+import tesedml
+import tephrasedml
+
 try:
-    # FIXME: this should always be packed
-    import tecombine as combine
+    import libsbml
 except ImportError as e:
-    combine = None
+    libsbml = None
     roadrunner.Logger.log(roadrunner.Logger.LOG_WARNING, str(e))
 try:
-    # FIXME: this should always be packed
-    import SedmlToRr
+    import libsedml
 except ImportError as e:
-    SedmlToRr = None
-    roadrunner.Logger.log(roadrunner.Logger.LOG_WARNING, str(e))    
-try:
-    # FIXME: this should always be packed
-    import tephrasedml
-except ImportError as e:
-    tephrasedml = None
+    libsedml = None
     roadrunner.Logger.log(roadrunner.Logger.LOG_WARNING, str(e))
+
 try:
-    # FIXME: this should always be packed
+    import phrasedml
+except ImportError as e:
+    phrasedml = None
+    roadrunner.Logger.log(roadrunner.Logger.LOG_WARNING, str(e))
+
+try:
     from sbml2matlab import sbml2matlab
 except ImportError as e:
     sbml2matlab = None
     roadrunner.Logger.log(roadrunner.Logger.LOG_WARNING, str(e))
+
 
 
 tehold = False  # Same as matlab hold
@@ -59,16 +62,32 @@ def getHold():
 # group: utility
 # ---------------------------------------------------------------------
 def getVersionInfo():
-    """Prints version information for tellurium supported packages.
+    """Returns version information for tellurium included packages.
 
-    :returns: None
+    :returns: list of tuples (package, version)
     """
     # FIXME: method name not reflecting function (get vs. print)
-    print("tellurium: ", getTelluriumVersion())
-    print("roadrunner:", roadrunner.__version__)
-    print("antimony:", antimony.__version__)
-    print("snbw_viewer: No information for sbnw viewer")
-    
+    versions = [
+        ('tellurium', getTelluriumVersion()),
+        ('roadrunner', roadrunner.__version__),
+        ('antimony', antimony.__version__),
+        ('snbw_viewer', 'No information for sbnw viewer'),
+    ]
+    if libsbml:
+        versions.append(('libsbml', libsbml.getLibSBMLDottedVersion()))
+    if libsedml:
+        versions.append(('libsedml', libsedml.getLibSEDMLVersionString()))
+    if phrasedml:
+        versions.append(('phrasedml', phrasedml.__version__))
+    return versions
+
+
+def printVersionInfo():
+    """ Prints version information for tellurium included packages. """
+    versions = getVersionInfo()
+    for v in versions:
+        print(v[0], ':', v[1])
+
 
 def getTelluriumVersion():
     """Version number of tellurium.
@@ -81,7 +100,7 @@ def getTelluriumVersion():
         version = f.read().rstrip()
         f.close()
     except IOError:
-        # FIXME: the version should be encoded in exactly one place (bad hack)
+        # FIXME: the version should be encoded in exactly one place (hard coding is bad hack)
         version = "1.3.0"
     return version
 
