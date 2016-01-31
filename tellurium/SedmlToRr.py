@@ -14,9 +14,7 @@
 #
 # the .sedml extension indicates a sedml file, the .sedx extension indicates a sedml archive
 
-
-# from __future__ import print_function, division
-# FIXME: make print statements py3 conform, i.e. add () for print and uncomment the import line before
+from __future__ import print_function, division # Python 3 support
 
 import sys
 import os.path
@@ -26,14 +24,8 @@ import roadrunner
 import libsedml
 import StringIO
 import httplib
+import xml.etree.ElementTree as et
 from collections import namedtuple
-
-try:
-    # FIXME: this should always be packed
-    import sedml2py.unzipy as uz
-except ImportError as e:
-    uz = None
-    roadrunner.Logger.log(roadrunner.Logger.LOG_WARNING, str(e))
 
 MatchingSetsOfVariableIDs = namedtuple("MatchingSetsOfVariableIDs", "datagenID, taskReference, sedmlID, sbmlID")
 MatchingSetsOfRepeatedTasksDataGenerators = namedtuple("MatchingSetsOfRepeatedTasksDataGenerators", "datagenID, rangeSize")
@@ -44,15 +36,12 @@ mapping = [ ('repeated','r'), ('Repeated','r'), ('task','t'), ('Task', 't'),
                        ('data','d'), ('Data','d'), ('generator','g'), ('Generator', 'g')]
                        # Map of replaced words
 
+# Legacy support
+def sedml_to_python(inputstring):
+    return sedmlToPython(inputstring)
 
 # Entry point
-def sedml_to_python(fullPathName):      # full path name to SedML model
-    from os.path import basename
-    global modelname
-
-    modelName = os.path.splitext(basename(fullPathName))[0]
-    extension = os.path.splitext(basename(fullPathName))[1]
-    path = fullPathName.rsplit(basename(fullPathName), 1)[0]
+def sedmlToPython(inputstring):      # full path name to SedML model or SED-ML string
 
     class Tee(object):
         def __init__(self, *files):
@@ -60,23 +49,58 @@ def sedml_to_python(fullPathName):      # full path name to SedML model
         def write(self, obj):
             for f in self.files:
                 f.write(obj)
+                    
+    if not isinstance(inputstring, basestring):
+        raise TypeError("For SedmlToPy translation, input must be string")
+    
+    if inputstring.startswith(r"<?"): # Check if string is a SED-ML string
+        sedmlDoc = libsedml.readSedMLFromString(inputstring)
+        path = os.getcwd() + "\\" # Temp. assumption
+    
+    else: # Else assume file path
+        if not os.path.exists(inputstring):
+            raise IOError("Cannot find SED-ML file")
 
-    if extension == ".sedx":
+        global modelname
 
-        zip = zipfile.ZipFile(fullPathName, 'r')
-        path = path + modelName
-        uz.unZip(path, zip)
-        zip.close()
-        fullPathName = uz.readManifest(path + "/manifest.xml")
-        k = fullPathName.rfind("/")
-        fullPathName = fullPathName[k+1:]
-        fullPathName = path + "/" + fullPathName
-
-    sedmlDoc = libsedml.readSedML(fullPathName)
+        modelName = os.path.splitext(os.path.basename(inputstring))[0]
+        extension = os.path.splitext(os.path.basename(inputstring))[1]
+        path = inputstring.rsplit(os.path.basename(inputstring), 1)[0]
+    
+        if extension == ".sedx":
+            zip = zipfile.ZipFile(inputstring, 'r')
+            path = path + modelName
+            if not isdir(path):
+                os.makedirs(path)    
+            for each in zip.namelist():
+            # check if the item includes a subdirectory
+            # if it does, create the subdirectory in the output folder and write the file
+            # otherwise, just write the file to the output folder
+                if not each.endswith('/'): 
+                    root, name = split(each)
+                    directory = normpath(join(path, root))
+                    if not isdir(directory):
+                        os.makedirs(directory)
+                    file(join(directory, name), 'wb').write(zip.read(each))
+            zip.close()
+            
+            tree = et.parse(path + "/manifest.xml")
+            root = tree.getroot()
+            print(root)
+            for child in root:
+                format = child.attrib['format']
+                if(format.endswith("sed-ml")):
+                    inputstring = child.attrib['location']
+            
+            k = inputstring.rfind("/")
+            inputstring = inputstring[k+1:]
+            inputstring = path + "/" + inputstring
+    
+        sedmlDoc = libsedml.readSedMLFromFile(inputstring)
+        
     if sedmlDoc.getErrorLog().getNumFailsWithSeverity(libsedml.LIBSEDML_SEV_ERROR) > 0:
         print(sedmlDoc.getErrorLog().toString())
         sys.exit(2)
-
 
     f = StringIO.StringIO()
     original = sys.stdout
@@ -225,6 +249,7 @@ def loadModel(rrName, sedmlDoc, currentModel, path):
     global modelname
     global outdir
     string = currentModel.getSource()
+    string = string.replace("\\", "/")
     if isId(string):                             # it's the Id of a model
         originalModel = sedmlDoc.getModel(string)
         if originalModel != None:
@@ -241,9 +266,9 @@ def loadModel(rrName, sedmlDoc, currentModel, path):
         #path = expanduser("~")
         #print(rrName + ".load('" + path + "\\" + string + "')")    # SBML model name recovered from "source" attr
     elif "\\" or "/" or "urn:miriam" not in string:
-        print rrName + ".load('" + path.replace("\\","/") + string + "')"
+        print(rrName + ".load('" + path.replace("\\","/") + string + "')")
     elif string.startswith("urn:miriam"):
-        print "Downloading model from BioModels Database..."
+        print("Downloading model from BioModels Database...")
         astr = string.rsplit(':', 1)
         astr = astr[1]
         string = path + astr + ".xml"
@@ -259,10 +284,10 @@ def loadModel(rrName, sedmlDoc, currentModel, path):
             f1.close()
         else:
             pass
-        print rrName + ".load('" + string +"'))"
+        print(rrName + ".load('" + string +"'))")
     else:         # assume absolute path pointing to hard disk location
         string = string.replace("\\", "/")
-        print rrName + ".load('" + string + "')"
+        print(rrName + ".load('" + string + "')")
 
 def populateVariableLists(sedmlDoc, task1, variablesList, variablesDictionary):
 
@@ -280,7 +305,6 @@ def populateVariableLists(sedmlDoc, task1, variablesList, variablesDictionary):
                 if variablesList.count(astr) < 1:
                     variablesList.append(astr)
                 m = MatchingSetsOfVariableIDs(current.getId(), currentVar.getTaskReference(), currentVar.getId(), astr)
-                #print m
                 variablesDictionary.append(m)
             elif currentVar.isSetTarget():
                 cvt = currentVar.getTarget()    # target field of variable is set
@@ -292,7 +316,7 @@ def populateVariableLists(sedmlDoc, task1, variablesList, variablesDictionary):
                 m = MatchingSetsOfVariableIDs(current.getId(), currentVar.getTaskReference(), currentVar.getId(), astr)
                 variablesDictionary.append(m)
             else:
-                print "# Unrecognized data generator variable"
+                print("# Unrecognized data generator variable")
                 sys.exit(5)
     return
 
@@ -307,7 +331,7 @@ def generateSimulation(rrName, sedmlDoc, currentModel, task1, variablesList, var
             continue;
         if currentSimulation.getTypeCode() == libsedml.SEDML_SIMULATION_UNIFORMTIMECOURSE:
             if __steady == True:
-                print rrName + ".conservedMoietyAnalysis = False"
+                print(rrName + ".conservedMoietyAnalysis = False")
             else:
                 pass
             if __uniform == False:
@@ -317,14 +341,14 @@ def generateSimulation(rrName, sedmlDoc, currentModel, task1, variablesList, var
                         string += ","
                     string += "\"" + variablesList[i] + "\""
                 string += "]"
-                print string
+                print(string)
             __uniform = True
             algorithm = currentSimulation.getAlgorithm()
             if currentSimulation.isSetAlgorithm() == False:
-                print "# Algorithm not set for simulation " + currentSimulation.getName()
+                print("# Algorithm not set for simulation " + currentSimulation.getName())
                 continue
             if algorithm.getKisaoID() != "KISAO:0000019":
-                print "# Unsupported KisaoID " + algorithm.getKisaoID() + " for simulation " + currentSimulation.getName()
+                print("# Unsupported KisaoID " + algorithm.getKisaoID() + " for simulation " + currentSimulation.getName())
                 continue
             if repeatedTaskIndex == -1:    # we expand the repeatedTask id because they need to be flattened for each element in ranges
                 taskId = task1.getId()
@@ -337,23 +361,23 @@ def generateSimulation(rrName, sedmlDoc, currentModel, task1, variablesList, var
             totNumPoints = tc.getOutputEndTime() * tc.getNumberOfPoints() / (tc.getOutputEndTime() - tc.getOutputStartTime())
             string += str(int(0)) + ", " + str(int(tc.getOutputEndTime())) + ", " + str(int(totNumPoints))
             string += ")"
-            print string
+            print(string)
         elif currentSimulation.getTypeCode() == libsedml.SEDML_SIMULATION_STEADYSTATE:
             if __steady == False:
-                print rrName + ".conservedMoietyAnalysis = True"
+                print(rrName + ".conservedMoietyAnalysis = True")
                 string = rrName + ".steadyStateSelections = ["
                 for i in range(0, len(variablesList)):
                     if i > 0:
                         string += ","
                     string += "\"" + variablesList[i] + "\""
                 string += "]"
-                print string
+                print(string)
             else:
                 pass
             __steady = True
             algorithm = currentSimulation.getAlgorithm()
             if algorithm.getKisaoID() != "KISAO:0000099":
-                print "# Unsupported KisaoID " + algorithm.getKisaoID() + " for simulation " + currentSimulation.getName()
+                print("# Unsupported KisaoID " + algorithm.getKisaoID() + " for simulation " + currentSimulation.getName())
                 continue
             if repeatedTaskIndex == -1:
                 taskId = task1.getId()
@@ -362,11 +386,11 @@ def generateSimulation(rrName, sedmlDoc, currentModel, task1, variablesList, var
             for k, v in mapping:
                 taskId = taskId.replace(k, v)
             string = taskId + " = np.tile(" + rrName + ".getSteadyStateValues(), (2,1))"
-            print string
-            print taskId + "[1][0] = 10"
+            print(string)
+            print(taskId + "[1][0] = 10") # Default time for steady state
         elif currentSimulation.getTypeCode() == libsedml.SEDML_SIMULATION_ONESTEP:
             if __steady == True:
-                print rrName + ".conservedMoietyAnalysis = False"
+                print(rrName + ".conservedMoietyAnalysis = False")
             else:
                 pass
             string = rrName + ".timeCourseSelections = ["
@@ -375,13 +399,13 @@ def generateSimulation(rrName, sedmlDoc, currentModel, task1, variablesList, var
                     string += ","
                 string += "\"" + variablesList[i] + "\""
             string += "]"
-            print string
+            print(string)
             algorithm = currentSimulation.getAlgorithm()
             if currentSimulation.isSetAlgorithm() == False:
-                print "# Algorithm not set for simulation " + currentSimulation.getName()
+                print("# Algorithm not set for simulation " + currentSimulation.getName())
                 continue
             if algorithm.getKisaoID() != "KISAO:0000019":
-                print "# Unsupported KisaoID " + algorithm.getKisaoID() + " for simulation " + currentSimulation.getName()
+                print("# Unsupported KisaoID " + algorithm.getKisaoID() + " for simulation " + currentSimulation.getName())
                 continue
             if repeatedTaskIndex == -1:    # we expand the repeatedTask id because they need to be flattened for each element in ranges
                 taskId = task1.getId()
@@ -394,9 +418,9 @@ def generateSimulation(rrName, sedmlDoc, currentModel, task1, variablesList, var
                 string = taskId + " = " + rrName + ".simulate(" + str(variablesList[-2]) + ", " + str(variablesList[-2] + stepsize) + ", 1)"
             else:
                 string = taskId + " = " + rrName + ".simulate(0, " + str(stepsize) + ", 1)"
-            print string
+            print(string)
         else:
-            print "# Unsupported type " + str(currentSimulation.getTypeCode()) + " for simulation " + currentSimulation.getName()
+            print("# Unsupported type " + str(currentSimulation.getTypeCode()) + " for simulation " + currentSimulation.getName())
 
 def generateData(sedmlDoc, currentModel, dataGeneratorsList):
 
@@ -415,7 +439,7 @@ def generateData(sedmlDoc, currentModel, dataGeneratorsList):
                     continue
                 aRange = task1.getRange(0)       # we assume one single master range - we don't know how to deel flatten
                 if aRange.getElementName() != "uniformRange":
-                    print "# Only uniformRange ranges are supported at this time"
+                    print("# Only uniformRange ranges are supported at this time")
                     continue
                 variablesDictionary = []
                 variablesList = []
@@ -428,7 +452,7 @@ def generateData(sedmlDoc, currentModel, dataGeneratorsList):
                     # and the repeated task (task1) because its Id is used for generating the flattened Id's
                     generateDataLoop(sedmlDoc, currentModel, task2, variablesList, variablesDictionary, j, task1, dataGeneratorsList)
                     bFoundAtLeastOneTask = True
-                    print ""
+                    print("")
 
         else:       # not a repeated task
             if task1.getModelReference() != currentModel.getId():
@@ -447,7 +471,7 @@ def generateData(sedmlDoc, currentModel, dataGeneratorsList):
     elif task1.getElementName() == "repeatedTask":
         pass
     else:
-        print ""
+        print("")
 
 def generateDataLoop(sedmlDoc, currentModel, task1, variablesList, variablesDictionary, repeatedTaskIndex, repeatedTask = None, dataGeneratorsList = None):
 
@@ -479,13 +503,13 @@ def generateDataLoop(sedmlDoc, currentModel, task1, variablesList, variablesDict
             if currentSimulation.getTypeCode() == libsedml.SEDML_SIMULATION_UNIFORMTIMECOURSE:
                 tc = currentSimulation
                 totNumPoints = tc.getOutputEndTime() * tc.getNumberOfPoints() / (tc.getOutputEndTime() - tc.getOutputStartTime())
-                replacementString = taskId + "[" + str(totNumPoints - currentSimulation.getNumberOfPoints()) + ":," + str(position) + "]"
+                replacementString = taskId + "[" + '{0:g}'.format(totNumPoints - currentSimulation.getNumberOfPoints()) + ":," + str(position) + "]"
             elif currentSimulation.getTypeCode() == libsedml.SEDML_SIMULATION_STEADYSTATE:
                 replacementString = taskId + "[0:," + str(position) + "]"
             elif currentSimulation.getTypeCode() == libsedml.SEDML_SIMULATION_ONESTEP:
                 replacementString = taskId + "[0:," + str(position) + "]"
             else:
-                print "# Unsupported type " + str(currentSimulation.getTypeCode()) + " for simulation " + currentSimulation.getName()
+                print("# Unsupported type " + str(currentSimulation.getTypeCode()) + " for simulation " + currentSimulation.getName())
 
             if dataGeneratorResult != dataGeneratorTemp:
                 if stringToReplace in dataGeneratorResult:
@@ -519,7 +543,7 @@ def generateDataLoop(sedmlDoc, currentModel, task1, variablesList, variablesDict
     dataGeneratorOutput = '\n'.join(dataGeneratorOutputList)
     for k, v in mapping:
         dataGeneratorOutput = dataGeneratorOutput.replace(k, v)
-    print dataGeneratorOutput
+    print(dataGeneratorOutput)
 
 def generateOutputs(sedmlDoc, dataGeneratorsList):
     #The 'plot' len(dataGeneratorsList)output, minus the legend
@@ -536,11 +560,11 @@ def generateOutputs(sedmlDoc, dataGeneratorsList):
                     reportList.append(dataSet1.getDataReference())
                 else:
                     reportList.append(dataSet1.getLabel())
-            print "print '--------------------" + output.getName().replace("'","") + "--------------------'"
-            print "import pandas"
-            print "df = pandas.DataFrame(np.array(" + str(reportList).replace("'","") + ").T, \ncolumns=" + str(reportList) + ")"
-            print "print df.head(5)"
-            print "print '--------------------Report End--------------------'\n"
+            print("print '--------------------" + output.getName().replace("'","") + "--------------------'")
+            print("import pandas")
+            print("df = pandas.DataFrame(np.array(" + str(reportList).replace("'","") + ").T, \ncolumns=" + str(reportList) + ")")
+            print("print df.head(5)") # Default length printed
+            print("print '--------------------Report End--------------------'\n")
 
         elif typeCode == libsedml.SEDML_OUTPUT_PLOT2D:
             for x in range(0, sedmlDoc.getNumTasks()):
@@ -589,25 +613,25 @@ def generateOutputs(sedmlDoc, dataGeneratorsList):
             if checkEqualIvo(allX) == True:
                 pass
             else:
-                print "X_" + str(i) + " = np.array(" + str(allX).replace("'","") + ").T"
-            print "Y_" + str(i) + " = np.array(" + str(allY).replace("'","") + ").T"
+                print("X_" + str(i) + " = np.array(" + str(allX).replace("'","") + ").T")
+            print("Y_" + str(i) + " = np.array(" + str(allY).replace("'","") + ").T")
             if checkEqualIvo(allX) == True:
-                print "plt.plot(" + allX[0] + ", Y_" + str(i) + ")"
+                print("plt.plot(" + allX[0] + ", Y_" + str(i) + ")")
             else:
-                print "plt.plot(X_" + str(i) + ", Y_" + str(i) + ")"
+                print("plt.plot(X_" + str(i) + ", Y_" + str(i) + ")")
             if curve.getLogX() == True:
-                print "plt.xscale('log')"
+                print("plt.xscale('log')")
             if curve.getLogY() == True:
-                print "plt.yscale('log')"
+                print("plt.yscale('log')")
             if output.getName() != '':
-                print "plt.title('" + output.getName() + "')"
+                print("plt.title('" + output.getName() + "')")
             else:
-                print "plt.title('" + output.getId() + "')"
-            print "plt.show()\n"
+                print("plt.title('" + output.getId() + "')")
+            print("plt.show()\n")
         elif typeCode == libsedml.SEDML_OUTPUT_PLOT3D:
-            print "from mpl_toolkits.mplot3d import Axes3D"
-            print "fig = plt.figure()"
-            print "ax = fig.gca(projection='3d')"
+            print("from mpl_toolkits.mplot3d import Axes3D")
+            print("fig = plt.figure()")
+            print("ax = fig.gca(projection='3d')")
             for x in range(0, sedmlDoc.getNumTasks()):
                 task1 = sedmlDoc.getTask(x)
                 taskList.append(task1.getElementName())
@@ -665,14 +689,14 @@ def generateOutputs(sedmlDoc, dataGeneratorsList):
             #print "Y_" + str(i) + " = np.array(" + str(allY).replace("'","") + ").T"
             #print "Z_" + str(i) + " = np.array(" + str(allZ).replace("'","") + ").T"
             for x in range(len(allX)):
-                print "ax.plot(" + str(allX[x]) + ", " + str(allY[x]) + ", " + str(allZ[x]) + ")"
+                print("ax.plot(" + str(allX[x]) + ", " + str(allY[x]) + ", " + str(allZ[x]) + ")")
             if output.getName() != '':
-                print "plt.title('" + output.getName() + "')"
+                print("plt.title('" + output.getName() + "')")
             else:
-                print "plt.title('" + output.getId() + "')"
-            print "plt.show()\n"
+                print("plt.title('" + output.getId() + "')")
+            print("plt.show()\n")
         else:
-            print "# Unsupported output type"
+            print("# Unsupported output type")
 
 def isId(string):
     regular = re.compile('[\\/:-]')               # a SedML Id cannot contain these characters
