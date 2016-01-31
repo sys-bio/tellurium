@@ -75,15 +75,15 @@ import zipfile
 import libsedml
 import StringIO
 import httplib
+import xml.etree.ElementTree as et
 from collections import namedtuple
-
-import unzipy as uz
 
 MatchingSetsOfVariableIDs = namedtuple("MatchingSetsOfVariableIDs", "datagenID, taskReference, sedmlID, sbmlID")
 MatchingSetsOfRepeatedTasksDataGenerators = namedtuple("MatchingSetsOfRepeatedTasksDataGenerators", "datagenID, rangeSize")
 
 modelname = str()
 outdir = str()
+
 # Map of replaced words
 mapping = [
     ('repeated', 'r'),
@@ -101,40 +101,83 @@ class SedmlException(Exception):
     pass
 
 
-def sedml_to_python(fullPathName):
+def sedml_to_python(inputstring):
+    """ Convert sedml file to python code.
+    Legacy support
+
+    :param inputstring:
+    :type inputstring:
+    :return:
+    :rtype:
+    """
+    return sedmlToPython(inputstring)
+
+
+def sedmlToPython(inputstring):
     """ Convert sedml file to python code.
 
-    :param fullPathName: path to sedml file.
-    :type fullPathName: path
+    :param inputstring: full path name to SedML model or SED-ML string
+    :type inputstring: path
     :return: contents
     :rtype:
     """
-    from os.path import basename
-
-    modelName = os.path.splitext(basename(fullPathName))[0]
-    extension = os.path.splitext(basename(fullPathName))[1]
-    path = fullPathName.rsplit(basename(fullPathName), 1)[0]
+    from os.path import *
 
     class Tee(object):
         def __init__(self, *files):
             self.files = files
-
         def write(self, obj):
             for f in self.files:
                 f.write(obj)
 
-    if extension == ".sedx":
-        zip = zipfile.ZipFile(fullPathName, 'r')
-        path = path + modelName
-        uz.unZip(path, zip)
-        zip.close()
-        fullPathName = uz.readManifest(path + "/manifest.xml")
-        k = fullPathName.rfind("/")
-        fullPathName = fullPathName[k+1:]
-        fullPathName = path + "/" + fullPathName
+    if not isinstance(inputstring, basestring):
+        raise TypeError("For SedmlToPy translation, input must be string")
 
-    # Read SED-ML
-    sedmlDoc = libsedml.readSedML(fullPathName)
+    if inputstring.startswith(r"<?"): # Check if string is a SED-ML string
+        sedmlDoc = libsedml.readSedMLFromString(inputstring)
+        path = os.getcwd() + "\\" # Temp. assumption
+
+    else: # Else assume file path
+        if not os.path.exists(inputstring):
+            raise IOError("Cannot find SED-ML file")
+
+        global modelname
+
+        modelName = os.path.splitext(os.path.basename(inputstring))[0]
+        extension = os.path.splitext(os.path.basename(inputstring))[1]
+        path = inputstring.rsplit(os.path.basename(inputstring), 1)[0]
+
+        if extension == ".sedx":
+            zip = zipfile.ZipFile(inputstring, 'r')
+            path = path + modelName
+            if not isdir(path):
+                os.makedirs(path)
+            for each in zip.namelist():
+            # check if the item includes a subdirectory
+            # if it does, create the subdirectory in the output folder and write the file
+            # otherwise, just write the file to the output folder
+                if not each.endswith('/'):
+                    root, name = split(each)
+                    directory = normpath(join(path, root))
+                    if not isdir(directory):
+                        os.makedirs(directory)
+                    file(join(directory, name), 'wb').write(zip.read(each))
+            zip.close()
+
+            tree = et.parse(path + "/manifest.xml")
+            root = tree.getroot()
+            print(root)
+            for child in root:
+                format = child.attrib['format']
+                if(format.endswith("sed-ml")):
+                    inputstring = child.attrib['location']
+
+            k = inputstring.rfind("/")
+            inputstring = inputstring[k+1:]
+            inputstring = path + "/" + inputstring
+
+        sedmlDoc = libsedml.readSedMLFromFile(inputstring)
+
     if sedmlDoc.getErrorLog().getNumFailsWithSeverity(libsedml.LIBSEDML_SEV_ERROR) > 0:
         raise SedmlException(sedmlDoc.getErrorLog().toString())
 
@@ -313,6 +356,7 @@ def loadModel(rrName, sedmlDoc, currentModel, path):
     global modelname
     global outdir
     string = currentModel.getSource()
+    string = string.replace("\\", "/")
     if isId(string):                             # it's the Id of a model
         originalModel = sedmlDoc.getModel(string)
         if originalModel is not None:
@@ -381,7 +425,6 @@ def populateVariableLists(sedmlDoc, task1, variablesList, variablesDictionary):
                 if variablesList.count(astr) < 1:
                     variablesList.append(astr)
                 m = MatchingSetsOfVariableIDs(current.getId(), currentVar.getTaskReference(), currentVar.getId(), astr)
-                #print m
                 variablesDictionary.append(m)
             elif currentVar.isSetTarget():
                 cvt = currentVar.getTarget()    # target field of variable is set
@@ -590,7 +633,7 @@ def generateDataLoop(sedmlDoc, currentModel, task1, variablesList, variablesDict
             if currentSimulation.getTypeCode() == libsedml.SEDML_SIMULATION_UNIFORMTIMECOURSE:
                 tc = currentSimulation
                 totNumPoints = tc.getOutputEndTime() * tc.getNumberOfPoints() / (tc.getOutputEndTime() - tc.getOutputStartTime())
-                replacementString = taskId + "[" + str(totNumPoints - currentSimulation.getNumberOfPoints()) + ":," + str(position) + "]"
+                replacementString = taskId + "[" + '{0:g}'.format(totNumPoints - currentSimulation.getNumberOfPoints()) + ":," + str(position) + "]"
             elif currentSimulation.getTypeCode() == libsedml.SEDML_SIMULATION_STEADYSTATE:
                 replacementString = taskId + "[0:," + str(position) + "]"
             elif currentSimulation.getTypeCode() == libsedml.SEDML_SIMULATION_ONESTEP:
