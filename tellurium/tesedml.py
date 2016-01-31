@@ -64,6 +64,7 @@ The Output Class
     of the DataGenerator class.
 """
 # TODO: refactor with proper handling of the different SED-ML parts.
+# TODO: this module has to implement general SEDML functionality
 
 from __future__ import print_function, division
 

@@ -78,7 +78,7 @@ class tePhrasedMLTestCase(unittest.TestCase):
         exp.exportAsCombine(f.name)
         # try to re
         import zipfile
-        zip=zipfile.ZipFile(f.name)
+        zip = zipfile.ZipFile(f.name)
 
 
 if __name__ == '__main__':

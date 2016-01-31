@@ -1,7 +1,10 @@
 
 
-phrasedml - SED-ML support
-~~~~~~~~~~~~~~~~~~~~~~~~~~
+phrasedml
+~~~~~~~~~
+
+phrasedml experiment
+^^^^^^^^^^^^^^^^^^^^
 
 Tellurium provides support for simulation descriptions in SED-ML the
 export in Combine Archive format.

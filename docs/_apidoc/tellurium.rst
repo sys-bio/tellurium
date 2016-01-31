@@ -18,14 +18,6 @@ Subpackages
 Submodules
 ----------
 
-tellurium.SedmlToRr module
---------------------------
-
-.. automodule:: tellurium.SedmlToRr
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
 tellurium.tecombine module
 --------------------------
 
@@ -46,6 +38,22 @@ tellurium.tephrasedml module
 ----------------------------
 
 .. automodule:: tellurium.tephrasedml
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+tellurium.tesedml module
+------------------------
+
+.. automodule:: tellurium.tesedml
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+tellurium.unzipy module
+-----------------------
+
+.. automodule:: tellurium.unzipy
     :members:
     :undoc-members:
     :show-inheritance:

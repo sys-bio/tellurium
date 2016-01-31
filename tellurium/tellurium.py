@@ -33,6 +33,12 @@ except ImportError as e:
     roadrunner.Logger.log(roadrunner.Logger.LOG_WARNING, str(e))
 
 try:
+    import phrasedml
+except ImportError as e:
+    phrasedml = None
+    roadrunner.Logger.log(roadrunner.Logger.LOG_WARNING, str(e))
+
+try:
     from sbml2matlab import sbml2matlab
 except ImportError as e:
     sbml2matlab = None
@@ -56,19 +62,31 @@ def getHold():
 # group: utility
 # ---------------------------------------------------------------------
 def getVersionInfo():
-    """Prints version information for tellurium included packages.
+    """Returns version information for tellurium included packages.
 
-    :returns: None
+    :returns: list of tuples (package, version)
     """
     # FIXME: method name not reflecting function (get vs. print)
-    print("tellurium: ", getTelluriumVersion())
-    print("roadrunner:", roadrunner.__version__)
-    print("antimony:", antimony.__version__)
-    print("snbw_viewer: No information for sbnw viewer")
+    versions = [
+        ('tellurium', getTelluriumVersion()),
+        ('roadrunner', roadrunner.__version__),
+        ('antimony', antimony.__version__),
+        ('snbw_viewer', 'No information for sbnw viewer'),
+    ]
     if libsbml:
-        print("libsbml:", libsbml.getLibSBMLVersionString())
+        versions.append(('libsbml', libsbml.getLibSBMLDottedVersion()))
     if libsedml:
-        print("libsedml:", libsedml.getLibSEDMLVersionString())
+        versions.append(('libsedml', libsedml.getLibSEDMLVersionString()))
+    if phrasedml:
+        versions.append(('phrasedml', phrasedml.__version__))
+    return versions
+
+
+def printVersionInfo():
+    """ Prints version information for tellurium included packages. """
+    versions = getVersionInfo()
+    for v in versions:
+        print(v[0], ':', v[1])
 
 
 def getTelluriumVersion():
