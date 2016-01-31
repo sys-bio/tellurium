@@ -133,7 +133,7 @@ def sedmlToPython(inputstring):
     if not isinstance(inputstring, basestring):
         raise TypeError("For SedmlToPy translation, input must be string")
 
-    if inputstring.startswith(r"<?"): # Check if string is a SED-ML string
+    if inputstring.startswith(r"<?"):  # Check if string is a SED-ML string
         sedmlDoc = libsedml.readSedMLFromString(inputstring)
         path = os.getcwd() + "\\" # Temp. assumption
 
