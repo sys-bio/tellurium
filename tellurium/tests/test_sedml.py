@@ -5,7 +5,7 @@ from __future__ import print_function
 import unittest
 
 import os
-import tellurium.SedmlToRr as tesedml
+import tellurium.tesedml as tesedml
 import tempfile
 
 test_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)),

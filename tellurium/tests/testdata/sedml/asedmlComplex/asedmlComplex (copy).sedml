@@ -17,7 +17,7 @@
       </listOfChanges>
     </model>
   </listOfModels>
-    <listOfTasks>
+  <listOfTasks>
     <task id="task_0_0" name="task_0_0" modelReference="Application0_0" simulationReference="Simulation1" />
     <repeatedTask id="repeatedTask_0_0" name="repeatedTask_0_0" resetModel="true" range="range_0_0_s1_init_uM">
       <listOfRanges>
@@ -27,9 +27,9 @@
         <setValue range="range_0_0_s1_init_uM" modelReference="Application0_0" target="/sbml:sbml/sbml:model/sbml:listOfSpecies/sbml:species[@id='s1']">
           <listOfVariables />
           <listOfParameters />
-          <math:math>
+          <math>
             <math:ci>s1_init_uM</math:ci>
-          </math:math>
+          </math>
         </setValue>
       </listOfChanges>
       <listOfSubTasks>
@@ -74,6 +74,5 @@
       </listOfCurves>
     </plot2D>
   </listOfOutputs>
-
 </sedML>
 

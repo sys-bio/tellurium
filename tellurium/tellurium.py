@@ -17,30 +17,27 @@ import roadrunner.testing
 import antimony
 import matplotlib.pyplot as plt
 
+import tecombine as combine
+import tesedml
+import tephrasedml
+
 try:
-    # FIXME: this should always be packed
-    import tecombine as combine
+    import libsbml
 except ImportError as e:
-    combine = None
+    libsbml = None
     roadrunner.Logger.log(roadrunner.Logger.LOG_WARNING, str(e))
 try:
-    # FIXME: this should always be packed
-    import SedmlToRr
+    import libsedml
 except ImportError as e:
-    SedmlToRr = None
-    roadrunner.Logger.log(roadrunner.Logger.LOG_WARNING, str(e))    
-try:
-    # FIXME: this should always be packed
-    import tephrasedml
-except ImportError as e:
-    tephrasedml = None
+    libsedml = None
     roadrunner.Logger.log(roadrunner.Logger.LOG_WARNING, str(e))
+
 try:
-    # FIXME: this should always be packed
     from sbml2matlab import sbml2matlab
 except ImportError as e:
     sbml2matlab = None
     roadrunner.Logger.log(roadrunner.Logger.LOG_WARNING, str(e))
+
 
 
 tehold = False  # Same as matlab hold
@@ -59,7 +56,7 @@ def getHold():
 # group: utility
 # ---------------------------------------------------------------------
 def getVersionInfo():
-    """Prints version information for tellurium supported packages.
+    """Prints version information for tellurium included packages.
 
     :returns: None
     """
@@ -68,7 +65,11 @@ def getVersionInfo():
     print("roadrunner:", roadrunner.__version__)
     print("antimony:", antimony.__version__)
     print("snbw_viewer: No information for sbnw viewer")
-    
+    if libsbml:
+        print("libsbml:", libsbml.getLibSBMLVersionString())
+    if libsedml:
+        print("libsedml:", libsedml.getLibSEDMLVersionString())
+
 
 def getTelluriumVersion():
     """Version number of tellurium.
@@ -81,7 +82,7 @@ def getTelluriumVersion():
         version = f.read().rstrip()
         f.close()
     except IOError:
-        # FIXME: the version should be encoded in exactly one place (bad hack)
+        # FIXME: the version should be encoded in exactly one place (hard coding is bad hack)
         version = "1.3.0"
     return version
 
