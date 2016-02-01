@@ -858,3 +858,11 @@ def isId(string):
 def checkEqualIvo(lst):
     return not lst or lst.count(lst[0]) == len(lst)
 
+
+if __name__ == "__main__":
+    test_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)),
+                        'tests', 'testdata', 'sedml')
+    f_sedml = os.path.join(test_dir, 'app2sim', 'app2sim.sedml')
+    python_str = sedml_to_python(f_sedml)
+    print(python_str)
+
