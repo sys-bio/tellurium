@@ -6,7 +6,6 @@ import unittest
 
 import os
 import tellurium.tesedml as tesedml
-import tempfile
 
 test_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)),
                         'testdata', 'sedml')
@@ -24,6 +23,9 @@ class tesedmlTestCase(unittest.TestCase):
         print(f_sedml)
         python_str = tesedml.sedml_to_python(f_sedml)
         self.assertIsNotNone(python_str)
+        # create the python code file
+        with open(f_sedml+'.py', 'w') as f_py:
+            f_py.write(python_str)
 
     def test_app2sim(self):
         self.single_check(os.path.join(test_dir, 'app2sim', 'app2sim.sedml'))
@@ -93,3 +95,5 @@ class tesedmlTestCase(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+

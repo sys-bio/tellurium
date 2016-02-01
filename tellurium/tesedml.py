@@ -63,8 +63,16 @@ The Output Class
     and the according axes or columns are all assigned to one of the formerly specified instances
     of the DataGenerator class.
 """
+
 # TODO: refactor with proper handling of the different SED-ML parts.
 # TODO: this module has to implement general SEDML functionality
+# This module is a unsupportable mess and should be rewritten.
+# It should be a CodeGenerator class which is able to handle the
+# various Models, Simulations, Tasks, DataGenerators and Outputs from SED-ML.
+# The python code should be created based on templates (like Jinja2) which are just filled in
+# with the SEDML information.
+#   http://stackoverflow.com/questions/612788/best-python-templating-library-to-facilitate-code-generation
+# FIXME: please no sys.exit calls ever, raise a (custom) exception instead
 
 from __future__ import print_function, division
 
@@ -849,4 +857,12 @@ def isId(string):
 
 def checkEqualIvo(lst):
     return not lst or lst.count(lst[0]) == len(lst)
+
+
+if __name__ == "__main__":
+    test_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)),
+                        'tests', 'testdata', 'sedml')
+    f_sedml = os.path.join(test_dir, 'app2sim', 'app2sim.sedml')
+    python_str = sedml_to_python(f_sedml)
+    print(python_str)
 
