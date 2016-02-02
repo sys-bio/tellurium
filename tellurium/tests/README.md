@@ -22,17 +22,18 @@ nosetests
 If all tests passed you see a message
 ```
 ----------------------------------------------------------------------
-Ran 4 tests in 1.534s
+Ran 38 tests in 3.728s
 
 OK
 ```
 
 To run the tests with a coverage report use
 ```{shell}
-nosetests --with-coverage --cover-erase --cover-package=tellurium --cover-html
+nosetests --with-coverage --cover-erase --cover-inclusive --cover-package=../../tellurium --cover-html
 # coverage report
 firefox cover/index.html
 ```
+Here you can see code which is not covered by any of the unittests.
 
 ## Add test
 To add a test write a test function in one of the `tests/test_*.py` modules. Assert the test results with the `assert*` functions.
