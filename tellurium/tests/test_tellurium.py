@@ -167,6 +167,14 @@ class TelluriumTestCase(unittest.TestCase):
         sbml = te.antimonyToSBML(self.ant_str)
         self.assertIsNotNone(sbml)
 
+    def test_antimonyToCellML_file(self):
+        cellml = te.antimonyToCellML(self.ant_file)
+        self.assertIsNotNone(cellml)
+
+    def test_antimonyToCellML_str(self):
+        cellml = te.antimonyToCellML(self.ant_str)
+        self.assertIsNotNone(cellml)
+
     def test_sbmlToAntimony_file(self):
         ant = te.sbmlToAntimony(self.sbml_file)
         self.assertIsNotNone(ant)
@@ -174,6 +182,14 @@ class TelluriumTestCase(unittest.TestCase):
     def test_sbmlToAntimony_str(self):
         ant = te.sbmlToAntimony(self.sbml_str)
         self.assertIsNotNone(ant)
+
+    def test_sbmlToCellML_file(self):
+        cellml = te.sbmlToCellML(self.sbml_file)
+        self.assertIsNotNone(cellml)
+
+    def test_sbmlToAntimony_str(self):
+        cellml = te.sbmlToCellML(self.sbml_str)
+        self.assertIsNotNone(cellml)
 
     def test_cellmlToAntimony_file(self):
         ant = te.cellmlToAntimony(self.cellml_file)

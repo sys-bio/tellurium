@@ -75,9 +75,9 @@ This is the same as roadrunner.RoadRunner() but the method name is more suggesti
 		result = r.simulate (0, 10, 100)
 		r.plot (result)
 
+.. autofunction:: tellurium.loada
 .. autofunction:: tellurium.loadSBMLModel
 .. autofunction:: tellurium.loadAntimonyModel
-.. autofunction:: tellurium.loada
 .. autofunction:: tellurium.loadCellMLModel
 
 ----------------------------------------
@@ -101,12 +101,12 @@ Use these routines interconvert verious standard formats
 	# Generate the SBML format of the Antimony model
 	print te.antimonyToSBML(antStr)
 
-.. autofunction:: tellurium.antimonyTosbml
+.. autofunction:: tellurium.antimonyToSBML
+.. autofunction:: tellurium.antimonyToCellML
 .. autofunction:: tellurium.sbmlToAntimony
-.. autofunction:: tellurium.cellmlFileToAntimony
-.. autofunction:: tellurium.cellmlFileToSBML
-.. autofunction:: tellurium.cellmlStrToAntimony
-.. autofunction:: tellurium.cellmlStrToSBML
+.. autofunction:: tellurium.sbmlToCellML
+.. autofunction:: tellurium.cellmlToAntimony
+.. autofunction:: tellurium.cellmlToSBML
 
 ----------------------------------------
 Stochastic Simulation

@@ -227,6 +227,23 @@ def antimonyToSBML(ant):
     return antimony.getSBMLString(mid)
 
 
+def antimonyToCellML(ant):
+    """ Convert Antimony to CellML string.
+
+    :param ant: Antimony string or file
+    :type ant: str | file
+    :return: CellML
+    :rtype: str
+    """
+    if os.path.isfile(ant):
+        code = antimony.loadAntimonyFile(ant)
+    else:
+        code = antimony.loadAntimonyString(ant)
+    _checkAntimonyReturnCode(code)
+    mid = antimony.getMainModuleName()
+    return antimony.getCellMLString(mid)
+
+
 def sbmlToAntimony(sbml):
     """ Convert SBML to antimony string.
 
@@ -241,6 +258,22 @@ def sbmlToAntimony(sbml):
         code = antimony.loadSBMLString(sbml)
     _checkAntimonyReturnCode(code)
     return antimony.getAntimonyString(None)
+
+
+def sbmlToCellML(sbml):
+    """ Convert SBML to CellML string.
+
+    :param sbml: SBML string or file
+    :type sbml: str | file
+    :return: CellML
+    :rtype: str
+    """
+    if os.path.isfile(sbml):
+        code = antimony.loadSBMLFile(sbml)
+    else:
+        code = antimony.loadSBMLString(sbml)
+    _checkAntimonyReturnCode(code)
+    return antimony.getCellMLString(None)
 
 
 def cellmlToAntimony(cellml):
