@@ -83,16 +83,20 @@ def getVersionInfo():
 
 
 def printVersionInfo():
-    """ Prints version information for tellurium included packages. """
+    """ Prints version information for tellurium included packages.
+
+    see also: :func:`getVersionInfo`
+    """
     versions = getVersionInfo()
     for v in versions:
         print(v[0], ':', v[1])
 
 
 def getTelluriumVersion():
-    """Version number of tellurium.
+    """ Version number of tellurium.
 
-    :returns: version string
+    :returns: version
+    :rtype: str
     """
     try:
         import os
@@ -108,50 +112,51 @@ def getTelluriumVersion():
 def noticesOff():
     """Switch off the generation of notices to the user.
     Call this to stop roadrunner from printing warning message to the console.
-    see also :func:`noticesOn`
+
+    See also :func:`noticesOn`
     """
     roadrunner.Logger.setLevel(roadrunner.Logger.LOG_WARNING)
 
 
 def noticesOn():
-    """Switch on notice generation to the user.
-    see also :func:`noticesOff`
+    """ Switch on notice generation to the user.
+
+    See also :func:`noticesOff`
     """
     roadrunner.Logger.setLevel(roadrunner.Logger.LOG_NOTICE)
     
 
-def saveToFile(fileName, str):
-    """Save string to file.
-    ::
+def saveToFile(filePath, str):
+    """ Save string to file.
 
-        saveToFile ('c:\\myfile.txt', strVariable)
+    see also: :func:`readFromFile`
 
-    :param fileName: file path to save to
+    :param filePath: file path to save to
     :param str: string to save
-    :returns: None
     """
-    f = open(fileName, 'w')
+    f = open(filePath, 'w')
     f.write(str)
     f.close()
 
 
-def readFromFile(fileName):
-    """Load a file and return contents as a string.
-    ::
+def readFromFile(filePath):
+    """ Load a file and return contents as a string.
 
-        str = readFromFile('c:\\myfile.txt')
+    see also: :func:`saveToFile`
 
-    :param fileName: file path to read from
+    :param filePath: file path to read from
     :returns: string representation of the contents of the file
     """
-    f = open(fileName, 'r')
+    f = open(filePath, 'r')
     return f.read()
 
 
 def _checkAntimonyReturnCode(code):
     """ Helper for checking the antimony response code.
-    :param err: antimony response
-    :type err: int
+    Raises Exception if error in antimony.
+
+    :param code: antimony response
+    :type code: int
     """
     if code < 0:
         raise Exception('Antimony: {}'.format(antimony.getLastError()))
@@ -159,21 +164,26 @@ def _checkAntimonyReturnCode(code):
 # ---------------------------------------------------------------------
 # Loading Models Methods
 # ---------------------------------------------------------------------
-def loada(antStr):
-    """Load model from antimony string.
-    see also: `:func:loadAntimonyModel`
+def loada(ant):
+    """ Load model from Antimony string.
+
+    See also: :func:`loadAntimonyModel`
     ::
 
         r = loada('S1 -> S2; k1*S1; k1 = 0.1; S2 = 10')
 
-    :param antStr: antimony string
-    :returns: reference to roadrunner model
+    :param ant: Antimony model
+    :type ant: str | file
+    :returns: RoadRunner instance with model loaded
+    :rtype: roadrunner.RoadRunner
     """
-    return loadAntimonyModel(antStr)
+    return loadAntimonyModel(ant)
 
 
 def loadAntimonyModel(ant):
     """ Load Antimony model with tellurium.
+
+    See also: :func:`loada`
 
     :param ant: Antimony model
     :type ant: str | file

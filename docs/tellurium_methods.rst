@@ -65,7 +65,7 @@ This is the same as roadrunner.RoadRunner() but the method name is more suggesti
 	r = te.loadAntimonyModel ('mymodel.ant')
 
 	# The method loada is simply a shortcut to loadAntimonyModel
-	r = loada ('''
+	r = loada('''
 		S1 -> S2; k1*S1;
 		S2 -> S3; k2*S2;
 	   
@@ -76,8 +76,8 @@ This is the same as roadrunner.RoadRunner() but the method name is more suggesti
 		r.plot (result)
 
 .. autofunction:: tellurium.loada
-.. autofunction:: tellurium.loadSBMLModel
 .. autofunction:: tellurium.loadAntimonyModel
+.. autofunction:: tellurium.loadSBMLModel
 .. autofunction:: tellurium.loadCellMLModel
 
 ----------------------------------------
