@@ -132,7 +132,6 @@ def sedmlToPython(inputstring):
     :return: contents
     :rtype:
     """
-    from os.path import *
 
     class Tee(object):
         def __init__(self, *files):
@@ -161,18 +160,18 @@ def sedmlToPython(inputstring):
         if extension == ".sedx":
             zip = zipfile.ZipFile(inputstring, 'r')
             path = path + modelName
-            if not isdir(path):
+            if not os.path.isdir(path):
                 os.makedirs(path)
             for each in zip.namelist():
             # check if the item includes a subdirectory
             # if it does, create the subdirectory in the output folder and write the file
             # otherwise, just write the file to the output folder
                 if not each.endswith('/'):
-                    root, name = split(each)
-                    directory = normpath(join(path, root))
-                    if not isdir(directory):
+                    root, name = os.path.split(each)
+                    directory = os.path.normpath(os.path.join(path, root))
+                    if not os.path.isdir(directory):
                         os.makedirs(directory)
-                    file(join(directory, name), 'wb').write(zip.read(each))
+                    file(os.path.join(directory, name), 'wb').write(zip.read(each))
             zip.close()
 
             tree = et.parse(path + "/manifest.xml")
