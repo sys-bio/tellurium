@@ -172,17 +172,6 @@ def loada(antStr):
     return loadAntimonyModel(antStr)
 
 
-def loadSBMLModel(sbml):
-    """Load SBML model with tellurium
-
-    :param sbml: SBML model
-    :type sbml: str | file
-    :returns: RoadRunner instance with model loaded
-    :rtype: roadrunner.RoadRunner
-    """
-    return roadrunner.RoadRunner(sbml)
-
-
 def loadAntimonyModel(ant):
     """ Load Antimony model with tellurium.
 
@@ -192,6 +181,17 @@ def loadAntimonyModel(ant):
     :rtype: roadrunner.RoadRunner
     """
     sbml = antimonyToSBML(ant)
+    return roadrunner.RoadRunner(sbml)
+
+
+def loadSBMLModel(sbml):
+    """Load SBML model with tellurium
+
+    :param sbml: SBML model
+    :type sbml: str | file
+    :returns: RoadRunner instance with model loaded
+    :rtype: roadrunner.RoadRunner
+    """
     return roadrunner.RoadRunner(sbml)
 
 

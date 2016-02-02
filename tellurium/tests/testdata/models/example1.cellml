@@ -1,0 +1,54 @@
+<?xml version="1.0"?>
+<model xmlns:cellml="http://www.cellml.org/cellml/1.1#" xmlns="http://www.cellml.org/cellml/1.1#" name="pathway">
+<component name="pathway">
+<variable initial_value="10" name="S1" units="dimensionless"/>
+<variable initial_value="0" name="S2" units="dimensionless"/>
+<variable initial_value="1" name="k1" units="dimensionless"/>
+<variable name="_J0" units="dimensionless"/>
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+<apply>
+<eq/>
+<ci>_J0</ci>
+<apply>
+<times/>
+<ci>k1</ci>
+<ci>S1</ci>
+</apply>
+</apply>
+</math>
+<variable name="time" units="dimensionless"/>
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+<apply>
+<eq/>
+<apply>
+<diff/>
+<bvar>
+<ci>time</ci>
+</bvar>
+<ci>S1</ci>
+</apply>
+<apply>
+<minus/>
+<ci>_J0</ci>
+</apply>
+</apply>
+</math>
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+<apply>
+<eq/>
+<apply>
+<diff/>
+<bvar>
+<ci>time</ci>
+</bvar>
+<ci>S2</ci>
+</apply>
+<ci>_J0</ci>
+</apply>
+</math>
+</component>
+<group>
+<relationship_ref relationship="encapsulation"/>
+<component_ref component="pathway"/>
+</group>
+</model>
