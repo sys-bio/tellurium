@@ -11,6 +11,64 @@ import tellurium as te
 
 class TelluriumTestCase(unittest.TestCase):
 
+    # ---------------------------------------------------------------------
+    # Loading Models Methods
+    # ---------------------------------------------------------------------
+    def test_loada_file(self):
+        self.assertEqual(0, 1)
+
+    def test_loada_str(self):
+        self.assertEqual(0, 1)
+
+    def test_loadSBMLModel_file(self):
+        self.assertEqual(0, 1)
+
+    def test_loadSBMLModel_str(self):
+        self.assertEqual(0, 1)
+
+    def loadAntimonyModel_file(self):
+        self.assertEqual(0, 1)
+
+    def loadAntimonyModel_str(self):
+        self.assertEqual(0, 1)
+
+    def loadCellMLModel_file(self):
+        self.assertEqual(0, 1)
+
+    def loadCellMLModel_str(self):
+        self.assertEqual(0, 1)
+
+    # ---------------------------------------------------------------------
+    # Interconversion Methods
+    # ---------------------------------------------------------------------
+
+    def test_antimonyToSBML_file(self):
+        self.assertEqual(0, 1)
+
+    def test_antimonyToSBML_str(self):
+        self.assertEqual(0, 1)
+
+    def test_sbmlToAntimony_file(self):
+        self.assertEqual(0, 1)
+
+    def test_sbmlToAntimony_str(self):
+        self.assertEqual(0, 1)
+
+    def test_cellmlToAntimony_file(self):
+        self.assertEqual(0, 1)
+
+    def test_cellmlToAntimony_str(self):
+        self.assertEqual(0, 1)
+
+    def test_cellmlToSBML_file(self):
+        self.assertEqual(0, 1)
+
+    def test_cellmlToSBML_file(self):
+        self.assertEqual(0, 1)
+
+    # ---------------------------------------------------------------------
+    # Roadrunner tests
+    # ---------------------------------------------------------------------
     def test_roadrunner(self):
         # load test model as SBML
         sbml = te.getTestModel('feedback.xml')

@@ -69,7 +69,7 @@ class tePhrasedml(object):
         :returns: SBML string
         :rtype: string
         """
-        return te.antimonyTosbml(self.antimonyStr)
+        return te.antimonyToSBML(self.antimonyStr)
 
     def getPhrasedmlString(self):
         """ Get phrasedml string.
@@ -90,7 +90,7 @@ class tePhrasedml(object):
             if len(reSearchModel) > 1:
                 modelsource = str(reSearchModel[3])
 
-        phrasedml.setReferencedSBML(modelsource, te.antimonyTosbml(self.antimonyStr))
+        phrasedml.setReferencedSBML(modelsource, te.antimonyToSBML(self.antimonyStr))
         sedmlstr = phrasedml.convertString(self.phrasedmlStr)
         if sedmlstr is None:
             raise Exception(phrasedml.getLastError())
@@ -125,7 +125,7 @@ class tePhrasedml(object):
                 modelname = os.path.basename(modelsource)
                 modelname = str(modelname).replace(".xml", '')
 
-        phrasedml.setReferencedSBML(modelsource, te.antimonyTosbml(tePhrasedml.antimonyStr))
+        phrasedml.setReferencedSBML(modelsource, te.antimonyToSBML(tePhrasedml.antimonyStr))
         sedmlstr = phrasedml.convertString(tePhrasedml.phrasedmlStr)
         if sedmlstr is None:
             raise Exception(phrasedml.getLastError())
@@ -203,6 +203,6 @@ class tePhrasedml(object):
         revphrasedml = '\n'.join(lines)
 
         # export the combine archive
-        phrasedml.setReferencedSBML(modelname, te.antimonyTosbml(self.antimonyStr))
+        phrasedml.setReferencedSBML(modelname, te.antimonyToSBML(self.antimonyStr))
         tecombine.export(outputpath, self.antimonyStr, modelname, revphrasedml)
         phrasedml.clearReferencedSBML()

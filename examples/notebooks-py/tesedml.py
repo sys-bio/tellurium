@@ -36,7 +36,7 @@ phrasedml_str = '''
 '''
 
 # create the sedml xml string from the phrasedml
-sbml_str = te.antimonyTosbml(antimony_str)
+sbml_str = te.antimonyToSBML(antimony_str)
 phrasedml.setReferencedSBML("myModel", sbml_str)
 
 sedml_str = phrasedml.convertString(phrasedml_str)
