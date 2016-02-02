@@ -208,6 +208,35 @@ class TelluriumTestCase(unittest.TestCase):
         self.assertIsNotNone(sbml)
 
     # ---------------------------------------------------------------------
+    # Simulate options
+    # ---------------------------------------------------------------------
+    def test_simulateOptions_steps(self):
+        r = te.loada(self.ant_str)
+        r.setSteps(200)
+        steps = r.getSteps()
+        self.assertEqual(200, steps)
+
+    def test_simulateOptions_numberOfPoints(self):
+        r = te.loada(self.ant_str)
+        r.setNumberOfPoints(500)
+        steps = r.getSteps()
+        numberOfPoints = r.getNumberOfPoints()
+        self.assertEqual(500, numberOfPoints)
+        self.assertEqual(499, steps)
+
+    def test_simulateOptions_startTime(self):
+        r = te.loada(self.ant_str)
+        r.setStartTime(13.5)
+        start = r.getStartTime()
+        self.assertAlmostEqual(13.5, start)
+
+    def test_simulateOptions_endTime(self):
+        r = te.loada(self.ant_str)
+        r.setEndTime(200.0)
+        end = r.getEndTime()
+        self.assertAlmostEqual(200.0, end)
+
+    # ---------------------------------------------------------------------
     # Roadrunner tests
     # ---------------------------------------------------------------------
     def test_roadrunner(self):
