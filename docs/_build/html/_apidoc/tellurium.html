@@ -103,7 +103,6 @@
 <li class="toctree-l2"><a class="reference internal" href="#module-tellurium.tellurium">tellurium.tellurium module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#module-tellurium.tephrasedml">tellurium.tephrasedml module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#module-tellurium.tesedml">tellurium.tesedml module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#module-tellurium.unzipy">tellurium.unzipy module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#module-tellurium">Module contents</a></li>
 </ul>
 </li>
@@ -191,6 +190,9 @@
 <li class="toctree-l1"><a class="reference internal" href="tellurium.tests.html">tellurium.tests package</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="tellurium.tests.html#subpackages">Subpackages</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="tellurium.tests.testdata.html">tellurium.tests.testdata package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="tellurium.tests.testdata.html#subpackages">Subpackages</a><ul class="simple">
+</ul>
+</li>
 <li class="toctree-l4"><a class="reference internal" href="tellurium.tests.testdata.html#module-tellurium.tests.testdata">Module contents</a></li>
 </ul>
 </li>
@@ -544,95 +546,72 @@
 <dd></dd></dl>
 
 <dl class="function">
-<dt id="tellurium.tellurium.antimonyTosbml">
-<code class="descclassname">tellurium.tellurium.</code><code class="descname">antimonyTosbml</code><span class="sig-paren">(</span><em>antStr</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/tellurium/tellurium.html#antimonyTosbml"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tellurium.antimonyTosbml" title="Permalink to this definition">¶</a></dt>
-<dd><p>Convert antimony string to SBML string.</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">sbmlStr</span> <span class="o">=</span> <span class="n">antimonyTosbml</span><span class="p">(</span><span class="n">antimonyStr</span><span class="p">)</span>
-</pre></div>
-</div>
+<dt id="tellurium.tellurium.antimonyToCellML">
+<code class="descclassname">tellurium.tellurium.</code><code class="descname">antimonyToCellML</code><span class="sig-paren">(</span><em>ant</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/tellurium/tellurium.html#antimonyToCellML"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tellurium.antimonyToCellML" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert Antimony to CellML string.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>antStr</strong> &#8211; antimony string of model</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>ant</strong> (<em>str | file</em>) &#8211; Antimony string or file</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">SBML model as string</td>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">CellML</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">str</td>
 </tr>
 </tbody>
 </table>
 </dd></dl>
 
 <dl class="function">
-<dt id="tellurium.tellurium.cellmlFileToAntimony">
-<code class="descclassname">tellurium.tellurium.</code><code class="descname">cellmlFileToAntimony</code><span class="sig-paren">(</span><em>CellMLFileName</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/tellurium/tellurium.html#cellmlFileToAntimony"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tellurium.cellmlFileToAntimony" title="Permalink to this definition">¶</a></dt>
-<dd><p>Convert cellml file to antimony string.</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">ant</span> <span class="o">=</span> <span class="n">cellMLToAntimony</span><span class="p">(</span><span class="s1">&#39;mymodel.cellml&#39;</span><span class="p">)</span>
-</pre></div>
-</div>
+<dt id="tellurium.tellurium.antimonyToSBML">
+<code class="descclassname">tellurium.tellurium.</code><code class="descname">antimonyToSBML</code><span class="sig-paren">(</span><em>ant</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/tellurium/tellurium.html#antimonyToSBML"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tellurium.antimonyToSBML" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert Antimony to SBML string.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>CellMLFileName</strong> &#8211; CellML file</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>ant</strong> (<em>str | file</em>) &#8211; Antimony string or file</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">antimony string of model</td>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">SBML</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">str</td>
 </tr>
 </tbody>
 </table>
 </dd></dl>
 
 <dl class="function">
-<dt id="tellurium.tellurium.cellmlFileToSBML">
-<code class="descclassname">tellurium.tellurium.</code><code class="descname">cellmlFileToSBML</code><span class="sig-paren">(</span><em>CellMLFileName</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/tellurium/tellurium.html#cellmlFileToSBML"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tellurium.cellmlFileToSBML" title="Permalink to this definition">¶</a></dt>
-<dd><p>Convert cellml file to SBML string.</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">sbmlStr</span> <span class="o">=</span> <span class="n">cellMLToSBML</span><span class="p">(</span><span class="s1">&#39;mymodel.cellml&#39;</span><span class="p">)</span>
-</pre></div>
-</div>
+<dt id="tellurium.tellurium.cellmlToAntimony">
+<code class="descclassname">tellurium.tellurium.</code><code class="descname">cellmlToAntimony</code><span class="sig-paren">(</span><em>cellml</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/tellurium/tellurium.html#cellmlToAntimony"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tellurium.cellmlToAntimony" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert CellML to antimony string.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>CellMLFileName</strong> &#8211; CellML file</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>cellml</strong> (<em>str | file</em>) &#8211; CellML string or file</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">SBML string of model</td>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">antimony</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">str</td>
 </tr>
 </tbody>
 </table>
 </dd></dl>
 
 <dl class="function">
-<dt id="tellurium.tellurium.cellmlStrToAntimony">
-<code class="descclassname">tellurium.tellurium.</code><code class="descname">cellmlStrToAntimony</code><span class="sig-paren">(</span><em>CellMLStr</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/tellurium/tellurium.html#cellmlStrToAntimony"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tellurium.cellmlStrToAntimony" title="Permalink to this definition">¶</a></dt>
-<dd><p>Convert cellml string to antimony string:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">ant</span> <span class="o">=</span> <span class="n">cellMLStrToAntimony</span><span class="p">(</span><span class="s1">&#39;mymodel.cellml&#39;</span><span class="p">)</span>
-</pre></div>
-</div>
+<dt id="tellurium.tellurium.cellmlToSBML">
+<code class="descclassname">tellurium.tellurium.</code><code class="descname">cellmlToSBML</code><span class="sig-paren">(</span><em>cellml</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/tellurium/tellurium.html#cellmlToSBML"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tellurium.cellmlToSBML" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert CellML to SBML string.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>CellMLStr</strong> &#8211; CellML string</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>cellml</strong> (<em>str | file</em>) &#8211; CellML string or file</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">antimony string of model</td>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">SBML</td>
 </tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="function">
-<dt id="tellurium.tellurium.cellmlStrToSBML">
-<code class="descclassname">tellurium.tellurium.</code><code class="descname">cellmlStrToSBML</code><span class="sig-paren">(</span><em>CellMLStr</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/tellurium/tellurium.html#cellmlStrToSBML"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tellurium.cellmlStrToSBML" title="Permalink to this definition">¶</a></dt>
-<dd><p>Convert cellml string to SBML string.</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">sbmlStr</span> <span class="o">=</span> <span class="n">cellMLStrToSBML</span><span class="p">(</span><span class="s1">&#39;mymodel.cellml&#39;</span><span class="p">)</span>
-</pre></div>
-</div>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>CellMLStr</strong> &#8211; CellML string</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">antimony string of model</td>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">str</td>
 </tr>
 </tbody>
 </table>
@@ -660,36 +639,56 @@
 </dd></dl>
 
 <dl class="function">
-<dt id="tellurium.tellurium.exportToMatlab">
-<code class="descclassname">tellurium.tellurium.</code><code class="descname">exportToMatlab</code><span class="sig-paren">(</span><em>self</em>, <em>fileName</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/tellurium/tellurium.html#exportToMatlab"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tellurium.exportToMatlab" title="Permalink to this definition">¶</a></dt>
-<dd><p>Save current model as Matlab file.</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">rr</span><span class="o">.</span><span class="n">exportToMatlab</span> <span class="p">(</span><span class="s1">&#39;mymodel.m&#39;</span><span class="p">)</span>
-</pre></div>
-</div>
+<dt id="tellurium.tellurium.exportToAntimony">
+<code class="descclassname">tellurium.tellurium.</code><code class="descname">exportToAntimony</code><span class="sig-paren">(</span><em>self</em>, <em>filePath</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/tellurium/tellurium.html#exportToAntimony"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tellurium.exportToAntimony" title="Permalink to this definition">¶</a></dt>
+<dd><p>Save current model as Antimony file.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>fileName</strong> &#8211; file path of matlab file</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">?</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>filePath</strong> &#8211; file path of matlab file</td>
 </tr>
 </tbody>
 </table>
 </dd></dl>
 
 <dl class="function">
-<dt id="tellurium.tellurium.getAntimony">
-<code class="descclassname">tellurium.tellurium.</code><code class="descname">getAntimony</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/tellurium/tellurium.html#getAntimony"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tellurium.getAntimony" title="Permalink to this definition">¶</a></dt>
-<dd><p>Antimony string of the current model state.</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="k">print</span><span class="p">(</span><span class="n">rr</span><span class="o">.</span><span class="n">getAntimony</span><span class="p">())</span>
-</pre></div>
-</div>
+<dt id="tellurium.tellurium.exportToCellML">
+<code class="descclassname">tellurium.tellurium.</code><code class="descname">exportToCellML</code><span class="sig-paren">(</span><em>self</em>, <em>filePath</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/tellurium/tellurium.html#exportToCellML"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tellurium.exportToCellML" title="Permalink to this definition">¶</a></dt>
+<dd><p>Save current model as CellML file.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">antimony string</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>filePath</strong> &#8211; file path of CellML file</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="tellurium.tellurium.exportToMatlab">
+<code class="descclassname">tellurium.tellurium.</code><code class="descname">exportToMatlab</code><span class="sig-paren">(</span><em>self</em>, <em>filePath</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/tellurium/tellurium.html#exportToMatlab"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tellurium.exportToMatlab" title="Permalink to this definition">¶</a></dt>
+<dd><p>Save current model as Matlab file.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>filePath</strong> &#8211; file path of Matlab file</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="tellurium.tellurium.exportToSBML">
+<code class="descclassname">tellurium.tellurium.</code><code class="descname">exportToSBML</code><span class="sig-paren">(</span><em>self</em>, <em>filePath</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/tellurium/tellurium.html#exportToSBML"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tellurium.exportToSBML" title="Permalink to this definition">¶</a></dt>
+<dd><p>Save current model as SBML file.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>filePath</strong> &#8211; file path of matlab file</td>
 </tr>
 </tbody>
 </table>
@@ -742,6 +741,54 @@ Short-cut bs, e.g.</p>
 <dt id="tellurium.tellurium.getConservedMoietyValues">
 <code class="descclassname">tellurium.tellurium.</code><code class="descname">getConservedMoietyValues</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/tellurium/tellurium.html#getConservedMoietyValues"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tellurium.getConservedMoietyValues" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
+
+<dl class="function">
+<dt id="tellurium.tellurium.getCurrentAntimony">
+<code class="descclassname">tellurium.tellurium.</code><code class="descname">getCurrentAntimony</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/tellurium/tellurium.html#getCurrentAntimony"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tellurium.getCurrentAntimony" title="Permalink to this definition">¶</a></dt>
+<dd><p>Antimony string of the current model state.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">Antimony string</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">str</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="tellurium.tellurium.getCurrentCellML">
+<code class="descclassname">tellurium.tellurium.</code><code class="descname">getCurrentCellML</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/tellurium/tellurium.html#getCurrentCellML"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tellurium.getCurrentCellML" title="Permalink to this definition">¶</a></dt>
+<dd><p>CellML string of current model state.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">CellML string</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">str</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="tellurium.tellurium.getCurrentMatlab">
+<code class="descclassname">tellurium.tellurium.</code><code class="descname">getCurrentMatlab</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/tellurium/tellurium.html#getCurrentMatlab"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tellurium.getCurrentMatlab" title="Permalink to this definition">¶</a></dt>
+<dd><p>Matlab string of current model state.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">Matlab string</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">str</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="function">
 <dt id="tellurium.tellurium.getDv">
@@ -826,20 +873,6 @@ Short-cut fs, e.g.</p>
 <dt id="tellurium.tellurium.getHold">
 <code class="descclassname">tellurium.tellurium.</code><code class="descname">getHold</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/tellurium/tellurium.html#getHold"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tellurium.getHold" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
-
-<dl class="function">
-<dt id="tellurium.tellurium.getMatlab">
-<code class="descclassname">tellurium.tellurium.</code><code class="descname">getMatlab</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/tellurium/tellurium.html#getMatlab"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tellurium.getMatlab" title="Permalink to this definition">¶</a></dt>
-<dd><p>Matlab string of current model.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">Matlab string</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
 
 <dl class="function">
 <dt id="tellurium.tellurium.getNumBoundarySpecies">
@@ -1042,7 +1075,9 @@ Short-cut sv, e.g.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">version string</td>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">version</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">str</td>
 </tr>
 </tbody>
 </table>
@@ -1177,19 +1212,18 @@ Short-cut fjac, e.g.</p>
 
 <dl class="function">
 <dt id="tellurium.tellurium.loadAntimonyModel">
-<code class="descclassname">tellurium.tellurium.</code><code class="descname">loadAntimonyModel</code><span class="sig-paren">(</span><em>antStr</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/tellurium/tellurium.html#loadAntimonyModel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tellurium.loadAntimonyModel" title="Permalink to this definition">¶</a></dt>
-<dd><p>Load model from antimony string.
-see also: <cite>:func:loadAntimonyModel</cite></p>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">r</span> <span class="o">=</span> <span class="n">loadAntModel</span><span class="p">(</span><span class="n">antimonyStr</span><span class="p">)</span>
-</pre></div>
-</div>
+<code class="descclassname">tellurium.tellurium.</code><code class="descname">loadAntimonyModel</code><span class="sig-paren">(</span><em>ant</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/tellurium/tellurium.html#loadAntimonyModel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tellurium.loadAntimonyModel" title="Permalink to this definition">¶</a></dt>
+<dd><p>Load Antimony model with tellurium.</p>
+<p>See also: <a class="reference internal" href="#tellurium.tellurium.loada" title="tellurium.tellurium.loada"><code class="xref py py-func docutils literal"><span class="pre">loada()</span></code></a></p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>antStr</strong> &#8211; antimony string</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>ant</strong> (<em>str | file</em>) &#8211; Antimony model</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">reference to roadrunner model</td>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">RoadRunner instance with model loaded</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">roadrunner.RoadRunner</td>
 </tr>
 </tbody>
 </table>
@@ -1197,18 +1231,17 @@ see also: <cite>:func:loadAntimonyModel</cite></p>
 
 <dl class="function">
 <dt id="tellurium.tellurium.loadCellMLModel">
-<code class="descclassname">tellurium.tellurium.</code><code class="descname">loadCellMLModel</code><span class="sig-paren">(</span><em>cellML</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/tellurium/tellurium.html#loadCellMLModel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tellurium.loadCellMLModel" title="Permalink to this definition">¶</a></dt>
-<dd><p>Load a cellml model into roadrunner.</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">r</span> <span class="o">=</span> <span class="n">loadCellMLModel</span> <span class="p">(</span><span class="s1">&#39;mymodel.cellml&#39;</span><span class="p">)</span>
-</pre></div>
-</div>
+<code class="descclassname">tellurium.tellurium.</code><code class="descname">loadCellMLModel</code><span class="sig-paren">(</span><em>cellml</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/tellurium/tellurium.html#loadCellMLModel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tellurium.loadCellMLModel" title="Permalink to this definition">¶</a></dt>
+<dd><p>Load CellML model with tellurium.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>cellML</strong> &#8211; model to load, can be file or string</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>cellml</strong> (<em>str | file</em>) &#8211; CellML model</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">reference to roadrunner model</td>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">RoadRunner instance with model loaded</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">roadrunner.RoadRunner</td>
 </tr>
 </tbody>
 </table>
@@ -1217,17 +1250,16 @@ see also: <cite>:func:loadAntimonyModel</cite></p>
 <dl class="function">
 <dt id="tellurium.tellurium.loadSBMLModel">
 <code class="descclassname">tellurium.tellurium.</code><code class="descname">loadSBMLModel</code><span class="sig-paren">(</span><em>sbml</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/tellurium/tellurium.html#loadSBMLModel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tellurium.loadSBMLModel" title="Permalink to this definition">¶</a></dt>
-<dd><p>Load an SBML model into roadRunner.</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">r</span> <span class="o">=</span> <span class="n">loadSBMLModel</span><span class="p">(</span><span class="s1">&#39;c:\myfile.txt&#39;</span><span class="p">)</span>
-</pre></div>
-</div>
+<dd><p>Load SBML model with tellurium</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>sbml</strong> &#8211; SBML filename, SBML string or SBML uri</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>sbml</strong> (<em>str | file</em>) &#8211; SBML model</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">reference to roadrunner model</td>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">RoadRunner instance with model loaded</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">roadrunner.RoadRunner</td>
 </tr>
 </tbody>
 </table>
@@ -1252,9 +1284,9 @@ see also: <cite>:func:loadAntimonyModel</cite></p>
 
 <dl class="function">
 <dt id="tellurium.tellurium.loada">
-<code class="descclassname">tellurium.tellurium.</code><code class="descname">loada</code><span class="sig-paren">(</span><em>antStr</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/tellurium/tellurium.html#loada"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tellurium.loada" title="Permalink to this definition">¶</a></dt>
-<dd><p>Load model from antimony string.
-see also: <cite>:func:loadAntimonyModel</cite></p>
+<code class="descclassname">tellurium.tellurium.</code><code class="descname">loada</code><span class="sig-paren">(</span><em>ant</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/tellurium/tellurium.html#loada"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tellurium.loada" title="Permalink to this definition">¶</a></dt>
+<dd><p>Load model from Antimony string.</p>
+<p>See also: <a class="reference internal" href="#tellurium.tellurium.loadAntimonyModel" title="tellurium.tellurium.loadAntimonyModel"><code class="xref py py-func docutils literal"><span class="pre">loadAntimonyModel()</span></code></a></p>
 <div class="highlight-python"><div class="highlight"><pre><span class="n">r</span> <span class="o">=</span> <span class="n">loada</span><span class="p">(</span><span class="s1">&#39;S1 -&gt; S2; k1*S1; k1 = 0.1; S2 = 10&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -1262,9 +1294,11 @@ see also: <cite>:func:loadAntimonyModel</cite></p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>antStr</strong> &#8211; antimony string</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>ant</strong> (<em>str | file</em>) &#8211; Antimony model</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">reference to roadrunner model</td>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">RoadRunner instance with model loaded</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">roadrunner.RoadRunner</td>
 </tr>
 </tbody>
 </table>
@@ -1274,15 +1308,15 @@ see also: <cite>:func:loadAntimonyModel</cite></p>
 <dt id="tellurium.tellurium.noticesOff">
 <code class="descclassname">tellurium.tellurium.</code><code class="descname">noticesOff</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/tellurium/tellurium.html#noticesOff"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tellurium.noticesOff" title="Permalink to this definition">¶</a></dt>
 <dd><p>Switch off the generation of notices to the user.
-Call this to stop roadrunner from printing warning message to the console.
-see also <a class="reference internal" href="#tellurium.tellurium.noticesOn" title="tellurium.tellurium.noticesOn"><code class="xref py py-func docutils literal"><span class="pre">noticesOn()</span></code></a></p>
+Call this to stop roadrunner from printing warning message to the console.</p>
+<p>See also <a class="reference internal" href="#tellurium.tellurium.noticesOn" title="tellurium.tellurium.noticesOn"><code class="xref py py-func docutils literal"><span class="pre">noticesOn()</span></code></a></p>
 </dd></dl>
 
 <dl class="function">
 <dt id="tellurium.tellurium.noticesOn">
 <code class="descclassname">tellurium.tellurium.</code><code class="descname">noticesOn</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/tellurium/tellurium.html#noticesOn"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tellurium.noticesOn" title="Permalink to this definition">¶</a></dt>
-<dd><p>Switch on notice generation to the user.
-see also <a class="reference internal" href="#tellurium.tellurium.noticesOff" title="tellurium.tellurium.noticesOff"><code class="xref py py-func docutils literal"><span class="pre">noticesOff()</span></code></a></p>
+<dd><p>Switch on notice generation to the user.</p>
+<p>See also <a class="reference internal" href="#tellurium.tellurium.noticesOff" title="tellurium.tellurium.noticesOff"><code class="xref py py-func docutils literal"><span class="pre">noticesOff()</span></code></a></p>
 </dd></dl>
 
 <dl class="function">
@@ -1368,20 +1402,19 @@ a handle to the plotting object.</p>
 <dt id="tellurium.tellurium.printVersionInfo">
 <code class="descclassname">tellurium.tellurium.</code><code class="descname">printVersionInfo</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/tellurium/tellurium.html#printVersionInfo"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tellurium.printVersionInfo" title="Permalink to this definition">¶</a></dt>
 <dd><p>Prints version information for tellurium included packages.</p>
+<p>see also: <a class="reference internal" href="#tellurium.tellurium.getVersionInfo" title="tellurium.tellurium.getVersionInfo"><code class="xref py py-func docutils literal"><span class="pre">getVersionInfo()</span></code></a></p>
 </dd></dl>
 
 <dl class="function">
 <dt id="tellurium.tellurium.readFromFile">
-<code class="descclassname">tellurium.tellurium.</code><code class="descname">readFromFile</code><span class="sig-paren">(</span><em>fileName</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/tellurium/tellurium.html#readFromFile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tellurium.readFromFile" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">tellurium.tellurium.</code><code class="descname">readFromFile</code><span class="sig-paren">(</span><em>filePath</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/tellurium/tellurium.html#readFromFile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tellurium.readFromFile" title="Permalink to this definition">¶</a></dt>
 <dd><p>Load a file and return contents as a string.</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="nb">str</span> <span class="o">=</span> <span class="n">readFromFile</span><span class="p">(</span><span class="s1">&#39;c:\myfile.txt&#39;</span><span class="p">)</span>
-</pre></div>
-</div>
+<p>see also: <a class="reference internal" href="#tellurium.tellurium.saveToFile" title="tellurium.tellurium.saveToFile"><code class="xref py py-func docutils literal"><span class="pre">saveToFile()</span></code></a></p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>fileName</strong> &#8211; file path to read from</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>filePath</strong> &#8211; file path to read from</td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">string representation of the contents of the file</td>
 </tr>
@@ -1417,22 +1450,17 @@ this includes all init() and parameters such as k1 etc.</p>
 
 <dl class="function">
 <dt id="tellurium.tellurium.saveToFile">
-<code class="descclassname">tellurium.tellurium.</code><code class="descname">saveToFile</code><span class="sig-paren">(</span><em>fileName</em>, <em>str</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/tellurium/tellurium.html#saveToFile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tellurium.saveToFile" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">tellurium.tellurium.</code><code class="descname">saveToFile</code><span class="sig-paren">(</span><em>filePath</em>, <em>str</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/tellurium/tellurium.html#saveToFile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tellurium.saveToFile" title="Permalink to this definition">¶</a></dt>
 <dd><p>Save string to file.</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">saveToFile</span> <span class="p">(</span><span class="s1">&#39;c:\myfile.txt&#39;</span><span class="p">,</span> <span class="n">strVariable</span><span class="p">)</span>
-</pre></div>
-</div>
+<p>see also: <a class="reference internal" href="#tellurium.tellurium.readFromFile" title="tellurium.tellurium.readFromFile"><code class="xref py py-func docutils literal"><span class="pre">readFromFile()</span></code></a></p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>fileName</strong> &#8211; file path to save to</li>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>filePath</strong> &#8211; file path to save to</li>
 <li><strong>str</strong> &#8211; string to save</li>
 </ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">None</p>
 </td>
 </tr>
 </tbody>
@@ -1441,18 +1469,35 @@ this includes all init() and parameters such as k1 etc.</p>
 
 <dl class="function">
 <dt id="tellurium.tellurium.sbmlToAntimony">
-<code class="descclassname">tellurium.tellurium.</code><code class="descname">sbmlToAntimony</code><span class="sig-paren">(</span><em>str</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/tellurium/tellurium.html#sbmlToAntimony"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tellurium.sbmlToAntimony" title="Permalink to this definition">¶</a></dt>
-<dd><p>Convert SBML string to antimony string.</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">sbmlStr</span> <span class="o">=</span> <span class="n">sbmlToAntimony</span><span class="p">(</span><span class="n">antimonyStr</span><span class="p">)</span>
-</pre></div>
-</div>
+<code class="descclassname">tellurium.tellurium.</code><code class="descname">sbmlToAntimony</code><span class="sig-paren">(</span><em>sbml</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/tellurium/tellurium.html#sbmlToAntimony"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tellurium.sbmlToAntimony" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert SBML to antimony string.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>str</strong> &#8211; SBML model as string</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>sbml</strong> (<em>str | file</em>) &#8211; SBML string or file</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">antimony string of model</td>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">Antimony</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">str</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="tellurium.tellurium.sbmlToCellML">
+<code class="descclassname">tellurium.tellurium.</code><code class="descname">sbmlToCellML</code><span class="sig-paren">(</span><em>sbml</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/tellurium/tellurium.html#sbmlToCellML"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tellurium.sbmlToCellML" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert SBML to CellML string.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>sbml</strong> (<em>str | file</em>) &#8211; SBML string or file</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">CellML</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">str</td>
 </tr>
 </tbody>
 </table>
@@ -1868,14 +1913,14 @@ of the DataGenerator class.</dd>
 </dd></dl>
 
 <dl class="function">
-<dt id="tellurium.tesedml.sedml_to_python">
-<code class="descclassname">tellurium.tesedml.</code><code class="descname">sedml_to_python</code><span class="sig-paren">(</span><em>fullPathName</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/tellurium/tesedml.html#sedml_to_python"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tesedml.sedml_to_python" title="Permalink to this definition">¶</a></dt>
+<dt id="tellurium.tesedml.sedmlToPython">
+<code class="descclassname">tellurium.tesedml.</code><code class="descname">sedmlToPython</code><span class="sig-paren">(</span><em>inputstring</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/tellurium/tesedml.html#sedmlToPython"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tesedml.sedmlToPython" title="Permalink to this definition">¶</a></dt>
 <dd><p>Convert sedml file to python code.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>fullPathName</strong> (<em>path</em>) &#8211; path to sedml file.</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>inputstring</strong> (<em>path</em>) &#8211; full path name to SedML model or SED-ML string</td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">contents</td>
 </tr>
@@ -1885,40 +1930,24 @@ of the DataGenerator class.</dd>
 </table>
 </dd></dl>
 
-</div>
-<div class="section" id="module-tellurium.unzipy">
-<span id="tellurium-unzipy-module"></span><h2>tellurium.unzipy module<a class="headerlink" href="#module-tellurium.unzipy" title="Permalink to this headline">¶</a></h2>
-<p>#**********************************************************************
-# Description:
-#    Unzips the contents of a zip file into an existing folder
-#    Assumes COMBINE archive SED-ML format and returns location of SED-ML file from manifest 
-# Arguments:
-#  1 - input zip file
-#  2 - output folder - pathname to folder that will contain the contents of the zip file
-#**********************************************************************</p>
 <dl class="function">
-<dt id="tellurium.unzipy.main">
-<code class="descclassname">tellurium.unzipy.</code><code class="descname">main</code><span class="sig-paren">(</span><em>args</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/tellurium/unzipy.html#main"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.unzipy.main" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="function">
-<dt id="tellurium.unzipy.readManifest">
-<code class="descclassname">tellurium.unzipy.</code><code class="descname">readManifest</code><span class="sig-paren">(</span><em>manifestPathName</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/tellurium/unzipy.html#readManifest"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.unzipy.readManifest" title="Permalink to this definition">¶</a></dt>
-<dd><p>Read sed-ml location from manifest file.</p>
+<dt id="tellurium.tesedml.sedml_to_python">
+<code class="descclassname">tellurium.tesedml.</code><code class="descname">sedml_to_python</code><span class="sig-paren">(</span><em>inputstring</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/tellurium/tesedml.html#sedml_to_python"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tesedml.sedml_to_python" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert sedml file to python code.
+Legacy support</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>manifestPathName</strong> (<em>str</em>) &#8211; path for manifest</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>inputstring</strong> &#8211; </td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"></td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"></td>
 </tr>
 </tbody>
 </table>
 </dd></dl>
-
-<dl class="function">
-<dt id="tellurium.unzipy.unZip">
-<code class="descclassname">tellurium.unzipy.</code><code class="descname">unZip</code><span class="sig-paren">(</span><em>path</em>, <em>zip</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/tellurium/unzipy.html#unZip"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.unzipy.unZip" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
 
 </div>
 <div class="section" id="module-tellurium">

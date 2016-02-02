@@ -139,40 +139,97 @@
 
 <span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">import</span> <span class="nn">tellurium.tesedml</span> <span class="kn">as</span> <span class="nn">tesedml</span>
-<span class="kn">import</span> <span class="nn">tempfile</span>
 
 <span class="n">test_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">__file__</span><span class="p">)),</span>
                         <span class="s1">&#39;testdata&#39;</span><span class="p">,</span> <span class="s1">&#39;sedml&#39;</span><span class="p">)</span>
 
 
-<div class="viewcode-block" id="tesedmlTestCase"><a class="viewcode-back" href="../../../_apidoc/tellurium.tests.html#tellurium.tests.test_sedml.tesedmlTestCase">[docs]</a><span class="k">class</span> <span class="nc">tesedmlTestCase</span><span class="p">(</span><span class="n">unittest</span><span class="o">.</span><span class="n">TestCase</span><span class="p">):</span></div>
+<div class="viewcode-block" id="tesedmlTestCase"><a class="viewcode-back" href="../../../_apidoc/tellurium.tests.html#tellurium.tests.test_sedml.tesedmlTestCase">[docs]</a><span class="k">class</span> <span class="nc">tesedmlTestCase</span><span class="p">(</span><span class="n">unittest</span><span class="o">.</span><span class="n">TestCase</span><span class="p">):</span>
 
-    <span class="k">def</span> <span class="nf">setUp</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">pass</span>
+<div class="viewcode-block" id="tesedmlTestCase.setUp"><a class="viewcode-back" href="../../../_apidoc/tellurium.tests.html#tellurium.tests.test_sedml.tesedmlTestCase.setUp">[docs]</a>    <span class="k">def</span> <span class="nf">setUp</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">pass</span></div>
 
-    <span class="k">def</span> <span class="nf">tearDown</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">pass</span>
+<div class="viewcode-block" id="tesedmlTestCase.tearDown"><a class="viewcode-back" href="../../../_apidoc/tellurium.tests.html#tellurium.tests.test_sedml.tesedmlTestCase.tearDown">[docs]</a>    <span class="k">def</span> <span class="nf">tearDown</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">pass</span></div>
 
-    <span class="k">def</span> <span class="nf">single_check</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">f_sedml</span><span class="p">):</span>
+<div class="viewcode-block" id="tesedmlTestCase.single_check"><a class="viewcode-back" href="../../../_apidoc/tellurium.tests.html#tellurium.tests.test_sedml.tesedmlTestCase.single_check">[docs]</a>    <span class="k">def</span> <span class="nf">single_check</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">f_sedml</span><span class="p">):</span>
         <span class="k">print</span><span class="p">(</span><span class="n">f_sedml</span><span class="p">)</span>
         <span class="n">python_str</span> <span class="o">=</span> <span class="n">tesedml</span><span class="o">.</span><span class="n">sedml_to_python</span><span class="p">(</span><span class="n">f_sedml</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">assertIsNotNone</span><span class="p">(</span><span class="n">python_str</span><span class="p">)</span>
+        <span class="c1"># create the python code file</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">f_sedml</span><span class="o">+</span><span class="s1">&#39;.py&#39;</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f_py</span><span class="p">:</span>
+            <span class="n">f_py</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">python_str</span><span class="p">)</span></div>
 
-    <span class="k">def</span> <span class="nf">test_app2sim</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">single_check</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">test_dir</span><span class="p">,</span> <span class="s1">&#39;app2sim&#39;</span><span class="p">,</span> <span class="s1">&#39;app2sim.sedml&#39;</span><span class="p">))</span>
+<div class="viewcode-block" id="tesedmlTestCase.test_app2sim"><a class="viewcode-back" href="../../../_apidoc/tellurium.tests.html#tellurium.tests.test_sedml.tesedmlTestCase.test_app2sim">[docs]</a>    <span class="k">def</span> <span class="nf">test_app2sim</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">single_check</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">test_dir</span><span class="p">,</span> <span class="s1">&#39;app2sim&#39;</span><span class="p">,</span> <span class="s1">&#39;app2sim.sedml&#39;</span><span class="p">))</span></div>
 
-    <span class="k">def</span> <span class="nf">test_asedml3repeat</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">single_check</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">test_dir</span><span class="p">,</span> <span class="s1">&#39;asedml3repeat&#39;</span><span class="p">,</span> <span class="s1">&#39;asedml3repeat.sedml&#39;</span><span class="p">))</span>
+<div class="viewcode-block" id="tesedmlTestCase.test_asedml3repeat"><a class="viewcode-back" href="../../../_apidoc/tellurium.tests.html#tellurium.tests.test_sedml.tesedmlTestCase.test_asedml3repeat">[docs]</a>    <span class="k">def</span> <span class="nf">test_asedml3repeat</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">single_check</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">test_dir</span><span class="p">,</span> <span class="s1">&#39;asedml3repeat&#39;</span><span class="p">,</span> <span class="s1">&#39;asedml3repeat.sedml&#39;</span><span class="p">))</span></div>
 
-    <span class="k">def</span> <span class="nf">test_asedmlComplex</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">single_check</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">test_dir</span><span class="p">,</span> <span class="s1">&#39;asedmlComplex&#39;</span><span class="p">,</span> <span class="s1">&#39;asedmlComplex.sedml&#39;</span><span class="p">))</span>
+<div class="viewcode-block" id="tesedmlTestCase.test_asedmlComplex"><a class="viewcode-back" href="../../../_apidoc/tellurium.tests.html#tellurium.tests.test_sedml.tesedmlTestCase.test_asedmlComplex">[docs]</a>    <span class="k">def</span> <span class="nf">test_asedmlComplex</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">single_check</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">test_dir</span><span class="p">,</span> <span class="s1">&#39;asedmlComplex&#39;</span><span class="p">,</span> <span class="s1">&#39;asedmlComplex.sedml&#39;</span><span class="p">))</span></div>
 
-    <span class="k">def</span> <span class="nf">test_constant_maybe</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">single_check</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">test_dir</span><span class="p">,</span> <span class="s1">&#39;constant_maybe&#39;</span><span class="p">,</span> <span class="s1">&#39;BioModel1.sedml&#39;</span><span class="p">))</span>
+<div class="viewcode-block" id="tesedmlTestCase.test_constant_maybe"><a class="viewcode-back" href="../../../_apidoc/tellurium.tests.html#tellurium.tests.test_sedml.tesedmlTestCase.test_constant_maybe">[docs]</a>    <span class="k">def</span> <span class="nf">test_constant_maybe</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">single_check</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">test_dir</span><span class="p">,</span> <span class="s1">&#39;constant_maybe&#39;</span><span class="p">,</span> <span class="s1">&#39;BioModel1.sedml&#39;</span><span class="p">))</span></div>
 
+<div class="viewcode-block" id="tesedmlTestCase.test_via_sedml_string"><a class="viewcode-back" href="../../../_apidoc/tellurium.tests.html#tellurium.tests.test_sedml.tesedmlTestCase.test_via_sedml_string">[docs]</a>    <span class="k">def</span> <span class="nf">test_via_sedml_string</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">sedml_string</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span>
+<span class="s2">        &lt;!-- Created by phraSED-ML version v0.5beta on 2016-01-31 22:02 with libSBML version 5.12.1. --&gt;</span>
+<span class="s2">        &lt;sedML xmlns=&quot;http://sed-ml.org/sed-ml/level1/version2&quot; level=&quot;1&quot; version=&quot;2&quot;&gt;</span>
+<span class="s2">          &lt;listOfSimulations&gt;</span>
+<span class="s2">            &lt;uniformTimeCourse id=&quot;sim1&quot; initialTime=&quot;0&quot; outputStartTime=&quot;0&quot; outputEndTime=&quot;5&quot; numberOfPoints=&quot;100&quot;&gt;</span>
+<span class="s2">              &lt;algorithm kisaoID=&quot;KISAO:0000019&quot;/&gt;</span>
+<span class="s2">            &lt;/uniformTimeCourse&gt;</span>
+<span class="s2">          &lt;/listOfSimulations&gt;</span>
+<span class="s2">          &lt;listOfModels&gt;</span>
+<span class="s2">            &lt;model id=&quot;model1&quot; language=&quot;urn:sedml:language:sbml.level-3.version-1&quot; source=&quot;myModel&quot;/&gt;</span>
+<span class="s2">          &lt;/listOfModels&gt;</span>
+<span class="s2">          &lt;listOfTasks&gt;</span>
+<span class="s2">            &lt;task id=&quot;task1&quot; modelReference=&quot;model1&quot; simulationReference=&quot;sim1&quot;/&gt;</span>
+<span class="s2">          &lt;/listOfTasks&gt;</span>
+<span class="s2">          &lt;listOfDataGenerators&gt;</span>
+<span class="s2">            &lt;dataGenerator id=&quot;plot_0_0_0&quot; name=&quot;time&quot;&gt;</span>
+<span class="s2">              &lt;listOfVariables&gt;</span>
+<span class="s2">                &lt;variable id=&quot;time&quot; symbol=&quot;urn:sedml:symbol:time&quot; taskReference=&quot;task1&quot;/&gt;</span>
+<span class="s2">              &lt;/listOfVariables&gt;</span>
+<span class="s2">              &lt;math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot;&gt;</span>
+<span class="s2">                &lt;ci&gt; time &lt;/ci&gt;</span>
+<span class="s2">              &lt;/math&gt;</span>
+<span class="s2">            &lt;/dataGenerator&gt;</span>
+<span class="s2">            &lt;dataGenerator id=&quot;plot_0_0_1&quot; name=&quot;S1&quot;&gt;</span>
+<span class="s2">              &lt;listOfVariables&gt;</span>
+<span class="s2">                &lt;variable id=&quot;S1&quot; target=&quot;/sbml:sbml/sbml:model/descendant::*[@id=&#39;S1&#39;]&quot; taskReference=&quot;task1&quot; modelReference=&quot;model1&quot;/&gt;</span>
+<span class="s2">              &lt;/listOfVariables&gt;</span>
+<span class="s2">              &lt;math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot;&gt;</span>
+<span class="s2">                &lt;ci&gt; S1 &lt;/ci&gt;</span>
+<span class="s2">              &lt;/math&gt;</span>
+<span class="s2">            &lt;/dataGenerator&gt;</span>
+<span class="s2">            &lt;dataGenerator id=&quot;plot_0_1_1&quot; name=&quot;S2&quot;&gt;</span>
+<span class="s2">              &lt;listOfVariables&gt;</span>
+<span class="s2">                &lt;variable id=&quot;S2&quot; target=&quot;/sbml:sbml/sbml:model/descendant::*[@id=&#39;S2&#39;]&quot; taskReference=&quot;task1&quot; modelReference=&quot;model1&quot;/&gt;</span>
+<span class="s2">              &lt;/listOfVariables&gt;</span>
+<span class="s2">              &lt;math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot;&gt;</span>
+<span class="s2">                &lt;ci&gt; S2 &lt;/ci&gt;</span>
+<span class="s2">              &lt;/math&gt;</span>
+<span class="s2">            &lt;/dataGenerator&gt;</span>
+<span class="s2">          &lt;/listOfDataGenerators&gt;</span>
+<span class="s2">          &lt;listOfOutputs&gt;</span>
+<span class="s2">            &lt;plot2D id=&quot;plot_0&quot; name=&quot;Figure 1&quot;&gt;</span>
+<span class="s2">              &lt;listOfCurves&gt;</span>
+<span class="s2">                &lt;curve logX=&quot;false&quot; logY=&quot;false&quot; xDataReference=&quot;plot_0_0_0&quot; yDataReference=&quot;plot_0_0_1&quot;/&gt;</span>
+<span class="s2">                &lt;curve logX=&quot;false&quot; logY=&quot;false&quot; xDataReference=&quot;plot_0_0_0&quot; yDataReference=&quot;plot_0_1_1&quot;/&gt;</span>
+<span class="s2">              &lt;/listOfCurves&gt;</span>
+<span class="s2">            &lt;/plot2D&gt;</span>
+<span class="s2">          &lt;/listOfOutputs&gt;</span>
+<span class="s2">        &lt;/sedML&gt;</span>
+<span class="s2">        &quot;&quot;&quot;</span>
+        <span class="n">python_str</span> <span class="o">=</span> <span class="n">tesedml</span><span class="o">.</span><span class="n">sedml_to_python</span><span class="p">(</span><span class="n">inputstring</span><span class="o">=</span><span class="n">sedml_string</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertIsNotNone</span><span class="p">(</span><span class="n">python_str</span><span class="p">)</span></div></div>
 
 <span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
     <span class="n">unittest</span><span class="o">.</span><span class="n">main</span><span class="p">()</span>
+
+
 </pre></div>
 
            </div>

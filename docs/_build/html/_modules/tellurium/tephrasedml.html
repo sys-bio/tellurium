@@ -202,7 +202,7 @@
 <span class="sd">        :returns: SBML string</span>
 <span class="sd">        :rtype: string</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">te</span><span class="o">.</span><span class="n">antimonyTosbml</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">antimonyStr</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="n">te</span><span class="o">.</span><span class="n">antimonyToSBML</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">antimonyStr</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="tePhrasedml.getPhrasedmlString"><a class="viewcode-back" href="../../_apidoc/tellurium.html#tellurium.tephrasedml.tePhrasedml.getPhrasedmlString">[docs]</a>    <span class="k">def</span> <span class="nf">getPhrasedmlString</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Get phrasedml string.</span>
@@ -223,7 +223,7 @@
             <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">reSearchModel</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
                 <span class="n">modelsource</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">reSearchModel</span><span class="p">[</span><span class="mi">3</span><span class="p">])</span>
 
-        <span class="n">phrasedml</span><span class="o">.</span><span class="n">setReferencedSBML</span><span class="p">(</span><span class="n">modelsource</span><span class="p">,</span> <span class="n">te</span><span class="o">.</span><span class="n">antimonyTosbml</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">antimonyStr</span><span class="p">))</span>
+        <span class="n">phrasedml</span><span class="o">.</span><span class="n">setReferencedSBML</span><span class="p">(</span><span class="n">modelsource</span><span class="p">,</span> <span class="n">te</span><span class="o">.</span><span class="n">antimonyToSBML</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">antimonyStr</span><span class="p">))</span>
         <span class="n">sedmlstr</span> <span class="o">=</span> <span class="n">phrasedml</span><span class="o">.</span><span class="n">convertString</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">phrasedmlStr</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">sedmlstr</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="n">phrasedml</span><span class="o">.</span><span class="n">getLastError</span><span class="p">())</span>
@@ -258,7 +258,7 @@
                 <span class="n">modelname</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">modelsource</span><span class="p">)</span>
                 <span class="n">modelname</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">modelname</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;.xml&quot;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
 
-        <span class="n">phrasedml</span><span class="o">.</span><span class="n">setReferencedSBML</span><span class="p">(</span><span class="n">modelsource</span><span class="p">,</span> <span class="n">te</span><span class="o">.</span><span class="n">antimonyTosbml</span><span class="p">(</span><span class="n">tePhrasedml</span><span class="o">.</span><span class="n">antimonyStr</span><span class="p">))</span>
+        <span class="n">phrasedml</span><span class="o">.</span><span class="n">setReferencedSBML</span><span class="p">(</span><span class="n">modelsource</span><span class="p">,</span> <span class="n">te</span><span class="o">.</span><span class="n">antimonyToSBML</span><span class="p">(</span><span class="n">tePhrasedml</span><span class="o">.</span><span class="n">antimonyStr</span><span class="p">))</span>
         <span class="n">sedmlstr</span> <span class="o">=</span> <span class="n">phrasedml</span><span class="o">.</span><span class="n">convertString</span><span class="p">(</span><span class="n">tePhrasedml</span><span class="o">.</span><span class="n">phrasedmlStr</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">sedmlstr</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="n">phrasedml</span><span class="o">.</span><span class="n">getLastError</span><span class="p">())</span>
@@ -336,7 +336,7 @@
         <span class="n">revphrasedml</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">lines</span><span class="p">)</span>
 
         <span class="c1"># export the combine archive</span>
-        <span class="n">phrasedml</span><span class="o">.</span><span class="n">setReferencedSBML</span><span class="p">(</span><span class="n">modelname</span><span class="p">,</span> <span class="n">te</span><span class="o">.</span><span class="n">antimonyTosbml</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">antimonyStr</span><span class="p">))</span>
+        <span class="n">phrasedml</span><span class="o">.</span><span class="n">setReferencedSBML</span><span class="p">(</span><span class="n">modelname</span><span class="p">,</span> <span class="n">te</span><span class="o">.</span><span class="n">antimonyToSBML</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">antimonyStr</span><span class="p">))</span>
         <span class="n">tecombine</span><span class="o">.</span><span class="n">export</span><span class="p">(</span><span class="n">outputpath</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">antimonyStr</span><span class="p">,</span> <span class="n">modelname</span><span class="p">,</span> <span class="n">revphrasedml</span><span class="p">)</span>
         <span class="n">phrasedml</span><span class="o">.</span><span class="n">clearReferencedSBML</span><span class="p">()</span></div></div>
 </pre></div>

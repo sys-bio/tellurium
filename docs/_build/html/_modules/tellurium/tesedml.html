@@ -196,8 +196,16 @@
 <span class="sd">    and the according axes or columns are all assigned to one of the formerly specified instances</span>
 <span class="sd">    of the DataGenerator class.</span>
 <span class="sd">&quot;&quot;&quot;</span>
+
 <span class="c1"># TODO: refactor with proper handling of the different SED-ML parts.</span>
 <span class="c1"># TODO: this module has to implement general SEDML functionality</span>
+<span class="c1"># This module is a unsupportable mess and should be rewritten.</span>
+<span class="c1"># It should be a CodeGenerator class which is able to handle the</span>
+<span class="c1"># various Models, Simulations, Tasks, DataGenerators and Outputs from SED-ML.</span>
+<span class="c1"># The python code should be created based on templates (like Jinja2) which are just filled in</span>
+<span class="c1"># with the SEDML information.</span>
+<span class="c1">#   http://stackoverflow.com/questions/612788/best-python-templating-library-to-facilitate-code-generation</span>
+<span class="c1"># FIXME: please no sys.exit calls ever, raise a (custom) exception instead</span>
 
 <span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">print_function</span><span class="p">,</span> <span class="n">division</span>
 
@@ -208,15 +216,15 @@
 <span class="kn">import</span> <span class="nn">libsedml</span>
 <span class="kn">import</span> <span class="nn">StringIO</span>
 <span class="kn">import</span> <span class="nn">httplib</span>
+<span class="kn">import</span> <span class="nn">xml.etree.ElementTree</span> <span class="kn">as</span> <span class="nn">et</span>
 <span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">namedtuple</span>
-
-<span class="kn">import</span> <span class="nn">unzipy</span> <span class="kn">as</span> <span class="nn">uz</span>
 
 <span class="n">MatchingSetsOfVariableIDs</span> <span class="o">=</span> <span class="n">namedtuple</span><span class="p">(</span><span class="s2">&quot;MatchingSetsOfVariableIDs&quot;</span><span class="p">,</span> <span class="s2">&quot;datagenID, taskReference, sedmlID, sbmlID&quot;</span><span class="p">)</span>
 <span class="n">MatchingSetsOfRepeatedTasksDataGenerators</span> <span class="o">=</span> <span class="n">namedtuple</span><span class="p">(</span><span class="s2">&quot;MatchingSetsOfRepeatedTasksDataGenerators&quot;</span><span class="p">,</span> <span class="s2">&quot;datagenID, rangeSize&quot;</span><span class="p">)</span>
 
 <span class="n">modelname</span> <span class="o">=</span> <span class="nb">str</span><span class="p">()</span>
 <span class="n">outdir</span> <span class="o">=</span> <span class="nb">str</span><span class="p">()</span>
+
 <span class="c1"># Map of replaced words</span>
 <span class="n">mapping</span> <span class="o">=</span> <span class="p">[</span>
     <span class="p">(</span><span class="s1">&#39;repeated&#39;</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">),</span>
@@ -234,40 +242,83 @@
     <span class="k">pass</span></div>
 
 
-<div class="viewcode-block" id="sedml_to_python"><a class="viewcode-back" href="../../_apidoc/tellurium.html#tellurium.tesedml.sedml_to_python">[docs]</a><span class="k">def</span> <span class="nf">sedml_to_python</span><span class="p">(</span><span class="n">fullPathName</span><span class="p">):</span>
+<div class="viewcode-block" id="sedml_to_python"><a class="viewcode-back" href="../../_apidoc/tellurium.html#tellurium.tesedml.sedml_to_python">[docs]</a><span class="k">def</span> <span class="nf">sedml_to_python</span><span class="p">(</span><span class="n">inputstring</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Convert sedml file to python code.</span>
+<span class="sd">    Legacy support</span>
+
+<span class="sd">    :param inputstring:</span>
+<span class="sd">    :type inputstring:</span>
+<span class="sd">    :return:</span>
+<span class="sd">    :rtype:</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">sedmlToPython</span><span class="p">(</span><span class="n">inputstring</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="sedmlToPython"><a class="viewcode-back" href="../../_apidoc/tellurium.html#tellurium.tesedml.sedmlToPython">[docs]</a><span class="k">def</span> <span class="nf">sedmlToPython</span><span class="p">(</span><span class="n">inputstring</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; Convert sedml file to python code.</span>
 
-<span class="sd">    :param fullPathName: path to sedml file.</span>
-<span class="sd">    :type fullPathName: path</span>
+<span class="sd">    :param inputstring: full path name to SedML model or SED-ML string</span>
+<span class="sd">    :type inputstring: path</span>
 <span class="sd">    :return: contents</span>
 <span class="sd">    :rtype:</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="kn">from</span> <span class="nn">os.path</span> <span class="kn">import</span> <span class="n">basename</span>
-
-    <span class="n">modelName</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">splitext</span><span class="p">(</span><span class="n">basename</span><span class="p">(</span><span class="n">fullPathName</span><span class="p">))[</span><span class="mi">0</span><span class="p">]</span>
-    <span class="n">extension</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">splitext</span><span class="p">(</span><span class="n">basename</span><span class="p">(</span><span class="n">fullPathName</span><span class="p">))[</span><span class="mi">1</span><span class="p">]</span>
-    <span class="n">path</span> <span class="o">=</span> <span class="n">fullPathName</span><span class="o">.</span><span class="n">rsplit</span><span class="p">(</span><span class="n">basename</span><span class="p">(</span><span class="n">fullPathName</span><span class="p">),</span> <span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="kn">from</span> <span class="nn">os.path</span> <span class="kn">import</span> <span class="o">*</span>
 
     <span class="k">class</span> <span class="nc">Tee</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
         <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">files</span><span class="p">):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">files</span> <span class="o">=</span> <span class="n">files</span>
-
         <span class="k">def</span> <span class="nf">write</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">):</span>
             <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">files</span><span class="p">:</span>
                 <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
 
-    <span class="k">if</span> <span class="n">extension</span> <span class="o">==</span> <span class="s2">&quot;.sedx&quot;</span><span class="p">:</span>
-        <span class="nb">zip</span> <span class="o">=</span> <span class="n">zipfile</span><span class="o">.</span><span class="n">ZipFile</span><span class="p">(</span><span class="n">fullPathName</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span>
-        <span class="n">path</span> <span class="o">=</span> <span class="n">path</span> <span class="o">+</span> <span class="n">modelName</span>
-        <span class="n">uz</span><span class="o">.</span><span class="n">unZip</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="nb">zip</span><span class="p">)</span>
-        <span class="nb">zip</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
-        <span class="n">fullPathName</span> <span class="o">=</span> <span class="n">uz</span><span class="o">.</span><span class="n">readManifest</span><span class="p">(</span><span class="n">path</span> <span class="o">+</span> <span class="s2">&quot;/manifest.xml&quot;</span><span class="p">)</span>
-        <span class="n">k</span> <span class="o">=</span> <span class="n">fullPathName</span><span class="o">.</span><span class="n">rfind</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">)</span>
-        <span class="n">fullPathName</span> <span class="o">=</span> <span class="n">fullPathName</span><span class="p">[</span><span class="n">k</span><span class="o">+</span><span class="mi">1</span><span class="p">:]</span>
-        <span class="n">fullPathName</span> <span class="o">=</span> <span class="n">path</span> <span class="o">+</span> <span class="s2">&quot;/&quot;</span> <span class="o">+</span> <span class="n">fullPathName</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">inputstring</span><span class="p">,</span> <span class="nb">basestring</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;For SedmlToPy translation, input must be string&quot;</span><span class="p">)</span>
 
-    <span class="c1"># Read SED-ML</span>
-    <span class="n">sedmlDoc</span> <span class="o">=</span> <span class="n">libsedml</span><span class="o">.</span><span class="n">readSedML</span><span class="p">(</span><span class="n">fullPathName</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">inputstring</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">r&quot;&lt;?&quot;</span><span class="p">):</span>  <span class="c1"># Check if string is a SED-ML string</span>
+        <span class="n">sedmlDoc</span> <span class="o">=</span> <span class="n">libsedml</span><span class="o">.</span><span class="n">readSedMLFromString</span><span class="p">(</span><span class="n">inputstring</span><span class="p">)</span>
+        <span class="n">path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\\</span><span class="s2">&quot;</span> <span class="c1"># Temp. assumption</span>
+
+    <span class="k">else</span><span class="p">:</span> <span class="c1"># Else assume file path</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">inputstring</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">IOError</span><span class="p">(</span><span class="s2">&quot;Cannot find SED-ML file&quot;</span><span class="p">)</span>
+
+        <span class="k">global</span> <span class="n">modelname</span>
+
+        <span class="n">modelName</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">splitext</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">inputstring</span><span class="p">))[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">extension</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">splitext</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">inputstring</span><span class="p">))[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">path</span> <span class="o">=</span> <span class="n">inputstring</span><span class="o">.</span><span class="n">rsplit</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">inputstring</span><span class="p">),</span> <span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="k">if</span> <span class="n">extension</span> <span class="o">==</span> <span class="s2">&quot;.sedx&quot;</span><span class="p">:</span>
+            <span class="nb">zip</span> <span class="o">=</span> <span class="n">zipfile</span><span class="o">.</span><span class="n">ZipFile</span><span class="p">(</span><span class="n">inputstring</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span>
+            <span class="n">path</span> <span class="o">=</span> <span class="n">path</span> <span class="o">+</span> <span class="n">modelName</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">isdir</span><span class="p">(</span><span class="n">path</span><span class="p">):</span>
+                <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">each</span> <span class="ow">in</span> <span class="nb">zip</span><span class="o">.</span><span class="n">namelist</span><span class="p">():</span>
+            <span class="c1"># check if the item includes a subdirectory</span>
+            <span class="c1"># if it does, create the subdirectory in the output folder and write the file</span>
+            <span class="c1"># otherwise, just write the file to the output folder</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">each</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">):</span>
+                    <span class="n">root</span><span class="p">,</span> <span class="n">name</span> <span class="o">=</span> <span class="n">split</span><span class="p">(</span><span class="n">each</span><span class="p">)</span>
+                    <span class="n">directory</span> <span class="o">=</span> <span class="n">normpath</span><span class="p">(</span><span class="n">join</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">root</span><span class="p">))</span>
+                    <span class="k">if</span> <span class="ow">not</span> <span class="n">isdir</span><span class="p">(</span><span class="n">directory</span><span class="p">):</span>
+                        <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">directory</span><span class="p">)</span>
+                    <span class="nb">file</span><span class="p">(</span><span class="n">join</span><span class="p">(</span><span class="n">directory</span><span class="p">,</span> <span class="n">name</span><span class="p">),</span> <span class="s1">&#39;wb&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="nb">zip</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">each</span><span class="p">))</span>
+            <span class="nb">zip</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+            <span class="n">tree</span> <span class="o">=</span> <span class="n">et</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">path</span> <span class="o">+</span> <span class="s2">&quot;/manifest.xml&quot;</span><span class="p">)</span>
+            <span class="n">root</span> <span class="o">=</span> <span class="n">tree</span><span class="o">.</span><span class="n">getroot</span><span class="p">()</span>
+            <span class="k">print</span><span class="p">(</span><span class="n">root</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">child</span> <span class="ow">in</span> <span class="n">root</span><span class="p">:</span>
+                <span class="n">format</span> <span class="o">=</span> <span class="n">child</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s1">&#39;format&#39;</span><span class="p">]</span>
+                <span class="k">if</span><span class="p">(</span><span class="n">format</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;sed-ml&quot;</span><span class="p">)):</span>
+                    <span class="n">inputstring</span> <span class="o">=</span> <span class="n">child</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s1">&#39;location&#39;</span><span class="p">]</span>
+
+            <span class="n">k</span> <span class="o">=</span> <span class="n">inputstring</span><span class="o">.</span><span class="n">rfind</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">)</span>
+            <span class="n">inputstring</span> <span class="o">=</span> <span class="n">inputstring</span><span class="p">[</span><span class="n">k</span><span class="o">+</span><span class="mi">1</span><span class="p">:]</span>
+            <span class="n">inputstring</span> <span class="o">=</span> <span class="n">path</span> <span class="o">+</span> <span class="s2">&quot;/&quot;</span> <span class="o">+</span> <span class="n">inputstring</span>
+
+        <span class="n">sedmlDoc</span> <span class="o">=</span> <span class="n">libsedml</span><span class="o">.</span><span class="n">readSedMLFromFile</span><span class="p">(</span><span class="n">inputstring</span><span class="p">)</span>
+
     <span class="k">if</span> <span class="n">sedmlDoc</span><span class="o">.</span><span class="n">getErrorLog</span><span class="p">()</span><span class="o">.</span><span class="n">getNumFailsWithSeverity</span><span class="p">(</span><span class="n">libsedml</span><span class="o">.</span><span class="n">LIBSEDML_SEV_ERROR</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
         <span class="k">raise</span> <span class="n">SedmlException</span><span class="p">(</span><span class="n">sedmlDoc</span><span class="o">.</span><span class="n">getErrorLog</span><span class="p">()</span><span class="o">.</span><span class="n">toString</span><span class="p">())</span>
 
@@ -446,6 +497,7 @@
     <span class="k">global</span> <span class="n">modelname</span>
     <span class="k">global</span> <span class="n">outdir</span>
     <span class="n">string</span> <span class="o">=</span> <span class="n">currentModel</span><span class="o">.</span><span class="n">getSource</span><span class="p">()</span>
+    <span class="n">string</span> <span class="o">=</span> <span class="n">string</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\\</span><span class="s2">&quot;</span><span class="p">,</span> <span class="s2">&quot;/&quot;</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">isId</span><span class="p">(</span><span class="n">string</span><span class="p">):</span>                             <span class="c1"># it&#39;s the Id of a model</span>
         <span class="n">originalModel</span> <span class="o">=</span> <span class="n">sedmlDoc</span><span class="o">.</span><span class="n">getModel</span><span class="p">(</span><span class="n">string</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">originalModel</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
@@ -514,7 +566,6 @@
                 <span class="k">if</span> <span class="n">variablesList</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="n">astr</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
                     <span class="n">variablesList</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">astr</span><span class="p">)</span>
                 <span class="n">m</span> <span class="o">=</span> <span class="n">MatchingSetsOfVariableIDs</span><span class="p">(</span><span class="n">current</span><span class="o">.</span><span class="n">getId</span><span class="p">(),</span> <span class="n">currentVar</span><span class="o">.</span><span class="n">getTaskReference</span><span class="p">(),</span> <span class="n">currentVar</span><span class="o">.</span><span class="n">getId</span><span class="p">(),</span> <span class="n">astr</span><span class="p">)</span>
-                <span class="c1">#print m</span>
                 <span class="n">variablesDictionary</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>
             <span class="k">elif</span> <span class="n">currentVar</span><span class="o">.</span><span class="n">isSetTarget</span><span class="p">():</span>
                 <span class="n">cvt</span> <span class="o">=</span> <span class="n">currentVar</span><span class="o">.</span><span class="n">getTarget</span><span class="p">()</span>    <span class="c1"># target field of variable is set</span>
@@ -723,7 +774,7 @@
             <span class="k">if</span> <span class="n">currentSimulation</span><span class="o">.</span><span class="n">getTypeCode</span><span class="p">()</span> <span class="o">==</span> <span class="n">libsedml</span><span class="o">.</span><span class="n">SEDML_SIMULATION_UNIFORMTIMECOURSE</span><span class="p">:</span>
                 <span class="n">tc</span> <span class="o">=</span> <span class="n">currentSimulation</span>
                 <span class="n">totNumPoints</span> <span class="o">=</span> <span class="n">tc</span><span class="o">.</span><span class="n">getOutputEndTime</span><span class="p">()</span> <span class="o">*</span> <span class="n">tc</span><span class="o">.</span><span class="n">getNumberOfPoints</span><span class="p">()</span> <span class="o">/</span> <span class="p">(</span><span class="n">tc</span><span class="o">.</span><span class="n">getOutputEndTime</span><span class="p">()</span> <span class="o">-</span> <span class="n">tc</span><span class="o">.</span><span class="n">getOutputStartTime</span><span class="p">())</span>
-                <span class="n">replacementString</span> <span class="o">=</span> <span class="n">taskId</span> <span class="o">+</span> <span class="s2">&quot;[&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">totNumPoints</span> <span class="o">-</span> <span class="n">currentSimulation</span><span class="o">.</span><span class="n">getNumberOfPoints</span><span class="p">())</span> <span class="o">+</span> <span class="s2">&quot;:,&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">position</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;]&quot;</span>
+                <span class="n">replacementString</span> <span class="o">=</span> <span class="n">taskId</span> <span class="o">+</span> <span class="s2">&quot;[&quot;</span> <span class="o">+</span> <span class="s1">&#39;{0:g}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">totNumPoints</span> <span class="o">-</span> <span class="n">currentSimulation</span><span class="o">.</span><span class="n">getNumberOfPoints</span><span class="p">())</span> <span class="o">+</span> <span class="s2">&quot;:,&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">position</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;]&quot;</span>
             <span class="k">elif</span> <span class="n">currentSimulation</span><span class="o">.</span><span class="n">getTypeCode</span><span class="p">()</span> <span class="o">==</span> <span class="n">libsedml</span><span class="o">.</span><span class="n">SEDML_SIMULATION_STEADYSTATE</span><span class="p">:</span>
                 <span class="n">replacementString</span> <span class="o">=</span> <span class="n">taskId</span> <span class="o">+</span> <span class="s2">&quot;[0:,&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">position</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;]&quot;</span>
             <span class="k">elif</span> <span class="n">currentSimulation</span><span class="o">.</span><span class="n">getTypeCode</span><span class="p">()</span> <span class="o">==</span> <span class="n">libsedml</span><span class="o">.</span><span class="n">SEDML_SIMULATION_ONESTEP</span><span class="p">:</span>
@@ -939,6 +990,14 @@
 
 <div class="viewcode-block" id="checkEqualIvo"><a class="viewcode-back" href="../../_apidoc/tellurium.html#tellurium.tesedml.checkEqualIvo">[docs]</a><span class="k">def</span> <span class="nf">checkEqualIvo</span><span class="p">(</span><span class="n">lst</span><span class="p">):</span>
     <span class="k">return</span> <span class="ow">not</span> <span class="n">lst</span> <span class="ow">or</span> <span class="n">lst</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="n">lst</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">lst</span><span class="p">)</span></div>
+
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">test_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">__file__</span><span class="p">)),</span>
+                        <span class="s1">&#39;tests&#39;</span><span class="p">,</span> <span class="s1">&#39;testdata&#39;</span><span class="p">,</span> <span class="s1">&#39;sedml&#39;</span><span class="p">)</span>
+    <span class="n">f_sedml</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">test_dir</span><span class="p">,</span> <span class="s1">&#39;app2sim&#39;</span><span class="p">,</span> <span class="s1">&#39;app2sim.sedml&#39;</span><span class="p">)</span>
+    <span class="n">python_str</span> <span class="o">=</span> <span class="n">sedml_to_python</span><span class="p">(</span><span class="n">f_sedml</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">python_str</span><span class="p">)</span>
 
 </pre></div>
 

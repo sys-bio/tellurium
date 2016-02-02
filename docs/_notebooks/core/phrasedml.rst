@@ -61,9 +61,9 @@ export in Combine Archive format.
     t1 = model1.simulate(0, 5, 100)
     
     # List of Data Generators
-    plot_0_0_0 = t1[0.0:,0]
-    plot_0_0_1 = t1[0.0:,1]
-    plot_0_1_1 = t1[0.0:,2]
+    plot_0_0_0 = t1[0:,0]
+    plot_0_0_1 = t1[0:,1]
+    plot_0_1_1 = t1[0:,2]
     
     # List of Outputs
     Y_0 = np.array([plot_0_0_1, plot_0_1_1]).T

@@ -141,10 +141,209 @@
 <span class="kn">import</span> <span class="nn">unittest</span>
 <span class="kn">import</span> <span class="nn">tellurium</span> <span class="kn">as</span> <span class="nn">te</span>
 
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="n">test_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">__file__</span><span class="p">)),</span> <span class="s1">&#39;testdata&#39;</span><span class="p">)</span>
 
-<div class="viewcode-block" id="TelluriumTestCase"><a class="viewcode-back" href="../../../_apidoc/tellurium.tests.html#tellurium.tests.test_tellurium.TelluriumTestCase">[docs]</a><span class="k">class</span> <span class="nc">TelluriumTestCase</span><span class="p">(</span><span class="n">unittest</span><span class="o">.</span><span class="n">TestCase</span><span class="p">):</span></div>
 
-    <span class="k">def</span> <span class="nf">test_roadrunner</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="TelluriumTestCase"><a class="viewcode-back" href="../../../_apidoc/tellurium.tests.html#tellurium.tests.test_tellurium.TelluriumTestCase">[docs]</a><span class="k">class</span> <span class="nc">TelluriumTestCase</span><span class="p">(</span><span class="n">unittest</span><span class="o">.</span><span class="n">TestCase</span><span class="p">):</span>
+<div class="viewcode-block" id="TelluriumTestCase.setUp"><a class="viewcode-back" href="../../../_apidoc/tellurium.tests.html#tellurium.tests.test_tellurium.TelluriumTestCase.setUp">[docs]</a>    <span class="k">def</span> <span class="nf">setUp</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">ant_str</span> <span class="o">=</span> <span class="s1">&#39;&#39;&#39;</span>
+<span class="s1">        model pathway()</span>
+<span class="s1">             S1 -&gt; S2; k1*S1</span>
+
+<span class="s1">             # Initialize values</span>
+<span class="s1">             S1 = 10; S2 = 0</span>
+<span class="s1">             k1 = 1</span>
+<span class="s1">        end</span>
+<span class="s1">        &#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sbml_str</span> <span class="o">=</span> <span class="s1">&#39;&#39;&#39;&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span>
+<span class="s1">        &lt;!-- Created by libAntimony version v2.8.1 on 2016-02-02 11:45 with libSBML version 5.12.1. --&gt;</span>
+<span class="s1">        &lt;sbml xmlns=&quot;http://www.sbml.org/sbml/level3/version1/core&quot; xmlns:comp=&quot;http://www.sbml.org/sbml/level3/version1/comp/version1&quot; level=&quot;3&quot; version=&quot;1&quot; comp:required=&quot;true&quot;&gt;</span>
+<span class="s1">          &lt;model id=&quot;pathway&quot; name=&quot;pathway&quot;&gt;</span>
+<span class="s1">            &lt;listOfCompartments&gt;</span>
+<span class="s1">              &lt;compartment sboTerm=&quot;SBO:0000410&quot; id=&quot;default_compartment&quot; spatialDimensions=&quot;3&quot; size=&quot;1&quot; constant=&quot;true&quot;/&gt;</span>
+<span class="s1">            &lt;/listOfCompartments&gt;</span>
+<span class="s1">            &lt;listOfSpecies&gt;</span>
+<span class="s1">              &lt;species id=&quot;S1&quot; compartment=&quot;default_compartment&quot; initialConcentration=&quot;10&quot; hasOnlySubstanceUnits=&quot;false&quot; boundaryCondition=&quot;false&quot; constant=&quot;false&quot;/&gt;</span>
+<span class="s1">              &lt;species id=&quot;S2&quot; compartment=&quot;default_compartment&quot; initialConcentration=&quot;0&quot; hasOnlySubstanceUnits=&quot;false&quot; boundaryCondition=&quot;false&quot; constant=&quot;false&quot;/&gt;</span>
+<span class="s1">            &lt;/listOfSpecies&gt;</span>
+<span class="s1">            &lt;listOfParameters&gt;</span>
+<span class="s1">              &lt;parameter id=&quot;k1&quot; value=&quot;1&quot; constant=&quot;true&quot;/&gt;</span>
+<span class="s1">            &lt;/listOfParameters&gt;</span>
+<span class="s1">            &lt;listOfReactions&gt;</span>
+<span class="s1">              &lt;reaction id=&quot;_J0&quot; reversible=&quot;true&quot; fast=&quot;false&quot;&gt;</span>
+<span class="s1">                &lt;listOfReactants&gt;</span>
+<span class="s1">                  &lt;speciesReference species=&quot;S1&quot; stoichiometry=&quot;1&quot; constant=&quot;true&quot;/&gt;</span>
+<span class="s1">                &lt;/listOfReactants&gt;</span>
+<span class="s1">                &lt;listOfProducts&gt;</span>
+<span class="s1">                  &lt;speciesReference species=&quot;S2&quot; stoichiometry=&quot;1&quot; constant=&quot;true&quot;/&gt;</span>
+<span class="s1">                &lt;/listOfProducts&gt;</span>
+<span class="s1">                &lt;kineticLaw&gt;</span>
+<span class="s1">                  &lt;math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot;&gt;</span>
+<span class="s1">                    &lt;apply&gt;</span>
+<span class="s1">                      &lt;times/&gt;</span>
+<span class="s1">                      &lt;ci&gt; k1 &lt;/ci&gt;</span>
+<span class="s1">                      &lt;ci&gt; S1 &lt;/ci&gt;</span>
+<span class="s1">                    &lt;/apply&gt;</span>
+<span class="s1">                  &lt;/math&gt;</span>
+<span class="s1">                &lt;/kineticLaw&gt;</span>
+<span class="s1">              &lt;/reaction&gt;</span>
+<span class="s1">            &lt;/listOfReactions&gt;</span>
+<span class="s1">          &lt;/model&gt;</span>
+<span class="s1">        &lt;/sbml&gt;</span>
+<span class="s1">        &#39;&#39;&#39;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">cellml_str</span> <span class="o">=</span> <span class="s1">&#39;&#39;&#39;&lt;?xml version=&quot;1.0&quot;?&gt;</span>
+<span class="s1">        &lt;model xmlns:cellml=&quot;http://www.cellml.org/cellml/1.1#&quot; xmlns=&quot;http://www.cellml.org/cellml/1.1#&quot; name=&quot;pathway&quot;&gt;</span>
+<span class="s1">        &lt;component name=&quot;pathway&quot;&gt;</span>
+<span class="s1">        &lt;variable initial_value=&quot;10&quot; name=&quot;S1&quot; units=&quot;dimensionless&quot;/&gt;</span>
+<span class="s1">        &lt;variable initial_value=&quot;0&quot; name=&quot;S2&quot; units=&quot;dimensionless&quot;/&gt;</span>
+<span class="s1">        &lt;variable initial_value=&quot;1&quot; name=&quot;k1&quot; units=&quot;dimensionless&quot;/&gt;</span>
+<span class="s1">        &lt;variable name=&quot;_J0&quot; units=&quot;dimensionless&quot;/&gt;</span>
+<span class="s1">        &lt;math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot;&gt;</span>
+<span class="s1">        &lt;apply&gt;</span>
+<span class="s1">        &lt;eq/&gt;</span>
+<span class="s1">        &lt;ci&gt;_J0&lt;/ci&gt;</span>
+<span class="s1">        &lt;apply&gt;</span>
+<span class="s1">        &lt;times/&gt;</span>
+<span class="s1">        &lt;ci&gt;k1&lt;/ci&gt;</span>
+<span class="s1">        &lt;ci&gt;S1&lt;/ci&gt;</span>
+<span class="s1">        &lt;/apply&gt;</span>
+<span class="s1">        &lt;/apply&gt;</span>
+<span class="s1">        &lt;/math&gt;</span>
+<span class="s1">        &lt;variable name=&quot;time&quot; units=&quot;dimensionless&quot;/&gt;</span>
+<span class="s1">        &lt;math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot;&gt;</span>
+<span class="s1">        &lt;apply&gt;</span>
+<span class="s1">        &lt;eq/&gt;</span>
+<span class="s1">        &lt;apply&gt;</span>
+<span class="s1">        &lt;diff/&gt;</span>
+<span class="s1">        &lt;bvar&gt;</span>
+<span class="s1">        &lt;ci&gt;time&lt;/ci&gt;</span>
+<span class="s1">        &lt;/bvar&gt;</span>
+<span class="s1">        &lt;ci&gt;S1&lt;/ci&gt;</span>
+<span class="s1">        &lt;/apply&gt;</span>
+<span class="s1">        &lt;apply&gt;</span>
+<span class="s1">        &lt;minus/&gt;</span>
+<span class="s1">        &lt;ci&gt;_J0&lt;/ci&gt;</span>
+<span class="s1">        &lt;/apply&gt;</span>
+<span class="s1">        &lt;/apply&gt;</span>
+<span class="s1">        &lt;/math&gt;</span>
+<span class="s1">        &lt;math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot;&gt;</span>
+<span class="s1">        &lt;apply&gt;</span>
+<span class="s1">        &lt;eq/&gt;</span>
+<span class="s1">        &lt;apply&gt;</span>
+<span class="s1">        &lt;diff/&gt;</span>
+<span class="s1">        &lt;bvar&gt;</span>
+<span class="s1">        &lt;ci&gt;time&lt;/ci&gt;</span>
+<span class="s1">        &lt;/bvar&gt;</span>
+<span class="s1">        &lt;ci&gt;S2&lt;/ci&gt;</span>
+<span class="s1">        &lt;/apply&gt;</span>
+<span class="s1">        &lt;ci&gt;_J0&lt;/ci&gt;</span>
+<span class="s1">        &lt;/apply&gt;</span>
+<span class="s1">        &lt;/math&gt;</span>
+<span class="s1">        &lt;/component&gt;</span>
+<span class="s1">        &lt;group&gt;</span>
+<span class="s1">        &lt;relationship_ref relationship=&quot;encapsulation&quot;/&gt;</span>
+<span class="s1">        &lt;component_ref component=&quot;pathway&quot;/&gt;</span>
+<span class="s1">        &lt;/group&gt;</span>
+<span class="s1">        &lt;/model&gt;</span>
+<span class="s1">        &#39;&#39;&#39;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">ant_file</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">test_dir</span><span class="p">,</span> <span class="s1">&#39;models&#39;</span><span class="p">,</span> <span class="s1">&#39;example1&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sbml_file</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">test_dir</span><span class="p">,</span> <span class="s1">&#39;models&#39;</span><span class="p">,</span> <span class="s1">&#39;example1.xml&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cellml_file</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">test_dir</span><span class="p">,</span> <span class="s1">&#39;models&#39;</span><span class="p">,</span> <span class="s1">&#39;example1.cellml&#39;</span><span class="p">)</span></div>
+
+    <span class="c1"># ---------------------------------------------------------------------</span>
+    <span class="c1"># Loading Models Methods</span>
+    <span class="c1"># ---------------------------------------------------------------------</span>
+<div class="viewcode-block" id="TelluriumTestCase.test_loada_file"><a class="viewcode-back" href="../../../_apidoc/tellurium.tests.html#tellurium.tests.test_tellurium.TelluriumTestCase.test_loada_file">[docs]</a>    <span class="k">def</span> <span class="nf">test_loada_file</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="n">te</span><span class="o">.</span><span class="n">loada</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ant_file</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertIsNotNone</span><span class="p">(</span><span class="n">r</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="TelluriumTestCase.test_loada_str"><a class="viewcode-back" href="../../../_apidoc/tellurium.tests.html#tellurium.tests.test_tellurium.TelluriumTestCase.test_loada_str">[docs]</a>    <span class="k">def</span> <span class="nf">test_loada_str</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="n">te</span><span class="o">.</span><span class="n">loada</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ant_str</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertIsNotNone</span><span class="p">(</span><span class="n">r</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="TelluriumTestCase.loadAntimonyModel_file"><a class="viewcode-back" href="../../../_apidoc/tellurium.tests.html#tellurium.tests.test_tellurium.TelluriumTestCase.loadAntimonyModel_file">[docs]</a>    <span class="k">def</span> <span class="nf">loadAntimonyModel_file</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="n">te</span><span class="o">.</span><span class="n">loadAntimonyModel</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ant_file</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertIsNotNone</span><span class="p">(</span><span class="n">r</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="TelluriumTestCase.loadAntimonyModel_str"><a class="viewcode-back" href="../../../_apidoc/tellurium.tests.html#tellurium.tests.test_tellurium.TelluriumTestCase.loadAntimonyModel_str">[docs]</a>    <span class="k">def</span> <span class="nf">loadAntimonyModel_str</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="n">te</span><span class="o">.</span><span class="n">loadAntimonyModel</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ant_str</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertIsNotNone</span><span class="p">(</span><span class="n">r</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="TelluriumTestCase.test_loadSBMLModel_file"><a class="viewcode-back" href="../../../_apidoc/tellurium.tests.html#tellurium.tests.test_tellurium.TelluriumTestCase.test_loadSBMLModel_file">[docs]</a>    <span class="k">def</span> <span class="nf">test_loadSBMLModel_file</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="n">te</span><span class="o">.</span><span class="n">loadSBMLModel</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sbml_file</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertIsNotNone</span><span class="p">(</span><span class="n">r</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="TelluriumTestCase.test_loadSBMLModel_str"><a class="viewcode-back" href="../../../_apidoc/tellurium.tests.html#tellurium.tests.test_tellurium.TelluriumTestCase.test_loadSBMLModel_str">[docs]</a>    <span class="k">def</span> <span class="nf">test_loadSBMLModel_str</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="n">te</span><span class="o">.</span><span class="n">loadSBMLModel</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sbml_str</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertIsNotNone</span><span class="p">(</span><span class="n">r</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="TelluriumTestCase.loadCellMLModel_file"><a class="viewcode-back" href="../../../_apidoc/tellurium.tests.html#tellurium.tests.test_tellurium.TelluriumTestCase.loadCellMLModel_file">[docs]</a>    <span class="k">def</span> <span class="nf">loadCellMLModel_file</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="n">te</span><span class="o">.</span><span class="n">loadCellMLModel</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cellml_file</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertIsNotNone</span><span class="p">(</span><span class="n">r</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="TelluriumTestCase.loadCellMLModel_str"><a class="viewcode-back" href="../../../_apidoc/tellurium.tests.html#tellurium.tests.test_tellurium.TelluriumTestCase.loadCellMLModel_str">[docs]</a>    <span class="k">def</span> <span class="nf">loadCellMLModel_str</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="n">te</span><span class="o">.</span><span class="n">loadCellMLModel</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cellml_str</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertIsNotNone</span><span class="p">(</span><span class="n">r</span><span class="p">)</span></div>
+
+    <span class="c1"># ---------------------------------------------------------------------</span>
+    <span class="c1"># Interconversion Methods</span>
+    <span class="c1"># ---------------------------------------------------------------------</span>
+<div class="viewcode-block" id="TelluriumTestCase.test_antimonyToSBML_file"><a class="viewcode-back" href="../../../_apidoc/tellurium.tests.html#tellurium.tests.test_tellurium.TelluriumTestCase.test_antimonyToSBML_file">[docs]</a>    <span class="k">def</span> <span class="nf">test_antimonyToSBML_file</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">sbml</span> <span class="o">=</span> <span class="n">te</span><span class="o">.</span><span class="n">antimonyToSBML</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ant_file</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertIsNotNone</span><span class="p">(</span><span class="n">sbml</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="TelluriumTestCase.test_antimonyToSBML_str"><a class="viewcode-back" href="../../../_apidoc/tellurium.tests.html#tellurium.tests.test_tellurium.TelluriumTestCase.test_antimonyToSBML_str">[docs]</a>    <span class="k">def</span> <span class="nf">test_antimonyToSBML_str</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">sbml</span> <span class="o">=</span> <span class="n">te</span><span class="o">.</span><span class="n">antimonyToSBML</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ant_str</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertIsNotNone</span><span class="p">(</span><span class="n">sbml</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="TelluriumTestCase.test_antimonyToCellML_file"><a class="viewcode-back" href="../../../_apidoc/tellurium.tests.html#tellurium.tests.test_tellurium.TelluriumTestCase.test_antimonyToCellML_file">[docs]</a>    <span class="k">def</span> <span class="nf">test_antimonyToCellML_file</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">cellml</span> <span class="o">=</span> <span class="n">te</span><span class="o">.</span><span class="n">antimonyToCellML</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ant_file</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertIsNotNone</span><span class="p">(</span><span class="n">cellml</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="TelluriumTestCase.test_antimonyToCellML_str"><a class="viewcode-back" href="../../../_apidoc/tellurium.tests.html#tellurium.tests.test_tellurium.TelluriumTestCase.test_antimonyToCellML_str">[docs]</a>    <span class="k">def</span> <span class="nf">test_antimonyToCellML_str</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">cellml</span> <span class="o">=</span> <span class="n">te</span><span class="o">.</span><span class="n">antimonyToCellML</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ant_str</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertIsNotNone</span><span class="p">(</span><span class="n">cellml</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="TelluriumTestCase.test_sbmlToAntimony_file"><a class="viewcode-back" href="../../../_apidoc/tellurium.tests.html#tellurium.tests.test_tellurium.TelluriumTestCase.test_sbmlToAntimony_file">[docs]</a>    <span class="k">def</span> <span class="nf">test_sbmlToAntimony_file</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">ant</span> <span class="o">=</span> <span class="n">te</span><span class="o">.</span><span class="n">sbmlToAntimony</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sbml_file</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertIsNotNone</span><span class="p">(</span><span class="n">ant</span><span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="nf">test_sbmlToAntimony_str</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">ant</span> <span class="o">=</span> <span class="n">te</span><span class="o">.</span><span class="n">sbmlToAntimony</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sbml_str</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertIsNotNone</span><span class="p">(</span><span class="n">ant</span><span class="p">)</span>
+
+<div class="viewcode-block" id="TelluriumTestCase.test_sbmlToCellML_file"><a class="viewcode-back" href="../../../_apidoc/tellurium.tests.html#tellurium.tests.test_tellurium.TelluriumTestCase.test_sbmlToCellML_file">[docs]</a>    <span class="k">def</span> <span class="nf">test_sbmlToCellML_file</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">cellml</span> <span class="o">=</span> <span class="n">te</span><span class="o">.</span><span class="n">sbmlToCellML</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sbml_file</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertIsNotNone</span><span class="p">(</span><span class="n">cellml</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="TelluriumTestCase.test_sbmlToAntimony_str"><a class="viewcode-back" href="../../../_apidoc/tellurium.tests.html#tellurium.tests.test_tellurium.TelluriumTestCase.test_sbmlToAntimony_str">[docs]</a>    <span class="k">def</span> <span class="nf">test_sbmlToAntimony_str</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">cellml</span> <span class="o">=</span> <span class="n">te</span><span class="o">.</span><span class="n">sbmlToCellML</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sbml_str</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertIsNotNone</span><span class="p">(</span><span class="n">cellml</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="TelluriumTestCase.test_cellmlToAntimony_file"><a class="viewcode-back" href="../../../_apidoc/tellurium.tests.html#tellurium.tests.test_tellurium.TelluriumTestCase.test_cellmlToAntimony_file">[docs]</a>    <span class="k">def</span> <span class="nf">test_cellmlToAntimony_file</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">ant</span> <span class="o">=</span> <span class="n">te</span><span class="o">.</span><span class="n">cellmlToAntimony</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cellml_file</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertIsNotNone</span><span class="p">(</span><span class="n">ant</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="TelluriumTestCase.test_cellmlToAntimony_str"><a class="viewcode-back" href="../../../_apidoc/tellurium.tests.html#tellurium.tests.test_tellurium.TelluriumTestCase.test_cellmlToAntimony_str">[docs]</a>    <span class="k">def</span> <span class="nf">test_cellmlToAntimony_str</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">ant</span> <span class="o">=</span> <span class="n">te</span><span class="o">.</span><span class="n">cellmlToAntimony</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cellml_str</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertIsNotNone</span><span class="p">(</span><span class="n">ant</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="TelluriumTestCase.test_cellmlToSBML_file"><a class="viewcode-back" href="../../../_apidoc/tellurium.tests.html#tellurium.tests.test_tellurium.TelluriumTestCase.test_cellmlToSBML_file">[docs]</a>    <span class="k">def</span> <span class="nf">test_cellmlToSBML_file</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">sbml</span> <span class="o">=</span> <span class="n">te</span><span class="o">.</span><span class="n">cellmlToSBML</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cellml_file</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertIsNotNone</span><span class="p">(</span><span class="n">sbml</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="TelluriumTestCase.test_cellmlToSBML_str"><a class="viewcode-back" href="../../../_apidoc/tellurium.tests.html#tellurium.tests.test_tellurium.TelluriumTestCase.test_cellmlToSBML_str">[docs]</a>    <span class="k">def</span> <span class="nf">test_cellmlToSBML_str</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">sbml</span> <span class="o">=</span> <span class="n">te</span><span class="o">.</span><span class="n">cellmlToSBML</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cellml_str</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertIsNotNone</span><span class="p">(</span><span class="n">sbml</span><span class="p">)</span></div>
+
+    <span class="c1"># ---------------------------------------------------------------------</span>
+    <span class="c1"># Roadrunner tests</span>
+    <span class="c1"># ---------------------------------------------------------------------</span>
+<div class="viewcode-block" id="TelluriumTestCase.test_roadrunner"><a class="viewcode-back" href="../../../_apidoc/tellurium.tests.html#tellurium.tests.test_tellurium.TelluriumTestCase.test_roadrunner">[docs]</a>    <span class="k">def</span> <span class="nf">test_roadrunner</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="c1"># load test model as SBML</span>
         <span class="n">sbml</span> <span class="o">=</span> <span class="n">te</span><span class="o">.</span><span class="n">getTestModel</span><span class="p">(</span><span class="s1">&#39;feedback.xml&#39;</span><span class="p">)</span>
         <span class="n">rr</span> <span class="o">=</span> <span class="n">te</span><span class="o">.</span><span class="n">loadSBMLModel</span><span class="p">(</span><span class="n">sbml</span><span class="p">)</span>
@@ -158,15 +357,15 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">assertIsNotNone</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">200</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">s</span><span class="p">[</span><span class="s2">&quot;time&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="mi">0</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">assertAlmostEqual</span><span class="p">(</span><span class="n">s</span><span class="p">[</span><span class="s2">&quot;time&quot;</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="mf">100.0</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertAlmostEqual</span><span class="p">(</span><span class="n">s</span><span class="p">[</span><span class="s2">&quot;time&quot;</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="mf">100.0</span><span class="p">)</span></div>
 
-    <span class="k">def</span> <span class="nf">test_roadrunner_tests</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="TelluriumTestCase.test_roadrunner_tests"><a class="viewcode-back" href="../../../_apidoc/tellurium.tests.html#tellurium.tests.test_tellurium.TelluriumTestCase.test_roadrunner_tests">[docs]</a>    <span class="k">def</span> <span class="nf">test_roadrunner_tests</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Run the roadrunner tests. &quot;&quot;&quot;</span>
         <span class="kn">import</span> <span class="nn">roadrunner.testing</span>
         <span class="n">Nfailed</span> <span class="o">=</span> <span class="n">roadrunner</span><span class="o">.</span><span class="n">testing</span><span class="o">.</span><span class="n">runTester</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">Nfailed</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">Nfailed</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span></div>
 
-    <span class="k">def</span> <span class="nf">test_loada</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="TelluriumTestCase.test_loada"><a class="viewcode-back" href="../../../_apidoc/tellurium.tests.html#tellurium.tests.test_tellurium.TelluriumTestCase.test_loada">[docs]</a>    <span class="k">def</span> <span class="nf">test_loada</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">rr</span> <span class="o">=</span> <span class="n">te</span><span class="o">.</span><span class="n">loada</span><span class="p">(</span><span class="s1">&#39;&#39;&#39;</span>
 <span class="s1">            model example0</span>
 <span class="s1">              S1 -&gt; S2; k1*S1</span>
@@ -175,9 +374,9 @@
 <span class="s1">              k1 = 0.1</span>
 <span class="s1">            end</span>
 <span class="s1">        &#39;&#39;&#39;</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">assertIsNotNone</span><span class="p">(</span><span class="n">rr</span><span class="o">.</span><span class="n">getModel</span><span class="p">())</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertIsNotNone</span><span class="p">(</span><span class="n">rr</span><span class="o">.</span><span class="n">getModel</span><span class="p">())</span></div>
 
-    <span class="k">def</span> <span class="nf">test_README_example</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="TelluriumTestCase.test_README_example"><a class="viewcode-back" href="../../../_apidoc/tellurium.tests.html#tellurium.tests.test_tellurium.TelluriumTestCase.test_README_example">[docs]</a>    <span class="k">def</span> <span class="nf">test_README_example</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Tests the source example in the main README.md. &quot;&quot;&quot;</span>
         <span class="kn">import</span> <span class="nn">tellurium</span> <span class="kn">as</span> <span class="nn">te</span>
         <span class="n">rr</span> <span class="o">=</span> <span class="n">te</span><span class="o">.</span><span class="n">loada</span><span class="p">(</span><span class="s1">&#39;&#39;&#39;</span>
@@ -188,7 +387,7 @@
 <span class="s1">              k1 = 0.1</span>
 <span class="s1">            end</span>
 <span class="s1">        &#39;&#39;&#39;</span><span class="p">)</span>
-        <span class="n">result</span> <span class="o">=</span> <span class="n">rr</span><span class="o">.</span><span class="n">simulate</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">40</span><span class="p">,</span> <span class="mi">500</span><span class="p">)</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">rr</span><span class="o">.</span><span class="n">simulate</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">40</span><span class="p">,</span> <span class="mi">500</span><span class="p">)</span></div>
         <span class="c1"># FIXME: test the plotting</span>
         <span class="c1"># te.plotArray(result)</span>
 
@@ -256,11 +455,11 @@
     <span class="c1">#     plt.plot (res[:,0],res[:,1:])</span>
     <span class="c1">#     plt.show()</span>
 
-    <span class="k">def</span> <span class="nf">test_getTelluriumVersionInfo</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="TelluriumTestCase.test_getTelluriumVersionInfo"><a class="viewcode-back" href="../../../_apidoc/tellurium.tests.html#tellurium.tests.test_tellurium.TelluriumTestCase.test_getTelluriumVersionInfo">[docs]</a>    <span class="k">def</span> <span class="nf">test_getTelluriumVersionInfo</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">version</span> <span class="o">=</span> <span class="n">te</span><span class="o">.</span><span class="n">getTelluriumVersion</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">version</span><span class="p">,</span> <span class="nb">str</span><span class="p">))</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">version</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">version</span><span class="p">,</span> <span class="n">te</span><span class="o">.</span><span class="n">__version__</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">version</span><span class="p">,</span> <span class="n">te</span><span class="o">.</span><span class="n">__version__</span><span class="p">)</span></div></div>
 
 
 <span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>

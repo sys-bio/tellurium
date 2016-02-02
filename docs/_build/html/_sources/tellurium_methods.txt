@@ -65,7 +65,7 @@ This is the same as roadrunner.RoadRunner() but the method name is more suggesti
 	r = te.loadAntimonyModel ('mymodel.ant')
 
 	# The method loada is simply a shortcut to loadAntimonyModel
-	r = loada ('''
+	r = loada('''
 		S1 -> S2; k1*S1;
 		S2 -> S3; k2*S2;
 	   
@@ -75,9 +75,9 @@ This is the same as roadrunner.RoadRunner() but the method name is more suggesti
 		result = r.simulate (0, 10, 100)
 		r.plot (result)
 
-.. autofunction:: tellurium.loadSBMLModel
-.. autofunction:: tellurium.loadAntimonyModel
 .. autofunction:: tellurium.loada
+.. autofunction:: tellurium.loadAntimonyModel
+.. autofunction:: tellurium.loadSBMLModel
 .. autofunction:: tellurium.loadCellMLModel
 
 ----------------------------------------
@@ -101,12 +101,31 @@ Use these routines interconvert verious standard formats
 	# Generate the SBML format of the Antimony model
 	print te.antimonyToSBML(antStr)
 
-.. autofunction:: tellurium.antimonyTosbml
+.. autofunction:: tellurium.antimonyToSBML
+.. autofunction:: tellurium.antimonyToCellML
 .. autofunction:: tellurium.sbmlToAntimony
-.. autofunction:: tellurium.cellmlFileToAntimony
-.. autofunction:: tellurium.cellmlFileToSBML
-.. autofunction:: tellurium.cellmlStrToAntimony
-.. autofunction:: tellurium.cellmlStrToSBML
+.. autofunction:: tellurium.sbmlToCellML
+.. autofunction:: tellurium.cellmlToAntimony
+.. autofunction:: tellurium.cellmlToSBML
+
+----------------------------------------
+Export Utilities
+----------------------------------------
+Use these routines to convert the current model state into other formats, like
+Matlab, CellML, Antimony and SBML.
+::
+
+	r = te.loada('S1 -> S2; k1*S1; k1 = 0.1; S1 = 10')
+	print(r.getCurrentMatlab())
+	r.exportToMatlab("mymodel.m")
+
+.. autofunction:: tellurium.getCurrentAntimony
+.. autofunction:: tellurium.getCurrentCellML
+.. autofunction:: tellurium.getCurrentMatlab
+.. autofunction:: tellurium.exportToSBML
+.. autofunction:: tellurium.exportToAntimony
+.. autofunction:: tellurium.exportToCellML
+.. autofunction:: tellurium.exportToMatlab
 
 ----------------------------------------
 Stochastic Simulation
@@ -203,22 +222,6 @@ If you wish to reset a model back to the state it was what it was loaded, use th
 
 .. autofunction:: tellurium.resetToOrigin
 .. autofunction:: tellurium.resetAll
-
-----------------------------------------
-Export
-----------------------------------------
-**Matlab export utilities**
-
-Use these routines to convert your model into a Matlab function.
-::
-
-	r = te.loada('S1 -> S2; k1*S1; k1 = 0.1; S1 = 10')
-	print(r.getMatlab())
-	r.exportToMatlab("mymodel.m")
-
-.. autofunction:: tellurium.getMatlab
-.. autofunction:: tellurium.exportToMatlab
-.. autofunction:: tellurium.getAntimony
 
 ----------------------------------------
 jarnac Short-cuts
