@@ -729,107 +729,8 @@ def resetAll(rr):
              roadrunner.SelectionRecord.GLOBAL_PARAMETER)
 
 
-# --------------------------------------------------------------------- 
-# Routines to support the Jarnac compatibility layer
-# ---------------------------------------------------------------------
-def getSm(rr):
-    """ Returns the full reordered stoichiometry matrix.
-
-    See also: :func:`sm`, :func:`getFullStoichiometryMatrix`
-
-    :returns: full reordered stoichiometry matrix
-    """
-    return rr.getFullStoichiometryMatrix()
 
 
-def getRs(rr):
-    """ Returns the list of reaction Identifiers.
-
-    See also: :func:`rs`, :func:`getReactionIds`
-
-    :returns: reaction identifiers
-    """
-    return rr.model.getReactionIds()
-
-
-def getFs(rr):
-    """ Returns list of floating species identifiers.
-
-    See also: :func:`fs`, :func:`getFloatingSpeciesIds`
-
-    :returns: floating species identifiers
-    """
-    return rr.model.getFloatingSpeciesIds()
-
-
-def getBs(rr):
-    """ Returns list of boundary species identifiers.
-
-    See also: :func:`bs`, :func:`getBoundarySpeciesIds`
-
-    :returns: boundary species identifiers
-    """
-    return rr.model.getBoundarySpeciesIds()
-
-
-def getPs(rr):
-    """ Returns list of global parameters in the model.
-
-    See also: :func:`ps`, :func:`getGlobalParameterIds`
-
-    :returns: global parameters
-    """
-    return rr.model.getGlobalParameterIds()
-
-
-def getVs(rr):
-    """ Returns the list of compartment identifiers.
-
-    See also: :func:`vs`, :func:`getCompartmentIds`
-
-    :returns: compartment identifiers
-    """
-    return rr.model.getCompartmentIds()
-
-
-def getDv(rr):
-    """ Returns the list of rates of change.
-
-    See also: :func:`dv`, :func:`getStateVectorRate`
-
-    :returns: rate of change
-    """
-    return rr.model.getStateVectorRate()
-
-
-def getRv(rr):
-    """ Returns the list of reaction rates.
-
-    See also: :func:`rv`, :func:`getReactionRates`
-
-    :returns: reaction rates
-    """
-    return rr.model.getReactionRates()
-
-
-def getSv(rr):
-    """ Returns the list of floating species concentrations.
-
-    See also: :func:`rr`, :func:`getFloatingSpeciesConcentrations`
-
-    :returns: floating species concentrations
-    """
-    return rr.model.getFloatingSpeciesConcentrations()
-
-
-def getfJac(rr):
-    """Returns the full Jacobian for the current model at the current state.
-
-    See also: :func:`fjac`, :func:`getFullJacobian`
-
-    :returns: Jacobian at current state
-    """
-    return rr.getFullJacobian()
 
 
 # --------------------------------------------------------------------- 
@@ -966,90 +867,189 @@ roadrunner.RoadRunner.getNumberOfPoints = getNumberOfPoints
 roadrunner.RoadRunner.setSteps = setSteps
 roadrunner.RoadRunner.getSteps = getSteps
 
-# -------------------------------------------------------
+# ---------------------------------------------------------------------
+# Routines to support the Jarnac compatibility layer
+# ---------------------------------------------------------------------
+def getRs(rr):
+    """ Returns the list of reaction Identifiers.
+
+    See also: :func:`rs`, :func:`getReactionIds`
+
+    :returns: reaction identifiers
+    """
+    return rr.model.getReactionIds()
+
+
+def getFs(rr):
+    """ Returns list of floating species identifiers.
+
+    See also: :func:`fs`, :func:`getFloatingSpeciesIds`
+
+    :returns: floating species identifiers
+    """
+    return rr.model.getFloatingSpeciesIds()
+
+
+def getBs(rr):
+    """ Returns list of boundary species identifiers.
+
+    See also: :func:`bs`, :func:`getBoundarySpeciesIds`
+
+    :returns: boundary species identifiers
+    """
+    return rr.model.getBoundarySpeciesIds()
+
+
+def getPs(rr):
+    """ Returns list of global parameters in the model.
+
+    See also: :func:`ps`, :func:`getGlobalParameterIds`
+
+    :returns: global parameters
+    """
+    return rr.model.getGlobalParameterIds()
+
+
+def getVs(rr):
+    """ Returns the list of compartment identifiers.
+
+    See also: :func:`vs`, :func:`getCompartmentIds`
+
+    :returns: compartment identifiers
+    """
+    return rr.model.getCompartmentIds()
+
+
+def getDv(rr):
+    """ Returns the list of rates of change.
+
+    See also: :func:`dv`, :func:`getStateVectorRate`
+
+    :returns: rate of change
+    """
+    return rr.model.getStateVectorRate()
+
+
+def getRv(rr):
+    """ Returns the list of reaction rates.
+
+    See also: :func:`rv`, :func:`getReactionRates`
+
+    :returns: reaction rates
+    """
+    return rr.model.getReactionRates()
+
+
+def getSv(rr):
+    """ Returns the list of floating species concentrations.
+
+    See also: :func:`rr`, :func:`getFloatingSpeciesConcentrations`
+
+    :returns: floating species concentrations
+    """
+    return rr.model.getFloatingSpeciesConcentrations()
+
+
+"""
+# WORK IN PROGRESS - DO NOT REMOVE
 # Jarnac compatibility layer
-roadrunner.RoadRunner.sm = getSm
+jarnac_layer = {
+    'fjac': roadrunner.RoadRunner.getFullJacobian,
+    'sm': roadrunner.RoadRunner.getFullStoichiometryMatrix,
+    'rs': roadrunner.ExecutableModel.getReactionIds,
+    'fs': roadrunner.ExecutableModel.getFloatingSpeciesIds,
+    'bs': roadrunner.ExecutableModel.getBoundarySpeciesIds,
+    'ps': roadrunner.ExecutableModel.getGlobalParameterIds,
+    'vs': roadrunner.ExecutableModel.getCompartmentIds,
+    'dv': roadrunner.ExecutableModel.getStateVectorRate,
+    'rv': roadrunner.ExecutableModel.getReactionRates,
+    'sv': roadrunner.ExecutableModel.getFloatingSpeciesConcentrations,
+}
+for key, value in jarnac_layer.iteritems():
+    setattr(roadrunner.RoadRunner, key, value)
+"""
+
+roadrunner.RoadRunner.fjac = roadrunner.RoadRunner.getFullJacobian
+roadrunner.RoadRunner.sm = roadrunner.RoadRunner.getFullStoichiometryMatrix
 roadrunner.RoadRunner.fs = getFs
 roadrunner.RoadRunner.bs = getBs
 roadrunner.RoadRunner.rs = getRs
 roadrunner.RoadRunner.ps = getPs
 roadrunner.RoadRunner.vs = getVs
-roadrunner.RoadRunner.fjac = getfJac
-
 roadrunner.RoadRunner.dv = getDv
 roadrunner.RoadRunner.rv = getRv
 roadrunner.RoadRunner.sv = getSv
 
+
 # -------------------------------------------------------
 # Model flattening routines
-
 # TODO: handle the pass trough docstrings
 # FIXME: by the following trick all the documentation gets lost!
 # i.e. the te.func() do not have any documentation associated.
 # make sure help(func) returns the info of help(self.model.func) (see wrap in functools)
 
-def getBoundarySpeciesConcentrations(self):
-    return self.model.getBoundarySpeciesConcentrations()
+def getBoundarySpeciesConcentrations(rr):
+    return rr.model.getBoundarySpeciesConcentrations()
 
-def getBoundarySpeciesIds(self):
-    return self.model.getBoundarySpeciesIds()
+def getBoundarySpeciesIds(rr):
+    return rr.model.getBoundarySpeciesIds()
 
-def getNumBoundarySpecies(self):
-    return self.model.getNumBoundarySpecies()
+def getNumBoundarySpecies(rr):
+    return rr.model.getNumBoundarySpecies()
 
 def getFloatingSpeciesConcentrations(self):
     return self.model.getFloatingSpeciesConcentrations()
 
-def getFloatingSpeciesIds(self):
-    return self.model.getFloatingSpeciesIds()
+def getFloatingSpeciesIds(rr):
+    return rr.model.getFloatingSpeciesIds()
 
-def getNumFloatingSpecies(self):
-    return self.model.getNumFloatingSpecies()
+def getNumFloatingSpecies(rr):
+    return rr.model.getNumFloatingSpecies()
 
-def getGlobalParameterIds(self):
-    return self.model.getGlobalParameterIds()
+def getGlobalParameterIds(rr):
+    return rr.model.getGlobalParameterIds()
 
-def getGlobalParameterValues(self):
-    return self.model.getGlobalParameterValues()
+def getGlobalParameterValues(rr):
+    return rr.model.getGlobalParameterValues()
 
-def getNumGlobalParameters(self):
-    return self.model.getNumGlobalParameters()
+def getNumGlobalParameters(rr):
+    return rr.model.getNumGlobalParameters()
 
-def getCompartmentIds(self):
-    return self.model.getCompartmentIds()
+def getCompartmentIds(rr):
+    return rr.model.getCompartmentIds()
 
-def getCompartmentVolumes(self):
-    return self.model.getCompartmentVolumes()
+def getCompartmentVolumes(rr):
+    return rr.model.getCompartmentVolumes()
 
-def getNumCompartments(self):
-    return self.model.getNumCompartments()
+def getNumCompartments(rr):
+    return rr.model.getNumCompartments()
 
-def getConservedMoietyValues(self):
-    return self.model.getConservedMoietyValues()
+def getConservedMoietyValues(rr):
+    return rr.model.getConservedMoietyValues()
 
-def getNumConservedMoieties(self):
-    return self.model.getNumConservedMoieties()
+def getNumConservedMoieties(rr):
+    return rr.model.getNumConservedMoieties()
 
-def getNumDepFloatingSpecies(self):
-    return self.model.getNumDepFloatingSpecies()
+def getNumDepFloatingSpecies(rr):
+    return rr.model.getNumDepFloatingSpecies()
 
-def getNumIndFloatingSpecies(self):
-    return self.model.getNumIndFloatingSpecies()
+def getNumIndFloatingSpecies(rr):
+    return rr.model.getNumIndFloatingSpecies()
 
-def getNumReactions(self):
-    return self.model.getNumReactions()
+def getNumReactions(rr):
+    return rr.model.getNumReactions()
 
-def getReactionIds(self):
-    return self.model.getReactionIds()
+def getReactionIds(rr):
+    return rr.model.getReactionIds()
 
-def getReactionRates(self):
-    return self.model.getReactionRates()
+def getReactionRates(rr):
+    return rr.model.getReactionRates()
 
-def getNumEvents(self):
-    return self.model.getNumEvents()
+def getNumEvents(rr):
+    return rr.model.getNumEvents()
 
-def getNumRateRules(self):
-    return self.model.getNumRateRules()
+def getNumRateRules(rr):
+    return rr.model.getNumRateRules()
 
 roadrunner.RoadRunner.getBoundarySpeciesConcentrations = getBoundarySpeciesConcentrations
 roadrunner.RoadRunner.getBoundarySpeciesIds = getBoundarySpeciesIds
