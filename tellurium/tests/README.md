@@ -29,7 +29,7 @@ OK
 
 To run the tests with a coverage report use
 ```{shell}
-nosetests --with-coverage --cover-erase --cover-package=tellurium
+nosetests --with-coverage --cover-erase --cover-package=tellurium --cover-html
 # coverage report
 firefox cover/index.html
 ```
