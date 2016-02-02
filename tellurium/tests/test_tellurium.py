@@ -8,9 +8,208 @@ from __future__ import print_function, division
 import unittest
 import tellurium as te
 
+import os
+test_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'testdata')
+
 
 class TelluriumTestCase(unittest.TestCase):
+    def setUp(self):
 
+        self.ant_str = '''
+        model pathway()
+             S1 -> S2; k1*S1
+
+             # Initialize values
+             S1 = 10; S2 = 0
+             k1 = 1
+        end
+        '''
+        self.sbml_str = '''<?xml version="1.0" encoding="UTF-8"?>
+        <!-- Created by libAntimony version v2.8.1 on 2016-02-02 11:45 with libSBML version 5.12.1. -->
+        <sbml xmlns="http://www.sbml.org/sbml/level3/version1/core" xmlns:comp="http://www.sbml.org/sbml/level3/version1/comp/version1" level="3" version="1" comp:required="true">
+          <model id="pathway" name="pathway">
+            <listOfCompartments>
+              <compartment sboTerm="SBO:0000410" id="default_compartment" spatialDimensions="3" size="1" constant="true"/>
+            </listOfCompartments>
+            <listOfSpecies>
+              <species id="S1" compartment="default_compartment" initialConcentration="10" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+              <species id="S2" compartment="default_compartment" initialConcentration="0" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+            </listOfSpecies>
+            <listOfParameters>
+              <parameter id="k1" value="1" constant="true"/>
+            </listOfParameters>
+            <listOfReactions>
+              <reaction id="_J0" reversible="true" fast="false">
+                <listOfReactants>
+                  <speciesReference species="S1" stoichiometry="1" constant="true"/>
+                </listOfReactants>
+                <listOfProducts>
+                  <speciesReference species="S2" stoichiometry="1" constant="true"/>
+                </listOfProducts>
+                <kineticLaw>
+                  <math xmlns="http://www.w3.org/1998/Math/MathML">
+                    <apply>
+                      <times/>
+                      <ci> k1 </ci>
+                      <ci> S1 </ci>
+                    </apply>
+                  </math>
+                </kineticLaw>
+              </reaction>
+            </listOfReactions>
+          </model>
+        </sbml>
+        '''
+
+        self.cellml_str = '''<?xml version="1.0"?>
+        <model xmlns:cellml="http://www.cellml.org/cellml/1.1#" xmlns="http://www.cellml.org/cellml/1.1#" name="pathway">
+        <component name="pathway">
+        <variable initial_value="10" name="S1" units="dimensionless"/>
+        <variable initial_value="0" name="S2" units="dimensionless"/>
+        <variable initial_value="1" name="k1" units="dimensionless"/>
+        <variable name="_J0" units="dimensionless"/>
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+        <apply>
+        <eq/>
+        <ci>_J0</ci>
+        <apply>
+        <times/>
+        <ci>k1</ci>
+        <ci>S1</ci>
+        </apply>
+        </apply>
+        </math>
+        <variable name="time" units="dimensionless"/>
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+        <apply>
+        <eq/>
+        <apply>
+        <diff/>
+        <bvar>
+        <ci>time</ci>
+        </bvar>
+        <ci>S1</ci>
+        </apply>
+        <apply>
+        <minus/>
+        <ci>_J0</ci>
+        </apply>
+        </apply>
+        </math>
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+        <apply>
+        <eq/>
+        <apply>
+        <diff/>
+        <bvar>
+        <ci>time</ci>
+        </bvar>
+        <ci>S2</ci>
+        </apply>
+        <ci>_J0</ci>
+        </apply>
+        </math>
+        </component>
+        <group>
+        <relationship_ref relationship="encapsulation"/>
+        <component_ref component="pathway"/>
+        </group>
+        </model>
+        '''
+
+        self.ant_file = os.path.join(test_dir, 'models', 'example1')
+        self.sbml_file = os.path.join(test_dir, 'models', 'example1.xml')
+        self.cellml_file = os.path.join(test_dir, 'models', 'example1.cellml')
+
+    # ---------------------------------------------------------------------
+    # Loading Models Methods
+    # ---------------------------------------------------------------------
+    def test_loada_file(self):
+        r = te.loada(self.ant_file)
+        self.assertIsNotNone(r)
+
+    def test_loada_str(self):
+        r = te.loada(self.ant_str)
+        self.assertIsNotNone(r)
+
+    def loadAntimonyModel_file(self):
+        r = te.loadAntimonyModel(self.ant_file)
+        self.assertIsNotNone(r)
+
+    def loadAntimonyModel_str(self):
+        r = te.loadAntimonyModel(self.ant_str)
+        self.assertIsNotNone(r)
+
+    def test_loadSBMLModel_file(self):
+        r = te.loadSBMLModel(self.sbml_file)
+        self.assertIsNotNone(r)
+
+    def test_loadSBMLModel_str(self):
+        r = te.loadSBMLModel(self.sbml_str)
+        self.assertIsNotNone(r)
+
+    def loadCellMLModel_file(self):
+        r = te.loadCellMLModel(self.cellml_file)
+        self.assertIsNotNone(r)
+
+    def loadCellMLModel_str(self):
+        r = te.loadCellMLModel(self.cellml_str)
+        self.assertIsNotNone(r)
+
+    # ---------------------------------------------------------------------
+    # Interconversion Methods
+    # ---------------------------------------------------------------------
+    def test_antimonyToSBML_file(self):
+        sbml = te.antimonyToSBML(self.ant_file)
+        self.assertIsNotNone(sbml)
+
+    def test_antimonyToSBML_str(self):
+        sbml = te.antimonyToSBML(self.ant_str)
+        self.assertIsNotNone(sbml)
+
+    def test_antimonyToCellML_file(self):
+        cellml = te.antimonyToCellML(self.ant_file)
+        self.assertIsNotNone(cellml)
+
+    def test_antimonyToCellML_str(self):
+        cellml = te.antimonyToCellML(self.ant_str)
+        self.assertIsNotNone(cellml)
+
+    def test_sbmlToAntimony_file(self):
+        ant = te.sbmlToAntimony(self.sbml_file)
+        self.assertIsNotNone(ant)
+
+    def test_sbmlToAntimony_str(self):
+        ant = te.sbmlToAntimony(self.sbml_str)
+        self.assertIsNotNone(ant)
+
+    def test_sbmlToCellML_file(self):
+        cellml = te.sbmlToCellML(self.sbml_file)
+        self.assertIsNotNone(cellml)
+
+    def test_sbmlToAntimony_str(self):
+        cellml = te.sbmlToCellML(self.sbml_str)
+        self.assertIsNotNone(cellml)
+
+    def test_cellmlToAntimony_file(self):
+        ant = te.cellmlToAntimony(self.cellml_file)
+        self.assertIsNotNone(ant)
+
+    def test_cellmlToAntimony_str(self):
+        ant = te.cellmlToAntimony(self.cellml_str)
+        self.assertIsNotNone(ant)
+
+    def test_cellmlToSBML_file(self):
+        sbml = te.cellmlToSBML(self.cellml_file)
+        self.assertIsNotNone(sbml)
+
+    def test_cellmlToSBML_str(self):
+        sbml = te.cellmlToSBML(self.cellml_str)
+        self.assertIsNotNone(sbml)
+
+    # ---------------------------------------------------------------------
+    # Roadrunner tests
+    # ---------------------------------------------------------------------
     def test_roadrunner(self):
         # load test model as SBML
         sbml = te.getTestModel('feedback.xml')

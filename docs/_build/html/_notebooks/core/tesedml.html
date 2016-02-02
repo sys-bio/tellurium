@@ -172,55 +172,19 @@ A.K., Moraru I.I., Nickerson D., Snoep J.L.,Le Novère, N.
 <span class="k">print</span><span class="p">(</span><span class="n">sedml_str</span><span class="p">)</span>
 </pre></div>
 </div>
-<div class="highlight-python"><div class="highlight"><pre>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
-&lt;!-- Created by phraSED-ML version v0.5beta on 2016-01-31 22:10 with libSBML version 5.12.1. --&gt;
-&lt;sedML xmlns=&quot;http://sed-ml.org/sed-ml/level1/version2&quot; level=&quot;1&quot; version=&quot;2&quot;&gt;
-  &lt;listOfSimulations&gt;
-    &lt;uniformTimeCourse id=&quot;sim1&quot; initialTime=&quot;0&quot; outputStartTime=&quot;0&quot; outputEndTime=&quot;5&quot; numberOfPoints=&quot;100&quot;&gt;
-      &lt;algorithm kisaoID=&quot;KISAO:0000019&quot;/&gt;
-    &lt;/uniformTimeCourse&gt;
-  &lt;/listOfSimulations&gt;
-  &lt;listOfModels&gt;
-    &lt;model id=&quot;model1&quot; language=&quot;urn:sedml:language:sbml.level-3.version-1&quot; source=&quot;myModel&quot;/&gt;
-  &lt;/listOfModels&gt;
-  &lt;listOfTasks&gt;
-    &lt;task id=&quot;task1&quot; modelReference=&quot;model1&quot; simulationReference=&quot;sim1&quot;/&gt;
-  &lt;/listOfTasks&gt;
-  &lt;listOfDataGenerators&gt;
-    &lt;dataGenerator id=&quot;plot_0_0_0&quot; name=&quot;time&quot;&gt;
-      &lt;listOfVariables&gt;
-        &lt;variable id=&quot;time&quot; symbol=&quot;urn:sedml:symbol:time&quot; taskReference=&quot;task1&quot;/&gt;
-      &lt;/listOfVariables&gt;
-      &lt;math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot;&gt;
-        &lt;ci&gt; time &lt;/ci&gt;
-      &lt;/math&gt;
-    &lt;/dataGenerator&gt;
-    &lt;dataGenerator id=&quot;plot_0_0_1&quot; name=&quot;S1&quot;&gt;
-      &lt;listOfVariables&gt;
-        &lt;variable id=&quot;S1&quot; target=&quot;/sbml:sbml/sbml:model/descendant::*[@id=&#39;S1&#39;]&quot; taskReference=&quot;task1&quot; modelReference=&quot;model1&quot;/&gt;
-      &lt;/listOfVariables&gt;
-      &lt;math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot;&gt;
-        &lt;ci&gt; S1 &lt;/ci&gt;
-      &lt;/math&gt;
-    &lt;/dataGenerator&gt;
-    &lt;dataGenerator id=&quot;plot_0_1_1&quot; name=&quot;S2&quot;&gt;
-      &lt;listOfVariables&gt;
-        &lt;variable id=&quot;S2&quot; target=&quot;/sbml:sbml/sbml:model/descendant::*[@id=&#39;S2&#39;]&quot; taskReference=&quot;task1&quot; modelReference=&quot;model1&quot;/&gt;
-      &lt;/listOfVariables&gt;
-      &lt;math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot;&gt;
-        &lt;ci&gt; S2 &lt;/ci&gt;
-      &lt;/math&gt;
-    &lt;/dataGenerator&gt;
-  &lt;/listOfDataGenerators&gt;
-  &lt;listOfOutputs&gt;
-    &lt;plot2D id=&quot;plot_0&quot; name=&quot;Figure 1&quot;&gt;
-      &lt;listOfCurves&gt;
-        &lt;curve logX=&quot;false&quot; logY=&quot;false&quot; xDataReference=&quot;plot_0_0_0&quot; yDataReference=&quot;plot_0_0_1&quot;/&gt;
-        &lt;curve logX=&quot;false&quot; logY=&quot;false&quot; xDataReference=&quot;plot_0_0_0&quot; yDataReference=&quot;plot_0_1_1&quot;/&gt;
-      &lt;/listOfCurves&gt;
-    &lt;/plot2D&gt;
-  &lt;/listOfOutputs&gt;
-&lt;/sedML&gt;
+<div class="highlight-python"><div class="highlight"><pre>---------------------------------------------------------------------------
+
+AttributeError                            Traceback (most recent call last)
+
+&lt;ipython-input-1-29fbe2e89b23&gt; in &lt;module&gt;()
+     20
+     21 # create the sedml xml string from the phrasedml
+---&gt; 22 sbml_str = te.antimonyTosbml(antimony_str)
+     23 phrasedml.setReferencedSBML(&quot;myModel&quot;, sbml_str)
+     24
+
+
+AttributeError: &#39;module&#39; object has no attribute &#39;antimonyTosbml&#39;
 </pre></div>
 </div>
 <div class="code python highlight-python"><div class="highlight"><pre><span class="c1"># Create the temporary files and execute the code</span>
@@ -248,8 +212,19 @@ A.K., Moraru I.I., Nickerson D., Snoep J.L.,Le Novère, N.
 <span class="c1"># s2p.sedml_to_python(s2p)</span>
 </pre></div>
 </div>
-<div class="highlight-python"><div class="highlight"><pre>/tmp/myModeluIPD4i.xml
-/tmp/tmpuculwg.sedml
+<div class="highlight-python"><div class="highlight"><pre>---------------------------------------------------------------------------
+
+NameError                                 Traceback (most recent call last)
+
+&lt;ipython-input-2-366616856903&gt; in &lt;module&gt;()
+      2 import tempfile
+      3 f_sbml = tempfile.NamedTemporaryFile(prefix=&quot;myModel&quot;, suffix=&quot;.xml&quot;)
+----&gt; 4 f_sbml.write(sbml_str)
+      5 f_sbml.flush()
+      6 print(f_sbml.name)
+
+
+NameError: name &#39;sbml_str&#39; is not defined
 </pre></div>
 </div>
 </div>

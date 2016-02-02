@@ -1,4 +1,4 @@
-So 31. Jan 22:10:33 CET 2016
+Die Feb  2 12:49:18 CET 2016
 --------------------------------------
 convert notebooks to rst
 --------------------------------------
@@ -39,7 +39,7 @@ convert notebooks to rst
 [NbConvertApp] Executing notebook with kernel: python2
 [NbConvertApp] Support files will be in phrasedml_files/
 [NbConvertApp] Making directory phrasedml_files
-[NbConvertApp] Writing 2023 bytes to phrasedml.rst
+[NbConvertApp] Writing 2017 bytes to phrasedml.rst
 [NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/steadystate_scan.ipynb to rst
 [NbConvertApp] Executing notebook with kernel: python2
 [NbConvertApp] Support files will be in steadystate_scan_files/
@@ -50,7 +50,7 @@ convert notebooks to rst
 [NbConvertApp] Writing 260 bytes to template.rst
 [NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/tesedml.ipynb to rst
 [NbConvertApp] Executing notebook with kernel: python2
-[NbConvertApp] Writing 4580 bytes to tesedml.rst
+[NbConvertApp] Writing 3207 bytes to tesedml.rst
 DONE
 --------------------------------------
 postprocessing rst

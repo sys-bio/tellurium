@@ -83,16 +83,20 @@ def getVersionInfo():
 
 
 def printVersionInfo():
-    """ Prints version information for tellurium included packages. """
+    """ Prints version information for tellurium included packages.
+
+    see also: :func:`getVersionInfo`
+    """
     versions = getVersionInfo()
     for v in versions:
         print(v[0], ':', v[1])
 
 
 def getTelluriumVersion():
-    """Version number of tellurium.
+    """ Version number of tellurium.
 
-    :returns: version string
+    :returns: version
+    :rtype: str
     """
     try:
         import os
@@ -108,207 +112,272 @@ def getTelluriumVersion():
 def noticesOff():
     """Switch off the generation of notices to the user.
     Call this to stop roadrunner from printing warning message to the console.
-    see also :func:`noticesOn`
+
+    See also :func:`noticesOn`
     """
     roadrunner.Logger.setLevel(roadrunner.Logger.LOG_WARNING)
 
 
 def noticesOn():
-    """Switch on notice generation to the user.
-    see also :func:`noticesOff`
+    """ Switch on notice generation to the user.
+
+    See also :func:`noticesOff`
     """
     roadrunner.Logger.setLevel(roadrunner.Logger.LOG_NOTICE)
     
 
-def saveToFile(fileName, str):
-    """Save string to file.
-    ::
+def saveToFile(filePath, str):
+    """ Save string to file.
 
-        saveToFile ('c:\\myfile.txt', strVariable)
+    see also: :func:`readFromFile`
 
-    :param fileName: file path to save to
+    :param filePath: file path to save to
     :param str: string to save
-    :returns: None
     """
-    f = open(fileName, 'w')
+    f = open(filePath, 'w')
     f.write(str)
     f.close()
 
 
-def readFromFile(fileName):
-    """Load a file and return contents as a string.
-    ::
+def readFromFile(filePath):
+    """ Load a file and return contents as a string.
 
-        str = readFromFile('c:\\myfile.txt')
+    see also: :func:`saveToFile`
 
-    :param fileName: file path to read from
+    :param filePath: file path to read from
     :returns: string representation of the contents of the file
     """
-    f = open(fileName, 'r')
+    f = open(filePath, 'r')
     return f.read()
 
+
+def _checkAntimonyReturnCode(code):
+    """ Helper for checking the antimony response code.
+    Raises Exception if error in antimony.
+
+    :param code: antimony response
+    :type code: int
+    """
+    if code < 0:
+        raise Exception('Antimony: {}'.format(antimony.getLastError()))
 
 # ---------------------------------------------------------------------
 # Loading Models Methods
 # ---------------------------------------------------------------------
-def loadSBMLModel(sbml):
-    """Load an SBML model into roadRunner.
-    ::
+def loada(ant):
+    """ Load model from Antimony string.
 
-        r = loadSBMLModel('c:\\myfile.txt')
-
-    :param sbml: SBML filename, SBML string or SBML uri
-    :returns: reference to roadrunner model
-    """
-    return roadrunner.RoadRunner(sbml)
-
-
-def loadAntimonyModel(antStr):
-    """Load model from antimony string.
-    see also: `:func:loadAntimonyModel`
-    ::
-
-        r = loadAntModel(antimonyStr)
-
-    :param antStr: antimony string
-    :returns: reference to roadrunner model
-    """
-    err = antimony.loadAntimonyString(antStr)
- 
-    if err < 0:
-        raise Exception('Antimony: ' + antimony.getLastError())
-       
-    mid = antimony.getMainModuleName()
-    sbmlStr = antimony.getSBMLString(mid)
-    rr = roadrunner.RoadRunner(sbmlStr)
-    
-    antimony.clearPreviousLoads()
-    
-    return rr
-
-
-def loada(antStr):
-    """Load model from antimony string.
-    see also: `:func:loadAntimonyModel`
+    See also: :func:`loadAntimonyModel`
     ::
 
         r = loada('S1 -> S2; k1*S1; k1 = 0.1; S2 = 10')
 
-    :param antStr: antimony string
-    :returns: reference to roadrunner model
+    :param ant: Antimony model
+    :type ant: str | file
+    :returns: RoadRunner instance with model loaded
+    :rtype: roadrunner.RoadRunner
     """
-    return loadAntimonyModel(antStr)
+    return loadAntimonyModel(ant)
 
 
-def loadCellMLModel(cellML):
-    """Load a cellml model into roadrunner.
-    ::
+def loadAntimonyModel(ant):
+    """ Load Antimony model with tellurium.
 
-        r = loadCellMLModel ('mymodel.cellml')
+    See also: :func:`loada`
 
-    :param cellML: model to load, can be file or string
-    :returns: reference to roadrunner model
+    :param ant: Antimony model
+    :type ant: str | file
+    :returns: RoadRunner instance with model loaded
+    :rtype: roadrunner.RoadRunner
     """
-    import os
-    if os.path.isfile(cellML):
-        sbmlstr = cellmlFileToSBML(cellML)
-    else:
-        sbmlstr = cellmlStrToSBML(cellML)
-    return roadrunner.RoadRunner(sbmlstr)
+    sbml = antimonyToSBML(ant)
+    return roadrunner.RoadRunner(sbml)
+
+
+def loadSBMLModel(sbml):
+    """Load SBML model with tellurium
+
+    :param sbml: SBML model
+    :type sbml: str | file
+    :returns: RoadRunner instance with model loaded
+    :rtype: roadrunner.RoadRunner
+    """
+    return roadrunner.RoadRunner(sbml)
+
+
+def loadCellMLModel(cellml):
+    """ Load CellML model with tellurium.
+
+    :param cellml: CellML model
+    :type cellml: str | file
+    :returns: RoadRunner instance with model loaded
+    :rtype: roadrunner.RoadRunner
+    """
+    sbml = cellmlToSBML(cellml)
+    return roadrunner.RoadRunner(sbml)
 
 
 # ---------------------------------------------------------------------
 # Interconversion Methods
 # ---------------------------------------------------------------------
-def antimonyTosbml(antStr):
-    """Convert antimony string to SBML string.
-    ::
+def antimonyToSBML(ant):
+    """ Convert Antimony to SBML string.
 
-        sbmlStr = antimonyTosbml(antimonyStr)
-
-    :param antStr: antimony string of model
-    :returns: SBML model as string
-
+    :param ant: Antimony string or file
+    :type ant: str | file
+    :return: SBML
+    :rtype: str
     """
-    err = antimony.loadAntimonyString(antStr)
-    if err < 0:
-        raise Exception('Antimony: ' + antimony.getLastError())
-
+    if os.path.isfile(ant):
+        code = antimony.loadAntimonyFile(ant)
+    else:
+        code = antimony.loadAntimonyString(ant)
+    _checkAntimonyReturnCode(code)
     mid = antimony.getMainModuleName()
     return antimony.getSBMLString(mid)
 
 
-def sbmlToAntimony(str):
-    """Convert SBML string to antimony string.
-    ::
+def antimonyToCellML(ant):
+    """ Convert Antimony to CellML string.
 
-        sbmlStr = sbmlToAntimony(antimonyStr)
-
-    :param str: SBML model as string
-    :returns: antimony string of model
+    :param ant: Antimony string or file
+    :type ant: str | file
+    :return: CellML
+    :rtype: str
     """
-    err = antimony.loadSBMLString(str)
-    if err < 0:
-        raise Exception('Antimony: ' + antimony.getLastError())
+    if os.path.isfile(ant):
+        code = antimony.loadAntimonyFile(ant)
+    else:
+        code = antimony.loadAntimonyString(ant)
+    _checkAntimonyReturnCode(code)
+    mid = antimony.getMainModuleName()
+    return antimony.getCellMLString(mid)
 
+
+def sbmlToAntimony(sbml):
+    """ Convert SBML to antimony string.
+
+    :param sbml: SBML string or file
+    :type sbml: str | file
+    :return: Antimony
+    :rtype: str
+    """
+    if os.path.isfile(sbml):
+        code = antimony.loadSBMLFile(sbml)
+    else:
+        code = antimony.loadSBMLString(sbml)
+    _checkAntimonyReturnCode(code)
     return antimony.getAntimonyString(None)
 
 
-def cellmlFileToAntimony(CellMLFileName):
-    """Convert cellml file to antimony string.
-    ::
+def sbmlToCellML(sbml):
+    """ Convert SBML to CellML string.
 
-        ant = cellMLToAntimony('mymodel.cellml')
-
-    :param CellMLFileName: CellML file
-    :returns: antimony string of model
+    :param sbml: SBML string or file
+    :type sbml: str | file
+    :return: CellML
+    :rtype: str
     """
-    if antimony.loadCellMLFile(CellMLFileName) == -1:
-        raise Exception('Error calling loadCellMLFile')
-    antimony.loadCellMLFile(CellMLFileName)
+    if os.path.isfile(sbml):
+        code = antimony.loadSBMLFile(sbml)
+    else:
+        code = antimony.loadSBMLString(sbml)
+    _checkAntimonyReturnCode(code)
+    return antimony.getCellMLString(None)
+
+
+def cellmlToAntimony(cellml):
+    """ Convert CellML to antimony string.
+
+    :param cellml: CellML string or file
+    :type cellml: str | file
+    :return: antimony
+    :rtype: str
+    """
+    if os.path.isfile(cellml):
+        code = antimony.loadCellMLFile(cellml)
+    else:
+        code = antimony.loadCellMLString(cellml)
+    _checkAntimonyReturnCode(code)
     return antimony.getAntimonyString(None)
- 
-    
-def cellmlFileToSBML(CellMLFileName):
-    """Convert cellml file to SBML string.
-    ::
 
-        sbmlStr = cellMLToSBML('mymodel.cellml')
 
-    :param CellMLFileName: CellML file
-    :returns: SBML string of model
+def cellmlToSBML(cellml):
+    """ Convert CellML to SBML string.
+
+    :param cellml: CellML string or file
+    :type cellml: str | file
+    :return: SBML
+    :rtype: str
     """
-    if antimony.loadCellMLFile(CellMLFileName) < 0:
-        raise Exception('Error calling loadCellMLFile' + antimony.getLastError())
+    if os.path.isfile(cellml):
+        code = antimony.loadCellMLFile(cellml)
+    else:
+        code = antimony.loadCellMLString(cellml)
+    _checkAntimonyReturnCode(code)
     return antimony.getSBMLString(None)
-
-
-def cellmlStrToAntimony(CellMLStr):
-    """Convert cellml string to antimony string:
-    ::
-
-        ant = cellMLStrToAntimony('mymodel.cellml')
-
-    :param CellMLStr: CellML string
-    :returns: antimony string of model
-    """
-    if antimony.loadCellMLFile(CellMLStr) < 0:
-        raise Exception('Error calling cellMLStrToAntimony' + antimony.getLastError())
-    return antimony.getAntimonyString(None)
     
-    
-def cellmlStrToSBML(CellMLStr):
-    """Convert cellml string to SBML string.
-    ::
 
-        sbmlStr = cellMLStrToSBML('mymodel.cellml')
+# ---------------------------------------------------------------------
+# Export Utilities
+# ---------------------------------------------------------------------
+def getCurrentAntimony(self):
+    """ Antimony string of the current model state.
 
-    :param CellMLStr: CellML string
-    :returns: antimony string of model
+    :returns: Antimony string
+    :rtype: str
     """
-    if antimony.loadCellMLFile(CellMLStr) < 0:
-        raise Exception('Error calling cellMLStrToSBML' + antimony.getLastError())
-    return antimony.getSBMLString(None)
+    return sbmlToAntimony(self.getCurrentSBML())
+
+
+def getCurrentCellML(self):
+    """ CellML string of current model state.
+
+    :returns: CellML string
+    :rtype: str
+    """
+    return sbmlToCellML(self.getCurrentSBML())
+
+
+def getCurrentMatlab(self):
+    """ Matlab string of current model state.
+
+    :returns: Matlab string
+    :rtype: str
+    """
+    return sbml2matlab(self.getCurrentSBML())
+
+
+def exportToSBML(self, filePath):
+    """ Save current model as SBML file.
+
+    :param filePath: file path of matlab file
+    """
+    saveToFile(filePath, self.getCurrentSBML())
+
+
+def exportToAntimony(self, filePath):
+    """ Save current model as Antimony file.
+
+    :param filePath: file path of matlab file
+    """
+    saveToFile(filePath, self.getCurrentAntimony())
+
+
+def exportToCellML(self, filePath):
+    """ Save current model as CellML file.
+
+    :param filePath: file path of CellML file
+    """
+    saveToFile(filePath, self.getCurrentCellML())
+
+
+def exportToMatlab(self, filePath):
+    """ Save current model as Matlab file.
+
+    :param filePath: file path of Matlab file
+    """
+    saveToFile(filePath, self.getCurrentMatlab())
 
 
 # ---------------------------------------------------------------------
@@ -544,40 +613,6 @@ def plot(self, result=None, loc='upper left', show=True):
         return self.plotAS()
     else:
         return plotWithLegend(self, result, loc, show=show)
-
-
-# ---------------------------------------------------------------------
-# Export Utilities
-# ---------------------------------------------------------------------
-def getMatlab(self):
-    """Matlab string of current model.
-
-    :returns: Matlab string
-    """
-    return sbml2matlab(self.getCurrentSBML())
-
-
-def exportToMatlab(self, fileName):
-    """Save current model as Matlab file.
-    ::
-
-        rr.exportToMatlab ('mymodel.m')
-
-    :param fileName: file path of matlab file
-    :returns: ?
-    """
-    saveToFile(fileName, self.getMatlab())
-
-
-def getAntimony(self):
-    """Antimony string of the current model state.
-    ::
-
-        print(rr.getAntimony())
-
-    :returns: antimony string
-    """
-    return sbmlToAntimony(self.getCurrentSBML())
 
 
 # ---------------------------------------------------------------------
@@ -902,8 +937,8 @@ roadrunner.RoadRunner.setSeed = setSeed
 roadrunner.RoadRunner.gillespie = gillespie
 roadrunner.RoadRunner.getRatesOfChange = getRatesOfChange
 roadrunner.RoadRunner.exportToMatlab = exportToMatlab
-roadrunner.RoadRunner.getMatlab = getMatlab
-roadrunner.RoadRunner.getAntimony = getAntimony
+roadrunner.RoadRunner.getMatlab = getCurrentMatlab
+roadrunner.RoadRunner.getAntimony = getCurrentAntimony
 roadrunner.RoadRunner.plotAS = roadrunner.RoadRunner.plot
 roadrunner.RoadRunner.plot = plot
 

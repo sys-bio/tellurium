@@ -50,14 +50,6 @@ tellurium.tesedml module
     :undoc-members:
     :show-inheritance:
 
-tellurium.unzipy module
------------------------
-
-.. automodule:: tellurium.unzipy
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
 
 Module contents
 ---------------
