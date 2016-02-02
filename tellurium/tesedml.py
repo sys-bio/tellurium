@@ -118,6 +118,9 @@ def sedml_to_python(inputstring):
     :return:
     :rtype:
     """
+    import warnings
+    warnings.warn('Use sedmlToPython instead, will be removed in v1.4',
+                  DeprecationWarning, stacklevel=2)
     return sedmlToPython(inputstring)
 
 

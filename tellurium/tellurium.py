@@ -220,6 +220,13 @@ def loadCellMLModel(cellml):
 # ---------------------------------------------------------------------
 # Interconversion Methods
 # ---------------------------------------------------------------------
+def antimonyTosbml(ant):
+    import warnings
+    warnings.warn('Use antimonyToSBML instead, will be removed in v1.4',
+                  DeprecationWarning, stacklevel=2)
+    return antimonyToSBML(ant)
+
+
 def antimonyToSBML(ant):
     """ Convert Antimony to SBML string.
 
