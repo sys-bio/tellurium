@@ -9,6 +9,7 @@ import unittest
 import tellurium as te
 
 import os
+import numpy as np
 test_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'testdata')
 
 
@@ -206,6 +207,99 @@ class TelluriumTestCase(unittest.TestCase):
     def test_cellmlToSBML_str(self):
         sbml = te.cellmlToSBML(self.cellml_str)
         self.assertIsNotNone(sbml)
+
+    # ---------------------------------------------------------------------
+    # Simulate options
+    # ---------------------------------------------------------------------
+    def test_simulateOptions_steps(self):
+        r = te.loada(self.ant_str)
+        r.setSteps(200)
+        steps = r.getSteps()
+        self.assertEqual(200, steps)
+
+    def test_simulateOptions_numberOfPoints(self):
+        r = te.loada(self.ant_str)
+        r.setNumberOfPoints(500)
+        steps = r.getSteps()
+        numberOfPoints = r.getNumberOfPoints()
+        self.assertEqual(500, numberOfPoints)
+        self.assertEqual(499, steps)
+
+    def test_simulateOptions_startTime(self):
+        r = te.loada(self.ant_str)
+        r.setStartTime(13.5)
+        start = r.getStartTime()
+        self.assertAlmostEqual(13.5, start)
+
+    def test_simulateOptions_endTime(self):
+        r = te.loada(self.ant_str)
+        r.setEndTime(200.0)
+        end = r.getEndTime()
+        self.assertAlmostEqual(200.0, end)
+
+
+    # ---------------------------------------------------------------------
+    # Jarnac compatibility layer
+    # ---------------------------------------------------------------------
+    def test_jarnac_fjac(self):
+        r = te.loada(self.ant_str)
+        m1 = r.fjac()
+        m2 = r.getFullJacobian()
+        self.assertTrue(np.allclose(m1, m2))
+
+    def test_jarnac_sm(self):
+        r = te.loada(self.ant_str)
+        m1 = r.sm()
+        m2 = r.getFullStoichiometryMatrix()
+        self.assertTrue(np.allclose(m1, m2))
+
+    def test_jarnac_fs(self):
+        r = te.loada(self.ant_str)
+        m1 = r.fs()
+        m2 = r.model.getFloatingSpeciesIds()
+        self.assertEqual(m1, m2)
+
+    def test_jarnac_bs(self):
+        r = te.loada(self.ant_str)
+        m1 = r.bs()
+        m2 = r.model.getBoundarySpeciesIds()
+        self.assertTrue(np.allclose(m1, m2))
+
+    def test_jarnac_rs(self):
+        r = te.loada(self.ant_str)
+        m1 = r.rs()
+        m2 = r.model.getReactionIds()
+        self.assertEqual(m1, m2)
+
+    def test_jarnac_ps(self):
+        r = te.loada(self.ant_str)
+        m1 = r.ps()
+        m2 = r.model.getGlobalParameterIds()
+        self.assertEqual(m1, m2)
+
+    def test_jarnac_vs(self):
+        r = te.loada(self.ant_str)
+        m1 = r.vs()
+        m2 = r.model.getCompartmentIds()
+        self.assertEqual(m1, m2)
+
+    def test_jarnac_dv(self):
+        r = te.loada(self.ant_str)
+        m1 = r.dv()
+        m2 = r.model.getStateVectorRate()
+        self.assertTrue(np.allclose(m1, m2))
+
+    def test_jarnac_rv(self):
+        r = te.loada(self.ant_str)
+        m1 = r.rv()
+        m2 = r.model.getReactionRates()
+        self.assertTrue(np.allclose(m1, m2))
+
+    def test_jarnac_sv(self):
+        r = te.loada(self.ant_str)
+        m1 = r.sv()
+        m2 = r.model.getFloatingSpeciesConcentrations()
+        self.assertTrue(np.allclose(m1, m2))
 
     # ---------------------------------------------------------------------
     # Roadrunner tests
