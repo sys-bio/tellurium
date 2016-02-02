@@ -109,6 +109,25 @@ Use these routines interconvert verious standard formats
 .. autofunction:: tellurium.cellmlToSBML
 
 ----------------------------------------
+Export Utilities
+----------------------------------------
+Use these routines to convert the current model state into other formats, like
+Matlab, CellML, Antimony and SBML.
+::
+
+	r = te.loada('S1 -> S2; k1*S1; k1 = 0.1; S1 = 10')
+	print(r.getCurrentMatlab())
+	r.exportToMatlab("mymodel.m")
+
+.. autofunction:: tellurium.getCurrentAntimony
+.. autofunction:: tellurium.getCurrentCellML
+.. autofunction:: tellurium.getCurrentMatlab
+.. autofunction:: tellurium.exportToSBML
+.. autofunction:: tellurium.exportToAntimony
+.. autofunction:: tellurium.exportToCellML
+.. autofunction:: tellurium.exportToMatlab
+
+----------------------------------------
 Stochastic Simulation
 ----------------------------------------
 Use these routines to carry out Gillespie style stochastic simulations.
@@ -203,22 +222,6 @@ If you wish to reset a model back to the state it was what it was loaded, use th
 
 .. autofunction:: tellurium.resetToOrigin
 .. autofunction:: tellurium.resetAll
-
-----------------------------------------
-Export
-----------------------------------------
-**Matlab export utilities**
-
-Use these routines to convert your model into a Matlab function.
-::
-
-	r = te.loada('S1 -> S2; k1*S1; k1 = 0.1; S1 = 10')
-	print(r.getMatlab())
-	r.exportToMatlab("mymodel.m")
-
-.. autofunction:: tellurium.getMatlab
-.. autofunction:: tellurium.exportToMatlab
-.. autofunction:: tellurium.getAntimony
 
 ----------------------------------------
 jarnac Short-cuts

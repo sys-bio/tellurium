@@ -319,6 +319,68 @@ def cellmlToSBML(cellml):
     
 
 # ---------------------------------------------------------------------
+# Export Utilities
+# ---------------------------------------------------------------------
+def getCurrentAntimony(self):
+    """ Antimony string of the current model state.
+
+    :returns: Antimony string
+    :rtype: str
+    """
+    return sbmlToAntimony(self.getCurrentSBML())
+
+
+def getCurrentCellML(self):
+    """ CellML string of current model state.
+
+    :returns: CellML string
+    :rtype: str
+    """
+    return sbmlToCellML(self.getCurrentSBML())
+
+
+def getCurrentMatlab(self):
+    """ Matlab string of current model state.
+
+    :returns: Matlab string
+    :rtype: str
+    """
+    return sbml2matlab(self.getCurrentSBML())
+
+
+def exportToSBML(self, filePath):
+    """ Save current model as SBML file.
+
+    :param filePath: file path of matlab file
+    """
+    saveToFile(filePath, self.getCurrentSBML())
+
+
+def exportToAntimony(self, filePath):
+    """ Save current model as Antimony file.
+
+    :param filePath: file path of matlab file
+    """
+    saveToFile(filePath, self.getCurrentAntimony())
+
+
+def exportToCellML(self, filePath):
+    """ Save current model as CellML file.
+
+    :param filePath: file path of CellML file
+    """
+    saveToFile(filePath, self.getCurrentCellML())
+
+
+def exportToMatlab(self, filePath):
+    """ Save current model as Matlab file.
+
+    :param filePath: file path of Matlab file
+    """
+    saveToFile(filePath, self.getCurrentMatlab())
+
+
+# ---------------------------------------------------------------------
 # SEDML Utilities
 # ---------------------------------------------------------------------
 def experiment(antimonyStr, phrasedmlStr):
@@ -551,40 +613,6 @@ def plot(self, result=None, loc='upper left', show=True):
         return self.plotAS()
     else:
         return plotWithLegend(self, result, loc, show=show)
-
-
-# ---------------------------------------------------------------------
-# Export Utilities
-# ---------------------------------------------------------------------
-def getMatlab(self):
-    """Matlab string of current model.
-
-    :returns: Matlab string
-    """
-    return sbml2matlab(self.getCurrentSBML())
-
-
-def exportToMatlab(self, fileName):
-    """Save current model as Matlab file.
-    ::
-
-        rr.exportToMatlab ('mymodel.m')
-
-    :param fileName: file path of matlab file
-    :returns: ?
-    """
-    saveToFile(fileName, self.getMatlab())
-
-
-def getAntimony(self):
-    """Antimony string of the current model state.
-    ::
-
-        print(rr.getAntimony())
-
-    :returns: antimony string
-    """
-    return sbmlToAntimony(self.getCurrentSBML())
 
 
 # ---------------------------------------------------------------------
@@ -909,8 +937,8 @@ roadrunner.RoadRunner.setSeed = setSeed
 roadrunner.RoadRunner.gillespie = gillespie
 roadrunner.RoadRunner.getRatesOfChange = getRatesOfChange
 roadrunner.RoadRunner.exportToMatlab = exportToMatlab
-roadrunner.RoadRunner.getMatlab = getMatlab
-roadrunner.RoadRunner.getAntimony = getAntimony
+roadrunner.RoadRunner.getMatlab = getCurrentMatlab
+roadrunner.RoadRunner.getAntimony = getCurrentAntimony
 roadrunner.RoadRunner.plotAS = roadrunner.RoadRunner.plot
 roadrunner.RoadRunner.plot = plot
 
