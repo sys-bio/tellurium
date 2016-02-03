@@ -643,11 +643,7 @@ class ExtendedRoadRunner(roadrunner.RoadRunner):
         :param loc: location of plot legend
         :param show: show the plot
         """
-        if result is None:
-            # Call RoadRunner version if no results passed to call
-            return super(roadrunner.RoadRunner, self).plot()
-        else:
-            return self.plotWithLegend(result, loc, show=show)
+        return self.plotWithLegend(result, loc, show=show)
 
     def plotWithLegend(self, result=None, loc='upper left', show=True):
         """ Plots the given results array including a legend.

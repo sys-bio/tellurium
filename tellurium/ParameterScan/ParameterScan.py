@@ -39,12 +39,14 @@ class ParameterScan (object):
         self.legend = True
 
     
-    def sim(self):
-        """Runs a simulation and returns the result for a plotting function. Not intended to
-        be called by user."""
+    def _sim(self):
+        """ Runs a simulation and returns the result for a plotting function.
+        Not intended to be called by user.
+        """
+        self.rr.setIntegrator(self.integrator)
         mdl = self.rr.model
         if self.selection is None:
-            result = self.rr.simulate(self.startTime, self.endTime, self.numberOfPoints, integrator = self.integrator)
+            result = self.rr.simulate(self.startTime, self.endTime, self.numberOfPoints)
         else:
             if not isinstance(self.selection, list):
                 self.selection = [self.selection]
@@ -54,24 +56,25 @@ class ParameterScan (object):
                 if item not in mdl.getFloatingSpeciesIds() and item not in mdl.getBoundarySpeciesIds():
                     if item.lower() != 'time':
                         raise ValueError('"{0}" is not a valid species in loaded model'.format(item))
-            result = self.rr.simulate(self.startTime, self.endTime, self.numberOfPoints,
-                                      self.selection, integrator = self.integrator)
+            result = self.rr.simulate(self.startTime, self.endTime, self.numberOfPoints, self.selection)
         return result
 
     def plotArray(self):
-        """Plots result of simulation with options for linewdith and line color.
+        """ Plots result of simulation with options for linewdith and line color.
 
-        p.plotArray()"""
-        result = self.sim()
+        p.plotArray()
+        """
+        result = self._sim()
         if self.color is None:
             for species in self.rr.timeCourseSelections[1:]:
-                plt.plot(result[:,0], result[species], linewidth = self.width, label = species)
+                plt.plot(result[:, 0], result[species],
+                         linewidth=self.width, label=species)
         else:
             if len(self.color) != result.shape[1]:
                 self.color = self.colorCycle()
             for i in range(result.shape[1] - 1):
-                plt.plot(result[:,0], result[:,i+1], color = self.color[i], 
-                        linewidth = self.width, label = self.rr.timeCourseSelections[i+1])
+                plt.plot(result[:, 0], result[:, i+1], color=self.color[i],
+                         linewidth=self.width, label=self.rr.timeCourseSelections[i+1])
             
         if self.xlabel == 'toSet':
             plt.xlabel('time')
@@ -87,9 +90,11 @@ class ParameterScan (object):
             plt.legend()
         plt.show()
 
-    def graduatedSim(self):
-        """Runs successive simulations with incremental changes in one species, and returns
-        results for a plotting function. Not intended to be called by user."""
+    def _graduatedSim(self):
+        """ Runs successive simulations with incremental changes in one species, and returns
+        results for a plotting function.
+        Not intended to be called by user.
+        """
         mdl = self.rr.model
         if self.value is None:
             self.value = mdl.getFloatingSpeciesIds()[0]
@@ -121,16 +126,15 @@ class ParameterScan (object):
         self.selection = ['time'] + self.selection            
         polyNumber = float(self.polyNumber)
         mdl[self.value] = self.startValue
-        m = self.rr.simulate(self.startTime, self.endTime, self.numberOfPoints,
-                             self.selection, integrator = self.integrator)
+        self.rr.setIntegrator(self.integrator)
+        m = self.rr.simulate(self.startTime, self.endTime, self.numberOfPoints, self.selection)
         interval = ((self.endValue - self.startValue) / (polyNumber - 1))
         start = self.startValue
         while start < self.endValue - .00001:
             self.rr.reset()
             start += interval
             mdl[self.value] = start
-            m1 = self.rr.simulate(self.startTime, self.endTime, self.numberOfPoints,
-                                  self.selection, integrator = self.integrator)
+            m1 = self.rr.simulate(self.startTime, self.endTime, self.numberOfPoints, self.selection)
             m1 = np.delete(m1, 0, 1)
             m = np.hstack((m, m1))
 
@@ -141,7 +145,7 @@ class ParameterScan (object):
         results from graduatedSim().
 
         p.plotGraduatedArray()"""
-        result = self.graduatedSim()
+        result = self._graduatedSim()
         interval = ((self.endValue - self.startValue) / (self.polyNumber - 1))
         numSp = len(self.selection) - 1
         if self.color is None and self.sameColor is True:
@@ -152,7 +156,7 @@ class ParameterScan (object):
                         lbl = "{0}, {1} = {2}".format(species, self.value, round((self.startValue + (interval * i)), 2))
                     else:
                         lbl = "{0} = {1}".format(self.value, round((self.startValue + (interval * i)), 2))
-                    plt.plot(result[:,0], result[:,numSp*i+count], linewidth = self.width, color = 'b', label = lbl)
+                    plt.plot(result[:,0], result[:,numSp*i+count], linewidth=self.width, color='b', label = lbl)
                 count += 1
                     
         elif self.color is None:
@@ -163,7 +167,7 @@ class ParameterScan (object):
                         lbl = "{0}, {1} = {2}".format(species, self.value, round((self.startValue + (interval * i)), 2))
                     else:
                         lbl = "{0} = {1}".format(self.value, round((self.startValue + (interval * i)), 2))
-                    plt.plot(result[:,0], result[:,numSp*i+count], linewidth = self.width, label = lbl)
+                    plt.plot(result[:, 0], result[:, numSp*i+count], linewidth=self.width, label=lbl)
                 count += 1
                     
         else:
@@ -176,8 +180,8 @@ class ParameterScan (object):
                         lbl = "{0}, {1} = {2}".format(species, self.value, round((self.startValue + (interval * i)), 2))
                     else:
                         lbl = "{0} = {1}".format(self.value, round((self.startValue + (interval * i)), 2))
-                    plt.plot(result[:,0], result[:,numSp*i+count], color = self.color[i],
-                                 linewidth = self.width, label = lbl)
+                    plt.plot(result[:, 0], result[:, numSp*i+count], color=self.color[i],
+                             linewidth=self.width, label=lbl)
                 count += 1
                          
         if self.title is not None:
@@ -199,7 +203,7 @@ class ParameterScan (object):
         from graduatedSim().
 
         p.plotPolyArray()"""
-        result = self.graduatedSim()
+        result = self._graduatedSim()
         interval = ((self.endValue - self.startValue) / (self.polyNumber - 1))
         self.rr.reset()
         fig = plt.figure()
@@ -429,9 +433,8 @@ class ParameterScan (object):
         my_cmap = matplotlib.colors.LinearSegmentedColormap('my_colormap',cdict,256)
         return my_cmap
 
-
     def colorCycle(self):
-        """Adjusts contents of self.color as needed for plotting methods."""
+        """ Adjusts contents of self.color as needed for plotting methods."""
         if len(self.color) < self.polyNumber:
             for i in range(self.polyNumber - len(self.color)):
                 self.color.append(self.color[i])
@@ -441,11 +444,10 @@ class ParameterScan (object):
         return self.color
 
     def createColorPoints(self):
-        """Sets self.color to a set of values that allow plotPolyArray, plotArray,
+        """ Sets self.color to a set of values that allow plotPolyArray, plotArray,
         or plotGraduatedArray to take on colors from a colormap. The colormap can either
         be user-defined using createColormap or one of the standard colormaps.
-
-        p.createColorPoints() """
+        """
         color = []
         interval = 1.0 / self.polyNumber
         count = 0
@@ -459,7 +461,6 @@ class ParameterScan (object):
                 count += interval
         self.color = color
         
-
 
 class SteadyStateScan (object):
     def __init__(self, rr):
