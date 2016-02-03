@@ -98,6 +98,7 @@
 <li class="toctree-l4"><a class="reference internal" href="#subpackages">Subpackages</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#submodules">Submodules</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#module-tellurium.tests.test_Export">tellurium.tests.test_Export module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-tellurium.tests.test_examples">tellurium.tests.test_examples module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#module-tellurium.tests.test_runner">tellurium.tests.test_runner module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#module-tellurium.tests.test_sedml">tellurium.tests.test_sedml module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#module-tellurium.tests.test_tellurium">tellurium.tests.test_tellurium module</a></li>
@@ -197,6 +198,40 @@
 <dl class="method">
 <dt id="tellurium.tests.test_Export.ExportTestCase.test_latex_export2">
 <code class="descname">test_latex_export2</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/tellurium/tests/test_Export.html#ExportTestCase.test_latex_export2"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tests.test_Export.ExportTestCase.test_latex_export2" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-tellurium.tests.test_examples">
+<span id="tellurium-tests-test-examples-module"></span><h2>tellurium.tests.test_examples module<a class="headerlink" href="#module-tellurium.tests.test_examples" title="Permalink to this headline">¶</a></h2>
+<p>Unittests for examples.
+All examples are executed to check against latest code base.</p>
+<dl class="class">
+<dt id="tellurium.tests.test_examples.ExamplesTestCase">
+<em class="property">class </em><code class="descclassname">tellurium.tests.test_examples.</code><code class="descname">ExamplesTestCase</code><span class="sig-paren">(</span><em>methodName='runTest'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/tellurium/tests/test_examples.html#ExamplesTestCase"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tests.test_examples.ExamplesTestCase" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">unittest.case.TestCase</span></code></p>
+<dl class="method">
+<dt id="tellurium.tests.test_examples.ExamplesTestCase.check_pyfile">
+<code class="descname">check_pyfile</code><span class="sig-paren">(</span><em>f</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/tellurium/tests/test_examples.html#ExamplesTestCase.check_pyfile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tests.test_examples.ExamplesTestCase.check_pyfile" title="Permalink to this definition">¶</a></dt>
+<dd><p>Test failes if Exception in execution of f.
+:param f:
+:type f:</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="tellurium.tests.test_examples.ExamplesTestCase.setUp">
+<code class="descname">setUp</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/tellurium/tests/test_examples.html#ExamplesTestCase.setUp"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tests.test_examples.ExamplesTestCase.setUp" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="tellurium.tests.test_examples.ExamplesTestCase.test_notebook_example">
+<code class="descname">test_notebook_example</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/tellurium/tests/test_examples.html#ExamplesTestCase.test_notebook_example"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tests.test_examples.ExamplesTestCase.test_notebook_example" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="tellurium.tests.test_examples.ExamplesTestCase.test_python_example">
+<code class="descname">test_python_example</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/tellurium/tests/test_examples.html#ExamplesTestCase.test_python_example"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tests.test_examples.ExamplesTestCase.test_python_example" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -386,8 +421,64 @@ Main module for tests.</p>
 <dd></dd></dl>
 
 <dl class="method">
+<dt id="tellurium.tests.test_tellurium.TelluriumTestCase.test_complex_simulation">
+<code class="descname">test_complex_simulation</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/tellurium/tests/test_tellurium.html#TelluriumTestCase.test_complex_simulation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tests.test_tellurium.TelluriumTestCase.test_complex_simulation" title="Permalink to this definition">¶</a></dt>
+<dd><p>Test complex simulation.</p>
+</dd></dl>
+
+<dl class="method">
 <dt id="tellurium.tests.test_tellurium.TelluriumTestCase.test_getTelluriumVersionInfo">
 <code class="descname">test_getTelluriumVersionInfo</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/tellurium/tests/test_tellurium.html#TelluriumTestCase.test_getTelluriumVersionInfo"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tests.test_tellurium.TelluriumTestCase.test_getTelluriumVersionInfo" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="tellurium.tests.test_tellurium.TelluriumTestCase.test_jarnac_bs">
+<code class="descname">test_jarnac_bs</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/tellurium/tests/test_tellurium.html#TelluriumTestCase.test_jarnac_bs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tests.test_tellurium.TelluriumTestCase.test_jarnac_bs" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="tellurium.tests.test_tellurium.TelluriumTestCase.test_jarnac_dv">
+<code class="descname">test_jarnac_dv</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/tellurium/tests/test_tellurium.html#TelluriumTestCase.test_jarnac_dv"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tests.test_tellurium.TelluriumTestCase.test_jarnac_dv" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="tellurium.tests.test_tellurium.TelluriumTestCase.test_jarnac_fjac">
+<code class="descname">test_jarnac_fjac</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/tellurium/tests/test_tellurium.html#TelluriumTestCase.test_jarnac_fjac"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tests.test_tellurium.TelluriumTestCase.test_jarnac_fjac" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="tellurium.tests.test_tellurium.TelluriumTestCase.test_jarnac_fs">
+<code class="descname">test_jarnac_fs</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/tellurium/tests/test_tellurium.html#TelluriumTestCase.test_jarnac_fs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tests.test_tellurium.TelluriumTestCase.test_jarnac_fs" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="tellurium.tests.test_tellurium.TelluriumTestCase.test_jarnac_ps">
+<code class="descname">test_jarnac_ps</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/tellurium/tests/test_tellurium.html#TelluriumTestCase.test_jarnac_ps"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tests.test_tellurium.TelluriumTestCase.test_jarnac_ps" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="tellurium.tests.test_tellurium.TelluriumTestCase.test_jarnac_rs">
+<code class="descname">test_jarnac_rs</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/tellurium/tests/test_tellurium.html#TelluriumTestCase.test_jarnac_rs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tests.test_tellurium.TelluriumTestCase.test_jarnac_rs" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="tellurium.tests.test_tellurium.TelluriumTestCase.test_jarnac_rv">
+<code class="descname">test_jarnac_rv</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/tellurium/tests/test_tellurium.html#TelluriumTestCase.test_jarnac_rv"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tests.test_tellurium.TelluriumTestCase.test_jarnac_rv" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="tellurium.tests.test_tellurium.TelluriumTestCase.test_jarnac_sm">
+<code class="descname">test_jarnac_sm</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/tellurium/tests/test_tellurium.html#TelluriumTestCase.test_jarnac_sm"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tests.test_tellurium.TelluriumTestCase.test_jarnac_sm" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="tellurium.tests.test_tellurium.TelluriumTestCase.test_jarnac_sv">
+<code class="descname">test_jarnac_sv</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/tellurium/tests/test_tellurium.html#TelluriumTestCase.test_jarnac_sv"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tests.test_tellurium.TelluriumTestCase.test_jarnac_sv" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="tellurium.tests.test_tellurium.TelluriumTestCase.test_jarnac_vs">
+<code class="descname">test_jarnac_vs</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/tellurium/tests/test_tellurium.html#TelluriumTestCase.test_jarnac_vs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tests.test_tellurium.TelluriumTestCase.test_jarnac_vs" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
@@ -439,6 +530,11 @@ Main module for tests.</p>
 <dl class="method">
 <dt id="tellurium.tests.test_tellurium.TelluriumTestCase.test_sbmlToCellML_file">
 <code class="descname">test_sbmlToCellML_file</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/tellurium/tests/test_tellurium.html#TelluriumTestCase.test_sbmlToCellML_file"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tests.test_tellurium.TelluriumTestCase.test_sbmlToCellML_file" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="tellurium.tests.test_tellurium.TelluriumTestCase.test_seed">
+<code class="descname">test_seed</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/tellurium/tests/test_tellurium.html#TelluriumTestCase.test_seed"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tests.test_tellurium.TelluriumTestCase.test_seed" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>

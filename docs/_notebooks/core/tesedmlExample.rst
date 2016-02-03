@@ -50,7 +50,7 @@ Tellurium supports SED-ML via the packages ``tesedml`` and
 .. parsed-literal::
 
     <?xml version="1.0" encoding="UTF-8"?>
-    <!-- Created by phraSED-ML version v0.5beta on 2016-02-03 16:33 with libSBML version 5.12.1. -->
+    <!-- Created by phraSED-ML version v0.5beta on 2016-02-03 16:53 with libSBML version 5.12.1. -->
     <sedML xmlns="http://sed-ml.org/sed-ml/level1/version2" level="1" version="2">
       <listOfSimulations>
         <uniformTimeCourse id="sim1" initialTime="0" outputStartTime="0" outputEndTime="5" numberOfPoints="100">
@@ -135,7 +135,7 @@ Tellurium supports SED-ML via the packages ``tesedml`` and
 
 .. parsed-literal::
 
-    /tmp/myModelFoprOr.xml
-    /tmp/tmpcDCGMV.sedml
+    /tmp/myModel2bLUtt.xml
+    /tmp/tmp0x_CJU.sedml
 
 

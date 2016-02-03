@@ -121,7 +121,7 @@ Description Text
 
 
 
-.. image:: _notebooks/core/antimony_files/antimony_2_1.png
+.. image:: _notebooks/core/antimonyExample_files/antimonyExample_2_1.png
 
 
 .. parsed-literal::
@@ -171,7 +171,7 @@ Description Text
 
 
 
-.. image:: _notebooks/core/antimony_files/antimony_2_3.png
+.. image:: _notebooks/core/antimonyExample_files/antimonyExample_2_3.png
 
 
 .. parsed-literal::
@@ -202,7 +202,7 @@ Description Text
 
 
 
-.. image:: _notebooks/core/antimony_files/antimony_2_5.png
+.. image:: _notebooks/core/antimonyExample_files/antimonyExample_2_5.png
 
 
 .. parsed-literal::

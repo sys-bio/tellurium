@@ -136,17 +136,20 @@
 <span class="sd">Unittests for tellurium.py</span>
 <span class="sd">Main module for tests.</span>
 <span class="sd">&quot;&quot;&quot;</span>
-<span class="c1"># TODO: handle the plots, i.e. use the show=False option.</span>
 <span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">print_function</span><span class="p">,</span> <span class="n">division</span>
 <span class="kn">import</span> <span class="nn">unittest</span>
 <span class="kn">import</span> <span class="nn">tellurium</span> <span class="kn">as</span> <span class="nn">te</span>
 
 <span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
 <span class="n">test_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">__file__</span><span class="p">)),</span> <span class="s1">&#39;testdata&#39;</span><span class="p">)</span>
 
 
 <div class="viewcode-block" id="TelluriumTestCase"><a class="viewcode-back" href="../../../_apidoc/tellurium.tests.html#tellurium.tests.test_tellurium.TelluriumTestCase">[docs]</a><span class="k">class</span> <span class="nc">TelluriumTestCase</span><span class="p">(</span><span class="n">unittest</span><span class="o">.</span><span class="n">TestCase</span><span class="p">):</span>
 <div class="viewcode-block" id="TelluriumTestCase.setUp"><a class="viewcode-back" href="../../../_apidoc/tellurium.tests.html#tellurium.tests.test_tellurium.TelluriumTestCase.setUp">[docs]</a>    <span class="k">def</span> <span class="nf">setUp</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># switch the backend of matplotlib, so plots can be tested</span>
+        <span class="kn">import</span> <span class="nn">matplotlib</span>
+        <span class="n">matplotlib</span><span class="o">.</span><span class="n">pyplot</span><span class="o">.</span><span class="n">switch_backend</span><span class="p">(</span><span class="s2">&quot;Agg&quot;</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">ant_str</span> <span class="o">=</span> <span class="s1">&#39;&#39;&#39;</span>
 <span class="s1">        model pathway()</span>
@@ -341,6 +344,128 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">assertIsNotNone</span><span class="p">(</span><span class="n">sbml</span><span class="p">)</span></div>
 
     <span class="c1"># ---------------------------------------------------------------------</span>
+    <span class="c1"># Simulate options</span>
+    <span class="c1"># ---------------------------------------------------------------------</span>
+    <span class="c1"># def test_simulateOptions_steps(self):</span>
+    <span class="c1">#     r = te.loada(self.ant_str)</span>
+    <span class="c1">#     self.assertRaises(DeprecationWarning, r.setSteps, 200)</span>
+    <span class="c1">#     self.assertRaises(DeprecationWarning, r.getSteps)</span>
+    <span class="c1">#     # r.setSteps(200)</span>
+    <span class="c1">#     # steps = r.getSteps()</span>
+    <span class="c1">#     # self.assertEqual(200, steps)</span>
+    <span class="c1">#</span>
+    <span class="c1"># def test_simulateOptions_numberOfPoints(self):</span>
+    <span class="c1">#     r = te.loada(self.ant_str)</span>
+    <span class="c1">#     self.assertRaises(DeprecationWarning, r.setNumberOfPoints, 500)</span>
+    <span class="c1">#     self.assertRaises(DeprecationWarning, r.getNumberOfPoints)</span>
+    <span class="c1">#     # r.setNumberOfPoints(500)</span>
+    <span class="c1">#     # steps = r.getSteps()</span>
+    <span class="c1">#     # numberOfPoints = r.getNumberOfPoints()</span>
+    <span class="c1">#     # self.assertEqual(500, numberOfPoints)</span>
+    <span class="c1">#     # self.assertEqual(499, steps)</span>
+    <span class="c1">#</span>
+    <span class="c1"># def test_simulateOptions_startTime(self):</span>
+    <span class="c1">#     r = te.loada(self.ant_str)</span>
+    <span class="c1">#     self.assertRaises(DeprecationWarning, r.setStartTime, 13.5)</span>
+    <span class="c1">#     self.assertRaises(DeprecationWarning, r.getStartTime)</span>
+    <span class="c1">#     # r.setStartTime(13.5)</span>
+    <span class="c1">#     # start = r.getStartTime()</span>
+    <span class="c1">#     # self.assertAlmostEqual(13.5, start)</span>
+    <span class="c1">#</span>
+    <span class="c1"># def test_simulateOptions_endTime(self):</span>
+    <span class="c1">#     r = te.loada(self.ant_str)</span>
+    <span class="c1">#     self.assertRaises(DeprecationWarning, r.setEndTime, 200.0)</span>
+    <span class="c1">#     self.assertRaises(DeprecationWarning, r.getEndTime)</span>
+    <span class="c1">#     # r.setEndTime(200.0)</span>
+    <span class="c1">#     # end = r.getEndTime()</span>
+    <span class="c1">#     # self.assertAlmostEqual(200.0, end)</span>
+
+    <span class="c1"># ---------------------------------------------------------------------</span>
+    <span class="c1"># Jarnac compatibility layer</span>
+    <span class="c1"># ---------------------------------------------------------------------</span>
+<div class="viewcode-block" id="TelluriumTestCase.test_jarnac_fjac"><a class="viewcode-back" href="../../../_apidoc/tellurium.tests.html#tellurium.tests.test_tellurium.TelluriumTestCase.test_jarnac_fjac">[docs]</a>    <span class="k">def</span> <span class="nf">test_jarnac_fjac</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="n">te</span><span class="o">.</span><span class="n">loada</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ant_str</span><span class="p">)</span>
+        <span class="n">m1</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">fjac</span><span class="p">()</span>
+        <span class="n">m2</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">getFullJacobian</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">m1</span><span class="p">,</span> <span class="n">m2</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="TelluriumTestCase.test_jarnac_sm"><a class="viewcode-back" href="../../../_apidoc/tellurium.tests.html#tellurium.tests.test_tellurium.TelluriumTestCase.test_jarnac_sm">[docs]</a>    <span class="k">def</span> <span class="nf">test_jarnac_sm</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="n">te</span><span class="o">.</span><span class="n">loada</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ant_str</span><span class="p">)</span>
+        <span class="n">m1</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">sm</span><span class="p">()</span>
+        <span class="n">m2</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">getFullStoichiometryMatrix</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">m1</span><span class="p">,</span> <span class="n">m2</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="TelluriumTestCase.test_jarnac_fs"><a class="viewcode-back" href="../../../_apidoc/tellurium.tests.html#tellurium.tests.test_tellurium.TelluriumTestCase.test_jarnac_fs">[docs]</a>    <span class="k">def</span> <span class="nf">test_jarnac_fs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="n">te</span><span class="o">.</span><span class="n">loada</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ant_str</span><span class="p">)</span>
+        <span class="n">m1</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">fs</span><span class="p">()</span>
+        <span class="n">m2</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">getFloatingSpeciesIds</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">m1</span><span class="p">,</span> <span class="n">m2</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="TelluriumTestCase.test_jarnac_bs"><a class="viewcode-back" href="../../../_apidoc/tellurium.tests.html#tellurium.tests.test_tellurium.TelluriumTestCase.test_jarnac_bs">[docs]</a>    <span class="k">def</span> <span class="nf">test_jarnac_bs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="n">te</span><span class="o">.</span><span class="n">loada</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ant_str</span><span class="p">)</span>
+        <span class="n">m1</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">bs</span><span class="p">()</span>
+        <span class="n">m2</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">getBoundarySpeciesIds</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">m1</span><span class="p">,</span> <span class="n">m2</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="TelluriumTestCase.test_jarnac_rs"><a class="viewcode-back" href="../../../_apidoc/tellurium.tests.html#tellurium.tests.test_tellurium.TelluriumTestCase.test_jarnac_rs">[docs]</a>    <span class="k">def</span> <span class="nf">test_jarnac_rs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="n">te</span><span class="o">.</span><span class="n">loada</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ant_str</span><span class="p">)</span>
+        <span class="n">m1</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">rs</span><span class="p">()</span>
+        <span class="n">m2</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">getReactionIds</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">m1</span><span class="p">,</span> <span class="n">m2</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="TelluriumTestCase.test_jarnac_ps"><a class="viewcode-back" href="../../../_apidoc/tellurium.tests.html#tellurium.tests.test_tellurium.TelluriumTestCase.test_jarnac_ps">[docs]</a>    <span class="k">def</span> <span class="nf">test_jarnac_ps</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="n">te</span><span class="o">.</span><span class="n">loada</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ant_str</span><span class="p">)</span>
+        <span class="n">m1</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">ps</span><span class="p">()</span>
+        <span class="n">m2</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">getGlobalParameterIds</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">m1</span><span class="p">,</span> <span class="n">m2</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="TelluriumTestCase.test_jarnac_vs"><a class="viewcode-back" href="../../../_apidoc/tellurium.tests.html#tellurium.tests.test_tellurium.TelluriumTestCase.test_jarnac_vs">[docs]</a>    <span class="k">def</span> <span class="nf">test_jarnac_vs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="n">te</span><span class="o">.</span><span class="n">loada</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ant_str</span><span class="p">)</span>
+        <span class="n">m1</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">vs</span><span class="p">()</span>
+        <span class="n">m2</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">getCompartmentIds</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">m1</span><span class="p">,</span> <span class="n">m2</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="TelluriumTestCase.test_jarnac_dv"><a class="viewcode-back" href="../../../_apidoc/tellurium.tests.html#tellurium.tests.test_tellurium.TelluriumTestCase.test_jarnac_dv">[docs]</a>    <span class="k">def</span> <span class="nf">test_jarnac_dv</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="n">te</span><span class="o">.</span><span class="n">loada</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ant_str</span><span class="p">)</span>
+        <span class="n">m1</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">dv</span><span class="p">()</span>
+        <span class="n">m2</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">getStateVectorRate</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">m1</span><span class="p">,</span> <span class="n">m2</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="TelluriumTestCase.test_jarnac_rv"><a class="viewcode-back" href="../../../_apidoc/tellurium.tests.html#tellurium.tests.test_tellurium.TelluriumTestCase.test_jarnac_rv">[docs]</a>    <span class="k">def</span> <span class="nf">test_jarnac_rv</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="n">te</span><span class="o">.</span><span class="n">loada</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ant_str</span><span class="p">)</span>
+        <span class="n">m1</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">rv</span><span class="p">()</span>
+        <span class="n">m2</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">getReactionRates</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">m1</span><span class="p">,</span> <span class="n">m2</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="TelluriumTestCase.test_jarnac_sv"><a class="viewcode-back" href="../../../_apidoc/tellurium.tests.html#tellurium.tests.test_tellurium.TelluriumTestCase.test_jarnac_sv">[docs]</a>    <span class="k">def</span> <span class="nf">test_jarnac_sv</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="n">te</span><span class="o">.</span><span class="n">loada</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ant_str</span><span class="p">)</span>
+        <span class="n">m1</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">sv</span><span class="p">()</span>
+        <span class="n">m2</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">getFloatingSpeciesConcentrations</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">m1</span><span class="p">,</span> <span class="n">m2</span><span class="p">))</span></div>
+
+    <span class="c1"># ---------------------------------------------------------------------</span>
+    <span class="c1"># Stochastic Simulation Methods</span>
+    <span class="c1"># ---------------------------------------------------------------------</span>
+<div class="viewcode-block" id="TelluriumTestCase.test_seed"><a class="viewcode-back" href="../../../_apidoc/tellurium.tests.html#tellurium.tests.test_tellurium.TelluriumTestCase.test_seed">[docs]</a>    <span class="k">def</span> <span class="nf">test_seed</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="n">te</span><span class="o">.</span><span class="n">loada</span><span class="p">(</span><span class="s1">&#39;&#39;&#39;</span>
+<span class="s1">        S1 -&gt; S2; k1*S1; k1 = 0.1; S1 = 40</span>
+<span class="s1">        &#39;&#39;&#39;</span><span class="p">)</span>
+
+        <span class="c1"># Simulate from time zero to 40 time units</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">gillespie</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">40</span><span class="p">)</span>
+
+        <span class="c1"># Simulate on a grid with 10 points from start 0 to end time 40</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">gillespie</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">40</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+
+        <span class="c1"># Simulate from time zero to 40 time units using the given selection list</span>
+        <span class="c1"># This means that the first column will be time and the second column species S1</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">gillespie</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">40</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;time&#39;</span><span class="p">,</span> <span class="s1">&#39;S1&#39;</span><span class="p">])</span>
+
+        <span class="c1"># Simulate from time zero to 40 time units, on a grid with 20 points</span>
+        <span class="c1"># using the give selection list</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">gillespie</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">40</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;time&#39;</span><span class="p">,</span> <span class="s1">&#39;S1&#39;</span><span class="p">])</span></div>
+
+    <span class="c1"># ---------------------------------------------------------------------</span>
     <span class="c1"># Roadrunner tests</span>
     <span class="c1"># ---------------------------------------------------------------------</span>
 <div class="viewcode-block" id="TelluriumTestCase.test_roadrunner"><a class="viewcode-back" href="../../../_apidoc/tellurium.tests.html#tellurium.tests.test_tellurium.TelluriumTestCase.test_roadrunner">[docs]</a>    <span class="k">def</span> <span class="nf">test_roadrunner</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -349,9 +474,7 @@
         <span class="n">rr</span> <span class="o">=</span> <span class="n">te</span><span class="o">.</span><span class="n">loadSBMLModel</span><span class="p">(</span><span class="n">sbml</span><span class="p">)</span>
         <span class="c1"># simulate</span>
         <span class="n">s</span> <span class="o">=</span> <span class="n">rr</span><span class="o">.</span><span class="n">simulate</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">100.0</span><span class="p">,</span> <span class="mi">200</span><span class="p">)</span>
-        <span class="c1"># FIXME: test plots</span>
-        <span class="c1"># te.setHold(True)</span>
-        <span class="c1"># te.plot(s)</span>
+        <span class="n">rr</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">assertIsNotNone</span><span class="p">(</span><span class="n">rr</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">assertIsNotNone</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
@@ -387,73 +510,31 @@
 <span class="s1">              k1 = 0.1</span>
 <span class="s1">            end</span>
 <span class="s1">        &#39;&#39;&#39;</span><span class="p">)</span>
-        <span class="n">result</span> <span class="o">=</span> <span class="n">rr</span><span class="o">.</span><span class="n">simulate</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">40</span><span class="p">,</span> <span class="mi">500</span><span class="p">)</span></div>
-        <span class="c1"># FIXME: test the plotting</span>
-        <span class="c1"># te.plotArray(result)</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">rr</span><span class="o">.</span><span class="n">simulate</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">40</span><span class="p">,</span> <span class="mi">500</span><span class="p">)</span>
+        <span class="n">te</span><span class="o">.</span><span class="n">plotArray</span><span class="p">(</span><span class="n">result</span><span class="p">)</span></div>
 
-    <span class="c1"># def test_w_te_1(self):</span>
-    <span class="c1">#     &quot;&quot;&quot;</span>
-    <span class="c1">#     Created on Fri Mar 14 09:46:33 2014</span>
-    <span class="c1">#</span>
-    <span class="c1">#     @author: mgaldzic</span>
-    <span class="c1">#     &quot;&quot;&quot;</span>
-    <span class="c1">#     import tellurium as te</span>
-    <span class="c1">#     modelStr = &#39;&#39;&#39;</span>
-    <span class="c1">#     model feedback()</span>
-    <span class="c1">#        // Reactions:</span>
-    <span class="c1">#        J0: $X0 -&gt; S1; (VM1 * (X0 - S1/Keq1))/(1 + X0 + S1 + S4^h);</span>
-    <span class="c1">#        J1: S1 -&gt; S2; (10 * S1 - 2 * S2) / (1 + S1 + S2);</span>
-    <span class="c1">#        J2: S2 -&gt; S3; (10 * S2 - 2 * S3) / (1 + S2 + S3);</span>
-    <span class="c1">#        J3: S3 -&gt; S4; (10 * S3 - 2 * S4) / (1 + S3 + S4);</span>
-    <span class="c1">#        J4: S4 -&gt; $X1; (V4 * S4) / (KS4 + S4);</span>
-    <span class="c1">#</span>
-    <span class="c1">#       // Species initializations:</span>
-    <span class="c1">#       S1 = 0; S2 = 0; S3 = 0;</span>
-    <span class="c1">#       S4 = 0; X0 = 10; X1 = 0;</span>
-    <span class="c1">#</span>
-    <span class="c1">#       // Variable initialization:</span>
-    <span class="c1">#       VM1 = 10; Keq1 = 10; h = 10; V4 = 2.5; KS4 = 0.5;</span>
-    <span class="c1">#     end&#39;&#39;&#39;</span>
-    <span class="c1">#</span>
-    <span class="c1">#     rr = roadrunner.RoadRunner(antStr)</span>
-    <span class="c1">#     result = rr.simulate(0, 40, 500)</span>
-    <span class="c1">#     te.plotWithLegend (rr, result)</span>
-    <span class="c1">#     r = te.RoadRunner(antStr)</span>
-    <span class="c1">#     result = r.simulate(0, 40, 500)</span>
-    <span class="c1">#     te.plotWithLegend (r, result)</span>
-    <span class="c1">#</span>
-    <span class="c1"># def test_wo_te_0(self):</span>
-    <span class="c1">#     antStr = &#39;&#39;&#39;</span>
-    <span class="c1">#     model feedback()</span>
-    <span class="c1">#        // Reactions:</span>
-    <span class="c1">#        J0: $X0 -&gt; S1; (VM1 * (X0 - S1/Keq1))/(1 + X0 + S1 +   S4^h);</span>
-    <span class="c1">#        J1: S1 -&gt; S2; (10 * S1 - 2 * S2) / (1 + S1 + S2);</span>
-    <span class="c1">#        J2: S2 -&gt; S3; (10 * S2 - 2 * S3) / (1 + S2 + S3);</span>
-    <span class="c1">#        J3: S3 -&gt; S4; (10 * S3 - 2 * S4) / (1 + S3 + S4);</span>
-    <span class="c1">#        J4: S4 -&gt; $X1; (V4 * S4) / (KS4 + S4);</span>
-    <span class="c1">#</span>
-    <span class="c1">#       // Species initializations:</span>
-    <span class="c1">#       S1 = 0; S2 = 0; S3 = 0;</span>
-    <span class="c1">#       S4 = 0; X0 = 10; X1 = 0;</span>
-    <span class="c1">#</span>
-    <span class="c1">#       // Variable initialization:</span>
-    <span class="c1">#       VM1 = 10; Keq1 = 10; h = 10; V4 = 2.5; KS4 = 0.5;</span>
-    <span class="c1">#     end&#39;&#39;&#39;</span>
-    <span class="c1">#</span>
-    <span class="c1">#     import libantimony</span>
-    <span class="c1">#</span>
-    <span class="c1">#     libantimony.loadAntimonyString (antStr)</span>
-    <span class="c1">#     Id = libantimony.getMainModuleName()</span>
-    <span class="c1">#     sbmlStr = libantimony.getSBMLString(Id)</span>
-    <span class="c1">#</span>
-    <span class="c1">#     import roadrunner</span>
-    <span class="c1">#     r = roadrunner.RoadRunner()</span>
-    <span class="c1">#     r.load(sbmlStr)</span>
-    <span class="c1">#     r.simulateOptions.structuredResult = False</span>
-    <span class="c1">#     res = r.simulate(0, 40, 500)</span>
-    <span class="c1">#     import matplotlib.pyplot as plt</span>
-    <span class="c1">#     plt.plot (res[:,0],res[:,1:])</span>
-    <span class="c1">#     plt.show()</span>
+<div class="viewcode-block" id="TelluriumTestCase.test_complex_simulation"><a class="viewcode-back" href="../../../_apidoc/tellurium.tests.html#tellurium.tests.test_tellurium.TelluriumTestCase.test_complex_simulation">[docs]</a>    <span class="k">def</span> <span class="nf">test_complex_simulation</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Test complex simulation. &quot;&quot;&quot;</span>
+        <span class="n">model</span> <span class="o">=</span> <span class="s1">&#39;&#39;&#39;</span>
+<span class="s1">        model feedback()</span>
+<span class="s1">           // Reactions:</span>
+<span class="s1">           J0: $X0 -&gt; S1; (VM1 * (X0 - S1/Keq1))/(1 + X0 + S1 + S4^h);</span>
+<span class="s1">           J1: S1 -&gt; S2; (10 * S1 - 2 * S2) / (1 + S1 + S2);</span>
+<span class="s1">           J2: S2 -&gt; S3; (10 * S2 - 2 * S3) / (1 + S2 + S3);</span>
+<span class="s1">           J3: S3 -&gt; S4; (10 * S3 - 2 * S4) / (1 + S3 + S4);</span>
+<span class="s1">           J4: S4 -&gt; $X1; (V4 * S4) / (KS4 + S4);</span>
+
+<span class="s1">          // Species initializations:</span>
+<span class="s1">          S1 = 0; S2 = 0; S3 = 0;</span>
+<span class="s1">          S4 = 0; X0 = 10; X1 = 0;</span>
+
+<span class="s1">          // Variable initialization:</span>
+<span class="s1">          VM1 = 10; Keq1 = 10; h = 10; V4 = 2.5; KS4 = 0.5;</span>
+<span class="s1">        end</span>
+<span class="s1">        &#39;&#39;&#39;</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="n">te</span><span class="o">.</span><span class="n">loada</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">simulate</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">40</span><span class="p">,</span> <span class="mi">101</span><span class="p">)</span>
+        <span class="n">r</span><span class="o">.</span><span class="n">plotWithLegend</span><span class="p">(</span><span class="n">result</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="TelluriumTestCase.test_getTelluriumVersionInfo"><a class="viewcode-back" href="../../../_apidoc/tellurium.tests.html#tellurium.tests.test_tellurium.TelluriumTestCase.test_getTelluriumVersionInfo">[docs]</a>    <span class="k">def</span> <span class="nf">test_getTelluriumVersionInfo</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">version</span> <span class="o">=</span> <span class="n">te</span><span class="o">.</span><span class="n">getTelluriumVersion</span><span class="p">()</span>

@@ -1,12 +1,19 @@
-Die Feb  2 12:49:18 CET 2016
+Mit Feb  3 16:53:17 CET 2016
 --------------------------------------
 remove old documentation
 --------------------------------------
 DONE
-Die Feb  2 12:49:18 CET 2016
+Mit Feb  3 16:53:17 CET 2016
 --------------------------------------
 convert notebooks to rst
 --------------------------------------
+[NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/antimonyExample.ipynb to rst
+[NbConvertApp] Executing notebook with kernel: python2
+[NbConvertApp] Support files will be in antimonyExample_files/
+[NbConvertApp] Making directory antimonyExample_files
+[NbConvertApp] Making directory antimonyExample_files
+[NbConvertApp] Making directory antimonyExample_files
+[NbConvertApp] Writing 5895 bytes to antimonyExample.rst
 [NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/computeSteadyState.ipynb to rst
 [NbConvertApp] Executing notebook with kernel: python2
 [NbConvertApp] Writing 965 bytes to computeSteadyState.rst
@@ -24,7 +31,7 @@ convert notebooks to rst
 [NbConvertApp] Executing notebook with kernel: python2
 [NbConvertApp] Support files will be in generatingDifferentWaveforms_files/
 [NbConvertApp] Making directory generatingDifferentWaveforms_files
-[NbConvertApp] Writing 1880 bytes to generatingDifferentWaveforms.rst
+[NbConvertApp] Writing 1875 bytes to generatingDifferentWaveforms.rst
 [NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/introduction.ipynb to rst
 [NbConvertApp] Executing notebook with kernel: python2
 [NbConvertApp] Support files will be in introduction_files/
@@ -33,18 +40,18 @@ convert notebooks to rst
 [NbConvertApp] Writing 841 bytes to introduction.rst
 [NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/nonUnitStoichiometries.ipynb to rst
 [NbConvertApp] Executing notebook with kernel: python2
-[NbConvertApp] Writing 992 bytes to nonUnitStoichiometries.rst
+[NbConvertApp] Writing 999 bytes to nonUnitStoichiometries.rst
 [NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/parameter_scan.ipynb to rst
 [NbConvertApp] Executing notebook with kernel: python2
 [NbConvertApp] Support files will be in parameter_scan_files/
 [NbConvertApp] Making directory parameter_scan_files
 [NbConvertApp] Making directory parameter_scan_files
 [NbConvertApp] Writing 1482 bytes to parameter_scan.rst
-[NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/phrasedml.ipynb to rst
+[NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/phrasedmlExample.ipynb to rst
 [NbConvertApp] Executing notebook with kernel: python2
-[NbConvertApp] Support files will be in phrasedml_files/
-[NbConvertApp] Making directory phrasedml_files
-[NbConvertApp] Writing 2017 bytes to phrasedml.rst
+[NbConvertApp] Support files will be in phrasedmlExample_files/
+[NbConvertApp] Making directory phrasedmlExample_files
+[NbConvertApp] Writing 2031 bytes to phrasedmlExample.rst
 [NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/steadystate_scan.ipynb to rst
 [NbConvertApp] Executing notebook with kernel: python2
 [NbConvertApp] Support files will be in steadystate_scan_files/
@@ -53,9 +60,9 @@ convert notebooks to rst
 [NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/template.ipynb to rst
 [NbConvertApp] Executing notebook with kernel: python2
 [NbConvertApp] Writing 260 bytes to template.rst
-[NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/tesedml.ipynb to rst
+[NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/tesedmlExample.ipynb to rst
 [NbConvertApp] Executing notebook with kernel: python2
-[NbConvertApp] Writing 3207 bytes to tesedml.rst
+[NbConvertApp] Writing 4744 bytes to tesedmlExample.rst
 DONE
 --------------------------------------
 postprocessing rst
@@ -64,6 +71,9 @@ DONE
 --------------------------------------
 create python code
 --------------------------------------
+[NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/antimonyExample.ipynb to python
+[NbConvertApp] Executing notebook with kernel: python2
+[NbConvertApp] Writing 955 bytes to antimonyExample.py
 [NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/computeSteadyState.ipynb to python
 [NbConvertApp] Executing notebook with kernel: python2
 [NbConvertApp] Writing 824 bytes to computeSteadyState.py
@@ -75,28 +85,28 @@ create python code
 [NbConvertApp] Writing 784 bytes to feedback_oscillations.py
 [NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/generatingDifferentWaveforms.ipynb to python
 [NbConvertApp] Executing notebook with kernel: python2
-[NbConvertApp] Writing 1622 bytes to generatingDifferentWaveforms.py
+[NbConvertApp] Writing 1617 bytes to generatingDifferentWaveforms.py
 [NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/introduction.ipynb to python
 [NbConvertApp] Executing notebook with kernel: python2
 [NbConvertApp] Writing 668 bytes to introduction.py
 [NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/nonUnitStoichiometries.ipynb to python
 [NbConvertApp] Executing notebook with kernel: python2
-[NbConvertApp] Writing 454 bytes to nonUnitStoichiometries.py
+[NbConvertApp] Writing 461 bytes to nonUnitStoichiometries.py
 [NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/parameter_scan.ipynb to python
 [NbConvertApp] Executing notebook with kernel: python2
 [NbConvertApp] Writing 1177 bytes to parameter_scan.py
-[NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/phrasedml.ipynb to python
+[NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/phrasedmlExample.ipynb to python
 [NbConvertApp] Executing notebook with kernel: python2
-[NbConvertApp] Writing 1026 bytes to phrasedml.py
+[NbConvertApp] Writing 1026 bytes to phrasedmlExample.py
 [NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/steadystate_scan.ipynb to python
 [NbConvertApp] Executing notebook with kernel: python2
 [NbConvertApp] Writing 815 bytes to steadystate_scan.py
 [NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/template.ipynb to python
 [NbConvertApp] Executing notebook with kernel: python2
 [NbConvertApp] Writing 266 bytes to template.py
-[NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/tesedml.ipynb to python
+[NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/tesedmlExample.ipynb to python
 [NbConvertApp] Executing notebook with kernel: python2
-[NbConvertApp] Writing 2083 bytes to tesedml.py
+[NbConvertApp] Writing 2083 bytes to tesedmlExample.py
 DONE
 --------------------------------------
 create sphinx-apidoc
@@ -119,38 +129,42 @@ create html docs
 Running Sphinx v1.3.5
 loading pickled environment... done
 building [mo]: targets for 0 po files that are out of date
-building [html]: targets for 23 source files that are out of date
-updating environment: 0 added, 25 changed, 0 removed
-reading sources... [  4%] _apidoc/modules
-reading sources... [  8%] _apidoc/tellurium
+building [html]: targets for 20 source files that are out of date
+updating environment: 3 added, 23 changed, 2 removed
+reading sources... [  3%] _apidoc/modules
+reading sources... [  7%] _apidoc/tellurium
 [1m[33mWarning: No module named sbml2matlab[0m
 [1m[33mWarning: /usr/local/lib/python2.7/dist-packages/pygraphviz/_graphviz.so: undefined symbol: Agundirected[0m
-reading sources... [ 12%] _apidoc/tellurium.Export
-reading sources... [ 16%] _apidoc/tellurium.ParameterScan
-reading sources... [ 20%] _apidoc/tellurium.analysis
-reading sources... [ 24%] _apidoc/tellurium.notebooktools
-reading sources... [ 28%] _apidoc/tellurium.optimization
-reading sources... [ 32%] _apidoc/tellurium.tests
-reading sources... [ 36%] _apidoc/tellurium.tests.testdata
-reading sources... [ 40%] _apidoc/tellurium.visualization
-reading sources... [ 44%] _apidoc/tellurium.widgets
-reading sources... [ 48%] _notebooks/core/computeSteadyState
-reading sources... [ 52%] _notebooks/core/consecutiveUniUniReactions
-reading sources... [ 56%] _notebooks/core/feedback_oscillations
-reading sources... [ 60%] _notebooks/core/generatingDifferentWaveforms
-reading sources... [ 64%] _notebooks/core/introduction
-reading sources... [ 68%] _notebooks/core/nonUnitStoichiometries
-reading sources... [ 72%] _notebooks/core/parameter_scan
-reading sources... [ 76%] _notebooks/core/phrasedml
+reading sources... [ 11%] _apidoc/tellurium.Export
+reading sources... [ 15%] _apidoc/tellurium.ParameterScan
+reading sources... [ 19%] _apidoc/tellurium.analysis
+reading sources... [ 23%] _apidoc/tellurium.notebooktools
+reading sources... [ 26%] _apidoc/tellurium.optimization
+reading sources... [ 30%] _apidoc/tellurium.tests
+reading sources... [ 34%] _apidoc/tellurium.tests.testdata
+reading sources... [ 38%] _apidoc/tellurium.visualization
+reading sources... [ 42%] _apidoc/tellurium.widgets
+reading sources... [ 46%] _notebooks/core/antimonyExample
+reading sources... [ 50%] _notebooks/core/computeSteadyState
+reading sources... [ 53%] _notebooks/core/consecutiveUniUniReactions
+reading sources... [ 57%] _notebooks/core/feedback_oscillations
+reading sources... [ 61%] _notebooks/core/generatingDifferentWaveforms
+reading sources... [ 65%] _notebooks/core/introduction
+reading sources... [ 69%] _notebooks/core/nonUnitStoichiometries
+reading sources... [ 73%] _notebooks/core/parameter_scan
+reading sources... [ 76%] _notebooks/core/phrasedmlExample
 reading sources... [ 80%] _notebooks/core/steadystate_scan
 reading sources... [ 84%] _notebooks/core/template
-reading sources... [ 88%] _notebooks/core/tesedml
+reading sources... [ 88%] _notebooks/core/tesedmlExample
 reading sources... [ 92%] introduction
 reading sources... [ 96%] notebooks
 reading sources... [100%] tellurium_methods
 
-/home/mkoenig/git/tellurium/tellurium/tellurium.py:docstring of tellurium.tellurium.getRatesOfChange:0: WARNING: duplicate object description of tellurium.tellurium.getRatesOfChange, other instance in /home/mkoenig/git/tellurium/docs/tellurium_methods.rst, use :noindex: for one of them
 /home/mkoenig/git/tellurium/docs/_apidoc/tellurium.tests.testdata.rst:7: WARNING: toctree contains reference to nonexisting document u'_apidoc/tellurium.tests.testdata.models'
+/home/mkoenig/git/tellurium/docs/_notebooks/core/antimonyExample.rst:49: WARNING: Inline emphasis start-string without end-string.
+/home/mkoenig/git/tellurium/docs/_notebooks/core/antimonyExample.rst:126: WARNING: image file not readable: _notebooks/core/_notebooks/core/antimonyExample_files/antimonyExample_2_1.png
+/home/mkoenig/git/tellurium/docs/_notebooks/core/antimonyExample.rst:176: WARNING: image file not readable: _notebooks/core/_notebooks/core/antimonyExample_files/antimonyExample_2_3.png
+/home/mkoenig/git/tellurium/docs/_notebooks/core/antimonyExample.rst:207: WARNING: image file not readable: _notebooks/core/_notebooks/core/antimonyExample_files/antimonyExample_2_5.png
 /home/mkoenig/git/tellurium/docs/_notebooks/core/consecutiveUniUniReactions.rst:32: WARNING: image file not readable: _notebooks/core/_notebooks/core/consecutiveUniUniReactions_files/consecutiveUniUniReactions_2_0.png
 /home/mkoenig/git/tellurium/docs/_notebooks/core/feedback_oscillations.rst:36: WARNING: image file not readable: _notebooks/core/_notebooks/core/feedback_oscillations_files/feedback_oscillations_2_0.png
 /home/mkoenig/git/tellurium/docs/_notebooks/core/generatingDifferentWaveforms.rst:61: WARNING: image file not readable: _notebooks/core/_notebooks/core/generatingDifferentWaveforms_files/generatingDifferentWaveforms_2_0.png
@@ -159,18 +173,499 @@ reading sources... [100%] tellurium_methods
 /home/mkoenig/git/tellurium/docs/_notebooks/core/nonUnitStoichiometries.rst:23: WARNING: Inline emphasis start-string without end-string.
 /home/mkoenig/git/tellurium/docs/_notebooks/core/parameter_scan.rst:42: WARNING: image file not readable: _notebooks/core/_notebooks/core/parameter_scan_files/parameter_scan_2_0.png
 /home/mkoenig/git/tellurium/docs/_notebooks/core/parameter_scan.rst:75: WARNING: image file not readable: _notebooks/core/_notebooks/core/parameter_scan_files/parameter_scan_3_0.png
-/home/mkoenig/git/tellurium/docs/_notebooks/core/phrasedml.rst:41: WARNING: image file not readable: _notebooks/core/_notebooks/core/phrasedml_files/phrasedml_2_0.png
+/home/mkoenig/git/tellurium/docs/_notebooks/core/phrasedmlExample.rst:41: WARNING: image file not readable: _notebooks/core/_notebooks/core/phrasedmlExample_files/phrasedmlExample_2_0.png
 /home/mkoenig/git/tellurium/docs/_notebooks/core/steadystate_scan.rst:66: WARNING: image file not readable: _notebooks/core/_notebooks/core/steadystate_scan_files/steadystate_scan_2_1.png
-/home/mkoenig/git/tellurium/docs/_notebooks/core/tesedml.rst:11: WARNING: Inline emphasis start-string without end-string.
-/home/mkoenig/git/tellurium/docs/_notebooks/core/tesedml.rst:12: WARNING: Line block ends without a blank line.
+/home/mkoenig/git/tellurium/docs/_notebooks/core/tesedmlExample.rst:11: WARNING: Inline emphasis start-string without end-string.
+/home/mkoenig/git/tellurium/docs/_notebooks/core/tesedmlExample.rst:12: WARNING: Line block ends without a blank line.
+/home/mkoenig/git/tellurium/docs/_notebooks/core/tesedmlExample.rst:50: WARNING: Inline emphasis start-string without end-string.
+/home/mkoenig/git/tellurium/docs/_notebooks/core/tesedmlExample.rst:50: WARNING: Inline emphasis start-string without end-string.
 _notebooks/core/nonUnitStoichiometries.rst:23: WARNING: Inline emphasis start-string without end-string.
-_notebooks/core/tesedml.rst:11: WARNING: Inline emphasis start-string without end-string.
-_notebooks/core/tesedml.rst:12: WARNING: Line block ends without a blank line.
-/home/mkoenig/git/tellurium/tellurium/tellurium.py:docstring of tellurium.tellurium.getRatesOfChange:0: WARNING: duplicate object description of tellurium.tellurium.getRatesOfChange, other instance in /home/mkoenig/git/tellurium/docs/_apidoc/tellurium.rst, use :noindex: for one of them
+/home/mkoenig/git/tellurium/docs/notebooks.rst:28: SEVERE: Problems with "include" directive path:
+InputError: [Errno 2] No such file or directory: '_notebooks/core/phrasedml.rst'.
+/home/mkoenig/git/tellurium/docs/notebooks.rst:29: SEVERE: Problems with "include" directive path:
+InputError: [Errno 2] No such file or directory: '_notebooks/core/tesedml.rst'.
+/home/mkoenig/git/tellurium/docs/tellurium_methods.rst:122: WARNING: autodoc: failed to import function u'getCurrentAntimony' from module u'tellurium'; the following exception was raised:
+Traceback (most recent call last):
+  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 392, in import_object
+    obj = self.get_attr(obj, part)
+  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 288, in get_attr
+    return safe_getattr(obj, name, *defargs)
+  File "/usr/local/lib/python2.7/dist-packages/sphinx/util/inspect.py", line 115, in safe_getattr
+    raise AttributeError(name)
+AttributeError: getCurrentAntimony
+/home/mkoenig/git/tellurium/docs/tellurium_methods.rst:123: WARNING: autodoc: failed to import function u'getCurrentCellML' from module u'tellurium'; the following exception was raised:
+Traceback (most recent call last):
+  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 392, in import_object
+    obj = self.get_attr(obj, part)
+  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 288, in get_attr
+    return safe_getattr(obj, name, *defargs)
+  File "/usr/local/lib/python2.7/dist-packages/sphinx/util/inspect.py", line 115, in safe_getattr
+    raise AttributeError(name)
+AttributeError: getCurrentCellML
+/home/mkoenig/git/tellurium/docs/tellurium_methods.rst:124: WARNING: autodoc: failed to import function u'getCurrentMatlab' from module u'tellurium'; the following exception was raised:
+Traceback (most recent call last):
+  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 392, in import_object
+    obj = self.get_attr(obj, part)
+  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 288, in get_attr
+    return safe_getattr(obj, name, *defargs)
+  File "/usr/local/lib/python2.7/dist-packages/sphinx/util/inspect.py", line 115, in safe_getattr
+    raise AttributeError(name)
+AttributeError: getCurrentMatlab
+/home/mkoenig/git/tellurium/docs/tellurium_methods.rst:125: WARNING: autodoc: failed to import function u'exportToSBML' from module u'tellurium'; the following exception was raised:
+Traceback (most recent call last):
+  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 392, in import_object
+    obj = self.get_attr(obj, part)
+  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 288, in get_attr
+    return safe_getattr(obj, name, *defargs)
+  File "/usr/local/lib/python2.7/dist-packages/sphinx/util/inspect.py", line 115, in safe_getattr
+    raise AttributeError(name)
+AttributeError: exportToSBML
+/home/mkoenig/git/tellurium/docs/tellurium_methods.rst:126: WARNING: autodoc: failed to import function u'exportToAntimony' from module u'tellurium'; the following exception was raised:
+Traceback (most recent call last):
+  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 392, in import_object
+    obj = self.get_attr(obj, part)
+  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 288, in get_attr
+    return safe_getattr(obj, name, *defargs)
+  File "/usr/local/lib/python2.7/dist-packages/sphinx/util/inspect.py", line 115, in safe_getattr
+    raise AttributeError(name)
+AttributeError: exportToAntimony
+/home/mkoenig/git/tellurium/docs/tellurium_methods.rst:127: WARNING: autodoc: failed to import function u'exportToCellML' from module u'tellurium'; the following exception was raised:
+Traceback (most recent call last):
+  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 392, in import_object
+    obj = self.get_attr(obj, part)
+  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 288, in get_attr
+    return safe_getattr(obj, name, *defargs)
+  File "/usr/local/lib/python2.7/dist-packages/sphinx/util/inspect.py", line 115, in safe_getattr
+    raise AttributeError(name)
+AttributeError: exportToCellML
+/home/mkoenig/git/tellurium/docs/tellurium_methods.rst:128: WARNING: autodoc: failed to import function u'exportToMatlab' from module u'tellurium'; the following exception was raised:
+Traceback (most recent call last):
+  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 392, in import_object
+    obj = self.get_attr(obj, part)
+  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 288, in get_attr
+    return safe_getattr(obj, name, *defargs)
+  File "/usr/local/lib/python2.7/dist-packages/sphinx/util/inspect.py", line 115, in safe_getattr
+    raise AttributeError(name)
+AttributeError: exportToMatlab
+/home/mkoenig/git/tellurium/docs/tellurium_methods.rst:156: WARNING: autodoc: failed to import function u'getSeed' from module u'tellurium'; the following exception was raised:
+Traceback (most recent call last):
+  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 392, in import_object
+    obj = self.get_attr(obj, part)
+  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 288, in get_attr
+    return safe_getattr(obj, name, *defargs)
+  File "/usr/local/lib/python2.7/dist-packages/sphinx/util/inspect.py", line 115, in safe_getattr
+    raise AttributeError(name)
+AttributeError: getSeed
+/home/mkoenig/git/tellurium/docs/tellurium_methods.rst:157: WARNING: autodoc: failed to import function u'setSeed' from module u'tellurium'; the following exception was raised:
+Traceback (most recent call last):
+  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 392, in import_object
+    obj = self.get_attr(obj, part)
+  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 288, in get_attr
+    return safe_getattr(obj, name, *defargs)
+  File "/usr/local/lib/python2.7/dist-packages/sphinx/util/inspect.py", line 115, in safe_getattr
+    raise AttributeError(name)
+AttributeError: setSeed
+/home/mkoenig/git/tellurium/docs/tellurium_methods.rst:158: WARNING: autodoc: failed to import function u'gillespie' from module u'tellurium'; the following exception was raised:
+Traceback (most recent call last):
+  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 392, in import_object
+    obj = self.get_attr(obj, part)
+  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 288, in get_attr
+    return safe_getattr(obj, name, *defargs)
+  File "/usr/local/lib/python2.7/dist-packages/sphinx/util/inspect.py", line 115, in safe_getattr
+    raise AttributeError(name)
+AttributeError: gillespie
+/home/mkoenig/git/tellurium/docs/tellurium_methods.rst:196: WARNING: autodoc: failed to import function u'plotWithLegend' from module u'tellurium'; the following exception was raised:
+Traceback (most recent call last):
+  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 392, in import_object
+    obj = self.get_attr(obj, part)
+  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 288, in get_attr
+    return safe_getattr(obj, name, *defargs)
+  File "/usr/local/lib/python2.7/dist-packages/sphinx/util/inspect.py", line 115, in safe_getattr
+    raise AttributeError(name)
+AttributeError: plotWithLegend
+/home/mkoenig/git/tellurium/docs/tellurium_methods.rst:197: WARNING: autodoc: failed to import function u'simulateAndPlot' from module u'tellurium'; the following exception was raised:
+Traceback (most recent call last):
+  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 392, in import_object
+    obj = self.get_attr(obj, part)
+  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 288, in get_attr
+    return safe_getattr(obj, name, *defargs)
+  File "/usr/local/lib/python2.7/dist-packages/sphinx/util/inspect.py", line 115, in safe_getattr
+    raise AttributeError(name)
+AttributeError: simulateAndPlot
+/home/mkoenig/git/tellurium/docs/tellurium_methods.rst:199: WARNING: autodoc: failed to import function u'plot' from module u'tellurium'; the following exception was raised:
+Traceback (most recent call last):
+  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 392, in import_object
+    obj = self.get_attr(obj, part)
+  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 288, in get_attr
+    return safe_getattr(obj, name, *defargs)
+  File "/usr/local/lib/python2.7/dist-packages/sphinx/util/inspect.py", line 115, in safe_getattr
+    raise AttributeError(name)
+AttributeError: plot
+/home/mkoenig/git/tellurium/docs/tellurium_methods.rst:223: WARNING: autodoc: failed to import function u'resetToOrigin' from module u'tellurium'; the following exception was raised:
+Traceback (most recent call last):
+  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 392, in import_object
+    obj = self.get_attr(obj, part)
+  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 288, in get_attr
+    return safe_getattr(obj, name, *defargs)
+  File "/usr/local/lib/python2.7/dist-packages/sphinx/util/inspect.py", line 115, in safe_getattr
+    raise AttributeError(name)
+AttributeError: resetToOrigin
+/home/mkoenig/git/tellurium/docs/tellurium_methods.rst:224: WARNING: autodoc: failed to import function u'resetAll' from module u'tellurium'; the following exception was raised:
+Traceback (most recent call last):
+  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 392, in import_object
+    obj = self.get_attr(obj, part)
+  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 288, in get_attr
+    return safe_getattr(obj, name, *defargs)
+  File "/usr/local/lib/python2.7/dist-packages/sphinx/util/inspect.py", line 115, in safe_getattr
+    raise AttributeError(name)
+AttributeError: resetAll
+/home/mkoenig/git/tellurium/docs/tellurium_methods.rst:231: WARNING: autodoc: failed to import function u'getSm' from module u'tellurium'; the following exception was raised:
+Traceback (most recent call last):
+  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 392, in import_object
+    obj = self.get_attr(obj, part)
+  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 288, in get_attr
+    return safe_getattr(obj, name, *defargs)
+  File "/usr/local/lib/python2.7/dist-packages/sphinx/util/inspect.py", line 115, in safe_getattr
+    raise AttributeError(name)
+AttributeError: getSm
+/home/mkoenig/git/tellurium/docs/tellurium_methods.rst:232: WARNING: autodoc: failed to import function u'getRs' from module u'tellurium'; the following exception was raised:
+Traceback (most recent call last):
+  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 392, in import_object
+    obj = self.get_attr(obj, part)
+  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 288, in get_attr
+    return safe_getattr(obj, name, *defargs)
+  File "/usr/local/lib/python2.7/dist-packages/sphinx/util/inspect.py", line 115, in safe_getattr
+    raise AttributeError(name)
+AttributeError: getRs
+/home/mkoenig/git/tellurium/docs/tellurium_methods.rst:233: WARNING: autodoc: failed to import function u'getFs' from module u'tellurium'; the following exception was raised:
+Traceback (most recent call last):
+  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 392, in import_object
+    obj = self.get_attr(obj, part)
+  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 288, in get_attr
+    return safe_getattr(obj, name, *defargs)
+  File "/usr/local/lib/python2.7/dist-packages/sphinx/util/inspect.py", line 115, in safe_getattr
+    raise AttributeError(name)
+AttributeError: getFs
+/home/mkoenig/git/tellurium/docs/tellurium_methods.rst:234: WARNING: autodoc: failed to import function u'getBs' from module u'tellurium'; the following exception was raised:
+Traceback (most recent call last):
+  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 392, in import_object
+    obj = self.get_attr(obj, part)
+  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 288, in get_attr
+    return safe_getattr(obj, name, *defargs)
+  File "/usr/local/lib/python2.7/dist-packages/sphinx/util/inspect.py", line 115, in safe_getattr
+    raise AttributeError(name)
+AttributeError: getBs
+/home/mkoenig/git/tellurium/docs/tellurium_methods.rst:235: WARNING: autodoc: failed to import function u'getPs' from module u'tellurium'; the following exception was raised:
+Traceback (most recent call last):
+  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 392, in import_object
+    obj = self.get_attr(obj, part)
+  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 288, in get_attr
+    return safe_getattr(obj, name, *defargs)
+  File "/usr/local/lib/python2.7/dist-packages/sphinx/util/inspect.py", line 115, in safe_getattr
+    raise AttributeError(name)
+AttributeError: getPs
+/home/mkoenig/git/tellurium/docs/tellurium_methods.rst:236: WARNING: autodoc: failed to import function u'getVs' from module u'tellurium'; the following exception was raised:
+Traceback (most recent call last):
+  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 392, in import_object
+    obj = self.get_attr(obj, part)
+  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 288, in get_attr
+    return safe_getattr(obj, name, *defargs)
+  File "/usr/local/lib/python2.7/dist-packages/sphinx/util/inspect.py", line 115, in safe_getattr
+    raise AttributeError(name)
+AttributeError: getVs
+/home/mkoenig/git/tellurium/docs/tellurium_methods.rst:237: WARNING: autodoc: failed to import function u'getDv' from module u'tellurium'; the following exception was raised:
+Traceback (most recent call last):
+  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 392, in import_object
+    obj = self.get_attr(obj, part)
+  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 288, in get_attr
+    return safe_getattr(obj, name, *defargs)
+  File "/usr/local/lib/python2.7/dist-packages/sphinx/util/inspect.py", line 115, in safe_getattr
+    raise AttributeError(name)
+AttributeError: getDv
+/home/mkoenig/git/tellurium/docs/tellurium_methods.rst:238: WARNING: autodoc: failed to import function u'getRv' from module u'tellurium'; the following exception was raised:
+Traceback (most recent call last):
+  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 392, in import_object
+    obj = self.get_attr(obj, part)
+  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 288, in get_attr
+    return safe_getattr(obj, name, *defargs)
+  File "/usr/local/lib/python2.7/dist-packages/sphinx/util/inspect.py", line 115, in safe_getattr
+    raise AttributeError(name)
+AttributeError: getRv
+/home/mkoenig/git/tellurium/docs/tellurium_methods.rst:239: WARNING: autodoc: failed to import function u'getSv' from module u'tellurium'; the following exception was raised:
+Traceback (most recent call last):
+  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 392, in import_object
+    obj = self.get_attr(obj, part)
+  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 288, in get_attr
+    return safe_getattr(obj, name, *defargs)
+  File "/usr/local/lib/python2.7/dist-packages/sphinx/util/inspect.py", line 115, in safe_getattr
+    raise AttributeError(name)
+AttributeError: getSv
+/home/mkoenig/git/tellurium/docs/tellurium_methods.rst:240: WARNING: autodoc: failed to import function u'getfJac' from module u'tellurium'; the following exception was raised:
+Traceback (most recent call last):
+  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 392, in import_object
+    obj = self.get_attr(obj, part)
+  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 288, in get_attr
+    return safe_getattr(obj, name, *defargs)
+  File "/usr/local/lib/python2.7/dist-packages/sphinx/util/inspect.py", line 115, in safe_getattr
+    raise AttributeError(name)
+AttributeError: getfJac
+/home/mkoenig/git/tellurium/docs/tellurium_methods.rst:282: WARNING: autodoc: failed to import function u'getRatesOfChange' from module u'tellurium.tellurium'; the following exception was raised:
+Traceback (most recent call last):
+  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 392, in import_object
+    obj = self.get_attr(obj, part)
+  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 288, in get_attr
+    return safe_getattr(obj, name, *defargs)
+  File "/usr/local/lib/python2.7/dist-packages/sphinx/util/inspect.py", line 115, in safe_getattr
+    raise AttributeError(name)
+AttributeError: getRatesOfChange
+/home/mkoenig/git/tellurium/docs/tellurium_methods.rst:283: WARNING: autodoc: failed to import function u'getBoundarySpeciesConcentrations' from module u'tellurium'; the following exception was raised:
+Traceback (most recent call last):
+  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 392, in import_object
+    obj = self.get_attr(obj, part)
+  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 288, in get_attr
+    return safe_getattr(obj, name, *defargs)
+  File "/usr/local/lib/python2.7/dist-packages/sphinx/util/inspect.py", line 115, in safe_getattr
+    raise AttributeError(name)
+AttributeError: getBoundarySpeciesConcentrations
+/home/mkoenig/git/tellurium/docs/tellurium_methods.rst:284: WARNING: autodoc: failed to import function u'getBoundarySpeciesIds' from module u'tellurium'; the following exception was raised:
+Traceback (most recent call last):
+  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 392, in import_object
+    obj = self.get_attr(obj, part)
+  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 288, in get_attr
+    return safe_getattr(obj, name, *defargs)
+  File "/usr/local/lib/python2.7/dist-packages/sphinx/util/inspect.py", line 115, in safe_getattr
+    raise AttributeError(name)
+AttributeError: getBoundarySpeciesIds
+/home/mkoenig/git/tellurium/docs/tellurium_methods.rst:285: WARNING: autodoc: failed to import function u'getNumBoundarySpecies' from module u'tellurium'; the following exception was raised:
+Traceback (most recent call last):
+  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 392, in import_object
+    obj = self.get_attr(obj, part)
+  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 288, in get_attr
+    return safe_getattr(obj, name, *defargs)
+  File "/usr/local/lib/python2.7/dist-packages/sphinx/util/inspect.py", line 115, in safe_getattr
+    raise AttributeError(name)
+AttributeError: getNumBoundarySpecies
+/home/mkoenig/git/tellurium/docs/tellurium_methods.rst:286: WARNING: autodoc: failed to import function u'getFloatingSpeciesConcentrations' from module u'tellurium'; the following exception was raised:
+Traceback (most recent call last):
+  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 392, in import_object
+    obj = self.get_attr(obj, part)
+  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 288, in get_attr
+    return safe_getattr(obj, name, *defargs)
+  File "/usr/local/lib/python2.7/dist-packages/sphinx/util/inspect.py", line 115, in safe_getattr
+    raise AttributeError(name)
+AttributeError: getFloatingSpeciesConcentrations
+/home/mkoenig/git/tellurium/docs/tellurium_methods.rst:287: WARNING: autodoc: failed to import function u'getFloatingSpeciesIds' from module u'tellurium'; the following exception was raised:
+Traceback (most recent call last):
+  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 392, in import_object
+    obj = self.get_attr(obj, part)
+  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 288, in get_attr
+    return safe_getattr(obj, name, *defargs)
+  File "/usr/local/lib/python2.7/dist-packages/sphinx/util/inspect.py", line 115, in safe_getattr
+    raise AttributeError(name)
+AttributeError: getFloatingSpeciesIds
+/home/mkoenig/git/tellurium/docs/tellurium_methods.rst:288: WARNING: autodoc: failed to import function u'getNumFloatingSpecies' from module u'tellurium'; the following exception was raised:
+Traceback (most recent call last):
+  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 392, in import_object
+    obj = self.get_attr(obj, part)
+  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 288, in get_attr
+    return safe_getattr(obj, name, *defargs)
+  File "/usr/local/lib/python2.7/dist-packages/sphinx/util/inspect.py", line 115, in safe_getattr
+    raise AttributeError(name)
+AttributeError: getNumFloatingSpecies
+/home/mkoenig/git/tellurium/docs/tellurium_methods.rst:289: WARNING: autodoc: failed to import function u'getGlobalParameterIds' from module u'tellurium'; the following exception was raised:
+Traceback (most recent call last):
+  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 392, in import_object
+    obj = self.get_attr(obj, part)
+  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 288, in get_attr
+    return safe_getattr(obj, name, *defargs)
+  File "/usr/local/lib/python2.7/dist-packages/sphinx/util/inspect.py", line 115, in safe_getattr
+    raise AttributeError(name)
+AttributeError: getGlobalParameterIds
+/home/mkoenig/git/tellurium/docs/tellurium_methods.rst:290: WARNING: autodoc: failed to import function u'getGlobalParameterValues' from module u'tellurium'; the following exception was raised:
+Traceback (most recent call last):
+  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 392, in import_object
+    obj = self.get_attr(obj, part)
+  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 288, in get_attr
+    return safe_getattr(obj, name, *defargs)
+  File "/usr/local/lib/python2.7/dist-packages/sphinx/util/inspect.py", line 115, in safe_getattr
+    raise AttributeError(name)
+AttributeError: getGlobalParameterValues
+/home/mkoenig/git/tellurium/docs/tellurium_methods.rst:291: WARNING: autodoc: failed to import function u'getNumGlobalParameters' from module u'tellurium'; the following exception was raised:
+Traceback (most recent call last):
+  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 392, in import_object
+    obj = self.get_attr(obj, part)
+  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 288, in get_attr
+    return safe_getattr(obj, name, *defargs)
+  File "/usr/local/lib/python2.7/dist-packages/sphinx/util/inspect.py", line 115, in safe_getattr
+    raise AttributeError(name)
+AttributeError: getNumGlobalParameters
+/home/mkoenig/git/tellurium/docs/tellurium_methods.rst:292: WARNING: autodoc: failed to import function u'getCompartmentIds' from module u'tellurium'; the following exception was raised:
+Traceback (most recent call last):
+  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 392, in import_object
+    obj = self.get_attr(obj, part)
+  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 288, in get_attr
+    return safe_getattr(obj, name, *defargs)
+  File "/usr/local/lib/python2.7/dist-packages/sphinx/util/inspect.py", line 115, in safe_getattr
+    raise AttributeError(name)
+AttributeError: getCompartmentIds
+/home/mkoenig/git/tellurium/docs/tellurium_methods.rst:293: WARNING: autodoc: failed to import function u'getCompartmentVolumes' from module u'tellurium'; the following exception was raised:
+Traceback (most recent call last):
+  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 392, in import_object
+    obj = self.get_attr(obj, part)
+  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 288, in get_attr
+    return safe_getattr(obj, name, *defargs)
+  File "/usr/local/lib/python2.7/dist-packages/sphinx/util/inspect.py", line 115, in safe_getattr
+    raise AttributeError(name)
+AttributeError: getCompartmentVolumes
+/home/mkoenig/git/tellurium/docs/tellurium_methods.rst:294: WARNING: autodoc: failed to import function u'getNumCompartments' from module u'tellurium'; the following exception was raised:
+Traceback (most recent call last):
+  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 392, in import_object
+    obj = self.get_attr(obj, part)
+  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 288, in get_attr
+    return safe_getattr(obj, name, *defargs)
+  File "/usr/local/lib/python2.7/dist-packages/sphinx/util/inspect.py", line 115, in safe_getattr
+    raise AttributeError(name)
+AttributeError: getNumCompartments
+/home/mkoenig/git/tellurium/docs/tellurium_methods.rst:295: WARNING: autodoc: failed to import function u'getConservedMoietyValues' from module u'tellurium'; the following exception was raised:
+Traceback (most recent call last):
+  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 392, in import_object
+    obj = self.get_attr(obj, part)
+  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 288, in get_attr
+    return safe_getattr(obj, name, *defargs)
+  File "/usr/local/lib/python2.7/dist-packages/sphinx/util/inspect.py", line 115, in safe_getattr
+    raise AttributeError(name)
+AttributeError: getConservedMoietyValues
+/home/mkoenig/git/tellurium/docs/tellurium_methods.rst:296: WARNING: autodoc: failed to import function u'getNumConservedMoieties' from module u'tellurium'; the following exception was raised:
+Traceback (most recent call last):
+  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 392, in import_object
+    obj = self.get_attr(obj, part)
+  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 288, in get_attr
+    return safe_getattr(obj, name, *defargs)
+  File "/usr/local/lib/python2.7/dist-packages/sphinx/util/inspect.py", line 115, in safe_getattr
+    raise AttributeError(name)
+AttributeError: getNumConservedMoieties
+/home/mkoenig/git/tellurium/docs/tellurium_methods.rst:297: WARNING: autodoc: failed to import function u'getNumDepFloatingSpecies' from module u'tellurium'; the following exception was raised:
+Traceback (most recent call last):
+  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 392, in import_object
+    obj = self.get_attr(obj, part)
+  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 288, in get_attr
+    return safe_getattr(obj, name, *defargs)
+  File "/usr/local/lib/python2.7/dist-packages/sphinx/util/inspect.py", line 115, in safe_getattr
+    raise AttributeError(name)
+AttributeError: getNumDepFloatingSpecies
+/home/mkoenig/git/tellurium/docs/tellurium_methods.rst:298: WARNING: autodoc: failed to import function u'getNumIndFloatingSpecies' from module u'tellurium'; the following exception was raised:
+Traceback (most recent call last):
+  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 392, in import_object
+    obj = self.get_attr(obj, part)
+  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 288, in get_attr
+    return safe_getattr(obj, name, *defargs)
+  File "/usr/local/lib/python2.7/dist-packages/sphinx/util/inspect.py", line 115, in safe_getattr
+    raise AttributeError(name)
+AttributeError: getNumIndFloatingSpecies
+/home/mkoenig/git/tellurium/docs/tellurium_methods.rst:299: WARNING: autodoc: failed to import function u'getNumReactions' from module u'tellurium'; the following exception was raised:
+Traceback (most recent call last):
+  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 392, in import_object
+    obj = self.get_attr(obj, part)
+  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 288, in get_attr
+    return safe_getattr(obj, name, *defargs)
+  File "/usr/local/lib/python2.7/dist-packages/sphinx/util/inspect.py", line 115, in safe_getattr
+    raise AttributeError(name)
+AttributeError: getNumReactions
+/home/mkoenig/git/tellurium/docs/tellurium_methods.rst:300: WARNING: autodoc: failed to import function u'getReactionIds' from module u'tellurium'; the following exception was raised:
+Traceback (most recent call last):
+  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 392, in import_object
+    obj = self.get_attr(obj, part)
+  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 288, in get_attr
+    return safe_getattr(obj, name, *defargs)
+  File "/usr/local/lib/python2.7/dist-packages/sphinx/util/inspect.py", line 115, in safe_getattr
+    raise AttributeError(name)
+AttributeError: getReactionIds
+/home/mkoenig/git/tellurium/docs/tellurium_methods.rst:301: WARNING: autodoc: failed to import function u'getReactionRates' from module u'tellurium'; the following exception was raised:
+Traceback (most recent call last):
+  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 392, in import_object
+    obj = self.get_attr(obj, part)
+  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 288, in get_attr
+    return safe_getattr(obj, name, *defargs)
+  File "/usr/local/lib/python2.7/dist-packages/sphinx/util/inspect.py", line 115, in safe_getattr
+    raise AttributeError(name)
+AttributeError: getReactionRates
+/home/mkoenig/git/tellurium/docs/tellurium_methods.rst:302: WARNING: autodoc: failed to import function u'getNumEvents' from module u'tellurium'; the following exception was raised:
+Traceback (most recent call last):
+  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 392, in import_object
+    obj = self.get_attr(obj, part)
+  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 288, in get_attr
+    return safe_getattr(obj, name, *defargs)
+  File "/usr/local/lib/python2.7/dist-packages/sphinx/util/inspect.py", line 115, in safe_getattr
+    raise AttributeError(name)
+AttributeError: getNumEvents
+/home/mkoenig/git/tellurium/docs/tellurium_methods.rst:303: WARNING: autodoc: failed to import function u'setStartTime' from module u'tellurium'; the following exception was raised:
+Traceback (most recent call last):
+  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 392, in import_object
+    obj = self.get_attr(obj, part)
+  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 288, in get_attr
+    return safe_getattr(obj, name, *defargs)
+  File "/usr/local/lib/python2.7/dist-packages/sphinx/util/inspect.py", line 115, in safe_getattr
+    raise AttributeError(name)
+AttributeError: setStartTime
+/home/mkoenig/git/tellurium/docs/tellurium_methods.rst:304: WARNING: autodoc: failed to import function u'setEndTime' from module u'tellurium'; the following exception was raised:
+Traceback (most recent call last):
+  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 392, in import_object
+    obj = self.get_attr(obj, part)
+  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 288, in get_attr
+    return safe_getattr(obj, name, *defargs)
+  File "/usr/local/lib/python2.7/dist-packages/sphinx/util/inspect.py", line 115, in safe_getattr
+    raise AttributeError(name)
+AttributeError: setEndTime
+/home/mkoenig/git/tellurium/docs/tellurium_methods.rst:305: WARNING: autodoc: failed to import function u'getStartTime' from module u'tellurium'; the following exception was raised:
+Traceback (most recent call last):
+  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 392, in import_object
+    obj = self.get_attr(obj, part)
+  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 288, in get_attr
+    return safe_getattr(obj, name, *defargs)
+  File "/usr/local/lib/python2.7/dist-packages/sphinx/util/inspect.py", line 115, in safe_getattr
+    raise AttributeError(name)
+AttributeError: getStartTime
+/home/mkoenig/git/tellurium/docs/tellurium_methods.rst:306: WARNING: autodoc: failed to import function u'getEndTime' from module u'tellurium'; the following exception was raised:
+Traceback (most recent call last):
+  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 392, in import_object
+    obj = self.get_attr(obj, part)
+  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 288, in get_attr
+    return safe_getattr(obj, name, *defargs)
+  File "/usr/local/lib/python2.7/dist-packages/sphinx/util/inspect.py", line 115, in safe_getattr
+    raise AttributeError(name)
+AttributeError: getEndTime
+/home/mkoenig/git/tellurium/docs/tellurium_methods.rst:307: WARNING: autodoc: failed to import function u'getNumberOfPoints' from module u'tellurium'; the following exception was raised:
+Traceback (most recent call last):
+  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 392, in import_object
+    obj = self.get_attr(obj, part)
+  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 288, in get_attr
+    return safe_getattr(obj, name, *defargs)
+  File "/usr/local/lib/python2.7/dist-packages/sphinx/util/inspect.py", line 115, in safe_getattr
+    raise AttributeError(name)
+AttributeError: getNumberOfPoints
+/home/mkoenig/git/tellurium/docs/tellurium_methods.rst:308: WARNING: autodoc: failed to import function u'setNumberOfPoints' from module u'tellurium'; the following exception was raised:
+Traceback (most recent call last):
+  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 392, in import_object
+    obj = self.get_attr(obj, part)
+  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 288, in get_attr
+    return safe_getattr(obj, name, *defargs)
+  File "/usr/local/lib/python2.7/dist-packages/sphinx/util/inspect.py", line 115, in safe_getattr
+    raise AttributeError(name)
+AttributeError: setNumberOfPoints
+/home/mkoenig/git/tellurium/docs/tellurium_methods.rst:309: WARNING: autodoc: failed to import function u'getNumRateRules' from module u'tellurium'; the following exception was raised:
+Traceback (most recent call last):
+  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 392, in import_object
+    obj = self.get_attr(obj, part)
+  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 288, in get_attr
+    return safe_getattr(obj, name, *defargs)
+  File "/usr/local/lib/python2.7/dist-packages/sphinx/util/inspect.py", line 115, in safe_getattr
+    raise AttributeError(name)
+AttributeError: getNumRateRules
 looking for now-outdated files... none found
 pickling environment... done
 checking consistency... /home/mkoenig/git/tellurium/docs/API.rst:: WARNING: document isn't included in any toctree
 /home/mkoenig/git/tellurium/docs/_apidoc/modules.rst:: WARNING: document isn't included in any toctree
+/home/mkoenig/git/tellurium/docs/_notebooks/core/antimonyExample.rst:: WARNING: document isn't included in any toctree
 /home/mkoenig/git/tellurium/docs/_notebooks/core/computeSteadyState.rst:: WARNING: document isn't included in any toctree
 /home/mkoenig/git/tellurium/docs/_notebooks/core/consecutiveUniUniReactions.rst:: WARNING: document isn't included in any toctree
 /home/mkoenig/git/tellurium/docs/_notebooks/core/feedback_oscillations.rst:: WARNING: document isn't included in any toctree
@@ -178,77 +673,78 @@ checking consistency... /home/mkoenig/git/tellurium/docs/API.rst:: WARNING: docu
 /home/mkoenig/git/tellurium/docs/_notebooks/core/introduction.rst:: WARNING: document isn't included in any toctree
 /home/mkoenig/git/tellurium/docs/_notebooks/core/nonUnitStoichiometries.rst:: WARNING: document isn't included in any toctree
 /home/mkoenig/git/tellurium/docs/_notebooks/core/parameter_scan.rst:: WARNING: document isn't included in any toctree
-/home/mkoenig/git/tellurium/docs/_notebooks/core/phrasedml.rst:: WARNING: document isn't included in any toctree
+/home/mkoenig/git/tellurium/docs/_notebooks/core/phrasedmlExample.rst:: WARNING: document isn't included in any toctree
 /home/mkoenig/git/tellurium/docs/_notebooks/core/steadystate_scan.rst:: WARNING: document isn't included in any toctree
 /home/mkoenig/git/tellurium/docs/_notebooks/core/template.rst:: WARNING: document isn't included in any toctree
-/home/mkoenig/git/tellurium/docs/_notebooks/core/tesedml.rst:: WARNING: document isn't included in any toctree
+/home/mkoenig/git/tellurium/docs/_notebooks/core/tesedmlExample.rst:: WARNING: document isn't included in any toctree
 done
 preparing documents... done
 writing output... [  3%] _apidoc/modules
 writing output... [  7%] _apidoc/tellurium
 writing output... [ 11%] _apidoc/tellurium.Export
-writing output... [ 15%] _apidoc/tellurium.ParameterScan
-writing output... [ 19%] _apidoc/tellurium.analysis
-writing output... [ 23%] _apidoc/tellurium.notebooktools
-writing output... [ 26%] _apidoc/tellurium.optimization
-writing output... [ 30%] _apidoc/tellurium.tests
-writing output... [ 34%] _apidoc/tellurium.tests.testdata
-writing output... [ 38%] _apidoc/tellurium.visualization
-writing output... [ 42%] _apidoc/tellurium.widgets
-writing output... [ 46%] _notebooks/core/computeSteadyState
-writing output... [ 50%] _notebooks/core/consecutiveUniUniReactions
-writing output... [ 53%] _notebooks/core/feedback_oscillations
-writing output... [ 57%] _notebooks/core/generatingDifferentWaveforms
-writing output... [ 61%] _notebooks/core/introduction
-writing output... [ 65%] _notebooks/core/nonUnitStoichiometries
-writing output... [ 69%] _notebooks/core/parameter_scan
-writing output... [ 73%] _notebooks/core/phrasedml
-writing output... [ 76%] _notebooks/core/steadystate_scan
-writing output... [ 80%] _notebooks/core/template
-writing output... [ 84%] _notebooks/core/tesedml
+writing output... [ 14%] _apidoc/tellurium.ParameterScan
+writing output... [ 18%] _apidoc/tellurium.analysis
+writing output... [ 22%] _apidoc/tellurium.notebooktools
+writing output... [ 25%] _apidoc/tellurium.optimization
+writing output... [ 29%] _apidoc/tellurium.tests
+writing output... [ 33%] _apidoc/tellurium.tests.testdata
+writing output... [ 37%] _apidoc/tellurium.visualization
+writing output... [ 40%] _apidoc/tellurium.widgets
+writing output... [ 44%] _notebooks/core/antimonyExample
+writing output... [ 48%] _notebooks/core/computeSteadyState
+writing output... [ 51%] _notebooks/core/consecutiveUniUniReactions
+writing output... [ 55%] _notebooks/core/feedback_oscillations
+writing output... [ 59%] _notebooks/core/generatingDifferentWaveforms
+writing output... [ 62%] _notebooks/core/introduction
+writing output... [ 66%] _notebooks/core/nonUnitStoichiometries
+writing output... [ 70%] _notebooks/core/parameter_scan
+writing output... [ 74%] _notebooks/core/phrasedmlExample
+writing output... [ 77%] _notebooks/core/steadystate_scan
+writing output... [ 81%] _notebooks/core/template
+writing output... [ 85%] _notebooks/core/tesedmlExample
 writing output... [ 88%] index
 writing output... [ 92%] introduction
 writing output... [ 96%] notebooks
 writing output... [100%] tellurium_methods
 
 generating indices... genindex py-modindex
-highlighting module code... [  4%] tellurium.tephrasedml
-highlighting module code... [  9%] tellurium.tecombine
-highlighting module code... [ 14%] tellurium.Export.Export
-highlighting module code... [ 19%] tellurium.notebooktools.notebooktools
-highlighting module code... [ 23%] tellurium.widgets.ontology_search
-highlighting module code... [ 28%] tellurium.tellurium
-highlighting module code... [ 33%] tellurium.optimization.DiffEvolution
-highlighting module code... [ 38%] tellurium.analysis.match
-highlighting module code... [ 42%] tellurium.tests.test_tephrasedml
-highlighting module code... [ 47%] tellurium.widgets.parameter_slider
-highlighting module code... [ 52%] tellurium.tests.test_sedml
-highlighting module code... [ 57%] tellurium.SedmlToRr
-highlighting module code... [ 61%] tellurium.visualization.SBMLDiagram
-highlighting module code... [ 66%] tellurium.tests.test_tellurium
-highlighting module code... [ 71%] tellurium.tests.test_Export
-highlighting module code... [ 76%] tellurium.analysis.parameters
-highlighting module code... [ 80%] tellurium.tesedml
-highlighting module code... [ 85%] tellurium.widgets.species_search
+highlighting module code... [  4%] tellurium.tecombine
+highlighting module code... [  9%] tellurium.Export.Export
+highlighting module code... [ 13%] tellurium.notebooktools.notebooktools
+highlighting module code... [ 18%] tellurium.tellurium
+highlighting module code... [ 22%] tellurium.analysis.parameters
+highlighting module code... [ 27%] tellurium.SedmlToRr
+highlighting module code... [ 31%] tellurium.tests.test_examples
+highlighting module code... [ 36%] tellurium.tests.test_tellurium
+highlighting module code... [ 40%] tellurium.ParameterScan.ParameterScan
+highlighting module code... [ 45%] tellurium.tephrasedml
+highlighting module code... [ 50%] tellurium.analysis.match
+highlighting module code... [ 54%] tellurium.tests.test_sedml
+highlighting module code... [ 59%] tellurium.widgets.species_search
+highlighting module code... [ 63%] tellurium.tests.test_tephrasedml
+highlighting module code... [ 68%] tellurium.tesedml
+highlighting module code... [ 72%] tellurium.widgets.ontology_search
+highlighting module code... [ 77%] tellurium.optimization.DiffEvolution
+highlighting module code... [ 81%] tellurium.visualization.SBMLDiagram
+highlighting module code... [ 86%] tellurium.tests.test_Export
 highlighting module code... [ 90%] tellurium.unzipy
-highlighting module code... [ 95%] tellurium.ParameterScan.ParameterScan
+highlighting module code... [ 95%] tellurium.widgets.parameter_slider
 highlighting module code... [100%] tellurium.tests.test_runner
 
 writing additional pages... search
-copying images... [ 10%] _notebooks/core/parameter_scan_files/parameter_scan_2_0.png
-copying images... [ 20%] _notebooks/core/consecutiveUniUniReactions_files/consecutiveUniUniReactions_2_0.png
-copying images... [ 30%] _notebooks/core/generatingDifferentWaveforms_files/generatingDifferentWaveforms_2_0.png
-copying images... [ 40%] _notebooks/core/parameter_scan_files/parameter_scan_3_0.png
-copying images... [ 50%] _notebooks/core/introduction_files/introduction_2_0.png
-copying images... [ 60%] ./images/tellurium_screenshot2.png
-copying images... [ 70%] _notebooks/core/feedback_oscillations_files/feedback_oscillations_2_0.png
-copying images... [ 80%] _notebooks/core/introduction_files/introduction_4_0.png
-copying images... [ 90%] _notebooks/core/phrasedml_files/phrasedml_2_0.png
+copying images... [ 11%] _notebooks/core/parameter_scan_files/parameter_scan_2_0.png
+copying images... [ 22%] _notebooks/core/consecutiveUniUniReactions_files/consecutiveUniUniReactions_2_0.png
+copying images... [ 33%] _notebooks/core/generatingDifferentWaveforms_files/generatingDifferentWaveforms_2_0.png
+copying images... [ 44%] _notebooks/core/parameter_scan_files/parameter_scan_3_0.png
+copying images... [ 55%] _notebooks/core/introduction_files/introduction_2_0.png
+copying images... [ 66%] ./images/tellurium_screenshot2.png
+copying images... [ 77%] _notebooks/core/feedback_oscillations_files/feedback_oscillations_2_0.png
+copying images... [ 88%] _notebooks/core/introduction_files/introduction_4_0.png
 copying images... [100%] _notebooks/core/steadystate_scan_files/steadystate_scan_2_1.png
 
 copying static files... done
 copying extra files... done
 dumping search index in English (code: en) ... done
 dumping object inventory... done
-build succeeded, 31 warnings.
+build succeeded, 89 warnings.
 DONE
