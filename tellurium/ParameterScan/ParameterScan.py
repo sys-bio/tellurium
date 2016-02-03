@@ -95,6 +95,7 @@ class ParameterScan (object):
         results for a plotting function.
         Not intended to be called by user.
         """
+        self.rr.setIntegrator(self.integrator)
         mdl = self.rr.model
         if self.value is None:
             self.value = mdl.getFloatingSpeciesIds()[0]
@@ -126,7 +127,6 @@ class ParameterScan (object):
         self.selection = ['time'] + self.selection            
         polyNumber = float(self.polyNumber)
         mdl[self.value] = self.startValue
-        self.rr.setIntegrator(self.integrator)
         m = self.rr.simulate(self.startTime, self.endTime, self.numberOfPoints, self.selection)
         interval = ((self.endValue - self.startValue) / (polyNumber - 1))
         start = self.startValue
@@ -156,7 +156,7 @@ class ParameterScan (object):
                         lbl = "{0}, {1} = {2}".format(species, self.value, round((self.startValue + (interval * i)), 2))
                     else:
                         lbl = "{0} = {1}".format(self.value, round((self.startValue + (interval * i)), 2))
-                    plt.plot(result[:,0], result[:,numSp*i+count], linewidth=self.width, color='b', label = lbl)
+                    plt.plot(result[:,0], result[:, numSp*i+count], linewidth=self.width, color='b', label = lbl)
                 count += 1
                     
         elif self.color is None:
@@ -306,22 +306,22 @@ class ParameterScan (object):
             X, Y = np.meshgrid(X, Y)
             self.rr.reset()
             self.rr.model[self.independent[1]] = self.startValue
-            Z = self.rr.simulate(self.startTime, self.endTime, (self.numberOfPoints),
-                                 [self.dependent], integrator = self.integrator)
+
+            Z = self.rr.simulate(self.startTime, self.endTime, self.numberOfPoints, [self.dependent])
             Z = Z.T
+
             for i in range(self.numberOfPoints - 1):
                 self.rr.reset()
                 self.rr.model[self.independent[1]] = self.startValue + ((i + 1) * interval)
-                Z1 = self.rr.simulate(self.startTime, self.endTime, (self.numberOfPoints),
-                                     [self.dependent], integrator = self.integrator)
+                Z1 = self.rr.simulate(self.startTime, self.endTime, self.numberOfPoints, [self.dependent])
                 Z1 = Z1.T
-                Z = np.concatenate ((Z, Z1))
+                Z = np.concatenate((Z, Z1))
     
             if self.antialias is False:
-                surf = ax.plot_surface(X, Y, Z, rstride=1, cstride=1, cmap = self.colormap,
-                                       antialiased = False, linewidth=0)
+                surf = ax.plot_surface(X, Y, Z, rstride=1, cstride=1, cmap=self.colormap,
+                                       antialiased=False, linewidth=0)
             else:
-                surf = ax.plot_surface(X, Y, Z, rstride=1, cstride=1, cmap = self.colormap,
+                surf = ax.plot_surface(X, Y, Z, rstride=1, cstride=1, cmap=self.colormap,
                                        linewidth=0)
     
             ax.yaxis.set_major_locator(LinearLocator((6)))
@@ -366,13 +366,13 @@ class ParameterScan (object):
         if self.color is None:
             self.color = ['b', 'g', 'r', 'k']
 
+        self.rr.setIntegrator(self.integrator)
         for i, k1 in enumerate(param1Range):
             for j, k2 in enumerate(param2Range):
                 self.rr.reset()
                 mdl[param1], mdl[param2] = k1, k2
                 if self.selection is None:
-                    result = self.rr.simulate(self.startTime, self.endTime, self.numberOfPoints,
-                                                integrator = self.integrator) 
+                    result = self.rr.simulate(self.startTime, self.endTime, self.numberOfPoints)
                 else:
                     if 'time' not in [item.lower() for item in self.selection]:
                         self.selection = ['time'] + self.selection                    
@@ -380,8 +380,7 @@ class ParameterScan (object):
                         if item not in mdl.getFloatingSpeciesIds() and item not in mdl.getBoundarySpeciesIds():
                             if item.lower() != 'time':
                                 raise ValueError('"{0}" is not a valid species in loaded model'.format(item))
-                    result = self.rr.simulate(self.startTime, self.endTime, self.numberOfPoints,
-                                                  self.selection, integrator = self.integrator)
+                    result = self.rr.simulate(self.startTime, self.endTime, self.numberOfPoints, self.selection)
                 columns = result.shape[1]
                 legendItems = self.rr.timeCourseSelections[1:]
                 if columns-1 != len(legendItems):
@@ -390,8 +389,8 @@ class ParameterScan (object):
                     axarr[i, j].plot(
                         result[:, 0],
                         result[:, c+1],
-                        linewidth = self.width,
-                        label = legendItems[c])
+                        linewidth=self.width,
+                        label=legendItems[c])
                 if (self.legend):
                     plt.legend(loc= 3, bbox_to_anchor=(0.5, 0.5))
 
@@ -518,9 +517,9 @@ class SteadyStateScan (object):
         result = self.steadyStateSim()
         print(result)
         if self.color is None:
-            plt.plot(result[:,0], result[:,1:], linewidth = self.width)
+            plt.plot(result[:, 0], result[:, 1:], linewidth=self.width)
         else:
             if len(self.color) != result.shape[1]:
                 self.color = self.colorCycle()
             for i in range(result.shape[1] - 1):
-                plt.plot(result[:,0], result[:,i], color = self.color[i], linewidth = self.width)
+                plt.plot(result[:, 0], result[:, i], color=self.color[i], linewidth=self.width)

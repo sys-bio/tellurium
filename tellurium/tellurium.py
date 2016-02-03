@@ -756,12 +756,8 @@ class ExtendedRoadRunner(roadrunner.RoadRunner):
         if self.integrator is None:
             raise ValueError("model is not loaded")
 
-        if kwargs is not None:
-            kwargs['integrator'] = 'gillespie'
-        else:
-            kwargs = {'integrator': 'gillespie'}
-
         prev = self.integrator.getName()
+        self.setIntegrator('gillespie')
         result = self.simulate(*args, **kwargs)
         self.setIntegrator(prev)
 

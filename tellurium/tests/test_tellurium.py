@@ -319,14 +319,14 @@ class TelluriumTestCase(unittest.TestCase):
         ''')
 
         # Simulate from time zero to 40 time units
-        result = r.gillespie(0, 40)
+        result = r.gillespie(0, 40, 11)
 
         # Simulate on a grid with 10 points from start 0 to end time 40
         result = r.gillespie(0, 40, 10)
 
         # Simulate from time zero to 40 time units using the given selection list
         # This means that the first column will be time and the second column species S1
-        result = r.gillespie(0, 40, ['time', 'S1'])
+        result = r.gillespie(0, 40, 11, ['time', 'S1'])
 
         # Simulate from time zero to 40 time units, on a grid with 20 points
         # using the give selection list
