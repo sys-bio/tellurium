@@ -213,30 +213,37 @@ class TelluriumTestCase(unittest.TestCase):
     # ---------------------------------------------------------------------
     def test_simulateOptions_steps(self):
         r = te.loada(self.ant_str)
-        r.setSteps(200)
-        steps = r.getSteps()
-        self.assertEqual(200, steps)
+        self.assertRaises(DeprecationWarning, r.setSteps, 200)
+        self.assertRaises(DeprecationWarning, r.getSteps)
+        # r.setSteps(200)
+        # steps = r.getSteps()
+        # self.assertEqual(200, steps)
 
     def test_simulateOptions_numberOfPoints(self):
         r = te.loada(self.ant_str)
-        r.setNumberOfPoints(500)
-        steps = r.getSteps()
-        numberOfPoints = r.getNumberOfPoints()
-        self.assertEqual(500, numberOfPoints)
-        self.assertEqual(499, steps)
+        self.assertRaises(DeprecationWarning, r.setNumberOfPoints, 500)
+        self.assertRaises(DeprecationWarning, r.getNumberOfPoints)
+        # r.setNumberOfPoints(500)
+        # steps = r.getSteps()
+        # numberOfPoints = r.getNumberOfPoints()
+        # self.assertEqual(500, numberOfPoints)
+        # self.assertEqual(499, steps)
 
     def test_simulateOptions_startTime(self):
         r = te.loada(self.ant_str)
-        r.setStartTime(13.5)
-        start = r.getStartTime()
-        self.assertAlmostEqual(13.5, start)
+        self.assertRaises(DeprecationWarning, r.setStartTime, 13.5)
+        self.assertRaises(DeprecationWarning, r.getStartTime)
+        # r.setStartTime(13.5)
+        # start = r.getStartTime()
+        # self.assertAlmostEqual(13.5, start)
 
     def test_simulateOptions_endTime(self):
         r = te.loada(self.ant_str)
-        r.setEndTime(200.0)
-        end = r.getEndTime()
-        self.assertAlmostEqual(200.0, end)
-
+        self.assertRaises(DeprecationWarning, r.setEndTime, 200.0)
+        self.assertRaises(DeprecationWarning, r.getEndTime)
+        # r.setEndTime(200.0)
+        # end = r.getEndTime()
+        # self.assertAlmostEqual(200.0, end)
 
     # ---------------------------------------------------------------------
     # Jarnac compatibility layer
@@ -300,6 +307,29 @@ class TelluriumTestCase(unittest.TestCase):
         m1 = r.sv()
         m2 = r.model.getFloatingSpeciesConcentrations()
         self.assertTrue(np.allclose(m1, m2))
+
+    # ---------------------------------------------------------------------
+    # Stochastic Simulation Methods
+    # ---------------------------------------------------------------------
+    def test_seed(self):
+        r = te.loada('''
+        S1 -> S2; k1*S1; k1 = 0.1; S1 = 40
+        ''')
+
+        # Simulate from time zero to 40 time units
+        result = r.gillespie(0, 40)
+
+        # Simulate on a grid with 10 points from start 0 to end time 40
+        result = r.gillespie(0, 40, 10)
+
+        # Simulate from time zero to 40 time units using the given selection list
+        # This means that the first column will be time and the second column species S1
+        result = r.gillespie(0, 40, ['time', 'S1'])
+
+        # Simulate from time zero to 40 time units, on a grid with 20 points
+        # using the give selection list
+        result = r.gillespie(0, 40, 20, ['time', 'S1'])
+
 
     # ---------------------------------------------------------------------
     # Roadrunner tests

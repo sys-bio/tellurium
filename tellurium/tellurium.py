@@ -342,82 +342,167 @@ def cellmlToSBML(cellml):
     return antimony.getSBMLString(None)
     
 
-# ---------------------------------------------------------------------
-# Export Utilities
-# ---------------------------------------------------------------------
-def getCurrentAntimony(rr):
-    """ Antimony string of the current model state.
+class ExtendedRoadRunner(roadrunner.RoadRunner):
 
-    :param rr: RoadRunner instance
-    :type rr: RoadRunner.roadrunner
-    :return: Antimony
-    :rtype: str
-    """
-    return sbmlToAntimony(rr.getCurrentSBML())
+    def __init__(self, *args, **kwargs):
+        super(ExtendedRoadRunner, self).__init__(*args, **kwargs)
+
+        # ---------------------------------------------------------------------
+        # Routines to support the Jarnac compatibility layer
+        # ---------------------------------------------------------------------
+        self.fjac = self.getFullJacobian
+        self.sm = self.getFullStoichiometryMatrix
+        self.rs = self.model.getReactionIds
+        self.fs = self.model.getFloatingSpeciesIds
+        self.bs = self.model.getBoundarySpeciesIds
+        self.ps = self.model.getGlobalParameterIds
+        self.vs = self.model.getCompartmentIds
+        self.dv = self.model.getStateVectorRate
+        self.rv = self.model.getReactionRates
+        self.sv = self.model.getFloatingSpeciesConcentrations
+
+    # ---------------------------------------------------------------------
+    # Export Utilities
+    # ---------------------------------------------------------------------
+    def getCurrentAntimony(self):
+        """ Antimony string of the current model state.
+
+        :return: Antimony
+        :rtype: str
+        """
+        return sbmlToAntimony(self.getCurrentSBML())
+
+    def getCurrentCellML(self):
+        """ CellML string of current model state.
+
+        :returns: CellML string
+        :rtype: str
+        """
+        return sbmlToCellML(self.getCurrentSBML())
+
+    def getCurrentMatlab(self):
+        """ Matlab string of current model state.
+
+        :returns: Matlab string
+        :rtype: str
+        """
+        return sbml2matlab(self.getCurrentSBML())
+
+    def exportToSBML(self, filePath):
+        """ Save current model as SBML file.
+
+        :param filePath: file path of matlab file
+        :param filePath: str
+        """
+        saveToFile(filePath, self.getCurrentSBML())
+
+    def exportToAntimony(self, filePath):
+        """ Save current model as Antimony file.
+
+        :param filePath: file path of Antimony file
+        :type filePath: str
+        """
+        saveToFile(filePath, self.getCurrentAntimony())
+
+    def exportToCellML(self, filePath):
+        """ Save current model as CellML file.
+
+        :param filePath: file path of CellML file
+        """
+        saveToFile(filePath, self.getCurrentCellML())
+
+    def exportToMatlab(self, filePath):
+        """ Save current model as Matlab file.
+
+        :param self: RoadRunner instance
+        :type self: RoadRunner.roadrunner
+        :param filePath: file path of Matlab file
+        """
+        saveToFile(filePath, self.getCurrentMatlab())
+
+    # ---------------------------------------------------------------
+    # Simulate Options
+    # ---------------------------------------------------------------
+    def setSteps(self, steps):
+        """ Set steps in roadrunner simulateOptions.
+
+        :param steps: steps in integration
+        :type steps: int
+        """
+        warnings.warn('simulateOptions no longer supported, will be removed in v1.4',
+                      DeprecationWarning, stacklevel=2)
+        raise DeprecationWarning
+        self.simulateOptions.steps = steps
+
+    def getSteps(self):
+        """ Get number of steps from simulateOptions. """
+        warnings.warn('simulateOptions no longer supported, will be removed in v1.4',
+                      DeprecationWarning, stacklevel=2)
+        raise DeprecationWarning
+        return self.simulateOptions.steps
+
+    def setNumberOfPoints(self, numberOfPoints):
+        """ Set number of points in roadrunner simulateOptions.
+
+        :param numberOfPoints: number of points in result
+        :type numberOfPoints: int
+        """
+        warnings.warn('simulateOptions no longer supported, will be removed in v1.4',
+                      DeprecationWarning, stacklevel=2)
+        raise DeprecationWarning
+        self.simulateOptions.steps = numberOfPoints - 1
+
+    def getNumberOfPoints(self):
+        """ Get number of points from rr.simulateOptions. """
+        warnings.warn('simulateOptions no longer supported, will be removed in v1.4',
+                      DeprecationWarning, stacklevel=2)
+        raise DeprecationWarning
+        return self.simulateOptions.steps + 1
+
+    def setStartTime(self, startTime):
+        """ Set start in roadrunner simulateOptions.
+
+        :param start: start time of integration
+        :type start: float
+        """
+        warnings.warn('simulateOptions no longer supported, will be removed in v1.4',
+                      DeprecationWarning, stacklevel=2)
+        raise DeprecationWarning("simulateOptions no longer supported")
+        self.simulateOptions.start = startTime
+
+    def getStartTime(self):
+        """ Get start time from roadrunner simulateOptions. """
+        warnings.warn('simulateOptions no longer supported, will be removed in v1.4',
+                      DeprecationWarning, stacklevel=2)
+        raise DeprecationWarning("simulateOptions no longer supported")
+        return self.simulateOptions.start
+
+    def setEndTime(self, endTime):
+        """ Set end in roadrunner simulateOptions.
+
+        :param end: end time of integration
+        :type end: float
+        """
+        warnings.warn('simulateOptions no longer supported, will be removed in v1.4',
+                      DeprecationWarning, stacklevel=2)
+        raise DeprecationWarning("simulateOptions no longer supported")
+        self.simulateOptions.end = endTime
 
 
-def getCurrentCellML(rr):
-    """ CellML string of current model state.
-
-    :param rr: RoadRunner instance
-    :type rr: RoadRunner.roadrunner
-    :returns: CellML string
-    :rtype: str
-    """
-    return sbmlToCellML(rr.getCurrentSBML())
+    def getEndTime(self):
+        """ Get end time from roadrunner simulateOptions. """
+        warnings.warn('simulateOptions no longer supported, will be removed in v1.4',
+                      DeprecationWarning, stacklevel=2)
+        raise DeprecationWarning("simulateOptions no longer supported")
+        return self.simulateOptions.start + self.simulateOptions.duration
 
 
-def getCurrentMatlab(rr):
-    """ Matlab string of current model state.
 
-    :param rr: RoadRunner instance
-    :type rr: RoadRunner.roadrunner
-    :returns: Matlab string
-    :rtype: str
-    """
-    return sbml2matlab(rr.getCurrentSBML())
+def RoadRunner(*args):
+    # return roadrunner.RoadRunner(*args)
+    return ExtendedRoadRunner(*args)
 
-
-def exportToSBML(rr, filePath):
-    """ Save current model as SBML file.
-
-    :param rr: RoadRunner instance
-    :type rr: RoadRunner.roadrunner
-    :param filePath: file path of matlab file
-    :param filePath: str
-    """
-    saveToFile(filePath, rr.getCurrentSBML())
-
-
-def exportToAntimony(rr, filePath):
-    """ Save current model as Antimony file.
-
-    :param rr: RoadRunner instance
-    :type rr: RoadRunner.roadrunner
-    :param filePath: file path of Antimony file
-    :type filePath: str
-    """
-    saveToFile(filePath, rr.getCurrentAntimony())
-
-
-def exportToCellML(rr, filePath):
-    """ Save current model as CellML file.
-
-    :param rr: RoadRunner instance
-    :type rr: RoadRunner.roadrunner
-    :param filePath: file path of CellML file
-    """
-    saveToFile(filePath, rr.getCurrentCellML())
-
-
-def exportToMatlab(rr, filePath):
-    """ Save current model as Matlab file.
-
-    :param rr: RoadRunner instance
-    :type rr: RoadRunner.roadrunner
-    :param filePath: file path of Matlab file
-    """
-    saveToFile(filePath, rr.getCurrentMatlab())
+roadrunner.RoadRunner = ExtendedRoadRunner
 
 
 # ---------------------------------------------------------------------
@@ -462,7 +547,6 @@ def getSeed(r):
     :param r: RoadRunner instance.
     :returns: current seed
     """
-    # FIXME: this should be via self not via a RoadRunner instance r
     intg = r.getIntegrator("gillespie")
     if intg is None:
         raise ValueError("model is not loaded")
@@ -528,10 +612,6 @@ def gillespie(r, *args, **kwargs):
     r.setIntegrator(prev)
 
     return result
-
-
-def RoadRunner(*args):
-    return roadrunner.RoadRunner(*args)
 
 
 # ---------------------------------------------------------------------
@@ -728,11 +808,6 @@ def resetAll(rr):
              roadrunner.SelectionRecord.FLOATING |
              roadrunner.SelectionRecord.GLOBAL_PARAMETER)
 
-
-
-
-
-
 # --------------------------------------------------------------------- 
 # Routines flattened from model, aves typing and easier finding of methods
 # ---------------------------------------------------------------------
@@ -754,71 +829,6 @@ def getConservedMoietyIds(self):
                   DeprecationWarning, stacklevel=2)
     return self.getDependentFloatingSpecies()
 
-# ---------------------------------------------------------------
-# Simulate Options
-# ---------------------------------------------------------------
-def setSteps(rr, steps):
-    """ Set steps in roadrunner rr.simulateOptions.
-
-    :param rr:
-    :type rr:
-    :param steps: steps in integration
-    :type steps: int
-    """
-    rr.simulateOptions.steps = steps
-
-
-def getSteps(rr):
-    """ Get number of steps from rr.simulateOptions. """
-    return rr.simulateOptions.steps
-
-
-def setNumberOfPoints(rr, numberOfPoints):
-    """ Set number of points in roadrunner rr.simulateOptions.
-
-    :param rr:
-    :type rr:
-    :param numberOfPoints: number of points in result
-    :type numberOfPoints: int
-    """
-    rr.simulateOptions.steps = numberOfPoints - 1
-
-
-def getNumberOfPoints(rr):
-    """ Get number of points from rr.simulateOptions. """
-    return rr.simulateOptions.steps + 1
-
-
-def setStartTime(rr, startTime):
-    """ Set start in roadrunner rr.simulateOptions.
-
-    :param rr:
-    :type rr:
-    :param start: start time of integration
-    :type start: float
-    """
-    rr.simulateOptions.start = startTime
-
-
-def getStartTime(rr):
-    """ Get start time from roadrunner rr.simulateOptions. """
-    return rr.simulateOptions.start
-
-
-def setEndTime(rr, endTime):
-    """ Set end in roadrunner rr.simulateOptions.
-
-    :param rr:
-    :type rr:
-    :param end: end time of integration
-    :type end: float
-    """
-    rr.simulateOptions.end = endTime
-
-
-def getEndTime(rr):
-    """ Get end time from roadrunner rr.simulateOptions. """
-    return rr.simulateOptions.start + rr.simulateOptions.duration
 
 # ---------------------------------------------------------------
 # End of routines
@@ -826,21 +836,21 @@ def getEndTime(rr):
 # ---------------------------------------------------------------
 # FIXME: handle in more general way via the names.
 
+"""
+roadrunner.RoadRunner.getCurrentMatlab = getCurrentMatlab
+roadrunner.RoadRunner.getCurrentAntimony = getCurrentAntimony
+roadrunner.RoadRunner.getCurrentCellML = getCurrentCellML
 roadrunner.RoadRunner.exportToMatlab = exportToMatlab
 roadrunner.RoadRunner.exportToAntimony = exportToAntimony
 roadrunner.RoadRunner.exportToSBML = exportToSBML
 roadrunner.RoadRunner.exportToCellML = exportToCellML
+"""
 
 # Helper Routines
 roadrunner.RoadRunner.getSeed = getSeed
 roadrunner.RoadRunner.setSeed = setSeed
 roadrunner.RoadRunner.gillespie = gillespie
 roadrunner.RoadRunner.getRatesOfChange = getRatesOfChange
-
-
-roadrunner.RoadRunner.getCurrentMatlab = getCurrentMatlab
-roadrunner.RoadRunner.getCurrentAntimony = getCurrentAntimony
-roadrunner.RoadRunner.getCurrentCellML = getCurrentCellML
 
 roadrunner.RoadRunner.plotAS = roadrunner.RoadRunner.plot
 roadrunner.RoadRunner.plot = plot
@@ -858,6 +868,7 @@ roadrunner.RoadRunner.getConservedMoietyIds = getConservedMoietyIds
 
 # -------------------------------------------------------
 # SimulateOptions
+"""
 roadrunner.RoadRunner.setStartTime = setStartTime
 roadrunner.RoadRunner.getStartTime = getStartTime
 roadrunner.RoadRunner.setEndTime = setEndTime
@@ -866,120 +877,122 @@ roadrunner.RoadRunner.setNumberOfPoints = setNumberOfPoints
 roadrunner.RoadRunner.getNumberOfPoints = getNumberOfPoints
 roadrunner.RoadRunner.setSteps = setSteps
 roadrunner.RoadRunner.getSteps = getSteps
+"""
 
 # ---------------------------------------------------------------------
 # Routines to support the Jarnac compatibility layer
 # ---------------------------------------------------------------------
-def getRs(rr):
-    """ Returns the list of reaction Identifiers.
-
-    See also: :func:`rs`, :func:`getReactionIds`
-
-    :returns: reaction identifiers
-    """
-    return rr.model.getReactionIds()
-
-
-def getFs(rr):
-    """ Returns list of floating species identifiers.
-
-    See also: :func:`fs`, :func:`getFloatingSpeciesIds`
-
-    :returns: floating species identifiers
-    """
-    return rr.model.getFloatingSpeciesIds()
-
-
-def getBs(rr):
-    """ Returns list of boundary species identifiers.
-
-    See also: :func:`bs`, :func:`getBoundarySpeciesIds`
-
-    :returns: boundary species identifiers
-    """
-    return rr.model.getBoundarySpeciesIds()
-
-
-def getPs(rr):
-    """ Returns list of global parameters in the model.
-
-    See also: :func:`ps`, :func:`getGlobalParameterIds`
-
-    :returns: global parameters
-    """
-    return rr.model.getGlobalParameterIds()
-
-
-def getVs(rr):
-    """ Returns the list of compartment identifiers.
-
-    See also: :func:`vs`, :func:`getCompartmentIds`
-
-    :returns: compartment identifiers
-    """
-    return rr.model.getCompartmentIds()
-
-
-def getDv(rr):
-    """ Returns the list of rates of change.
-
-    See also: :func:`dv`, :func:`getStateVectorRate`
-
-    :returns: rate of change
-    """
-    return rr.model.getStateVectorRate()
-
-
-def getRv(rr):
-    """ Returns the list of reaction rates.
-
-    See also: :func:`rv`, :func:`getReactionRates`
-
-    :returns: reaction rates
-    """
-    return rr.model.getReactionRates()
-
-
-def getSv(rr):
-    """ Returns the list of floating species concentrations.
-
-    See also: :func:`rr`, :func:`getFloatingSpeciesConcentrations`
-
-    :returns: floating species concentrations
-    """
-    return rr.model.getFloatingSpeciesConcentrations()
-
-
-"""
-# WORK IN PROGRESS - DO NOT REMOVE
-# Jarnac compatibility layer
-jarnac_layer = {
-    'fjac': roadrunner.RoadRunner.getFullJacobian,
-    'sm': roadrunner.RoadRunner.getFullStoichiometryMatrix,
-    'rs': roadrunner.ExecutableModel.getReactionIds,
-    'fs': roadrunner.ExecutableModel.getFloatingSpeciesIds,
-    'bs': roadrunner.ExecutableModel.getBoundarySpeciesIds,
-    'ps': roadrunner.ExecutableModel.getGlobalParameterIds,
-    'vs': roadrunner.ExecutableModel.getCompartmentIds,
-    'dv': roadrunner.ExecutableModel.getStateVectorRate,
-    'rv': roadrunner.ExecutableModel.getReactionRates,
-    'sv': roadrunner.ExecutableModel.getFloatingSpeciesConcentrations,
-}
-for key, value in jarnac_layer.iteritems():
-    setattr(roadrunner.RoadRunner, key, value)
-"""
-
-roadrunner.RoadRunner.fjac = roadrunner.RoadRunner.getFullJacobian
-roadrunner.RoadRunner.sm = roadrunner.RoadRunner.getFullStoichiometryMatrix
-roadrunner.RoadRunner.fs = getFs
-roadrunner.RoadRunner.bs = getBs
-roadrunner.RoadRunner.rs = getRs
-roadrunner.RoadRunner.ps = getPs
-roadrunner.RoadRunner.vs = getVs
-roadrunner.RoadRunner.dv = getDv
-roadrunner.RoadRunner.rv = getRv
-roadrunner.RoadRunner.sv = getSv
-
+#
+# def getRs(rr):
+#     """ Returns the list of reaction Identifiers.
+#
+#     See also: :func:`rs`, :func:`getReactionIds`
+#
+#     :returns: reaction identifiers
+#     """
+#     return rr.model.getReactionIds()
+#
+#
+# def getFs(rr):
+#     """ Returns list of floating species identifiers.
+#
+#     See also: :func:`fs`, :func:`getFloatingSpeciesIds`
+#
+#     :returns: floating species identifiers
+#     """
+#     return rr.model.getFloatingSpeciesIds()
+#
+#
+# def getBs(rr):
+#     """ Returns list of boundary species identifiers.
+#
+#     See also: :func:`bs`, :func:`getBoundarySpeciesIds`
+#
+#     :returns: boundary species identifiers
+#     """
+#     return rr.model.getBoundarySpeciesIds()
+#
+#
+# def getPs(rr):
+#     """ Returns list of global parameters in the model.
+#
+#     See also: :func:`ps`, :func:`getGlobalParameterIds`
+#
+#     :returns: global parameters
+#     """
+#     return rr.model.getGlobalParameterIds()
+#
+#
+# def getVs(rr):
+#     """ Returns the list of compartment identifiers.
+#
+#     See also: :func:`vs`, :func:`getCompartmentIds`
+#
+#     :returns: compartment identifiers
+#     """
+#     return rr.model.getCompartmentIds()
+#
+#
+# def getDv(rr):
+#     """ Returns the list of rates of change.
+#
+#     See also: :func:`dv`, :func:`getStateVectorRate`
+#
+#     :returns: rate of change
+#     """
+#     return rr.model.getStateVectorRate()
+#
+#
+# def getRv(rr):
+#     """ Returns the list of reaction rates.
+#
+#     See also: :func:`rv`, :func:`getReactionRates`
+#
+#     :returns: reaction rates
+#     """
+#     return rr.model.getReactionRates()
+#
+#
+# def getSv(rr):
+#     """ Returns the list of floating species concentrations.
+#
+#     See also: :func:`rr`, :func:`getFloatingSpeciesConcentrations`
+#
+#     :returns: floating species concentrations
+#     """
+#     return rr.model.getFloatingSpeciesConcentrations()
+#
+#
+#
+# # WORK IN PROGRESS - DO NOT REMOVE
+# # Jarnac compatibility layer
+# jarnac_layer = {
+#     'fjac': roadrunner.RoadRunner.getFullJacobian,
+#     'sm': roadrunner.RoadRunner.getFullStoichiometryMatrix,
+#     'rs': roadrunner.ExecutableModel.getReactionIds,
+#     'fs': roadrunner.ExecutableModel.getFloatingSpeciesIds,
+#     'bs': roadrunner.ExecutableModel.getBoundarySpeciesIds,
+#     'ps': roadrunner.ExecutableModel.getGlobalParameterIds,
+#     'vs': roadrunner.ExecutableModel.getCompartmentIds,
+#     'dv': roadrunner.ExecutableModel.getStateVectorRate,
+#     'rv': roadrunner.ExecutableModel.getReactionRates,
+#     'sv': roadrunner.ExecutableModel.getFloatingSpeciesConcentrations,
+# }
+# for key, value in jarnac_layer.iteritems():
+#     setattr(roadrunner.RoadRunner, key, value)
+#
+#
+# roadrunner.RoadRunner.fjac = roadrunner.RoadRunner.getFullJacobian
+# roadrunner.RoadRunner.sm = roadrunner.RoadRunner.getFullStoichiometryMatrix
+# roadrunner.RoadRunner.fs = getFs
+# roadrunner.RoadRunner.bs = getBs
+# roadrunner.RoadRunner.rs = getRs
+# roadrunner.RoadRunner.ps = getPs
+# roadrunner.RoadRunner.vs = getVs
+# roadrunner.RoadRunner.dv = getDv
+# roadrunner.RoadRunner.rv = getRv
+# roadrunner.RoadRunner.sv = getSv
+#
 
 # -------------------------------------------------------
 # Model flattening routines
@@ -1076,5 +1089,4 @@ roadrunner.RoadRunner.getNumReactions = getNumReactions
 roadrunner.RoadRunner.getReactionIds = getReactionIds
 roadrunner.RoadRunner.getReactionRates = getReactionRates
 roadrunner.RoadRunner.getNumEvents = getNumEvents
-roadrunner.RoadRunner.getNumberOfPoints = getNumberOfPoints
 roadrunner.RoadRunner.getNumRateRules = getNumRateRules
