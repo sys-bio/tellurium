@@ -507,6 +507,17 @@ class ExtendedRoadRunner(roadrunner.RoadRunner):
     # ---------------------------------------------------------------------
     # Export Utilities
     # ---------------------------------------------------------------------
+    def getAntimony(self):
+        """ Antimony string of the current model state.
+
+        :return: Antimony
+        :rtype: str
+        """
+        warnings.warn('use getCurrentAntimony instead, will be removed in v1.4',
+                       DeprecationWarning, stacklevel=2)
+        return self.getCurrentAntimony()
+
+
     def getCurrentAntimony(self):
         """ Antimony string of the current model state.
 

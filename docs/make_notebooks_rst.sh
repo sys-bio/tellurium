@@ -17,7 +17,8 @@ mkdir -p $NBOUTDIR
 cd $NBOUTDIR
 # convert the notebooks to rst after running headlessly
 # if errors should abort, remove the --allow-errors option
-ipython nbconvert --to=rst --allow-errors --execute $NBDIR/*.ipynb
+# ipython nbconvert --to=rst --allow-errors --execute $NBDIR/*.ipynb
+ipython nbconvert --to=rst --execute $NBDIR/*.ipynb
 echo "DONE"
 
 echo "--------------------------------------"
@@ -42,7 +43,8 @@ mkdir -p $PYOUTDIR
 
 # create python files next to the notebooks
 cd $PYOUTDIR
-ipython nbconvert --to=python --allow-errors --execute $NBDIR/*.ipynb
+# ipython nbconvert --to=python --allow-errors --execute $NBDIR/*.ipynb
+ipython nbconvert --to=python --execute $NBDIR/*.ipynb
 
 # replace the magic & add warning
 sed -i -- "s/get_ipython().magic(u'matplotlib inline')/\#\!\!\! DO NOT CHANGE \!\!\! THIS FILE WAS CREATED AUTOMATICALLY FROM NOTEBOOKS \!\!\! CHANGES WILL BE OVERWRITTEN \!\!\! CHANGE CORRESPONDING NOTEBOOK FILE \!\!\!/g" ./*.py

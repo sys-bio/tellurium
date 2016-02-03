@@ -26,4 +26,4 @@ r = te.loada(model)
 
 # This saves to the working directory.
 # To view, use File>Open, at the bottom switch to "All Files (*) (*.*)"
-r.exportToMatlab('model.m')
+# r.exportToMatlab('model.m')

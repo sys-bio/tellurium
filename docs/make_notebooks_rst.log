@@ -1,7 +1,14 @@
-Die Feb  2 12:49:18 CET 2016
+Mit Feb  3 16:33:27 CET 2016
 --------------------------------------
 convert notebooks to rst
 --------------------------------------
+[NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/antimony.ipynb to rst
+[NbConvertApp] Executing notebook with kernel: python2
+[NbConvertApp] Support files will be in antimony_files/
+[NbConvertApp] Making directory antimony_files
+[NbConvertApp] Making directory antimony_files
+[NbConvertApp] Making directory antimony_files
+[NbConvertApp] Writing 5853 bytes to antimony.rst
 [NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/computeSteadyState.ipynb to rst
 [NbConvertApp] Executing notebook with kernel: python2
 [NbConvertApp] Writing 965 bytes to computeSteadyState.rst
@@ -19,7 +26,7 @@ convert notebooks to rst
 [NbConvertApp] Executing notebook with kernel: python2
 [NbConvertApp] Support files will be in generatingDifferentWaveforms_files/
 [NbConvertApp] Making directory generatingDifferentWaveforms_files
-[NbConvertApp] Writing 1880 bytes to generatingDifferentWaveforms.rst
+[NbConvertApp] Writing 1875 bytes to generatingDifferentWaveforms.rst
 [NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/introduction.ipynb to rst
 [NbConvertApp] Executing notebook with kernel: python2
 [NbConvertApp] Support files will be in introduction_files/
@@ -28,7 +35,7 @@ convert notebooks to rst
 [NbConvertApp] Writing 841 bytes to introduction.rst
 [NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/nonUnitStoichiometries.ipynb to rst
 [NbConvertApp] Executing notebook with kernel: python2
-[NbConvertApp] Writing 992 bytes to nonUnitStoichiometries.rst
+[NbConvertApp] Writing 999 bytes to nonUnitStoichiometries.rst
 [NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/parameter_scan.ipynb to rst
 [NbConvertApp] Executing notebook with kernel: python2
 [NbConvertApp] Support files will be in parameter_scan_files/
@@ -50,7 +57,7 @@ convert notebooks to rst
 [NbConvertApp] Writing 260 bytes to template.rst
 [NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/tesedml.ipynb to rst
 [NbConvertApp] Executing notebook with kernel: python2
-[NbConvertApp] Writing 3207 bytes to tesedml.rst
+[NbConvertApp] Writing 4744 bytes to tesedml.rst
 DONE
 --------------------------------------
 postprocessing rst
@@ -59,6 +66,9 @@ DONE
 --------------------------------------
 create python code
 --------------------------------------
+[NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/antimony.ipynb to python
+[NbConvertApp] Executing notebook with kernel: python2
+[NbConvertApp] Writing 955 bytes to antimony.py
 [NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/computeSteadyState.ipynb to python
 [NbConvertApp] Executing notebook with kernel: python2
 [NbConvertApp] Writing 824 bytes to computeSteadyState.py
@@ -70,13 +80,13 @@ create python code
 [NbConvertApp] Writing 784 bytes to feedback_oscillations.py
 [NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/generatingDifferentWaveforms.ipynb to python
 [NbConvertApp] Executing notebook with kernel: python2
-[NbConvertApp] Writing 1622 bytes to generatingDifferentWaveforms.py
+[NbConvertApp] Writing 1617 bytes to generatingDifferentWaveforms.py
 [NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/introduction.ipynb to python
 [NbConvertApp] Executing notebook with kernel: python2
 [NbConvertApp] Writing 668 bytes to introduction.py
 [NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/nonUnitStoichiometries.ipynb to python
 [NbConvertApp] Executing notebook with kernel: python2
-[NbConvertApp] Writing 454 bytes to nonUnitStoichiometries.py
+[NbConvertApp] Writing 461 bytes to nonUnitStoichiometries.py
 [NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/parameter_scan.ipynb to python
 [NbConvertApp] Executing notebook with kernel: python2
 [NbConvertApp] Writing 1177 bytes to parameter_scan.py
