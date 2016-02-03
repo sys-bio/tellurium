@@ -174,7 +174,7 @@
 
 <span class="n">r</span><span class="o">.</span><span class="n">timeCourseSelections</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;time&#39;</span><span class="p">,</span> <span class="s1">&#39;SineWave&#39;</span><span class="p">,</span> <span class="s1">&#39;SquareWave&#39;</span><span class="p">,</span> <span class="s1">&#39;SawTooth&#39;</span><span class="p">,</span> <span class="s1">&#39;TriangleWave&#39;</span><span class="p">,</span> <span class="s1">&#39;Ramp&#39;</span><span class="p">]</span>
 <span class="n">result</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">simulate</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">90</span><span class="p">,</span> <span class="mi">500</span><span class="p">)</span>
-<span class="n">te</span><span class="o">.</span><span class="n">plotWithLegend</span> <span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">result</span><span class="p">)</span>
+<span class="n">r</span><span class="o">.</span><span class="n">plotWithLegend</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
 
 <span class="c1">#reset to default config</span>
 <span class="n">Config</span><span class="o">.</span><span class="n">setValue</span><span class="p">(</span><span class="n">Config</span><span class="o">.</span><span class="n">LOADSBMLOPTIONS_CONSERVED_MOIETIES</span><span class="p">,</span> <span class="bp">False</span><span class="p">)</span>

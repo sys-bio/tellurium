@@ -1,7 +1,12 @@
+"""
+Parameter scan
+"""
+from __future__ import print_function, division
 import tellurium as te
 
-#PS1 Test
-
+# --------------------------------------------------
+# Parameter Scan 1
+# --------------------------------------------------
 cell = '''
     J1: $Xo -> x; 0.1 + k1*x^4/(k2+x^4);
     x -> $w; k3*x;
@@ -12,7 +17,7 @@ cell = '''
     x = 0;
 '''
 
-rr = te.loadAntimonyModel(cell)
+rr = te.loada(cell)
 p = te.ParameterScan.ParameterScan(rr)
 
 p.startTime = 0
@@ -28,9 +33,9 @@ p.color = ['#0F0F3D', '#141452', '#1A1A66', '#1F1F7A', '#24248F', '#2929A3',
 
 p.plotPolyArray()
 
-
-#PS2 Test
-
+# --------------------------------------------------
+# Parameter Scan 2
+# --------------------------------------------------
 cell = '''
     $Xo -> S1; vo;
     S1 -> S2; k1*S1 - k2*S2;
@@ -40,7 +45,7 @@ cell = '''
     k1 = 2; k2 = 0; k3 = 3;
 '''
 
-rr = te.loadAntimonyModel(cell)
+rr = te.loada(cell)
 p = te.ParameterScan.ParameterScan(rr)
 
 p.startTime = 0
@@ -58,4 +63,3 @@ p.ylabel = "x"
 p.title = "Model"
 
 p.plotSurface()
-

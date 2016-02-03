@@ -19,5 +19,5 @@ r = te.loada('''
     k1 = 0.1;k2 = 0.1;
   end
 ''')
-print(r.getAntimony())
+print(r.getCurrentAntimony())
 

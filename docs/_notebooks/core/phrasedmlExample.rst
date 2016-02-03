@@ -36,7 +36,7 @@ export in Combine Archive format.
 
 
 
-.. image:: _notebooks/core/phrasedml_files/phrasedml_2_0.png
+.. image:: _notebooks/core/phrasedmlExample_files/phrasedmlExample_2_0.png
 
 
 .. parsed-literal::

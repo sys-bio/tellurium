@@ -49,7 +49,7 @@ Example for how to create different wave form functions in tellurium.
     
     r.timeCourseSelections = ['time', 'SineWave', 'SquareWave', 'SawTooth', 'TriangleWave', 'Ramp']
     result = r.simulate (0, 90, 500)
-    te.plotWithLegend (r, result)
+    r.plotWithLegend(result)
     
     #reset to default config
     Config.setValue(Config.LOADSBMLOPTIONS_CONSERVED_MOIETIES, False) 

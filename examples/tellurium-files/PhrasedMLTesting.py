@@ -1,4 +1,11 @@
-antimony = '''
+# -*- coding: utf-8 -*-
+"""
+Testing phrasedml.
+"""
+from __future__ import print_function
+import tellurium as te
+
+ant = '''
 model myModel
   S1 -> S2; k1*S1
   S1 = 10; S2 = 0
@@ -13,13 +20,9 @@ phrasedml = '''
   plot "Figure 1" time vs S1, S2
 '''
 
-import tellurium as te
-
-exp = te.experiment(antimony, phrasedml)
-
+# create experiment
+exp = te.experiment(ant, phrasedml)
 exp.execute()
 exp.printpython()
 
-### export testing - put the full path of zip file you want to create
-#exp.exportAsCombine() 
 

@@ -19,6 +19,14 @@ tellurium.tests.test_Export module
     :undoc-members:
     :show-inheritance:
 
+tellurium.tests.test_examples module
+------------------------------------
+
+.. automodule:: tellurium.tests.test_examples
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
 tellurium.tests.test_runner module
 ----------------------------------
 

@@ -2,7 +2,7 @@
 """
 Compute steady state values.
 """
-from __future__ import print_function
+from __future__ import print_function, division
 import tellurium as te
 from roadrunner import Config
 
@@ -25,4 +25,5 @@ r = te.loada('''
 values = r.getSteadyStateValues()
 for sid, value in zip(r.steadyStateSelections, r.getSteadyStateValues()):
     print(sid, "=", value)
+
 Config.setValue(Config.LOADSBMLOPTIONS_CONSERVED_MOIETIES, False) 

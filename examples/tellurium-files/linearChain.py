@@ -1,15 +1,11 @@
 # -*- coding: utf-8 -*-
 """
-Created on Thu Feb 27 18:56:59 2014
-
-@author: mgaldzic
+Linear chain of reactions.
 """
-
+from __future__ import print_function, division
 import tellurium as te
-import roadrunner
-import libantimony
 
-antStr = '''
+model = '''
 model feedback()
    // Reactions:
    J0: $X0 -> S1; (VM1 * (X0 - S1/Keq1))/(1 + X0 + S1 +   S4^h);
@@ -26,6 +22,6 @@ model feedback()
   VM1 = 10; Keq1 = 10; h = 10; V4 = 2.5; KS4 = 0.5;
 end'''
 
-rr = te.loadAntimonyModel(antStr)
-result = rr.simulate(0, 40, 500)
-te.plotWithLegend (rr, result)
+r = te.loada(model)
+result = r.simulate(0, 40, 500)
+r.plotWithLegend(result)
