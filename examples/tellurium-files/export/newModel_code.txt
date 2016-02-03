@@ -1,0 +1,14 @@
+\documentclass{article}
+\usepackage[usenames,dvipsnames]{color}
+\usepackage{pgfplots}
+\begin{document}
+
+\begin{tikzpicture}[scale = 1.0]
+\begin{axis}[xlabel=$Time$, ylabel=$Concentration$, axis lines = middle, xlabel near ticks, ylabel near ticks
+\addplot[blue, thin] table {./newModel_data2.txt_data1.txt};
+\addplot[green, thin] table {./newModel_data2.txt_data2.txt};
+\legend{S1,S1}
+\end{axis}
+\end{tikzpicture}
+
+\end{document}

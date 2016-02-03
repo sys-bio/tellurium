@@ -1,12 +1,10 @@
 # -*- coding: utf-8 -*-
 """
-Created on Tue Mar 11 14:31:51 2014
-
-@author: mgaldzic
+Setting boundary species in a model
 """
-
+from __future__ import print_function
 import tellurium as te
-# Setting boundary species in a model
+
 model = '''
   model cell()
     # The $ character is used to indicate that a particular species is FIXED
@@ -22,5 +20,5 @@ model = '''
 '''
 
 r = te.loadAntimonyModel(model)
-result = r.simulate (0, 50, 200)
-te.plotWithLegend (r, result)
+result = r.simulate(0, 50, 201)
+r.plotWithLegend(result)

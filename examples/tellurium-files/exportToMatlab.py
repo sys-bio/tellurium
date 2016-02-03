@@ -1,12 +1,11 @@
 # -*- coding: utf-8 -*-
 """
-
-@author: stanleygu
+Export model to MatLab.
 """
-
+from __future__ import print_function
 import tellurium as te
 
-antStr = '''
+model = '''
 model feedback()
    // Reactions:
    J0: $X0 -> S1; (VM1 * (X0 - S1/Keq1))/(1 + X0 + S1 +   S4^h);
@@ -23,8 +22,8 @@ model feedback()
   VM1 = 10; Keq1 = 10; h = 10; V4 = 2.5; KS4 = 0.5;
 end'''
 
-rr = te.loadAntimonyModel(antStr)
+r = te.loada(model)
 
 # This saves to the working directory.
 # To view, use File>Open, at the bottom switch to "All Files (*) (*.*)"
-te.exportToMatlab(rr, 'model.m')
+r.exportToMatlab('model.m')

@@ -395,7 +395,7 @@ def plotArray(*args, **kwargs):
     # If user is building a legend don't show the plot yet
     if 'label' in kwargs:
         return p
-    if tehold == False:
+    if not tehold:
         plt.show()
     return p
 
@@ -631,7 +631,6 @@ class ExtendedRoadRunner(roadrunner.RoadRunner):
         :param result: results data to plot
         :param loc: location of plot legend
         :param show: show the plot
-        :returns: ?
         """
         if result is None:
             # Call RoadRunner version if no results passed to call
@@ -640,54 +639,41 @@ class ExtendedRoadRunner(roadrunner.RoadRunner):
             return self.plotWithLegend(result, loc, show=show)
 
     def plotWithLegend(self, result=None, loc='upper left', show=True):
-        """Plot an array and include a legend.
-        The first argument must be a roadrunner variable.
-        The second argument must be an array containing data to plot.
-        The first column of the array will
-        be the x-axis and remaining columns the y-axis. Returns
-        a handle to the plotting object.
-        ::
+        """ Plots the given results array including a legend.
+        The first column of the array will be the x-axis, the remaining
+        columns the y-axis. If no result array is provided the current
+        simulationData is used for plotting.
 
-            plotWithLegend (r)
-
-        :param result: results to plot
+        :param result: array to plot
         :param loc: location of plot legend
         :param show: show the plot
         :returns: plt object
         """
-        import matplotlib.pyplot as p
-
-        if not isinstance(self, roadrunner.RoadRunner):
-            raise Exception('First argument must be a roadrunner variable')
-
         if result is None:
             result = self.getSimulationData()
-
-        if result is None:
-            raise Exception("no simulation result")
 
         if result.dtype.names is None:
             columns = result.shape[1]
             legendItems = self.timeCourseSelections[1:]
             if columns-1 != len(legendItems):
                raise Exception('Legend list must match result array')
+            # plot all the curves
             for i in range(columns-1):
-               plt.plot(result[:, 0], result[:, i+1], linewidth=2.5, label=legendItems[i])
+                plt.plot(result[:, 0], result[:, i+1], linewidth=2.5, label=legendItems[i])
         else:
             # result is structured array
             if len(result.dtype.names) < 1:
                 raise Exception('no columns to plot')
 
+            # FIXME: time does not have to be first selection, this untested assumption
             time = result.dtype.names[0]
-
             for name in result.dtype.names[1:]:
-                p.plot(result[time], result[name], label=name)
+                plt.plot(result[time], result[name], label=name)
 
         plt.legend(loc=loc)
 
         if show:
             plt.show()
-        return plt
 
     def simulateAndPlot(self, startTime=0, endTime=5, numberOfPoints=500, **kwargs):
         """Run simulation and plot the results.

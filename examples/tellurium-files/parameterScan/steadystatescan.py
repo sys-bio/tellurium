@@ -1,11 +1,13 @@
-import matplotlib.pyplot as plt
+"""
+Steady state scan.
+"""
+from __future__ import print_function, division
 import tellurium as te
-import numpy as np
 from roadrunner import Config
 
 Config.setValue(Config.LOADSBMLOPTIONS_CONSERVED_MOIETIES, True) 
 
-cell = '''
+model = '''
     $Xo -> S1; vo;
     S1 -> S2; k1*S1 - k2*S2;
     S2 -> $X1; k3*S2;
@@ -15,7 +17,7 @@ cell = '''
 '''
 
     
-rr = te.loadAntimonyModel(cell)
+rr = te.loada(model)
 
 p = te.ParameterScan.SteadyStateScan(rr)
 p.value = 'k3'
