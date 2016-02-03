@@ -340,9 +340,143 @@ def cellmlToSBML(cellml):
         code = antimony.loadCellMLString(cellml)
     _checkAntimonyReturnCode(code)
     return antimony.getSBMLString(None)
-    
 
+
+# ---------------------------------------------------------------------
+# SEDML Utilities
+# ---------------------------------------------------------------------
+def experiment(ant, phrasedml):
+    """ Create experiment from antimony and phrasedml string.
+
+    :param ant: Antimony string of model
+    :type ant: str
+    :param phrasedml: phrasedml simulation description
+    :type phrasedml: str
+    :returns: SEDML experiment description
+    """
+    return tephrasedml.tePhrasedml(ant, phrasedml)
+
+
+# ---------------------------------------------------------------------
+# Math Utilities
+# ---------------------------------------------------------------------
+def getEigenvalues(m):
+    """ Eigenvalues of matrix.
+    Convenience method for computing the eigenvalues of a matrix m
+    Uses numpy eig to compute the eigenvalues.
+
+    :param m: numpy array
+    :returns: numpy array containing eigenvalues
+    """
+    from numpy import linalg
+    w, v = linalg.eig(m)
+    return w
+
+
+# ---------------------------------------------------------------------
+# Plotting Utilities
+# ---------------------------------------------------------------------
+def plotArray(*args, **kwargs):
+    """ Plot an array.
+    The first column of the array will
+    be the x-axis and remaining columns the y-axis. Returns
+    a handle to the plotting object. Note that you can add
+    plotting options as named key values after the array. For
+    example to add a legend, include the label key value:
+    te.plotArray (m, label='A label') then use pylab.legend()
+    to make sure the legend is shown.
+    ::
+
+        result = numpy.array([[1,2,3], [7.2,6.5,8.8], [9.8, 6.5, 4.3]])
+        plotArray(result)
+    """
+    global tehold
+    p = plt.plot(args[0][:, 0], args[0][:, 1:], linewidth=2.5, **kwargs)
+    # If user is building a legend don't show the plot yet
+    if 'label' in kwargs:
+        return p
+    if tehold == False:
+        plt.show()
+    return p
+
+
+# ---------------------------------------------------------------------
+# Test Models
+# ---------------------------------------------------------------------
+def loadTestModel(string):
+    """Loads particular test model into roadrunner.
+    ::
+
+        rr = roadrunner.loadTestModel('feedback.xml')
+
+    :returns: RoadRunner instance with test model loaded
+    """
+    return roadrunner.testing.getRoadRunner(string)
+
+
+def getTestModel(string):
+    """SBML of given test model as a string.
+    ::
+
+        # load test model as SBML
+        sbml = te.getTestModel('feedback.xml')
+        rr = te.loadSBMLModel(sbml)
+        # simulate
+        s = rr.simulate(0, 100, 200)
+
+    :returns: SBML string of test model
+    """
+    return roadrunner.testing.getData(string)
+
+
+def listTestModels():
+    """ List roadrunner SBML test models.
+    ::
+
+        print(roadrunner.listTestModels())
+
+    :returns: list of test model paths
+    """
+    modelList = []
+    fileList = roadrunner.testing.dir('*.xml')
+    for pathName in fileList:
+        modelList.append(os.path.basename(pathName))
+    return modelList
+
+# ---------------------------------------------------------------------
+# Extended RoadRunner class
+# ---------------------------------------------------------------------
 class ExtendedRoadRunner(roadrunner.RoadRunner):
+
+    # functions for easier model access
+    _model_functions = [
+        'getBoundarySpeciesConcentrations',
+        'getBoundarySpeciesIds',
+        'getNumBoundarySpecies',
+
+        'getFloatingSpeciesConcentrations',
+        'getFloatingSpeciesIds',
+        'getNumFloatingSpecies',
+
+        'getGlobalParameterIds',
+        'getGlobalParameterValues',
+        'getNumGlobalParameters',
+
+        'getCompartmentIds',
+        'getCompartmentVolumes',
+        'getNumCompartments',
+
+        'getConservedMoietyValues',
+        'getNumConservedMoieties',
+        'getNumDepFloatingSpecies',
+        'getNumIndFloatingSpecies',
+
+        'getReactionIds',
+        'getReactionRates',
+        'getNumReactions',
+        'getNumEvents',
+        'getNumRateRules'
+     ]
 
     def __init__(self, *args, **kwargs):
         super(ExtendedRoadRunner, self).__init__(*args, **kwargs)
@@ -360,6 +494,15 @@ class ExtendedRoadRunner(roadrunner.RoadRunner):
         self.dv = self.model.getStateVectorRate
         self.rv = self.model.getReactionRates
         self.sv = self.model.getFloatingSpeciesConcentrations
+
+        # ---------------------------------------------------------------------
+        # Model access
+        # ---------------------------------------------------------------------
+        for key in self._model_functions:
+            # assignments of the form
+            # self.getBoundarySpeciesConcentrations = self.model.getBoundarySpeciesConcentrations
+            func = getattr(self.model, key)
+            setattr(self, key, func)
 
     # ---------------------------------------------------------------------
     # Export Utilities
@@ -420,83 +563,300 @@ class ExtendedRoadRunner(roadrunner.RoadRunner):
         """
         saveToFile(filePath, self.getCurrentMatlab())
 
+    # ---------------------------------------------------------------------
+    # Reset Methods
+    # ---------------------------------------------------------------------
+    def resetToOrigin(self):
+        """Reset model to state when first loaded.
+        This resets the model back to the state when it was FIRST loaded,
+        this includes all init() and parameters such as k1 etc.
+        ::
+
+            r.resetToOrigin()
+
+        identical to:
+            r.reset(roadrunner.SelectionRecord.ALL)
+        """
+        self.reset(roadrunner.SelectionRecord.ALL)
+
+
+    def resetAll(self):
+        """Reset all model variables to CURRENT init(X) values.
+        This resets all variables, S1, S2 etc to the CURRENT init(X) values. It also resets all
+        parameters back to the values they had when the model was first loaded.
+        ::
+
+            rr.resetAll()
+        """
+        self.reset(roadrunner.SelectionRecord.TIME |
+                   roadrunner.SelectionRecord.RATE |
+                   roadrunner.SelectionRecord.FLOATING |
+                   roadrunner.SelectionRecord.GLOBAL_PARAMETER)
+
+    # ---------------------------------------------------------------------
+    # Routines flattened from model, aves typing and easier finding of methods
+    # ---------------------------------------------------------------------
+    def getRatesOfChange(self):
+        """ Rate of change of all state variables in the model.
+
+        :returns: rate of change of all state variables (eg species) in the model.
+        """
+        if self.conservedMoietyAnalysis:
+            m1 = self.getLinkMatrix()
+            m2 = self.model.getStateVectorRate()
+            return m1.dot(m2)
+        else:
+            return self.model.getStateVectorRate()
+
+
+    def getConservedMoietyIds(self):
+        warnings.warn('Use getDependentFloatingSpecies instead, will be removed in v1.4',
+                      DeprecationWarning, stacklevel=2)
+        return self.getDependentFloatingSpecies()
+
+    # ---------------------------------------------------------------------
+    # Plotting Utilities
+    # ---------------------------------------------------------------------
+    def plot(self, result=None, loc='upper left', show=True):
+        """Plot data generated by a simulation.
+        Plot results from a simulation carried out by the simulate or gillespie
+        functions. This is a roadrunner method.
+        Data is a numpy array where the first column is considered the x axis and all remaining columns the y axis.
+        If no data is provided the data currently held by roadrunner generated in the last simulation is used.
+        ::
+
+            r.plot()
+
+        :param self: RoadRunner instance
+        :param result: results data to plot
+        :param loc: location of plot legend
+        :param show: show the plot
+        :returns: ?
+        """
+        if result is None:
+            # Call RoadRunner version if no results passed to call
+            return super(roadrunner.RoadRunner, self).plot()
+        else:
+            return self.plotWithLegend(result, loc, show=show)
+
+    def plotWithLegend(self, result=None, loc='upper left', show=True):
+        """Plot an array and include a legend.
+        The first argument must be a roadrunner variable.
+        The second argument must be an array containing data to plot.
+        The first column of the array will
+        be the x-axis and remaining columns the y-axis. Returns
+        a handle to the plotting object.
+        ::
+
+            plotWithLegend (r)
+
+        :param result: results to plot
+        :param loc: location of plot legend
+        :param show: show the plot
+        :returns: plt object
+        """
+        import matplotlib.pyplot as p
+
+        if not isinstance(self, roadrunner.RoadRunner):
+            raise Exception('First argument must be a roadrunner variable')
+
+        if result is None:
+            result = self.getSimulationData()
+
+        if result is None:
+            raise Exception("no simulation result")
+
+        if result.dtype.names is None:
+            columns = result.shape[1]
+            legendItems = self.timeCourseSelections[1:]
+            if columns-1 != len(legendItems):
+               raise Exception('Legend list must match result array')
+            for i in range(columns-1):
+               plt.plot(result[:, 0], result[:, i+1], linewidth=2.5, label=legendItems[i])
+        else:
+            # result is structured array
+            if len(result.dtype.names) < 1:
+                raise Exception('no columns to plot')
+
+            time = result.dtype.names[0]
+
+            for name in result.dtype.names[1:]:
+                p.plot(result[time], result[name], label=name)
+
+        plt.legend(loc=loc)
+
+        if show:
+            plt.show()
+        return plt
+
+    def simulateAndPlot(self, startTime=0, endTime=5, numberOfPoints=500, **kwargs):
+        """Run simulation and plot the results.
+        ::
+
+            simulateAndPlot (rr)
+            simulateAndPlot (rr, 0, 10, 100)
+
+        :param self: RoadRunner instance
+        :param startTime: start time of simulation
+        :param endTime: end time of simulation
+        :param numberOfPoints: number of points in simulation
+        :returns: simulation results
+        """
+        result = self.simulate(startTime, endTime, numberOfPoints, **kwargs)
+        self.plotWithLegend(self, result)
+        return result
+
+    # ---------------------------------------------------------------------
+    # Stochastic Simulation Methods
+    # ---------------------------------------------------------------------
+    def getSeed(self):
+        """ Current seed used by the random generator of the RoadRunner instance.
+
+        :returns: current seed
+        """
+        intg = self.getIntegrator("gillespie")
+        if intg is None:
+            raise ValueError("model is not loaded")
+        return intg['seed']
+
+    def setSeed(self, seed):
+        """Set seed for random number generator (used by gillespie for example).
+        ::
+
+            rr.setSeed(12345)
+
+        :param self: RoadRunner instance.
+        :param seed: seed to set
+        """
+        intg = self.getIntegrator('gillespie')
+        if intg is None:
+            raise ValueError("model is not loaded")
+
+        # there are some issues converting big Python (greater than 4,294,967,295) integers
+        # to C integers on 64 bit machines. If its converted to float before, works around the issue.
+        intg['seed'] = float(seed)
+
+    def gillespie(self, *args, **kwargs):
+        """ Run a Gillespie stochastic simulation.
+        ::
+
+            rr = te.loada ('S1 -> S2; k1*S1; k1 = 0.1; S1 = 40')
+
+            # Simulate from time zero to 40 time units
+            result = rr.gillespie (0, 40)
+
+            # Simulate on a grid with 10 points from start 0 to end time 40
+            result = rr.gillespie (0, 40, 10)
+
+            # Simulate from time zero to 40 time units using the given selection list
+            # This means that the first column will be time and the second column species S1
+            result = rr.gillespie (0, 40, ['time', 'S1'])
+
+            # Simulate from time zero to 40 time units, on a grid with 20 points
+            # using the give selection list
+            result = rr.gillespie (0, 40, 20, ['time', 'S1'])
+
+        :param args: parameters for simulate
+        :param kwargs: parameters for simulate
+        :returns: simulation results
+        """
+        if self.integrator is None:
+            raise ValueError("model is not loaded")
+
+        if kwargs is not None:
+            kwargs['integrator'] = 'gillespie'
+        else:
+            kwargs = {'integrator': 'gillespie'}
+
+        prev = self.integrator.getName()
+        result = self.simulate(*args, **kwargs)
+        self.setIntegrator(prev)
+
+        return result
+
     # ---------------------------------------------------------------
     # Simulate Options
     # ---------------------------------------------------------------
-    def setSteps(self, steps):
-        """ Set steps in roadrunner simulateOptions.
+    # Not supported any more
+    #
+    # def setSteps(self, steps):
+    #     """ Set steps in roadrunner simulateOptions.
+    #
+    #     :param steps: steps in integration
+    #     :type steps: int
+    #     """
+    #     warnings.warn('simulateOptions no longer supported, will be removed in v1.4',
+    #                   DeprecationWarning, stacklevel=2)
+    #     raise DeprecationWarning
+    #     self.simulateOptions.steps = steps
+    #
+    # def getSteps(self):
+    #     """ Get number of steps from simulateOptions. """
+    #     warnings.warn('simulateOptions no longer supported, will be removed in v1.4',
+    #                   DeprecationWarning, stacklevel=2)
+    #     raise DeprecationWarning
+    #     return self.simulateOptions.steps
+    #
+    # def setNumberOfPoints(self, numberOfPoints):
+    #     """ Set number of points in roadrunner simulateOptions.
+    #
+    #     :param numberOfPoints: number of points in result
+    #     :type numberOfPoints: int
+    #     """
+    #     warnings.warn('simulateOptions no longer supported, will be removed in v1.4',
+    #                   DeprecationWarning, stacklevel=2)
+    #     raise DeprecationWarning
+    #     self.simulateOptions.steps = numberOfPoints - 1
+    #
+    # def getNumberOfPoints(self):
+    #     """ Get number of points from rr.simulateOptions. """
+    #     warnings.warn('simulateOptions no longer supported, will be removed in v1.4',
+    #                   DeprecationWarning, stacklevel=2)
+    #     raise DeprecationWarning
+    #     return self.simulateOptions.steps + 1
+    #
+    # def setStartTime(self, startTime):
+    #     """ Set start in roadrunner simulateOptions.
+    #
+    #     :param start: start time of integration
+    #     :type start: float
+    #     """
+    #     warnings.warn('simulateOptions no longer supported, will be removed in v1.4',
+    #                   DeprecationWarning, stacklevel=2)
+    #     raise DeprecationWarning("simulateOptions no longer supported")
+    #     self.simulateOptions.start = startTime
+    #
+    # def getStartTime(self):
+    #     """ Get start time from roadrunner simulateOptions. """
+    #     warnings.warn('simulateOptions no longer supported, will be removed in v1.4',
+    #                   DeprecationWarning, stacklevel=2)
+    #     raise DeprecationWarning("simulateOptions no longer supported")
+    #     return self.simulateOptions.start
+    #
+    # def setEndTime(self, endTime):
+    #     """ Set end in roadrunner simulateOptions.
+    #
+    #     :param end: end time of integration
+    #     :type end: float
+    #     """
+    #     warnings.warn('simulateOptions no longer supported, will be removed in v1.4',
+    #                   DeprecationWarning, stacklevel=2)
+    #     raise DeprecationWarning("simulateOptions no longer supported")
+    #     self.simulateOptions.end = endTime
+    #
+    #
+    # def getEndTime(self):
+    #     """ Get end time from roadrunner simulateOptions. """
+    #     warnings.warn('simulateOptions no longer supported, will be removed in v1.4',
+    #                   DeprecationWarning, stacklevel=2)
+    #     raise DeprecationWarning("simulateOptions no longer supported")
+    #     return self.simulateOptions.start + self.simulateOptions.duration
 
-        :param steps: steps in integration
-        :type steps: int
-        """
-        warnings.warn('simulateOptions no longer supported, will be removed in v1.4',
-                      DeprecationWarning, stacklevel=2)
-        raise DeprecationWarning
-        self.simulateOptions.steps = steps
 
-    def getSteps(self):
-        """ Get number of steps from simulateOptions. """
-        warnings.warn('simulateOptions no longer supported, will be removed in v1.4',
-                      DeprecationWarning, stacklevel=2)
-        raise DeprecationWarning
-        return self.simulateOptions.steps
-
-    def setNumberOfPoints(self, numberOfPoints):
-        """ Set number of points in roadrunner simulateOptions.
-
-        :param numberOfPoints: number of points in result
-        :type numberOfPoints: int
-        """
-        warnings.warn('simulateOptions no longer supported, will be removed in v1.4',
-                      DeprecationWarning, stacklevel=2)
-        raise DeprecationWarning
-        self.simulateOptions.steps = numberOfPoints - 1
-
-    def getNumberOfPoints(self):
-        """ Get number of points from rr.simulateOptions. """
-        warnings.warn('simulateOptions no longer supported, will be removed in v1.4',
-                      DeprecationWarning, stacklevel=2)
-        raise DeprecationWarning
-        return self.simulateOptions.steps + 1
-
-    def setStartTime(self, startTime):
-        """ Set start in roadrunner simulateOptions.
-
-        :param start: start time of integration
-        :type start: float
-        """
-        warnings.warn('simulateOptions no longer supported, will be removed in v1.4',
-                      DeprecationWarning, stacklevel=2)
-        raise DeprecationWarning("simulateOptions no longer supported")
-        self.simulateOptions.start = startTime
-
-    def getStartTime(self):
-        """ Get start time from roadrunner simulateOptions. """
-        warnings.warn('simulateOptions no longer supported, will be removed in v1.4',
-                      DeprecationWarning, stacklevel=2)
-        raise DeprecationWarning("simulateOptions no longer supported")
-        return self.simulateOptions.start
-
-    def setEndTime(self, endTime):
-        """ Set end in roadrunner simulateOptions.
-
-        :param end: end time of integration
-        :type end: float
-        """
-        warnings.warn('simulateOptions no longer supported, will be removed in v1.4',
-                      DeprecationWarning, stacklevel=2)
-        raise DeprecationWarning("simulateOptions no longer supported")
-        self.simulateOptions.end = endTime
-
-
-    def getEndTime(self):
-        """ Get end time from roadrunner simulateOptions. """
-        warnings.warn('simulateOptions no longer supported, will be removed in v1.4',
-                      DeprecationWarning, stacklevel=2)
-        raise DeprecationWarning("simulateOptions no longer supported")
-        return self.simulateOptions.start + self.simulateOptions.duration
-
-
+# ---------------------------------------------------------------
+# End of routines
+# ---------------------------------------------------------------
+# Now we assign the ExtendedRoadRunner to RoadRunner
 
 def RoadRunner(*args):
     # return roadrunner.RoadRunner(*args)
@@ -504,589 +864,12 @@ def RoadRunner(*args):
 
 roadrunner.RoadRunner = ExtendedRoadRunner
 
+# And assign functions to the roadrunner module.
+# Hereby they are available as te.function and roadrunner.function
 
-# ---------------------------------------------------------------------
-# SEDML Utilities
-# ---------------------------------------------------------------------
-def experiment(antimonyStr, phrasedmlStr):
-    """Create an experiment instance given an antimony string and a phrasedml string.
-
-    :param antimonyStr: antimony string of model
-    :param phrasedmlStr: phrasedml simulation description
-    :returns: SEDML experiment description
-    """
-    return tephrasedml.tePhrasedml(antimonyStr, phrasedmlStr)
-
-
-# ---------------------------------------------------------------------
-# Math Utilities
-# ---------------------------------------------------------------------
-def getEigenvalues(m):
-    """
-    Eigenvalues of matrix.
-    Convenience method for computing the eigenvalues of a matrix m
-    Uses numpy eig to compute the eigenvalues.
-
-    :param m: numpy array
-    :returns: numpy array containing the eigenvalues
-    """
-    from numpy import linalg
-    w, v = linalg.eig(m)
-    return w
-
-    
-# ---------------------------------------------------------------------
-# Stochastic Simulation Methods
-# ---------------------------------------------------------------------
-def getSeed(r):
-    """ Current seed used by the random generator of the RoadRunner instance.
-    ::
-
-        myseed = rr.getSeed()
-
-    :param r: RoadRunner instance.
-    :returns: current seed
-    """
-    intg = r.getIntegrator("gillespie")
-    if intg is None:
-        raise ValueError("model is not loaded")
-    return intg['seed']
-
-
-def setSeed(r, seed):
-    """Set seed for random number generator (used by gillespie for example).
-    ::
-
-        rr.setSeed(12345)
-
-    :param r: RoadRunner instance.
-    :param seed: seed to set
-    """
-    # FIXME: this should be via self not via a RoadRunner instance r
-    intg = r.getIntegrator('gillespie')
-    if intg is None:
-        raise ValueError("model is not loaded")
-
-    # there are some issues converting big Python (greater than 4,294,967,295) integers 
-    # to C integers on 64 bit machines. If its converted to float before, works around the issue. 
-    intg['seed'] = float(seed)
-
-
-def gillespie(r, *args, **kwargs):
-    """Run a Gillespie stochastic simulation.
-    ::
-
-        rr = te.loada ('S1 -> S2; k1*S1; k1 = 0.1; S1 = 40')
-
-        # Simulate from time zero to 40 time units
-        result = rr.gillespie (0, 40)
-
-        # Simulate on a grid with 10 points from start 0 to end time 40
-        result = rr.gillespie (0, 40, 10)
-
-        # Simulate from time zero to 40 time units using the given selection list
-        # This means that the first column will be time and the second column species S1
-        result = rr.gillespie (0, 40, ['time', 'S1'])
-
-        # Simulate from time zero to 40 time units, on a grid with 20 points
-        # using the give selection list
-        result = rr.gillespie (0, 40, 20, ['time', 'S1'])
-
-    :param r: RoadRunner instance
-    :param args: parameters for simulate
-    :param kwargs: parameters for simulate
-    :returns: simulation results
-    """
-    if r.integrator is None:
-        raise ValueError("model is not loaded")
-    
-    prev = r.integrator.getName()
-
-    if kwargs is not None:
-        kwargs['integrator'] = 'gillespie'
-    else:
-        kwargs = {'integrator': 'gillespie'}
-
-    result = r.simulate(*args, **kwargs)
-
-    r.setIntegrator(prev)
-
-    return result
-
-
-# ---------------------------------------------------------------------
-# Plotting Utilities
-# ---------------------------------------------------------------------
-def plot(rr, result=None, loc='upper left', show=True):
-    """Plot data generated by a simulation.
-    Plot results from a simulation carried out by the simulate or gillespie
-    functions. This is a roadrunner method.
-    Data is a numpy array where the first column is considered the x axis and all remaining columns the y axis.
-    If no data is provided the data currently held by roadrunner generated in the last simulation is used.
-    ::
-
-        r.plot()
-
-    :param rr: RoadRunner instance
-    :param result: results data to plot
-    :param loc: location of plot legend
-    :param show: show the plot
-    :returns: ?
-    """
-    if result is None:
-        # Call Andy version if no results passed to call
-        return rr.plotAS()
-    else:
-        return plotWithLegend(rr, result, loc, show=show)
-
-
-def plotWithLegend(rr, result=None, loc='upper left', show=True):
-    """Plot an array and include a legend.
-    The first argument must be a roadrunner variable.
-    The second argument must be an array containing data to plot.
-    The first column of the array will
-    be the x-axis and remaining columns the y-axis. Returns
-    a handle to the plotting object.
-    ::
-
-        plotWithLegend (r)
-
-    :param rr: RoadRunner instance
-    :param result: results to plot
-    :param loc: location of plot legend
-    :param show: show the plot
-    :returns: plt object
-    """
-    import matplotlib.pyplot as p
-    
-    if not isinstance(rr, roadrunner.RoadRunner):
-        raise Exception('First argument must be a roadrunner variable')
-
-    if result is None:
-        result = rr.getSimulationData()
-
-    if result is None:
-        raise Exception("no simulation result")
-
-    if result.dtype.names is None:
-        columns = result.shape[1]
-        legendItems = rr.timeCourseSelections[1:]
-        if columns-1 != len(legendItems):
-           raise Exception('Legend list must match result array')
-        for i in range(columns-1):
-           plt.plot(result[:, 0], result[:, i+1], linewidth=2.5, label=legendItems[i])
-    else:
-        # result is structured array
-        if len(result.dtype.names) < 1:
-            raise Exception('no columns to plot')
-
-        time = result.dtype.names[0]
-
-        for name in result.dtype.names[1:]:
-            p.plot(result[time], result[name], label=name)
-
-    plt.legend(loc=loc)
-
-    if show:
-        plt.show()
-    return plt
-
-
-def simulateAndPlot(rr, startTime=0, endTime=5, numberOfPoints=500, **kwargs):
-    """Run simulation and plot the results.
-    ::
-
-        simulateAndPlot (rr)
-        simulateAndPlot (rr, 0, 10, 100)
-
-    :param rr: RoadRunner instance
-    :param startTime: start time of simulation
-    :param endTime: end time of simulation
-    :param numberOfPoints: number of points in simulation
-    :returns: simulation results
-    """
-    # FIXME: arguments should have the same names like the named arguments in simulate (start, end, ...)
-    result = rr.simulate(startTime, endTime, numberOfPoints, **kwargs)
-    plotWithLegend(rr, result)
-    return result
- 
-
-def plotArray(*args, **kwargs):
-    """ Plot an array.
-    The first column of the array will
-    be the x-axis and remaining columns the y-axis. Returns
-    a handle to the plotting object. Note that you can add
-    plotting options as named key values after the array. For
-    example to add a legend, include the label key value:
-    te.plotArray (m, label='A label') then use pylab.legend()
-    to make sure the legend is shown. 
-    ::
-
-        result = numpy.array([[1,2,3], [7.2,6.5,8.8], [9.8, 6.5, 4.3]])
-        plotArray(result)
-    """
-    global tehold 
-    p = plt.plot(args[0][:, 0], args[0][:, 1:], linewidth=2.5, **kwargs)
-    # If user is building a legend don't show the plot yet    
-    if 'label' in kwargs:
-        return p
-    if tehold == False:    
-        plt.show()
-    return p
-
-# ---------------------------------------------------------------------
-# Test Models
-# ---------------------------------------------------------------------
-def loadTestModel(string):
-    """Loads particular test model into roadrunner.
-    ::
-
-        rr = roadrunner.loadTestModel('feedback.xml')
-
-    :returns: RoadRunner instance with test model loaded
-    """
-    return roadrunner.testing.getRoadRunner(string)
-
-
-def getTestModel(string):
-    """SBML of given test model as a string.
-    ::
-
-        # load test model as SBML
-        sbml = te.getTestModel('feedback.xml')
-        rr = te.loadSBMLModel(sbml)
-        # simulate
-        s = rr.simulate(0, 100, 200)
-
-    :returns: SBML string of test model
-    """
-    return roadrunner.testing.getData(string)
-
-
-def listTestModels():
-    """ List roadrunner SBML test models.
-    ::
-
-        print(roadrunner.listTestModels())
-
-    :returns: list of test model paths
-    """
-    modelList = []
-    fileList = roadrunner.testing.dir('*.xml')
-    for pathName in fileList:
-        modelList.append(os.path.basename(pathName))
-    return modelList
-
-
-# ---------------------------------------------------------------------
-# Test Models
-# ---------------------------------------------------------------------
-def resetToOrigin(rr):
-    """Reset model to state when first loaded.
-    This resets the model back to the state when it was FIRST loaded,
-    this includes all init() and parameters such as k1 etc.
-    ::
-
-        r.resetToOrigin()
-
-    identical to:
-        r.reset(roadrunner.SelectionRecord.ALL)
-    """
-    rr.reset(roadrunner.SelectionRecord.ALL)
-
-
-def resetAll(rr):
-    """Reset all model variables to CURRENT init(X) values.
-    This resets all variables, S1, S2 etc to the CURRENT init(X) values. It also resets all
-    parameters back to the values they had when the model was first loaded.
-    ::
-
-        rr.resetAll()
-    """
-    rr.reset(roadrunner.SelectionRecord.TIME |
-             roadrunner.SelectionRecord.RATE |
-             roadrunner.SelectionRecord.FLOATING |
-             roadrunner.SelectionRecord.GLOBAL_PARAMETER)
-
-# --------------------------------------------------------------------- 
-# Routines flattened from model, aves typing and easier finding of methods
-# ---------------------------------------------------------------------
-def getRatesOfChange(rr):
-    """ Rate of change of all state variables in the model.
-
-    :returns: rate of change of all state variables (eg species) in the model.
-    """
-    if rr.conservedMoietyAnalysis:
-        m1 = rr.getLinkMatrix()
-        m2 = rr.model.getStateVectorRate()
-        return m1.dot(m2)
-    else:
-        return rr.model.getStateVectorRate()
-
-
-def getConservedMoietyIds(self):
-    warnings.warn('Use getDependentFloatingSpecies instead, will be removed in v1.4',
-                  DeprecationWarning, stacklevel=2)
-    return self.getDependentFloatingSpecies()
-
-
-# ---------------------------------------------------------------
-# End of routines
-# Now we assign the routines to the roadrunner instance
-# ---------------------------------------------------------------
-# FIXME: handle in more general way via the names.
-
-"""
-roadrunner.RoadRunner.getCurrentMatlab = getCurrentMatlab
-roadrunner.RoadRunner.getCurrentAntimony = getCurrentAntimony
-roadrunner.RoadRunner.getCurrentCellML = getCurrentCellML
-roadrunner.RoadRunner.exportToMatlab = exportToMatlab
-roadrunner.RoadRunner.exportToAntimony = exportToAntimony
-roadrunner.RoadRunner.exportToSBML = exportToSBML
-roadrunner.RoadRunner.exportToCellML = exportToCellML
-"""
-
-# Helper Routines
-roadrunner.RoadRunner.getSeed = getSeed
-roadrunner.RoadRunner.setSeed = setSeed
-roadrunner.RoadRunner.gillespie = gillespie
-roadrunner.RoadRunner.getRatesOfChange = getRatesOfChange
-
-roadrunner.RoadRunner.plotAS = roadrunner.RoadRunner.plot
-roadrunner.RoadRunner.plot = plot
-
+# FIXME: this should not be done, just use the te.function version
 roadrunner.noticesOff = noticesOff
-roadrunner.noticesOn = noticesOn  
+roadrunner.noticesOn = noticesOn
 roadrunner.getTestModel = getTestModel
 roadrunner.loadTestModel = loadTestModel
 roadrunner.listTestModels = listTestModels
-
-roadrunner.RoadRunner.resetToOrigin = resetToOrigin
-roadrunner.RoadRunner.resetAll = resetAll
-
-roadrunner.RoadRunner.getConservedMoietyIds = getConservedMoietyIds
-
-# -------------------------------------------------------
-# SimulateOptions
-"""
-roadrunner.RoadRunner.setStartTime = setStartTime
-roadrunner.RoadRunner.getStartTime = getStartTime
-roadrunner.RoadRunner.setEndTime = setEndTime
-roadrunner.RoadRunner.getEndTime = getEndTime
-roadrunner.RoadRunner.setNumberOfPoints = setNumberOfPoints
-roadrunner.RoadRunner.getNumberOfPoints = getNumberOfPoints
-roadrunner.RoadRunner.setSteps = setSteps
-roadrunner.RoadRunner.getSteps = getSteps
-"""
-
-# ---------------------------------------------------------------------
-# Routines to support the Jarnac compatibility layer
-# ---------------------------------------------------------------------
-#
-# def getRs(rr):
-#     """ Returns the list of reaction Identifiers.
-#
-#     See also: :func:`rs`, :func:`getReactionIds`
-#
-#     :returns: reaction identifiers
-#     """
-#     return rr.model.getReactionIds()
-#
-#
-# def getFs(rr):
-#     """ Returns list of floating species identifiers.
-#
-#     See also: :func:`fs`, :func:`getFloatingSpeciesIds`
-#
-#     :returns: floating species identifiers
-#     """
-#     return rr.model.getFloatingSpeciesIds()
-#
-#
-# def getBs(rr):
-#     """ Returns list of boundary species identifiers.
-#
-#     See also: :func:`bs`, :func:`getBoundarySpeciesIds`
-#
-#     :returns: boundary species identifiers
-#     """
-#     return rr.model.getBoundarySpeciesIds()
-#
-#
-# def getPs(rr):
-#     """ Returns list of global parameters in the model.
-#
-#     See also: :func:`ps`, :func:`getGlobalParameterIds`
-#
-#     :returns: global parameters
-#     """
-#     return rr.model.getGlobalParameterIds()
-#
-#
-# def getVs(rr):
-#     """ Returns the list of compartment identifiers.
-#
-#     See also: :func:`vs`, :func:`getCompartmentIds`
-#
-#     :returns: compartment identifiers
-#     """
-#     return rr.model.getCompartmentIds()
-#
-#
-# def getDv(rr):
-#     """ Returns the list of rates of change.
-#
-#     See also: :func:`dv`, :func:`getStateVectorRate`
-#
-#     :returns: rate of change
-#     """
-#     return rr.model.getStateVectorRate()
-#
-#
-# def getRv(rr):
-#     """ Returns the list of reaction rates.
-#
-#     See also: :func:`rv`, :func:`getReactionRates`
-#
-#     :returns: reaction rates
-#     """
-#     return rr.model.getReactionRates()
-#
-#
-# def getSv(rr):
-#     """ Returns the list of floating species concentrations.
-#
-#     See also: :func:`rr`, :func:`getFloatingSpeciesConcentrations`
-#
-#     :returns: floating species concentrations
-#     """
-#     return rr.model.getFloatingSpeciesConcentrations()
-#
-#
-#
-# # WORK IN PROGRESS - DO NOT REMOVE
-# # Jarnac compatibility layer
-# jarnac_layer = {
-#     'fjac': roadrunner.RoadRunner.getFullJacobian,
-#     'sm': roadrunner.RoadRunner.getFullStoichiometryMatrix,
-#     'rs': roadrunner.ExecutableModel.getReactionIds,
-#     'fs': roadrunner.ExecutableModel.getFloatingSpeciesIds,
-#     'bs': roadrunner.ExecutableModel.getBoundarySpeciesIds,
-#     'ps': roadrunner.ExecutableModel.getGlobalParameterIds,
-#     'vs': roadrunner.ExecutableModel.getCompartmentIds,
-#     'dv': roadrunner.ExecutableModel.getStateVectorRate,
-#     'rv': roadrunner.ExecutableModel.getReactionRates,
-#     'sv': roadrunner.ExecutableModel.getFloatingSpeciesConcentrations,
-# }
-# for key, value in jarnac_layer.iteritems():
-#     setattr(roadrunner.RoadRunner, key, value)
-#
-#
-# roadrunner.RoadRunner.fjac = roadrunner.RoadRunner.getFullJacobian
-# roadrunner.RoadRunner.sm = roadrunner.RoadRunner.getFullStoichiometryMatrix
-# roadrunner.RoadRunner.fs = getFs
-# roadrunner.RoadRunner.bs = getBs
-# roadrunner.RoadRunner.rs = getRs
-# roadrunner.RoadRunner.ps = getPs
-# roadrunner.RoadRunner.vs = getVs
-# roadrunner.RoadRunner.dv = getDv
-# roadrunner.RoadRunner.rv = getRv
-# roadrunner.RoadRunner.sv = getSv
-#
-
-# -------------------------------------------------------
-# Model flattening routines
-# TODO: handle the pass trough docstrings
-# FIXME: by the following trick all the documentation gets lost!
-# i.e. the te.func() do not have any documentation associated.
-# make sure help(func) returns the info of help(self.model.func) (see wrap in functools)
-
-def getBoundarySpeciesConcentrations(rr):
-    return rr.model.getBoundarySpeciesConcentrations()
-
-def getBoundarySpeciesIds(rr):
-    return rr.model.getBoundarySpeciesIds()
-
-def getNumBoundarySpecies(rr):
-    return rr.model.getNumBoundarySpecies()
-
-def getFloatingSpeciesConcentrations(self):
-    return self.model.getFloatingSpeciesConcentrations()
-
-def getFloatingSpeciesIds(rr):
-    return rr.model.getFloatingSpeciesIds()
-
-def getNumFloatingSpecies(rr):
-    return rr.model.getNumFloatingSpecies()
-
-def getGlobalParameterIds(rr):
-    return rr.model.getGlobalParameterIds()
-
-def getGlobalParameterValues(rr):
-    return rr.model.getGlobalParameterValues()
-
-def getNumGlobalParameters(rr):
-    return rr.model.getNumGlobalParameters()
-
-def getCompartmentIds(rr):
-    return rr.model.getCompartmentIds()
-
-def getCompartmentVolumes(rr):
-    return rr.model.getCompartmentVolumes()
-
-def getNumCompartments(rr):
-    return rr.model.getNumCompartments()
-
-def getConservedMoietyValues(rr):
-    return rr.model.getConservedMoietyValues()
-
-def getNumConservedMoieties(rr):
-    return rr.model.getNumConservedMoieties()
-
-def getNumDepFloatingSpecies(rr):
-    return rr.model.getNumDepFloatingSpecies()
-
-def getNumIndFloatingSpecies(rr):
-    return rr.model.getNumIndFloatingSpecies()
-
-def getNumReactions(rr):
-    return rr.model.getNumReactions()
-
-def getReactionIds(rr):
-    return rr.model.getReactionIds()
-
-def getReactionRates(rr):
-    return rr.model.getReactionRates()
-
-def getNumEvents(rr):
-    return rr.model.getNumEvents()
-
-def getNumRateRules(rr):
-    return rr.model.getNumRateRules()
-
-roadrunner.RoadRunner.getBoundarySpeciesConcentrations = getBoundarySpeciesConcentrations
-roadrunner.RoadRunner.getBoundarySpeciesIds = getBoundarySpeciesIds
-roadrunner.RoadRunner.getNumBoundarySpecies = getNumBoundarySpecies
-
-roadrunner.RoadRunner.getFloatingSpeciesConcentrations = getFloatingSpeciesConcentrations
-roadrunner.RoadRunner.getFloatingSpeciesIds = getFloatingSpeciesIds
-roadrunner.RoadRunner.getNumFloatingSpecies = getNumFloatingSpecies
-
-roadrunner.RoadRunner.getGlobalParameterIds = getGlobalParameterIds
-roadrunner.RoadRunner.getGlobalParameterValues = getGlobalParameterValues
-roadrunner.RoadRunner.getNumGlobalParameters = getNumGlobalParameters
-
-roadrunner.RoadRunner.getCompartmentIds = getCompartmentIds
-roadrunner.RoadRunner.getCompartmentVolumes = getCompartmentVolumes
-roadrunner.RoadRunner.getNumCompartments = getNumCompartments
-
-
-roadrunner.RoadRunner.getNumConservedMoieties = getNumConservedMoieties
-roadrunner.RoadRunner.getNumConservedMoieties = getNumConservedMoieties
-roadrunner.RoadRunner.getNumConservedMoieties = getNumConservedMoieties
-
-roadrunner.RoadRunner.getNumReactions = getNumReactions
-roadrunner.RoadRunner.getReactionIds = getReactionIds
-roadrunner.RoadRunner.getReactionRates = getReactionRates
-roadrunner.RoadRunner.getNumEvents = getNumEvents
-roadrunner.RoadRunner.getNumRateRules = getNumRateRules
