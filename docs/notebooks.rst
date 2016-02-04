@@ -36,6 +36,8 @@ SED-ML & Combine
 Tellurium supports the simulation description via the simulation experiment
 description markup language (SED-ML). 
 
+.. autofunction:: tellurium.experiment
+
 .. include:: _notebooks/core/phrasedmlExample.rst
 .. include:: _notebooks/core/tesedmlExample.rst
 

@@ -7,33 +7,7 @@ Utility Methods
 ----------------
 The most useful methods here are the notices routines. Roadrunner will offen issue warning or informational messages. For repeated simulation such messages will clutter up the outputs. noticesOff and noticesOn can be used to turn on an off the messages.
 
-**Print Version information**
-:: 
 
-	import tellurium as te
-	te.getVersionInfo()
-
-**Repeat simulation without notification**
-::
-
-	# Load SBML file
-	r = roadrunner.RoadRunner('mymodel.xml')
-	# Turn of notices so they don't clutter the output
-	roadrunner.noticesOff()
-	for i in range (0:20):
-	  result = r.simulate (0, 10)
-	  r.plot (result)
-	  r.model.k1 = r.model.k1 + 0.2
-	# Turn the notices back on
-	roadrunner.noticesOn()
-
-**File helpers for reading and writing**
-::
-
-	r = te.loada('S1 -> S2; k1*S1; k1 = 0.1; S1 = 10')
-	saveToFile('mymodel.m', r.getMatlab())
-
-	sbmlstr = readFromFile('mymodel.xml')
 
 .. autofunction:: tellurium.getVersionInfo
 .. autofunction:: tellurium.printVersionInfo
@@ -119,8 +93,11 @@ Matlab, CellML, Antimony and SBML.
 	print(r.getCurrentMatlab())
 	r.exportToMatlab("mymodel.m")
 
+.. autofunction:: tellurium.ExtendedRoadRunner.getAntimony
 .. autofunction:: tellurium.getCurrentAntimony
+.. autofunction:: tellurium.ExtendedRoadRunner.getCellML
 .. autofunction:: tellurium.getCurrentCellML
+.. autofunction:: tellurium.ExtendedRoadRunner.getMatlab
 .. autofunction:: tellurium.getCurrentMatlab
 .. autofunction:: tellurium.exportToSBML
 .. autofunction:: tellurium.exportToAntimony
@@ -157,10 +134,6 @@ Use these routines to carry out Gillespie style stochastic simulations.
 .. autofunction:: tellurium.setSeed
 .. autofunction:: tellurium.gillespie
 
-----------------------------------------
-SEDML
-----------------------------------------
-.. autofunction:: tellurium.experiment
 
 ----------------------------------------
 Math

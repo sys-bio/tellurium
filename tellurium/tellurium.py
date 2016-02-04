@@ -1,29 +1,8 @@
 """
-Support routines for tellurium.
-
-A subset of methods is attached to the roadrunner instance. These are methods which extend the
-roadrunner functionality. These functions have `rr` as the first argument and the format
-
-::
-
-    def myRoadRunnerFunction(rr, *args, **kwargs):
-       '''
-
-        :param rr: RoadRunner instance
-        :type rr: RoadRunner.roadrunner
-
-        '''
-        pass
-
-These are attached to RoadRunner at the end of the module via
-::
-
-    roadrunner.RoadRunner.myRoadRunnerFunction = myRoadRunnerFunction
+The module tellurium provides support routines.
+As part of this module an ExendedRoadRunner class is defined which provides helper methods for
+model export, plotting or the Jarnac compatibility layer.
 """
-
-# ---------------------------------------------------------------------
-# imports
-# ---------------------------------------------------------------------
 from __future__ import print_function, division
 
 import os
@@ -65,6 +44,8 @@ except ImportError as e:
 # plot hold
 # ---------------------------------------------------------------------
 # FIXME: What is this? Add some explanation of the tehold global parameter.
+# why global parameter? this is really bad style.
+
 tehold = False  # Same as matlab hold
 
 # For some reason we can only access the tehold variable via methods
@@ -508,14 +489,22 @@ class ExtendedRoadRunner(roadrunner.RoadRunner):
     # ---------------------------------------------------------------------
     # Export Utilities
     # ---------------------------------------------------------------------
-    def getAntimony(self):
+    def __getSBML(self, current):
+        if current is True:
+            return self.getCurrentSBML()
+        else:
+            return self.getSBML()
+
+    def getAntimony(self, current=False):
         """ Antimony string of the original model loaded into roadrunner.
 
-        See also: :func:`getCurrentAntimony`
+        :param current: return current model state
+        :type current: bool
         :return: Antimony
         :rtype: str
         """
-        return sbmlToAntimony(self.getSBML())
+        sbml = self.__getSBML(current)
+        return sbmlToAntimony(sbml)
 
     def getCurrentAntimony(self):
         """ Antimony string of the current model state.
@@ -524,16 +513,18 @@ class ExtendedRoadRunner(roadrunner.RoadRunner):
         :return: Antimony
         :rtype: str
         """
-        return sbmlToAntimony(self.getCurrentSBML())
+        return self.getAntimony(current=True)
 
-    def getCellML(self):
+    def getCellML(self, current=False):
         """ CellML string of the original model loaded into roadrunner.
 
-        See also: :func:`getCurrentCellML`
+        :param current: return current model state
+        :type current: bool
         :returns: CellML string
         :rtype: str
         """
-        return sbmlToCellML(self.getSBML())
+        sbml = self.__getSBML(current)
+        return sbmlToCellML(sbml)
 
     def getCurrentCellML(self):
         """ CellML string of current model state.
@@ -542,63 +533,61 @@ class ExtendedRoadRunner(roadrunner.RoadRunner):
         :returns: CellML string
         :rtype: str
         """
-        return sbmlToCellML(self.getCurrentSBML())
+        return self.getCellML(current=True)
 
-    def getMatlab(self):
+    def getMatlab(self, current=False):
         """ Matlab string of the original model loaded into roadrunner.
 
         See also: :func:`getCurrentMatlab`
         :returns: Matlab string
         :rtype: str
         """
-        return sbml2matlab(self.getSBML())
+        sbml = self.__getSBML(current)
+        if sbml2matlab is not None:
+            return sbml2matlab(sbml)
+        else:
+            warnings.warn('sbml2matlab could not be imported, no Matlab code generation possible', ImportWarning)
+            return ""
 
     def getCurrentMatlab(self):
         """ Matlab string of current model state.
 
-        See also: :func:`getMatlab`
+        :param current: return current model state
+        :type current: bool
         :returns: Matlab string
         :rtype: str
         """
-        return sbml2matlab(self.getCurrentSBML())
+        return self.getMatlab(current=True)
 
     def exportToSBML(self, filePath, current=True):
         """ Save current model as SBML file.
-        To save the original model loaded into roadrunner use
-        current=False.
 
+        :param current: export current model state
+        :type current: bool
         :param filePath: file path of SBML file
-        :param filePath: str
+        :type filePath: str
         """
-        if current:
-            saveToFile(filePath, self.getCurrentSBML())
-        else:
-            saveToFile(filePath, self.getSBML())
+        saveToFile(filePath, self.__getSBML(current))
 
     def exportToAntimony(self, filePath, current=True):
         """ Save current model as Antimony file.
-        To save the original model loaded into roadrunner use
-        current=False.
 
+        :param current: export current model state
+        :type current: bool
         :param filePath: file path of Antimony file
         :type filePath: str
         """
-        if current:
-            saveToFile(filePath, self.getCurrentAntimony())
-        else:
-            saveToFile(filePath, self.getAntimony())
+        saveToFile(filePath, self.getAntimony(current))
 
     def exportToCellML(self, filePath, current=True):
         """ Save current model as CellML file.
-        To save the original model loaded into roadrunner use
-        current=False.
 
+        :param current: export current model state
+        :type current: bool
         :param filePath: file path of CellML file
+        :type filePath: str
         """
-        if current:
-            saveToFile(filePath, self.getCurrentCellML())
-        else:
-            saveToFile(filePath, self.getCellML())
+        saveToFile(filePath, self.getCellML(current))
 
     def exportToMatlab(self, filePath, current=True):
         """ Save current model as Matlab file.
@@ -608,11 +597,9 @@ class ExtendedRoadRunner(roadrunner.RoadRunner):
         :param self: RoadRunner instance
         :type self: RoadRunner.roadrunner
         :param filePath: file path of Matlab file
+        :type filePath: str
         """
-        if current:
-            saveToFile(filePath, self.getCurrentMatlab())
-        else:
-            saveToFile(filePath, self.getMatlab())
+        saveToFile(filePath, self.getMatlab(current))
 
     # ---------------------------------------------------------------------
     # DataFrame methods
@@ -726,24 +713,32 @@ class ExtendedRoadRunner(roadrunner.RoadRunner):
     # ---------------------------------------------------------------------
     # Plotting Utilities
     # ---------------------------------------------------------------------
-    def plot(self, result=None, loc='upper left', show=True):
+    def plot(self, result=None, loc='upper left', show=True, **kwargs):
         """Plot data generated by a simulation.
         Plot results from a simulation carried out by the simulate or gillespie
         functions. This is a roadrunner method.
         Data is a numpy array where the first column is considered the x axis and all remaining columns the y axis.
         If no data is provided the data currently held by roadrunner generated in the last simulation is used.
+
+        Supports all matplotlib.pyplot.plot keyword arguments, like
+            color
+            alpha
+            linewidth
+            linestyle
+            marker
         ::
 
-            r.plot()
+            r.plot(loc=None, linewidth=2.0, lineStyle='-', marker='o', color='black', alpha=0.8)
 
-        :param self: RoadRunner instance
         :param result: results data to plot
         :param loc: location of plot legend
         :param show: show the plot
-        """
-        return self.plotWithLegend(result, loc, show=show)
 
-    def plotWithLegend(self, result=None, loc='upper left', show=True):
+
+        """
+        return self.plotWithLegend(result, loc, show=show, **kwargs)
+
+    def plotWithLegend(self, result=None, loc='upper left', show=True, **kwargs):
         """ Plots the given results array including a legend.
         The first column of the array will be the x-axis, the remaining
         columns the y-axis. If no result array is provided the current
@@ -757,6 +752,9 @@ class ExtendedRoadRunner(roadrunner.RoadRunner):
         if result is None:
             result = self.getSimulationData()
 
+        if not kwargs.has_key('linewidth'):
+            kwargs['linewidth'] = 2.5
+
         if result.dtype.names is None:
             columns = result.shape[1]
             legendItems = self.timeCourseSelections[1:]
@@ -764,7 +762,7 @@ class ExtendedRoadRunner(roadrunner.RoadRunner):
                raise Exception('Legend list must match result array')
             # plot all the curves
             for i in range(columns-1):
-                plt.plot(result[:, 0], result[:, i+1], linewidth=2.5, label=legendItems[i])
+                plt.plot(result[:, 0], result[:, i+1], label=legendItems[i], **kwargs)
         else:
             # result is structured array
             if len(result.dtype.names) < 1:
@@ -775,10 +773,11 @@ class ExtendedRoadRunner(roadrunner.RoadRunner):
             for name in result.dtype.names[1:]:
                 plt.plot(result[time], result[name], label=name)
 
-        plt.legend(loc=loc)
-
+        if loc is not None:
+            plt.legend(loc=loc)
         if show:
             plt.show()
+        return plt
 
     def simulateAndPlot(self, startTime=0, endTime=5, numberOfPoints=500, **kwargs):
         """Run simulation and plot the results.
