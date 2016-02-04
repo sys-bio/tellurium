@@ -3,6 +3,8 @@
 Functions to work with event triggers and event handling.
 Example demonstrates ho to attach such function.
 """
+# TODO: test me, write example, update me
+
 import roadrunner
 
 
@@ -48,18 +50,19 @@ def onEvent(integrator, model, time):
     print("onEvent, time: {}".format(time))
 
 
-def testMultiStepIntegrator(filePath, t0, tf, dt, minStep = -1, maxStep=-1):
+def testMultiStepIntegrator(filePath, t0, tf, dt, minStep=-1, maxStep=-1):
     r = roadrunner.RoadRunner(filePath)
 
     listener = roadrunner.PyIntegratorListener()
     listener.setOnTimeStep(onTimeStep)
     listener.setOnEvent(onEvent)
     
-    r.getIntegrator().setListener(listener)
+    r.integrator.setListener(listener)
     
-    r.simulateOptions.integratorFlags = roadrunner.SimulateOptions.MULTI_STEP
-    r.simulateOptions.initialTimeStep = dt
-    r.simulateOptions.maximumTimeStep = maxStep
-    r.simulateOptions.minimumTimeStep = minStep
+    r.integrator.integratorFlags = roadrunner.SimulateOptions.MULTI_STEP
+    r.integrator.initialTimeStep = dt
+    r.integrator.maximumTimeStep = maxStep
+    r.integrator.minimumTimeStep = minStep
     r.integrate(t0, tf)
+
 
