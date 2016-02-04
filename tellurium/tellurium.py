@@ -36,6 +36,7 @@ import matplotlib.pyplot as plt
 import tecombine as combine
 import tesedml
 import tephrasedml
+import numpy as np
 
 try:
     import libsbml
@@ -614,6 +615,65 @@ class ExtendedRoadRunner(roadrunner.RoadRunner):
             saveToFile(filePath, self.getMatlab())
 
     # ---------------------------------------------------------------------
+    # DataFrame methods
+    # ---------------------------------------------------------------------
+    # additional dataframe functionality
+    # try:
+    #     import pandas
+    # except ImportError as e:
+    #     pandas = None
+    #     roadrunner.Logger.log(roadrunner.Logger.LOG_WARNING, str(e))
+    #
+    # def dfGlobalParameters(self):
+    #     """ GlobalParameter DataFrame.
+    #     :return: pandas DataFrame
+    #     """
+    #     from pandas import DataFrame
+    #     sids = self.model.getGlobalParameterIds()
+    #     model = self.sbml_doc.getModel()
+    #     parameters = [model.getParameter(sid) for sid in sids]
+    #     df = DataFrame({
+    #         'value': self.model.getGlobalParameterValues(),
+    #         'unit': [p.units for p in parameters],
+    #         'constant': [p.constant for p in parameters],
+    #         'parameter': parameters,
+    #         'name': [p.name for p in parameters],
+    #         }, index=sids, columns=['value', 'unit', 'constant', 'parameter', 'name'])
+    #     return df
+    #
+    # def dfSpecies(self):
+    #     """ Create Species DataFrame.
+    #     :return: pandas DataFrame
+    #     """
+    #     from pandas import DataFrame
+    #     sids = self.model.getFloatingSpeciesIds() + self.model.getBoundarySpeciesIds()
+    #     model = self.sbml_doc.getModel()
+    #     species = [model.getSpecies(sid) for sid in sids]
+    #     df = DataFrame({
+    #         'concentration': np.concatenate([self.model.getFloatingSpeciesConcentrations(),
+    #                                             self.model.getBoundarySpeciesConcentrations()],
+    #                                            axis=0),
+    #         'amount': np.concatenate([self.model.getFloatingSpeciesAmounts(),
+    #                                      self.model.getBoundarySpeciesAmounts()],
+    #                                      axis=0),
+    #         'unit': [s.units for s in species],
+    #         'constant': [s.constant for s in species],
+    #         'boundaryCondition': [s.boundary_condition for s in species],
+    #         'species': species,
+    #         'name': [s.name for s in species],
+    #         }, index=sids, columns=['concentration', 'amount', 'unit', 'constant', 'boundaryCondition', 'species', 'name'])
+    #     return df
+    #
+    # def dfSimulation(self):
+    #     """ DataFrame of the simulation data.
+    #     :return: pandas DataFrame
+    #     """
+    #     from pandas import DataFrame
+    #     df = DataFrame(self.getSimulationData(),
+    #                    columns=self.selections)
+    #     return df
+
+    # ---------------------------------------------------------------------
     # Reset Methods
     # ---------------------------------------------------------------------
     def resetToOrigin(self):
@@ -628,7 +688,6 @@ class ExtendedRoadRunner(roadrunner.RoadRunner):
             r.reset(roadrunner.SelectionRecord.ALL)
         """
         self.reset(roadrunner.SelectionRecord.ALL)
-
 
     def resetAll(self):
         """Reset all model variables to CURRENT init(X) values.

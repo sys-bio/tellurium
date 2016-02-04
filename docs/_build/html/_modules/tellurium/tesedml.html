@@ -206,6 +206,7 @@
 <span class="c1"># with the SEDML information.</span>
 <span class="c1">#   http://stackoverflow.com/questions/612788/best-python-templating-library-to-facilitate-code-generation</span>
 <span class="c1"># FIXME: please no sys.exit calls ever, raise a (custom) exception instead</span>
+<span class="c1"># FIXME: no code generation which uses simulateOptions</span>
 
 <span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">print_function</span><span class="p">,</span> <span class="n">division</span>
 
@@ -438,7 +439,8 @@
                 <span class="c1"># if resetModel is true we need to reapply all the changes from above</span>
                 <span class="k">print</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
                 <span class="n">bResetModel</span> <span class="o">=</span> <span class="n">task1</span><span class="o">.</span><span class="n">getResetModel</span><span class="p">()</span>
-                <span class="k">if</span> <span class="n">bResetModel</span> <span class="o">==</span> <span class="bp">True</span><span class="p">:</span>
+                <span class="c1"># FIXME: no code generation with simulateOptions</span>
+                <span class="k">if</span> <span class="n">bResetModel</span><span class="p">:</span>
                     <span class="k">print</span><span class="p">(</span><span class="n">rrName</span> <span class="o">+</span> <span class="s2">&quot;.simulateOptions.resetModel = True&quot;</span><span class="p">)</span>
                 <span class="k">else</span><span class="p">:</span>
                     <span class="k">print</span><span class="p">(</span><span class="n">rrName</span> <span class="o">+</span> <span class="s2">&quot;.simulateOptions.resetModel = False&quot;</span><span class="p">)</span>

@@ -15,8 +15,16 @@ and start jupyter in the notebooks folder
     jupyter notebook index.ipynb
 
 --------------------
-Model Building
+Basics
 --------------------
+.. include:: _notebooks/core/roadrunnerBasics.rst
+
+-------------------------
+Models & Model Building
+-------------------------
+In this section model the creation of example models is shown.
+
+.. include:: _notebooks/core/modelFromBioModels.rst
 .. include:: _notebooks/core/nonUnitStoichiometries.rst
 .. include:: _notebooks/core/consecutiveUniUniReactions.rst
 .. include:: _notebooks/core/feedback_oscillations.rst
@@ -25,8 +33,11 @@ Model Building
 --------------------
 SED-ML & Combine
 --------------------
-.. include:: _notebooks/core/phrasedml.rst
-.. include:: _notebooks/core/tesedml.rst
+Tellurium supports the simulation description via the simulation experiment
+description markup language (SED-ML). 
+
+.. include:: _notebooks/core/phrasedmlExample.rst
+.. include:: _notebooks/core/tesedmlExample.rst
 
 --------------------
 Parameter scan

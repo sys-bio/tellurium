@@ -3,8 +3,7 @@
 
 # Back to the main [Index](../index.ipynb)
 
-# ### phrasedml
-# #### phrasedml experiment
+# ### phrasedml experiment
 # Tellurium provides support for simulation descriptions in SED-ML the export in Combine Archive format.
 
 # In[1]:
@@ -35,7 +34,7 @@ exp.execute()
 exp.printpython()
 
 
-# #### Combine Archive
+# ### Combine Archive
 # The experiment, i.e. model with the simulation description, can be stored as Combine Archive.
 
 # In[2]:

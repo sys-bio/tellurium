@@ -6,11 +6,10 @@
 # ### tesedml
 # Simulations can be described within SED-ML, the Simulation Experiment Description Markup Language (http://sed-ml.org/). SED-ML is an XML-based format for encoding simulation setups, to ensure exchangeability and reproducibility of simulation experiments.
 # 
-# *Reproducible computational biology experiments with SED-ML - The Simulation Experiment Description Markup Language.*  
-# Waltemath D., Adams R., Bergmann F.T., Hucka M., Kolpakov F., Miller A.K., Moraru I.I., Nickerson D., Snoep J.L.,Le Novère, N.  
-# BMC Systems Biology 2011, 5:198 (http://www.pubmed.org/22172142)
+# > Reproducible computational biology experiments with SED-ML - The Simulation Experiment Description Markup Language. Waltemath D., Adams R., Bergmann F.T., Hucka M., Kolpakov F., Miller A.K., Moraru I.I., Nickerson D., Snoep J.L.,Le Novère, N. BMC Systems Biology 2011, 5:198 (http://www.pubmed.org/22172142)
 # 
 # Tellurium supports SED-ML via the packages `tesedml` and `tephrasedml`.
+# 
 # #### Creating SED-ML file
 
 # In[1]:
@@ -36,7 +35,7 @@ phrasedml_str = '''
 '''
 
 # create the sedml xml string from the phrasedml
-sbml_str = te.antimonyTosbml(antimony_str)
+sbml_str = te.antimonyToSBML(antimony_str)
 phrasedml.setReferencedSBML("myModel", sbml_str)
 
 sedml_str = phrasedml.convertString(phrasedml_str)

@@ -135,15 +135,16 @@
 Description Markup Language (<a class="reference external" href="http://sed-ml.org/">http://sed-ml.org/</a>). SED-ML is an XML-based
 format for encoding simulation setups, to ensure exchangeability and
 reproducibility of simulation experiments.</p>
-<div class="line-block">
-<div class="line"><a href="#id1"><span class="problematic" id="id2">*</span></a>Reproducible computational biology experiments with SED-ML - The</div>
-</div>
-<p>Simulation Experiment Description Markup Language.*
-| Waltemath D., Adams R., Bergmann F.T., Hucka M., Kolpakov F., Miller
-A.K., Moraru I.I., Nickerson D., Snoep J.L.,Le Novère, N.
-| BMC Systems Biology 2011, 5:198 (<a class="reference external" href="http://www.pubmed.org/22172142">http://www.pubmed.org/22172142</a>)</p>
+<blockquote>
+<div>Reproducible computational biology experiments with SED-ML - The
+Simulation Experiment Description Markup Language. Waltemath D.,
+Adams R., Bergmann F.T., Hucka M., Kolpakov F., Miller A.K., Moraru
+I.I., Nickerson D., Snoep J.L.,Le Novère, N. BMC Systems Biology
+2011, 5:198 (<a class="reference external" href="http://www.pubmed.org/22172142">http://www.pubmed.org/22172142</a>)</div></blockquote>
 <p>Tellurium supports SED-ML via the packages <code class="docutils literal"><span class="pre">tesedml</span></code> and
-<code class="docutils literal"><span class="pre">tephrasedml</span></code>. #### Creating SED-ML file</p>
+<code class="docutils literal"><span class="pre">tephrasedml</span></code>.</p>
+<div class="section" id="creating-sed-ml-file">
+<h2>Creating SED-ML file<a class="headerlink" href="#creating-sed-ml-file" title="Permalink to this headline">¶</a></h2>
 <div class="code python highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">tellurium</span> <span class="kn">as</span> <span class="nn">te</span>
 <span class="kn">import</span> <span class="nn">phrasedml</span>
 
@@ -163,7 +164,7 @@ A.K., Moraru I.I., Nickerson D., Snoep J.L.,Le Novère, N.
 <span class="s1">&#39;&#39;&#39;</span>
 
 <span class="c1"># create the sedml xml string from the phrasedml</span>
-<span class="n">sbml_str</span> <span class="o">=</span> <span class="n">te</span><span class="o">.</span><span class="n">antimonyTosbml</span><span class="p">(</span><span class="n">antimony_str</span><span class="p">)</span>
+<span class="n">sbml_str</span> <span class="o">=</span> <span class="n">te</span><span class="o">.</span><span class="n">antimonyToSBML</span><span class="p">(</span><span class="n">antimony_str</span><span class="p">)</span>
 <span class="n">phrasedml</span><span class="o">.</span><span class="n">setReferencedSBML</span><span class="p">(</span><span class="s2">&quot;myModel&quot;</span><span class="p">,</span> <span class="n">sbml_str</span><span class="p">)</span>
 
 <span class="n">sedml_str</span> <span class="o">=</span> <span class="n">phrasedml</span><span class="o">.</span><span class="n">convertString</span><span class="p">(</span><span class="n">phrasedml_str</span><span class="p">)</span>
@@ -173,7 +174,7 @@ A.K., Moraru I.I., Nickerson D., Snoep J.L.,Le Novère, N.
 </pre></div>
 </div>
 <div class="highlight-python"><div class="highlight"><pre>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
-&lt;!-- Created by phraSED-ML version v0.5beta on 2016-02-03 16:53 with libSBML version 5.12.1. --&gt;
+&lt;!-- Created by phraSED-ML version v0.5beta on 2016-02-04 16:11 with libSBML version 5.12.1. --&gt;
 &lt;sedML xmlns=&quot;http://sed-ml.org/sed-ml/level1/version2&quot; level=&quot;1&quot; version=&quot;2&quot;&gt;
   &lt;listOfSimulations&gt;
     &lt;uniformTimeCourse id=&quot;sim1&quot; initialTime=&quot;0&quot; outputStartTime=&quot;0&quot; outputEndTime=&quot;5&quot; numberOfPoints=&quot;100&quot;&gt;
@@ -223,9 +224,6 @@ A.K., Moraru I.I., Nickerson D., Snoep J.L.,Le Novère, N.
 &lt;/sedML&gt;
 </pre></div>
 </div>
-<div class="highlight-python"><div class="highlight"><pre>/usr/local/lib/python2.7/dist-packages/ipykernel/__main__.py:22: DeprecationWarning: Use antimonyToSBML instead, will be removed in v1.4
-</pre></div>
-</div>
 <div class="code python highlight-python"><div class="highlight"><pre><span class="c1"># Create the temporary files and execute the code</span>
 <span class="kn">import</span> <span class="nn">tempfile</span>
 <span class="n">f_sbml</span> <span class="o">=</span> <span class="n">tempfile</span><span class="o">.</span><span class="n">NamedTemporaryFile</span><span class="p">(</span><span class="n">prefix</span><span class="o">=</span><span class="s2">&quot;myModel&quot;</span><span class="p">,</span> <span class="n">suffix</span><span class="o">=</span><span class="s2">&quot;.xml&quot;</span><span class="p">)</span>
@@ -251,9 +249,10 @@ A.K., Moraru I.I., Nickerson D., Snoep J.L.,Le Novère, N.
 <span class="c1"># s2p.sedml_to_python(s2p)</span>
 </pre></div>
 </div>
-<div class="highlight-python"><div class="highlight"><pre>/tmp/myModel2bLUtt.xml
-/tmp/tmp0x_CJU.sedml
+<div class="highlight-python"><div class="highlight"><pre>/tmp/myModelEzWDXR.xml
+/tmp/tmpq1FJJw.sedml
 </pre></div>
+</div>
 </div>
 </div>
 

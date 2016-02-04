@@ -1,10 +1,7 @@
 
 
-phrasedml
-~~~~~~~~~
-
 phrasedml experiment
-^^^^^^^^^^^^^^^^^^^^
+~~~~~~~~~~~~~~~~~~~~
 
 Tellurium provides support for simulation descriptions in SED-ML the
 export in Combine Archive format.
@@ -75,7 +72,7 @@ export in Combine Archive format.
 
 
 Combine Archive
-^^^^^^^^^^^^^^^
+~~~~~~~~~~~~~~~
 
 The experiment, i.e. model with the simulation description, can be
 stored as Combine Archive.

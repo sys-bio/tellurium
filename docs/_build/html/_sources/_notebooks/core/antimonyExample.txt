@@ -50,7 +50,7 @@ Description Text
 
     --------------------------------------------------------------------------------
     tellurium : 1.3.0
-    roadrunner : 1.4.2; Compiler: gcc 4.8.4, C++ version: 199711; JIT Compiler: LLVM-3.4; Date: Feb  3 2016, 08:19:01; LibSBML Version: 5.12.0
+    roadrunner : 1.4.2; Compiler: gcc 4.8.4, C++ version: 199711; JIT Compiler: LLVM-3.4; Date: Feb  4 2016, 11:44:01; LibSBML Version: 5.12.0
     antimony : v2.8.0
     snbw_viewer : No information for sbnw viewer
     libsbml : 5.12.1

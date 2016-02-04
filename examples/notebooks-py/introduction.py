@@ -15,12 +15,12 @@ r.simulate(0, 10, 100)
 r.plot()
 
 
-# ### More Complex Example
+# ### Complex Example
 
 # In[2]:
 
 import tellurium as te
-r = te.loada ('''
+r = te.loada('''
     # A dollar symbol means fix the species concentration
     J1: $S1 -> S2;  k1*S1; 
     J2: S2 -> S3;  k2*S2 - k3*S3;
