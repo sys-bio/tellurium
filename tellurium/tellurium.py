@@ -740,34 +740,32 @@ class ExtendedRoadRunner(roadrunner.RoadRunner):
     # Stochastic Simulation Methods
     # ---------------------------------------------------------------------
     def getSeed(self):
-        """ Current seed used by the random generator of the RoadRunner instance.
+        """ Current seed used by the gillespie integrator.
 
         :returns: current seed
         """
-        intg = self.getIntegrator("gillespie")
-        if intg is None:
-            raise ValueError("model is not loaded")
-        return intg['seed']
+        prev = self.integrator.getName()
+        self.setIntegrator("gillespie")
+        seed = self.integrator.getValue('seed')
+        self.setIntegrator(prev)
+        return seed
 
     def setSeed(self, seed):
-        """Set seed for random number generator (used by gillespie for example).
+        """ Set seed in current algorithm.
+        Raises Error if integrator does not have key 'seed'.
         ::
 
             rr.setSeed(12345)
 
-        :param self: RoadRunner instance.
         :param seed: seed to set
         """
-        intg = self.getIntegrator('gillespie')
-        if intg is None:
-            raise ValueError("model is not loaded")
-
         # there are some issues converting big Python (greater than 4,294,967,295) integers
         # to C integers on 64 bit machines. If its converted to float before, works around the issue.
-        intg['seed'] = float(seed)
+        self.integrator.setValue('seed', float(seed))
 
     def gillespie(self, *args, **kwargs):
         """ Run a Gillespie stochastic simulation.
+        Sets the integrator to gillespi and performs simulation.
         ::
 
             rr = te.loada ('S1 -> S2; k1*S1; k1 = 0.1; S1 = 40')
@@ -786,19 +784,14 @@ class ExtendedRoadRunner(roadrunner.RoadRunner):
             # using the give selection list
             result = rr.gillespie (0, 40, 20, ['time', 'S1'])
 
+        :param seed: seed for gillespie
+        :type seed: int
         :param args: parameters for simulate
         :param kwargs: parameters for simulate
         :returns: simulation results
         """
-        if self.integrator is None:
-            raise ValueError("model is not loaded")
-
-        prev = self.integrator.getName()
         self.setIntegrator('gillespie')
-        result = self.simulate(*args, **kwargs)
-        self.setIntegrator(prev)
-
-        return result
+        return self.simulate(*args, **kwargs)
 
 # ---------------------------------------------------------------
 # End of routines
