@@ -353,6 +353,9 @@ For instance</p>
 </pre></div>
 </div>
 <img alt="_images/modelFromBioModels_2_0.png" src="_images/modelFromBioModels_2_0.png" />
+<div class="highlight-python"><div class="highlight"><pre>&lt;module &#39;matplotlib.pyplot&#39; from &#39;/usr/local/lib/python2.7/dist-packages/matplotlib/pyplot.pyc&#39;&gt;
+</pre></div>
+</div>
 </div>
 <div class="section" id="non-unit-stoichiometries">
 <h3>Non-unit stoichiometries<a class="headerlink" href="#non-unit-stoichiometries" title="Permalink to this headline">¶</a></h3>
@@ -448,6 +451,9 @@ reactions S1 -&gt; S2 -&gt; S3 -&gt; S4.</p>
 </pre></div>
 </div>
 <img alt="_images/feedback_oscillations_2_0.png" src="_images/feedback_oscillations_2_0.png" />
+<div class="highlight-python"><div class="highlight"><pre>&lt;module &#39;matplotlib.pyplot&#39; from &#39;/usr/local/lib/python2.7/dist-packages/matplotlib/pyplot.pyc&#39;&gt;
+</pre></div>
+</div>
 </div>
 <div class="section" id="generate-different-wave-forms">
 <h3>Generate different wave forms<a class="headerlink" href="#generate-different-wave-forms" title="Permalink to this headline">¶</a></h3>
@@ -507,6 +513,27 @@ reactions S1 -&gt; S2 -&gt; S3 -&gt; S4.</p>
 <h2>SED-ML &amp; Combine<a class="headerlink" href="#sed-ml-combine" title="Permalink to this headline">¶</a></h2>
 <p>Tellurium supports the simulation description via the simulation experiment
 description markup language (SED-ML).</p>
+<dl class="function">
+<dt id="tellurium.experiment">
+<code class="descclassname">tellurium.</code><code class="descname">experiment</code><span class="sig-paren">(</span><em>ant</em>, <em>phrasedml</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/tellurium.html#experiment"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.experiment" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create experiment from antimony and phrasedml string.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>ant</strong> (<em>str</em>) &#8211; Antimony string of model</li>
+<li><strong>phrasedml</strong> (<em>str</em>) &#8211; phrasedml simulation description</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">SEDML experiment description</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
 <div class="section" id="phrasedml-experiment">
 <h3>phrasedml experiment<a class="headerlink" href="#phrasedml-experiment" title="Permalink to this headline">¶</a></h3>
 <p>Tellurium provides support for simulation descriptions in SED-ML the
@@ -634,7 +661,7 @@ I.I., Nickerson D., Snoep J.L.,Le Novère, N. BMC Systems Biology
 </pre></div>
 </div>
 <div class="highlight-python"><div class="highlight"><pre>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
-&lt;!-- Created by phraSED-ML version v0.5beta on 2016-02-04 16:11 with libSBML version 5.12.1. --&gt;
+&lt;!-- Created by phraSED-ML version v0.5beta on 2016-02-04 18:54 with libSBML version 5.12.1. --&gt;
 &lt;sedML xmlns=&quot;http://sed-ml.org/sed-ml/level1/version2&quot; level=&quot;1&quot; version=&quot;2&quot;&gt;
   &lt;listOfSimulations&gt;
     &lt;uniformTimeCourse id=&quot;sim1&quot; initialTime=&quot;0&quot; outputStartTime=&quot;0&quot; outputEndTime=&quot;5&quot; numberOfPoints=&quot;100&quot;&gt;
@@ -706,11 +733,11 @@ I.I., Nickerson D., Snoep J.L.,Le Novère, N. BMC Systems Biology
 
 <span class="c1"># Create executable python code sedml with roadrunner</span>
 <span class="c1"># import tellurium.tesedml as s2p</span>
-<span class="c1"># s2p.sedml_to_python(s2p)</span>
+<span class="c1"># py_code = s2p.sedml_to_python(s2p)</span>
 </pre></div>
 </div>
-<div class="highlight-python"><div class="highlight"><pre>/tmp/myModelEzWDXR.xml
-/tmp/tmpq1FJJw.sedml
+<div class="highlight-python"><div class="highlight"><pre>/tmp/myModelj7aIPD.xml
+/tmp/tmpRqaCCH.sedml
 </pre></div>
 </div>
 </div>

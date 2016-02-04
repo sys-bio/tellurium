@@ -68,10 +68,5 @@ f_sedml.close()
 
 # Create executable python code sedml with roadrunner
 # import tellurium.tesedml as s2p
-# s2p.sedml_to_python(s2p)
-
-
-# In[3]:
-
-
+# py_code = s2p.sedml_to_python(s2p)
 

@@ -15,7 +15,6 @@ import matplotlib.pyplot as plt
 import tecombine as combine
 import tesedml
 import tephrasedml
-import numpy as np
 
 try:
     import libsbml
@@ -149,6 +148,9 @@ def readFromFile(filePath):
     return string
 
 
+# ---------------------------------------------------------------------
+# Loading Models Methods
+# ---------------------------------------------------------------------
 def _checkAntimonyReturnCode(code):
     """ Helper for checking the antimony response code.
     Raises Exception if error in antimony.
@@ -160,9 +162,6 @@ def _checkAntimonyReturnCode(code):
         raise Exception('Antimony: {}'.format(antimony.getLastError()))
 
 
-# ---------------------------------------------------------------------
-# Loading Models Methods
-# ---------------------------------------------------------------------
 def loada(ant):
     """ Load model from Antimony string.
 
@@ -602,65 +601,6 @@ class ExtendedRoadRunner(roadrunner.RoadRunner):
         saveToFile(filePath, self.getMatlab(current))
 
     # ---------------------------------------------------------------------
-    # DataFrame methods
-    # ---------------------------------------------------------------------
-    # additional dataframe functionality
-    # try:
-    #     import pandas
-    # except ImportError as e:
-    #     pandas = None
-    #     roadrunner.Logger.log(roadrunner.Logger.LOG_WARNING, str(e))
-    #
-    # def dfGlobalParameters(self):
-    #     """ GlobalParameter DataFrame.
-    #     :return: pandas DataFrame
-    #     """
-    #     from pandas import DataFrame
-    #     sids = self.model.getGlobalParameterIds()
-    #     model = self.sbml_doc.getModel()
-    #     parameters = [model.getParameter(sid) for sid in sids]
-    #     df = DataFrame({
-    #         'value': self.model.getGlobalParameterValues(),
-    #         'unit': [p.units for p in parameters],
-    #         'constant': [p.constant for p in parameters],
-    #         'parameter': parameters,
-    #         'name': [p.name for p in parameters],
-    #         }, index=sids, columns=['value', 'unit', 'constant', 'parameter', 'name'])
-    #     return df
-    #
-    # def dfSpecies(self):
-    #     """ Create Species DataFrame.
-    #     :return: pandas DataFrame
-    #     """
-    #     from pandas import DataFrame
-    #     sids = self.model.getFloatingSpeciesIds() + self.model.getBoundarySpeciesIds()
-    #     model = self.sbml_doc.getModel()
-    #     species = [model.getSpecies(sid) for sid in sids]
-    #     df = DataFrame({
-    #         'concentration': np.concatenate([self.model.getFloatingSpeciesConcentrations(),
-    #                                             self.model.getBoundarySpeciesConcentrations()],
-    #                                            axis=0),
-    #         'amount': np.concatenate([self.model.getFloatingSpeciesAmounts(),
-    #                                      self.model.getBoundarySpeciesAmounts()],
-    #                                      axis=0),
-    #         'unit': [s.units for s in species],
-    #         'constant': [s.constant for s in species],
-    #         'boundaryCondition': [s.boundary_condition for s in species],
-    #         'species': species,
-    #         'name': [s.name for s in species],
-    #         }, index=sids, columns=['concentration', 'amount', 'unit', 'constant', 'boundaryCondition', 'species', 'name'])
-    #     return df
-    #
-    # def dfSimulation(self):
-    #     """ DataFrame of the simulation data.
-    #     :return: pandas DataFrame
-    #     """
-    #     from pandas import DataFrame
-    #     df = DataFrame(self.getSimulationData(),
-    #                    columns=self.selections)
-    #     return df
-
-    # ---------------------------------------------------------------------
     # Reset Methods
     # ---------------------------------------------------------------------
     def resetToOrigin(self):
@@ -705,10 +645,10 @@ class ExtendedRoadRunner(roadrunner.RoadRunner):
             return self.model.getStateVectorRate()
 
 
-    def getConservedMoietyIds(self):
-        warnings.warn('Use getDependentFloatingSpecies instead, will be removed in v1.4',
-                      DeprecationWarning, stacklevel=2)
-        return self.getDependentFloatingSpecies()
+    # def getConservedMoietyIds(self):
+    #     warnings.warn('Use getDependentFloatingSpecies instead, will be removed in v1.4',
+    #                   DeprecationWarning, stacklevel=2)
+    #     return self.getDependentFloatingSpecies()
 
     # ---------------------------------------------------------------------
     # Plotting Utilities
@@ -860,85 +800,6 @@ class ExtendedRoadRunner(roadrunner.RoadRunner):
 
         return result
 
-    # ---------------------------------------------------------------
-    # Simulate Options
-    # ---------------------------------------------------------------
-    # Not supported any more
-    #
-    # def setSteps(self, steps):
-    #     """ Set steps in roadrunner simulateOptions.
-    #
-    #     :param steps: steps in integration
-    #     :type steps: int
-    #     """
-    #     warnings.warn('simulateOptions no longer supported, will be removed in v1.4',
-    #                   DeprecationWarning, stacklevel=2)
-    #     raise DeprecationWarning
-    #     self.simulateOptions.steps = steps
-    #
-    # def getSteps(self):
-    #     """ Get number of steps from simulateOptions. """
-    #     warnings.warn('simulateOptions no longer supported, will be removed in v1.4',
-    #                   DeprecationWarning, stacklevel=2)
-    #     raise DeprecationWarning
-    #     return self.simulateOptions.steps
-    #
-    # def setNumberOfPoints(self, numberOfPoints):
-    #     """ Set number of points in roadrunner simulateOptions.
-    #
-    #     :param numberOfPoints: number of points in result
-    #     :type numberOfPoints: int
-    #     """
-    #     warnings.warn('simulateOptions no longer supported, will be removed in v1.4',
-    #                   DeprecationWarning, stacklevel=2)
-    #     raise DeprecationWarning
-    #     self.simulateOptions.steps = numberOfPoints - 1
-    #
-    # def getNumberOfPoints(self):
-    #     """ Get number of points from rr.simulateOptions. """
-    #     warnings.warn('simulateOptions no longer supported, will be removed in v1.4',
-    #                   DeprecationWarning, stacklevel=2)
-    #     raise DeprecationWarning
-    #     return self.simulateOptions.steps + 1
-    #
-    # def setStartTime(self, startTime):
-    #     """ Set start in roadrunner simulateOptions.
-    #
-    #     :param start: start time of integration
-    #     :type start: float
-    #     """
-    #     warnings.warn('simulateOptions no longer supported, will be removed in v1.4',
-    #                   DeprecationWarning, stacklevel=2)
-    #     raise DeprecationWarning("simulateOptions no longer supported")
-    #     self.simulateOptions.start = startTime
-    #
-    # def getStartTime(self):
-    #     """ Get start time from roadrunner simulateOptions. """
-    #     warnings.warn('simulateOptions no longer supported, will be removed in v1.4',
-    #                   DeprecationWarning, stacklevel=2)
-    #     raise DeprecationWarning("simulateOptions no longer supported")
-    #     return self.simulateOptions.start
-    #
-    # def setEndTime(self, endTime):
-    #     """ Set end in roadrunner simulateOptions.
-    #
-    #     :param end: end time of integration
-    #     :type end: float
-    #     """
-    #     warnings.warn('simulateOptions no longer supported, will be removed in v1.4',
-    #                   DeprecationWarning, stacklevel=2)
-    #     raise DeprecationWarning("simulateOptions no longer supported")
-    #     self.simulateOptions.end = endTime
-    #
-    #
-    # def getEndTime(self):
-    #     """ Get end time from roadrunner simulateOptions. """
-    #     warnings.warn('simulateOptions no longer supported, will be removed in v1.4',
-    #                   DeprecationWarning, stacklevel=2)
-    #     raise DeprecationWarning("simulateOptions no longer supported")
-    #     return self.simulateOptions.start + self.simulateOptions.duration
-
-
 # ---------------------------------------------------------------
 # End of routines
 # ---------------------------------------------------------------
@@ -951,11 +812,9 @@ def RoadRunner(*args):
 roadrunner.RoadRunner = ExtendedRoadRunner
 
 # And assign functions to the roadrunner module.
-# Hereby they are available as te.function and roadrunner.function
-
-# FIXME: this should not be done, just use the te.function version
-roadrunner.noticesOff = noticesOff
-roadrunner.noticesOn = noticesOn
-roadrunner.getTestModel = getTestModel
-roadrunner.loadTestModel = loadTestModel
-roadrunner.listTestModels = listTestModels
+# not necessary, use the te.function version instead
+# roadrunner.noticesOff = noticesOff
+# roadrunner.noticesOn = noticesOn
+# roadrunner.getTestModel = getTestModel
+# roadrunner.loadTestModel = loadTestModel
+# roadrunner.listTestModels = listTestModels

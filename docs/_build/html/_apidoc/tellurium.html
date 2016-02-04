@@ -539,23 +539,9 @@
 </div>
 <div class="section" id="module-tellurium.tellurium">
 <span id="tellurium-tellurium-module"></span><h2>tellurium.tellurium module<a class="headerlink" href="#module-tellurium.tellurium" title="Permalink to this headline">¶</a></h2>
-<p>Support routines for tellurium.</p>
-<p>A subset of methods is attached to the roadrunner instance. These are methods which extend the
-roadrunner functionality. These functions have <cite>rr</cite> as the first argument and the format</p>
-<div class="highlight-python"><div class="highlight"><pre>def myRoadRunnerFunction(rr, *args, **kwargs):
-   &#39;&#39;&#39;
-
-    :param rr: RoadRunner instance
-    :type rr: RoadRunner.roadrunner
-
-    &#39;&#39;&#39;
-    pass
-</pre></div>
-</div>
-<p>These are attached to RoadRunner at the end of the module via</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">roadrunner</span><span class="o">.</span><span class="n">RoadRunner</span><span class="o">.</span><span class="n">myRoadRunnerFunction</span> <span class="o">=</span> <span class="n">myRoadRunnerFunction</span>
-</pre></div>
-</div>
+<p>The module tellurium provides support routines.
+As part of this module an ExendedRoadRunner class is defined which provides helper methods for
+model export, plotting or the Jarnac compatibility layer.</p>
 <dl class="class">
 <dt id="tellurium.tellurium.ExtendedRoadRunner">
 <em class="property">class </em><code class="descclassname">tellurium.tellurium.</code><code class="descname">ExtendedRoadRunner</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/tellurium/tellurium.html#ExtendedRoadRunner"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tellurium.ExtendedRoadRunner" title="Permalink to this definition">¶</a></dt>
@@ -563,14 +549,16 @@ roadrunner functionality. These functions have <cite>rr</cite> as the first argu
 <dl class="method">
 <dt id="tellurium.tellurium.ExtendedRoadRunner.exportToAntimony">
 <code class="descname">exportToAntimony</code><span class="sig-paren">(</span><em>filePath</em>, <em>current=True</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/tellurium/tellurium.html#ExtendedRoadRunner.exportToAntimony"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tellurium.ExtendedRoadRunner.exportToAntimony" title="Permalink to this definition">¶</a></dt>
-<dd><p>Save current model as Antimony file.
-To save the original model loaded into roadrunner use
-current=False.</p>
+<dd><p>Save current model as Antimony file.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>filePath</strong> (<em>str</em>) &#8211; file path of Antimony file</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>current</strong> (<em>bool</em>) &#8211; export current model state</li>
+<li><strong>filePath</strong> (<em>str</em>) &#8211; file path of Antimony file</li>
+</ul>
+</td>
 </tr>
 </tbody>
 </table>
@@ -579,14 +567,16 @@ current=False.</p>
 <dl class="method">
 <dt id="tellurium.tellurium.ExtendedRoadRunner.exportToCellML">
 <code class="descname">exportToCellML</code><span class="sig-paren">(</span><em>filePath</em>, <em>current=True</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/tellurium/tellurium.html#ExtendedRoadRunner.exportToCellML"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tellurium.ExtendedRoadRunner.exportToCellML" title="Permalink to this definition">¶</a></dt>
-<dd><p>Save current model as CellML file.
-To save the original model loaded into roadrunner use
-current=False.</p>
+<dd><p>Save current model as CellML file.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>filePath</strong> &#8211; file path of CellML file</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>current</strong> (<em>bool</em>) &#8211; export current model state</li>
+<li><strong>filePath</strong> (<em>str</em>) &#8211; file path of CellML file</li>
+</ul>
+</td>
 </tr>
 </tbody>
 </table>
@@ -604,7 +594,7 @@ current=False.</p>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
 <li><strong>self</strong> (<em>RoadRunner.roadrunner</em>) &#8211; RoadRunner instance</li>
-<li><strong>filePath</strong> &#8211; file path of Matlab file</li>
+<li><strong>filePath</strong> (<em>str</em>) &#8211; file path of Matlab file</li>
 </ul>
 </td>
 </tr>
@@ -615,16 +605,14 @@ current=False.</p>
 <dl class="method">
 <dt id="tellurium.tellurium.ExtendedRoadRunner.exportToSBML">
 <code class="descname">exportToSBML</code><span class="sig-paren">(</span><em>filePath</em>, <em>current=True</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/tellurium/tellurium.html#ExtendedRoadRunner.exportToSBML"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tellurium.ExtendedRoadRunner.exportToSBML" title="Permalink to this definition">¶</a></dt>
-<dd><p>Save current model as SBML file.
-To save the original model loaded into roadrunner use
-current=False.</p>
+<dd><p>Save current model as SBML file.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>filePath</strong> &#8211; file path of SBML file</li>
-<li><strong>filePath</strong> &#8211; str</li>
+<li><strong>current</strong> (<em>bool</em>) &#8211; export current model state</li>
+<li><strong>filePath</strong> (<em>str</em>) &#8211; file path of SBML file</li>
 </ul>
 </td>
 </tr>
@@ -634,26 +622,39 @@ current=False.</p>
 
 <dl class="method">
 <dt id="tellurium.tellurium.ExtendedRoadRunner.getAntimony">
-<code class="descname">getAntimony</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/tellurium/tellurium.html#ExtendedRoadRunner.getAntimony"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tellurium.ExtendedRoadRunner.getAntimony" title="Permalink to this definition">¶</a></dt>
+<code class="descname">getAntimony</code><span class="sig-paren">(</span><em>current=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/tellurium/tellurium.html#ExtendedRoadRunner.getAntimony"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tellurium.ExtendedRoadRunner.getAntimony" title="Permalink to this definition">¶</a></dt>
 <dd><p>Antimony string of the original model loaded into roadrunner.</p>
-<p>See also: <a class="reference internal" href="#tellurium.tellurium.ExtendedRoadRunner.getCurrentAntimony" title="tellurium.tellurium.ExtendedRoadRunner.getCurrentAntimony"><code class="xref py py-func docutils literal"><span class="pre">getCurrentAntimony()</span></code></a>
-:return: Antimony
-:rtype: str</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>current</strong> (<em>bool</em>) &#8211; return current model state</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">Antimony</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">str</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="tellurium.tellurium.ExtendedRoadRunner.getCellML">
-<code class="descname">getCellML</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/tellurium/tellurium.html#ExtendedRoadRunner.getCellML"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tellurium.ExtendedRoadRunner.getCellML" title="Permalink to this definition">¶</a></dt>
+<code class="descname">getCellML</code><span class="sig-paren">(</span><em>current=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/tellurium/tellurium.html#ExtendedRoadRunner.getCellML"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tellurium.ExtendedRoadRunner.getCellML" title="Permalink to this definition">¶</a></dt>
 <dd><p>CellML string of the original model loaded into roadrunner.</p>
-<p>See also: <a class="reference internal" href="#tellurium.tellurium.ExtendedRoadRunner.getCurrentCellML" title="tellurium.tellurium.ExtendedRoadRunner.getCurrentCellML"><code class="xref py py-func docutils literal"><span class="pre">getCurrentCellML()</span></code></a>
-:returns: CellML string
-:rtype: str</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>current</strong> (<em>bool</em>) &#8211; return current model state</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">CellML string</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">str</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
-
-<dl class="method">
-<dt id="tellurium.tellurium.ExtendedRoadRunner.getConservedMoietyIds">
-<code class="descname">getConservedMoietyIds</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/tellurium/tellurium.html#ExtendedRoadRunner.getConservedMoietyIds"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tellurium.ExtendedRoadRunner.getConservedMoietyIds" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
 
 <dl class="method">
 <dt id="tellurium.tellurium.ExtendedRoadRunner.getCurrentAntimony">
@@ -677,14 +678,23 @@ current=False.</p>
 <dt id="tellurium.tellurium.ExtendedRoadRunner.getCurrentMatlab">
 <code class="descname">getCurrentMatlab</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/tellurium/tellurium.html#ExtendedRoadRunner.getCurrentMatlab"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tellurium.ExtendedRoadRunner.getCurrentMatlab" title="Permalink to this definition">¶</a></dt>
 <dd><p>Matlab string of current model state.</p>
-<p>See also: <a class="reference internal" href="#tellurium.tellurium.ExtendedRoadRunner.getMatlab" title="tellurium.tellurium.ExtendedRoadRunner.getMatlab"><code class="xref py py-func docutils literal"><span class="pre">getMatlab()</span></code></a>
-:returns: Matlab string
-:rtype: str</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>current</strong> (<em>bool</em>) &#8211; return current model state</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">Matlab string</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">str</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="tellurium.tellurium.ExtendedRoadRunner.getMatlab">
-<code class="descname">getMatlab</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/tellurium/tellurium.html#ExtendedRoadRunner.getMatlab"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tellurium.ExtendedRoadRunner.getMatlab" title="Permalink to this definition">¶</a></dt>
+<code class="descname">getMatlab</code><span class="sig-paren">(</span><em>current=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/tellurium/tellurium.html#ExtendedRoadRunner.getMatlab"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tellurium.ExtendedRoadRunner.getMatlab" title="Permalink to this definition">¶</a></dt>
 <dd><p>Matlab string of the original model loaded into roadrunner.</p>
 <p>See also: <a class="reference internal" href="#tellurium.tellurium.ExtendedRoadRunner.getCurrentMatlab" title="tellurium.tellurium.ExtendedRoadRunner.getCurrentMatlab"><code class="xref py py-func docutils literal"><span class="pre">getCurrentMatlab()</span></code></a>
 :returns: Matlab string
@@ -759,13 +769,21 @@ current=False.</p>
 
 <dl class="method">
 <dt id="tellurium.tellurium.ExtendedRoadRunner.plot">
-<code class="descname">plot</code><span class="sig-paren">(</span><em>result=None</em>, <em>loc='upper left'</em>, <em>show=True</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/tellurium/tellurium.html#ExtendedRoadRunner.plot"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tellurium.ExtendedRoadRunner.plot" title="Permalink to this definition">¶</a></dt>
+<code class="descname">plot</code><span class="sig-paren">(</span><em>result=None</em>, <em>loc='upper left'</em>, <em>show=True</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/tellurium/tellurium.html#ExtendedRoadRunner.plot"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tellurium.ExtendedRoadRunner.plot" title="Permalink to this definition">¶</a></dt>
 <dd><p>Plot data generated by a simulation.
 Plot results from a simulation carried out by the simulate or gillespie
 functions. This is a roadrunner method.
 Data is a numpy array where the first column is considered the x axis and all remaining columns the y axis.
 If no data is provided the data currently held by roadrunner generated in the last simulation is used.</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">r</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+<dl class="docutils">
+<dt>Supports all matplotlib.pyplot.plot keyword arguments, like</dt>
+<dd>color
+alpha
+linewidth
+linestyle
+marker</dd>
+</dl>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">r</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">2.0</span><span class="p">,</span> <span class="n">lineStyle</span><span class="o">=</span><span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;o&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.8</span><span class="p">)</span>
 </pre></div>
 </div>
 <table class="docutils field-list" frame="void" rules="none">
@@ -773,7 +791,6 @@ If no data is provided the data currently held by roadrunner generated in the la
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>self</strong> &#8211; RoadRunner instance</li>
 <li><strong>result</strong> &#8211; results data to plot</li>
 <li><strong>loc</strong> &#8211; location of plot legend</li>
 <li><strong>show</strong> &#8211; show the plot</li>
@@ -786,7 +803,7 @@ If no data is provided the data currently held by roadrunner generated in the la
 
 <dl class="method">
 <dt id="tellurium.tellurium.ExtendedRoadRunner.plotWithLegend">
-<code class="descname">plotWithLegend</code><span class="sig-paren">(</span><em>result=None</em>, <em>loc='upper left'</em>, <em>show=True</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/tellurium/tellurium.html#ExtendedRoadRunner.plotWithLegend"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tellurium.ExtendedRoadRunner.plotWithLegend" title="Permalink to this definition">¶</a></dt>
+<code class="descname">plotWithLegend</code><span class="sig-paren">(</span><em>result=None</em>, <em>loc='upper left'</em>, <em>show=True</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/tellurium/tellurium.html#ExtendedRoadRunner.plotWithLegend"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tellurium.ExtendedRoadRunner.plotWithLegend" title="Permalink to this definition">¶</a></dt>
 <dd><p>Plots the given results array including a legend.
 The first column of the array will be the x-axis, the remaining
 columns the y-axis. If no result array is provided the current

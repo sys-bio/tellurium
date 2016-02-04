@@ -19,3 +19,11 @@ Models can be easily retrieved from BioModels via their identifier.
 .. image:: _notebooks/core/modelFromBioModels_files/modelFromBioModels_2_0.png
 
 
+
+
+.. parsed-literal::
+
+    <module 'matplotlib.pyplot' from '/usr/local/lib/python2.7/dist-packages/matplotlib/pyplot.pyc'>
+
+
+

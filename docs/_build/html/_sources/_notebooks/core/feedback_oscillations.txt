@@ -34,3 +34,11 @@ Model oscillations via feedback
 .. image:: _notebooks/core/feedback_oscillations_files/feedback_oscillations_2_0.png
 
 
+
+
+.. parsed-literal::
+
+    <module 'matplotlib.pyplot' from '/usr/local/lib/python2.7/dist-packages/matplotlib/pyplot.pyc'>
+
+
+

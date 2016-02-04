@@ -7,8 +7,6 @@ Utility Methods
 ----------------
 The most useful methods here are the notices routines. Roadrunner will offen issue warning or informational messages. For repeated simulation such messages will clutter up the outputs. noticesOff and noticesOn can be used to turn on an off the messages.
 
-
-
 .. autofunction:: tellurium.getVersionInfo
 .. autofunction:: tellurium.printVersionInfo
 .. autofunction:: tellurium.getTelluriumVersion
@@ -17,63 +15,24 @@ The most useful methods here are the notices routines. Roadrunner will offen iss
 .. autofunction:: tellurium.saveToFile
 .. autofunction:: tellurium.readFromFile
 
+.. include:: _notebooks/core/tellurium_utility.rst
+
 -------------------------
 Model Loading 
 -------------------------
-There are a variety of methods to load models into libRoadrunner. At the most basic level one can load the model directly using libRoadRunner:
-::
-
-	r = roadrunner.RoadRunner('mymodel.xml')
-
-Alternatively one can use these methods:
-
-This is the same as roadrunner.RoadRunner() but the method name is more suggestive of what it does. Like RoadRunner, loadSBML can accept a file name or a SBML string as it argument
-::
-
-	r = te.loadSBMLModel ('mymodel.xml')
-
-	# To load an Antimony model use:
-	r = te.loadAntimonyModel (antStr)
-
-	# Or alternatively
-	r = te.loadAntimonyModel ('mymodel.ant')
-
-	# The method loada is simply a shortcut to loadAntimonyModel
-	r = loada('''
-		S1 -> S2; k1*S1;
-		S2 -> S3; k2*S2;
-	   
-		k1= 0.1; k2 = 0.2; 
-		S1 = 10; S2 = 0; S3 = 0;
-		''')
-		result = r.simulate (0, 10, 100)
-		r.plot (result)
+There are a variety of methods to load models into libRoadrunner. 
 
 .. autofunction:: tellurium.loada
 .. autofunction:: tellurium.loadAntimonyModel
 .. autofunction:: tellurium.loadSBMLModel
 .. autofunction:: tellurium.loadCellMLModel
 
+.. include:: _notebooks/core/tellurium_model_loading.rst
+
 ----------------------------------------
 Interconversion Utilities
 ----------------------------------------
 Use these routines interconvert verious standard formats
-
-**Convert an SBML model into Antimony**
-::
-
-	# Load an SBML file
-	sbmlStr = te.readFromFile('mymodel.xml')
-	# Generate the Antimony format of the SBML model
-	print(te.sbmlToAntimony(sbmlStr))
-
-**Convert an Antimony model into SBML**
-::
-
-	# Load an Antimony file
-	antStr = te.readFromFile('mymodel.ant')
-	# Generate the SBML format of the Antimony model
-	print te.antimonyToSBML(antStr)
 
 .. autofunction:: tellurium.antimonyToSBML
 .. autofunction:: tellurium.antimonyToCellML
@@ -82,32 +41,31 @@ Use these routines interconvert verious standard formats
 .. autofunction:: tellurium.cellmlToAntimony
 .. autofunction:: tellurium.cellmlToSBML
 
+.. include:: _notebooks/core/tellurium_interconversion.rst
+
 ----------------------------------------
 Export Utilities
 ----------------------------------------
 Use these routines to convert the current model state into other formats, like
 Matlab, CellML, Antimony and SBML.
+
+.. autoclass:: tellurium.ExtendedRoadRunner
+   :members: exportToSBML, exportToAntimony, exportToCellML, exportToMatlab, getAntimony, getCurrentAntimony, getCellML, getCurrentCellML, getMatlab, getCurrentMatlab
+
 ::
 
 	r = te.loada('S1 -> S2; k1*S1; k1 = 0.1; S1 = 10')
 	print(r.getCurrentMatlab())
 	r.exportToMatlab("mymodel.m")
 
-.. autofunction:: tellurium.ExtendedRoadRunner.getAntimony
-.. autofunction:: tellurium.getCurrentAntimony
-.. autofunction:: tellurium.ExtendedRoadRunner.getCellML
-.. autofunction:: tellurium.getCurrentCellML
-.. autofunction:: tellurium.ExtendedRoadRunner.getMatlab
-.. autofunction:: tellurium.getCurrentMatlab
-.. autofunction:: tellurium.exportToSBML
-.. autofunction:: tellurium.exportToAntimony
-.. autofunction:: tellurium.exportToCellML
-.. autofunction:: tellurium.exportToMatlab
 
 ----------------------------------------
 Stochastic Simulation
 ----------------------------------------
 Use these routines to carry out Gillespie style stochastic simulations.
+
+.. autoclass:: tellurium.ExtendedRoadRunner
+   :members: getSeed, setSeed, gillespie
 
 **Stochastic simulation**::
 
@@ -129,23 +87,10 @@ Use these routines to carry out Gillespie style stochastic simulations.
 	# Merge the two runs together
 	rr.plot(np.vstack ((result1, result))
 
-
-.. autofunction:: tellurium.getSeed
-.. autofunction:: tellurium.setSeed
-.. autofunction:: tellurium.gillespie
-
-
 ----------------------------------------
 Math
 ----------------------------------------
 Only one routine is currently available in this group which is a routine to compute the eigenvalues of given a matrix.
-::
-
-	import numpy as np
-	import tellurium as te
-
-	m = np.matrix([[1,2],[5,7]])
-	print(te.getEigenvalues(m))
 
 .. autofunction:: tellurium.getEigenvalues
 
@@ -153,6 +98,11 @@ Only one routine is currently available in this group which is a routine to comp
 Plotting
 ----------------------------------------
 Two useful plotting routines. They assume that the first column in the array is the x-axis and the second and subsequent columns represent curves on the y-axis.
+
+.. autofunction:: tellurium.plotArray
+.. autoclass:: tellurium.ExtendedRoadRunner
+   :members: plot, plotWithLegend, simulateAndPlot
+
 ::
 
 	# Load a model and carry out a simulation generating 100 points
@@ -166,15 +116,14 @@ Two useful plotting routines. They assume that the first column in the array is 
 	# To get a legend use the roadrunner plot command
 	r.plot (result)
 
-.. autofunction:: tellurium.plotWithLegend
-.. autofunction:: tellurium.simulateAndPlot
-.. autofunction:: tellurium.plotArray
-.. autofunction:: tellurium.plot
-
 ----------------------------------------
 Model Reset
 ----------------------------------------
 Use these routines reset your model back to particular states
+
+.. autoclass:: tellurium.ExtendedRoadRunner
+   :members: resetToOrigin, resetAll
+
 ::
 
 	r = te.loada ('S1 -> S2; k1*S1; k1 = 0.1; S1 = 10')
@@ -193,32 +142,24 @@ If you wish to reset a model back to the state it was what it was loaded, use th
 	# Reset the model back to the state it had when it was created
 	r.resetToOrigin()
 
-.. autofunction:: tellurium.resetToOrigin
-.. autofunction:: tellurium.resetAll
-
 ----------------------------------------
 jarnac Short-cuts
 ----------------------------------------
 Routines to support the Jarnac compatibility layer
 
-.. autofunction:: tellurium.getSm
-.. autofunction:: tellurium.getRs
-.. autofunction:: tellurium.getFs
-.. autofunction:: tellurium.getBs
-.. autofunction:: tellurium.getPs
-.. autofunction:: tellurium.getVs
-.. autofunction:: tellurium.getDv
-.. autofunction:: tellurium.getRv
-.. autofunction:: tellurium.getSv
-.. autofunction:: tellurium.getfJac
+.. autoclass:: tellurium.ExtendedRoadRunner
+   :members: fjac, sm, rs, fs, bs, ps, vs, dv, rv, sv
 
 ----------------------------------------
 Test Models
 ----------------------------------------
-**Methods to acess the builtin test models.**
-
 RoadRunner has built into it a number of predefined models that can be use
-to easily try out roadrunner if so exmaple you don't have a model at hand.
+to easily try and test tellurium.
+
+.. autofunction:: tellurium.loadTestModel
+.. autofunction:: tellurium.getTestModel
+.. autofunction:: tellurium.listTestModels
+
 ::
 
 	# To get the number of builtin models use listTestModels
@@ -244,40 +185,11 @@ To look at one of the test model in Antimony form:
 	antstr = te.sbmlToAntimony (roadrunner.getTestModel ('feedback.xml'))
 	print(antStr)
 
-.. autofunction:: tellurium.loadTestModel
-.. autofunction:: tellurium.getTestModel
-
 ----------------------------------------
 Model Methods
 ----------------------------------------
 Routines flattened from model, aves typing and easier for finding the methods
 
-.. autofunction:: tellurium.tellurium.getRatesOfChange
-.. autofunction:: tellurium.getBoundarySpeciesConcentrations
-.. autofunction:: tellurium.getBoundarySpeciesIds
-.. autofunction:: tellurium.getNumBoundarySpecies
-.. autofunction:: tellurium.getFloatingSpeciesConcentrations
-.. autofunction:: tellurium.getFloatingSpeciesIds
-.. autofunction:: tellurium.getNumFloatingSpecies
-.. autofunction:: tellurium.getGlobalParameterIds
-.. autofunction:: tellurium.getGlobalParameterValues
-.. autofunction:: tellurium.getNumGlobalParameters
-.. autofunction:: tellurium.getCompartmentIds
-.. autofunction:: tellurium.getCompartmentVolumes
-.. autofunction:: tellurium.getNumCompartments
-.. autofunction:: tellurium.getConservedMoietyValues
-.. autofunction:: tellurium.getNumConservedMoieties
-.. autofunction:: tellurium.getNumDepFloatingSpecies
-.. autofunction:: tellurium.getNumIndFloatingSpecies
-.. autofunction:: tellurium.getNumReactions
-.. autofunction:: tellurium.getReactionIds
-.. autofunction:: tellurium.getReactionRates
-.. autofunction:: tellurium.getNumEvents
-.. autofunction:: tellurium.setStartTime
-.. autofunction:: tellurium.setEndTime
-.. autofunction:: tellurium.getStartTime
-.. autofunction:: tellurium.getEndTime
-.. autofunction:: tellurium.getNumberOfPoints
-.. autofunction:: tellurium.setNumberOfPoints
-.. autofunction:: tellurium.getNumRateRules
+.. autoclass:: tellurium.ExtendedRoadRunner
+   :members: getRatesOfChange, getBoundarySpeciesConcentrations, getBoundarySpeciesIds, getNumBoundarySpecies, getFloatingSpeciesConcentrations, getFloatingSpeciesIds, getNumFloatingSpecies, getGlobalParameterIds, getGlobalParameterValues, getNumGlobalParameters, getCompartmentIds, getCompartmentVolumes, getNumCompartments, getConservedMoietyValues, getNumConservedMoieties, getNumDepFloatingSpecies, getNumIndFloatingSpecies, getNumReactions, getReactionIds, getReactionRates, getNumEvents, setStartTime, setEndTime, getStartTime, getEndTime, getNumberOfPoints, setNumberOfPoints, getNumRateRules
 

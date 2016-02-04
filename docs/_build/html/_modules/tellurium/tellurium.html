@@ -132,31 +132,10 @@
             
   <h1>Source code for tellurium.tellurium</h1><div class="highlight"><pre>
 <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">Support routines for tellurium.</span>
-
-<span class="sd">A subset of methods is attached to the roadrunner instance. These are methods which extend the</span>
-<span class="sd">roadrunner functionality. These functions have `rr` as the first argument and the format</span>
-
-<span class="sd">::</span>
-
-<span class="sd">    def myRoadRunnerFunction(rr, *args, **kwargs):</span>
-<span class="sd">       &#39;&#39;&#39;</span>
-
-<span class="sd">        :param rr: RoadRunner instance</span>
-<span class="sd">        :type rr: RoadRunner.roadrunner</span>
-
-<span class="sd">        &#39;&#39;&#39;</span>
-<span class="sd">        pass</span>
-
-<span class="sd">These are attached to RoadRunner at the end of the module via</span>
-<span class="sd">::</span>
-
-<span class="sd">    roadrunner.RoadRunner.myRoadRunnerFunction = myRoadRunnerFunction</span>
+<span class="sd">The module tellurium provides support routines.</span>
+<span class="sd">As part of this module an ExendedRoadRunner class is defined which provides helper methods for</span>
+<span class="sd">model export, plotting or the Jarnac compatibility layer.</span>
 <span class="sd">&quot;&quot;&quot;</span>
-
-<span class="c1"># ---------------------------------------------------------------------</span>
-<span class="c1"># imports</span>
-<span class="c1"># ---------------------------------------------------------------------</span>
 <span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">print_function</span><span class="p">,</span> <span class="n">division</span>
 
 <span class="kn">import</span> <span class="nn">os</span>
@@ -169,7 +148,6 @@
 <span class="kn">import</span> <span class="nn">tecombine</span> <span class="kn">as</span> <span class="nn">combine</span>
 <span class="kn">import</span> <span class="nn">tesedml</span>
 <span class="kn">import</span> <span class="nn">tephrasedml</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
 
 <span class="k">try</span><span class="p">:</span>
     <span class="kn">import</span> <span class="nn">libsbml</span>
@@ -198,6 +176,8 @@
 <span class="c1"># plot hold</span>
 <span class="c1"># ---------------------------------------------------------------------</span>
 <span class="c1"># FIXME: What is this? Add some explanation of the tehold global parameter.</span>
+<span class="c1"># why global parameter? this is really bad style.</span>
+
 <span class="n">tehold</span> <span class="o">=</span> <span class="bp">False</span>  <span class="c1"># Same as matlab hold</span>
 
 <span class="c1"># For some reason we can only access the tehold variable via methods</span>
@@ -301,6 +281,9 @@
     <span class="k">return</span> <span class="n">string</span></div>
 
 
+<span class="c1"># ---------------------------------------------------------------------</span>
+<span class="c1"># Loading Models Methods</span>
+<span class="c1"># ---------------------------------------------------------------------</span>
 <span class="k">def</span> <span class="nf">_checkAntimonyReturnCode</span><span class="p">(</span><span class="n">code</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; Helper for checking the antimony response code.</span>
 <span class="sd">    Raises Exception if error in antimony.</span>
@@ -312,9 +295,6 @@
         <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s1">&#39;Antimony: {}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">antimony</span><span class="o">.</span><span class="n">getLastError</span><span class="p">()))</span>
 
 
-<span class="c1"># ---------------------------------------------------------------------</span>
-<span class="c1"># Loading Models Methods</span>
-<span class="c1"># ---------------------------------------------------------------------</span>
 <div class="viewcode-block" id="loada"><a class="viewcode-back" href="../../tellurium_methods.html#tellurium.tellurium.loada">[docs]</a><span class="k">def</span> <span class="nf">loada</span><span class="p">(</span><span class="n">ant</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; Load model from Antimony string.</span>
 
@@ -479,7 +459,7 @@
 <span class="c1"># ---------------------------------------------------------------------</span>
 <span class="c1"># SEDML Utilities</span>
 <span class="c1"># ---------------------------------------------------------------------</span>
-<div class="viewcode-block" id="experiment"><a class="viewcode-back" href="../../tellurium_methods.html#tellurium.tellurium.experiment">[docs]</a><span class="k">def</span> <span class="nf">experiment</span><span class="p">(</span><span class="n">ant</span><span class="p">,</span> <span class="n">phrasedml</span><span class="p">):</span>
+<div class="viewcode-block" id="experiment"><a class="viewcode-back" href="../../notebooks.html#tellurium.tellurium.experiment">[docs]</a><span class="k">def</span> <span class="nf">experiment</span><span class="p">(</span><span class="n">ant</span><span class="p">,</span> <span class="n">phrasedml</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; Create experiment from antimony and phrasedml string.</span>
 
 <span class="sd">    :param ant: Antimony string of model</span>
@@ -563,7 +543,7 @@
     <span class="k">return</span> <span class="n">roadrunner</span><span class="o">.</span><span class="n">testing</span><span class="o">.</span><span class="n">getData</span><span class="p">(</span><span class="n">string</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="listTestModels"><a class="viewcode-back" href="../../_apidoc/tellurium.html#tellurium.tellurium.listTestModels">[docs]</a><span class="k">def</span> <span class="nf">listTestModels</span><span class="p">():</span>
+<div class="viewcode-block" id="listTestModels"><a class="viewcode-back" href="../../tellurium_methods.html#tellurium.tellurium.listTestModels">[docs]</a><span class="k">def</span> <span class="nf">listTestModels</span><span class="p">():</span>
     <span class="sd">&quot;&quot;&quot; List roadrunner SBML test models.</span>
 <span class="sd">    ::</span>
 
@@ -580,7 +560,7 @@
 <span class="c1"># ---------------------------------------------------------------------</span>
 <span class="c1"># Extended RoadRunner class</span>
 <span class="c1"># ---------------------------------------------------------------------</span>
-<div class="viewcode-block" id="ExtendedRoadRunner"><a class="viewcode-back" href="../../_apidoc/tellurium.html#tellurium.tellurium.ExtendedRoadRunner">[docs]</a><span class="k">class</span> <span class="nc">ExtendedRoadRunner</span><span class="p">(</span><span class="n">roadrunner</span><span class="o">.</span><span class="n">RoadRunner</span><span class="p">):</span>
+<div class="viewcode-block" id="ExtendedRoadRunner"><a class="viewcode-back" href="../../tellurium_methods.html#tellurium.tellurium.ExtendedRoadRunner">[docs]</a><span class="k">class</span> <span class="nc">ExtendedRoadRunner</span><span class="p">(</span><span class="n">roadrunner</span><span class="o">.</span><span class="n">RoadRunner</span><span class="p">):</span>
 
     <span class="c1"># functions for easier model access</span>
     <span class="n">_model_functions</span> <span class="o">=</span> <span class="p">[</span>
@@ -641,99 +621,107 @@
     <span class="c1"># ---------------------------------------------------------------------</span>
     <span class="c1"># Export Utilities</span>
     <span class="c1"># ---------------------------------------------------------------------</span>
-<div class="viewcode-block" id="ExtendedRoadRunner.getAntimony"><a class="viewcode-back" href="../../_apidoc/tellurium.html#tellurium.tellurium.ExtendedRoadRunner.getAntimony">[docs]</a>    <span class="k">def</span> <span class="nf">getAntimony</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__getSBML</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">current</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">current</span> <span class="ow">is</span> <span class="bp">True</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getCurrentSBML</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getSBML</span><span class="p">()</span>
+
+<div class="viewcode-block" id="ExtendedRoadRunner.getAntimony"><a class="viewcode-back" href="../../tellurium_methods.html#tellurium.tellurium.ExtendedRoadRunner.getAntimony">[docs]</a>    <span class="k">def</span> <span class="nf">getAntimony</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">current</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Antimony string of the original model loaded into roadrunner.</span>
 
-<span class="sd">        See also: :func:`getCurrentAntimony`</span>
+<span class="sd">        :param current: return current model state</span>
+<span class="sd">        :type current: bool</span>
 <span class="sd">        :return: Antimony</span>
 <span class="sd">        :rtype: str</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">sbmlToAntimony</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">getSBML</span><span class="p">())</span></div>
+        <span class="n">sbml</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__getSBML</span><span class="p">(</span><span class="n">current</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">sbmlToAntimony</span><span class="p">(</span><span class="n">sbml</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="ExtendedRoadRunner.getCurrentAntimony"><a class="viewcode-back" href="../../_apidoc/tellurium.html#tellurium.tellurium.ExtendedRoadRunner.getCurrentAntimony">[docs]</a>    <span class="k">def</span> <span class="nf">getCurrentAntimony</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="ExtendedRoadRunner.getCurrentAntimony"><a class="viewcode-back" href="../../tellurium_methods.html#tellurium.tellurium.ExtendedRoadRunner.getCurrentAntimony">[docs]</a>    <span class="k">def</span> <span class="nf">getCurrentAntimony</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Antimony string of the current model state.</span>
 
 <span class="sd">        See also: :func:`getAntimony`</span>
 <span class="sd">        :return: Antimony</span>
 <span class="sd">        :rtype: str</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">sbmlToAntimony</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">getCurrentSBML</span><span class="p">())</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getAntimony</span><span class="p">(</span><span class="n">current</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="ExtendedRoadRunner.getCellML"><a class="viewcode-back" href="../../_apidoc/tellurium.html#tellurium.tellurium.ExtendedRoadRunner.getCellML">[docs]</a>    <span class="k">def</span> <span class="nf">getCellML</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="ExtendedRoadRunner.getCellML"><a class="viewcode-back" href="../../tellurium_methods.html#tellurium.tellurium.ExtendedRoadRunner.getCellML">[docs]</a>    <span class="k">def</span> <span class="nf">getCellML</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">current</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; CellML string of the original model loaded into roadrunner.</span>
 
-<span class="sd">        See also: :func:`getCurrentCellML`</span>
+<span class="sd">        :param current: return current model state</span>
+<span class="sd">        :type current: bool</span>
 <span class="sd">        :returns: CellML string</span>
 <span class="sd">        :rtype: str</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">sbmlToCellML</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">getSBML</span><span class="p">())</span></div>
+        <span class="n">sbml</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__getSBML</span><span class="p">(</span><span class="n">current</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">sbmlToCellML</span><span class="p">(</span><span class="n">sbml</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="ExtendedRoadRunner.getCurrentCellML"><a class="viewcode-back" href="../../_apidoc/tellurium.html#tellurium.tellurium.ExtendedRoadRunner.getCurrentCellML">[docs]</a>    <span class="k">def</span> <span class="nf">getCurrentCellML</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="ExtendedRoadRunner.getCurrentCellML"><a class="viewcode-back" href="../../tellurium_methods.html#tellurium.tellurium.ExtendedRoadRunner.getCurrentCellML">[docs]</a>    <span class="k">def</span> <span class="nf">getCurrentCellML</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; CellML string of current model state.</span>
 
 <span class="sd">        See also: :func:`getCellML`</span>
 <span class="sd">        :returns: CellML string</span>
 <span class="sd">        :rtype: str</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">sbmlToCellML</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">getCurrentSBML</span><span class="p">())</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getCellML</span><span class="p">(</span><span class="n">current</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="ExtendedRoadRunner.getMatlab"><a class="viewcode-back" href="../../_apidoc/tellurium.html#tellurium.tellurium.ExtendedRoadRunner.getMatlab">[docs]</a>    <span class="k">def</span> <span class="nf">getMatlab</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="ExtendedRoadRunner.getMatlab"><a class="viewcode-back" href="../../tellurium_methods.html#tellurium.tellurium.ExtendedRoadRunner.getMatlab">[docs]</a>    <span class="k">def</span> <span class="nf">getMatlab</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">current</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Matlab string of the original model loaded into roadrunner.</span>
 
 <span class="sd">        See also: :func:`getCurrentMatlab`</span>
 <span class="sd">        :returns: Matlab string</span>
 <span class="sd">        :rtype: str</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">sbml2matlab</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">getSBML</span><span class="p">())</span></div>
+        <span class="n">sbml</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__getSBML</span><span class="p">(</span><span class="n">current</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">sbml2matlab</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">sbml2matlab</span><span class="p">(</span><span class="n">sbml</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s1">&#39;sbml2matlab could not be imported, no Matlab code generation possible&#39;</span><span class="p">,</span> <span class="ne">ImportWarning</span><span class="p">)</span>
+            <span class="k">return</span> <span class="s2">&quot;&quot;</span></div>
 
-<div class="viewcode-block" id="ExtendedRoadRunner.getCurrentMatlab"><a class="viewcode-back" href="../../_apidoc/tellurium.html#tellurium.tellurium.ExtendedRoadRunner.getCurrentMatlab">[docs]</a>    <span class="k">def</span> <span class="nf">getCurrentMatlab</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="ExtendedRoadRunner.getCurrentMatlab"><a class="viewcode-back" href="../../tellurium_methods.html#tellurium.tellurium.ExtendedRoadRunner.getCurrentMatlab">[docs]</a>    <span class="k">def</span> <span class="nf">getCurrentMatlab</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Matlab string of current model state.</span>
 
-<span class="sd">        See also: :func:`getMatlab`</span>
+<span class="sd">        :param current: return current model state</span>
+<span class="sd">        :type current: bool</span>
 <span class="sd">        :returns: Matlab string</span>
 <span class="sd">        :rtype: str</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">sbml2matlab</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">getCurrentSBML</span><span class="p">())</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getMatlab</span><span class="p">(</span><span class="n">current</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="ExtendedRoadRunner.exportToSBML"><a class="viewcode-back" href="../../_apidoc/tellurium.html#tellurium.tellurium.ExtendedRoadRunner.exportToSBML">[docs]</a>    <span class="k">def</span> <span class="nf">exportToSBML</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filePath</span><span class="p">,</span> <span class="n">current</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
+<div class="viewcode-block" id="ExtendedRoadRunner.exportToSBML"><a class="viewcode-back" href="../../tellurium_methods.html#tellurium.tellurium.ExtendedRoadRunner.exportToSBML">[docs]</a>    <span class="k">def</span> <span class="nf">exportToSBML</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filePath</span><span class="p">,</span> <span class="n">current</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Save current model as SBML file.</span>
-<span class="sd">        To save the original model loaded into roadrunner use</span>
-<span class="sd">        current=False.</span>
 
+<span class="sd">        :param current: export current model state</span>
+<span class="sd">        :type current: bool</span>
 <span class="sd">        :param filePath: file path of SBML file</span>
-<span class="sd">        :param filePath: str</span>
+<span class="sd">        :type filePath: str</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="n">current</span><span class="p">:</span>
-            <span class="n">saveToFile</span><span class="p">(</span><span class="n">filePath</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">getCurrentSBML</span><span class="p">())</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">saveToFile</span><span class="p">(</span><span class="n">filePath</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">getSBML</span><span class="p">())</span></div>
+        <span class="n">saveToFile</span><span class="p">(</span><span class="n">filePath</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__getSBML</span><span class="p">(</span><span class="n">current</span><span class="p">))</span></div>
 
-<div class="viewcode-block" id="ExtendedRoadRunner.exportToAntimony"><a class="viewcode-back" href="../../_apidoc/tellurium.html#tellurium.tellurium.ExtendedRoadRunner.exportToAntimony">[docs]</a>    <span class="k">def</span> <span class="nf">exportToAntimony</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filePath</span><span class="p">,</span> <span class="n">current</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
+<div class="viewcode-block" id="ExtendedRoadRunner.exportToAntimony"><a class="viewcode-back" href="../../tellurium_methods.html#tellurium.tellurium.ExtendedRoadRunner.exportToAntimony">[docs]</a>    <span class="k">def</span> <span class="nf">exportToAntimony</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filePath</span><span class="p">,</span> <span class="n">current</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Save current model as Antimony file.</span>
-<span class="sd">        To save the original model loaded into roadrunner use</span>
-<span class="sd">        current=False.</span>
 
+<span class="sd">        :param current: export current model state</span>
+<span class="sd">        :type current: bool</span>
 <span class="sd">        :param filePath: file path of Antimony file</span>
 <span class="sd">        :type filePath: str</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="n">current</span><span class="p">:</span>
-            <span class="n">saveToFile</span><span class="p">(</span><span class="n">filePath</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">getCurrentAntimony</span><span class="p">())</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">saveToFile</span><span class="p">(</span><span class="n">filePath</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">getAntimony</span><span class="p">())</span></div>
+        <span class="n">saveToFile</span><span class="p">(</span><span class="n">filePath</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">getAntimony</span><span class="p">(</span><span class="n">current</span><span class="p">))</span></div>
 
-<div class="viewcode-block" id="ExtendedRoadRunner.exportToCellML"><a class="viewcode-back" href="../../_apidoc/tellurium.html#tellurium.tellurium.ExtendedRoadRunner.exportToCellML">[docs]</a>    <span class="k">def</span> <span class="nf">exportToCellML</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filePath</span><span class="p">,</span> <span class="n">current</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
+<div class="viewcode-block" id="ExtendedRoadRunner.exportToCellML"><a class="viewcode-back" href="../../tellurium_methods.html#tellurium.tellurium.ExtendedRoadRunner.exportToCellML">[docs]</a>    <span class="k">def</span> <span class="nf">exportToCellML</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filePath</span><span class="p">,</span> <span class="n">current</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Save current model as CellML file.</span>
-<span class="sd">        To save the original model loaded into roadrunner use</span>
-<span class="sd">        current=False.</span>
 
+<span class="sd">        :param current: export current model state</span>
+<span class="sd">        :type current: bool</span>
 <span class="sd">        :param filePath: file path of CellML file</span>
+<span class="sd">        :type filePath: str</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="n">current</span><span class="p">:</span>
-            <span class="n">saveToFile</span><span class="p">(</span><span class="n">filePath</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">getCurrentCellML</span><span class="p">())</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">saveToFile</span><span class="p">(</span><span class="n">filePath</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">getCellML</span><span class="p">())</span></div>
+        <span class="n">saveToFile</span><span class="p">(</span><span class="n">filePath</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">getCellML</span><span class="p">(</span><span class="n">current</span><span class="p">))</span></div>
 
-<div class="viewcode-block" id="ExtendedRoadRunner.exportToMatlab"><a class="viewcode-back" href="../../_apidoc/tellurium.html#tellurium.tellurium.ExtendedRoadRunner.exportToMatlab">[docs]</a>    <span class="k">def</span> <span class="nf">exportToMatlab</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filePath</span><span class="p">,</span> <span class="n">current</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
+<div class="viewcode-block" id="ExtendedRoadRunner.exportToMatlab"><a class="viewcode-back" href="../../tellurium_methods.html#tellurium.tellurium.ExtendedRoadRunner.exportToMatlab">[docs]</a>    <span class="k">def</span> <span class="nf">exportToMatlab</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filePath</span><span class="p">,</span> <span class="n">current</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Save current model as Matlab file.</span>
 <span class="sd">        To save the original model loaded into roadrunner use</span>
 <span class="sd">        current=False.</span>
@@ -741,75 +729,14 @@
 <span class="sd">        :param self: RoadRunner instance</span>
 <span class="sd">        :type self: RoadRunner.roadrunner</span>
 <span class="sd">        :param filePath: file path of Matlab file</span>
+<span class="sd">        :type filePath: str</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="n">current</span><span class="p">:</span>
-            <span class="n">saveToFile</span><span class="p">(</span><span class="n">filePath</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">getCurrentMatlab</span><span class="p">())</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">saveToFile</span><span class="p">(</span><span class="n">filePath</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">getMatlab</span><span class="p">())</span></div>
-
-    <span class="c1"># ---------------------------------------------------------------------</span>
-    <span class="c1"># DataFrame methods</span>
-    <span class="c1"># ---------------------------------------------------------------------</span>
-    <span class="c1"># additional dataframe functionality</span>
-    <span class="c1"># try:</span>
-    <span class="c1">#     import pandas</span>
-    <span class="c1"># except ImportError as e:</span>
-    <span class="c1">#     pandas = None</span>
-    <span class="c1">#     roadrunner.Logger.log(roadrunner.Logger.LOG_WARNING, str(e))</span>
-    <span class="c1">#</span>
-    <span class="c1"># def dfGlobalParameters(self):</span>
-    <span class="c1">#     &quot;&quot;&quot; GlobalParameter DataFrame.</span>
-    <span class="c1">#     :return: pandas DataFrame</span>
-    <span class="c1">#     &quot;&quot;&quot;</span>
-    <span class="c1">#     from pandas import DataFrame</span>
-    <span class="c1">#     sids = self.model.getGlobalParameterIds()</span>
-    <span class="c1">#     model = self.sbml_doc.getModel()</span>
-    <span class="c1">#     parameters = [model.getParameter(sid) for sid in sids]</span>
-    <span class="c1">#     df = DataFrame({</span>
-    <span class="c1">#         &#39;value&#39;: self.model.getGlobalParameterValues(),</span>
-    <span class="c1">#         &#39;unit&#39;: [p.units for p in parameters],</span>
-    <span class="c1">#         &#39;constant&#39;: [p.constant for p in parameters],</span>
-    <span class="c1">#         &#39;parameter&#39;: parameters,</span>
-    <span class="c1">#         &#39;name&#39;: [p.name for p in parameters],</span>
-    <span class="c1">#         }, index=sids, columns=[&#39;value&#39;, &#39;unit&#39;, &#39;constant&#39;, &#39;parameter&#39;, &#39;name&#39;])</span>
-    <span class="c1">#     return df</span>
-    <span class="c1">#</span>
-    <span class="c1"># def dfSpecies(self):</span>
-    <span class="c1">#     &quot;&quot;&quot; Create Species DataFrame.</span>
-    <span class="c1">#     :return: pandas DataFrame</span>
-    <span class="c1">#     &quot;&quot;&quot;</span>
-    <span class="c1">#     from pandas import DataFrame</span>
-    <span class="c1">#     sids = self.model.getFloatingSpeciesIds() + self.model.getBoundarySpeciesIds()</span>
-    <span class="c1">#     model = self.sbml_doc.getModel()</span>
-    <span class="c1">#     species = [model.getSpecies(sid) for sid in sids]</span>
-    <span class="c1">#     df = DataFrame({</span>
-    <span class="c1">#         &#39;concentration&#39;: np.concatenate([self.model.getFloatingSpeciesConcentrations(),</span>
-    <span class="c1">#                                             self.model.getBoundarySpeciesConcentrations()],</span>
-    <span class="c1">#                                            axis=0),</span>
-    <span class="c1">#         &#39;amount&#39;: np.concatenate([self.model.getFloatingSpeciesAmounts(),</span>
-    <span class="c1">#                                      self.model.getBoundarySpeciesAmounts()],</span>
-    <span class="c1">#                                      axis=0),</span>
-    <span class="c1">#         &#39;unit&#39;: [s.units for s in species],</span>
-    <span class="c1">#         &#39;constant&#39;: [s.constant for s in species],</span>
-    <span class="c1">#         &#39;boundaryCondition&#39;: [s.boundary_condition for s in species],</span>
-    <span class="c1">#         &#39;species&#39;: species,</span>
-    <span class="c1">#         &#39;name&#39;: [s.name for s in species],</span>
-    <span class="c1">#         }, index=sids, columns=[&#39;concentration&#39;, &#39;amount&#39;, &#39;unit&#39;, &#39;constant&#39;, &#39;boundaryCondition&#39;, &#39;species&#39;, &#39;name&#39;])</span>
-    <span class="c1">#     return df</span>
-    <span class="c1">#</span>
-    <span class="c1"># def dfSimulation(self):</span>
-    <span class="c1">#     &quot;&quot;&quot; DataFrame of the simulation data.</span>
-    <span class="c1">#     :return: pandas DataFrame</span>
-    <span class="c1">#     &quot;&quot;&quot;</span>
-    <span class="c1">#     from pandas import DataFrame</span>
-    <span class="c1">#     df = DataFrame(self.getSimulationData(),</span>
-    <span class="c1">#                    columns=self.selections)</span>
-    <span class="c1">#     return df</span>
+        <span class="n">saveToFile</span><span class="p">(</span><span class="n">filePath</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">getMatlab</span><span class="p">(</span><span class="n">current</span><span class="p">))</span></div>
 
     <span class="c1"># ---------------------------------------------------------------------</span>
     <span class="c1"># Reset Methods</span>
     <span class="c1"># ---------------------------------------------------------------------</span>
-<div class="viewcode-block" id="ExtendedRoadRunner.resetToOrigin"><a class="viewcode-back" href="../../_apidoc/tellurium.html#tellurium.tellurium.ExtendedRoadRunner.resetToOrigin">[docs]</a>    <span class="k">def</span> <span class="nf">resetToOrigin</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="ExtendedRoadRunner.resetToOrigin"><a class="viewcode-back" href="../../tellurium_methods.html#tellurium.tellurium.ExtendedRoadRunner.resetToOrigin">[docs]</a>    <span class="k">def</span> <span class="nf">resetToOrigin</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Reset model to state when first loaded.</span>
 <span class="sd">        This resets the model back to the state when it was FIRST loaded,</span>
 <span class="sd">        this includes all init() and parameters such as k1 etc.</span>
@@ -822,7 +749,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">reset</span><span class="p">(</span><span class="n">roadrunner</span><span class="o">.</span><span class="n">SelectionRecord</span><span class="o">.</span><span class="n">ALL</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="ExtendedRoadRunner.resetAll"><a class="viewcode-back" href="../../_apidoc/tellurium.html#tellurium.tellurium.ExtendedRoadRunner.resetAll">[docs]</a>    <span class="k">def</span> <span class="nf">resetAll</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="ExtendedRoadRunner.resetAll"><a class="viewcode-back" href="../../tellurium_methods.html#tellurium.tellurium.ExtendedRoadRunner.resetAll">[docs]</a>    <span class="k">def</span> <span class="nf">resetAll</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Reset all model variables to CURRENT init(X) values.</span>
 <span class="sd">        This resets all variables, S1, S2 etc to the CURRENT init(X) values. It also resets all</span>
 <span class="sd">        parameters back to the values they had when the model was first loaded.</span>
@@ -838,7 +765,7 @@
     <span class="c1"># ---------------------------------------------------------------------</span>
     <span class="c1"># Routines flattened from model, aves typing and easier finding of methods</span>
     <span class="c1"># ---------------------------------------------------------------------</span>
-<div class="viewcode-block" id="ExtendedRoadRunner.getRatesOfChange"><a class="viewcode-back" href="../../_apidoc/tellurium.html#tellurium.tellurium.ExtendedRoadRunner.getRatesOfChange">[docs]</a>    <span class="k">def</span> <span class="nf">getRatesOfChange</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="ExtendedRoadRunner.getRatesOfChange"><a class="viewcode-back" href="../../tellurium_methods.html#tellurium.tellurium.ExtendedRoadRunner.getRatesOfChange">[docs]</a>    <span class="k">def</span> <span class="nf">getRatesOfChange</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Rate of change of all state variables in the model.</span>
 
 <span class="sd">        :returns: rate of change of all state variables (eg species) in the model.</span>
@@ -851,32 +778,40 @@
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">getStateVectorRate</span><span class="p">()</span></div>
 
 
-<div class="viewcode-block" id="ExtendedRoadRunner.getConservedMoietyIds"><a class="viewcode-back" href="../../_apidoc/tellurium.html#tellurium.tellurium.ExtendedRoadRunner.getConservedMoietyIds">[docs]</a>    <span class="k">def</span> <span class="nf">getConservedMoietyIds</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s1">&#39;Use getDependentFloatingSpecies instead, will be removed in v1.4&#39;</span><span class="p">,</span>
-                      <span class="ne">DeprecationWarning</span><span class="p">,</span> <span class="n">stacklevel</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getDependentFloatingSpecies</span><span class="p">()</span></div>
+    <span class="c1"># def getConservedMoietyIds(self):</span>
+    <span class="c1">#     warnings.warn(&#39;Use getDependentFloatingSpecies instead, will be removed in v1.4&#39;,</span>
+    <span class="c1">#                   DeprecationWarning, stacklevel=2)</span>
+    <span class="c1">#     return self.getDependentFloatingSpecies()</span>
 
     <span class="c1"># ---------------------------------------------------------------------</span>
     <span class="c1"># Plotting Utilities</span>
     <span class="c1"># ---------------------------------------------------------------------</span>
-<div class="viewcode-block" id="ExtendedRoadRunner.plot"><a class="viewcode-back" href="../../_apidoc/tellurium.html#tellurium.tellurium.ExtendedRoadRunner.plot">[docs]</a>    <span class="k">def</span> <span class="nf">plot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">result</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="s1">&#39;upper left&#39;</span><span class="p">,</span> <span class="n">show</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
+<div class="viewcode-block" id="ExtendedRoadRunner.plot"><a class="viewcode-back" href="../../tellurium_methods.html#tellurium.tellurium.ExtendedRoadRunner.plot">[docs]</a>    <span class="k">def</span> <span class="nf">plot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">result</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="s1">&#39;upper left&#39;</span><span class="p">,</span> <span class="n">show</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Plot data generated by a simulation.</span>
 <span class="sd">        Plot results from a simulation carried out by the simulate or gillespie</span>
 <span class="sd">        functions. This is a roadrunner method.</span>
 <span class="sd">        Data is a numpy array where the first column is considered the x axis and all remaining columns the y axis.</span>
 <span class="sd">        If no data is provided the data currently held by roadrunner generated in the last simulation is used.</span>
+
+<span class="sd">        Supports all matplotlib.pyplot.plot keyword arguments, like</span>
+<span class="sd">            color</span>
+<span class="sd">            alpha</span>
+<span class="sd">            linewidth</span>
+<span class="sd">            linestyle</span>
+<span class="sd">            marker</span>
 <span class="sd">        ::</span>
 
-<span class="sd">            r.plot()</span>
+<span class="sd">            r.plot(loc=None, linewidth=2.0, lineStyle=&#39;-&#39;, marker=&#39;o&#39;, color=&#39;black&#39;, alpha=0.8)</span>
 
-<span class="sd">        :param self: RoadRunner instance</span>
 <span class="sd">        :param result: results data to plot</span>
 <span class="sd">        :param loc: location of plot legend</span>
 <span class="sd">        :param show: show the plot</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">plotWithLegend</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">loc</span><span class="p">,</span> <span class="n">show</span><span class="o">=</span><span class="n">show</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="ExtendedRoadRunner.plotWithLegend"><a class="viewcode-back" href="../../_apidoc/tellurium.html#tellurium.tellurium.ExtendedRoadRunner.plotWithLegend">[docs]</a>    <span class="k">def</span> <span class="nf">plotWithLegend</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">result</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="s1">&#39;upper left&#39;</span><span class="p">,</span> <span class="n">show</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">plotWithLegend</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">loc</span><span class="p">,</span> <span class="n">show</span><span class="o">=</span><span class="n">show</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="ExtendedRoadRunner.plotWithLegend"><a class="viewcode-back" href="../../tellurium_methods.html#tellurium.tellurium.ExtendedRoadRunner.plotWithLegend">[docs]</a>    <span class="k">def</span> <span class="nf">plotWithLegend</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">result</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="s1">&#39;upper left&#39;</span><span class="p">,</span> <span class="n">show</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Plots the given results array including a legend.</span>
 <span class="sd">        The first column of the array will be the x-axis, the remaining</span>
 <span class="sd">        columns the y-axis. If no result array is provided the current</span>
@@ -890,6 +825,9 @@
         <span class="k">if</span> <span class="n">result</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
             <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getSimulationData</span><span class="p">()</span>
 
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">has_key</span><span class="p">(</span><span class="s1">&#39;linewidth&#39;</span><span class="p">):</span>
+            <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;linewidth&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">2.5</span>
+
         <span class="k">if</span> <span class="n">result</span><span class="o">.</span><span class="n">dtype</span><span class="o">.</span><span class="n">names</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
             <span class="n">columns</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
             <span class="n">legendItems</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">timeCourseSelections</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
@@ -897,7 +835,7 @@
                <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s1">&#39;Legend list must match result array&#39;</span><span class="p">)</span>
             <span class="c1"># plot all the curves</span>
             <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">columns</span><span class="o">-</span><span class="mi">1</span><span class="p">):</span>
-                <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">result</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">result</span><span class="p">[:,</span> <span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">],</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">2.5</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">legendItems</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+                <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">result</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">result</span><span class="p">[:,</span> <span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="n">legendItems</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="c1"># result is structured array</span>
             <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">dtype</span><span class="o">.</span><span class="n">names</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
@@ -908,12 +846,13 @@
             <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">result</span><span class="o">.</span><span class="n">dtype</span><span class="o">.</span><span class="n">names</span><span class="p">[</span><span class="mi">1</span><span class="p">:]:</span>
                 <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="n">time</span><span class="p">],</span> <span class="n">result</span><span class="p">[</span><span class="n">name</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="n">name</span><span class="p">)</span>
 
-        <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="n">loc</span><span class="p">)</span>
-
+        <span class="k">if</span> <span class="n">loc</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="n">loc</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">show</span><span class="p">:</span>
-            <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span></div>
+            <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">plt</span></div>
 
-<div class="viewcode-block" id="ExtendedRoadRunner.simulateAndPlot"><a class="viewcode-back" href="../../_apidoc/tellurium.html#tellurium.tellurium.ExtendedRoadRunner.simulateAndPlot">[docs]</a>    <span class="k">def</span> <span class="nf">simulateAndPlot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">startTime</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">endTime</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">numberOfPoints</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="ExtendedRoadRunner.simulateAndPlot"><a class="viewcode-back" href="../../tellurium_methods.html#tellurium.tellurium.ExtendedRoadRunner.simulateAndPlot">[docs]</a>    <span class="k">def</span> <span class="nf">simulateAndPlot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">startTime</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">endTime</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">numberOfPoints</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Run simulation and plot the results.</span>
 <span class="sd">        ::</span>
 
@@ -933,7 +872,7 @@
     <span class="c1"># ---------------------------------------------------------------------</span>
     <span class="c1"># Stochastic Simulation Methods</span>
     <span class="c1"># ---------------------------------------------------------------------</span>
-<div class="viewcode-block" id="ExtendedRoadRunner.getSeed"><a class="viewcode-back" href="../../_apidoc/tellurium.html#tellurium.tellurium.ExtendedRoadRunner.getSeed">[docs]</a>    <span class="k">def</span> <span class="nf">getSeed</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="ExtendedRoadRunner.getSeed"><a class="viewcode-back" href="../../tellurium_methods.html#tellurium.tellurium.ExtendedRoadRunner.getSeed">[docs]</a>    <span class="k">def</span> <span class="nf">getSeed</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Current seed used by the random generator of the RoadRunner instance.</span>
 
 <span class="sd">        :returns: current seed</span>
@@ -943,7 +882,7 @@
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;model is not loaded&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">intg</span><span class="p">[</span><span class="s1">&#39;seed&#39;</span><span class="p">]</span></div>
 
-<div class="viewcode-block" id="ExtendedRoadRunner.setSeed"><a class="viewcode-back" href="../../_apidoc/tellurium.html#tellurium.tellurium.ExtendedRoadRunner.setSeed">[docs]</a>    <span class="k">def</span> <span class="nf">setSeed</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">seed</span><span class="p">):</span>
+<div class="viewcode-block" id="ExtendedRoadRunner.setSeed"><a class="viewcode-back" href="../../tellurium_methods.html#tellurium.tellurium.ExtendedRoadRunner.setSeed">[docs]</a>    <span class="k">def</span> <span class="nf">setSeed</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">seed</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Set seed for random number generator (used by gillespie for example).</span>
 <span class="sd">        ::</span>
 
@@ -960,7 +899,7 @@
         <span class="c1"># to C integers on 64 bit machines. If its converted to float before, works around the issue.</span>
         <span class="n">intg</span><span class="p">[</span><span class="s1">&#39;seed&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">seed</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="ExtendedRoadRunner.gillespie"><a class="viewcode-back" href="../../_apidoc/tellurium.html#tellurium.tellurium.ExtendedRoadRunner.gillespie">[docs]</a>    <span class="k">def</span> <span class="nf">gillespie</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="ExtendedRoadRunner.gillespie"><a class="viewcode-back" href="../../tellurium_methods.html#tellurium.tellurium.ExtendedRoadRunner.gillespie">[docs]</a>    <span class="k">def</span> <span class="nf">gillespie</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Run a Gillespie stochastic simulation.</span>
 <span class="sd">        ::</span>
 
@@ -994,85 +933,6 @@
 
         <span class="k">return</span> <span class="n">result</span></div></div>
 
-    <span class="c1"># ---------------------------------------------------------------</span>
-    <span class="c1"># Simulate Options</span>
-    <span class="c1"># ---------------------------------------------------------------</span>
-    <span class="c1"># Not supported any more</span>
-    <span class="c1">#</span>
-    <span class="c1"># def setSteps(self, steps):</span>
-    <span class="c1">#     &quot;&quot;&quot; Set steps in roadrunner simulateOptions.</span>
-    <span class="c1">#</span>
-    <span class="c1">#     :param steps: steps in integration</span>
-    <span class="c1">#     :type steps: int</span>
-    <span class="c1">#     &quot;&quot;&quot;</span>
-    <span class="c1">#     warnings.warn(&#39;simulateOptions no longer supported, will be removed in v1.4&#39;,</span>
-    <span class="c1">#                   DeprecationWarning, stacklevel=2)</span>
-    <span class="c1">#     raise DeprecationWarning</span>
-    <span class="c1">#     self.simulateOptions.steps = steps</span>
-    <span class="c1">#</span>
-    <span class="c1"># def getSteps(self):</span>
-    <span class="c1">#     &quot;&quot;&quot; Get number of steps from simulateOptions. &quot;&quot;&quot;</span>
-    <span class="c1">#     warnings.warn(&#39;simulateOptions no longer supported, will be removed in v1.4&#39;,</span>
-    <span class="c1">#                   DeprecationWarning, stacklevel=2)</span>
-    <span class="c1">#     raise DeprecationWarning</span>
-    <span class="c1">#     return self.simulateOptions.steps</span>
-    <span class="c1">#</span>
-    <span class="c1"># def setNumberOfPoints(self, numberOfPoints):</span>
-    <span class="c1">#     &quot;&quot;&quot; Set number of points in roadrunner simulateOptions.</span>
-    <span class="c1">#</span>
-    <span class="c1">#     :param numberOfPoints: number of points in result</span>
-    <span class="c1">#     :type numberOfPoints: int</span>
-    <span class="c1">#     &quot;&quot;&quot;</span>
-    <span class="c1">#     warnings.warn(&#39;simulateOptions no longer supported, will be removed in v1.4&#39;,</span>
-    <span class="c1">#                   DeprecationWarning, stacklevel=2)</span>
-    <span class="c1">#     raise DeprecationWarning</span>
-    <span class="c1">#     self.simulateOptions.steps = numberOfPoints - 1</span>
-    <span class="c1">#</span>
-    <span class="c1"># def getNumberOfPoints(self):</span>
-    <span class="c1">#     &quot;&quot;&quot; Get number of points from rr.simulateOptions. &quot;&quot;&quot;</span>
-    <span class="c1">#     warnings.warn(&#39;simulateOptions no longer supported, will be removed in v1.4&#39;,</span>
-    <span class="c1">#                   DeprecationWarning, stacklevel=2)</span>
-    <span class="c1">#     raise DeprecationWarning</span>
-    <span class="c1">#     return self.simulateOptions.steps + 1</span>
-    <span class="c1">#</span>
-    <span class="c1"># def setStartTime(self, startTime):</span>
-    <span class="c1">#     &quot;&quot;&quot; Set start in roadrunner simulateOptions.</span>
-    <span class="c1">#</span>
-    <span class="c1">#     :param start: start time of integration</span>
-    <span class="c1">#     :type start: float</span>
-    <span class="c1">#     &quot;&quot;&quot;</span>
-    <span class="c1">#     warnings.warn(&#39;simulateOptions no longer supported, will be removed in v1.4&#39;,</span>
-    <span class="c1">#                   DeprecationWarning, stacklevel=2)</span>
-    <span class="c1">#     raise DeprecationWarning(&quot;simulateOptions no longer supported&quot;)</span>
-    <span class="c1">#     self.simulateOptions.start = startTime</span>
-    <span class="c1">#</span>
-    <span class="c1"># def getStartTime(self):</span>
-    <span class="c1">#     &quot;&quot;&quot; Get start time from roadrunner simulateOptions. &quot;&quot;&quot;</span>
-    <span class="c1">#     warnings.warn(&#39;simulateOptions no longer supported, will be removed in v1.4&#39;,</span>
-    <span class="c1">#                   DeprecationWarning, stacklevel=2)</span>
-    <span class="c1">#     raise DeprecationWarning(&quot;simulateOptions no longer supported&quot;)</span>
-    <span class="c1">#     return self.simulateOptions.start</span>
-    <span class="c1">#</span>
-    <span class="c1"># def setEndTime(self, endTime):</span>
-    <span class="c1">#     &quot;&quot;&quot; Set end in roadrunner simulateOptions.</span>
-    <span class="c1">#</span>
-    <span class="c1">#     :param end: end time of integration</span>
-    <span class="c1">#     :type end: float</span>
-    <span class="c1">#     &quot;&quot;&quot;</span>
-    <span class="c1">#     warnings.warn(&#39;simulateOptions no longer supported, will be removed in v1.4&#39;,</span>
-    <span class="c1">#                   DeprecationWarning, stacklevel=2)</span>
-    <span class="c1">#     raise DeprecationWarning(&quot;simulateOptions no longer supported&quot;)</span>
-    <span class="c1">#     self.simulateOptions.end = endTime</span>
-    <span class="c1">#</span>
-    <span class="c1">#</span>
-    <span class="c1"># def getEndTime(self):</span>
-    <span class="c1">#     &quot;&quot;&quot; Get end time from roadrunner simulateOptions. &quot;&quot;&quot;</span>
-    <span class="c1">#     warnings.warn(&#39;simulateOptions no longer supported, will be removed in v1.4&#39;,</span>
-    <span class="c1">#                   DeprecationWarning, stacklevel=2)</span>
-    <span class="c1">#     raise DeprecationWarning(&quot;simulateOptions no longer supported&quot;)</span>
-    <span class="c1">#     return self.simulateOptions.start + self.simulateOptions.duration</span>
-
-
 <span class="c1"># ---------------------------------------------------------------</span>
 <span class="c1"># End of routines</span>
 <span class="c1"># ---------------------------------------------------------------</span>
@@ -1085,14 +945,12 @@
 <span class="n">roadrunner</span><span class="o">.</span><span class="n">RoadRunner</span> <span class="o">=</span> <span class="n">ExtendedRoadRunner</span>
 
 <span class="c1"># And assign functions to the roadrunner module.</span>
-<span class="c1"># Hereby they are available as te.function and roadrunner.function</span>
-
-<span class="c1"># FIXME: this should not be done, just use the te.function version</span>
-<span class="n">roadrunner</span><span class="o">.</span><span class="n">noticesOff</span> <span class="o">=</span> <span class="n">noticesOff</span>
-<span class="n">roadrunner</span><span class="o">.</span><span class="n">noticesOn</span> <span class="o">=</span> <span class="n">noticesOn</span>
-<span class="n">roadrunner</span><span class="o">.</span><span class="n">getTestModel</span> <span class="o">=</span> <span class="n">getTestModel</span>
-<span class="n">roadrunner</span><span class="o">.</span><span class="n">loadTestModel</span> <span class="o">=</span> <span class="n">loadTestModel</span>
-<span class="n">roadrunner</span><span class="o">.</span><span class="n">listTestModels</span> <span class="o">=</span> <span class="n">listTestModels</span>
+<span class="c1"># not necessary, use the te.function version instead</span>
+<span class="c1"># roadrunner.noticesOff = noticesOff</span>
+<span class="c1"># roadrunner.noticesOn = noticesOn</span>
+<span class="c1"># roadrunner.getTestModel = getTestModel</span>
+<span class="c1"># roadrunner.loadTestModel = loadTestModel</span>
+<span class="c1"># roadrunner.listTestModels = listTestModels</span>
 </pre></div>
 
            </div>

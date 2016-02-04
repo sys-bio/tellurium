@@ -86,12 +86,22 @@
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="notebooks.html">Examples</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="">Tellurium Methods</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#utility-methods">Utility Methods</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#model-loading">Model Loading</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#interconversion-utilities">Interconversion Utilities</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#utility-methods">Utility Methods</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#version-information">Version information</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#repeat-simulation-without-notification">Repeat simulation without notification</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#file-helpers-for-reading-and-writing">File helpers for reading and writing</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#model-loading">Model Loading</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#load-antimony">Load Antimony</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#interconversion-utilities">Interconversion Utilities</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#antimony-sbml-cellml">Antimony, SBML, CellML</a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="#export-utilities">Export Utilities</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#stochastic-simulation">Stochastic Simulation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#sedml">SEDML</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#math">Math</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#plotting">Plotting</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#model-reset">Model Reset</a></li>
@@ -150,31 +160,6 @@
 <div class="section" id="utility-methods">
 <h2>Utility Methods<a class="headerlink" href="#utility-methods" title="Permalink to this headline">¶</a></h2>
 <p>The most useful methods here are the notices routines. Roadrunner will offen issue warning or informational messages. For repeated simulation such messages will clutter up the outputs. noticesOff and noticesOn can be used to turn on an off the messages.</p>
-<p><strong>Print Version information</strong></p>
-<div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">tellurium</span> <span class="kn">as</span> <span class="nn">te</span>
-<span class="n">te</span><span class="o">.</span><span class="n">getVersionInfo</span><span class="p">()</span>
-</pre></div>
-</div>
-<p><strong>Repeat simulation without notification</strong></p>
-<div class="highlight-python"><div class="highlight"><pre># Load SBML file
-r = roadrunner.RoadRunner(&#39;mymodel.xml&#39;)
-# Turn of notices so they don&#39;t clutter the output
-roadrunner.noticesOff()
-for i in range (0:20):
-  result = r.simulate (0, 10)
-  r.plot (result)
-  r.model.k1 = r.model.k1 + 0.2
-# Turn the notices back on
-roadrunner.noticesOn()
-</pre></div>
-</div>
-<p><strong>File helpers for reading and writing</strong></p>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">r</span> <span class="o">=</span> <span class="n">te</span><span class="o">.</span><span class="n">loada</span><span class="p">(</span><span class="s1">&#39;S1 -&gt; S2; k1*S1; k1 = 0.1; S1 = 10&#39;</span><span class="p">)</span>
-<span class="n">saveToFile</span><span class="p">(</span><span class="s1">&#39;mymodel.m&#39;</span><span class="p">,</span> <span class="n">r</span><span class="o">.</span><span class="n">getMatlab</span><span class="p">())</span>
-
-<span class="n">sbmlstr</span> <span class="o">=</span> <span class="n">readFromFile</span><span class="p">(</span><span class="s1">&#39;mymodel.xml&#39;</span><span class="p">)</span>
-</pre></div>
-</div>
 <dl class="function">
 <dt id="tellurium.getVersionInfo">
 <code class="descclassname">tellurium.</code><code class="descname">getVersionInfo</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/tellurium.html#getVersionInfo"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.getVersionInfo" title="Permalink to this definition">¶</a></dt>
@@ -263,35 +248,86 @@ Call this to stop roadrunner from printing warning message to the console.</p>
 </table>
 </dd></dl>
 
+<div class="section" id="version-information">
+<h3>Version information<a class="headerlink" href="#version-information" title="Permalink to this headline">¶</a></h3>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">tellurium</span> <span class="kn">as</span> <span class="nn">te</span>
+
+<span class="c1"># to get the tellurium version use</span>
+<span class="k">print</span><span class="p">(</span><span class="n">te</span><span class="o">.</span><span class="n">getTelluriumVersion</span><span class="p">())</span>
+
+<span class="c1"># to print the full version info use</span>
+<span class="k">print</span><span class="p">(</span><span class="s1">&#39;-&#39;</span> <span class="o">*</span> <span class="mi">80</span><span class="p">)</span>
+<span class="n">te</span><span class="o">.</span><span class="n">printVersionInfo</span><span class="p">()</span>
+<span class="k">print</span><span class="p">(</span><span class="s1">&#39;-&#39;</span> <span class="o">*</span> <span class="mi">80</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre>1.3.0
+--------------------------------------------------------------------------------
+tellurium : 1.3.0
+roadrunner : 1.4.2; Compiler: gcc 4.8.4, C++ version: 199711; JIT Compiler: LLVM-3.4; Date: Feb  4 2016, 11:44:01; LibSBML Version: 5.12.0
+antimony : v2.8.0
+snbw_viewer : No information for sbnw viewer
+libsbml : 5.12.1
+libsedml : 401
+phrasedml : v0.5 beta
+--------------------------------------------------------------------------------
+</pre></div>
+</div>
+</div>
+<div class="section" id="repeat-simulation-without-notification">
+<h3>Repeat simulation without notification<a class="headerlink" href="#repeat-simulation-without-notification" title="Permalink to this headline">¶</a></h3>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="c1"># Load SBML file</span>
+<span class="n">r</span> <span class="o">=</span> <span class="n">te</span><span class="o">.</span><span class="n">loada</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">model test</span>
+<span class="s2">    J0: X0 -&gt; X1; k1*X0;</span>
+<span class="s2">    X0 = 10; X1=0;</span>
+<span class="s2">    k1 = 0.2</span>
+<span class="s2">end</span>
+<span class="s2">&quot;&quot;&quot;</span><span class="p">)</span>
+
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
+
+<span class="c1"># Turn of notices so they don&#39;t clutter the output</span>
+<span class="n">te</span><span class="o">.</span><span class="n">noticesOff</span><span class="p">()</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">xrange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">20</span><span class="p">):</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">simulate</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+    <span class="n">r</span><span class="o">.</span><span class="n">reset</span><span class="p">()</span>
+    <span class="n">r</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">show</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
+           <span class="n">linewidth</span><span class="o">=</span><span class="mf">2.0</span><span class="p">,</span> <span class="n">lineStyle</span><span class="o">=</span><span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.8</span><span class="p">)</span>
+    <span class="n">r</span><span class="o">.</span><span class="n">k1</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">k1</span> <span class="o">+</span> <span class="mf">0.2</span>
+<span class="c1"># Turn the notices back on</span>
+<span class="n">te</span><span class="o">.</span><span class="n">noticesOn</span><span class="p">()</span>
+</pre></div>
+</div>
+<img alt="_images/tellurium_utility_4_0.png" src="_images/tellurium_utility_4_0.png" />
+</div>
+<div class="section" id="file-helpers-for-reading-and-writing">
+<h3>File helpers for reading and writing<a class="headerlink" href="#file-helpers-for-reading-and-writing" title="Permalink to this headline">¶</a></h3>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="c1"># create tmp file</span>
+<span class="kn">import</span> <span class="nn">tempfile</span>
+<span class="n">ftmp</span> <span class="o">=</span> <span class="n">tempfile</span><span class="o">.</span><span class="n">NamedTemporaryFile</span><span class="p">(</span><span class="n">suffix</span><span class="o">=</span><span class="s2">&quot;.xml&quot;</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">ftmp</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+<span class="c1"># load model</span>
+<span class="n">r</span> <span class="o">=</span> <span class="n">te</span><span class="o">.</span><span class="n">loada</span><span class="p">(</span><span class="s1">&#39;S1 -&gt; S2; k1*S1; k1 = 0.1; S1 = 10&#39;</span><span class="p">)</span>
+<span class="c1"># save to file</span>
+<span class="n">te</span><span class="o">.</span><span class="n">saveToFile</span><span class="p">(</span><span class="n">ftmp</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">r</span><span class="o">.</span><span class="n">getMatlab</span><span class="p">())</span>
+
+<span class="c1"># or easier via</span>
+<span class="n">r</span><span class="o">.</span><span class="n">exportToMatlab</span><span class="p">(</span><span class="n">ftmp</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+
+<span class="c1"># load file</span>
+<span class="n">sbmlstr</span> <span class="o">=</span> <span class="n">te</span><span class="o">.</span><span class="n">readFromFile</span><span class="p">(</span><span class="n">ftmp</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">sbmlstr</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre>/tmp/tmp_KRHGs.xml
+</pre></div>
+</div>
+</div>
 </div>
 <div class="section" id="model-loading">
 <h2>Model Loading<a class="headerlink" href="#model-loading" title="Permalink to this headline">¶</a></h2>
-<p>There are a variety of methods to load models into libRoadrunner. At the most basic level one can load the model directly using libRoadRunner:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">r</span> <span class="o">=</span> <span class="n">roadrunner</span><span class="o">.</span><span class="n">RoadRunner</span><span class="p">(</span><span class="s1">&#39;mymodel.xml&#39;</span><span class="p">)</span>
-</pre></div>
-</div>
-<p>Alternatively one can use these methods:</p>
-<p>This is the same as roadrunner.RoadRunner() but the method name is more suggestive of what it does. Like RoadRunner, loadSBML can accept a file name or a SBML string as it argument</p>
-<div class="highlight-python"><div class="highlight"><pre>r = te.loadSBMLModel (&#39;mymodel.xml&#39;)
-
-# To load an Antimony model use:
-r = te.loadAntimonyModel (antStr)
-
-# Or alternatively
-r = te.loadAntimonyModel (&#39;mymodel.ant&#39;)
-
-# The method loada is simply a shortcut to loadAntimonyModel
-r = loada(&#39;&#39;&#39;
-        S1 -&gt; S2; k1*S1;
-        S2 -&gt; S3; k2*S2;
-
-        k1= 0.1; k2 = 0.2;
-        S1 = 10; S2 = 0; S3 = 0;
-        &#39;&#39;&#39;)
-        result = r.simulate (0, 10, 100)
-        r.plot (result)
-</pre></div>
-</div>
+<p>There are a variety of methods to load models into libRoadrunner.</p>
 <dl class="function">
 <dt id="tellurium.loada">
 <code class="descclassname">tellurium.</code><code class="descname">loada</code><span class="sig-paren">(</span><em>ant</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/tellurium.html#loada"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.loada" title="Permalink to this definition">¶</a></dt>
@@ -369,24 +405,54 @@ r = loada(&#39;&#39;&#39;
 </table>
 </dd></dl>
 
+<div class="section" id="load-antimony">
+<h3>Load Antimony<a class="headerlink" href="#load-antimony" title="Permalink to this headline">¶</a></h3>
+<p>Antimony files can be read with <code class="docutils literal"><span class="pre">te.loada</span></code> or
+<code class="docutils literal"><span class="pre">te.loadAntimonyModel</span></code>. For SBML <code class="docutils literal"><span class="pre">te.loadSBMLModel</span></code>, for CellML
+<code class="docutils literal"><span class="pre">te.loadCellMLModel</span></code> is used. All the functions accept either model
+strings or respective model files.</p>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">tellurium</span> <span class="kn">as</span> <span class="nn">te</span>
+
+<span class="c1"># Load an antimony model</span>
+<span class="n">ant_model</span> <span class="o">=</span> <span class="s1">&#39;&#39;&#39;</span>
+<span class="s1">    S1 -&gt; S2; k1*S1;</span>
+<span class="s1">    S2 -&gt; S3; k2*S2;</span>
+
+<span class="s1">    k1= 0.1; k2 = 0.2;</span>
+<span class="s1">    S1 = 10; S2 = 0; S3 = 0;</span>
+<span class="s1">&#39;&#39;&#39;</span>
+<span class="c1"># At the most basic level one can load the SBML model directly using libRoadRunner</span>
+<span class="k">print</span><span class="p">(</span><span class="s1">&#39;---  load roadrunner ---&#39;</span><span class="p">)</span>
+<span class="kn">import</span> <span class="nn">roadrunner</span>
+<span class="c1"># convert to SBML model</span>
+<span class="n">sbml_model</span> <span class="o">=</span> <span class="n">te</span><span class="o">.</span><span class="n">antimonyToSBML</span><span class="p">(</span><span class="n">ant_model</span><span class="p">)</span>
+<span class="n">r</span> <span class="o">=</span> <span class="n">roadrunner</span><span class="o">.</span><span class="n">RoadRunner</span><span class="p">(</span><span class="n">sbml_model</span><span class="p">)</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">simulate</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+<span class="n">r</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+
+<span class="c1"># The method loada is simply a shortcut to loadAntimonyModel</span>
+<span class="k">print</span><span class="p">(</span><span class="s1">&#39;---  load tellurium ---&#39;</span><span class="p">)</span>
+<span class="n">r</span> <span class="o">=</span> <span class="n">te</span><span class="o">.</span><span class="n">loada</span><span class="p">(</span><span class="n">ant_model</span><span class="p">)</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">simulate</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+<span class="n">r</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+
+<span class="c1"># same like</span>
+<span class="n">r</span> <span class="o">=</span> <span class="n">te</span><span class="o">.</span><span class="n">loadAntimonyModel</span><span class="p">(</span><span class="n">ant_model</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre>---  load roadrunner ---
+</pre></div>
+</div>
+<img alt="_images/tellurium_model_loading_2_1.png" src="_images/tellurium_model_loading_2_1.png" />
+<div class="highlight-python"><div class="highlight"><pre>---  load tellurium ---
+</pre></div>
+</div>
+<img alt="_images/tellurium_model_loading_2_3.png" src="_images/tellurium_model_loading_2_3.png" />
+</div>
 </div>
 <div class="section" id="interconversion-utilities">
 <h2>Interconversion Utilities<a class="headerlink" href="#interconversion-utilities" title="Permalink to this headline">¶</a></h2>
 <p>Use these routines interconvert verious standard formats</p>
-<p><strong>Convert an SBML model into Antimony</strong></p>
-<div class="highlight-python"><div class="highlight"><pre><span class="c1"># Load an SBML file</span>
-<span class="n">sbmlStr</span> <span class="o">=</span> <span class="n">te</span><span class="o">.</span><span class="n">readFromFile</span><span class="p">(</span><span class="s1">&#39;mymodel.xml&#39;</span><span class="p">)</span>
-<span class="c1"># Generate the Antimony format of the SBML model</span>
-<span class="k">print</span><span class="p">(</span><span class="n">te</span><span class="o">.</span><span class="n">sbmlToAntimony</span><span class="p">(</span><span class="n">sbmlStr</span><span class="p">))</span>
-</pre></div>
-</div>
-<p><strong>Convert an Antimony model into SBML</strong></p>
-<div class="highlight-python"><div class="highlight"><pre><span class="c1"># Load an Antimony file</span>
-<span class="n">antStr</span> <span class="o">=</span> <span class="n">te</span><span class="o">.</span><span class="n">readFromFile</span><span class="p">(</span><span class="s1">&#39;mymodel.ant&#39;</span><span class="p">)</span>
-<span class="c1"># Generate the SBML format of the Antimony model</span>
-<span class="k">print</span> <span class="n">te</span><span class="o">.</span><span class="n">antimonyToSBML</span><span class="p">(</span><span class="n">antStr</span><span class="p">)</span>
-</pre></div>
-</div>
 <dl class="function">
 <dt id="tellurium.antimonyToSBML">
 <code class="descclassname">tellurium.</code><code class="descname">antimonyToSBML</code><span class="sig-paren">(</span><em>ant</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/tellurium.html#antimonyToSBML"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.antimonyToSBML" title="Permalink to this definition">¶</a></dt>
@@ -495,11 +561,195 @@ r = loada(&#39;&#39;&#39;
 </table>
 </dd></dl>
 
+<div class="section" id="antimony-sbml-cellml">
+<h3>Antimony, SBML, CellML<a class="headerlink" href="#antimony-sbml-cellml" title="Permalink to this headline">¶</a></h3>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">tellurium</span> <span class="kn">as</span> <span class="nn">te</span>
+
+<span class="c1"># antimony model</span>
+<span class="n">ant_model</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">    S1 -&gt; S2; k1*S1;</span>
+<span class="s2">    S2 -&gt; S3; k2*S2;</span>
+
+<span class="s2">    k1= 0.1; k2 = 0.2;</span>
+<span class="s2">    S1 = 10; S2 = 0; S3 = 0;</span>
+<span class="s2">&quot;&quot;&quot;</span>
+
+<span class="c1"># convert to SBML</span>
+<span class="n">sbml_model</span> <span class="o">=</span> <span class="n">te</span><span class="o">.</span><span class="n">antimonyToSBML</span><span class="p">(</span><span class="n">ant_model</span><span class="p">)</span>
+
+<span class="c1"># convert to CellML</span>
+<span class="n">cellml_model</span> <span class="o">=</span> <span class="n">te</span><span class="o">.</span><span class="n">antimonyToCellML</span><span class="p">(</span><span class="n">ant_model</span><span class="p">)</span>
+
+<span class="c1"># or from the sbml</span>
+<span class="n">cellml_model</span> <span class="o">=</span> <span class="n">te</span><span class="o">.</span><span class="n">sbmlToCellML</span><span class="p">(</span><span class="n">sbml_model</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
 </div>
 <div class="section" id="export-utilities">
 <h2>Export Utilities<a class="headerlink" href="#export-utilities" title="Permalink to this headline">¶</a></h2>
 <p>Use these routines to convert the current model state into other formats, like
 Matlab, CellML, Antimony and SBML.</p>
+<dl class="class">
+<dt id="tellurium.ExtendedRoadRunner">
+<em class="property">class </em><code class="descclassname">tellurium.</code><code class="descname">ExtendedRoadRunner</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/tellurium.html#ExtendedRoadRunner"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.ExtendedRoadRunner" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="method">
+<dt id="tellurium.ExtendedRoadRunner.exportToAntimony">
+<code class="descname">exportToAntimony</code><span class="sig-paren">(</span><em>filePath</em>, <em>current=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/tellurium.html#ExtendedRoadRunner.exportToAntimony"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.ExtendedRoadRunner.exportToAntimony" title="Permalink to this definition">¶</a></dt>
+<dd><p>Save current model as Antimony file.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>current</strong> (<em>bool</em>) &#8211; export current model state</li>
+<li><strong>filePath</strong> (<em>str</em>) &#8211; file path of Antimony file</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="tellurium.ExtendedRoadRunner.exportToCellML">
+<code class="descname">exportToCellML</code><span class="sig-paren">(</span><em>filePath</em>, <em>current=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/tellurium.html#ExtendedRoadRunner.exportToCellML"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.ExtendedRoadRunner.exportToCellML" title="Permalink to this definition">¶</a></dt>
+<dd><p>Save current model as CellML file.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>current</strong> (<em>bool</em>) &#8211; export current model state</li>
+<li><strong>filePath</strong> (<em>str</em>) &#8211; file path of CellML file</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="tellurium.ExtendedRoadRunner.exportToMatlab">
+<code class="descname">exportToMatlab</code><span class="sig-paren">(</span><em>filePath</em>, <em>current=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/tellurium.html#ExtendedRoadRunner.exportToMatlab"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.ExtendedRoadRunner.exportToMatlab" title="Permalink to this definition">¶</a></dt>
+<dd><p>Save current model as Matlab file.
+To save the original model loaded into roadrunner use
+current=False.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>self</strong> (<em>RoadRunner.roadrunner</em>) &#8211; RoadRunner instance</li>
+<li><strong>filePath</strong> (<em>str</em>) &#8211; file path of Matlab file</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="tellurium.ExtendedRoadRunner.exportToSBML">
+<code class="descname">exportToSBML</code><span class="sig-paren">(</span><em>filePath</em>, <em>current=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/tellurium.html#ExtendedRoadRunner.exportToSBML"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.ExtendedRoadRunner.exportToSBML" title="Permalink to this definition">¶</a></dt>
+<dd><p>Save current model as SBML file.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>current</strong> (<em>bool</em>) &#8211; export current model state</li>
+<li><strong>filePath</strong> (<em>str</em>) &#8211; file path of SBML file</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="tellurium.ExtendedRoadRunner.getAntimony">
+<code class="descname">getAntimony</code><span class="sig-paren">(</span><em>current=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/tellurium.html#ExtendedRoadRunner.getAntimony"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.ExtendedRoadRunner.getAntimony" title="Permalink to this definition">¶</a></dt>
+<dd><p>Antimony string of the original model loaded into roadrunner.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>current</strong> (<em>bool</em>) &#8211; return current model state</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">Antimony</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">str</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="tellurium.ExtendedRoadRunner.getCellML">
+<code class="descname">getCellML</code><span class="sig-paren">(</span><em>current=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/tellurium.html#ExtendedRoadRunner.getCellML"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.ExtendedRoadRunner.getCellML" title="Permalink to this definition">¶</a></dt>
+<dd><p>CellML string of the original model loaded into roadrunner.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>current</strong> (<em>bool</em>) &#8211; return current model state</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">CellML string</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">str</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="tellurium.ExtendedRoadRunner.getCurrentAntimony">
+<code class="descname">getCurrentAntimony</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/tellurium.html#ExtendedRoadRunner.getCurrentAntimony"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.ExtendedRoadRunner.getCurrentAntimony" title="Permalink to this definition">¶</a></dt>
+<dd><p>Antimony string of the current model state.</p>
+<p>See also: <code class="xref py py-func docutils literal"><span class="pre">getAntimony()</span></code>
+:return: Antimony
+:rtype: str</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="tellurium.ExtendedRoadRunner.getCurrentCellML">
+<code class="descname">getCurrentCellML</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/tellurium.html#ExtendedRoadRunner.getCurrentCellML"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.ExtendedRoadRunner.getCurrentCellML" title="Permalink to this definition">¶</a></dt>
+<dd><p>CellML string of current model state.</p>
+<p>See also: <code class="xref py py-func docutils literal"><span class="pre">getCellML()</span></code>
+:returns: CellML string
+:rtype: str</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="tellurium.ExtendedRoadRunner.getCurrentMatlab">
+<code class="descname">getCurrentMatlab</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/tellurium.html#ExtendedRoadRunner.getCurrentMatlab"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.ExtendedRoadRunner.getCurrentMatlab" title="Permalink to this definition">¶</a></dt>
+<dd><p>Matlab string of current model state.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>current</strong> (<em>bool</em>) &#8211; return current model state</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">Matlab string</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">str</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="tellurium.ExtendedRoadRunner.getMatlab">
+<code class="descname">getMatlab</code><span class="sig-paren">(</span><em>current=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/tellurium.html#ExtendedRoadRunner.getMatlab"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.ExtendedRoadRunner.getMatlab" title="Permalink to this definition">¶</a></dt>
+<dd><p>Matlab string of the original model loaded into roadrunner.</p>
+<p>See also: <code class="xref py py-func docutils literal"><span class="pre">getCurrentMatlab()</span></code>
+:returns: Matlab string
+:rtype: str</p>
+</dd></dl>
+
+</dd></dl>
+
 <div class="highlight-python"><div class="highlight"><pre><span class="n">r</span> <span class="o">=</span> <span class="n">te</span><span class="o">.</span><span class="n">loada</span><span class="p">(</span><span class="s1">&#39;S1 -&gt; S2; k1*S1; k1 = 0.1; S1 = 10&#39;</span><span class="p">)</span>
 <span class="k">print</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">getCurrentMatlab</span><span class="p">())</span>
 <span class="n">r</span><span class="o">.</span><span class="n">exportToMatlab</span><span class="p">(</span><span class="s2">&quot;mymodel.m&quot;</span><span class="p">)</span>
@@ -509,6 +759,84 @@ Matlab, CellML, Antimony and SBML.</p>
 <div class="section" id="stochastic-simulation">
 <h2>Stochastic Simulation<a class="headerlink" href="#stochastic-simulation" title="Permalink to this headline">¶</a></h2>
 <p>Use these routines to carry out Gillespie style stochastic simulations.</p>
+<dl class="class">
+<dt>
+<em class="property">class </em><code class="descclassname">tellurium.</code><code class="descname">ExtendedRoadRunner</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/tellurium.html#ExtendedRoadRunner"><span class="viewcode-link">[source]</span></a></dt>
+<dd><dl class="method">
+<dt id="tellurium.ExtendedRoadRunner.getSeed">
+<code class="descname">getSeed</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/tellurium.html#ExtendedRoadRunner.getSeed"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.ExtendedRoadRunner.getSeed" title="Permalink to this definition">¶</a></dt>
+<dd><p>Current seed used by the random generator of the RoadRunner instance.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">current seed</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="tellurium.ExtendedRoadRunner.gillespie">
+<code class="descname">gillespie</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/tellurium.html#ExtendedRoadRunner.gillespie"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.ExtendedRoadRunner.gillespie" title="Permalink to this definition">¶</a></dt>
+<dd><p>Run a Gillespie stochastic simulation.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">rr</span> <span class="o">=</span> <span class="n">te</span><span class="o">.</span><span class="n">loada</span> <span class="p">(</span><span class="s1">&#39;S1 -&gt; S2; k1*S1; k1 = 0.1; S1 = 40&#39;</span><span class="p">)</span>
+
+<span class="c1"># Simulate from time zero to 40 time units</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">rr</span><span class="o">.</span><span class="n">gillespie</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">40</span><span class="p">)</span>
+
+<span class="c1"># Simulate on a grid with 10 points from start 0 to end time 40</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">rr</span><span class="o">.</span><span class="n">gillespie</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">40</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+
+<span class="c1"># Simulate from time zero to 40 time units using the given selection list</span>
+<span class="c1"># This means that the first column will be time and the second column species S1</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">rr</span><span class="o">.</span><span class="n">gillespie</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">40</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;time&#39;</span><span class="p">,</span> <span class="s1">&#39;S1&#39;</span><span class="p">])</span>
+
+<span class="c1"># Simulate from time zero to 40 time units, on a grid with 20 points</span>
+<span class="c1"># using the give selection list</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">rr</span><span class="o">.</span><span class="n">gillespie</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">40</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;time&#39;</span><span class="p">,</span> <span class="s1">&#39;S1&#39;</span><span class="p">])</span>
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>args</strong> &#8211; parameters for simulate</li>
+<li><strong>kwargs</strong> &#8211; parameters for simulate</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">simulation results</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="tellurium.ExtendedRoadRunner.setSeed">
+<code class="descname">setSeed</code><span class="sig-paren">(</span><em>seed</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/tellurium.html#ExtendedRoadRunner.setSeed"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.ExtendedRoadRunner.setSeed" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set seed for random number generator (used by gillespie for example).</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">rr</span><span class="o">.</span><span class="n">setSeed</span><span class="p">(</span><span class="mi">12345</span><span class="p">)</span>
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>self</strong> &#8211; RoadRunner instance.</li>
+<li><strong>seed</strong> &#8211; seed to set</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
 <p><strong>Stochastic simulation</strong>:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="n">r</span> <span class="o">=</span> <span class="n">te</span><span class="o">.</span><span class="n">loada</span><span class="p">(</span><span class="s1">&#39;S1 -&gt; S2; k1*S1; k1 = 0.1; S1 = 40&#39;</span><span class="p">)</span>
 <span class="n">r</span><span class="o">.</span><span class="n">setSeed</span><span class="p">(</span><span class="mi">87675</span><span class="p">)</span>
@@ -530,40 +858,9 @@ rr.plot(np.vstack ((result1, result))
 </pre></div>
 </div>
 </div>
-<div class="section" id="sedml">
-<h2>SEDML<a class="headerlink" href="#sedml" title="Permalink to this headline">¶</a></h2>
-<dl class="function">
-<dt id="tellurium.experiment">
-<code class="descclassname">tellurium.</code><code class="descname">experiment</code><span class="sig-paren">(</span><em>ant</em>, <em>phrasedml</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/tellurium.html#experiment"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.experiment" title="Permalink to this definition">¶</a></dt>
-<dd><p>Create experiment from antimony and phrasedml string.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>ant</strong> (<em>str</em>) &#8211; Antimony string of model</li>
-<li><strong>phrasedml</strong> (<em>str</em>) &#8211; phrasedml simulation description</li>
-</ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">SEDML experiment description</p>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-</div>
 <div class="section" id="math">
 <h2>Math<a class="headerlink" href="#math" title="Permalink to this headline">¶</a></h2>
 <p>Only one routine is currently available in this group which is a routine to compute the eigenvalues of given a matrix.</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">tellurium</span> <span class="kn">as</span> <span class="nn">te</span>
-
-<span class="n">m</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">matrix</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">],[</span><span class="mi">5</span><span class="p">,</span><span class="mi">7</span><span class="p">]])</span>
-<span class="k">print</span><span class="p">(</span><span class="n">te</span><span class="o">.</span><span class="n">getEigenvalues</span><span class="p">(</span><span class="n">m</span><span class="p">))</span>
-</pre></div>
-</div>
 <dl class="function">
 <dt id="tellurium.getEigenvalues">
 <code class="descclassname">tellurium.</code><code class="descname">getEigenvalues</code><span class="sig-paren">(</span><em>m</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/tellurium.html#getEigenvalues"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.getEigenvalues" title="Permalink to this definition">¶</a></dt>
@@ -586,18 +883,6 @@ Uses numpy eig to compute the eigenvalues.</p>
 <div class="section" id="plotting">
 <h2>Plotting<a class="headerlink" href="#plotting" title="Permalink to this headline">¶</a></h2>
 <p>Two useful plotting routines. They assume that the first column in the array is the x-axis and the second and subsequent columns represent curves on the y-axis.</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="c1"># Load a model and carry out a simulation generating 100 points</span>
-<span class="n">r</span> <span class="o">=</span> <span class="n">te</span><span class="o">.</span><span class="n">loada</span> <span class="p">(</span><span class="s1">&#39;S1 -&gt; S2; k1*S1; k1 = 0.1; S1 = 10&#39;</span><span class="p">)</span>
-<span class="n">result</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">simulate</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
-
-<span class="c1"># No legend will be add to the plot, useful for plotting large</span>
-<span class="c1"># numbers of curves where a legend would get in the way</span>
-<span class="n">te</span><span class="o">.</span><span class="n">plotArray</span> <span class="p">(</span><span class="n">result</span><span class="p">)</span>
-
-<span class="c1"># To get a legend use the roadrunner plot command</span>
-<span class="n">r</span><span class="o">.</span><span class="n">plot</span> <span class="p">(</span><span class="n">result</span><span class="p">)</span>
-</pre></div>
-</div>
 <dl class="function">
 <dt id="tellurium.plotArray">
 <code class="descclassname">tellurium.</code><code class="descname">plotArray</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/tellurium.html#plotArray"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.plotArray" title="Permalink to this definition">¶</a></dt>
@@ -615,10 +900,144 @@ to make sure the legend is shown.</p>
 </div>
 </dd></dl>
 
+<dl class="class">
+<dt>
+<em class="property">class </em><code class="descclassname">tellurium.</code><code class="descname">ExtendedRoadRunner</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/tellurium.html#ExtendedRoadRunner"><span class="viewcode-link">[source]</span></a></dt>
+<dd><dl class="method">
+<dt id="tellurium.ExtendedRoadRunner.plot">
+<code class="descname">plot</code><span class="sig-paren">(</span><em>result=None</em>, <em>loc='upper left'</em>, <em>show=True</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/tellurium.html#ExtendedRoadRunner.plot"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.ExtendedRoadRunner.plot" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plot data generated by a simulation.
+Plot results from a simulation carried out by the simulate or gillespie
+functions. This is a roadrunner method.
+Data is a numpy array where the first column is considered the x axis and all remaining columns the y axis.
+If no data is provided the data currently held by roadrunner generated in the last simulation is used.</p>
+<dl class="docutils">
+<dt>Supports all matplotlib.pyplot.plot keyword arguments, like</dt>
+<dd>color
+alpha
+linewidth
+linestyle
+marker</dd>
+</dl>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">r</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">2.0</span><span class="p">,</span> <span class="n">lineStyle</span><span class="o">=</span><span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;o&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.8</span><span class="p">)</span>
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>result</strong> &#8211; results data to plot</li>
+<li><strong>loc</strong> &#8211; location of plot legend</li>
+<li><strong>show</strong> &#8211; show the plot</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="tellurium.ExtendedRoadRunner.plotWithLegend">
+<code class="descname">plotWithLegend</code><span class="sig-paren">(</span><em>result=None</em>, <em>loc='upper left'</em>, <em>show=True</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/tellurium.html#ExtendedRoadRunner.plotWithLegend"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.ExtendedRoadRunner.plotWithLegend" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plots the given results array including a legend.
+The first column of the array will be the x-axis, the remaining
+columns the y-axis. If no result array is provided the current
+simulationData is used for plotting.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>result</strong> &#8211; array to plot</li>
+<li><strong>loc</strong> &#8211; location of plot legend</li>
+<li><strong>show</strong> &#8211; show the plot</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">plt object</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="tellurium.ExtendedRoadRunner.simulateAndPlot">
+<code class="descname">simulateAndPlot</code><span class="sig-paren">(</span><em>startTime=0</em>, <em>endTime=5</em>, <em>numberOfPoints=500</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/tellurium.html#ExtendedRoadRunner.simulateAndPlot"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.ExtendedRoadRunner.simulateAndPlot" title="Permalink to this definition">¶</a></dt>
+<dd><p>Run simulation and plot the results.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">simulateAndPlot</span> <span class="p">(</span><span class="n">rr</span><span class="p">)</span>
+<span class="n">simulateAndPlot</span> <span class="p">(</span><span class="n">rr</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>self</strong> &#8211; RoadRunner instance</li>
+<li><strong>startTime</strong> &#8211; start time of simulation</li>
+<li><strong>endTime</strong> &#8211; end time of simulation</li>
+<li><strong>numberOfPoints</strong> &#8211; number of points in simulation</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">simulation results</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<div class="highlight-python"><div class="highlight"><pre><span class="c1"># Load a model and carry out a simulation generating 100 points</span>
+<span class="n">r</span> <span class="o">=</span> <span class="n">te</span><span class="o">.</span><span class="n">loada</span> <span class="p">(</span><span class="s1">&#39;S1 -&gt; S2; k1*S1; k1 = 0.1; S1 = 10&#39;</span><span class="p">)</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">simulate</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+
+<span class="c1"># No legend will be add to the plot, useful for plotting large</span>
+<span class="c1"># numbers of curves where a legend would get in the way</span>
+<span class="n">te</span><span class="o">.</span><span class="n">plotArray</span> <span class="p">(</span><span class="n">result</span><span class="p">)</span>
+
+<span class="c1"># To get a legend use the roadrunner plot command</span>
+<span class="n">r</span><span class="o">.</span><span class="n">plot</span> <span class="p">(</span><span class="n">result</span><span class="p">)</span>
+</pre></div>
+</div>
 </div>
 <div class="section" id="model-reset">
 <h2>Model Reset<a class="headerlink" href="#model-reset" title="Permalink to this headline">¶</a></h2>
 <p>Use these routines reset your model back to particular states</p>
+<dl class="class">
+<dt>
+<em class="property">class </em><code class="descclassname">tellurium.</code><code class="descname">ExtendedRoadRunner</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/tellurium.html#ExtendedRoadRunner"><span class="viewcode-link">[source]</span></a></dt>
+<dd><dl class="method">
+<dt id="tellurium.ExtendedRoadRunner.resetAll">
+<code class="descname">resetAll</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/tellurium.html#ExtendedRoadRunner.resetAll"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.ExtendedRoadRunner.resetAll" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reset all model variables to CURRENT init(X) values.
+This resets all variables, S1, S2 etc to the CURRENT init(X) values. It also resets all
+parameters back to the values they had when the model was first loaded.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">rr</span><span class="o">.</span><span class="n">resetAll</span><span class="p">()</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="tellurium.ExtendedRoadRunner.resetToOrigin">
+<code class="descname">resetToOrigin</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/tellurium.html#ExtendedRoadRunner.resetToOrigin"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.ExtendedRoadRunner.resetToOrigin" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reset model to state when first loaded.
+This resets the model back to the state when it was FIRST loaded,
+this includes all init() and parameters such as k1 etc.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">r</span><span class="o">.</span><span class="n">resetToOrigin</span><span class="p">()</span>
+</pre></div>
+</div>
+<dl class="docutils">
+<dt>identical to:</dt>
+<dd>r.reset(roadrunner.SelectionRecord.ALL)</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
 <div class="highlight-python"><div class="highlight"><pre><span class="n">r</span> <span class="o">=</span> <span class="n">te</span><span class="o">.</span><span class="n">loada</span> <span class="p">(</span><span class="s1">&#39;S1 -&gt; S2; k1*S1; k1 = 0.1; S1 = 10&#39;</span><span class="p">)</span>
 <span class="n">result</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">simulate</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
 <span class="n">p</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">S1</span> <span class="o">=</span> <span class="mf">2.0</span>
@@ -639,33 +1058,16 @@ to make sure the legend is shown.</p>
 <div class="section" id="jarnac-short-cuts">
 <h2>jarnac Short-cuts<a class="headerlink" href="#jarnac-short-cuts" title="Permalink to this headline">¶</a></h2>
 <p>Routines to support the Jarnac compatibility layer</p>
+<dl class="class">
+<dt>
+<em class="property">class </em><code class="descclassname">tellurium.</code><code class="descname">ExtendedRoadRunner</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/tellurium.html#ExtendedRoadRunner"><span class="viewcode-link">[source]</span></a></dt>
+<dd></dd></dl>
+
 </div>
 <div class="section" id="test-models">
 <h2>Test Models<a class="headerlink" href="#test-models" title="Permalink to this headline">¶</a></h2>
-<p><strong>Methods to acess the builtin test models.</strong></p>
 <p>RoadRunner has built into it a number of predefined models that can be use
-to easily try out roadrunner if so exmaple you don&#8217;t have a model at hand.</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="c1"># To get the number of builtin models use listTestModels</span>
-<span class="k">print</span><span class="p">(</span><span class="n">roadrunner</span><span class="o">.</span><span class="n">listTestModels</span><span class="p">())</span>
-<span class="p">[</span><span class="s1">&#39;feedback.xml&#39;</span><span class="p">,</span> <span class="s1">&#39;test_1.xml&#39;</span><span class="p">]</span>
-</pre></div>
-</div>
-<p>To load one of the test models use loadTestModel:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">r</span> <span class="o">=</span> <span class="n">roadrunner</span><span class="o">.</span><span class="n">loadTestModel</span> <span class="p">(</span><span class="s1">&#39;feedback.xml&#39;</span><span class="p">)</span>
-<span class="n">result</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">simulate</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
-<span class="n">r</span><span class="o">.</span><span class="n">plot</span> <span class="p">(</span><span class="n">result</span><span class="p">)</span>
-</pre></div>
-</div>
-<p>If you need to obtain the SBML for the test model, use getTestModel</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">sbmlStr</span> <span class="o">=</span> <span class="n">roadrunner</span><span class="o">.</span><span class="n">getTestModel</span><span class="p">()</span>
-<span class="n">saveToFile</span><span class="p">(</span><span class="s1">&#39;model.xml&#39;</span><span class="p">,</span> <span class="n">sbmlStr</span><span class="p">)</span>
-</pre></div>
-</div>
-<p>To look at one of the test model in Antimony form:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">antstr</span> <span class="o">=</span> <span class="n">te</span><span class="o">.</span><span class="n">sbmlToAntimony</span> <span class="p">(</span><span class="n">roadrunner</span><span class="o">.</span><span class="n">getTestModel</span> <span class="p">(</span><span class="s1">&#39;feedback.xml&#39;</span><span class="p">))</span>
-<span class="k">print</span><span class="p">(</span><span class="n">antStr</span><span class="p">)</span>
-</pre></div>
-</div>
+to easily try and test tellurium.</p>
 <dl class="function">
 <dt id="tellurium.loadTestModel">
 <code class="descclassname">tellurium.</code><code class="descname">loadTestModel</code><span class="sig-paren">(</span><em>string</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/tellurium.html#loadTestModel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.loadTestModel" title="Permalink to this definition">¶</a></dt>
@@ -704,10 +1106,67 @@ to easily try out roadrunner if so exmaple you don&#8217;t have a model at hand.
 </table>
 </dd></dl>
 
+<dl class="function">
+<dt id="tellurium.listTestModels">
+<code class="descclassname">tellurium.</code><code class="descname">listTestModels</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/tellurium.html#listTestModels"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.listTestModels" title="Permalink to this definition">¶</a></dt>
+<dd><p>List roadrunner SBML test models.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">print</span><span class="p">(</span><span class="n">roadrunner</span><span class="o">.</span><span class="n">listTestModels</span><span class="p">())</span>
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">list of test model paths</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<div class="highlight-python"><div class="highlight"><pre><span class="c1"># To get the number of builtin models use listTestModels</span>
+<span class="k">print</span><span class="p">(</span><span class="n">roadrunner</span><span class="o">.</span><span class="n">listTestModels</span><span class="p">())</span>
+<span class="p">[</span><span class="s1">&#39;feedback.xml&#39;</span><span class="p">,</span> <span class="s1">&#39;test_1.xml&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>To load one of the test models use loadTestModel:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">r</span> <span class="o">=</span> <span class="n">roadrunner</span><span class="o">.</span><span class="n">loadTestModel</span> <span class="p">(</span><span class="s1">&#39;feedback.xml&#39;</span><span class="p">)</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">simulate</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+<span class="n">r</span><span class="o">.</span><span class="n">plot</span> <span class="p">(</span><span class="n">result</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>If you need to obtain the SBML for the test model, use getTestModel</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">sbmlStr</span> <span class="o">=</span> <span class="n">roadrunner</span><span class="o">.</span><span class="n">getTestModel</span><span class="p">()</span>
+<span class="n">saveToFile</span><span class="p">(</span><span class="s1">&#39;model.xml&#39;</span><span class="p">,</span> <span class="n">sbmlStr</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>To look at one of the test model in Antimony form:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">antstr</span> <span class="o">=</span> <span class="n">te</span><span class="o">.</span><span class="n">sbmlToAntimony</span> <span class="p">(</span><span class="n">roadrunner</span><span class="o">.</span><span class="n">getTestModel</span> <span class="p">(</span><span class="s1">&#39;feedback.xml&#39;</span><span class="p">))</span>
+<span class="k">print</span><span class="p">(</span><span class="n">antStr</span><span class="p">)</span>
+</pre></div>
+</div>
 </div>
 <div class="section" id="model-methods">
 <h2>Model Methods<a class="headerlink" href="#model-methods" title="Permalink to this headline">¶</a></h2>
 <p>Routines flattened from model, aves typing and easier for finding the methods</p>
+<dl class="class">
+<dt>
+<em class="property">class </em><code class="descclassname">tellurium.</code><code class="descname">ExtendedRoadRunner</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/tellurium.html#ExtendedRoadRunner"><span class="viewcode-link">[source]</span></a></dt>
+<dd><dl class="method">
+<dt id="tellurium.ExtendedRoadRunner.getRatesOfChange">
+<code class="descname">getRatesOfChange</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/tellurium.html#ExtendedRoadRunner.getRatesOfChange"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.ExtendedRoadRunner.getRatesOfChange" title="Permalink to this definition">¶</a></dt>
+<dd><p>Rate of change of all state variables in the model.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">rate of change of all state variables (eg species) in the model.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
 </div>
 </div>
 
