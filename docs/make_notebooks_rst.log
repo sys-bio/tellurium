@@ -1,4 +1,4 @@
-Mit Feb  3 16:53:17 CET 2016
+Don Feb  4 16:11:10 CET 2016
 --------------------------------------
 convert notebooks to rst
 --------------------------------------
@@ -32,7 +32,12 @@ convert notebooks to rst
 [NbConvertApp] Support files will be in introduction_files/
 [NbConvertApp] Making directory introduction_files
 [NbConvertApp] Making directory introduction_files
-[NbConvertApp] Writing 841 bytes to introduction.rst
+[NbConvertApp] Writing 830 bytes to introduction.rst
+[NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/modelFromBioModels.ipynb to rst
+[NbConvertApp] Executing notebook with kernel: python2
+[NbConvertApp] Support files will be in modelFromBioModels_files/
+[NbConvertApp] Making directory modelFromBioModels_files
+[NbConvertApp] Writing 541 bytes to modelFromBioModels.rst
 [NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/nonUnitStoichiometries.ipynb to rst
 [NbConvertApp] Executing notebook with kernel: python2
 [NbConvertApp] Writing 999 bytes to nonUnitStoichiometries.rst
@@ -46,7 +51,10 @@ convert notebooks to rst
 [NbConvertApp] Executing notebook with kernel: python2
 [NbConvertApp] Support files will be in phrasedmlExample_files/
 [NbConvertApp] Making directory phrasedmlExample_files
-[NbConvertApp] Writing 2031 bytes to phrasedmlExample.rst
+[NbConvertApp] Writing 2010 bytes to phrasedmlExample.rst
+[NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/roadrunnerBasics.ipynb to rst
+[NbConvertApp] Executing notebook with kernel: python2
+[NbConvertApp] Writing 4054 bytes to roadrunnerBasics.rst
 [NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/steadystate_scan.ipynb to rst
 [NbConvertApp] Executing notebook with kernel: python2
 [NbConvertApp] Support files will be in steadystate_scan_files/
@@ -57,7 +65,7 @@ convert notebooks to rst
 [NbConvertApp] Writing 260 bytes to template.rst
 [NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/tesedmlExample.ipynb to rst
 [NbConvertApp] Executing notebook with kernel: python2
-[NbConvertApp] Writing 4744 bytes to tesedmlExample.rst
+[NbConvertApp] Writing 4609 bytes to tesedmlExample.rst
 DONE
 --------------------------------------
 postprocessing rst
@@ -83,7 +91,10 @@ create python code
 [NbConvertApp] Writing 1617 bytes to generatingDifferentWaveforms.py
 [NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/introduction.ipynb to python
 [NbConvertApp] Executing notebook with kernel: python2
-[NbConvertApp] Writing 668 bytes to introduction.py
+[NbConvertApp] Writing 662 bytes to introduction.py
+[NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/modelFromBioModels.ipynb to python
+[NbConvertApp] Executing notebook with kernel: python2
+[NbConvertApp] Writing 464 bytes to modelFromBioModels.py
 [NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/nonUnitStoichiometries.ipynb to python
 [NbConvertApp] Executing notebook with kernel: python2
 [NbConvertApp] Writing 461 bytes to nonUnitStoichiometries.py
@@ -92,7 +103,10 @@ create python code
 [NbConvertApp] Writing 1177 bytes to parameter_scan.py
 [NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/phrasedmlExample.ipynb to python
 [NbConvertApp] Executing notebook with kernel: python2
-[NbConvertApp] Writing 1026 bytes to phrasedmlExample.py
+[NbConvertApp] Writing 1008 bytes to phrasedmlExample.py
+[NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/roadrunnerBasics.ipynb to python
+[NbConvertApp] Executing notebook with kernel: python2
+[NbConvertApp] Writing 2244 bytes to roadrunnerBasics.py
 [NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/steadystate_scan.ipynb to python
 [NbConvertApp] Executing notebook with kernel: python2
 [NbConvertApp] Writing 815 bytes to steadystate_scan.py
@@ -101,5 +115,5 @@ create python code
 [NbConvertApp] Writing 266 bytes to template.py
 [NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/tesedmlExample.ipynb to python
 [NbConvertApp] Executing notebook with kernel: python2
-[NbConvertApp] Writing 2083 bytes to tesedmlExample.py
+[NbConvertApp] Writing 2078 bytes to tesedmlExample.py
 DONE

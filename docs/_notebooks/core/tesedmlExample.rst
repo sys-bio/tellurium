@@ -8,14 +8,17 @@ Description Markup Language (http://sed-ml.org/). SED-ML is an XML-based
 format for encoding simulation setups, to ensure exchangeability and
 reproducibility of simulation experiments.
 
-| *Reproducible computational biology experiments with SED-ML - The
-Simulation Experiment Description Markup Language.*
-| Waltemath D., Adams R., Bergmann F.T., Hucka M., Kolpakov F., Miller
-A.K., Moraru I.I., Nickerson D., Snoep J.L.,Le Novère, N.
-| BMC Systems Biology 2011, 5:198 (http://www.pubmed.org/22172142)
+    Reproducible computational biology experiments with SED-ML - The
+    Simulation Experiment Description Markup Language. Waltemath D.,
+    Adams R., Bergmann F.T., Hucka M., Kolpakov F., Miller A.K., Moraru
+    I.I., Nickerson D., Snoep J.L.,Le Novère, N. BMC Systems Biology
+    2011, 5:198 (http://www.pubmed.org/22172142)
 
 Tellurium supports SED-ML via the packages ``tesedml`` and
-``tephrasedml``. #### Creating SED-ML file
+``tephrasedml``.
+
+Creating SED-ML file
+^^^^^^^^^^^^^^^^^^^^
 
 .. code:: python
 
@@ -38,7 +41,7 @@ Tellurium supports SED-ML via the packages ``tesedml`` and
     '''
     
     # create the sedml xml string from the phrasedml
-    sbml_str = te.antimonyTosbml(antimony_str)
+    sbml_str = te.antimonyToSBML(antimony_str)
     phrasedml.setReferencedSBML("myModel", sbml_str)
     
     sedml_str = phrasedml.convertString(phrasedml_str)
@@ -50,7 +53,7 @@ Tellurium supports SED-ML via the packages ``tesedml`` and
 .. parsed-literal::
 
     <?xml version="1.0" encoding="UTF-8"?>
-    <!-- Created by phraSED-ML version v0.5beta on 2016-02-03 16:53 with libSBML version 5.12.1. -->
+    <!-- Created by phraSED-ML version v0.5beta on 2016-02-04 16:11 with libSBML version 5.12.1. -->
     <sedML xmlns="http://sed-ml.org/sed-ml/level1/version2" level="1" version="2">
       <listOfSimulations>
         <uniformTimeCourse id="sim1" initialTime="0" outputStartTime="0" outputEndTime="5" numberOfPoints="100">
@@ -101,11 +104,6 @@ Tellurium supports SED-ML via the packages ``tesedml`` and
     
 
 
-.. parsed-literal::
-
-    /usr/local/lib/python2.7/dist-packages/ipykernel/__main__.py:22: DeprecationWarning: Use antimonyToSBML instead, will be removed in v1.4
-
-
 .. code:: python
 
     # Create the temporary files and execute the code
@@ -135,7 +133,7 @@ Tellurium supports SED-ML via the packages ``tesedml`` and
 
 .. parsed-literal::
 
-    /tmp/myModel2bLUtt.xml
-    /tmp/tmp0x_CJU.sedml
+    /tmp/myModelEzWDXR.xml
+    /tmp/tmpq1FJJw.sedml
 
 

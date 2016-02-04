@@ -73,6 +73,7 @@ The Output Class
 # with the SEDML information.
 #   http://stackoverflow.com/questions/612788/best-python-templating-library-to-facilitate-code-generation
 # FIXME: please no sys.exit calls ever, raise a (custom) exception instead
+# FIXME: no code generation which uses simulateOptions
 
 from __future__ import print_function, division
 
@@ -305,7 +306,8 @@ def generateTasks(rrName, sedmlDoc, currentModel, path):
                 # if resetModel is true we need to reapply all the changes from above
                 print("")
                 bResetModel = task1.getResetModel()
-                if bResetModel == True:
+                # FIXME: no code generation with simulateOptions
+                if bResetModel:
                     print(rrName + ".simulateOptions.resetModel = True")
                 else:
                     print(rrName + ".simulateOptions.resetModel = False")

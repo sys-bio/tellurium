@@ -7,8 +7,10 @@ import unittest
 
 import os
 import imp
-examples_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '..', 'examples')
 
+# ----------------------------------------------------------------
+# List of python files to test
+# ----------------------------------------------------------------
 def _pyFilesInFolder(dir):
     from os import walk
     files = []
@@ -17,32 +19,41 @@ def _pyFilesInFolder(dir):
     return [f for f in files if f.endswith('.py')]
 
 
-class ExamplesTestCase(unittest.TestCase):
+examples_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '..', 'examples')
+notebookdir = os.path.join(examples_dir, 'notebooks-py')
+tedir = os.path.join(examples_dir, 'tellurium-files')
+py_files = []
+py_files.extend(_pyFilesInFolder(notebookdir))
+py_files.extend(_pyFilesInFolder(tedir))
+print(py_files)
+
+
+# ----------------------------------------------------------------
+# Test class
+# ----------------------------------------------------------------
+class PythonExampleTestCase(unittest.TestCase):
 
     def setUp(self):
         # switch the backend of matplotlib, so plots can be tested
         import matplotlib
         matplotlib.pyplot.switch_backend("Agg")
 
-    def test_python_example(self):
-        tedir = os.path.join(examples_dir, 'tellurium-files')
-        py_files = _pyFilesInFolder(tedir)
-        for f in py_files:
-            yield self.check_pyfile, f
+# ----------------------------------------------------------------
+# Dynamic generation of tests from python files
+# ----------------------------------------------------------------
+def ftest_generator(filePath):
+    def test(self=None):
+        """ Test failes if Exception in execution of f. """
+        if self is not None:
+            print(filePath)
+            imp.load_source(os.path.basename(filePath)[:-3], filePath)
+    return test
 
-    def test_notebook_example(self):
-        notebookdir = os.path.join(examples_dir, 'notebooks-py')
-        py_files = _pyFilesInFolder(notebookdir)
-        for f in py_files:
-            yield self.check_pyfile, f
-
-    def check_pyfile(self, f):
-        """ Test failes if Exception in execution of f.
-        :param f:
-        :type f:
-        """
-        print(f)
-        imp.load_source(os.path.basename(f)[:-3], f)
+for k, f in enumerate(py_files):
+    print(f)
+    test_name = 'test_{:03d}_{}'.format(k, os.path.basename(f)[:-3])
+    test = ftest_generator(f)
+    setattr(PythonExampleTestCase, test_name, test)
 
 
 if __name__ == '__main__':

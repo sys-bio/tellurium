@@ -15,13 +15,13 @@ Simple Example
 .. image:: _notebooks/core/introduction_files/introduction_2_0.png
 
 
-More Complex Example
-~~~~~~~~~~~~~~~~~~~~
+Complex Example
+~~~~~~~~~~~~~~~
 
 .. code:: python
 
     import tellurium as te
-    r = te.loada ('''
+    r = te.loada('''
         # A dollar symbol means fix the species concentration
         J1: $S1 -> S2;  k1*S1; 
         J2: S2 -> S3;  k2*S2 - k3*S3;

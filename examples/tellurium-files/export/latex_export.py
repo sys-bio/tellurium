@@ -1,17 +1,16 @@
 """
 Export simulation result to latex.
 """
-# TODO: export to tmp files!
-
 from __future__ import print_function, division
 import tellurium as te
+import tempfile
 
 model = '''
        $Xo -> S1; k1*Xo;
        S1 -> S2; k2*S1;
        S2 -> $X1; k3*S2; 
        
-       Xo = 50; S1 = 0; S2 = 0;
+       Xo = 50; X1=0; S1 = 0; S2 = 0;
        k1 = 0.2; k2 = 0.4; k3 = 2;
 '''
 
@@ -23,6 +22,9 @@ p = te.Export.export(r,
                      xlabel='Time',
                      ylabel='Concentration',
                      exportComplete=True,
-                     saveto='./',
+                     saveto=tempfile.mkdtemp(),
                      fileName='newModel')
 p.saveToFile(result)
+r.plot()
+r.plot()
+print("Hallo World")

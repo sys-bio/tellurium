@@ -85,16 +85,33 @@
 <li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="">Examples</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#model-building">Model Building</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#basics">Basics</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#model-loading">Model Loading</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#integrator-and-integrator-settings">Integrator and Integrator Settings</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#simulation-options">Simulation options</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#selections">Selections</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#reset-model-variables">Reset model variables</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#models-model-building">Models &amp; Model Building</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#model-loading-from-biomodels">Model loading from BioModels</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#non-unit-stoichiometries">Non-unit stoichiometries</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#consecutive-uniuni-reactions-using-first-order-mass-action-kinetics">Consecutive UniUni reactions using first-order mass-action kinetics</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#feedback-oscillations">Feedback oscillations</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#generate-different-wave-forms">Generate different wave forms</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#sed-ml-combine">SED-ML &amp; Combine</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#sed-ml-combine">SED-ML &amp; Combine</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#phrasedml-experiment">phrasedml experiment</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#combine-archive">Combine Archive</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#tesedml">tesedml</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#creating-sed-ml-file">Creating SED-ML file</a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="#parameter-scan">Parameter scan</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id3">Parameter scan</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id7">Parameter scan</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#steady-state-scan">Steady state scan</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#steady-state-calculation">Steady state calculation</a></li>
 </ul>
@@ -159,8 +176,184 @@
 jupyter notebook index.ipynb
 </pre></div>
 </div>
-<div class="section" id="model-building">
-<h2>Model Building<a class="headerlink" href="#model-building" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="basics">
+<h2>Basics<a class="headerlink" href="#basics" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="model-loading">
+<h3>Model Loading<a class="headerlink" href="#model-loading" title="Permalink to this headline">¶</a></h3>
+<p>To load models use the load functions</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">te.loadAntimony</span></code> (<code class="docutils literal"><span class="pre">te.loada</span></code>): load Antimony model</li>
+<li><code class="docutils literal"><span class="pre">te.loadSBML</span></code>: load SBML model</li>
+<li><code class="docutils literal"><span class="pre">te.loadCellML</span></code>: load CellML model</li>
+</ul>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">tellurium</span> <span class="kn">as</span> <span class="nn">te</span>
+
+<span class="n">model</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">model test</span>
+<span class="s2">    compartment C1;</span>
+<span class="s2">    C1 = 1.0;</span>
+<span class="s2">    species S1, S2;</span>
+
+<span class="s2">    S1 = 10.0;</span>
+<span class="s2">    S2 = 0.0;</span>
+<span class="s2">    S1 in C1; S2 in C1;</span>
+<span class="s2">    J1: S1 -&gt; S2; k1*S1;</span>
+
+<span class="s2">    k1 = 1.0;</span>
+<span class="s2">end</span>
+<span class="s2">&quot;&quot;&quot;</span>
+<span class="c1"># load models</span>
+<span class="n">r</span> <span class="o">=</span> <span class="n">te</span><span class="o">.</span><span class="n">loada</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="integrator-and-integrator-settings">
+<h3>Integrator and Integrator Settings<a class="headerlink" href="#integrator-and-integrator-settings" title="Permalink to this headline">¶</a></h3>
+<p>To set the integrator use <code class="docutils literal"><span class="pre">r.setIntegrator(integrator)</span></code>.</p>
+<p>To set integrator settings use <code class="docutils literal"><span class="pre">r.integrator.setValue(key,</span> <span class="pre">value)</span></code>.
+For instance</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">variable_step_size</span></code></li>
+<li><code class="docutils literal"><span class="pre">stiff</span></code></li>
+<li><code class="docutils literal"><span class="pre">absolute_tolerance</span></code></li>
+<li><code class="docutils literal"><span class="pre">relative_tolerance</span></code></li>
+<li><code class="docutils literal"><span class="pre">seed</span></code></li>
+</ul>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="c1"># set integrator</span>
+<span class="n">r</span><span class="o">.</span><span class="n">setIntegrator</span><span class="p">(</span><span class="s1">&#39;rk4&#39;</span><span class="p">)</span>
+<span class="n">r</span><span class="o">.</span><span class="n">setIntegrator</span><span class="p">(</span><span class="s1">&#39;gillespie&#39;</span><span class="p">)</span>
+<span class="n">r</span><span class="o">.</span><span class="n">setIntegrator</span><span class="p">(</span><span class="s1">&#39;cvode&#39;</span><span class="p">)</span>
+
+<span class="c1"># set integrator settings</span>
+<span class="n">r</span><span class="o">.</span><span class="n">integrator</span><span class="o">.</span><span class="n">setValue</span><span class="p">(</span><span class="s1">&#39;variable_step_size&#39;</span><span class="p">,</span> <span class="bp">False</span><span class="p">)</span>
+<span class="n">r</span><span class="o">.</span><span class="n">integrator</span><span class="o">.</span><span class="n">setValue</span><span class="p">(</span><span class="s1">&#39;stiff&#39;</span><span class="p">,</span> <span class="bp">True</span><span class="p">)</span>
+
+<span class="c1"># print integrator settings</span>
+<span class="k">print</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">integrator</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre>&lt; roadrunner.Integrator() &gt;
+  settings:
+      relative_tolerance: 0.00001
+      absolute_tolerance: 0.0000000001
+                   stiff: true
+       maximum_bdf_order: 5
+     maximum_adams_order: 12
+       maximum_num_steps: 20000
+       maximum_time_step: 0
+       minimum_time_step: 0
+       initial_time_step: 0
+          multiple_steps: false
+      variable_step_size: false
+</pre></div>
+</div>
+</div>
+<div class="section" id="simulation-options">
+<h3>Simulation options<a class="headerlink" href="#simulation-options" title="Permalink to this headline">¶</a></h3>
+<p>The simulation options</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">start</span></code>: start time</li>
+<li><code class="docutils literal"><span class="pre">end</span></code>: end time</li>
+<li><code class="docutils literal"><span class="pre">points</span></code>: number of points in solution</li>
+<li><code class="docutils literal"><span class="pre">steps</span></code>: number of steps in solution</li>
+</ul>
+<p>are set as arguments in <code class="docutils literal"><span class="pre">r.simulate</span></code></p>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="c1"># simulate from 0 to 6 with 6 points in the result</span>
+<span class="n">r</span><span class="o">.</span><span class="n">reset</span><span class="p">()</span>
+<span class="n">res1</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">simulate</span><span class="p">(</span><span class="n">start</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">points</span><span class="o">=</span><span class="mi">6</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">res1</span><span class="p">)</span>
+<span class="n">r</span><span class="o">.</span><span class="n">reset</span><span class="p">()</span>
+<span class="n">res2</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">simulate</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">6</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">res2</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre>   time,        [S1],    [S2]
+[[    0,          10,       0],
+ [    2,     1.35329, 8.64671],
+ [    4,    0.183132, 9.81687],
+ [    6,    0.024782, 9.97522],
+ [    8,  0.00335358, 9.99665],
+ [   10, 0.000453818, 9.99955]]
+
+   time,        [S1],    [S2]
+[[    0,          10,       0],
+ [    2,     1.35329, 8.64671],
+ [    4,    0.183132, 9.81687],
+ [    6,    0.024782, 9.97522],
+ [    8,  0.00335358, 9.99665],
+ [   10, 0.000453818, 9.99955]]
+</pre></div>
+</div>
+</div>
+<div class="section" id="selections">
+<h3>Selections<a class="headerlink" href="#selections" title="Permalink to this headline">¶</a></h3>
+<p>Selections can be either given as argument to <code class="docutils literal"><span class="pre">r.simulate</span></code> or set via
+<code class="docutils literal"><span class="pre">r.selections</span></code>.</p>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="c1"># set selections directly</span>
+<span class="n">r</span><span class="o">.</span><span class="n">selections</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;time&#39;</span><span class="p">,</span> <span class="s1">&#39;J1&#39;</span><span class="p">]</span>
+<span class="k">print</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">simulate</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="mi">6</span><span class="p">))</span>
+<span class="c1"># provide arguments to simulate</span>
+<span class="k">print</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">simulate</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span> <span class="n">selections</span><span class="o">=</span><span class="n">r</span><span class="o">.</span><span class="n">getFloatingSpeciesIds</span><span class="p">()))</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre>   time,          J1
+[[    0, 0.000453818],
+ [    2, 6.14191e-05],
+ [    4, 8.31285e-06],
+ [    6, 1.12523e-06],
+ [    8, 1.52689e-07],
+ [   10, 2.07032e-08]]
+
+             S1, S2
+[[  2.07032e-08, 10],
+ [  2.71764e-09, 10],
+ [  4.08585e-10, 10],
+ [  6.85818e-11, 10],
+ [  1.47247e-11, 10],
+ [ -3.51877e-12, 10]]
+</pre></div>
+</div>
+</div>
+<div class="section" id="reset-model-variables">
+<h3>Reset model variables<a class="headerlink" href="#reset-model-variables" title="Permalink to this headline">¶</a></h3>
+<p>To reset variables use the <code class="docutils literal"><span class="pre">r.reset()</span></code> and
+<code class="docutils literal"><span class="pre">r.reset(SelectionRecord.*)</span></code> functions.</p>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="c1"># show the current values</span>
+<span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;S1&#39;</span><span class="p">,</span> <span class="s1">&#39;S2&#39;</span><span class="p">]:</span>
+    <span class="k">print</span><span class="p">(</span><span class="s1">&#39;r.{} == {}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">r</span><span class="p">[</span><span class="n">s</span><span class="p">]))</span>
+<span class="c1"># reset initial concentrations</span>
+<span class="n">r</span><span class="o">.</span><span class="n">reset</span><span class="p">()</span>
+<span class="k">print</span><span class="p">(</span><span class="s1">&#39;reset&#39;</span><span class="p">)</span>
+<span class="c1"># S1 and S2 have now again the initial values</span>
+<span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;S1&#39;</span><span class="p">,</span> <span class="s1">&#39;S2&#39;</span><span class="p">]:</span>
+    <span class="k">print</span><span class="p">(</span><span class="s1">&#39;r.{} == {}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">r</span><span class="p">[</span><span class="n">s</span><span class="p">]))</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">r</span><span class="o">.</span><span class="n">S1</span> <span class="o">==</span> <span class="o">-</span><span class="mf">3.5187697416e-12</span>
+<span class="n">r</span><span class="o">.</span><span class="n">S2</span> <span class="o">==</span> <span class="mf">10.0</span>
+<span class="n">reset</span>
+<span class="n">r</span><span class="o">.</span><span class="n">S1</span> <span class="o">==</span> <span class="mf">10.0</span>
+<span class="n">r</span><span class="o">.</span><span class="n">S2</span> <span class="o">==</span> <span class="mf">0.0</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="models-model-building">
+<h2>Models &amp; Model Building<a class="headerlink" href="#models-model-building" title="Permalink to this headline">¶</a></h2>
+<p>In this section model the creation of example models is shown.</p>
+<div class="section" id="model-loading-from-biomodels">
+<h3>Model loading from BioModels<a class="headerlink" href="#model-loading-from-biomodels" title="Permalink to this headline">¶</a></h3>
+<p>Models can be easily retrieved from BioModels via their identifier.</p>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">tellurium</span> <span class="kn">as</span> <span class="nn">te</span>
+
+<span class="c1"># Load model from biomodels.</span>
+<span class="n">r</span> <span class="o">=</span> <span class="n">te</span><span class="o">.</span><span class="n">loadSBMLModel</span><span class="p">(</span><span class="s2">&quot;http://www.ebi.ac.uk/biomodels-main/download?mid=BIOMD0000000010&quot;</span><span class="p">)</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">simulate</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3000</span><span class="p">,</span> <span class="mi">5000</span><span class="p">)</span>
+<span class="n">r</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+</pre></div>
+</div>
+<img alt="_images/modelFromBioModels_2_0.png" src="_images/modelFromBioModels_2_0.png" />
+</div>
 <div class="section" id="non-unit-stoichiometries">
 <h3>Non-unit stoichiometries<a class="headerlink" href="#non-unit-stoichiometries" title="Permalink to this headline">¶</a></h3>
 <p>The following example demonstrates how to create a model with non-unit
@@ -312,11 +505,221 @@ reactions S1 -&gt; S2 -&gt; S3 -&gt; S4.</p>
 </div>
 <div class="section" id="sed-ml-combine">
 <h2>SED-ML &amp; Combine<a class="headerlink" href="#sed-ml-combine" title="Permalink to this headline">¶</a></h2>
+<p>Tellurium supports the simulation description via the simulation experiment
+description markup language (SED-ML).</p>
+<div class="section" id="phrasedml-experiment">
+<h3>phrasedml experiment<a class="headerlink" href="#phrasedml-experiment" title="Permalink to this headline">¶</a></h3>
+<p>Tellurium provides support for simulation descriptions in SED-ML the
+export in Combine Archive format.</p>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">tellurium</span> <span class="kn">as</span> <span class="nn">te</span>
+
+<span class="n">antimony</span> <span class="o">=</span> <span class="s1">&#39;&#39;&#39;</span>
+<span class="s1">model myModel</span>
+<span class="s1">  S1 -&gt; S2; k1*S1</span>
+<span class="s1">  S1 = 10; S2 = 0</span>
+<span class="s1">  k1 = 1</span>
+<span class="s1">end</span>
+<span class="s1">&#39;&#39;&#39;</span>
+
+<span class="n">phrasedml</span> <span class="o">=</span> <span class="s1">&#39;&#39;&#39;</span>
+<span class="s1">  model1 = model &quot;myModel&quot;</span>
+<span class="s1">  sim1 = simulate uniform(0, 5, 100)</span>
+<span class="s1">  task1 = run sim1 on model1</span>
+<span class="s1">  plot &quot;Figure 1&quot; time vs S1, S2</span>
+<span class="s1">&#39;&#39;&#39;</span>
+
+<span class="c1"># create an experiment and perform it</span>
+<span class="n">exp</span> <span class="o">=</span> <span class="n">te</span><span class="o">.</span><span class="n">experiment</span><span class="p">(</span><span class="n">antimony</span><span class="p">,</span> <span class="n">phrasedml</span><span class="p">)</span>
+
+<span class="n">exp</span><span class="o">.</span><span class="n">execute</span><span class="p">()</span>
+<span class="n">exp</span><span class="o">.</span><span class="n">printpython</span><span class="p">()</span>
+</pre></div>
+</div>
+<img alt="_images/phrasedmlExample_2_0.png" src="_images/phrasedmlExample_2_0.png" />
+<div class="highlight-python"><div class="highlight"><pre><span class="n">myModel</span> <span class="o">=</span> <span class="s1">&#39;&#39;&#39;</span>
+<span class="s1">model myModel</span>
+<span class="s1">  S1 -&gt; S2; k1*S1</span>
+<span class="s1">  S1 = 10; S2 = 0</span>
+<span class="s1">  k1 = 1</span>
+<span class="s1">end</span>
+<span class="s1">&#39;&#39;&#39;</span>
+
+<span class="c1"># Translated SED-ML</span>
+<span class="c1"># Beginning of generated script</span>
+<span class="kn">import</span> <span class="nn">tellurium</span> <span class="kn">as</span> <span class="nn">te</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
+
+<span class="c1"># Execute the tasks of model: model1</span>
+<span class="n">model1</span> <span class="o">=</span> <span class="n">te</span><span class="o">.</span><span class="n">loada</span><span class="p">(</span><span class="n">myModel</span><span class="p">)</span>
+<span class="n">model1</span><span class="o">.</span><span class="n">timeCourseSelections</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;time&quot;</span><span class="p">,</span><span class="s2">&quot;S1&quot;</span><span class="p">,</span><span class="s2">&quot;S2&quot;</span><span class="p">]</span>
+<span class="n">t1</span> <span class="o">=</span> <span class="n">model1</span><span class="o">.</span><span class="n">simulate</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+
+<span class="c1"># List of Data Generators</span>
+<span class="n">plot_0_0_0</span> <span class="o">=</span> <span class="n">t1</span><span class="p">[</span><span class="mi">0</span><span class="p">:,</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">plot_0_0_1</span> <span class="o">=</span> <span class="n">t1</span><span class="p">[</span><span class="mi">0</span><span class="p">:,</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">plot_0_1_1</span> <span class="o">=</span> <span class="n">t1</span><span class="p">[</span><span class="mi">0</span><span class="p">:,</span><span class="mi">2</span><span class="p">]</span>
+
+<span class="c1"># List of Outputs</span>
+<span class="n">Y_0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">plot_0_0_1</span><span class="p">,</span> <span class="n">plot_0_1_1</span><span class="p">])</span><span class="o">.</span><span class="n">T</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">plot_0_0_0</span><span class="p">,</span> <span class="n">Y_0</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Figure 1&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="c1"># End of generated script</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="combine-archive">
+<h3>Combine Archive<a class="headerlink" href="#combine-archive" title="Permalink to this headline">¶</a></h3>
+<p>The experiment, i.e. model with the simulation description, can be
+stored as Combine Archive.</p>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="c1"># create Combine Archive</span>
+<span class="kn">import</span> <span class="nn">tempfile</span>
+<span class="n">f</span> <span class="o">=</span> <span class="n">tempfile</span><span class="o">.</span><span class="n">NamedTemporaryFile</span><span class="p">()</span>
+<span class="n">exp</span><span class="o">.</span><span class="n">exportAsCombine</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+
+<span class="c1"># print the content of the Combine Archive</span>
+<span class="kn">import</span> <span class="nn">zipfile</span>
+<span class="nb">zip</span><span class="o">=</span><span class="n">zipfile</span><span class="o">.</span><span class="n">ZipFile</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="nb">zip</span><span class="o">.</span><span class="n">namelist</span><span class="p">())</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">[</span><span class="s1">&#39;myModel.xml&#39;</span><span class="p">,</span> <span class="s1">&#39;experiment1.xml&#39;</span><span class="p">,</span> <span class="s1">&#39;manifest.xml&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="tesedml">
+<h3>tesedml<a class="headerlink" href="#tesedml" title="Permalink to this headline">¶</a></h3>
+<p>Simulations can be described within SED-ML, the Simulation Experiment
+Description Markup Language (<a class="reference external" href="http://sed-ml.org/">http://sed-ml.org/</a>). SED-ML is an XML-based
+format for encoding simulation setups, to ensure exchangeability and
+reproducibility of simulation experiments.</p>
+<blockquote>
+<div>Reproducible computational biology experiments with SED-ML - The
+Simulation Experiment Description Markup Language. Waltemath D.,
+Adams R., Bergmann F.T., Hucka M., Kolpakov F., Miller A.K., Moraru
+I.I., Nickerson D., Snoep J.L.,Le Novère, N. BMC Systems Biology
+2011, 5:198 (<a class="reference external" href="http://www.pubmed.org/22172142">http://www.pubmed.org/22172142</a>)</div></blockquote>
+<p>Tellurium supports SED-ML via the packages <code class="docutils literal"><span class="pre">tesedml</span></code> and
+<code class="docutils literal"><span class="pre">tephrasedml</span></code>.</p>
+<div class="section" id="creating-sed-ml-file">
+<h4>Creating SED-ML file<a class="headerlink" href="#creating-sed-ml-file" title="Permalink to this headline">¶</a></h4>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">tellurium</span> <span class="kn">as</span> <span class="nn">te</span>
+<span class="kn">import</span> <span class="nn">phrasedml</span>
+
+<span class="n">antimony_str</span> <span class="o">=</span> <span class="s1">&#39;&#39;&#39;</span>
+<span class="s1">model myModel</span>
+<span class="s1">  S1 -&gt; S2; k1*S1</span>
+<span class="s1">  S1 = 10; S2 = 0</span>
+<span class="s1">  k1 = 1</span>
+<span class="s1">end</span>
+<span class="s1">&#39;&#39;&#39;</span>
+
+<span class="n">phrasedml_str</span> <span class="o">=</span> <span class="s1">&#39;&#39;&#39;</span>
+<span class="s1">  model1 = model &quot;myModel&quot;</span>
+<span class="s1">  sim1 = simulate uniform(0, 5, 100)</span>
+<span class="s1">  task1 = run sim1 on model1</span>
+<span class="s1">  plot &quot;Figure 1&quot; time vs S1, S2</span>
+<span class="s1">&#39;&#39;&#39;</span>
+
+<span class="c1"># create the sedml xml string from the phrasedml</span>
+<span class="n">sbml_str</span> <span class="o">=</span> <span class="n">te</span><span class="o">.</span><span class="n">antimonyToSBML</span><span class="p">(</span><span class="n">antimony_str</span><span class="p">)</span>
+<span class="n">phrasedml</span><span class="o">.</span><span class="n">setReferencedSBML</span><span class="p">(</span><span class="s2">&quot;myModel&quot;</span><span class="p">,</span> <span class="n">sbml_str</span><span class="p">)</span>
+
+<span class="n">sedml_str</span> <span class="o">=</span> <span class="n">phrasedml</span><span class="o">.</span><span class="n">convertString</span><span class="p">(</span><span class="n">phrasedml_str</span><span class="p">)</span>
+<span class="k">if</span> <span class="n">sedml_str</span> <span class="o">==</span> <span class="bp">None</span><span class="p">:</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">phrasedml</span><span class="o">.</span><span class="n">getLastPhrasedError</span><span class="p">())</span>
+<span class="k">print</span><span class="p">(</span><span class="n">sedml_str</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;!-- Created by phraSED-ML version v0.5beta on 2016-02-04 16:11 with libSBML version 5.12.1. --&gt;
+&lt;sedML xmlns=&quot;http://sed-ml.org/sed-ml/level1/version2&quot; level=&quot;1&quot; version=&quot;2&quot;&gt;
+  &lt;listOfSimulations&gt;
+    &lt;uniformTimeCourse id=&quot;sim1&quot; initialTime=&quot;0&quot; outputStartTime=&quot;0&quot; outputEndTime=&quot;5&quot; numberOfPoints=&quot;100&quot;&gt;
+      &lt;algorithm kisaoID=&quot;KISAO:0000019&quot;/&gt;
+    &lt;/uniformTimeCourse&gt;
+  &lt;/listOfSimulations&gt;
+  &lt;listOfModels&gt;
+    &lt;model id=&quot;model1&quot; language=&quot;urn:sedml:language:sbml.level-3.version-1&quot; source=&quot;myModel&quot;/&gt;
+  &lt;/listOfModels&gt;
+  &lt;listOfTasks&gt;
+    &lt;task id=&quot;task1&quot; modelReference=&quot;model1&quot; simulationReference=&quot;sim1&quot;/&gt;
+  &lt;/listOfTasks&gt;
+  &lt;listOfDataGenerators&gt;
+    &lt;dataGenerator id=&quot;plot_0_0_0&quot; name=&quot;time&quot;&gt;
+      &lt;listOfVariables&gt;
+        &lt;variable id=&quot;time&quot; symbol=&quot;urn:sedml:symbol:time&quot; taskReference=&quot;task1&quot;/&gt;
+      &lt;/listOfVariables&gt;
+      &lt;math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot;&gt;
+        &lt;ci&gt; time &lt;/ci&gt;
+      &lt;/math&gt;
+    &lt;/dataGenerator&gt;
+    &lt;dataGenerator id=&quot;plot_0_0_1&quot; name=&quot;S1&quot;&gt;
+      &lt;listOfVariables&gt;
+        &lt;variable id=&quot;S1&quot; target=&quot;/sbml:sbml/sbml:model/descendant::*[@id=&#39;S1&#39;]&quot; taskReference=&quot;task1&quot; modelReference=&quot;model1&quot;/&gt;
+      &lt;/listOfVariables&gt;
+      &lt;math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot;&gt;
+        &lt;ci&gt; S1 &lt;/ci&gt;
+      &lt;/math&gt;
+    &lt;/dataGenerator&gt;
+    &lt;dataGenerator id=&quot;plot_0_1_1&quot; name=&quot;S2&quot;&gt;
+      &lt;listOfVariables&gt;
+        &lt;variable id=&quot;S2&quot; target=&quot;/sbml:sbml/sbml:model/descendant::*[@id=&#39;S2&#39;]&quot; taskReference=&quot;task1&quot; modelReference=&quot;model1&quot;/&gt;
+      &lt;/listOfVariables&gt;
+      &lt;math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot;&gt;
+        &lt;ci&gt; S2 &lt;/ci&gt;
+      &lt;/math&gt;
+    &lt;/dataGenerator&gt;
+  &lt;/listOfDataGenerators&gt;
+  &lt;listOfOutputs&gt;
+    &lt;plot2D id=&quot;plot_0&quot; name=&quot;Figure 1&quot;&gt;
+      &lt;listOfCurves&gt;
+        &lt;curve logX=&quot;false&quot; logY=&quot;false&quot; xDataReference=&quot;plot_0_0_0&quot; yDataReference=&quot;plot_0_0_1&quot;/&gt;
+        &lt;curve logX=&quot;false&quot; logY=&quot;false&quot; xDataReference=&quot;plot_0_0_0&quot; yDataReference=&quot;plot_0_1_1&quot;/&gt;
+      &lt;/listOfCurves&gt;
+    &lt;/plot2D&gt;
+  &lt;/listOfOutputs&gt;
+&lt;/sedML&gt;
+</pre></div>
+</div>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="c1"># Create the temporary files and execute the code</span>
+<span class="kn">import</span> <span class="nn">tempfile</span>
+<span class="n">f_sbml</span> <span class="o">=</span> <span class="n">tempfile</span><span class="o">.</span><span class="n">NamedTemporaryFile</span><span class="p">(</span><span class="n">prefix</span><span class="o">=</span><span class="s2">&quot;myModel&quot;</span><span class="p">,</span> <span class="n">suffix</span><span class="o">=</span><span class="s2">&quot;.xml&quot;</span><span class="p">)</span>
+<span class="n">f_sbml</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">sbml_str</span><span class="p">)</span>
+<span class="n">f_sbml</span><span class="o">.</span><span class="n">flush</span><span class="p">()</span>
+<span class="k">print</span><span class="p">(</span><span class="n">f_sbml</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+
+<span class="n">f_sedml</span> <span class="o">=</span> <span class="n">tempfile</span><span class="o">.</span><span class="n">NamedTemporaryFile</span><span class="p">(</span><span class="n">suffix</span><span class="o">=</span><span class="s2">&quot;.sedml&quot;</span><span class="p">)</span>
+<span class="n">f_sedml</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">sedml_str</span><span class="p">)</span>
+<span class="n">f_sedml</span><span class="o">.</span><span class="n">flush</span><span class="p">()</span>
+<span class="k">print</span><span class="p">(</span><span class="n">f_sedml</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+
+<span class="kn">import</span> <span class="nn">libsedml</span>
+<span class="n">sedml_doc</span> <span class="o">=</span> <span class="n">libsedml</span><span class="o">.</span><span class="n">readSedML</span><span class="p">(</span><span class="n">f_sedml</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+<span class="k">if</span> <span class="n">sedml_doc</span><span class="o">.</span><span class="n">getErrorLog</span><span class="p">()</span><span class="o">.</span><span class="n">getNumFailsWithSeverity</span><span class="p">(</span><span class="n">libsedml</span><span class="o">.</span><span class="n">LIBSEDML_SEV_ERROR</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">sedml_doc</span><span class="o">.</span><span class="n">getErrorLog</span><span class="p">()</span><span class="o">.</span><span class="n">toString</span><span class="p">())</span>
+
+<span class="n">f_sbml</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+<span class="n">f_sedml</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+<span class="c1"># Create executable python code sedml with roadrunner</span>
+<span class="c1"># import tellurium.tesedml as s2p</span>
+<span class="c1"># s2p.sedml_to_python(s2p)</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre>/tmp/myModelEzWDXR.xml
+/tmp/tmpq1FJJw.sedml
+</pre></div>
+</div>
+</div>
+</div>
 </div>
 <div class="section" id="parameter-scan">
 <h2>Parameter scan<a class="headerlink" href="#parameter-scan" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id3">
-<h3>Parameter scan<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id7">
+<h3>Parameter scan<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h3>
 <p>Perform a parameter scan.</p>
 <div class="code python highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">tellurium</span> <span class="kn">as</span> <span class="nn">te</span>
 
