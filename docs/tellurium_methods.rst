@@ -78,7 +78,7 @@ Two useful plotting routines. They assume that the first column in the array is 
 
 .. autofunction:: tellurium.plotArray
 .. autoclass:: tellurium.ExtendedRoadRunner
-   :members: draw, plot, plotWithLegend, simulateAndPlot
+   :members: draw, plot
 
 .. include:: _notebooks/core/tellurium_plotting.rst
 
@@ -90,23 +90,7 @@ Use these routines reset your model back to particular states
 .. autoclass:: tellurium.ExtendedRoadRunner
    :members: resetToOrigin, resetAll
 
-::
-
-	r = te.loada ('S1 -> S2; k1*S1; k1 = 0.1; S1 = 10')
-	result = r.simulate (0, 10, 100)
-	p.model.S1 = 2.0
-	result = r.simulate (0, 10, 100)
-	# Reset the model back to its original state
-	r.reset()
-
-If you wish to reset a model back to the state it was what it was loaded, use the resetToOrigin method
-::
-
-	r = te.loada ('S1 -> S2; k1*S1; k1 = 0.1; S1 = 10')
-	result = r.simulate (0, 10, 100)
-	# Make lots of different kinds of changes to the model
-	# Reset the model back to the state it had when it was created
-	r.resetToOrigin()
+.. include:: _notebooks/core/tellurium_reset.rst
 
 ----------------------------------------
 jarnac Short-cuts
@@ -126,30 +110,7 @@ to easily try and test tellurium.
 .. autofunction:: tellurium.getTestModel
 .. autofunction:: tellurium.listTestModels
 
-::
-
-	# To get the number of builtin models use listTestModels
-	print(roadrunner.listTestModels())
-	['feedback.xml', 'test_1.xml']
-
-To load one of the test models use loadTestModel:
-::
-
-	r = roadrunner.loadTestModel ('feedback.xml')
-	result = r.simulate (0, 10, 100)
-	r.plot (result)
-
-If you need to obtain the SBML for the test model, use getTestModel
-::
-
-	sbmlStr = roadrunner.getTestModel()
-	saveToFile('model.xml', sbmlStr)
-
-To look at one of the test model in Antimony form:
-::
-
-	antstr = te.sbmlToAntimony (roadrunner.getTestModel ('feedback.xml'))
-	print(antStr)
+.. include:: _notebooks/core/tellurium_test.rst
 
 ----------------------------------------
 Model Methods

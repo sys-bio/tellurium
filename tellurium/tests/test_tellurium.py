@@ -333,6 +333,27 @@ class TelluriumTestCase(unittest.TestCase):
         result = r.gillespie(0, 40, 20, ['time', 'S1'])
 
     # ---------------------------------------------------------------------
+    # Testing
+    # ---------------------------------------------------------------------
+    def test_roadrunner_testfile(self):
+        # fails due to https://github.com/sys-bio/roadrunner/issues/287
+        import roadrunner
+        r = roadrunner.testing.testfiles.getRoadRunner('feedback.xml')
+        self.assertIsNotNone(r)
+
+    def test_listTestModels(self):
+        models = te.listTestModels()
+        self.assertTrue('feedback.xml' in models)
+
+    def test_loadTestModel(self):
+        # fails due to https://github.com/sys-bio/roadrunner/issues/287
+        r = te.loadTestModel('feedback.xml')
+        self.assertIsNotNone(r)
+
+    def test_getTestModel(self):
+        sbml = te.getTestModel('feedback.xml')
+
+    # ---------------------------------------------------------------------
     # Roadrunner tests
     # ---------------------------------------------------------------------
     def test_roadrunner(self):
