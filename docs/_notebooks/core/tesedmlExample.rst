@@ -53,7 +53,7 @@ Creating SED-ML file
 .. parsed-literal::
 
     <?xml version="1.0" encoding="UTF-8"?>
-    <!-- Created by phraSED-ML version v0.5beta on 2016-02-05 15:37 with libSBML version 5.12.1. -->
+    <!-- Created by phraSED-ML version v0.5beta on 2016-02-05 16:24 with libSBML version 5.12.1. -->
     <sedML xmlns="http://sed-ml.org/sed-ml/level1/version2" level="1" version="2">
       <listOfSimulations>
         <uniformTimeCourse id="sim1" initialTime="0" outputStartTime="0" outputEndTime="5" numberOfPoints="100">
@@ -133,6 +133,6 @@ Creating SED-ML file
 
 .. parsed-literal::
 
-    /tmp/myModellBrW01.xml
-    /tmp/tmpFIfD03.sedml
+    /tmp/myModelEjeG8Z.xml
+    /tmp/tmpr1vW6p.sedml
 

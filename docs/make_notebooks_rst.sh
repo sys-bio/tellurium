@@ -10,6 +10,7 @@ echo "--------------------------------------"
 echo "convert notebooks to rst"
 echo "--------------------------------------"
 NBDIR=$DIR/../examples/notebooks/core
+WIDGETDIR=$DIR/../examples/notebooks/widgets
 NBOUTDIR=$DIR/_notebooks/core
 
 rm -rf $NBOUTDIR
@@ -18,7 +19,9 @@ cd $NBOUTDIR
 # convert the notebooks to rst after running headlessly
 # if errors should abort, remove the --allow-errors option
 # jupyter nbconvert --to=rst --allow-errors --execute $NBDIR/*.ipynb
+# In the process the notebooks are completely executed
 jupyter nbconvert --to=rst --execute $NBDIR/*.ipynb
+jupyter nbconvert --to=rst --execute $WIDGETDIR/*.ipynb
 echo "DONE"
 
 echo "--------------------------------------"

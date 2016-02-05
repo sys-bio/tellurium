@@ -48,3 +48,6 @@ test/.ipynb_checkpoints/
 
 # notebook checkpoints
 examples/notebooks/.ipynb_checkpoints/
+examples/notebooks/core/.ipynb_checkpoints/
+examples/notebooks/docstrings/.ipynb_checkpoints/
+examples/notebooks/widgets/.ipynb_checkpoints/
