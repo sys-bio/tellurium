@@ -21,23 +21,27 @@ try:
 except ImportError as e:
     libsbml = None
     roadrunner.Logger.log(roadrunner.Logger.LOG_WARNING, str(e))
+    warnings.warn("'libsbml' could not be imported", ImportWarning, stacklevel=2)
 try:
     import libsedml
 except ImportError as e:
     libsedml = None
     roadrunner.Logger.log(roadrunner.Logger.LOG_WARNING, str(e))
+    warnings.warn("'libsedml' could not be imported", ImportWarning, stacklevel=2)
 
 try:
     import phrasedml
 except ImportError as e:
     phrasedml = None
     roadrunner.Logger.log(roadrunner.Logger.LOG_WARNING, str(e))
+    warnings.warn("'phrasedml' could not be imported", ImportWarning, stacklevel=2)
 
 try:
     from sbml2matlab import sbml2matlab
 except ImportError as e:
     sbml2matlab = None
     roadrunner.Logger.log(roadrunner.Logger.LOG_WARNING, str(e))
+    warnings.warn("'sbml2matlab' could not be imported", ImportWarning)
 
 # ---------------------------------------------------------------------
 # plot hold
@@ -220,7 +224,7 @@ def loadCellMLModel(cellml):
 # ---------------------------------------------------------------------
 def antimonyTosbml(ant):
     import warnings
-    warnings.warn('Use antimonyToSBML instead, will be removed in v1.4',
+    warnings.warn("'antimonyTosbml' is deprecated. Use 'antimonyToSBML' instead. Will be removed in tellurium v1.4",
                   DeprecationWarning, stacklevel=2)
     return antimonyToSBML(ant)
 
@@ -545,7 +549,8 @@ class ExtendedRoadRunner(roadrunner.RoadRunner):
         if sbml2matlab is not None:
             return sbml2matlab(sbml)
         else:
-            warnings.warn('sbml2matlab could not be imported, no Matlab code generation possible', ImportWarning)
+            warnings.warn("'sbml2matlab' could not be imported, no support for Matlab code generation",
+                          RuntimeWarning, stacklevel=2)
             return ""
 
     def getCurrentMatlab(self):
@@ -735,6 +740,12 @@ class ExtendedRoadRunner(roadrunner.RoadRunner):
         result = self.simulate(startTime, endTime, numberOfPoints, **kwargs)
         self.plotWithLegend(self, result)
         return result
+
+    def draw(self, **kwargs):
+        """ Draws an SBMLDiagram of the current model. """
+        from visualization.SBMLDiagram import SBMLDiagram
+        diagram = SBMLDiagram(self.getSBML())
+        diagram.draw(**kwargs)
 
     # ---------------------------------------------------------------------
     # Stochastic Simulation Methods
