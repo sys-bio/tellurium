@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Heading (Used heading 3) &mdash; tellurium 1.3.0 documentation</title>
+  <title>Reset model values &mdash; tellurium 1.3.0 documentation</title>
   
 
   
@@ -115,7 +115,7 @@
   <ul class="wy-breadcrumbs">
     <li><a href="../../index.html">Docs</a> &raquo;</li>
       
-    <li>Heading (Used heading 3)</li>
+    <li>Reset model values</li>
       <li class="wy-breadcrumbs-aside">
         
           
@@ -129,14 +129,58 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="heading-used-heading-3">
-<h1>Heading (Used heading 3)<a class="headerlink" href="#heading-used-heading-3" title="Permalink to this headline">¶</a></h1>
-<p>Description Text</p>
+  <div class="section" id="reset-model-values">
+<h1>Reset model values<a class="headerlink" href="#reset-model-values" title="Permalink to this headline">¶</a></h1>
 <div class="code python highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">tellurium</span> <span class="kn">as</span> <span class="nn">te</span>
-<span class="c1"># Example code here</span>
-<span class="c1"># ...</span>
+
+<span class="n">r</span> <span class="o">=</span> <span class="n">te</span><span class="o">.</span><span class="n">loada</span> <span class="p">(</span><span class="s1">&#39;S1 -&gt; S2; k1*S1; k1 = 0.1; S1 = 10&#39;</span><span class="p">)</span>
+<span class="n">r</span><span class="o">.</span><span class="n">integrator</span><span class="o">.</span><span class="n">setValue</span><span class="p">(</span><span class="s1">&#39;variable_step_size&#39;</span><span class="p">,</span> <span class="bp">True</span><span class="p">)</span>
+<span class="c1"># simulate model</span>
+<span class="n">sim1</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">simulate</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s1">&#39;*** sim1 ***&#39;</span><span class="p">)</span>
+<span class="n">r</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">sim1</span><span class="p">)</span>
+
+<span class="c1"># continue from end concentration of sim1</span>
+<span class="n">r</span><span class="o">.</span><span class="n">k1</span> <span class="o">=</span> <span class="mf">2.0</span>
+<span class="n">sim2</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">simulate</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s1">&#39;-- sim2 --&#39;</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s1">&#39;continue simulation from final concentrations with changed parameter&#39;</span><span class="p">)</span>
+<span class="n">r</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">sim2</span><span class="p">)</span>
+
+<span class="c1"># Reset initial concentrations, does not affect the changed parameter</span>
+<span class="n">r</span><span class="o">.</span><span class="n">reset</span><span class="p">()</span>
+<span class="n">sim3</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">simulate</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s1">&#39;-- sim3 --&#39;</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s1">&#39;reset initial concentrations but keep changed parameter&#39;</span><span class="p">)</span>
+<span class="n">r</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">sim3</span><span class="p">)</span>
+
+<span class="c1"># Reset model to the state it was loaded</span>
+<span class="n">r</span><span class="o">.</span><span class="n">resetToOrigin</span><span class="p">()</span>
+<span class="n">sim4</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">simulate</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s1">&#39;-- sim4 --&#39;</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s1">&#39;reset all to origin&#39;</span><span class="p">)</span>
+<span class="n">r</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">sim4</span><span class="p">);</span>
 </pre></div>
 </div>
+<pre class="literal-block">
+<strong>* sim1 *</strong>
+</pre>
+<img alt="_notebooks/core/_notebooks/core/tellurium_reset_files/tellurium_reset_2_1.png" src="_notebooks/core/_notebooks/core/tellurium_reset_files/tellurium_reset_2_1.png" />
+<div class="highlight-python"><div class="highlight"><pre>-- sim2 --
+continue simulation from final concentrations with changed parameter
+</pre></div>
+</div>
+<img alt="_notebooks/core/_notebooks/core/tellurium_reset_files/tellurium_reset_2_3.png" src="_notebooks/core/_notebooks/core/tellurium_reset_files/tellurium_reset_2_3.png" />
+<div class="highlight-python"><div class="highlight"><pre>-- sim3 --
+reset initial concentrations but keep changed parameter
+</pre></div>
+</div>
+<img alt="_notebooks/core/_notebooks/core/tellurium_reset_files/tellurium_reset_2_5.png" src="_notebooks/core/_notebooks/core/tellurium_reset_files/tellurium_reset_2_5.png" />
+<div class="highlight-python"><div class="highlight"><pre>-- sim4 --
+reset all to origin
+</pre></div>
+</div>
+<img alt="_notebooks/core/_notebooks/core/tellurium_reset_files/tellurium_reset_2_7.png" src="_notebooks/core/_notebooks/core/tellurium_reset_files/tellurium_reset_2_7.png" />
 </div>
 
 

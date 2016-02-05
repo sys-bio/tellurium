@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Heading (Used heading 3) &mdash; tellurium 1.3.0 documentation</title>
+  <title>SBML &mdash; tellurium 1.3.0 documentation</title>
   
 
   
@@ -115,7 +115,7 @@
   <ul class="wy-breadcrumbs">
     <li><a href="../../index.html">Docs</a> &raquo;</li>
       
-    <li>Heading (Used heading 3)</li>
+    <li>SBML</li>
       <li class="wy-breadcrumbs-aside">
         
           
@@ -129,12 +129,287 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="heading-used-heading-3">
-<h1>Heading (Used heading 3)<a class="headerlink" href="#heading-used-heading-3" title="Permalink to this headline">¶</a></h1>
-<p>Description Text</p>
+  <div class="section" id="sbml">
+<h1>SBML<a class="headerlink" href="#sbml" title="Permalink to this headline">¶</a></h1>
 <div class="code python highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">tellurium</span> <span class="kn">as</span> <span class="nn">te</span>
-<span class="c1"># Example code here</span>
-<span class="c1"># ...</span>
+<span class="kn">import</span> <span class="nn">tempfile</span>
+
+<span class="c1"># load model</span>
+<span class="n">r</span> <span class="o">=</span> <span class="n">te</span><span class="o">.</span><span class="n">loada</span><span class="p">(</span><span class="s1">&#39;S1 -&gt; S2; k1*S1; k1 = 0.1; S1 = 10&#39;</span><span class="p">)</span>
+<span class="c1"># file for export</span>
+<span class="n">f_sbml</span> <span class="o">=</span> <span class="n">tempfile</span><span class="o">.</span><span class="n">NamedTemporaryFile</span><span class="p">(</span><span class="n">suffix</span><span class="o">=</span><span class="s2">&quot;.xml&quot;</span><span class="p">)</span>
+
+<span class="c1"># export current model state</span>
+<span class="n">r</span><span class="o">.</span><span class="n">exportToSBML</span><span class="p">(</span><span class="n">f_sbml</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+
+<span class="c1"># to export the initial state when the model was loaded</span>
+<span class="c1"># set the current argument to False</span>
+<span class="n">r</span><span class="o">.</span><span class="n">exportToSBML</span><span class="p">(</span><span class="n">f_sbml</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">current</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+
+<span class="c1"># The string representations of the current model are available via</span>
+<span class="n">str_sbml</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">getCurrentSBML</span><span class="p">()</span>
+
+<span class="c1"># and of the initial state when the model was loaded via</span>
+<span class="n">str_sbml</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">getSBML</span><span class="p">()</span>
+<span class="k">print</span><span class="p">(</span><span class="n">str_sbml</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;!-- Created by libAntimony version v2.8.1 on 2016-02-05 15:36 with libSBML version 5.12.1. --&gt;
+&lt;sbml xmlns=&quot;http://www.sbml.org/sbml/level3/version1/core&quot; level=&quot;3&quot; version=&quot;1&quot;&gt;
+  &lt;model id=&quot;__main&quot; name=&quot;__main&quot;&gt;
+    &lt;listOfCompartments&gt;
+      &lt;compartment sboTerm=&quot;SBO:0000410&quot; id=&quot;default_compartment&quot; spatialDimensions=&quot;3&quot; size=&quot;1&quot; constant=&quot;true&quot;/&gt;
+    &lt;/listOfCompartments&gt;
+    &lt;listOfSpecies&gt;
+      &lt;species id=&quot;S1&quot; compartment=&quot;default_compartment&quot; initialConcentration=&quot;10&quot; hasOnlySubstanceUnits=&quot;false&quot; boundaryCondition=&quot;false&quot; constant=&quot;false&quot;/&gt;
+      &lt;species id=&quot;S2&quot; compartment=&quot;default_compartment&quot; hasOnlySubstanceUnits=&quot;false&quot; boundaryCondition=&quot;false&quot; constant=&quot;false&quot;/&gt;
+    &lt;/listOfSpecies&gt;
+    &lt;listOfParameters&gt;
+      &lt;parameter id=&quot;k1&quot; value=&quot;0.1&quot; constant=&quot;true&quot;/&gt;
+    &lt;/listOfParameters&gt;
+    &lt;listOfReactions&gt;
+      &lt;reaction id=&quot;_J0&quot; reversible=&quot;true&quot; fast=&quot;false&quot;&gt;
+        &lt;listOfReactants&gt;
+          &lt;speciesReference species=&quot;S1&quot; stoichiometry=&quot;1&quot; constant=&quot;true&quot;/&gt;
+        &lt;/listOfReactants&gt;
+        &lt;listOfProducts&gt;
+          &lt;speciesReference species=&quot;S2&quot; stoichiometry=&quot;1&quot; constant=&quot;true&quot;/&gt;
+        &lt;/listOfProducts&gt;
+        &lt;kineticLaw&gt;
+          &lt;math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot;&gt;
+            &lt;apply&gt;
+              &lt;times/&gt;
+              &lt;ci&gt; k1 &lt;/ci&gt;
+              &lt;ci&gt; S1 &lt;/ci&gt;
+            &lt;/apply&gt;
+          &lt;/math&gt;
+        &lt;/kineticLaw&gt;
+      &lt;/reaction&gt;
+    &lt;/listOfReactions&gt;
+  &lt;/model&gt;
+&lt;/sbml&gt;
+</pre></div>
+</div>
+</div>
+<div class="section" id="antimony">
+<h1>Antimony<a class="headerlink" href="#antimony" title="Permalink to this headline">¶</a></h1>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">tellurium</span> <span class="kn">as</span> <span class="nn">te</span>
+<span class="kn">import</span> <span class="nn">tempfile</span>
+
+<span class="c1"># load model</span>
+<span class="n">r</span> <span class="o">=</span> <span class="n">te</span><span class="o">.</span><span class="n">loada</span><span class="p">(</span><span class="s1">&#39;S1 -&gt; S2; k1*S1; k1 = 0.1; S1 = 10&#39;</span><span class="p">)</span>
+<span class="c1"># file for export</span>
+<span class="n">f_antimony</span> <span class="o">=</span> <span class="n">tempfile</span><span class="o">.</span><span class="n">NamedTemporaryFile</span><span class="p">(</span><span class="n">suffix</span><span class="o">=</span><span class="s2">&quot;.txt&quot;</span><span class="p">)</span>
+
+<span class="c1"># export current model state</span>
+<span class="n">r</span><span class="o">.</span><span class="n">exportToAntimony</span><span class="p">(</span><span class="n">f_antimony</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+
+<span class="c1"># to export the initial state when the model was loaded</span>
+<span class="c1"># set the current argument to False</span>
+<span class="n">r</span><span class="o">.</span><span class="n">exportToAntimony</span><span class="p">(</span><span class="n">f_antimony</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">current</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+
+<span class="c1"># The string representations of the current model are available via</span>
+<span class="n">str_antimony</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">getCurrentAntimony</span><span class="p">()</span>
+
+<span class="c1"># and of the initial state when the model was loaded via</span>
+<span class="n">str_antimony</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">getAntimony</span><span class="p">()</span>
+<span class="k">print</span><span class="p">(</span><span class="n">str_antimony</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre>// Created by libAntimony v2.8.1
+// Compartments and Species:
+species S1, S2;
+
+// Reactions:
+_J0: S1 -&gt; S2; k1*S1;
+
+// Species initializations:
+S1 = 10;
+S2 = ;
+
+// Variable initializations:
+k1 = 0.1;
+
+// Other declarations:
+const k1;
+</pre></div>
+</div>
+</div>
+<div class="section" id="cellml">
+<h1>CellML<a class="headerlink" href="#cellml" title="Permalink to this headline">¶</a></h1>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">tellurium</span> <span class="kn">as</span> <span class="nn">te</span>
+<span class="kn">import</span> <span class="nn">tempfile</span>
+
+<span class="c1"># load model</span>
+<span class="n">r</span> <span class="o">=</span> <span class="n">te</span><span class="o">.</span><span class="n">loada</span><span class="p">(</span><span class="s1">&#39;S1 -&gt; S2; k1*S1; k1 = 0.1; S1 = 10&#39;</span><span class="p">)</span>
+<span class="c1"># file for export</span>
+<span class="n">f_cellml</span> <span class="o">=</span> <span class="n">tempfile</span><span class="o">.</span><span class="n">NamedTemporaryFile</span><span class="p">(</span><span class="n">suffix</span><span class="o">=</span><span class="s2">&quot;.cellml&quot;</span><span class="p">)</span>
+
+<span class="c1"># export current model state</span>
+<span class="n">r</span><span class="o">.</span><span class="n">exportToCellML</span><span class="p">(</span><span class="n">f_cellml</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+
+<span class="c1"># to export the initial state when the model was loaded</span>
+<span class="c1"># set the current argument to False</span>
+<span class="n">r</span><span class="o">.</span><span class="n">exportToCellML</span><span class="p">(</span><span class="n">f_cellml</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">current</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+
+<span class="c1"># The string representations of the current model are available via</span>
+<span class="n">str_cellml</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">getCurrentCellML</span><span class="p">()</span>
+
+<span class="c1"># and of the initial state when the model was loaded via</span>
+<span class="n">str_cellml</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">getCellML</span><span class="p">()</span>
+<span class="k">print</span><span class="p">(</span><span class="n">str_cellml</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre>&lt;?xml version=&quot;1.0&quot;?&gt;
+&lt;model xmlns:cellml=&quot;http://www.cellml.org/cellml/1.1#&quot; xmlns=&quot;http://www.cellml.org/cellml/1.1#&quot; name=&quot;__main&quot;&gt;
+&lt;component name=&quot;__main&quot;&gt;
+&lt;variable initial_value=&quot;10&quot; name=&quot;S1&quot; units=&quot;dimensionless&quot;/&gt;
+&lt;variable name=&quot;S2&quot; units=&quot;dimensionless&quot;/&gt;
+&lt;variable initial_value=&quot;0.1&quot; name=&quot;k1&quot; units=&quot;dimensionless&quot;/&gt;
+&lt;variable name=&quot;_J0&quot; units=&quot;dimensionless&quot;/&gt;
+&lt;math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot;&gt;
+&lt;apply&gt;
+&lt;eq/&gt;
+&lt;ci&gt;_J0&lt;/ci&gt;
+&lt;apply&gt;
+&lt;times/&gt;
+&lt;ci&gt;k1&lt;/ci&gt;
+&lt;ci&gt;S1&lt;/ci&gt;
+&lt;/apply&gt;
+&lt;/apply&gt;
+&lt;/math&gt;
+&lt;variable name=&quot;time&quot; units=&quot;dimensionless&quot;/&gt;
+&lt;math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot;&gt;
+&lt;apply&gt;
+&lt;eq/&gt;
+&lt;apply&gt;
+&lt;diff/&gt;
+&lt;bvar&gt;
+&lt;ci&gt;time&lt;/ci&gt;
+&lt;/bvar&gt;
+&lt;ci&gt;S1&lt;/ci&gt;
+&lt;/apply&gt;
+&lt;apply&gt;
+&lt;minus/&gt;
+&lt;ci&gt;_J0&lt;/ci&gt;
+&lt;/apply&gt;
+&lt;/apply&gt;
+&lt;/math&gt;
+&lt;math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot;&gt;
+&lt;apply&gt;
+&lt;eq/&gt;
+&lt;apply&gt;
+&lt;diff/&gt;
+&lt;bvar&gt;
+&lt;ci&gt;time&lt;/ci&gt;
+&lt;/bvar&gt;
+&lt;ci&gt;S2&lt;/ci&gt;
+&lt;/apply&gt;
+&lt;ci&gt;_J0&lt;/ci&gt;
+&lt;/apply&gt;
+&lt;/math&gt;
+&lt;/component&gt;
+&lt;group&gt;
+&lt;relationship_ref relationship=&quot;encapsulation&quot;/&gt;
+&lt;component_ref component=&quot;__main&quot;/&gt;
+&lt;/group&gt;
+&lt;/model&gt;
+</pre></div>
+</div>
+</div>
+<div class="section" id="matlab">
+<h1>Matlab<a class="headerlink" href="#matlab" title="Permalink to this headline">¶</a></h1>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">tellurium</span> <span class="kn">as</span> <span class="nn">te</span>
+<span class="kn">import</span> <span class="nn">tempfile</span>
+
+<span class="c1"># load model</span>
+<span class="n">r</span> <span class="o">=</span> <span class="n">te</span><span class="o">.</span><span class="n">loada</span><span class="p">(</span><span class="s1">&#39;S1 -&gt; S2; k1*S1; k1 = 0.1; S1 = 10&#39;</span><span class="p">)</span>
+<span class="c1"># file for export</span>
+<span class="n">f_matlab</span> <span class="o">=</span> <span class="n">tempfile</span><span class="o">.</span><span class="n">NamedTemporaryFile</span><span class="p">(</span><span class="n">suffix</span><span class="o">=</span><span class="s2">&quot;.m&quot;</span><span class="p">)</span>
+
+<span class="c1"># export current model state</span>
+<span class="n">r</span><span class="o">.</span><span class="n">exportToMatlab</span><span class="p">(</span><span class="n">f_matlab</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+
+<span class="c1"># to export the initial state when the model was loaded</span>
+<span class="c1"># set the current argument to False</span>
+<span class="n">r</span><span class="o">.</span><span class="n">exportToMatlab</span><span class="p">(</span><span class="n">f_matlab</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">current</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+
+<span class="c1"># The string representations of the current model are available via</span>
+<span class="n">str_matlab</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">getCurrentMatlab</span><span class="p">()</span>
+
+<span class="c1"># and of the initial state when the model was loaded via</span>
+<span class="n">str_matlab</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">getMatlab</span><span class="p">()</span>
+<span class="k">print</span><span class="p">(</span><span class="n">str_matlab</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre>/home/mkoenig/git/tellurium/tellurium/tellurium.py:606: RuntimeWarning: &#39;sbml2matlab&#39; could not be imported, no support for Matlab code generation
+  saveToFile(filePath, self.getMatlab(current))
+/home/mkoenig/git/tellurium/tellurium/tellurium.py:564: RuntimeWarning: &#39;sbml2matlab&#39; could not be imported, no support for Matlab code generation
+  return self.getMatlab(current=True)
+/usr/local/lib/python2.7/dist-packages/ipykernel/__main__.py:20: RuntimeWarning: &#39;sbml2matlab&#39; could not be imported, no support for Matlab code generation
+</pre></div>
+</div>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">antimony</span>
+<span class="n">antimony</span><span class="o">.</span><span class="n">loadAntimonyString</span><span class="p">(</span><span class="s1">&#39;&#39;&#39;S1 -&gt; S2; k1*S1; k1 = 0.1; S1 = 10&#39;&#39;&#39;</span><span class="p">)</span>
+<span class="n">ant_str</span> <span class="o">=</span> <span class="n">antimony</span><span class="o">.</span><span class="n">getCellMLString</span><span class="p">(</span><span class="n">antimony</span><span class="o">.</span><span class="n">getMainModuleName</span><span class="p">())</span>
+<span class="k">print</span><span class="p">(</span><span class="n">ant_str</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre>&lt;?xml version=&quot;1.0&quot;?&gt;
+&lt;model xmlns:cellml=&quot;http://www.cellml.org/cellml/1.1#&quot; xmlns=&quot;http://www.cellml.org/cellml/1.1#&quot; name=&quot;__main&quot;&gt;
+&lt;component name=&quot;__main&quot;&gt;
+&lt;variable initial_value=&quot;10&quot; name=&quot;S1&quot; units=&quot;dimensionless&quot;/&gt;
+&lt;variable name=&quot;S2&quot; units=&quot;dimensionless&quot;/&gt;
+&lt;variable initial_value=&quot;0.1&quot; name=&quot;k1&quot; units=&quot;dimensionless&quot;/&gt;
+&lt;variable name=&quot;_J0&quot; units=&quot;dimensionless&quot;/&gt;
+&lt;math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot;&gt;
+&lt;apply&gt;
+&lt;eq/&gt;
+&lt;ci&gt;_J0&lt;/ci&gt;
+&lt;apply&gt;
+&lt;times/&gt;
+&lt;ci&gt;k1&lt;/ci&gt;
+&lt;ci&gt;S1&lt;/ci&gt;
+&lt;/apply&gt;
+&lt;/apply&gt;
+&lt;/math&gt;
+&lt;variable name=&quot;time&quot; units=&quot;dimensionless&quot;/&gt;
+&lt;math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot;&gt;
+&lt;apply&gt;
+&lt;eq/&gt;
+&lt;apply&gt;
+&lt;diff/&gt;
+&lt;bvar&gt;
+&lt;ci&gt;time&lt;/ci&gt;
+&lt;/bvar&gt;
+&lt;ci&gt;S1&lt;/ci&gt;
+&lt;/apply&gt;
+&lt;apply&gt;
+&lt;minus/&gt;
+&lt;ci&gt;_J0&lt;/ci&gt;
+&lt;/apply&gt;
+&lt;/apply&gt;
+&lt;/math&gt;
+&lt;math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot;&gt;
+&lt;apply&gt;
+&lt;eq/&gt;
+&lt;apply&gt;
+&lt;diff/&gt;
+&lt;bvar&gt;
+&lt;ci&gt;time&lt;/ci&gt;
+&lt;/bvar&gt;
+&lt;ci&gt;S2&lt;/ci&gt;
+&lt;/apply&gt;
+&lt;ci&gt;_J0&lt;/ci&gt;
+&lt;/apply&gt;
+&lt;/math&gt;
+&lt;/component&gt;
+&lt;group&gt;
+&lt;relationship_ref relationship=&quot;encapsulation&quot;/&gt;
+&lt;component_ref component=&quot;__main&quot;/&gt;
+&lt;/group&gt;
+&lt;/model&gt;
 </pre></div>
 </div>
 </div>

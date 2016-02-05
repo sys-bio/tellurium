@@ -100,13 +100,33 @@
 <li class="toctree-l3"><a class="reference internal" href="#antimony-sbml-cellml">Antimony, SBML, CellML</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#export-utilities">Export Utilities</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#stochastic-simulation">Stochastic Simulation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#export-utilities">Export Utilities</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#sbml">SBML</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#antimony">Antimony</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#cellml">CellML</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#matlab">Matlab</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#stochastic-simulation">Stochastic Simulation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id1">Stochastic simulation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#run-two-simulations-and-combine-the-two">Run two simulations and combine the two</a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="#math">Math</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#plotting">Plotting</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#model-reset">Model Reset</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#plotting">Plotting</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#draw-diagram">Draw diagram</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#plotting-multiple-simulations">Plotting multiple simulations</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#model-reset">Model Reset</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#reset-model-values">Reset model values</a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="#jarnac-short-cuts">jarnac Short-cuts</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#test-models">Test Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#test-models">Test Models</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#load-test-model">Load test model</a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="#model-methods">Model Methods</a></li>
 </ul>
 </li>
@@ -264,7 +284,7 @@ Call this to stop roadrunner from printing warning message to the console.</p>
 <div class="highlight-python"><div class="highlight"><pre>1.3.0
 --------------------------------------------------------------------------------
 tellurium : 1.3.0
-roadrunner : 1.4.2; Compiler: gcc 4.8.4, C++ version: 199711; JIT Compiler: LLVM-3.4; Date: Feb  4 2016, 11:44:01; LibSBML Version: 5.12.0
+roadrunner : 1.4.2; Compiler: gcc 4.8.4, C++ version: 199711; JIT Compiler: LLVM-3.4; Date: Feb  5 2016, 08:15:58; LibSBML Version: 5.12.0
 antimony : v2.8.0
 snbw_viewer : No information for sbnw viewer
 libsbml : 5.12.1
@@ -320,7 +340,12 @@ phrasedml : v0.5 beta
 <span class="k">print</span><span class="p">(</span><span class="n">sbmlstr</span><span class="p">)</span>
 </pre></div>
 </div>
-<div class="highlight-python"><div class="highlight"><pre>/tmp/tmp_KRHGs.xml
+<div class="highlight-python"><div class="highlight"><pre>/tmp/tmpoMMl7r.xml
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre>/usr/local/lib/python2.7/dist-packages/ipykernel/__main__.py:8: RuntimeWarning: &#39;sbml2matlab&#39; could not be imported, no support for Matlab code generation
+/home/mkoenig/git/tellurium/tellurium/tellurium.py:606: RuntimeWarning: &#39;sbml2matlab&#39; could not be imported, no support for Matlab code generation
+  saveToFile(filePath, self.getMatlab(current))
 </pre></div>
 </div>
 </div>
@@ -333,7 +358,7 @@ phrasedml : v0.5 beta
 <code class="descclassname">tellurium.</code><code class="descname">loada</code><span class="sig-paren">(</span><em>ant</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/tellurium.html#loada"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.loada" title="Permalink to this definition">¶</a></dt>
 <dd><p>Load model from Antimony string.</p>
 <p>See also: <code class="xref py py-func docutils literal"><span class="pre">loadAntimonyModel()</span></code></p>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">r</span> <span class="o">=</span> <span class="n">loada</span><span class="p">(</span><span class="s1">&#39;S1 -&gt; S2; k1*S1; k1 = 0.1; S2 = 10&#39;</span><span class="p">)</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">r</span> <span class="o">=</span> <span class="n">te</span><span class="o">.</span><span class="n">loada</span><span class="p">(</span><span class="s1">&#39;S1 -&gt; S2; k1*S1; k1 = 0.1; S2 = 10&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 <table class="docutils field-list" frame="void" rules="none">
@@ -750,10 +775,289 @@ current=False.</p>
 
 </dd></dl>
 
-<div class="highlight-python"><div class="highlight"><pre><span class="n">r</span> <span class="o">=</span> <span class="n">te</span><span class="o">.</span><span class="n">loada</span><span class="p">(</span><span class="s1">&#39;S1 -&gt; S2; k1*S1; k1 = 0.1; S1 = 10&#39;</span><span class="p">)</span>
-<span class="k">print</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">getCurrentMatlab</span><span class="p">())</span>
-<span class="n">r</span><span class="o">.</span><span class="n">exportToMatlab</span><span class="p">(</span><span class="s2">&quot;mymodel.m&quot;</span><span class="p">)</span>
+<div class="section" id="sbml">
+<h3>SBML<a class="headerlink" href="#sbml" title="Permalink to this headline">¶</a></h3>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">tellurium</span> <span class="kn">as</span> <span class="nn">te</span>
+<span class="kn">import</span> <span class="nn">tempfile</span>
+
+<span class="c1"># load model</span>
+<span class="n">r</span> <span class="o">=</span> <span class="n">te</span><span class="o">.</span><span class="n">loada</span><span class="p">(</span><span class="s1">&#39;S1 -&gt; S2; k1*S1; k1 = 0.1; S1 = 10&#39;</span><span class="p">)</span>
+<span class="c1"># file for export</span>
+<span class="n">f_sbml</span> <span class="o">=</span> <span class="n">tempfile</span><span class="o">.</span><span class="n">NamedTemporaryFile</span><span class="p">(</span><span class="n">suffix</span><span class="o">=</span><span class="s2">&quot;.xml&quot;</span><span class="p">)</span>
+
+<span class="c1"># export current model state</span>
+<span class="n">r</span><span class="o">.</span><span class="n">exportToSBML</span><span class="p">(</span><span class="n">f_sbml</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+
+<span class="c1"># to export the initial state when the model was loaded</span>
+<span class="c1"># set the current argument to False</span>
+<span class="n">r</span><span class="o">.</span><span class="n">exportToSBML</span><span class="p">(</span><span class="n">f_sbml</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">current</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+
+<span class="c1"># The string representations of the current model are available via</span>
+<span class="n">str_sbml</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">getCurrentSBML</span><span class="p">()</span>
+
+<span class="c1"># and of the initial state when the model was loaded via</span>
+<span class="n">str_sbml</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">getSBML</span><span class="p">()</span>
+<span class="k">print</span><span class="p">(</span><span class="n">str_sbml</span><span class="p">)</span>
 </pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;!-- Created by libAntimony version v2.8.1 on 2016-02-05 15:36 with libSBML version 5.12.1. --&gt;
+&lt;sbml xmlns=&quot;http://www.sbml.org/sbml/level3/version1/core&quot; level=&quot;3&quot; version=&quot;1&quot;&gt;
+  &lt;model id=&quot;__main&quot; name=&quot;__main&quot;&gt;
+    &lt;listOfCompartments&gt;
+      &lt;compartment sboTerm=&quot;SBO:0000410&quot; id=&quot;default_compartment&quot; spatialDimensions=&quot;3&quot; size=&quot;1&quot; constant=&quot;true&quot;/&gt;
+    &lt;/listOfCompartments&gt;
+    &lt;listOfSpecies&gt;
+      &lt;species id=&quot;S1&quot; compartment=&quot;default_compartment&quot; initialConcentration=&quot;10&quot; hasOnlySubstanceUnits=&quot;false&quot; boundaryCondition=&quot;false&quot; constant=&quot;false&quot;/&gt;
+      &lt;species id=&quot;S2&quot; compartment=&quot;default_compartment&quot; hasOnlySubstanceUnits=&quot;false&quot; boundaryCondition=&quot;false&quot; constant=&quot;false&quot;/&gt;
+    &lt;/listOfSpecies&gt;
+    &lt;listOfParameters&gt;
+      &lt;parameter id=&quot;k1&quot; value=&quot;0.1&quot; constant=&quot;true&quot;/&gt;
+    &lt;/listOfParameters&gt;
+    &lt;listOfReactions&gt;
+      &lt;reaction id=&quot;_J0&quot; reversible=&quot;true&quot; fast=&quot;false&quot;&gt;
+        &lt;listOfReactants&gt;
+          &lt;speciesReference species=&quot;S1&quot; stoichiometry=&quot;1&quot; constant=&quot;true&quot;/&gt;
+        &lt;/listOfReactants&gt;
+        &lt;listOfProducts&gt;
+          &lt;speciesReference species=&quot;S2&quot; stoichiometry=&quot;1&quot; constant=&quot;true&quot;/&gt;
+        &lt;/listOfProducts&gt;
+        &lt;kineticLaw&gt;
+          &lt;math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot;&gt;
+            &lt;apply&gt;
+              &lt;times/&gt;
+              &lt;ci&gt; k1 &lt;/ci&gt;
+              &lt;ci&gt; S1 &lt;/ci&gt;
+            &lt;/apply&gt;
+          &lt;/math&gt;
+        &lt;/kineticLaw&gt;
+      &lt;/reaction&gt;
+    &lt;/listOfReactions&gt;
+  &lt;/model&gt;
+&lt;/sbml&gt;
+</pre></div>
+</div>
+</div>
+<div class="section" id="antimony">
+<h3>Antimony<a class="headerlink" href="#antimony" title="Permalink to this headline">¶</a></h3>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">tellurium</span> <span class="kn">as</span> <span class="nn">te</span>
+<span class="kn">import</span> <span class="nn">tempfile</span>
+
+<span class="c1"># load model</span>
+<span class="n">r</span> <span class="o">=</span> <span class="n">te</span><span class="o">.</span><span class="n">loada</span><span class="p">(</span><span class="s1">&#39;S1 -&gt; S2; k1*S1; k1 = 0.1; S1 = 10&#39;</span><span class="p">)</span>
+<span class="c1"># file for export</span>
+<span class="n">f_antimony</span> <span class="o">=</span> <span class="n">tempfile</span><span class="o">.</span><span class="n">NamedTemporaryFile</span><span class="p">(</span><span class="n">suffix</span><span class="o">=</span><span class="s2">&quot;.txt&quot;</span><span class="p">)</span>
+
+<span class="c1"># export current model state</span>
+<span class="n">r</span><span class="o">.</span><span class="n">exportToAntimony</span><span class="p">(</span><span class="n">f_antimony</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+
+<span class="c1"># to export the initial state when the model was loaded</span>
+<span class="c1"># set the current argument to False</span>
+<span class="n">r</span><span class="o">.</span><span class="n">exportToAntimony</span><span class="p">(</span><span class="n">f_antimony</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">current</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+
+<span class="c1"># The string representations of the current model are available via</span>
+<span class="n">str_antimony</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">getCurrentAntimony</span><span class="p">()</span>
+
+<span class="c1"># and of the initial state when the model was loaded via</span>
+<span class="n">str_antimony</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">getAntimony</span><span class="p">()</span>
+<span class="k">print</span><span class="p">(</span><span class="n">str_antimony</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre>// Created by libAntimony v2.8.1
+// Compartments and Species:
+species S1, S2;
+
+// Reactions:
+_J0: S1 -&gt; S2; k1*S1;
+
+// Species initializations:
+S1 = 10;
+S2 = ;
+
+// Variable initializations:
+k1 = 0.1;
+
+// Other declarations:
+const k1;
+</pre></div>
+</div>
+</div>
+<div class="section" id="cellml">
+<h3>CellML<a class="headerlink" href="#cellml" title="Permalink to this headline">¶</a></h3>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">tellurium</span> <span class="kn">as</span> <span class="nn">te</span>
+<span class="kn">import</span> <span class="nn">tempfile</span>
+
+<span class="c1"># load model</span>
+<span class="n">r</span> <span class="o">=</span> <span class="n">te</span><span class="o">.</span><span class="n">loada</span><span class="p">(</span><span class="s1">&#39;S1 -&gt; S2; k1*S1; k1 = 0.1; S1 = 10&#39;</span><span class="p">)</span>
+<span class="c1"># file for export</span>
+<span class="n">f_cellml</span> <span class="o">=</span> <span class="n">tempfile</span><span class="o">.</span><span class="n">NamedTemporaryFile</span><span class="p">(</span><span class="n">suffix</span><span class="o">=</span><span class="s2">&quot;.cellml&quot;</span><span class="p">)</span>
+
+<span class="c1"># export current model state</span>
+<span class="n">r</span><span class="o">.</span><span class="n">exportToCellML</span><span class="p">(</span><span class="n">f_cellml</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+
+<span class="c1"># to export the initial state when the model was loaded</span>
+<span class="c1"># set the current argument to False</span>
+<span class="n">r</span><span class="o">.</span><span class="n">exportToCellML</span><span class="p">(</span><span class="n">f_cellml</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">current</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+
+<span class="c1"># The string representations of the current model are available via</span>
+<span class="n">str_cellml</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">getCurrentCellML</span><span class="p">()</span>
+
+<span class="c1"># and of the initial state when the model was loaded via</span>
+<span class="n">str_cellml</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">getCellML</span><span class="p">()</span>
+<span class="k">print</span><span class="p">(</span><span class="n">str_cellml</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre>&lt;?xml version=&quot;1.0&quot;?&gt;
+&lt;model xmlns:cellml=&quot;http://www.cellml.org/cellml/1.1#&quot; xmlns=&quot;http://www.cellml.org/cellml/1.1#&quot; name=&quot;__main&quot;&gt;
+&lt;component name=&quot;__main&quot;&gt;
+&lt;variable initial_value=&quot;10&quot; name=&quot;S1&quot; units=&quot;dimensionless&quot;/&gt;
+&lt;variable name=&quot;S2&quot; units=&quot;dimensionless&quot;/&gt;
+&lt;variable initial_value=&quot;0.1&quot; name=&quot;k1&quot; units=&quot;dimensionless&quot;/&gt;
+&lt;variable name=&quot;_J0&quot; units=&quot;dimensionless&quot;/&gt;
+&lt;math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot;&gt;
+&lt;apply&gt;
+&lt;eq/&gt;
+&lt;ci&gt;_J0&lt;/ci&gt;
+&lt;apply&gt;
+&lt;times/&gt;
+&lt;ci&gt;k1&lt;/ci&gt;
+&lt;ci&gt;S1&lt;/ci&gt;
+&lt;/apply&gt;
+&lt;/apply&gt;
+&lt;/math&gt;
+&lt;variable name=&quot;time&quot; units=&quot;dimensionless&quot;/&gt;
+&lt;math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot;&gt;
+&lt;apply&gt;
+&lt;eq/&gt;
+&lt;apply&gt;
+&lt;diff/&gt;
+&lt;bvar&gt;
+&lt;ci&gt;time&lt;/ci&gt;
+&lt;/bvar&gt;
+&lt;ci&gt;S1&lt;/ci&gt;
+&lt;/apply&gt;
+&lt;apply&gt;
+&lt;minus/&gt;
+&lt;ci&gt;_J0&lt;/ci&gt;
+&lt;/apply&gt;
+&lt;/apply&gt;
+&lt;/math&gt;
+&lt;math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot;&gt;
+&lt;apply&gt;
+&lt;eq/&gt;
+&lt;apply&gt;
+&lt;diff/&gt;
+&lt;bvar&gt;
+&lt;ci&gt;time&lt;/ci&gt;
+&lt;/bvar&gt;
+&lt;ci&gt;S2&lt;/ci&gt;
+&lt;/apply&gt;
+&lt;ci&gt;_J0&lt;/ci&gt;
+&lt;/apply&gt;
+&lt;/math&gt;
+&lt;/component&gt;
+&lt;group&gt;
+&lt;relationship_ref relationship=&quot;encapsulation&quot;/&gt;
+&lt;component_ref component=&quot;__main&quot;/&gt;
+&lt;/group&gt;
+&lt;/model&gt;
+</pre></div>
+</div>
+</div>
+<div class="section" id="matlab">
+<h3>Matlab<a class="headerlink" href="#matlab" title="Permalink to this headline">¶</a></h3>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">tellurium</span> <span class="kn">as</span> <span class="nn">te</span>
+<span class="kn">import</span> <span class="nn">tempfile</span>
+
+<span class="c1"># load model</span>
+<span class="n">r</span> <span class="o">=</span> <span class="n">te</span><span class="o">.</span><span class="n">loada</span><span class="p">(</span><span class="s1">&#39;S1 -&gt; S2; k1*S1; k1 = 0.1; S1 = 10&#39;</span><span class="p">)</span>
+<span class="c1"># file for export</span>
+<span class="n">f_matlab</span> <span class="o">=</span> <span class="n">tempfile</span><span class="o">.</span><span class="n">NamedTemporaryFile</span><span class="p">(</span><span class="n">suffix</span><span class="o">=</span><span class="s2">&quot;.m&quot;</span><span class="p">)</span>
+
+<span class="c1"># export current model state</span>
+<span class="n">r</span><span class="o">.</span><span class="n">exportToMatlab</span><span class="p">(</span><span class="n">f_matlab</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+
+<span class="c1"># to export the initial state when the model was loaded</span>
+<span class="c1"># set the current argument to False</span>
+<span class="n">r</span><span class="o">.</span><span class="n">exportToMatlab</span><span class="p">(</span><span class="n">f_matlab</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">current</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+
+<span class="c1"># The string representations of the current model are available via</span>
+<span class="n">str_matlab</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">getCurrentMatlab</span><span class="p">()</span>
+
+<span class="c1"># and of the initial state when the model was loaded via</span>
+<span class="n">str_matlab</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">getMatlab</span><span class="p">()</span>
+<span class="k">print</span><span class="p">(</span><span class="n">str_matlab</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre>/home/mkoenig/git/tellurium/tellurium/tellurium.py:606: RuntimeWarning: &#39;sbml2matlab&#39; could not be imported, no support for Matlab code generation
+  saveToFile(filePath, self.getMatlab(current))
+/home/mkoenig/git/tellurium/tellurium/tellurium.py:564: RuntimeWarning: &#39;sbml2matlab&#39; could not be imported, no support for Matlab code generation
+  return self.getMatlab(current=True)
+/usr/local/lib/python2.7/dist-packages/ipykernel/__main__.py:20: RuntimeWarning: &#39;sbml2matlab&#39; could not be imported, no support for Matlab code generation
+</pre></div>
+</div>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">antimony</span>
+<span class="n">antimony</span><span class="o">.</span><span class="n">loadAntimonyString</span><span class="p">(</span><span class="s1">&#39;&#39;&#39;S1 -&gt; S2; k1*S1; k1 = 0.1; S1 = 10&#39;&#39;&#39;</span><span class="p">)</span>
+<span class="n">ant_str</span> <span class="o">=</span> <span class="n">antimony</span><span class="o">.</span><span class="n">getCellMLString</span><span class="p">(</span><span class="n">antimony</span><span class="o">.</span><span class="n">getMainModuleName</span><span class="p">())</span>
+<span class="k">print</span><span class="p">(</span><span class="n">ant_str</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre>&lt;?xml version=&quot;1.0&quot;?&gt;
+&lt;model xmlns:cellml=&quot;http://www.cellml.org/cellml/1.1#&quot; xmlns=&quot;http://www.cellml.org/cellml/1.1#&quot; name=&quot;__main&quot;&gt;
+&lt;component name=&quot;__main&quot;&gt;
+&lt;variable initial_value=&quot;10&quot; name=&quot;S1&quot; units=&quot;dimensionless&quot;/&gt;
+&lt;variable name=&quot;S2&quot; units=&quot;dimensionless&quot;/&gt;
+&lt;variable initial_value=&quot;0.1&quot; name=&quot;k1&quot; units=&quot;dimensionless&quot;/&gt;
+&lt;variable name=&quot;_J0&quot; units=&quot;dimensionless&quot;/&gt;
+&lt;math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot;&gt;
+&lt;apply&gt;
+&lt;eq/&gt;
+&lt;ci&gt;_J0&lt;/ci&gt;
+&lt;apply&gt;
+&lt;times/&gt;
+&lt;ci&gt;k1&lt;/ci&gt;
+&lt;ci&gt;S1&lt;/ci&gt;
+&lt;/apply&gt;
+&lt;/apply&gt;
+&lt;/math&gt;
+&lt;variable name=&quot;time&quot; units=&quot;dimensionless&quot;/&gt;
+&lt;math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot;&gt;
+&lt;apply&gt;
+&lt;eq/&gt;
+&lt;apply&gt;
+&lt;diff/&gt;
+&lt;bvar&gt;
+&lt;ci&gt;time&lt;/ci&gt;
+&lt;/bvar&gt;
+&lt;ci&gt;S1&lt;/ci&gt;
+&lt;/apply&gt;
+&lt;apply&gt;
+&lt;minus/&gt;
+&lt;ci&gt;_J0&lt;/ci&gt;
+&lt;/apply&gt;
+&lt;/apply&gt;
+&lt;/math&gt;
+&lt;math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot;&gt;
+&lt;apply&gt;
+&lt;eq/&gt;
+&lt;apply&gt;
+&lt;diff/&gt;
+&lt;bvar&gt;
+&lt;ci&gt;time&lt;/ci&gt;
+&lt;/bvar&gt;
+&lt;ci&gt;S2&lt;/ci&gt;
+&lt;/apply&gt;
+&lt;ci&gt;_J0&lt;/ci&gt;
+&lt;/apply&gt;
+&lt;/math&gt;
+&lt;/component&gt;
+&lt;group&gt;
+&lt;relationship_ref relationship=&quot;encapsulation&quot;/&gt;
+&lt;component_ref component=&quot;__main&quot;/&gt;
+&lt;/group&gt;
+&lt;/model&gt;
+</pre></div>
+</div>
 </div>
 </div>
 <div class="section" id="stochastic-simulation">
@@ -765,7 +1069,7 @@ current=False.</p>
 <dd><dl class="method">
 <dt id="tellurium.ExtendedRoadRunner.getSeed">
 <code class="descname">getSeed</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/tellurium.html#ExtendedRoadRunner.getSeed"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.ExtendedRoadRunner.getSeed" title="Permalink to this definition">¶</a></dt>
-<dd><p>Current seed used by the random generator of the RoadRunner instance.</p>
+<dd><p>Current seed used by the gillespie integrator.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -780,21 +1084,22 @@ current=False.</p>
 <dt id="tellurium.ExtendedRoadRunner.gillespie">
 <code class="descname">gillespie</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/tellurium.html#ExtendedRoadRunner.gillespie"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.ExtendedRoadRunner.gillespie" title="Permalink to this definition">¶</a></dt>
 <dd><p>Run a Gillespie stochastic simulation.</p>
+<p>Sets the integrator to gillespie and performs simulation.</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="n">rr</span> <span class="o">=</span> <span class="n">te</span><span class="o">.</span><span class="n">loada</span> <span class="p">(</span><span class="s1">&#39;S1 -&gt; S2; k1*S1; k1 = 0.1; S1 = 40&#39;</span><span class="p">)</span>
-
 <span class="c1"># Simulate from time zero to 40 time units</span>
 <span class="n">result</span> <span class="o">=</span> <span class="n">rr</span><span class="o">.</span><span class="n">gillespie</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">40</span><span class="p">)</span>
-
 <span class="c1"># Simulate on a grid with 10 points from start 0 to end time 40</span>
+<span class="n">rr</span><span class="o">.</span><span class="n">reset</span><span class="p">()</span>
 <span class="n">result</span> <span class="o">=</span> <span class="n">rr</span><span class="o">.</span><span class="n">gillespie</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">40</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
-
 <span class="c1"># Simulate from time zero to 40 time units using the given selection list</span>
 <span class="c1"># This means that the first column will be time and the second column species S1</span>
-<span class="n">result</span> <span class="o">=</span> <span class="n">rr</span><span class="o">.</span><span class="n">gillespie</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">40</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;time&#39;</span><span class="p">,</span> <span class="s1">&#39;S1&#39;</span><span class="p">])</span>
-
+<span class="n">rr</span><span class="o">.</span><span class="n">reset</span><span class="p">()</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">rr</span><span class="o">.</span><span class="n">gillespie</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">40</span><span class="p">,</span> <span class="n">selections</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;time&#39;</span><span class="p">,</span> <span class="s1">&#39;S1&#39;</span><span class="p">])</span>
 <span class="c1"># Simulate from time zero to 40 time units, on a grid with 20 points</span>
 <span class="c1"># using the give selection list</span>
+<span class="n">rr</span><span class="o">.</span><span class="n">reset</span><span class="p">()</span>
 <span class="n">result</span> <span class="o">=</span> <span class="n">rr</span><span class="o">.</span><span class="n">gillespie</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">40</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;time&#39;</span><span class="p">,</span> <span class="s1">&#39;S1&#39;</span><span class="p">])</span>
+<span class="n">rr</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
 </pre></div>
 </div>
 <table class="docutils field-list" frame="void" rules="none">
@@ -802,6 +1107,7 @@ current=False.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>seed</strong> (<em>int</em>) &#8211; seed for gillespie</li>
 <li><strong>args</strong> &#8211; parameters for simulate</li>
 <li><strong>kwargs</strong> &#8211; parameters for simulate</li>
 </ul>
@@ -817,19 +1123,13 @@ current=False.</p>
 <dl class="method">
 <dt id="tellurium.ExtendedRoadRunner.setSeed">
 <code class="descname">setSeed</code><span class="sig-paren">(</span><em>seed</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/tellurium.html#ExtendedRoadRunner.setSeed"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.ExtendedRoadRunner.setSeed" title="Permalink to this definition">¶</a></dt>
-<dd><p>Set seed for random number generator (used by gillespie for example).</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">rr</span><span class="o">.</span><span class="n">setSeed</span><span class="p">(</span><span class="mi">12345</span><span class="p">)</span>
-</pre></div>
-</div>
+<dd><p>Set seed in current algorithm.</p>
+<p>Raises Error if integrator does not have key &#8216;seed&#8217;.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>self</strong> &#8211; RoadRunner instance.</li>
-<li><strong>seed</strong> &#8211; seed to set</li>
-</ul>
-</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>seed</strong> &#8211; seed to set</td>
 </tr>
 </tbody>
 </table>
@@ -837,25 +1137,51 @@ current=False.</p>
 
 </dd></dl>
 
-<p><strong>Stochastic simulation</strong>:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">r</span> <span class="o">=</span> <span class="n">te</span><span class="o">.</span><span class="n">loada</span><span class="p">(</span><span class="s1">&#39;S1 -&gt; S2; k1*S1; k1 = 0.1; S1 = 40&#39;</span><span class="p">)</span>
-<span class="n">r</span><span class="o">.</span><span class="n">setSeed</span><span class="p">(</span><span class="mi">87675</span><span class="p">)</span>
-<span class="n">result</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">gillespie</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
-<span class="n">r</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+<div class="section" id="id1">
+<h3>Stochastic simulation<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">tellurium</span> <span class="kn">as</span> <span class="nn">te</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+
+<span class="n">r</span> <span class="o">=</span> <span class="n">te</span><span class="o">.</span><span class="n">loada</span><span class="p">(</span><span class="s1">&#39;S1 -&gt; S2; k1*S1; k1 = 0.1; S1 = 40&#39;</span><span class="p">)</span>
+<span class="n">r</span><span class="o">.</span><span class="n">setIntegrator</span><span class="p">(</span><span class="s1">&#39;gillespie&#39;</span><span class="p">)</span>
+
+<span class="n">results</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">50</span><span class="p">):</span>
+    <span class="n">r</span><span class="o">.</span><span class="n">reset</span><span class="p">()</span>
+    <span class="n">s</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">simulate</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">40</span><span class="p">)</span>
+    <span class="n">results</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+    <span class="n">r</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">show</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.7</span><span class="p">)</span>
 </pre></div>
 </div>
-<p><strong>Run two simulations and combine the two</strong>:</p>
-<div class="highlight-python"><div class="highlight"><pre>import numpy as np
-import tellurium as te
-
-r = te.loadSBMLModel (&#39;mymodel.xml&#39;)
-seed= r.getSeed()
-result1 = r.gillespie (0, 100)
-r.model.k1 = r.model.k1*20
-result2 = r.gillespie (100, 200)
-# Merge the two runs together
-rr.plot(np.vstack ((result1, result))
+<img alt="_images/tellurium_stochastic_2_0.png" src="_images/tellurium_stochastic_2_0.png" />
+<div class="code python highlight-python"><div class="highlight"><pre><span class="c1"># Setting the seed results in reproducible stochastic simulation</span>
+<span class="n">results</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">20</span><span class="p">):</span>
+    <span class="n">r</span><span class="o">.</span><span class="n">reset</span><span class="p">()</span>
+    <span class="n">r</span><span class="o">.</span><span class="n">setSeed</span><span class="p">(</span><span class="mi">123456</span><span class="p">)</span>
+    <span class="n">s</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">simulate</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">40</span><span class="p">)</span>
+    <span class="n">results</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+    <span class="n">r</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">show</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.7</span><span class="p">)</span>
 </pre></div>
+</div>
+<img alt="_images/tellurium_stochastic_3_0.png" src="_images/tellurium_stochastic_3_0.png" />
+</div>
+<div class="section" id="run-two-simulations-and-combine-the-two">
+<h3>Run two simulations and combine the two<a class="headerlink" href="#run-two-simulations-and-combine-the-two" title="Permalink to this headline">¶</a></h3>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">tellurium</span> <span class="kn">as</span> <span class="nn">te</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+
+<span class="n">r</span> <span class="o">=</span> <span class="n">te</span><span class="o">.</span><span class="n">loada</span><span class="p">(</span><span class="s1">&#39;S1 -&gt; S2; k1*S1; k1 = 0.02; S1 = 100&#39;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">20</span><span class="p">):</span>
+    <span class="n">r</span><span class="o">.</span><span class="n">resetToOrigin</span><span class="p">()</span>
+    <span class="n">res1</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">gillespie</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+    <span class="c1"># change in parameter after the first half of the simulation</span>
+    <span class="n">r</span><span class="o">.</span><span class="n">k1</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">k1</span><span class="o">*</span><span class="mi">20</span>
+    <span class="n">res2</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">gillespie</span> <span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">)</span>
+    <span class="n">r</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">([</span><span class="n">res1</span><span class="p">,</span> <span class="n">res2</span><span class="p">]),</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.7</span><span class="p">,</span> <span class="n">show</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="bp">None</span><span class="p">)</span>
+</pre></div>
+</div>
+<img alt="_images/tellurium_stochastic_5_0.png" src="_images/tellurium_stochastic_5_0.png" />
 </div>
 </div>
 <div class="section" id="math">
@@ -864,8 +1190,8 @@ rr.plot(np.vstack ((result1, result))
 <dl class="function">
 <dt id="tellurium.getEigenvalues">
 <code class="descclassname">tellurium.</code><code class="descname">getEigenvalues</code><span class="sig-paren">(</span><em>m</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/tellurium.html#getEigenvalues"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.getEigenvalues" title="Permalink to this definition">¶</a></dt>
-<dd><p>Eigenvalues of matrix.
-Convenience method for computing the eigenvalues of a matrix m
+<dd><p>Eigenvalues of matrix.</p>
+<p>Convenience method for computing the eigenvalues of a matrix m
 Uses numpy eig to compute the eigenvalues.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -886,16 +1212,16 @@ Uses numpy eig to compute the eigenvalues.</p>
 <dl class="function">
 <dt id="tellurium.plotArray">
 <code class="descclassname">tellurium.</code><code class="descname">plotArray</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/tellurium.html#plotArray"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.plotArray" title="Permalink to this definition">¶</a></dt>
-<dd><p>Plot an array.
-The first column of the array will
-be the x-axis and remaining columns the y-axis. Returns
+<dd><p>Plot an array.</p>
+<p>The first column of the array will be the x-axis and remaining columns the y-axis. Returns
 a handle to the plotting object. Note that you can add
-plotting options as named key values after the array. For
-example to add a legend, include the label key value:
+plotting options as named key values after the array.
+For example to add a legend, include the label key value:
 te.plotArray (m, label=&#8217;A label&#8217;) then use pylab.legend()
 to make sure the legend is shown.</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">result</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">],</span> <span class="p">[</span><span class="mf">7.2</span><span class="p">,</span><span class="mf">6.5</span><span class="p">,</span><span class="mf">8.8</span><span class="p">],</span> <span class="p">[</span><span class="mf">9.8</span><span class="p">,</span> <span class="mf">6.5</span><span class="p">,</span> <span class="mf">4.3</span><span class="p">]])</span>
-<span class="n">plotArray</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">],</span> <span class="p">[</span><span class="mf">7.2</span><span class="p">,</span><span class="mf">6.5</span><span class="p">,</span><span class="mf">8.8</span><span class="p">],</span> <span class="p">[</span><span class="mf">9.8</span><span class="p">,</span> <span class="mf">6.5</span><span class="p">,</span> <span class="mf">4.3</span><span class="p">]])</span>
+<span class="n">te</span><span class="o">.</span><span class="n">plotArray</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
 </pre></div>
 </div>
 </dd></dl>
@@ -904,13 +1230,23 @@ to make sure the legend is shown.</p>
 <dt>
 <em class="property">class </em><code class="descclassname">tellurium.</code><code class="descname">ExtendedRoadRunner</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/tellurium.html#ExtendedRoadRunner"><span class="viewcode-link">[source]</span></a></dt>
 <dd><dl class="method">
+<dt id="tellurium.ExtendedRoadRunner.draw">
+<code class="descname">draw</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/tellurium.html#ExtendedRoadRunner.draw"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.ExtendedRoadRunner.draw" title="Permalink to this definition">¶</a></dt>
+<dd><p>Draws an SBMLDiagram of the current model.
+To set the width of the output plot provide the &#8216;width&#8217; argument.
+Species are drawn as white circles (boundary species
+shaded in blue), reactions as grey squares.</p>
+</dd></dl>
+
+<dl class="method">
 <dt id="tellurium.ExtendedRoadRunner.plot">
-<code class="descname">plot</code><span class="sig-paren">(</span><em>result=None</em>, <em>loc='upper left'</em>, <em>show=True</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/tellurium.html#ExtendedRoadRunner.plot"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.ExtendedRoadRunner.plot" title="Permalink to this definition">¶</a></dt>
+<code class="descname">plot</code><span class="sig-paren">(</span><em>result=None</em>, <em>loc='upper right'</em>, <em>show=True</em>, <em>xlabel=None</em>, <em>ylabel=None</em>, <em>title=None</em>, <em>xlim=None</em>, <em>ylim=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/tellurium.html#ExtendedRoadRunner.plot"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.ExtendedRoadRunner.plot" title="Permalink to this definition">¶</a></dt>
 <dd><p>Plot data generated by a simulation.
 Plot results from a simulation carried out by the simulate or gillespie
 functions. This is a roadrunner method.
 Data is a numpy array where the first column is considered the x axis and all remaining columns the y axis.
 If no data is provided the data currently held by roadrunner generated in the last simulation is used.</p>
+<p>Curves are plotted in order of selection (columns in result)</p>
 <dl class="docutils">
 <dt>Supports all matplotlib.pyplot.plot keyword arguments, like</dt>
 <dd>color
@@ -919,7 +1255,11 @@ linewidth
 linestyle
 marker</dd>
 </dl>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">r</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">2.0</span><span class="p">,</span> <span class="n">lineStyle</span><span class="o">=</span><span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;o&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.8</span><span class="p">)</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">sbml</span> <span class="o">=</span> <span class="n">te</span><span class="o">.</span><span class="n">getTestModel</span><span class="p">(</span><span class="s1">&#39;feedback.xml&#39;</span><span class="p">)</span>
+<span class="n">r</span> <span class="o">=</span> <span class="n">te</span><span class="o">.</span><span class="n">loadSBMLModel</span><span class="p">(</span><span class="n">sbml</span><span class="p">)</span>
+<span class="n">s</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">simulate</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">201</span><span class="p">)</span>
+<span class="n">r</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="s2">&quot;upper right&quot;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">2.0</span><span class="p">,</span> <span class="n">lineStyle</span><span class="o">=</span><span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;o&#39;</span><span class="p">,</span> <span class="n">markersize</span><span class="o">=</span><span class="mf">2.0</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.8</span><span class="p">,</span>
+       <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Feedback Oscillation&quot;</span><span class="p">,</span> <span class="n">xlabel</span><span class="o">=</span><span class="s2">&quot;time&quot;</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="s2">&quot;concentration&quot;</span><span class="p">,</span> <span class="n">xlim</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">100</span><span class="p">],</span> <span class="n">ylim</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">])</span>
 </pre></div>
 </div>
 <table class="docutils field-list" frame="void" rules="none">
@@ -937,71 +1277,86 @@ marker</dd>
 </table>
 </dd></dl>
 
-<dl class="method">
-<dt id="tellurium.ExtendedRoadRunner.plotWithLegend">
-<code class="descname">plotWithLegend</code><span class="sig-paren">(</span><em>result=None</em>, <em>loc='upper left'</em>, <em>show=True</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/tellurium.html#ExtendedRoadRunner.plotWithLegend"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.ExtendedRoadRunner.plotWithLegend" title="Permalink to this definition">¶</a></dt>
-<dd><p>Plots the given results array including a legend.
-The first column of the array will be the x-axis, the remaining
-columns the y-axis. If no result array is provided the current
-simulationData is used for plotting.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>result</strong> &#8211; array to plot</li>
-<li><strong>loc</strong> &#8211; location of plot legend</li>
-<li><strong>show</strong> &#8211; show the plot</li>
-</ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">plt object</p>
-</td>
-</tr>
-</tbody>
-</table>
 </dd></dl>
 
-<dl class="method">
-<dt id="tellurium.ExtendedRoadRunner.simulateAndPlot">
-<code class="descname">simulateAndPlot</code><span class="sig-paren">(</span><em>startTime=0</em>, <em>endTime=5</em>, <em>numberOfPoints=500</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/tellurium.html#ExtendedRoadRunner.simulateAndPlot"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.ExtendedRoadRunner.simulateAndPlot" title="Permalink to this definition">¶</a></dt>
-<dd><p>Run simulation and plot the results.</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">simulateAndPlot</span> <span class="p">(</span><span class="n">rr</span><span class="p">)</span>
-<span class="n">simulateAndPlot</span> <span class="p">(</span><span class="n">rr</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+<div class="section" id="draw-diagram">
+<h3>Draw diagram<a class="headerlink" href="#draw-diagram" title="Permalink to this headline">¶</a></h3>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">tellurium</span> <span class="kn">as</span> <span class="nn">te</span>
+
+<span class="n">r</span> <span class="o">=</span> <span class="n">te</span><span class="o">.</span><span class="n">loada</span><span class="p">(</span><span class="s1">&#39;&#39;&#39;</span>
+<span class="s1">model feedback()</span>
+<span class="s1">   // Reactions:http://localhost:8888/notebooks/core/tellurium_export.ipynb#</span>
+<span class="s1">   J0: $X0 -&gt; S1; (VM1 * (X0 - S1/Keq1))/(1 + X0 + S1 +   S4^h);</span>
+<span class="s1">   J1: S1 -&gt; S2; (10 * S1 - 2 * S2) / (1 + S1 + S2);</span>
+<span class="s1">   J2: S2 -&gt; S3; (10 * S2 - 2 * S3) / (1 + S2 + S3);</span>
+<span class="s1">   J3: S3 -&gt; S4; (10 * S3 - 2 * S4) / (1 + S3 + S4);</span>
+<span class="s1">   J4: S4 -&gt; $X1; (V4 * S4) / (KS4 + S4);</span>
+
+<span class="s1">  // Species initializations:</span>
+<span class="s1">  S1 = 0; S2 = 0; S3 = 0;</span>
+<span class="s1">  S4 = 0; X0 = 10; X1 = 0;</span>
+
+<span class="s1">  // Variable initialization:</span>
+<span class="s1">  VM1 = 10; Keq1 = 10; h = 10; V4 = 2.5; KS4 = 0.5;</span>
+<span class="s1">end&#39;&#39;&#39;</span><span class="p">)</span>
+
+<span class="c1"># simulate using variable step size</span>
+<span class="n">r</span><span class="o">.</span><span class="n">integrator</span><span class="o">.</span><span class="n">setValue</span><span class="p">(</span><span class="s1">&#39;variable_step_size&#39;</span><span class="p">,</span> <span class="bp">True</span><span class="p">)</span>
+<span class="n">s</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">simulate</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">50</span><span class="p">)</span>
+<span class="c1"># draw the diagram</span>
+<span class="n">r</span><span class="o">.</span><span class="n">draw</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="mi">200</span><span class="p">)</span>
+<span class="c1"># and the plot</span>
+<span class="n">r</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Feedback Oscillations&quot;</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="s2">&quot;concentration&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.9</span><span class="p">);</span>
 </pre></div>
 </div>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>self</strong> &#8211; RoadRunner instance</li>
-<li><strong>startTime</strong> &#8211; start time of simulation</li>
-<li><strong>endTime</strong> &#8211; end time of simulation</li>
-<li><strong>numberOfPoints</strong> &#8211; number of points in simulation</li>
-</ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">simulation results</p>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
+<img alt="_images/tellurium_plotting_2_0.png" src="_images/tellurium_plotting_2_0.png" />
+<img alt="_images/tellurium_plotting_2_1.png" src="_images/tellurium_plotting_2_1.png" />
+</div>
+<div class="section" id="plotting-multiple-simulations">
+<h3>Plotting multiple simulations<a class="headerlink" href="#plotting-multiple-simulations" title="Permalink to this headline">¶</a></h3>
+<p>For plotting timecourses use the <code class="docutils literal"><span class="pre">plot</span></code> function.</p>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">tellurium</span> <span class="kn">as</span> <span class="nn">te</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pylab</span> <span class="kn">as</span> <span class="nn">plt</span>
 
-</dd></dl>
-
-<div class="highlight-python"><div class="highlight"><pre><span class="c1"># Load a model and carry out a simulation generating 100 points</span>
+<span class="c1"># Load a model and carry out a simulation generating 100 points</span>
 <span class="n">r</span> <span class="o">=</span> <span class="n">te</span><span class="o">.</span><span class="n">loada</span> <span class="p">(</span><span class="s1">&#39;S1 -&gt; S2; k1*S1; k1 = 0.1; S1 = 10&#39;</span><span class="p">)</span>
-<span class="n">result</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">simulate</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+<span class="n">r</span><span class="o">.</span><span class="n">draw</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
 
-<span class="c1"># No legend will be add to the plot, useful for plotting large</span>
+<span class="c1"># get colormap</span>
+<span class="c1"># Colormap instances are used to convert data values (floats) from the interval [0, 1]</span>
+<span class="n">cmap</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">get_cmap</span><span class="p">(</span><span class="s1">&#39;Blues&#39;</span><span class="p">)</span>
+
+<span class="c1"># The legend can be suppressed which is useful for plotting large</span>
 <span class="c1"># numbers of curves where a legend would get in the way</span>
-<span class="n">te</span><span class="o">.</span><span class="n">plotArray</span> <span class="p">(</span><span class="n">result</span><span class="p">)</span>
 
-<span class="c1"># To get a legend use the roadrunner plot command</span>
-<span class="n">r</span><span class="o">.</span><span class="n">plot</span> <span class="p">(</span><span class="n">result</span><span class="p">)</span>
+<span class="n">k1_values</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">start</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">stop</span><span class="o">=</span><span class="mf">1.5</span><span class="p">,</span> <span class="n">num</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
+<span class="n">max_k1</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">k1_values</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">k1_values</span><span class="p">):</span>
+    <span class="n">r</span><span class="o">.</span><span class="n">reset</span><span class="p">()</span>
+    <span class="n">r</span><span class="o">.</span><span class="n">k1</span> <span class="o">=</span> <span class="n">value</span>
+    <span class="n">s</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">simulate</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+
+    <span class="c1"># multiple plots, set labels, axis limits</span>
+    <span class="n">color</span> <span class="o">=</span> <span class="n">cmap</span><span class="p">((</span><span class="n">value</span><span class="o">+</span><span class="n">max_k1</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">max_k1</span><span class="p">))</span>
+    <span class="n">r</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">show</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
+           <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Parameter variation k1&quot;</span><span class="p">,</span> <span class="n">xlabel</span><span class="o">=</span><span class="s2">&quot;time&quot;</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="s2">&quot;concentration&quot;</span><span class="p">,</span>
+           <span class="n">xlim</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">31</span><span class="p">],</span> <span class="n">ylim</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mf">0.1</span><span class="p">,</span> <span class="mi">11</span><span class="p">],</span>
+           <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">2.0</span><span class="p">)</span>
+
+<span class="n">r</span><span class="o">.</span><span class="n">resetAll</span><span class="p">()</span>
+<span class="n">s</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">simulate</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+<span class="n">r</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">s</span><span class="p">);</span>
+<span class="k">print</span><span class="p">(</span><span class="s1">&#39;Reference Simulation: k1 = {}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">k1</span><span class="p">))</span>
+<span class="k">print</span><span class="p">(</span><span class="s1">&#39;Parameter variation: k1 = {}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">k1_values</span><span class="p">))</span>
 </pre></div>
+</div>
+<img alt="_images/tellurium_plotting_4_0.png" src="_images/tellurium_plotting_4_0.png" />
+<img alt="_images/tellurium_plotting_4_1.png" src="_images/tellurium_plotting_4_1.png" />
+<div class="highlight-python"><div class="highlight"><pre>Reference Simulation: k1 = 0.1
+Parameter variation: k1 = [ 0.1  0.2  0.3  0.4  0.5  0.6  0.7  0.8  0.9  1.   1.1  1.2  1.3  1.4  1.5]
+</pre></div>
+</div>
 </div>
 </div>
 <div class="section" id="model-reset">
@@ -1013,23 +1368,17 @@ simulationData is used for plotting.</p>
 <dd><dl class="method">
 <dt id="tellurium.ExtendedRoadRunner.resetAll">
 <code class="descname">resetAll</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/tellurium.html#ExtendedRoadRunner.resetAll"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.ExtendedRoadRunner.resetAll" title="Permalink to this definition">¶</a></dt>
-<dd><p>Reset all model variables to CURRENT init(X) values.
-This resets all variables, S1, S2 etc to the CURRENT init(X) values. It also resets all
+<dd><p>Reset all model variables to CURRENT init(X) values.</p>
+<p>This resets all variables, S1, S2 etc to the CURRENT init(X) values. It also resets all
 parameters back to the values they had when the model was first loaded.</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">rr</span><span class="o">.</span><span class="n">resetAll</span><span class="p">()</span>
-</pre></div>
-</div>
 </dd></dl>
 
 <dl class="method">
 <dt id="tellurium.ExtendedRoadRunner.resetToOrigin">
 <code class="descname">resetToOrigin</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/tellurium.html#ExtendedRoadRunner.resetToOrigin"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.ExtendedRoadRunner.resetToOrigin" title="Permalink to this definition">¶</a></dt>
-<dd><p>Reset model to state when first loaded.
-This resets the model back to the state when it was FIRST loaded,
+<dd><p>Reset model to state when first loaded.</p>
+<p>This resets the model back to the state when it was FIRST loaded,
 this includes all init() and parameters such as k1 etc.</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">r</span><span class="o">.</span><span class="n">resetToOrigin</span><span class="p">()</span>
-</pre></div>
-</div>
 <dl class="docutils">
 <dt>identical to:</dt>
 <dd>r.reset(roadrunner.SelectionRecord.ALL)</dd>
@@ -1038,21 +1387,58 @@ this includes all init() and parameters such as k1 etc.</p>
 
 </dd></dl>
 
-<div class="highlight-python"><div class="highlight"><pre><span class="n">r</span> <span class="o">=</span> <span class="n">te</span><span class="o">.</span><span class="n">loada</span> <span class="p">(</span><span class="s1">&#39;S1 -&gt; S2; k1*S1; k1 = 0.1; S1 = 10&#39;</span><span class="p">)</span>
-<span class="n">result</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">simulate</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
-<span class="n">p</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">S1</span> <span class="o">=</span> <span class="mf">2.0</span>
-<span class="n">result</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">simulate</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
-<span class="c1"># Reset the model back to its original state</span>
+<div class="section" id="reset-model-values">
+<h3>Reset model values<a class="headerlink" href="#reset-model-values" title="Permalink to this headline">¶</a></h3>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">tellurium</span> <span class="kn">as</span> <span class="nn">te</span>
+
+<span class="n">r</span> <span class="o">=</span> <span class="n">te</span><span class="o">.</span><span class="n">loada</span> <span class="p">(</span><span class="s1">&#39;S1 -&gt; S2; k1*S1; k1 = 0.1; S1 = 10&#39;</span><span class="p">)</span>
+<span class="n">r</span><span class="o">.</span><span class="n">integrator</span><span class="o">.</span><span class="n">setValue</span><span class="p">(</span><span class="s1">&#39;variable_step_size&#39;</span><span class="p">,</span> <span class="bp">True</span><span class="p">)</span>
+<span class="c1"># simulate model</span>
+<span class="n">sim1</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">simulate</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s1">&#39;*** sim1 ***&#39;</span><span class="p">)</span>
+<span class="n">r</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">sim1</span><span class="p">)</span>
+
+<span class="c1"># continue from end concentration of sim1</span>
+<span class="n">r</span><span class="o">.</span><span class="n">k1</span> <span class="o">=</span> <span class="mf">2.0</span>
+<span class="n">sim2</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">simulate</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s1">&#39;-- sim2 --&#39;</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s1">&#39;continue simulation from final concentrations with changed parameter&#39;</span><span class="p">)</span>
+<span class="n">r</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">sim2</span><span class="p">)</span>
+
+<span class="c1"># Reset initial concentrations, does not affect the changed parameter</span>
 <span class="n">r</span><span class="o">.</span><span class="n">reset</span><span class="p">()</span>
+<span class="n">sim3</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">simulate</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s1">&#39;-- sim3 --&#39;</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s1">&#39;reset initial concentrations but keep changed parameter&#39;</span><span class="p">)</span>
+<span class="n">r</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">sim3</span><span class="p">)</span>
+
+<span class="c1"># Reset model to the state it was loaded</span>
+<span class="n">r</span><span class="o">.</span><span class="n">resetToOrigin</span><span class="p">()</span>
+<span class="n">sim4</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">simulate</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s1">&#39;-- sim4 --&#39;</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s1">&#39;reset all to origin&#39;</span><span class="p">)</span>
+<span class="n">r</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">sim4</span><span class="p">);</span>
 </pre></div>
 </div>
-<p>If you wish to reset a model back to the state it was what it was loaded, use the resetToOrigin method</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">r</span> <span class="o">=</span> <span class="n">te</span><span class="o">.</span><span class="n">loada</span> <span class="p">(</span><span class="s1">&#39;S1 -&gt; S2; k1*S1; k1 = 0.1; S1 = 10&#39;</span><span class="p">)</span>
-<span class="n">result</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">simulate</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
-<span class="c1"># Make lots of different kinds of changes to the model</span>
-<span class="c1"># Reset the model back to the state it had when it was created</span>
-<span class="n">r</span><span class="o">.</span><span class="n">resetToOrigin</span><span class="p">()</span>
+<pre class="literal-block">
+<strong>* sim1 *</strong>
+</pre>
+<img alt="_images/tellurium_reset_2_1.png" src="_images/tellurium_reset_2_1.png" />
+<div class="highlight-python"><div class="highlight"><pre>-- sim2 --
+continue simulation from final concentrations with changed parameter
 </pre></div>
+</div>
+<img alt="_images/tellurium_reset_2_3.png" src="_images/tellurium_reset_2_3.png" />
+<div class="highlight-python"><div class="highlight"><pre>-- sim3 --
+reset initial concentrations but keep changed parameter
+</pre></div>
+</div>
+<img alt="_images/tellurium_reset_2_5.png" src="_images/tellurium_reset_2_5.png" />
+<div class="highlight-python"><div class="highlight"><pre>-- sim4 --
+reset all to origin
+</pre></div>
+</div>
+<img alt="_images/tellurium_reset_2_7.png" src="_images/tellurium_reset_2_7.png" />
 </div>
 </div>
 <div class="section" id="jarnac-short-cuts">
@@ -1072,7 +1458,7 @@ to easily try and test tellurium.</p>
 <dt id="tellurium.loadTestModel">
 <code class="descclassname">tellurium.</code><code class="descname">loadTestModel</code><span class="sig-paren">(</span><em>string</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/tellurium.html#loadTestModel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.loadTestModel" title="Permalink to this definition">¶</a></dt>
 <dd><p>Loads particular test model into roadrunner.</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">rr</span> <span class="o">=</span> <span class="n">roadrunner</span><span class="o">.</span><span class="n">loadTestModel</span><span class="p">(</span><span class="s1">&#39;feedback.xml&#39;</span><span class="p">)</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">rr</span> <span class="o">=</span> <span class="n">te</span><span class="o">.</span><span class="n">loadTestModel</span><span class="p">(</span><span class="s1">&#39;feedback.xml&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 <table class="docutils field-list" frame="void" rules="none">
@@ -1091,9 +1477,9 @@ to easily try and test tellurium.</p>
 <dd><p>SBML of given test model as a string.</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="c1"># load test model as SBML</span>
 <span class="n">sbml</span> <span class="o">=</span> <span class="n">te</span><span class="o">.</span><span class="n">getTestModel</span><span class="p">(</span><span class="s1">&#39;feedback.xml&#39;</span><span class="p">)</span>
-<span class="n">rr</span> <span class="o">=</span> <span class="n">te</span><span class="o">.</span><span class="n">loadSBMLModel</span><span class="p">(</span><span class="n">sbml</span><span class="p">)</span>
+<span class="n">r</span> <span class="o">=</span> <span class="n">te</span><span class="o">.</span><span class="n">loadSBMLModel</span><span class="p">(</span><span class="n">sbml</span><span class="p">)</span>
 <span class="c1"># simulate</span>
-<span class="n">s</span> <span class="o">=</span> <span class="n">rr</span><span class="o">.</span><span class="n">simulate</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">200</span><span class="p">)</span>
+<span class="n">r</span><span class="o">.</span><span class="n">simulate</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">20</span><span class="p">)</span>
 </pre></div>
 </div>
 <table class="docutils field-list" frame="void" rules="none">
@@ -1110,7 +1496,7 @@ to easily try and test tellurium.</p>
 <dt id="tellurium.listTestModels">
 <code class="descclassname">tellurium.</code><code class="descname">listTestModels</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/tellurium.html#listTestModels"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.listTestModels" title="Permalink to this definition">¶</a></dt>
 <dd><p>List roadrunner SBML test models.</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="k">print</span><span class="p">(</span><span class="n">roadrunner</span><span class="o">.</span><span class="n">listTestModels</span><span class="p">())</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">print</span><span class="p">(</span><span class="n">te</span><span class="o">.</span><span class="n">listTestModels</span><span class="p">())</span>
 </pre></div>
 </div>
 <table class="docutils field-list" frame="void" rules="none">
@@ -1123,26 +1509,68 @@ to easily try and test tellurium.</p>
 </table>
 </dd></dl>
 
-<div class="highlight-python"><div class="highlight"><pre><span class="c1"># To get the number of builtin models use listTestModels</span>
-<span class="k">print</span><span class="p">(</span><span class="n">roadrunner</span><span class="o">.</span><span class="n">listTestModels</span><span class="p">())</span>
-<span class="p">[</span><span class="s1">&#39;feedback.xml&#39;</span><span class="p">,</span> <span class="s1">&#39;test_1.xml&#39;</span><span class="p">]</span>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">tellurium</span> <span class="kn">as</span> <span class="nn">te</span>
+
+<span class="c1"># To get the builtin models use listTestModels</span>
+<span class="k">print</span><span class="p">(</span><span class="n">te</span><span class="o">.</span><span class="n">listTestModels</span><span class="p">())</span>
 </pre></div>
 </div>
-<p>To load one of the test models use loadTestModel:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">r</span> <span class="o">=</span> <span class="n">roadrunner</span><span class="o">.</span><span class="n">loadTestModel</span> <span class="p">(</span><span class="s1">&#39;feedback.xml&#39;</span><span class="p">)</span>
-<span class="n">result</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">simulate</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
-<span class="n">r</span><span class="o">.</span><span class="n">plot</span> <span class="p">(</span><span class="n">result</span><span class="p">)</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">[</span><span class="s1">&#39;linearPathwayOpen.xml&#39;</span><span class="p">,</span> <span class="s1">&#39;test_1.xml&#39;</span><span class="p">,</span> <span class="s1">&#39;EcoliCore.xml&#39;</span><span class="p">,</span> <span class="s1">&#39;feedback.xml&#39;</span><span class="p">,</span> <span class="s1">&#39;linearPathwayClosed.xml&#39;</span><span class="p">]</span>
 </pre></div>
 </div>
-<p>If you need to obtain the SBML for the test model, use getTestModel</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">sbmlStr</span> <span class="o">=</span> <span class="n">roadrunner</span><span class="o">.</span><span class="n">getTestModel</span><span class="p">()</span>
-<span class="n">saveToFile</span><span class="p">(</span><span class="s1">&#39;model.xml&#39;</span><span class="p">,</span> <span class="n">sbmlStr</span><span class="p">)</span>
+<div class="section" id="load-test-model">
+<h3>Load test model<a class="headerlink" href="#load-test-model" title="Permalink to this headline">¶</a></h3>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="c1"># To load one of the test models use loadTestModel:</span>
+<span class="c1"># r = te.loadTestModel(&#39;feedback.xml&#39;)</span>
+<span class="c1"># result = r.simulate (0, 10, 100)</span>
+<span class="c1"># r.plot (result)</span>
+
+<span class="c1"># If you need to obtain the SBML for the test model, use getTestModel</span>
+<span class="n">sbml</span> <span class="o">=</span> <span class="n">te</span><span class="o">.</span><span class="n">getTestModel</span><span class="p">(</span><span class="s1">&#39;feedback.xml&#39;</span><span class="p">)</span>
+
+<span class="c1"># To look at one of the test model in Antimony form:</span>
+<span class="n">ant</span> <span class="o">=</span> <span class="n">te</span><span class="o">.</span><span class="n">sbmlToAntimony</span><span class="p">(</span><span class="n">te</span><span class="o">.</span><span class="n">getTestModel</span><span class="p">(</span><span class="s1">&#39;feedback.xml&#39;</span><span class="p">))</span>
+<span class="k">print</span><span class="p">(</span><span class="n">ant</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>To look at one of the test model in Antimony form:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">antstr</span> <span class="o">=</span> <span class="n">te</span><span class="o">.</span><span class="n">sbmlToAntimony</span> <span class="p">(</span><span class="n">roadrunner</span><span class="o">.</span><span class="n">getTestModel</span> <span class="p">(</span><span class="s1">&#39;feedback.xml&#39;</span><span class="p">))</span>
-<span class="k">print</span><span class="p">(</span><span class="n">antStr</span><span class="p">)</span>
+<div class="highlight-python"><div class="highlight"><pre>// Created by libAntimony v2.8.1
+model *feedback()
+
+  // Compartments and Species:
+  compartment compartment_;
+  species S1 in compartment_, S2 in compartment_, S3 in compartment_, S4 in compartment_;
+  species $X0 in compartment_, $X1 in compartment_;
+
+  // Reactions:
+  J0: $X0 =&gt; S1; J0_VM1*(X0 - S1/J0_Keq1)/(1 + X0 + S1 + S4^J0_h);
+  J1: S1 =&gt; S2; (10*S1 - 2*S2)/(1 + S1 + S2);
+  J2: S2 =&gt; S3; (10*S2 - 2*S3)/(1 + S2 + S3);
+  J3: S3 =&gt; S4; (10*S3 - 2*S4)/(1 + S3 + S4);
+  J4: S4 =&gt; $X1; J4_V4*S4/(J4_KS4 + S4);
+
+  // Species initializations:
+  S1 = 0;
+  S2 = 0;
+  S3 = 0;
+  S4 = 0;
+  X0 = 10;
+  X1 = 0;
+
+  // Compartment initializations:
+  compartment_ = 1;
+
+  // Variable initializations:
+  J0_VM1 = 10;
+  J0_Keq1 = 10;
+  J0_h = 10;
+  J4_V4 = 2.5;
+  J4_KS4 = 0.5;
+
+  // Other declarations:
+  const compartment_, J0_VM1, J0_Keq1, J0_h, J4_V4, J4_KS4;
+end
 </pre></div>
+</div>
 </div>
 </div>
 <div class="section" id="model-methods">

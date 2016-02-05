@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Heading (Used heading 3) &mdash; tellurium 1.3.0 documentation</title>
+  <title>Test models &mdash; tellurium 1.3.0 documentation</title>
   
 
   
@@ -115,7 +115,7 @@
   <ul class="wy-breadcrumbs">
     <li><a href="../../index.html">Docs</a> &raquo;</li>
       
-    <li>Heading (Used heading 3)</li>
+    <li>Test models</li>
       <li class="wy-breadcrumbs-aside">
         
           
@@ -129,13 +129,70 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="heading-used-heading-3">
-<h1>Heading (Used heading 3)<a class="headerlink" href="#heading-used-heading-3" title="Permalink to this headline">¶</a></h1>
-<p>Description Text</p>
+  <div class="section" id="test-models">
+<h1>Test models<a class="headerlink" href="#test-models" title="Permalink to this headline">¶</a></h1>
 <div class="code python highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">tellurium</span> <span class="kn">as</span> <span class="nn">te</span>
-<span class="c1"># Example code here</span>
-<span class="c1"># ...</span>
+
+<span class="c1"># To get the builtin models use listTestModels</span>
+<span class="k">print</span><span class="p">(</span><span class="n">te</span><span class="o">.</span><span class="n">listTestModels</span><span class="p">())</span>
 </pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">[</span><span class="s1">&#39;linearPathwayOpen.xml&#39;</span><span class="p">,</span> <span class="s1">&#39;test_1.xml&#39;</span><span class="p">,</span> <span class="s1">&#39;EcoliCore.xml&#39;</span><span class="p">,</span> <span class="s1">&#39;feedback.xml&#39;</span><span class="p">,</span> <span class="s1">&#39;linearPathwayClosed.xml&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+<div class="section" id="load-test-model">
+<h2>Load test model<a class="headerlink" href="#load-test-model" title="Permalink to this headline">¶</a></h2>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="c1"># To load one of the test models use loadTestModel:</span>
+<span class="c1"># r = te.loadTestModel(&#39;feedback.xml&#39;)</span>
+<span class="c1"># result = r.simulate (0, 10, 100)</span>
+<span class="c1"># r.plot (result)</span>
+
+<span class="c1"># If you need to obtain the SBML for the test model, use getTestModel</span>
+<span class="n">sbml</span> <span class="o">=</span> <span class="n">te</span><span class="o">.</span><span class="n">getTestModel</span><span class="p">(</span><span class="s1">&#39;feedback.xml&#39;</span><span class="p">)</span>
+
+<span class="c1"># To look at one of the test model in Antimony form:</span>
+<span class="n">ant</span> <span class="o">=</span> <span class="n">te</span><span class="o">.</span><span class="n">sbmlToAntimony</span><span class="p">(</span><span class="n">te</span><span class="o">.</span><span class="n">getTestModel</span><span class="p">(</span><span class="s1">&#39;feedback.xml&#39;</span><span class="p">))</span>
+<span class="k">print</span><span class="p">(</span><span class="n">ant</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre>// Created by libAntimony v2.8.1
+model *feedback()
+
+  // Compartments and Species:
+  compartment compartment_;
+  species S1 in compartment_, S2 in compartment_, S3 in compartment_, S4 in compartment_;
+  species $X0 in compartment_, $X1 in compartment_;
+
+  // Reactions:
+  J0: $X0 =&gt; S1; J0_VM1*(X0 - S1/J0_Keq1)/(1 + X0 + S1 + S4^J0_h);
+  J1: S1 =&gt; S2; (10*S1 - 2*S2)/(1 + S1 + S2);
+  J2: S2 =&gt; S3; (10*S2 - 2*S3)/(1 + S2 + S3);
+  J3: S3 =&gt; S4; (10*S3 - 2*S4)/(1 + S3 + S4);
+  J4: S4 =&gt; $X1; J4_V4*S4/(J4_KS4 + S4);
+
+  // Species initializations:
+  S1 = 0;
+  S2 = 0;
+  S3 = 0;
+  S4 = 0;
+  X0 = 10;
+  X1 = 0;
+
+  // Compartment initializations:
+  compartment_ = 1;
+
+  // Variable initializations:
+  J0_VM1 = 10;
+  J0_Keq1 = 10;
+  J0_h = 10;
+  J4_V4 = 2.5;
+  J4_KS4 = 0.5;
+
+  // Other declarations:
+  const compartment_, J0_VM1, J0_Keq1, J0_h, J4_V4, J4_KS4;
+end
+</pre></div>
+</div>
 </div>
 </div>
 

@@ -466,6 +466,27 @@
         <span class="n">result</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">gillespie</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">40</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;time&#39;</span><span class="p">,</span> <span class="s1">&#39;S1&#39;</span><span class="p">])</span></div>
 
     <span class="c1"># ---------------------------------------------------------------------</span>
+    <span class="c1"># Testing</span>
+    <span class="c1"># ---------------------------------------------------------------------</span>
+<div class="viewcode-block" id="TelluriumTestCase.test_roadrunner_testfile"><a class="viewcode-back" href="../../../_apidoc/tellurium.tests.html#tellurium.tests.test_tellurium.TelluriumTestCase.test_roadrunner_testfile">[docs]</a>    <span class="k">def</span> <span class="nf">test_roadrunner_testfile</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># fails due to https://github.com/sys-bio/roadrunner/issues/287</span>
+        <span class="kn">import</span> <span class="nn">roadrunner</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="n">roadrunner</span><span class="o">.</span><span class="n">testing</span><span class="o">.</span><span class="n">testfiles</span><span class="o">.</span><span class="n">getRoadRunner</span><span class="p">(</span><span class="s1">&#39;feedback.xml&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertIsNotNone</span><span class="p">(</span><span class="n">r</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="TelluriumTestCase.test_listTestModels"><a class="viewcode-back" href="../../../_apidoc/tellurium.tests.html#tellurium.tests.test_tellurium.TelluriumTestCase.test_listTestModels">[docs]</a>    <span class="k">def</span> <span class="nf">test_listTestModels</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">models</span> <span class="o">=</span> <span class="n">te</span><span class="o">.</span><span class="n">listTestModels</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="s1">&#39;feedback.xml&#39;</span> <span class="ow">in</span> <span class="n">models</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="TelluriumTestCase.test_loadTestModel"><a class="viewcode-back" href="../../../_apidoc/tellurium.tests.html#tellurium.tests.test_tellurium.TelluriumTestCase.test_loadTestModel">[docs]</a>    <span class="k">def</span> <span class="nf">test_loadTestModel</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># fails due to https://github.com/sys-bio/roadrunner/issues/287</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="n">te</span><span class="o">.</span><span class="n">loadTestModel</span><span class="p">(</span><span class="s1">&#39;feedback.xml&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertIsNotNone</span><span class="p">(</span><span class="n">r</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="TelluriumTestCase.test_getTestModel"><a class="viewcode-back" href="../../../_apidoc/tellurium.tests.html#tellurium.tests.test_tellurium.TelluriumTestCase.test_getTestModel">[docs]</a>    <span class="k">def</span> <span class="nf">test_getTestModel</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">sbml</span> <span class="o">=</span> <span class="n">te</span><span class="o">.</span><span class="n">getTestModel</span><span class="p">(</span><span class="s1">&#39;feedback.xml&#39;</span><span class="p">)</span></div>
+
+    <span class="c1"># ---------------------------------------------------------------------</span>
     <span class="c1"># Roadrunner tests</span>
     <span class="c1"># ---------------------------------------------------------------------</span>
 <div class="viewcode-block" id="TelluriumTestCase.test_roadrunner"><a class="viewcode-back" href="../../../_apidoc/tellurium.tests.html#tellurium.tests.test_tellurium.TelluriumTestCase.test_roadrunner">[docs]</a>    <span class="k">def</span> <span class="nf">test_roadrunner</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>

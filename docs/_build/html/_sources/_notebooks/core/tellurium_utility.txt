@@ -21,7 +21,7 @@ Version information
     1.3.0
     --------------------------------------------------------------------------------
     tellurium : 1.3.0
-    roadrunner : 1.4.2; Compiler: gcc 4.8.4, C++ version: 199711; JIT Compiler: LLVM-3.4; Date: Feb  4 2016, 11:44:01; LibSBML Version: 5.12.0
+    roadrunner : 1.4.2; Compiler: gcc 4.8.4, C++ version: 199711; JIT Compiler: LLVM-3.4; Date: Feb  5 2016, 08:15:58; LibSBML Version: 5.12.0
     antimony : v2.8.0
     snbw_viewer : No information for sbnw viewer
     libsbml : 5.12.1
@@ -86,7 +86,14 @@ File helpers for reading and writing
 
 .. parsed-literal::
 
-    /tmp/tmp_KRHGs.xml
+    /tmp/tmpoMMl7r.xml
     
+
+
+.. parsed-literal::
+
+    /usr/local/lib/python2.7/dist-packages/ipykernel/__main__.py:8: RuntimeWarning: 'sbml2matlab' could not be imported, no support for Matlab code generation
+    /home/mkoenig/git/tellurium/tellurium/tellurium.py:606: RuntimeWarning: 'sbml2matlab' could not be imported, no support for Matlab code generation
+      saveToFile(filePath, self.getMatlab(current))
 
 

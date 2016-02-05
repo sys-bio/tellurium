@@ -55,7 +55,12 @@ Example for how to create different wave form functions in tellurium.
     Config.setValue(Config.LOADSBMLOPTIONS_CONSERVED_MOIETIES, False) 
 
 
+.. parsed-literal::
 
-.. image:: _notebooks/core/generatingDifferentWaveforms_files/generatingDifferentWaveforms_2_0.png
+    /usr/local/lib/python2.7/dist-packages/ipykernel/__main__.py:45: DeprecationWarning: 'plotWithLegend' is deprecated. Use 'plot' instead. Will be removed in tellurium v1.4
+
+
+
+.. image:: _notebooks/core/generatingDifferentWaveforms_files/generatingDifferentWaveforms_2_1.png
 
 

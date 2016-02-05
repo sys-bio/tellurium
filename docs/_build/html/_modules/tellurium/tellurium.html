@@ -154,23 +154,27 @@
 <span class="k">except</span> <span class="ne">ImportError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
     <span class="n">libsbml</span> <span class="o">=</span> <span class="bp">None</span>
     <span class="n">roadrunner</span><span class="o">.</span><span class="n">Logger</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">roadrunner</span><span class="o">.</span><span class="n">Logger</span><span class="o">.</span><span class="n">LOG_WARNING</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">))</span>
+    <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">&quot;&#39;libsbml&#39; could not be imported&quot;</span><span class="p">,</span> <span class="ne">ImportWarning</span><span class="p">,</span> <span class="n">stacklevel</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
 <span class="k">try</span><span class="p">:</span>
     <span class="kn">import</span> <span class="nn">libsedml</span>
 <span class="k">except</span> <span class="ne">ImportError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
     <span class="n">libsedml</span> <span class="o">=</span> <span class="bp">None</span>
     <span class="n">roadrunner</span><span class="o">.</span><span class="n">Logger</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">roadrunner</span><span class="o">.</span><span class="n">Logger</span><span class="o">.</span><span class="n">LOG_WARNING</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">))</span>
+    <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">&quot;&#39;libsedml&#39; could not be imported&quot;</span><span class="p">,</span> <span class="ne">ImportWarning</span><span class="p">,</span> <span class="n">stacklevel</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
 
 <span class="k">try</span><span class="p">:</span>
     <span class="kn">import</span> <span class="nn">phrasedml</span>
 <span class="k">except</span> <span class="ne">ImportError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
     <span class="n">phrasedml</span> <span class="o">=</span> <span class="bp">None</span>
     <span class="n">roadrunner</span><span class="o">.</span><span class="n">Logger</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">roadrunner</span><span class="o">.</span><span class="n">Logger</span><span class="o">.</span><span class="n">LOG_WARNING</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">))</span>
+    <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">&quot;&#39;phrasedml&#39; could not be imported&quot;</span><span class="p">,</span> <span class="ne">ImportWarning</span><span class="p">,</span> <span class="n">stacklevel</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
 
 <span class="k">try</span><span class="p">:</span>
     <span class="kn">from</span> <span class="nn">sbml2matlab</span> <span class="kn">import</span> <span class="n">sbml2matlab</span>
 <span class="k">except</span> <span class="ne">ImportError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
     <span class="n">sbml2matlab</span> <span class="o">=</span> <span class="bp">None</span>
     <span class="n">roadrunner</span><span class="o">.</span><span class="n">Logger</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">roadrunner</span><span class="o">.</span><span class="n">Logger</span><span class="o">.</span><span class="n">LOG_WARNING</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">))</span>
+    <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">&quot;&#39;sbml2matlab&#39; could not be imported&quot;</span><span class="p">,</span> <span class="ne">ImportWarning</span><span class="p">)</span>
 
 <span class="c1"># ---------------------------------------------------------------------</span>
 <span class="c1"># plot hold</span>
@@ -300,8 +304,7 @@
 
 <span class="sd">    See also: :func:`loadAntimonyModel`</span>
 <span class="sd">    ::</span>
-
-<span class="sd">        r = loada(&#39;S1 -&gt; S2; k1*S1; k1 = 0.1; S2 = 10&#39;)</span>
+<span class="sd">        r = te.loada(&#39;S1 -&gt; S2; k1*S1; k1 = 0.1; S2 = 10&#39;)</span>
 
 <span class="sd">    :param ant: Antimony model</span>
 <span class="sd">    :type ant: str | file</span>
@@ -352,8 +355,7 @@
 <span class="c1"># Interconversion Methods</span>
 <span class="c1"># ---------------------------------------------------------------------</span>
 <div class="viewcode-block" id="antimonyTosbml"><a class="viewcode-back" href="../../_apidoc/tellurium.html#tellurium.tellurium.antimonyTosbml">[docs]</a><span class="k">def</span> <span class="nf">antimonyTosbml</span><span class="p">(</span><span class="n">ant</span><span class="p">):</span>
-    <span class="kn">import</span> <span class="nn">warnings</span>
-    <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s1">&#39;Use antimonyToSBML instead, will be removed in v1.4&#39;</span><span class="p">,</span>
+    <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">&quot;&#39;antimonyTosbml&#39; is deprecated. Use &#39;antimonyToSBML&#39; instead. Will be removed in tellurium v1.4&quot;</span><span class="p">,</span>
                   <span class="ne">DeprecationWarning</span><span class="p">,</span> <span class="n">stacklevel</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">antimonyToSBML</span><span class="p">(</span><span class="n">ant</span><span class="p">)</span></div>
 
@@ -476,6 +478,7 @@
 <span class="c1"># ---------------------------------------------------------------------</span>
 <div class="viewcode-block" id="getEigenvalues"><a class="viewcode-back" href="../../tellurium_methods.html#tellurium.tellurium.getEigenvalues">[docs]</a><span class="k">def</span> <span class="nf">getEigenvalues</span><span class="p">(</span><span class="n">m</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; Eigenvalues of matrix.</span>
+
 <span class="sd">    Convenience method for computing the eigenvalues of a matrix m</span>
 <span class="sd">    Uses numpy eig to compute the eigenvalues.</span>
 
@@ -492,17 +495,18 @@
 <span class="c1"># ---------------------------------------------------------------------</span>
 <div class="viewcode-block" id="plotArray"><a class="viewcode-back" href="../../tellurium_methods.html#tellurium.tellurium.plotArray">[docs]</a><span class="k">def</span> <span class="nf">plotArray</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; Plot an array.</span>
-<span class="sd">    The first column of the array will</span>
-<span class="sd">    be the x-axis and remaining columns the y-axis. Returns</span>
+
+<span class="sd">    The first column of the array will be the x-axis and remaining columns the y-axis. Returns</span>
 <span class="sd">    a handle to the plotting object. Note that you can add</span>
-<span class="sd">    plotting options as named key values after the array. For</span>
-<span class="sd">    example to add a legend, include the label key value:</span>
+<span class="sd">    plotting options as named key values after the array.</span>
+<span class="sd">    For example to add a legend, include the label key value:</span>
 <span class="sd">    te.plotArray (m, label=&#39;A label&#39;) then use pylab.legend()</span>
 <span class="sd">    to make sure the legend is shown.</span>
 <span class="sd">    ::</span>
 
-<span class="sd">        result = numpy.array([[1,2,3], [7.2,6.5,8.8], [9.8, 6.5, 4.3]])</span>
-<span class="sd">        plotArray(result)</span>
+<span class="sd">        import numpy as np</span>
+<span class="sd">        result = np.array([[1,2,3], [7.2,6.5,8.8], [9.8, 6.5, 4.3]])</span>
+<span class="sd">        te.plotArray(result)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">global</span> <span class="n">tehold</span>
     <span class="n">p</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">][:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">][:,</span> <span class="mi">1</span><span class="p">:],</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">2.5</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
@@ -521,7 +525,7 @@
     <span class="sd">&quot;&quot;&quot;Loads particular test model into roadrunner.</span>
 <span class="sd">    ::</span>
 
-<span class="sd">        rr = roadrunner.loadTestModel(&#39;feedback.xml&#39;)</span>
+<span class="sd">        rr = te.loadTestModel(&#39;feedback.xml&#39;)</span>
 
 <span class="sd">    :returns: RoadRunner instance with test model loaded</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -534,9 +538,9 @@
 
 <span class="sd">        # load test model as SBML</span>
 <span class="sd">        sbml = te.getTestModel(&#39;feedback.xml&#39;)</span>
-<span class="sd">        rr = te.loadSBMLModel(sbml)</span>
+<span class="sd">        r = te.loadSBMLModel(sbml)</span>
 <span class="sd">        # simulate</span>
-<span class="sd">        s = rr.simulate(0, 100, 200)</span>
+<span class="sd">        r.simulate(0, 100, 20)</span>
 
 <span class="sd">    :returns: SBML string of test model</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -547,7 +551,7 @@
     <span class="sd">&quot;&quot;&quot; List roadrunner SBML test models.</span>
 <span class="sd">    ::</span>
 
-<span class="sd">        print(roadrunner.listTestModels())</span>
+<span class="sd">        print(te.listTestModels())</span>
 
 <span class="sd">    :returns: list of test model paths</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -678,7 +682,8 @@
         <span class="k">if</span> <span class="n">sbml2matlab</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">sbml2matlab</span><span class="p">(</span><span class="n">sbml</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s1">&#39;sbml2matlab could not be imported, no Matlab code generation possible&#39;</span><span class="p">,</span> <span class="ne">ImportWarning</span><span class="p">)</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">&quot;&#39;sbml2matlab&#39; could not be imported, no support for Matlab code generation&quot;</span><span class="p">,</span>
+                          <span class="ne">RuntimeWarning</span><span class="p">,</span> <span class="n">stacklevel</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
             <span class="k">return</span> <span class="s2">&quot;&quot;</span></div>
 
 <div class="viewcode-block" id="ExtendedRoadRunner.getCurrentMatlab"><a class="viewcode-back" href="../../tellurium_methods.html#tellurium.tellurium.ExtendedRoadRunner.getCurrentMatlab">[docs]</a>    <span class="k">def</span> <span class="nf">getCurrentMatlab</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -737,12 +742,10 @@
     <span class="c1"># Reset Methods</span>
     <span class="c1"># ---------------------------------------------------------------------</span>
 <div class="viewcode-block" id="ExtendedRoadRunner.resetToOrigin"><a class="viewcode-back" href="../../tellurium_methods.html#tellurium.tellurium.ExtendedRoadRunner.resetToOrigin">[docs]</a>    <span class="k">def</span> <span class="nf">resetToOrigin</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Reset model to state when first loaded.</span>
+        <span class="sd">&quot;&quot;&quot; Reset model to state when first loaded.</span>
+
 <span class="sd">        This resets the model back to the state when it was FIRST loaded,</span>
 <span class="sd">        this includes all init() and parameters such as k1 etc.</span>
-<span class="sd">        ::</span>
-
-<span class="sd">            r.resetToOrigin()</span>
 
 <span class="sd">        identical to:</span>
 <span class="sd">            r.reset(roadrunner.SelectionRecord.ALL)</span>
@@ -750,12 +753,10 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">reset</span><span class="p">(</span><span class="n">roadrunner</span><span class="o">.</span><span class="n">SelectionRecord</span><span class="o">.</span><span class="n">ALL</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="ExtendedRoadRunner.resetAll"><a class="viewcode-back" href="../../tellurium_methods.html#tellurium.tellurium.ExtendedRoadRunner.resetAll">[docs]</a>    <span class="k">def</span> <span class="nf">resetAll</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Reset all model variables to CURRENT init(X) values.</span>
+        <span class="sd">&quot;&quot;&quot; Reset all model variables to CURRENT init(X) values.</span>
+
 <span class="sd">        This resets all variables, S1, S2 etc to the CURRENT init(X) values. It also resets all</span>
 <span class="sd">        parameters back to the values they had when the model was first loaded.</span>
-<span class="sd">        ::</span>
-
-<span class="sd">            rr.resetAll()</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">reset</span><span class="p">(</span><span class="n">roadrunner</span><span class="o">.</span><span class="n">SelectionRecord</span><span class="o">.</span><span class="n">TIME</span> <span class="o">|</span>
                    <span class="n">roadrunner</span><span class="o">.</span><span class="n">SelectionRecord</span><span class="o">.</span><span class="n">RATE</span> <span class="o">|</span>
@@ -777,7 +778,6 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">getStateVectorRate</span><span class="p">()</span></div>
 
-
     <span class="c1"># def getConservedMoietyIds(self):</span>
     <span class="c1">#     warnings.warn(&#39;Use getDependentFloatingSpecies instead, will be removed in v1.4&#39;,</span>
     <span class="c1">#                   DeprecationWarning, stacklevel=2)</span>
@@ -786,12 +786,25 @@
     <span class="c1"># ---------------------------------------------------------------------</span>
     <span class="c1"># Plotting Utilities</span>
     <span class="c1"># ---------------------------------------------------------------------</span>
-<div class="viewcode-block" id="ExtendedRoadRunner.plot"><a class="viewcode-back" href="../../tellurium_methods.html#tellurium.tellurium.ExtendedRoadRunner.plot">[docs]</a>    <span class="k">def</span> <span class="nf">plot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">result</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="s1">&#39;upper left&#39;</span><span class="p">,</span> <span class="n">show</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="ExtendedRoadRunner.draw"><a class="viewcode-back" href="../../tellurium_methods.html#tellurium.tellurium.ExtendedRoadRunner.draw">[docs]</a>    <span class="k">def</span> <span class="nf">draw</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Draws an SBMLDiagram of the current model.</span>
+<span class="sd">        To set the width of the output plot provide the &#39;width&#39; argument.</span>
+<span class="sd">        Species are drawn as white circles (boundary species</span>
+<span class="sd">        shaded in blue), reactions as grey squares.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="kn">from</span> <span class="nn">visualization.SBMLDiagram</span> <span class="kn">import</span> <span class="n">SBMLDiagram</span>
+        <span class="n">diagram</span> <span class="o">=</span> <span class="n">SBMLDiagram</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">getSBML</span><span class="p">())</span>
+        <span class="n">diagram</span><span class="o">.</span><span class="n">draw</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="ExtendedRoadRunner.plot"><a class="viewcode-back" href="../../tellurium_methods.html#tellurium.tellurium.ExtendedRoadRunner.plot">[docs]</a>    <span class="k">def</span> <span class="nf">plot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">result</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="s1">&#39;upper right&#39;</span><span class="p">,</span> <span class="n">show</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+             <span class="n">xlabel</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">xlim</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">ylim</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Plot data generated by a simulation.</span>
 <span class="sd">        Plot results from a simulation carried out by the simulate or gillespie</span>
 <span class="sd">        functions. This is a roadrunner method.</span>
 <span class="sd">        Data is a numpy array where the first column is considered the x axis and all remaining columns the y axis.</span>
 <span class="sd">        If no data is provided the data currently held by roadrunner generated in the last simulation is used.</span>
+
+<span class="sd">        Curves are plotted in order of selection (columns in result)</span>
 
 <span class="sd">        Supports all matplotlib.pyplot.plot keyword arguments, like</span>
 <span class="sd">            color</span>
@@ -801,137 +814,136 @@
 <span class="sd">            marker</span>
 <span class="sd">        ::</span>
 
-<span class="sd">            r.plot(loc=None, linewidth=2.0, lineStyle=&#39;-&#39;, marker=&#39;o&#39;, color=&#39;black&#39;, alpha=0.8)</span>
+<span class="sd">            sbml = te.getTestModel(&#39;feedback.xml&#39;)</span>
+<span class="sd">            r = te.loadSBMLModel(sbml)</span>
+<span class="sd">            s = r.simulate(0, 100, 201)</span>
+<span class="sd">            r.plot(s, loc=&quot;upper right&quot;, linewidth=2.0, lineStyle=&#39;-&#39;, marker=&#39;o&#39;, markersize=2.0, alpha=0.8,</span>
+<span class="sd">                   title=&quot;Feedback Oscillation&quot;, xlabel=&quot;time&quot;, ylabel=&quot;concentration&quot;, xlim=[0,100], ylim=[-1, 4])</span>
 
 <span class="sd">        :param result: results data to plot</span>
 <span class="sd">        :param loc: location of plot legend</span>
 <span class="sd">        :param show: show the plot</span>
-
-
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">plotWithLegend</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">loc</span><span class="p">,</span> <span class="n">show</span><span class="o">=</span><span class="n">show</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
-
-<div class="viewcode-block" id="ExtendedRoadRunner.plotWithLegend"><a class="viewcode-back" href="../../tellurium_methods.html#tellurium.tellurium.ExtendedRoadRunner.plotWithLegend">[docs]</a>    <span class="k">def</span> <span class="nf">plotWithLegend</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">result</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="s1">&#39;upper left&#39;</span><span class="p">,</span> <span class="n">show</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Plots the given results array including a legend.</span>
-<span class="sd">        The first column of the array will be the x-axis, the remaining</span>
-<span class="sd">        columns the y-axis. If no result array is provided the current</span>
-<span class="sd">        simulationData is used for plotting.</span>
-
-<span class="sd">        :param result: array to plot</span>
-<span class="sd">        :param loc: location of plot legend</span>
-<span class="sd">        :param show: show the plot</span>
-<span class="sd">        :returns: plt object</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">result</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
             <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getSimulationData</span><span class="p">()</span>
 
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">has_key</span><span class="p">(</span><span class="s1">&#39;linewidth&#39;</span><span class="p">):</span>
-            <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;linewidth&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">2.5</span>
+        <span class="k">if</span> <span class="s1">&#39;linewidth&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+            <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;linewidth&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">2.0</span>
 
-        <span class="k">if</span> <span class="n">result</span><span class="o">.</span><span class="n">dtype</span><span class="o">.</span><span class="n">names</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
-            <span class="n">columns</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
-            <span class="n">legendItems</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">timeCourseSelections</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
-            <span class="k">if</span> <span class="n">columns</span><span class="o">-</span><span class="mi">1</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">legendItems</span><span class="p">):</span>
-               <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s1">&#39;Legend list must match result array&#39;</span><span class="p">)</span>
-            <span class="c1"># plot all the curves</span>
-            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">columns</span><span class="o">-</span><span class="mi">1</span><span class="p">):</span>
-                <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">result</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">result</span><span class="p">[:,</span> <span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="n">legendItems</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="c1"># result is structured array</span>
-            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">dtype</span><span class="o">.</span><span class="n">names</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s1">&#39;no columns to plot&#39;</span><span class="p">)</span>
+        <span class="c1"># get the names</span>
+        <span class="n">names</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">dtype</span><span class="o">.</span><span class="n">names</span>
+        <span class="k">if</span> <span class="n">names</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">names</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">selections</span>
 
-            <span class="c1"># FIXME: time does not have to be first selection, this untested assumption</span>
-            <span class="n">time</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">dtype</span><span class="o">.</span><span class="n">names</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-            <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">result</span><span class="o">.</span><span class="n">dtype</span><span class="o">.</span><span class="n">names</span><span class="p">[</span><span class="mi">1</span><span class="p">:]:</span>
-                <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="n">time</span><span class="p">],</span> <span class="n">result</span><span class="p">[</span><span class="n">name</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="n">name</span><span class="p">)</span>
+        <span class="c1"># make plot</span>
+        <span class="n">Ncol</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">names</span><span class="p">)</span> <span class="o">!=</span> <span class="n">Ncol</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s1">&#39;Legend names must match result array&#39;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">Ncol</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">loc</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+                <span class="c1"># no labels if no legend</span>
+                <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">result</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">result</span><span class="p">[:,</span> <span class="n">k</span><span class="p">],</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">result</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">result</span><span class="p">[:,</span> <span class="n">k</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="n">names</span><span class="p">[</span><span class="n">k</span><span class="p">],</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
+            <span class="n">cmap</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">get_cmap</span><span class="p">(</span><span class="s1">&#39;Blues&#39;</span><span class="p">)</span>
+
+        <span class="c1"># labels</span>
+        <span class="k">if</span> <span class="n">xlabel</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">xlabel</span> <span class="o">=</span> <span class="n">names</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="n">xlabel</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">ylabel</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="n">ylabel</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">title</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="n">title</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">xlim</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">(</span><span class="n">xlim</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">ylim</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="n">ylim</span><span class="p">)</span>
+
+        <span class="c1"># show legend</span>
         <span class="k">if</span> <span class="n">loc</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
             <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="n">loc</span><span class="p">)</span>
+        <span class="c1"># show plot</span>
         <span class="k">if</span> <span class="n">show</span><span class="p">:</span>
             <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
         <span class="k">return</span> <span class="n">plt</span></div>
 
-<div class="viewcode-block" id="ExtendedRoadRunner.simulateAndPlot"><a class="viewcode-back" href="../../tellurium_methods.html#tellurium.tellurium.ExtendedRoadRunner.simulateAndPlot">[docs]</a>    <span class="k">def</span> <span class="nf">simulateAndPlot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">startTime</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">endTime</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">numberOfPoints</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Run simulation and plot the results.</span>
-<span class="sd">        ::</span>
+<div class="viewcode-block" id="ExtendedRoadRunner.plotWithLegend"><a class="viewcode-back" href="../../_apidoc/tellurium.html#tellurium.tellurium.ExtendedRoadRunner.plotWithLegend">[docs]</a>    <span class="k">def</span> <span class="nf">plotWithLegend</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">result</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="s1">&#39;upper left&#39;</span><span class="p">,</span> <span class="n">show</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">&quot;&#39;plotWithLegend&#39; is deprecated. Use &#39;plot&#39; instead. Will be removed in tellurium v1.4&quot;</span><span class="p">,</span>
+                      <span class="ne">DeprecationWarning</span><span class="p">,</span> <span class="n">stacklevel</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">result</span><span class="o">=</span><span class="n">result</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="n">loc</span><span class="p">,</span> <span class="n">show</span><span class="o">=</span><span class="n">show</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
-<span class="sd">            simulateAndPlot (rr)</span>
-<span class="sd">            simulateAndPlot (rr, 0, 10, 100)</span>
+<div class="viewcode-block" id="ExtendedRoadRunner.simulateAndPlot"><a class="viewcode-back" href="../../_apidoc/tellurium.html#tellurium.tellurium.ExtendedRoadRunner.simulateAndPlot">[docs]</a>    <span class="k">def</span> <span class="nf">simulateAndPlot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">,</span> <span class="n">points</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Run simulation and plot the results.</span>
 
-<span class="sd">        :param self: RoadRunner instance</span>
-<span class="sd">        :param startTime: start time of simulation</span>
-<span class="sd">        :param endTime: end time of simulation</span>
-<span class="sd">        :param numberOfPoints: number of points in simulation</span>
+<span class="sd">        :param start: start time of simulation</span>
+<span class="sd">        :param end: end time of simulation</span>
+<span class="sd">        :param points: number of points in simulation</span>
 <span class="sd">        :returns: simulation results</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">simulate</span><span class="p">(</span><span class="n">startTime</span><span class="p">,</span> <span class="n">endTime</span><span class="p">,</span> <span class="n">numberOfPoints</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">plotWithLegend</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">result</span><span class="p">)</span>
+        <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">&quot;&#39;simulateAndPlot&#39; is deprecated. Use the &#39;simulate&#39; followed by &#39;plot&#39; instead. &quot;</span> <span class="o">+</span>
+                      <span class="s2">&quot;Will be removed in tellurium v1.4&quot;</span><span class="p">,</span>
+                      <span class="ne">DeprecationWarning</span><span class="p">,</span> <span class="n">stacklevel</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">simulate</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">,</span> <span class="n">points</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">result</span></div>
 
     <span class="c1"># ---------------------------------------------------------------------</span>
     <span class="c1"># Stochastic Simulation Methods</span>
     <span class="c1"># ---------------------------------------------------------------------</span>
 <div class="viewcode-block" id="ExtendedRoadRunner.getSeed"><a class="viewcode-back" href="../../tellurium_methods.html#tellurium.tellurium.ExtendedRoadRunner.getSeed">[docs]</a>    <span class="k">def</span> <span class="nf">getSeed</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Current seed used by the random generator of the RoadRunner instance.</span>
+        <span class="sd">&quot;&quot;&quot; Current seed used by the gillespie integrator.</span>
 
 <span class="sd">        :returns: current seed</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">intg</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getIntegrator</span><span class="p">(</span><span class="s2">&quot;gillespie&quot;</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">intg</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;model is not loaded&quot;</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">intg</span><span class="p">[</span><span class="s1">&#39;seed&#39;</span><span class="p">]</span></div>
+        <span class="n">prev</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">integrator</span><span class="o">.</span><span class="n">getName</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">setIntegrator</span><span class="p">(</span><span class="s2">&quot;gillespie&quot;</span><span class="p">)</span>
+        <span class="n">seed</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">integrator</span><span class="o">.</span><span class="n">getValue</span><span class="p">(</span><span class="s1">&#39;seed&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">setIntegrator</span><span class="p">(</span><span class="n">prev</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">seed</span></div>
 
 <div class="viewcode-block" id="ExtendedRoadRunner.setSeed"><a class="viewcode-back" href="../../tellurium_methods.html#tellurium.tellurium.ExtendedRoadRunner.setSeed">[docs]</a>    <span class="k">def</span> <span class="nf">setSeed</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">seed</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Set seed for random number generator (used by gillespie for example).</span>
-<span class="sd">        ::</span>
+        <span class="sd">&quot;&quot;&quot; Set seed in current algorithm.</span>
 
-<span class="sd">            rr.setSeed(12345)</span>
+<span class="sd">        Raises Error if integrator does not have key &#39;seed&#39;.</span>
 
-<span class="sd">        :param self: RoadRunner instance.</span>
 <span class="sd">        :param seed: seed to set</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">intg</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getIntegrator</span><span class="p">(</span><span class="s1">&#39;gillespie&#39;</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">intg</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;model is not loaded&quot;</span><span class="p">)</span>
-
         <span class="c1"># there are some issues converting big Python (greater than 4,294,967,295) integers</span>
         <span class="c1"># to C integers on 64 bit machines. If its converted to float before, works around the issue.</span>
-        <span class="n">intg</span><span class="p">[</span><span class="s1">&#39;seed&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">seed</span><span class="p">)</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">integrator</span><span class="o">.</span><span class="n">setValue</span><span class="p">(</span><span class="s1">&#39;seed&#39;</span><span class="p">,</span> <span class="nb">float</span><span class="p">(</span><span class="n">seed</span><span class="p">))</span></div>
 
 <div class="viewcode-block" id="ExtendedRoadRunner.gillespie"><a class="viewcode-back" href="../../tellurium_methods.html#tellurium.tellurium.ExtendedRoadRunner.gillespie">[docs]</a>    <span class="k">def</span> <span class="nf">gillespie</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Run a Gillespie stochastic simulation.</span>
+
+<span class="sd">        Sets the integrator to gillespie and performs simulation.</span>
 <span class="sd">        ::</span>
 
 <span class="sd">            rr = te.loada (&#39;S1 -&gt; S2; k1*S1; k1 = 0.1; S1 = 40&#39;)</span>
-
 <span class="sd">            # Simulate from time zero to 40 time units</span>
 <span class="sd">            result = rr.gillespie (0, 40)</span>
-
 <span class="sd">            # Simulate on a grid with 10 points from start 0 to end time 40</span>
+<span class="sd">            rr.reset()</span>
 <span class="sd">            result = rr.gillespie (0, 40, 10)</span>
-
 <span class="sd">            # Simulate from time zero to 40 time units using the given selection list</span>
 <span class="sd">            # This means that the first column will be time and the second column species S1</span>
-<span class="sd">            result = rr.gillespie (0, 40, [&#39;time&#39;, &#39;S1&#39;])</span>
-
+<span class="sd">            rr.reset()</span>
+<span class="sd">            result = rr.gillespie (0, 40, selections=[&#39;time&#39;, &#39;S1&#39;])</span>
 <span class="sd">            # Simulate from time zero to 40 time units, on a grid with 20 points</span>
 <span class="sd">            # using the give selection list</span>
+<span class="sd">            rr.reset()</span>
 <span class="sd">            result = rr.gillespie (0, 40, 20, [&#39;time&#39;, &#39;S1&#39;])</span>
+<span class="sd">            rr.plot(result)</span>
 
+<span class="sd">        :param seed: seed for gillespie</span>
+<span class="sd">        :type seed: int</span>
 <span class="sd">        :param args: parameters for simulate</span>
 <span class="sd">        :param kwargs: parameters for simulate</span>
 <span class="sd">        :returns: simulation results</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">integrator</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;model is not loaded&quot;</span><span class="p">)</span>
-
-        <span class="n">prev</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">integrator</span><span class="o">.</span><span class="n">getName</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">setIntegrator</span><span class="p">(</span><span class="s1">&#39;gillespie&#39;</span><span class="p">)</span>
-        <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">simulate</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">setIntegrator</span><span class="p">(</span><span class="n">prev</span><span class="p">)</span>
-
-        <span class="k">return</span> <span class="n">result</span></div></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">simulate</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div></div>
 
 <span class="c1"># ---------------------------------------------------------------</span>
 <span class="c1"># End of routines</span>
