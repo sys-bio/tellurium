@@ -52,12 +52,7 @@ Matlab, CellML, Antimony and SBML.
 .. autoclass:: tellurium.ExtendedRoadRunner
    :members: exportToSBML, exportToAntimony, exportToCellML, exportToMatlab, getAntimony, getCurrentAntimony, getCellML, getCurrentCellML, getMatlab, getCurrentMatlab
 
-::
-
-	r = te.loada('S1 -> S2; k1*S1; k1 = 0.1; S1 = 10')
-	print(r.getCurrentMatlab())
-	r.exportToMatlab("mymodel.m")
-
+.. include:: _notebooks/core/tellurium_export.rst
 
 ----------------------------------------
 Stochastic Simulation
@@ -67,25 +62,7 @@ Use these routines to carry out Gillespie style stochastic simulations.
 .. autoclass:: tellurium.ExtendedRoadRunner
    :members: getSeed, setSeed, gillespie
 
-**Stochastic simulation**::
-
-	r = te.loada('S1 -> S2; k1*S1; k1 = 0.1; S1 = 40')
-	r.setSeed(87675)
-	result = r.gillespie (0, 100)
-	r.plot(result)
-
-**Run two simulations and combine the two**::
-
-	import numpy as np
-	import tellurium as te
-
-	r = te.loadSBMLModel ('mymodel.xml')
-	seed= r.getSeed()
-	result1 = r.gillespie (0, 100)
-	r.model.k1 = r.model.k1*20
-	result2 = r.gillespie (100, 200)
-	# Merge the two runs together
-	rr.plot(np.vstack ((result1, result))
+.. include:: _notebooks/core/tellurium_stochastic.rst
 
 ----------------------------------------
 Math
@@ -101,20 +78,9 @@ Two useful plotting routines. They assume that the first column in the array is 
 
 .. autofunction:: tellurium.plotArray
 .. autoclass:: tellurium.ExtendedRoadRunner
-   :members: plot, plotWithLegend, simulateAndPlot
+   :members: draw, plot, plotWithLegend, simulateAndPlot
 
-::
-
-	# Load a model and carry out a simulation generating 100 points
-	r = te.loada ('S1 -> S2; k1*S1; k1 = 0.1; S1 = 10')
-	result = r.simulate (0, 10, 100)
-
-	# No legend will be add to the plot, useful for plotting large 
-	# numbers of curves where a legend would get in the way
-	te.plotArray (result)
-
-	# To get a legend use the roadrunner plot command
-	r.plot (result)
+.. include:: _notebooks/core/tellurium_plotting.rst
 
 ----------------------------------------
 Model Reset
