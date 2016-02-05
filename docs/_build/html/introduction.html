@@ -84,7 +84,7 @@
                 <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="">Introduction</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#simple-example">Simple Example</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#complex-example">Complex Example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#more-complex-example">More Complex Example</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
@@ -158,24 +158,34 @@
 </pre></div>
 </div>
 </div>
-<div class="section" id="complex-example">
-<h2>Complex Example<a class="headerlink" href="#complex-example" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="more-complex-example">
+<h2>More Complex Example<a class="headerlink" href="#more-complex-example" title="Permalink to this headline">¶</a></h2>
+<p>Stochastic simulation of a linear chain.</p>
 <div class="code python highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">tellurium</span> <span class="kn">as</span> <span class="nn">te</span>
 <span class="n">r</span> <span class="o">=</span> <span class="n">te</span><span class="o">.</span><span class="n">loada</span><span class="p">(</span><span class="s1">&#39;&#39;&#39;</span>
-<span class="s1">    # A dollar symbol means fix the species concentration</span>
-<span class="s1">    J1: $S1 -&gt; S2;  k1*S1;</span>
-<span class="s1">    J2: S2 -&gt; S3;  k2*S2 - k3*S3;</span>
-<span class="s1">    J3: S3 -&gt; $S4; k4*S3;</span>
+<span class="s1">    J1: S1 -&gt; S2;  k1*S1;</span>
+<span class="s1">    J2: S2 -&gt; S3; k2*S2 - k3*S3</span>
+<span class="s1">    # J2_1: S2 -&gt; S3; k2*S2</span>
+<span class="s1">    # J2_2: S3 -&gt; S2; k3*S3;</span>
+<span class="s1">    J3: S3 -&gt; S4; k4*S3;</span>
 
 <span class="s1">    k1 = 0.1; k2 = 0.5; k3 = 0.5; k4 = 0.5;</span>
-<span class="s1">    S1 = 10;</span>
+<span class="s1">    S1 = 100;</span>
 <span class="s1">&#39;&#39;&#39;</span><span class="p">)</span>
+<span class="n">r</span><span class="o">.</span><span class="n">draw</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="mi">300</span><span class="p">)</span>
+<span class="c1"># run the simulation</span>
+<span class="n">r</span><span class="o">.</span><span class="n">setIntegrator</span><span class="p">(</span><span class="s1">&#39;gillespie&#39;</span><span class="p">)</span>
+<span class="n">r</span><span class="o">.</span><span class="n">selections</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;time&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">r</span><span class="o">.</span><span class="n">getBoundarySpeciesIds</span><span class="p">()</span> <span class="o">+</span> <span class="n">r</span><span class="o">.</span><span class="n">getFloatingSpeciesIds</span><span class="p">()</span>
 
-<span class="n">result</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">simulate</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;time&#39;</span><span class="p">,</span> <span class="s1">&#39;S1&#39;</span><span class="p">,</span> <span class="s1">&#39;S2&#39;</span><span class="p">,</span> <span class="s1">&#39;S3&#39;</span><span class="p">,</span> <span class="s1">&#39;J1&#39;</span><span class="p">])</span>
-<span class="n">r</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">result</span><span class="p">);</span>
+
+<span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">10</span><span class="p">):</span>
+    <span class="n">r</span><span class="o">.</span><span class="n">resetToOrigin</span><span class="p">()</span>
+    <span class="n">s</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">simulate</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">50</span><span class="p">)</span>
+    <span class="n">r</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">show</span><span class="o">=</span><span class="bp">False</span><span class="p">);</span>
 </pre></div>
 </div>
 <img alt="_images/introduction_4_0.png" src="_images/introduction_4_0.png" />
+<img alt="_images/introduction_4_1.png" src="_images/introduction_4_1.png" />
 </div>
 </div>
 

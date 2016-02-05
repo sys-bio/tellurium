@@ -23,27 +23,41 @@ Simple Example
 
 
 
-Complex Example
-~~~~~~~~~~~~~~~
+More Complex Example
+~~~~~~~~~~~~~~~~~~~~
+
+Stochastic simulation of a linear chain.
 
 .. code:: python
 
     import tellurium as te
     r = te.loada('''
-        # A dollar symbol means fix the species concentration
-        J1: $S1 -> S2;  k1*S1; 
-        J2: S2 -> S3;  k2*S2 - k3*S3;
-        J3: S3 -> $S4; k4*S3;
+        J1: S1 -> S2;  k1*S1; 
+        J2: S2 -> S3; k2*S2 - k3*S3
+        # J2_1: S2 -> S3; k2*S2
+        # J2_2: S3 -> S2; k3*S3;
+        J3: S3 -> S4; k4*S3;
     
         k1 = 0.1; k2 = 0.5; k3 = 0.5; k4 = 0.5;
-        S1 = 10;
+        S1 = 100;
     ''')
+    r.draw(width=300)
+    # run the simulation
+    r.setIntegrator('gillespie')
+    r.selections = ['time'] + r.getBoundarySpeciesIds() + r.getFloatingSpeciesIds()
     
-    result = r.simulate (0, 10, 100, ['time', 'S1', 'S2', 'S3', 'J1'])
-    r.plot(result);
+    
+    for k in range(1,10):
+        r.resetToOrigin()
+        s = r.simulate(0, 50)
+        r.plot(s, show=False);
 
 
 
 .. image:: _notebooks/core/introduction_files/introduction_4_0.png
+
+
+
+.. image:: _notebooks/core/introduction_files/introduction_4_1.png
 
 

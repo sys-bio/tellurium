@@ -1,4 +1,4 @@
-Fre Feb  5 15:36:26 CET 2016
+Fre Feb  5 17:12:07 CET 2016
 --------------------------------------
 convert notebooks to rst
 --------------------------------------
@@ -32,7 +32,8 @@ convert notebooks to rst
 [NbConvertApp] Support files will be in introduction_files/
 [NbConvertApp] Making directory introduction_files
 [NbConvertApp] Making directory introduction_files
-[NbConvertApp] Writing 957 bytes to introduction.rst
+[NbConvertApp] Making directory introduction_files
+[NbConvertApp] Writing 1254 bytes to introduction.rst
 [NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/modelFromBioModels.ipynb to rst
 [NbConvertApp] Executing notebook with kernel: python2
 [NbConvertApp] Support files will be in modelFromBioModels_files/
@@ -60,6 +61,27 @@ convert notebooks to rst
 [NbConvertApp] Support files will be in steadystate_scan_files/
 [NbConvertApp] Making directory steadystate_scan_files
 [NbConvertApp] Writing 1843 bytes to steadystate_scan.rst
+[NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/tellurium_examples.ipynb to rst
+[NbConvertApp] Executing notebook with kernel: python2
+[NbConvertApp] Support files will be in tellurium_examples_files/
+[NbConvertApp] Making directory tellurium_examples_files
+[NbConvertApp] Making directory tellurium_examples_files
+[NbConvertApp] Making directory tellurium_examples_files
+[NbConvertApp] Making directory tellurium_examples_files
+[NbConvertApp] Making directory tellurium_examples_files
+[NbConvertApp] Making directory tellurium_examples_files
+[NbConvertApp] Making directory tellurium_examples_files
+[NbConvertApp] Making directory tellurium_examples_files
+[NbConvertApp] Making directory tellurium_examples_files
+[NbConvertApp] Making directory tellurium_examples_files
+[NbConvertApp] Making directory tellurium_examples_files
+[NbConvertApp] Making directory tellurium_examples_files
+[NbConvertApp] Making directory tellurium_examples_files
+[NbConvertApp] Making directory tellurium_examples_files
+[NbConvertApp] Making directory tellurium_examples_files
+[NbConvertApp] Making directory tellurium_examples_files
+[NbConvertApp] Making directory tellurium_examples_files
+[NbConvertApp] Writing 14299 bytes to tellurium_examples.rst
 [NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/tellurium_export.ipynb to rst
 [NbConvertApp] Executing notebook with kernel: python2
 [NbConvertApp] Writing 8270 bytes to tellurium_export.rst
@@ -118,6 +140,36 @@ convert notebooks to rst
 [NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/tesedmlExample.ipynb to rst
 [NbConvertApp] Executing notebook with kernel: python2
 [NbConvertApp] Writing 4618 bytes to tesedmlExample.rst
+[NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/widgets/widgets_lorenz.ipynb to rst
+[NbConvertApp] ERROR | Notebook JSON is invalid: {u'metadata': {}} is not valid under any of the given schemas
+
+Failed validating u'oneOf' in schema[u'properties'][u'outputs'][u'items']:
+    {u'oneOf': [{u'$ref': u'#/definitions/execute_result'},
+                {u'$ref': u'#/definitions/display_data'},
+                {u'$ref': u'#/definitions/stream'},
+                {u'$ref': u'#/definitions/error'}],
+     u'type': u'object'}
+
+On instance[u'outputs'][1]:
+    {u'metadata': {}}
+[NbConvertApp] Executing notebook with kernel: python2
+[NbConvertApp] Support files will be in widgets_lorenz_files/
+[NbConvertApp] Making directory widgets_lorenz_files
+[NbConvertApp] Making directory widgets_lorenz_files
+[NbConvertApp] Making directory widgets_lorenz_files
+[NbConvertApp] Making directory widgets_lorenz_files
+[NbConvertApp] Writing 22660 bytes to widgets_lorenz.rst
+[NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/widgets/widgets_ontology_search.ipynb to rst
+[NbConvertApp] Executing notebook with kernel: python2
+[NbConvertApp] Writing 507 bytes to widgets_ontology_search.rst
+[NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/widgets/widgets_parameter_slider.ipynb to rst
+[NbConvertApp] Executing notebook with kernel: python2
+[NbConvertApp] Support files will be in widgets_parameter_slider_files/
+[NbConvertApp] Making directory widgets_parameter_slider_files
+[NbConvertApp] Writing 764 bytes to widgets_parameter_slider.rst
+[NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/widgets/widgets_species_search.ipynb to rst
+[NbConvertApp] Executing notebook with kernel: python2
+[NbConvertApp] Writing 542 bytes to widgets_species_search.rst
 DONE
 --------------------------------------
 postprocessing rst
@@ -143,7 +195,7 @@ create python code
 [NbConvertApp] Writing 1617 bytes to generatingDifferentWaveforms.py
 [NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/introduction.ipynb to python
 [NbConvertApp] Executing notebook with kernel: python2
-[NbConvertApp] Writing 662 bytes to introduction.py
+[NbConvertApp] Writing 869 bytes to introduction.py
 [NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/modelFromBioModels.ipynb to python
 [NbConvertApp] Executing notebook with kernel: python2
 [NbConvertApp] Writing 464 bytes to modelFromBioModels.py
@@ -162,6 +214,9 @@ create python code
 [NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/steadystate_scan.ipynb to python
 [NbConvertApp] Executing notebook with kernel: python2
 [NbConvertApp] Writing 815 bytes to steadystate_scan.py
+[NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/tellurium_examples.ipynb to python
+[NbConvertApp] Executing notebook with kernel: python2
+[NbConvertApp] Writing 10889 bytes to tellurium_examples.py
 [NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/tellurium_export.ipynb to python
 [NbConvertApp] Executing notebook with kernel: python2
 [NbConvertApp] Writing 2777 bytes to tellurium_export.py

@@ -1,0 +1,702 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Tellurium Examples &mdash; tellurium 1.3.0 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="tellurium 1.3.0 documentation" href="../../index.html"/> 
+
+  
+  <script src="../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> tellurium
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.3.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../notebooks.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tellurium_methods.html">Tellurium Methods</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../_apidoc/tellurium.html">API (tellurium)</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../../index.html">tellurium</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../index.html">Docs</a> &raquo;</li>
+      
+    <li>Tellurium Examples</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../../_sources/_notebooks/core/tellurium_examples.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="tellurium-examples">
+<h1>Tellurium Examples<a class="headerlink" href="#tellurium-examples" title="Permalink to this headline">¶</a></h1>
+<p>Some tests with tellurium</p>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">tellurium</span> <span class="kn">as</span> <span class="nn">te</span>
+
+<span class="c1"># model Definition</span>
+<span class="n">r</span> <span class="o">=</span> <span class="n">te</span><span class="o">.</span><span class="n">loada</span> <span class="p">(</span><span class="s1">&#39;&#39;&#39;</span>
+<span class="s1">        #J1: S1 -&gt; S2; Activator*kcat1*S1/(Km1+S1);</span>
+<span class="s1">        J1: S1 -&gt; S2; SE2*kcat1*S1/(Km1+S1);</span>
+<span class="s1">        J2: S2 -&gt; S1; Vm2*S2/(Km2+S2);</span>
+
+<span class="s1">        J3: T1 -&gt; T2; S2*kcat3*T1/(Km3+T1);</span>
+<span class="s1">        J4: T2 -&gt; T1; Vm4*T2/(Km4+T2);</span>
+
+<span class="s1">        J5:    -&gt; E2; Vf5/(Ks5+T2^h5);</span>
+<span class="s1">        J6:    -&gt; E3; Vf6*T2^h6/(Ks6+T2^h6);</span>
+
+<span class="s1">        #J7:    -&gt; E1;</span>
+<span class="s1">        J8:    -&gt;  S; kcat8*E1</span>
+
+<span class="s1">        J9: E2 -&gt;   ; k9*E2;</span>
+<span class="s1">        J10:E3 -&gt;   ; k10*E3;</span>
+
+<span class="s1">        J11: S -&gt; SE2; E2*kcat11*S/(Km11+S);</span>
+<span class="s1">        J12: S -&gt; SE3; E3*kcat12*S/(Km12+S);</span>
+
+<span class="s1">        J13: SE2 -&gt;  ; SE2*kcat13;</span>
+<span class="s1">        J14: SE3 -&gt;  ; SE3*kcat14;</span>
+
+<span class="s1">        Km1 = 0.01; Km2 = 0.01; Km3 = 0.01; Km4 = 0.01; Km11 = 1; Km12 = 0.1;</span>
+<span class="s1">        S1 = 6; S2 =0.1; T1=6; T2 = 0.1;</span>
+<span class="s1">        SE2 = 0; SE3=0;</span>
+<span class="s1">        S=0;</span>
+<span class="s1">        E2 = 0; E3 = 0;</span>
+<span class="s1">        kcat1 = 0.1; kcat3 = 3; kcat8 =1; kcat11 = 1; kcat12 = 1; kcat13 = 0.1; kcat14=0.1;</span>
+<span class="s1">        E1 = 1;</span>
+<span class="s1">        k9 = 0.1; k10=0.1;</span>
+<span class="s1">        Vf6 = 1;</span>
+<span class="s1">        Vf5 = 3;</span>
+<span class="s1">        Vm2 = 0.1;</span>
+<span class="s1">        Vm4 = 2;</span>
+<span class="s1">        h6 = 2; h5=2;</span>
+<span class="s1">        Ks6 = 1; Ks5 = 1;</span>
+<span class="s1">        Activator = 0;</span>
+
+<span class="s1">        at (time &gt; 100): Activator = 5;</span>
+<span class="s1">&#39;&#39;&#39;</span><span class="p">)</span>
+<span class="n">r</span><span class="o">.</span><span class="n">draw</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="mi">300</span><span class="p">)</span>
+<span class="n">r</span><span class="o">.</span><span class="n">conservedMoietyAnalysis</span> <span class="o">=</span> <span class="bp">True</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">simulate</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">300</span><span class="p">,</span> <span class="mi">2000</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;time&#39;</span><span class="p">,</span> <span class="s1">&#39;J11&#39;</span><span class="p">,</span> <span class="s1">&#39;J12&#39;</span><span class="p">]);</span>
+<span class="n">r</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">result</span><span class="p">);</span>
+</pre></div>
+</div>
+<img alt="_notebooks/core/_notebooks/core/tellurium_examples_files/tellurium_examples_1_0.png" src="_notebooks/core/_notebooks/core/tellurium_examples_files/tellurium_examples_1_0.png" />
+<img alt="_notebooks/core/_notebooks/core/tellurium_examples_files/tellurium_examples_1_1.png" src="_notebooks/core/_notebooks/core/tellurium_examples_files/tellurium_examples_1_1.png" />
+<div class="code python highlight-python"><div class="highlight"><pre><span class="c1"># http://tellurium.analogmachine.org/testing/</span>
+<span class="kn">import</span> <span class="nn">tellurium</span> <span class="kn">as</span> <span class="nn">te</span>
+<span class="n">r</span> <span class="o">=</span> <span class="n">te</span><span class="o">.</span><span class="n">loada</span> <span class="p">(</span><span class="s1">&#39;&#39;&#39;</span>
+<span class="s1">model feedback()</span>
+<span class="s1">   // Reactions:</span>
+<span class="s1">   J0: $X0 -&gt; S1; (VM1 * (X0 - S1/Keq1))/(1 + X0 + S1 +   S4^h);</span>
+<span class="s1">   J1: S1 -&gt; S2; (10 * S1 - 2 * S2) / (1 + S1 + S2);</span>
+<span class="s1">   J2: S2 -&gt; S3; (10 * S2 - 2 * S3) / (1 + S2 + S3);</span>
+<span class="s1">   J3: S3 -&gt; S4; (10 * S3 - 2 * S4) / (1 + S3 + S4);</span>
+<span class="s1">   J4: S4 -&gt; $X1; (V4 * S4) / (KS4 + S4);</span>
+
+<span class="s1">  // Species initializations:</span>
+<span class="s1">  S1 = 0; S2 = 0; S3 = 0;</span>
+<span class="s1">  S4 = 0; X0 = 10; X1 = 0;</span>
+
+<span class="s1">  // Variable initialization:</span>
+<span class="s1">  VM1 = 10; Keq1 = 10; h = 10; V4 = 2.5; KS4 = 0.5;</span>
+<span class="s1">end&#39;&#39;&#39;</span><span class="p">)</span>
+
+<span class="n">r</span><span class="o">.</span><span class="n">integrator</span><span class="o">.</span><span class="n">setValue</span><span class="p">(</span><span class="s1">&#39;variable_step_size&#39;</span><span class="p">,</span> <span class="bp">True</span><span class="p">)</span>
+<span class="n">res</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">simulate</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">40</span><span class="p">)</span>
+<span class="n">r</span><span class="o">.</span><span class="n">plot</span><span class="p">();</span>
+</pre></div>
+</div>
+<img alt="_notebooks/core/_notebooks/core/tellurium_examples_files/tellurium_examples_2_0.png" src="_notebooks/core/_notebooks/core/tellurium_examples_files/tellurium_examples_2_0.png" />
+<div class="section" id="bistable">
+<h2>Bistable<a class="headerlink" href="#bistable" title="Permalink to this headline">¶</a></h2>
+<p>Example showing how to to multiple time course simulations, merging the
+data and plotting it onto one platting surface. Alternative is to use
+setHold()</p>
+<p>Model is a bistable system, simulations start with different initial
+conditions resulting in different steady states reached.</p>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">tellurium</span> <span class="kn">as</span> <span class="nn">te</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+
+<span class="n">r</span> <span class="o">=</span> <span class="n">te</span><span class="o">.</span><span class="n">loada</span> <span class="p">(</span><span class="s1">&#39;&#39;&#39;</span>
+<span class="s1">$Xo -&gt; S1; 1 + Xo*(32+(S1/0.75)^3.2)/(1 +(S1/4.3)^3.2);</span>
+<span class="s1">S1 -&gt; $X1; k1*S1;</span>
+
+<span class="s1">Xo = 0.09; X1 = 0.0;</span>
+<span class="s1">S1 = 0.5; k1 = 3.2;</span>
+<span class="s1">&#39;&#39;&#39;</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">selections</span><span class="p">)</span>
+
+<span class="n">initValue</span> <span class="o">=</span> <span class="mf">0.05</span>
+<span class="n">m</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">simulate</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="n">selections</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;time&quot;</span><span class="p">,</span> <span class="s2">&quot;S1&quot;</span><span class="p">])</span>
+
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">12</span><span class="p">):</span>
+    <span class="n">r</span><span class="o">.</span><span class="n">reset</span><span class="p">()</span>
+    <span class="n">r</span><span class="p">[</span><span class="s1">&#39;[S1]&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">initValue</span>
+    <span class="n">res</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">simulate</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="n">selections</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;S1&quot;</span><span class="p">])</span>
+    <span class="n">m</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span><span class="n">m</span><span class="p">,</span> <span class="n">res</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">initValue</span> <span class="o">+=</span> <span class="mi">1</span>
+
+<span class="n">te</span><span class="o">.</span><span class="n">plotArray</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;black&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.7</span><span class="p">);</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">[</span><span class="s1">&#39;time&#39;</span><span class="p">,</span> <span class="s1">&#39;[S1]&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+<img alt="_notebooks/core/_notebooks/core/tellurium_examples_files/tellurium_examples_4_1.png" src="_notebooks/core/_notebooks/core/tellurium_examples_files/tellurium_examples_4_1.png" />
+<div class="code python highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">tellurium</span> <span class="kn">as</span> <span class="nn">te</span>
+<span class="kn">import</span> <span class="nn">numpy</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">roadrunner</span>
+
+<span class="c1"># Example showing how to embelise a graph, change title, axes labels.</span>
+<span class="c1"># Example also uses an event to pulse S1</span>
+
+<span class="n">r</span> <span class="o">=</span> <span class="n">te</span><span class="o">.</span><span class="n">loada</span> <span class="p">(</span><span class="s1">&#39;&#39;&#39;</span>
+<span class="s1">   $Xo -&gt; S1; k1*Xo;</span>
+<span class="s1">   S1 -&gt; $X1; k2*S1;</span>
+
+<span class="s1">   k1 = 0.2; k2 = 0.4; Xo = 1; S1 = 0.5;</span>
+<span class="s1">   at (time &gt; 20): S1 = S1 + 0.35</span>
+<span class="s1">&#39;&#39;&#39;</span><span class="p">)</span>
+
+<span class="c1"># Simulate the first part up to 20 time units</span>
+<span class="n">m</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">simulate</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;time&quot;</span><span class="p">,</span> <span class="s2">&quot;S1&quot;</span><span class="p">]);</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">ylim</span> <span class="p">((</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span> <span class="p">(</span><span class="s1">&#39;Time&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span> <span class="p">(</span><span class="s1">&#39;Concentration&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span> <span class="p">(</span><span class="s1">&#39;My First Plot ($y = x^2$)&#39;</span><span class="p">)</span>
+<span class="n">r</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">m</span><span class="p">);</span>
+</pre></div>
+</div>
+<img alt="_notebooks/core/_notebooks/core/tellurium_examples_files/tellurium_examples_5_0.png" src="_notebooks/core/_notebooks/core/tellurium_examples_files/tellurium_examples_5_0.png" />
+<div class="code python highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">tellurium</span> <span class="kn">as</span> <span class="nn">te</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
+
+<span class="c1"># Example showing use of events and how to set the y axis limits</span>
+<span class="n">r</span> <span class="o">=</span> <span class="n">te</span><span class="o">.</span><span class="n">loada</span> <span class="p">(</span><span class="s1">&#39;&#39;&#39;</span>
+<span class="s1">  $Xo -&gt; S;   Xo/(km + S^h);</span>
+<span class="s1">  S -&gt; $w;  k1*S;</span>
+
+<span class="s1">     # initialize</span>
+<span class="s1">     h = 1;   # Hill coefficient</span>
+<span class="s1">     k1 = 1;  km = 0.1;</span>
+<span class="s1">     S = 1.5; Xo = 2</span>
+
+<span class="s1">     at (time &gt; 10): Xo = 5;</span>
+<span class="s1">     at (time &gt; 20): Xo = 2;</span>
+<span class="s1">&#39;&#39;&#39;</span><span class="p">)</span>
+
+<span class="n">m1</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">simulate</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">200</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;time&#39;</span><span class="p">,</span> <span class="s1">&#39;Xo&#39;</span><span class="p">,</span> <span class="s1">&#39;S&#39;</span><span class="p">])</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">ylim</span> <span class="p">((</span><span class="mi">0</span><span class="p">,</span><span class="mi">10</span><span class="p">))</span>
+<span class="n">r</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">m1</span><span class="p">);</span>
+</pre></div>
+</div>
+<img alt="_notebooks/core/_notebooks/core/tellurium_examples_files/tellurium_examples_6_0.png" src="_notebooks/core/_notebooks/core/tellurium_examples_files/tellurium_examples_6_0.png" />
+<div class="code python highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">tellurium</span> <span class="kn">as</span> <span class="nn">te</span>
+<span class="kn">import</span> <span class="nn">numpy</span>
+
+<span class="c1"># Model desribes a cascade of two genes. First gene is activated</span>
+<span class="c1"># second gene is repressed. Uses events to change the input</span>
+<span class="c1"># to the gene regulatory network</span>
+
+<span class="n">r</span> <span class="o">=</span> <span class="n">te</span><span class="o">.</span><span class="n">loada</span> <span class="p">(</span><span class="s1">&#39;&#39;&#39;</span>
+<span class="s1">    v1:  -&gt; P1; Vm1*I^4/(Km1 + I^4);</span>
+<span class="s1">    v2:  P1 -&gt; ; k1*P1;</span>
+<span class="s1">    v3:  -&gt; P2;  Vm2/(Km2 + P1^4);</span>
+<span class="s1">    v4:  P2 -&gt; ; k2*P2;</span>
+
+<span class="s1">    at (time &gt; 60): I = 10;</span>
+<span class="s1">    at (time &gt; 100): I = 0.01;</span>
+<span class="s1">    Vm1  = 5; Vm2 = 6; Km1 = 0.5; Km2 = 0.4;</span>
+<span class="s1">    k1 = 0.1; k2 = 0.1;</span>
+<span class="s1">    I = 0.01;</span>
+<span class="s1">&#39;&#39;&#39;</span><span class="p">)</span>
+
+<span class="n">result</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">simulate</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">200</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+<span class="n">r</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">result</span><span class="p">);</span>
+</pre></div>
+</div>
+<img alt="_notebooks/core/_notebooks/core/tellurium_examples_files/tellurium_examples_7_0.png" src="_notebooks/core/_notebooks/core/tellurium_examples_files/tellurium_examples_7_0.png" />
+<div class="code python highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">tellurium</span> <span class="kn">as</span> <span class="nn">te</span>
+
+<span class="c1"># Example of using antimony to create a stoichiometry matrix</span>
+<span class="n">r</span> <span class="o">=</span> <span class="n">te</span><span class="o">.</span><span class="n">loada</span><span class="p">(</span><span class="s1">&#39;&#39;&#39;</span>
+<span class="s1"> J1: -&gt; S1; v1;</span>
+<span class="s1"> J2: S1 -&gt; S2; v2;</span>
+<span class="s1"> J3: S2 -&gt; ; v3;</span>
+<span class="s1"> J4: S3 -&gt; S1; v4;</span>
+<span class="s1"> J5: S3 -&gt; S2; v5;</span>
+<span class="s1"> J6: -&gt; S3; v6;</span>
+
+<span class="s1"> v1=1; v2=1; v3=1; v4=1; v5=1; v6=1;</span>
+<span class="s1">&#39;&#39;&#39;</span><span class="p">)</span>
+
+<span class="k">print</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">getFullStoichiometryMatrix</span><span class="p">())</span>
+<span class="n">r</span><span class="o">.</span><span class="n">draw</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre>      J1, J2, J3, J4, J5, J6
+S1 [[  1, -1,  0,  1,  0,  0],
+S2  [  0,  1, -1,  0,  1,  0],
+S3  [  0,  0,  0, -1, -1,  1]]
+</pre></div>
+</div>
+<img alt="_notebooks/core/_notebooks/core/tellurium_examples_files/tellurium_examples_8_1.png" src="_notebooks/core/_notebooks/core/tellurium_examples_files/tellurium_examples_8_1.png" />
+</div>
+<div class="section" id="lorenz-attractor">
+<h2>Lorenz attractor<a class="headerlink" href="#lorenz-attractor" title="Permalink to this headline">¶</a></h2>
+<p>Example showing how to describe a model using ODES. Example implements
+the Lorenz attractor.</p>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">tellurium</span> <span class="kn">as</span> <span class="nn">te</span>
+
+<span class="n">r</span> <span class="o">=</span> <span class="n">te</span><span class="o">.</span><span class="n">loada</span> <span class="p">(</span><span class="s1">&#39;&#39;&#39;</span>
+<span class="s1">     x&#39; = sigma*(y - x);</span>
+<span class="s1">     y&#39; = x*(rho - z) - y;</span>
+<span class="s1">     z&#39; = x*y - beta*z;</span>
+
+<span class="s1">     x = 0.96259;  y = 2.07272;  z = 18.65888;</span>
+
+<span class="s1">     sigma = 10;  rho = 28; beta = 2.67;</span>
+<span class="s1">&#39;&#39;&#39;</span><span class="p">)</span>
+
+<span class="n">result</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">simulate</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">1000</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;time&#39;</span><span class="p">,</span> <span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="s1">&#39;y&#39;</span><span class="p">,</span> <span class="s1">&#39;z&#39;</span><span class="p">])</span>
+<span class="n">r</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">result</span><span class="p">);</span>
+</pre></div>
+</div>
+<img alt="_notebooks/core/_notebooks/core/tellurium_examples_files/tellurium_examples_10_0.png" src="_notebooks/core/_notebooks/core/tellurium_examples_files/tellurium_examples_10_0.png" />
+<div class="code python highlight-python"><div class="highlight"><pre><span class="c1"># Time Course Parameter Scan</span>
+<span class="c1"># Do 5 simulations on a simple model, for each simulation</span>
+<span class="c1"># a parameter, k1 is changed. The script merges the data together</span>
+<span class="c1"># and plots the merged array on to one plot. The alternative is</span>
+<span class="c1"># is to use the setHold method and to plot each graph individually.</span>
+
+<span class="kn">import</span> <span class="nn">tellurium</span> <span class="kn">as</span> <span class="nn">te</span>
+<span class="kn">import</span> <span class="nn">numpy</span>
+
+<span class="n">r</span> <span class="o">=</span> <span class="n">te</span><span class="o">.</span><span class="n">loada</span> <span class="p">(</span><span class="s1">&#39;&#39;&#39;</span>
+<span class="s1">    J1: $X0 -&gt; S1; k1*X0;</span>
+<span class="s1">    J2: S1 -&gt; $X1; k2*S1;</span>
+
+<span class="s1">    X0 = 1.0; S1 = 0.0; X1 = 0.0;</span>
+<span class="s1">    k1 = 0.4; k2 = 2.3;</span>
+<span class="s1">&#39;&#39;&#39;</span><span class="p">)</span>
+
+
+<span class="n">m</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">simulate</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;Time&quot;</span><span class="p">,</span> <span class="s2">&quot;S1&quot;</span><span class="p">])</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">4</span><span class="p">):</span>
+    <span class="n">r</span><span class="o">.</span><span class="n">k1</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">k1</span> <span class="o">+</span> <span class="mf">0.1</span>
+    <span class="n">r</span><span class="o">.</span><span class="n">reset</span><span class="p">()</span>
+    <span class="n">m</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">hstack</span><span class="p">([</span><span class="n">m</span><span class="p">,</span> <span class="n">r</span><span class="o">.</span><span class="n">simulate</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;S1&#39;</span><span class="p">])])</span>
+
+<span class="c1"># MUST use plotArray to plot merged data</span>
+<span class="n">te</span><span class="o">.</span><span class="n">plotArray</span><span class="p">(</span><span class="n">m</span><span class="p">);</span>
+</pre></div>
+</div>
+<img alt="_notebooks/core/_notebooks/core/tellurium_examples_files/tellurium_examples_11_0.png" src="_notebooks/core/_notebooks/core/tellurium_examples_files/tellurium_examples_11_0.png" />
+<div class="code python highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">tellurium</span> <span class="kn">as</span> <span class="nn">te</span>
+<span class="kn">import</span> <span class="nn">numpy</span>
+
+<span class="c1"># Example of merging multiple simulations. In between simulations</span>
+<span class="c1"># a parameter is changed.</span>
+
+<span class="n">r</span> <span class="o">=</span> <span class="n">te</span><span class="o">.</span><span class="n">loada</span> <span class="p">(</span><span class="s1">&#39;&#39;&#39;</span>
+<span class="s1">    # Model Definition</span>
+<span class="s1">    v1: $Xo -&gt; S1;  k1*Xo;</span>
+<span class="s1">    v2: S1 -&gt; $w;   k2*S1;</span>
+
+<span class="s1">    # Initialize constants</span>
+<span class="s1">    k1 = 1; k2 = 1; S1 = 15; Xo = 1;</span>
+<span class="s1">&#39;&#39;&#39;</span><span class="p">)</span>
+
+<span class="c1"># Time course simulation</span>
+<span class="n">m1</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">simulate</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;Time&quot;</span><span class="p">,</span><span class="s2">&quot;S1&quot;</span><span class="p">]);</span>
+<span class="n">r</span><span class="o">.</span><span class="n">k1</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">k1</span> <span class="o">*</span> <span class="mi">6</span><span class="p">;</span>
+<span class="n">m2</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">simulate</span> <span class="p">(</span><span class="mi">15</span><span class="p">,</span> <span class="mi">40</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;Time&quot;</span><span class="p">,</span><span class="s2">&quot;S1&quot;</span><span class="p">]);</span>
+<span class="n">r</span><span class="o">.</span><span class="n">k1</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">k1</span> <span class="o">/</span> <span class="mi">6</span><span class="p">;</span>
+<span class="n">m3</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">simulate</span> <span class="p">(</span><span class="mi">40</span><span class="p">,</span> <span class="mi">60</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;Time&quot;</span><span class="p">,</span><span class="s2">&quot;S1&quot;</span><span class="p">]);</span>
+
+<span class="n">m</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">vstack</span><span class="p">([</span><span class="n">m1</span><span class="p">,</span> <span class="n">m2</span><span class="p">,</span> <span class="n">m3</span><span class="p">])</span>
+<span class="n">r</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">m</span><span class="p">);</span>
+</pre></div>
+</div>
+<img alt="_notebooks/core/_notebooks/core/tellurium_examples_files/tellurium_examples_12_0.png" src="_notebooks/core/_notebooks/core/tellurium_examples_files/tellurium_examples_12_0.png" />
+</div>
+<div class="section" id="relaxation-oscillator">
+<h2>Relaxation oscillator<a class="headerlink" href="#relaxation-oscillator" title="Permalink to this headline">¶</a></h2>
+<p>Oscillator that uses positive and negative feedback. An example of a
+relaxation oscillator.</p>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">tellurium</span> <span class="kn">as</span> <span class="nn">te</span>
+
+<span class="n">r</span> <span class="o">=</span> <span class="n">te</span><span class="o">.</span><span class="n">loada</span> <span class="p">(</span><span class="s1">&#39;&#39;&#39;</span>
+<span class="s1">  v1: $Xo -&gt; S1; k1*Xo;</span>
+<span class="s1">  v2:  S1 -&gt; S2; k2*S1*S2^h/(10 + S2^h) + k3*S1;</span>
+<span class="s1">  v3:  S2 -&gt; $w; k4*S2;</span>
+
+<span class="s1">  # Initialize</span>
+<span class="s1">  h  = 2; # Hill coefficient</span>
+<span class="s1">  k1 = 1; k2 = 2; Xo = 1;</span>
+<span class="s1">  k3 = 0.02; k4 = 1;</span>
+<span class="s1">&#39;&#39;&#39;</span><span class="p">)</span>
+
+<span class="n">result</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">simulate</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+<span class="n">r</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">result</span><span class="p">);</span>
+</pre></div>
+</div>
+<img alt="_notebooks/core/_notebooks/core/tellurium_examples_files/tellurium_examples_14_0.png" src="_notebooks/core/_notebooks/core/tellurium_examples_files/tellurium_examples_14_0.png" />
+<div class="code python highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">tellurium</span> <span class="kn">as</span> <span class="nn">te</span>
+<span class="kn">import</span> <span class="nn">numpy</span>
+
+<span class="c1"># Negative Feedback model where we scan over the value</span>
+<span class="c1"># of the Hill coefficient.</span>
+
+<span class="n">r</span> <span class="o">=</span> <span class="n">te</span><span class="o">.</span><span class="n">loada</span> <span class="p">(</span><span class="s1">&#39;&#39;&#39;</span>
+<span class="s1">  // Reactions:</span>
+<span class="s1">  J0: $X0 =&gt; S1; (J0_VM1*(X0 - S1/J0_Keq1))/(1 + X0 + S1 + S4^J0_h);</span>
+<span class="s1">  J1: S1 =&gt; S2; (10*S1 - 2*S2)/(1 + S1 + S2);</span>
+<span class="s1">  J2: S2 =&gt; S3; (10*S2 - 2*S3)/(1 + S2 + S3);</span>
+<span class="s1">  J3: S3 =&gt; S4; (10*S3 - 2*S4)/(1 + S3 + S4);</span>
+<span class="s1">  J4: S4 =&gt; $X1; (J4_V4*S4)/(J4_KS4 + S4);</span>
+
+<span class="s1">  // Species initializations:</span>
+<span class="s1">  S1 = 0;</span>
+<span class="s1">  S2 = 0;</span>
+<span class="s1">  S3 = 0;</span>
+<span class="s1">  S4 = 0;</span>
+<span class="s1">  X0 = 10;</span>
+<span class="s1">  X1 = 0;</span>
+
+<span class="s1">  // Variable initializations:</span>
+<span class="s1">  J0_VM1 = 10;</span>
+<span class="s1">  J0_Keq1 = 10;</span>
+<span class="s1">  J0_h = 2;</span>
+<span class="s1">  J4_V4 = 2.5;</span>
+<span class="s1">  J4_KS4 = 0.5;</span>
+
+<span class="s1">  // Other declarations:</span>
+<span class="s1">  const J0_VM1, J0_Keq1, J0_h, J4_V4, J4_KS4;</span>
+<span class="s1">&#39;&#39;&#39;</span><span class="p">)</span>
+
+
+<span class="n">result</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">simulate</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span><span class="mi">200</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;time&#39;</span><span class="p">,</span> <span class="s1">&#39;S1&#39;</span><span class="p">])</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">8</span><span class="p">):</span>
+    <span class="n">r</span><span class="o">.</span><span class="n">reset</span><span class="p">()</span>
+    <span class="n">m</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">simulate</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">200</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;S1&#39;</span><span class="p">])</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">hstack</span><span class="p">([</span><span class="n">result</span><span class="p">,</span> <span class="n">m</span><span class="p">])</span>
+    <span class="n">r</span><span class="o">.</span><span class="n">J0_h</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">J0_h</span> <span class="o">+</span> <span class="mi">1</span>
+
+<span class="n">te</span><span class="o">.</span><span class="n">plotArray</span><span class="p">(</span><span class="n">result</span><span class="p">);</span>
+</pre></div>
+</div>
+<img alt="_notebooks/core/_notebooks/core/tellurium_examples_files/tellurium_examples_15_0.png" src="_notebooks/core/_notebooks/core/tellurium_examples_files/tellurium_examples_15_0.png" />
+<div class="code python highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">tellurium</span> <span class="kn">as</span> <span class="nn">te</span>
+<span class="kn">import</span> <span class="nn">numpy</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
+
+<span class="c1"># Using setHold to compare to simulaton runs. In tihs case one</span>
+<span class="c1"># simulation is a determinsitic run and the second is a stochastic</span>
+<span class="c1"># simulation.</span>
+
+<span class="n">r</span> <span class="o">=</span> <span class="n">te</span><span class="o">.</span><span class="n">loada</span> <span class="p">(</span><span class="s1">&#39;&#39;&#39;</span>
+<span class="s1">     v1: $Xo -&gt; S1;  k1*Xo;</span>
+<span class="s1">     v2: S1 -&gt; $w;   k2*S1;</span>
+
+<span class="s1">     //initialize.  Deterministic process.</span>
+<span class="s1">     k1 = 1; k2 = 1; S1 = 20; Xo = 1;</span>
+<span class="s1">&#39;&#39;&#39;</span><span class="p">)</span>
+
+<span class="n">m1</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">simulate</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">20</span><span class="p">,</span><span class="mi">100</span><span class="p">);</span>
+
+<span class="c1"># Stochastic process</span>
+<span class="n">r</span><span class="o">.</span><span class="n">resetToOrigin</span><span class="p">()</span>
+<span class="n">m2</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">gillespie</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;time&#39;</span><span class="p">,</span> <span class="s1">&#39;S1&#39;</span><span class="p">])</span>
+
+<span class="c1"># plot all the results together</span>
+<span class="n">te</span><span class="o">.</span><span class="n">setHold</span> <span class="p">(</span><span class="bp">True</span><span class="p">)</span>
+<span class="n">te</span><span class="o">.</span><span class="n">plotArray</span><span class="p">(</span><span class="n">m1</span><span class="p">)</span>
+<span class="n">te</span><span class="o">.</span><span class="n">plotArray</span><span class="p">(</span><span class="n">m2</span><span class="p">);</span>
+</pre></div>
+</div>
+<img alt="_notebooks/core/_notebooks/core/tellurium_examples_files/tellurium_examples_16_0.png" src="_notebooks/core/_notebooks/core/tellurium_examples_files/tellurium_examples_16_0.png" />
+<div class="code python highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">tellurium</span> <span class="kn">as</span> <span class="nn">te</span>
+<span class="kn">import</span> <span class="nn">numpy</span>
+
+<span class="c1"># Example that show how to inject a sinusoidal into the model</span>
+<span class="c1"># and use events to switch it off and on</span>
+
+<span class="n">r</span> <span class="o">=</span> <span class="n">te</span><span class="o">.</span><span class="n">loada</span> <span class="p">(</span><span class="s1">&#39;&#39;&#39;</span>
+<span class="s1">    # Inject sin wave into model</span>
+<span class="s1">    Xo := sin (time*0.5)*switch + 2;</span>
+
+<span class="s1">    # Model Definition</span>
+<span class="s1">    v1: $Xo -&gt; S1;  k1*Xo;</span>
+<span class="s1">    v2: S1 -&gt; S2;   k2*S1;</span>
+<span class="s1">    v3: S2 -&gt; $X1;  k3*S2;</span>
+
+<span class="s1">    at (time &gt; 40): switch = 1;</span>
+<span class="s1">    at (time &gt; 80): switch = 0.5;</span>
+
+<span class="s1">    # Initialize constants</span>
+<span class="s1">    k1 = 1; k2 = 1; k3 = 3; S1 = 3;</span>
+<span class="s1">    S2 = 0;</span>
+<span class="s1">    switch = 0;</span>
+<span class="s1">&#39;&#39;&#39;</span><span class="p">)</span>
+
+<span class="n">result</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">simulate</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">200</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;time&#39;</span><span class="p">,</span> <span class="s1">&#39;S1&#39;</span><span class="p">,</span> <span class="s1">&#39;S2&#39;</span><span class="p">])</span>
+<span class="n">r</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">result</span><span class="p">);</span>
+</pre></div>
+</div>
+<img alt="_notebooks/core/_notebooks/core/tellurium_examples_files/tellurium_examples_17_0.png" src="_notebooks/core/_notebooks/core/tellurium_examples_files/tellurium_examples_17_0.png" />
+<div class="code python highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">tellurium</span> <span class="kn">as</span> <span class="nn">te</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+
+<span class="c1"># Simple protein phosphorylation cycle. Steady state concentation</span>
+<span class="c1"># of the phosphorylated protein is plotted as a funtion of the cycle</span>
+<span class="c1"># kinase. In addition, the plot is repeated for various values of Km.</span>
+
+<span class="n">r</span> <span class="o">=</span> <span class="n">te</span><span class="o">.</span><span class="n">loada</span> <span class="p">(</span><span class="s1">&#39;&#39;&#39;</span>
+<span class="s1">   S1 -&gt; S2; k1*S1/(Km1 + S1);</span>
+<span class="s1">   S2 -&gt; S1; k2*S2/(Km2 + S2);</span>
+
+<span class="s1">   k1 = 0.1; k2 = 0.4; S1 = 10; S2 = 0;</span>
+<span class="s1">   Km1 = 0.1; Km2 = 0.1;</span>
+<span class="s1">&#39;&#39;&#39;</span><span class="p">)</span>
+
+<span class="n">r</span><span class="o">.</span><span class="n">conservedMoietyAnalysis</span> <span class="o">=</span> <span class="bp">True</span>
+
+<span class="n">te</span><span class="o">.</span><span class="n">setHold</span> <span class="p">(</span><span class="bp">True</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">8</span><span class="p">):</span>
+  <span class="n">numbers</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span> <span class="p">(</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">1.2</span><span class="p">,</span> <span class="mi">200</span><span class="p">)</span>
+  <span class="n">result</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span> <span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">])</span>
+  <span class="k">for</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">numbers</span><span class="p">:</span>
+      <span class="n">r</span><span class="o">.</span><span class="n">k1</span> <span class="o">=</span> <span class="n">value</span>
+      <span class="n">r</span><span class="o">.</span><span class="n">steadyState</span><span class="p">()</span>
+      <span class="n">row</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span> <span class="p">([</span><span class="n">value</span><span class="p">,</span> <span class="n">r</span><span class="o">.</span><span class="n">S2</span><span class="p">])</span>
+      <span class="n">result</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span> <span class="p">((</span><span class="n">result</span><span class="p">,</span> <span class="n">row</span><span class="p">))</span>
+  <span class="n">te</span><span class="o">.</span><span class="n">plotArray</span> <span class="p">(</span><span class="n">result</span><span class="p">)</span>
+  <span class="n">r</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">k1</span> <span class="o">=</span> <span class="mf">0.1</span>
+  <span class="n">r</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">Km1</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">Km1</span> <span class="o">+</span> <span class="mf">0.5</span><span class="p">;</span>
+  <span class="n">r</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">Km2</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">Km2</span> <span class="o">+</span> <span class="mf">0.5</span><span class="p">;</span>
+</pre></div>
+</div>
+<img alt="_notebooks/core/_notebooks/core/tellurium_examples_files/tellurium_examples_18_0.png" src="_notebooks/core/_notebooks/core/tellurium_examples_files/tellurium_examples_18_0.png" />
+<div class="code python highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">roadrunner</span>
+<span class="kn">from</span> <span class="nn">roadrunner</span> <span class="kn">import</span> <span class="n">SelectionRecord</span>
+<span class="kn">from</span> <span class="nn">roadrunner</span> <span class="kn">import</span> <span class="n">Config</span><span class="p">,</span> <span class="n">SelectionRecord</span><span class="p">,</span> <span class="n">Logger</span>
+
+<span class="c1">#Logger.setLevel(Logger.LOG_DEBUG)</span>
+
+<span class="kn">import</span> <span class="nn">tellurium</span> <span class="kn">as</span> <span class="nn">te</span>
+
+<span class="n">m</span> <span class="o">=</span> <span class="n">te</span><span class="o">.</span><span class="n">loada</span><span class="p">(</span><span class="s1">&#39;&#39;&#39;</span>
+<span class="s1">var species x in c, y in c, z in c</span>
+<span class="s1">compartment c = 1.0</span>
+
+<span class="s1">x -&gt; y ; k*x</span>
+<span class="s1">y -&gt; z; 1</span>
+
+<span class="s1">x = 10</span>
+<span class="s1">y = 0</span>
+<span class="s1">z = 0</span>
+
+<span class="s1">k = 0.2</span>
+
+
+<span class="s1">&#39;&#39;&#39;</span><span class="p">)</span>
+<span class="c1">#at time&gt;5: c=2.0</span>
+
+<span class="n">r</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="n">simulate</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="mi">100</span><span class="p">,[</span><span class="s1">&#39;time&#39;</span><span class="p">,</span><span class="s1">&#39;[x]&#39;</span><span class="p">,</span><span class="s1">&#39;[y]&#39;</span><span class="p">,</span><span class="s1">&#39;[z]&#39;</span><span class="p">])</span>
+<span class="c1"># print(r)</span>
+<span class="n">m</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+
+<span class="k">print</span><span class="p">(</span><span class="s1">&#39;[x] at final timepoint: {}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">getValue</span><span class="p">(</span><span class="s1">&#39;[x]&#39;</span><span class="p">)))</span>
+<span class="n">m</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">setValue</span><span class="p">(</span><span class="s1">&#39;c&#39;</span><span class="p">,</span> <span class="mf">2.</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s1">&#39;[x] after vol change: {}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">getValue</span><span class="p">(</span><span class="s1">&#39;[x]&#39;</span><span class="p">)))</span>
+<span class="k">print</span><span class="p">(</span><span class="s1">&#39;c after vol change: {}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">getValue</span><span class="p">(</span><span class="s1">&#39;c&#39;</span><span class="p">)))</span>
+<span class="n">m</span><span class="o">.</span><span class="n">reset</span><span class="p">(</span><span class="n">SelectionRecord</span><span class="o">.</span><span class="n">INITIAL_FLOATING_CONCENTRATION</span><span class="p">)</span>
+
+<span class="k">print</span><span class="p">(</span><span class="s1">&#39;[x] after floating conc reset: {}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">getValue</span><span class="p">(</span><span class="s1">&#39;[x]&#39;</span><span class="p">)))</span>
+<span class="k">print</span><span class="p">(</span><span class="s1">&#39;x after floating conc reset: {}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">getValue</span><span class="p">(</span><span class="s1">&#39;x&#39;</span><span class="p">)))</span>
+
+<span class="n">m</span><span class="o">.</span><span class="n">reset</span><span class="p">(</span><span class="n">SelectionRecord</span><span class="o">.</span><span class="n">INITIAL_FLOATING_AMOUNT</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s1">&#39;[x] after floating amount reset: {}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">getValue</span><span class="p">(</span><span class="s1">&#39;[x]&#39;</span><span class="p">)))</span>
+<span class="k">print</span><span class="p">(</span><span class="s1">&#39;x after floating amount reset: {}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">getValue</span><span class="p">(</span><span class="s1">&#39;x&#39;</span><span class="p">)))</span>
+</pre></div>
+</div>
+<img alt="_notebooks/core/_notebooks/core/tellurium_examples_files/tellurium_examples_19_0.png" src="_notebooks/core/_notebooks/core/tellurium_examples_files/tellurium_examples_19_0.png" />
+<div class="highlight-python"><div class="highlight"><pre>[x] at final timepoint: 1.35331946673
+[x] after vol change: 0.676659733363
+c after vol change: 2.0
+[x] after floating conc reset: 10.0
+x after floating conc reset: 20.0
+[x] after floating amount reset: 5.0
+x after floating amount reset: 10.0
+</pre></div>
+</div>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016, sys-bio.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../',
+            VERSION:'1.3.0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>
