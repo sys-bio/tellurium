@@ -7,12 +7,12 @@ and generates executable python code.
 
     # execute example sedml
     import tellurium.tesedml as s2p
-    ret = s2p.sedml_to_python('example.sedml')
+    ret = s2p.sedmlToPython('example.sedml')
     exec ret
 
     # execute sedml archive (sedx)
     import SedmlToRr as s2p
-    ret = s2p.sedml_to_python("example.sedx")
+    ret = s2p.sedmlToPython("example.sedx")
     exec ret
 
 

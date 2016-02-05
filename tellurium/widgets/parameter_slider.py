@@ -11,15 +11,15 @@ import tellurium as te
 from roadrunner import SelectionRecord
 
 
-def simulateAndPlot(r, *args, **kwargs):
+def simulateAndPlot(r, **kwargs):
     """ Simulate with r.simulate with given arguments and plot with tellurium.
 
     :returns: simulation result
     :rtype: NamedArray
     """
-    result = r.simulate(*args, **kwargs)
-    te.plotWithLegend(r, result)
-    return result
+    s = r.simulate(**kwargs)
+    r.plot(s)
+    return s
 
 
 class ParameterSlider(object):
@@ -50,7 +50,7 @@ class ParameterSlider(object):
                   end
             '''
             r = te.loadAntimonyModel(model)
-            ParameterSlider(r, paramIds=['k1'])
+            ParameterSlider(r)
 
         :param r: roadrunner model
         :type r: roadrunner.RoadRunner
@@ -75,7 +75,7 @@ class ParameterSlider(object):
 
         kwargs = {}
 
-        def runSimulation(start=0, stop=100, steps=100, **kwargs):
+        def runSimulation(start=0, end=100, steps=100, **kwargs):
             """ Function run in interact. """
             # full model reset
             r.reset(SelectionRecord.ALL)
@@ -90,7 +90,7 @@ class ParameterSlider(object):
                     warnings.warn(e)
             # simulate
             try:
-                results = simulateAndPlot(r, start, stop, steps=steps)
+                results = simulateAndPlot(r, start=start, end=end, steps=steps)
             except:
                 # error in simulation
                 e = sys.exc_info()
@@ -113,6 +113,6 @@ class ParameterSlider(object):
         # create the widget
         ipywidgets.interact(runSimulation,
                             start=ipywidgets.FloatText(min=0, value=0),
-                            stop=ipywidgets.FloatText(min=0, value=100),
+                            end=ipywidgets.FloatText(min=0, value=100),
                             steps=ipywidgets.IntText(min=0, value=100),
                             **kwargs)

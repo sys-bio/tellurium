@@ -1,8 +1,5 @@
 """
 Utilities for working with combine archives.
-
-@author: J Kyle Medley
-@date: 09/04/2015
 """
 from __future__ import print_function, division
 

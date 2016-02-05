@@ -171,8 +171,7 @@ def loada(ant):
 
     See also: :func:`loadAntimonyModel`
     ::
-
-        r = loada('S1 -> S2; k1*S1; k1 = 0.1; S2 = 10')
+        r = te.loada('S1 -> S2; k1*S1; k1 = 0.1; S2 = 10')
 
     :param ant: Antimony model
     :type ant: str | file
@@ -346,6 +345,7 @@ def experiment(ant, phrasedml):
 # ---------------------------------------------------------------------
 def getEigenvalues(m):
     """ Eigenvalues of matrix.
+
     Convenience method for computing the eigenvalues of a matrix m
     Uses numpy eig to compute the eigenvalues.
 
@@ -362,17 +362,18 @@ def getEigenvalues(m):
 # ---------------------------------------------------------------------
 def plotArray(*args, **kwargs):
     """ Plot an array.
-    The first column of the array will
-    be the x-axis and remaining columns the y-axis. Returns
+
+    The first column of the array will be the x-axis and remaining columns the y-axis. Returns
     a handle to the plotting object. Note that you can add
-    plotting options as named key values after the array. For
-    example to add a legend, include the label key value:
+    plotting options as named key values after the array.
+    For example to add a legend, include the label key value:
     te.plotArray (m, label='A label') then use pylab.legend()
     to make sure the legend is shown.
     ::
 
-        result = numpy.array([[1,2,3], [7.2,6.5,8.8], [9.8, 6.5, 4.3]])
-        plotArray(result)
+        import numpy as np
+        result = np.array([[1,2,3], [7.2,6.5,8.8], [9.8, 6.5, 4.3]])
+        te.plotArray(result)
     """
     global tehold
     p = plt.plot(args[0][:, 0], args[0][:, 1:], linewidth=2.5, **kwargs)
@@ -391,7 +392,7 @@ def loadTestModel(string):
     """Loads particular test model into roadrunner.
     ::
 
-        rr = roadrunner.loadTestModel('feedback.xml')
+        rr = te.loadTestModel('feedback.xml')
 
     :returns: RoadRunner instance with test model loaded
     """
@@ -404,9 +405,9 @@ def getTestModel(string):
 
         # load test model as SBML
         sbml = te.getTestModel('feedback.xml')
-        rr = te.loadSBMLModel(sbml)
+        r = te.loadSBMLModel(sbml)
         # simulate
-        s = rr.simulate(0, 100, 200)
+        r.simulate(0, 100, 20)
 
     :returns: SBML string of test model
     """
@@ -417,7 +418,7 @@ def listTestModels():
     """ List roadrunner SBML test models.
     ::
 
-        print(roadrunner.listTestModels())
+        print(te.listTestModels())
 
     :returns: list of test model paths
     """
@@ -608,12 +609,10 @@ class ExtendedRoadRunner(roadrunner.RoadRunner):
     # Reset Methods
     # ---------------------------------------------------------------------
     def resetToOrigin(self):
-        """Reset model to state when first loaded.
+        """ Reset model to state when first loaded.
+
         This resets the model back to the state when it was FIRST loaded,
         this includes all init() and parameters such as k1 etc.
-        ::
-
-            r.resetToOrigin()
 
         identical to:
             r.reset(roadrunner.SelectionRecord.ALL)
@@ -621,12 +620,10 @@ class ExtendedRoadRunner(roadrunner.RoadRunner):
         self.reset(roadrunner.SelectionRecord.ALL)
 
     def resetAll(self):
-        """Reset all model variables to CURRENT init(X) values.
+        """ Reset all model variables to CURRENT init(X) values.
+
         This resets all variables, S1, S2 etc to the CURRENT init(X) values. It also resets all
         parameters back to the values they had when the model was first loaded.
-        ::
-
-            rr.resetAll()
         """
         self.reset(roadrunner.SelectionRecord.TIME |
                    roadrunner.SelectionRecord.RATE |
@@ -684,7 +681,11 @@ class ExtendedRoadRunner(roadrunner.RoadRunner):
             marker
         ::
 
-            r.plot(loc=None, linewidth=2.0, lineStyle='-', marker='o', color='black', alpha=0.8)
+            sbml = te.getTestModel('feedback.xml')
+            r = te.loadSBMLModel(sbml)
+            s = r.simulate(0, 100, 201)
+            r.plot(s, loc="upper right", linewidth=2.0, lineStyle='-', marker='o', markersize=2.0, alpha=0.8,
+                   title="Feedback Oscillation", xlabel="time", ylabel="concentration", xlim=[0,100], ylim=[-1, 4])
 
         :param result: results data to plot
         :param loc: location of plot legend
@@ -771,10 +772,8 @@ class ExtendedRoadRunner(roadrunner.RoadRunner):
 
     def setSeed(self, seed):
         """ Set seed in current algorithm.
-        Raises Error if integrator does not have key 'seed'.
-        ::
 
-            rr.setSeed(12345)
+        Raises Error if integrator does not have key 'seed'.
 
         :param seed: seed to set
         """
@@ -784,24 +783,25 @@ class ExtendedRoadRunner(roadrunner.RoadRunner):
 
     def gillespie(self, *args, **kwargs):
         """ Run a Gillespie stochastic simulation.
-        Sets the integrator to gillespi and performs simulation.
+
+        Sets the integrator to gillespie and performs simulation.
         ::
 
             rr = te.loada ('S1 -> S2; k1*S1; k1 = 0.1; S1 = 40')
-
             # Simulate from time zero to 40 time units
             result = rr.gillespie (0, 40)
-
             # Simulate on a grid with 10 points from start 0 to end time 40
+            rr.reset()
             result = rr.gillespie (0, 40, 10)
-
             # Simulate from time zero to 40 time units using the given selection list
             # This means that the first column will be time and the second column species S1
-            result = rr.gillespie (0, 40, ['time', 'S1'])
-
+            rr.reset()
+            result = rr.gillespie (0, 40, selections=['time', 'S1'])
             # Simulate from time zero to 40 time units, on a grid with 20 points
             # using the give selection list
+            rr.reset()
             result = rr.gillespie (0, 40, 20, ['time', 'S1'])
+            rr.plot(result)
 
         :param seed: seed for gillespie
         :type seed: int

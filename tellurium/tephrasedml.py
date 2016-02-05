@@ -1,8 +1,6 @@
 # -*- coding: utf-8 -*-
 """
 SEDML support for phrasedml.
-
-@author: Kiri Choi
 """
 
 # FIXME: the following should be instance variables (or singleton class)
