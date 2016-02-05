@@ -1,0 +1,368 @@
+[1m[33mWarning: No module named sbml2matlab[0m
+../usr/local/lib/python2.7/dist-packages/matplotlib/figure.py:397: UserWarning: matplotlib is currently using a non-GUI backend, so cannot show the figure
+  "matplotlib is currently using a non-GUI backend, "
+..[34mNotice: performing conserved moiety conversion[0m
+.[34mNotice: creating runge-kutta integrator[0m
+..[34mNotice: performing conserved moiety conversion[0m
+[1m[33mWarning: species 'S1' has neither initial amount nor concentration set.  Setting initial concentration to 0.0[0m
+[1m[33mWarning: species 'S2' has neither initial amount nor concentration set.  Setting initial concentration to 0.0[0m
+[1m[33mWarning: species 'Xo' has neither initial amount nor concentration set.  Setting initial concentration to 0.0[0m
+[1m[33mWarning: species 'X1' has neither initial amount nor concentration set.  Setting initial concentration to 0.0[0m
+..[1m[33mWarning: species 'S2' has neither initial amount nor concentration set.  Setting initial concentration to 0.0[0m
+/home/mkoenig/git/tellurium/tellurium/tests/../../examples/notebooks-py/tellurium_utility.py:61: RuntimeWarning: 'sbml2matlab' could not be imported, no support for Matlab code generation
+  te.saveToFile(ftmp.name, r.getMatlab())
+/home/mkoenig/git/tellurium/tellurium/tellurium.py:602: RuntimeWarning: 'sbml2matlab' could not be imported, no support for Matlab code generation
+  saveToFile(filePath, self.getMatlab(current))
+.[1m[33mWarning: species 'S1' has neither initial amount nor concentration set.  Setting initial concentration to 0.0[0m
+[1m[33mWarning: species 'S2' has neither initial amount nor concentration set.  Setting initial concentration to 0.0[0m
+[1m[33mWarning: species 'S3' has neither initial amount nor concentration set.  Setting initial concentration to 0.0[0m
+[1m[33mWarning: species 'S4' has neither initial amount nor concentration set.  Setting initial concentration to 0.0[0m
+[1m[33mWarning: species 'S5' has neither initial amount nor concentration set.  Setting initial concentration to 0.0[0m
+.[34mNotice: performing conserved moiety conversion[0m
+[1m[33mWarning: species 'X1' has neither initial amount nor concentration set.  Setting initial concentration to 0.0[0m
+[1m[33mWarning: species 'w' has neither initial amount nor concentration set.  Setting initial concentration to 0.0[0m
+[1m[33mWarning: species 'P1' has neither initial amount nor concentration set.  Setting initial concentration to 0.0[0m
+[1m[33mWarning: species 'P2' has neither initial amount nor concentration set.  Setting initial concentration to 0.0[0m
+[1m[33mWarning: species 'S1' has neither initial amount nor concentration set.  Setting initial concentration to 0.0[0m
+[1m[33mWarning: species 'S2' has neither initial amount nor concentration set.  Setting initial concentration to 0.0[0m
+[1m[33mWarning: species 'S3' has neither initial amount nor concentration set.  Setting initial concentration to 0.0[0m
+[1m[33mWarning: species 'w' has neither initial amount nor concentration set.  Setting initial concentration to 0.0[0m
+[1m[33mWarning: species 'S1' has neither initial amount nor concentration set.  Setting initial concentration to 0.0[0m
+[1m[33mWarning: species 'S2' has neither initial amount nor concentration set.  Setting initial concentration to 0.0[0m
+[1m[33mWarning: species 'w' has neither initial amount nor concentration set.  Setting initial concentration to 0.0[0m
+[1m[33mWarning: species 'w' has neither initial amount nor concentration set.  Setting initial concentration to 0.0[0m
+[1m[33mWarning: species 'X1' has neither initial amount nor concentration set.  Setting initial concentration to 0.0[0m
+[34mNotice: performing conserved moiety conversion[0m
+.......[1m[33mWarning: species 'S2' has neither initial amount nor concentration set.  Setting initial concentration to 0.0[0m
+[1m[33mWarning: species 'S3' has neither initial amount nor concentration set.  Setting initial concentration to 0.0[0m
+[1m[33mWarning: species 'S4' has neither initial amount nor concentration set.  Setting initial concentration to 0.0[0m
+...[1m[33mWarning: species 'Xo' has neither initial amount nor concentration set.  Setting initial concentration to 0.0[0m
+[1m[33mWarning: species 'w' has neither initial amount nor concentration set.  Setting initial concentration to 0.0[0m
+[1m[33mWarning: species 'Xo' has neither initial amount nor concentration set.  Setting initial concentration to 0.0[0m
+[1m[33mWarning: species 'S1' has neither initial amount nor concentration set.  Setting initial concentration to 0.0[0m
+[1m[33mWarning: species 'S2' has neither initial amount nor concentration set.  Setting initial concentration to 0.0[0m
+[1m[33mWarning: species 'X1' has neither initial amount nor concentration set.  Setting initial concentration to 0.0[0m
+.[1m[33mWarning: species 'S2' has neither initial amount nor concentration set.  Setting initial concentration to 0.0[0m
+[1m[33mWarning: species 'S2' has neither initial amount nor concentration set.  Setting initial concentration to 0.0[0m
+.../home/mkoenig/git/tellurium/tellurium/tellurium.py:560: RuntimeWarning: 'sbml2matlab' could not be imported, no support for Matlab code generation
+  return self.getMatlab(current=True)
+/home/mkoenig/git/tellurium/tellurium/tests/../../examples/notebooks-py/tellurium_export.py:112: RuntimeWarning: 'sbml2matlab' could not be imported, no support for Matlab code generation
+  str_matlab = r.getMatlab()
+................./usr/local/lib/python2.7/dist-packages/matplotlib/axes/_axes.py:519: UserWarning: No labelled objects found. Use label='...' kwarg on individual plots.
+  warnings.warn("No labelled objects found. "
+.....test_createpython (tellurium.tests.test_tephrasedml.tePhrasedMLTestCase) ... ok
+test_execute (tellurium.tests.test_tephrasedml.tePhrasedMLTestCase) ... ok
+test_experiment (tellurium.tests.test_tephrasedml.tePhrasedMLTestCase) ... ok
+test_exportAsCombine (tellurium.tests.test_tephrasedml.tePhrasedMLTestCase) ... ok
+test_getAntimonyString (tellurium.tests.test_tephrasedml.tePhrasedMLTestCase) ... ok
+test_getPhrasedmlString (tellurium.tests.test_tephrasedml.tePhrasedMLTestCase) ... ok
+test_getSbmlString (tellurium.tests.test_tephrasedml.tePhrasedMLTestCase) ... ok
+test_getSedmlString (tellurium.tests.test_tephrasedml.tePhrasedMLTestCase) ... ok
+test_printpython (tellurium.tests.test_tephrasedml.tePhrasedMLTestCase) ... ok
+test_000_consecutiveUniUniReactions (tellurium.tests.test_examples.PythonExampleTestCase)
+Test failes if Exception in execution of f. ... ok
+test_001_computeSteadyState (tellurium.tests.test_examples.PythonExampleTestCase)
+Test failes if Exception in execution of f. ... ok
+test_002_roadrunnerBasics (tellurium.tests.test_examples.PythonExampleTestCase)
+Test failes if Exception in execution of f. ... [34mNotice: creating runge-kutta integrator[0m
+ok
+test_003_feedback_oscillations (tellurium.tests.test_examples.PythonExampleTestCase)
+Test failes if Exception in execution of f. ... ok
+test_004_steadystate_scan (tellurium.tests.test_examples.PythonExampleTestCase)
+Test failes if Exception in execution of f. ... ok
+test_005_tellurium_interconversion (tellurium.tests.test_examples.PythonExampleTestCase)
+Test failes if Exception in execution of f. ... ok
+test_006_tellurium_utility (tellurium.tests.test_examples.PythonExampleTestCase)
+Test failes if Exception in execution of f. ... ok
+test_007_nonUnitStoichiometries (tellurium.tests.test_examples.PythonExampleTestCase)
+Test failes if Exception in execution of f. ... ok
+test_008_tellurium_examples (tellurium.tests.test_examples.PythonExampleTestCase)
+Test failes if Exception in execution of f. ... [34mNotice: performing conserved moiety conversion[0m
+[34mNotice: performing conserved moiety conversion[0m
+ok
+test_009_tellurium_reset (tellurium.tests.test_examples.PythonExampleTestCase)
+Test failes if Exception in execution of f. ... ok
+test_010_tellurium_plotting (tellurium.tests.test_examples.PythonExampleTestCase)
+Test failes if Exception in execution of f. ... ok
+test_011_modelFromBioModels (tellurium.tests.test_examples.PythonExampleTestCase)
+Test failes if Exception in execution of f. ... ok
+test_012_phrasedmlExample (tellurium.tests.test_examples.PythonExampleTestCase)
+Test failes if Exception in execution of f. ... ok
+test_013_tesedmlExample (tellurium.tests.test_examples.PythonExampleTestCase)
+Test failes if Exception in execution of f. ... ok
+test_014_antimonyExample (tellurium.tests.test_examples.PythonExampleTestCase)
+Test failes if Exception in execution of f. ... ok
+test_015_introduction (tellurium.tests.test_examples.PythonExampleTestCase)
+Test failes if Exception in execution of f. ... ok
+test_016_generatingDifferentWaveforms (tellurium.tests.test_examples.PythonExampleTestCase)
+Test failes if Exception in execution of f. ... ok
+test_017_tellurium_model_loading (tellurium.tests.test_examples.PythonExampleTestCase)
+Test failes if Exception in execution of f. ... ok
+test_018_parameter_scan (tellurium.tests.test_examples.PythonExampleTestCase)
+Test failes if Exception in execution of f. ... ok
+test_019_tellurium_stochastic (tellurium.tests.test_examples.PythonExampleTestCase)
+Test failes if Exception in execution of f. ... ok
+test_020_tellurium_test (tellurium.tests.test_examples.PythonExampleTestCase)
+Test failes if Exception in execution of f. ... ok
+test_021_template (tellurium.tests.test_examples.PythonExampleTestCase)
+Test failes if Exception in execution of f. ... ok
+test_022_tellurium_export (tellurium.tests.test_examples.PythonExampleTestCase)
+Test failes if Exception in execution of f. ... ok
+test_023_consecutiveUniUniReactions (tellurium.tests.test_examples.PythonExampleTestCase)
+Test failes if Exception in execution of f. ... ok
+test_024_computeSteadyState (tellurium.tests.test_examples.PythonExampleTestCase)
+Test failes if Exception in execution of f. ... ok
+test_025_PhrasedMLTesting (tellurium.tests.test_examples.PythonExampleTestCase)
+Test failes if Exception in execution of f. ... ok
+test_026_parameterscanExample (tellurium.tests.test_examples.PythonExampleTestCase)
+Test failes if Exception in execution of f. ... ok
+test_027_exportToMatlab (tellurium.tests.test_examples.PythonExampleTestCase)
+Test failes if Exception in execution of f. ... ok
+test_028_linearChain (tellurium.tests.test_examples.PythonExampleTestCase)
+Test failes if Exception in execution of f. ... ok
+test_029_nonUnitStoichiometries (tellurium.tests.test_examples.PythonExampleTestCase)
+Test failes if Exception in execution of f. ... ok
+test_030_simpleUniUniReaction (tellurium.tests.test_examples.PythonExampleTestCase)
+Test failes if Exception in execution of f. ... ok
+test_031_singleGeneExpressingProteinAndProteinDegradation (tellurium.tests.test_examples.PythonExampleTestCase)
+Test failes if Exception in execution of f. ... ok
+test_032_generatingDifferentWaveforms (tellurium.tests.test_examples.PythonExampleTestCase)
+Test failes if Exception in execution of f. ... ok
+test_033_SBMLfromBioModelsDB (tellurium.tests.test_examples.PythonExampleTestCase)
+Test failes if Exception in execution of f. ... ok
+test_034_settingBoundarySpecies (tellurium.tests.test_examples.PythonExampleTestCase)
+Test failes if Exception in execution of f. ... ok
+test_035_latex_export (tellurium.tests.test_examples.PythonExampleTestCase)
+Test failes if Exception in execution of f. ... ok
+test_036_events (tellurium.tests.test_examples.PythonExampleTestCase)
+Test failes if Exception in execution of f. ... ok
+test_037_steadystatescan (tellurium.tests.test_examples.PythonExampleTestCase)
+Test failes if Exception in execution of f. ... ok
+test_038_create_colormap (tellurium.tests.test_examples.PythonExampleTestCase)
+Test failes if Exception in execution of f. ... ok
+test_039_plot_multi_array (tellurium.tests.test_examples.PythonExampleTestCase)
+Test failes if Exception in execution of f. ... ok
+test_040_plot_array (tellurium.tests.test_examples.PythonExampleTestCase)
+Test failes if Exception in execution of f. ... ok
+test_041_parameter_scan (tellurium.tests.test_examples.PythonExampleTestCase)
+Test failes if Exception in execution of f. ... ok
+test_README_example (tellurium.tests.test_tellurium.TelluriumTestCase)
+Tests the source example in the main README.md. ... ok
+test_antimonyToCellML_file (tellurium.tests.test_tellurium.TelluriumTestCase) ... ok
+test_antimonyToCellML_str (tellurium.tests.test_tellurium.TelluriumTestCase) ... ok
+test_antimonyToSBML_file (tellurium.tests.test_tellurium.TelluriumTestCase) ... ok
+test_antimonyToSBML_str (tellurium.tests.test_tellurium.TelluriumTestCase) ... ok
+test_cellmlToAntimony_file (tellurium.tests.test_tellurium.TelluriumTestCase) ... ok
+test_cellmlToAntimony_str (tellurium.tests.test_tellurium.TelluriumTestCase) ... ok
+test_cellmlToSBML_file (tellurium.tests.test_tellurium.TelluriumTestCase) ... ok
+test_cellmlToSBML_str (tellurium.tests.test_tellurium.TelluriumTestCase) ... ok
+test_complex_simulation (tellurium.tests.test_tellurium.TelluriumTestCase)
+Test complex simulation. ... ok
+test_getTelluriumVersionInfo (tellurium.tests.test_tellurium.TelluriumTestCase) ... ok
+test_getTestModel (tellurium.tests.test_tellurium.TelluriumTestCase) ... ok
+test_jarnac_bs (tellurium.tests.test_tellurium.TelluriumTestCase) ... ok
+test_jarnac_dv (tellurium.tests.test_tellurium.TelluriumTestCase) ... ok
+test_jarnac_fjac (tellurium.tests.test_tellurium.TelluriumTestCase) ... ok
+test_jarnac_fs (tellurium.tests.test_tellurium.TelluriumTestCase) ... ok
+test_jarnac_ps (tellurium.tests.test_tellurium.TelluriumTestCase) ... ok
+test_jarnac_rs (tellurium.tests.test_tellurium.TelluriumTestCase) ... ok
+test_jarnac_rv (tellurium.tests.test_tellurium.TelluriumTestCase) ... ok
+test_jarnac_sm (tellurium.tests.test_tellurium.TelluriumTestCase) ... ok
+test_jarnac_sv (tellurium.tests.test_tellurium.TelluriumTestCase) ... ok
+test_jarnac_vs (tellurium.tests.test_tellurium.TelluriumTestCase) ... ok
+test_listTestModels (tellurium.tests.test_tellurium.TelluriumTestCase) ... ok
+test_loadAntimonyModel_file (tellurium.tests.test_tellurium.TelluriumTestCase) ... ok
+test_loadAntimonyModel_str (tellurium.tests.test_tellurium.TelluriumTestCase) ... ok
+test_loadCellMLModel_file (tellurium.tests.test_tellurium.TelluriumTestCase) ... [1m[33mWarning: Global parameter, 'pathway_time_' missing value and missing init assignment and assignment rule!, defaulting value to 0.0.[0m
+[1m[33mWarning: This probably is NOT what you want with global parameter 'pathway_time_'.[0m
+expected failure
+test_loadCellMLModel_str (tellurium.tests.test_tellurium.TelluriumTestCase) ... [1m[33mWarning: Global parameter, 'pathway_time_' missing value and missing init assignment and assignment rule!, defaulting value to 0.0.[0m
+[1m[33mWarning: This probably is NOT what you want with global parameter 'pathway_time_'.[0m
+expected failure
+test_loadSBMLModel_file (tellurium.tests.test_tellurium.TelluriumTestCase) ... ok
+test_loadSBMLModel_str (tellurium.tests.test_tellurium.TelluriumTestCase) ... [1m[33mWarning: Unable to flatten model read from string which has comp extension, libSBML needs the full file path for flatening to work, [0m
+ok
+test_loadTestModel (tellurium.tests.test_tellurium.TelluriumTestCase) ... expected failure
+test_loada (tellurium.tests.test_tellurium.TelluriumTestCase) ... ok
+test_loada_file (tellurium.tests.test_tellurium.TelluriumTestCase) ... ok
+test_loada_str (tellurium.tests.test_tellurium.TelluriumTestCase) ... ok
+test_roadrunner (tellurium.tests.test_tellurium.TelluriumTestCase) ... ok
+test_roadrunner_testfile (tellurium.tests.test_tellurium.TelluriumTestCase) ... expected failure
+test_roadrunner_tests (tellurium.tests.test_tellurium.TelluriumTestCase)
+Run the roadrunner tests. ... [34mNotice: performing conserved moiety conversion[0m
+[34mNotice: performing conserved moiety conversion[0m
+[34mNotice: source document is level 2, version 4, converting to level 3, version 1 for Moiety Conservation Conversion[0m
+ConservedMoietyConverter::setDocument
+[34mNotice: performing conserved moiety conversion[0m
+[34mNotice: source document is level 2, version 4, converting to level 3, version 1 for Moiety Conservation Conversion[0m
+ConservedMoietyConverter::setDocument
+[34mNotice: performing conserved moiety conversion[0m
+[34mNotice: source document is level 2, version 1, converting to level 3, version 1 for Moiety Conservation Conversion[0m
+ConservedMoietyConverter::setDocument
+[34mNotice: performing conserved moiety conversion[0m
+[34mNotice: performing conserved moiety conversion[0m
+[34mNotice: performing conserved moiety conversion[0m
+[34mNotice: performing conserved moiety conversion[0m
+[34mNotice: performing conserved moiety conversion[0m
+[34mNotice: performing conserved moiety conversion[0m
+[34mNotice: performing conserved moiety conversion[0m
+[34mNotice: performing conserved moiety conversion[0m
+[34mNotice: performing conserved moiety conversion[0m
+[34mNotice: performing conserved moiety conversion[0m
+[34mNotice: performing conserved moiety conversion[0m
+[34mNotice: performing conserved moiety conversion[0m
+[34mNotice: performing conserved moiety conversion[0m
+[1m[33mWarning: Warning: Error Tolerance reached but solution is suspect[0m
+[34mNotice: performing conserved moiety conversion[0m
+[34mNotice: performing conserved moiety conversion[0m
+[1m[33mWarning: Conserved Moiety Analysis is not enabled, steady state may fail with singular Jacobian[0m
+[1m[33mWarning: Conserved Moiety Analysis may be enabled via the conservedMoeityAnalysis property or via the configuration file or the Config class setValue, see roadrunner documentation[0m
+[1m[33mWarning: to remove this warning, set ROADRUNNER_DISABLE_WARNINGS to 1 or 3 in the config file[0m
+[1m[33mWarning: Conserved Moiety Analysis is not enabled, steady state may fail with singular Jacobian[0m
+[1m[33mWarning: Conserved Moiety Analysis may be enabled via the conservedMoeityAnalysis property or via the configuration file or the Config class setValue, see roadrunner documentation[0m
+[1m[33mWarning: to remove this warning, set ROADRUNNER_DISABLE_WARNINGS to 1 or 3 in the config file[0m
+[1m[33mWarning: Conserved Moiety Analysis is not enabled, steady state may fail with singular Jacobian[0m
+[1m[33mWarning: Conserved Moiety Analysis may be enabled via the conservedMoeityAnalysis property or via the configuration file or the Config class setValue, see roadrunner documentation[0m
+[1m[33mWarning: to remove this warning, set ROADRUNNER_DISABLE_WARNINGS to 1 or 3 in the config file[0m
+[1m[33mWarning: Conserved Moiety Analysis is not enabled, steady state may fail with singular Jacobian[0m
+[1m[33mWarning: Conserved Moiety Analysis may be enabled via the conservedMoeityAnalysis property or via the configuration file or the Config class setValue, see roadrunner documentation[0m
+[1m[33mWarning: to remove this warning, set ROADRUNNER_DISABLE_WARNINGS to 1 or 3 in the config file[0m
+[1m[33mWarning: Conserved Moiety Analysis is not enabled, steady state may fail with singular Jacobian[0m
+[1m[33mWarning: Conserved Moiety Analysis may be enabled via the conservedMoeityAnalysis property or via the configuration file or the Config class setValue, see roadrunner documentation[0m
+[1m[33mWarning: to remove this warning, set ROADRUNNER_DISABLE_WARNINGS to 1 or 3 in the config file[0m
+[1m[33mWarning: Conserved Moiety Analysis is not enabled, steady state may fail with singular Jacobian[0m
+[1m[33mWarning: Conserved Moiety Analysis may be enabled via the conservedMoeityAnalysis property or via the configuration file or the Config class setValue, see roadrunner documentation[0m
+[1m[33mWarning: to remove this warning, set ROADRUNNER_DISABLE_WARNINGS to 1 or 3 in the config file[0m
+[1m[33mWarning: Conserved Moiety Analysis is not enabled, steady state may fail with singular Jacobian[0m
+[1m[33mWarning: Conserved Moiety Analysis may be enabled via the conservedMoeityAnalysis property or via the configuration file or the Config class setValue, see roadrunner documentation[0m
+[1m[33mWarning: to remove this warning, set ROADRUNNER_DISABLE_WARNINGS to 1 or 3 in the config file[0m
+[1m[33mWarning: Conserved Moiety Analysis is not enabled, steady state may fail with singular Jacobian[0m
+[1m[33mWarning: Conserved Moiety Analysis may be enabled via the conservedMoeityAnalysis property or via the configuration file or the Config class setValue, see roadrunner documentation[0m
+[1m[33mWarning: to remove this warning, set ROADRUNNER_DISABLE_WARNINGS to 1 or 3 in the config file[0m
+[1m[33mWarning: Conserved Moiety Analysis is not enabled, steady state may fail with singular Jacobian[0m
+[1m[33mWarning: Conserved Moiety Analysis may be enabled via the conservedMoeityAnalysis property or via the configuration file or the Config class setValue, see roadrunner documentation[0m
+[1m[33mWarning: to remove this warning, set ROADRUNNER_DISABLE_WARNINGS to 1 or 3 in the config file[0m
+[34mNotice: performing conserved moiety conversion[0m
+ok
+test_sbmlToAntimony_file (tellurium.tests.test_tellurium.TelluriumTestCase) ... ok
+test_sbmlToAntimony_str (tellurium.tests.test_tellurium.TelluriumTestCase) ... ok
+test_sbmlToCellML_file (tellurium.tests.test_tellurium.TelluriumTestCase) ... ok
+test_sbmlToCellML_str (tellurium.tests.test_tellurium.TelluriumTestCase) ... ok
+test_seed (tellurium.tests.test_tellurium.TelluriumTestCase) ... [1m[33mWarning: species 'S2' has neither initial amount nor concentration set.  Setting initial concentration to 0.0[0m
+ok
+test_app2sim (tellurium.tests.test_sedml.tesedmlTestCase) ... ok
+test_asedml3repeat (tellurium.tests.test_sedml.tesedmlTestCase) ... ok
+test_asedmlComplex (tellurium.tests.test_sedml.tesedmlTestCase) ... ok
+test_constant_maybe (tellurium.tests.test_sedml.tesedmlTestCase) ... ok
+test_via_sedml_string (tellurium.tests.test_sedml.tesedmlTestCase) ... ok
+test_latex_export (tellurium.tests.test_Export.ExportTestCase) ... ok
+test_latex_export2 (tellurium.tests.test_Export.ExportTestCase) ... ok
+test_plot2DParameterScan (tellurium.tests.test_analysis.MyTestCase) ... ok
+
+----------------------------------------------------------------------
+Ran 100 tests in 10.619s
+
+OK (expected failures=4)
+...............................[1m[33mWarning: Global parameter, 'pathway_time_' missing value and missing init assignment and assignment rule!, defaulting value to 0.0.[0m
+[1m[33mWarning: This probably is NOT what you want with global parameter 'pathway_time_'.[0m
+/usr/lib/python2.7/unittest/case.py:342: RuntimeWarning: TestResult has no addExpectedFailure method, reporting as passes
+  RuntimeWarning)
+.[1m[33mWarning: Global parameter, 'pathway_time_' missing value and missing init assignment and assignment rule!, defaulting value to 0.0.[0m
+[1m[33mWarning: This probably is NOT what you want with global parameter 'pathway_time_'.[0m
+..[1m[33mWarning: Unable to flatten model read from string which has comp extension, libSBML needs the full file path for flatening to work, [0m
+.......[34mNotice: performing conserved moiety conversion[0m
+[34mNotice: performing conserved moiety conversion[0m
+[34mNotice: source document is level 2, version 4, converting to level 3, version 1 for Moiety Conservation Conversion[0m
+ConservedMoietyConverter::setDocument
+[34mNotice: performing conserved moiety conversion[0m
+[34mNotice: source document is level 2, version 4, converting to level 3, version 1 for Moiety Conservation Conversion[0m
+ConservedMoietyConverter::setDocument
+[34mNotice: performing conserved moiety conversion[0m
+[34mNotice: source document is level 2, version 1, converting to level 3, version 1 for Moiety Conservation Conversion[0m
+ConservedMoietyConverter::setDocument
+[34mNotice: performing conserved moiety conversion[0m
+[34mNotice: performing conserved moiety conversion[0m
+[34mNotice: performing conserved moiety conversion[0m
+[34mNotice: performing conserved moiety conversion[0m
+[34mNotice: performing conserved moiety conversion[0m
+[34mNotice: performing conserved moiety conversion[0m
+[34mNotice: performing conserved moiety conversion[0m
+[34mNotice: performing conserved moiety conversion[0m
+[34mNotice: performing conserved moiety conversion[0m
+[34mNotice: performing conserved moiety conversion[0m
+[34mNotice: performing conserved moiety conversion[0m
+[34mNotice: performing conserved moiety conversion[0m
+[34mNotice: performing conserved moiety conversion[0m
+[1m[33mWarning: Warning: Error Tolerance reached but solution is suspect[0m
+[34mNotice: performing conserved moiety conversion[0m
+[34mNotice: performing conserved moiety conversion[0m
+[1m[33mWarning: Conserved Moiety Analysis is not enabled, steady state may fail with singular Jacobian[0m
+[1m[33mWarning: Conserved Moiety Analysis may be enabled via the conservedMoeityAnalysis property or via the configuration file or the Config class setValue, see roadrunner documentation[0m
+[1m[33mWarning: to remove this warning, set ROADRUNNER_DISABLE_WARNINGS to 1 or 3 in the config file[0m
+[1m[33mWarning: Conserved Moiety Analysis is not enabled, steady state may fail with singular Jacobian[0m
+[1m[33mWarning: Conserved Moiety Analysis may be enabled via the conservedMoeityAnalysis property or via the configuration file or the Config class setValue, see roadrunner documentation[0m
+[1m[33mWarning: to remove this warning, set ROADRUNNER_DISABLE_WARNINGS to 1 or 3 in the config file[0m
+[1m[33mWarning: Conserved Moiety Analysis is not enabled, steady state may fail with singular Jacobian[0m
+[1m[33mWarning: Conserved Moiety Analysis may be enabled via the conservedMoeityAnalysis property or via the configuration file or the Config class setValue, see roadrunner documentation[0m
+[1m[33mWarning: to remove this warning, set ROADRUNNER_DISABLE_WARNINGS to 1 or 3 in the config file[0m
+[1m[33mWarning: Conserved Moiety Analysis is not enabled, steady state may fail with singular Jacobian[0m
+[1m[33mWarning: Conserved Moiety Analysis may be enabled via the conservedMoeityAnalysis property or via the configuration file or the Config class setValue, see roadrunner documentation[0m
+[1m[33mWarning: to remove this warning, set ROADRUNNER_DISABLE_WARNINGS to 1 or 3 in the config file[0m
+[1m[33mWarning: Conserved Moiety Analysis is not enabled, steady state may fail with singular Jacobian[0m
+[1m[33mWarning: Conserved Moiety Analysis may be enabled via the conservedMoeityAnalysis property or via the configuration file or the Config class setValue, see roadrunner documentation[0m
+[1m[33mWarning: to remove this warning, set ROADRUNNER_DISABLE_WARNINGS to 1 or 3 in the config file[0m
+[1m[33mWarning: Conserved Moiety Analysis is not enabled, steady state may fail with singular Jacobian[0m
+[1m[33mWarning: Conserved Moiety Analysis may be enabled via the conservedMoeityAnalysis property or via the configuration file or the Config class setValue, see roadrunner documentation[0m
+[1m[33mWarning: to remove this warning, set ROADRUNNER_DISABLE_WARNINGS to 1 or 3 in the config file[0m
+[1m[33mWarning: Conserved Moiety Analysis is not enabled, steady state may fail with singular Jacobian[0m
+[1m[33mWarning: Conserved Moiety Analysis may be enabled via the conservedMoeityAnalysis property or via the configuration file or the Config class setValue, see roadrunner documentation[0m
+[1m[33mWarning: to remove this warning, set ROADRUNNER_DISABLE_WARNINGS to 1 or 3 in the config file[0m
+[1m[33mWarning: Conserved Moiety Analysis is not enabled, steady state may fail with singular Jacobian[0m
+[1m[33mWarning: Conserved Moiety Analysis may be enabled via the conservedMoeityAnalysis property or via the configuration file or the Config class setValue, see roadrunner documentation[0m
+[1m[33mWarning: to remove this warning, set ROADRUNNER_DISABLE_WARNINGS to 1 or 3 in the config file[0m
+[1m[33mWarning: Conserved Moiety Analysis is not enabled, steady state may fail with singular Jacobian[0m
+[1m[33mWarning: Conserved Moiety Analysis may be enabled via the conservedMoeityAnalysis property or via the configuration file or the Config class setValue, see roadrunner documentation[0m
+[1m[33mWarning: to remove this warning, set ROADRUNNER_DISABLE_WARNINGS to 1 or 3 in the config file[0m
+[34mNotice: performing conserved moiety conversion[0m
+...............
+Name                                                                   Stmts   Miss  Cover   Missing
+----------------------------------------------------------------------------------------------------
+/home/mkoenig/git/tellurium/tellurium/Export/Export.py                    85      1    99%   140
+/home/mkoenig/git/tellurium/tellurium/Export/__init__.py                   1      0   100%   
+/home/mkoenig/git/tellurium/tellurium/ParameterScan/ParameterScan.py     395    118    70%   51-59, 73-76, 80, 84, 101-102, 104, 106-107, 111, 113, 117, 123, 125-126, 148-199, 212, 229, 232, 242-243, 246-247, 250-251, 256, 285, 288, 290, 293, 321, 349-350, 375, 378, 382, 387, 412-416, 418-422, 437-443, 454-456, 492-493, 495, 497, 522-525
+/home/mkoenig/git/tellurium/tellurium/ParameterScan/__init__.py            2      0   100%   
+/home/mkoenig/git/tellurium/tellurium/__init__.py                          9      0   100%   
+/home/mkoenig/git/tellurium/tellurium/analysis/__init__.py                 2      0   100%   
+/home/mkoenig/git/tellurium/tellurium/analysis/_annotations.py            45     38    16%   20-25, 36-42, 58-102
+/home/mkoenig/git/tellurium/tellurium/analysis/match.py                   38     32    16%   21-31, 40-46, 59-74
+/home/mkoenig/git/tellurium/tellurium/analysis/parameters.py              20      1    95%   37
+/home/mkoenig/git/tellurium/tellurium/notebooktools/__init__.py            1      0   100%   
+/home/mkoenig/git/tellurium/tellurium/notebooktools/notebooktools.py      58     41    29%   29-39, 45-46, 50-82, 88, 91-102, 106, 110
+/home/mkoenig/git/tellurium/tellurium/optimization/DiffEvolution.py      208    188    10%   26-68, 71-91, 94-106, 109-119, 122-137, 140-198, 201-246, 249-252, 255-269, 272-278, 282-284, 287-304, 307-309, 314
+/home/mkoenig/git/tellurium/tellurium/optimization/__init__.py             1      0   100%   
+/home/mkoenig/git/tellurium/tellurium/tecombine.py                       147     41    72%   30, 52, 57, 60, 63, 66, 69, 72-73, 76, 82, 97, 102, 107, 131-135, 138, 142, 164-168, 171, 175, 183-184, 188, 194, 201-202, 205-206, 209-210, 213-214, 218
+/home/mkoenig/git/tellurium/tellurium/tellurium.py                       259     37    86%   21-24, 27-30, 34-37, 62, 162, 221-223, 351-353, 378, 546, 637-642, 704, 748-753, 763-767, 818
+/home/mkoenig/git/tellurium/tellurium/tephrasedml.py                     113     11    90%   26-28, 44, 48, 52, 94, 106-107, 129, 157
+/home/mkoenig/git/tellurium/tellurium/tesedml.py                         570    213    63%   145, 153, 162-188, 193, 254-258, 267-272, 303-304, 313, 322-323, 343-344, 377, 380, 389-409, 451-452, 467, 481-482, 484-485, 498-556, 582-583, 649-654, 660, 669, 709-719, 746-747, 760-761, 768, 773, 775, 777, 781, 783-851, 867-871
+__init__.py                                                                0      0   100%   
+test_Export.py                                                            37      1    97%   92
+test_analysis.py                                                          14      1    93%   31
+test_examples.py                                                          34      1    97%   60
+test_runner.py                                                            28      2    93%   66-67
+test_sedml.py                                                             30      1    97%   97
+test_tellurium.py                                                        179      5    97%   157, 162, 344, 353, 437
+test_tephrasedml.py                                                       51      1    98%   85
+testdata/__init__.py                                                       0      0   100%   
+testdata/models/__init__.py                                                0      0   100%   
+/home/mkoenig/git/tellurium/tellurium/visualization/SBMLDiagram.py        61     12    80%   13-16, 45-51, 95, 108
+/home/mkoenig/git/tellurium/tellurium/visualization/__init__.py            1      0   100%   
+/home/mkoenig/git/tellurium/tellurium/widgets/__init__.py                  3      0   100%   
+/home/mkoenig/git/tellurium/tellurium/widgets/ontology_search.py          64     54    16%   14-45, 48-50, 53-54, 62-88, 95-106
+/home/mkoenig/git/tellurium/tellurium/widgets/parameter_slider.py         41     32    22%   20-22, 71-117
+/home/mkoenig/git/tellurium/tellurium/widgets/species_search.py           64     54    16%   30-79, 87-97, 106-115, 124-132, 139
+----------------------------------------------------------------------------------------------------
+TOTAL                                                                   2561    885    65%   
+----------------------------------------------------------------------
+Ran 103 tests in 22.919s
+
+OK

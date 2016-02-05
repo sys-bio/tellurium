@@ -135,11 +135,11 @@ class TelluriumTestCase(unittest.TestCase):
         r = te.loada(self.ant_str)
         self.assertIsNotNone(r)
 
-    def loadAntimonyModel_file(self):
+    def test_loadAntimonyModel_file(self):
         r = te.loadAntimonyModel(self.ant_file)
         self.assertIsNotNone(r)
 
-    def loadAntimonyModel_str(self):
+    def test_loadAntimonyModel_str(self):
         r = te.loadAntimonyModel(self.ant_str)
         self.assertIsNotNone(r)
 
@@ -151,13 +151,15 @@ class TelluriumTestCase(unittest.TestCase):
         r = te.loadSBMLModel(self.sbml_str)
         self.assertIsNotNone(r)
 
-    def loadCellMLModel_file(self):
+    @unittest.expectedFailure
+    def test_loadCellMLModel_file(self):
         r = te.loadCellMLModel(self.cellml_file)
-        self.assertIsNotNone(r)
+        self.assertIsNotNone(r, 'CellML conversion broken')
 
-    def loadCellMLModel_str(self):
+    @unittest.expectedFailure
+    def test_loadCellMLModel_str(self):
         r = te.loadCellMLModel(self.cellml_str)
-        self.assertIsNotNone(r)
+        self.assertIsNotNone(r, 'CellML conversion broken')
 
     # ---------------------------------------------------------------------
     # Interconversion Methods
@@ -190,7 +192,7 @@ class TelluriumTestCase(unittest.TestCase):
         cellml = te.sbmlToCellML(self.sbml_file)
         self.assertIsNotNone(cellml)
 
-    def test_sbmlToAntimony_str(self):
+    def test_sbmlToCellML_str(self):
         cellml = te.sbmlToCellML(self.sbml_str)
         self.assertIsNotNone(cellml)
 
@@ -335,20 +337,20 @@ class TelluriumTestCase(unittest.TestCase):
     # ---------------------------------------------------------------------
     # Testing
     # ---------------------------------------------------------------------
+    @unittest.expectedFailure
     def test_roadrunner_testfile(self):
-        # fails due to https://github.com/sys-bio/roadrunner/issues/287
         import roadrunner
         r = roadrunner.testing.testfiles.getRoadRunner('feedback.xml')
-        self.assertIsNotNone(r)
+        self.assertIsNotNone(r, 'fails due to https://github.com/sys-bio/roadrunner/issues/287')
 
     def test_listTestModels(self):
         models = te.listTestModels()
         self.assertTrue('feedback.xml' in models)
 
+    @unittest.expectedFailure
     def test_loadTestModel(self):
-        # fails due to https://github.com/sys-bio/roadrunner/issues/287
         r = te.loadTestModel('feedback.xml')
-        self.assertIsNotNone(r)
+        self.assertIsNotNone(r, 'fails due to https://github.com/sys-bio/roadrunner/issues/287')
 
     def test_getTestModel(self):
         sbml = te.getTestModel('feedback.xml')
