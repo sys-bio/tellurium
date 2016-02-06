@@ -1,1 +1,4 @@
-from DiffEvolution import DiffEvolution
+"""
+optimization imports
+"""
+from diffevolution import DiffEvolution

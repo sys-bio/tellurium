@@ -4,10 +4,10 @@ tellurium.visualization package
 Submodules
 ----------
 
-tellurium.visualization.SBMLDiagram module
+tellurium.visualization.sbmldiagram module
 ------------------------------------------
 
-.. automodule:: tellurium.visualization.SBMLDiagram
+.. automodule:: tellurium.visualization.sbmldiagram
     :members:
     :undoc-members:
     :show-inheritance:

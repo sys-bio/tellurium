@@ -32,7 +32,6 @@
   
     <link rel="top" title="tellurium 1.3.0 documentation" href="../index.html"/>
         <link rel="up" title="tellurium package" href="tellurium.html"/>
-        <link rel="next" title="tellurium.widgets package" href="tellurium.widgets.html"/>
         <link rel="prev" title="tellurium.tests.testdata package" href="tellurium.tests.testdata.html"/> 
 
   
@@ -89,19 +88,17 @@
 <li class="toctree-l1"><a class="reference internal" href="../tellurium_methods.html">Tellurium Methods</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="tellurium.html">API (tellurium)</a><ul class="current">
 <li class="toctree-l2 current"><a class="reference internal" href="tellurium.html#subpackages">Subpackages</a><ul class="current">
-<li class="toctree-l3"><a class="reference internal" href="tellurium.Export.html">tellurium.Export package</a></li>
-<li class="toctree-l3"><a class="reference internal" href="tellurium.ParameterScan.html">tellurium.ParameterScan package</a></li>
 <li class="toctree-l3"><a class="reference internal" href="tellurium.analysis.html">tellurium.analysis package</a></li>
-<li class="toctree-l3"><a class="reference internal" href="tellurium.notebooktools.html">tellurium.notebooktools package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tellurium.io.html">tellurium.io package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tellurium.notebooks.html">tellurium.notebooks package</a></li>
 <li class="toctree-l3"><a class="reference internal" href="tellurium.optimization.html">tellurium.optimization package</a></li>
 <li class="toctree-l3"><a class="reference internal" href="tellurium.tests.html">tellurium.tests package</a></li>
 <li class="toctree-l3 current"><a class="current reference internal" href="">tellurium.visualization package</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#submodules">Submodules</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#module-tellurium.visualization.SBMLDiagram">tellurium.visualization.SBMLDiagram module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-tellurium.visualization.sbmldiagram">tellurium.visualization.sbmldiagram module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#module-tellurium.visualization">Module contents</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="tellurium.widgets.html">tellurium.widgets package</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="tellurium.html#submodules">Submodules</a></li>
@@ -163,17 +160,17 @@
 <div class="section" id="submodules">
 <h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
 </div>
-<div class="section" id="module-tellurium.visualization.SBMLDiagram">
-<span id="tellurium-visualization-sbmldiagram-module"></span><h2>tellurium.visualization.SBMLDiagram module<a class="headerlink" href="#module-tellurium.visualization.SBMLDiagram" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-tellurium.visualization.sbmldiagram">
+<span id="tellurium-visualization-sbmldiagram-module"></span><h2>tellurium.visualization.sbmldiagram module<a class="headerlink" href="#module-tellurium.visualization.sbmldiagram" title="Permalink to this headline">¶</a></h2>
 <p>This module creates an SBMLDiagram for the given SBML model using graphviz.</p>
 <dl class="class">
-<dt id="tellurium.visualization.SBMLDiagram.SBMLDiagram">
-<em class="property">class </em><code class="descclassname">tellurium.visualization.SBMLDiagram.</code><code class="descname">SBMLDiagram</code><span class="sig-paren">(</span><em>sbml</em>, <em>species={}</em>, <em>reactions={}</em>, <em>reactants={}</em>, <em>products={}</em>, <em>modifiers={}</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/tellurium/visualization/SBMLDiagram.html#SBMLDiagram"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.visualization.SBMLDiagram.SBMLDiagram" title="Permalink to this definition">¶</a></dt>
+<dt id="tellurium.visualization.sbmldiagram.SBMLDiagram">
+<em class="property">class </em><code class="descclassname">tellurium.visualization.sbmldiagram.</code><code class="descname">SBMLDiagram</code><span class="sig-paren">(</span><em>sbml</em>, <em>species={}</em>, <em>reactions={}</em>, <em>reactants={}</em>, <em>products={}</em>, <em>modifiers={}</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/tellurium/visualization/sbmldiagram.html#SBMLDiagram"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.visualization.sbmldiagram.SBMLDiagram" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
-<p>Create a network diagram from a sbml model.</p>
+<p>Create network diagram from a sbml model.</p>
 <dl class="method">
-<dt id="tellurium.visualization.SBMLDiagram.SBMLDiagram.draw">
-<code class="descname">draw</code><span class="sig-paren">(</span><em>layout='neato'</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/tellurium/visualization/SBMLDiagram.html#SBMLDiagram.draw"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.visualization.SBMLDiagram.SBMLDiagram.draw" title="Permalink to this definition">¶</a></dt>
+<dt id="tellurium.visualization.sbmldiagram.SBMLDiagram.draw">
+<code class="descname">draw</code><span class="sig-paren">(</span><em>layout='neato'</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/tellurium/visualization/sbmldiagram.html#SBMLDiagram.draw"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.visualization.sbmldiagram.SBMLDiagram.draw" title="Permalink to this definition">¶</a></dt>
 <dd><p>Draw the graph.
 Optional layout=[&#8216;neato&#8217;|&#8217;dot&#8217;|&#8217;twopi&#8217;|&#8217;circo&#8217;|&#8217;fdp&#8217;|&#8217;nop&#8217;]
 will use specified graphviz layout method.</p>
@@ -192,6 +189,7 @@ will use specified graphviz layout method.</p>
 </div>
 <div class="section" id="module-tellurium.visualization">
 <span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-tellurium.visualization" title="Permalink to this headline">¶</a></h2>
+<p>visualization imports</p>
 </div>
 </div>
 
@@ -201,8 +199,6 @@ will use specified graphviz layout method.</p>
           <footer>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-      
-        <a href="tellurium.widgets.html" class="btn btn-neutral float-right" title="tellurium.widgets package" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="tellurium.tests.testdata.html" class="btn btn-neutral" title="tellurium.tests.testdata package" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>

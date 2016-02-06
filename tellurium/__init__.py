@@ -1,10 +1,13 @@
 from tellurium import *
-import ParameterScan
-import Export
+
 import analysis
-import notebooktools
+import io
+import notebooks
 import optimization
 import visualization
-import widgets
+
+# additional import of important functionality
+from io.latex import LatexExport
+from analysis.parameterscan import ParameterScan, SteadyStateScan
 
 __version__ = tellurium.getTelluriumVersion()

@@ -50,7 +50,7 @@ Stochastic simulation of a linear chain.
     for k in range(1,10):
         r.resetToOrigin()
         s = r.simulate(0, 50)
-        r.plot(s, show=False);
+        r.plot(s, show=False, loc=None, color='black', alpha=0.7);
 
 
 

@@ -17,6 +17,6 @@ due to the WebServices.
 .. code:: python
 
     import tellurium as te
-    from tellurium.widgets import OntologySearch
+    from tellurium.notebooks import OntologySearch
     form = OntologySearch()
 

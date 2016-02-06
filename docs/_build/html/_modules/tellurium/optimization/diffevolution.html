@@ -1,0 +1,509 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>tellurium.optimization.diffevolution &mdash; tellurium 1.3.0 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="tellurium 1.3.0 documentation" href="../../../index.html"/>
+        <link rel="up" title="Module code" href="../../index.html"/> 
+
+  
+  <script src="../../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> tellurium
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.3.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../notebooks.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tellurium_methods.html">Tellurium Methods</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../_apidoc/tellurium.html">API (tellurium)</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../../../index.html">tellurium</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../../index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+      
+    <li>tellurium.optimization.diffevolution</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for tellurium.optimization.diffevolution</h1><div class="highlight"><pre>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Utility functions for parameter estimation.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">print_function</span><span class="p">,</span> <span class="n">division</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
+
+
+<div class="viewcode-block" id="DiffEvolution"><a class="viewcode-back" href="../../../_apidoc/tellurium.optimization.html#tellurium.optimization.diffevolution.DiffEvolution">[docs]</a><span class="k">class</span> <span class="nc">DiffEvolution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Differential evolution.</span>
+<span class="sd">    Differential evolution is an iterative heuristic optimization method that</span>
+<span class="sd">    can be used on nondifferentiable and discrete problems (Storn &amp; Price 1997).</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rr</span><span class="p">,</span> <span class="n">fitnessFcn</span><span class="p">,</span> <span class="n">simFcn</span><span class="p">,</span>
+                 <span class="n">ASYNC</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
+                 <span class="n">CROSSOVER_RATE</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
+                 <span class="n">FITNESS_THRESHOLD</span><span class="o">=</span><span class="mf">1e-6</span><span class="p">,</span>
+                 <span class="n">MAX_GENS</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span>
+                 <span class="n">MIXING_RATE</span><span class="o">=</span><span class="mf">0.8</span><span class="p">,</span>
+                 <span class="n">NON_NEGATIVE</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+                 <span class="n">paramRangeDict</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
+                 <span class="n">POPULATION</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span>
+                 <span class="n">SAVE_RESULTS</span><span class="o">=</span><span class="bp">True</span>
+                 <span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">rr</span> <span class="o">=</span> <span class="n">rr</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">paramRange</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">generations</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fitnessFcn</span> <span class="o">=</span> <span class="n">fitnessFcn</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">simFcn</span> <span class="o">=</span> <span class="n">simFcn</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ASYNC</span> <span class="o">=</span> <span class="n">ASYNC</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">BEST_FITNESS</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="s1">&#39;inf&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">MIXING_RATE</span> <span class="o">=</span> <span class="n">MIXING_RATE</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">CROSSOVER_RATE</span> <span class="o">=</span> <span class="n">CROSSOVER_RATE</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">NON_NEGATIVE</span> <span class="o">=</span> <span class="n">NON_NEGATIVE</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">POPULATION</span> <span class="o">=</span> <span class="n">POPULATION</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">MAX_GENS</span> <span class="o">=</span> <span class="n">MAX_GENS</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">FITNESS_THRESHOLD</span> <span class="o">=</span> <span class="n">FITNESS_THRESHOLD</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">SAVE_RESULTS</span> <span class="o">=</span> <span class="n">SAVE_RESULTS</span>
+
+        <span class="n">defaultMin</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">defaultMax</span> <span class="o">=</span> <span class="mi">10</span>
+        <span class="k">if</span> <span class="n">paramRangeDict</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">mins</span> <span class="o">=</span> <span class="p">[</span><span class="n">defaultMin</span><span class="p">]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">rr</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">getGlobalParameterIds</span><span class="p">())</span>
+            <span class="n">maxes</span> <span class="o">=</span> <span class="p">[</span><span class="n">defaultMax</span><span class="p">]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">rr</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">getGlobalParameterIds</span><span class="p">())</span>
+            <span class="k">for</span> <span class="n">mn</span><span class="p">,</span> <span class="n">mx</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">mins</span><span class="p">,</span> <span class="n">maxes</span><span class="p">):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">paramRange</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">mn</span><span class="p">,</span> <span class="n">mx</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">paramIds</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">rr</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">getGlobalParameterIds</span><span class="p">()</span>
+            <span class="k">for</span> <span class="n">paramId</span> <span class="ow">in</span> <span class="n">paramIds</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">paramId</span> <span class="ow">in</span> <span class="n">paramRangeDict</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">paramRange</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">paramRangeDict</span><span class="p">[</span><span class="n">paramId</span><span class="p">])</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">paramRange</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">defaultMin</span><span class="p">,</span> <span class="n">defaultMax</span><span class="p">))</span>
+
+        <span class="n">firstGen</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;members&#39;</span><span class="p">:</span> <span class="p">[],</span>
+            <span class="s1">&#39;fitness&#39;</span><span class="p">:</span> <span class="p">[],</span>
+            <span class="s1">&#39;sim&#39;</span><span class="p">:</span> <span class="p">[]</span>
+        <span class="p">}</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">ASYNC</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">asyncSeedPopulation</span><span class="p">(</span><span class="n">firstGen</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">seedPopulation</span><span class="p">(</span><span class="n">firstGen</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">generations</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">firstGen</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">BEST_FITNESS</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">firstGen</span><span class="p">[</span><span class="s1">&#39;fitness&#39;</span><span class="p">])</span>
+
+<div class="viewcode-block" id="DiffEvolution.asyncSeedPopulation"><a class="viewcode-back" href="../../../_apidoc/tellurium.optimization.html#tellurium.optimization.diffevolution.DiffEvolution.asyncSeedPopulation">[docs]</a>    <span class="k">def</span> <span class="nf">asyncSeedPopulation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">firstGen</span><span class="p">):</span>
+        <span class="n">asyncSims</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">POPULATION</span><span class="p">):</span>
+            <span class="n">newMember</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">createRandomMember</span><span class="p">()</span>
+            <span class="n">firstGen</span><span class="p">[</span><span class="s1">&#39;members&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">newMember</span><span class="p">)</span>
+
+            <span class="n">sim</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">simFcn</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">rr</span><span class="p">,</span> <span class="n">newMember</span><span class="o">.</span><span class="n">params</span><span class="p">)</span>
+            <span class="n">asyncSims</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">sim</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">output</span> <span class="ow">in</span> <span class="n">asyncSims</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">sim</span> <span class="o">=</span> <span class="n">output</span><span class="o">.</span><span class="n">get</span><span class="p">()[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+                <span class="n">firstGen</span><span class="p">[</span><span class="s1">&#39;fitness&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">fitnessFcn</span><span class="p">(</span><span class="n">sim</span><span class="p">))</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">SAVE_RESULTS</span><span class="p">:</span>
+                    <span class="n">firstGen</span><span class="p">[</span><span class="s1">&#39;sim&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">sim</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">ex</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">ex</span><span class="o">.</span><span class="n">message</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;CVODE&#39;</span><span class="p">)</span> <span class="o">&gt;</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+                    <span class="n">firstGen</span><span class="p">[</span><span class="s1">&#39;fitness&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="s1">&#39;inf&#39;</span><span class="p">))</span>
+                    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">SAVE_RESULTS</span><span class="p">:</span>
+                        <span class="n">firstGen</span><span class="p">[</span><span class="s1">&#39;sim&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">None</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">raise</span><span class="p">(</span><span class="n">ex</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="DiffEvolution.seedPopulation"><a class="viewcode-back" href="../../../_apidoc/tellurium.optimization.html#tellurium.optimization.diffevolution.DiffEvolution.seedPopulation">[docs]</a>    <span class="k">def</span> <span class="nf">seedPopulation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">firstGen</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">POPULATION</span><span class="p">):</span>
+            <span class="n">newMember</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">createRandomMember</span><span class="p">()</span>
+            <span class="n">firstGen</span><span class="p">[</span><span class="s1">&#39;members&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">newMember</span><span class="p">)</span>
+
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">sim</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">simFcn</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">rr</span><span class="p">,</span> <span class="n">newMember</span><span class="o">.</span><span class="n">params</span><span class="p">))</span>
+                <span class="n">newFitness</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fitnessFcn</span><span class="p">(</span><span class="n">sim</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">RuntimeError</span><span class="p">:</span>
+                <span class="n">sim</span> <span class="o">=</span> <span class="bp">None</span>
+                <span class="n">newFitness</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="s1">&#39;inf&#39;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">SAVE_RESULTS</span><span class="p">:</span>
+                <span class="n">firstGen</span><span class="p">[</span><span class="s1">&#39;sim&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">sim</span><span class="p">)</span>
+            <span class="n">firstGen</span><span class="p">[</span><span class="s1">&#39;fitness&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">newFitness</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="DiffEvolution.start"><a class="viewcode-back" href="../../../_apidoc/tellurium.optimization.html#tellurium.optimization.diffevolution.DiffEvolution.start">[docs]</a>    <span class="k">def</span> <span class="nf">start</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">start</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+        <span class="k">while</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">generations</span><span class="p">)</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">MAX_GENS</span> <span class="ow">and</span>
+               <span class="bp">self</span><span class="o">.</span><span class="n">BEST_FITNESS</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">FITNESS_THRESHOLD</span><span class="p">):</span>
+            <span class="n">gen</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">newGeneration</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">generations</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">gen</span><span class="p">)</span>
+
+        <span class="k">print</span><span class="p">(</span><span class="s1">&#39;Finished after </span><span class="si">%s</span><span class="s1"> seconds&#39;</span> <span class="o">%</span> <span class="nb">str</span><span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span><span class="o">-</span><span class="n">start</span><span class="p">))</span>
+        <span class="k">print</span><span class="p">(</span><span class="s1">&#39;with population of </span><span class="si">%s</span><span class="s1"> and </span><span class="si">%s</span><span class="s1"> generations&#39;</span>
+               <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">POPULATION</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">generations</span><span class="p">)))</span>
+        <span class="k">print</span><span class="p">(</span><span class="s1">&#39;Best fitness value of </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">BEST_FITNESS</span><span class="p">)</span>
+        <span class="k">print</span><span class="p">(</span><span class="s1">&#39;Best parameters of </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">getBestMember</span><span class="p">()</span><span class="o">.</span><span class="n">params</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="DiffEvolution.newGeneration"><a class="viewcode-back" href="../../../_apidoc/tellurium.optimization.html#tellurium.optimization.diffevolution.DiffEvolution.newGeneration">[docs]</a>    <span class="k">def</span> <span class="nf">newGeneration</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">gen</span> <span class="o">=</span> <span class="p">{}</span>
+
+        <span class="n">newMembers</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">newFitnesses</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">newSims</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">ASYNC</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">asyncGetMembersAndFitnesses</span><span class="p">(</span><span class="n">newMembers</span><span class="p">,</span> <span class="n">newFitnesses</span><span class="p">,</span> <span class="n">newSims</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">getMembersAndFitnesses</span><span class="p">(</span><span class="n">newMembers</span><span class="p">,</span> <span class="n">newFitnesses</span><span class="p">,</span> <span class="n">newSims</span><span class="p">)</span>
+
+        <span class="n">gen</span><span class="p">[</span><span class="s1">&#39;members&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">newMembers</span>
+        <span class="n">gen</span><span class="p">[</span><span class="s1">&#39;fitness&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">newFitnesses</span>
+        <span class="n">gen</span><span class="p">[</span><span class="s1">&#39;sim&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">newSims</span>
+
+        <span class="k">return</span> <span class="n">gen</span></div>
+
+<div class="viewcode-block" id="DiffEvolution.asyncGetMembersAndFitnesses"><a class="viewcode-back" href="../../../_apidoc/tellurium.optimization.html#tellurium.optimization.diffevolution.DiffEvolution.asyncGetMembersAndFitnesses">[docs]</a>    <span class="k">def</span> <span class="nf">asyncGetMembersAndFitnesses</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">newMembers</span><span class="p">,</span> <span class="n">newFitnesses</span><span class="p">,</span> <span class="n">newSims</span><span class="p">):</span>
+        <span class="n">numParams</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">paramRange</span><span class="p">)</span>
+        <span class="n">asyncSims</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">asyncTrialMembers</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">member</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">generations</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="s1">&#39;members&#39;</span><span class="p">]):</span>
+            <span class="c1"># Pick two other members</span>
+            <span class="n">a</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">generations</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="s1">&#39;members&#39;</span><span class="p">][</span>
+                <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">POPULATION</span><span class="p">)]</span>
+            <span class="n">b</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">generations</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="s1">&#39;members&#39;</span><span class="p">][</span>
+                <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">POPULATION</span><span class="p">)]</span>
+            <span class="c1"># Create mutant</span>
+            <span class="n">mutant</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mutate</span><span class="p">(</span><span class="n">member</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
+            <span class="c1"># Crossover to create trial member</span>
+            <span class="n">trialP</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="n">pInd</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span>
+                <span class="mi">0</span><span class="p">,</span> <span class="n">numParams</span><span class="p">)</span>  <span class="c1"># random index of parameter to cross over</span>
+            <span class="k">for</span> <span class="n">j</span><span class="p">,</span> <span class="p">(</span>
+                    <span class="n">mutantP</span><span class="p">,</span> <span class="n">originalP</span>
+                    <span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">mutant</span><span class="o">.</span><span class="n">params</span><span class="p">,</span> <span class="n">member</span><span class="o">.</span><span class="n">params</span><span class="p">)):</span>
+                <span class="n">r</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">r</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">CROSSOVER_RATE</span> <span class="ow">or</span> <span class="n">j</span> <span class="o">==</span> <span class="n">pInd</span><span class="p">:</span>
+                    <span class="n">trialP</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">mutantP</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">trialP</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">originalP</span><span class="p">)</span>
+            <span class="n">trialMember</span> <span class="o">=</span> <span class="n">Member</span><span class="p">(</span><span class="n">trialP</span><span class="p">)</span>
+
+            <span class="c1"># In the async case, create list of trial members and</span>
+            <span class="c1"># async sim jobs to feed into fitness function</span>
+            <span class="n">sim</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">simFcn</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">rr</span><span class="p">,</span> <span class="n">trialMember</span><span class="o">.</span><span class="n">params</span><span class="p">)</span>
+            <span class="n">asyncTrialMembers</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">trialMember</span><span class="p">)</span>
+            <span class="n">asyncSims</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">sim</span><span class="p">)</span>
+
+        <span class="c1"># Async operation so still need to make members</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="p">(</span><span class="n">simResult</span><span class="p">,</span>
+                <span class="n">trialMember</span>
+                <span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">asyncSims</span><span class="p">,</span> <span class="n">asyncTrialMembers</span><span class="p">)):</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">sim</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">simResult</span><span class="o">.</span><span class="n">get</span><span class="p">()[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+                <span class="n">trialFitness</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fitnessFcn</span><span class="p">(</span><span class="n">sim</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">ex</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">ex</span><span class="o">.</span><span class="n">message</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;CVODE&#39;</span><span class="p">)</span> <span class="o">&gt;</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+                    <span class="n">sim</span> <span class="o">=</span> <span class="bp">None</span>
+                    <span class="n">trialFitness</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="s1">&#39;inf&#39;</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">raise</span><span class="p">(</span><span class="n">ex</span><span class="p">)</span>
+            <span class="n">member</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">generations</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="s1">&#39;members&#39;</span><span class="p">][</span><span class="n">i</span><span class="p">]</span>
+            <span class="n">memberFitness</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">generations</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="s1">&#39;fitness&#39;</span><span class="p">][</span><span class="n">i</span><span class="p">]</span>
+            <span class="n">memberSim</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">generations</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="s1">&#39;sim&#39;</span><span class="p">][</span><span class="n">i</span><span class="p">]</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">trialFitness</span> <span class="o">&lt;</span> <span class="n">memberFitness</span><span class="p">):</span>
+                <span class="n">newMembers</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">trialMember</span><span class="p">)</span>
+                <span class="n">newFitnesses</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">trialFitness</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">updateBestFitness</span><span class="p">(</span><span class="n">trialFitness</span><span class="p">)</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">SAVE_RESULTS</span><span class="p">:</span>
+                    <span class="n">newSims</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">sim</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">newMembers</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">member</span><span class="p">)</span>
+                <span class="n">newFitnesses</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">memberFitness</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">updateBestFitness</span><span class="p">(</span><span class="n">memberFitness</span><span class="p">)</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">SAVE_RESULTS</span><span class="p">:</span>
+                    <span class="n">newSims</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">memberSim</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="DiffEvolution.getMembersAndFitnesses"><a class="viewcode-back" href="../../../_apidoc/tellurium.optimization.html#tellurium.optimization.diffevolution.DiffEvolution.getMembersAndFitnesses">[docs]</a>    <span class="k">def</span> <span class="nf">getMembersAndFitnesses</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">newMembers</span><span class="p">,</span> <span class="n">newFitnesses</span><span class="p">,</span> <span class="n">newSims</span><span class="p">):</span>
+        <span class="n">numParams</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">paramRange</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">member</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">generations</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="s1">&#39;members&#39;</span><span class="p">]):</span>
+            <span class="c1"># Pick two other members</span>
+            <span class="n">a</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">generations</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="s1">&#39;members&#39;</span><span class="p">][</span>
+                <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">POPULATION</span><span class="p">)]</span>
+            <span class="n">b</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">generations</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="s1">&#39;members&#39;</span><span class="p">][</span>
+                <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">POPULATION</span><span class="p">)]</span>
+            <span class="c1"># Create mutant</span>
+            <span class="n">mutant</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mutate</span><span class="p">(</span><span class="n">member</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
+            <span class="c1"># Crossover to create trial member</span>
+            <span class="n">trialP</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="n">pInd</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span>
+                <span class="mi">0</span><span class="p">,</span> <span class="n">numParams</span><span class="p">)</span>  <span class="c1"># random index of parameter to cross over</span>
+            <span class="k">for</span> <span class="n">j</span><span class="p">,</span> <span class="p">(</span>
+                    <span class="n">mutantP</span><span class="p">,</span> <span class="n">originalP</span>
+                    <span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">mutant</span><span class="o">.</span><span class="n">params</span><span class="p">,</span> <span class="n">member</span><span class="o">.</span><span class="n">params</span><span class="p">)):</span>
+                <span class="n">r</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">r</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">CROSSOVER_RATE</span> <span class="ow">or</span> <span class="n">j</span> <span class="o">==</span> <span class="n">pInd</span><span class="p">:</span>
+                    <span class="n">trialP</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">mutantP</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">trialP</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">originalP</span><span class="p">)</span>
+            <span class="n">trialMember</span> <span class="o">=</span> <span class="n">Member</span><span class="p">(</span><span class="n">trialP</span><span class="p">)</span>
+
+            <span class="c1"># Fitness function should know how to handle trialmember</span>
+            <span class="c1"># and run simulation</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">sim</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">simFcn</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">rr</span><span class="p">,</span> <span class="n">trialMember</span><span class="o">.</span><span class="n">params</span><span class="p">))</span>
+                <span class="n">trialFitness</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fitnessFcn</span><span class="p">(</span><span class="n">sim</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">RuntimeError</span><span class="p">:</span>
+                <span class="n">sim</span> <span class="o">=</span> <span class="bp">None</span>
+                <span class="n">trialFitness</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="s1">&#39;inf&#39;</span><span class="p">)</span>
+            <span class="n">memberFitness</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">generations</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="s1">&#39;fitness&#39;</span><span class="p">][</span><span class="n">i</span><span class="p">]</span>
+            <span class="n">memberSim</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">generations</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="s1">&#39;sim&#39;</span><span class="p">][</span><span class="n">i</span><span class="p">]</span>
+            <span class="c1"># Replace member with trial member if better fitness</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">trialFitness</span> <span class="o">&lt;</span> <span class="n">memberFitness</span><span class="p">):</span>
+                <span class="n">newMembers</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">trialMember</span><span class="p">)</span>
+                <span class="n">newFitnesses</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">trialFitness</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">updateBestFitness</span><span class="p">(</span><span class="n">trialFitness</span><span class="p">)</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">SAVE_RESULTS</span><span class="p">:</span>
+                    <span class="n">newSims</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">sim</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">newMembers</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">member</span><span class="p">)</span>
+                <span class="n">newFitnesses</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">memberFitness</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">updateBestFitness</span><span class="p">(</span><span class="n">memberFitness</span><span class="p">)</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">SAVE_RESULTS</span><span class="p">:</span>
+                    <span class="n">newSims</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">memberSim</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="DiffEvolution.updateBestFitness"><a class="viewcode-back" href="../../../_apidoc/tellurium.optimization.html#tellurium.optimization.diffevolution.DiffEvolution.updateBestFitness">[docs]</a>    <span class="k">def</span> <span class="nf">updateBestFitness</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">newFitness</span><span class="p">):</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">newFitness</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">BEST_FITNESS</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">BEST_FITNESS</span> <span class="o">=</span> <span class="n">newFitness</span>
+            <span class="k">return</span> <span class="bp">True</span>
+        <span class="k">return</span> <span class="bp">False</span></div>
+
+<div class="viewcode-block" id="DiffEvolution.mutate"><a class="viewcode-back" href="../../../_apidoc/tellurium.optimization.html#tellurium.optimization.diffevolution.DiffEvolution.mutate">[docs]</a>    <span class="k">def</span> <span class="nf">mutate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+        <span class="n">differential</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">MIXING_RATE</span><span class="o">*</span><span class="p">(</span><span class="n">ai</span><span class="o">-</span><span class="n">bi</span><span class="p">)</span>
+                        <span class="k">for</span> <span class="n">ai</span><span class="p">,</span> <span class="n">bi</span>
+                        <span class="ow">in</span>
+                        <span class="nb">zip</span><span class="p">(</span><span class="n">a</span><span class="o">.</span><span class="n">params</span><span class="p">,</span> <span class="n">b</span><span class="o">.</span><span class="n">params</span><span class="p">)</span>
+                        <span class="p">]</span>
+        <span class="n">mutantParams</span> <span class="o">=</span> <span class="p">[</span><span class="n">xi</span> <span class="o">+</span> <span class="n">diffi</span>
+                        <span class="k">for</span> <span class="n">xi</span><span class="p">,</span> <span class="n">diffi</span>
+                        <span class="ow">in</span>
+                        <span class="nb">zip</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">params</span><span class="p">,</span> <span class="n">differential</span><span class="p">)]</span>
+        <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">NON_NEGATIVE</span><span class="p">):</span>
+            <span class="n">npParams</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">mutantParams</span><span class="p">)</span>
+            <span class="n">negativeIndicies</span> <span class="o">=</span> <span class="n">npParams</span> <span class="o">&lt;</span> <span class="mi">0</span>
+            <span class="n">npParams</span><span class="p">[</span><span class="n">negativeIndicies</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="n">mutantParams</span> <span class="o">=</span> <span class="n">npParams</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">Member</span><span class="p">(</span><span class="n">mutantParams</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="DiffEvolution.createRandomMember"><a class="viewcode-back" href="../../../_apidoc/tellurium.optimization.html#tellurium.optimization.diffevolution.DiffEvolution.createRandomMember">[docs]</a>    <span class="k">def</span> <span class="nf">createRandomMember</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">newParams</span> <span class="o">=</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">paramRange</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span>
+                                       <span class="bp">self</span><span class="o">.</span><span class="n">paramRange</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">1</span><span class="p">])</span>
+                     <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">p</span>
+                     <span class="ow">in</span>
+                     <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">rr</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">getGlobalParameterValues</span><span class="p">())]</span>
+        <span class="n">newMember</span> <span class="o">=</span> <span class="n">Member</span><span class="p">(</span><span class="n">newParams</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">newMember</span></div>
+
+<div class="viewcode-block" id="DiffEvolution.plotFitnesses"><a class="viewcode-back" href="../../../_apidoc/tellurium.optimization.html#tellurium.optimization.diffevolution.DiffEvolution.plotFitnesses">[docs]</a>    <span class="k">def</span> <span class="nf">plotFitnesses</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span></div>
+
+        <span class="n">fitnesses</span> <span class="o">=</span> <span class="p">[</span><span class="nb">min</span><span class="p">(</span><span class="n">g</span><span class="p">[</span><span class="s1">&#39;fitness&#39;</span><span class="p">])</span> <span class="k">for</span> <span class="n">g</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">generations</span><span class="p">]</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">fitnesses</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<div class="viewcode-block" id="DiffEvolution.plotBest"><a class="viewcode-back" href="../../../_apidoc/tellurium.optimization.html#tellurium.optimization.diffevolution.DiffEvolution.plotBest">[docs]</a>    <span class="k">def</span> <span class="nf">plotBest</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="n">ind</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">generations</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="s1">&#39;fitness&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">BEST_FITNESS</span><span class="p">)</span>
+        <span class="n">params</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">generations</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="s1">&#39;members&#39;</span><span class="p">][</span><span class="n">ind</span><span class="p">]</span><span class="o">.</span><span class="n">params</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">SAVE_RESULTS</span><span class="p">:</span>
+            <span class="n">sim</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">generations</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="s1">&#39;sim&#39;</span><span class="p">][</span><span class="n">ind</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">ASYNC</span><span class="p">:</span>
+                <span class="n">sim</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">simFcn</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">rr</span><span class="p">,</span> <span class="n">params</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">()[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">sim</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">simFcn</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">rr</span><span class="p">,</span> <span class="n">params</span><span class="p">)</span>
+        <span class="n">plts</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">sim</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">sim</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">:],</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">2.5</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">observed</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">column</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">observed</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">:]</span><span class="o">.</span><span class="n">T</span><span class="p">):</span>
+                <span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span>
+                    <span class="n">observed</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span>
+                    <span class="n">column</span><span class="p">,</span>
+                    <span class="n">linewidth</span><span class="o">=</span><span class="mf">2.5</span><span class="p">,</span>
+                    <span class="n">color</span><span class="o">=</span><span class="n">plts</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">get_color</span><span class="p">())</span>
+        <span class="k">return</span> <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="DiffEvolution.getBestMember"><a class="viewcode-back" href="../../../_apidoc/tellurium.optimization.html#tellurium.optimization.diffevolution.DiffEvolution.getBestMember">[docs]</a>    <span class="k">def</span> <span class="nf">getBestMember</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">ind</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">generations</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="s1">&#39;fitness&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">BEST_FITNESS</span><span class="p">)</span>
+        <span class="n">bestMember</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">generations</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="s1">&#39;members&#39;</span><span class="p">][</span><span class="n">ind</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">bestMember</span></div></div>
+
+
+<div class="viewcode-block" id="Member"><a class="viewcode-back" href="../../../_apidoc/tellurium.optimization.html#tellurium.optimization.diffevolution.Member">[docs]</a><span class="k">class</span> <span class="nc">Member</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">params</span> <span class="o">=</span> <span class="n">params</span></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016, sys-bio.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../../',
+            VERSION:'1.3.0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

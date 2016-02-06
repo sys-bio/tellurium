@@ -13,7 +13,7 @@ models.
 
     
     import tellurium as te
-    from tellurium.widgets import ParameterSlider
+    from tellurium.notebooks import ParameterSlider
     
     r = te.loada('''
           model pathway()

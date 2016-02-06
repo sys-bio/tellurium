@@ -20,8 +20,8 @@ cd $NBOUTDIR
 # if errors should abort, remove the --allow-errors option
 # jupyter nbconvert --to=rst --allow-errors --execute $NBDIR/*.ipynb
 # In the process the notebooks are completely executed
-jupyter nbconvert --to=rst --execute $NBDIR/*.ipynb
-jupyter nbconvert --to=rst --execute $WIDGETDIR/*.ipynb
+jupyter nbconvert --to=rst --allow-errors --execute $NBDIR/*.ipynb
+jupyter nbconvert --to=rst --allow-errors --execute $WIDGETDIR/*.ipynb
 echo "DONE"
 
 echo "--------------------------------------"

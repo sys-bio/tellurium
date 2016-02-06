@@ -11,10 +11,10 @@ Subpackages
 Submodules
 ----------
 
-tellurium.tests.test_Export module
-----------------------------------
+tellurium.tests.test_analysis module
+------------------------------------
 
-.. automodule:: tellurium.tests.test_Export
+.. automodule:: tellurium.tests.test_analysis
     :members:
     :undoc-members:
     :show-inheritance:
@@ -23,6 +23,14 @@ tellurium.tests.test_examples module
 ------------------------------------
 
 .. automodule:: tellurium.tests.test_examples
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+tellurium.tests.test_io module
+------------------------------
+
+.. automodule:: tellurium.tests.test_io
     :members:
     :undoc-members:
     :show-inheritance:

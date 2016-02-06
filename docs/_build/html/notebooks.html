@@ -664,7 +664,7 @@ I.I., Nickerson D., Snoep J.L.,Le Novère, N. BMC Systems Biology
 </pre></div>
 </div>
 <div class="highlight-python"><div class="highlight"><pre>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
-&lt;!-- Created by phraSED-ML version v0.5beta on 2016-02-05 17:13 with libSBML version 5.12.1. --&gt;
+&lt;!-- Created by phraSED-ML version v0.5beta on 2016-02-06 15:14 with libSBML version 5.12.1. --&gt;
 &lt;sedML xmlns=&quot;http://sed-ml.org/sed-ml/level1/version2&quot; level=&quot;1&quot; version=&quot;2&quot;&gt;
   &lt;listOfSimulations&gt;
     &lt;uniformTimeCourse id=&quot;sim1&quot; initialTime=&quot;0&quot; outputStartTime=&quot;0&quot; outputEndTime=&quot;5&quot; numberOfPoints=&quot;100&quot;&gt;
@@ -739,8 +739,8 @@ I.I., Nickerson D., Snoep J.L.,Le Novère, N. BMC Systems Biology
 <span class="c1"># py_code = s2p.sedml_to_python(s2p)</span>
 </pre></div>
 </div>
-<div class="highlight-python"><div class="highlight"><pre>/tmp/myModel9rkKVg.xml
-/tmp/tmpNPs4l6.sedml
+<div class="highlight-python"><div class="highlight"><pre>/tmp/myModeluc1SIO.xml
+/tmp/tmpyITWFU.sedml
 </pre></div>
 </div>
 </div>
@@ -764,18 +764,19 @@ I.I., Nickerson D., Snoep J.L.,Le Novère, N. BMC Systems Biology
 <span class="s1">&#39;&#39;&#39;</span><span class="p">)</span>
 
 <span class="c1"># parameter scan</span>
-<span class="n">p</span> <span class="o">=</span> <span class="n">te</span><span class="o">.</span><span class="n">ParameterScan</span><span class="o">.</span><span class="n">ParameterScan</span><span class="p">(</span><span class="n">r</span><span class="p">)</span>
-<span class="c1"># settings</span>
-<span class="n">p</span><span class="o">.</span><span class="n">startTime</span> <span class="o">=</span> <span class="mi">0</span>
-<span class="n">p</span><span class="o">.</span><span class="n">endTime</span> <span class="o">=</span> <span class="mi">15</span>
-<span class="n">p</span><span class="o">.</span><span class="n">numberOfPoints</span> <span class="o">=</span> <span class="mi">50</span>
-<span class="n">p</span><span class="o">.</span><span class="n">polyNumber</span> <span class="o">=</span> <span class="mi">10</span>
-<span class="n">p</span><span class="o">.</span><span class="n">endValue</span> <span class="o">=</span> <span class="mf">1.8</span>
-<span class="n">p</span><span class="o">.</span><span class="n">alpha</span> <span class="o">=</span> <span class="mf">0.8</span>
-<span class="n">p</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="s2">&quot;x&quot;</span>
-<span class="n">p</span><span class="o">.</span><span class="n">selection</span> <span class="o">=</span> <span class="s2">&quot;x&quot;</span>
-<span class="n">p</span><span class="o">.</span><span class="n">color</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;#0F0F3D&#39;</span><span class="p">,</span> <span class="s1">&#39;#141452&#39;</span><span class="p">,</span> <span class="s1">&#39;#1A1A66&#39;</span><span class="p">,</span> <span class="s1">&#39;#1F1F7A&#39;</span><span class="p">,</span> <span class="s1">&#39;#24248F&#39;</span><span class="p">,</span> <span class="s1">&#39;#2929A3&#39;</span><span class="p">,</span>
-           <span class="s1">&#39;#2E2EB8&#39;</span><span class="p">,</span> <span class="s1">&#39;#3333CC&#39;</span><span class="p">,</span> <span class="s1">&#39;#4747D1&#39;</span><span class="p">,</span> <span class="s1">&#39;#5C5CD6&#39;</span><span class="p">]</span>
+<span class="n">p</span> <span class="o">=</span> <span class="n">te</span><span class="o">.</span><span class="n">ParameterScan</span><span class="p">(</span><span class="n">r</span><span class="p">,</span>
+    <span class="c1"># settings</span>
+    <span class="n">startTime</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="n">endTime</span> <span class="o">=</span> <span class="mi">15</span><span class="p">,</span>
+    <span class="n">numberOfPoints</span> <span class="o">=</span> <span class="mi">50</span><span class="p">,</span>
+    <span class="n">polyNumber</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span>
+    <span class="n">endValue</span> <span class="o">=</span> <span class="mf">1.8</span><span class="p">,</span>
+    <span class="n">alpha</span> <span class="o">=</span> <span class="mf">0.8</span><span class="p">,</span>
+    <span class="n">value</span> <span class="o">=</span> <span class="s2">&quot;x&quot;</span><span class="p">,</span>
+    <span class="n">selection</span> <span class="o">=</span> <span class="s2">&quot;x&quot;</span><span class="p">,</span>
+    <span class="n">color</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;#0F0F3D&#39;</span><span class="p">,</span> <span class="s1">&#39;#141452&#39;</span><span class="p">,</span> <span class="s1">&#39;#1A1A66&#39;</span><span class="p">,</span> <span class="s1">&#39;#1F1F7A&#39;</span><span class="p">,</span> <span class="s1">&#39;#24248F&#39;</span><span class="p">,</span> <span class="s1">&#39;#2929A3&#39;</span><span class="p">,</span>
+               <span class="s1">&#39;#2E2EB8&#39;</span><span class="p">,</span> <span class="s1">&#39;#3333CC&#39;</span><span class="p">,</span> <span class="s1">&#39;#4747D1&#39;</span><span class="p">,</span> <span class="s1">&#39;#5C5CD6&#39;</span><span class="p">]</span>
+<span class="p">)</span>
 <span class="c1"># plot</span>
 <span class="n">p</span><span class="o">.</span><span class="n">plotPolyArray</span><span class="p">()</span>
 </pre></div>
@@ -791,19 +792,20 @@ I.I., Nickerson D., Snoep J.L.,Le Novère, N. BMC Systems Biology
 <span class="s1">&#39;&#39;&#39;</span><span class="p">)</span>
 
 <span class="c1"># parameter scan</span>
-<span class="n">p</span> <span class="o">=</span> <span class="n">te</span><span class="o">.</span><span class="n">ParameterScan</span><span class="o">.</span><span class="n">ParameterScan</span><span class="p">(</span><span class="n">r</span><span class="p">)</span>
-<span class="c1"># settings</span>
-<span class="n">p</span><span class="o">.</span><span class="n">startTime</span> <span class="o">=</span> <span class="mi">0</span>
-<span class="n">p</span><span class="o">.</span><span class="n">endTime</span> <span class="o">=</span> <span class="mi">6</span>
-<span class="n">p</span><span class="o">.</span><span class="n">numberOfPoints</span> <span class="o">=</span> <span class="mi">50</span>
-<span class="n">p</span><span class="o">.</span><span class="n">startValue</span> <span class="o">=</span> <span class="mi">1</span>
-<span class="n">p</span><span class="o">.</span><span class="n">endValue</span> <span class="o">=</span> <span class="mi">5</span>
-<span class="n">p</span><span class="o">.</span><span class="n">colormap</span> <span class="o">=</span> <span class="s2">&quot;cool&quot;</span>
-<span class="n">p</span><span class="o">.</span><span class="n">independent</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;Time&quot;</span><span class="p">,</span> <span class="s2">&quot;k1&quot;</span><span class="p">]</span>
-<span class="n">p</span><span class="o">.</span><span class="n">dependent</span> <span class="o">=</span> <span class="s2">&quot;S1&quot;</span>
-<span class="n">p</span><span class="o">.</span><span class="n">xlabel</span> <span class="o">=</span> <span class="s2">&quot;Time&quot;</span>
-<span class="n">p</span><span class="o">.</span><span class="n">ylabel</span> <span class="o">=</span> <span class="s2">&quot;x&quot;</span>
-<span class="n">p</span><span class="o">.</span><span class="n">title</span> <span class="o">=</span> <span class="s2">&quot;Model&quot;</span>
+<span class="n">p</span> <span class="o">=</span> <span class="n">te</span><span class="o">.</span><span class="n">ParameterScan</span><span class="p">(</span><span class="n">r</span><span class="p">,</span>
+    <span class="c1"># settings</span>
+    <span class="n">startTime</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="n">endTime</span> <span class="o">=</span> <span class="mi">6</span><span class="p">,</span>
+    <span class="n">numberOfPoints</span> <span class="o">=</span> <span class="mi">50</span><span class="p">,</span>
+    <span class="n">startValue</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="n">endValue</span> <span class="o">=</span> <span class="mi">5</span><span class="p">,</span>
+    <span class="n">colormap</span> <span class="o">=</span> <span class="s2">&quot;cool&quot;</span><span class="p">,</span>
+    <span class="n">independent</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;Time&quot;</span><span class="p">,</span> <span class="s2">&quot;k1&quot;</span><span class="p">],</span>
+    <span class="n">dependent</span> <span class="o">=</span> <span class="s2">&quot;S1&quot;</span><span class="p">,</span>
+    <span class="n">xlabel</span> <span class="o">=</span> <span class="s2">&quot;Time&quot;</span><span class="p">,</span>
+    <span class="n">ylabel</span> <span class="o">=</span> <span class="s2">&quot;x&quot;</span><span class="p">,</span>
+    <span class="n">title</span> <span class="o">=</span> <span class="s2">&quot;Model&quot;</span>
+<span class="p">)</span>
 <span class="c1"># plot</span>
 <span class="n">p</span><span class="o">.</span><span class="n">plotSurface</span><span class="p">()</span>
 </pre></div>
@@ -831,12 +833,13 @@ state.</p>
 <span class="s1">    k1 = 2; k2 = 0; k3 = 3;</span>
 <span class="s1">&#39;&#39;&#39;</span><span class="p">)</span>
 
-<span class="n">p</span> <span class="o">=</span> <span class="n">te</span><span class="o">.</span><span class="n">ParameterScan</span><span class="o">.</span><span class="n">SteadyStateScan</span><span class="p">(</span><span class="n">r</span><span class="p">)</span>
-<span class="n">p</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="s1">&#39;k3&#39;</span>
-<span class="n">p</span><span class="o">.</span><span class="n">startValue</span> <span class="o">=</span> <span class="mi">2</span>
-<span class="n">p</span><span class="o">.</span><span class="n">endValue</span> <span class="o">=</span> <span class="mi">3</span>
-<span class="n">p</span><span class="o">.</span><span class="n">numberOfPoints</span> <span class="o">=</span> <span class="mi">20</span>
-<span class="n">p</span><span class="o">.</span><span class="n">selection</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;S1&#39;</span><span class="p">,</span> <span class="s1">&#39;S2&#39;</span><span class="p">]</span>
+<span class="n">p</span> <span class="o">=</span> <span class="n">te</span><span class="o">.</span><span class="n">SteadyStateScan</span><span class="p">(</span><span class="n">r</span><span class="p">,</span>
+    <span class="n">value</span> <span class="o">=</span> <span class="s1">&#39;k3&#39;</span><span class="p">,</span>
+    <span class="n">startValue</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span>
+    <span class="n">endValue</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span>
+    <span class="n">numberOfPoints</span> <span class="o">=</span> <span class="mi">20</span><span class="p">,</span>
+    <span class="n">selection</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;S1&#39;</span><span class="p">,</span> <span class="s1">&#39;S2&#39;</span><span class="p">]</span>
+<span class="p">)</span>
 <span class="n">p</span><span class="o">.</span><span class="n">plotArray</span><span class="p">()</span>
 
 <span class="n">Config</span><span class="o">.</span><span class="n">setValue</span><span class="p">(</span><span class="n">Config</span><span class="o">.</span><span class="n">LOADSBMLOPTIONS_CONSERVED_MOIETIES</span><span class="p">,</span> <span class="bp">False</span><span class="p">)</span>

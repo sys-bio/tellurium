@@ -429,7 +429,7 @@ attractors.
 
 .. parsed-literal::
 
-    <matplotlib.text.Text at 0x7f89e4fc2050>
+    <matplotlib.text.Text at 0x7f600447bdd0>
 
 
 
@@ -447,7 +447,7 @@ attractors.
 
 .. parsed-literal::
 
-    <matplotlib.text.Text at 0x7f89e4ee7d90>
+    <matplotlib.text.Text at 0x7f60043acbd0>
 
 
 

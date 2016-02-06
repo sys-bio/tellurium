@@ -1,0 +1,312 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>tellurium.notebooks.parameterslider &mdash; tellurium 1.3.0 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="tellurium 1.3.0 documentation" href="../../../index.html"/>
+        <link rel="up" title="Module code" href="../../index.html"/> 
+
+  
+  <script src="../../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> tellurium
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.3.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../notebooks.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tellurium_methods.html">Tellurium Methods</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../_apidoc/tellurium.html">API (tellurium)</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../../../index.html">tellurium</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../../index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+      
+    <li>tellurium.notebooks.parameterslider</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for tellurium.notebooks.parameterslider</h1><div class="highlight"><pre>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">IPython parameter slider.</span>
+<span class="sd">::</span>
+
+<span class="sd">    %matplotlib inline</span>
+<span class="sd">    import tellurium as te</span>
+<span class="sd">    from tellurium.notebooks import ParameterSlider</span>
+
+<span class="sd">    model = &#39;&#39;&#39;</span>
+<span class="sd">          model pathway()</span>
+<span class="sd">            S1 -&gt; S2; k1*S1 - k2*S2 # Reversible term added here</span>
+
+<span class="sd">            # Initialize values</span>
+<span class="sd">            S1 = 5; S2 = 0;</span>
+<span class="sd">            k1 = 0.1;  k2 = 0.05;</span>
+
+<span class="sd">          end</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+<span class="sd">    r = te.loadAntimonyModel(model)</span>
+<span class="sd">    ParameterSlider(r)</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">print_function</span><span class="p">,</span> <span class="n">division</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">ipywidgets</span>
+<span class="kn">import</span> <span class="nn">warnings</span>
+<span class="kn">import</span> <span class="nn">tellurium</span> <span class="kn">as</span> <span class="nn">te</span>
+<span class="kn">from</span> <span class="nn">roadrunner</span> <span class="kn">import</span> <span class="n">SelectionRecord</span>
+
+
+<div class="viewcode-block" id="simulateAndPlot"><a class="viewcode-back" href="../../../_apidoc/tellurium.notebooks.html#tellurium.notebooks.parameterslider.simulateAndPlot">[docs]</a><span class="k">def</span> <span class="nf">simulateAndPlot</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Simulate with r.simulate with given arguments and plot with tellurium.</span>
+
+<span class="sd">    :returns: simulation result</span>
+<span class="sd">    :rtype: NamedArray</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">s</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">simulate</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="n">r</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">s</span></div>
+
+
+<div class="viewcode-block" id="ParameterSlider"><a class="viewcode-back" href="../../../_apidoc/tellurium.notebooks.html#tellurium.notebooks.parameterslider.ParameterSlider">[docs]</a><span class="k">class</span> <span class="nc">ParameterSlider</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Interactive ipython notebook slider. &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">r</span><span class="p">,</span>
+                 <span class="n">paramIds</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
+                 <span class="n">minFactor</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+                 <span class="n">maxFactor</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+                 <span class="n">sliderStepFactor</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
+                 <span class="n">selection</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
+                 <span class="n">simulateAndPlot</span><span class="o">=</span><span class="n">simulateAndPlot</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Create interactive sliders to change model parameters.</span>
+
+<span class="sd">        :param r: roadrunner model</span>
+<span class="sd">        :type r: roadrunner.RoadRunner</span>
+<span class="sd">        :param paramIds: list of parameter ids to create sliders, by default creates slider for every parameter</span>
+<span class="sd">        :type paramIds: list[str]</span>
+<span class="sd">        :param minFactor: scale factor multiplied with parameter value, to determine minimum value of slider</span>
+<span class="sd">        :type minFactor: float</span>
+<span class="sd">        :param maxFactor: scale factor multiplied with parameter value, to determine maximum value of slider</span>
+<span class="sd">        :type maxFactor: float</span>
+<span class="sd">        :param sliderStepFactor: scale factor divided with parameter value, to determine step size of slider</span>
+<span class="sd">        :type sliderStepFactor: float</span>
+<span class="sd">        :param selection: roadrunner selection, if None r.selections is used</span>
+<span class="sd">        :type selection: list[str]</span>
+<span class="sd">        :param simulateAndPlot: simulateAndPlot function with signature f(r, *args, **kwargs)</span>
+<span class="sd">        :type simulateAndPlot: function</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="n">paramIds</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">paramIds</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">getGlobalParameterIds</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">selection</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">r</span><span class="o">.</span><span class="n">selections</span> <span class="o">=</span> <span class="n">selection</span>
+
+        <span class="n">kwargs</span> <span class="o">=</span> <span class="p">{}</span>
+
+        <span class="k">def</span> <span class="nf">runSimulation</span><span class="p">(</span><span class="n">end</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+            <span class="sd">&quot;&quot;&quot; Function run in interact. &quot;&quot;&quot;</span>
+            <span class="c1"># set variable step</span>
+            <span class="n">r</span><span class="o">.</span><span class="n">integrator</span><span class="o">.</span><span class="n">setValue</span><span class="p">(</span><span class="s1">&#39;variable_step_size&#39;</span><span class="p">,</span> <span class="bp">True</span><span class="p">)</span>
+
+            <span class="c1"># full model reset</span>
+            <span class="n">r</span><span class="o">.</span><span class="n">reset</span><span class="p">(</span><span class="n">SelectionRecord</span><span class="o">.</span><span class="n">ALL</span><span class="p">)</span>
+            <span class="c1"># set parameters, key:value pairs</span>
+            <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">key</span> <span class="o">=</span> <span class="n">k</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;ascii&#39;</span><span class="p">,</span> <span class="s1">&#39;ignore&#39;</span><span class="p">)</span>
+                    <span class="n">r</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">v</span>
+                <span class="k">except</span> <span class="ne">RuntimeError</span><span class="p">:</span>
+                    <span class="c1"># error in setting model variable, variable probably not in model</span>
+                    <span class="n">e</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">exc_info</span><span class="p">()</span>
+                    <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+            <span class="c1"># simulate</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">results</span> <span class="o">=</span> <span class="n">simulateAndPlot</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">start</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="n">end</span><span class="p">)</span>
+            <span class="k">except</span><span class="p">:</span>
+                <span class="c1"># error in simulation</span>
+                <span class="n">e</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">exc_info</span><span class="p">()</span>
+                <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+
+        <span class="c1"># create FloatSlider for all parameters</span>
+        <span class="k">for</span> <span class="n">pid</span> <span class="ow">in</span> <span class="n">paramIds</span><span class="p">:</span>
+            <span class="n">val</span> <span class="o">=</span> <span class="n">r</span><span class="p">[</span><span class="n">pid</span><span class="p">]</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">r</span><span class="p">[</span><span class="n">pid</span><span class="p">]</span> <span class="o">=</span> <span class="n">val</span>
+                <span class="n">kwargs</span><span class="p">[</span><span class="n">pid</span><span class="p">]</span> <span class="o">=</span> <span class="n">ipywidgets</span><span class="o">.</span><span class="n">FloatSlider</span><span class="p">(</span>
+                    <span class="nb">min</span><span class="o">=</span><span class="n">minFactor</span><span class="o">*</span><span class="n">val</span><span class="p">,</span>
+                    <span class="nb">max</span><span class="o">=</span><span class="n">maxFactor</span><span class="o">*</span><span class="n">val</span><span class="p">,</span>
+                    <span class="n">step</span><span class="o">=</span><span class="n">val</span><span class="o">/</span><span class="n">sliderStepFactor</span><span class="p">,</span>
+                    <span class="n">value</span><span class="o">=</span><span class="n">val</span><span class="p">)</span>
+            <span class="k">except</span><span class="p">:</span>
+                <span class="n">e</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">exc_info</span><span class="p">()</span>
+                <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+
+        <span class="c1"># create the widget</span>
+        <span class="n">ipywidgets</span><span class="o">.</span><span class="n">interact</span><span class="p">(</span><span class="n">runSimulation</span><span class="p">,</span>
+                            <span class="n">end</span><span class="o">=</span><span class="n">ipywidgets</span><span class="o">.</span><span class="n">FloatText</span><span class="p">(</span><span class="nb">min</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="mi">100</span><span class="p">),</span>
+                            <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016, sys-bio.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../../',
+            VERSION:'1.3.0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

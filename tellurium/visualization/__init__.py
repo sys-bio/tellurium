@@ -1,1 +1,4 @@
-from SBMLDiagram import SBMLDiagram
+"""
+visualization imports
+"""
+from sbmldiagram import SBMLDiagram

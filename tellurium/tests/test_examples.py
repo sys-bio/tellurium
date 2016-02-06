@@ -25,8 +25,6 @@ tedir = os.path.join(examples_dir, 'tellurium-files')
 py_files = []
 py_files.extend(_pyFilesInFolder(notebookdir))
 py_files.extend(_pyFilesInFolder(tedir))
-print(py_files)
-
 
 # ----------------------------------------------------------------
 # Test class
@@ -50,7 +48,6 @@ def ftest_generator(filePath):
     return test
 
 for k, f in enumerate(py_files):
-    print(f)
     test_name = 'test_{:03d}_{}'.format(k, os.path.basename(f)[:-3])
     test = ftest_generator(f)
     setattr(PythonExampleTestCase, test_name, test)

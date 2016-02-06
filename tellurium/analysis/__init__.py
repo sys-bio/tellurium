@@ -1,2 +1,4 @@
-from match import *
-from parameters import *
+"""
+analysis imports
+"""
+from parameterscan import *

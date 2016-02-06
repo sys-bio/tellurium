@@ -25,12 +25,13 @@ state.
         k1 = 2; k2 = 0; k3 = 3;
     ''')
     
-    p = te.ParameterScan.SteadyStateScan(r)
-    p.value = 'k3'
-    p.startValue = 2
-    p.endValue = 3
-    p.numberOfPoints = 20
-    p.selection = ['S1', 'S2']
+    p = te.SteadyStateScan(r,
+        value = 'k3',
+        startValue = 2,
+        endValue = 3,
+        numberOfPoints = 20,
+        selection = ['S1', 'S2']                      
+    )
     p.plotArray()
     
     Config.setValue(Config.LOADSBMLOPTIONS_CONSERVED_MOIETIES, False) 

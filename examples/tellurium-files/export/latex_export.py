@@ -16,7 +16,7 @@ model = '''
 
 r = te.loada(model)
 result = r.simulate(0, 30)
-p = te.Export.export(r,
+p = te.LatexExport(r,
                      color=['blue', 'green'],
                      legend=['S1', 'S2'],
                      xlabel='Time',
@@ -25,6 +25,3 @@ p = te.Export.export(r,
                      saveto=tempfile.mkdtemp(),
                      fileName='newModel')
 p.saveToFile(result)
-r.plot()
-r.plot()
-print("Hallo World")

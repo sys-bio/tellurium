@@ -655,7 +655,7 @@ class ExtendedRoadRunner(roadrunner.RoadRunner):
         Species are drawn as white circles (boundary species
         shaded in blue), reactions as grey squares.
         """
-        from visualization.SBMLDiagram import SBMLDiagram
+        from visualization.sbmldiagram import SBMLDiagram
         diagram = SBMLDiagram(self.getSBML())
         diagram.draw(**kwargs)
 

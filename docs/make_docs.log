@@ -1,9 +1,9 @@
-Fre Feb  5 17:12:07 CET 2016
+Sa 6. Feb 15:13:52 CET 2016
 --------------------------------------
 remove old documentation
 --------------------------------------
 DONE
-Fre Feb  5 17:12:07 CET 2016
+Sa 6. Feb 15:13:52 CET 2016
 --------------------------------------
 convert notebooks to rst
 --------------------------------------
@@ -38,7 +38,7 @@ convert notebooks to rst
 [NbConvertApp] Making directory introduction_files
 [NbConvertApp] Making directory introduction_files
 [NbConvertApp] Making directory introduction_files
-[NbConvertApp] Writing 1254 bytes to introduction.rst
+[NbConvertApp] Writing 1290 bytes to introduction.rst
 [NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/modelFromBioModels.ipynb to rst
 [NbConvertApp] Executing notebook with kernel: python2
 [NbConvertApp] Support files will be in modelFromBioModels_files/
@@ -52,12 +52,18 @@ convert notebooks to rst
 [NbConvertApp] Support files will be in parameter_scan_files/
 [NbConvertApp] Making directory parameter_scan_files
 [NbConvertApp] Making directory parameter_scan_files
-[NbConvertApp] Writing 1482 bytes to parameter_scan.rst
+[NbConvertApp] Writing 1590 bytes to parameter_scan.rst
 [NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/phrasedmlExample.ipynb to rst
 [NbConvertApp] Executing notebook with kernel: python2
 [NbConvertApp] Support files will be in phrasedmlExample_files/
 [NbConvertApp] Making directory phrasedmlExample_files
 [NbConvertApp] Writing 2010 bytes to phrasedmlExample.rst
+[NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/plot2DParameterScan.ipynb to rst
+[NbConvertApp] Executing notebook with kernel: python2
+[NbConvertApp] Support files will be in plot2DParameterScan_files/
+[NbConvertApp] Making directory plot2DParameterScan_files
+[NbConvertApp] Making directory plot2DParameterScan_files
+[NbConvertApp] Writing 985 bytes to plot2DParameterScan.rst
 [NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/roadrunnerBasics.ipynb to rst
 [NbConvertApp] Executing notebook with kernel: python2
 [NbConvertApp] Writing 4054 bytes to roadrunnerBasics.rst
@@ -65,7 +71,7 @@ convert notebooks to rst
 [NbConvertApp] Executing notebook with kernel: python2
 [NbConvertApp] Support files will be in steadystate_scan_files/
 [NbConvertApp] Making directory steadystate_scan_files
-[NbConvertApp] Writing 1843 bytes to steadystate_scan.rst
+[NbConvertApp] Writing 1871 bytes to steadystate_scan.rst
 [NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/tellurium_examples.ipynb to rst
 [NbConvertApp] Executing notebook with kernel: python2
 [NbConvertApp] Support files will be in tellurium_examples_files/
@@ -93,15 +99,6 @@ convert notebooks to rst
 [NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/tellurium_interconversion.ipynb to rst
 [NbConvertApp] Executing notebook with kernel: python2
 [NbConvertApp] Writing 601 bytes to tellurium_interconversion.rst
-[NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/tellurium_jarnac.ipynb to rst
-[NbConvertApp] Executing notebook with kernel: python2
-[NbConvertApp] Writing 260 bytes to tellurium_jarnac.rst
-[NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/tellurium_math.ipynb to rst
-[NbConvertApp] Executing notebook with kernel: python2
-[NbConvertApp] Writing 260 bytes to tellurium_math.rst
-[NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/tellurium_model_flattened.ipynb to rst
-[NbConvertApp] Executing notebook with kernel: python2
-[NbConvertApp] Writing 260 bytes to tellurium_model_flattened.rst
 [NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/tellurium_model_loading.ipynb to rst
 [NbConvertApp] Executing notebook with kernel: python2
 [NbConvertApp] Support files will be in tellurium_model_loading_files/
@@ -166,15 +163,15 @@ On instance[u'outputs'][1]:
 [NbConvertApp] Writing 22660 bytes to widgets_lorenz.rst
 [NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/widgets/widgets_ontology_search.ipynb to rst
 [NbConvertApp] Executing notebook with kernel: python2
-[NbConvertApp] Writing 507 bytes to widgets_ontology_search.rst
+[NbConvertApp] Writing 509 bytes to widgets_ontology_search.rst
 [NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/widgets/widgets_parameter_slider.ipynb to rst
 [NbConvertApp] Executing notebook with kernel: python2
 [NbConvertApp] Support files will be in widgets_parameter_slider_files/
 [NbConvertApp] Making directory widgets_parameter_slider_files
-[NbConvertApp] Writing 764 bytes to widgets_parameter_slider.rst
+[NbConvertApp] Writing 766 bytes to widgets_parameter_slider.rst
 [NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/widgets/widgets_species_search.ipynb to rst
 [NbConvertApp] Executing notebook with kernel: python2
-[NbConvertApp] Writing 542 bytes to widgets_species_search.rst
+[NbConvertApp] Writing 544 bytes to widgets_species_search.rst
 DONE
 --------------------------------------
 postprocessing rst
@@ -200,7 +197,7 @@ create python code
 [NbConvertApp] Writing 1617 bytes to generatingDifferentWaveforms.py
 [NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/introduction.ipynb to python
 [NbConvertApp] Executing notebook with kernel: python2
-[NbConvertApp] Writing 869 bytes to introduction.py
+[NbConvertApp] Writing 905 bytes to introduction.py
 [NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/modelFromBioModels.ipynb to python
 [NbConvertApp] Executing notebook with kernel: python2
 [NbConvertApp] Writing 464 bytes to modelFromBioModels.py
@@ -209,16 +206,19 @@ create python code
 [NbConvertApp] Writing 461 bytes to nonUnitStoichiometries.py
 [NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/parameter_scan.ipynb to python
 [NbConvertApp] Executing notebook with kernel: python2
-[NbConvertApp] Writing 1177 bytes to parameter_scan.py
+[NbConvertApp] Writing 1277 bytes to parameter_scan.py
 [NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/phrasedmlExample.ipynb to python
 [NbConvertApp] Executing notebook with kernel: python2
 [NbConvertApp] Writing 1008 bytes to phrasedmlExample.py
+[NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/plot2DParameterScan.ipynb to python
+[NbConvertApp] Executing notebook with kernel: python2
+[NbConvertApp] Writing 575 bytes to plot2DParameterScan.py
 [NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/roadrunnerBasics.ipynb to python
 [NbConvertApp] Executing notebook with kernel: python2
 [NbConvertApp] Writing 2244 bytes to roadrunnerBasics.py
 [NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/steadystate_scan.ipynb to python
 [NbConvertApp] Executing notebook with kernel: python2
-[NbConvertApp] Writing 815 bytes to steadystate_scan.py
+[NbConvertApp] Writing 839 bytes to steadystate_scan.py
 [NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/tellurium_examples.ipynb to python
 [NbConvertApp] Executing notebook with kernel: python2
 [NbConvertApp] Writing 10889 bytes to tellurium_examples.py
@@ -228,15 +228,6 @@ create python code
 [NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/tellurium_interconversion.ipynb to python
 [NbConvertApp] Executing notebook with kernel: python2
 [NbConvertApp] Writing 545 bytes to tellurium_interconversion.py
-[NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/tellurium_jarnac.ipynb to python
-[NbConvertApp] Executing notebook with kernel: python2
-[NbConvertApp] Writing 266 bytes to tellurium_jarnac.py
-[NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/tellurium_math.ipynb to python
-[NbConvertApp] Executing notebook with kernel: python2
-[NbConvertApp] Writing 266 bytes to tellurium_math.py
-[NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/tellurium_model_flattened.ipynb to python
-[NbConvertApp] Executing notebook with kernel: python2
-[NbConvertApp] Writing 266 bytes to tellurium_model_flattened.py
 [NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/tellurium_model_loading.ipynb to python
 [NbConvertApp] Executing notebook with kernel: python2
 [NbConvertApp] Writing 1070 bytes to tellurium_model_loading.py
@@ -266,113 +257,105 @@ DONE
 create sphinx-apidoc
 --------------------------------------
 Creating file _apidoc/tellurium.rst.
-Creating file _apidoc/tellurium.Export.rst.
-Creating file _apidoc/tellurium.ParameterScan.rst.
 Creating file _apidoc/tellurium.analysis.rst.
-Creating file _apidoc/tellurium.notebooktools.rst.
+Creating file _apidoc/tellurium.io.rst.
+Creating file _apidoc/tellurium.notebooks.rst.
 Creating file _apidoc/tellurium.optimization.rst.
 Creating file _apidoc/tellurium.tests.rst.
 Creating file _apidoc/tellurium.tests.testdata.rst.
 Creating file _apidoc/tellurium.visualization.rst.
-Creating file _apidoc/tellurium.widgets.rst.
 Creating file _apidoc/modules.rst.
 DONE
 --------------------------------------
 create html docs
 --------------------------------------
-Running Sphinx v1.3.5
+Running Sphinx v1.3.4
 loading pickled environment... done
 building [mo]: targets for 0 po files that are out of date
-building [html]: targets for 41 source files that are out of date
-updating environment: 0 added, 44 changed, 0 removed
+building [html]: targets for 34 source files that are out of date
+updating environment: 3 added, 37 changed, 0 removed
 reading sources... [  2%] _apidoc/modules
-reading sources... [  4%] _apidoc/tellurium
+reading sources... [  5%] _apidoc/tellurium
 [1m[33mWarning: No module named sbml2matlab[0m
-reading sources... [  6%] _apidoc/tellurium.Export
-reading sources... [  9%] _apidoc/tellurium.ParameterScan
-reading sources... [ 11%] _apidoc/tellurium.analysis
-reading sources... [ 13%] _apidoc/tellurium.notebooktools
+reading sources... [  7%] _apidoc/tellurium.analysis
+reading sources... [ 10%] _apidoc/tellurium.io
+reading sources... [ 12%] _apidoc/tellurium.notebooks
 reading sources... [ 15%] _apidoc/tellurium.optimization
-reading sources... [ 18%] _apidoc/tellurium.tests
-['/home/mkoenig/git/tellurium/tellurium/tests/../../examples/notebooks-py/consecutiveUniUniReactions.py', '/home/mkoenig/git/tellurium/tellurium/tests/../../examples/notebooks-py/computeSteadyState.py', '/home/mkoenig/git/tellurium/tellurium/tests/../../examples/notebooks-py/roadrunnerBasics.py', '/home/mkoenig/git/tellurium/tellurium/tests/../../examples/notebooks-py/feedback_oscillations.py', '/home/mkoenig/git/tellurium/tellurium/tests/../../examples/notebooks-py/steadystate_scan.py', '/home/mkoenig/git/tellurium/tellurium/tests/../../examples/notebooks-py/tellurium_model_flattened.py', '/home/mkoenig/git/tellurium/tellurium/tests/../../examples/notebooks-py/tellurium_math.py', '/home/mkoenig/git/tellurium/tellurium/tests/../../examples/notebooks-py/tellurium_interconversion.py', '/home/mkoenig/git/tellurium/tellurium/tests/../../examples/notebooks-py/tellurium_utility.py', '/home/mkoenig/git/tellurium/tellurium/tests/../../examples/notebooks-py/nonUnitStoichiometries.py', '/home/mkoenig/git/tellurium/tellurium/tests/../../examples/notebooks-py/tellurium_examples.py', '/home/mkoenig/git/tellurium/tellurium/tests/../../examples/notebooks-py/tellurium_reset.py', '/home/mkoenig/git/tellurium/tellurium/tests/../../examples/notebooks-py/tellurium_plotting.py', '/home/mkoenig/git/tellurium/tellurium/tests/../../examples/notebooks-py/modelFromBioModels.py', '/home/mkoenig/git/tellurium/tellurium/tests/../../examples/notebooks-py/tellurium_jarnac.py', '/home/mkoenig/git/tellurium/tellurium/tests/../../examples/notebooks-py/phrasedmlExample.py', '/home/mkoenig/git/tellurium/tellurium/tests/../../examples/notebooks-py/tesedmlExample.py', '/home/mkoenig/git/tellurium/tellurium/tests/../../examples/notebooks-py/antimonyExample.py', '/home/mkoenig/git/tellurium/tellurium/tests/../../examples/notebooks-py/introduction.py', '/home/mkoenig/git/tellurium/tellurium/tests/../../examples/notebooks-py/generatingDifferentWaveforms.py', '/home/mkoenig/git/tellurium/tellurium/tests/../../examples/notebooks-py/tellurium_model_loading.py', '/home/mkoenig/git/tellurium/tellurium/tests/../../examples/notebooks-py/parameter_scan.py', '/home/mkoenig/git/tellurium/tellurium/tests/../../examples/notebooks-py/tellurium_stochastic.py', '/home/mkoenig/git/tellurium/tellurium/tests/../../examples/notebooks-py/tellurium_test.py', '/home/mkoenig/git/tellurium/tellurium/tests/../../examples/notebooks-py/template.py', '/home/mkoenig/git/tellurium/tellurium/tests/../../examples/notebooks-py/tellurium_export.py', '/home/mkoenig/git/tellurium/tellurium/tests/../../examples/tellurium-files/consecutiveUniUniReactions.py', '/home/mkoenig/git/tellurium/tellurium/tests/../../examples/tellurium-files/computeSteadyState.py', '/home/mkoenig/git/tellurium/tellurium/tests/../../examples/tellurium-files/PhrasedMLTesting.py', '/home/mkoenig/git/tellurium/tellurium/tests/../../examples/tellurium-files/parameterscanExample.py', '/home/mkoenig/git/tellurium/tellurium/tests/../../examples/tellurium-files/exportToMatlab.py', '/home/mkoenig/git/tellurium/tellurium/tests/../../examples/tellurium-files/linearChain.py', '/home/mkoenig/git/tellurium/tellurium/tests/../../examples/tellurium-files/nonUnitStoichiometries.py', '/home/mkoenig/git/tellurium/tellurium/tests/../../examples/tellurium-files/simpleUniUniReaction.py', '/home/mkoenig/git/tellurium/tellurium/tests/../../examples/tellurium-files/singleGeneExpressingProteinAndProteinDegradation.py', '/home/mkoenig/git/tellurium/tellurium/tests/../../examples/tellurium-files/generatingDifferentWaveforms.py', '/home/mkoenig/git/tellurium/tellurium/tests/../../examples/tellurium-files/SBMLfromBioModelsDB.py', '/home/mkoenig/git/tellurium/tellurium/tests/../../examples/tellurium-files/settingBoundarySpecies.py', '/home/mkoenig/git/tellurium/tellurium/tests/../../examples/tellurium-files/export/latex_export.py', '/home/mkoenig/git/tellurium/tellurium/tests/../../examples/tellurium-files/events/events.py', '/home/mkoenig/git/tellurium/tellurium/tests/../../examples/tellurium-files/parameterScan/steadystatescan.py', '/home/mkoenig/git/tellurium/tellurium/tests/../../examples/tellurium-files/parameterScan/create_colormap.py', '/home/mkoenig/git/tellurium/tellurium/tests/../../examples/tellurium-files/parameterScan/plot_multi_array.py', '/home/mkoenig/git/tellurium/tellurium/tests/../../examples/tellurium-files/parameterScan/plot_array.py', '/home/mkoenig/git/tellurium/tellurium/tests/../../examples/tellurium-files/parameterScan/parameter_scan.py']
-/home/mkoenig/git/tellurium/tellurium/tests/../../examples/notebooks-py/consecutiveUniUniReactions.py
-/home/mkoenig/git/tellurium/tellurium/tests/../../examples/notebooks-py/computeSteadyState.py
-/home/mkoenig/git/tellurium/tellurium/tests/../../examples/notebooks-py/roadrunnerBasics.py
-/home/mkoenig/git/tellurium/tellurium/tests/../../examples/notebooks-py/feedback_oscillations.py
-/home/mkoenig/git/tellurium/tellurium/tests/../../examples/notebooks-py/steadystate_scan.py
-/home/mkoenig/git/tellurium/tellurium/tests/../../examples/notebooks-py/tellurium_model_flattened.py
-/home/mkoenig/git/tellurium/tellurium/tests/../../examples/notebooks-py/tellurium_math.py
-/home/mkoenig/git/tellurium/tellurium/tests/../../examples/notebooks-py/tellurium_interconversion.py
-/home/mkoenig/git/tellurium/tellurium/tests/../../examples/notebooks-py/tellurium_utility.py
-/home/mkoenig/git/tellurium/tellurium/tests/../../examples/notebooks-py/nonUnitStoichiometries.py
-/home/mkoenig/git/tellurium/tellurium/tests/../../examples/notebooks-py/tellurium_examples.py
-/home/mkoenig/git/tellurium/tellurium/tests/../../examples/notebooks-py/tellurium_reset.py
-/home/mkoenig/git/tellurium/tellurium/tests/../../examples/notebooks-py/tellurium_plotting.py
-/home/mkoenig/git/tellurium/tellurium/tests/../../examples/notebooks-py/modelFromBioModels.py
-/home/mkoenig/git/tellurium/tellurium/tests/../../examples/notebooks-py/tellurium_jarnac.py
-/home/mkoenig/git/tellurium/tellurium/tests/../../examples/notebooks-py/phrasedmlExample.py
-/home/mkoenig/git/tellurium/tellurium/tests/../../examples/notebooks-py/tesedmlExample.py
-/home/mkoenig/git/tellurium/tellurium/tests/../../examples/notebooks-py/antimonyExample.py
-/home/mkoenig/git/tellurium/tellurium/tests/../../examples/notebooks-py/introduction.py
+reading sources... [ 17%] _apidoc/tellurium.tests
+['/home/mkoenig/git/tellurium/tellurium/tests/../../examples/notebooks-py/generatingDifferentWaveforms.py', '/home/mkoenig/git/tellurium/tellurium/tests/../../examples/notebooks-py/tellurium_export.py', '/home/mkoenig/git/tellurium/tellurium/tests/../../examples/notebooks-py/tellurium_plotting.py', '/home/mkoenig/git/tellurium/tellurium/tests/../../examples/notebooks-py/template.py', '/home/mkoenig/git/tellurium/tellurium/tests/../../examples/notebooks-py/parameter_scan.py', '/home/mkoenig/git/tellurium/tellurium/tests/../../examples/notebooks-py/phrasedmlExample.py', '/home/mkoenig/git/tellurium/tellurium/tests/../../examples/notebooks-py/antimonyExample.py', '/home/mkoenig/git/tellurium/tellurium/tests/../../examples/notebooks-py/feedback_oscillations.py', '/home/mkoenig/git/tellurium/tellurium/tests/../../examples/notebooks-py/tellurium_examples.py', '/home/mkoenig/git/tellurium/tellurium/tests/../../examples/notebooks-py/tesedmlExample.py', '/home/mkoenig/git/tellurium/tellurium/tests/../../examples/notebooks-py/tellurium_utility.py', '/home/mkoenig/git/tellurium/tellurium/tests/../../examples/notebooks-py/tellurium_model_loading.py', '/home/mkoenig/git/tellurium/tellurium/tests/../../examples/notebooks-py/introduction.py', '/home/mkoenig/git/tellurium/tellurium/tests/../../examples/notebooks-py/tellurium_test.py', '/home/mkoenig/git/tellurium/tellurium/tests/../../examples/notebooks-py/consecutiveUniUniReactions.py', '/home/mkoenig/git/tellurium/tellurium/tests/../../examples/notebooks-py/nonUnitStoichiometries.py', '/home/mkoenig/git/tellurium/tellurium/tests/../../examples/notebooks-py/computeSteadyState.py', '/home/mkoenig/git/tellurium/tellurium/tests/../../examples/notebooks-py/tellurium_reset.py', '/home/mkoenig/git/tellurium/tellurium/tests/../../examples/notebooks-py/plot2DParameterScan.py', '/home/mkoenig/git/tellurium/tellurium/tests/../../examples/notebooks-py/roadrunnerBasics.py', '/home/mkoenig/git/tellurium/tellurium/tests/../../examples/notebooks-py/tellurium_interconversion.py', '/home/mkoenig/git/tellurium/tellurium/tests/../../examples/notebooks-py/tellurium_stochastic.py', '/home/mkoenig/git/tellurium/tellurium/tests/../../examples/notebooks-py/modelFromBioModels.py', '/home/mkoenig/git/tellurium/tellurium/tests/../../examples/notebooks-py/steadystate_scan.py', '/home/mkoenig/git/tellurium/tellurium/tests/../../examples/tellurium-files/simpleUniUniReaction.py', '/home/mkoenig/git/tellurium/tellurium/tests/../../examples/tellurium-files/exportToMatlab.py', '/home/mkoenig/git/tellurium/tellurium/tests/../../examples/tellurium-files/generatingDifferentWaveforms.py', '/home/mkoenig/git/tellurium/tellurium/tests/../../examples/tellurium-files/parameterscanExample.py', '/home/mkoenig/git/tellurium/tellurium/tests/../../examples/tellurium-files/phrasedmlExample.py', '/home/mkoenig/git/tellurium/tellurium/tests/../../examples/tellurium-files/linearChain.py', '/home/mkoenig/git/tellurium/tellurium/tests/../../examples/tellurium-files/consecutiveUniUniReactions.py', '/home/mkoenig/git/tellurium/tellurium/tests/../../examples/tellurium-files/nonUnitStoichiometries.py', '/home/mkoenig/git/tellurium/tellurium/tests/../../examples/tellurium-files/computeSteadyState.py', '/home/mkoenig/git/tellurium/tellurium/tests/../../examples/tellurium-files/settingBoundarySpecies.py', '/home/mkoenig/git/tellurium/tellurium/tests/../../examples/tellurium-files/singleGeneExpressingProteinAndProteinDegradation.py', '/home/mkoenig/git/tellurium/tellurium/tests/../../examples/tellurium-files/SBMLfromBioModelsDB.py', '/home/mkoenig/git/tellurium/tellurium/tests/../../examples/tellurium-files/events/events.py', '/home/mkoenig/git/tellurium/tellurium/tests/../../examples/tellurium-files/export/latex_export.py', '/home/mkoenig/git/tellurium/tellurium/tests/../../examples/tellurium-files/parameterscan/steadystatescan.py', '/home/mkoenig/git/tellurium/tellurium/tests/../../examples/tellurium-files/parameterscan/plot_array.py', '/home/mkoenig/git/tellurium/tellurium/tests/../../examples/tellurium-files/parameterscan/parameter_scan.py', '/home/mkoenig/git/tellurium/tellurium/tests/../../examples/tellurium-files/parameterscan/plot_multi_array.py', '/home/mkoenig/git/tellurium/tellurium/tests/../../examples/tellurium-files/parameterscan/create_colormap.py']
 /home/mkoenig/git/tellurium/tellurium/tests/../../examples/notebooks-py/generatingDifferentWaveforms.py
-/home/mkoenig/git/tellurium/tellurium/tests/../../examples/notebooks-py/tellurium_model_loading.py
-/home/mkoenig/git/tellurium/tellurium/tests/../../examples/notebooks-py/parameter_scan.py
-/home/mkoenig/git/tellurium/tellurium/tests/../../examples/notebooks-py/tellurium_stochastic.py
-/home/mkoenig/git/tellurium/tellurium/tests/../../examples/notebooks-py/tellurium_test.py
-/home/mkoenig/git/tellurium/tellurium/tests/../../examples/notebooks-py/template.py
 /home/mkoenig/git/tellurium/tellurium/tests/../../examples/notebooks-py/tellurium_export.py
-/home/mkoenig/git/tellurium/tellurium/tests/../../examples/tellurium-files/consecutiveUniUniReactions.py
-/home/mkoenig/git/tellurium/tellurium/tests/../../examples/tellurium-files/computeSteadyState.py
-/home/mkoenig/git/tellurium/tellurium/tests/../../examples/tellurium-files/PhrasedMLTesting.py
-/home/mkoenig/git/tellurium/tellurium/tests/../../examples/tellurium-files/parameterscanExample.py
-/home/mkoenig/git/tellurium/tellurium/tests/../../examples/tellurium-files/exportToMatlab.py
-/home/mkoenig/git/tellurium/tellurium/tests/../../examples/tellurium-files/linearChain.py
-/home/mkoenig/git/tellurium/tellurium/tests/../../examples/tellurium-files/nonUnitStoichiometries.py
+/home/mkoenig/git/tellurium/tellurium/tests/../../examples/notebooks-py/tellurium_plotting.py
+/home/mkoenig/git/tellurium/tellurium/tests/../../examples/notebooks-py/template.py
+/home/mkoenig/git/tellurium/tellurium/tests/../../examples/notebooks-py/parameter_scan.py
+/home/mkoenig/git/tellurium/tellurium/tests/../../examples/notebooks-py/phrasedmlExample.py
+/home/mkoenig/git/tellurium/tellurium/tests/../../examples/notebooks-py/antimonyExample.py
+/home/mkoenig/git/tellurium/tellurium/tests/../../examples/notebooks-py/feedback_oscillations.py
+/home/mkoenig/git/tellurium/tellurium/tests/../../examples/notebooks-py/tellurium_examples.py
+/home/mkoenig/git/tellurium/tellurium/tests/../../examples/notebooks-py/tesedmlExample.py
+/home/mkoenig/git/tellurium/tellurium/tests/../../examples/notebooks-py/tellurium_utility.py
+/home/mkoenig/git/tellurium/tellurium/tests/../../examples/notebooks-py/tellurium_model_loading.py
+/home/mkoenig/git/tellurium/tellurium/tests/../../examples/notebooks-py/introduction.py
+/home/mkoenig/git/tellurium/tellurium/tests/../../examples/notebooks-py/tellurium_test.py
+/home/mkoenig/git/tellurium/tellurium/tests/../../examples/notebooks-py/consecutiveUniUniReactions.py
+/home/mkoenig/git/tellurium/tellurium/tests/../../examples/notebooks-py/nonUnitStoichiometries.py
+/home/mkoenig/git/tellurium/tellurium/tests/../../examples/notebooks-py/computeSteadyState.py
+/home/mkoenig/git/tellurium/tellurium/tests/../../examples/notebooks-py/tellurium_reset.py
+/home/mkoenig/git/tellurium/tellurium/tests/../../examples/notebooks-py/plot2DParameterScan.py
+/home/mkoenig/git/tellurium/tellurium/tests/../../examples/notebooks-py/roadrunnerBasics.py
+/home/mkoenig/git/tellurium/tellurium/tests/../../examples/notebooks-py/tellurium_interconversion.py
+/home/mkoenig/git/tellurium/tellurium/tests/../../examples/notebooks-py/tellurium_stochastic.py
+/home/mkoenig/git/tellurium/tellurium/tests/../../examples/notebooks-py/modelFromBioModels.py
+/home/mkoenig/git/tellurium/tellurium/tests/../../examples/notebooks-py/steadystate_scan.py
 /home/mkoenig/git/tellurium/tellurium/tests/../../examples/tellurium-files/simpleUniUniReaction.py
-/home/mkoenig/git/tellurium/tellurium/tests/../../examples/tellurium-files/singleGeneExpressingProteinAndProteinDegradation.py
+/home/mkoenig/git/tellurium/tellurium/tests/../../examples/tellurium-files/exportToMatlab.py
 /home/mkoenig/git/tellurium/tellurium/tests/../../examples/tellurium-files/generatingDifferentWaveforms.py
-/home/mkoenig/git/tellurium/tellurium/tests/../../examples/tellurium-files/SBMLfromBioModelsDB.py
+/home/mkoenig/git/tellurium/tellurium/tests/../../examples/tellurium-files/parameterscanExample.py
+/home/mkoenig/git/tellurium/tellurium/tests/../../examples/tellurium-files/phrasedmlExample.py
+/home/mkoenig/git/tellurium/tellurium/tests/../../examples/tellurium-files/linearChain.py
+/home/mkoenig/git/tellurium/tellurium/tests/../../examples/tellurium-files/consecutiveUniUniReactions.py
+/home/mkoenig/git/tellurium/tellurium/tests/../../examples/tellurium-files/nonUnitStoichiometries.py
+/home/mkoenig/git/tellurium/tellurium/tests/../../examples/tellurium-files/computeSteadyState.py
 /home/mkoenig/git/tellurium/tellurium/tests/../../examples/tellurium-files/settingBoundarySpecies.py
-/home/mkoenig/git/tellurium/tellurium/tests/../../examples/tellurium-files/export/latex_export.py
+/home/mkoenig/git/tellurium/tellurium/tests/../../examples/tellurium-files/singleGeneExpressingProteinAndProteinDegradation.py
+/home/mkoenig/git/tellurium/tellurium/tests/../../examples/tellurium-files/SBMLfromBioModelsDB.py
 /home/mkoenig/git/tellurium/tellurium/tests/../../examples/tellurium-files/events/events.py
-/home/mkoenig/git/tellurium/tellurium/tests/../../examples/tellurium-files/parameterScan/steadystatescan.py
-/home/mkoenig/git/tellurium/tellurium/tests/../../examples/tellurium-files/parameterScan/create_colormap.py
-/home/mkoenig/git/tellurium/tellurium/tests/../../examples/tellurium-files/parameterScan/plot_multi_array.py
-/home/mkoenig/git/tellurium/tellurium/tests/../../examples/tellurium-files/parameterScan/plot_array.py
-/home/mkoenig/git/tellurium/tellurium/tests/../../examples/tellurium-files/parameterScan/parameter_scan.py
+/home/mkoenig/git/tellurium/tellurium/tests/../../examples/tellurium-files/export/latex_export.py
+/home/mkoenig/git/tellurium/tellurium/tests/../../examples/tellurium-files/parameterscan/steadystatescan.py
+/home/mkoenig/git/tellurium/tellurium/tests/../../examples/tellurium-files/parameterscan/plot_array.py
+/home/mkoenig/git/tellurium/tellurium/tests/../../examples/tellurium-files/parameterscan/parameter_scan.py
+/home/mkoenig/git/tellurium/tellurium/tests/../../examples/tellurium-files/parameterscan/plot_multi_array.py
+/home/mkoenig/git/tellurium/tellurium/tests/../../examples/tellurium-files/parameterscan/create_colormap.py
 reading sources... [ 20%] _apidoc/tellurium.tests.testdata
 reading sources... [ 22%] _apidoc/tellurium.visualization
-reading sources... [ 25%] _apidoc/tellurium.widgets
-reading sources... [ 27%] _notebooks/core/antimonyExample
-reading sources... [ 29%] _notebooks/core/computeSteadyState
-reading sources... [ 31%] _notebooks/core/consecutiveUniUniReactions
-reading sources... [ 34%] _notebooks/core/feedback_oscillations
-reading sources... [ 36%] _notebooks/core/generatingDifferentWaveforms
-reading sources... [ 38%] _notebooks/core/introduction
+reading sources... [ 25%] _notebooks/core/antimonyExample
+reading sources... [ 27%] _notebooks/core/computeSteadyState
+reading sources... [ 30%] _notebooks/core/consecutiveUniUniReactions
+reading sources... [ 32%] _notebooks/core/feedback_oscillations
+reading sources... [ 35%] _notebooks/core/generatingDifferentWaveforms
+reading sources... [ 37%] _notebooks/core/introduction
 reading sources... [ 40%] _notebooks/core/modelFromBioModels
-reading sources... [ 43%] _notebooks/core/nonUnitStoichiometries
+reading sources... [ 42%] _notebooks/core/nonUnitStoichiometries
 reading sources... [ 45%] _notebooks/core/parameter_scan
 reading sources... [ 47%] _notebooks/core/phrasedmlExample
-reading sources... [ 50%] _notebooks/core/roadrunnerBasics
-reading sources... [ 52%] _notebooks/core/steadystate_scan
-reading sources... [ 54%] _notebooks/core/tellurium_examples
-reading sources... [ 56%] _notebooks/core/tellurium_export
-reading sources... [ 59%] _notebooks/core/tellurium_interconversion
-reading sources... [ 61%] _notebooks/core/tellurium_jarnac
-reading sources... [ 63%] _notebooks/core/tellurium_math
-reading sources... [ 65%] _notebooks/core/tellurium_model_flattened
-reading sources... [ 68%] _notebooks/core/tellurium_model_loading
-reading sources... [ 70%] _notebooks/core/tellurium_plotting
-reading sources... [ 72%] _notebooks/core/tellurium_reset
-reading sources... [ 75%] _notebooks/core/tellurium_stochastic
-reading sources... [ 77%] _notebooks/core/tellurium_test
-reading sources... [ 79%] _notebooks/core/tellurium_utility
-reading sources... [ 81%] _notebooks/core/template
-reading sources... [ 84%] _notebooks/core/tesedmlExample
-reading sources... [ 86%] _notebooks/core/widgets_lorenz
-reading sources... [ 88%] _notebooks/core/widgets_ontology_search
+reading sources... [ 50%] _notebooks/core/plot2DParameterScan
+reading sources... [ 52%] _notebooks/core/roadrunnerBasics
+reading sources... [ 55%] _notebooks/core/steadystate_scan
+reading sources... [ 57%] _notebooks/core/tellurium_examples
+reading sources... [ 60%] _notebooks/core/tellurium_export
+reading sources... [ 62%] _notebooks/core/tellurium_interconversion
+reading sources... [ 65%] _notebooks/core/tellurium_model_loading
+reading sources... [ 67%] _notebooks/core/tellurium_plotting
+reading sources... [ 70%] _notebooks/core/tellurium_reset
+reading sources... [ 72%] _notebooks/core/tellurium_stochastic
+reading sources... [ 75%] _notebooks/core/tellurium_test
+reading sources... [ 77%] _notebooks/core/tellurium_utility
+reading sources... [ 80%] _notebooks/core/template
+reading sources... [ 82%] _notebooks/core/tesedmlExample
+reading sources... [ 85%] _notebooks/core/widgets_lorenz
+reading sources... [ 87%] _notebooks/core/widgets_ontology_search
 reading sources... [ 90%] _notebooks/core/widgets_parameter_slider
-reading sources... [ 93%] _notebooks/core/widgets_species_search
+reading sources... [ 92%] _notebooks/core/widgets_species_search
 reading sources... [ 95%] introduction
 reading sources... [ 97%] notebooks
 reading sources... [100%] tellurium_methods
@@ -392,10 +375,12 @@ reading sources... [100%] tellurium_methods
 /home/mkoenig/git/tellurium/docs/_notebooks/core/introduction.rst:63: WARNING: image file not readable: _notebooks/core/_notebooks/core/introduction_files/introduction_4_1.png
 /home/mkoenig/git/tellurium/docs/_notebooks/core/modelFromBioModels.rst:23: WARNING: image file not readable: _notebooks/core/_notebooks/core/modelFromBioModels_files/modelFromBioModels_2_0.png
 /home/mkoenig/git/tellurium/docs/_notebooks/core/nonUnitStoichiometries.rst:23: WARNING: Inline emphasis start-string without end-string.
-/home/mkoenig/git/tellurium/docs/_notebooks/core/parameter_scan.rst:42: WARNING: image file not readable: _notebooks/core/_notebooks/core/parameter_scan_files/parameter_scan_2_0.png
-/home/mkoenig/git/tellurium/docs/_notebooks/core/parameter_scan.rst:75: WARNING: image file not readable: _notebooks/core/_notebooks/core/parameter_scan_files/parameter_scan_3_0.png
+/home/mkoenig/git/tellurium/docs/_notebooks/core/parameter_scan.rst:43: WARNING: image file not readable: _notebooks/core/_notebooks/core/parameter_scan_files/parameter_scan_2_0.png
+/home/mkoenig/git/tellurium/docs/_notebooks/core/parameter_scan.rst:77: WARNING: image file not readable: _notebooks/core/_notebooks/core/parameter_scan_files/parameter_scan_3_0.png
 /home/mkoenig/git/tellurium/docs/_notebooks/core/phrasedmlExample.rst:38: WARNING: image file not readable: _notebooks/core/_notebooks/core/phrasedmlExample_files/phrasedmlExample_2_0.png
-/home/mkoenig/git/tellurium/docs/_notebooks/core/steadystate_scan.rst:66: WARNING: image file not readable: _notebooks/core/_notebooks/core/steadystate_scan_files/steadystate_scan_2_1.png
+/home/mkoenig/git/tellurium/docs/_notebooks/core/plot2DParameterScan.rst:28: WARNING: image file not readable: _notebooks/core/_notebooks/core/plot2DParameterScan_files/plot2DParameterScan_0_0.png
+/home/mkoenig/git/tellurium/docs/_notebooks/core/plot2DParameterScan.rst:38: WARNING: image file not readable: _notebooks/core/_notebooks/core/plot2DParameterScan_files/plot2DParameterScan_0_2.png
+/home/mkoenig/git/tellurium/docs/_notebooks/core/steadystate_scan.rst:67: WARNING: image file not readable: _notebooks/core/_notebooks/core/steadystate_scan_files/steadystate_scan_2_1.png
 /home/mkoenig/git/tellurium/docs/_notebooks/core/tellurium_examples.rst:63: WARNING: image file not readable: _notebooks/core/_notebooks/core/tellurium_examples_files/tellurium_examples_1_0.png
 /home/mkoenig/git/tellurium/docs/_notebooks/core/tellurium_examples.rst:66: WARNING: image file not readable: _notebooks/core/_notebooks/core/tellurium_examples_files/tellurium_examples_1_1.png
 /home/mkoenig/git/tellurium/docs/_notebooks/core/tellurium_examples.rst:96: WARNING: image file not readable: _notebooks/core/_notebooks/core/tellurium_examples_files/tellurium_examples_2_0.png
@@ -517,14 +502,12 @@ checking consistency... /home/mkoenig/git/tellurium/docs/API.rst:: WARNING: docu
 /home/mkoenig/git/tellurium/docs/_notebooks/core/nonUnitStoichiometries.rst:: WARNING: document isn't included in any toctree
 /home/mkoenig/git/tellurium/docs/_notebooks/core/parameter_scan.rst:: WARNING: document isn't included in any toctree
 /home/mkoenig/git/tellurium/docs/_notebooks/core/phrasedmlExample.rst:: WARNING: document isn't included in any toctree
+/home/mkoenig/git/tellurium/docs/_notebooks/core/plot2DParameterScan.rst:: WARNING: document isn't included in any toctree
 /home/mkoenig/git/tellurium/docs/_notebooks/core/roadrunnerBasics.rst:: WARNING: document isn't included in any toctree
 /home/mkoenig/git/tellurium/docs/_notebooks/core/steadystate_scan.rst:: WARNING: document isn't included in any toctree
 /home/mkoenig/git/tellurium/docs/_notebooks/core/tellurium_examples.rst:: WARNING: document isn't included in any toctree
 /home/mkoenig/git/tellurium/docs/_notebooks/core/tellurium_export.rst:: WARNING: document isn't included in any toctree
 /home/mkoenig/git/tellurium/docs/_notebooks/core/tellurium_interconversion.rst:: WARNING: document isn't included in any toctree
-/home/mkoenig/git/tellurium/docs/_notebooks/core/tellurium_jarnac.rst:: WARNING: document isn't included in any toctree
-/home/mkoenig/git/tellurium/docs/_notebooks/core/tellurium_math.rst:: WARNING: document isn't included in any toctree
-/home/mkoenig/git/tellurium/docs/_notebooks/core/tellurium_model_flattened.rst:: WARNING: document isn't included in any toctree
 /home/mkoenig/git/tellurium/docs/_notebooks/core/tellurium_model_loading.rst:: WARNING: document isn't included in any toctree
 /home/mkoenig/git/tellurium/docs/_notebooks/core/tellurium_plotting.rst:: WARNING: document isn't included in any toctree
 /home/mkoenig/git/tellurium/docs/_notebooks/core/tellurium_reset.rst:: WARNING: document isn't included in any toctree
@@ -541,72 +524,79 @@ done
 preparing documents... done
 writing output... [  2%] _apidoc/modules
 writing output... [  4%] _apidoc/tellurium
-writing output... [  6%] _apidoc/tellurium.Export
-writing output... [  8%] _apidoc/tellurium.ParameterScan
-writing output... [ 11%] _apidoc/tellurium.analysis
-writing output... [ 13%] _apidoc/tellurium.notebooktools
-writing output... [ 15%] _apidoc/tellurium.optimization
+writing output... [  7%] _apidoc/tellurium.analysis
+writing output... [  9%] _apidoc/tellurium.io
+writing output... [ 12%] _apidoc/tellurium.notebooks
+writing output... [ 14%] _apidoc/tellurium.optimization
 writing output... [ 17%] _apidoc/tellurium.tests
-writing output... [ 20%] _apidoc/tellurium.tests.testdata
-writing output... [ 22%] _apidoc/tellurium.visualization
-writing output... [ 24%] _apidoc/tellurium.widgets
-writing output... [ 26%] _notebooks/core/antimonyExample
-writing output... [ 28%] _notebooks/core/computeSteadyState
-writing output... [ 31%] _notebooks/core/consecutiveUniUniReactions
-writing output... [ 33%] _notebooks/core/feedback_oscillations
-writing output... [ 35%] _notebooks/core/generatingDifferentWaveforms
-writing output... [ 37%] _notebooks/core/introduction
-writing output... [ 40%] _notebooks/core/modelFromBioModels
-writing output... [ 42%] _notebooks/core/nonUnitStoichiometries
-writing output... [ 44%] _notebooks/core/parameter_scan
+writing output... [ 19%] _apidoc/tellurium.tests.testdata
+writing output... [ 21%] _apidoc/tellurium.visualization
+writing output... [ 24%] _notebooks/core/antimonyExample
+writing output... [ 26%] _notebooks/core/computeSteadyState
+writing output... [ 29%] _notebooks/core/consecutiveUniUniReactions
+writing output... [ 31%] _notebooks/core/feedback_oscillations
+writing output... [ 34%] _notebooks/core/generatingDifferentWaveforms
+writing output... [ 36%] _notebooks/core/introduction
+writing output... [ 39%] _notebooks/core/modelFromBioModels
+writing output... [ 41%] _notebooks/core/nonUnitStoichiometries
+writing output... [ 43%] _notebooks/core/parameter_scan
 writing output... [ 46%] _notebooks/core/phrasedmlExample
-writing output... [ 48%] _notebooks/core/roadrunnerBasics
-writing output... [ 51%] _notebooks/core/steadystate_scan
-writing output... [ 53%] _notebooks/core/tellurium_examples
-writing output... [ 55%] _notebooks/core/tellurium_export
-writing output... [ 57%] _notebooks/core/tellurium_interconversion
-writing output... [ 60%] _notebooks/core/tellurium_jarnac
-writing output... [ 62%] _notebooks/core/tellurium_math
-writing output... [ 64%] _notebooks/core/tellurium_model_flattened
-writing output... [ 66%] _notebooks/core/tellurium_model_loading
-writing output... [ 68%] _notebooks/core/tellurium_plotting
-writing output... [ 71%] _notebooks/core/tellurium_reset
-writing output... [ 73%] _notebooks/core/tellurium_stochastic
-writing output... [ 75%] _notebooks/core/tellurium_test
-writing output... [ 77%] _notebooks/core/tellurium_utility
-writing output... [ 80%] _notebooks/core/template
-writing output... [ 82%] _notebooks/core/tesedmlExample
-writing output... [ 84%] _notebooks/core/widgets_lorenz
-writing output... [ 86%] _notebooks/core/widgets_ontology_search
-writing output... [ 88%] _notebooks/core/widgets_parameter_slider
-writing output... [ 91%] _notebooks/core/widgets_species_search
-writing output... [ 93%] index
+writing output... [ 48%] _notebooks/core/plot2DParameterScan
+writing output... [ 51%] _notebooks/core/roadrunnerBasics
+writing output... [ 53%] _notebooks/core/steadystate_scan
+writing output... [ 56%] _notebooks/core/tellurium_examples
+writing output... [ 58%] _notebooks/core/tellurium_export
+writing output... [ 60%] _notebooks/core/tellurium_interconversion
+writing output... [ 63%] _notebooks/core/tellurium_model_loading
+writing output... [ 65%] _notebooks/core/tellurium_plotting
+writing output... [ 68%] _notebooks/core/tellurium_reset
+writing output... [ 70%] _notebooks/core/tellurium_stochastic
+writing output... [ 73%] _notebooks/core/tellurium_test
+writing output... [ 75%] _notebooks/core/tellurium_utility
+writing output... [ 78%] _notebooks/core/template
+writing output... [ 80%] _notebooks/core/tesedmlExample
+writing output... [ 82%] _notebooks/core/widgets_lorenz
+writing output... [ 85%] _notebooks/core/widgets_ontology_search
+writing output... [ 87%] _notebooks/core/widgets_parameter_slider
+writing output... [ 90%] _notebooks/core/widgets_species_search
+writing output... [ 92%] index
 writing output... [ 95%] introduction
 writing output... [ 97%] notebooks
 writing output... [100%] tellurium_methods
 
 generating indices... genindex py-modindex
-highlighting module code... [  4%] tellurium.tecombine
+highlighting module code... [  3%] tellurium.tests.test_analysis
+highlighting module code... [  6%] tellurium.tecombine
 highlighting module code... [  9%] tellurium.Export.Export
-highlighting module code... [ 13%] tellurium.notebooktools.notebooktools
+highlighting module code... [ 12%] tellurium.notebooktools.notebooktools
+highlighting module code... [ 15%] tellurium.notebooks.parameterslider
 highlighting module code... [ 18%] tellurium.tellurium
-highlighting module code... [ 22%] tellurium.analysis.parameters
+highlighting module code... [ 21%] tellurium.analysis.parameters
+highlighting module code... [ 24%] tellurium.notebooks.ontologysearch
 highlighting module code... [ 27%] tellurium.SedmlToRr
-highlighting module code... [ 31%] tellurium.tests.test_examples
-highlighting module code... [ 36%] tellurium.tests.test_tellurium
-highlighting module code... [ 40%] tellurium.ParameterScan.ParameterScan
-highlighting module code... [ 45%] tellurium.tephrasedml
-highlighting module code... [ 50%] tellurium.analysis.match
-highlighting module code... [ 54%] tellurium.tests.test_sedml
-highlighting module code... [ 59%] tellurium.widgets.species_search
-highlighting module code... [ 63%] tellurium.tests.test_tephrasedml
-highlighting module code... [ 68%] tellurium.tesedml
+highlighting module code... [ 30%] tellurium.tests.test_examples
+highlighting module code... [ 33%] tellurium.tests.test_tellurium
+highlighting module code... [ 36%] tellurium.ParameterScan.ParameterScan
+highlighting module code... [ 39%] tellurium.tephrasedml
+highlighting module code... [ 42%] tellurium.analysis.match
+highlighting module code... [ 45%] tellurium.tests.test_sedml
+highlighting module code... [ 48%] tellurium.notebooks.speciessearch
+highlighting module code... [ 51%] tellurium.widgets.species_search
+highlighting module code... [ 54%] tellurium.tests.test_tephrasedml
+highlighting module code... [ 57%] tellurium.io.latex
+highlighting module code... [ 60%] tellurium.visualization.sbmldiagram
+highlighting module code... [ 63%] tellurium.notebooks.notebooktools
+highlighting module code... [ 66%] tellurium.optimization.DiffEvolution
+highlighting module code... [ 69%] tellurium.tesedml
 highlighting module code... [ 72%] tellurium.widgets.ontology_search
-highlighting module code... [ 77%] tellurium.optimization.DiffEvolution
-highlighting module code... [ 81%] tellurium.visualization.SBMLDiagram
-highlighting module code... [ 86%] tellurium.tests.test_Export
-highlighting module code... [ 90%] tellurium.unzipy
-highlighting module code... [ 95%] tellurium.widgets.parameter_slider
+highlighting module code... [ 75%] tellurium.optimization.diffevolution
+highlighting module code... [ 78%] tellurium.analysis.annotations
+highlighting module code... [ 81%] tellurium.analysis.parameterscan
+highlighting module code... [ 84%] tellurium.visualization.SBMLDiagram
+highlighting module code... [ 87%] tellurium.tests.test_Export
+highlighting module code... [ 90%] tellurium.tests.test_io
+highlighting module code... [ 93%] tellurium.unzipy
+highlighting module code... [ 96%] tellurium.widgets.parameter_slider
 highlighting module code... [100%] tellurium.tests.test_runner
 
 writing additional pages... search
@@ -637,9 +627,10 @@ copying images... [ 92%] _notebooks/core/tellurium_reset_files/tellurium_reset_2
 copying images... [ 96%] _notebooks/core/feedback_oscillations_files/feedback_oscillations_2_0.png
 copying images... [100%] _notebooks/core/steadystate_scan_files/steadystate_scan_2_1.png
 
-copying static files... done
+copying static files... WARNING: html_static_path entry u'/home/mkoenig/git/tellurium/docs/_static' does not exist
+done
 copying extra files... done
 dumping search index in English (code: en) ... done
 dumping object inventory... done
-build succeeded, 155 warnings.
+build succeeded, 156 warnings.
 DONE

@@ -1,0 +1,365 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>tellurium.analysis.annotations &mdash; tellurium 1.3.0 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="tellurium 1.3.0 documentation" href="../../../index.html"/>
+        <link rel="up" title="Module code" href="../../index.html"/> 
+
+  
+  <script src="../../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> tellurium
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.3.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../notebooks.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tellurium_methods.html">Tellurium Methods</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../_apidoc/tellurium.html">API (tellurium)</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../../../index.html">tellurium</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../../index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+      
+    <li>tellurium.analysis.annotations</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for tellurium.analysis.annotations</h1><div class="highlight"><pre>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Functions handling ontology annotations.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">print_function</span><span class="p">,</span> <span class="n">division</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">re</span>
+<span class="kn">import</span> <span class="nn">bioservices</span>
+<span class="kn">import</span> <span class="nn">libsbml</span>
+
+
+<div class="viewcode-block" id="getResourceUris"><a class="viewcode-back" href="../../../_apidoc/tellurium.analysis.html#tellurium.analysis.annotations.getResourceUris">[docs]</a><span class="k">def</span> <span class="nf">getResourceUris</span><span class="p">(</span><span class="n">item</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Get list of resource URIs for the given element.</span>
+<span class="sd">    qualifierType = libsbml.BIOLOGICAL_QUALIFIER,</span>
+<span class="sd">    biologicalQualifierType = libsbml.BQB_IS):</span>
+
+<span class="sd">    :param item: sbml object</span>
+<span class="sd">    :type item: SBase</span>
+<span class="sd">    :return: list of resource URIs</span>
+<span class="sd">    :rtype: list</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">uris</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">item</span><span class="o">.</span><span class="n">getNumCVTerms</span><span class="p">()):</span>
+        <span class="n">term</span> <span class="o">=</span> <span class="n">item</span><span class="o">.</span><span class="n">getCVTerm</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">term</span><span class="o">.</span><span class="n">getNumResources</span><span class="p">()):</span>
+            <span class="n">uris</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">term</span><span class="o">.</span><span class="n">getResourceURI</span><span class="p">(</span><span class="n">j</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">uris</span></div>
+
+
+<div class="viewcode-block" id="getChebiId"><a class="viewcode-back" href="../../../_apidoc/tellurium.analysis.html#tellurium.analysis.annotations.getChebiId">[docs]</a><span class="k">def</span> <span class="nf">getChebiId</span><span class="p">(</span><span class="n">item</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Returns the ChEBI ID from element.</span>
+
+<span class="sd">    :param item: sbml object</span>
+<span class="sd">    :type item: SBase</span>
+<span class="sd">    :return: first chebi id in rdf annotations, None if no chebi annotation</span>
+<span class="sd">    :rtype: str</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">uris</span> <span class="o">=</span> <span class="n">getResourceUris</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+    <span class="n">chebiMatches</span> <span class="o">=</span> <span class="p">(</span><span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="s1">&#39;.*(CHEBI:\d+)&#39;</span><span class="p">,</span> <span class="n">uri</span><span class="p">)</span> <span class="k">for</span> <span class="n">uri</span> <span class="ow">in</span> <span class="n">uris</span><span class="p">)</span>
+    <span class="n">chebiIds</span> <span class="o">=</span> <span class="p">[</span><span class="n">match</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="k">for</span> <span class="n">match</span> <span class="ow">in</span> <span class="n">chebiMatches</span> <span class="k">if</span> <span class="n">match</span><span class="p">]</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">chebiIds</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">chebiIds</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">None</span></div>
+
+
+<div class="viewcode-block" id="matchSpeciesChebi"><a class="viewcode-back" href="../../../_apidoc/tellurium.analysis.html#tellurium.analysis.annotations.matchSpeciesChebi">[docs]</a><span class="k">def</span> <span class="nf">matchSpeciesChebi</span><span class="p">(</span><span class="n">s1</span><span class="p">,</span> <span class="n">s2</span><span class="p">,</span> <span class="n">logging</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Match two Chebi identifiers.</span>
+<span class="sd">    If matching returns the chebi information of the identifier.</span>
+
+<span class="sd">    :param s1: first chebi id</span>
+<span class="sd">    :type s1: str</span>
+<span class="sd">    :param s2: second chebi id</span>
+<span class="sd">    :type s2: str</span>
+<span class="sd">    :param logging: log messages to console</span>
+<span class="sd">    :type logging: bool</span>
+<span class="sd">    :return: dictionary of chebi information, returns None if no match</span>
+<span class="sd">    :rtype: dict</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">ch</span> <span class="o">=</span> <span class="n">bioservices</span><span class="o">.</span><span class="n">ChEBI</span><span class="p">()</span>
+    <span class="n">ch1</span> <span class="o">=</span> <span class="n">getChebiId</span><span class="p">(</span><span class="n">s1</span><span class="p">)</span>
+    <span class="n">ch2</span> <span class="o">=</span> <span class="n">getChebiId</span><span class="p">(</span><span class="n">s2</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">ch1</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">ch2</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">None</span>
+
+    <span class="k">if</span> <span class="n">logging</span><span class="p">:</span>
+        <span class="k">print</span><span class="p">(</span><span class="s1">&#39;Comparing </span><span class="si">%s</span><span class="s1"> (</span><span class="si">%s</span><span class="s1">) with </span><span class="si">%s</span><span class="s1"> (</span><span class="si">%s</span><span class="s1">)&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">s1</span><span class="o">.</span><span class="n">getId</span><span class="p">(),</span> <span class="n">ch1</span><span class="p">,</span> <span class="n">s2</span><span class="o">.</span><span class="n">getId</span><span class="p">(),</span> <span class="n">ch2</span><span class="p">))</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">entry</span> <span class="o">=</span> <span class="n">ch</span><span class="o">.</span><span class="n">getCompleteEntity</span><span class="p">(</span><span class="n">ch1</span><span class="p">)</span>
+
+        <span class="n">exact</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">if</span> <span class="n">ch1</span> <span class="o">==</span> <span class="n">ch2</span><span class="p">:</span>
+            <span class="n">exact</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s1">&#39;id&#39;</span><span class="p">:</span> <span class="n">s2</span><span class="o">.</span><span class="n">getId</span><span class="p">()})</span>
+
+        <span class="n">children</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">entry</span><span class="p">,</span> <span class="s1">&#39;OntologyChildren&#39;</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">child</span> <span class="ow">in</span> <span class="n">entry</span><span class="o">.</span><span class="n">OntologyChildren</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">child</span><span class="p">[</span><span class="s1">&#39;chebiId&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">ch2</span><span class="p">:</span>
+                    <span class="n">children</span><span class="o">.</span><span class="n">append</span><span class="p">({</span>
+                        <span class="s1">&#39;id&#39;</span><span class="p">:</span> <span class="n">s2</span><span class="o">.</span><span class="n">getId</span><span class="p">(),</span>
+                        <span class="s1">&#39;data&#39;</span><span class="p">:</span> <span class="n">child</span>
+                        <span class="p">})</span>
+
+        <span class="n">parents</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nb">hasattr</span><span class="p">(</span><span class="n">entry</span><span class="p">,</span> <span class="s1">&#39;OntologyParents&#39;</span><span class="p">)):</span>
+            <span class="k">for</span> <span class="n">parent</span> <span class="ow">in</span> <span class="n">entry</span><span class="o">.</span><span class="n">OntologyParents</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">parent</span><span class="p">[</span><span class="s1">&#39;chebiId&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">ch2</span><span class="p">:</span>
+                    <span class="n">parents</span><span class="o">.</span><span class="n">append</span><span class="p">({</span>
+                        <span class="s1">&#39;id&#39;</span><span class="p">:</span> <span class="n">s2</span><span class="o">.</span><span class="n">getId</span><span class="p">(),</span>
+                        <span class="s1">&#39;data&#39;</span><span class="p">:</span> <span class="n">parent</span>
+                        <span class="p">})</span>
+
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="s1">&#39;id&#39;</span><span class="p">:</span> <span class="n">s1</span><span class="o">.</span><span class="n">getId</span><span class="p">(),</span>
+            <span class="s1">&#39;chebi_name&#39;</span><span class="p">:</span> <span class="n">entry</span><span class="o">.</span><span class="n">chebiAsciiName</span><span class="p">,</span>
+            <span class="s1">&#39;exact&#39;</span><span class="p">:</span> <span class="n">exact</span><span class="p">,</span>
+            <span class="s1">&#39;children&#39;</span><span class="p">:</span> <span class="n">children</span><span class="p">,</span>
+            <span class="s1">&#39;parents&#39;</span><span class="p">:</span> <span class="n">parents</span>
+        <span class="p">}</span>
+    <span class="k">except</span><span class="p">:</span>
+        <span class="k">print</span><span class="p">(</span><span class="s2">&quot;Unexpected error:&quot;</span><span class="p">,</span> <span class="n">sys</span><span class="o">.</span><span class="n">exc_info</span><span class="p">()[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="k">return</span> <span class="bp">None</span></div>
+
+<div class="viewcode-block" id="getMatchingSpecies"><a class="viewcode-back" href="../../../_apidoc/tellurium.analysis.html#tellurium.analysis.annotations.getMatchingSpecies">[docs]</a><span class="k">def</span> <span class="nf">getMatchingSpecies</span><span class="p">(</span><span class="n">m1</span><span class="p">,</span> <span class="n">m2</span><span class="p">,</span> <span class="n">logging</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Returns a list of species with matching annotations URIs for two models</span>
+
+<span class="sd">    :param m1: first SBML model</span>
+<span class="sd">    :type m1: libsbml.Model</span>
+<span class="sd">    :param m2: second SBML model</span>
+<span class="sd">    :type m2: libsbml.Model</span>
+<span class="sd">    :param logging: log info</span>
+<span class="sd">    :type logging: bool</span>
+<span class="sd">    :return: returns list of chebi annotation information for matching species</span>
+<span class="sd">    :rtype: list</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">m1</span><span class="p">,</span> <span class="n">libsbml</span><span class="o">.</span><span class="n">Model</span><span class="p">)</span> <span class="ow">or</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">m2</span><span class="p">,</span> <span class="n">libsbml</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s1">&#39;Need to call with two libsbml.Model instances&#39;</span><span class="p">)</span>
+
+    <span class="n">matches</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">s1</span> <span class="ow">in</span> <span class="n">m1</span><span class="o">.</span><span class="n">species</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">s2</span> <span class="ow">in</span> <span class="n">m2</span><span class="o">.</span><span class="n">species</span><span class="p">:</span>
+            <span class="n">match</span> <span class="o">=</span> <span class="n">_annotations</span><span class="o">.</span><span class="n">matchSpeciesChebi</span><span class="p">(</span><span class="n">s1</span><span class="p">,</span> <span class="n">s2</span><span class="p">,</span> <span class="n">logging</span><span class="o">=</span><span class="n">logging</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">match</span><span class="p">:</span>
+                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">match</span><span class="p">[</span><span class="s1">&#39;exact&#39;</span><span class="p">])</span> <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="n">match</span><span class="p">[</span><span class="s1">&#39;children&#39;</span><span class="p">])</span> <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="n">match</span><span class="p">[</span><span class="s1">&#39;parents&#39;</span><span class="p">]):</span>
+                    <span class="n">matches</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">match</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">matches</span></div>
+
+
+<div class="viewcode-block" id="printMatchingSpecies"><a class="viewcode-back" href="../../../_apidoc/tellurium.analysis.html#tellurium.analysis.annotations.printMatchingSpecies">[docs]</a><span class="k">def</span> <span class="nf">printMatchingSpecies</span><span class="p">(</span><span class="n">matches</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Prints the matches from :func:`getMatchingSpecies`-</span>
+
+<span class="sd">    :param matches: matches from getMatchingSpecies</span>
+<span class="sd">    :type matches: list</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">for</span> <span class="n">match</span> <span class="ow">in</span> <span class="n">matches</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">match</span><span class="p">[</span><span class="s1">&#39;exact&#39;</span><span class="p">]):</span>
+            <span class="k">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">%s</span><span class="s1"> exactly matches </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">match</span><span class="p">[</span><span class="s1">&#39;exact&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;id&#39;</span><span class="p">],</span> <span class="n">match</span><span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">]))</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">match</span><span class="p">[</span><span class="s1">&#39;parents&#39;</span><span class="p">]):</span>
+            <span class="k">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">%s</span><span class="s1"> </span><span class="si">%s</span><span class="s1"> </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">match</span><span class="p">[</span><span class="s1">&#39;parents&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;id&#39;</span><span class="p">],</span> <span class="n">match</span><span class="p">[</span><span class="s1">&#39;parents&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;data&#39;</span><span class="p">][</span><span class="s1">&#39;type&#39;</span><span class="p">],</span> <span class="n">match</span><span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">]))</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">match</span><span class="p">[</span><span class="s1">&#39;children&#39;</span><span class="p">]):</span>
+            <span class="k">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">%s</span><span class="s1"> </span><span class="si">%s</span><span class="s1"> </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">match</span><span class="p">[</span><span class="s1">&#39;children&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;id&#39;</span><span class="p">],</span> <span class="n">match</span><span class="p">[</span><span class="s1">&#39;children&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;data&#39;</span><span class="p">][</span><span class="s1">&#39;type&#39;</span><span class="p">],</span> <span class="n">match</span><span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">]))</span></div>
+
+
+<div class="viewcode-block" id="getMatchingReactions"><a class="viewcode-back" href="../../../_apidoc/tellurium.analysis.html#tellurium.analysis.annotations.getMatchingReactions">[docs]</a><span class="k">def</span> <span class="nf">getMatchingReactions</span><span class="p">(</span><span class="n">modelOrList</span><span class="p">,</span> <span class="n">idToMatch</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Returns a list of reactions that contains a reactant with the id to match.</span>
+
+<span class="sd">    :param modelOrList: SBML Model or list of reactions</span>
+<span class="sd">    :type modelOrList: libsbml.Model or list[libsbml.Reaction]</span>
+<span class="sd">    :param idToMatch: reaction id for matching</span>
+<span class="sd">    :type idToMatch: str</span>
+<span class="sd">    :return: list of reactions</span>
+<span class="sd">    :rtype: list</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">modelOrList</span><span class="p">,</span> <span class="n">libsbml</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+        <span class="n">reactions</span> <span class="o">=</span> <span class="n">modelOrList</span><span class="o">.</span><span class="n">reactions</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">reactions</span> <span class="o">=</span> <span class="n">modelOrList</span>
+    <span class="n">matches</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">reactions</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">reactant</span> <span class="ow">in</span> <span class="n">r</span><span class="o">.</span><span class="n">reactants</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">reactant</span><span class="o">.</span><span class="n">getSpecies</span><span class="p">()</span> <span class="o">==</span> <span class="n">idToMatch</span><span class="p">:</span>
+                <span class="n">matches</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">r</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">reactant</span> <span class="ow">in</span> <span class="n">r</span><span class="o">.</span><span class="n">products</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">reactant</span><span class="o">.</span><span class="n">getSpecies</span><span class="p">()</span> <span class="o">==</span> <span class="n">idToMatch</span><span class="p">:</span>
+                <span class="n">matches</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">r</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">modifier</span> <span class="ow">in</span> <span class="n">r</span><span class="o">.</span><span class="n">modifiers</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">modifier</span><span class="o">.</span><span class="n">getSpecies</span><span class="p">()</span> <span class="o">==</span> <span class="n">idToMatch</span><span class="p">:</span>
+                <span class="n">matches</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">r</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">matches</span></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016, sys-bio.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../../',
+            VERSION:'1.3.0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

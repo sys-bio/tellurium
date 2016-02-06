@@ -4,10 +4,10 @@ tellurium.optimization package
 Submodules
 ----------
 
-tellurium.optimization.DiffEvolution module
+tellurium.optimization.diffevolution module
 -------------------------------------------
 
-.. automodule:: tellurium.optimization.DiffEvolution
+.. automodule:: tellurium.optimization.diffevolution
     :members:
     :undoc-members:
     :show-inheritance:

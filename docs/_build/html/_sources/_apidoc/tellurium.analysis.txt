@@ -4,18 +4,18 @@ tellurium.analysis package
 Submodules
 ----------
 
-tellurium.analysis.match module
--------------------------------
+tellurium.analysis.annotations module
+-------------------------------------
 
-.. automodule:: tellurium.analysis.match
+.. automodule:: tellurium.analysis.annotations
     :members:
     :undoc-members:
     :show-inheritance:
 
-tellurium.analysis.parameters module
-------------------------------------
+tellurium.analysis.parameterscan module
+---------------------------------------
 
-.. automodule:: tellurium.analysis.parameters
+.. automodule:: tellurium.analysis.parameterscan
     :members:
     :undoc-members:
     :show-inheritance:

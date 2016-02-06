@@ -6,14 +6,12 @@ Subpackages
 
 .. toctree::
 
-    tellurium.Export
-    tellurium.ParameterScan
     tellurium.analysis
-    tellurium.notebooktools
+    tellurium.io
+    tellurium.notebooks
     tellurium.optimization
     tellurium.tests
     tellurium.visualization
-    tellurium.widgets
 
 Submodules
 ----------

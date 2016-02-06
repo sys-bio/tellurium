@@ -13,7 +13,7 @@ Test models
 
 .. parsed-literal::
 
-    ['linearPathwayOpen.xml', 'test_1.xml', 'EcoliCore.xml', 'feedback.xml', 'linearPathwayClosed.xml']
+    ['EcoliCore.xml', 'linearPathwayOpen.xml', 'linearPathwayClosed.xml', 'feedback.xml', 'test_1.xml']
 
 
 Load test model

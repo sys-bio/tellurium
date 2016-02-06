@@ -9,7 +9,7 @@ class MyTestCase(unittest.TestCase):
 
     def test_plot2DParameterScan(self):
         import tellurium as te
-        from tellurium.analysis.parameters import plot2DParameterScan
+        from tellurium.analysis.parameterscan import plot2DParameterScan
         r = te.loada("""
         model test
            J0: S1 -> S2; Vmax * (S1/(Km+S1))

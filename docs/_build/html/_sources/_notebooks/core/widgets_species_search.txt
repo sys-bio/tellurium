@@ -18,6 +18,6 @@ Type search string and click **Search**.
 .. code:: python
 
     import tellurium as te
-    from tellurium.widgets import SearchBySpeciesForm
+    from tellurium.notebooks import SearchBySpeciesForm
     form = SearchBySpeciesForm()
 

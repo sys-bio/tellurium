@@ -1,5 +1,7 @@
-# This script shows how to export run parameter scan and plot the output
-# as a surface plot.
+"""
+This script shows how to export run parameter scan and plot the output
+as a surface plot.
+"""
 import tellurium as te
 
 model = '''
@@ -13,7 +15,7 @@ model = '''
 '''
 
 rr = te.loada(model)
-p = te.ParameterScan.ParameterScan(rr)
+p = te.ParameterScan(rr)
 
 p.startTime = 0
 p.endTime = 6

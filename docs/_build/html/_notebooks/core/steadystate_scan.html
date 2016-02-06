@@ -150,12 +150,13 @@ state.</p>
 <span class="s1">    k1 = 2; k2 = 0; k3 = 3;</span>
 <span class="s1">&#39;&#39;&#39;</span><span class="p">)</span>
 
-<span class="n">p</span> <span class="o">=</span> <span class="n">te</span><span class="o">.</span><span class="n">ParameterScan</span><span class="o">.</span><span class="n">SteadyStateScan</span><span class="p">(</span><span class="n">r</span><span class="p">)</span>
-<span class="n">p</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="s1">&#39;k3&#39;</span>
-<span class="n">p</span><span class="o">.</span><span class="n">startValue</span> <span class="o">=</span> <span class="mi">2</span>
-<span class="n">p</span><span class="o">.</span><span class="n">endValue</span> <span class="o">=</span> <span class="mi">3</span>
-<span class="n">p</span><span class="o">.</span><span class="n">numberOfPoints</span> <span class="o">=</span> <span class="mi">20</span>
-<span class="n">p</span><span class="o">.</span><span class="n">selection</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;S1&#39;</span><span class="p">,</span> <span class="s1">&#39;S2&#39;</span><span class="p">]</span>
+<span class="n">p</span> <span class="o">=</span> <span class="n">te</span><span class="o">.</span><span class="n">SteadyStateScan</span><span class="p">(</span><span class="n">r</span><span class="p">,</span>
+    <span class="n">value</span> <span class="o">=</span> <span class="s1">&#39;k3&#39;</span><span class="p">,</span>
+    <span class="n">startValue</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span>
+    <span class="n">endValue</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span>
+    <span class="n">numberOfPoints</span> <span class="o">=</span> <span class="mi">20</span><span class="p">,</span>
+    <span class="n">selection</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;S1&#39;</span><span class="p">,</span> <span class="s1">&#39;S2&#39;</span><span class="p">]</span>
+<span class="p">)</span>
 <span class="n">p</span><span class="o">.</span><span class="n">plotArray</span><span class="p">()</span>
 
 <span class="n">Config</span><span class="o">.</span><span class="n">setValue</span><span class="p">(</span><span class="n">Config</span><span class="o">.</span><span class="n">LOADSBMLOPTIONS_CONSERVED_MOIETIES</span><span class="p">,</span> <span class="bp">False</span><span class="p">)</span>
