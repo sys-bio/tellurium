@@ -1,5 +1,10 @@
 [1m[33mWarning: No module named sbml2matlab[0m
-/usr/local/lib/python2.7/dist-packages/matplotlib/figure.py:397: UserWarning: matplotlib is currently using a non-GUI backend, so cannot show the figure
+[1m[33mWarning: species 'S1' has neither initial amount nor concentration set.  Setting initial concentration to 0.0[0m
+[1m[33mWarning: species 'S2' has neither initial amount nor concentration set.  Setting initial concentration to 0.0[0m
+[1m[33mWarning: species 'S3' has neither initial amount nor concentration set.  Setting initial concentration to 0.0[0m
+[1m[33mWarning: species 'S4' has neither initial amount nor concentration set.  Setting initial concentration to 0.0[0m
+[1m[33mWarning: species 'S5' has neither initial amount nor concentration set.  Setting initial concentration to 0.0[0m
+.........................................................................../usr/local/lib/python2.7/dist-packages/matplotlib/figure.py:397: UserWarning: matplotlib is currently using a non-GUI backend, so cannot show the figure
   "matplotlib is currently using a non-GUI backend, "
 ..[1m[33mWarning: species 'S2' has neither initial amount nor concentration set.  Setting initial concentration to 0.0[0m
 /home/mkoenig/git/tellurium/tellurium/tellurium.py:602: RuntimeWarning: 'sbml2matlab' could not be imported, no support for Matlab code generation
@@ -34,12 +39,7 @@
 ..[1m[33mWarning: species 'S2' has neither initial amount nor concentration set.  Setting initial concentration to 0.0[0m
 [1m[33mWarning: species 'S3' has neither initial amount nor concentration set.  Setting initial concentration to 0.0[0m
 [1m[33mWarning: species 'S4' has neither initial amount nor concentration set.  Setting initial concentration to 0.0[0m
-...[1m[33mWarning: species 'S1' has neither initial amount nor concentration set.  Setting initial concentration to 0.0[0m
-[1m[33mWarning: species 'S2' has neither initial amount nor concentration set.  Setting initial concentration to 0.0[0m
-[1m[33mWarning: species 'S3' has neither initial amount nor concentration set.  Setting initial concentration to 0.0[0m
-[1m[33mWarning: species 'S4' has neither initial amount nor concentration set.  Setting initial concentration to 0.0[0m
-[1m[33mWarning: species 'S5' has neither initial amount nor concentration set.  Setting initial concentration to 0.0[0m
-.[34mNotice: performing conserved moiety conversion[0m
+....[34mNotice: performing conserved moiety conversion[0m
 ...[34mNotice: creating runge-kutta integrator[0m
 ..[1m[33mWarning: species 'S2' has neither initial amount nor concentration set.  Setting initial concentration to 0.0[0m
 [1m[33mWarning: species 'S2' has neither initial amount nor concentration set.  Setting initial concentration to 0.0[0m
@@ -150,6 +150,154 @@ test_getPhrasedmlString (tellurium.tests.test_tephrasedml.tePhrasedMLTestCase) .
 test_getSbmlString (tellurium.tests.test_tephrasedml.tePhrasedMLTestCase) ... ok
 test_getSedmlString (tellurium.tests.test_tephrasedml.tePhrasedMLTestCase) ... ok
 test_printpython (tellurium.tests.test_tephrasedml.tePhrasedMLTestCase) ... ok
+test_api000_te.getVersionInfo (tellurium.tests.test_API.APITestCase)
+Test fails if class or function is not callable under the given name str. ... ok
+test_api001_te.printVersionInfo (tellurium.tests.test_API.APITestCase)
+Test fails if class or function is not callable under the given name str. ... ok
+test_api002_te.getTelluriumVersion (tellurium.tests.test_API.APITestCase)
+Test fails if class or function is not callable under the given name str. ... ok
+test_api003_te.noticesOff (tellurium.tests.test_API.APITestCase)
+Test fails if class or function is not callable under the given name str. ... ok
+test_api004_te.noticesOn (tellurium.tests.test_API.APITestCase)
+Test fails if class or function is not callable under the given name str. ... ok
+test_api005_te.saveToFile (tellurium.tests.test_API.APITestCase)
+Test fails if class or function is not callable under the given name str. ... ok
+test_api006_te.readFromFile (tellurium.tests.test_API.APITestCase)
+Test fails if class or function is not callable under the given name str. ... ok
+test_api007_te.loada (tellurium.tests.test_API.APITestCase)
+Test fails if class or function is not callable under the given name str. ... ok
+test_api008_te.loadAntimonyModel (tellurium.tests.test_API.APITestCase)
+Test fails if class or function is not callable under the given name str. ... ok
+test_api009_te.loadSBMLModel (tellurium.tests.test_API.APITestCase)
+Test fails if class or function is not callable under the given name str. ... ok
+test_api010_te.loadCellMLModel (tellurium.tests.test_API.APITestCase)
+Test fails if class or function is not callable under the given name str. ... ok
+test_api011_te.antimonyToSBML (tellurium.tests.test_API.APITestCase)
+Test fails if class or function is not callable under the given name str. ... ok
+test_api012_te.antimonyToCellML (tellurium.tests.test_API.APITestCase)
+Test fails if class or function is not callable under the given name str. ... ok
+test_api013_te.sbmlToAntimony (tellurium.tests.test_API.APITestCase)
+Test fails if class or function is not callable under the given name str. ... ok
+test_api014_te.sbmlToCellML (tellurium.tests.test_API.APITestCase)
+Test fails if class or function is not callable under the given name str. ... ok
+test_api015_te.cellmlToAntimony (tellurium.tests.test_API.APITestCase)
+Test fails if class or function is not callable under the given name str. ... ok
+test_api016_te.cellmlToSBML (tellurium.tests.test_API.APITestCase)
+Test fails if class or function is not callable under the given name str. ... ok
+test_api017_te.experiment (tellurium.tests.test_API.APITestCase)
+Test fails if class or function is not callable under the given name str. ... ok
+test_api018_te.getEigenvalues (tellurium.tests.test_API.APITestCase)
+Test fails if class or function is not callable under the given name str. ... ok
+test_api019_te.plotArray (tellurium.tests.test_API.APITestCase)
+Test fails if class or function is not callable under the given name str. ... ok
+test_api020_te.loadTestModel (tellurium.tests.test_API.APITestCase)
+Test fails if class or function is not callable under the given name str. ... ok
+test_api021_te.getTestModel (tellurium.tests.test_API.APITestCase)
+Test fails if class or function is not callable under the given name str. ... ok
+test_api022_te.listTestModels (tellurium.tests.test_API.APITestCase)
+Test fails if class or function is not callable under the given name str. ... ok
+test_api023_te.LatexExport (tellurium.tests.test_API.APITestCase)
+Test fails if class or function is not callable under the given name str. ... ok
+test_api024_te.ParameterScan (tellurium.tests.test_API.APITestCase)
+Test fails if class or function is not callable under the given name str. ... ok
+test_api025_te.SteadyStateScan (tellurium.tests.test_API.APITestCase)
+Test fails if class or function is not callable under the given name str. ... ok
+test_api026_r.getAntimony (tellurium.tests.test_API.APITestCase)
+Test fails if class or function is not callable under the given name str. ... ok
+test_api027_r.getCurrentAntimony (tellurium.tests.test_API.APITestCase)
+Test fails if class or function is not callable under the given name str. ... ok
+test_api028_r.getCellML (tellurium.tests.test_API.APITestCase)
+Test fails if class or function is not callable under the given name str. ... ok
+test_api029_r.getCurrentCellML (tellurium.tests.test_API.APITestCase)
+Test fails if class or function is not callable under the given name str. ... ok
+test_api030_r.getMatlab (tellurium.tests.test_API.APITestCase)
+Test fails if class or function is not callable under the given name str. ... ok
+test_api031_r.getCurrentMatlab (tellurium.tests.test_API.APITestCase)
+Test fails if class or function is not callable under the given name str. ... ok
+test_api032_r.exportToAntimony (tellurium.tests.test_API.APITestCase)
+Test fails if class or function is not callable under the given name str. ... ok
+test_api033_r.exportToCellML (tellurium.tests.test_API.APITestCase)
+Test fails if class or function is not callable under the given name str. ... ok
+test_api034_r.exportToMatlab (tellurium.tests.test_API.APITestCase)
+Test fails if class or function is not callable under the given name str. ... ok
+test_api035_r.resetToOrigin (tellurium.tests.test_API.APITestCase)
+Test fails if class or function is not callable under the given name str. ... ok
+test_api036_r.resetAll (tellurium.tests.test_API.APITestCase)
+Test fails if class or function is not callable under the given name str. ... ok
+test_api037_r.getRatesOfChange (tellurium.tests.test_API.APITestCase)
+Test fails if class or function is not callable under the given name str. ... ok
+test_api038_r.draw (tellurium.tests.test_API.APITestCase)
+Test fails if class or function is not callable under the given name str. ... ok
+test_api039_r.plot (tellurium.tests.test_API.APITestCase)
+Test fails if class or function is not callable under the given name str. ... ok
+test_api040_r.getSeed (tellurium.tests.test_API.APITestCase)
+Test fails if class or function is not callable under the given name str. ... ok
+test_api041_r.setSeed (tellurium.tests.test_API.APITestCase)
+Test fails if class or function is not callable under the given name str. ... ok
+test_api042_r.gillespie (tellurium.tests.test_API.APITestCase)
+Test fails if class or function is not callable under the given name str. ... ok
+test_api043_r.fjac (tellurium.tests.test_API.APITestCase)
+Test fails if class or function is not callable under the given name str. ... ok
+test_api044_r.sm (tellurium.tests.test_API.APITestCase)
+Test fails if class or function is not callable under the given name str. ... ok
+test_api045_r.rs (tellurium.tests.test_API.APITestCase)
+Test fails if class or function is not callable under the given name str. ... ok
+test_api046_r.fs (tellurium.tests.test_API.APITestCase)
+Test fails if class or function is not callable under the given name str. ... ok
+test_api047_r.bs (tellurium.tests.test_API.APITestCase)
+Test fails if class or function is not callable under the given name str. ... ok
+test_api048_r.ps (tellurium.tests.test_API.APITestCase)
+Test fails if class or function is not callable under the given name str. ... ok
+test_api049_r.vs (tellurium.tests.test_API.APITestCase)
+Test fails if class or function is not callable under the given name str. ... ok
+test_api050_r.dv (tellurium.tests.test_API.APITestCase)
+Test fails if class or function is not callable under the given name str. ... ok
+test_api051_r.rv (tellurium.tests.test_API.APITestCase)
+Test fails if class or function is not callable under the given name str. ... ok
+test_api052_r.sv (tellurium.tests.test_API.APITestCase)
+Test fails if class or function is not callable under the given name str. ... ok
+test_api053_r.getBoundarySpeciesConcentrations (tellurium.tests.test_API.APITestCase)
+Test fails if class or function is not callable under the given name str. ... ok
+test_api054_r.getBoundarySpeciesIds (tellurium.tests.test_API.APITestCase)
+Test fails if class or function is not callable under the given name str. ... ok
+test_api055_r.getNumBoundarySpecies (tellurium.tests.test_API.APITestCase)
+Test fails if class or function is not callable under the given name str. ... ok
+test_api056_r.getFloatingSpeciesConcentrations (tellurium.tests.test_API.APITestCase)
+Test fails if class or function is not callable under the given name str. ... ok
+test_api057_r.getFloatingSpeciesIds (tellurium.tests.test_API.APITestCase)
+Test fails if class or function is not callable under the given name str. ... ok
+test_api058_r.getNumFloatingSpecies (tellurium.tests.test_API.APITestCase)
+Test fails if class or function is not callable under the given name str. ... ok
+test_api059_r.getGlobalParameterIds (tellurium.tests.test_API.APITestCase)
+Test fails if class or function is not callable under the given name str. ... ok
+test_api060_r.getGlobalParameterValues (tellurium.tests.test_API.APITestCase)
+Test fails if class or function is not callable under the given name str. ... ok
+test_api061_r.getNumGlobalParameters (tellurium.tests.test_API.APITestCase)
+Test fails if class or function is not callable under the given name str. ... ok
+test_api062_r.getCompartmentIds (tellurium.tests.test_API.APITestCase)
+Test fails if class or function is not callable under the given name str. ... ok
+test_api063_r.getCompartmentVolumes (tellurium.tests.test_API.APITestCase)
+Test fails if class or function is not callable under the given name str. ... ok
+test_api064_r.getNumCompartments (tellurium.tests.test_API.APITestCase)
+Test fails if class or function is not callable under the given name str. ... ok
+test_api065_r.getConservedMoietyValues (tellurium.tests.test_API.APITestCase)
+Test fails if class or function is not callable under the given name str. ... ok
+test_api066_r.getNumConservedMoieties (tellurium.tests.test_API.APITestCase)
+Test fails if class or function is not callable under the given name str. ... ok
+test_api067_r.getNumDepFloatingSpecies (tellurium.tests.test_API.APITestCase)
+Test fails if class or function is not callable under the given name str. ... ok
+test_api068_r.getNumIndFloatingSpecies (tellurium.tests.test_API.APITestCase)
+Test fails if class or function is not callable under the given name str. ... ok
+test_api069_r.getReactionIds (tellurium.tests.test_API.APITestCase)
+Test fails if class or function is not callable under the given name str. ... ok
+test_api070_r.getReactionRates (tellurium.tests.test_API.APITestCase)
+Test fails if class or function is not callable under the given name str. ... ok
+test_api071_r.getNumReactions (tellurium.tests.test_API.APITestCase)
+Test fails if class or function is not callable under the given name str. ... ok
+test_api072_r.getNumEvents (tellurium.tests.test_API.APITestCase)
+Test fails if class or function is not callable under the given name str. ... ok
+test_api073_r.getNumRateRules (tellurium.tests.test_API.APITestCase)
+Test fails if class or function is not callable under the given name str. ... ok
 test_README_example (tellurium.tests.test_tellurium.TelluriumTestCase)
 Tests the source example in the main README.md. ... ok
 test_antimonyToCellML_file (tellurium.tests.test_tellurium.TelluriumTestCase) ... ok
@@ -261,7 +409,7 @@ test_via_sedml_string (tellurium.tests.test_sedml.tesedmlTestCase) ... ok
 test_plot2DParameterScan (tellurium.tests.test_analysis.MyTestCase) ... ok
 
 ----------------------------------------------------------------------
-Ran 101 tests in 13.090s
+Ran 175 tests in 12.810s
 
 OK (expected failures=4)
 ...............................[1m[33mWarning: Global parameter, 'pathway_time_' missing value and missing init assignment and assignment rule!, defaulting value to 0.0.[0m
@@ -346,6 +494,7 @@ Name                                                                  Stmts   Mi
 /home/mkoenig/git/tellurium/tellurium/tephrasedml.py                    113     11    90%   26-28, 44, 48, 52, 94, 106-107, 129, 157
 /home/mkoenig/git/tellurium/tellurium/tesedml.py                        570    213    63%   145, 153, 162-188, 193, 254-258, 267-272, 303-304, 313, 322-323, 343-344, 377, 380, 389-409, 451-452, 467, 481-482, 484-485, 498-556, 582-583, 649-654, 660, 669, 709-719, 746-747, 760-761, 768, 773, 775, 777, 781, 783-851, 867-871
 __init__.py                                                               0      0   100%   
+test_API.py                                                              20      1    95%   140
 test_analysis.py                                                         14      1    93%   31
 test_examples.py                                                         32      1    97%   57
 test_io.py                                                               37      1    97%   92
@@ -358,8 +507,8 @@ testdata/models/__init__.py                                               0     
 /home/mkoenig/git/tellurium/tellurium/visualization/__init__.py           1      0   100%   
 /home/mkoenig/git/tellurium/tellurium/visualization/sbmldiagram.py       61     12    80%   13-16, 45-51, 95, 108
 ---------------------------------------------------------------------------------------------------
-TOTAL                                                                  2552    896    65%   
+TOTAL                                                                  2572    897    65%   
 ----------------------------------------------------------------------
-Ran 104 tests in 26.932s
+Ran 179 tests in 26.274s
 
 OK
