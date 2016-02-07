@@ -19,6 +19,8 @@ r = te.loada('''
 # ----------------------------------------------------------------
 api_calls = [
     # <te>
+    'te.setHold',
+    'te.getHold',
     #   utility functions
     'te.getVersionInfo',
     'te.printVersionInfo',

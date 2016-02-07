@@ -20,6 +20,7 @@ import re
 import roadrunner
 import tellurium as te
 import tecombine
+import tesedml
 
 try:
     import phrasedml
@@ -133,7 +134,7 @@ class tePhrasedml(object):
         fd1, sedmlfilepath = tempfile.mkstemp()
         os.write(fd1, sedmlstr)
 
-        pysedml = te.tesedml.sedml_to_python(sedmlfilepath)
+        pysedml = tesedml.sedmlToPython(sedmlfilepath)
         if tePhrasedml.modelispath is False:
             lines = pysedml.splitlines()
             for k, line in enumerate(lines):
@@ -180,6 +181,7 @@ class tePhrasedml(object):
         :param outputpath: full path of the combine zip file to create
         :type outputpath: str
         """
+        # FIXME: why is this not using the combine archive (tecombine)
         # Temporary failsafe - Should be revised once libphrasedml adopts returning of model name
         reModel = r"""(\w*) = model ('|")(.*)('|")"""
         # rePlot = r"""plot ('|")(.*)('|") (.*)"""

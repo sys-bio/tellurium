@@ -9,6 +9,7 @@ import os.path
 
 class ExportTestCase(unittest.TestCase):
     def test_latex_export(self):
+        """Test latex export. """
         temp_dir = tempfile.mkdtemp()
         # export is writing files which have to be handeled in temp_dir
         try:
@@ -55,6 +56,7 @@ class ExportTestCase(unittest.TestCase):
             shutil.rmtree(temp_dir)
 
     def test_latex_export2(self):
+        """Test latex export. """
         temp_dir = tempfile.mkdtemp()
         # export is writing files which have to be handeled in temp_dir
         try:

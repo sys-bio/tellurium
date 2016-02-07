@@ -8,6 +8,7 @@ class MyTestCase(unittest.TestCase):
         matplotlib.pyplot.switch_backend("Agg")
 
     def test_plot2DParameterScan(self):
+        """Test plot2DParameterScan."""
         import tellurium as te
         from tellurium.analysis.parameterscan import plot2DParameterScan
         r = te.loada("""

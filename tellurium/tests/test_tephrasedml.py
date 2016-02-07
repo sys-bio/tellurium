@@ -34,44 +34,52 @@ class tePhrasedMLTestCase(unittest.TestCase):
         self.tep = None
 
     def test_getAntimonyString(self):
+        """Test getAntimonyString."""
         astr = self.tep.getAntimonyString()
         self.assertIsNotNone(astr)
         self.assertEqual(self.antimony, astr)
 
     def test_getPhrasedmlString(self):
+        """Test getPhrasedmlString."""
         pstr = self.tep.getPhrasedmlString()
         self.assertIsNotNone(pstr)
         self.assertEqual(self.phrasedml, pstr)
 
     def test_getSbmlString(self):
+        """Test getSbmlString."""
         sstr = self.tep.getSbmlString()
         self.assertIsNotNone(sstr)
 
     def test_getSedmlString(self):
+        """Test SedmlString."""
         sstr = self.tep.getSedmlString()
         self.assertIsNotNone(sstr)
 
     def test_execute(self):
+        """Test execute."""
         exp = tephrasedml.tePhrasedml(self.antimony, self.phrasedml)
-        # FIXME: handle plots in tests
-        # exp.execute()
+        exp.execute()
 
     def test_createpython(self):
+        """Test createpython."""
         exp = tephrasedml.tePhrasedml(self.antimony, self.phrasedml)
         pstr = exp.createpython()
         self.assertIsNotNone(pstr)
 
     def test_printpython(self):
+        """Test printpython."""
         exp = tephrasedml.tePhrasedml(self.antimony, self.phrasedml)
         exp.printpython()
 
     def test_experiment(self):
+        """Test experiment."""
         import tellurium as te
         exp = te.experiment(self.antimony, self.phrasedml)
         pstr = exp.createpython()
         self.assertIsNotNone(pstr)
 
     def test_exportAsCombine(self):
+        """Test exportAsCombine."""
         import tellurium as te
         exp = te.experiment(self.antimony, self.phrasedml)
         f = tempfile.NamedTemporaryFile()

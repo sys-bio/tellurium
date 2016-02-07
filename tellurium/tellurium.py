@@ -11,10 +11,8 @@ import roadrunner
 import roadrunner.testing
 import antimony
 import matplotlib.pyplot as plt
-
-import tecombine as combine
-import tesedml
 import tephrasedml
+
 
 try:
     import libsbml

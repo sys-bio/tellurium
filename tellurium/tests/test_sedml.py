@@ -11,7 +11,7 @@ test_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)),
                         'testdata', 'sedml')
 
 
-class tesedmlTestCase(unittest.TestCase):
+class TesedmlTestCase(unittest.TestCase):
 
     def setUp(self):
         pass
@@ -20,26 +20,30 @@ class tesedmlTestCase(unittest.TestCase):
         pass
 
     def single_check(self, f_sedml):
-        print(f_sedml)
-        python_str = tesedml.sedml_to_python(f_sedml)
+        python_str = tesedml.sedmlToPython(f_sedml)
         self.assertIsNotNone(python_str)
         # create the python code file
         with open(f_sedml+'.py', 'w') as f_py:
             f_py.write(python_str)
 
     def test_app2sim(self):
+        """Test app2sim SED-ML example."""
         self.single_check(os.path.join(test_dir, 'app2sim', 'app2sim.sedml'))
 
     def test_asedml3repeat(self):
+        """Test asedml3repeat SED-ML example."""
         self.single_check(os.path.join(test_dir, 'asedml3repeat', 'asedml3repeat.sedml'))
 
     def test_asedmlComplex(self):
+        """Test asedmlComplex SED-ML example."""
         self.single_check(os.path.join(test_dir, 'asedmlComplex', 'asedmlComplex.sedml'))
 
     def test_constant_maybe(self):
+        """Test constant_maybe SED-ML example."""
         self.single_check(os.path.join(test_dir, 'constant_maybe', 'BioModel1.sedml'))
 
     def test_via_sedml_string(self):
+        """Test SED-ML from string."""
         sedml_string = """<?xml version="1.0" encoding="UTF-8"?>
         <!-- Created by phraSED-ML version v0.5beta on 2016-01-31 22:02 with libSBML version 5.12.1. -->
         <sedML xmlns="http://sed-ml.org/sed-ml/level1/version2" level="1" version="2">
