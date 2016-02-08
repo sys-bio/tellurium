@@ -141,9 +141,9 @@
 
 
 <span class="nd">@unittest.skipIf</span><span class="p">(</span><span class="n">tephrasedml</span><span class="o">.</span><span class="n">phrasedml</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">,</span> <span class="s2">&quot;only run tests if phrasedml is available&quot;</span><span class="p">)</span>
-<div class="viewcode-block" id="tePhrasedMLTestCase"><a class="viewcode-back" href="../../../_apidoc/tellurium.tests.html#tellurium.tests.test_tephrasedml.tePhrasedMLTestCase">[docs]</a><span class="k">class</span> <span class="nc">tePhrasedMLTestCase</span><span class="p">(</span><span class="n">unittest</span><span class="o">.</span><span class="n">TestCase</span><span class="p">):</span></div>
+<div class="viewcode-block" id="tePhrasedMLTestCase"><a class="viewcode-back" href="../../../_apidoc/tellurium.tests.html#tellurium.tests.test_tephrasedml.tePhrasedMLTestCase">[docs]</a><span class="k">class</span> <span class="nc">tePhrasedMLTestCase</span><span class="p">(</span><span class="n">unittest</span><span class="o">.</span><span class="n">TestCase</span><span class="p">):</span>
 
-    <span class="k">def</span> <span class="nf">setUp</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="tePhrasedMLTestCase.setUp"><a class="viewcode-back" href="../../../_apidoc/tellurium.tests.html#tellurium.tests.test_tephrasedml.tePhrasedMLTestCase.setUp">[docs]</a>    <span class="k">def</span> <span class="nf">setUp</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="c1"># create a test instance</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">antimony</span> <span class="o">=</span> <span class="s1">&#39;&#39;&#39;</span>
 <span class="s1">        model myModel</span>
@@ -161,57 +161,65 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">tep</span> <span class="o">=</span> <span class="n">tephrasedml</span><span class="o">.</span><span class="n">tePhrasedml</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">antimony</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">phrasedml</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">tep</span><span class="o">.</span><span class="n">getSbmlString</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">tep</span><span class="o">.</span><span class="n">getSedmlString</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tep</span><span class="o">.</span><span class="n">getSedmlString</span><span class="p">()</span></div>
 
-    <span class="k">def</span> <span class="nf">tearDown</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">tep</span> <span class="o">=</span> <span class="bp">None</span>
+<div class="viewcode-block" id="tePhrasedMLTestCase.tearDown"><a class="viewcode-back" href="../../../_apidoc/tellurium.tests.html#tellurium.tests.test_tephrasedml.tePhrasedMLTestCase.tearDown">[docs]</a>    <span class="k">def</span> <span class="nf">tearDown</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tep</span> <span class="o">=</span> <span class="bp">None</span></div>
 
-    <span class="k">def</span> <span class="nf">test_getAntimonyString</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="tePhrasedMLTestCase.test_getAntimonyString"><a class="viewcode-back" href="../../../_apidoc/tellurium.tests.html#tellurium.tests.test_tephrasedml.tePhrasedMLTestCase.test_getAntimonyString">[docs]</a>    <span class="k">def</span> <span class="nf">test_getAntimonyString</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Test getAntimonyString.&quot;&quot;&quot;</span>
         <span class="n">astr</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tep</span><span class="o">.</span><span class="n">getAntimonyString</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">assertIsNotNone</span><span class="p">(</span><span class="n">astr</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">antimony</span><span class="p">,</span> <span class="n">astr</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">antimony</span><span class="p">,</span> <span class="n">astr</span><span class="p">)</span></div>
 
-    <span class="k">def</span> <span class="nf">test_getPhrasedmlString</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="tePhrasedMLTestCase.test_getPhrasedmlString"><a class="viewcode-back" href="../../../_apidoc/tellurium.tests.html#tellurium.tests.test_tephrasedml.tePhrasedMLTestCase.test_getPhrasedmlString">[docs]</a>    <span class="k">def</span> <span class="nf">test_getPhrasedmlString</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Test getPhrasedmlString.&quot;&quot;&quot;</span>
         <span class="n">pstr</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tep</span><span class="o">.</span><span class="n">getPhrasedmlString</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">assertIsNotNone</span><span class="p">(</span><span class="n">pstr</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">phrasedml</span><span class="p">,</span> <span class="n">pstr</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">phrasedml</span><span class="p">,</span> <span class="n">pstr</span><span class="p">)</span></div>
 
-    <span class="k">def</span> <span class="nf">test_getSbmlString</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="tePhrasedMLTestCase.test_getSbmlString"><a class="viewcode-back" href="../../../_apidoc/tellurium.tests.html#tellurium.tests.test_tephrasedml.tePhrasedMLTestCase.test_getSbmlString">[docs]</a>    <span class="k">def</span> <span class="nf">test_getSbmlString</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Test getSbmlString.&quot;&quot;&quot;</span>
         <span class="n">sstr</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tep</span><span class="o">.</span><span class="n">getSbmlString</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">assertIsNotNone</span><span class="p">(</span><span class="n">sstr</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertIsNotNone</span><span class="p">(</span><span class="n">sstr</span><span class="p">)</span></div>
 
-    <span class="k">def</span> <span class="nf">test_getSedmlString</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="tePhrasedMLTestCase.test_getSedmlString"><a class="viewcode-back" href="../../../_apidoc/tellurium.tests.html#tellurium.tests.test_tephrasedml.tePhrasedMLTestCase.test_getSedmlString">[docs]</a>    <span class="k">def</span> <span class="nf">test_getSedmlString</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Test SedmlString.&quot;&quot;&quot;</span>
         <span class="n">sstr</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tep</span><span class="o">.</span><span class="n">getSedmlString</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">assertIsNotNone</span><span class="p">(</span><span class="n">sstr</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertIsNotNone</span><span class="p">(</span><span class="n">sstr</span><span class="p">)</span></div>
 
-    <span class="k">def</span> <span class="nf">test_execute</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="tePhrasedMLTestCase.test_execute"><a class="viewcode-back" href="../../../_apidoc/tellurium.tests.html#tellurium.tests.test_tephrasedml.tePhrasedMLTestCase.test_execute">[docs]</a>    <span class="k">def</span> <span class="nf">test_execute</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Test execute.&quot;&quot;&quot;</span>
         <span class="n">exp</span> <span class="o">=</span> <span class="n">tephrasedml</span><span class="o">.</span><span class="n">tePhrasedml</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">antimony</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">phrasedml</span><span class="p">)</span>
-        <span class="c1"># FIXME: handle plots in tests</span>
-        <span class="c1"># exp.execute()</span>
+        <span class="n">exp</span><span class="o">.</span><span class="n">execute</span><span class="p">()</span></div>
 
-    <span class="k">def</span> <span class="nf">test_createpython</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="tePhrasedMLTestCase.test_createpython"><a class="viewcode-back" href="../../../_apidoc/tellurium.tests.html#tellurium.tests.test_tephrasedml.tePhrasedMLTestCase.test_createpython">[docs]</a>    <span class="k">def</span> <span class="nf">test_createpython</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Test createpython.&quot;&quot;&quot;</span>
         <span class="n">exp</span> <span class="o">=</span> <span class="n">tephrasedml</span><span class="o">.</span><span class="n">tePhrasedml</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">antimony</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">phrasedml</span><span class="p">)</span>
         <span class="n">pstr</span> <span class="o">=</span> <span class="n">exp</span><span class="o">.</span><span class="n">createpython</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">assertIsNotNone</span><span class="p">(</span><span class="n">pstr</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertIsNotNone</span><span class="p">(</span><span class="n">pstr</span><span class="p">)</span></div>
 
-    <span class="k">def</span> <span class="nf">test_printpython</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="tePhrasedMLTestCase.test_printpython"><a class="viewcode-back" href="../../../_apidoc/tellurium.tests.html#tellurium.tests.test_tephrasedml.tePhrasedMLTestCase.test_printpython">[docs]</a>    <span class="k">def</span> <span class="nf">test_printpython</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Test printpython.&quot;&quot;&quot;</span>
         <span class="n">exp</span> <span class="o">=</span> <span class="n">tephrasedml</span><span class="o">.</span><span class="n">tePhrasedml</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">antimony</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">phrasedml</span><span class="p">)</span>
-        <span class="n">exp</span><span class="o">.</span><span class="n">printpython</span><span class="p">()</span>
+        <span class="n">exp</span><span class="o">.</span><span class="n">printpython</span><span class="p">()</span></div>
 
-    <span class="k">def</span> <span class="nf">test_experiment</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="tePhrasedMLTestCase.test_experiment"><a class="viewcode-back" href="../../../_apidoc/tellurium.tests.html#tellurium.tests.test_tephrasedml.tePhrasedMLTestCase.test_experiment">[docs]</a>    <span class="k">def</span> <span class="nf">test_experiment</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Test experiment.&quot;&quot;&quot;</span>
         <span class="kn">import</span> <span class="nn">tellurium</span> <span class="kn">as</span> <span class="nn">te</span>
         <span class="n">exp</span> <span class="o">=</span> <span class="n">te</span><span class="o">.</span><span class="n">experiment</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">antimony</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">phrasedml</span><span class="p">)</span>
         <span class="n">pstr</span> <span class="o">=</span> <span class="n">exp</span><span class="o">.</span><span class="n">createpython</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">assertIsNotNone</span><span class="p">(</span><span class="n">pstr</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertIsNotNone</span><span class="p">(</span><span class="n">pstr</span><span class="p">)</span></div>
 
-    <span class="k">def</span> <span class="nf">test_exportAsCombine</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="tePhrasedMLTestCase.test_exportAsCombine"><a class="viewcode-back" href="../../../_apidoc/tellurium.tests.html#tellurium.tests.test_tephrasedml.tePhrasedMLTestCase.test_exportAsCombine">[docs]</a>    <span class="k">def</span> <span class="nf">test_exportAsCombine</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Test exportAsCombine.&quot;&quot;&quot;</span>
         <span class="kn">import</span> <span class="nn">tellurium</span> <span class="kn">as</span> <span class="nn">te</span>
         <span class="n">exp</span> <span class="o">=</span> <span class="n">te</span><span class="o">.</span><span class="n">experiment</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">antimony</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">phrasedml</span><span class="p">)</span>
         <span class="n">f</span> <span class="o">=</span> <span class="n">tempfile</span><span class="o">.</span><span class="n">NamedTemporaryFile</span><span class="p">()</span>
         <span class="n">exp</span><span class="o">.</span><span class="n">exportAsCombine</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
         <span class="c1"># try to re</span>
         <span class="kn">import</span> <span class="nn">zipfile</span>
-        <span class="nb">zip</span> <span class="o">=</span> <span class="n">zipfile</span><span class="o">.</span><span class="n">ZipFile</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+        <span class="nb">zip</span> <span class="o">=</span> <span class="n">zipfile</span><span class="o">.</span><span class="n">ZipFile</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">name</span><span class="p">)</span></div></div>
 
 
 <span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>

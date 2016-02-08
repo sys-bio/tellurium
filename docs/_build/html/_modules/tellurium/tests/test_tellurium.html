@@ -146,7 +146,7 @@
 
 
 <div class="viewcode-block" id="TelluriumTestCase"><a class="viewcode-back" href="../../../_apidoc/tellurium.tests.html#tellurium.tests.test_tellurium.TelluriumTestCase">[docs]</a><span class="k">class</span> <span class="nc">TelluriumTestCase</span><span class="p">(</span><span class="n">unittest</span><span class="o">.</span><span class="n">TestCase</span><span class="p">):</span>
-<div class="viewcode-block" id="TelluriumTestCase.setUp"><a class="viewcode-back" href="../../../_apidoc/tellurium.tests.html#tellurium.tests.test_tellurium.TelluriumTestCase.setUp">[docs]</a>    <span class="k">def</span> <span class="nf">setUp</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span></div>
+<div class="viewcode-block" id="TelluriumTestCase.setUp"><a class="viewcode-back" href="../../../_apidoc/tellurium.tests.html#tellurium.tests.test_tellurium.TelluriumTestCase.setUp">[docs]</a>    <span class="k">def</span> <span class="nf">setUp</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="c1"># switch the backend of matplotlib, so plots can be tested</span>
         <span class="kn">import</span> <span class="nn">matplotlib</span>
         <span class="n">matplotlib</span><span class="o">.</span><span class="n">pyplot</span><span class="o">.</span><span class="n">switch_backend</span><span class="p">(</span><span class="s2">&quot;Agg&quot;</span><span class="p">)</span>
@@ -255,7 +255,7 @@
 
         <span class="bp">self</span><span class="o">.</span><span class="n">ant_file</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">test_dir</span><span class="p">,</span> <span class="s1">&#39;models&#39;</span><span class="p">,</span> <span class="s1">&#39;example1&#39;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">sbml_file</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">test_dir</span><span class="p">,</span> <span class="s1">&#39;models&#39;</span><span class="p">,</span> <span class="s1">&#39;example1.xml&#39;</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">cellml_file</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">test_dir</span><span class="p">,</span> <span class="s1">&#39;models&#39;</span><span class="p">,</span> <span class="s1">&#39;example1.cellml&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cellml_file</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">test_dir</span><span class="p">,</span> <span class="s1">&#39;models&#39;</span><span class="p">,</span> <span class="s1">&#39;example1.cellml&#39;</span><span class="p">)</span></div>
 
     <span class="c1"># ---------------------------------------------------------------------</span>
     <span class="c1"># Loading Models Methods</span>
@@ -470,20 +470,18 @@
     <span class="c1"># ---------------------------------------------------------------------</span>
     <span class="c1"># Testing</span>
     <span class="c1"># ---------------------------------------------------------------------</span>
-    <span class="nd">@unittest.expectedFailure</span>
 <div class="viewcode-block" id="TelluriumTestCase.test_roadrunner_testfile"><a class="viewcode-back" href="../../../_apidoc/tellurium.tests.html#tellurium.tests.test_tellurium.TelluriumTestCase.test_roadrunner_testfile">[docs]</a>    <span class="k">def</span> <span class="nf">test_roadrunner_testfile</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="kn">import</span> <span class="nn">roadrunner</span>
-        <span class="n">r</span> <span class="o">=</span> <span class="n">roadrunner</span><span class="o">.</span><span class="n">testing</span><span class="o">.</span><span class="n">testfiles</span><span class="o">.</span><span class="n">getRoadRunner</span><span class="p">(</span><span class="s1">&#39;feedback.xml&#39;</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">assertIsNotNone</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="s1">&#39;fails due to https://github.com/sys-bio/roadrunner/issues/287&#39;</span><span class="p">)</span></div>
+        <span class="kn">from</span> <span class="nn">roadrunner.testing</span> <span class="kn">import</span> <span class="n">testfiles</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="n">testfiles</span><span class="o">.</span><span class="n">getRoadRunner</span><span class="p">(</span><span class="s1">&#39;feedback.xml&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertIsNotNone</span><span class="p">(</span><span class="n">r</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="TelluriumTestCase.test_listTestModels"><a class="viewcode-back" href="../../../_apidoc/tellurium.tests.html#tellurium.tests.test_tellurium.TelluriumTestCase.test_listTestModels">[docs]</a>    <span class="k">def</span> <span class="nf">test_listTestModels</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">models</span> <span class="o">=</span> <span class="n">te</span><span class="o">.</span><span class="n">listTestModels</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="s1">&#39;feedback.xml&#39;</span> <span class="ow">in</span> <span class="n">models</span><span class="p">)</span></div>
 
-    <span class="nd">@unittest.expectedFailure</span>
 <div class="viewcode-block" id="TelluriumTestCase.test_loadTestModel"><a class="viewcode-back" href="../../../_apidoc/tellurium.tests.html#tellurium.tests.test_tellurium.TelluriumTestCase.test_loadTestModel">[docs]</a>    <span class="k">def</span> <span class="nf">test_loadTestModel</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">r</span> <span class="o">=</span> <span class="n">te</span><span class="o">.</span><span class="n">loadTestModel</span><span class="p">(</span><span class="s1">&#39;feedback.xml&#39;</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">assertIsNotNone</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="s1">&#39;fails due to https://github.com/sys-bio/roadrunner/issues/287&#39;</span><span class="p">)</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertIsNotNone</span><span class="p">(</span><span class="n">r</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="TelluriumTestCase.test_getTestModel"><a class="viewcode-back" href="../../../_apidoc/tellurium.tests.html#tellurium.tests.test_tellurium.TelluriumTestCase.test_getTestModel">[docs]</a>    <span class="k">def</span> <span class="nf">test_getTestModel</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">sbml</span> <span class="o">=</span> <span class="n">te</span><span class="o">.</span><span class="n">getTestModel</span><span class="p">(</span><span class="s1">&#39;feedback.xml&#39;</span><span class="p">)</span></div>
@@ -491,7 +489,7 @@
     <span class="c1"># ---------------------------------------------------------------------</span>
     <span class="c1"># Roadrunner tests</span>
     <span class="c1"># ---------------------------------------------------------------------</span>
-<div class="viewcode-block" id="TelluriumTestCase.test_roadrunner"><a class="viewcode-back" href="../../../_apidoc/tellurium.tests.html#tellurium.tests.test_tellurium.TelluriumTestCase.test_roadrunner">[docs]</a>    <span class="k">def</span> <span class="nf">test_roadrunner</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span></div>
+<div class="viewcode-block" id="TelluriumTestCase.test_roadrunner"><a class="viewcode-back" href="../../../_apidoc/tellurium.tests.html#tellurium.tests.test_tellurium.TelluriumTestCase.test_roadrunner">[docs]</a>    <span class="k">def</span> <span class="nf">test_roadrunner</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="c1"># load test model as SBML</span>
         <span class="n">sbml</span> <span class="o">=</span> <span class="n">te</span><span class="o">.</span><span class="n">getTestModel</span><span class="p">(</span><span class="s1">&#39;feedback.xml&#39;</span><span class="p">)</span>
         <span class="n">rr</span> <span class="o">=</span> <span class="n">te</span><span class="o">.</span><span class="n">loadSBMLModel</span><span class="p">(</span><span class="n">sbml</span><span class="p">)</span>
@@ -503,7 +501,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">assertIsNotNone</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">200</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">s</span><span class="p">[</span><span class="s2">&quot;time&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="mi">0</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">assertAlmostEqual</span><span class="p">(</span><span class="n">s</span><span class="p">[</span><span class="s2">&quot;time&quot;</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="mf">100.0</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertAlmostEqual</span><span class="p">(</span><span class="n">s</span><span class="p">[</span><span class="s2">&quot;time&quot;</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="mf">100.0</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="TelluriumTestCase.test_roadrunner_tests"><a class="viewcode-back" href="../../../_apidoc/tellurium.tests.html#tellurium.tests.test_tellurium.TelluriumTestCase.test_roadrunner_tests">[docs]</a>    <span class="k">def</span> <span class="nf">test_roadrunner_tests</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Run the roadrunner tests. &quot;&quot;&quot;</span>

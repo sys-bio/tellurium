@@ -1,4 +1,4 @@
-Sa 6. Feb 15:13:52 CET 2016
+Mon Feb  8 10:29:58 CET 2016
 --------------------------------------
 convert notebooks to rst
 --------------------------------------
@@ -138,17 +138,6 @@ convert notebooks to rst
 [NbConvertApp] Executing notebook with kernel: python2
 [NbConvertApp] Writing 4618 bytes to tesedmlExample.rst
 [NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/widgets/widgets_lorenz.ipynb to rst
-[NbConvertApp] ERROR | Notebook JSON is invalid: {u'metadata': {}} is not valid under any of the given schemas
-
-Failed validating u'oneOf' in schema[u'properties'][u'outputs'][u'items']:
-    {u'oneOf': [{u'$ref': u'#/definitions/execute_result'},
-                {u'$ref': u'#/definitions/display_data'},
-                {u'$ref': u'#/definitions/stream'},
-                {u'$ref': u'#/definitions/error'}],
-     u'type': u'object'}
-
-On instance[u'outputs'][1]:
-    {u'metadata': {}}
 [NbConvertApp] Executing notebook with kernel: python2
 [NbConvertApp] Support files will be in widgets_lorenz_files/
 [NbConvertApp] Making directory widgets_lorenz_files

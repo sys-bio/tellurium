@@ -11,6 +11,14 @@ Subpackages
 Submodules
 ----------
 
+tellurium.tests.test_API module
+-------------------------------
+
+.. automodule:: tellurium.tests.test_API
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
 tellurium.tests.test_analysis module
 ------------------------------------
 

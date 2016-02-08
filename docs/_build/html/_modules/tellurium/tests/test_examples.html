@@ -158,8 +158,6 @@
 <span class="n">py_files</span> <span class="o">=</span> <span class="p">[]</span>
 <span class="n">py_files</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">_pyFilesInFolder</span><span class="p">(</span><span class="n">notebookdir</span><span class="p">))</span>
 <span class="n">py_files</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">_pyFilesInFolder</span><span class="p">(</span><span class="n">tedir</span><span class="p">))</span>
-<span class="k">print</span><span class="p">(</span><span class="n">py_files</span><span class="p">)</span>
-
 
 <span class="c1"># ----------------------------------------------------------------</span>
 <span class="c1"># Test class</span>
@@ -183,7 +181,6 @@
     <span class="k">return</span> <span class="n">test</span></div>
 
 <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">f</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">py_files</span><span class="p">):</span>
-    <span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
     <span class="n">test_name</span> <span class="o">=</span> <span class="s1">&#39;test_{:03d}_{}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">f</span><span class="p">)[:</span><span class="o">-</span><span class="mi">3</span><span class="p">])</span>
     <span class="n">test</span> <span class="o">=</span> <span class="n">ftest_generator</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
     <span class="nb">setattr</span><span class="p">(</span><span class="n">PythonExampleTestCase</span><span class="p">,</span> <span class="n">test_name</span><span class="p">,</span> <span class="n">test</span><span class="p">)</span>

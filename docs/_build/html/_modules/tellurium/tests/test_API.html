@@ -1,0 +1,338 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>tellurium.tests.test_API &mdash; tellurium 1.3.0 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="tellurium 1.3.0 documentation" href="../../../index.html"/>
+        <link rel="up" title="Module code" href="../../index.html"/> 
+
+  
+  <script src="../../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> tellurium
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.3.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../notebooks.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tellurium_methods.html">Tellurium Methods</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../_apidoc/tellurium.html">API (tellurium)</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../../../index.html">tellurium</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../../index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+      
+    <li>tellurium.tests.test_API</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for tellurium.tests.test_API</h1><div class="highlight"><pre>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Here the supported API is tested.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="c1"># TODO: write in file</span>
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">print_function</span><span class="p">,</span> <span class="n">division</span>
+<span class="kn">import</span> <span class="nn">unittest</span>
+
+<span class="kn">import</span> <span class="nn">tellurium</span> <span class="kn">as</span> <span class="nn">te</span>
+<span class="n">r</span> <span class="o">=</span> <span class="n">te</span><span class="o">.</span><span class="n">loada</span><span class="p">(</span><span class="s1">&#39;&#39;&#39;</span>
+<span class="s1">  model pathway()</span>
+<span class="s1">    S1 + S2 -&gt; 2 S3; k1*S1*S2</span>
+<span class="s1">    3 S3 -&gt; 4 S4 + 6 S5; k2*S3^3</span>
+<span class="s1">    k1 = 0.1;k2 = 0.1;</span>
+<span class="s1">  end</span>
+<span class="s1">&#39;&#39;&#39;</span><span class="p">)</span>
+
+<span class="c1"># ----------------------------------------------------------------</span>
+<span class="c1"># SUPPORTED API v1.3.0</span>
+<span class="c1"># ----------------------------------------------------------------</span>
+<span class="n">api_calls</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="c1"># &lt;te&gt;</span>
+    <span class="s1">&#39;te.setHold&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;te.getHold&#39;</span><span class="p">,</span>
+    <span class="c1">#   utility functions</span>
+    <span class="s1">&#39;te.getVersionInfo&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;te.printVersionInfo&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;te.getTelluriumVersion&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;te.noticesOff&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;te.noticesOn&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;te.saveToFile&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;te.readFromFile&#39;</span><span class="p">,</span>
+    <span class="c1">#   load methods</span>
+    <span class="s1">&#39;te.loada&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;te.loadAntimonyModel&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;te.loadSBMLModel&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;te.loadCellMLModel&#39;</span><span class="p">,</span>
+    <span class="c1">#   conversion methods</span>
+    <span class="s1">&#39;te.antimonyToSBML&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;te.antimonyToCellML&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;te.sbmlToAntimony&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;te.sbmlToCellML&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;te.cellmlToAntimony&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;te.cellmlToSBML&#39;</span><span class="p">,</span>
+    <span class="c1">#   experiment</span>
+    <span class="s1">&#39;te.experiment&#39;</span><span class="p">,</span>
+    <span class="c1">#   math</span>
+    <span class="s1">&#39;te.getEigenvalues&#39;</span><span class="p">,</span>
+    <span class="c1">#   plotting</span>
+    <span class="s1">&#39;te.plotArray&#39;</span><span class="p">,</span>
+    <span class="c1">#   tests</span>
+    <span class="s1">&#39;te.loadTestModel&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;te.getTestModel&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;te.listTestModels&#39;</span><span class="p">,</span>
+    <span class="c1">#   export</span>
+    <span class="s1">&#39;te.LatexExport&#39;</span><span class="p">,</span>
+    <span class="c1">#   scans</span>
+    <span class="s1">&#39;te.ParameterScan&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;te.SteadyStateScan&#39;</span><span class="p">,</span>
+    <span class="c1"># &lt;ExtendedRoadRunner&gt;</span>
+    <span class="s1">&#39;r.getAntimony&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;r.getCurrentAntimony&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;r.getCellML&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;r.getCurrentCellML&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;r.getMatlab&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;r.getCurrentMatlab&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;r.exportToAntimony&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;r.exportToCellML&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;r.exportToMatlab&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;r.resetToOrigin&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;r.resetAll&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;r.getRatesOfChange&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;r.draw&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;r.plot&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;r.getSeed&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;r.setSeed&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;r.gillespie&#39;</span><span class="p">,</span>
+    <span class="c1">#   jarnac layer</span>
+    <span class="s1">&#39;r.fjac&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;r.sm&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;r.rs&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;r.fs&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;r.bs&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;r.ps&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;r.vs&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;r.dv&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;r.rv&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;r.sv&#39;</span><span class="p">,</span>
+    <span class="c1">#   model functions</span>
+    <span class="s1">&#39;r.getBoundarySpeciesConcentrations&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;r.getBoundarySpeciesIds&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;r.getNumBoundarySpecies&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;r.getFloatingSpeciesConcentrations&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;r.getFloatingSpeciesIds&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;r.getNumFloatingSpecies&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;r.getGlobalParameterIds&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;r.getGlobalParameterValues&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;r.getNumGlobalParameters&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;r.getCompartmentIds&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;r.getCompartmentVolumes&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;r.getNumCompartments&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;r.getConservedMoietyValues&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;r.getNumConservedMoieties&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;r.getNumDepFloatingSpecies&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;r.getNumIndFloatingSpecies&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;r.getReactionIds&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;r.getReactionRates&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;r.getNumReactions&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;r.getNumEvents&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;r.getNumRateRules&#39;</span><span class="p">,</span>
+<span class="p">]</span>
+<span class="c1"># ----------------------------------------------------------------</span>
+
+
+
+
+<div class="viewcode-block" id="APITestCase"><a class="viewcode-back" href="../../../_apidoc/tellurium.tests.html#tellurium.tests.test_API.APITestCase">[docs]</a><span class="k">class</span> <span class="nc">APITestCase</span><span class="p">(</span><span class="n">unittest</span><span class="o">.</span><span class="n">TestCase</span><span class="p">):</span>
+    <span class="k">pass</span></div>
+
+
+<span class="c1"># ----------------------------------------------------------------</span>
+<span class="c1"># Dynamic generation of tests</span>
+<span class="c1"># ----------------------------------------------------------------</span>
+<div class="viewcode-block" id="ftest_generator"><a class="viewcode-back" href="../../../_apidoc/tellurium.tests.html#tellurium.tests.test_API.ftest_generator">[docs]</a><span class="k">def</span> <span class="nf">ftest_generator</span><span class="p">(</span><span class="n">name</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">test</span><span class="p">(</span><span class="bp">self</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Test fails if class or function is not callable under the given name str. &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">f</span> <span class="o">=</span> <span class="nb">eval</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+            <span class="c1"># test if exist</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">assertIsNotNone</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+            <span class="c1"># test if callable</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="nb">hasattr</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="s1">&#39;__call__&#39;</span><span class="p">))</span>
+
+    <span class="k">return</span> <span class="n">test</span></div>
+
+<span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">name</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">api_calls</span><span class="p">):</span>
+    <span class="n">test_name</span> <span class="o">=</span> <span class="s1">&#39;test_api{:03d}_{}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
+    <span class="n">test</span> <span class="o">=</span> <span class="n">ftest_generator</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+    <span class="nb">setattr</span><span class="p">(</span><span class="n">APITestCase</span><span class="p">,</span> <span class="n">test_name</span><span class="p">,</span> <span class="n">test</span><span class="p">)</span>
+
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">unittest</span><span class="o">.</span><span class="n">main</span><span class="p">()</span>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016, sys-bio.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../../',
+            VERSION:'1.3.0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

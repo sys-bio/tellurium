@@ -135,12 +135,13 @@
 
 
 <div class="viewcode-block" id="MyTestCase"><a class="viewcode-back" href="../../../_apidoc/tellurium.tests.html#tellurium.tests.test_analysis.MyTestCase">[docs]</a><span class="k">class</span> <span class="nc">MyTestCase</span><span class="p">(</span><span class="n">unittest</span><span class="o">.</span><span class="n">TestCase</span><span class="p">):</span>
-<div class="viewcode-block" id="MyTestCase.setUp"><a class="viewcode-back" href="../../../_apidoc/tellurium.tests.html#tellurium.tests.test_analysis.MyTestCase.setUp">[docs]</a>    <span class="k">def</span> <span class="nf">setUp</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span></div>
+<div class="viewcode-block" id="MyTestCase.setUp"><a class="viewcode-back" href="../../../_apidoc/tellurium.tests.html#tellurium.tests.test_analysis.MyTestCase.setUp">[docs]</a>    <span class="k">def</span> <span class="nf">setUp</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="c1"># switch the backend of matplotlib, so plots can be tested</span>
         <span class="kn">import</span> <span class="nn">matplotlib</span>
-        <span class="n">matplotlib</span><span class="o">.</span><span class="n">pyplot</span><span class="o">.</span><span class="n">switch_backend</span><span class="p">(</span><span class="s2">&quot;Agg&quot;</span><span class="p">)</span>
+        <span class="n">matplotlib</span><span class="o">.</span><span class="n">pyplot</span><span class="o">.</span><span class="n">switch_backend</span><span class="p">(</span><span class="s2">&quot;Agg&quot;</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="MyTestCase.test_plot2DParameterScan"><a class="viewcode-back" href="../../../_apidoc/tellurium.tests.html#tellurium.tests.test_analysis.MyTestCase.test_plot2DParameterScan">[docs]</a>    <span class="k">def</span> <span class="nf">test_plot2DParameterScan</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Test plot2DParameterScan.&quot;&quot;&quot;</span>
         <span class="kn">import</span> <span class="nn">tellurium</span> <span class="kn">as</span> <span class="nn">te</span>
         <span class="kn">from</span> <span class="nn">tellurium.analysis.parameterscan</span> <span class="kn">import</span> <span class="n">plot2DParameterScan</span>
         <span class="n">r</span> <span class="o">=</span> <span class="n">te</span><span class="o">.</span><span class="n">loada</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;</span>
