@@ -8,7 +8,6 @@ from __future__ import print_function, division
 import os
 import warnings
 import roadrunner
-import roadrunner.testing
 import antimony
 import matplotlib.pyplot as plt
 import tephrasedml
@@ -390,6 +389,7 @@ def loadTestModel(string):
 
     :returns: RoadRunner instance with test model loaded
     """
+    import roadrunner.testing
     return roadrunner.testing.getRoadRunner(string)
 
 
@@ -405,6 +405,7 @@ def getTestModel(string):
 
     :returns: SBML string of test model
     """
+    import roadrunner.testing
     return roadrunner.testing.getData(string)
 
 
@@ -416,6 +417,7 @@ def listTestModels():
 
     :returns: list of test model paths
     """
+    import roadrunner.testing
     modelList = []
     fileList = roadrunner.testing.dir('*.xml')
     for pathName in fileList:
@@ -427,8 +429,19 @@ def listTestModels():
 # ---------------------------------------------------------------------
 class ExtendedRoadRunner(roadrunner.RoadRunner):
 
-    # functions for easier model access
+    def __init__(self, *args, **kwargs):
+        super(ExtendedRoadRunner, self).__init__(*args, **kwargs)
+
+    # ---------------------------------------------------------------------
+    # Model access
+    # ---------------------------------------------------------------------
+    # def getBoundarySpeciesConcentrations(self):
+    #     return self.model.getBoundarySpeciesConcentrations()
+    # getBoundarySpeciesConcentrations.__doc__ = roadrunner.ExecutableModel.getBoundarySpeciesConcentrations.__doc__
+
+    # These model functions are attached after class creation
     _model_functions = [
+        'getBoundarySpeciesConcentrations',
         'getBoundarySpeciesConcentrations',
         'getBoundarySpeciesIds',
         'getNumBoundarySpecies',
@@ -457,31 +470,48 @@ class ExtendedRoadRunner(roadrunner.RoadRunner):
         'getNumRateRules'
      ]
 
-    def __init__(self, *args, **kwargs):
-        super(ExtendedRoadRunner, self).__init__(*args, **kwargs)
+    # ---------------------------------------------------------------------
+    # Jarnac compatibility layer
+    # ---------------------------------------------------------------------
+    def fjac(self):
+        return self.getFullJacobian()
+    fjac.__doc__ = roadrunner.RoadRunner.getFullJacobian.__doc__
 
-        # ---------------------------------------------------------------------
-        # Routines to support the Jarnac compatibility layer
-        # ---------------------------------------------------------------------
-        self.fjac = self.getFullJacobian
-        self.sm = self.getFullStoichiometryMatrix
-        self.rs = self.model.getReactionIds
-        self.fs = self.model.getFloatingSpeciesIds
-        self.bs = self.model.getBoundarySpeciesIds
-        self.ps = self.model.getGlobalParameterIds
-        self.vs = self.model.getCompartmentIds
-        self.dv = self.model.getStateVectorRate
-        self.rv = self.model.getReactionRates
-        self.sv = self.model.getFloatingSpeciesConcentrations
+    def sm(self):
+        return self.getFullStoichiometryMatrix()
+    sm.__doc__ = roadrunner.RoadRunner.getFullStoichiometryMatrix.__doc__
 
-        # ---------------------------------------------------------------------
-        # Model access
-        # ---------------------------------------------------------------------
-        for key in self._model_functions:
-            # assignments of the form
-            # self.getBoundarySpeciesConcentrations = self.model.getBoundarySpeciesConcentrations
-            func = getattr(self.model, key)
-            setattr(self, key, func)
+    def rs(self):
+        return self.model.getReactionIds()
+    rs.__doc__ = roadrunner.ExecutableModel.getReactionIds.__doc__
+
+    def fs(self):
+        return self.model.getFloatingSpeciesIds()
+    fs.__doc__ = roadrunner.ExecutableModel.getFloatingSpeciesIds.__doc__
+
+    def bs(self):
+        return self.model.getBoundarySpeciesIds()
+    bs.__doc__ = roadrunner.ExecutableModel.getBoundarySpeciesIds.__doc__
+
+    def ps(self):
+        return self.model.getGlobalParameterIds()
+    ps.__doc__ = roadrunner.ExecutableModel.getGlobalParameterIds.__doc__
+
+    def vs(self):
+        return self.model.getCompartmentIds()
+    vs.__doc__ = roadrunner.ExecutableModel.getCompartmentIds.__doc__
+
+    def dv(self):
+        return self.model.getStateVectorRate()
+    dv.__doc__ = roadrunner.ExecutableModel.getStateVector.__doc__
+
+    def rv(self):
+        return self.model.getReactionRates()
+    rv.__doc__ = roadrunner.ExecutableModel.getReactionRates.__doc__
+
+    def sv(self):
+        return self.model.getFloatingSpeciesConcentrations()
+    sv.__doc__ = roadrunner.ExecutableModel.getFloatingSpeciesConcentrations.__doc__
 
     # ---------------------------------------------------------------------
     # Export Utilities
@@ -806,21 +836,35 @@ class ExtendedRoadRunner(roadrunner.RoadRunner):
         self.setIntegrator('gillespie')
         return self.simulate(*args, **kwargs)
 
+
 # ---------------------------------------------------------------
 # End of routines
 # ---------------------------------------------------------------
-# Now we assign the ExtendedRoadRunner to RoadRunner
+def _model_function_factory(key):
+    """ Dynamic creation of model functions.
 
+    :param key: function key, i.e. the name of the function
+    :type key: str
+    :return: function object
+    :rtype: function
+    """
+    def f(self):
+        return getattr(self.model, key).__call__()
+    # set the name
+    f.__name__ = key
+    # copy the docstring
+    f.__doc__ = getattr(roadrunner.ExecutableModel, key).__doc__
+    return f
+
+# Add model functions to ExendedRoadRunner class
+for key in ExtendedRoadRunner._model_functions:
+    setattr(ExtendedRoadRunner, key, _model_function_factory(key))
+
+
+# Now we assign the ExtendedRoadRunner to RoadRunner
 def RoadRunner(*args):
     # return roadrunner.RoadRunner(*args)
     return ExtendedRoadRunner(*args)
 
 roadrunner.RoadRunner = ExtendedRoadRunner
 
-# And assign functions to the roadrunner module.
-# not necessary, use the te.function version instead
-# roadrunner.noticesOff = noticesOff
-# roadrunner.noticesOn = noticesOn
-# roadrunner.getTestModel = getTestModel
-# roadrunner.loadTestModel = loadTestModel
-# roadrunner.listTestModels = listTestModels

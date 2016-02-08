@@ -337,20 +337,18 @@ class TelluriumTestCase(unittest.TestCase):
     # ---------------------------------------------------------------------
     # Testing
     # ---------------------------------------------------------------------
-    @unittest.expectedFailure
     def test_roadrunner_testfile(self):
-        import roadrunner
-        r = roadrunner.testing.testfiles.getRoadRunner('feedback.xml')
-        self.assertIsNotNone(r, 'fails due to https://github.com/sys-bio/roadrunner/issues/287')
+        from roadrunner.testing import testfiles
+        r = testfiles.getRoadRunner('feedback.xml')
+        self.assertIsNotNone(r)
 
     def test_listTestModels(self):
         models = te.listTestModels()
         self.assertTrue('feedback.xml' in models)
 
-    @unittest.expectedFailure
     def test_loadTestModel(self):
         r = te.loadTestModel('feedback.xml')
-        self.assertIsNotNone(r, 'fails due to https://github.com/sys-bio/roadrunner/issues/287')
+        self.assertIsNotNone(r)
 
     def test_getTestModel(self):
         sbml = te.getTestModel('feedback.xml')
