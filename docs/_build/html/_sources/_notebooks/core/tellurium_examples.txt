@@ -1,8 +1,6 @@
 
-Tellurium Examples
-==================
-
-Some tests with tellurium
+Activator system
+~~~~~~~~~~~~~~~~
 
 .. code:: python
 
@@ -66,6 +64,10 @@ Some tests with tellurium
 
 .. code:: python
 
+    ### Feedback oscillations
+
+.. code:: python
+
     # http://tellurium.analogmachine.org/testing/
     import tellurium as te
     r = te.loada ('''
@@ -91,11 +93,11 @@ Some tests with tellurium
 
 
 
-.. image:: _notebooks/core/tellurium_examples_files/tellurium_examples_2_0.png
+.. image:: _notebooks/core/tellurium_examples_files/tellurium_examples_3_0.png
 
 
-Bistable
---------
+Bistable System
+~~~~~~~~~~~~~~~
 
 Example showing how to to multiple time course simulations, merging the
 data and plotting it onto one platting surface. Alternative is to use
@@ -128,7 +130,8 @@ conditions resulting in different steady states reached.
         m = np.concatenate([m, res], axis=1)
         initValue += 1
     
-    te.plotArray(m, color="black", alpha=0.7);
+    te.plotArray(m, color="black", alpha=0.7, loc=None, 
+                 xlabel="time", ylabel="[S1]", title="Bistable system");
 
 
 .. parsed-literal::
@@ -137,8 +140,11 @@ conditions resulting in different steady states reached.
 
 
 
-.. image:: _notebooks/core/tellurium_examples_files/tellurium_examples_4_1.png
+.. image:: _notebooks/core/tellurium_examples_files/tellurium_examples_5_1.png
 
+
+Add plot elements
+~~~~~~~~~~~~~~~~~
 
 .. code:: python
 
@@ -169,8 +175,11 @@ conditions resulting in different steady states reached.
 
 
 
-.. image:: _notebooks/core/tellurium_examples_files/tellurium_examples_5_0.png
+.. image:: _notebooks/core/tellurium_examples_files/tellurium_examples_7_0.png
 
+
+Events
+~~~~~~
 
 .. code:: python
 
@@ -198,8 +207,11 @@ conditions resulting in different steady states reached.
 
 
 
-.. image:: _notebooks/core/tellurium_examples_files/tellurium_examples_6_0.png
+.. image:: _notebooks/core/tellurium_examples_files/tellurium_examples_9_0.png
 
+
+Gene network
+~~~~~~~~~~~~
 
 .. code:: python
 
@@ -228,8 +240,11 @@ conditions resulting in different steady states reached.
 
 
 
-.. image:: _notebooks/core/tellurium_examples_files/tellurium_examples_7_0.png
+.. image:: _notebooks/core/tellurium_examples_files/tellurium_examples_11_0.png
 
+
+Stoichiometric matrix
+~~~~~~~~~~~~~~~~~~~~~
 
 .. code:: python
 
@@ -261,11 +276,11 @@ conditions resulting in different steady states reached.
 
 
 
-.. image:: _notebooks/core/tellurium_examples_files/tellurium_examples_8_1.png
+.. image:: _notebooks/core/tellurium_examples_files/tellurium_examples_13_1.png
 
 
 Lorenz attractor
-----------------
+~~~~~~~~~~~~~~~~
 
 Example showing how to describe a model using ODES. Example implements
 the Lorenz attractor.
@@ -289,19 +304,20 @@ the Lorenz attractor.
 
 
 
-.. image:: _notebooks/core/tellurium_examples_files/tellurium_examples_10_0.png
+.. image:: _notebooks/core/tellurium_examples_files/tellurium_examples_15_0.png
 
+
+Time Course Parameter Scan
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Do 5 simulations on a simple model, for each simulation a parameter,
+``k1`` is changed. The script merges the data together and plots the
+merged array on to one plot.
 
 .. code:: python
 
-    # Time Course Parameter Scan
-    # Do 5 simulations on a simple model, for each simulation
-    # a parameter, k1 is changed. The script merges the data together
-    # and plots the merged array on to one plot. The alternative is
-    # is to use the setHold method and to plot each graph individually.
-    
     import tellurium as te
-    import numpy
+    import numpy as np
     
     r = te.loada ('''
         J1: $X0 -> S1; k1*X0;
@@ -316,23 +332,26 @@ the Lorenz attractor.
     for i in range (0,4):
         r.k1 = r.k1 + 0.1 
         r.reset()
-        m = numpy.hstack([m, r.simulate(0, 4, 100, ['S1'])])
+        m = np.hstack([m, r.simulate(0, 4, 100, ['S1'])])
     
-    # MUST use plotArray to plot merged data
+    # use plotArray to plot merged data
     te.plotArray(m);
 
 
 
-.. image:: _notebooks/core/tellurium_examples_files/tellurium_examples_11_0.png
+.. image:: _notebooks/core/tellurium_examples_files/tellurium_examples_17_0.png
 
+
+Merge multiple simulations
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Example of merging multiple simulations. In between simulations a
+parameter is changed.
 
 .. code:: python
 
     import tellurium as te
     import numpy
-    
-    # Example of merging multiple simulations. In between simulations
-    # a parameter is changed.
     
     r = te.loada ('''
         # Model Definition
@@ -355,11 +374,11 @@ the Lorenz attractor.
 
 
 
-.. image:: _notebooks/core/tellurium_examples_files/tellurium_examples_12_0.png
+.. image:: _notebooks/core/tellurium_examples_files/tellurium_examples_19_0.png
 
 
 Relaxation oscillator
----------------------
+~~~~~~~~~~~~~~~~~~~~~
 
 Oscillator that uses positive and negative feedback. An example of a
 relaxation oscillator.
@@ -384,16 +403,19 @@ relaxation oscillator.
 
 
 
-.. image:: _notebooks/core/tellurium_examples_files/tellurium_examples_14_0.png
+.. image:: _notebooks/core/tellurium_examples_files/tellurium_examples_21_0.png
 
+
+Scan hill coefficient
+~~~~~~~~~~~~~~~~~~~~~
+
+Negative Feedback model where we scan over the value of the Hill
+coefficient.
 
 .. code:: python
 
     import tellurium as te
-    import numpy
-    
-    # Negative Feedback model where we scan over the value
-    # of the Hill coefficient.
+    import numpy as np
     
     r = te.loada ('''
       // Reactions:
@@ -422,30 +444,29 @@ relaxation oscillator.
       const J0_VM1, J0_Keq1, J0_h, J4_V4, J4_KS4;
     ''')
     
+    # time vector
+    result = r.simulate (0, 20, 201, ['time'])
     
-    result = r.simulate (0, 20,200, ['time', 'S1'])
-    for i in range (0,8):
+    h_values = [r.J0_h + k for k in range(0,8)]
+    for h in h_values:
         r.reset()
-        m = r.simulate(0, 20, 200, ['S1'])
+        r.J0_h = h
+        m = r.simulate(0, 20, 201, ['S1'])
         result = numpy.hstack([result, m])
-        r.J0_h = r.J0_h + 1
         
-    te.plotArray(result);
+    te.plotArray(result, labels=['h={}'.format(int(h)) for h in h_values]);
 
 
 
-.. image:: _notebooks/core/tellurium_examples_files/tellurium_examples_15_0.png
+.. image:: _notebooks/core/tellurium_examples_files/tellurium_examples_23_0.png
 
+
+Compare simulations
+~~~~~~~~~~~~~~~~~~~
 
 .. code:: python
 
     import tellurium as te
-    import numpy
-    import matplotlib.pyplot as plt
-    
-    # Using setHold to compare to simulaton runs. In tihs case one
-    # simulation is a determinsitic run and the second is a stochastic
-    # simulation.
     
     r = te.loada ('''
          v1: $Xo -> S1;  k1*Xo;
@@ -463,22 +484,24 @@ relaxation oscillator.
     m2 = r.gillespie(0, 20, 100, ['time', 'S1'])
     
     # plot all the results together
-    te.setHold (True)
-    te.plotArray(m1)
-    te.plotArray(m2);
+    te.plotArray(m1, color="black", show=False)
+    te.plotArray(m2, color="blue");
 
 
 
-.. image:: _notebooks/core/tellurium_examples_files/tellurium_examples_16_0.png
+.. image:: _notebooks/core/tellurium_examples_files/tellurium_examples_25_0.png
 
+
+Sinus injection
+~~~~~~~~~~~~~~~
+
+Example that show how to inject a sinusoidal into the model and use
+events to switch it off and on.
 
 .. code:: python
 
     import tellurium as te
     import numpy
-    
-    # Example that show how to inject a sinusoidal into the model
-    # and use events to switch it off and on
     
     r = te.loada ('''
         # Inject sin wave into model    
@@ -503,17 +526,20 @@ relaxation oscillator.
 
 
 
-.. image:: _notebooks/core/tellurium_examples_files/tellurium_examples_17_0.png
+.. image:: _notebooks/core/tellurium_examples_files/tellurium_examples_27_0.png
 
+
+Protein phosphorylation cycle
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Simple protein phosphorylation cycle. Steady state concentation of the
+phosphorylated protein is plotted as a funtion of the cycle kinase. In
+addition, the plot is repeated for various values of Km.
 
 .. code:: python
 
     import tellurium as te
     import numpy as np
-    
-    # Simple protein phosphorylation cycle. Steady state concentation
-    # of the phosphorylated protein is plotted as a funtion of the cycle
-    # kinase. In addition, the plot is repeated for various values of Km.
     
     r = te.loada ('''
        S1 -> S2; k1*S1/(Km1 + S1);
@@ -525,84 +551,25 @@ relaxation oscillator.
     
     r.conservedMoietyAnalysis = True
     
-    te.setHold (True)
     for i in range (1,8):
-      numbers = np.linspace (0.1, 1.2, 200)
+      numbers = np.linspace (0, 1.2, 200)
       result = np.empty ([0,2])
       for value in numbers:
           r.k1 = value
           r.steadyState()
           row = np.array ([value, r.S2])
           result = np.vstack ((result, row))
-      te.plotArray (result)
-      r.model.k1 = 0.1
-      r.model.Km1 = r.Km1 + 0.5;
-      r.model.Km2 = r.Km2 + 0.5;
+      te.plotArray(result, show=False, labels=['Km1={}'.format(r.Km1)],
+                   resetColorCycle=False,
+                   xlabel='k1', ylabel="S2", 
+                   title="Steady State S2 for different Km1 & Km2",
+                   ylim=[-0.1, 11], grid=True)
+      r.k1 = 0.1
+      r.Km1 = r.Km1 + 0.5;
+      r.Km2 = r.Km2 + 0.5;
 
 
 
-.. image:: _notebooks/core/tellurium_examples_files/tellurium_examples_18_0.png
-
-
-.. code:: python
-
-    import roadrunner
-    from roadrunner import SelectionRecord
-    from roadrunner import Config, SelectionRecord, Logger
-    
-    #Logger.setLevel(Logger.LOG_DEBUG)
-    
-    import tellurium as te
-    
-    m = te.loada('''
-    var species x in c, y in c, z in c
-    compartment c = 1.0
-    
-    x -> y ; k*x
-    y -> z; 1
-    
-    x = 10
-    y = 0
-    z = 0
-    
-    k = 0.2
-    
-    
-    ''')
-    #at time>5: c=2.0
-    
-    r = m.simulate(0,10,100,['time','[x]','[y]','[z]'])
-    # print(r)
-    m.plot()
-    
-    print('[x] at final timepoint: {}'.format(m.model.getValue('[x]')))
-    m.model.setValue('c', 2.)
-    print('[x] after vol change: {}'.format(m.model.getValue('[x]')))
-    print('c after vol change: {}'.format(m.model.getValue('c')))
-    m.reset(SelectionRecord.INITIAL_FLOATING_CONCENTRATION)
-    
-    print('[x] after floating conc reset: {}'.format(m.model.getValue('[x]')))
-    print('x after floating conc reset: {}'.format(m.model.getValue('x')))
-    
-    m.reset(SelectionRecord.INITIAL_FLOATING_AMOUNT)
-    print('[x] after floating amount reset: {}'.format(m.model.getValue('[x]')))
-    print('x after floating amount reset: {}'.format(m.model.getValue('x')))
-    
-
-
-
-
-.. image:: _notebooks/core/tellurium_examples_files/tellurium_examples_19_0.png
-
-
-.. parsed-literal::
-
-    [x] at final timepoint: 1.35331946673
-    [x] after vol change: 0.676659733363
-    c after vol change: 2.0
-    [x] after floating conc reset: 10.0
-    x after floating conc reset: 20.0
-    [x] after floating amount reset: 5.0
-    x after floating amount reset: 10.0
+.. image:: _notebooks/core/tellurium_examples_files/tellurium_examples_29_0.png
 
 

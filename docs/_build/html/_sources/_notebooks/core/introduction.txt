@@ -8,19 +8,11 @@ Simple Example
     import tellurium as te
     r = te.loada('S1 -> S2; k1*S1; k1 = 0.1; S1 = 10')
     r.simulate(0, 50, 100)
-    r.plot()
+    r.plot();
 
 
 
 .. image:: _notebooks/core/introduction_files/introduction_2_0.png
-
-
-
-
-.. parsed-literal::
-
-    <module 'matplotlib.pyplot' from '/usr/local/lib/python2.7/dist-packages/matplotlib/pyplot.pyc'>
-
 
 
 More Complex Example
@@ -31,6 +23,8 @@ Stochastic simulation of a linear chain.
 .. code:: python
 
     import tellurium as te
+    import numpy as np
+    
     r = te.loada('''
         J1: S1 -> S2;  k1*S1; 
         J2: S2 -> S3; k2*S2 - k3*S3
@@ -41,7 +35,6 @@ Stochastic simulation of a linear chain.
         k1 = 0.1; k2 = 0.5; k3 = 0.5; k4 = 0.5;
         S1 = 100;
     ''')
-    r.draw(width=300)
     
     # set integrator, seed and selections for output
     r.setIntegrator('gillespie')
@@ -49,18 +42,24 @@ Stochastic simulation of a linear chain.
     r.selections = ['time'] + r.getBoundarySpeciesIds() + r.getFloatingSpeciesIds()
     
     # run repeated simulation
-    for k in range(1,10):
+    Ncol = len(r.selections)
+    Nsim = 30
+    points = 101
+    s_sum = np.zeros(shape=[points, Ncol])
+    for k in range(Nsim):
         r.resetToOrigin()
-        s = r.simulate(0, 50)
-        r.plot(s, show=False, loc=None, color='black', alpha=0.7)
-    r.plot();
+        s = r.simulate(0, 50, points)
+        s_sum += s
+        # no legend, do not show
+        r.plot(s, show=False, loc=None, alpha=0.4, linewidth=1.0)
+        
+    # add mean curve, legend, show everything and set labels, titels, ...
+    s_mean = s_sum/Nsim
+    r.plot(s_mean, loc='upper right', show=True, linewidth=3.0,
+           title="Stochastic simulation", xlabel="time", ylabel="concentration", grid=True);
 
 
 
 .. image:: _notebooks/core/introduction_files/introduction_4_0.png
-
-
-
-.. image:: _notebooks/core/introduction_files/introduction_4_1.png
 
 

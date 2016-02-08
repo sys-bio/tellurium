@@ -1,7 +1,6 @@
 """
 Here the supported API is tested.
 """
-# TODO: write in file
 from __future__ import print_function, division
 import unittest
 
@@ -19,8 +18,6 @@ r = te.loada('''
 # ----------------------------------------------------------------
 api_calls = [
     # <te>
-    'te.setHold',
-    'te.getHold',
     #   utility functions
     'te.getVersionInfo',
     'te.printVersionInfo',
@@ -111,8 +108,6 @@ api_calls = [
 # ----------------------------------------------------------------
 
 
-
-
 class APITestCase(unittest.TestCase):
     pass
 
@@ -134,6 +129,7 @@ def ftest_generator(name):
 
 for k, name in enumerate(api_calls):
     test_name = 'test_api{:03d}_{}'.format(k, name)
+    test_name = test_name.replace('.', '_')
     test = ftest_generator(name)
     setattr(APITestCase, test_name, test)
 

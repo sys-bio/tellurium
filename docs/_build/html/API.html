@@ -424,7 +424,7 @@ Call this to stop roadrunner from printing warning message to the console.</p>
 
 <dl class="function">
 <dt id="tellurium.tellurium.plotArray">
-<code class="descclassname">tellurium.tellurium.</code><code class="descname">plotArray</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/tellurium.html#plotArray"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tellurium.plotArray" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">tellurium.tellurium.</code><code class="descname">plotArray</code><span class="sig-paren">(</span><em>result</em>, <em>loc='upper right'</em>, <em>show=True</em>, <em>resetColorCycle=True</em>, <em>xlabel=None</em>, <em>ylabel=None</em>, <em>title=None</em>, <em>xlim=None</em>, <em>ylim=None</em>, <em>xscale='linear'</em>, <em>yscale='linear'</em>, <em>grid=False</em>, <em>labels=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/tellurium.html#plotArray"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tellurium.plotArray" title="Permalink to this definition">¶</a></dt>
 <dd><p>Plot an array.</p>
 <p>The first column of the array will be the x-axis and remaining columns the y-axis. Returns
 a handle to the plotting object. Note that you can add
@@ -432,6 +432,7 @@ plotting options as named key values after the array.
 For example to add a legend, include the label key value:
 te.plotArray (m, label=&#8217;A label&#8217;) then use pylab.legend()
 to make sure the legend is shown.</p>
+<p>Use show=False to add multiple curves.</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
 <span class="n">result</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">],</span> <span class="p">[</span><span class="mf">7.2</span><span class="p">,</span><span class="mf">6.5</span><span class="p">,</span><span class="mf">8.8</span><span class="p">],</span> <span class="p">[</span><span class="mf">9.8</span><span class="p">,</span> <span class="mf">6.5</span><span class="p">,</span> <span class="mf">4.3</span><span class="p">]])</span>
 <span class="n">te</span><span class="o">.</span><span class="n">plotArray</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>

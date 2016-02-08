@@ -77,27 +77,28 @@
 <p id="n8" class="stm run hide_run"><a href="#n8">8</a></p>
 <p id="n9" class="pln"><a href="#n9">9</a></p>
 <p id="n10" class="stm run hide_run"><a href="#n10">10</a></p>
-<p id="n11" class="stm run hide_run"><a href="#n11">11</a></p>
+<p id="n11" class="pln"><a href="#n11">11</a></p>
 <p id="n12" class="stm run hide_run"><a href="#n12">12</a></p>
 <p id="n13" class="stm run hide_run"><a href="#n13">13</a></p>
-<p id="n14" class="pln"><a href="#n14">14</a></p>
+<p id="n14" class="stm run hide_run"><a href="#n14">14</a></p>
 <p id="n15" class="pln"><a href="#n15">15</a></p>
 <p id="n16" class="pln"><a href="#n16">16</a></p>
 <p id="n17" class="pln"><a href="#n17">17</a></p>
 <p id="n18" class="pln"><a href="#n18">18</a></p>
 <p id="n19" class="pln"><a href="#n19">19</a></p>
-<p id="n20" class="stm run hide_run"><a href="#n20">20</a></p>
-<p id="n21" class="pln"><a href="#n21">21</a></p>
+<p id="n20" class="pln"><a href="#n20">20</a></p>
+<p id="n21" class="stm run hide_run"><a href="#n21">21</a></p>
 <p id="n22" class="pln"><a href="#n22">22</a></p>
-<p id="n23" class="stm run hide_run"><a href="#n23">23</a></p>
+<p id="n23" class="pln"><a href="#n23">23</a></p>
 <p id="n24" class="stm run hide_run"><a href="#n24">24</a></p>
-<p id="n25" class="pln"><a href="#n25">25</a></p>
+<p id="n25" class="stm run hide_run"><a href="#n25">25</a></p>
 <p id="n26" class="pln"><a href="#n26">26</a></p>
 <p id="n27" class="pln"><a href="#n27">27</a></p>
 <p id="n28" class="pln"><a href="#n28">28</a></p>
 <p id="n29" class="pln"><a href="#n29">29</a></p>
-<p id="n30" class="stm run hide_run"><a href="#n30">30</a></p>
-<p id="n31" class="stm mis"><a href="#n31">31</a></p>
+<p id="n30" class="pln"><a href="#n30">30</a></p>
+<p id="n31" class="stm run hide_run"><a href="#n31">31</a></p>
+<p id="n32" class="stm mis"><a href="#n32">32</a></p>
                 
             </td>
             <td class="text">
@@ -111,27 +112,28 @@
 <p id="t8" class="stm run hide_run">&nbsp; &nbsp; &nbsp; &nbsp; <span class="nam">matplotlib</span><span class="op">.</span><span class="nam">pyplot</span><span class="op">.</span><span class="nam">switch_backend</span><span class="op">(</span><span class="str">&quot;Agg&quot;</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
 <p id="t9" class="pln"><span class="strut">&nbsp;</span></p>
 <p id="t10" class="stm run hide_run">&nbsp; &nbsp; <span class="key">def</span> <span class="nam">test_plot2DParameterScan</span><span class="op">(</span><span class="nam">self</span><span class="op">)</span><span class="op">:</span><span class="strut">&nbsp;</span></p>
-<p id="t11" class="stm run hide_run">&nbsp; &nbsp; &nbsp; &nbsp; <span class="key">import</span> <span class="nam">tellurium</span> <span class="key">as</span> <span class="nam">te</span><span class="strut">&nbsp;</span></p>
-<p id="t12" class="stm run hide_run">&nbsp; &nbsp; &nbsp; &nbsp; <span class="key">from</span> <span class="nam">tellurium</span><span class="op">.</span><span class="nam">analysis</span><span class="op">.</span><span class="nam">parameterscan</span> <span class="key">import</span> <span class="nam">plot2DParameterScan</span><span class="strut">&nbsp;</span></p>
-<p id="t13" class="stm run hide_run">&nbsp; &nbsp; &nbsp; &nbsp; <span class="nam">r</span> <span class="op">=</span> <span class="nam">te</span><span class="op">.</span><span class="nam">loada</span><span class="op">(</span><span class="str">&quot;&quot;&quot;</span><span class="strut">&nbsp;</span></p>
-<p id="t14" class="pln"><span class="str">&nbsp; &nbsp; &nbsp; &nbsp; model test</span><span class="strut">&nbsp;</span></p>
-<p id="t15" class="pln"><span class="str">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; J0: S1 -&gt; S2; Vmax * (S1/(Km+S1))</span><span class="strut">&nbsp;</span></p>
-<p id="t16" class="pln"><span class="str">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; S1 = 10; S2 = 0;</span><span class="strut">&nbsp;</span></p>
-<p id="t17" class="pln"><span class="str">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Vmax = 1; Km = 0.5;</span><span class="strut">&nbsp;</span></p>
-<p id="t18" class="pln"><span class="str">&nbsp; &nbsp; &nbsp; &nbsp; end</span><span class="strut">&nbsp;</span></p>
-<p id="t19" class="pln"><span class="str">&nbsp; &nbsp; &nbsp; &nbsp; &quot;&quot;&quot;</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
-<p id="t20" class="stm run hide_run">&nbsp; &nbsp; &nbsp; &nbsp; <span class="nam">s</span> <span class="op">=</span> <span class="nam">r</span><span class="op">.</span><span class="nam">simulate</span><span class="op">(</span><span class="num">0</span><span class="op">,</span> <span class="num">50</span><span class="op">,</span> <span class="num">101</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
-<p id="t21" class="pln">&nbsp; &nbsp; &nbsp; &nbsp; <span class="com"># r.plot(s)</span><span class="strut">&nbsp;</span></p>
-<p id="t22" class="pln"><span class="strut">&nbsp;</span></p>
-<p id="t23" class="stm run hide_run">&nbsp; &nbsp; &nbsp; &nbsp; <span class="key">import</span> <span class="nam">numpy</span> <span class="key">as</span> <span class="nam">np</span><span class="strut">&nbsp;</span></p>
-<p id="t24" class="stm run hide_run">&nbsp; &nbsp; &nbsp; &nbsp; <span class="nam">plot2DParameterScan</span><span class="op">(</span><span class="nam">r</span><span class="op">,</span><span class="strut">&nbsp;</span></p>
-<p id="t25" class="pln">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span class="nam">p1</span><span class="op">=</span><span class="str">&#39;Vmax&#39;</span><span class="op">,</span> <span class="nam">p1Range</span><span class="op">=</span><span class="nam">np</span><span class="op">.</span><span class="nam">linspace</span><span class="op">(</span><span class="num">1</span><span class="op">,</span> <span class="num">10</span><span class="op">,</span> <span class="nam">num</span><span class="op">=</span><span class="num">5</span><span class="op">)</span><span class="op">,</span><span class="strut">&nbsp;</span></p>
-<p id="t26" class="pln">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span class="nam">p2</span><span class="op">=</span><span class="str">&#39;Vmax&#39;</span><span class="op">,</span> <span class="nam">p2Range</span><span class="op">=</span><span class="nam">np</span><span class="op">.</span><span class="nam">linspace</span><span class="op">(</span><span class="num">0.1</span><span class="op">,</span> <span class="num">1.0</span><span class="op">,</span> <span class="nam">num</span><span class="op">=</span><span class="num">5</span><span class="op">)</span><span class="op">,</span><span class="strut">&nbsp;</span></p>
-<p id="t27" class="pln">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span class="nam">start</span><span class="op">=</span><span class="num">0</span><span class="op">,</span> <span class="nam">end</span><span class="op">=</span><span class="num">50</span><span class="op">,</span> <span class="nam">points</span><span class="op">=</span><span class="num">101</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
-<p id="t28" class="pln"><span class="strut">&nbsp;</span></p>
+<p id="t11" class="pln">&nbsp; &nbsp; &nbsp; &nbsp; <span class="str">&quot;&quot;&quot;Test plot2DParameterScan.&quot;&quot;&quot;</span><span class="strut">&nbsp;</span></p>
+<p id="t12" class="stm run hide_run">&nbsp; &nbsp; &nbsp; &nbsp; <span class="key">import</span> <span class="nam">tellurium</span> <span class="key">as</span> <span class="nam">te</span><span class="strut">&nbsp;</span></p>
+<p id="t13" class="stm run hide_run">&nbsp; &nbsp; &nbsp; &nbsp; <span class="key">from</span> <span class="nam">tellurium</span><span class="op">.</span><span class="nam">analysis</span><span class="op">.</span><span class="nam">parameterscan</span> <span class="key">import</span> <span class="nam">plot2DParameterScan</span><span class="strut">&nbsp;</span></p>
+<p id="t14" class="stm run hide_run">&nbsp; &nbsp; &nbsp; &nbsp; <span class="nam">r</span> <span class="op">=</span> <span class="nam">te</span><span class="op">.</span><span class="nam">loada</span><span class="op">(</span><span class="str">&quot;&quot;&quot;</span><span class="strut">&nbsp;</span></p>
+<p id="t15" class="pln"><span class="str">&nbsp; &nbsp; &nbsp; &nbsp; model test</span><span class="strut">&nbsp;</span></p>
+<p id="t16" class="pln"><span class="str">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; J0: S1 -&gt; S2; Vmax * (S1/(Km+S1))</span><span class="strut">&nbsp;</span></p>
+<p id="t17" class="pln"><span class="str">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; S1 = 10; S2 = 0;</span><span class="strut">&nbsp;</span></p>
+<p id="t18" class="pln"><span class="str">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Vmax = 1; Km = 0.5;</span><span class="strut">&nbsp;</span></p>
+<p id="t19" class="pln"><span class="str">&nbsp; &nbsp; &nbsp; &nbsp; end</span><span class="strut">&nbsp;</span></p>
+<p id="t20" class="pln"><span class="str">&nbsp; &nbsp; &nbsp; &nbsp; &quot;&quot;&quot;</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
+<p id="t21" class="stm run hide_run">&nbsp; &nbsp; &nbsp; &nbsp; <span class="nam">s</span> <span class="op">=</span> <span class="nam">r</span><span class="op">.</span><span class="nam">simulate</span><span class="op">(</span><span class="num">0</span><span class="op">,</span> <span class="num">50</span><span class="op">,</span> <span class="num">101</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
+<p id="t22" class="pln">&nbsp; &nbsp; &nbsp; &nbsp; <span class="com"># r.plot(s)</span><span class="strut">&nbsp;</span></p>
+<p id="t23" class="pln"><span class="strut">&nbsp;</span></p>
+<p id="t24" class="stm run hide_run">&nbsp; &nbsp; &nbsp; &nbsp; <span class="key">import</span> <span class="nam">numpy</span> <span class="key">as</span> <span class="nam">np</span><span class="strut">&nbsp;</span></p>
+<p id="t25" class="stm run hide_run">&nbsp; &nbsp; &nbsp; &nbsp; <span class="nam">plot2DParameterScan</span><span class="op">(</span><span class="nam">r</span><span class="op">,</span><span class="strut">&nbsp;</span></p>
+<p id="t26" class="pln">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span class="nam">p1</span><span class="op">=</span><span class="str">&#39;Vmax&#39;</span><span class="op">,</span> <span class="nam">p1Range</span><span class="op">=</span><span class="nam">np</span><span class="op">.</span><span class="nam">linspace</span><span class="op">(</span><span class="num">1</span><span class="op">,</span> <span class="num">10</span><span class="op">,</span> <span class="nam">num</span><span class="op">=</span><span class="num">5</span><span class="op">)</span><span class="op">,</span><span class="strut">&nbsp;</span></p>
+<p id="t27" class="pln">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span class="nam">p2</span><span class="op">=</span><span class="str">&#39;Vmax&#39;</span><span class="op">,</span> <span class="nam">p2Range</span><span class="op">=</span><span class="nam">np</span><span class="op">.</span><span class="nam">linspace</span><span class="op">(</span><span class="num">0.1</span><span class="op">,</span> <span class="num">1.0</span><span class="op">,</span> <span class="nam">num</span><span class="op">=</span><span class="num">5</span><span class="op">)</span><span class="op">,</span><span class="strut">&nbsp;</span></p>
+<p id="t28" class="pln">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span class="nam">start</span><span class="op">=</span><span class="num">0</span><span class="op">,</span> <span class="nam">end</span><span class="op">=</span><span class="num">50</span><span class="op">,</span> <span class="nam">points</span><span class="op">=</span><span class="num">101</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
 <p id="t29" class="pln"><span class="strut">&nbsp;</span></p>
-<p id="t30" class="stm run hide_run"><span class="key">if</span> <span class="nam">__name__</span> <span class="op">==</span> <span class="str">&#39;__main__&#39;</span><span class="op">:</span><span class="strut">&nbsp;</span></p>
-<p id="t31" class="stm mis">&nbsp; &nbsp; <span class="nam">unittest</span><span class="op">.</span><span class="nam">main</span><span class="op">(</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
+<p id="t30" class="pln"><span class="strut">&nbsp;</span></p>
+<p id="t31" class="stm run hide_run"><span class="key">if</span> <span class="nam">__name__</span> <span class="op">==</span> <span class="str">&#39;__main__&#39;</span><span class="op">:</span><span class="strut">&nbsp;</span></p>
+<p id="t32" class="stm mis">&nbsp; &nbsp; <span class="nam">unittest</span><span class="op">.</span><span class="nam">main</span><span class="op">(</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
                 
             </td>
         </tr>
@@ -142,7 +144,7 @@
     <div class="content">
         <p>
             <a class="nav" href="index.html">&#xab; index</a> &nbsp; &nbsp; <a class="nav" href="https://coverage.readthedocs.org">coverage.py v4.0.3</a>,
-            created at 2016-02-06 15:27
+            created at 2016-02-08 14:09
         </p>
     </div>
 </div>

@@ -38,7 +38,7 @@ r.plot(s, title="Feedback Oscillations", ylabel="concentration", alpha=0.9);
 
 
 # #### Plotting multiple simulations
-# For plotting timecourses use the `plot` function.
+# All plotting is done via the `r.plot` or `te.plotArray` functions. To plot multiple curves in one figure use the `show=False` setting.
 
 # In[2]:
 
@@ -64,21 +64,33 @@ for k, value in enumerate(k1_values):
     r.k1 = value
     s = r.simulate(0, 30, 100)
     
-    # multiple plots, set labels, axis limits
     color = cmap((value+max_k1)/(2*max_k1))
-    r.plot(loc=None, show=False, 
-           title="Parameter variation k1", xlabel="time", ylabel="concentration", 
-           xlim=[-1, 31], ylim=[-0.1, 11],
-           color=color, linewidth=2.0)
+    # plot curves without legend and showing
+    r.plot(s, loc=None, show=False, color=color, linewidth=2.0)
 
-r.resetAll()
-s = r.simulate(0, 30, 100)
-r.plot(s);
+# add legend for last curve, show everything and set labels, titels, ...
+r.plot(s, loc='upper right', show=True, color=color, linewidth=2.0,
+       title="Parameter variation k1", xlabel="time", ylabel="concentration", 
+       xlim=[-1, 31], ylim=[-0.1, 11], grid=True)    
+
 print('Reference Simulation: k1 = {}'.format(r.k1))
 print('Parameter variation: k1 = {}'.format(k1_values))
 
 
+# #### Logarithmic axis
+# The axis scale can be adapted with the `xscale` and `yscale` settings.
+
 # In[3]:
+
+import tellurium as te
+r = te.loadTestModel('feedback.xml')
+r.integrator.setSetting('variable_step_size', True)
+s = r.simulate(0, 50)
+r.plot(s, xscale="log", xlim=[10E-4, 10E2], grid=True, 
+      title="Logarithmic x-Axis with grid", ylabel="concentration");
+
+
+# In[4]:
 
 
 

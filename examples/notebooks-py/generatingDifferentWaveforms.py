@@ -13,7 +13,7 @@ from __future__ import print_function
 import tellurium as te
 from roadrunner import Config
 
-#We do not want CONSERVED MOIETIES set to true in this case
+# We do not want CONSERVED MOIETIES set to true in this case
 Config.setValue(Config.LOADSBMLOPTIONS_CONSERVED_MOIETIES, False) 
 
 # Generating different waveforms
@@ -52,9 +52,9 @@ r = te.loada(model)
 
 r.timeCourseSelections = ['time', 'SineWave', 'SquareWave', 'SawTooth', 'TriangleWave', 'Ramp']
 result = r.simulate (0, 90, 500)
-r.plotWithLegend(result)
+r.plot(result)
 
-#reset to default config
+# reset to default config
 Config.setValue(Config.LOADSBMLOPTIONS_CONSERVED_MOIETIES, False) 
 
 

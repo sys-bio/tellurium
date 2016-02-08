@@ -6,20 +6,24 @@
 [1m[33mWarning: species 'S5' has neither initial amount nor concentration set.  Setting initial concentration to 0.0[0m
 .........................................................................../usr/local/lib/python2.7/dist-packages/matplotlib/figure.py:397: UserWarning: matplotlib is currently using a non-GUI backend, so cannot show the figure
   "matplotlib is currently using a non-GUI backend, "
-..[1m[33mWarning: species 'S2' has neither initial amount nor concentration set.  Setting initial concentration to 0.0[0m
-/home/mkoenig/git/tellurium/tellurium/tellurium.py:602: RuntimeWarning: 'sbml2matlab' could not be imported, no support for Matlab code generation
-  saveToFile(filePath, self.getMatlab(current))
-/home/mkoenig/git/tellurium/tellurium/tellurium.py:560: RuntimeWarning: 'sbml2matlab' could not be imported, no support for Matlab code generation
-  return self.getMatlab(current=True)
-/home/mkoenig/git/tellurium/tellurium/tests/../../examples/notebooks-py/tellurium_export.py:112: RuntimeWarning: 'sbml2matlab' could not be imported, no support for Matlab code generation
-  str_matlab = r.getMatlab()
-...[1m[33mWarning: species 'Xo' has neither initial amount nor concentration set.  Setting initial concentration to 0.0[0m
-[1m[33mWarning: species 'w' has neither initial amount nor concentration set.  Setting initial concentration to 0.0[0m
-[1m[33mWarning: species 'Xo' has neither initial amount nor concentration set.  Setting initial concentration to 0.0[0m
+..[34mNotice: performing conserved moiety conversion[0m
+.[34mNotice: creating runge-kutta integrator[0m
+..[34mNotice: performing conserved moiety conversion[0m
 [1m[33mWarning: species 'S1' has neither initial amount nor concentration set.  Setting initial concentration to 0.0[0m
 [1m[33mWarning: species 'S2' has neither initial amount nor concentration set.  Setting initial concentration to 0.0[0m
+[1m[33mWarning: species 'Xo' has neither initial amount nor concentration set.  Setting initial concentration to 0.0[0m
 [1m[33mWarning: species 'X1' has neither initial amount nor concentration set.  Setting initial concentration to 0.0[0m
-....[34mNotice: performing conserved moiety conversion[0m
+..[1m[33mWarning: species 'S2' has neither initial amount nor concentration set.  Setting initial concentration to 0.0[0m
+/home/mkoenig/git/tellurium/tellurium/tests/../../examples/notebooks-py/tellurium_utility.py:61: RuntimeWarning: 'sbml2matlab' could not be imported, no support for Matlab code generation
+  te.saveToFile(ftmp.name, r.getMatlab())
+/home/mkoenig/git/tellurium/tellurium/tellurium.py:651: RuntimeWarning: 'sbml2matlab' could not be imported, no support for Matlab code generation
+  saveToFile(filePath, self.getMatlab(current))
+.[1m[33mWarning: species 'S1' has neither initial amount nor concentration set.  Setting initial concentration to 0.0[0m
+[1m[33mWarning: species 'S2' has neither initial amount nor concentration set.  Setting initial concentration to 0.0[0m
+[1m[33mWarning: species 'S3' has neither initial amount nor concentration set.  Setting initial concentration to 0.0[0m
+[1m[33mWarning: species 'S4' has neither initial amount nor concentration set.  Setting initial concentration to 0.0[0m
+[1m[33mWarning: species 'S5' has neither initial amount nor concentration set.  Setting initial concentration to 0.0[0m
+.[34mNotice: performing conserved moiety conversion[0m
 [1m[33mWarning: species 'X1' has neither initial amount nor concentration set.  Setting initial concentration to 0.0[0m
 [1m[33mWarning: species 'w' has neither initial amount nor concentration set.  Setting initial concentration to 0.0[0m
 [1m[33mWarning: species 'P1' has neither initial amount nor concentration set.  Setting initial concentration to 0.0[0m
@@ -34,270 +38,154 @@
 [1m[33mWarning: species 'w' has neither initial amount nor concentration set.  Setting initial concentration to 0.0[0m
 [1m[33mWarning: species 'X1' has neither initial amount nor concentration set.  Setting initial concentration to 0.0[0m
 [34mNotice: performing conserved moiety conversion[0m
-../home/mkoenig/git/tellurium/tellurium/tests/../../examples/notebooks-py/tellurium_utility.py:61: RuntimeWarning: 'sbml2matlab' could not be imported, no support for Matlab code generation
-  te.saveToFile(ftmp.name, r.getMatlab())
-..[1m[33mWarning: species 'S2' has neither initial amount nor concentration set.  Setting initial concentration to 0.0[0m
+.......[1m[33mWarning: species 'S2' has neither initial amount nor concentration set.  Setting initial concentration to 0.0[0m
 [1m[33mWarning: species 'S3' has neither initial amount nor concentration set.  Setting initial concentration to 0.0[0m
 [1m[33mWarning: species 'S4' has neither initial amount nor concentration set.  Setting initial concentration to 0.0[0m
-....[34mNotice: performing conserved moiety conversion[0m
-...[34mNotice: creating runge-kutta integrator[0m
-..[1m[33mWarning: species 'S2' has neither initial amount nor concentration set.  Setting initial concentration to 0.0[0m
-[1m[33mWarning: species 'S2' has neither initial amount nor concentration set.  Setting initial concentration to 0.0[0m
-..[34mNotice: performing conserved moiety conversion[0m
+...[1m[33mWarning: species 'Xo' has neither initial amount nor concentration set.  Setting initial concentration to 0.0[0m
+[1m[33mWarning: species 'w' has neither initial amount nor concentration set.  Setting initial concentration to 0.0[0m
+[1m[33mWarning: species 'Xo' has neither initial amount nor concentration set.  Setting initial concentration to 0.0[0m
 [1m[33mWarning: species 'S1' has neither initial amount nor concentration set.  Setting initial concentration to 0.0[0m
 [1m[33mWarning: species 'S2' has neither initial amount nor concentration set.  Setting initial concentration to 0.0[0m
-[1m[33mWarning: species 'Xo' has neither initial amount nor concentration set.  Setting initial concentration to 0.0[0m
 [1m[33mWarning: species 'X1' has neither initial amount nor concentration set.  Setting initial concentration to 0.0[0m
-................../usr/local/lib/python2.7/dist-packages/matplotlib/axes/_axes.py:519: UserWarning: No labelled objects found. Use label='...' kwarg on individual plots.
+.[1m[33mWarning: species 'S2' has neither initial amount nor concentration set.  Setting initial concentration to 0.0[0m
+[1m[33mWarning: species 'S2' has neither initial amount nor concentration set.  Setting initial concentration to 0.0[0m
+..../home/mkoenig/git/tellurium/tellurium/tellurium.py:609: RuntimeWarning: 'sbml2matlab' could not be imported, no support for Matlab code generation
+  return self.getMatlab(current=True)
+/home/mkoenig/git/tellurium/tellurium/tests/../../examples/notebooks-py/tellurium_export.py:112: RuntimeWarning: 'sbml2matlab' could not be imported, no support for Matlab code generation
+  str_matlab = r.getMatlab()
+................/usr/local/lib/python2.7/dist-packages/matplotlib/axes/_axes.py:519: UserWarning: No labelled objects found. Use label='...' kwarg on individual plots.
   warnings.warn("No labelled objects found. "
-......test_000_generatingDifferentWaveforms (tellurium.tests.test_examples.PythonExampleTestCase)
+..[1m[33mWarning: species 'Xo' has neither initial amount nor concentration set.  Setting initial concentration to 0.0[0m
+[1m[33mWarning: species 'w' has neither initial amount nor concentration set.  Setting initial concentration to 0.0[0m
+......test_createpython (tellurium.tests.test_tephrasedml.tePhrasedMLTestCase)
+Test createpython. ... ok
+test_execute (tellurium.tests.test_tephrasedml.tePhrasedMLTestCase)
+Test execute. ... ok
+test_experiment (tellurium.tests.test_tephrasedml.tePhrasedMLTestCase)
+Test experiment. ... ok
+test_exportAsCombine (tellurium.tests.test_tephrasedml.tePhrasedMLTestCase)
+Test exportAsCombine. ... ok
+test_getAntimonyString (tellurium.tests.test_tephrasedml.tePhrasedMLTestCase)
+Test getAntimonyString. ... ok
+test_getPhrasedmlString (tellurium.tests.test_tephrasedml.tePhrasedMLTestCase)
+Test getPhrasedmlString. ... ok
+test_getSbmlString (tellurium.tests.test_tephrasedml.tePhrasedMLTestCase)
+Test getSbmlString. ... ok
+test_getSedmlString (tellurium.tests.test_tephrasedml.tePhrasedMLTestCase)
+Test SedmlString. ... ok
+test_printpython (tellurium.tests.test_tephrasedml.tePhrasedMLTestCase)
+Test printpython. ... ok
+test_000_consecutiveUniUniReactions (tellurium.tests.test_examples.PythonExampleTestCase)
 Test failes if Exception in execution of f. ... ok
-test_001_tellurium_export (tellurium.tests.test_examples.PythonExampleTestCase)
+test_001_computeSteadyState (tellurium.tests.test_examples.PythonExampleTestCase)
 Test failes if Exception in execution of f. ... ok
-test_002_tellurium_plotting (tellurium.tests.test_examples.PythonExampleTestCase)
+test_002_roadrunnerBasics (tellurium.tests.test_examples.PythonExampleTestCase)
+Test failes if Exception in execution of f. ... [34mNotice: creating runge-kutta integrator[0m
+ok
+test_003_feedback_oscillations (tellurium.tests.test_examples.PythonExampleTestCase)
 Test failes if Exception in execution of f. ... ok
-test_003_template (tellurium.tests.test_examples.PythonExampleTestCase)
+test_004_steadystate_scan (tellurium.tests.test_examples.PythonExampleTestCase)
 Test failes if Exception in execution of f. ... ok
-test_004_parameter_scan (tellurium.tests.test_examples.PythonExampleTestCase)
+test_005_tellurium_interconversion (tellurium.tests.test_examples.PythonExampleTestCase)
 Test failes if Exception in execution of f. ... ok
-test_005_phrasedmlExample (tellurium.tests.test_examples.PythonExampleTestCase)
+test_006_tellurium_utility (tellurium.tests.test_examples.PythonExampleTestCase)
 Test failes if Exception in execution of f. ... ok
-test_006_antimonyExample (tellurium.tests.test_examples.PythonExampleTestCase)
-Test failes if Exception in execution of f. ... ok
-test_007_feedback_oscillations (tellurium.tests.test_examples.PythonExampleTestCase)
+test_007_nonUnitStoichiometries (tellurium.tests.test_examples.PythonExampleTestCase)
 Test failes if Exception in execution of f. ... ok
 test_008_tellurium_examples (tellurium.tests.test_examples.PythonExampleTestCase)
 Test failes if Exception in execution of f. ... [34mNotice: performing conserved moiety conversion[0m
+[1m[33mWarning: species 'X1' has neither initial amount nor concentration set.  Setting initial concentration to 0.0[0m
+[1m[33mWarning: species 'w' has neither initial amount nor concentration set.  Setting initial concentration to 0.0[0m
+[1m[33mWarning: species 'P1' has neither initial amount nor concentration set.  Setting initial concentration to 0.0[0m
+[1m[33mWarning: species 'P2' has neither initial amount nor concentration set.  Setting initial concentration to 0.0[0m
+[1m[33mWarning: species 'S1' has neither initial amount nor concentration set.  Setting initial concentration to 0.0[0m
+[1m[33mWarning: species 'S2' has neither initial amount nor concentration set.  Setting initial concentration to 0.0[0m
+[1m[33mWarning: species 'S3' has neither initial amount nor concentration set.  Setting initial concentration to 0.0[0m
+[1m[33mWarning: species 'w' has neither initial amount nor concentration set.  Setting initial concentration to 0.0[0m
+[1m[33mWarning: species 'S1' has neither initial amount nor concentration set.  Setting initial concentration to 0.0[0m
+[1m[33mWarning: species 'S2' has neither initial amount nor concentration set.  Setting initial concentration to 0.0[0m
+[1m[33mWarning: species 'w' has neither initial amount nor concentration set.  Setting initial concentration to 0.0[0m
+[1m[33mWarning: species 'w' has neither initial amount nor concentration set.  Setting initial concentration to 0.0[0m
+[1m[33mWarning: species 'X1' has neither initial amount nor concentration set.  Setting initial concentration to 0.0[0m
 [34mNotice: performing conserved moiety conversion[0m
 ok
-test_009_tesedmlExample (tellurium.tests.test_examples.PythonExampleTestCase)
+test_009_tellurium_reset (tellurium.tests.test_examples.PythonExampleTestCase)
 Test failes if Exception in execution of f. ... ok
-test_010_tellurium_utility (tellurium.tests.test_examples.PythonExampleTestCase)
+test_010_tellurium_plotting (tellurium.tests.test_examples.PythonExampleTestCase)
 Test failes if Exception in execution of f. ... ok
-test_011_tellurium_model_loading (tellurium.tests.test_examples.PythonExampleTestCase)
+test_011_modelFromBioModels (tellurium.tests.test_examples.PythonExampleTestCase)
 Test failes if Exception in execution of f. ... ok
-test_012_introduction (tellurium.tests.test_examples.PythonExampleTestCase)
+test_012_phrasedmlExample (tellurium.tests.test_examples.PythonExampleTestCase)
 Test failes if Exception in execution of f. ... ok
-test_013_tellurium_test (tellurium.tests.test_examples.PythonExampleTestCase)
+test_013_tesedmlExample (tellurium.tests.test_examples.PythonExampleTestCase)
 Test failes if Exception in execution of f. ... ok
-test_014_consecutiveUniUniReactions (tellurium.tests.test_examples.PythonExampleTestCase)
+test_014_antimonyExample (tellurium.tests.test_examples.PythonExampleTestCase)
 Test failes if Exception in execution of f. ... ok
-test_015_nonUnitStoichiometries (tellurium.tests.test_examples.PythonExampleTestCase)
-Test failes if Exception in execution of f. ... ok
-test_016_computeSteadyState (tellurium.tests.test_examples.PythonExampleTestCase)
-Test failes if Exception in execution of f. ... ok
-test_017_tellurium_reset (tellurium.tests.test_examples.PythonExampleTestCase)
-Test failes if Exception in execution of f. ... ok
-test_018_plot2DParameterScan (tellurium.tests.test_examples.PythonExampleTestCase)
-Test failes if Exception in execution of f. ... ok
-test_019_roadrunnerBasics (tellurium.tests.test_examples.PythonExampleTestCase)
-Test failes if Exception in execution of f. ... [34mNotice: creating runge-kutta integrator[0m
+test_015_introduction (tellurium.tests.test_examples.PythonExampleTestCase)
+Test failes if Exception in execution of f. ... [1m[33mWarning: species 'S2' has neither initial amount nor concentration set.  Setting initial concentration to 0.0[0m
+[1m[33mWarning: species 'S3' has neither initial amount nor concentration set.  Setting initial concentration to 0.0[0m
+[1m[33mWarning: species 'S4' has neither initial amount nor concentration set.  Setting initial concentration to 0.0[0m
 ok
-test_020_tellurium_interconversion (tellurium.tests.test_examples.PythonExampleTestCase)
+test_016_generatingDifferentWaveforms (tellurium.tests.test_examples.PythonExampleTestCase)
 Test failes if Exception in execution of f. ... ok
-test_021_tellurium_stochastic (tellurium.tests.test_examples.PythonExampleTestCase)
+test_017_tellurium_model_loading (tellurium.tests.test_examples.PythonExampleTestCase)
 Test failes if Exception in execution of f. ... ok
-test_022_modelFromBioModels (tellurium.tests.test_examples.PythonExampleTestCase)
+test_018_parameter_scan (tellurium.tests.test_examples.PythonExampleTestCase)
+Test failes if Exception in execution of f. ... [1m[33mWarning: species 'Xo' has neither initial amount nor concentration set.  Setting initial concentration to 0.0[0m
+[1m[33mWarning: species 'w' has neither initial amount nor concentration set.  Setting initial concentration to 0.0[0m
+ok
+test_019_tellurium_stochastic (tellurium.tests.test_examples.PythonExampleTestCase)
+Test failes if Exception in execution of f. ... [1m[33mWarning: species 'S2' has neither initial amount nor concentration set.  Setting initial concentration to 0.0[0m
+[1m[33mWarning: species 'S2' has neither initial amount nor concentration set.  Setting initial concentration to 0.0[0m
+ok
+test_020_tellurium_test (tellurium.tests.test_examples.PythonExampleTestCase)
 Test failes if Exception in execution of f. ... ok
-test_023_steadystate_scan (tellurium.tests.test_examples.PythonExampleTestCase)
+test_021_template (tellurium.tests.test_examples.PythonExampleTestCase)
 Test failes if Exception in execution of f. ... ok
-test_024_simpleUniUniReaction (tellurium.tests.test_examples.PythonExampleTestCase)
+test_022_plot2DParameterScan (tellurium.tests.test_examples.PythonExampleTestCase)
 Test failes if Exception in execution of f. ... ok
-test_025_exportToMatlab (tellurium.tests.test_examples.PythonExampleTestCase)
+test_023_tellurium_export (tellurium.tests.test_examples.PythonExampleTestCase)
 Test failes if Exception in execution of f. ... ok
-test_026_generatingDifferentWaveforms (tellurium.tests.test_examples.PythonExampleTestCase)
+test_024_consecutiveUniUniReactions (tellurium.tests.test_examples.PythonExampleTestCase)
 Test failes if Exception in execution of f. ... ok
-test_027_parameterscanExample (tellurium.tests.test_examples.PythonExampleTestCase)
+test_025_computeSteadyState (tellurium.tests.test_examples.PythonExampleTestCase)
 Test failes if Exception in execution of f. ... ok
-test_028_phrasedmlExample (tellurium.tests.test_examples.PythonExampleTestCase)
+test_026_parameterscanExample (tellurium.tests.test_examples.PythonExampleTestCase)
 Test failes if Exception in execution of f. ... ok
-test_029_linearChain (tellurium.tests.test_examples.PythonExampleTestCase)
+test_027_exportToMatlab (tellurium.tests.test_examples.PythonExampleTestCase)
 Test failes if Exception in execution of f. ... ok
-test_030_consecutiveUniUniReactions (tellurium.tests.test_examples.PythonExampleTestCase)
+test_028_linearChain (tellurium.tests.test_examples.PythonExampleTestCase)
 Test failes if Exception in execution of f. ... ok
-test_031_nonUnitStoichiometries (tellurium.tests.test_examples.PythonExampleTestCase)
+test_029_nonUnitStoichiometries (tellurium.tests.test_examples.PythonExampleTestCase)
 Test failes if Exception in execution of f. ... ok
-test_032_computeSteadyState (tellurium.tests.test_examples.PythonExampleTestCase)
+test_030_simpleUniUniReaction (tellurium.tests.test_examples.PythonExampleTestCase)
 Test failes if Exception in execution of f. ... ok
-test_033_settingBoundarySpecies (tellurium.tests.test_examples.PythonExampleTestCase)
+test_031_phrasedmlExample (tellurium.tests.test_examples.PythonExampleTestCase)
 Test failes if Exception in execution of f. ... ok
-test_034_singleGeneExpressingProteinAndProteinDegradation (tellurium.tests.test_examples.PythonExampleTestCase)
+test_032_singleGeneExpressingProteinAndProteinDegradation (tellurium.tests.test_examples.PythonExampleTestCase)
 Test failes if Exception in execution of f. ... ok
-test_035_SBMLfromBioModelsDB (tellurium.tests.test_examples.PythonExampleTestCase)
+test_033_generatingDifferentWaveforms (tellurium.tests.test_examples.PythonExampleTestCase)
 Test failes if Exception in execution of f. ... ok
-test_036_events (tellurium.tests.test_examples.PythonExampleTestCase)
+test_034_SBMLfromBioModelsDB (tellurium.tests.test_examples.PythonExampleTestCase)
 Test failes if Exception in execution of f. ... ok
-test_037_latex_export (tellurium.tests.test_examples.PythonExampleTestCase)
+test_035_settingBoundarySpecies (tellurium.tests.test_examples.PythonExampleTestCase)
 Test failes if Exception in execution of f. ... ok
-test_038_steadystatescan (tellurium.tests.test_examples.PythonExampleTestCase)
+test_036_latex_export (tellurium.tests.test_examples.PythonExampleTestCase)
 Test failes if Exception in execution of f. ... ok
-test_039_plot_array (tellurium.tests.test_examples.PythonExampleTestCase)
+test_037_steadystatescan (tellurium.tests.test_examples.PythonExampleTestCase)
 Test failes if Exception in execution of f. ... ok
-test_040_parameter_scan (tellurium.tests.test_examples.PythonExampleTestCase)
+test_038_create_colormap (tellurium.tests.test_examples.PythonExampleTestCase)
 Test failes if Exception in execution of f. ... ok
-test_041_plot_multi_array (tellurium.tests.test_examples.PythonExampleTestCase)
+test_039_plot_multi_array (tellurium.tests.test_examples.PythonExampleTestCase)
 Test failes if Exception in execution of f. ... ok
-test_042_create_colormap (tellurium.tests.test_examples.PythonExampleTestCase)
+test_040_plot_array (tellurium.tests.test_examples.PythonExampleTestCase)
 Test failes if Exception in execution of f. ... ok
-test_latex_export (tellurium.tests.test_io.ExportTestCase) ... ok
-test_latex_export2 (tellurium.tests.test_io.ExportTestCase) ... ok
-test_createpython (tellurium.tests.test_tephrasedml.tePhrasedMLTestCase) ... ok
-test_execute (tellurium.tests.test_tephrasedml.tePhrasedMLTestCase) ... ok
-test_experiment (tellurium.tests.test_tephrasedml.tePhrasedMLTestCase) ... ok
-test_exportAsCombine (tellurium.tests.test_tephrasedml.tePhrasedMLTestCase) ... ok
-test_getAntimonyString (tellurium.tests.test_tephrasedml.tePhrasedMLTestCase) ... ok
-test_getPhrasedmlString (tellurium.tests.test_tephrasedml.tePhrasedMLTestCase) ... ok
-test_getSbmlString (tellurium.tests.test_tephrasedml.tePhrasedMLTestCase) ... ok
-test_getSedmlString (tellurium.tests.test_tephrasedml.tePhrasedMLTestCase) ... ok
-test_printpython (tellurium.tests.test_tephrasedml.tePhrasedMLTestCase) ... ok
-test_api000_te.getVersionInfo (tellurium.tests.test_API.APITestCase)
-Test fails if class or function is not callable under the given name str. ... ok
-test_api001_te.printVersionInfo (tellurium.tests.test_API.APITestCase)
-Test fails if class or function is not callable under the given name str. ... ok
-test_api002_te.getTelluriumVersion (tellurium.tests.test_API.APITestCase)
-Test fails if class or function is not callable under the given name str. ... ok
-test_api003_te.noticesOff (tellurium.tests.test_API.APITestCase)
-Test fails if class or function is not callable under the given name str. ... ok
-test_api004_te.noticesOn (tellurium.tests.test_API.APITestCase)
-Test fails if class or function is not callable under the given name str. ... ok
-test_api005_te.saveToFile (tellurium.tests.test_API.APITestCase)
-Test fails if class or function is not callable under the given name str. ... ok
-test_api006_te.readFromFile (tellurium.tests.test_API.APITestCase)
-Test fails if class or function is not callable under the given name str. ... ok
-test_api007_te.loada (tellurium.tests.test_API.APITestCase)
-Test fails if class or function is not callable under the given name str. ... ok
-test_api008_te.loadAntimonyModel (tellurium.tests.test_API.APITestCase)
-Test fails if class or function is not callable under the given name str. ... ok
-test_api009_te.loadSBMLModel (tellurium.tests.test_API.APITestCase)
-Test fails if class or function is not callable under the given name str. ... ok
-test_api010_te.loadCellMLModel (tellurium.tests.test_API.APITestCase)
-Test fails if class or function is not callable under the given name str. ... ok
-test_api011_te.antimonyToSBML (tellurium.tests.test_API.APITestCase)
-Test fails if class or function is not callable under the given name str. ... ok
-test_api012_te.antimonyToCellML (tellurium.tests.test_API.APITestCase)
-Test fails if class or function is not callable under the given name str. ... ok
-test_api013_te.sbmlToAntimony (tellurium.tests.test_API.APITestCase)
-Test fails if class or function is not callable under the given name str. ... ok
-test_api014_te.sbmlToCellML (tellurium.tests.test_API.APITestCase)
-Test fails if class or function is not callable under the given name str. ... ok
-test_api015_te.cellmlToAntimony (tellurium.tests.test_API.APITestCase)
-Test fails if class or function is not callable under the given name str. ... ok
-test_api016_te.cellmlToSBML (tellurium.tests.test_API.APITestCase)
-Test fails if class or function is not callable under the given name str. ... ok
-test_api017_te.experiment (tellurium.tests.test_API.APITestCase)
-Test fails if class or function is not callable under the given name str. ... ok
-test_api018_te.getEigenvalues (tellurium.tests.test_API.APITestCase)
-Test fails if class or function is not callable under the given name str. ... ok
-test_api019_te.plotArray (tellurium.tests.test_API.APITestCase)
-Test fails if class or function is not callable under the given name str. ... ok
-test_api020_te.loadTestModel (tellurium.tests.test_API.APITestCase)
-Test fails if class or function is not callable under the given name str. ... ok
-test_api021_te.getTestModel (tellurium.tests.test_API.APITestCase)
-Test fails if class or function is not callable under the given name str. ... ok
-test_api022_te.listTestModels (tellurium.tests.test_API.APITestCase)
-Test fails if class or function is not callable under the given name str. ... ok
-test_api023_te.LatexExport (tellurium.tests.test_API.APITestCase)
-Test fails if class or function is not callable under the given name str. ... ok
-test_api024_te.ParameterScan (tellurium.tests.test_API.APITestCase)
-Test fails if class or function is not callable under the given name str. ... ok
-test_api025_te.SteadyStateScan (tellurium.tests.test_API.APITestCase)
-Test fails if class or function is not callable under the given name str. ... ok
-test_api026_r.getAntimony (tellurium.tests.test_API.APITestCase)
-Test fails if class or function is not callable under the given name str. ... ok
-test_api027_r.getCurrentAntimony (tellurium.tests.test_API.APITestCase)
-Test fails if class or function is not callable under the given name str. ... ok
-test_api028_r.getCellML (tellurium.tests.test_API.APITestCase)
-Test fails if class or function is not callable under the given name str. ... ok
-test_api029_r.getCurrentCellML (tellurium.tests.test_API.APITestCase)
-Test fails if class or function is not callable under the given name str. ... ok
-test_api030_r.getMatlab (tellurium.tests.test_API.APITestCase)
-Test fails if class or function is not callable under the given name str. ... ok
-test_api031_r.getCurrentMatlab (tellurium.tests.test_API.APITestCase)
-Test fails if class or function is not callable under the given name str. ... ok
-test_api032_r.exportToAntimony (tellurium.tests.test_API.APITestCase)
-Test fails if class or function is not callable under the given name str. ... ok
-test_api033_r.exportToCellML (tellurium.tests.test_API.APITestCase)
-Test fails if class or function is not callable under the given name str. ... ok
-test_api034_r.exportToMatlab (tellurium.tests.test_API.APITestCase)
-Test fails if class or function is not callable under the given name str. ... ok
-test_api035_r.resetToOrigin (tellurium.tests.test_API.APITestCase)
-Test fails if class or function is not callable under the given name str. ... ok
-test_api036_r.resetAll (tellurium.tests.test_API.APITestCase)
-Test fails if class or function is not callable under the given name str. ... ok
-test_api037_r.getRatesOfChange (tellurium.tests.test_API.APITestCase)
-Test fails if class or function is not callable under the given name str. ... ok
-test_api038_r.draw (tellurium.tests.test_API.APITestCase)
-Test fails if class or function is not callable under the given name str. ... ok
-test_api039_r.plot (tellurium.tests.test_API.APITestCase)
-Test fails if class or function is not callable under the given name str. ... ok
-test_api040_r.getSeed (tellurium.tests.test_API.APITestCase)
-Test fails if class or function is not callable under the given name str. ... ok
-test_api041_r.setSeed (tellurium.tests.test_API.APITestCase)
-Test fails if class or function is not callable under the given name str. ... ok
-test_api042_r.gillespie (tellurium.tests.test_API.APITestCase)
-Test fails if class or function is not callable under the given name str. ... ok
-test_api043_r.fjac (tellurium.tests.test_API.APITestCase)
-Test fails if class or function is not callable under the given name str. ... ok
-test_api044_r.sm (tellurium.tests.test_API.APITestCase)
-Test fails if class or function is not callable under the given name str. ... ok
-test_api045_r.rs (tellurium.tests.test_API.APITestCase)
-Test fails if class or function is not callable under the given name str. ... ok
-test_api046_r.fs (tellurium.tests.test_API.APITestCase)
-Test fails if class or function is not callable under the given name str. ... ok
-test_api047_r.bs (tellurium.tests.test_API.APITestCase)
-Test fails if class or function is not callable under the given name str. ... ok
-test_api048_r.ps (tellurium.tests.test_API.APITestCase)
-Test fails if class or function is not callable under the given name str. ... ok
-test_api049_r.vs (tellurium.tests.test_API.APITestCase)
-Test fails if class or function is not callable under the given name str. ... ok
-test_api050_r.dv (tellurium.tests.test_API.APITestCase)
-Test fails if class or function is not callable under the given name str. ... ok
-test_api051_r.rv (tellurium.tests.test_API.APITestCase)
-Test fails if class or function is not callable under the given name str. ... ok
-test_api052_r.sv (tellurium.tests.test_API.APITestCase)
-Test fails if class or function is not callable under the given name str. ... ok
-test_api053_r.getBoundarySpeciesConcentrations (tellurium.tests.test_API.APITestCase)
-Test fails if class or function is not callable under the given name str. ... ok
-test_api054_r.getBoundarySpeciesIds (tellurium.tests.test_API.APITestCase)
-Test fails if class or function is not callable under the given name str. ... ok
-test_api055_r.getNumBoundarySpecies (tellurium.tests.test_API.APITestCase)
-Test fails if class or function is not callable under the given name str. ... ok
-test_api056_r.getFloatingSpeciesConcentrations (tellurium.tests.test_API.APITestCase)
-Test fails if class or function is not callable under the given name str. ... ok
-test_api057_r.getFloatingSpeciesIds (tellurium.tests.test_API.APITestCase)
-Test fails if class or function is not callable under the given name str. ... ok
-test_api058_r.getNumFloatingSpecies (tellurium.tests.test_API.APITestCase)
-Test fails if class or function is not callable under the given name str. ... ok
-test_api059_r.getGlobalParameterIds (tellurium.tests.test_API.APITestCase)
-Test fails if class or function is not callable under the given name str. ... ok
-test_api060_r.getGlobalParameterValues (tellurium.tests.test_API.APITestCase)
-Test fails if class or function is not callable under the given name str. ... ok
-test_api061_r.getNumGlobalParameters (tellurium.tests.test_API.APITestCase)
-Test fails if class or function is not callable under the given name str. ... ok
-test_api062_r.getCompartmentIds (tellurium.tests.test_API.APITestCase)
-Test fails if class or function is not callable under the given name str. ... ok
-test_api063_r.getCompartmentVolumes (tellurium.tests.test_API.APITestCase)
-Test fails if class or function is not callable under the given name str. ... ok
-test_api064_r.getNumCompartments (tellurium.tests.test_API.APITestCase)
-Test fails if class or function is not callable under the given name str. ... ok
-test_api065_r.getConservedMoietyValues (tellurium.tests.test_API.APITestCase)
-Test fails if class or function is not callable under the given name str. ... ok
-test_api066_r.getNumConservedMoieties (tellurium.tests.test_API.APITestCase)
-Test fails if class or function is not callable under the given name str. ... ok
-test_api067_r.getNumDepFloatingSpecies (tellurium.tests.test_API.APITestCase)
-Test fails if class or function is not callable under the given name str. ... ok
-test_api068_r.getNumIndFloatingSpecies (tellurium.tests.test_API.APITestCase)
-Test fails if class or function is not callable under the given name str. ... ok
-test_api069_r.getReactionIds (tellurium.tests.test_API.APITestCase)
-Test fails if class or function is not callable under the given name str. ... ok
-test_api070_r.getReactionRates (tellurium.tests.test_API.APITestCase)
-Test fails if class or function is not callable under the given name str. ... ok
-test_api071_r.getNumReactions (tellurium.tests.test_API.APITestCase)
-Test fails if class or function is not callable under the given name str. ... ok
-test_api072_r.getNumEvents (tellurium.tests.test_API.APITestCase)
-Test fails if class or function is not callable under the given name str. ... ok
-test_api073_r.getNumRateRules (tellurium.tests.test_API.APITestCase)
-Test fails if class or function is not callable under the given name str. ... ok
+test_041_parameter_scan (tellurium.tests.test_examples.PythonExampleTestCase)
+Test failes if Exception in execution of f. ... [1m[33mWarning: species 'Xo' has neither initial amount nor concentration set.  Setting initial concentration to 0.0[0m
+[1m[33mWarning: species 'w' has neither initial amount nor concentration set.  Setting initial concentration to 0.0[0m
+ok
+test_042_events (tellurium.tests.test_examples.PythonExampleTestCase)
+Test failes if Exception in execution of f. ... ok
 test_README_example (tellurium.tests.test_tellurium.TelluriumTestCase)
 Tests the source example in the main README.md. ... ok
 test_antimonyToCellML_file (tellurium.tests.test_tellurium.TelluriumTestCase) ... ok
@@ -334,28 +222,30 @@ expected failure
 test_loadSBMLModel_file (tellurium.tests.test_tellurium.TelluriumTestCase) ... ok
 test_loadSBMLModel_str (tellurium.tests.test_tellurium.TelluriumTestCase) ... [1m[33mWarning: Unable to flatten model read from string which has comp extension, libSBML needs the full file path for flatening to work, [0m
 ok
-test_loadTestModel (tellurium.tests.test_tellurium.TelluriumTestCase) ... expected failure
+test_loadTestModel (tellurium.tests.test_tellurium.TelluriumTestCase) ... ok
 test_loada (tellurium.tests.test_tellurium.TelluriumTestCase) ... ok
 test_loada_file (tellurium.tests.test_tellurium.TelluriumTestCase) ... ok
 test_loada_str (tellurium.tests.test_tellurium.TelluriumTestCase) ... ok
 test_roadrunner (tellurium.tests.test_tellurium.TelluriumTestCase) ... ok
-test_roadrunner_testfile (tellurium.tests.test_tellurium.TelluriumTestCase) ... expected failure
+test_roadrunner_testfile (tellurium.tests.test_tellurium.TelluriumTestCase) ... ok
 test_roadrunner_tests (tellurium.tests.test_tellurium.TelluriumTestCase)
 Run the roadrunner tests. ... [34mNotice: performing conserved moiety conversion[0m
 [34mNotice: performing conserved moiety conversion[0m
-[34mNotice: performing conserved moiety conversion[0m
-[34mNotice: performing conserved moiety conversion[0m
 [34mNotice: source document is level 2, version 4, converting to level 3, version 1 for Moiety Conservation Conversion[0m
 ConservedMoietyConverter::setDocument
 [34mNotice: performing conserved moiety conversion[0m
 [34mNotice: source document is level 2, version 4, converting to level 3, version 1 for Moiety Conservation Conversion[0m
 ConservedMoietyConverter::setDocument
-[34mNotice: performing conserved moiety conversion[0m
-[34mNotice: performing conserved moiety conversion[0m
-[34mNotice: performing conserved moiety conversion[0m
 [34mNotice: performing conserved moiety conversion[0m
 [34mNotice: source document is level 2, version 1, converting to level 3, version 1 for Moiety Conservation Conversion[0m
 ConservedMoietyConverter::setDocument
+[34mNotice: performing conserved moiety conversion[0m
+[34mNotice: performing conserved moiety conversion[0m
+[34mNotice: performing conserved moiety conversion[0m
+[34mNotice: performing conserved moiety conversion[0m
+[34mNotice: performing conserved moiety conversion[0m
+[34mNotice: performing conserved moiety conversion[0m
+[34mNotice: performing conserved moiety conversion[0m
 [34mNotice: performing conserved moiety conversion[0m
 [34mNotice: performing conserved moiety conversion[0m
 [34mNotice: performing conserved moiety conversion[0m
@@ -393,25 +283,182 @@ ConservedMoietyConverter::setDocument
 [1m[33mWarning: Conserved Moiety Analysis may be enabled via the conservedMoeityAnalysis property or via the configuration file or the Config class setValue, see roadrunner documentation[0m
 [1m[33mWarning: to remove this warning, set ROADRUNNER_DISABLE_WARNINGS to 1 or 3 in the config file[0m
 [34mNotice: performing conserved moiety conversion[0m
-[34mNotice: performing conserved moiety conversion[0m
-[34mNotice: performing conserved moiety conversion[0m
 ok
 test_sbmlToAntimony_file (tellurium.tests.test_tellurium.TelluriumTestCase) ... ok
 test_sbmlToAntimony_str (tellurium.tests.test_tellurium.TelluriumTestCase) ... ok
 test_sbmlToCellML_file (tellurium.tests.test_tellurium.TelluriumTestCase) ... ok
 test_sbmlToCellML_str (tellurium.tests.test_tellurium.TelluriumTestCase) ... ok
-test_seed (tellurium.tests.test_tellurium.TelluriumTestCase) ... ok
-test_app2sim (tellurium.tests.test_sedml.tesedmlTestCase) ... ok
-test_asedml3repeat (tellurium.tests.test_sedml.tesedmlTestCase) ... ok
-test_asedmlComplex (tellurium.tests.test_sedml.tesedmlTestCase) ... ok
-test_constant_maybe (tellurium.tests.test_sedml.tesedmlTestCase) ... ok
-test_via_sedml_string (tellurium.tests.test_sedml.tesedmlTestCase) ... ok
-test_plot2DParameterScan (tellurium.tests.test_analysis.MyTestCase) ... ok
+test_seed (tellurium.tests.test_tellurium.TelluriumTestCase) ... [1m[33mWarning: species 'S2' has neither initial amount nor concentration set.  Setting initial concentration to 0.0[0m
+ok
+test_app2sim (tellurium.tests.test_sedml.TesedmlTestCase)
+Test app2sim SED-ML example. ... ok
+test_asedml3repeat (tellurium.tests.test_sedml.TesedmlTestCase)
+Test asedml3repeat SED-ML example. ... ok
+test_asedmlComplex (tellurium.tests.test_sedml.TesedmlTestCase)
+Test asedmlComplex SED-ML example. ... ok
+test_constant_maybe (tellurium.tests.test_sedml.TesedmlTestCase)
+Test constant_maybe SED-ML example. ... ok
+test_via_sedml_string (tellurium.tests.test_sedml.TesedmlTestCase)
+Test SED-ML from string. ... ok
+test_api000_te_getVersionInfo (tellurium.tests.test_API.APITestCase)
+Test fails if class or function is not callable under the given name str. ... ok
+test_api001_te_printVersionInfo (tellurium.tests.test_API.APITestCase)
+Test fails if class or function is not callable under the given name str. ... ok
+test_api002_te_getTelluriumVersion (tellurium.tests.test_API.APITestCase)
+Test fails if class or function is not callable under the given name str. ... ok
+test_api003_te_noticesOff (tellurium.tests.test_API.APITestCase)
+Test fails if class or function is not callable under the given name str. ... ok
+test_api004_te_noticesOn (tellurium.tests.test_API.APITestCase)
+Test fails if class or function is not callable under the given name str. ... ok
+test_api005_te_saveToFile (tellurium.tests.test_API.APITestCase)
+Test fails if class or function is not callable under the given name str. ... ok
+test_api006_te_readFromFile (tellurium.tests.test_API.APITestCase)
+Test fails if class or function is not callable under the given name str. ... ok
+test_api007_te_loada (tellurium.tests.test_API.APITestCase)
+Test fails if class or function is not callable under the given name str. ... ok
+test_api008_te_loadAntimonyModel (tellurium.tests.test_API.APITestCase)
+Test fails if class or function is not callable under the given name str. ... ok
+test_api009_te_loadSBMLModel (tellurium.tests.test_API.APITestCase)
+Test fails if class or function is not callable under the given name str. ... ok
+test_api010_te_loadCellMLModel (tellurium.tests.test_API.APITestCase)
+Test fails if class or function is not callable under the given name str. ... ok
+test_api011_te_antimonyToSBML (tellurium.tests.test_API.APITestCase)
+Test fails if class or function is not callable under the given name str. ... ok
+test_api012_te_antimonyToCellML (tellurium.tests.test_API.APITestCase)
+Test fails if class or function is not callable under the given name str. ... ok
+test_api013_te_sbmlToAntimony (tellurium.tests.test_API.APITestCase)
+Test fails if class or function is not callable under the given name str. ... ok
+test_api014_te_sbmlToCellML (tellurium.tests.test_API.APITestCase)
+Test fails if class or function is not callable under the given name str. ... ok
+test_api015_te_cellmlToAntimony (tellurium.tests.test_API.APITestCase)
+Test fails if class or function is not callable under the given name str. ... ok
+test_api016_te_cellmlToSBML (tellurium.tests.test_API.APITestCase)
+Test fails if class or function is not callable under the given name str. ... ok
+test_api017_te_experiment (tellurium.tests.test_API.APITestCase)
+Test fails if class or function is not callable under the given name str. ... ok
+test_api018_te_getEigenvalues (tellurium.tests.test_API.APITestCase)
+Test fails if class or function is not callable under the given name str. ... ok
+test_api019_te_plotArray (tellurium.tests.test_API.APITestCase)
+Test fails if class or function is not callable under the given name str. ... ok
+test_api020_te_loadTestModel (tellurium.tests.test_API.APITestCase)
+Test fails if class or function is not callable under the given name str. ... ok
+test_api021_te_getTestModel (tellurium.tests.test_API.APITestCase)
+Test fails if class or function is not callable under the given name str. ... ok
+test_api022_te_listTestModels (tellurium.tests.test_API.APITestCase)
+Test fails if class or function is not callable under the given name str. ... ok
+test_api023_te_LatexExport (tellurium.tests.test_API.APITestCase)
+Test fails if class or function is not callable under the given name str. ... ok
+test_api024_te_ParameterScan (tellurium.tests.test_API.APITestCase)
+Test fails if class or function is not callable under the given name str. ... ok
+test_api025_te_SteadyStateScan (tellurium.tests.test_API.APITestCase)
+Test fails if class or function is not callable under the given name str. ... ok
+test_api026_r_getAntimony (tellurium.tests.test_API.APITestCase)
+Test fails if class or function is not callable under the given name str. ... ok
+test_api027_r_getCurrentAntimony (tellurium.tests.test_API.APITestCase)
+Test fails if class or function is not callable under the given name str. ... ok
+test_api028_r_getCellML (tellurium.tests.test_API.APITestCase)
+Test fails if class or function is not callable under the given name str. ... ok
+test_api029_r_getCurrentCellML (tellurium.tests.test_API.APITestCase)
+Test fails if class or function is not callable under the given name str. ... ok
+test_api030_r_getMatlab (tellurium.tests.test_API.APITestCase)
+Test fails if class or function is not callable under the given name str. ... ok
+test_api031_r_getCurrentMatlab (tellurium.tests.test_API.APITestCase)
+Test fails if class or function is not callable under the given name str. ... ok
+test_api032_r_exportToAntimony (tellurium.tests.test_API.APITestCase)
+Test fails if class or function is not callable under the given name str. ... ok
+test_api033_r_exportToCellML (tellurium.tests.test_API.APITestCase)
+Test fails if class or function is not callable under the given name str. ... ok
+test_api034_r_exportToMatlab (tellurium.tests.test_API.APITestCase)
+Test fails if class or function is not callable under the given name str. ... ok
+test_api035_r_resetToOrigin (tellurium.tests.test_API.APITestCase)
+Test fails if class or function is not callable under the given name str. ... ok
+test_api036_r_resetAll (tellurium.tests.test_API.APITestCase)
+Test fails if class or function is not callable under the given name str. ... ok
+test_api037_r_getRatesOfChange (tellurium.tests.test_API.APITestCase)
+Test fails if class or function is not callable under the given name str. ... ok
+test_api038_r_draw (tellurium.tests.test_API.APITestCase)
+Test fails if class or function is not callable under the given name str. ... ok
+test_api039_r_plot (tellurium.tests.test_API.APITestCase)
+Test fails if class or function is not callable under the given name str. ... ok
+test_api040_r_getSeed (tellurium.tests.test_API.APITestCase)
+Test fails if class or function is not callable under the given name str. ... ok
+test_api041_r_setSeed (tellurium.tests.test_API.APITestCase)
+Test fails if class or function is not callable under the given name str. ... ok
+test_api042_r_gillespie (tellurium.tests.test_API.APITestCase)
+Test fails if class or function is not callable under the given name str. ... ok
+test_api043_r_fjac (tellurium.tests.test_API.APITestCase)
+Test fails if class or function is not callable under the given name str. ... ok
+test_api044_r_sm (tellurium.tests.test_API.APITestCase)
+Test fails if class or function is not callable under the given name str. ... ok
+test_api045_r_rs (tellurium.tests.test_API.APITestCase)
+Test fails if class or function is not callable under the given name str. ... ok
+test_api046_r_fs (tellurium.tests.test_API.APITestCase)
+Test fails if class or function is not callable under the given name str. ... ok
+test_api047_r_bs (tellurium.tests.test_API.APITestCase)
+Test fails if class or function is not callable under the given name str. ... ok
+test_api048_r_ps (tellurium.tests.test_API.APITestCase)
+Test fails if class or function is not callable under the given name str. ... ok
+test_api049_r_vs (tellurium.tests.test_API.APITestCase)
+Test fails if class or function is not callable under the given name str. ... ok
+test_api050_r_dv (tellurium.tests.test_API.APITestCase)
+Test fails if class or function is not callable under the given name str. ... ok
+test_api051_r_rv (tellurium.tests.test_API.APITestCase)
+Test fails if class or function is not callable under the given name str. ... ok
+test_api052_r_sv (tellurium.tests.test_API.APITestCase)
+Test fails if class or function is not callable under the given name str. ... ok
+test_api053_r_getBoundarySpeciesConcentrations (tellurium.tests.test_API.APITestCase)
+Test fails if class or function is not callable under the given name str. ... ok
+test_api054_r_getBoundarySpeciesIds (tellurium.tests.test_API.APITestCase)
+Test fails if class or function is not callable under the given name str. ... ok
+test_api055_r_getNumBoundarySpecies (tellurium.tests.test_API.APITestCase)
+Test fails if class or function is not callable under the given name str. ... ok
+test_api056_r_getFloatingSpeciesConcentrations (tellurium.tests.test_API.APITestCase)
+Test fails if class or function is not callable under the given name str. ... ok
+test_api057_r_getFloatingSpeciesIds (tellurium.tests.test_API.APITestCase)
+Test fails if class or function is not callable under the given name str. ... ok
+test_api058_r_getNumFloatingSpecies (tellurium.tests.test_API.APITestCase)
+Test fails if class or function is not callable under the given name str. ... ok
+test_api059_r_getGlobalParameterIds (tellurium.tests.test_API.APITestCase)
+Test fails if class or function is not callable under the given name str. ... ok
+test_api060_r_getGlobalParameterValues (tellurium.tests.test_API.APITestCase)
+Test fails if class or function is not callable under the given name str. ... ok
+test_api061_r_getNumGlobalParameters (tellurium.tests.test_API.APITestCase)
+Test fails if class or function is not callable under the given name str. ... ok
+test_api062_r_getCompartmentIds (tellurium.tests.test_API.APITestCase)
+Test fails if class or function is not callable under the given name str. ... ok
+test_api063_r_getCompartmentVolumes (tellurium.tests.test_API.APITestCase)
+Test fails if class or function is not callable under the given name str. ... ok
+test_api064_r_getNumCompartments (tellurium.tests.test_API.APITestCase)
+Test fails if class or function is not callable under the given name str. ... ok
+test_api065_r_getConservedMoietyValues (tellurium.tests.test_API.APITestCase)
+Test fails if class or function is not callable under the given name str. ... ok
+test_api066_r_getNumConservedMoieties (tellurium.tests.test_API.APITestCase)
+Test fails if class or function is not callable under the given name str. ... ok
+test_api067_r_getNumDepFloatingSpecies (tellurium.tests.test_API.APITestCase)
+Test fails if class or function is not callable under the given name str. ... ok
+test_api068_r_getNumIndFloatingSpecies (tellurium.tests.test_API.APITestCase)
+Test fails if class or function is not callable under the given name str. ... ok
+test_api069_r_getReactionIds (tellurium.tests.test_API.APITestCase)
+Test fails if class or function is not callable under the given name str. ... ok
+test_api070_r_getReactionRates (tellurium.tests.test_API.APITestCase)
+Test fails if class or function is not callable under the given name str. ... ok
+test_api071_r_getNumReactions (tellurium.tests.test_API.APITestCase)
+Test fails if class or function is not callable under the given name str. ... ok
+test_api072_r_getNumEvents (tellurium.tests.test_API.APITestCase)
+Test fails if class or function is not callable under the given name str. ... ok
+test_api073_r_getNumRateRules (tellurium.tests.test_API.APITestCase)
+Test fails if class or function is not callable under the given name str. ... ok
+test_plot2DParameterScan (tellurium.tests.test_analysis.MyTestCase)
+Test plot2DParameterScan. ... ok
+test_latex_export (tellurium.tests.test_io.ExportTestCase)
+Test latex export. ... ok
+test_latex_export2 (tellurium.tests.test_io.ExportTestCase)
+Test latex export. ... ok
 
 ----------------------------------------------------------------------
-Ran 175 tests in 12.810s
+Ran 175 tests in 13.562s
 
-OK (expected failures=4)
+OK (expected failures=2)
 ...............................[1m[33mWarning: Global parameter, 'pathway_time_' missing value and missing init assignment and assignment rule!, defaulting value to 0.0.[0m
 [1m[33mWarning: This probably is NOT what you want with global parameter 'pathway_time_'.[0m
 /usr/lib/python2.7/unittest/case.py:342: RuntimeWarning: TestResult has no addExpectedFailure method, reporting as passes
@@ -421,19 +468,21 @@ OK (expected failures=4)
 ..[1m[33mWarning: Unable to flatten model read from string which has comp extension, libSBML needs the full file path for flatening to work, [0m
 .......[34mNotice: performing conserved moiety conversion[0m
 [34mNotice: performing conserved moiety conversion[0m
-[34mNotice: performing conserved moiety conversion[0m
-[34mNotice: performing conserved moiety conversion[0m
 [34mNotice: source document is level 2, version 4, converting to level 3, version 1 for Moiety Conservation Conversion[0m
 ConservedMoietyConverter::setDocument
 [34mNotice: performing conserved moiety conversion[0m
 [34mNotice: source document is level 2, version 4, converting to level 3, version 1 for Moiety Conservation Conversion[0m
 ConservedMoietyConverter::setDocument
-[34mNotice: performing conserved moiety conversion[0m
-[34mNotice: performing conserved moiety conversion[0m
-[34mNotice: performing conserved moiety conversion[0m
 [34mNotice: performing conserved moiety conversion[0m
 [34mNotice: source document is level 2, version 1, converting to level 3, version 1 for Moiety Conservation Conversion[0m
 ConservedMoietyConverter::setDocument
+[34mNotice: performing conserved moiety conversion[0m
+[34mNotice: performing conserved moiety conversion[0m
+[34mNotice: performing conserved moiety conversion[0m
+[34mNotice: performing conserved moiety conversion[0m
+[34mNotice: performing conserved moiety conversion[0m
+[34mNotice: performing conserved moiety conversion[0m
+[34mNotice: performing conserved moiety conversion[0m
 [34mNotice: performing conserved moiety conversion[0m
 [34mNotice: performing conserved moiety conversion[0m
 [34mNotice: performing conserved moiety conversion[0m
@@ -471,16 +520,15 @@ ConservedMoietyConverter::setDocument
 [1m[33mWarning: Conserved Moiety Analysis may be enabled via the conservedMoeityAnalysis property or via the configuration file or the Config class setValue, see roadrunner documentation[0m
 [1m[33mWarning: to remove this warning, set ROADRUNNER_DISABLE_WARNINGS to 1 or 3 in the config file[0m
 [34mNotice: performing conserved moiety conversion[0m
-[34mNotice: performing conserved moiety conversion[0m
-[34mNotice: performing conserved moiety conversion[0m
-...............
+.....[1m[33mWarning: species 'S2' has neither initial amount nor concentration set.  Setting initial concentration to 0.0[0m
+..........
 Name                                                                  Stmts   Miss  Cover   Missing
 ---------------------------------------------------------------------------------------------------
-/home/mkoenig/git/tellurium/tellurium/__init__.py                         9      0   100%   
-/home/mkoenig/git/tellurium/tellurium/analysis/__init__.py                1      0   100%   
+/home/mkoenig/git/tellurium/tellurium/__init__.py                        30      0   100%   
+/home/mkoenig/git/tellurium/tellurium/analysis/__init__.py                0      0   100%   
 /home/mkoenig/git/tellurium/tellurium/analysis/annotations.py            81     81     0%   4-170
 /home/mkoenig/git/tellurium/tellurium/analysis/parameterscan.py         413    119    71%   75-83, 97-100, 104, 108, 125-126, 128, 130-131, 135, 137, 141, 147, 149-150, 172-223, 236, 253, 256, 266-267, 270-271, 274-275, 280, 309, 312, 314, 317, 345, 373-374, 399, 402, 406, 411, 436-440, 442-446, 461-467, 478-480, 538-539, 541, 543, 568-571, 602
-/home/mkoenig/git/tellurium/tellurium/io/__init__.py                      1      0   100%   
+/home/mkoenig/git/tellurium/tellurium/io/__init__.py                      0      0   100%   
 /home/mkoenig/git/tellurium/tellurium/io/latex.py                        85      1    99%   140
 /home/mkoenig/git/tellurium/tellurium/notebooks/__init__.py               4      0   100%   
 /home/mkoenig/git/tellurium/tellurium/notebooks/notebooktools.py         58     41    29%   29-39, 45-46, 50-82, 88, 91-102, 106, 110
@@ -490,25 +538,25 @@ Name                                                                  Stmts   Mi
 /home/mkoenig/git/tellurium/tellurium/optimization/__init__.py            1      0   100%   
 /home/mkoenig/git/tellurium/tellurium/optimization/diffevolution.py     208    188    10%   26-68, 71-91, 94-106, 109-119, 122-137, 140-198, 201-246, 249-252, 255-269, 272-278, 282-284, 287-304, 307-309, 314
 /home/mkoenig/git/tellurium/tellurium/tecombine.py                      147     41    72%   30, 52, 57, 60, 63, 66, 69, 72-73, 76, 82, 97, 102, 107, 131-135, 138, 142, 164-168, 171, 175, 183-184, 188, 194, 201-202, 205-206, 209-210, 213-214, 218
-/home/mkoenig/git/tellurium/tellurium/tellurium.py                      259     37    86%   21-24, 27-30, 34-37, 62, 162, 221-223, 351-353, 378, 546, 637-642, 704, 748-753, 763-767, 818
-/home/mkoenig/git/tellurium/tellurium/tephrasedml.py                    113     11    90%   26-28, 44, 48, 52, 94, 106-107, 129, 157
+/home/mkoenig/git/tellurium/tellurium/tellurium.py                      303     34    89%   18-21, 24-27, 31-34, 141, 200-202, 330-332, 385, 595, 673, 686-691, 752, 800-805, 819-820, 895
+/home/mkoenig/git/tellurium/tellurium/tephrasedml.py                    114     11    90%   27-29, 45, 49, 53, 95, 107-108, 130, 158
 /home/mkoenig/git/tellurium/tellurium/tesedml.py                        570    213    63%   145, 153, 162-188, 193, 254-258, 267-272, 303-304, 313, 322-323, 343-344, 377, 380, 389-409, 451-452, 467, 481-482, 484-485, 498-556, 582-583, 649-654, 660, 669, 709-719, 746-747, 760-761, 768, 773, 775, 777, 781, 783-851, 867-871
 __init__.py                                                               0      0   100%   
-test_API.py                                                              20      1    95%   140
-test_analysis.py                                                         14      1    93%   31
-test_examples.py                                                         32      1    97%   57
-test_io.py                                                               37      1    97%   92
+test_API.py                                                              21      1    95%   138
+test_analysis.py                                                         14      1    93%   32
+test_examples.py                                                         33      1    97%   58
+test_io.py                                                               37      1    97%   94
 test_runner.py                                                           28      2    93%   66-67
-test_sedml.py                                                            30      1    97%   97
-test_tellurium.py                                                       179      5    97%   157, 162, 344, 353, 437
-test_tephrasedml.py                                                      51      1    98%   85
+test_sedml.py                                                            29      1    97%   101
+test_tellurium.py                                                       179      3    98%   157, 162, 435
+test_tephrasedml.py                                                      52      1    98%   93
 testdata/__init__.py                                                      0      0   100%   
 testdata/models/__init__.py                                               0      0   100%   
 /home/mkoenig/git/tellurium/tellurium/visualization/__init__.py           1      0   100%   
 /home/mkoenig/git/tellurium/tellurium/visualization/sbmldiagram.py       61     12    80%   13-16, 45-51, 95, 108
 ---------------------------------------------------------------------------------------------------
-TOTAL                                                                  2572    897    65%   
+TOTAL                                                                  2638    892    66%   
 ----------------------------------------------------------------------
-Ran 179 tests in 26.274s
+Ran 179 tests in 27.798s
 
 OK

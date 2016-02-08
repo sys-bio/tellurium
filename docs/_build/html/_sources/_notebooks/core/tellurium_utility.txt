@@ -86,14 +86,14 @@ File helpers for reading and writing
 
 .. parsed-literal::
 
-    /tmp/tmpmdRGuS.xml
+    /tmp/tmpRhqFJs.xml
     
 
 
 .. parsed-literal::
 
     /usr/local/lib/python2.7/dist-packages/ipykernel/__main__.py:8: RuntimeWarning: 'sbml2matlab' could not be imported, no support for Matlab code generation
-    /home/mkoenig/git/tellurium/tellurium/tellurium.py:630: RuntimeWarning: 'sbml2matlab' could not be imported, no support for Matlab code generation
+    /home/mkoenig/git/tellurium/tellurium/tellurium.py:651: RuntimeWarning: 'sbml2matlab' could not be imported, no support for Matlab code generation
       saveToFile(filePath, self.getMatlab(current))
 
 

@@ -31,7 +31,7 @@ SBML
 .. parsed-literal::
 
     <?xml version="1.0" encoding="UTF-8"?>
-    <!-- Created by libAntimony version v2.8.1 on 2016-02-08 11:08 with libSBML version 5.12.1. -->
+    <!-- Created by libAntimony version v2.8.1 on 2016-02-08 14:05 with libSBML version 5.12.1. -->
     <sbml xmlns="http://www.sbml.org/sbml/level3/version1/core" level="3" version="1">
       <model id="__main" name="__main">
         <listOfCompartments>
@@ -174,9 +174,12 @@ CellML
     <bvar>
     <ci>time</ci>
     </bvar>
-    <ci>S2</ci>
+    <ci>S1</ci>
     </apply>
+    <apply>
+    <minus/>
     <ci>_J0</ci>
+    </apply>
     </apply>
     </math>
     <math xmlns="http://www.w3.org/1998/Math/MathML">
@@ -187,12 +190,9 @@ CellML
     <bvar>
     <ci>time</ci>
     </bvar>
-    <ci>S1</ci>
+    <ci>S2</ci>
     </apply>
-    <apply>
-    <minus/>
     <ci>_J0</ci>
-    </apply>
     </apply>
     </math>
     </component>
@@ -238,9 +238,9 @@ Matlab
 
 .. parsed-literal::
 
-    /home/mkoenig/git/tellurium/tellurium/tellurium.py:630: RuntimeWarning: 'sbml2matlab' could not be imported, no support for Matlab code generation
+    /home/mkoenig/git/tellurium/tellurium/tellurium.py:651: RuntimeWarning: 'sbml2matlab' could not be imported, no support for Matlab code generation
       saveToFile(filePath, self.getMatlab(current))
-    /home/mkoenig/git/tellurium/tellurium/tellurium.py:588: RuntimeWarning: 'sbml2matlab' could not be imported, no support for Matlab code generation
+    /home/mkoenig/git/tellurium/tellurium/tellurium.py:609: RuntimeWarning: 'sbml2matlab' could not be imported, no support for Matlab code generation
       return self.getMatlab(current=True)
     /usr/local/lib/python2.7/dist-packages/ipykernel/__main__.py:20: RuntimeWarning: 'sbml2matlab' could not be imported, no support for Matlab code generation
 

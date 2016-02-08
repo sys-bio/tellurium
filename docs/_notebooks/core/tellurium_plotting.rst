@@ -44,7 +44,8 @@ Draw diagram
 Plotting multiple simulations
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-For plotting timecourses use the ``plot`` function.
+All plotting is done via the ``r.plot`` or ``te.plotArray`` functions.
+To plot multiple curves in one figure use the ``show=False`` setting.
 
 .. code:: python
 
@@ -70,16 +71,15 @@ For plotting timecourses use the ``plot`` function.
         r.k1 = value
         s = r.simulate(0, 30, 100)
         
-        # multiple plots, set labels, axis limits
         color = cmap((value+max_k1)/(2*max_k1))
-        r.plot(loc=None, show=False, 
-               title="Parameter variation k1", xlabel="time", ylabel="concentration", 
-               xlim=[-1, 31], ylim=[-0.1, 11],
-               color=color, linewidth=2.0)
+        # plot curves without legend and showing
+        r.plot(s, loc=None, show=False, color=color, linewidth=2.0)
     
-    r.resetAll()
-    s = r.simulate(0, 30, 100)
-    r.plot(s);
+    # add legend for last curve, show everything and set labels, titels, ...
+    r.plot(s, loc='upper right', show=True, color=color, linewidth=2.0,
+           title="Parameter variation k1", xlabel="time", ylabel="concentration", 
+           xlim=[-1, 31], ylim=[-0.1, 11], grid=True)    
+    
     print('Reference Simulation: k1 = {}'.format(r.k1))
     print('Parameter variation: k1 = {}'.format(k1_values))
 
@@ -94,7 +94,27 @@ For plotting timecourses use the ``plot`` function.
 
 .. parsed-literal::
 
-    Reference Simulation: k1 = 0.1
+    Reference Simulation: k1 = 1.5
     Parameter variation: k1 = [ 0.1  0.2  0.3  0.4  0.5  0.6  0.7  0.8  0.9  1.   1.1  1.2  1.3  1.4  1.5]
+
+
+Logarithmic axis
+^^^^^^^^^^^^^^^^
+
+The axis scale can be adapted with the ``xscale`` and ``yscale``
+settings.
+
+.. code:: python
+
+    import tellurium as te
+    r = te.loadTestModel('feedback.xml')
+    r.integrator.setSetting('variable_step_size', True)
+    s = r.simulate(0, 50)
+    r.plot(s, xscale="log", xlim=[10E-4, 10E2], grid=True, 
+          title="Logarithmic x-Axis with grid", ylabel="concentration");
+
+
+
+.. image:: _notebooks/core/tellurium_plotting_files/tellurium_plotting_6_0.png
 
 

@@ -2,8 +2,6 @@
 # TELLURIUM API
 # ----------------------------------------------------------------
 # make explicit imports to avoid namespace pollution
-from tellurium import getHold
-from tellurium import setHold
 from tellurium import getVersionInfo
 from tellurium import printVersionInfo
 from tellurium import getTelluriumVersion

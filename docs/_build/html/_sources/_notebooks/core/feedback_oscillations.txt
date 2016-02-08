@@ -28,6 +28,11 @@ Model oscillations via feedback
     
     res = r.simulate(0, 40, 500)
     r.plot()
+    
+    import matplotlib.pylab as plt
+    plt.plot(res["[S1]"], res["[S2]"], 'o-', color="black")
+    plt.xlabel("[S1]")
+    plt.ylabel("[S2]");
 
 
 
@@ -35,10 +40,6 @@ Model oscillations via feedback
 
 
 
-
-.. parsed-literal::
-
-    <module 'matplotlib.pyplot' from '/usr/local/lib/python2.7/dist-packages/matplotlib/pyplot.pyc'>
-
+.. image:: _notebooks/core/feedback_oscillations_files/feedback_oscillations_2_1.png
 
 

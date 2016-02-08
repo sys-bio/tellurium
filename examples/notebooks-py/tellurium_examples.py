@@ -1,8 +1,7 @@
 
 # coding: utf-8
 
-# # Tellurium Examples
-# Some tests with tellurium
+# ### Activator system
 
 # In[1]:
 
@@ -59,6 +58,11 @@ r.plot(result);
 
 # In[2]:
 
+### Feedback oscillations
+
+
+# In[3]:
+
 # http://tellurium.analogmachine.org/testing/
 import tellurium as te
 r = te.loada ('''
@@ -83,12 +87,12 @@ res = r.simulate(0, 40)
 r.plot();
 
 
-# ## Bistable
+# ### Bistable System
 # Example showing how to to multiple time course simulations, merging the data and plotting it onto one platting surface. Alternative is to use setHold()
 # 
 # Model is a bistable system, simulations start with different initial conditions resulting in different steady states reached.
 
-# In[3]:
+# In[4]:
 
 import tellurium as te
 import numpy as np
@@ -112,10 +116,13 @@ for i in range (0,12):
     m = np.concatenate([m, res], axis=1)
     initValue += 1
 
-te.plotArray(m, color="black", alpha=0.7);
+te.plotArray(m, color="black", alpha=0.7, loc=None, 
+             xlabel="time", ylabel="[S1]", title="Bistable system");
 
 
-# In[4]:
+# ### Add plot elements
+
+# In[5]:
 
 import tellurium as te
 import numpy
@@ -143,7 +150,9 @@ plt.title ('My First Plot ($y = x^2$)')
 r.plot(m);
 
 
-# In[5]:
+# ### Events
+
+# In[6]:
 
 import tellurium as te
 import matplotlib.pyplot as plt
@@ -168,7 +177,9 @@ plt.ylim ((0,10))
 r.plot(m1);
 
 
-# In[6]:
+# ### Gene network
+
+# In[7]:
 
 import tellurium as te
 import numpy
@@ -194,7 +205,9 @@ result = r.simulate (0, 200, 100)
 r.plot(result);
 
 
-# In[7]:
+# ### Stoichiometric matrix
+
+# In[8]:
 
 import tellurium as te
 
@@ -214,10 +227,10 @@ print(r.getFullStoichiometryMatrix())
 r.draw()
 
 
-# ## Lorenz attractor
+# ### Lorenz attractor
 # Example showing how to describe a model using ODES. Example implements the Lorenz attractor.
 
-# In[8]:
+# In[9]:
 
 import tellurium as te
 
@@ -235,16 +248,13 @@ result = r.simulate (0, 20, 1000, ['time', 'x', 'y', 'z'])
 r.plot(result);
 
 
-# In[9]:
+# ### Time Course Parameter Scan
+# Do 5 simulations on a simple model, for each simulation a parameter, `k1` is changed. The script merges the data together and plots the merged array on to one plot.
 
-# Time Course Parameter Scan
-# Do 5 simulations on a simple model, for each simulation
-# a parameter, k1 is changed. The script merges the data together
-# and plots the merged array on to one plot. The alternative is
-# is to use the setHold method and to plot each graph individually.
+# In[10]:
 
 import tellurium as te
-import numpy
+import numpy as np
 
 r = te.loada ('''
     J1: $X0 -> S1; k1*X0;
@@ -259,19 +269,19 @@ m = r.simulate (0, 4, 100, ["Time", "S1"])
 for i in range (0,4):
     r.k1 = r.k1 + 0.1 
     r.reset()
-    m = numpy.hstack([m, r.simulate(0, 4, 100, ['S1'])])
+    m = np.hstack([m, r.simulate(0, 4, 100, ['S1'])])
 
-# MUST use plotArray to plot merged data
+# use plotArray to plot merged data
 te.plotArray(m);
 
 
-# In[10]:
+# ### Merge multiple simulations
+# Example of merging multiple simulations. In between simulations a parameter is changed.
+
+# In[11]:
 
 import tellurium as te
 import numpy
-
-# Example of merging multiple simulations. In between simulations
-# a parameter is changed.
 
 r = te.loada ('''
     # Model Definition
@@ -293,11 +303,10 @@ m = numpy.vstack([m1, m2, m3])
 r.plot(m);
 
 
-# ## Relaxation oscillator
-# Oscillator that uses positive and negative feedback.
-# An example of a relaxation oscillator.
+# ### Relaxation oscillator
+# Oscillator that uses positive and negative feedback. An example of a relaxation oscillator.
 
-# In[11]:
+# In[12]:
 
 import tellurium as te
 
@@ -316,13 +325,13 @@ result = r.simulate(0, 100, 100)
 r.plot(result);
 
 
-# In[12]:
+# ### Scan hill coefficient
+# Negative Feedback model where we scan over the value of the Hill coefficient.
+
+# In[13]:
 
 import tellurium as te
-import numpy
-
-# Negative Feedback model where we scan over the value
-# of the Hill coefficient.
+import numpy as np
 
 r = te.loada ('''
   // Reactions:
@@ -351,26 +360,24 @@ r = te.loada ('''
   const J0_VM1, J0_Keq1, J0_h, J4_V4, J4_KS4;
 ''')
 
+# time vector
+result = r.simulate (0, 20, 201, ['time'])
 
-result = r.simulate (0, 20,200, ['time', 'S1'])
-for i in range (0,8):
+h_values = [r.J0_h + k for k in range(0,8)]
+for h in h_values:
     r.reset()
-    m = r.simulate(0, 20, 200, ['S1'])
+    r.J0_h = h
+    m = r.simulate(0, 20, 201, ['S1'])
     result = numpy.hstack([result, m])
-    r.J0_h = r.J0_h + 1
     
-te.plotArray(result);
+te.plotArray(result, labels=['h={}'.format(int(h)) for h in h_values]);
 
 
-# In[13]:
+# ### Compare simulations
+
+# In[14]:
 
 import tellurium as te
-import numpy
-import matplotlib.pyplot as plt
-
-# Using setHold to compare to simulaton runs. In tihs case one
-# simulation is a determinsitic run and the second is a stochastic
-# simulation.
 
 r = te.loada ('''
      v1: $Xo -> S1;  k1*Xo;
@@ -388,18 +395,17 @@ r.setSeed(1234)
 m2 = r.gillespie(0, 20, 100, ['time', 'S1'])
 
 # plot all the results together
-te.setHold (True)
-te.plotArray(m1)
-te.plotArray(m2);
+te.plotArray(m1, color="black", show=False)
+te.plotArray(m2, color="blue");
 
 
-# In[14]:
+# ### Sinus injection
+# Example that show how to inject a sinusoidal into the model and use events to switch it off and on.
+
+# In[15]:
 
 import tellurium as te
 import numpy
-
-# Example that show how to inject a sinusoidal into the model
-# and use events to switch it off and on
 
 r = te.loada ('''
     # Inject sin wave into model    
@@ -423,14 +429,13 @@ result = r.simulate (0, 100, 200, ['time', 'S1', 'S2'])
 r.plot(result);
 
 
-# In[15]:
+# ### Protein phosphorylation cycle
+# Simple protein phosphorylation cycle. Steady state concentation of the phosphorylated protein is plotted as a funtion of the cycle kinase. In addition, the plot is repeated for various values of Km.
+
+# In[16]:
 
 import tellurium as te
 import numpy as np
-
-# Simple protein phosphorylation cycle. Steady state concentation
-# of the phosphorylated protein is plotted as a funtion of the cycle
-# kinase. In addition, the plot is repeated for various values of Km.
 
 r = te.loada ('''
    S1 -> S2; k1*S1/(Km1 + S1);
@@ -442,66 +447,22 @@ r = te.loada ('''
 
 r.conservedMoietyAnalysis = True
 
-te.setHold (True)
 for i in range (1,8):
-  numbers = np.linspace (0.1, 1.2, 200)
+  numbers = np.linspace (0, 1.2, 200)
   result = np.empty ([0,2])
   for value in numbers:
       r.k1 = value
       r.steadyState()
       row = np.array ([value, r.S2])
       result = np.vstack ((result, row))
-  te.plotArray (result)
-  r.model.k1 = 0.1
-  r.model.Km1 = r.Km1 + 0.5;
-  r.model.Km2 = r.Km2 + 0.5;
-
-
-# In[16]:
-
-#!!! DO NOT CHANGE !!! THIS FILE WAS CREATED AUTOMATICALLY FROM NOTEBOOKS !!! CHANGES WILL BE OVERWRITTEN !!! CHANGE CORRESPONDING NOTEBOOK FILE !!!
-import roadrunner
-from roadrunner import SelectionRecord
-from roadrunner import Config, SelectionRecord, Logger
-
-#Logger.setLevel(Logger.LOG_DEBUG)
-
-import tellurium as te
-
-m = te.loada('''
-var species x in c, y in c, z in c
-compartment c = 1.0
-
-x -> y ; k*x
-y -> z; 1
-
-x = 10
-y = 0
-z = 0
-
-k = 0.2
-
-
-''')
-#at time>5: c=2.0
-
-r = m.simulate(0,10,100,['time','[x]','[y]','[z]'])
-# print(r)
-m.plot()
-
-print('[x] at final timepoint: {}'.format(m.model.getValue('[x]')))
-m.model.setValue('c', 2.)
-print('[x] after vol change: {}'.format(m.model.getValue('[x]')))
-print('c after vol change: {}'.format(m.model.getValue('c')))
-m.reset(SelectionRecord.INITIAL_FLOATING_CONCENTRATION)
-
-print('[x] after floating conc reset: {}'.format(m.model.getValue('[x]')))
-print('x after floating conc reset: {}'.format(m.model.getValue('x')))
-
-m.reset(SelectionRecord.INITIAL_FLOATING_AMOUNT)
-print('[x] after floating amount reset: {}'.format(m.model.getValue('[x]')))
-print('x after floating amount reset: {}'.format(m.model.getValue('x')))
-
+  te.plotArray(result, show=False, labels=['Km1={}'.format(r.Km1)],
+               resetColorCycle=False,
+               xlabel='k1', ylabel="S2", 
+               title="Steady State S2 for different Km1 & Km2",
+               ylim=[-0.1, 11], grid=True)
+  r.k1 = 0.1
+  r.Km1 = r.Km1 + 0.5;
+  r.Km2 = r.Km2 + 0.5;
 
 
 # In[17]:

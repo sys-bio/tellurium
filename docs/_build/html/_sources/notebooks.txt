@@ -17,6 +17,7 @@ and start jupyter in the notebooks folder
 --------------------
 Basics
 --------------------
+
 .. include:: _notebooks/core/roadrunnerBasics.rst
 
 -------------------------
@@ -44,6 +45,14 @@ description markup language (SED-ML).
 --------------------
 Parameter scan
 --------------------
+
 .. include:: _notebooks/core/parameter_scan.rst
 .. include:: _notebooks/core/steadystate_scan.rst
 .. include:: _notebooks/core/computeSteadyState.rst
+
+--------------------
+Misc
+--------------------
+Some used cases for tellurium
+
+.. include:: _notebooks/core/tellurium_examples.rst

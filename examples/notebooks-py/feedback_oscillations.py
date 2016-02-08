@@ -32,6 +32,11 @@ end''')
 res = r.simulate(0, 40, 500)
 r.plot()
 
+import matplotlib.pylab as plt
+plt.plot(res["[S1]"], res["[S2]"], 'o-', color="black")
+plt.xlabel("[S1]")
+plt.ylabel("[S2]");
+
 
 # In[2]:
 

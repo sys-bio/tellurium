@@ -49,6 +49,7 @@ def ftest_generator(filePath):
 
 for k, f in enumerate(py_files):
     test_name = 'test_{:03d}_{}'.format(k, os.path.basename(f)[:-3])
+    test_name = test_name.replace('.', '_')
     test = ftest_generator(f)
     setattr(PythonExampleTestCase, test_name, test)
 

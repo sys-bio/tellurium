@@ -10,7 +10,7 @@ Example for how to create different wave form functions in tellurium.
     import tellurium as te
     from roadrunner import Config
     
-    #We do not want CONSERVED MOIETIES set to true in this case
+    # We do not want CONSERVED MOIETIES set to true in this case
     Config.setValue(Config.LOADSBMLOPTIONS_CONSERVED_MOIETIES, False) 
     
     # Generating different waveforms
@@ -49,18 +49,13 @@ Example for how to create different wave form functions in tellurium.
     
     r.timeCourseSelections = ['time', 'SineWave', 'SquareWave', 'SawTooth', 'TriangleWave', 'Ramp']
     result = r.simulate (0, 90, 500)
-    r.plotWithLegend(result)
+    r.plot(result)
     
-    #reset to default config
+    # reset to default config
     Config.setValue(Config.LOADSBMLOPTIONS_CONSERVED_MOIETIES, False) 
 
 
-.. parsed-literal::
 
-    /usr/local/lib/python2.7/dist-packages/ipykernel/__main__.py:45: DeprecationWarning: 'plotWithLegend' is deprecated. Use 'plot' instead. Will be removed in tellurium v1.4
-
-
-
-.. image:: _notebooks/core/generatingDifferentWaveforms_files/generatingDifferentWaveforms_2_1.png
+.. image:: _notebooks/core/generatingDifferentWaveforms_files/generatingDifferentWaveforms_2_0.png
 
 

@@ -173,24 +173,6 @@
     <span class="n">roadrunner</span><span class="o">.</span><span class="n">Logger</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">roadrunner</span><span class="o">.</span><span class="n">Logger</span><span class="o">.</span><span class="n">LOG_WARNING</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">))</span>
     <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">&quot;&#39;sbml2matlab&#39; could not be imported&quot;</span><span class="p">,</span> <span class="ne">ImportWarning</span><span class="p">)</span>
 
-<span class="c1"># ---------------------------------------------------------------------</span>
-<span class="c1"># plot hold</span>
-<span class="c1"># ---------------------------------------------------------------------</span>
-<span class="c1"># FIXME: What is this? Add some explanation of the tehold global parameter.</span>
-<span class="c1"># why global parameter? this is really bad style.</span>
-
-<span class="n">tehold</span> <span class="o">=</span> <span class="bp">False</span>  <span class="c1"># Same as matlab hold</span>
-
-<span class="c1"># For some reason we can only access the tehold variable via methods</span>
-<div class="viewcode-block" id="setHold"><a class="viewcode-back" href="../../_apidoc/tellurium.html#tellurium.tellurium.setHold">[docs]</a><span class="k">def</span> <span class="nf">setHold</span><span class="p">(</span><span class="n">myHold</span><span class="p">):</span>
-    <span class="k">global</span> <span class="n">tehold</span>    
-    <span class="n">tehold</span> <span class="o">=</span> <span class="n">myHold</span></div>
-
-
-<div class="viewcode-block" id="getHold"><a class="viewcode-back" href="../../_apidoc/tellurium.html#tellurium.tellurium.getHold">[docs]</a><span class="k">def</span> <span class="nf">getHold</span><span class="p">():</span>
-    <span class="k">global</span> <span class="n">tehold</span>
-    <span class="k">return</span> <span class="n">tehold</span></div>
-
 
 <span class="c1"># ---------------------------------------------------------------------</span>
 <span class="c1"># group: utility</span>
@@ -486,7 +468,9 @@
 <span class="c1"># ---------------------------------------------------------------------</span>
 <span class="c1"># Plotting Utilities</span>
 <span class="c1"># ---------------------------------------------------------------------</span>
-<div class="viewcode-block" id="plotArray"><a class="viewcode-back" href="../../tellurium_methods.html#tellurium.tellurium.plotArray">[docs]</a><span class="k">def</span> <span class="nf">plotArray</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="plotArray"><a class="viewcode-back" href="../../tellurium_methods.html#tellurium.tellurium.plotArray">[docs]</a><span class="k">def</span> <span class="nf">plotArray</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="s1">&#39;upper right&#39;</span><span class="p">,</span> <span class="n">show</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">resetColorCycle</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+             <span class="n">xlabel</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">xlim</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">ylim</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
+             <span class="n">xscale</span><span class="o">=</span><span class="s1">&#39;linear&#39;</span><span class="p">,</span> <span class="n">yscale</span><span class="o">=</span><span class="s2">&quot;linear&quot;</span><span class="p">,</span> <span class="n">grid</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; Plot an array.</span>
 
 <span class="sd">    The first column of the array will be the x-axis and remaining columns the y-axis. Returns</span>
@@ -495,18 +479,55 @@
 <span class="sd">    For example to add a legend, include the label key value:</span>
 <span class="sd">    te.plotArray (m, label=&#39;A label&#39;) then use pylab.legend()</span>
 <span class="sd">    to make sure the legend is shown.</span>
+
+<span class="sd">    Use show=False to add multiple curves.</span>
 <span class="sd">    ::</span>
 
 <span class="sd">        import numpy as np</span>
 <span class="sd">        result = np.array([[1,2,3], [7.2,6.5,8.8], [9.8, 6.5, 4.3]])</span>
 <span class="sd">        te.plotArray(result)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">global</span> <span class="n">tehold</span>
-    <span class="n">p</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">][:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">][:,</span> <span class="mi">1</span><span class="p">:],</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">2.5</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-    <span class="c1"># If user is building a legend don&#39;t show the plot yet</span>
-    <span class="k">if</span> <span class="s1">&#39;label&#39;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">p</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">tehold</span><span class="p">:</span>
+    <span class="c1"># FIXME: unify r.plot &amp; te.plot (lots of code duplication)</span>
+    <span class="c1"># reset color cycle (columns in repeated simulations have same color)</span>
+    <span class="k">if</span> <span class="n">resetColorCycle</span><span class="p">:</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span><span class="o">.</span><span class="n">set_prop_cycle</span><span class="p">(</span><span class="bp">None</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="s1">&#39;linewidth&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+            <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;linewidth&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">2.0</span>
+
+    <span class="c1"># get the labeles</span>
+    <span class="n">Ncol</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">labels</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="n">labels</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">dtype</span><span class="o">.</span><span class="n">names</span>
+
+    <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">Ncol</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">loc</span> <span class="ow">is</span> <span class="bp">None</span> <span class="ow">or</span> <span class="n">labels</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="c1"># no legend or labels</span>
+            <span class="n">p</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">result</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">result</span><span class="p">[:,</span> <span class="n">k</span><span class="p">],</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">p</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">result</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">result</span><span class="p">[:,</span> <span class="n">k</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="n">labels</span><span class="p">[</span><span class="n">k</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+    <span class="c1"># labels</span>
+    <span class="k">if</span> <span class="n">xlabel</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="n">xlabel</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">ylabel</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="n">ylabel</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">title</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="n">title</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">xlim</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">(</span><span class="n">xlim</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">ylim</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="n">ylim</span><span class="p">)</span>
+    <span class="c1"># axis and grids</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xscale</span><span class="p">(</span><span class="n">xscale</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">yscale</span><span class="p">(</span><span class="n">yscale</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">grid</span><span class="p">)</span>
+
+    <span class="c1"># show legend</span>
+    <span class="k">if</span> <span class="n">loc</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span> <span class="ow">and</span> <span class="n">labels</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="n">loc</span><span class="p">)</span>
+    <span class="c1"># show plot</span>
+    <span class="k">if</span> <span class="n">show</span><span class="p">:</span>
         <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
     <span class="k">return</span> <span class="n">p</span></div>
 
@@ -821,21 +842,17 @@
         <span class="n">diagram</span><span class="o">.</span><span class="n">draw</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="ExtendedRoadRunner.plot"><a class="viewcode-back" href="../../_apidoc/tellurium.html#tellurium.tellurium.ExtendedRoadRunner.plot">[docs]</a>    <span class="k">def</span> <span class="nf">plot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">result</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="s1">&#39;upper right&#39;</span><span class="p">,</span> <span class="n">show</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
-             <span class="n">xlabel</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">xlim</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">ylim</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+             <span class="n">xlabel</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">xlim</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">ylim</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
+             <span class="n">xscale</span><span class="o">=</span><span class="s1">&#39;linear&#39;</span><span class="p">,</span> <span class="n">yscale</span><span class="o">=</span><span class="s2">&quot;linear&quot;</span><span class="p">,</span> <span class="n">grid</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Plot data generated by a simulation.</span>
+
 <span class="sd">        Plot results from a simulation carried out by the simulate or gillespie</span>
 <span class="sd">        functions. This is a roadrunner method.</span>
 <span class="sd">        Data is a numpy array where the first column is considered the x axis and all remaining columns the y axis.</span>
 <span class="sd">        If no data is provided the data currently held by roadrunner generated in the last simulation is used.</span>
+<span class="sd">        Curves are plotted in order of selection (columns in result).</span>
 
-<span class="sd">        Curves are plotted in order of selection (columns in result)</span>
-
-<span class="sd">        Supports all matplotlib.pyplot.plot keyword arguments, like</span>
-<span class="sd">            color</span>
-<span class="sd">            alpha</span>
-<span class="sd">            linewidth</span>
-<span class="sd">            linestyle</span>
-<span class="sd">            marker</span>
+<span class="sd">        Supports all matplotlib.pyplot.plot keyword arguments, like color, alpha, linewidth, linestyle, marker, ...</span>
 <span class="sd">        ::</span>
 
 <span class="sd">            sbml = te.getTestModel(&#39;feedback.xml&#39;)</span>
@@ -858,6 +875,9 @@
         <span class="n">names</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">dtype</span><span class="o">.</span><span class="n">names</span>
         <span class="k">if</span> <span class="n">names</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
             <span class="n">names</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">selections</span>
+
+        <span class="c1"># reset color cycle (repeated simulations have the same colors)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span><span class="o">.</span><span class="n">set_prop_cycle</span><span class="p">(</span><span class="bp">None</span><span class="p">)</span>
 
         <span class="c1"># make plot</span>
         <span class="n">Ncol</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
@@ -884,6 +904,10 @@
             <span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">(</span><span class="n">xlim</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">ylim</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
             <span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="n">ylim</span><span class="p">)</span>
+        <span class="c1"># axis and grids</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">xscale</span><span class="p">(</span><span class="n">xscale</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">yscale</span><span class="p">(</span><span class="n">yscale</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">grid</span><span class="p">)</span>
 
         <span class="c1"># show legend</span>
         <span class="k">if</span> <span class="n">loc</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>

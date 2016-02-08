@@ -1,9 +1,9 @@
-Mon Feb  8 11:08:06 CET 2016
+Mon Feb  8 14:04:49 CET 2016
 --------------------------------------
 remove old documentation
 --------------------------------------
 DONE
-Mon Feb  8 11:08:06 CET 2016
+Mon Feb  8 14:04:49 CET 2016
 --------------------------------------
 convert notebooks to rst
 --------------------------------------
@@ -26,24 +26,24 @@ convert notebooks to rst
 [NbConvertApp] Executing notebook with kernel: python2
 [NbConvertApp] Support files will be in feedback_oscillations_files/
 [NbConvertApp] Making directory feedback_oscillations_files
-[NbConvertApp] Writing 1046 bytes to feedback_oscillations.rst
+[NbConvertApp] Making directory feedback_oscillations_files
+[NbConvertApp] Writing 1138 bytes to feedback_oscillations.rst
 [NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/generatingDifferentWaveforms.ipynb to rst
 [NbConvertApp] Executing notebook with kernel: python2
 [NbConvertApp] Support files will be in generatingDifferentWaveforms_files/
 [NbConvertApp] Making directory generatingDifferentWaveforms_files
-[NbConvertApp] Writing 2073 bytes to generatingDifferentWaveforms.rst
+[NbConvertApp] Writing 1867 bytes to generatingDifferentWaveforms.rst
 [NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/introduction.ipynb to rst
 [NbConvertApp] Executing notebook with kernel: python2
 [NbConvertApp] Support files will be in introduction_files/
 [NbConvertApp] Making directory introduction_files
 [NbConvertApp] Making directory introduction_files
-[NbConvertApp] Making directory introduction_files
-[NbConvertApp] Writing 1381 bytes to introduction.rst
+[NbConvertApp] Writing 1620 bytes to introduction.rst
 [NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/modelFromBioModels.ipynb to rst
 [NbConvertApp] Executing notebook with kernel: python2
 [NbConvertApp] Support files will be in modelFromBioModels_files/
 [NbConvertApp] Making directory modelFromBioModels_files
-[NbConvertApp] Writing 668 bytes to modelFromBioModels.rst
+[NbConvertApp] Writing 542 bytes to modelFromBioModels.rst
 [NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/nonUnitStoichiometries.ipynb to rst
 [NbConvertApp] Executing notebook with kernel: python2
 [NbConvertApp] Writing 999 bytes to nonUnitStoichiometries.rst
@@ -91,8 +91,7 @@ convert notebooks to rst
 [NbConvertApp] Making directory tellurium_examples_files
 [NbConvertApp] Making directory tellurium_examples_files
 [NbConvertApp] Making directory tellurium_examples_files
-[NbConvertApp] Making directory tellurium_examples_files
-[NbConvertApp] Writing 14319 bytes to tellurium_examples.rst
+[NbConvertApp] Writing 13157 bytes to tellurium_examples.rst
 [NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/tellurium_export.ipynb to rst
 [NbConvertApp] Executing notebook with kernel: python2
 [NbConvertApp] Writing 8270 bytes to tellurium_export.rst
@@ -112,7 +111,8 @@ convert notebooks to rst
 [NbConvertApp] Making directory tellurium_plotting_files
 [NbConvertApp] Making directory tellurium_plotting_files
 [NbConvertApp] Making directory tellurium_plotting_files
-[NbConvertApp] Writing 2871 bytes to tellurium_plotting.rst
+[NbConvertApp] Making directory tellurium_plotting_files
+[NbConvertApp] Writing 3524 bytes to tellurium_plotting.rst
 [NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/tellurium_reset.ipynb to rst
 [NbConvertApp] Executing notebook with kernel: python2
 [NbConvertApp] Support files will be in tellurium_reset_files/
@@ -180,16 +180,16 @@ create python code
 [NbConvertApp] Writing 620 bytes to consecutiveUniUniReactions.py
 [NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/feedback_oscillations.ipynb to python
 [NbConvertApp] Executing notebook with kernel: python2
-[NbConvertApp] Writing 784 bytes to feedback_oscillations.py
+[NbConvertApp] Writing 911 bytes to feedback_oscillations.py
 [NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/generatingDifferentWaveforms.ipynb to python
 [NbConvertApp] Executing notebook with kernel: python2
-[NbConvertApp] Writing 1617 bytes to generatingDifferentWaveforms.py
+[NbConvertApp] Writing 1609 bytes to generatingDifferentWaveforms.py
 [NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/introduction.ipynb to python
 [NbConvertApp] Executing notebook with kernel: python2
-[NbConvertApp] Writing 984 bytes to introduction.py
+[NbConvertApp] Writing 1360 bytes to introduction.py
 [NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/modelFromBioModels.ipynb to python
 [NbConvertApp] Executing notebook with kernel: python2
-[NbConvertApp] Writing 464 bytes to modelFromBioModels.py
+[NbConvertApp] Writing 465 bytes to modelFromBioModels.py
 [NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/nonUnitStoichiometries.ipynb to python
 [NbConvertApp] Executing notebook with kernel: python2
 [NbConvertApp] Writing 461 bytes to nonUnitStoichiometries.py
@@ -210,7 +210,7 @@ create python code
 [NbConvertApp] Writing 839 bytes to steadystate_scan.py
 [NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/tellurium_examples.ipynb to python
 [NbConvertApp] Executing notebook with kernel: python2
-[NbConvertApp] Writing 10905 bytes to tellurium_examples.py
+[NbConvertApp] Writing 10186 bytes to tellurium_examples.py
 [NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/tellurium_export.ipynb to python
 [NbConvertApp] Executing notebook with kernel: python2
 [NbConvertApp] Writing 2777 bytes to tellurium_export.py
@@ -222,7 +222,7 @@ create python code
 [NbConvertApp] Writing 1070 bytes to tellurium_model_loading.py
 [NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/tellurium_plotting.ipynb to python
 [NbConvertApp] Executing notebook with kernel: python2
-[NbConvertApp] Writing 2199 bytes to tellurium_plotting.py
+[NbConvertApp] Writing 2741 bytes to tellurium_plotting.py
 [NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/tellurium_reset.ipynb to python
 [NbConvertApp] Executing notebook with kernel: python2
 [NbConvertApp] Writing 934 bytes to tellurium_reset.py
@@ -343,7 +343,6 @@ Floating Species Initial Conditions
 
 Stoichiometry
 -------------
-/home/mkoenig/git/tellurium/tellurium/tellurium.py:docstring of tellurium.tellurium.ExtendedRoadRunner.plot:15: WARNING: Definition list ends without a blank line; unexpected unindent.
 /home/mkoenig/git/tellurium/tellurium/tellurium.py:docstring of tellurium.tellurium.ExtendedRoadRunner.rv:13: SEVERE: Unexpected section title.
 
 Stoichiometry
@@ -376,702 +375,18 @@ Floating Species Initial Conditions
 /home/mkoenig/git/tellurium/tellurium/tellurium.py:docstring of tellurium.tellurium.saveToFile:0: WARNING: duplicate object description of tellurium.tellurium.saveToFile, other instance in /home/mkoenig/git/tellurium/docs/API.rst, use :noindex: for one of them
 /home/mkoenig/git/tellurium/tellurium/tellurium.py:docstring of tellurium.tellurium.sbmlToAntimony:0: WARNING: duplicate object description of tellurium.tellurium.sbmlToAntimony, other instance in /home/mkoenig/git/tellurium/docs/API.rst, use :noindex: for one of them
 /home/mkoenig/git/tellurium/tellurium/tellurium.py:docstring of tellurium.tellurium.sbmlToCellML:0: WARNING: duplicate object description of tellurium.tellurium.sbmlToCellML, other instance in /home/mkoenig/git/tellurium/docs/API.rst, use :noindex: for one of them
-/home/mkoenig/git/tellurium/docs/_apidoc/tellurium.tests.rst:17: WARNING: autodoc: failed to import method u'APITestCase.test_api000_te.setHold' from module u'tellurium.tests.test_API'; the following exception was raised:
-Traceback (most recent call last):
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 392, in import_object
-    obj = self.get_attr(obj, part)
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 288, in get_attr
-    return safe_getattr(obj, name, *defargs)
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/util/inspect.py", line 115, in safe_getattr
-    raise AttributeError(name)
-AttributeError: test_api000_te
-/home/mkoenig/git/tellurium/docs/_apidoc/tellurium.tests.rst:17: WARNING: autodoc: failed to import method u'APITestCase.test_api001_te.getHold' from module u'tellurium.tests.test_API'; the following exception was raised:
-Traceback (most recent call last):
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 392, in import_object
-    obj = self.get_attr(obj, part)
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 288, in get_attr
-    return safe_getattr(obj, name, *defargs)
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/util/inspect.py", line 115, in safe_getattr
-    raise AttributeError(name)
-AttributeError: test_api001_te
-/home/mkoenig/git/tellurium/docs/_apidoc/tellurium.tests.rst:17: WARNING: autodoc: failed to import method u'APITestCase.test_api002_te.getVersionInfo' from module u'tellurium.tests.test_API'; the following exception was raised:
-Traceback (most recent call last):
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 392, in import_object
-    obj = self.get_attr(obj, part)
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 288, in get_attr
-    return safe_getattr(obj, name, *defargs)
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/util/inspect.py", line 115, in safe_getattr
-    raise AttributeError(name)
-AttributeError: test_api002_te
-/home/mkoenig/git/tellurium/docs/_apidoc/tellurium.tests.rst:17: WARNING: autodoc: failed to import method u'APITestCase.test_api003_te.printVersionInfo' from module u'tellurium.tests.test_API'; the following exception was raised:
-Traceback (most recent call last):
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 392, in import_object
-    obj = self.get_attr(obj, part)
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 288, in get_attr
-    return safe_getattr(obj, name, *defargs)
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/util/inspect.py", line 115, in safe_getattr
-    raise AttributeError(name)
-AttributeError: test_api003_te
-/home/mkoenig/git/tellurium/docs/_apidoc/tellurium.tests.rst:17: WARNING: autodoc: failed to import method u'APITestCase.test_api004_te.getTelluriumVersion' from module u'tellurium.tests.test_API'; the following exception was raised:
-Traceback (most recent call last):
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 392, in import_object
-    obj = self.get_attr(obj, part)
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 288, in get_attr
-    return safe_getattr(obj, name, *defargs)
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/util/inspect.py", line 115, in safe_getattr
-    raise AttributeError(name)
-AttributeError: test_api004_te
-/home/mkoenig/git/tellurium/docs/_apidoc/tellurium.tests.rst:17: WARNING: autodoc: failed to import method u'APITestCase.test_api005_te.noticesOff' from module u'tellurium.tests.test_API'; the following exception was raised:
-Traceback (most recent call last):
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 392, in import_object
-    obj = self.get_attr(obj, part)
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 288, in get_attr
-    return safe_getattr(obj, name, *defargs)
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/util/inspect.py", line 115, in safe_getattr
-    raise AttributeError(name)
-AttributeError: test_api005_te
-/home/mkoenig/git/tellurium/docs/_apidoc/tellurium.tests.rst:17: WARNING: autodoc: failed to import method u'APITestCase.test_api006_te.noticesOn' from module u'tellurium.tests.test_API'; the following exception was raised:
-Traceback (most recent call last):
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 392, in import_object
-    obj = self.get_attr(obj, part)
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 288, in get_attr
-    return safe_getattr(obj, name, *defargs)
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/util/inspect.py", line 115, in safe_getattr
-    raise AttributeError(name)
-AttributeError: test_api006_te
-/home/mkoenig/git/tellurium/docs/_apidoc/tellurium.tests.rst:17: WARNING: autodoc: failed to import method u'APITestCase.test_api007_te.saveToFile' from module u'tellurium.tests.test_API'; the following exception was raised:
-Traceback (most recent call last):
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 392, in import_object
-    obj = self.get_attr(obj, part)
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 288, in get_attr
-    return safe_getattr(obj, name, *defargs)
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/util/inspect.py", line 115, in safe_getattr
-    raise AttributeError(name)
-AttributeError: test_api007_te
-/home/mkoenig/git/tellurium/docs/_apidoc/tellurium.tests.rst:17: WARNING: autodoc: failed to import method u'APITestCase.test_api008_te.readFromFile' from module u'tellurium.tests.test_API'; the following exception was raised:
-Traceback (most recent call last):
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 392, in import_object
-    obj = self.get_attr(obj, part)
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 288, in get_attr
-    return safe_getattr(obj, name, *defargs)
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/util/inspect.py", line 115, in safe_getattr
-    raise AttributeError(name)
-AttributeError: test_api008_te
-/home/mkoenig/git/tellurium/docs/_apidoc/tellurium.tests.rst:17: WARNING: autodoc: failed to import method u'APITestCase.test_api009_te.loada' from module u'tellurium.tests.test_API'; the following exception was raised:
-Traceback (most recent call last):
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 392, in import_object
-    obj = self.get_attr(obj, part)
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 288, in get_attr
-    return safe_getattr(obj, name, *defargs)
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/util/inspect.py", line 115, in safe_getattr
-    raise AttributeError(name)
-AttributeError: test_api009_te
-/home/mkoenig/git/tellurium/docs/_apidoc/tellurium.tests.rst:17: WARNING: autodoc: failed to import method u'APITestCase.test_api010_te.loadAntimonyModel' from module u'tellurium.tests.test_API'; the following exception was raised:
-Traceback (most recent call last):
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 392, in import_object
-    obj = self.get_attr(obj, part)
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 288, in get_attr
-    return safe_getattr(obj, name, *defargs)
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/util/inspect.py", line 115, in safe_getattr
-    raise AttributeError(name)
-AttributeError: test_api010_te
-/home/mkoenig/git/tellurium/docs/_apidoc/tellurium.tests.rst:17: WARNING: autodoc: failed to import method u'APITestCase.test_api011_te.loadSBMLModel' from module u'tellurium.tests.test_API'; the following exception was raised:
-Traceback (most recent call last):
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 392, in import_object
-    obj = self.get_attr(obj, part)
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 288, in get_attr
-    return safe_getattr(obj, name, *defargs)
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/util/inspect.py", line 115, in safe_getattr
-    raise AttributeError(name)
-AttributeError: test_api011_te
-/home/mkoenig/git/tellurium/docs/_apidoc/tellurium.tests.rst:17: WARNING: autodoc: failed to import method u'APITestCase.test_api012_te.loadCellMLModel' from module u'tellurium.tests.test_API'; the following exception was raised:
-Traceback (most recent call last):
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 392, in import_object
-    obj = self.get_attr(obj, part)
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 288, in get_attr
-    return safe_getattr(obj, name, *defargs)
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/util/inspect.py", line 115, in safe_getattr
-    raise AttributeError(name)
-AttributeError: test_api012_te
-/home/mkoenig/git/tellurium/docs/_apidoc/tellurium.tests.rst:17: WARNING: autodoc: failed to import method u'APITestCase.test_api013_te.antimonyToSBML' from module u'tellurium.tests.test_API'; the following exception was raised:
-Traceback (most recent call last):
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 392, in import_object
-    obj = self.get_attr(obj, part)
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 288, in get_attr
-    return safe_getattr(obj, name, *defargs)
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/util/inspect.py", line 115, in safe_getattr
-    raise AttributeError(name)
-AttributeError: test_api013_te
-/home/mkoenig/git/tellurium/docs/_apidoc/tellurium.tests.rst:17: WARNING: autodoc: failed to import method u'APITestCase.test_api014_te.antimonyToCellML' from module u'tellurium.tests.test_API'; the following exception was raised:
-Traceback (most recent call last):
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 392, in import_object
-    obj = self.get_attr(obj, part)
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 288, in get_attr
-    return safe_getattr(obj, name, *defargs)
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/util/inspect.py", line 115, in safe_getattr
-    raise AttributeError(name)
-AttributeError: test_api014_te
-/home/mkoenig/git/tellurium/docs/_apidoc/tellurium.tests.rst:17: WARNING: autodoc: failed to import method u'APITestCase.test_api015_te.sbmlToAntimony' from module u'tellurium.tests.test_API'; the following exception was raised:
-Traceback (most recent call last):
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 392, in import_object
-    obj = self.get_attr(obj, part)
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 288, in get_attr
-    return safe_getattr(obj, name, *defargs)
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/util/inspect.py", line 115, in safe_getattr
-    raise AttributeError(name)
-AttributeError: test_api015_te
-/home/mkoenig/git/tellurium/docs/_apidoc/tellurium.tests.rst:17: WARNING: autodoc: failed to import method u'APITestCase.test_api016_te.sbmlToCellML' from module u'tellurium.tests.test_API'; the following exception was raised:
-Traceback (most recent call last):
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 392, in import_object
-    obj = self.get_attr(obj, part)
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 288, in get_attr
-    return safe_getattr(obj, name, *defargs)
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/util/inspect.py", line 115, in safe_getattr
-    raise AttributeError(name)
-AttributeError: test_api016_te
-/home/mkoenig/git/tellurium/docs/_apidoc/tellurium.tests.rst:17: WARNING: autodoc: failed to import method u'APITestCase.test_api017_te.cellmlToAntimony' from module u'tellurium.tests.test_API'; the following exception was raised:
-Traceback (most recent call last):
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 392, in import_object
-    obj = self.get_attr(obj, part)
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 288, in get_attr
-    return safe_getattr(obj, name, *defargs)
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/util/inspect.py", line 115, in safe_getattr
-    raise AttributeError(name)
-AttributeError: test_api017_te
-/home/mkoenig/git/tellurium/docs/_apidoc/tellurium.tests.rst:17: WARNING: autodoc: failed to import method u'APITestCase.test_api018_te.cellmlToSBML' from module u'tellurium.tests.test_API'; the following exception was raised:
-Traceback (most recent call last):
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 392, in import_object
-    obj = self.get_attr(obj, part)
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 288, in get_attr
-    return safe_getattr(obj, name, *defargs)
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/util/inspect.py", line 115, in safe_getattr
-    raise AttributeError(name)
-AttributeError: test_api018_te
-/home/mkoenig/git/tellurium/docs/_apidoc/tellurium.tests.rst:17: WARNING: autodoc: failed to import method u'APITestCase.test_api019_te.experiment' from module u'tellurium.tests.test_API'; the following exception was raised:
-Traceback (most recent call last):
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 392, in import_object
-    obj = self.get_attr(obj, part)
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 288, in get_attr
-    return safe_getattr(obj, name, *defargs)
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/util/inspect.py", line 115, in safe_getattr
-    raise AttributeError(name)
-AttributeError: test_api019_te
-/home/mkoenig/git/tellurium/docs/_apidoc/tellurium.tests.rst:17: WARNING: autodoc: failed to import method u'APITestCase.test_api020_te.getEigenvalues' from module u'tellurium.tests.test_API'; the following exception was raised:
-Traceback (most recent call last):
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 392, in import_object
-    obj = self.get_attr(obj, part)
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 288, in get_attr
-    return safe_getattr(obj, name, *defargs)
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/util/inspect.py", line 115, in safe_getattr
-    raise AttributeError(name)
-AttributeError: test_api020_te
-/home/mkoenig/git/tellurium/docs/_apidoc/tellurium.tests.rst:17: WARNING: autodoc: failed to import method u'APITestCase.test_api021_te.plotArray' from module u'tellurium.tests.test_API'; the following exception was raised:
-Traceback (most recent call last):
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 392, in import_object
-    obj = self.get_attr(obj, part)
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 288, in get_attr
-    return safe_getattr(obj, name, *defargs)
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/util/inspect.py", line 115, in safe_getattr
-    raise AttributeError(name)
-AttributeError: test_api021_te
-/home/mkoenig/git/tellurium/docs/_apidoc/tellurium.tests.rst:17: WARNING: autodoc: failed to import method u'APITestCase.test_api022_te.loadTestModel' from module u'tellurium.tests.test_API'; the following exception was raised:
-Traceback (most recent call last):
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 392, in import_object
-    obj = self.get_attr(obj, part)
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 288, in get_attr
-    return safe_getattr(obj, name, *defargs)
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/util/inspect.py", line 115, in safe_getattr
-    raise AttributeError(name)
-AttributeError: test_api022_te
-/home/mkoenig/git/tellurium/docs/_apidoc/tellurium.tests.rst:17: WARNING: autodoc: failed to import method u'APITestCase.test_api023_te.getTestModel' from module u'tellurium.tests.test_API'; the following exception was raised:
-Traceback (most recent call last):
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 392, in import_object
-    obj = self.get_attr(obj, part)
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 288, in get_attr
-    return safe_getattr(obj, name, *defargs)
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/util/inspect.py", line 115, in safe_getattr
-    raise AttributeError(name)
-AttributeError: test_api023_te
-/home/mkoenig/git/tellurium/docs/_apidoc/tellurium.tests.rst:17: WARNING: autodoc: failed to import method u'APITestCase.test_api024_te.listTestModels' from module u'tellurium.tests.test_API'; the following exception was raised:
-Traceback (most recent call last):
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 392, in import_object
-    obj = self.get_attr(obj, part)
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 288, in get_attr
-    return safe_getattr(obj, name, *defargs)
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/util/inspect.py", line 115, in safe_getattr
-    raise AttributeError(name)
-AttributeError: test_api024_te
-/home/mkoenig/git/tellurium/docs/_apidoc/tellurium.tests.rst:17: WARNING: autodoc: failed to import method u'APITestCase.test_api025_te.LatexExport' from module u'tellurium.tests.test_API'; the following exception was raised:
-Traceback (most recent call last):
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 392, in import_object
-    obj = self.get_attr(obj, part)
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 288, in get_attr
-    return safe_getattr(obj, name, *defargs)
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/util/inspect.py", line 115, in safe_getattr
-    raise AttributeError(name)
-AttributeError: test_api025_te
-/home/mkoenig/git/tellurium/docs/_apidoc/tellurium.tests.rst:17: WARNING: autodoc: failed to import method u'APITestCase.test_api026_te.ParameterScan' from module u'tellurium.tests.test_API'; the following exception was raised:
-Traceback (most recent call last):
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 392, in import_object
-    obj = self.get_attr(obj, part)
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 288, in get_attr
-    return safe_getattr(obj, name, *defargs)
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/util/inspect.py", line 115, in safe_getattr
-    raise AttributeError(name)
-AttributeError: test_api026_te
-/home/mkoenig/git/tellurium/docs/_apidoc/tellurium.tests.rst:17: WARNING: autodoc: failed to import method u'APITestCase.test_api027_te.SteadyStateScan' from module u'tellurium.tests.test_API'; the following exception was raised:
-Traceback (most recent call last):
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 392, in import_object
-    obj = self.get_attr(obj, part)
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 288, in get_attr
-    return safe_getattr(obj, name, *defargs)
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/util/inspect.py", line 115, in safe_getattr
-    raise AttributeError(name)
-AttributeError: test_api027_te
-/home/mkoenig/git/tellurium/docs/_apidoc/tellurium.tests.rst:17: WARNING: autodoc: failed to import method u'APITestCase.test_api028_r.getAntimony' from module u'tellurium.tests.test_API'; the following exception was raised:
-Traceback (most recent call last):
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 392, in import_object
-    obj = self.get_attr(obj, part)
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 288, in get_attr
-    return safe_getattr(obj, name, *defargs)
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/util/inspect.py", line 115, in safe_getattr
-    raise AttributeError(name)
-AttributeError: test_api028_r
-/home/mkoenig/git/tellurium/docs/_apidoc/tellurium.tests.rst:17: WARNING: autodoc: failed to import method u'APITestCase.test_api029_r.getCurrentAntimony' from module u'tellurium.tests.test_API'; the following exception was raised:
-Traceback (most recent call last):
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 392, in import_object
-    obj = self.get_attr(obj, part)
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 288, in get_attr
-    return safe_getattr(obj, name, *defargs)
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/util/inspect.py", line 115, in safe_getattr
-    raise AttributeError(name)
-AttributeError: test_api029_r
-/home/mkoenig/git/tellurium/docs/_apidoc/tellurium.tests.rst:17: WARNING: autodoc: failed to import method u'APITestCase.test_api030_r.getCellML' from module u'tellurium.tests.test_API'; the following exception was raised:
-Traceback (most recent call last):
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 392, in import_object
-    obj = self.get_attr(obj, part)
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 288, in get_attr
-    return safe_getattr(obj, name, *defargs)
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/util/inspect.py", line 115, in safe_getattr
-    raise AttributeError(name)
-AttributeError: test_api030_r
-/home/mkoenig/git/tellurium/docs/_apidoc/tellurium.tests.rst:17: WARNING: autodoc: failed to import method u'APITestCase.test_api031_r.getCurrentCellML' from module u'tellurium.tests.test_API'; the following exception was raised:
-Traceback (most recent call last):
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 392, in import_object
-    obj = self.get_attr(obj, part)
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 288, in get_attr
-    return safe_getattr(obj, name, *defargs)
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/util/inspect.py", line 115, in safe_getattr
-    raise AttributeError(name)
-AttributeError: test_api031_r
-/home/mkoenig/git/tellurium/docs/_apidoc/tellurium.tests.rst:17: WARNING: autodoc: failed to import method u'APITestCase.test_api032_r.getMatlab' from module u'tellurium.tests.test_API'; the following exception was raised:
-Traceback (most recent call last):
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 392, in import_object
-    obj = self.get_attr(obj, part)
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 288, in get_attr
-    return safe_getattr(obj, name, *defargs)
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/util/inspect.py", line 115, in safe_getattr
-    raise AttributeError(name)
-AttributeError: test_api032_r
-/home/mkoenig/git/tellurium/docs/_apidoc/tellurium.tests.rst:17: WARNING: autodoc: failed to import method u'APITestCase.test_api033_r.getCurrentMatlab' from module u'tellurium.tests.test_API'; the following exception was raised:
-Traceback (most recent call last):
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 392, in import_object
-    obj = self.get_attr(obj, part)
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 288, in get_attr
-    return safe_getattr(obj, name, *defargs)
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/util/inspect.py", line 115, in safe_getattr
-    raise AttributeError(name)
-AttributeError: test_api033_r
-/home/mkoenig/git/tellurium/docs/_apidoc/tellurium.tests.rst:17: WARNING: autodoc: failed to import method u'APITestCase.test_api034_r.exportToAntimony' from module u'tellurium.tests.test_API'; the following exception was raised:
-Traceback (most recent call last):
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 392, in import_object
-    obj = self.get_attr(obj, part)
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 288, in get_attr
-    return safe_getattr(obj, name, *defargs)
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/util/inspect.py", line 115, in safe_getattr
-    raise AttributeError(name)
-AttributeError: test_api034_r
-/home/mkoenig/git/tellurium/docs/_apidoc/tellurium.tests.rst:17: WARNING: autodoc: failed to import method u'APITestCase.test_api035_r.exportToCellML' from module u'tellurium.tests.test_API'; the following exception was raised:
-Traceback (most recent call last):
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 392, in import_object
-    obj = self.get_attr(obj, part)
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 288, in get_attr
-    return safe_getattr(obj, name, *defargs)
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/util/inspect.py", line 115, in safe_getattr
-    raise AttributeError(name)
-AttributeError: test_api035_r
-/home/mkoenig/git/tellurium/docs/_apidoc/tellurium.tests.rst:17: WARNING: autodoc: failed to import method u'APITestCase.test_api036_r.exportToMatlab' from module u'tellurium.tests.test_API'; the following exception was raised:
-Traceback (most recent call last):
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 392, in import_object
-    obj = self.get_attr(obj, part)
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 288, in get_attr
-    return safe_getattr(obj, name, *defargs)
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/util/inspect.py", line 115, in safe_getattr
-    raise AttributeError(name)
-AttributeError: test_api036_r
-/home/mkoenig/git/tellurium/docs/_apidoc/tellurium.tests.rst:17: WARNING: autodoc: failed to import method u'APITestCase.test_api037_r.resetToOrigin' from module u'tellurium.tests.test_API'; the following exception was raised:
-Traceback (most recent call last):
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 392, in import_object
-    obj = self.get_attr(obj, part)
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 288, in get_attr
-    return safe_getattr(obj, name, *defargs)
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/util/inspect.py", line 115, in safe_getattr
-    raise AttributeError(name)
-AttributeError: test_api037_r
-/home/mkoenig/git/tellurium/docs/_apidoc/tellurium.tests.rst:17: WARNING: autodoc: failed to import method u'APITestCase.test_api038_r.resetAll' from module u'tellurium.tests.test_API'; the following exception was raised:
-Traceback (most recent call last):
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 392, in import_object
-    obj = self.get_attr(obj, part)
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 288, in get_attr
-    return safe_getattr(obj, name, *defargs)
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/util/inspect.py", line 115, in safe_getattr
-    raise AttributeError(name)
-AttributeError: test_api038_r
-/home/mkoenig/git/tellurium/docs/_apidoc/tellurium.tests.rst:17: WARNING: autodoc: failed to import method u'APITestCase.test_api039_r.getRatesOfChange' from module u'tellurium.tests.test_API'; the following exception was raised:
-Traceback (most recent call last):
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 392, in import_object
-    obj = self.get_attr(obj, part)
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 288, in get_attr
-    return safe_getattr(obj, name, *defargs)
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/util/inspect.py", line 115, in safe_getattr
-    raise AttributeError(name)
-AttributeError: test_api039_r
-/home/mkoenig/git/tellurium/docs/_apidoc/tellurium.tests.rst:17: WARNING: autodoc: failed to import method u'APITestCase.test_api040_r.draw' from module u'tellurium.tests.test_API'; the following exception was raised:
-Traceback (most recent call last):
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 392, in import_object
-    obj = self.get_attr(obj, part)
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 288, in get_attr
-    return safe_getattr(obj, name, *defargs)
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/util/inspect.py", line 115, in safe_getattr
-    raise AttributeError(name)
-AttributeError: test_api040_r
-/home/mkoenig/git/tellurium/docs/_apidoc/tellurium.tests.rst:17: WARNING: autodoc: failed to import method u'APITestCase.test_api041_r.plot' from module u'tellurium.tests.test_API'; the following exception was raised:
-Traceback (most recent call last):
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 392, in import_object
-    obj = self.get_attr(obj, part)
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 288, in get_attr
-    return safe_getattr(obj, name, *defargs)
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/util/inspect.py", line 115, in safe_getattr
-    raise AttributeError(name)
-AttributeError: test_api041_r
-/home/mkoenig/git/tellurium/docs/_apidoc/tellurium.tests.rst:17: WARNING: autodoc: failed to import method u'APITestCase.test_api042_r.getSeed' from module u'tellurium.tests.test_API'; the following exception was raised:
-Traceback (most recent call last):
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 392, in import_object
-    obj = self.get_attr(obj, part)
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 288, in get_attr
-    return safe_getattr(obj, name, *defargs)
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/util/inspect.py", line 115, in safe_getattr
-    raise AttributeError(name)
-AttributeError: test_api042_r
-/home/mkoenig/git/tellurium/docs/_apidoc/tellurium.tests.rst:17: WARNING: autodoc: failed to import method u'APITestCase.test_api043_r.setSeed' from module u'tellurium.tests.test_API'; the following exception was raised:
-Traceback (most recent call last):
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 392, in import_object
-    obj = self.get_attr(obj, part)
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 288, in get_attr
-    return safe_getattr(obj, name, *defargs)
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/util/inspect.py", line 115, in safe_getattr
-    raise AttributeError(name)
-AttributeError: test_api043_r
-/home/mkoenig/git/tellurium/docs/_apidoc/tellurium.tests.rst:17: WARNING: autodoc: failed to import method u'APITestCase.test_api044_r.gillespie' from module u'tellurium.tests.test_API'; the following exception was raised:
-Traceback (most recent call last):
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 392, in import_object
-    obj = self.get_attr(obj, part)
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 288, in get_attr
-    return safe_getattr(obj, name, *defargs)
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/util/inspect.py", line 115, in safe_getattr
-    raise AttributeError(name)
-AttributeError: test_api044_r
-/home/mkoenig/git/tellurium/docs/_apidoc/tellurium.tests.rst:17: WARNING: autodoc: failed to import method u'APITestCase.test_api045_r.fjac' from module u'tellurium.tests.test_API'; the following exception was raised:
-Traceback (most recent call last):
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 392, in import_object
-    obj = self.get_attr(obj, part)
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 288, in get_attr
-    return safe_getattr(obj, name, *defargs)
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/util/inspect.py", line 115, in safe_getattr
-    raise AttributeError(name)
-AttributeError: test_api045_r
-/home/mkoenig/git/tellurium/docs/_apidoc/tellurium.tests.rst:17: WARNING: autodoc: failed to import method u'APITestCase.test_api046_r.sm' from module u'tellurium.tests.test_API'; the following exception was raised:
-Traceback (most recent call last):
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 392, in import_object
-    obj = self.get_attr(obj, part)
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 288, in get_attr
-    return safe_getattr(obj, name, *defargs)
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/util/inspect.py", line 115, in safe_getattr
-    raise AttributeError(name)
-AttributeError: test_api046_r
-/home/mkoenig/git/tellurium/docs/_apidoc/tellurium.tests.rst:17: WARNING: autodoc: failed to import method u'APITestCase.test_api047_r.rs' from module u'tellurium.tests.test_API'; the following exception was raised:
-Traceback (most recent call last):
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 392, in import_object
-    obj = self.get_attr(obj, part)
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 288, in get_attr
-    return safe_getattr(obj, name, *defargs)
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/util/inspect.py", line 115, in safe_getattr
-    raise AttributeError(name)
-AttributeError: test_api047_r
-/home/mkoenig/git/tellurium/docs/_apidoc/tellurium.tests.rst:17: WARNING: autodoc: failed to import method u'APITestCase.test_api048_r.fs' from module u'tellurium.tests.test_API'; the following exception was raised:
-Traceback (most recent call last):
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 392, in import_object
-    obj = self.get_attr(obj, part)
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 288, in get_attr
-    return safe_getattr(obj, name, *defargs)
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/util/inspect.py", line 115, in safe_getattr
-    raise AttributeError(name)
-AttributeError: test_api048_r
-/home/mkoenig/git/tellurium/docs/_apidoc/tellurium.tests.rst:17: WARNING: autodoc: failed to import method u'APITestCase.test_api049_r.bs' from module u'tellurium.tests.test_API'; the following exception was raised:
-Traceback (most recent call last):
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 392, in import_object
-    obj = self.get_attr(obj, part)
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 288, in get_attr
-    return safe_getattr(obj, name, *defargs)
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/util/inspect.py", line 115, in safe_getattr
-    raise AttributeError(name)
-AttributeError: test_api049_r
-/home/mkoenig/git/tellurium/docs/_apidoc/tellurium.tests.rst:17: WARNING: autodoc: failed to import method u'APITestCase.test_api050_r.ps' from module u'tellurium.tests.test_API'; the following exception was raised:
-Traceback (most recent call last):
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 392, in import_object
-    obj = self.get_attr(obj, part)
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 288, in get_attr
-    return safe_getattr(obj, name, *defargs)
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/util/inspect.py", line 115, in safe_getattr
-    raise AttributeError(name)
-AttributeError: test_api050_r
-/home/mkoenig/git/tellurium/docs/_apidoc/tellurium.tests.rst:17: WARNING: autodoc: failed to import method u'APITestCase.test_api051_r.vs' from module u'tellurium.tests.test_API'; the following exception was raised:
-Traceback (most recent call last):
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 392, in import_object
-    obj = self.get_attr(obj, part)
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 288, in get_attr
-    return safe_getattr(obj, name, *defargs)
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/util/inspect.py", line 115, in safe_getattr
-    raise AttributeError(name)
-AttributeError: test_api051_r
-/home/mkoenig/git/tellurium/docs/_apidoc/tellurium.tests.rst:17: WARNING: autodoc: failed to import method u'APITestCase.test_api052_r.dv' from module u'tellurium.tests.test_API'; the following exception was raised:
-Traceback (most recent call last):
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 392, in import_object
-    obj = self.get_attr(obj, part)
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 288, in get_attr
-    return safe_getattr(obj, name, *defargs)
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/util/inspect.py", line 115, in safe_getattr
-    raise AttributeError(name)
-AttributeError: test_api052_r
-/home/mkoenig/git/tellurium/docs/_apidoc/tellurium.tests.rst:17: WARNING: autodoc: failed to import method u'APITestCase.test_api053_r.rv' from module u'tellurium.tests.test_API'; the following exception was raised:
-Traceback (most recent call last):
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 392, in import_object
-    obj = self.get_attr(obj, part)
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 288, in get_attr
-    return safe_getattr(obj, name, *defargs)
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/util/inspect.py", line 115, in safe_getattr
-    raise AttributeError(name)
-AttributeError: test_api053_r
-/home/mkoenig/git/tellurium/docs/_apidoc/tellurium.tests.rst:17: WARNING: autodoc: failed to import method u'APITestCase.test_api054_r.sv' from module u'tellurium.tests.test_API'; the following exception was raised:
-Traceback (most recent call last):
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 392, in import_object
-    obj = self.get_attr(obj, part)
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 288, in get_attr
-    return safe_getattr(obj, name, *defargs)
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/util/inspect.py", line 115, in safe_getattr
-    raise AttributeError(name)
-AttributeError: test_api054_r
-/home/mkoenig/git/tellurium/docs/_apidoc/tellurium.tests.rst:17: WARNING: autodoc: failed to import method u'APITestCase.test_api055_r.getBoundarySpeciesConcentrations' from module u'tellurium.tests.test_API'; the following exception was raised:
-Traceback (most recent call last):
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 392, in import_object
-    obj = self.get_attr(obj, part)
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 288, in get_attr
-    return safe_getattr(obj, name, *defargs)
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/util/inspect.py", line 115, in safe_getattr
-    raise AttributeError(name)
-AttributeError: test_api055_r
-/home/mkoenig/git/tellurium/docs/_apidoc/tellurium.tests.rst:17: WARNING: autodoc: failed to import method u'APITestCase.test_api056_r.getBoundarySpeciesIds' from module u'tellurium.tests.test_API'; the following exception was raised:
-Traceback (most recent call last):
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 392, in import_object
-    obj = self.get_attr(obj, part)
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 288, in get_attr
-    return safe_getattr(obj, name, *defargs)
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/util/inspect.py", line 115, in safe_getattr
-    raise AttributeError(name)
-AttributeError: test_api056_r
-/home/mkoenig/git/tellurium/docs/_apidoc/tellurium.tests.rst:17: WARNING: autodoc: failed to import method u'APITestCase.test_api057_r.getNumBoundarySpecies' from module u'tellurium.tests.test_API'; the following exception was raised:
-Traceback (most recent call last):
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 392, in import_object
-    obj = self.get_attr(obj, part)
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 288, in get_attr
-    return safe_getattr(obj, name, *defargs)
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/util/inspect.py", line 115, in safe_getattr
-    raise AttributeError(name)
-AttributeError: test_api057_r
-/home/mkoenig/git/tellurium/docs/_apidoc/tellurium.tests.rst:17: WARNING: autodoc: failed to import method u'APITestCase.test_api058_r.getFloatingSpeciesConcentrations' from module u'tellurium.tests.test_API'; the following exception was raised:
-Traceback (most recent call last):
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 392, in import_object
-    obj = self.get_attr(obj, part)
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 288, in get_attr
-    return safe_getattr(obj, name, *defargs)
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/util/inspect.py", line 115, in safe_getattr
-    raise AttributeError(name)
-AttributeError: test_api058_r
-/home/mkoenig/git/tellurium/docs/_apidoc/tellurium.tests.rst:17: WARNING: autodoc: failed to import method u'APITestCase.test_api059_r.getFloatingSpeciesIds' from module u'tellurium.tests.test_API'; the following exception was raised:
-Traceback (most recent call last):
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 392, in import_object
-    obj = self.get_attr(obj, part)
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 288, in get_attr
-    return safe_getattr(obj, name, *defargs)
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/util/inspect.py", line 115, in safe_getattr
-    raise AttributeError(name)
-AttributeError: test_api059_r
-/home/mkoenig/git/tellurium/docs/_apidoc/tellurium.tests.rst:17: WARNING: autodoc: failed to import method u'APITestCase.test_api060_r.getNumFloatingSpecies' from module u'tellurium.tests.test_API'; the following exception was raised:
-Traceback (most recent call last):
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 392, in import_object
-    obj = self.get_attr(obj, part)
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 288, in get_attr
-    return safe_getattr(obj, name, *defargs)
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/util/inspect.py", line 115, in safe_getattr
-    raise AttributeError(name)
-AttributeError: test_api060_r
-/home/mkoenig/git/tellurium/docs/_apidoc/tellurium.tests.rst:17: WARNING: autodoc: failed to import method u'APITestCase.test_api061_r.getGlobalParameterIds' from module u'tellurium.tests.test_API'; the following exception was raised:
-Traceback (most recent call last):
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 392, in import_object
-    obj = self.get_attr(obj, part)
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 288, in get_attr
-    return safe_getattr(obj, name, *defargs)
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/util/inspect.py", line 115, in safe_getattr
-    raise AttributeError(name)
-AttributeError: test_api061_r
-/home/mkoenig/git/tellurium/docs/_apidoc/tellurium.tests.rst:17: WARNING: autodoc: failed to import method u'APITestCase.test_api062_r.getGlobalParameterValues' from module u'tellurium.tests.test_API'; the following exception was raised:
-Traceback (most recent call last):
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 392, in import_object
-    obj = self.get_attr(obj, part)
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 288, in get_attr
-    return safe_getattr(obj, name, *defargs)
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/util/inspect.py", line 115, in safe_getattr
-    raise AttributeError(name)
-AttributeError: test_api062_r
-/home/mkoenig/git/tellurium/docs/_apidoc/tellurium.tests.rst:17: WARNING: autodoc: failed to import method u'APITestCase.test_api063_r.getNumGlobalParameters' from module u'tellurium.tests.test_API'; the following exception was raised:
-Traceback (most recent call last):
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 392, in import_object
-    obj = self.get_attr(obj, part)
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 288, in get_attr
-    return safe_getattr(obj, name, *defargs)
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/util/inspect.py", line 115, in safe_getattr
-    raise AttributeError(name)
-AttributeError: test_api063_r
-/home/mkoenig/git/tellurium/docs/_apidoc/tellurium.tests.rst:17: WARNING: autodoc: failed to import method u'APITestCase.test_api064_r.getCompartmentIds' from module u'tellurium.tests.test_API'; the following exception was raised:
-Traceback (most recent call last):
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 392, in import_object
-    obj = self.get_attr(obj, part)
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 288, in get_attr
-    return safe_getattr(obj, name, *defargs)
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/util/inspect.py", line 115, in safe_getattr
-    raise AttributeError(name)
-AttributeError: test_api064_r
-/home/mkoenig/git/tellurium/docs/_apidoc/tellurium.tests.rst:17: WARNING: autodoc: failed to import method u'APITestCase.test_api065_r.getCompartmentVolumes' from module u'tellurium.tests.test_API'; the following exception was raised:
-Traceback (most recent call last):
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 392, in import_object
-    obj = self.get_attr(obj, part)
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 288, in get_attr
-    return safe_getattr(obj, name, *defargs)
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/util/inspect.py", line 115, in safe_getattr
-    raise AttributeError(name)
-AttributeError: test_api065_r
-/home/mkoenig/git/tellurium/docs/_apidoc/tellurium.tests.rst:17: WARNING: autodoc: failed to import method u'APITestCase.test_api066_r.getNumCompartments' from module u'tellurium.tests.test_API'; the following exception was raised:
-Traceback (most recent call last):
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 392, in import_object
-    obj = self.get_attr(obj, part)
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 288, in get_attr
-    return safe_getattr(obj, name, *defargs)
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/util/inspect.py", line 115, in safe_getattr
-    raise AttributeError(name)
-AttributeError: test_api066_r
-/home/mkoenig/git/tellurium/docs/_apidoc/tellurium.tests.rst:17: WARNING: autodoc: failed to import method u'APITestCase.test_api067_r.getConservedMoietyValues' from module u'tellurium.tests.test_API'; the following exception was raised:
-Traceback (most recent call last):
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 392, in import_object
-    obj = self.get_attr(obj, part)
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 288, in get_attr
-    return safe_getattr(obj, name, *defargs)
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/util/inspect.py", line 115, in safe_getattr
-    raise AttributeError(name)
-AttributeError: test_api067_r
-/home/mkoenig/git/tellurium/docs/_apidoc/tellurium.tests.rst:17: WARNING: autodoc: failed to import method u'APITestCase.test_api068_r.getNumConservedMoieties' from module u'tellurium.tests.test_API'; the following exception was raised:
-Traceback (most recent call last):
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 392, in import_object
-    obj = self.get_attr(obj, part)
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 288, in get_attr
-    return safe_getattr(obj, name, *defargs)
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/util/inspect.py", line 115, in safe_getattr
-    raise AttributeError(name)
-AttributeError: test_api068_r
-/home/mkoenig/git/tellurium/docs/_apidoc/tellurium.tests.rst:17: WARNING: autodoc: failed to import method u'APITestCase.test_api069_r.getNumDepFloatingSpecies' from module u'tellurium.tests.test_API'; the following exception was raised:
-Traceback (most recent call last):
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 392, in import_object
-    obj = self.get_attr(obj, part)
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 288, in get_attr
-    return safe_getattr(obj, name, *defargs)
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/util/inspect.py", line 115, in safe_getattr
-    raise AttributeError(name)
-AttributeError: test_api069_r
-/home/mkoenig/git/tellurium/docs/_apidoc/tellurium.tests.rst:17: WARNING: autodoc: failed to import method u'APITestCase.test_api070_r.getNumIndFloatingSpecies' from module u'tellurium.tests.test_API'; the following exception was raised:
-Traceback (most recent call last):
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 392, in import_object
-    obj = self.get_attr(obj, part)
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 288, in get_attr
-    return safe_getattr(obj, name, *defargs)
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/util/inspect.py", line 115, in safe_getattr
-    raise AttributeError(name)
-AttributeError: test_api070_r
-/home/mkoenig/git/tellurium/docs/_apidoc/tellurium.tests.rst:17: WARNING: autodoc: failed to import method u'APITestCase.test_api071_r.getReactionIds' from module u'tellurium.tests.test_API'; the following exception was raised:
-Traceback (most recent call last):
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 392, in import_object
-    obj = self.get_attr(obj, part)
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 288, in get_attr
-    return safe_getattr(obj, name, *defargs)
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/util/inspect.py", line 115, in safe_getattr
-    raise AttributeError(name)
-AttributeError: test_api071_r
-/home/mkoenig/git/tellurium/docs/_apidoc/tellurium.tests.rst:17: WARNING: autodoc: failed to import method u'APITestCase.test_api072_r.getReactionRates' from module u'tellurium.tests.test_API'; the following exception was raised:
-Traceback (most recent call last):
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 392, in import_object
-    obj = self.get_attr(obj, part)
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 288, in get_attr
-    return safe_getattr(obj, name, *defargs)
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/util/inspect.py", line 115, in safe_getattr
-    raise AttributeError(name)
-AttributeError: test_api072_r
-/home/mkoenig/git/tellurium/docs/_apidoc/tellurium.tests.rst:17: WARNING: autodoc: failed to import method u'APITestCase.test_api073_r.getNumReactions' from module u'tellurium.tests.test_API'; the following exception was raised:
-Traceback (most recent call last):
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 392, in import_object
-    obj = self.get_attr(obj, part)
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 288, in get_attr
-    return safe_getattr(obj, name, *defargs)
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/util/inspect.py", line 115, in safe_getattr
-    raise AttributeError(name)
-AttributeError: test_api073_r
-/home/mkoenig/git/tellurium/docs/_apidoc/tellurium.tests.rst:17: WARNING: autodoc: failed to import method u'APITestCase.test_api074_r.getNumEvents' from module u'tellurium.tests.test_API'; the following exception was raised:
-Traceback (most recent call last):
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 392, in import_object
-    obj = self.get_attr(obj, part)
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 288, in get_attr
-    return safe_getattr(obj, name, *defargs)
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/util/inspect.py", line 115, in safe_getattr
-    raise AttributeError(name)
-AttributeError: test_api074_r
-/home/mkoenig/git/tellurium/docs/_apidoc/tellurium.tests.rst:17: WARNING: autodoc: failed to import method u'APITestCase.test_api075_r.getNumRateRules' from module u'tellurium.tests.test_API'; the following exception was raised:
-Traceback (most recent call last):
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 392, in import_object
-    obj = self.get_attr(obj, part)
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 288, in get_attr
-    return safe_getattr(obj, name, *defargs)
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/util/inspect.py", line 115, in safe_getattr
-    raise AttributeError(name)
-AttributeError: test_api075_r
 /home/mkoenig/git/tellurium/docs/_apidoc/tellurium.tests.testdata.rst:7: WARNING: toctree contains reference to nonexisting document u'_apidoc/tellurium.tests.testdata.models'
 /home/mkoenig/git/tellurium/docs/_notebooks/core/antimonyExample.rst:49: WARNING: Inline emphasis start-string without end-string.
 /home/mkoenig/git/tellurium/docs/_notebooks/core/antimonyExample.rst:126: WARNING: image file not readable: _notebooks/core/_notebooks/core/antimonyExample_files/antimonyExample_2_1.png
 /home/mkoenig/git/tellurium/docs/_notebooks/core/antimonyExample.rst:176: WARNING: image file not readable: _notebooks/core/_notebooks/core/antimonyExample_files/antimonyExample_2_3.png
 /home/mkoenig/git/tellurium/docs/_notebooks/core/antimonyExample.rst:207: WARNING: image file not readable: _notebooks/core/_notebooks/core/antimonyExample_files/antimonyExample_2_5.png
 /home/mkoenig/git/tellurium/docs/_notebooks/core/consecutiveUniUniReactions.rst:32: WARNING: image file not readable: _notebooks/core/_notebooks/core/consecutiveUniUniReactions_files/consecutiveUniUniReactions_2_0.png
-/home/mkoenig/git/tellurium/docs/_notebooks/core/feedback_oscillations.rst:38: WARNING: image file not readable: _notebooks/core/_notebooks/core/feedback_oscillations_files/feedback_oscillations_2_0.png
-/home/mkoenig/git/tellurium/docs/_notebooks/core/generatingDifferentWaveforms.rst:66: WARNING: image file not readable: _notebooks/core/_notebooks/core/generatingDifferentWaveforms_files/generatingDifferentWaveforms_2_1.png
-/home/mkoenig/git/tellurium/docs/_notebooks/core/introduction.rst:19: WARNING: image file not readable: _notebooks/core/_notebooks/core/introduction_files/introduction_2_0.png
-/home/mkoenig/git/tellurium/docs/_notebooks/core/introduction.rst:63: WARNING: image file not readable: _notebooks/core/_notebooks/core/introduction_files/introduction_4_0.png
-/home/mkoenig/git/tellurium/docs/_notebooks/core/introduction.rst:66: WARNING: image file not readable: _notebooks/core/_notebooks/core/introduction_files/introduction_4_1.png
-/home/mkoenig/git/tellurium/docs/_notebooks/core/modelFromBioModels.rst:23: WARNING: image file not readable: _notebooks/core/_notebooks/core/modelFromBioModels_files/modelFromBioModels_2_0.png
+/home/mkoenig/git/tellurium/docs/_notebooks/core/feedback_oscillations.rst:42: WARNING: image file not readable: _notebooks/core/_notebooks/core/feedback_oscillations_files/feedback_oscillations_2_0.png
+/home/mkoenig/git/tellurium/docs/_notebooks/core/feedback_oscillations.rst:45: WARNING: image file not readable: _notebooks/core/_notebooks/core/feedback_oscillations_files/feedback_oscillations_2_1.png
+/home/mkoenig/git/tellurium/docs/_notebooks/core/generatingDifferentWaveforms.rst:61: WARNING: image file not readable: _notebooks/core/_notebooks/core/generatingDifferentWaveforms_files/generatingDifferentWaveforms_2_0.png
+/home/mkoenig/git/tellurium/docs/_notebooks/core/introduction.rst:17: WARNING: image file not readable: _notebooks/core/_notebooks/core/introduction_files/introduction_2_0.png
+/home/mkoenig/git/tellurium/docs/_notebooks/core/introduction.rst:65: WARNING: image file not readable: _notebooks/core/_notebooks/core/introduction_files/introduction_4_0.png
+/home/mkoenig/git/tellurium/docs/_notebooks/core/modelFromBioModels.rst:21: WARNING: image file not readable: _notebooks/core/_notebooks/core/modelFromBioModels_files/modelFromBioModels_2_0.png
 /home/mkoenig/git/tellurium/docs/_notebooks/core/nonUnitStoichiometries.rst:23: WARNING: Inline emphasis start-string without end-string.
 /home/mkoenig/git/tellurium/docs/_notebooks/core/parameter_scan.rst:43: WARNING: image file not readable: _notebooks/core/_notebooks/core/parameter_scan_files/parameter_scan_2_0.png
 /home/mkoenig/git/tellurium/docs/_notebooks/core/parameter_scan.rst:77: WARNING: image file not readable: _notebooks/core/_notebooks/core/parameter_scan_files/parameter_scan_3_0.png
@@ -1079,23 +394,22 @@ AttributeError: test_api075_r
 /home/mkoenig/git/tellurium/docs/_notebooks/core/plot2DParameterScan.rst:28: WARNING: image file not readable: _notebooks/core/_notebooks/core/plot2DParameterScan_files/plot2DParameterScan_0_0.png
 /home/mkoenig/git/tellurium/docs/_notebooks/core/plot2DParameterScan.rst:38: WARNING: image file not readable: _notebooks/core/_notebooks/core/plot2DParameterScan_files/plot2DParameterScan_0_2.png
 /home/mkoenig/git/tellurium/docs/_notebooks/core/steadystate_scan.rst:67: WARNING: image file not readable: _notebooks/core/_notebooks/core/steadystate_scan_files/steadystate_scan_2_1.png
-/home/mkoenig/git/tellurium/docs/_notebooks/core/tellurium_examples.rst:63: WARNING: image file not readable: _notebooks/core/_notebooks/core/tellurium_examples_files/tellurium_examples_1_0.png
-/home/mkoenig/git/tellurium/docs/_notebooks/core/tellurium_examples.rst:66: WARNING: image file not readable: _notebooks/core/_notebooks/core/tellurium_examples_files/tellurium_examples_1_1.png
-/home/mkoenig/git/tellurium/docs/_notebooks/core/tellurium_examples.rst:96: WARNING: image file not readable: _notebooks/core/_notebooks/core/tellurium_examples_files/tellurium_examples_2_0.png
-/home/mkoenig/git/tellurium/docs/_notebooks/core/tellurium_examples.rst:142: WARNING: image file not readable: _notebooks/core/_notebooks/core/tellurium_examples_files/tellurium_examples_4_1.png
-/home/mkoenig/git/tellurium/docs/_notebooks/core/tellurium_examples.rst:174: WARNING: image file not readable: _notebooks/core/_notebooks/core/tellurium_examples_files/tellurium_examples_5_0.png
-/home/mkoenig/git/tellurium/docs/_notebooks/core/tellurium_examples.rst:203: WARNING: image file not readable: _notebooks/core/_notebooks/core/tellurium_examples_files/tellurium_examples_6_0.png
-/home/mkoenig/git/tellurium/docs/_notebooks/core/tellurium_examples.rst:233: WARNING: image file not readable: _notebooks/core/_notebooks/core/tellurium_examples_files/tellurium_examples_7_0.png
-/home/mkoenig/git/tellurium/docs/_notebooks/core/tellurium_examples.rst:266: WARNING: image file not readable: _notebooks/core/_notebooks/core/tellurium_examples_files/tellurium_examples_8_1.png
-/home/mkoenig/git/tellurium/docs/_notebooks/core/tellurium_examples.rst:294: WARNING: image file not readable: _notebooks/core/_notebooks/core/tellurium_examples_files/tellurium_examples_10_0.png
-/home/mkoenig/git/tellurium/docs/_notebooks/core/tellurium_examples.rst:328: WARNING: image file not readable: _notebooks/core/_notebooks/core/tellurium_examples_files/tellurium_examples_11_0.png
-/home/mkoenig/git/tellurium/docs/_notebooks/core/tellurium_examples.rst:360: WARNING: image file not readable: _notebooks/core/_notebooks/core/tellurium_examples_files/tellurium_examples_12_0.png
-/home/mkoenig/git/tellurium/docs/_notebooks/core/tellurium_examples.rst:389: WARNING: image file not readable: _notebooks/core/_notebooks/core/tellurium_examples_files/tellurium_examples_14_0.png
-/home/mkoenig/git/tellurium/docs/_notebooks/core/tellurium_examples.rst:439: WARNING: image file not readable: _notebooks/core/_notebooks/core/tellurium_examples_files/tellurium_examples_15_0.png
-/home/mkoenig/git/tellurium/docs/_notebooks/core/tellurium_examples.rst:474: WARNING: image file not readable: _notebooks/core/_notebooks/core/tellurium_examples_files/tellurium_examples_16_0.png
-/home/mkoenig/git/tellurium/docs/_notebooks/core/tellurium_examples.rst:508: WARNING: image file not readable: _notebooks/core/_notebooks/core/tellurium_examples_files/tellurium_examples_17_0.png
-/home/mkoenig/git/tellurium/docs/_notebooks/core/tellurium_examples.rst:546: WARNING: image file not readable: _notebooks/core/_notebooks/core/tellurium_examples_files/tellurium_examples_18_0.png
-/home/mkoenig/git/tellurium/docs/_notebooks/core/tellurium_examples.rst:597: WARNING: image file not readable: _notebooks/core/_notebooks/core/tellurium_examples_files/tellurium_examples_19_0.png
+/home/mkoenig/git/tellurium/docs/_notebooks/core/tellurium_examples.rst:61: WARNING: image file not readable: _notebooks/core/_notebooks/core/tellurium_examples_files/tellurium_examples_1_0.png
+/home/mkoenig/git/tellurium/docs/_notebooks/core/tellurium_examples.rst:64: WARNING: image file not readable: _notebooks/core/_notebooks/core/tellurium_examples_files/tellurium_examples_1_1.png
+/home/mkoenig/git/tellurium/docs/_notebooks/core/tellurium_examples.rst:98: WARNING: image file not readable: _notebooks/core/_notebooks/core/tellurium_examples_files/tellurium_examples_3_0.png
+/home/mkoenig/git/tellurium/docs/_notebooks/core/tellurium_examples.rst:145: WARNING: image file not readable: _notebooks/core/_notebooks/core/tellurium_examples_files/tellurium_examples_5_1.png
+/home/mkoenig/git/tellurium/docs/_notebooks/core/tellurium_examples.rst:180: WARNING: image file not readable: _notebooks/core/_notebooks/core/tellurium_examples_files/tellurium_examples_7_0.png
+/home/mkoenig/git/tellurium/docs/_notebooks/core/tellurium_examples.rst:212: WARNING: image file not readable: _notebooks/core/_notebooks/core/tellurium_examples_files/tellurium_examples_9_0.png
+/home/mkoenig/git/tellurium/docs/_notebooks/core/tellurium_examples.rst:245: WARNING: image file not readable: _notebooks/core/_notebooks/core/tellurium_examples_files/tellurium_examples_11_0.png
+/home/mkoenig/git/tellurium/docs/_notebooks/core/tellurium_examples.rst:281: WARNING: image file not readable: _notebooks/core/_notebooks/core/tellurium_examples_files/tellurium_examples_13_1.png
+/home/mkoenig/git/tellurium/docs/_notebooks/core/tellurium_examples.rst:309: WARNING: image file not readable: _notebooks/core/_notebooks/core/tellurium_examples_files/tellurium_examples_15_0.png
+/home/mkoenig/git/tellurium/docs/_notebooks/core/tellurium_examples.rst:344: WARNING: image file not readable: _notebooks/core/_notebooks/core/tellurium_examples_files/tellurium_examples_17_0.png
+/home/mkoenig/git/tellurium/docs/_notebooks/core/tellurium_examples.rst:379: WARNING: image file not readable: _notebooks/core/_notebooks/core/tellurium_examples_files/tellurium_examples_19_0.png
+/home/mkoenig/git/tellurium/docs/_notebooks/core/tellurium_examples.rst:408: WARNING: image file not readable: _notebooks/core/_notebooks/core/tellurium_examples_files/tellurium_examples_21_0.png
+/home/mkoenig/git/tellurium/docs/_notebooks/core/tellurium_examples.rst:463: WARNING: image file not readable: _notebooks/core/_notebooks/core/tellurium_examples_files/tellurium_examples_23_0.png
+/home/mkoenig/git/tellurium/docs/_notebooks/core/tellurium_examples.rst:494: WARNING: image file not readable: _notebooks/core/_notebooks/core/tellurium_examples_files/tellurium_examples_25_0.png
+/home/mkoenig/git/tellurium/docs/_notebooks/core/tellurium_examples.rst:531: WARNING: image file not readable: _notebooks/core/_notebooks/core/tellurium_examples_files/tellurium_examples_27_0.png
+/home/mkoenig/git/tellurium/docs/_notebooks/core/tellurium_examples.rst:575: WARNING: image file not readable: _notebooks/core/_notebooks/core/tellurium_examples_files/tellurium_examples_29_0.png
 /home/mkoenig/git/tellurium/docs/_notebooks/core/tellurium_export.rst:234: ERROR: Content block expected for the "parsed-literal" directive; none found.
 /home/mkoenig/git/tellurium/docs/_notebooks/core/tellurium_model_loading.rst:50: WARNING: image file not readable: _notebooks/core/_notebooks/core/tellurium_model_loading_files/tellurium_model_loading_2_1.png
 /home/mkoenig/git/tellurium/docs/_notebooks/core/tellurium_model_loading.rst:59: WARNING: image file not readable: _notebooks/core/_notebooks/core/tellurium_model_loading_files/tellurium_model_loading_2_3.png
@@ -1103,6 +417,7 @@ AttributeError: test_api075_r
 /home/mkoenig/git/tellurium/docs/_notebooks/core/tellurium_plotting.rst:43: WARNING: image file not readable: _notebooks/core/_notebooks/core/tellurium_plotting_files/tellurium_plotting_2_1.png
 /home/mkoenig/git/tellurium/docs/_notebooks/core/tellurium_plotting.rst:91: WARNING: image file not readable: _notebooks/core/_notebooks/core/tellurium_plotting_files/tellurium_plotting_4_0.png
 /home/mkoenig/git/tellurium/docs/_notebooks/core/tellurium_plotting.rst:94: WARNING: image file not readable: _notebooks/core/_notebooks/core/tellurium_plotting_files/tellurium_plotting_4_1.png
+/home/mkoenig/git/tellurium/docs/_notebooks/core/tellurium_plotting.rst:120: WARNING: image file not readable: _notebooks/core/_notebooks/core/tellurium_plotting_files/tellurium_plotting_6_0.png
 /home/mkoenig/git/tellurium/docs/_notebooks/core/tellurium_reset.rst:47: WARNING: image file not readable: _notebooks/core/_notebooks/core/tellurium_reset_files/tellurium_reset_2_1.png
 /home/mkoenig/git/tellurium/docs/_notebooks/core/tellurium_reset.rst:57: WARNING: image file not readable: _notebooks/core/_notebooks/core/tellurium_reset_files/tellurium_reset_2_3.png
 /home/mkoenig/git/tellurium/docs/_notebooks/core/tellurium_reset.rst:67: WARNING: image file not readable: _notebooks/core/_notebooks/core/tellurium_reset_files/tellurium_reset_2_5.png
@@ -1196,15 +511,15 @@ Traceback (most recent call last):
   File "/usr/local/lib/python2.7/dist-packages/sphinx/util/inspect.py", line 115, in safe_getattr
     raise AttributeError(name)
 AttributeError: ExtendedRoadRunner
-internal padding after _notebooks/core/tellurium_test.rst:913: ERROR: Unknown target name: "compartment".
-internal padding after _notebooks/core/tellurium_test.rst:913: ERROR: Unknown target name: "compartment".
-internal padding after _notebooks/core/tellurium_test.rst:913: ERROR: Unknown target name: "compartment".
-internal padding after _notebooks/core/tellurium_test.rst:913: ERROR: Unknown target name: "compartment".
-internal padding after _notebooks/core/tellurium_test.rst:913: ERROR: Unknown target name: "compartment".
-internal padding after _notebooks/core/tellurium_test.rst:913: ERROR: Unknown target name: "compartment".
-internal padding after _notebooks/core/tellurium_test.rst:913: ERROR: Unknown target name: "compartment".
-internal padding after _notebooks/core/tellurium_test.rst:913: ERROR: Unknown target name: "compartment".
-internal padding after _notebooks/core/tellurium_test.rst:913: ERROR: Unknown target name: "compartment".
+internal padding after _notebooks/core/tellurium_test.rst:933: ERROR: Unknown target name: "compartment".
+internal padding after _notebooks/core/tellurium_test.rst:933: ERROR: Unknown target name: "compartment".
+internal padding after _notebooks/core/tellurium_test.rst:933: ERROR: Unknown target name: "compartment".
+internal padding after _notebooks/core/tellurium_test.rst:933: ERROR: Unknown target name: "compartment".
+internal padding after _notebooks/core/tellurium_test.rst:933: ERROR: Unknown target name: "compartment".
+internal padding after _notebooks/core/tellurium_test.rst:933: ERROR: Unknown target name: "compartment".
+internal padding after _notebooks/core/tellurium_test.rst:933: ERROR: Unknown target name: "compartment".
+internal padding after _notebooks/core/tellurium_test.rst:933: ERROR: Unknown target name: "compartment".
+internal padding after _notebooks/core/tellurium_test.rst:933: ERROR: Unknown target name: "compartment".
 looking for now-outdated files... none found
 pickling environment... done
 checking consistency... /home/mkoenig/git/tellurium/docs/API.rst:: WARNING: document isn't included in any toctree
@@ -1298,57 +613,74 @@ highlighting module code... [ 35%] tellurium.ParameterScan.ParameterScan
 highlighting module code... [ 38%] tellurium.tephrasedml
 highlighting module code... [ 41%] tellurium.tests.test_API
 highlighting module code... [ 44%] tellurium.analysis.match
-highlighting module code... [ 47%] tellurium.tests.test_sedml
-highlighting module code... [ 50%] tellurium.notebooks.speciessearch
-highlighting module code... [ 52%] tellurium.widgets.species_search
-highlighting module code... [ 55%] tellurium.tests.test_tephrasedml
-highlighting module code... [ 58%] tellurium.io.latex
-highlighting module code... [ 61%] tellurium.visualization.sbmldiagram
-highlighting module code... [ 64%] tellurium.notebooks.notebooktools
-highlighting module code... [ 67%] tellurium.optimization.diffevolution
-highlighting module code... [ 70%] tellurium.tesedml
+highlighting module code... [ 47%] tellurium.widgets.parameter_slider
+highlighting module code... [ 50%] tellurium.tests.test_sedml
+highlighting module code... [ 52%] tellurium.notebooks.speciessearch
+highlighting module code... [ 55%] tellurium.widgets.species_search
+highlighting module code... [ 58%] tellurium.tests.test_tephrasedml
+highlighting module code... [ 61%] tellurium.io.latex
+highlighting module code... [ 64%] tellurium.visualization.sbmldiagram
+highlighting module code... [ 67%] tellurium.tesedml
+highlighting module code... [ 70%] tellurium.notebooks.notebooktools
 highlighting module code... [ 73%] tellurium.widgets.ontology_search
 highlighting module code... [ 76%] tellurium.optimization.DiffEvolution
 highlighting module code... [ 79%] tellurium.analysis.annotations
 highlighting module code... [ 82%] tellurium.analysis.parameterscan
 highlighting module code... [ 85%] tellurium.visualization.SBMLDiagram
-highlighting module code... [ 88%] tellurium.tests.test_Export
+highlighting module code... [ 88%] tellurium.tests.test_runner
 highlighting module code... [ 91%] tellurium.tests.test_io
 highlighting module code... [ 94%] tellurium.unzipy
-highlighting module code... [ 97%] tellurium.widgets.parameter_slider
-highlighting module code... [100%] tellurium.tests.test_runner
+highlighting module code... [ 97%] tellurium.optimization.diffevolution
+highlighting module code... [100%] tellurium.tests.test_Export
 
 writing additional pages... search
-copying images... [  3%] _notebooks/core/tellurium_utility_files/tellurium_utility_4_0.png
-copying images... [  7%] _notebooks/core/phrasedmlExample_files/phrasedmlExample_2_0.png
-copying images... [ 11%] _notebooks/core/generatingDifferentWaveforms_files/generatingDifferentWaveforms_2_1.png
-copying images... [ 15%] _notebooks/core/parameter_scan_files/parameter_scan_2_0.png
-copying images... [ 19%] _notebooks/core/parameter_scan_files/parameter_scan_3_0.png
-copying images... [ 23%] _notebooks/core/consecutiveUniUniReactions_files/consecutiveUniUniReactions_2_0.png
-copying images... [ 26%] _notebooks/core/tellurium_reset_files/tellurium_reset_2_3.png
-copying images... [ 30%] _notebooks/core/tellurium_stochastic_files/tellurium_stochastic_6_0.png
-copying images... [ 34%] _notebooks/core/tellurium_reset_files/tellurium_reset_2_5.png
-copying images... [ 38%] _notebooks/core/introduction_files/introduction_4_1.png
-copying images... [ 42%] _notebooks/core/modelFromBioModels_files/modelFromBioModels_2_0.png
-copying images... [ 46%] _notebooks/core/tellurium_plotting_files/tellurium_plotting_4_0.png
-copying images... [ 50%] _notebooks/core/tellurium_model_loading_files/tellurium_model_loading_2_3.png
-copying images... [ 53%] _notebooks/core/introduction_files/introduction_2_0.png
-copying images... [ 57%] _notebooks/core/tellurium_plotting_files/tellurium_plotting_4_1.png
-copying images... [ 61%] ./images/tellurium_screenshot2.png
-copying images... [ 65%] _notebooks/core/introduction_files/introduction_4_0.png
-copying images... [ 69%] _notebooks/core/tellurium_plotting_files/tellurium_plotting_2_1.png
-copying images... [ 73%] _notebooks/core/tellurium_model_loading_files/tellurium_model_loading_2_1.png
-copying images... [ 76%] _notebooks/core/tellurium_stochastic_files/tellurium_stochastic_2_0.png
-copying images... [ 80%] _notebooks/core/tellurium_plotting_files/tellurium_plotting_2_0.png
-copying images... [ 84%] _notebooks/core/tellurium_stochastic_files/tellurium_stochastic_4_0.png
-copying images... [ 88%] _notebooks/core/tellurium_reset_files/tellurium_reset_2_1.png
-copying images... [ 92%] _notebooks/core/tellurium_reset_files/tellurium_reset_2_7.png
-copying images... [ 96%] _notebooks/core/feedback_oscillations_files/feedback_oscillations_2_0.png
+copying images... [  2%] _notebooks/core/tellurium_examples_files/tellurium_examples_7_0.png
+copying images... [  4%] _notebooks/core/parameter_scan_files/parameter_scan_2_0.png
+copying images... [  6%] _notebooks/core/phrasedmlExample_files/phrasedmlExample_2_0.png
+copying images... [  9%] _notebooks/core/tellurium_utility_files/tellurium_utility_4_0.png
+copying images... [ 11%] _notebooks/core/parameter_scan_files/parameter_scan_3_0.png
+copying images... [ 13%] _notebooks/core/tellurium_examples_files/tellurium_examples_1_0.png
+copying images... [ 16%] _notebooks/core/consecutiveUniUniReactions_files/consecutiveUniUniReactions_2_0.png
+copying images... [ 18%] _notebooks/core/tellurium_reset_files/tellurium_reset_2_3.png
+copying images... [ 20%] _notebooks/core/tellurium_stochastic_files/tellurium_stochastic_6_0.png
+copying images... [ 23%] _notebooks/core/tellurium_examples_files/tellurium_examples_13_1.png
+copying images... [ 25%] _notebooks/core/tellurium_reset_files/tellurium_reset_2_5.png
+copying images... [ 27%] _notebooks/core/tellurium_examples_files/tellurium_examples_27_0.png
+copying images... [ 30%] _notebooks/core/modelFromBioModels_files/modelFromBioModels_2_0.png
+copying images... [ 32%] _notebooks/core/tellurium_plotting_files/tellurium_plotting_4_0.png
+copying images... [ 34%] _notebooks/core/tellurium_model_loading_files/tellurium_model_loading_2_3.png
+copying images... [ 37%] _notebooks/core/tellurium_examples_files/tellurium_examples_19_0.png
+copying images... [ 39%] _notebooks/core/tellurium_examples_files/tellurium_examples_3_0.png
+copying images... [ 41%] _notebooks/core/tellurium_examples_files/tellurium_examples_21_0.png
+copying images... [ 44%] _notebooks/core/introduction_files/introduction_2_0.png
+copying images... [ 46%] _notebooks/core/tellurium_examples_files/tellurium_examples_15_0.png
+copying images... [ 48%] ./images/tellurium_screenshot2.png
+copying images... [ 51%] _notebooks/core/tellurium_examples_files/tellurium_examples_29_0.png
+copying images... [ 53%] _notebooks/core/tellurium_examples_files/tellurium_examples_23_0.png
+copying images... [ 55%] _notebooks/core/introduction_files/introduction_4_0.png
+copying images... [ 58%] _notebooks/core/tellurium_plotting_files/tellurium_plotting_2_1.png
+copying images... [ 60%] _notebooks/core/tellurium_plotting_files/tellurium_plotting_4_1.png
+copying images... [ 62%] _notebooks/core/tellurium_model_loading_files/tellurium_model_loading_2_1.png
+copying images... [ 65%] _notebooks/core/generatingDifferentWaveforms_files/generatingDifferentWaveforms_2_0.png
+copying images... [ 67%] _notebooks/core/tellurium_examples_files/tellurium_examples_1_1.png
+copying images... [ 69%] _notebooks/core/tellurium_stochastic_files/tellurium_stochastic_2_0.png
+copying images... [ 72%] _notebooks/core/feedback_oscillations_files/feedback_oscillations_2_1.png
+copying images... [ 74%] _notebooks/core/tellurium_examples_files/tellurium_examples_5_1.png
+copying images... [ 76%] _notebooks/core/tellurium_plotting_files/tellurium_plotting_6_0.png
+copying images... [ 79%] _notebooks/core/tellurium_plotting_files/tellurium_plotting_2_0.png
+copying images... [ 81%] _notebooks/core/tellurium_stochastic_files/tellurium_stochastic_4_0.png
+copying images... [ 83%] _notebooks/core/tellurium_examples_files/tellurium_examples_9_0.png
+copying images... [ 86%] _notebooks/core/tellurium_examples_files/tellurium_examples_11_0.png
+copying images... [ 88%] _notebooks/core/tellurium_examples_files/tellurium_examples_25_0.png
+copying images... [ 90%] _notebooks/core/tellurium_reset_files/tellurium_reset_2_1.png
+copying images... [ 93%] _notebooks/core/tellurium_reset_files/tellurium_reset_2_7.png
+copying images... [ 95%] _notebooks/core/feedback_oscillations_files/feedback_oscillations_2_0.png
+copying images... [ 97%] _notebooks/core/tellurium_examples_files/tellurium_examples_17_0.png
 copying images... [100%] _notebooks/core/steadystate_scan_files/steadystate_scan_2_1.png
 
 copying static files... done
 copying extra files... done
 dumping search index in English (code: en) ... done
 dumping object inventory... done
-build succeeded, 253 warnings.
+build succeeded, 176 warnings.
 DONE
