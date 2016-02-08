@@ -512,6 +512,7 @@ relaxation oscillator.</p>
 
 <span class="c1"># Stochastic process</span>
 <span class="n">r</span><span class="o">.</span><span class="n">resetToOrigin</span><span class="p">()</span>
+<span class="n">r</span><span class="o">.</span><span class="n">setSeed</span><span class="p">(</span><span class="mi">1234</span><span class="p">)</span>
 <span class="n">m2</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">gillespie</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;time&#39;</span><span class="p">,</span> <span class="s1">&#39;S1&#39;</span><span class="p">])</span>
 
 <span class="c1"># plot all the results together</span>

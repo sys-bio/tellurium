@@ -7,7 +7,7 @@ Simple Example
 
     import tellurium as te
     r = te.loada('S1 -> S2; k1*S1; k1 = 0.1; S1 = 10')
-    r.simulate(0, 10, 100)
+    r.simulate(0, 50, 100)
     r.plot()
 
 
@@ -42,15 +42,18 @@ Stochastic simulation of a linear chain.
         S1 = 100;
     ''')
     r.draw(width=300)
-    # run the simulation
+    
+    # set integrator, seed and selections for output
     r.setIntegrator('gillespie')
+    r.setSeed(1234)
     r.selections = ['time'] + r.getBoundarySpeciesIds() + r.getFloatingSpeciesIds()
     
-    
+    # run repeated simulation
     for k in range(1,10):
         r.resetToOrigin()
         s = r.simulate(0, 50)
-        r.plot(s, show=False, loc=None, color='black', alpha=0.7);
+        r.plot(s, show=False, loc=None, color='black', alpha=0.7)
+    r.plot();
 
 
 

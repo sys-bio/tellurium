@@ -459,6 +459,7 @@ relaxation oscillator.
     
     # Stochastic process
     r.resetToOrigin()
+    r.setSeed(1234)
     m2 = r.gillespie(0, 20, 100, ['time', 'S1'])
     
     # plot all the results together

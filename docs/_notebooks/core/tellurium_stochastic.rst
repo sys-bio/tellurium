@@ -10,6 +10,7 @@ Stochastic simulation
     
     r = te.loada('S1 -> S2; k1*S1; k1 = 0.1; S1 = 40')
     r.setIntegrator('gillespie')
+    r.setSeed(1234)
     
     results = []
     for k in range(1, 50):
@@ -23,9 +24,14 @@ Stochastic simulation
 .. image:: _notebooks/core/tellurium_stochastic_files/tellurium_stochastic_2_0.png
 
 
+Seed
+^^^^
+
+Setting the identical seed for all repeats results in a reproducible
+stochastic simulation.
+
 .. code:: python
 
-    # Setting the seed results in reproducible stochastic simulation
     results = []
     for k in range(1, 20):
         r.reset()
@@ -36,7 +42,7 @@ Stochastic simulation
 
 
 
-.. image:: _notebooks/core/tellurium_stochastic_files/tellurium_stochastic_3_0.png
+.. image:: _notebooks/core/tellurium_stochastic_files/tellurium_stochastic_4_0.png
 
 
 Run two simulations and combine the two
@@ -48,6 +54,7 @@ Run two simulations and combine the two
     import numpy as np
     
     r = te.loada('S1 -> S2; k1*S1; k1 = 0.02; S1 = 100')
+    r.setSeed(1234)
     for k in range(1, 20):
         r.resetToOrigin()
         res1 = r.gillespie(0, 10)
@@ -58,6 +65,6 @@ Run two simulations and combine the two
 
 
 
-.. image:: _notebooks/core/tellurium_stochastic_files/tellurium_stochastic_5_0.png
+.. image:: _notebooks/core/tellurium_stochastic_files/tellurium_stochastic_6_0.png
 
 

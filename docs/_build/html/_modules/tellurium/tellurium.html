@@ -916,27 +916,31 @@
     <span class="c1"># ---------------------------------------------------------------------</span>
     <span class="c1"># Stochastic Simulation Methods</span>
     <span class="c1"># ---------------------------------------------------------------------</span>
-<div class="viewcode-block" id="ExtendedRoadRunner.getSeed"><a class="viewcode-back" href="../../_apidoc/tellurium.html#tellurium.tellurium.ExtendedRoadRunner.getSeed">[docs]</a>    <span class="k">def</span> <span class="nf">getSeed</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Current seed used by the gillespie integrator.</span>
+<div class="viewcode-block" id="ExtendedRoadRunner.getSeed"><a class="viewcode-back" href="../../_apidoc/tellurium.html#tellurium.tellurium.ExtendedRoadRunner.getSeed">[docs]</a>    <span class="k">def</span> <span class="nf">getSeed</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">integratorName</span><span class="o">=</span><span class="s2">&quot;gillespie&quot;</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Current seed used by the integrator with integratorName.</span>
+<span class="sd">        Defaults to the seed of the gillespie integrator.</span>
 
+<span class="sd">        :param integratorName: name of the integrator for which the seed should be retured</span>
+<span class="sd">        :type integratorName: str</span>
 <span class="sd">        :returns: current seed</span>
+<span class="sd">        :rtype: float</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">prev</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">integrator</span><span class="o">.</span><span class="n">getName</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">setIntegrator</span><span class="p">(</span><span class="s2">&quot;gillespie&quot;</span><span class="p">)</span>
-        <span class="n">seed</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">integrator</span><span class="o">.</span><span class="n">getValue</span><span class="p">(</span><span class="s1">&#39;seed&#39;</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">setIntegrator</span><span class="p">(</span><span class="n">prev</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">seed</span></div>
+        <span class="n">integrator</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getIntegratorByName</span><span class="p">(</span><span class="n">integratorName</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">integrator</span><span class="o">.</span><span class="n">getValue</span><span class="p">(</span><span class="s1">&#39;seed&#39;</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="ExtendedRoadRunner.setSeed"><a class="viewcode-back" href="../../_apidoc/tellurium.html#tellurium.tellurium.ExtendedRoadRunner.setSeed">[docs]</a>    <span class="k">def</span> <span class="nf">setSeed</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">seed</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Set seed in current algorithm.</span>
+<div class="viewcode-block" id="ExtendedRoadRunner.setSeed"><a class="viewcode-back" href="../../_apidoc/tellurium.html#tellurium.tellurium.ExtendedRoadRunner.setSeed">[docs]</a>    <span class="k">def</span> <span class="nf">setSeed</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">seed</span><span class="p">,</span> <span class="n">integratorName</span><span class="o">=</span><span class="s2">&quot;gillespie&quot;</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Set seed in integrator with integratorName.</span>
+<span class="sd">        Defaults to the seed of the gillespie integrator.</span>
 
 <span class="sd">        Raises Error if integrator does not have key &#39;seed&#39;.</span>
 
 <span class="sd">        :param seed: seed to set</span>
+<span class="sd">        :param integratorName: name of the integrator for which the seed should be retured</span>
+<span class="sd">        :type integratorName: str</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># there are some issues converting big Python (greater than 4,294,967,295) integers</span>
         <span class="c1"># to C integers on 64 bit machines. If its converted to float before, works around the issue.</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">integrator</span><span class="o">.</span><span class="n">setValue</span><span class="p">(</span><span class="s1">&#39;seed&#39;</span><span class="p">,</span> <span class="nb">float</span><span class="p">(</span><span class="n">seed</span><span class="p">))</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">setIntegratorSetting</span><span class="p">(</span><span class="n">integratorName</span><span class="o">=</span><span class="n">integratorName</span><span class="p">,</span> <span class="n">settingName</span><span class="o">=</span><span class="s2">&quot;seed&quot;</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="nb">float</span><span class="p">(</span><span class="n">seed</span><span class="p">))</span></div>
 
 <div class="viewcode-block" id="ExtendedRoadRunner.gillespie"><a class="viewcode-back" href="../../_apidoc/tellurium.html#tellurium.tellurium.ExtendedRoadRunner.gillespie">[docs]</a>    <span class="k">def</span> <span class="nf">gillespie</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Run a Gillespie stochastic simulation.</span>

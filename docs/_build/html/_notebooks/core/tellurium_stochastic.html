@@ -136,6 +136,7 @@
 
 <span class="n">r</span> <span class="o">=</span> <span class="n">te</span><span class="o">.</span><span class="n">loada</span><span class="p">(</span><span class="s1">&#39;S1 -&gt; S2; k1*S1; k1 = 0.1; S1 = 40&#39;</span><span class="p">)</span>
 <span class="n">r</span><span class="o">.</span><span class="n">setIntegrator</span><span class="p">(</span><span class="s1">&#39;gillespie&#39;</span><span class="p">)</span>
+<span class="n">r</span><span class="o">.</span><span class="n">setSeed</span><span class="p">(</span><span class="mi">1234</span><span class="p">)</span>
 
 <span class="n">results</span> <span class="o">=</span> <span class="p">[]</span>
 <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">50</span><span class="p">):</span>
@@ -146,8 +147,12 @@
 </pre></div>
 </div>
 <img alt="_notebooks/core/_notebooks/core/tellurium_stochastic_files/tellurium_stochastic_2_0.png" src="_notebooks/core/_notebooks/core/tellurium_stochastic_files/tellurium_stochastic_2_0.png" />
-<div class="code python highlight-python"><div class="highlight"><pre><span class="c1"># Setting the seed results in reproducible stochastic simulation</span>
-<span class="n">results</span> <span class="o">=</span> <span class="p">[]</span>
+</div>
+<div class="section" id="seed">
+<h1>Seed<a class="headerlink" href="#seed" title="Permalink to this headline">¶</a></h1>
+<p>Setting the identical seed for all repeats results in a reproducible
+stochastic simulation.</p>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="n">results</span> <span class="o">=</span> <span class="p">[]</span>
 <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">20</span><span class="p">):</span>
     <span class="n">r</span><span class="o">.</span><span class="n">reset</span><span class="p">()</span>
     <span class="n">r</span><span class="o">.</span><span class="n">setSeed</span><span class="p">(</span><span class="mi">123456</span><span class="p">)</span>
@@ -156,7 +161,7 @@
     <span class="n">r</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">show</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.7</span><span class="p">)</span>
 </pre></div>
 </div>
-<img alt="_notebooks/core/_notebooks/core/tellurium_stochastic_files/tellurium_stochastic_3_0.png" src="_notebooks/core/_notebooks/core/tellurium_stochastic_files/tellurium_stochastic_3_0.png" />
+<img alt="_notebooks/core/_notebooks/core/tellurium_stochastic_files/tellurium_stochastic_4_0.png" src="_notebooks/core/_notebooks/core/tellurium_stochastic_files/tellurium_stochastic_4_0.png" />
 </div>
 <div class="section" id="run-two-simulations-and-combine-the-two">
 <h1>Run two simulations and combine the two<a class="headerlink" href="#run-two-simulations-and-combine-the-two" title="Permalink to this headline">¶</a></h1>
@@ -164,6 +169,7 @@
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
 
 <span class="n">r</span> <span class="o">=</span> <span class="n">te</span><span class="o">.</span><span class="n">loada</span><span class="p">(</span><span class="s1">&#39;S1 -&gt; S2; k1*S1; k1 = 0.02; S1 = 100&#39;</span><span class="p">)</span>
+<span class="n">r</span><span class="o">.</span><span class="n">setSeed</span><span class="p">(</span><span class="mi">1234</span><span class="p">)</span>
 <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">20</span><span class="p">):</span>
     <span class="n">r</span><span class="o">.</span><span class="n">resetToOrigin</span><span class="p">()</span>
     <span class="n">res1</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">gillespie</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
@@ -173,7 +179,7 @@
     <span class="n">r</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">([</span><span class="n">res1</span><span class="p">,</span> <span class="n">res2</span><span class="p">]),</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.7</span><span class="p">,</span> <span class="n">show</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="bp">None</span><span class="p">)</span>
 </pre></div>
 </div>
-<img alt="_notebooks/core/_notebooks/core/tellurium_stochastic_files/tellurium_stochastic_5_0.png" src="_notebooks/core/_notebooks/core/tellurium_stochastic_files/tellurium_stochastic_5_0.png" />
+<img alt="_notebooks/core/_notebooks/core/tellurium_stochastic_files/tellurium_stochastic_6_0.png" src="_notebooks/core/_notebooks/core/tellurium_stochastic_files/tellurium_stochastic_6_0.png" />
 </div>
 
 

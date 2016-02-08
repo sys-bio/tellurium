@@ -1,9 +1,9 @@
-Mon Feb  8 10:29:58 CET 2016
+Mon Feb  8 11:08:06 CET 2016
 --------------------------------------
 remove old documentation
 --------------------------------------
 DONE
-Mon Feb  8 10:29:58 CET 2016
+Mon Feb  8 11:08:06 CET 2016
 --------------------------------------
 convert notebooks to rst
 --------------------------------------
@@ -38,7 +38,7 @@ convert notebooks to rst
 [NbConvertApp] Making directory introduction_files
 [NbConvertApp] Making directory introduction_files
 [NbConvertApp] Making directory introduction_files
-[NbConvertApp] Writing 1290 bytes to introduction.rst
+[NbConvertApp] Writing 1381 bytes to introduction.rst
 [NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/modelFromBioModels.ipynb to rst
 [NbConvertApp] Executing notebook with kernel: python2
 [NbConvertApp] Support files will be in modelFromBioModels_files/
@@ -92,7 +92,7 @@ convert notebooks to rst
 [NbConvertApp] Making directory tellurium_examples_files
 [NbConvertApp] Making directory tellurium_examples_files
 [NbConvertApp] Making directory tellurium_examples_files
-[NbConvertApp] Writing 14299 bytes to tellurium_examples.rst
+[NbConvertApp] Writing 14319 bytes to tellurium_examples.rst
 [NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/tellurium_export.ipynb to rst
 [NbConvertApp] Executing notebook with kernel: python2
 [NbConvertApp] Writing 8270 bytes to tellurium_export.rst
@@ -127,7 +127,7 @@ convert notebooks to rst
 [NbConvertApp] Making directory tellurium_stochastic_files
 [NbConvertApp] Making directory tellurium_stochastic_files
 [NbConvertApp] Making directory tellurium_stochastic_files
-[NbConvertApp] Writing 1533 bytes to tellurium_stochastic.rst
+[NbConvertApp] Writing 1608 bytes to tellurium_stochastic.rst
 [NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/tellurium_test.ipynb to rst
 [NbConvertApp] Executing notebook with kernel: python2
 [NbConvertApp] Writing 1901 bytes to tellurium_test.rst
@@ -186,7 +186,7 @@ create python code
 [NbConvertApp] Writing 1617 bytes to generatingDifferentWaveforms.py
 [NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/introduction.ipynb to python
 [NbConvertApp] Executing notebook with kernel: python2
-[NbConvertApp] Writing 905 bytes to introduction.py
+[NbConvertApp] Writing 984 bytes to introduction.py
 [NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/modelFromBioModels.ipynb to python
 [NbConvertApp] Executing notebook with kernel: python2
 [NbConvertApp] Writing 464 bytes to modelFromBioModels.py
@@ -210,7 +210,7 @@ create python code
 [NbConvertApp] Writing 839 bytes to steadystate_scan.py
 [NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/tellurium_examples.ipynb to python
 [NbConvertApp] Executing notebook with kernel: python2
-[NbConvertApp] Writing 10889 bytes to tellurium_examples.py
+[NbConvertApp] Writing 10905 bytes to tellurium_examples.py
 [NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/tellurium_export.ipynb to python
 [NbConvertApp] Executing notebook with kernel: python2
 [NbConvertApp] Writing 2777 bytes to tellurium_export.py
@@ -228,7 +228,7 @@ create python code
 [NbConvertApp] Writing 934 bytes to tellurium_reset.py
 [NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/tellurium_stochastic.ipynb to python
 [NbConvertApp] Executing notebook with kernel: python2
-[NbConvertApp] Writing 1170 bytes to tellurium_stochastic.py
+[NbConvertApp] Writing 1244 bytes to tellurium_stochastic.py
 [NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/tellurium_test.ipynb to python
 [NbConvertApp] Executing notebook with kernel: python2
 [NbConvertApp] Writing 682 bytes to tellurium_test.py
@@ -1069,8 +1069,8 @@ AttributeError: test_api075_r
 /home/mkoenig/git/tellurium/docs/_notebooks/core/feedback_oscillations.rst:38: WARNING: image file not readable: _notebooks/core/_notebooks/core/feedback_oscillations_files/feedback_oscillations_2_0.png
 /home/mkoenig/git/tellurium/docs/_notebooks/core/generatingDifferentWaveforms.rst:66: WARNING: image file not readable: _notebooks/core/_notebooks/core/generatingDifferentWaveforms_files/generatingDifferentWaveforms_2_1.png
 /home/mkoenig/git/tellurium/docs/_notebooks/core/introduction.rst:19: WARNING: image file not readable: _notebooks/core/_notebooks/core/introduction_files/introduction_2_0.png
-/home/mkoenig/git/tellurium/docs/_notebooks/core/introduction.rst:60: WARNING: image file not readable: _notebooks/core/_notebooks/core/introduction_files/introduction_4_0.png
-/home/mkoenig/git/tellurium/docs/_notebooks/core/introduction.rst:63: WARNING: image file not readable: _notebooks/core/_notebooks/core/introduction_files/introduction_4_1.png
+/home/mkoenig/git/tellurium/docs/_notebooks/core/introduction.rst:63: WARNING: image file not readable: _notebooks/core/_notebooks/core/introduction_files/introduction_4_0.png
+/home/mkoenig/git/tellurium/docs/_notebooks/core/introduction.rst:66: WARNING: image file not readable: _notebooks/core/_notebooks/core/introduction_files/introduction_4_1.png
 /home/mkoenig/git/tellurium/docs/_notebooks/core/modelFromBioModels.rst:23: WARNING: image file not readable: _notebooks/core/_notebooks/core/modelFromBioModels_files/modelFromBioModels_2_0.png
 /home/mkoenig/git/tellurium/docs/_notebooks/core/nonUnitStoichiometries.rst:23: WARNING: Inline emphasis start-string without end-string.
 /home/mkoenig/git/tellurium/docs/_notebooks/core/parameter_scan.rst:43: WARNING: image file not readable: _notebooks/core/_notebooks/core/parameter_scan_files/parameter_scan_2_0.png
@@ -1092,10 +1092,10 @@ AttributeError: test_api075_r
 /home/mkoenig/git/tellurium/docs/_notebooks/core/tellurium_examples.rst:360: WARNING: image file not readable: _notebooks/core/_notebooks/core/tellurium_examples_files/tellurium_examples_12_0.png
 /home/mkoenig/git/tellurium/docs/_notebooks/core/tellurium_examples.rst:389: WARNING: image file not readable: _notebooks/core/_notebooks/core/tellurium_examples_files/tellurium_examples_14_0.png
 /home/mkoenig/git/tellurium/docs/_notebooks/core/tellurium_examples.rst:439: WARNING: image file not readable: _notebooks/core/_notebooks/core/tellurium_examples_files/tellurium_examples_15_0.png
-/home/mkoenig/git/tellurium/docs/_notebooks/core/tellurium_examples.rst:473: WARNING: image file not readable: _notebooks/core/_notebooks/core/tellurium_examples_files/tellurium_examples_16_0.png
-/home/mkoenig/git/tellurium/docs/_notebooks/core/tellurium_examples.rst:507: WARNING: image file not readable: _notebooks/core/_notebooks/core/tellurium_examples_files/tellurium_examples_17_0.png
-/home/mkoenig/git/tellurium/docs/_notebooks/core/tellurium_examples.rst:545: WARNING: image file not readable: _notebooks/core/_notebooks/core/tellurium_examples_files/tellurium_examples_18_0.png
-/home/mkoenig/git/tellurium/docs/_notebooks/core/tellurium_examples.rst:596: WARNING: image file not readable: _notebooks/core/_notebooks/core/tellurium_examples_files/tellurium_examples_19_0.png
+/home/mkoenig/git/tellurium/docs/_notebooks/core/tellurium_examples.rst:474: WARNING: image file not readable: _notebooks/core/_notebooks/core/tellurium_examples_files/tellurium_examples_16_0.png
+/home/mkoenig/git/tellurium/docs/_notebooks/core/tellurium_examples.rst:508: WARNING: image file not readable: _notebooks/core/_notebooks/core/tellurium_examples_files/tellurium_examples_17_0.png
+/home/mkoenig/git/tellurium/docs/_notebooks/core/tellurium_examples.rst:546: WARNING: image file not readable: _notebooks/core/_notebooks/core/tellurium_examples_files/tellurium_examples_18_0.png
+/home/mkoenig/git/tellurium/docs/_notebooks/core/tellurium_examples.rst:597: WARNING: image file not readable: _notebooks/core/_notebooks/core/tellurium_examples_files/tellurium_examples_19_0.png
 /home/mkoenig/git/tellurium/docs/_notebooks/core/tellurium_export.rst:234: ERROR: Content block expected for the "parsed-literal" directive; none found.
 /home/mkoenig/git/tellurium/docs/_notebooks/core/tellurium_model_loading.rst:50: WARNING: image file not readable: _notebooks/core/_notebooks/core/tellurium_model_loading_files/tellurium_model_loading_2_1.png
 /home/mkoenig/git/tellurium/docs/_notebooks/core/tellurium_model_loading.rst:59: WARNING: image file not readable: _notebooks/core/_notebooks/core/tellurium_model_loading_files/tellurium_model_loading_2_3.png
@@ -1107,9 +1107,9 @@ AttributeError: test_api075_r
 /home/mkoenig/git/tellurium/docs/_notebooks/core/tellurium_reset.rst:57: WARNING: image file not readable: _notebooks/core/_notebooks/core/tellurium_reset_files/tellurium_reset_2_3.png
 /home/mkoenig/git/tellurium/docs/_notebooks/core/tellurium_reset.rst:67: WARNING: image file not readable: _notebooks/core/_notebooks/core/tellurium_reset_files/tellurium_reset_2_5.png
 /home/mkoenig/git/tellurium/docs/_notebooks/core/tellurium_reset.rst:77: WARNING: image file not readable: _notebooks/core/_notebooks/core/tellurium_reset_files/tellurium_reset_2_7.png
-/home/mkoenig/git/tellurium/docs/_notebooks/core/tellurium_stochastic.rst:25: WARNING: image file not readable: _notebooks/core/_notebooks/core/tellurium_stochastic_files/tellurium_stochastic_2_0.png
-/home/mkoenig/git/tellurium/docs/_notebooks/core/tellurium_stochastic.rst:41: WARNING: image file not readable: _notebooks/core/_notebooks/core/tellurium_stochastic_files/tellurium_stochastic_3_0.png
-/home/mkoenig/git/tellurium/docs/_notebooks/core/tellurium_stochastic.rst:63: WARNING: image file not readable: _notebooks/core/_notebooks/core/tellurium_stochastic_files/tellurium_stochastic_5_0.png
+/home/mkoenig/git/tellurium/docs/_notebooks/core/tellurium_stochastic.rst:26: WARNING: image file not readable: _notebooks/core/_notebooks/core/tellurium_stochastic_files/tellurium_stochastic_2_0.png
+/home/mkoenig/git/tellurium/docs/_notebooks/core/tellurium_stochastic.rst:47: WARNING: image file not readable: _notebooks/core/_notebooks/core/tellurium_stochastic_files/tellurium_stochastic_4_0.png
+/home/mkoenig/git/tellurium/docs/_notebooks/core/tellurium_stochastic.rst:70: WARNING: image file not readable: _notebooks/core/_notebooks/core/tellurium_stochastic_files/tellurium_stochastic_6_0.png
 /home/mkoenig/git/tellurium/docs/_notebooks/core/tellurium_test.rst:37: WARNING: Inline emphasis start-string without end-string.
 /home/mkoenig/git/tellurium/docs/_notebooks/core/tellurium_test.rst:39: ERROR: Unknown target name: "compartment".
 /home/mkoenig/git/tellurium/docs/_notebooks/core/tellurium_test.rst:39: ERROR: Unknown target name: "compartment".
@@ -1196,15 +1196,15 @@ Traceback (most recent call last):
   File "/usr/local/lib/python2.7/dist-packages/sphinx/util/inspect.py", line 115, in safe_getattr
     raise AttributeError(name)
 AttributeError: ExtendedRoadRunner
-internal padding after _notebooks/core/tellurium_test.rst:906: ERROR: Unknown target name: "compartment".
-internal padding after _notebooks/core/tellurium_test.rst:906: ERROR: Unknown target name: "compartment".
-internal padding after _notebooks/core/tellurium_test.rst:906: ERROR: Unknown target name: "compartment".
-internal padding after _notebooks/core/tellurium_test.rst:906: ERROR: Unknown target name: "compartment".
-internal padding after _notebooks/core/tellurium_test.rst:906: ERROR: Unknown target name: "compartment".
-internal padding after _notebooks/core/tellurium_test.rst:906: ERROR: Unknown target name: "compartment".
-internal padding after _notebooks/core/tellurium_test.rst:906: ERROR: Unknown target name: "compartment".
-internal padding after _notebooks/core/tellurium_test.rst:906: ERROR: Unknown target name: "compartment".
-internal padding after _notebooks/core/tellurium_test.rst:906: ERROR: Unknown target name: "compartment".
+internal padding after _notebooks/core/tellurium_test.rst:913: ERROR: Unknown target name: "compartment".
+internal padding after _notebooks/core/tellurium_test.rst:913: ERROR: Unknown target name: "compartment".
+internal padding after _notebooks/core/tellurium_test.rst:913: ERROR: Unknown target name: "compartment".
+internal padding after _notebooks/core/tellurium_test.rst:913: ERROR: Unknown target name: "compartment".
+internal padding after _notebooks/core/tellurium_test.rst:913: ERROR: Unknown target name: "compartment".
+internal padding after _notebooks/core/tellurium_test.rst:913: ERROR: Unknown target name: "compartment".
+internal padding after _notebooks/core/tellurium_test.rst:913: ERROR: Unknown target name: "compartment".
+internal padding after _notebooks/core/tellurium_test.rst:913: ERROR: Unknown target name: "compartment".
+internal padding after _notebooks/core/tellurium_test.rst:913: ERROR: Unknown target name: "compartment".
 looking for now-outdated files... none found
 pickling environment... done
 checking consistency... /home/mkoenig/git/tellurium/docs/API.rst:: WARNING: document isn't included in any toctree
@@ -1298,25 +1298,25 @@ highlighting module code... [ 35%] tellurium.ParameterScan.ParameterScan
 highlighting module code... [ 38%] tellurium.tephrasedml
 highlighting module code... [ 41%] tellurium.tests.test_API
 highlighting module code... [ 44%] tellurium.analysis.match
-highlighting module code... [ 47%] tellurium.widgets.parameter_slider
-highlighting module code... [ 50%] tellurium.tests.test_sedml
-highlighting module code... [ 52%] tellurium.notebooks.speciessearch
-highlighting module code... [ 55%] tellurium.widgets.species_search
-highlighting module code... [ 58%] tellurium.tests.test_tephrasedml
-highlighting module code... [ 61%] tellurium.io.latex
-highlighting module code... [ 64%] tellurium.visualization.sbmldiagram
-highlighting module code... [ 67%] tellurium.tesedml
-highlighting module code... [ 70%] tellurium.notebooks.notebooktools
+highlighting module code... [ 47%] tellurium.tests.test_sedml
+highlighting module code... [ 50%] tellurium.notebooks.speciessearch
+highlighting module code... [ 52%] tellurium.widgets.species_search
+highlighting module code... [ 55%] tellurium.tests.test_tephrasedml
+highlighting module code... [ 58%] tellurium.io.latex
+highlighting module code... [ 61%] tellurium.visualization.sbmldiagram
+highlighting module code... [ 64%] tellurium.notebooks.notebooktools
+highlighting module code... [ 67%] tellurium.optimization.diffevolution
+highlighting module code... [ 70%] tellurium.tesedml
 highlighting module code... [ 73%] tellurium.widgets.ontology_search
 highlighting module code... [ 76%] tellurium.optimization.DiffEvolution
 highlighting module code... [ 79%] tellurium.analysis.annotations
 highlighting module code... [ 82%] tellurium.analysis.parameterscan
 highlighting module code... [ 85%] tellurium.visualization.SBMLDiagram
-highlighting module code... [ 88%] tellurium.tests.test_runner
+highlighting module code... [ 88%] tellurium.tests.test_Export
 highlighting module code... [ 91%] tellurium.tests.test_io
 highlighting module code... [ 94%] tellurium.unzipy
-highlighting module code... [ 97%] tellurium.optimization.diffevolution
-highlighting module code... [100%] tellurium.tests.test_Export
+highlighting module code... [ 97%] tellurium.widgets.parameter_slider
+highlighting module code... [100%] tellurium.tests.test_runner
 
 writing additional pages... search
 copying images... [  3%] _notebooks/core/tellurium_utility_files/tellurium_utility_4_0.png
@@ -1326,21 +1326,21 @@ copying images... [ 15%] _notebooks/core/parameter_scan_files/parameter_scan_2_0
 copying images... [ 19%] _notebooks/core/parameter_scan_files/parameter_scan_3_0.png
 copying images... [ 23%] _notebooks/core/consecutiveUniUniReactions_files/consecutiveUniUniReactions_2_0.png
 copying images... [ 26%] _notebooks/core/tellurium_reset_files/tellurium_reset_2_3.png
-copying images... [ 30%] _notebooks/core/tellurium_reset_files/tellurium_reset_2_5.png
-copying images... [ 34%] _notebooks/core/introduction_files/introduction_4_1.png
-copying images... [ 38%] _notebooks/core/modelFromBioModels_files/modelFromBioModels_2_0.png
-copying images... [ 42%] _notebooks/core/tellurium_plotting_files/tellurium_plotting_4_0.png
-copying images... [ 46%] _notebooks/core/tellurium_model_loading_files/tellurium_model_loading_2_3.png
-copying images... [ 50%] _notebooks/core/introduction_files/introduction_2_0.png
-copying images... [ 53%] _notebooks/core/tellurium_plotting_files/tellurium_plotting_4_1.png
-copying images... [ 57%] ./images/tellurium_screenshot2.png
-copying images... [ 61%] _notebooks/core/tellurium_stochastic_files/tellurium_stochastic_5_0.png
+copying images... [ 30%] _notebooks/core/tellurium_stochastic_files/tellurium_stochastic_6_0.png
+copying images... [ 34%] _notebooks/core/tellurium_reset_files/tellurium_reset_2_5.png
+copying images... [ 38%] _notebooks/core/introduction_files/introduction_4_1.png
+copying images... [ 42%] _notebooks/core/modelFromBioModels_files/modelFromBioModels_2_0.png
+copying images... [ 46%] _notebooks/core/tellurium_plotting_files/tellurium_plotting_4_0.png
+copying images... [ 50%] _notebooks/core/tellurium_model_loading_files/tellurium_model_loading_2_3.png
+copying images... [ 53%] _notebooks/core/introduction_files/introduction_2_0.png
+copying images... [ 57%] _notebooks/core/tellurium_plotting_files/tellurium_plotting_4_1.png
+copying images... [ 61%] ./images/tellurium_screenshot2.png
 copying images... [ 65%] _notebooks/core/introduction_files/introduction_4_0.png
 copying images... [ 69%] _notebooks/core/tellurium_plotting_files/tellurium_plotting_2_1.png
 copying images... [ 73%] _notebooks/core/tellurium_model_loading_files/tellurium_model_loading_2_1.png
 copying images... [ 76%] _notebooks/core/tellurium_stochastic_files/tellurium_stochastic_2_0.png
 copying images... [ 80%] _notebooks/core/tellurium_plotting_files/tellurium_plotting_2_0.png
-copying images... [ 84%] _notebooks/core/tellurium_stochastic_files/tellurium_stochastic_3_0.png
+copying images... [ 84%] _notebooks/core/tellurium_stochastic_files/tellurium_stochastic_4_0.png
 copying images... [ 88%] _notebooks/core/tellurium_reset_files/tellurium_reset_2_1.png
 copying images... [ 92%] _notebooks/core/tellurium_reset_files/tellurium_reset_2_7.png
 copying images... [ 96%] _notebooks/core/feedback_oscillations_files/feedback_oscillations_2_0.png
