@@ -12,6 +12,14 @@ import antimony
 import matplotlib.pyplot as plt
 import tephrasedml
 
+try:
+    import libsedml
+    # import libsedml before libsbml to handle
+    # https://github.com/fbergmann/libSEDML/issues/21
+except ImportError as e:
+    libsedml = None
+    roadrunner.Logger.log(roadrunner.Logger.LOG_WARNING, str(e))
+    warnings.warn("'libsedml' could not be imported", ImportWarning, stacklevel=2)
 
 try:
     import libsbml
@@ -19,12 +27,6 @@ except ImportError as e:
     libsbml = None
     roadrunner.Logger.log(roadrunner.Logger.LOG_WARNING, str(e))
     warnings.warn("'libsbml' could not be imported", ImportWarning, stacklevel=2)
-try:
-    import libsedml
-except ImportError as e:
-    libsedml = None
-    roadrunner.Logger.log(roadrunner.Logger.LOG_WARNING, str(e))
-    warnings.warn("'libsedml' could not be imported", ImportWarning, stacklevel=2)
 
 try:
     import phrasedml
