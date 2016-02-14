@@ -213,43 +213,6 @@ class TelluriumTestCase(unittest.TestCase):
         self.assertIsNotNone(sbml)
 
     # ---------------------------------------------------------------------
-    # Simulate options
-    # ---------------------------------------------------------------------
-    # def test_simulateOptions_steps(self):
-    #     r = te.loada(self.ant_str)
-    #     self.assertRaises(DeprecationWarning, r.setSteps, 200)
-    #     self.assertRaises(DeprecationWarning, r.getSteps)
-    #     # r.setSteps(200)
-    #     # steps = r.getSteps()
-    #     # self.assertEqual(200, steps)
-    #
-    # def test_simulateOptions_numberOfPoints(self):
-    #     r = te.loada(self.ant_str)
-    #     self.assertRaises(DeprecationWarning, r.setNumberOfPoints, 500)
-    #     self.assertRaises(DeprecationWarning, r.getNumberOfPoints)
-    #     # r.setNumberOfPoints(500)
-    #     # steps = r.getSteps()
-    #     # numberOfPoints = r.getNumberOfPoints()
-    #     # self.assertEqual(500, numberOfPoints)
-    #     # self.assertEqual(499, steps)
-    #
-    # def test_simulateOptions_startTime(self):
-    #     r = te.loada(self.ant_str)
-    #     self.assertRaises(DeprecationWarning, r.setStartTime, 13.5)
-    #     self.assertRaises(DeprecationWarning, r.getStartTime)
-    #     # r.setStartTime(13.5)
-    #     # start = r.getStartTime()
-    #     # self.assertAlmostEqual(13.5, start)
-    #
-    # def test_simulateOptions_endTime(self):
-    #     r = te.loada(self.ant_str)
-    #     self.assertRaises(DeprecationWarning, r.setEndTime, 200.0)
-    #     self.assertRaises(DeprecationWarning, r.getEndTime)
-    #     # r.setEndTime(200.0)
-    #     # end = r.getEndTime()
-    #     # self.assertAlmostEqual(200.0, end)
-
-    # ---------------------------------------------------------------------
     # Jarnac compatibility layer
     # ---------------------------------------------------------------------
     def test_jarnac_fjac(self):
