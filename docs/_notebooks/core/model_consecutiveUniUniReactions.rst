@@ -27,6 +27,6 @@ reactions S1 -> S2 -> S3 -> S4.
 
 
 
-.. image:: _notebooks/core/consecutiveUniUniReactions_files/consecutiveUniUniReactions_2_0.png
+.. image:: _notebooks/core/model_consecutiveUniUniReactions_files/model_consecutiveUniUniReactions_2_0.png
 
 

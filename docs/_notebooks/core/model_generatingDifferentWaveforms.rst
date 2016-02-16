@@ -56,6 +56,6 @@ Example for how to create different wave form functions in tellurium.
 
 
 
-.. image:: _notebooks/core/generatingDifferentWaveforms_files/generatingDifferentWaveforms_2_0.png
+.. image:: _notebooks/core/model_generatingDifferentWaveforms_files/model_generatingDifferentWaveforms_2_0.png
 
 

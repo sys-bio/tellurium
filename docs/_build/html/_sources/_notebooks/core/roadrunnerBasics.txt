@@ -62,6 +62,7 @@ For instance
 .. parsed-literal::
 
     < roadrunner.Integrator() >
+      name: cvode
       settings:
           relative_tolerance: 0.00001
           absolute_tolerance: 0.0000000001

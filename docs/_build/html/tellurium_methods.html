@@ -286,7 +286,7 @@ Call this to stop roadrunner from printing warning message to the console.</p>
 <div class="highlight-python"><div class="highlight"><pre>1.3.0
 --------------------------------------------------------------------------------
 tellurium : 1.3.0
-roadrunner : 1.4.2; Compiler: gcc 4.8.4, C++ version: 199711; JIT Compiler: LLVM-3.4; Date: Feb  8 2016, 09:37:24; LibSBML Version: 5.12.0
+roadrunner : 1.4.2; Compiler: gcc 4.8.4, C++ version: 199711; JIT Compiler: LLVM-3.4; Date: Feb 15 2016, 09:48:54; LibSBML Version: 5.12.0
 antimony : v2.8.0
 snbw_viewer : No information for sbnw viewer
 libsbml : 5.12.1
@@ -342,12 +342,220 @@ phrasedml : v0.5 beta
 <span class="k">print</span><span class="p">(</span><span class="n">sbmlstr</span><span class="p">)</span>
 </pre></div>
 </div>
-<div class="highlight-python"><div class="highlight"><pre>/tmp/tmpRhqFJs.xml
-</pre></div>
-</div>
-<div class="highlight-python"><div class="highlight"><pre>/usr/local/lib/python2.7/dist-packages/ipykernel/__main__.py:8: RuntimeWarning: &#39;sbml2matlab&#39; could not be imported, no support for Matlab code generation
-/home/mkoenig/git/tellurium/tellurium/tellurium.py:651: RuntimeWarning: &#39;sbml2matlab&#39; could not be imported, no support for Matlab code generation
-  saveToFile(filePath, self.getMatlab(current))
+<div class="highlight-python"><div class="highlight"><pre>/tmp/tmpKJPTzF.xml
+%  How to use:
+%
+%  __main takes 3 inputs and returns 3 outputs.
+%
+%  [t x rInfo] = __main(tspan,solver,options)
+%  INPUTS:
+%  tspan - the time vector for the simulation. It can contain every time point,
+%  or just the start and end (e.g. [0 1 2 3] or [0 100]).
+%  solver - the function handle for the odeN solver you wish to use (e.g. @ode23s).
+%  options - this is the options structure returned from the MATLAB odeset
+%  function used for setting tolerances and other parameters for the solver.
+%
+%  OUTPUTS:
+%  t - the time vector that corresponds with the solution. If tspan only contains
+%  the start and end times, t will contain points spaced out by the solver.
+%  x - the simulation results.
+%  rInfo - a structure containing information about the model. The fields
+%  within rInfo are:
+%     stoich - the stoichiometry matrix of the model
+%     floatingSpecies - a cell array containing floating species name, initial
+%     value, and indicator of the units being inconcentration or amount
+%     compartments - a cell array containing compartment names and volumes
+%     params - a cell array containing parameter names and values
+%     boundarySpecies - a cell array containing boundary species name, initial
+%     value, and indicator of the units being inconcentration or amount
+%     rateRules - a cell array containing the names of variables used in a rate rule
+%
+%  Sample function call:
+%     options = odeset(&#39;RelTol&#39;,1e-12,&#39;AbsTol&#39;,1e-9);
+%     [t x rInfo] = __main(linspace(0,100,100),@ode23s,options);
+%
+function [t x rInfo] = __main(tspan,solver,options)
+    % initial conditions
+    [x rInfo] = model();
+
+    % initial assignments
+
+    % assignment rules
+
+    % run simulation
+    [t x] = feval(solver,@model,tspan,x,options);
+
+    % assignment rules
+
+function [xdot rInfo] = model(time,x)
+%  x(1)        S1
+%  x(2)        S2
+
+% List of Compartments
+vol__default_compartment = 1;               %default_compartment
+
+% Global Parameters
+rInfo.g_p1 = 0.1;           % k1
+
+if (nargin == 0)
+
+    % set initial conditions
+   xdot(1) = 10*vol__default_compartment;           % S1 = S1 [Concentration]
+   xdot(2) = 0*vol__default_compartment;            % S2 = S2 [Concentration]
+
+   % reaction info structure
+   rInfo.stoich = [
+      -1
+      1
+   ];
+
+   rInfo.floatingSpecies = {                % Each row: [Species Name, Initial Value, isAmount (1 for amount, 0 for concentration)]
+      &#39;S1&#39; , 10, 0
+      &#39;S2&#39; , 0, 0
+   };
+
+   rInfo.compartments = {           % Each row: [Compartment Name, Value]
+      &#39;default_compartment&#39; , 1
+   };
+
+   rInfo.params = {         % Each row: [Parameter Name, Value]
+      &#39;k1&#39; , 0.1
+   };
+
+   rInfo.boundarySpecies = {                % Each row: [Species Name, Initial Value, isAmount (1 for amount, 0 for concentration)]
+   };
+
+   rInfo.rateRules = {               % List of variables involved in a rate rule
+   };
+
+else
+
+    % calculate rates of change
+   R0 = rInfo.g_p1*(x(1));
+
+   xdot = [
+      - R0
+      + R0
+   ];
+end;
+
+
+%listOfSupportedFunctions
+function z = pow (x,y)
+    z = x^y;
+
+
+function z = sqr (x)
+    z = x*x;
+
+
+function z = piecewise(varargin)
+            numArgs = nargin;
+            result = 0;
+            foundResult = 0;
+            for k=1:2: numArgs-1
+                    if varargin{k+1} == 1
+                            result = varargin{k};
+                            foundResult = 1;
+                            break;
+                    end
+            end
+            if foundResult == 0
+                    result = varargin{numArgs};
+            end
+            z = result;
+
+
+function z = gt(a,b)
+   if a &gt; b
+      z = 1;
+   else
+      z = 0;
+   end
+
+
+function z = lt(a,b)
+   if a &lt; b
+      z = 1;
+   else
+      z = 0;
+   end
+
+
+function z = geq(a,b)
+   if a &gt;= b
+      z = 1;
+   else
+      z = 0;
+   end
+
+
+function z = leq(a,b)
+   if a &lt;= b
+      z = 1;
+   else
+      z = 0;
+   end
+
+
+function z = neq(a,b)
+   if a ~= b
+      z = 1;
+   else
+      z = 0;
+   end
+
+
+function z = and(varargin)
+            result = 1;
+            for k=1:nargin
+               if varargin{k} ~= 1
+                  result = 0;
+                  break;
+               end
+            end
+            z = result;
+
+
+function z = or(varargin)
+            result = 0;
+            for k=1:nargin
+               if varargin{k} ~= 0
+                  result = 1;
+                  break;
+               end
+            end
+            z = result;
+
+
+function z = xor(varargin)
+            foundZero = 0;
+            foundOne = 0;
+            for k = 1:nargin
+                    if varargin{k} == 0
+                       foundZero = 1;
+                    else
+                       foundOne = 1;
+                    end
+            end
+            if foundZero &amp;&amp; foundOne
+                    z = 1;
+            else
+              z = 0;
+            end
+
+
+
+function z = not(a)
+   if a == 1
+      z = 0;
+   else
+      z = 1;
+   end
+
+
+function z = root(a,b)
+    z = a^(1/b);
 </pre></div>
 </div>
 </div>
@@ -617,6 +825,166 @@ strings or respective model files.</p>
 <h2>Export Utilities<a class="headerlink" href="#export-utilities" title="Permalink to this headline">¶</a></h2>
 <p>Use these routines to convert the current model state into other formats, like
 Matlab, CellML, Antimony and SBML.</p>
+<dl class="class">
+<dt id="tellurium.tellurium.ExtendedRoadRunner">
+<em class="property">class </em><code class="descclassname">tellurium.tellurium.</code><code class="descname">ExtendedRoadRunner</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/tellurium.html#ExtendedRoadRunner"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tellurium.ExtendedRoadRunner" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="method">
+<dt id="tellurium.tellurium.ExtendedRoadRunner.exportToAntimony">
+<code class="descname">exportToAntimony</code><span class="sig-paren">(</span><em>filePath</em>, <em>current=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/tellurium.html#ExtendedRoadRunner.exportToAntimony"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tellurium.ExtendedRoadRunner.exportToAntimony" title="Permalink to this definition">¶</a></dt>
+<dd><p>Save current model as Antimony file.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>current</strong> (<em>bool</em>) &#8211; export current model state</li>
+<li><strong>filePath</strong> (<em>str</em>) &#8211; file path of Antimony file</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="tellurium.tellurium.ExtendedRoadRunner.exportToCellML">
+<code class="descname">exportToCellML</code><span class="sig-paren">(</span><em>filePath</em>, <em>current=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/tellurium.html#ExtendedRoadRunner.exportToCellML"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tellurium.ExtendedRoadRunner.exportToCellML" title="Permalink to this definition">¶</a></dt>
+<dd><p>Save current model as CellML file.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>current</strong> (<em>bool</em>) &#8211; export current model state</li>
+<li><strong>filePath</strong> (<em>str</em>) &#8211; file path of CellML file</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="tellurium.tellurium.ExtendedRoadRunner.exportToMatlab">
+<code class="descname">exportToMatlab</code><span class="sig-paren">(</span><em>filePath</em>, <em>current=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/tellurium.html#ExtendedRoadRunner.exportToMatlab"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tellurium.ExtendedRoadRunner.exportToMatlab" title="Permalink to this definition">¶</a></dt>
+<dd><p>Save current model as Matlab file.
+To save the original model loaded into roadrunner use
+current=False.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>self</strong> (<em>RoadRunner.roadrunner</em>) &#8211; RoadRunner instance</li>
+<li><strong>filePath</strong> (<em>str</em>) &#8211; file path of Matlab file</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="tellurium.tellurium.ExtendedRoadRunner.exportToSBML">
+<code class="descname">exportToSBML</code><span class="sig-paren">(</span><em>filePath</em>, <em>current=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/tellurium.html#ExtendedRoadRunner.exportToSBML"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tellurium.ExtendedRoadRunner.exportToSBML" title="Permalink to this definition">¶</a></dt>
+<dd><p>Save current model as SBML file.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>current</strong> (<em>bool</em>) &#8211; export current model state</li>
+<li><strong>filePath</strong> (<em>str</em>) &#8211; file path of SBML file</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="tellurium.tellurium.ExtendedRoadRunner.getAntimony">
+<code class="descname">getAntimony</code><span class="sig-paren">(</span><em>current=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/tellurium.html#ExtendedRoadRunner.getAntimony"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tellurium.ExtendedRoadRunner.getAntimony" title="Permalink to this definition">¶</a></dt>
+<dd><p>Antimony string of the original model loaded into roadrunner.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>current</strong> (<em>bool</em>) &#8211; return current model state</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">Antimony</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">str</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="tellurium.tellurium.ExtendedRoadRunner.getCellML">
+<code class="descname">getCellML</code><span class="sig-paren">(</span><em>current=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/tellurium.html#ExtendedRoadRunner.getCellML"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tellurium.ExtendedRoadRunner.getCellML" title="Permalink to this definition">¶</a></dt>
+<dd><p>CellML string of the original model loaded into roadrunner.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>current</strong> (<em>bool</em>) &#8211; return current model state</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">CellML string</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">str</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="tellurium.tellurium.ExtendedRoadRunner.getCurrentAntimony">
+<code class="descname">getCurrentAntimony</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/tellurium.html#ExtendedRoadRunner.getCurrentAntimony"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tellurium.ExtendedRoadRunner.getCurrentAntimony" title="Permalink to this definition">¶</a></dt>
+<dd><p>Antimony string of the current model state.</p>
+<p>See also: <code class="xref py py-func docutils literal"><span class="pre">getAntimony()</span></code>
+:return: Antimony
+:rtype: str</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="tellurium.tellurium.ExtendedRoadRunner.getCurrentCellML">
+<code class="descname">getCurrentCellML</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/tellurium.html#ExtendedRoadRunner.getCurrentCellML"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tellurium.ExtendedRoadRunner.getCurrentCellML" title="Permalink to this definition">¶</a></dt>
+<dd><p>CellML string of current model state.</p>
+<p>See also: <code class="xref py py-func docutils literal"><span class="pre">getCellML()</span></code>
+:returns: CellML string
+:rtype: str</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="tellurium.tellurium.ExtendedRoadRunner.getCurrentMatlab">
+<code class="descname">getCurrentMatlab</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/tellurium.html#ExtendedRoadRunner.getCurrentMatlab"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tellurium.ExtendedRoadRunner.getCurrentMatlab" title="Permalink to this definition">¶</a></dt>
+<dd><p>Matlab string of current model state.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>current</strong> (<em>bool</em>) &#8211; return current model state</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">Matlab string</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">str</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="tellurium.tellurium.ExtendedRoadRunner.getMatlab">
+<code class="descname">getMatlab</code><span class="sig-paren">(</span><em>current=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/tellurium.html#ExtendedRoadRunner.getMatlab"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tellurium.ExtendedRoadRunner.getMatlab" title="Permalink to this definition">¶</a></dt>
+<dd><p>Matlab string of the original model loaded into roadrunner.</p>
+<p>See also: <code class="xref py py-func docutils literal"><span class="pre">getCurrentMatlab()</span></code>
+:returns: Matlab string
+:rtype: str</p>
+</dd></dl>
+
+</dd></dl>
+
 <div class="section" id="sbml">
 <h3>SBML<a class="headerlink" href="#sbml" title="Permalink to this headline">¶</a></h3>
 <div class="code python highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">tellurium</span> <span class="kn">as</span> <span class="nn">te</span>
@@ -643,7 +1011,7 @@ Matlab, CellML, Antimony and SBML.</p>
 </pre></div>
 </div>
 <div class="highlight-python"><div class="highlight"><pre>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
-&lt;!-- Created by libAntimony version v2.8.1 on 2016-02-08 14:05 with libSBML version 5.12.1. --&gt;
+&lt;!-- Created by libAntimony version v2.8.1 on 2016-02-16 10:22 with libSBML version 5.12.1. --&gt;
 &lt;sbml xmlns=&quot;http://www.sbml.org/sbml/level3/version1/core&quot; level=&quot;3&quot; version=&quot;1&quot;&gt;
   &lt;model id=&quot;__main&quot; name=&quot;__main&quot;&gt;
     &lt;listOfCompartments&gt;
@@ -831,11 +1199,219 @@ const k1;
 <span class="k">print</span><span class="p">(</span><span class="n">str_matlab</span><span class="p">)</span>
 </pre></div>
 </div>
-<div class="highlight-python"><div class="highlight"><pre>/home/mkoenig/git/tellurium/tellurium/tellurium.py:651: RuntimeWarning: &#39;sbml2matlab&#39; could not be imported, no support for Matlab code generation
-  saveToFile(filePath, self.getMatlab(current))
-/home/mkoenig/git/tellurium/tellurium/tellurium.py:609: RuntimeWarning: &#39;sbml2matlab&#39; could not be imported, no support for Matlab code generation
-  return self.getMatlab(current=True)
-/usr/local/lib/python2.7/dist-packages/ipykernel/__main__.py:20: RuntimeWarning: &#39;sbml2matlab&#39; could not be imported, no support for Matlab code generation
+<div class="highlight-python"><div class="highlight"><pre>%  How to use:
+%
+%  __main takes 3 inputs and returns 3 outputs.
+%
+%  [t x rInfo] = __main(tspan,solver,options)
+%  INPUTS:
+%  tspan - the time vector for the simulation. It can contain every time point,
+%  or just the start and end (e.g. [0 1 2 3] or [0 100]).
+%  solver - the function handle for the odeN solver you wish to use (e.g. @ode23s).
+%  options - this is the options structure returned from the MATLAB odeset
+%  function used for setting tolerances and other parameters for the solver.
+%
+%  OUTPUTS:
+%  t - the time vector that corresponds with the solution. If tspan only contains
+%  the start and end times, t will contain points spaced out by the solver.
+%  x - the simulation results.
+%  rInfo - a structure containing information about the model. The fields
+%  within rInfo are:
+%     stoich - the stoichiometry matrix of the model
+%     floatingSpecies - a cell array containing floating species name, initial
+%     value, and indicator of the units being inconcentration or amount
+%     compartments - a cell array containing compartment names and volumes
+%     params - a cell array containing parameter names and values
+%     boundarySpecies - a cell array containing boundary species name, initial
+%     value, and indicator of the units being inconcentration or amount
+%     rateRules - a cell array containing the names of variables used in a rate rule
+%
+%  Sample function call:
+%     options = odeset(&#39;RelTol&#39;,1e-12,&#39;AbsTol&#39;,1e-9);
+%     [t x rInfo] = __main(linspace(0,100,100),@ode23s,options);
+%
+function [t x rInfo] = __main(tspan,solver,options)
+    % initial conditions
+    [x rInfo] = model();
+
+    % initial assignments
+
+    % assignment rules
+
+    % run simulation
+    [t x] = feval(solver,@model,tspan,x,options);
+
+    % assignment rules
+
+function [xdot rInfo] = model(time,x)
+%  x(1)        S1
+%  x(2)        S2
+
+% List of Compartments
+vol__default_compartment = 1;               %default_compartment
+
+% Global Parameters
+rInfo.g_p1 = 0.1;           % k1
+
+if (nargin == 0)
+
+    % set initial conditions
+   xdot(1) = 10*vol__default_compartment;           % S1 = S1 [Concentration]
+   xdot(2) = 0*vol__default_compartment;            % S2 = S2 [Concentration]
+
+   % reaction info structure
+   rInfo.stoich = [
+      -1
+      1
+   ];
+
+   rInfo.floatingSpecies = {                % Each row: [Species Name, Initial Value, isAmount (1 for amount, 0 for concentration)]
+      &#39;S1&#39; , 10, 0
+      &#39;S2&#39; , 0, 0
+   };
+
+   rInfo.compartments = {           % Each row: [Compartment Name, Value]
+      &#39;default_compartment&#39; , 1
+   };
+
+   rInfo.params = {         % Each row: [Parameter Name, Value]
+      &#39;k1&#39; , 0.1
+   };
+
+   rInfo.boundarySpecies = {                % Each row: [Species Name, Initial Value, isAmount (1 for amount, 0 for concentration)]
+   };
+
+   rInfo.rateRules = {               % List of variables involved in a rate rule
+   };
+
+else
+
+    % calculate rates of change
+   R0 = rInfo.g_p1*(x(1));
+
+   xdot = [
+      - R0
+      + R0
+   ];
+end;
+
+
+%listOfSupportedFunctions
+function z = pow (x,y)
+    z = x^y;
+
+
+function z = sqr (x)
+    z = x*x;
+
+
+function z = piecewise(varargin)
+            numArgs = nargin;
+            result = 0;
+            foundResult = 0;
+            for k=1:2: numArgs-1
+                    if varargin{k+1} == 1
+                            result = varargin{k};
+                            foundResult = 1;
+                            break;
+                    end
+            end
+            if foundResult == 0
+                    result = varargin{numArgs};
+            end
+            z = result;
+
+
+function z = gt(a,b)
+   if a &gt; b
+      z = 1;
+   else
+      z = 0;
+   end
+
+
+function z = lt(a,b)
+   if a &lt; b
+      z = 1;
+   else
+      z = 0;
+   end
+
+
+function z = geq(a,b)
+   if a &gt;= b
+      z = 1;
+   else
+      z = 0;
+   end
+
+
+function z = leq(a,b)
+   if a &lt;= b
+      z = 1;
+   else
+      z = 0;
+   end
+
+
+function z = neq(a,b)
+   if a ~= b
+      z = 1;
+   else
+      z = 0;
+   end
+
+
+function z = and(varargin)
+            result = 1;
+            for k=1:nargin
+               if varargin{k} ~= 1
+                  result = 0;
+                  break;
+               end
+            end
+            z = result;
+
+
+function z = or(varargin)
+            result = 0;
+            for k=1:nargin
+               if varargin{k} ~= 0
+                  result = 1;
+                  break;
+               end
+            end
+            z = result;
+
+
+function z = xor(varargin)
+            foundZero = 0;
+            foundOne = 0;
+            for k = 1:nargin
+                    if varargin{k} == 0
+                       foundZero = 1;
+                    else
+                       foundOne = 1;
+                    end
+            end
+            if foundZero &amp;&amp; foundOne
+                    z = 1;
+            else
+              z = 0;
+            end
+
+
+
+function z = not(a)
+   if a == 1
+      z = 0;
+   else
+      z = 1;
+   end
+
+
+function z = root(a,b)
+    z = a^(1/b);
 </pre></div>
 </div>
 <div class="code python highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">antimony</span>
@@ -905,6 +1481,90 @@ const k1;
 <div class="section" id="stochastic-simulation">
 <h2>Stochastic Simulation<a class="headerlink" href="#stochastic-simulation" title="Permalink to this headline">¶</a></h2>
 <p>Use these routines to carry out Gillespie style stochastic simulations.</p>
+<dl class="class">
+<dt>
+<em class="property">class </em><code class="descclassname">tellurium.tellurium.</code><code class="descname">ExtendedRoadRunner</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/tellurium.html#ExtendedRoadRunner"><span class="viewcode-link">[source]</span></a></dt>
+<dd><dl class="method">
+<dt id="tellurium.tellurium.ExtendedRoadRunner.getSeed">
+<code class="descname">getSeed</code><span class="sig-paren">(</span><em>integratorName='gillespie'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/tellurium.html#ExtendedRoadRunner.getSeed"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tellurium.ExtendedRoadRunner.getSeed" title="Permalink to this definition">¶</a></dt>
+<dd><p>Current seed used by the integrator with integratorName.
+Defaults to the seed of the gillespie integrator.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>integratorName</strong> (<em>str</em>) &#8211; name of the integrator for which the seed should be retured</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">current seed</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">float</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="tellurium.tellurium.ExtendedRoadRunner.gillespie">
+<code class="descname">gillespie</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/tellurium.html#ExtendedRoadRunner.gillespie"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tellurium.ExtendedRoadRunner.gillespie" title="Permalink to this definition">¶</a></dt>
+<dd><p>Run a Gillespie stochastic simulation.</p>
+<p>Sets the integrator to gillespie and performs simulation.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">rr</span> <span class="o">=</span> <span class="n">te</span><span class="o">.</span><span class="n">loada</span> <span class="p">(</span><span class="s1">&#39;S1 -&gt; S2; k1*S1; k1 = 0.1; S1 = 40&#39;</span><span class="p">)</span>
+<span class="c1"># Simulate from time zero to 40 time units</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">rr</span><span class="o">.</span><span class="n">gillespie</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">40</span><span class="p">)</span>
+<span class="c1"># Simulate on a grid with 10 points from start 0 to end time 40</span>
+<span class="n">rr</span><span class="o">.</span><span class="n">reset</span><span class="p">()</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">rr</span><span class="o">.</span><span class="n">gillespie</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">40</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+<span class="c1"># Simulate from time zero to 40 time units using the given selection list</span>
+<span class="c1"># This means that the first column will be time and the second column species S1</span>
+<span class="n">rr</span><span class="o">.</span><span class="n">reset</span><span class="p">()</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">rr</span><span class="o">.</span><span class="n">gillespie</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">40</span><span class="p">,</span> <span class="n">selections</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;time&#39;</span><span class="p">,</span> <span class="s1">&#39;S1&#39;</span><span class="p">])</span>
+<span class="c1"># Simulate from time zero to 40 time units, on a grid with 20 points</span>
+<span class="c1"># using the give selection list</span>
+<span class="n">rr</span><span class="o">.</span><span class="n">reset</span><span class="p">()</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">rr</span><span class="o">.</span><span class="n">gillespie</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">40</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;time&#39;</span><span class="p">,</span> <span class="s1">&#39;S1&#39;</span><span class="p">])</span>
+<span class="n">rr</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>seed</strong> (<em>int</em>) &#8211; seed for gillespie</li>
+<li><strong>args</strong> &#8211; parameters for simulate</li>
+<li><strong>kwargs</strong> &#8211; parameters for simulate</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">simulation results</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="tellurium.tellurium.ExtendedRoadRunner.setSeed">
+<code class="descname">setSeed</code><span class="sig-paren">(</span><em>seed</em>, <em>integratorName='gillespie'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/tellurium.html#ExtendedRoadRunner.setSeed"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tellurium.ExtendedRoadRunner.setSeed" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set seed in integrator with integratorName.
+Defaults to the seed of the gillespie integrator.</p>
+<p>Raises Error if integrator does not have key &#8216;seed&#8217;.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>seed</strong> &#8211; seed to set</li>
+<li><strong>integratorName</strong> (<em>str</em>) &#8211; name of the integrator for which the seed should be retured</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
 <div class="section" id="id1">
 <h3>Stochastic simulation<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
 <div class="code python highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">tellurium</span> <span class="kn">as</span> <span class="nn">te</span>
@@ -999,6 +1659,52 @@ to make sure the legend is shown.</p>
 <span class="n">te</span><span class="o">.</span><span class="n">plotArray</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
 </pre></div>
 </div>
+</dd></dl>
+
+<dl class="class">
+<dt>
+<em class="property">class </em><code class="descclassname">tellurium.tellurium.</code><code class="descname">ExtendedRoadRunner</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/tellurium.html#ExtendedRoadRunner"><span class="viewcode-link">[source]</span></a></dt>
+<dd><dl class="method">
+<dt id="tellurium.tellurium.ExtendedRoadRunner.draw">
+<code class="descname">draw</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/tellurium.html#ExtendedRoadRunner.draw"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tellurium.ExtendedRoadRunner.draw" title="Permalink to this definition">¶</a></dt>
+<dd><p>Draws an SBMLDiagram of the current model.
+To set the width of the output plot provide the &#8216;width&#8217; argument.
+Species are drawn as white circles (boundary species
+shaded in blue), reactions as grey squares.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="tellurium.tellurium.ExtendedRoadRunner.plot">
+<code class="descname">plot</code><span class="sig-paren">(</span><em>result=None</em>, <em>loc='upper right'</em>, <em>show=True</em>, <em>xlabel=None</em>, <em>ylabel=None</em>, <em>title=None</em>, <em>xlim=None</em>, <em>ylim=None</em>, <em>xscale='linear'</em>, <em>yscale='linear'</em>, <em>grid=False</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/tellurium.html#ExtendedRoadRunner.plot"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tellurium.ExtendedRoadRunner.plot" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plot data generated by a simulation.</p>
+<p>Plot results from a simulation carried out by the simulate or gillespie
+functions. This is a roadrunner method.
+Data is a numpy array where the first column is considered the x axis and all remaining columns the y axis.
+If no data is provided the data currently held by roadrunner generated in the last simulation is used.
+Curves are plotted in order of selection (columns in result).</p>
+<p>Supports all matplotlib.pyplot.plot keyword arguments, like color, alpha, linewidth, linestyle, marker, ...</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">sbml</span> <span class="o">=</span> <span class="n">te</span><span class="o">.</span><span class="n">getTestModel</span><span class="p">(</span><span class="s1">&#39;feedback.xml&#39;</span><span class="p">)</span>
+<span class="n">r</span> <span class="o">=</span> <span class="n">te</span><span class="o">.</span><span class="n">loadSBMLModel</span><span class="p">(</span><span class="n">sbml</span><span class="p">)</span>
+<span class="n">s</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">simulate</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">201</span><span class="p">)</span>
+<span class="n">r</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="s2">&quot;upper right&quot;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">2.0</span><span class="p">,</span> <span class="n">lineStyle</span><span class="o">=</span><span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;o&#39;</span><span class="p">,</span> <span class="n">markersize</span><span class="o">=</span><span class="mf">2.0</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.8</span><span class="p">,</span>
+       <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Feedback Oscillation&quot;</span><span class="p">,</span> <span class="n">xlabel</span><span class="o">=</span><span class="s2">&quot;time&quot;</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="s2">&quot;concentration&quot;</span><span class="p">,</span> <span class="n">xlim</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">100</span><span class="p">],</span> <span class="n">ylim</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">])</span>
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>result</strong> &#8211; results data to plot</li>
+<li><strong>loc</strong> &#8211; location of plot legend</li>
+<li><strong>show</strong> &#8211; show the plot</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
 </dd></dl>
 
 <div class="section" id="draw-diagram">
@@ -1098,6 +1804,31 @@ settings.</p>
 <div class="section" id="model-reset">
 <h2>Model Reset<a class="headerlink" href="#model-reset" title="Permalink to this headline">¶</a></h2>
 <p>Use these routines reset your model back to particular states</p>
+<dl class="class">
+<dt>
+<em class="property">class </em><code class="descclassname">tellurium.tellurium.</code><code class="descname">ExtendedRoadRunner</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/tellurium.html#ExtendedRoadRunner"><span class="viewcode-link">[source]</span></a></dt>
+<dd><dl class="method">
+<dt id="tellurium.tellurium.ExtendedRoadRunner.resetAll">
+<code class="descname">resetAll</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/tellurium.html#ExtendedRoadRunner.resetAll"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tellurium.ExtendedRoadRunner.resetAll" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reset all model variables to CURRENT init(X) values.</p>
+<p>This resets all variables, S1, S2 etc to the CURRENT init(X) values. It also resets all
+parameters back to the values they had when the model was first loaded.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="tellurium.tellurium.ExtendedRoadRunner.resetToOrigin">
+<code class="descname">resetToOrigin</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/tellurium.html#ExtendedRoadRunner.resetToOrigin"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tellurium.ExtendedRoadRunner.resetToOrigin" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reset model to state when first loaded.</p>
+<p>This resets the model back to the state when it was FIRST loaded,
+this includes all init() and parameters such as k1 etc.</p>
+<dl class="docutils">
+<dt>identical to:</dt>
+<dd>r.reset(roadrunner.SelectionRecord.ALL)</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
 <div class="section" id="reset-model-values">
 <h3>Reset model values<a class="headerlink" href="#reset-model-values" title="Permalink to this headline">¶</a></h3>
 <div class="code python highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">tellurium</span> <span class="kn">as</span> <span class="nn">te</span>
@@ -1155,6 +1886,156 @@ reset all to origin
 <div class="section" id="jarnac-short-cuts">
 <h2>jarnac Short-cuts<a class="headerlink" href="#jarnac-short-cuts" title="Permalink to this headline">¶</a></h2>
 <p>Routines to support the Jarnac compatibility layer</p>
+<dl class="class">
+<dt>
+<em class="property">class </em><code class="descclassname">tellurium.tellurium.</code><code class="descname">ExtendedRoadRunner</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/tellurium.html#ExtendedRoadRunner"><span class="viewcode-link">[source]</span></a></dt>
+<dd><dl class="method">
+<dt id="tellurium.tellurium.ExtendedRoadRunner.bs">
+<code class="descname">bs</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/tellurium.html#ExtendedRoadRunner.bs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tellurium.ExtendedRoadRunner.bs" title="Permalink to this definition">¶</a></dt>
+<dd><p>ExecutableModel.getBoundarySpeciesIds()</p>
+<p>Returns a vector of boundary species Ids.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>index</strong> (<em>numpy.ndarray</em>) &#8211; (optional) an index array indicating which items to return.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">a list of boundary species ids.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="tellurium.tellurium.ExtendedRoadRunner.dv">
+<code class="descname">dv</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/tellurium.html#ExtendedRoadRunner.dv"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tellurium.ExtendedRoadRunner.dv" title="Permalink to this definition">¶</a></dt>
+<dd><p>ExecutableModel.getStateVector([stateVector])</p>
+<p>Returns a vector of all the variables that represent the state of the system. The state is
+considered all values which change with the dynamics of the model. This would include all species
+which are produced or consumed by reactions, and all variables which are defined by rate rules.</p>
+<p>Variables such as global parameters, compartments, or boundary species which do not change with
+the model dynamics are considered parameters and are thus not part of the state.</p>
+<p>In performance critical applications, the optional stateVector array should be provided where the
+output variables will be written to.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>stateVector</strong> (<em>numpy.ndarray</em>) &#8211; <p>an optional numpy array where the state vector variables will be written. If
+no state vector array is given, a new one will be constructed and returned.</p>
+<p>This should be the same length as the model state vector.</p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">numpy.ndarray</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="tellurium.tellurium.ExtendedRoadRunner.fjac">
+<code class="descname">fjac</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/tellurium.html#ExtendedRoadRunner.fjac"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tellurium.ExtendedRoadRunner.fjac" title="Permalink to this definition">¶</a></dt>
+<dd><p>RoadRunner.getFullJacobian()</p>
+<p>Compute the full Jacobian at the current operating point.</p>
+<p>This is the Jacobian of ONLY the floating species.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="tellurium.tellurium.ExtendedRoadRunner.fs">
+<code class="descname">fs</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/tellurium.html#ExtendedRoadRunner.fs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tellurium.ExtendedRoadRunner.fs" title="Permalink to this definition">¶</a></dt>
+<dd><p>ExecutableModel.getFloatingSpeciesIds()</p>
+<p>Return a list of floating species sbml ids.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="tellurium.tellurium.ExtendedRoadRunner.rs">
+<code class="descname">rs</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/tellurium.html#ExtendedRoadRunner.rs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tellurium.ExtendedRoadRunner.rs" title="Permalink to this definition">¶</a></dt>
+<dd><p>ExecutableModel.getReactionIds()</p>
+<p>Returns a vector of reaction Ids.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>index</strong> (<em>numpy.ndarray</em>) &#8211; (optional) an index array indicating which items to return.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">a list of reaction ids.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="tellurium.tellurium.ExtendedRoadRunner.rv">
+<code class="descname">rv</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/tellurium.html#ExtendedRoadRunner.rv"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tellurium.ExtendedRoadRunner.rv" title="Permalink to this definition">¶</a></dt>
+<dd><p>ExecutableModel.getReactionRates([index])</p>
+<p>Returns a vector of reaction rates (reaction velocity) for the current state of the model. The
+order of reaction rates is given by the order of Ids returned by getReactionIds()</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>index</strong> (<em>numpy.ndarray</em>) &#8211; (optional) an index array indicating which items to return.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">an array of reaction rates.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">numpy.ndarray</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="tellurium.tellurium.ExtendedRoadRunner.sm">
+<code class="descname">sm</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/tellurium.html#ExtendedRoadRunner.sm"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tellurium.ExtendedRoadRunner.sm" title="Permalink to this definition">¶</a></dt>
+<dd><p>RoadRunner.getFullStoichiometryMatrix()</p>
+<p>Get the stoichiometry matrix that coresponds to the full model, even it
+it was converted via conservation conversion.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="tellurium.tellurium.ExtendedRoadRunner.sv">
+<code class="descname">sv</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/tellurium.html#ExtendedRoadRunner.sv"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tellurium.ExtendedRoadRunner.sv" title="Permalink to this definition">¶</a></dt>
+<dd><p>ExecutableModel.getFloatingSpeciesConcentrations([index])</p>
+<p>Returns a vector of floating species concentrations. The order of species is
+given by the order of Ids returned by getFloatingSpeciesIds()</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>index</strong> (<em>numpy.ndarray</em>) &#8211; (optional) an index array indicating which items to return.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">an array of floating species concentrations.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">numpy.ndarray</td>
+</tr>
+</tbody>
+</table>
+<p>RoadRunner stores all initial conditions separately from the model state variables. This means that
+you can update the initial conditions at any time, and it does not affect the current state of the
+model. To reset the model, that is, reset it to its original state, or a new original state where
+what has changed the initial conditions use the <code class="xref py py-meth docutils literal"><span class="pre">reset()</span></code> method.</p>
+<p>The following methods allow access to the floating species initial condition values:</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="tellurium.tellurium.ExtendedRoadRunner.vs">
+<code class="descname">vs</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/tellurium.html#ExtendedRoadRunner.vs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tellurium.ExtendedRoadRunner.vs" title="Permalink to this definition">¶</a></dt>
+<dd><p>ExecutableModel.getCompartmentIds([index])</p>
+<p>Returns a vector of compartment identifier symbols.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>index</strong> (<em>None or numpy.ndarray</em>) &#8211; A array of compartment indices indicating which compartment ids to return.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">a list of compartment ids.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
 </div>
 <div class="section" id="test-models">
 <h2>Test Models<a class="headerlink" href="#test-models" title="Permalink to this headline">¶</a></h2>
@@ -1282,6 +2163,263 @@ end
 <div class="section" id="model-methods">
 <h2>Model Methods<a class="headerlink" href="#model-methods" title="Permalink to this headline">¶</a></h2>
 <p>Routines flattened from model, aves typing and easier for finding the methods</p>
+<dl class="class">
+<dt>
+<em class="property">class </em><code class="descclassname">tellurium.tellurium.</code><code class="descname">ExtendedRoadRunner</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/tellurium.html#ExtendedRoadRunner"><span class="viewcode-link">[source]</span></a></dt>
+<dd><dl class="method">
+<dt id="tellurium.tellurium.ExtendedRoadRunner.getBoundarySpeciesConcentrations">
+<code class="descname">getBoundarySpeciesConcentrations</code><span class="sig-paren">(</span><span class="optional">[</span><em>index</em><span class="optional">]</span><span class="sig-paren">)</span><a class="headerlink" href="#tellurium.tellurium.ExtendedRoadRunner.getBoundarySpeciesConcentrations" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a vector of boundary species concentrations. The order of species is
+given by the order of Ids returned by getBoundarySpeciesIds()</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>index</strong> (<em>numpy.ndarray</em>) &#8211; (optional) an index array indicating which items to return.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">an array of the boundary species concentrations.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">numpy.ndarray.</td>
+</tr>
+</tbody>
+</table>
+<p>given by the order of Ids returned by getBoundarySpeciesIds()</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>index</strong> (<em>numpy.ndarray</em>) &#8211; (optional) an index array indicating which items to return.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">an array of the boundary species concentrations.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">numpy.ndarray.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="tellurium.tellurium.ExtendedRoadRunner.getBoundarySpeciesIds">
+<code class="descname">getBoundarySpeciesIds</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#tellurium.tellurium.ExtendedRoadRunner.getBoundarySpeciesIds" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a vector of boundary species Ids.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>index</strong> (<em>numpy.ndarray</em>) &#8211; (optional) an index array indicating which items to return.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">a list of boundary species ids.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="tellurium.tellurium.ExtendedRoadRunner.getCompartmentIds">
+<code class="descname">getCompartmentIds</code><span class="sig-paren">(</span><span class="optional">[</span><em>index</em><span class="optional">]</span><span class="sig-paren">)</span><a class="headerlink" href="#tellurium.tellurium.ExtendedRoadRunner.getCompartmentIds" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a vector of compartment identifier symbols.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>index</strong> (<em>None or numpy.ndarray</em>) &#8211; A array of compartment indices indicating which compartment ids to return.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">a list of compartment ids.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="tellurium.tellurium.ExtendedRoadRunner.getCompartmentVolumes">
+<code class="descname">getCompartmentVolumes</code><span class="sig-paren">(</span><span class="optional">[</span><em>index</em><span class="optional">]</span><span class="sig-paren">)</span><a class="headerlink" href="#tellurium.tellurium.ExtendedRoadRunner.getCompartmentVolumes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a vector of compartment volumes. The order of volumes is
+given by the order of Ids returned by getCompartmentIds()</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>index</strong> (<em>numpy.ndarray</em>) &#8211; (optional) an index array indicating which items to return.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">an array of compartment volumes.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">numpy.ndarray.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="tellurium.tellurium.ExtendedRoadRunner.getConservedMoietyValues">
+<code class="descname">getConservedMoietyValues</code><span class="sig-paren">(</span><span class="optional">[</span><em>index</em><span class="optional">]</span><span class="sig-paren">)</span><a class="headerlink" href="#tellurium.tellurium.ExtendedRoadRunner.getConservedMoietyValues" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a vector of conserved moiety volumes. The order of values is
+given by the order of Ids returned by getConservedMoietyIds()</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>index</strong> (<em>numpy.ndarray</em>) &#8211; (optional) an index array indicating which items to return.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">an array of conserved moiety values.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">numpy.ndarray.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="tellurium.tellurium.ExtendedRoadRunner.getFloatingSpeciesConcentrations">
+<code class="descname">getFloatingSpeciesConcentrations</code><span class="sig-paren">(</span><span class="optional">[</span><em>index</em><span class="optional">]</span><span class="sig-paren">)</span><a class="headerlink" href="#tellurium.tellurium.ExtendedRoadRunner.getFloatingSpeciesConcentrations" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a vector of floating species concentrations. The order of species is
+given by the order of Ids returned by getFloatingSpeciesIds()</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>index</strong> (<em>numpy.ndarray</em>) &#8211; (optional) an index array indicating which items to return.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">an array of floating species concentrations.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">numpy.ndarray</td>
+</tr>
+</tbody>
+</table>
+<p>RoadRunner stores all initial conditions separately from the model state variables. This means that
+you can update the initial conditions at any time, and it does not affect the current state of the
+model. To reset the model, that is, reset it to its original state, or a new original state where
+what has changed the initial conditions use the <code class="xref py py-meth docutils literal"><span class="pre">reset()</span></code> method.</p>
+<p>The following methods allow access to the floating species initial condition values:</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="tellurium.tellurium.ExtendedRoadRunner.getFloatingSpeciesIds">
+<code class="descname">getFloatingSpeciesIds</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#tellurium.tellurium.ExtendedRoadRunner.getFloatingSpeciesIds" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a list of floating species sbml ids.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="tellurium.tellurium.ExtendedRoadRunner.getGlobalParameterValues">
+<code class="descname">getGlobalParameterValues</code><span class="sig-paren">(</span><span class="optional">[</span><em>index</em><span class="optional">]</span><span class="sig-paren">)</span><a class="headerlink" href="#tellurium.tellurium.ExtendedRoadRunner.getGlobalParameterValues" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a vector of global parameter values. The order of species is
+given by the order of Ids returned by getGlobalParameterIds()</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>index</strong> (<em>numpy.ndarray</em>) &#8211; (optional) an index array indicating which items to return.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">an array of global parameter values.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">numpy.ndarray.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="tellurium.tellurium.ExtendedRoadRunner.getNumBoundarySpecies">
+<code class="descname">getNumBoundarySpecies</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#tellurium.tellurium.ExtendedRoadRunner.getNumBoundarySpecies" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the number of boundary species in the model.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="tellurium.tellurium.ExtendedRoadRunner.getNumCompartments">
+<code class="descname">getNumCompartments</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#tellurium.tellurium.ExtendedRoadRunner.getNumCompartments" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the number of compartments in the model.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">int</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="tellurium.tellurium.ExtendedRoadRunner.getNumConservedMoieties">
+<code class="descname">getNumConservedMoieties</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#tellurium.tellurium.ExtendedRoadRunner.getNumConservedMoieties" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the number of conserved moieties in the model.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">int</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="tellurium.tellurium.ExtendedRoadRunner.getNumFloatingSpecies">
+<code class="descname">getNumFloatingSpecies</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#tellurium.tellurium.ExtendedRoadRunner.getNumFloatingSpecies" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the number of floating species in the model.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="tellurium.tellurium.ExtendedRoadRunner.getNumGlobalParameters">
+<code class="descname">getNumGlobalParameters</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#tellurium.tellurium.ExtendedRoadRunner.getNumGlobalParameters" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the number of global parameters in the model.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="tellurium.tellurium.ExtendedRoadRunner.getNumReactions">
+<code class="descname">getNumReactions</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#tellurium.tellurium.ExtendedRoadRunner.getNumReactions" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the number of reactions in the model.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="tellurium.tellurium.ExtendedRoadRunner.getRatesOfChange">
+<code class="descname">getRatesOfChange</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/tellurium.html#ExtendedRoadRunner.getRatesOfChange"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tellurium.ExtendedRoadRunner.getRatesOfChange" title="Permalink to this definition">¶</a></dt>
+<dd><p>Rate of change of all state variables in the model.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">rate of change of all state variables (eg species) in the model.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="tellurium.tellurium.ExtendedRoadRunner.getReactionIds">
+<code class="descname">getReactionIds</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#tellurium.tellurium.ExtendedRoadRunner.getReactionIds" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a vector of reaction Ids.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>index</strong> (<em>numpy.ndarray</em>) &#8211; (optional) an index array indicating which items to return.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">a list of reaction ids.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="tellurium.tellurium.ExtendedRoadRunner.getReactionRates">
+<code class="descname">getReactionRates</code><span class="sig-paren">(</span><span class="optional">[</span><em>index</em><span class="optional">]</span><span class="sig-paren">)</span><a class="headerlink" href="#tellurium.tellurium.ExtendedRoadRunner.getReactionRates" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a vector of reaction rates (reaction velocity) for the current state of the model. The
+order of reaction rates is given by the order of Ids returned by getReactionIds()</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>index</strong> (<em>numpy.ndarray</em>) &#8211; (optional) an index array indicating which items to return.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">an array of reaction rates.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">numpy.ndarray</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
 </div>
 </div>
 

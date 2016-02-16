@@ -49,7 +49,7 @@ Export Utilities
 Use these routines to convert the current model state into other formats, like
 Matlab, CellML, Antimony and SBML.
 
-.. autoclass:: tellurium.ExtendedRoadRunner
+.. autoclass:: tellurium.tellurium.ExtendedRoadRunner
    :members: exportToSBML, exportToAntimony, exportToCellML, exportToMatlab, getAntimony, getCurrentAntimony, getCellML, getCurrentCellML, getMatlab, getCurrentMatlab
 
 .. include:: _notebooks/core/tellurium_export.rst
@@ -59,7 +59,7 @@ Stochastic Simulation
 ----------------------------------------
 Use these routines to carry out Gillespie style stochastic simulations.
 
-.. autoclass:: tellurium.ExtendedRoadRunner
+.. autoclass:: tellurium.tellurium.ExtendedRoadRunner
    :members: getSeed, setSeed, gillespie
 
 .. include:: _notebooks/core/tellurium_stochastic.rst
@@ -77,7 +77,7 @@ Plotting
 Two useful plotting routines. They assume that the first column in the array is the x-axis and the second and subsequent columns represent curves on the y-axis.
 
 .. autofunction:: tellurium.plotArray
-.. autoclass:: tellurium.ExtendedRoadRunner
+.. autoclass:: tellurium.tellurium.ExtendedRoadRunner
    :members: draw, plot
 
 .. include:: _notebooks/core/tellurium_plotting.rst
@@ -87,7 +87,7 @@ Model Reset
 ----------------------------------------
 Use these routines reset your model back to particular states
 
-.. autoclass:: tellurium.ExtendedRoadRunner
+.. autoclass:: tellurium.tellurium.ExtendedRoadRunner
    :members: resetToOrigin, resetAll
 
 .. include:: _notebooks/core/tellurium_reset.rst
@@ -97,7 +97,7 @@ jarnac Short-cuts
 ----------------------------------------
 Routines to support the Jarnac compatibility layer
 
-.. autoclass:: tellurium.ExtendedRoadRunner
+.. autoclass:: tellurium.tellurium.ExtendedRoadRunner
    :members: fjac, sm, rs, fs, bs, ps, vs, dv, rv, sv
 
 ----------------------------------------
@@ -117,6 +117,6 @@ Model Methods
 ----------------------------------------
 Routines flattened from model, aves typing and easier for finding the methods
 
-.. autoclass:: tellurium.ExtendedRoadRunner
+.. autoclass:: tellurium.tellurium.ExtendedRoadRunner
    :members: getRatesOfChange, getBoundarySpeciesConcentrations, getBoundarySpeciesIds, getNumBoundarySpecies, getFloatingSpeciesConcentrations, getFloatingSpeciesIds, getNumFloatingSpecies, getGlobalParameterIds, getGlobalParameterValues, getNumGlobalParameters, getCompartmentIds, getCompartmentVolumes, getNumCompartments, getConservedMoietyValues, getNumConservedMoieties, getNumDepFloatingSpecies, getNumIndFloatingSpecies, getNumReactions, getReactionIds, getReactionRates, getNumEvents, setStartTime, setEndTime, getStartTime, getEndTime, getNumberOfPoints, setNumberOfPoints, getNumRateRules
 

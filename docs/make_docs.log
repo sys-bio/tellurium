@@ -1,9 +1,9 @@
-Mon Feb  8 14:04:49 CET 2016
+Die Feb 16 10:21:20 CET 2016
 --------------------------------------
 remove old documentation
 --------------------------------------
 DONE
-Mon Feb  8 14:04:49 CET 2016
+Die Feb 16 10:21:20 CET 2016
 --------------------------------------
 convert notebooks to rst
 --------------------------------------
@@ -17,36 +17,41 @@ convert notebooks to rst
 [NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/computeSteadyState.ipynb to rst
 [NbConvertApp] Executing notebook with kernel: python2
 [NbConvertApp] Writing 965 bytes to computeSteadyState.rst
-[NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/consecutiveUniUniReactions.ipynb to rst
-[NbConvertApp] Executing notebook with kernel: python2
-[NbConvertApp] Support files will be in consecutiveUniUniReactions_files/
-[NbConvertApp] Making directory consecutiveUniUniReactions_files
-[NbConvertApp] Writing 792 bytes to consecutiveUniUniReactions.rst
-[NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/feedback_oscillations.ipynb to rst
-[NbConvertApp] Executing notebook with kernel: python2
-[NbConvertApp] Support files will be in feedback_oscillations_files/
-[NbConvertApp] Making directory feedback_oscillations_files
-[NbConvertApp] Making directory feedback_oscillations_files
-[NbConvertApp] Writing 1138 bytes to feedback_oscillations.rst
-[NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/generatingDifferentWaveforms.ipynb to rst
-[NbConvertApp] Executing notebook with kernel: python2
-[NbConvertApp] Support files will be in generatingDifferentWaveforms_files/
-[NbConvertApp] Making directory generatingDifferentWaveforms_files
-[NbConvertApp] Writing 1867 bytes to generatingDifferentWaveforms.rst
 [NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/introduction.ipynb to rst
 [NbConvertApp] Executing notebook with kernel: python2
 [NbConvertApp] Support files will be in introduction_files/
 [NbConvertApp] Making directory introduction_files
 [NbConvertApp] Making directory introduction_files
 [NbConvertApp] Writing 1620 bytes to introduction.rst
-[NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/modelFromBioModels.ipynb to rst
+[NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/model_consecutiveUniUniReactions.ipynb to rst
 [NbConvertApp] Executing notebook with kernel: python2
-[NbConvertApp] Support files will be in modelFromBioModels_files/
-[NbConvertApp] Making directory modelFromBioModels_files
-[NbConvertApp] Writing 542 bytes to modelFromBioModels.rst
-[NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/nonUnitStoichiometries.ipynb to rst
+[NbConvertApp] Support files will be in model_consecutiveUniUniReactions_files/
+[NbConvertApp] Making directory model_consecutiveUniUniReactions_files
+[NbConvertApp] Writing 804 bytes to model_consecutiveUniUniReactions.rst
+[NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/model_feedback_oscillations.ipynb to rst
 [NbConvertApp] Executing notebook with kernel: python2
-[NbConvertApp] Writing 999 bytes to nonUnitStoichiometries.rst
+[NbConvertApp] Support files will be in model_feedback_oscillations_files/
+[NbConvertApp] Making directory model_feedback_oscillations_files
+[NbConvertApp] Making directory model_feedback_oscillations_files
+[NbConvertApp] Writing 1162 bytes to model_feedback_oscillations.rst
+[NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/model_generatingDifferentWaveforms.ipynb to rst
+[NbConvertApp] Executing notebook with kernel: python2
+[NbConvertApp] Support files will be in model_generatingDifferentWaveforms_files/
+[NbConvertApp] Making directory model_generatingDifferentWaveforms_files
+[NbConvertApp] Writing 1879 bytes to model_generatingDifferentWaveforms.rst
+[NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/model_modelFromBioModels.ipynb to rst
+[NbConvertApp] Executing notebook with kernel: python2
+[NbConvertApp] Support files will be in model_modelFromBioModels_files/
+[NbConvertApp] Making directory model_modelFromBioModels_files
+[NbConvertApp] Writing 554 bytes to model_modelFromBioModels.rst
+[NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/model_nonUnitStoichiometries.ipynb to rst
+[NbConvertApp] Executing notebook with kernel: python2
+[NbConvertApp] Writing 999 bytes to model_nonUnitStoichiometries.rst
+[NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/model_normalizedSpecies.ipynb to rst
+[NbConvertApp] Executing notebook with kernel: python2
+[NbConvertApp] Support files will be in model_normalizedSpecies_files/
+[NbConvertApp] Making directory model_normalizedSpecies_files
+[NbConvertApp] Writing 2692 bytes to model_normalizedSpecies.rst
 [NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/parameter_scan.ipynb to rst
 [NbConvertApp] Executing notebook with kernel: python2
 [NbConvertApp] Support files will be in parameter_scan_files/
@@ -66,7 +71,7 @@ convert notebooks to rst
 [NbConvertApp] Writing 985 bytes to plot2DParameterScan.rst
 [NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/roadrunnerBasics.ipynb to rst
 [NbConvertApp] Executing notebook with kernel: python2
-[NbConvertApp] Writing 4054 bytes to roadrunnerBasics.rst
+[NbConvertApp] Writing 4072 bytes to roadrunnerBasics.rst
 [NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/steadystate_scan.ipynb to rst
 [NbConvertApp] Executing notebook with kernel: python2
 [NbConvertApp] Support files will be in steadystate_scan_files/
@@ -94,7 +99,7 @@ convert notebooks to rst
 [NbConvertApp] Writing 13157 bytes to tellurium_examples.rst
 [NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/tellurium_export.ipynb to rst
 [NbConvertApp] Executing notebook with kernel: python2
-[NbConvertApp] Writing 8270 bytes to tellurium_export.rst
+[NbConvertApp] Writing 12951 bytes to tellurium_export.rst
 [NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/tellurium_interconversion.ipynb to rst
 [NbConvertApp] Executing notebook with kernel: python2
 [NbConvertApp] Writing 601 bytes to tellurium_interconversion.rst
@@ -135,7 +140,7 @@ convert notebooks to rst
 [NbConvertApp] Executing notebook with kernel: python2
 [NbConvertApp] Support files will be in tellurium_utility_files/
 [NbConvertApp] Making directory tellurium_utility_files
-[NbConvertApp] Writing 2519 bytes to tellurium_utility.rst
+[NbConvertApp] Writing 7394 bytes to tellurium_utility.rst
 [NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/template.ipynb to rst
 [NbConvertApp] Executing notebook with kernel: python2
 [NbConvertApp] Writing 260 bytes to template.rst
@@ -175,24 +180,27 @@ create python code
 [NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/computeSteadyState.ipynb to python
 [NbConvertApp] Executing notebook with kernel: python2
 [NbConvertApp] Writing 824 bytes to computeSteadyState.py
-[NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/consecutiveUniUniReactions.ipynb to python
-[NbConvertApp] Executing notebook with kernel: python2
-[NbConvertApp] Writing 620 bytes to consecutiveUniUniReactions.py
-[NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/feedback_oscillations.ipynb to python
-[NbConvertApp] Executing notebook with kernel: python2
-[NbConvertApp] Writing 911 bytes to feedback_oscillations.py
-[NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/generatingDifferentWaveforms.ipynb to python
-[NbConvertApp] Executing notebook with kernel: python2
-[NbConvertApp] Writing 1609 bytes to generatingDifferentWaveforms.py
 [NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/introduction.ipynb to python
 [NbConvertApp] Executing notebook with kernel: python2
 [NbConvertApp] Writing 1360 bytes to introduction.py
-[NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/modelFromBioModels.ipynb to python
+[NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/model_consecutiveUniUniReactions.ipynb to python
 [NbConvertApp] Executing notebook with kernel: python2
-[NbConvertApp] Writing 465 bytes to modelFromBioModels.py
-[NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/nonUnitStoichiometries.ipynb to python
+[NbConvertApp] Writing 620 bytes to model_consecutiveUniUniReactions.py
+[NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/model_feedback_oscillations.ipynb to python
 [NbConvertApp] Executing notebook with kernel: python2
-[NbConvertApp] Writing 461 bytes to nonUnitStoichiometries.py
+[NbConvertApp] Writing 911 bytes to model_feedback_oscillations.py
+[NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/model_generatingDifferentWaveforms.ipynb to python
+[NbConvertApp] Executing notebook with kernel: python2
+[NbConvertApp] Writing 1609 bytes to model_generatingDifferentWaveforms.py
+[NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/model_modelFromBioModels.ipynb to python
+[NbConvertApp] Executing notebook with kernel: python2
+[NbConvertApp] Writing 465 bytes to model_modelFromBioModels.py
+[NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/model_nonUnitStoichiometries.ipynb to python
+[NbConvertApp] Executing notebook with kernel: python2
+[NbConvertApp] Writing 461 bytes to model_nonUnitStoichiometries.py
+[NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/model_normalizedSpecies.ipynb to python
+[NbConvertApp] Executing notebook with kernel: python2
+[NbConvertApp] Writing 2406 bytes to model_normalizedSpecies.py
 [NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/parameter_scan.ipynb to python
 [NbConvertApp] Executing notebook with kernel: python2
 [NbConvertApp] Writing 1277 bytes to parameter_scan.py
@@ -261,16 +269,15 @@ create html docs
 Running Sphinx v1.3.5
 loading pickled environment... done
 building [mo]: targets for 0 po files that are out of date
-building [html]: targets for 37 source files that are out of date
-updating environment: 0 added, 41 changed, 0 removed
+building [html]: targets for 38 source files that are out of date
+updating environment: 0 added, 42 changed, 0 removed
 reading sources... [  2%] API
-[1m[33mWarning: No module named sbml2matlab[0m
 reading sources... [  4%] _apidoc/modules
 reading sources... [  7%] _apidoc/tellurium
 reading sources... [  9%] _apidoc/tellurium.analysis
-reading sources... [ 12%] _apidoc/tellurium.io
+reading sources... [ 11%] _apidoc/tellurium.io
 reading sources... [ 14%] _apidoc/tellurium.notebooks
-reading sources... [ 17%] _apidoc/tellurium.optimization
+reading sources... [ 16%] _apidoc/tellurium.optimization
 reading sources... [ 19%] _apidoc/tellurium.tests
 [1m[33mWarning: species 'S1' has neither initial amount nor concentration set.  Setting initial concentration to 0.0[0m
 [1m[33mWarning: species 'S2' has neither initial amount nor concentration set.  Setting initial concentration to 0.0[0m
@@ -278,33 +285,34 @@ reading sources... [ 19%] _apidoc/tellurium.tests
 [1m[33mWarning: species 'S4' has neither initial amount nor concentration set.  Setting initial concentration to 0.0[0m
 [1m[33mWarning: species 'S5' has neither initial amount nor concentration set.  Setting initial concentration to 0.0[0m
 reading sources... [ 21%] _apidoc/tellurium.tests.testdata
-reading sources... [ 24%] _apidoc/tellurium.visualization
+reading sources... [ 23%] _apidoc/tellurium.visualization
 reading sources... [ 26%] _notebooks/core/antimonyExample
-reading sources... [ 29%] _notebooks/core/computeSteadyState
-reading sources... [ 31%] _notebooks/core/consecutiveUniUniReactions
-reading sources... [ 34%] _notebooks/core/feedback_oscillations
-reading sources... [ 36%] _notebooks/core/generatingDifferentWaveforms
-reading sources... [ 39%] _notebooks/core/introduction
-reading sources... [ 41%] _notebooks/core/modelFromBioModels
-reading sources... [ 43%] _notebooks/core/nonUnitStoichiometries
-reading sources... [ 46%] _notebooks/core/parameter_scan
-reading sources... [ 48%] _notebooks/core/phrasedmlExample
-reading sources... [ 51%] _notebooks/core/plot2DParameterScan
-reading sources... [ 53%] _notebooks/core/roadrunnerBasics
-reading sources... [ 56%] _notebooks/core/steadystate_scan
-reading sources... [ 58%] _notebooks/core/tellurium_examples
-reading sources... [ 60%] _notebooks/core/tellurium_export
-reading sources... [ 63%] _notebooks/core/tellurium_interconversion
-reading sources... [ 65%] _notebooks/core/tellurium_model_loading
-reading sources... [ 68%] _notebooks/core/tellurium_plotting
-reading sources... [ 70%] _notebooks/core/tellurium_reset
+reading sources... [ 28%] _notebooks/core/computeSteadyState
+reading sources... [ 30%] _notebooks/core/introduction
+reading sources... [ 33%] _notebooks/core/model_consecutiveUniUniReactions
+reading sources... [ 35%] _notebooks/core/model_feedback_oscillations
+reading sources... [ 38%] _notebooks/core/model_generatingDifferentWaveforms
+reading sources... [ 40%] _notebooks/core/model_modelFromBioModels
+reading sources... [ 42%] _notebooks/core/model_nonUnitStoichiometries
+reading sources... [ 45%] _notebooks/core/model_normalizedSpecies
+reading sources... [ 47%] _notebooks/core/parameter_scan
+reading sources... [ 50%] _notebooks/core/phrasedmlExample
+reading sources... [ 52%] _notebooks/core/plot2DParameterScan
+reading sources... [ 54%] _notebooks/core/roadrunnerBasics
+reading sources... [ 57%] _notebooks/core/steadystate_scan
+reading sources... [ 59%] _notebooks/core/tellurium_examples
+reading sources... [ 61%] _notebooks/core/tellurium_export
+reading sources... [ 64%] _notebooks/core/tellurium_interconversion
+reading sources... [ 66%] _notebooks/core/tellurium_model_loading
+reading sources... [ 69%] _notebooks/core/tellurium_plotting
+reading sources... [ 71%] _notebooks/core/tellurium_reset
 reading sources... [ 73%] _notebooks/core/tellurium_stochastic
-reading sources... [ 75%] _notebooks/core/tellurium_test
+reading sources... [ 76%] _notebooks/core/tellurium_test
 reading sources... [ 78%] _notebooks/core/tellurium_utility
 reading sources... [ 80%] _notebooks/core/template
-reading sources... [ 82%] _notebooks/core/tesedmlExample
+reading sources... [ 83%] _notebooks/core/tesedmlExample
 reading sources... [ 85%] _notebooks/core/widgets_lorenz
-reading sources... [ 87%] _notebooks/core/widgets_ontology_search
+reading sources... [ 88%] _notebooks/core/widgets_ontology_search
 reading sources... [ 90%] _notebooks/core/widgets_parameter_slider
 reading sources... [ 92%] _notebooks/core/widgets_species_search
 reading sources... [ 95%] introduction
@@ -380,14 +388,15 @@ Floating Species Initial Conditions
 /home/mkoenig/git/tellurium/docs/_notebooks/core/antimonyExample.rst:126: WARNING: image file not readable: _notebooks/core/_notebooks/core/antimonyExample_files/antimonyExample_2_1.png
 /home/mkoenig/git/tellurium/docs/_notebooks/core/antimonyExample.rst:176: WARNING: image file not readable: _notebooks/core/_notebooks/core/antimonyExample_files/antimonyExample_2_3.png
 /home/mkoenig/git/tellurium/docs/_notebooks/core/antimonyExample.rst:207: WARNING: image file not readable: _notebooks/core/_notebooks/core/antimonyExample_files/antimonyExample_2_5.png
-/home/mkoenig/git/tellurium/docs/_notebooks/core/consecutiveUniUniReactions.rst:32: WARNING: image file not readable: _notebooks/core/_notebooks/core/consecutiveUniUniReactions_files/consecutiveUniUniReactions_2_0.png
-/home/mkoenig/git/tellurium/docs/_notebooks/core/feedback_oscillations.rst:42: WARNING: image file not readable: _notebooks/core/_notebooks/core/feedback_oscillations_files/feedback_oscillations_2_0.png
-/home/mkoenig/git/tellurium/docs/_notebooks/core/feedback_oscillations.rst:45: WARNING: image file not readable: _notebooks/core/_notebooks/core/feedback_oscillations_files/feedback_oscillations_2_1.png
-/home/mkoenig/git/tellurium/docs/_notebooks/core/generatingDifferentWaveforms.rst:61: WARNING: image file not readable: _notebooks/core/_notebooks/core/generatingDifferentWaveforms_files/generatingDifferentWaveforms_2_0.png
 /home/mkoenig/git/tellurium/docs/_notebooks/core/introduction.rst:17: WARNING: image file not readable: _notebooks/core/_notebooks/core/introduction_files/introduction_2_0.png
 /home/mkoenig/git/tellurium/docs/_notebooks/core/introduction.rst:65: WARNING: image file not readable: _notebooks/core/_notebooks/core/introduction_files/introduction_4_0.png
-/home/mkoenig/git/tellurium/docs/_notebooks/core/modelFromBioModels.rst:21: WARNING: image file not readable: _notebooks/core/_notebooks/core/modelFromBioModels_files/modelFromBioModels_2_0.png
-/home/mkoenig/git/tellurium/docs/_notebooks/core/nonUnitStoichiometries.rst:23: WARNING: Inline emphasis start-string without end-string.
+/home/mkoenig/git/tellurium/docs/_notebooks/core/model_consecutiveUniUniReactions.rst:32: WARNING: image file not readable: _notebooks/core/_notebooks/core/model_consecutiveUniUniReactions_files/model_consecutiveUniUniReactions_2_0.png
+/home/mkoenig/git/tellurium/docs/_notebooks/core/model_feedback_oscillations.rst:42: WARNING: image file not readable: _notebooks/core/_notebooks/core/model_feedback_oscillations_files/model_feedback_oscillations_2_0.png
+/home/mkoenig/git/tellurium/docs/_notebooks/core/model_feedback_oscillations.rst:45: WARNING: image file not readable: _notebooks/core/_notebooks/core/model_feedback_oscillations_files/model_feedback_oscillations_2_1.png
+/home/mkoenig/git/tellurium/docs/_notebooks/core/model_generatingDifferentWaveforms.rst:61: WARNING: image file not readable: _notebooks/core/_notebooks/core/model_generatingDifferentWaveforms_files/model_generatingDifferentWaveforms_2_0.png
+/home/mkoenig/git/tellurium/docs/_notebooks/core/model_modelFromBioModels.rst:21: WARNING: image file not readable: _notebooks/core/_notebooks/core/model_modelFromBioModels_files/model_modelFromBioModels_2_0.png
+/home/mkoenig/git/tellurium/docs/_notebooks/core/model_nonUnitStoichiometries.rst:23: WARNING: Inline emphasis start-string without end-string.
+/home/mkoenig/git/tellurium/docs/_notebooks/core/model_normalizedSpecies.rst:97: WARNING: image file not readable: _notebooks/core/_notebooks/core/model_normalizedSpecies_files/model_normalizedSpecies_3_0.png
 /home/mkoenig/git/tellurium/docs/_notebooks/core/parameter_scan.rst:43: WARNING: image file not readable: _notebooks/core/_notebooks/core/parameter_scan_files/parameter_scan_2_0.png
 /home/mkoenig/git/tellurium/docs/_notebooks/core/parameter_scan.rst:77: WARNING: image file not readable: _notebooks/core/_notebooks/core/parameter_scan_files/parameter_scan_3_0.png
 /home/mkoenig/git/tellurium/docs/_notebooks/core/phrasedmlExample.rst:38: WARNING: image file not readable: _notebooks/core/_notebooks/core/phrasedmlExample_files/phrasedmlExample_2_0.png
@@ -410,7 +419,6 @@ Floating Species Initial Conditions
 /home/mkoenig/git/tellurium/docs/_notebooks/core/tellurium_examples.rst:494: WARNING: image file not readable: _notebooks/core/_notebooks/core/tellurium_examples_files/tellurium_examples_25_0.png
 /home/mkoenig/git/tellurium/docs/_notebooks/core/tellurium_examples.rst:531: WARNING: image file not readable: _notebooks/core/_notebooks/core/tellurium_examples_files/tellurium_examples_27_0.png
 /home/mkoenig/git/tellurium/docs/_notebooks/core/tellurium_examples.rst:575: WARNING: image file not readable: _notebooks/core/_notebooks/core/tellurium_examples_files/tellurium_examples_29_0.png
-/home/mkoenig/git/tellurium/docs/_notebooks/core/tellurium_export.rst:234: ERROR: Content block expected for the "parsed-literal" directive; none found.
 /home/mkoenig/git/tellurium/docs/_notebooks/core/tellurium_model_loading.rst:50: WARNING: image file not readable: _notebooks/core/_notebooks/core/tellurium_model_loading_files/tellurium_model_loading_2_1.png
 /home/mkoenig/git/tellurium/docs/_notebooks/core/tellurium_model_loading.rst:59: WARNING: image file not readable: _notebooks/core/_notebooks/core/tellurium_model_loading_files/tellurium_model_loading_2_3.png
 /home/mkoenig/git/tellurium/docs/_notebooks/core/tellurium_plotting.rst:40: WARNING: image file not readable: _notebooks/core/_notebooks/core/tellurium_plotting_files/tellurium_plotting_2_0.png
@@ -447,91 +455,103 @@ Floating Species Initial Conditions
 /home/mkoenig/git/tellurium/docs/_notebooks/core/widgets_parameter_slider.rst:9: ERROR: Content block expected for the "code" directive; none found.
 /home/mkoenig/git/tellurium/docs/_notebooks/core/widgets_parameter_slider.rst:37: WARNING: image file not readable: _notebooks/core/_notebooks/core/widgets_parameter_slider_files/widgets_parameter_slider_4_0.png
 /home/mkoenig/git/tellurium/docs/_notebooks/core/widgets_species_search.rst:8: ERROR: Content block expected for the "code" directive; none found.
-_notebooks/core/nonUnitStoichiometries.rst:23: WARNING: Inline emphasis start-string without end-string.
+_notebooks/core/model_nonUnitStoichiometries.rst:23: WARNING: Inline emphasis start-string without end-string.
 _notebooks/core/tesedmlExample.rst:53: WARNING: Inline emphasis start-string without end-string.
 _notebooks/core/tesedmlExample.rst:53: WARNING: Inline emphasis start-string without end-string.
 /home/mkoenig/git/tellurium/tellurium/tellurium.py:docstring of tellurium.loada:5: ERROR: Unexpected indentation.
-/home/mkoenig/git/tellurium/docs/tellurium_methods.rst:52: WARNING: autodoc: failed to import class u'ExtendedRoadRunner' from module u'tellurium'; the following exception was raised:
-Traceback (most recent call last):
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 392, in import_object
-    obj = self.get_attr(obj, part)
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 288, in get_attr
-    return safe_getattr(obj, name, *defargs)
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/util/inspect.py", line 115, in safe_getattr
-    raise AttributeError(name)
-AttributeError: ExtendedRoadRunner
-_notebooks/core/tellurium_export.rst:234: ERROR: Content block expected for the "parsed-literal" directive; none found.
-/home/mkoenig/git/tellurium/docs/tellurium_methods.rst:62: WARNING: autodoc: failed to import class u'ExtendedRoadRunner' from module u'tellurium'; the following exception was raised:
-Traceback (most recent call last):
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 392, in import_object
-    obj = self.get_attr(obj, part)
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 288, in get_attr
-    return safe_getattr(obj, name, *defargs)
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/util/inspect.py", line 115, in safe_getattr
-    raise AttributeError(name)
-AttributeError: ExtendedRoadRunner
-/home/mkoenig/git/tellurium/docs/tellurium_methods.rst:80: WARNING: autodoc: failed to import class u'ExtendedRoadRunner' from module u'tellurium'; the following exception was raised:
-Traceback (most recent call last):
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 392, in import_object
-    obj = self.get_attr(obj, part)
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 288, in get_attr
-    return safe_getattr(obj, name, *defargs)
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/util/inspect.py", line 115, in safe_getattr
-    raise AttributeError(name)
-AttributeError: ExtendedRoadRunner
-/home/mkoenig/git/tellurium/docs/tellurium_methods.rst:90: WARNING: autodoc: failed to import class u'ExtendedRoadRunner' from module u'tellurium'; the following exception was raised:
-Traceback (most recent call last):
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 392, in import_object
-    obj = self.get_attr(obj, part)
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 288, in get_attr
-    return safe_getattr(obj, name, *defargs)
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/util/inspect.py", line 115, in safe_getattr
-    raise AttributeError(name)
-AttributeError: ExtendedRoadRunner
-/home/mkoenig/git/tellurium/docs/tellurium_methods.rst:100: WARNING: autodoc: failed to import class u'ExtendedRoadRunner' from module u'tellurium'; the following exception was raised:
-Traceback (most recent call last):
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 392, in import_object
-    obj = self.get_attr(obj, part)
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 288, in get_attr
-    return safe_getattr(obj, name, *defargs)
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/util/inspect.py", line 115, in safe_getattr
-    raise AttributeError(name)
-AttributeError: ExtendedRoadRunner
+/home/mkoenig/git/tellurium/tellurium/tellurium.py:docstring of tellurium.tellurium.ExtendedRoadRunner:0: WARNING: duplicate object description of tellurium.tellurium.ExtendedRoadRunner, other instance in /home/mkoenig/git/tellurium/docs/_apidoc/tellurium.rst, use :noindex: for one of them
+/home/mkoenig/git/tellurium/tellurium/tellurium.py:docstring of tellurium.tellurium.ExtendedRoadRunner.exportToAntimony:0: WARNING: duplicate object description of tellurium.tellurium.ExtendedRoadRunner.exportToAntimony, other instance in /home/mkoenig/git/tellurium/docs/_apidoc/tellurium.rst, use :noindex: for one of them
+/home/mkoenig/git/tellurium/tellurium/tellurium.py:docstring of tellurium.tellurium.ExtendedRoadRunner.exportToCellML:0: WARNING: duplicate object description of tellurium.tellurium.ExtendedRoadRunner.exportToCellML, other instance in /home/mkoenig/git/tellurium/docs/_apidoc/tellurium.rst, use :noindex: for one of them
+/home/mkoenig/git/tellurium/tellurium/tellurium.py:docstring of tellurium.tellurium.ExtendedRoadRunner.exportToMatlab:0: WARNING: duplicate object description of tellurium.tellurium.ExtendedRoadRunner.exportToMatlab, other instance in /home/mkoenig/git/tellurium/docs/_apidoc/tellurium.rst, use :noindex: for one of them
+/home/mkoenig/git/tellurium/tellurium/tellurium.py:docstring of tellurium.tellurium.ExtendedRoadRunner.exportToSBML:0: WARNING: duplicate object description of tellurium.tellurium.ExtendedRoadRunner.exportToSBML, other instance in /home/mkoenig/git/tellurium/docs/_apidoc/tellurium.rst, use :noindex: for one of them
+/home/mkoenig/git/tellurium/tellurium/tellurium.py:docstring of tellurium.tellurium.ExtendedRoadRunner.getAntimony:0: WARNING: duplicate object description of tellurium.tellurium.ExtendedRoadRunner.getAntimony, other instance in /home/mkoenig/git/tellurium/docs/_apidoc/tellurium.rst, use :noindex: for one of them
+/home/mkoenig/git/tellurium/tellurium/tellurium.py:docstring of tellurium.tellurium.ExtendedRoadRunner.getCellML:0: WARNING: duplicate object description of tellurium.tellurium.ExtendedRoadRunner.getCellML, other instance in /home/mkoenig/git/tellurium/docs/_apidoc/tellurium.rst, use :noindex: for one of them
+/home/mkoenig/git/tellurium/tellurium/tellurium.py:docstring of tellurium.tellurium.ExtendedRoadRunner.getCurrentAntimony:0: WARNING: duplicate object description of tellurium.tellurium.ExtendedRoadRunner.getCurrentAntimony, other instance in /home/mkoenig/git/tellurium/docs/_apidoc/tellurium.rst, use :noindex: for one of them
+/home/mkoenig/git/tellurium/tellurium/tellurium.py:docstring of tellurium.tellurium.ExtendedRoadRunner.getCurrentCellML:0: WARNING: duplicate object description of tellurium.tellurium.ExtendedRoadRunner.getCurrentCellML, other instance in /home/mkoenig/git/tellurium/docs/_apidoc/tellurium.rst, use :noindex: for one of them
+/home/mkoenig/git/tellurium/tellurium/tellurium.py:docstring of tellurium.tellurium.ExtendedRoadRunner.getCurrentMatlab:0: WARNING: duplicate object description of tellurium.tellurium.ExtendedRoadRunner.getCurrentMatlab, other instance in /home/mkoenig/git/tellurium/docs/_apidoc/tellurium.rst, use :noindex: for one of them
+/home/mkoenig/git/tellurium/tellurium/tellurium.py:docstring of tellurium.tellurium.ExtendedRoadRunner.getMatlab:0: WARNING: duplicate object description of tellurium.tellurium.ExtendedRoadRunner.getMatlab, other instance in /home/mkoenig/git/tellurium/docs/_apidoc/tellurium.rst, use :noindex: for one of them
+/home/mkoenig/git/tellurium/tellurium/tellurium.py:docstring of tellurium.tellurium.ExtendedRoadRunner.getSeed:0: WARNING: duplicate object description of tellurium.tellurium.ExtendedRoadRunner.getSeed, other instance in /home/mkoenig/git/tellurium/docs/_apidoc/tellurium.rst, use :noindex: for one of them
+/home/mkoenig/git/tellurium/tellurium/tellurium.py:docstring of tellurium.tellurium.ExtendedRoadRunner.gillespie:0: WARNING: duplicate object description of tellurium.tellurium.ExtendedRoadRunner.gillespie, other instance in /home/mkoenig/git/tellurium/docs/_apidoc/tellurium.rst, use :noindex: for one of them
+/home/mkoenig/git/tellurium/tellurium/tellurium.py:docstring of tellurium.tellurium.ExtendedRoadRunner.setSeed:0: WARNING: duplicate object description of tellurium.tellurium.ExtendedRoadRunner.setSeed, other instance in /home/mkoenig/git/tellurium/docs/_apidoc/tellurium.rst, use :noindex: for one of them
+/home/mkoenig/git/tellurium/tellurium/tellurium.py:docstring of tellurium.tellurium.ExtendedRoadRunner.draw:0: WARNING: duplicate object description of tellurium.tellurium.ExtendedRoadRunner.draw, other instance in /home/mkoenig/git/tellurium/docs/_apidoc/tellurium.rst, use :noindex: for one of them
+/home/mkoenig/git/tellurium/tellurium/tellurium.py:docstring of tellurium.tellurium.ExtendedRoadRunner.plot:0: WARNING: duplicate object description of tellurium.tellurium.ExtendedRoadRunner.plot, other instance in /home/mkoenig/git/tellurium/docs/_apidoc/tellurium.rst, use :noindex: for one of them
+/home/mkoenig/git/tellurium/tellurium/tellurium.py:docstring of tellurium.tellurium.ExtendedRoadRunner.resetAll:0: WARNING: duplicate object description of tellurium.tellurium.ExtendedRoadRunner.resetAll, other instance in /home/mkoenig/git/tellurium/docs/_apidoc/tellurium.rst, use :noindex: for one of them
+/home/mkoenig/git/tellurium/tellurium/tellurium.py:docstring of tellurium.tellurium.ExtendedRoadRunner.resetToOrigin:0: WARNING: duplicate object description of tellurium.tellurium.ExtendedRoadRunner.resetToOrigin, other instance in /home/mkoenig/git/tellurium/docs/_apidoc/tellurium.rst, use :noindex: for one of them
+/home/mkoenig/git/tellurium/tellurium/tellurium.py:docstring of tellurium.tellurium.ExtendedRoadRunner.bs:0: WARNING: duplicate object description of tellurium.tellurium.ExtendedRoadRunner.bs, other instance in /home/mkoenig/git/tellurium/docs/_apidoc/tellurium.rst, use :noindex: for one of them
+/home/mkoenig/git/tellurium/tellurium/tellurium.py:docstring of tellurium.tellurium.ExtendedRoadRunner.dv:0: WARNING: duplicate object description of tellurium.tellurium.ExtendedRoadRunner.dv, other instance in /home/mkoenig/git/tellurium/docs/_apidoc/tellurium.rst, use :noindex: for one of them
+/home/mkoenig/git/tellurium/tellurium/tellurium.py:docstring of tellurium.tellurium.ExtendedRoadRunner.fjac:0: WARNING: duplicate object description of tellurium.tellurium.ExtendedRoadRunner.fjac, other instance in /home/mkoenig/git/tellurium/docs/_apidoc/tellurium.rst, use :noindex: for one of them
+/home/mkoenig/git/tellurium/tellurium/tellurium.py:docstring of tellurium.tellurium.ExtendedRoadRunner.fs:0: WARNING: duplicate object description of tellurium.tellurium.ExtendedRoadRunner.fs, other instance in /home/mkoenig/git/tellurium/docs/_apidoc/tellurium.rst, use :noindex: for one of them
+/home/mkoenig/git/tellurium/tellurium/tellurium.py:docstring of tellurium.tellurium.ExtendedRoadRunner.rs:0: WARNING: duplicate object description of tellurium.tellurium.ExtendedRoadRunner.rs, other instance in /home/mkoenig/git/tellurium/docs/_apidoc/tellurium.rst, use :noindex: for one of them
+/home/mkoenig/git/tellurium/tellurium/tellurium.py:docstring of tellurium.tellurium.ExtendedRoadRunner.rv:0: WARNING: duplicate object description of tellurium.tellurium.ExtendedRoadRunner.rv, other instance in /home/mkoenig/git/tellurium/docs/_apidoc/tellurium.rst, use :noindex: for one of them
+/home/mkoenig/git/tellurium/tellurium/tellurium.py:docstring of tellurium.tellurium.ExtendedRoadRunner.rv:13: SEVERE: Unexpected section title.
+
+Stoichiometry
+-------------
+/home/mkoenig/git/tellurium/tellurium/tellurium.py:docstring of tellurium.tellurium.ExtendedRoadRunner.sm:0: WARNING: duplicate object description of tellurium.tellurium.ExtendedRoadRunner.sm, other instance in /home/mkoenig/git/tellurium/docs/_apidoc/tellurium.rst, use :noindex: for one of them
+/home/mkoenig/git/tellurium/tellurium/tellurium.py:docstring of tellurium.tellurium.ExtendedRoadRunner.sv:0: WARNING: duplicate object description of tellurium.tellurium.ExtendedRoadRunner.sv, other instance in /home/mkoenig/git/tellurium/docs/_apidoc/tellurium.rst, use :noindex: for one of them
+/home/mkoenig/git/tellurium/tellurium/tellurium.py:docstring of tellurium.tellurium.ExtendedRoadRunner.sv:11: SEVERE: Unexpected section title.
+
+Floating Species Initial Conditions
+-----------------------------------
+/home/mkoenig/git/tellurium/tellurium/tellurium.py:docstring of tellurium.tellurium.ExtendedRoadRunner.vs:0: WARNING: duplicate object description of tellurium.tellurium.ExtendedRoadRunner.vs, other instance in /home/mkoenig/git/tellurium/docs/_apidoc/tellurium.rst, use :noindex: for one of them
 _notebooks/core/tellurium_test.rst:3: SEVERE: Title level inconsistent:
 
 Test models
 ~~~~~~~~~~~
 _notebooks/core/tellurium_test.rst:37: WARNING: Inline emphasis start-string without end-string.
-/home/mkoenig/git/tellurium/docs/tellurium_methods.rst:120: WARNING: autodoc: failed to import class u'ExtendedRoadRunner' from module u'tellurium'; the following exception was raised:
-Traceback (most recent call last):
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 392, in import_object
-    obj = self.get_attr(obj, part)
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 288, in get_attr
-    return safe_getattr(obj, name, *defargs)
-  File "/usr/local/lib/python2.7/dist-packages/sphinx/util/inspect.py", line 115, in safe_getattr
-    raise AttributeError(name)
-AttributeError: ExtendedRoadRunner
-internal padding after _notebooks/core/tellurium_test.rst:933: ERROR: Unknown target name: "compartment".
-internal padding after _notebooks/core/tellurium_test.rst:933: ERROR: Unknown target name: "compartment".
-internal padding after _notebooks/core/tellurium_test.rst:933: ERROR: Unknown target name: "compartment".
-internal padding after _notebooks/core/tellurium_test.rst:933: ERROR: Unknown target name: "compartment".
-internal padding after _notebooks/core/tellurium_test.rst:933: ERROR: Unknown target name: "compartment".
-internal padding after _notebooks/core/tellurium_test.rst:933: ERROR: Unknown target name: "compartment".
-internal padding after _notebooks/core/tellurium_test.rst:933: ERROR: Unknown target name: "compartment".
-internal padding after _notebooks/core/tellurium_test.rst:933: ERROR: Unknown target name: "compartment".
-internal padding after _notebooks/core/tellurium_test.rst:933: ERROR: Unknown target name: "compartment".
+/home/mkoenig/git/tellurium/docs/tellurium_methods.rst:120: WARNING: missing attribute setStartTime in object tellurium.tellurium.ExtendedRoadRunner
+/home/mkoenig/git/tellurium/docs/tellurium_methods.rst:120: WARNING: missing attribute setEndTime in object tellurium.tellurium.ExtendedRoadRunner
+/home/mkoenig/git/tellurium/docs/tellurium_methods.rst:120: WARNING: missing attribute getStartTime in object tellurium.tellurium.ExtendedRoadRunner
+/home/mkoenig/git/tellurium/docs/tellurium_methods.rst:120: WARNING: missing attribute getEndTime in object tellurium.tellurium.ExtendedRoadRunner
+/home/mkoenig/git/tellurium/docs/tellurium_methods.rst:120: WARNING: missing attribute getNumberOfPoints in object tellurium.tellurium.ExtendedRoadRunner
+/home/mkoenig/git/tellurium/docs/tellurium_methods.rst:120: WARNING: missing attribute setNumberOfPoints in object tellurium.tellurium.ExtendedRoadRunner
+/home/mkoenig/git/tellurium/tellurium/tellurium.py:docstring of tellurium.tellurium.ExtendedRoadRunner.getBoundarySpeciesConcentrations:0: WARNING: duplicate object description of tellurium.tellurium.ExtendedRoadRunner.getBoundarySpeciesConcentrations, other instance in /home/mkoenig/git/tellurium/docs/_apidoc/tellurium.rst, use :noindex: for one of them
+/home/mkoenig/git/tellurium/tellurium/tellurium.py:docstring of tellurium.tellurium.ExtendedRoadRunner.getBoundarySpeciesIds:0: WARNING: duplicate object description of tellurium.tellurium.ExtendedRoadRunner.getBoundarySpeciesIds, other instance in /home/mkoenig/git/tellurium/docs/_apidoc/tellurium.rst, use :noindex: for one of them
+/home/mkoenig/git/tellurium/tellurium/tellurium.py:docstring of tellurium.tellurium.ExtendedRoadRunner.getCompartmentIds:0: WARNING: duplicate object description of tellurium.tellurium.ExtendedRoadRunner.getCompartmentIds, other instance in /home/mkoenig/git/tellurium/docs/_apidoc/tellurium.rst, use :noindex: for one of them
+/home/mkoenig/git/tellurium/tellurium/tellurium.py:docstring of tellurium.tellurium.ExtendedRoadRunner.getCompartmentVolumes:0: WARNING: duplicate object description of tellurium.tellurium.ExtendedRoadRunner.getCompartmentVolumes, other instance in /home/mkoenig/git/tellurium/docs/_apidoc/tellurium.rst, use :noindex: for one of them
+/home/mkoenig/git/tellurium/tellurium/tellurium.py:docstring of tellurium.tellurium.ExtendedRoadRunner.getConservedMoietyValues:0: WARNING: duplicate object description of tellurium.tellurium.ExtendedRoadRunner.getConservedMoietyValues, other instance in /home/mkoenig/git/tellurium/docs/_apidoc/tellurium.rst, use :noindex: for one of them
+/home/mkoenig/git/tellurium/tellurium/tellurium.py:docstring of tellurium.tellurium.ExtendedRoadRunner.getFloatingSpeciesConcentrations:0: WARNING: duplicate object description of tellurium.tellurium.ExtendedRoadRunner.getFloatingSpeciesConcentrations, other instance in /home/mkoenig/git/tellurium/docs/_apidoc/tellurium.rst, use :noindex: for one of them
+/home/mkoenig/git/tellurium/tellurium/tellurium.py:docstring of tellurium.tellurium.ExtendedRoadRunner.getFloatingSpeciesConcentrations:9: SEVERE: Unexpected section title.
+
+Floating Species Initial Conditions
+-----------------------------------
+/home/mkoenig/git/tellurium/tellurium/tellurium.py:docstring of tellurium.tellurium.ExtendedRoadRunner.getFloatingSpeciesIds:0: WARNING: duplicate object description of tellurium.tellurium.ExtendedRoadRunner.getFloatingSpeciesIds, other instance in /home/mkoenig/git/tellurium/docs/_apidoc/tellurium.rst, use :noindex: for one of them
+/home/mkoenig/git/tellurium/tellurium/tellurium.py:docstring of tellurium.tellurium.ExtendedRoadRunner.getGlobalParameterValues:0: WARNING: duplicate object description of tellurium.tellurium.ExtendedRoadRunner.getGlobalParameterValues, other instance in /home/mkoenig/git/tellurium/docs/_apidoc/tellurium.rst, use :noindex: for one of them
+/home/mkoenig/git/tellurium/tellurium/tellurium.py:docstring of tellurium.tellurium.ExtendedRoadRunner.getNumBoundarySpecies:0: WARNING: duplicate object description of tellurium.tellurium.ExtendedRoadRunner.getNumBoundarySpecies, other instance in /home/mkoenig/git/tellurium/docs/_apidoc/tellurium.rst, use :noindex: for one of them
+/home/mkoenig/git/tellurium/tellurium/tellurium.py:docstring of tellurium.tellurium.ExtendedRoadRunner.getNumCompartments:0: WARNING: duplicate object description of tellurium.tellurium.ExtendedRoadRunner.getNumCompartments, other instance in /home/mkoenig/git/tellurium/docs/_apidoc/tellurium.rst, use :noindex: for one of them
+/home/mkoenig/git/tellurium/tellurium/tellurium.py:docstring of tellurium.tellurium.ExtendedRoadRunner.getNumConservedMoieties:0: WARNING: duplicate object description of tellurium.tellurium.ExtendedRoadRunner.getNumConservedMoieties, other instance in /home/mkoenig/git/tellurium/docs/_apidoc/tellurium.rst, use :noindex: for one of them
+/home/mkoenig/git/tellurium/tellurium/tellurium.py:docstring of tellurium.tellurium.ExtendedRoadRunner.getNumFloatingSpecies:0: WARNING: duplicate object description of tellurium.tellurium.ExtendedRoadRunner.getNumFloatingSpecies, other instance in /home/mkoenig/git/tellurium/docs/_apidoc/tellurium.rst, use :noindex: for one of them
+/home/mkoenig/git/tellurium/tellurium/tellurium.py:docstring of tellurium.tellurium.ExtendedRoadRunner.getNumGlobalParameters:0: WARNING: duplicate object description of tellurium.tellurium.ExtendedRoadRunner.getNumGlobalParameters, other instance in /home/mkoenig/git/tellurium/docs/_apidoc/tellurium.rst, use :noindex: for one of them
+/home/mkoenig/git/tellurium/tellurium/tellurium.py:docstring of tellurium.tellurium.ExtendedRoadRunner.getNumReactions:0: WARNING: duplicate object description of tellurium.tellurium.ExtendedRoadRunner.getNumReactions, other instance in /home/mkoenig/git/tellurium/docs/_apidoc/tellurium.rst, use :noindex: for one of them
+/home/mkoenig/git/tellurium/tellurium/tellurium.py:docstring of tellurium.tellurium.ExtendedRoadRunner.getRatesOfChange:0: WARNING: duplicate object description of tellurium.tellurium.ExtendedRoadRunner.getRatesOfChange, other instance in /home/mkoenig/git/tellurium/docs/_apidoc/tellurium.rst, use :noindex: for one of them
+/home/mkoenig/git/tellurium/tellurium/tellurium.py:docstring of tellurium.tellurium.ExtendedRoadRunner.getReactionIds:0: WARNING: duplicate object description of tellurium.tellurium.ExtendedRoadRunner.getReactionIds, other instance in /home/mkoenig/git/tellurium/docs/_apidoc/tellurium.rst, use :noindex: for one of them
+/home/mkoenig/git/tellurium/tellurium/tellurium.py:docstring of tellurium.tellurium.ExtendedRoadRunner.getReactionRates:0: WARNING: duplicate object description of tellurium.tellurium.ExtendedRoadRunner.getReactionRates, other instance in /home/mkoenig/git/tellurium/docs/_apidoc/tellurium.rst, use :noindex: for one of them
+/home/mkoenig/git/tellurium/tellurium/tellurium.py:docstring of tellurium.tellurium.ExtendedRoadRunner.getReactionRates:11: SEVERE: Unexpected section title.
+
+Stoichiometry
+-------------
+internal padding after _notebooks/core/tellurium_test.rst:1345: ERROR: Unknown target name: "compartment".
+internal padding after _notebooks/core/tellurium_test.rst:1345: ERROR: Unknown target name: "compartment".
+internal padding after _notebooks/core/tellurium_test.rst:1345: ERROR: Unknown target name: "compartment".
+internal padding after _notebooks/core/tellurium_test.rst:1345: ERROR: Unknown target name: "compartment".
+internal padding after _notebooks/core/tellurium_test.rst:1345: ERROR: Unknown target name: "compartment".
+internal padding after _notebooks/core/tellurium_test.rst:1345: ERROR: Unknown target name: "compartment".
+internal padding after _notebooks/core/tellurium_test.rst:1345: ERROR: Unknown target name: "compartment".
+internal padding after _notebooks/core/tellurium_test.rst:1345: ERROR: Unknown target name: "compartment".
+internal padding after _notebooks/core/tellurium_test.rst:1345: ERROR: Unknown target name: "compartment".
 looking for now-outdated files... none found
 pickling environment... done
 checking consistency... /home/mkoenig/git/tellurium/docs/API.rst:: WARNING: document isn't included in any toctree
 /home/mkoenig/git/tellurium/docs/_apidoc/modules.rst:: WARNING: document isn't included in any toctree
 /home/mkoenig/git/tellurium/docs/_notebooks/core/antimonyExample.rst:: WARNING: document isn't included in any toctree
 /home/mkoenig/git/tellurium/docs/_notebooks/core/computeSteadyState.rst:: WARNING: document isn't included in any toctree
-/home/mkoenig/git/tellurium/docs/_notebooks/core/consecutiveUniUniReactions.rst:: WARNING: document isn't included in any toctree
-/home/mkoenig/git/tellurium/docs/_notebooks/core/feedback_oscillations.rst:: WARNING: document isn't included in any toctree
-/home/mkoenig/git/tellurium/docs/_notebooks/core/generatingDifferentWaveforms.rst:: WARNING: document isn't included in any toctree
 /home/mkoenig/git/tellurium/docs/_notebooks/core/introduction.rst:: WARNING: document isn't included in any toctree
-/home/mkoenig/git/tellurium/docs/_notebooks/core/modelFromBioModels.rst:: WARNING: document isn't included in any toctree
-/home/mkoenig/git/tellurium/docs/_notebooks/core/nonUnitStoichiometries.rst:: WARNING: document isn't included in any toctree
+/home/mkoenig/git/tellurium/docs/_notebooks/core/model_consecutiveUniUniReactions.rst:: WARNING: document isn't included in any toctree
+/home/mkoenig/git/tellurium/docs/_notebooks/core/model_feedback_oscillations.rst:: WARNING: document isn't included in any toctree
+/home/mkoenig/git/tellurium/docs/_notebooks/core/model_generatingDifferentWaveforms.rst:: WARNING: document isn't included in any toctree
+/home/mkoenig/git/tellurium/docs/_notebooks/core/model_modelFromBioModels.rst:: WARNING: document isn't included in any toctree
+/home/mkoenig/git/tellurium/docs/_notebooks/core/model_nonUnitStoichiometries.rst:: WARNING: document isn't included in any toctree
+/home/mkoenig/git/tellurium/docs/_notebooks/core/model_normalizedSpecies.rst:: WARNING: document isn't included in any toctree
 /home/mkoenig/git/tellurium/docs/_notebooks/core/parameter_scan.rst:: WARNING: document isn't included in any toctree
 /home/mkoenig/git/tellurium/docs/_notebooks/core/phrasedmlExample.rst:: WARNING: document isn't included in any toctree
 /home/mkoenig/git/tellurium/docs/_notebooks/core/plot2DParameterScan.rst:: WARNING: document isn't included in any toctree
@@ -556,43 +576,44 @@ done
 preparing documents... done
 writing output... [  2%] API
 writing output... [  4%] _apidoc/modules
-writing output... [  7%] _apidoc/tellurium
+writing output... [  6%] _apidoc/tellurium
 writing output... [  9%] _apidoc/tellurium.analysis
 writing output... [ 11%] _apidoc/tellurium.io
-writing output... [ 14%] _apidoc/tellurium.notebooks
+writing output... [ 13%] _apidoc/tellurium.notebooks
 writing output... [ 16%] _apidoc/tellurium.optimization
-writing output... [ 19%] _apidoc/tellurium.tests
-writing output... [ 21%] _apidoc/tellurium.tests.testdata
+writing output... [ 18%] _apidoc/tellurium.tests
+writing output... [ 20%] _apidoc/tellurium.tests.testdata
 writing output... [ 23%] _apidoc/tellurium.visualization
-writing output... [ 26%] _notebooks/core/antimonyExample
-writing output... [ 28%] _notebooks/core/computeSteadyState
-writing output... [ 30%] _notebooks/core/consecutiveUniUniReactions
-writing output... [ 33%] _notebooks/core/feedback_oscillations
-writing output... [ 35%] _notebooks/core/generatingDifferentWaveforms
-writing output... [ 38%] _notebooks/core/introduction
-writing output... [ 40%] _notebooks/core/modelFromBioModels
-writing output... [ 42%] _notebooks/core/nonUnitStoichiometries
-writing output... [ 45%] _notebooks/core/parameter_scan
-writing output... [ 47%] _notebooks/core/phrasedmlExample
-writing output... [ 50%] _notebooks/core/plot2DParameterScan
-writing output... [ 52%] _notebooks/core/roadrunnerBasics
-writing output... [ 54%] _notebooks/core/steadystate_scan
-writing output... [ 57%] _notebooks/core/tellurium_examples
-writing output... [ 59%] _notebooks/core/tellurium_export
-writing output... [ 61%] _notebooks/core/tellurium_interconversion
-writing output... [ 64%] _notebooks/core/tellurium_model_loading
-writing output... [ 66%] _notebooks/core/tellurium_plotting
+writing output... [ 25%] _notebooks/core/antimonyExample
+writing output... [ 27%] _notebooks/core/computeSteadyState
+writing output... [ 30%] _notebooks/core/introduction
+writing output... [ 32%] _notebooks/core/model_consecutiveUniUniReactions
+writing output... [ 34%] _notebooks/core/model_feedback_oscillations
+writing output... [ 37%] _notebooks/core/model_generatingDifferentWaveforms
+writing output... [ 39%] _notebooks/core/model_modelFromBioModels
+writing output... [ 41%] _notebooks/core/model_nonUnitStoichiometries
+writing output... [ 44%] _notebooks/core/model_normalizedSpecies
+writing output... [ 46%] _notebooks/core/parameter_scan
+writing output... [ 48%] _notebooks/core/phrasedmlExample
+writing output... [ 51%] _notebooks/core/plot2DParameterScan
+writing output... [ 53%] _notebooks/core/roadrunnerBasics
+writing output... [ 55%] _notebooks/core/steadystate_scan
+writing output... [ 58%] _notebooks/core/tellurium_examples
+writing output... [ 60%] _notebooks/core/tellurium_export
+writing output... [ 62%] _notebooks/core/tellurium_interconversion
+writing output... [ 65%] _notebooks/core/tellurium_model_loading
+writing output... [ 67%] _notebooks/core/tellurium_plotting
 writing output... [ 69%] _notebooks/core/tellurium_reset
-writing output... [ 71%] _notebooks/core/tellurium_stochastic
-writing output... [ 73%] _notebooks/core/tellurium_test
+writing output... [ 72%] _notebooks/core/tellurium_stochastic
+writing output... [ 74%] _notebooks/core/tellurium_test
 writing output... [ 76%] _notebooks/core/tellurium_utility
-writing output... [ 78%] _notebooks/core/template
-writing output... [ 80%] _notebooks/core/tesedmlExample
+writing output... [ 79%] _notebooks/core/template
+writing output... [ 81%] _notebooks/core/tesedmlExample
 writing output... [ 83%] _notebooks/core/widgets_lorenz
-writing output... [ 85%] _notebooks/core/widgets_ontology_search
+writing output... [ 86%] _notebooks/core/widgets_ontology_search
 writing output... [ 88%] _notebooks/core/widgets_parameter_slider
 writing output... [ 90%] _notebooks/core/widgets_species_search
-writing output... [ 92%] index
+writing output... [ 93%] index
 writing output... [ 95%] introduction
 writing output... [ 97%] notebooks
 writing output... [100%] tellurium_methods
@@ -623,64 +644,65 @@ highlighting module code... [ 64%] tellurium.visualization.sbmldiagram
 highlighting module code... [ 67%] tellurium.tesedml
 highlighting module code... [ 70%] tellurium.notebooks.notebooktools
 highlighting module code... [ 73%] tellurium.widgets.ontology_search
-highlighting module code... [ 76%] tellurium.optimization.DiffEvolution
+highlighting module code... [ 76%] tellurium.optimization.diffevolution
 highlighting module code... [ 79%] tellurium.analysis.annotations
 highlighting module code... [ 82%] tellurium.analysis.parameterscan
 highlighting module code... [ 85%] tellurium.visualization.SBMLDiagram
 highlighting module code... [ 88%] tellurium.tests.test_runner
 highlighting module code... [ 91%] tellurium.tests.test_io
 highlighting module code... [ 94%] tellurium.unzipy
-highlighting module code... [ 97%] tellurium.optimization.diffevolution
+highlighting module code... [ 97%] tellurium.optimization.DiffEvolution
 highlighting module code... [100%] tellurium.tests.test_Export
 
 writing additional pages... search
 copying images... [  2%] _notebooks/core/tellurium_examples_files/tellurium_examples_7_0.png
 copying images... [  4%] _notebooks/core/parameter_scan_files/parameter_scan_2_0.png
-copying images... [  6%] _notebooks/core/phrasedmlExample_files/phrasedmlExample_2_0.png
+copying images... [  6%] _notebooks/core/introduction_files/introduction_2_0.png
 copying images... [  9%] _notebooks/core/tellurium_utility_files/tellurium_utility_4_0.png
 copying images... [ 11%] _notebooks/core/parameter_scan_files/parameter_scan_3_0.png
 copying images... [ 13%] _notebooks/core/tellurium_examples_files/tellurium_examples_1_0.png
-copying images... [ 16%] _notebooks/core/consecutiveUniUniReactions_files/consecutiveUniUniReactions_2_0.png
-copying images... [ 18%] _notebooks/core/tellurium_reset_files/tellurium_reset_2_3.png
-copying images... [ 20%] _notebooks/core/tellurium_stochastic_files/tellurium_stochastic_6_0.png
-copying images... [ 23%] _notebooks/core/tellurium_examples_files/tellurium_examples_13_1.png
-copying images... [ 25%] _notebooks/core/tellurium_reset_files/tellurium_reset_2_5.png
-copying images... [ 27%] _notebooks/core/tellurium_examples_files/tellurium_examples_27_0.png
-copying images... [ 30%] _notebooks/core/modelFromBioModels_files/modelFromBioModels_2_0.png
-copying images... [ 32%] _notebooks/core/tellurium_plotting_files/tellurium_plotting_4_0.png
-copying images... [ 34%] _notebooks/core/tellurium_model_loading_files/tellurium_model_loading_2_3.png
-copying images... [ 37%] _notebooks/core/tellurium_examples_files/tellurium_examples_19_0.png
-copying images... [ 39%] _notebooks/core/tellurium_examples_files/tellurium_examples_3_0.png
-copying images... [ 41%] _notebooks/core/tellurium_examples_files/tellurium_examples_21_0.png
-copying images... [ 44%] _notebooks/core/introduction_files/introduction_2_0.png
-copying images... [ 46%] _notebooks/core/tellurium_examples_files/tellurium_examples_15_0.png
-copying images... [ 48%] ./images/tellurium_screenshot2.png
-copying images... [ 51%] _notebooks/core/tellurium_examples_files/tellurium_examples_29_0.png
-copying images... [ 53%] _notebooks/core/tellurium_examples_files/tellurium_examples_23_0.png
-copying images... [ 55%] _notebooks/core/introduction_files/introduction_4_0.png
-copying images... [ 58%] _notebooks/core/tellurium_plotting_files/tellurium_plotting_2_1.png
-copying images... [ 60%] _notebooks/core/tellurium_plotting_files/tellurium_plotting_4_1.png
-copying images... [ 62%] _notebooks/core/tellurium_model_loading_files/tellurium_model_loading_2_1.png
-copying images... [ 65%] _notebooks/core/generatingDifferentWaveforms_files/generatingDifferentWaveforms_2_0.png
-copying images... [ 67%] _notebooks/core/tellurium_examples_files/tellurium_examples_1_1.png
-copying images... [ 69%] _notebooks/core/tellurium_stochastic_files/tellurium_stochastic_2_0.png
-copying images... [ 72%] _notebooks/core/feedback_oscillations_files/feedback_oscillations_2_1.png
-copying images... [ 74%] _notebooks/core/tellurium_examples_files/tellurium_examples_5_1.png
-copying images... [ 76%] _notebooks/core/tellurium_plotting_files/tellurium_plotting_6_0.png
-copying images... [ 79%] _notebooks/core/tellurium_plotting_files/tellurium_plotting_2_0.png
-copying images... [ 81%] _notebooks/core/tellurium_stochastic_files/tellurium_stochastic_4_0.png
-copying images... [ 83%] _notebooks/core/tellurium_examples_files/tellurium_examples_9_0.png
-copying images... [ 86%] _notebooks/core/tellurium_examples_files/tellurium_examples_11_0.png
-copying images... [ 88%] _notebooks/core/tellurium_examples_files/tellurium_examples_25_0.png
-copying images... [ 90%] _notebooks/core/tellurium_reset_files/tellurium_reset_2_1.png
-copying images... [ 93%] _notebooks/core/tellurium_reset_files/tellurium_reset_2_7.png
-copying images... [ 95%] _notebooks/core/feedback_oscillations_files/feedback_oscillations_2_0.png
-copying images... [ 97%] _notebooks/core/tellurium_examples_files/tellurium_examples_17_0.png
-copying images... [100%] _notebooks/core/steadystate_scan_files/steadystate_scan_2_1.png
+copying images... [ 15%] _notebooks/core/tellurium_reset_files/tellurium_reset_2_3.png
+copying images... [ 18%] _notebooks/core/tellurium_stochastic_files/tellurium_stochastic_6_0.png
+copying images... [ 20%] _notebooks/core/tellurium_examples_files/tellurium_examples_13_1.png
+copying images... [ 22%] _notebooks/core/tellurium_reset_files/tellurium_reset_2_5.png
+copying images... [ 25%] _notebooks/core/tellurium_examples_files/tellurium_examples_27_0.png
+copying images... [ 27%] _notebooks/core/tellurium_plotting_files/tellurium_plotting_4_0.png
+copying images... [ 29%] _notebooks/core/tellurium_model_loading_files/tellurium_model_loading_2_3.png
+copying images... [ 31%] _notebooks/core/tellurium_examples_files/tellurium_examples_19_0.png
+copying images... [ 34%] _notebooks/core/tellurium_examples_files/tellurium_examples_3_0.png
+copying images... [ 36%] _notebooks/core/tellurium_examples_files/tellurium_examples_21_0.png
+copying images... [ 38%] _notebooks/core/model_normalizedSpecies_files/model_normalizedSpecies_3_0.png
+copying images... [ 40%] _notebooks/core/phrasedmlExample_files/phrasedmlExample_2_0.png
+copying images... [ 43%] _notebooks/core/tellurium_reset_files/tellurium_reset_2_1.png
+copying images... [ 45%] _notebooks/core/tellurium_examples_files/tellurium_examples_15_0.png
+copying images... [ 47%] ./images/tellurium_screenshot2.png
+copying images... [ 50%] _notebooks/core/tellurium_examples_files/tellurium_examples_29_0.png
+copying images... [ 52%] _notebooks/core/tellurium_examples_files/tellurium_examples_23_0.png
+copying images... [ 54%] _notebooks/core/introduction_files/introduction_4_0.png
+copying images... [ 56%] _notebooks/core/tellurium_plotting_files/tellurium_plotting_2_1.png
+copying images... [ 59%] _notebooks/core/tellurium_plotting_files/tellurium_plotting_4_1.png
+copying images... [ 61%] _notebooks/core/tellurium_model_loading_files/tellurium_model_loading_2_1.png
+copying images... [ 63%] _notebooks/core/tellurium_examples_files/tellurium_examples_1_1.png
+copying images... [ 65%] _notebooks/core/model_feedback_oscillations_files/model_feedback_oscillations_2_0.png
+copying images... [ 68%] _notebooks/core/model_generatingDifferentWaveforms_files/model_generatingDifferentWaveforms_2_0.png
+copying images... [ 70%] _notebooks/core/tellurium_examples_files/tellurium_examples_5_1.png
+copying images... [ 72%] _notebooks/core/tellurium_plotting_files/tellurium_plotting_6_0.png
+copying images... [ 75%] _notebooks/core/tellurium_plotting_files/tellurium_plotting_2_0.png
+copying images... [ 77%] _notebooks/core/tellurium_stochastic_files/tellurium_stochastic_4_0.png
+copying images... [ 79%] _notebooks/core/tellurium_examples_files/tellurium_examples_9_0.png
+copying images... [ 81%] _notebooks/core/tellurium_examples_files/tellurium_examples_11_0.png
+copying images... [ 84%] _notebooks/core/model_feedback_oscillations_files/model_feedback_oscillations_2_1.png
+copying images... [ 86%] _notebooks/core/tellurium_examples_files/tellurium_examples_25_0.png
+copying images... [ 88%] _notebooks/core/tellurium_stochastic_files/tellurium_stochastic_2_0.png
+copying images... [ 90%] _notebooks/core/tellurium_reset_files/tellurium_reset_2_7.png
+copying images... [ 93%] _notebooks/core/model_modelFromBioModels_files/model_modelFromBioModels_2_0.png
+copying images... [ 95%] _notebooks/core/tellurium_examples_files/tellurium_examples_17_0.png
+copying images... [ 97%] _notebooks/core/steadystate_scan_files/steadystate_scan_2_1.png
+copying images... [100%] _notebooks/core/model_consecutiveUniUniReactions_files/model_consecutiveUniUniReactions_2_0.png
 
 copying static files... done
 copying extra files... done
 dumping search index in English (code: en) ... done
 dumping object inventory... done
-build succeeded, 176 warnings.
+build succeeded, 224 warnings.
 DONE

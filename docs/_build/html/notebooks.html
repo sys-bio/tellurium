@@ -99,6 +99,11 @@
 <li class="toctree-l3"><a class="reference internal" href="#consecutive-uniuni-reactions-using-first-order-mass-action-kinetics">Consecutive UniUni reactions using first-order mass-action kinetics</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#feedback-oscillations">Feedback oscillations</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#generate-different-wave-forms">Generate different wave forms</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#normalized-species">Normalized species</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#model-definition">Model definition</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#model-simulation">Model simulation</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#sed-ml-combine">SED-ML &amp; Combine</a><ul>
@@ -250,6 +255,7 @@ For instance</p>
 </pre></div>
 </div>
 <div class="highlight-python"><div class="highlight"><pre>&lt; roadrunner.Integrator() &gt;
+  name: cvode
   settings:
       relative_tolerance: 0.00001
       absolute_tolerance: 0.0000000001
@@ -369,7 +375,7 @@ For instance</p>
 <span class="n">r</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">result</span><span class="p">);</span>
 </pre></div>
 </div>
-<img alt="_images/modelFromBioModels_2_0.png" src="_images/modelFromBioModels_2_0.png" />
+<img alt="_images/model_modelFromBioModels_2_0.png" src="_images/model_modelFromBioModels_2_0.png" />
 </div>
 <div class="section" id="non-unit-stoichiometries">
 <h3>Non-unit stoichiometries<a class="headerlink" href="#non-unit-stoichiometries" title="Permalink to this headline">¶</a></h3>
@@ -436,7 +442,7 @@ reactions S1 -&gt; S2 -&gt; S3 -&gt; S4.</p>
 <span class="n">te</span><span class="o">.</span><span class="n">plotArray</span><span class="p">(</span><span class="n">result</span><span class="p">);</span>
 </pre></div>
 </div>
-<img alt="_images/consecutiveUniUniReactions_2_0.png" src="_images/consecutiveUniUniReactions_2_0.png" />
+<img alt="_images/model_consecutiveUniUniReactions_2_0.png" src="_images/model_consecutiveUniUniReactions_2_0.png" />
 </div>
 <div class="section" id="feedback-oscillations">
 <h3>Feedback oscillations<a class="headerlink" href="#feedback-oscillations" title="Permalink to this headline">¶</a></h3>
@@ -469,8 +475,8 @@ reactions S1 -&gt; S2 -&gt; S3 -&gt; S4.</p>
 <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;[S2]&quot;</span><span class="p">);</span>
 </pre></div>
 </div>
-<img alt="_images/feedback_oscillations_2_0.png" src="_images/feedback_oscillations_2_0.png" />
-<img alt="_images/feedback_oscillations_2_1.png" src="_images/feedback_oscillations_2_1.png" />
+<img alt="_images/model_feedback_oscillations_2_0.png" src="_images/model_feedback_oscillations_2_0.png" />
+<img alt="_images/model_feedback_oscillations_2_1.png" src="_images/model_feedback_oscillations_2_1.png" />
 </div>
 <div class="section" id="generate-different-wave-forms">
 <h3>Generate different wave forms<a class="headerlink" href="#generate-different-wave-forms" title="Permalink to this headline">¶</a></h3>
@@ -523,7 +529,91 @@ reactions S1 -&gt; S2 -&gt; S3 -&gt; S4.</p>
 <span class="n">Config</span><span class="o">.</span><span class="n">setValue</span><span class="p">(</span><span class="n">Config</span><span class="o">.</span><span class="n">LOADSBMLOPTIONS_CONSERVED_MOIETIES</span><span class="p">,</span> <span class="bp">False</span><span class="p">)</span>
 </pre></div>
 </div>
-<img alt="_images/generatingDifferentWaveforms_2_0.png" src="_images/generatingDifferentWaveforms_2_0.png" />
+<img alt="_images/model_generatingDifferentWaveforms_2_0.png" src="_images/model_generatingDifferentWaveforms_2_0.png" />
+</div>
+<div class="section" id="normalized-species">
+<h3>Normalized species<a class="headerlink" href="#normalized-species" title="Permalink to this headline">¶</a></h3>
+<p>Example model which calculates functions depending on the normalized
+values of a species which can be either in active state <code class="docutils literal"><span class="pre">SA</span></code> or
+inactive state <code class="docutils literal"><span class="pre">SI</span></code>.</p>
+<p>The normalized values are <code class="docutils literal"><span class="pre">SA_f</span></code> and <code class="docutils literal"><span class="pre">SI_f</span></code>, respectively, with the
+total concentration of <code class="docutils literal"><span class="pre">S</span></code> given as</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">ST</span> <span class="o">=</span> <span class="n">SA</span> <span class="o">+</span> <span class="n">SI</span>
+</pre></div>
+</div>
+<div class="section" id="model-definition">
+<h4>Model definition<a class="headerlink" href="#model-definition" title="Permalink to this headline">¶</a></h4>
+<p>The model is defined using <code class="docutils literal"><span class="pre">Tellurium</span></code> and <code class="docutils literal"><span class="pre">Antimony</span></code>. The identical
+equations could be typed directly in <code class="docutils literal"><span class="pre">COPASI</span></code>.</p>
+<p>The created model is exported as <code class="docutils literal"><span class="pre">SBML</span></code> which than can be used in
+<code class="docutils literal"><span class="pre">COPASI</span></code>.</p>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">tellurium</span> <span class="kn">as</span> <span class="nn">te</span>
+<span class="n">r</span> <span class="o">=</span> <span class="n">te</span><span class="o">.</span><span class="n">loada</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">    model normalized_species()</span>
+
+<span class="s2">    # conversion between active (SA) and inactive (SI)</span>
+<span class="s2">    J1: SA -&gt; SI; k1*SA - k2*SI;</span>
+<span class="s2">    k1 = 0.1; k2 = 0.02;</span>
+
+<span class="s2">    # species</span>
+<span class="s2">    species SA, SI, ST;</span>
+<span class="s2">    SA = 10.0; SI = 0.0;</span>
+<span class="s2">    const ST := SA + SI;</span>
+
+<span class="s2">    SA is &quot;active state S&quot;;</span>
+<span class="s2">    SI is &quot;inactive state S&quot;;</span>
+<span class="s2">    ST is &quot;total state S&quot;;</span>
+
+<span class="s2">    # normalized species calculated via assignment rules</span>
+<span class="s2">    species SA_f, SI_f;</span>
+<span class="s2">    SA_f := SA/ST;</span>
+<span class="s2">    SI_f := SI/ST;</span>
+
+<span class="s2">    SA_f is &quot;normalized active state S&quot;;</span>
+<span class="s2">    SI_f is &quot;normalized inactive state S&quot;;</span>
+
+<span class="s2">    # parameters for your function</span>
+<span class="s2">    P = 0.1;</span>
+<span class="s2">    tau = 10.0;</span>
+<span class="s2">    nA = 1.0;</span>
+<span class="s2">    nI = 2.0;</span>
+<span class="s2">    kA = 0.1;</span>
+<span class="s2">    kI = 0.2;</span>
+<span class="s2">    # now just use the normalized species in some math</span>
+<span class="s2">    F := ( (1-(SI_f^nI)/(kI^nI+SI_f^nI)*(kI^nI+1) ) * ( (SA_f^nA)/(kA^nA+SA_f^nA)*(kA^nA+1) ) -P)*tau;</span>
+
+<span class="s2">    end</span>
+<span class="s2">&quot;&quot;&quot;</span><span class="p">)</span>
+<span class="c1"># print(r.getAntimony())</span>
+
+<span class="c1"># Store the SBML for COPASI</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">tempfile</span>
+<span class="n">temp_dir</span> <span class="o">=</span> <span class="n">tempfile</span><span class="o">.</span><span class="n">mkdtemp</span><span class="p">()</span>
+<span class="n">file_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">temp_dir</span><span class="p">,</span> <span class="s1">&#39;normalizedSpecies.xml&#39;</span><span class="p">)</span>
+<span class="n">r</span><span class="o">.</span><span class="n">exportToSBML</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="model-simulation">
+<h4>Model simulation<a class="headerlink" href="#model-simulation" title="Permalink to this headline">¶</a></h4>
+<p>We perform a simple model simulation to demonstrate the main features
+using <code class="docutils literal"><span class="pre">roadrunner</span></code>: - normalized values <code class="docutils literal"><span class="pre">SA_f</span></code> and <code class="docutils literal"><span class="pre">SI_f</span></code> are
+normalized in <code class="docutils literal"><span class="pre">[0,1]</span></code> - the normalized values have same dynamics like
+<code class="docutils literal"><span class="pre">SA</span></code> and <code class="docutils literal"><span class="pre">SF</span></code> - the normalized values can be used to calculates some
+dependent function, here <code class="docutils literal"><span class="pre">F</span></code></p>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="n">r</span><span class="o">.</span><span class="n">reset</span><span class="p">()</span>
+<span class="c1"># select the variables of interest in output</span>
+<span class="n">r</span><span class="o">.</span><span class="n">selections</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;time&#39;</span><span class="p">,</span> <span class="s1">&#39;F&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">r</span><span class="o">.</span><span class="n">getBoundarySpeciesIds</span><span class="p">()</span> \
+                             <span class="o">+</span> <span class="n">r</span><span class="o">.</span><span class="n">getFloatingSpeciesIds</span><span class="p">()</span>
+<span class="c1"># simulate from 0 to 50 with 1001 points</span>
+<span class="n">s</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">simulate</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">50</span><span class="p">,</span><span class="mi">1001</span><span class="p">)</span>
+<span class="c1"># plot the results</span>
+<span class="n">r</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">s</span><span class="p">);</span>
+</pre></div>
+</div>
+<img alt="_images/model_normalizedSpecies_3_0.png" src="_images/model_normalizedSpecies_3_0.png" />
+</div>
 </div>
 </div>
 <div class="section" id="sed-ml-combine">
@@ -678,7 +768,7 @@ I.I., Nickerson D., Snoep J.L.,Le Novère, N. BMC Systems Biology
 </pre></div>
 </div>
 <div class="highlight-python"><div class="highlight"><pre>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
-&lt;!-- Created by phraSED-ML version v0.5beta on 2016-02-08 14:05 with libSBML version 5.12.1. --&gt;
+&lt;!-- Created by phraSED-ML version v0.5beta on 2016-02-16 10:22 with libSBML version 5.12.1. --&gt;
 &lt;sedML xmlns=&quot;http://sed-ml.org/sed-ml/level1/version2&quot; level=&quot;1&quot; version=&quot;2&quot;&gt;
   &lt;listOfSimulations&gt;
     &lt;uniformTimeCourse id=&quot;sim1&quot; initialTime=&quot;0&quot; outputStartTime=&quot;0&quot; outputEndTime=&quot;5&quot; numberOfPoints=&quot;100&quot;&gt;
@@ -753,8 +843,8 @@ I.I., Nickerson D., Snoep J.L.,Le Novère, N. BMC Systems Biology
 <span class="c1"># py_code = s2p.sedml_to_python(s2p)</span>
 </pre></div>
 </div>
-<div class="highlight-python"><div class="highlight"><pre>/tmp/myModelBT01NN.xml
-/tmp/tmpzz9XbD.sedml
+<div class="highlight-python"><div class="highlight"><pre>/tmp/myModelI7WKZx.xml
+/tmp/tmp0cKMqc.sedml
 </pre></div>
 </div>
 </div>

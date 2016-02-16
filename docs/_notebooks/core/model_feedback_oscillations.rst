@@ -36,10 +36,10 @@ Model oscillations via feedback
 
 
 
-.. image:: _notebooks/core/feedback_oscillations_files/feedback_oscillations_2_0.png
+.. image:: _notebooks/core/model_feedback_oscillations_files/model_feedback_oscillations_2_0.png
 
 
 
-.. image:: _notebooks/core/feedback_oscillations_files/feedback_oscillations_2_1.png
+.. image:: _notebooks/core/model_feedback_oscillations_files/model_feedback_oscillations_2_1.png
 
 

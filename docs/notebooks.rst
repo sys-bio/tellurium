@@ -25,11 +25,12 @@ Models & Model Building
 -------------------------
 In this section model the creation of example models is shown.
 
-.. include:: _notebooks/core/modelFromBioModels.rst
-.. include:: _notebooks/core/nonUnitStoichiometries.rst
-.. include:: _notebooks/core/consecutiveUniUniReactions.rst
-.. include:: _notebooks/core/feedback_oscillations.rst
-.. include:: _notebooks/core/generatingDifferentWaveforms.rst
+.. include:: _notebooks/core/model_modelFromBioModels.rst
+.. include:: _notebooks/core/model_nonUnitStoichiometries.rst
+.. include:: _notebooks/core/model_consecutiveUniUniReactions.rst
+.. include:: _notebooks/core/model_feedback_oscillations.rst
+.. include:: _notebooks/core/model_generatingDifferentWaveforms.rst
+.. include:: _notebooks/core/model_normalizedSpecies.rst
 
 --------------------
 SED-ML & Combine

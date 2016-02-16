@@ -155,7 +155,7 @@
 </pre></div>
 </div>
 <div class="highlight-python"><div class="highlight"><pre>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
-&lt;!-- Created by libAntimony version v2.8.1 on 2016-02-08 14:05 with libSBML version 5.12.1. --&gt;
+&lt;!-- Created by libAntimony version v2.8.1 on 2016-02-16 10:22 with libSBML version 5.12.1. --&gt;
 &lt;sbml xmlns=&quot;http://www.sbml.org/sbml/level3/version1/core&quot; level=&quot;3&quot; version=&quot;1&quot;&gt;
   &lt;model id=&quot;__main&quot; name=&quot;__main&quot;&gt;
     &lt;listOfCompartments&gt;
@@ -343,11 +343,219 @@ const k1;
 <span class="k">print</span><span class="p">(</span><span class="n">str_matlab</span><span class="p">)</span>
 </pre></div>
 </div>
-<div class="highlight-python"><div class="highlight"><pre>/home/mkoenig/git/tellurium/tellurium/tellurium.py:651: RuntimeWarning: &#39;sbml2matlab&#39; could not be imported, no support for Matlab code generation
-  saveToFile(filePath, self.getMatlab(current))
-/home/mkoenig/git/tellurium/tellurium/tellurium.py:609: RuntimeWarning: &#39;sbml2matlab&#39; could not be imported, no support for Matlab code generation
-  return self.getMatlab(current=True)
-/usr/local/lib/python2.7/dist-packages/ipykernel/__main__.py:20: RuntimeWarning: &#39;sbml2matlab&#39; could not be imported, no support for Matlab code generation
+<div class="highlight-python"><div class="highlight"><pre>%  How to use:
+%
+%  __main takes 3 inputs and returns 3 outputs.
+%
+%  [t x rInfo] = __main(tspan,solver,options)
+%  INPUTS:
+%  tspan - the time vector for the simulation. It can contain every time point,
+%  or just the start and end (e.g. [0 1 2 3] or [0 100]).
+%  solver - the function handle for the odeN solver you wish to use (e.g. @ode23s).
+%  options - this is the options structure returned from the MATLAB odeset
+%  function used for setting tolerances and other parameters for the solver.
+%
+%  OUTPUTS:
+%  t - the time vector that corresponds with the solution. If tspan only contains
+%  the start and end times, t will contain points spaced out by the solver.
+%  x - the simulation results.
+%  rInfo - a structure containing information about the model. The fields
+%  within rInfo are:
+%     stoich - the stoichiometry matrix of the model
+%     floatingSpecies - a cell array containing floating species name, initial
+%     value, and indicator of the units being inconcentration or amount
+%     compartments - a cell array containing compartment names and volumes
+%     params - a cell array containing parameter names and values
+%     boundarySpecies - a cell array containing boundary species name, initial
+%     value, and indicator of the units being inconcentration or amount
+%     rateRules - a cell array containing the names of variables used in a rate rule
+%
+%  Sample function call:
+%     options = odeset(&#39;RelTol&#39;,1e-12,&#39;AbsTol&#39;,1e-9);
+%     [t x rInfo] = __main(linspace(0,100,100),@ode23s,options);
+%
+function [t x rInfo] = __main(tspan,solver,options)
+    % initial conditions
+    [x rInfo] = model();
+
+    % initial assignments
+
+    % assignment rules
+
+    % run simulation
+    [t x] = feval(solver,@model,tspan,x,options);
+
+    % assignment rules
+
+function [xdot rInfo] = model(time,x)
+%  x(1)        S1
+%  x(2)        S2
+
+% List of Compartments
+vol__default_compartment = 1;               %default_compartment
+
+% Global Parameters
+rInfo.g_p1 = 0.1;           % k1
+
+if (nargin == 0)
+
+    % set initial conditions
+   xdot(1) = 10*vol__default_compartment;           % S1 = S1 [Concentration]
+   xdot(2) = 0*vol__default_compartment;            % S2 = S2 [Concentration]
+
+   % reaction info structure
+   rInfo.stoich = [
+      -1
+      1
+   ];
+
+   rInfo.floatingSpecies = {                % Each row: [Species Name, Initial Value, isAmount (1 for amount, 0 for concentration)]
+      &#39;S1&#39; , 10, 0
+      &#39;S2&#39; , 0, 0
+   };
+
+   rInfo.compartments = {           % Each row: [Compartment Name, Value]
+      &#39;default_compartment&#39; , 1
+   };
+
+   rInfo.params = {         % Each row: [Parameter Name, Value]
+      &#39;k1&#39; , 0.1
+   };
+
+   rInfo.boundarySpecies = {                % Each row: [Species Name, Initial Value, isAmount (1 for amount, 0 for concentration)]
+   };
+
+   rInfo.rateRules = {               % List of variables involved in a rate rule
+   };
+
+else
+
+    % calculate rates of change
+   R0 = rInfo.g_p1*(x(1));
+
+   xdot = [
+      - R0
+      + R0
+   ];
+end;
+
+
+%listOfSupportedFunctions
+function z = pow (x,y)
+    z = x^y;
+
+
+function z = sqr (x)
+    z = x*x;
+
+
+function z = piecewise(varargin)
+            numArgs = nargin;
+            result = 0;
+            foundResult = 0;
+            for k=1:2: numArgs-1
+                    if varargin{k+1} == 1
+                            result = varargin{k};
+                            foundResult = 1;
+                            break;
+                    end
+            end
+            if foundResult == 0
+                    result = varargin{numArgs};
+            end
+            z = result;
+
+
+function z = gt(a,b)
+   if a &gt; b
+      z = 1;
+   else
+      z = 0;
+   end
+
+
+function z = lt(a,b)
+   if a &lt; b
+      z = 1;
+   else
+      z = 0;
+   end
+
+
+function z = geq(a,b)
+   if a &gt;= b
+      z = 1;
+   else
+      z = 0;
+   end
+
+
+function z = leq(a,b)
+   if a &lt;= b
+      z = 1;
+   else
+      z = 0;
+   end
+
+
+function z = neq(a,b)
+   if a ~= b
+      z = 1;
+   else
+      z = 0;
+   end
+
+
+function z = and(varargin)
+            result = 1;
+            for k=1:nargin
+               if varargin{k} ~= 1
+                  result = 0;
+                  break;
+               end
+            end
+            z = result;
+
+
+function z = or(varargin)
+            result = 0;
+            for k=1:nargin
+               if varargin{k} ~= 0
+                  result = 1;
+                  break;
+               end
+            end
+            z = result;
+
+
+function z = xor(varargin)
+            foundZero = 0;
+            foundOne = 0;
+            for k = 1:nargin
+                    if varargin{k} == 0
+                       foundZero = 1;
+                    else
+                       foundOne = 1;
+                    end
+            end
+            if foundZero &amp;&amp; foundOne
+                    z = 1;
+            else
+              z = 0;
+            end
+
+
+
+function z = not(a)
+   if a == 1
+      z = 0;
+   else
+      z = 1;
+   end
+
+
+function z = root(a,b)
+    z = a^(1/b);
 </pre></div>
 </div>
 <div class="code python highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">antimony</span>

@@ -144,7 +144,7 @@ def _checkAntimonyReturnCode(code):
 
 
 def loada(ant):
-    """ Load model from Antimony string.
+    """Load model from Antimony string.
 
     See also: :func:`loadAntimonyModel`
     ::
@@ -159,7 +159,7 @@ def loada(ant):
 
 
 def loadAntimonyModel(ant):
-    """ Load Antimony model with tellurium.
+    """Load Antimony model with tellurium.
 
     See also: :func:`loada`
 
@@ -446,6 +446,7 @@ def listTestModels():
     for pathName in fileList:
         modelList.append(os.path.basename(pathName))
     return modelList
+
 
 # ---------------------------------------------------------------------
 # Extended RoadRunner class

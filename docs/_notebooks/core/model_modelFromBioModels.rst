@@ -16,6 +16,6 @@ Models can be easily retrieved from BioModels via their identifier.
 
 
 
-.. image:: _notebooks/core/modelFromBioModels_files/modelFromBioModels_2_0.png
+.. image:: _notebooks/core/model_modelFromBioModels_files/model_modelFromBioModels_2_0.png
 
 
