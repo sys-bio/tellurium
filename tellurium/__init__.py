@@ -31,10 +31,13 @@ from tellurium import listTestModels
 # provide important helper classes
 from io.latex import LatexExport
 from analysis.parameterscan import ParameterScan, SteadyStateScan
+from tesedml import sedmlToPython
 
-import analysis
-import notebooks
 import optimization
 import visualization
+try:
+    import notebooks
+except ImportError:
+    pass
 
 __version__ = tellurium.getTelluriumVersion()
