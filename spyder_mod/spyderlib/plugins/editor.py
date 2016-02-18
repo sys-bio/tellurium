@@ -345,7 +345,7 @@ class Editor(SpyderPluginWidget):
     except ImportError:
         TEMPFILE_PATH = get_conf_path('temp.py')
     except:
-        TEMPFILE_PATH = get_conf_path('telluriumErrorOccured.py')
+        TEMPFILE_PATH = get_conf_path('example1.py')
     TEMPLATE_PATH = get_conf_path('template.py')
     DISABLE_ACTIONS_WHEN_HIDDEN = False # SpyderPluginWidget class attribute
     def __init__(self, parent, ignore_last_opened_files=False):
@@ -1494,7 +1494,7 @@ model feedback()
   VM1 = 10; Keq1 = 10; h = 10; V4 = 2.5; KS4 = 0.5;
 end'''""", '', 'rr = te.loadAntimonyModel(antStr)', 
 'result = rr.simulate(0, 40, 500)',
-'te.plotWithLegend (rr, result)','']
+'rr.plot (result)','']
             text = os.linesep.join([encoding.to_unicode(qstr)
                                     for qstr in default])
             encoding.write(to_text_string(text), self.TEMPFILE_PATH, 'utf-8')
@@ -1534,6 +1534,7 @@ end'''""", '', 'rr = te.loadAntimonyModel(antStr)',
         """
         # If no text is provided, create default content
         if text is None:
+            default_content = True
             text, enc = encoding.read(self.TEMPLATE_PATH)
             enc_match = re.search('-*- coding: ?([a-z0-9A-Z\-]*) -*-', text)
             if enc_match:
@@ -1555,8 +1556,9 @@ end'''""", '', 'rr = te.loadAntimonyModel(antStr)',
             except:
                 pass
         else:
+            default_content = False
             enc = encoding.read(self.TEMPLATE_PATH)[1]
-        
+
         create_fname = lambda n: to_text_string(_("untitled")) + ("%d.py" % n)
         # Creating editor widget
         if editorstack is None:
@@ -1586,14 +1588,14 @@ end'''""", '', 'rr = te.loadAntimonyModel(antStr)',
         # Creating the editor widget in the first editorstack (the one that
         # can't be destroyed), then cloning this editor widget in all other
         # editorstacks:
-        finfo = self.editorstacks[0].new(fname, enc, text)
+        finfo = self.editorstacks[0].new(fname, enc, text, default_content)
         finfo.path = self.main.get_spyder_pythonpath()
         self._clone_file_everywhere(finfo)
         current_editor = current_es.set_current_filename(finfo.filename)
         self.register_widget_shortcuts("Editor", current_editor)
         if not created_from_here:
             self.save(force=True)
-                
+
     def edit_template(self):
         """Edit new file template"""
         self.load(self.TEMPLATE_PATH)
