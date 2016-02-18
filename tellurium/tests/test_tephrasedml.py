@@ -81,12 +81,14 @@ class tePhrasedMLTestCase(unittest.TestCase):
     def test_exportAsCombine(self):
         """Test exportAsCombine."""
         import tellurium as te
+        import os
         exp = te.experiment(self.antimony, self.phrasedml)
-        f = tempfile.NamedTemporaryFile()
-        exp.exportAsCombine(f.name)
+        tmpdir = tempfile.mkdtemp()
+        tmparchive = os.path.join(tmpdir, 'test.zip')
+        exp.exportAsCombine(tmparchive)
         # try to re
         import zipfile
-        zip = zipfile.ZipFile(f.name)
+        zip = zipfile.ZipFile(tmparchive)
 
 
 if __name__ == '__main__':
