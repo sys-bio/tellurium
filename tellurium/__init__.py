@@ -40,4 +40,4 @@ try:
 except ImportError:
     pass
 
-__version__ = tellurium.getTelluriumVersion()
+__version__ = getTelluriumVersion()
