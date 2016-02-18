@@ -3,15 +3,6 @@
 SEDML support for phrasedml.
 """
 
-# FIXME: the following should be instance variables (or singleton class)
-#         tePhrasedml.modelispath = modelispath
-#         tePhrasedml.antimonyStr = antimonyStr
-#         tePhrasedml.phrasedmlStr = phrasedmlStr
-# In the current implementation this will create problems in case of multiple instances of the class.
-# Either make this instance variable or make tePhrasedml a singleton class
-# see all the access via self. in exportAsCombine
-
-
 from __future__ import print_function, division
 
 import os.path
@@ -52,9 +43,9 @@ class tePhrasedml(object):
         if type(phrasedmlStr) != str:
             raise Exception("Invalid PhrasedML string")
 
-        tePhrasedml.modelispath = modelispath
-        tePhrasedml.antimonyStr = antimonyStr
-        tePhrasedml.phrasedmlStr = phrasedmlStr
+        self.modelispath = modelispath
+        self.antimonyStr = antimonyStr
+        self.phrasedmlStr = phrasedmlStr
 
     def getAntimonyString(self):
         """ Get antimony string.
@@ -116,7 +107,7 @@ class tePhrasedml(object):
         rePath = r"(\w*).load\('(.*)'\)"
         reLoad = r"(\w*) = roadrunner.RoadRunner\(\)"
         reModel = r"""(\w*) = model ('|")(.*)('|")"""
-        phrasedmllines = tePhrasedml.phrasedmlStr.splitlines()
+        phrasedmllines = self.phrasedmlStr.splitlines()
         for k, line in enumerate(phrasedmllines):
             reSearchModel = re.split(reModel, line)
             if len(reSearchModel) > 1:
@@ -124,8 +115,8 @@ class tePhrasedml(object):
                 modelname = os.path.basename(modelsource)
                 modelname = str(modelname).replace(".xml", '')
 
-        phrasedml.setReferencedSBML(modelsource, te.antimonyToSBML(tePhrasedml.antimonyStr))
-        sedmlstr = phrasedml.convertString(tePhrasedml.phrasedmlStr)
+        phrasedml.setReferencedSBML(modelsource, te.antimonyToSBML(self.antimonyStr))
+        sedmlstr = phrasedml.convertString(self.phrasedmlStr)
         if sedmlstr is None:
             raise Exception(phrasedml.getLastError())
 
@@ -135,7 +126,7 @@ class tePhrasedml(object):
         os.write(fd1, sedmlstr)
 
         pysedml = tesedml.sedmlToPython(sedmlfilepath)
-        if tePhrasedml.modelispath is False:
+        if self.modelispath is False:
             lines = pysedml.splitlines()
             for k, line in enumerate(lines):
                 reSearchPath = re.split(rePath, line)
@@ -163,7 +154,7 @@ class tePhrasedml(object):
         pysedml = pysedml.replace('"compartment"', '"compartment_"')
         pysedml = pysedml.replace("'compartment'", "'compartment_'")
 
-        outputstr = str(modelname) + " = '''" + tePhrasedml.antimonyStr + "'''\n\n" + pysedml
+        outputstr = str(modelname) + " = '''" + self.antimonyStr + "'''\n\n" + pysedml
 
         os.close(fd1)
         os.remove(sedmlfilepath)
