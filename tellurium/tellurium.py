@@ -172,6 +172,19 @@ def loadAntimonyModel(ant):
     return roadrunner.RoadRunner(sbml)
 
 
+def loads(ant):
+    """Load SBML model with tellurium
+
+    See also: :func:`loadSBMLModel`
+
+    :param ant: SBML model
+    :type ant: str | file
+    :returns: RoadRunner instance with model loaded
+    :rtype: roadrunner.RoadRunner
+    """
+    return loadSBMLModel(ant)
+
+
 def loadSBMLModel(sbml):
     """Load SBML model with tellurium
 

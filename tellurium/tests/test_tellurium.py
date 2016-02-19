@@ -143,6 +143,14 @@ class TelluriumTestCase(unittest.TestCase):
         r = te.loadAntimonyModel(self.ant_str)
         self.assertIsNotNone(r)
 
+    def test_loads_file(self):
+        r = te.loads(self.sbml_file)
+        self.assertIsNotNone(r)
+
+    def test_loads_str(self):
+        r = te.loads(self.sbml_str)
+        self.assertIsNotNone(r)
+
     def test_loadSBMLModel_file(self):
         r = te.loadSBMLModel(self.sbml_file)
         self.assertIsNotNone(r)
