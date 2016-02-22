@@ -144,15 +144,15 @@
 <span class="kn">from</span> <span class="nn">roadrunner</span> <span class="kn">import</span> <span class="n">SelectionRecord</span>
 
 
-<div class="viewcode-block" id="simulateAndPlot"><a class="viewcode-back" href="../../../_apidoc/tellurium.widgets.html#tellurium.widgets.parameter_slider.simulateAndPlot">[docs]</a><span class="k">def</span> <span class="nf">simulateAndPlot</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="simulateAndPlot"><a class="viewcode-back" href="../../../_apidoc/tellurium.widgets.html#tellurium.widgets.parameter_slider.simulateAndPlot">[docs]</a><span class="k">def</span> <span class="nf">simulateAndPlot</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; Simulate with r.simulate with given arguments and plot with tellurium.</span>
 
 <span class="sd">    :returns: simulation result</span>
 <span class="sd">    :rtype: NamedArray</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">s</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">simulate</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-    <span class="n">r</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">s</span></div>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">simulate</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="n">te</span><span class="o">.</span><span class="n">plotWithLegend</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">result</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">result</span></div>
 
 
 <div class="viewcode-block" id="ParameterSlider"><a class="viewcode-back" href="../../../_apidoc/tellurium.widgets.html#tellurium.widgets.parameter_slider.ParameterSlider">[docs]</a><span class="k">class</span> <span class="nc">ParameterSlider</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
@@ -183,7 +183,7 @@
 <span class="sd">                  end</span>
 <span class="sd">            &#39;&#39;&#39;</span>
 <span class="sd">            r = te.loadAntimonyModel(model)</span>
-<span class="sd">            ParameterSlider(r)</span>
+<span class="sd">            ParameterSlider(r, paramIds=[&#39;k1&#39;])</span>
 
 <span class="sd">        :param r: roadrunner model</span>
 <span class="sd">        :type r: roadrunner.RoadRunner</span>
@@ -208,11 +208,8 @@
 
         <span class="n">kwargs</span> <span class="o">=</span> <span class="p">{}</span>
 
-        <span class="k">def</span> <span class="nf">runSimulation</span><span class="p">(</span><span class="n">end</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">def</span> <span class="nf">runSimulation</span><span class="p">(</span><span class="n">start</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">stop</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">steps</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
             <span class="sd">&quot;&quot;&quot; Function run in interact. &quot;&quot;&quot;</span>
-            <span class="c1"># set variable step</span>
-            <span class="n">r</span><span class="o">.</span><span class="n">integrator</span><span class="o">.</span><span class="n">setValue</span><span class="p">(</span><span class="s1">&#39;variable_step_size&#39;</span><span class="p">,</span> <span class="bp">True</span><span class="p">)</span>
-
             <span class="c1"># full model reset</span>
             <span class="n">r</span><span class="o">.</span><span class="n">reset</span><span class="p">(</span><span class="n">SelectionRecord</span><span class="o">.</span><span class="n">ALL</span><span class="p">)</span>
             <span class="c1"># set parameters, key:value pairs</span>
@@ -226,7 +223,7 @@
                     <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
             <span class="c1"># simulate</span>
             <span class="k">try</span><span class="p">:</span>
-                <span class="n">results</span> <span class="o">=</span> <span class="n">simulateAndPlot</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">start</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="n">end</span><span class="p">)</span>
+                <span class="n">results</span> <span class="o">=</span> <span class="n">simulateAndPlot</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">start</span><span class="p">,</span> <span class="n">stop</span><span class="p">,</span> <span class="n">steps</span><span class="o">=</span><span class="n">steps</span><span class="p">)</span>
             <span class="k">except</span><span class="p">:</span>
                 <span class="c1"># error in simulation</span>
                 <span class="n">e</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">exc_info</span><span class="p">()</span>
@@ -248,7 +245,9 @@
 
         <span class="c1"># create the widget</span>
         <span class="n">ipywidgets</span><span class="o">.</span><span class="n">interact</span><span class="p">(</span><span class="n">runSimulation</span><span class="p">,</span>
-                            <span class="n">end</span><span class="o">=</span><span class="n">ipywidgets</span><span class="o">.</span><span class="n">FloatText</span><span class="p">(</span><span class="nb">min</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="mi">100</span><span class="p">),</span>
+                            <span class="n">start</span><span class="o">=</span><span class="n">ipywidgets</span><span class="o">.</span><span class="n">FloatText</span><span class="p">(</span><span class="nb">min</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span>
+                            <span class="n">stop</span><span class="o">=</span><span class="n">ipywidgets</span><span class="o">.</span><span class="n">FloatText</span><span class="p">(</span><span class="nb">min</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="mi">100</span><span class="p">),</span>
+                            <span class="n">steps</span><span class="o">=</span><span class="n">ipywidgets</span><span class="o">.</span><span class="n">IntText</span><span class="p">(</span><span class="nb">min</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="mi">100</span><span class="p">),</span>
                             <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 </pre></div>
 

@@ -1,6 +1,20 @@
 # -*- coding: utf-8 -*-
 """
-SEDML support for phrasedml.
+SEDML support for PhraSED-ML: The Paraphrased Human-Readable Adaptation of SED-ML
+PhraSED-ML is a language and a library that provide a text-based way to read, summarize,
+and create SED-ML files. A basic phraSED-ML script will look like this:
+::
+
+  mod1 = model "sbml_model.xml"
+  sim1 = simulate uniform(0,10,100)
+  task1 = run sim1 on mod1
+  plot time vs S1
+
+Provides a simple description language to create the SED-ML parts
+- models
+- simulations
+- tasks
+- output
 """
 
 from __future__ import print_function, division
@@ -21,7 +35,13 @@ except ImportError as e:
 
 
 class tePhrasedml(object):
-    """ phrasedml helper class. """
+    """ SEDML helper class.
+
+    This class is responsible for the creation of executable tellurium code
+    phrasedml descriptions. Main function is a code factory.
+    Very similar to the more general tesedml which creates python executable code
+    from from given SED-ML.
+    """
 
     def __init__(self, antimonyStr, phrasedmlStr):
         """ Constructor from antimony string and phrasedml string.
@@ -49,29 +69,33 @@ class tePhrasedml(object):
 
     def getAntimonyString(self):
         """ Get antimony string.
+
         :returns: antimony string
-        :rtype: string
+        :rtype: str
         """
         return self.antimonyStr
 
     def getSbmlString(self):
         """ Get SBML string.
+
         :returns: SBML string
-        :rtype: string
+        :rtype: str
         """
         return te.antimonyToSBML(self.antimonyStr)
 
     def getPhrasedmlString(self):
         """ Get phrasedml string.
+
         :returns: phrasedml string
-        :rtype: string
+        :rtype: str
         """
         return self.phrasedmlStr
 
     def getSedmlString(self):
         """ Get sedml string.
-        :returns: sedml string
-        :rtype: string
+
+        :returns: sedml
+        :rtype: str
         """
         reModel = r"""(\w*) = model ('|")(.*)('|")"""
         phrasedmllines = self.phrasedmlStr.splitlines()
@@ -94,16 +118,19 @@ class tePhrasedml(object):
         """
         execStr = self.createpython()
         try:
+            # This calls exec. Be very sure that nothing bad happens here.
             exec execStr
         except Exception as e:
             raise e
 
     def createpython(self):
         """ Create and return python script given antimony and phrasedml strings.
+        Uses the tesedml.create
 
         :returns: python string to execute
         :rtype: str
         """
+        # created sedml
         rePath = r"(\w*).load\('(.*)'\)"
         reLoad = r"(\w*) = roadrunner.RoadRunner\(\)"
         reModel = r"""(\w*) = model ('|")(.*)('|")"""
@@ -124,8 +151,9 @@ class tePhrasedml(object):
 
         fd1, sedmlfilepath = tempfile.mkstemp()
         os.write(fd1, sedmlstr)
-
         pysedml = tesedml.sedmlToPython(sedmlfilepath)
+
+        # perform some replacements in the sedml
         if self.modelispath is False:
             lines = pysedml.splitlines()
             for k, line in enumerate(lines):

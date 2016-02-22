@@ -817,7 +817,7 @@ given by the order of Ids returned by getConservedMoietyIds()</p>
 <dt id="tellurium.tellurium.ExtendedRoadRunner.getCurrentAntimony">
 <code class="descname">getCurrentAntimony</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/tellurium/tellurium.html#ExtendedRoadRunner.getCurrentAntimony"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tellurium.ExtendedRoadRunner.getCurrentAntimony" title="Permalink to this definition">¶</a></dt>
 <dd><p>Antimony string of the current model state.</p>
-<p>See also: <a class="reference internal" href="../tellurium_methods.html#tellurium.tellurium.ExtendedRoadRunner.getAntimony" title="tellurium.tellurium.ExtendedRoadRunner.getAntimony"><code class="xref py py-func docutils literal"><span class="pre">getAntimony()</span></code></a>
+<p>See also: <a class="reference internal" href="#tellurium.tellurium.ExtendedRoadRunner.getAntimony" title="tellurium.tellurium.ExtendedRoadRunner.getAntimony"><code class="xref py py-func docutils literal"><span class="pre">getAntimony()</span></code></a>
 :return: Antimony
 :rtype: str</p>
 </dd></dl>
@@ -826,7 +826,7 @@ given by the order of Ids returned by getConservedMoietyIds()</p>
 <dt id="tellurium.tellurium.ExtendedRoadRunner.getCurrentCellML">
 <code class="descname">getCurrentCellML</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/tellurium/tellurium.html#ExtendedRoadRunner.getCurrentCellML"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tellurium.ExtendedRoadRunner.getCurrentCellML" title="Permalink to this definition">¶</a></dt>
 <dd><p>CellML string of current model state.</p>
-<p>See also: <a class="reference internal" href="../tellurium_methods.html#tellurium.tellurium.ExtendedRoadRunner.getCellML" title="tellurium.tellurium.ExtendedRoadRunner.getCellML"><code class="xref py py-func docutils literal"><span class="pre">getCellML()</span></code></a>
+<p>See also: <a class="reference internal" href="#tellurium.tellurium.ExtendedRoadRunner.getCellML" title="tellurium.tellurium.ExtendedRoadRunner.getCellML"><code class="xref py py-func docutils literal"><span class="pre">getCellML()</span></code></a>
 :returns: CellML string
 :rtype: str</p>
 </dd></dl>
@@ -907,7 +907,7 @@ given by the order of Ids returned by getGlobalParameterIds()</p>
 <dt id="tellurium.tellurium.ExtendedRoadRunner.getMatlab">
 <code class="descname">getMatlab</code><span class="sig-paren">(</span><em>current=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/tellurium/tellurium.html#ExtendedRoadRunner.getMatlab"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tellurium.ExtendedRoadRunner.getMatlab" title="Permalink to this definition">¶</a></dt>
 <dd><p>Matlab string of the original model loaded into roadrunner.</p>
-<p>See also: <a class="reference internal" href="../tellurium_methods.html#tellurium.tellurium.ExtendedRoadRunner.getCurrentMatlab" title="tellurium.tellurium.ExtendedRoadRunner.getCurrentMatlab"><code class="xref py py-func docutils literal"><span class="pre">getCurrentMatlab()</span></code></a>
+<p>See also: <a class="reference internal" href="#tellurium.tellurium.ExtendedRoadRunner.getCurrentMatlab" title="tellurium.tellurium.ExtendedRoadRunner.getCurrentMatlab"><code class="xref py py-func docutils literal"><span class="pre">getCurrentMatlab()</span></code></a>
 :returns: Matlab string
 :rtype: str</p>
 </dd></dl>
@@ -1719,16 +1719,34 @@ to make sure the legend is shown.</p>
 </div>
 <div class="section" id="module-tellurium.tephrasedml">
 <span id="tellurium-tephrasedml-module"></span><h2>tellurium.tephrasedml module<a class="headerlink" href="#module-tellurium.tephrasedml" title="Permalink to this headline">¶</a></h2>
-<p>SEDML support for phrasedml.</p>
+<p>SEDML support for PhraSED-ML: The Paraphrased Human-Readable Adaptation of SED-ML
+PhraSED-ML is a language and a library that provide a text-based way to read, summarize,
+and create SED-ML files. A basic phraSED-ML script will look like this:</p>
+<div class="highlight-python"><div class="highlight"><pre>mod1 = model &quot;sbml_model.xml&quot;
+sim1 = simulate uniform(0,10,100)
+task1 = run sim1 on mod1
+plot time vs S1
+</pre></div>
+</div>
+<p>Provides a simple description language to create the SED-ML parts
+- models
+- simulations
+- tasks
+- output</p>
 <dl class="class">
 <dt id="tellurium.tephrasedml.tePhrasedml">
 <em class="property">class </em><code class="descclassname">tellurium.tephrasedml.</code><code class="descname">tePhrasedml</code><span class="sig-paren">(</span><em>antimonyStr</em>, <em>phrasedmlStr</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/tellurium/tephrasedml.html#tePhrasedml"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tephrasedml.tePhrasedml" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
-<p>phrasedml helper class.</p>
+<p>SEDML helper class.</p>
+<p>This class is responsible for the creation of executable tellurium code
+phrasedml descriptions. Main function is a code factory.
+Very similar to the more general tesedml which creates python executable code
+from from given SED-ML.</p>
 <dl class="method">
 <dt id="tellurium.tephrasedml.tePhrasedml.createpython">
 <code class="descname">createpython</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/tellurium/tephrasedml.html#tePhrasedml.createpython"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tephrasedml.tePhrasedml.createpython" title="Permalink to this definition">¶</a></dt>
-<dd><p>Create and return python script given antimony and phrasedml strings.</p>
+<dd><p>Create and return python script given antimony and phrasedml strings.
+Uses the tesedml.create</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -1765,33 +1783,65 @@ See <a class="reference internal" href="#tellurium.tephrasedml.tePhrasedml.creat
 <dl class="method">
 <dt id="tellurium.tephrasedml.tePhrasedml.getAntimonyString">
 <code class="descname">getAntimonyString</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/tellurium/tephrasedml.html#tePhrasedml.getAntimonyString"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tephrasedml.tePhrasedml.getAntimonyString" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get antimony string.
-:returns: antimony string
-:rtype: string</p>
+<dd><p>Get antimony string.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">antimony string</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">str</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="tellurium.tephrasedml.tePhrasedml.getPhrasedmlString">
 <code class="descname">getPhrasedmlString</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/tellurium/tephrasedml.html#tePhrasedml.getPhrasedmlString"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tephrasedml.tePhrasedml.getPhrasedmlString" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get phrasedml string.
-:returns: phrasedml string
-:rtype: string</p>
+<dd><p>Get phrasedml string.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">phrasedml string</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">str</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="tellurium.tephrasedml.tePhrasedml.getSbmlString">
 <code class="descname">getSbmlString</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/tellurium/tephrasedml.html#tePhrasedml.getSbmlString"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tephrasedml.tePhrasedml.getSbmlString" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get SBML string.
-:returns: SBML string
-:rtype: string</p>
+<dd><p>Get SBML string.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">SBML string</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">str</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="tellurium.tephrasedml.tePhrasedml.getSedmlString">
 <code class="descname">getSedmlString</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/tellurium/tephrasedml.html#tePhrasedml.getSedmlString"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.tephrasedml.tePhrasedml.getSedmlString" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get sedml string.
-:returns: sedml string
-:rtype: string</p>
+<dd><p>Get sedml string.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">sedml</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">str</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">

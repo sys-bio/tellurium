@@ -455,6 +455,40 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="mi">123</span><span class="p">,</span> <span class="n">r</span><span class="o">.</span><span class="n">getSeed</span><span class="p">())</span></div>
 
     <span class="c1"># ---------------------------------------------------------------------</span>
+    <span class="c1"># Plotting Utilities</span>
+    <span class="c1"># ---------------------------------------------------------------------</span>
+<div class="viewcode-block" id="TelluriumTestCase.test_draw"><a class="viewcode-back" href="../../../_apidoc/tellurium.tests.html#tellurium.tests.test_tellurium.TelluriumTestCase.test_draw">[docs]</a>    <span class="k">def</span> <span class="nf">test_draw</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="n">te</span><span class="o">.</span><span class="n">loada</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">            S1 -&gt; S2; k1*S1;</span>
+<span class="s2">            k1 = 0.1; S1 = 40; S2 = 0.0;</span>
+<span class="s2">        &quot;&quot;&quot;</span><span class="p">)</span>
+        <span class="n">r</span><span class="o">.</span><span class="n">draw</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="TelluriumTestCase.test_plot"><a class="viewcode-back" href="../../../_apidoc/tellurium.tests.html#tellurium.tests.test_tellurium.TelluriumTestCase.test_plot">[docs]</a>    <span class="k">def</span> <span class="nf">test_plot</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Regression tests for plotting.</span>
+<span class="sd">        The following calls should work. &quot;&quot;&quot;</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="n">te</span><span class="o">.</span><span class="n">loada</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">            S1 -&gt; S2; k1*S1;</span>
+<span class="s2">            k1 = 0.1; S1 = 40; S2 = 0.0;</span>
+<span class="s2">        &quot;&quot;&quot;</span><span class="p">)</span>
+        <span class="n">s</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">simulate</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">21</span><span class="p">)</span>
+        <span class="c1"># no argument version</span>
+        <span class="n">r</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+        <span class="c1"># plot with data</span>
+        <span class="n">r</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+        <span class="c1"># plot with named data</span>
+        <span class="n">r</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">result</span><span class="o">=</span><span class="n">s</span><span class="p">)</span>
+        <span class="c1"># plot without legend</span>
+        <span class="n">r</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+        <span class="c1"># plot without showing</span>
+        <span class="n">r</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">show</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+        <span class="n">r</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">show</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>  <span class="c1"># no show</span>
+        <span class="c1"># plot with label, title, axis and legend</span>
+        <span class="n">r</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">xlabel</span><span class="o">=</span><span class="s2">&quot;x&quot;</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="s2">&quot;y&quot;</span><span class="p">,</span> <span class="n">xlim</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">10</span><span class="p">],</span> <span class="n">ylim</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">10</span><span class="p">],</span> <span class="n">grid</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+        <span class="c1"># plot with additional plot settings from matplotlib</span>
+        <span class="n">r</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;blue&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">lineStyle</span><span class="o">=</span><span class="s2">&quot;-&quot;</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;o&quot;</span><span class="p">)</span></div>
+
+    <span class="c1"># ---------------------------------------------------------------------</span>
     <span class="c1"># Testing</span>
     <span class="c1"># ---------------------------------------------------------------------</span>
 <div class="viewcode-block" id="TelluriumTestCase.test_roadrunner_testfile"><a class="viewcode-back" href="../../../_apidoc/tellurium.tests.html#tellurium.tests.test_tellurium.TelluriumTestCase.test_roadrunner_testfile">[docs]</a>    <span class="k">def</span> <span class="nf">test_roadrunner_testfile</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>

@@ -268,6 +268,10 @@
         <span class="sd">&quot;&quot;&quot; Creates one .txt file with LaTeX code and results.</span>
 <span class="sd">        Takes two arguments, results of</span>
 <span class="sd">        simulation and name of file to be created. Same options as for saveToFile method.</span>
+<span class="sd">        ::</span>
+
+<span class="sd">            result = rr.simulate(0, 6, 20, [&#39;Time&#39;, &#39;S1&#39;, &#39;S2&#39;])</span>
+<span class="sd">            p.exportOne(result, model1)</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">result</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
             <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">rr</span><span class="o">.</span><span class="n">getSimulationData</span><span class="p">()</span>
