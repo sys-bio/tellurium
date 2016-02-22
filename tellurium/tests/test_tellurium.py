@@ -322,6 +322,40 @@ class TelluriumTestCase(unittest.TestCase):
         self.assertEqual(123, r.getSeed())
 
     # ---------------------------------------------------------------------
+    # Plotting Utilities
+    # ---------------------------------------------------------------------
+    def test_draw(self):
+        r = te.loada("""
+            S1 -> S2; k1*S1;
+            k1 = 0.1; S1 = 40; S2 = 0.0;
+        """)
+        r.draw()
+
+    def test_plot(self):
+        """ Regression tests for plotting.
+        The following calls should work. """
+        r = te.loada("""
+            S1 -> S2; k1*S1;
+            k1 = 0.1; S1 = 40; S2 = 0.0;
+        """)
+        s = r.simulate(0, 100, 21)
+        # no argument version
+        r.plot()
+        # plot with data
+        r.plot(s)
+        # plot with named data
+        r.plot(result=s)
+        # plot without legend
+        r.plot(s, loc=False)
+        # plot without showing
+        r.plot(s, show=False)
+        r.plot(s, show=True)  # no show
+        # plot with label, title, axis and legend
+        r.plot(s, xlabel="x", ylabel="y", xlim=[0,10], ylim=[0,10], grid=True)
+        # plot with additional plot settings from matplotlib
+        r.plot(s, color="blue", alpha=0.1, lineStyle="-", marker="o")
+
+    # ---------------------------------------------------------------------
     # Testing
     # ---------------------------------------------------------------------
     def test_roadrunner_testfile(self):

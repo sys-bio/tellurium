@@ -710,11 +710,6 @@ class ExtendedRoadRunner(roadrunner.RoadRunner):
         else:
             return self.model.getStateVectorRate()
 
-    # def getConservedMoietyIds(self):
-    #     warnings.warn('Use getDependentFloatingSpecies instead, will be removed in v1.4',
-    #                   DeprecationWarning, stacklevel=2)
-    #     return self.getDependentFloatingSpecies()
-
     # ---------------------------------------------------------------------
     # Plotting Utilities
     # ---------------------------------------------------------------------
@@ -777,7 +772,7 @@ class ExtendedRoadRunner(roadrunner.RoadRunner):
         :type grid: bool
         :param kwargs: additional matplotlib keywords like marker, lineStyle, color, alpha, ...
         :return:
-        :rtype: 
+        :rtype:
         """
         if result is None:
             result = self.getSimulationData()
