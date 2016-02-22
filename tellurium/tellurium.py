@@ -82,8 +82,12 @@ def getTelluriumVersion():
     :returns: version
     :rtype: str
     """
-    with open(os.path.join(os.path.dirname(__file__), '..', 'VERSION.txt'), 'r') as f:
-        version = f.read().rstrip()
+    try:
+        with open(os.path.join(os.path.dirname(__file__), '..', 'VERSION.txt'), 'r') as f:
+            version = f.read().rstrip()
+    except:
+        with open(os.path.join(os.path.dirname(__file__), 'VERSION.txt'), 'r') as f:
+            version = f.read().rstrip()
     return version
 
 

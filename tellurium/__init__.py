@@ -36,6 +36,7 @@ from tesedml import sedmlToPython
 
 import optimization
 import visualization
+import tesedml
 try:
     import notebooks
 except ImportError:
