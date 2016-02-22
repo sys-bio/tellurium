@@ -46,6 +46,9 @@ nosetests.xml
 *~
 test/.ipynb_checkpoints/
 
+# Log files
+*.log
+
 # notebook checkpoints
 examples/notebooks/.ipynb_checkpoints/
 examples/notebooks/core/.ipynb_checkpoints/

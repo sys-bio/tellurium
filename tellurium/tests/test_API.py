@@ -29,6 +29,7 @@ api_calls = [
     #   load methods
     'te.loada',
     'te.loadAntimonyModel',
+    'te.loads',
     'te.loadSBMLModel',
     'te.loadCellMLModel',
     #   conversion methods

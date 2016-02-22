@@ -31,7 +31,7 @@ SBML
 .. parsed-literal::
 
     <?xml version="1.0" encoding="UTF-8"?>
-    <!-- Created by libAntimony version v2.8.1 on 2016-02-16 10:22 with libSBML version 5.12.1. -->
+    <!-- Created by libAntimony version v2.8.1 on 2016-02-22 12:45 with libSBML version 5.12.1. -->
     <sbml xmlns="http://www.sbml.org/sbml/level3/version1/core" level="3" version="1">
       <model id="__main" name="__main">
         <listOfCompartments>

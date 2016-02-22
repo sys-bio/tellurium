@@ -1,0 +1,385 @@
+
+Unit simplification
+===================
+
+Problems in unit simplification
+
+
+.. code:: python
+
+    import tellurium as te
+    r = te.loada("""
+    // Units
+    unit mmol = 1e-3 mole;
+    unit mM = mmol / litre;
+    unit mmol_per_s = mmol / second;
+    unit test = 1000 litre / metre^3
+    
+    substance = mmol;
+    volume = litre;
+    area = metre^2; 
+    length = metre;
+    extent = mmol;
+    time_unit = second;
+    
+    // Species
+    species S1 = 0.0
+    
+    // Reaction
+    J0: S1 ->; v0 * k1;
+    v0 = 1.0 mmol_per_s;
+    k1 = 1.0 test;
+    
+    """)
+    sbml_str = r.getSBML()
+    print(sbml_str)
+
+
+.. parsed-literal::
+
+    <?xml version="1.0" encoding="UTF-8"?>
+    <!-- Created by libAntimony version v2.8.1 on 2016-02-22 12:45 with libSBML version 5.12.1. -->
+    <sbml xmlns="http://www.sbml.org/sbml/level3/version1/core" level="3" version="1">
+      <model id="__main" name="__main" substanceUnits="substance" timeUnits="time_unit" volumeUnits="volume" areaUnits="area" lengthUnits="length" extentUnits="extent">
+        <listOfUnitDefinitions>
+          <unitDefinition id="mmol">
+            <listOfUnits>
+              <unit kind="mole" exponent="1" scale="-3" multiplier="1"/>
+            </listOfUnits>
+          </unitDefinition>
+          <unitDefinition id="mM">
+            <listOfUnits>
+              <unit kind="mole" exponent="1" scale="-3" multiplier="1"/>
+              <unit kind="litre" exponent="-1" scale="0" multiplier="1"/>
+            </listOfUnits>
+          </unitDefinition>
+          <unitDefinition id="mmol_per_s">
+            <listOfUnits>
+              <unit kind="mole" exponent="1" scale="-3" multiplier="1"/>
+              <unit kind="second" exponent="-1" scale="0" multiplier="1"/>
+            </listOfUnits>
+          </unitDefinition>
+          <unitDefinition id="test">
+            <listOfUnits>
+              <unit kind="litre" exponent="1" scale="3" multiplier="1"/>
+              <unit kind="metre" exponent="-3" scale="0" multiplier="1"/>
+            </listOfUnits>
+          </unitDefinition>
+          <unitDefinition id="substance">
+            <listOfUnits>
+              <unit kind="mole" exponent="1" scale="-3" multiplier="1"/>
+            </listOfUnits>
+          </unitDefinition>
+          <unitDefinition id="volume">
+            <listOfUnits>
+              <unit kind="litre" exponent="1" scale="0" multiplier="1"/>
+            </listOfUnits>
+          </unitDefinition>
+          <unitDefinition id="area">
+            <listOfUnits>
+              <unit kind="metre" exponent="2" scale="0" multiplier="1"/>
+            </listOfUnits>
+          </unitDefinition>
+          <unitDefinition id="length">
+            <listOfUnits>
+              <unit kind="metre" exponent="1" scale="0" multiplier="1"/>
+            </listOfUnits>
+          </unitDefinition>
+          <unitDefinition id="extent">
+            <listOfUnits>
+              <unit kind="mole" exponent="1" scale="-3" multiplier="1"/>
+            </listOfUnits>
+          </unitDefinition>
+          <unitDefinition id="time_unit">
+            <listOfUnits>
+              <unit kind="second" exponent="1" scale="0" multiplier="1"/>
+            </listOfUnits>
+          </unitDefinition>
+        </listOfUnitDefinitions>
+        <listOfCompartments>
+          <compartment sboTerm="SBO:0000410" id="default_compartment" spatialDimensions="3" size="1" constant="true"/>
+        </listOfCompartments>
+        <listOfSpecies>
+          <species id="S1" compartment="default_compartment" initialConcentration="0" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+        </listOfSpecies>
+        <listOfParameters>
+          <parameter id="v0" value="1" units="mmol_per_s" constant="true"/>
+          <parameter id="k1" value="1" units="test" constant="true"/>
+        </listOfParameters>
+        <listOfReactions>
+          <reaction id="J0" reversible="true" fast="false">
+            <listOfReactants>
+              <speciesReference species="S1" stoichiometry="1" constant="true"/>
+            </listOfReactants>
+            <kineticLaw>
+              <math xmlns="http://www.w3.org/1998/Math/MathML">
+                <apply>
+                  <times/>
+                  <ci> v0 </ci>
+                  <ci> k1 </ci>
+                </apply>
+              </math>
+            </kineticLaw>
+          </reaction>
+        </listOfReactions>
+      </model>
+    </sbml>
+    
+
+
+.. code:: python
+
+    # validate
+    from multiscale.sbmlutils import validation
+    import tempfile
+    import libsbml
+    doc = libsbml.readSBML(sbml_str)
+    f = tempfile.NamedTemporaryFile(suffix='.xml')
+    f.write(sbml_str)
+    f.flush()
+    validation.check_sbml(f.name)
+
+
+.. parsed-literal::
+
+    
+     read time (ms): 0.00214
+     validation error(s): 0
+    
+
+
+
+
+.. parsed-literal::
+
+    0
+
+
+
+.. code:: python
+
+    import tellurium as te
+    r = te.loada("""
+        substance = mole;
+        volume = metre^3;
+        area = metre^2; 
+        length = metre;
+        extent = mole;
+        time_unit = second;
+    
+        unit pmol = 1e-12 mole;
+        unit pM = pmol / litre;
+    
+        // helper functions
+        function max(x,y)
+          piecewise(x,gt(x,y),y)
+        end
+        
+        species x1 := 1.0 pM;
+        species x2 := 2.0 pM;
+    
+        t1 := max(x1, x2);
+        t1 has pM;
+        t2 := max(0.0 pM, 1.1 pM);
+        t2 has pM;
+    """)
+    sbml_str = r.getSBML()
+    # print(sbml_str)
+
+.. code:: python
+
+    # validate
+    from multiscale.sbmlutils import validation
+    import tempfile
+    import libsbml
+    doc = libsbml.readSBML(sbml_str)
+    f = tempfile.NamedTemporaryFile(suffix='.xml')
+    f.write(sbml_str)
+    f.flush()
+    validation.validate_sbml(f.name)
+
+
+.. parsed-literal::
+
+     filename : /tmp/tmpgK09Pm.xml
+     file size (byte) : 4393
+     read time (ms) : 1.160145
+     c-check time (ms) : 2.908945
+     validation error(s) : 0
+     consistency error(s): 0
+     validation warning(s) : 1
+     consistency warning(s): 1
+    
+    ===== validation error/warning messages =====
+    
+    *** consistency check ***
+    
+    line 106: (99505 [Warning]) In situations where a mathematical expression contains literal numbers or parameters whose units have not been declared, it is not possible to verify accurately the consistency of the units in the expression. 
+     The units of the <assignmentRule> <math> expression 'max(0, 1.1)' cannot be fully checked. Unit consistency reported as either no errors or further unit errors related to this object may not be accurate.
+    
+     
+    
+
+
+
+
+.. parsed-literal::
+
+    {'errMsgCC': "line 106: (99505 [Warning]) In situations where a mathematical expression contains literal numbers or parameters whose units have not been declared, it is not possible to verify accurately the consistency of the units in the expression. \n The units of the <assignmentRule> <math> expression 'max(0, 1.1)' cannot be fully checked. Unit consistency reported as either no errors or further unit errors related to this object may not be accurate.\n\n",
+     'numCCErr': 0,
+     'numCCWarn': 1,
+     'skipCC': False,
+     'timeCC': 2.908945083618164}
+
+
+
+.. code:: python
+
+    import tellurium as te
+    r = te.loada("""
+        substance = mole;
+        volume = metre^3;
+        area = metre^2; 
+        length = metre;
+        extent = mole;
+        time_unit = second;
+    
+        unit mmol = 1e-3 mole;
+        unit mM = mmol / litre;
+        
+        n = 4.3 dimensionless;
+        k = 0.5 mM;
+        glc = 5.0 mM;
+    
+        t1 := glc^n/(glc^n + k^n);
+        t1 has dimensionless;
+    """)
+    sbml_str = r.getSBML()
+    print(sbml_str)
+
+
+.. parsed-literal::
+
+    <?xml version="1.0" encoding="UTF-8"?>
+    <!-- Created by libAntimony version v2.8.1 on 2016-02-22 12:45 with libSBML version 5.12.1. -->
+    <sbml xmlns="http://www.sbml.org/sbml/level3/version1/core" level="3" version="1">
+      <model id="__main" name="__main" substanceUnits="substance" timeUnits="time_unit" volumeUnits="volume" areaUnits="area" lengthUnits="length" extentUnits="extent">
+        <listOfUnitDefinitions>
+          <unitDefinition id="substance">
+            <listOfUnits>
+              <unit kind="mole" exponent="1" scale="0" multiplier="1"/>
+            </listOfUnits>
+          </unitDefinition>
+          <unitDefinition id="volume">
+            <listOfUnits>
+              <unit kind="metre" exponent="3" scale="0" multiplier="1"/>
+            </listOfUnits>
+          </unitDefinition>
+          <unitDefinition id="area">
+            <listOfUnits>
+              <unit kind="metre" exponent="2" scale="0" multiplier="1"/>
+            </listOfUnits>
+          </unitDefinition>
+          <unitDefinition id="length">
+            <listOfUnits>
+              <unit kind="metre" exponent="1" scale="0" multiplier="1"/>
+            </listOfUnits>
+          </unitDefinition>
+          <unitDefinition id="extent">
+            <listOfUnits>
+              <unit kind="mole" exponent="1" scale="0" multiplier="1"/>
+            </listOfUnits>
+          </unitDefinition>
+          <unitDefinition id="time_unit">
+            <listOfUnits>
+              <unit kind="second" exponent="1" scale="0" multiplier="1"/>
+            </listOfUnits>
+          </unitDefinition>
+          <unitDefinition id="mmol">
+            <listOfUnits>
+              <unit kind="mole" exponent="1" scale="-3" multiplier="1"/>
+            </listOfUnits>
+          </unitDefinition>
+          <unitDefinition id="mM">
+            <listOfUnits>
+              <unit kind="mole" exponent="1" scale="-3" multiplier="1"/>
+              <unit kind="litre" exponent="-1" scale="0" multiplier="1"/>
+            </listOfUnits>
+          </unitDefinition>
+        </listOfUnitDefinitions>
+        <listOfParameters>
+          <parameter id="n" value="4.3" units="dimensionless" constant="true"/>
+          <parameter id="k" value="0.5" units="mM" constant="true"/>
+          <parameter id="glc" value="5" units="mM" constant="true"/>
+          <parameter id="t1" units="dimensionless" constant="false"/>
+        </listOfParameters>
+        <listOfRules>
+          <assignmentRule variable="t1">
+            <math xmlns="http://www.w3.org/1998/Math/MathML">
+              <apply>
+                <divide/>
+                <apply>
+                  <power/>
+                  <ci> glc </ci>
+                  <ci> n </ci>
+                </apply>
+                <apply>
+                  <plus/>
+                  <apply>
+                    <power/>
+                    <ci> glc </ci>
+                    <ci> n </ci>
+                  </apply>
+                  <apply>
+                    <power/>
+                    <ci> k </ci>
+                    <ci> n </ci>
+                  </apply>
+                </apply>
+              </apply>
+            </math>
+          </assignmentRule>
+        </listOfRules>
+      </model>
+    </sbml>
+    
+
+
+.. code:: python
+
+    # validate
+    from multiscale.sbmlutils import validation
+    import tempfile
+    import libsbml
+    doc = libsbml.readSBML(sbml_str)
+    f = tempfile.NamedTemporaryFile(suffix='.xml')
+    f.write(sbml_str)
+    f.flush()
+    validation.validate_sbml(f.name)
+
+
+.. parsed-literal::
+
+     filename : /tmp/tmpZxZg6l.xml
+     file size (byte) : 2901
+     read time (ms) : 0.794172
+     c-check time (ms) : 1.802921
+     validation error(s) : 0
+     consistency error(s): 0
+     validation warning(s) : 0
+     consistency warning(s): 0 
+    
+
+
+
+
+.. parsed-literal::
+
+    {'errMsgCC': '',
+     'numCCErr': 0,
+     'numCCWarn': 0,
+     'skipCC': False,
+     'timeCC': 1.8029212951660156}
+
+
+

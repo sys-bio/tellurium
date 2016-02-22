@@ -30,8 +30,8 @@
         <img id="keyboard_icon" src="keybd_closed.png" alt="Show keyboard shortcuts" />
 
         <h2 class="stats">
-            52 statements &nbsp;
-            <span class="run hide_run shortkey_r button_toggle_run">51 run</span>
+            54 statements &nbsp;
+            <span class="run hide_run shortkey_r button_toggle_run">53 run</span>
             <span class="mis shortkey_m button_toggle_mis">1 missing</span>
             <span class="exc shortkey_x button_toggle_exc">0 excluded</span>
 
@@ -153,13 +153,15 @@
 <p id="n84" class="stm run hide_run"><a href="#n84">84</a></p>
 <p id="n85" class="stm run hide_run"><a href="#n85">85</a></p>
 <p id="n86" class="stm run hide_run"><a href="#n86">86</a></p>
-<p id="n87" class="pln"><a href="#n87">87</a></p>
+<p id="n87" class="stm run hide_run"><a href="#n87">87</a></p>
 <p id="n88" class="stm run hide_run"><a href="#n88">88</a></p>
-<p id="n89" class="stm run hide_run"><a href="#n89">89</a></p>
-<p id="n90" class="pln"><a href="#n90">90</a></p>
-<p id="n91" class="pln"><a href="#n91">91</a></p>
-<p id="n92" class="stm run hide_run"><a href="#n92">92</a></p>
-<p id="n93" class="stm mis"><a href="#n93">93</a></p>
+<p id="n89" class="pln"><a href="#n89">89</a></p>
+<p id="n90" class="stm run hide_run"><a href="#n90">90</a></p>
+<p id="n91" class="stm run hide_run"><a href="#n91">91</a></p>
+<p id="n92" class="pln"><a href="#n92">92</a></p>
+<p id="n93" class="pln"><a href="#n93">93</a></p>
+<p id="n94" class="stm run hide_run"><a href="#n94">94</a></p>
+<p id="n95" class="stm mis"><a href="#n95">95</a></p>
                 
             </td>
             <td class="text">
@@ -246,16 +248,18 @@
 <p id="t81" class="stm run hide_run">&nbsp; &nbsp; <span class="key">def</span> <span class="nam">test_exportAsCombine</span><span class="op">(</span><span class="nam">self</span><span class="op">)</span><span class="op">:</span><span class="strut">&nbsp;</span></p>
 <p id="t82" class="pln">&nbsp; &nbsp; &nbsp; &nbsp; <span class="str">&quot;&quot;&quot;Test exportAsCombine.&quot;&quot;&quot;</span><span class="strut">&nbsp;</span></p>
 <p id="t83" class="stm run hide_run">&nbsp; &nbsp; &nbsp; &nbsp; <span class="key">import</span> <span class="nam">tellurium</span> <span class="key">as</span> <span class="nam">te</span><span class="strut">&nbsp;</span></p>
-<p id="t84" class="stm run hide_run">&nbsp; &nbsp; &nbsp; &nbsp; <span class="nam">exp</span> <span class="op">=</span> <span class="nam">te</span><span class="op">.</span><span class="nam">experiment</span><span class="op">(</span><span class="nam">self</span><span class="op">.</span><span class="nam">antimony</span><span class="op">,</span> <span class="nam">self</span><span class="op">.</span><span class="nam">phrasedml</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
-<p id="t85" class="stm run hide_run">&nbsp; &nbsp; &nbsp; &nbsp; <span class="nam">f</span> <span class="op">=</span> <span class="nam">tempfile</span><span class="op">.</span><span class="nam">NamedTemporaryFile</span><span class="op">(</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
-<p id="t86" class="stm run hide_run">&nbsp; &nbsp; &nbsp; &nbsp; <span class="nam">exp</span><span class="op">.</span><span class="nam">exportAsCombine</span><span class="op">(</span><span class="nam">f</span><span class="op">.</span><span class="nam">name</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
-<p id="t87" class="pln">&nbsp; &nbsp; &nbsp; &nbsp; <span class="com"># try to re</span><span class="strut">&nbsp;</span></p>
-<p id="t88" class="stm run hide_run">&nbsp; &nbsp; &nbsp; &nbsp; <span class="key">import</span> <span class="nam">zipfile</span><span class="strut">&nbsp;</span></p>
-<p id="t89" class="stm run hide_run">&nbsp; &nbsp; &nbsp; &nbsp; <span class="nam">zip</span> <span class="op">=</span> <span class="nam">zipfile</span><span class="op">.</span><span class="nam">ZipFile</span><span class="op">(</span><span class="nam">f</span><span class="op">.</span><span class="nam">name</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
-<p id="t90" class="pln"><span class="strut">&nbsp;</span></p>
-<p id="t91" class="pln"><span class="strut">&nbsp;</span></p>
-<p id="t92" class="stm run hide_run"><span class="key">if</span> <span class="nam">__name__</span> <span class="op">==</span> <span class="str">&#39;__main__&#39;</span><span class="op">:</span><span class="strut">&nbsp;</span></p>
-<p id="t93" class="stm mis">&nbsp; &nbsp; <span class="nam">unittest</span><span class="op">.</span><span class="nam">main</span><span class="op">(</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
+<p id="t84" class="stm run hide_run">&nbsp; &nbsp; &nbsp; &nbsp; <span class="key">import</span> <span class="nam">os</span><span class="strut">&nbsp;</span></p>
+<p id="t85" class="stm run hide_run">&nbsp; &nbsp; &nbsp; &nbsp; <span class="nam">exp</span> <span class="op">=</span> <span class="nam">te</span><span class="op">.</span><span class="nam">experiment</span><span class="op">(</span><span class="nam">self</span><span class="op">.</span><span class="nam">antimony</span><span class="op">,</span> <span class="nam">self</span><span class="op">.</span><span class="nam">phrasedml</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
+<p id="t86" class="stm run hide_run">&nbsp; &nbsp; &nbsp; &nbsp; <span class="nam">tmpdir</span> <span class="op">=</span> <span class="nam">tempfile</span><span class="op">.</span><span class="nam">mkdtemp</span><span class="op">(</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
+<p id="t87" class="stm run hide_run">&nbsp; &nbsp; &nbsp; &nbsp; <span class="nam">tmparchive</span> <span class="op">=</span> <span class="nam">os</span><span class="op">.</span><span class="nam">path</span><span class="op">.</span><span class="nam">join</span><span class="op">(</span><span class="nam">tmpdir</span><span class="op">,</span> <span class="str">&#39;test.zip&#39;</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
+<p id="t88" class="stm run hide_run">&nbsp; &nbsp; &nbsp; &nbsp; <span class="nam">exp</span><span class="op">.</span><span class="nam">exportAsCombine</span><span class="op">(</span><span class="nam">tmparchive</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
+<p id="t89" class="pln">&nbsp; &nbsp; &nbsp; &nbsp; <span class="com"># try to re</span><span class="strut">&nbsp;</span></p>
+<p id="t90" class="stm run hide_run">&nbsp; &nbsp; &nbsp; &nbsp; <span class="key">import</span> <span class="nam">zipfile</span><span class="strut">&nbsp;</span></p>
+<p id="t91" class="stm run hide_run">&nbsp; &nbsp; &nbsp; &nbsp; <span class="nam">zip</span> <span class="op">=</span> <span class="nam">zipfile</span><span class="op">.</span><span class="nam">ZipFile</span><span class="op">(</span><span class="nam">tmparchive</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
+<p id="t92" class="pln"><span class="strut">&nbsp;</span></p>
+<p id="t93" class="pln"><span class="strut">&nbsp;</span></p>
+<p id="t94" class="stm run hide_run"><span class="key">if</span> <span class="nam">__name__</span> <span class="op">==</span> <span class="str">&#39;__main__&#39;</span><span class="op">:</span><span class="strut">&nbsp;</span></p>
+<p id="t95" class="stm mis">&nbsp; &nbsp; <span class="nam">unittest</span><span class="op">.</span><span class="nam">main</span><span class="op">(</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
                 
             </td>
         </tr>
@@ -266,7 +270,7 @@
     <div class="content">
         <p>
             <a class="nav" href="index.html">&#xab; index</a> &nbsp; &nbsp; <a class="nav" href="https://coverage.readthedocs.org">coverage.py v4.0.3</a>,
-            created at 2016-02-08 14:09
+            created at 2016-02-22 12:59
         </p>
     </div>
 </div>

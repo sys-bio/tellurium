@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>tellurium.tests.test_tellurium &mdash; tellurium 1.3.0 documentation</title>
+  <title>tellurium.tests.test_tellurium &mdash; tellurium 1.3.1 documentation</title>
   
 
   
@@ -30,7 +30,7 @@
   
 
   
-    <link rel="top" title="tellurium 1.3.0 documentation" href="../../../index.html"/>
+    <link rel="top" title="tellurium 1.3.1 documentation" href="../../../index.html"/>
         <link rel="up" title="Module code" href="../../index.html"/> 
 
   
@@ -59,7 +59,7 @@
             
             
               <div class="version">
-                1.3.0
+                1.3.1
               </div>
             
           
@@ -276,6 +276,14 @@
         <span class="n">r</span> <span class="o">=</span> <span class="n">te</span><span class="o">.</span><span class="n">loadAntimonyModel</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ant_str</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">assertIsNotNone</span><span class="p">(</span><span class="n">r</span><span class="p">)</span></div>
 
+<div class="viewcode-block" id="TelluriumTestCase.test_loads_file"><a class="viewcode-back" href="../../../_apidoc/tellurium.tests.html#tellurium.tests.test_tellurium.TelluriumTestCase.test_loads_file">[docs]</a>    <span class="k">def</span> <span class="nf">test_loads_file</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="n">te</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sbml_file</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertIsNotNone</span><span class="p">(</span><span class="n">r</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="TelluriumTestCase.test_loads_str"><a class="viewcode-back" href="../../../_apidoc/tellurium.tests.html#tellurium.tests.test_tellurium.TelluriumTestCase.test_loads_str">[docs]</a>    <span class="k">def</span> <span class="nf">test_loads_str</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="n">te</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sbml_str</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertIsNotNone</span><span class="p">(</span><span class="n">r</span><span class="p">)</span></div>
+
 <div class="viewcode-block" id="TelluriumTestCase.test_loadSBMLModel_file"><a class="viewcode-back" href="../../../_apidoc/tellurium.tests.html#tellurium.tests.test_tellurium.TelluriumTestCase.test_loadSBMLModel_file">[docs]</a>    <span class="k">def</span> <span class="nf">test_loadSBMLModel_file</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">r</span> <span class="o">=</span> <span class="n">te</span><span class="o">.</span><span class="n">loadSBMLModel</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sbml_file</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">assertIsNotNone</span><span class="p">(</span><span class="n">r</span><span class="p">)</span></div>
@@ -430,6 +438,22 @@
         <span class="c1"># using the give selection list</span>
         <span class="n">result</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">gillespie</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">40</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;time&#39;</span><span class="p">,</span> <span class="s1">&#39;S1&#39;</span><span class="p">])</span></div>
 
+<div class="viewcode-block" id="TelluriumTestCase.test_getSeed"><a class="viewcode-back" href="../../../_apidoc/tellurium.tests.html#tellurium.tests.test_tellurium.TelluriumTestCase.test_getSeed">[docs]</a>    <span class="k">def</span> <span class="nf">test_getSeed</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="n">te</span><span class="o">.</span><span class="n">loada</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">            S1 -&gt; S2; k1*S1;</span>
+<span class="s2">            k1 = 0.1; S1 = 40; S2 = 0.0;</span>
+<span class="s2">        &quot;&quot;&quot;</span><span class="p">)</span>
+        <span class="n">seed</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">getSeed</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertIsNotNone</span><span class="p">(</span><span class="n">seed</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="TelluriumTestCase.test_setSeed"><a class="viewcode-back" href="../../../_apidoc/tellurium.tests.html#tellurium.tests.test_tellurium.TelluriumTestCase.test_setSeed">[docs]</a>    <span class="k">def</span> <span class="nf">test_setSeed</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="n">te</span><span class="o">.</span><span class="n">loada</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">            S1 -&gt; S2; k1*S1;</span>
+<span class="s2">            k1 = 0.1; S1 = 40; S2 = 0.0;</span>
+<span class="s2">        &quot;&quot;&quot;</span><span class="p">)</span>
+        <span class="n">r</span><span class="o">.</span><span class="n">setSeed</span><span class="p">(</span><span class="mi">123</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="mi">123</span><span class="p">,</span> <span class="n">r</span><span class="o">.</span><span class="n">getSeed</span><span class="p">())</span></div>
+
     <span class="c1"># ---------------------------------------------------------------------</span>
     <span class="c1"># Testing</span>
     <span class="c1"># ---------------------------------------------------------------------</span>
@@ -562,7 +586,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../../',
-            VERSION:'1.3.0',
+            VERSION:'1.3.1',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true

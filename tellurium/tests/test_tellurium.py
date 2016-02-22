@@ -143,6 +143,14 @@ class TelluriumTestCase(unittest.TestCase):
         r = te.loadAntimonyModel(self.ant_str)
         self.assertIsNotNone(r)
 
+    def test_loads_file(self):
+        r = te.loads(self.sbml_file)
+        self.assertIsNotNone(r)
+
+    def test_loads_str(self):
+        r = te.loads(self.sbml_str)
+        self.assertIsNotNone(r)
+
     def test_loadSBMLModel_file(self):
         r = te.loadSBMLModel(self.sbml_file)
         self.assertIsNotNone(r)
@@ -296,6 +304,56 @@ class TelluriumTestCase(unittest.TestCase):
         # Simulate from time zero to 40 time units, on a grid with 20 points
         # using the give selection list
         result = r.gillespie(0, 40, 20, ['time', 'S1'])
+
+    def test_getSeed(self):
+        r = te.loada("""
+            S1 -> S2; k1*S1;
+            k1 = 0.1; S1 = 40; S2 = 0.0;
+        """)
+        seed = r.getSeed()
+        self.assertIsNotNone(seed)
+
+    def test_setSeed(self):
+        r = te.loada("""
+            S1 -> S2; k1*S1;
+            k1 = 0.1; S1 = 40; S2 = 0.0;
+        """)
+        r.setSeed(123)
+        self.assertEqual(123, r.getSeed())
+
+    # ---------------------------------------------------------------------
+    # Plotting Utilities
+    # ---------------------------------------------------------------------
+    def test_draw(self):
+        r = te.loada("""
+            S1 -> S2; k1*S1;
+            k1 = 0.1; S1 = 40; S2 = 0.0;
+        """)
+        r.draw()
+
+    def test_plot(self):
+        """ Regression tests for plotting.
+        The following calls should work. """
+        r = te.loada("""
+            S1 -> S2; k1*S1;
+            k1 = 0.1; S1 = 40; S2 = 0.0;
+        """)
+        s = r.simulate(0, 100, 21)
+        # no argument version
+        r.plot()
+        # plot with data
+        r.plot(s)
+        # plot with named data
+        r.plot(result=s)
+        # plot without legend
+        r.plot(s, loc=False)
+        # plot without showing
+        r.plot(s, show=False)
+        r.plot(s, show=True)  # no show
+        # plot with label, title, axis and legend
+        r.plot(s, xlabel="x", ylabel="y", xlim=[0,10], ylim=[0,10], grid=True)
+        # plot with additional plot settings from matplotlib
+        r.plot(s, color="blue", alpha=0.1, lineStyle="-", marker="o")
 
     # ---------------------------------------------------------------------
     # Testing

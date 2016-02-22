@@ -18,10 +18,10 @@ Version information
 
 .. parsed-literal::
 
-    1.3.0
+    1.3.1
     --------------------------------------------------------------------------------
-    tellurium : 1.3.0
-    roadrunner : 1.4.2; Compiler: gcc 4.8.4, C++ version: 199711; JIT Compiler: LLVM-3.4; Date: Feb 15 2016, 09:48:54; LibSBML Version: 5.12.0
+    tellurium : 1.3.1
+    roadrunner : 1.4.2; Compiler: gcc 4.8.4, C++ version: 199711; JIT Compiler: LLVM-3.4; Date: Feb 18 2016, 14:58:54; LibSBML Version: 5.12.0
     antimony : v2.8.0
     snbw_viewer : No information for sbnw viewer
     libsbml : 5.12.1
@@ -86,7 +86,7 @@ File helpers for reading and writing
 
 .. parsed-literal::
 
-    /tmp/tmpKJPTzF.xml
+    /tmp/tmpX50wPh.xml
     %  How to use:
     %
     %  __main takes 3 inputs and returns 3 outputs.

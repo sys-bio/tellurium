@@ -12,6 +12,7 @@ from tellurium import readFromFile
     
 from tellurium import loada
 from tellurium import loadAntimonyModel
+from tellurium import loads
 from tellurium import loadSBMLModel
 from tellurium import loadCellMLModel
     

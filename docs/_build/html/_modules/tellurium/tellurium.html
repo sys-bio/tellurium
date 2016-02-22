@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>tellurium.tellurium &mdash; tellurium 1.3.0 documentation</title>
+  <title>tellurium.tellurium &mdash; tellurium 1.3.1 documentation</title>
   
 
   
@@ -30,7 +30,7 @@
   
 
   
-    <link rel="top" title="tellurium 1.3.0 documentation" href="../../index.html"/>
+    <link rel="top" title="tellurium 1.3.1 documentation" href="../../index.html"/>
         <link rel="up" title="Module code" href="../index.html"/> 
 
   
@@ -59,7 +59,7 @@
             
             
               <div class="version">
-                1.3.0
+                1.3.1
               </div>
             
           
@@ -215,8 +215,12 @@
 <span class="sd">    :returns: version</span>
 <span class="sd">    :rtype: str</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">__file__</span><span class="p">),</span> <span class="s1">&#39;..&#39;</span><span class="p">,</span> <span class="s1">&#39;VERSION.txt&#39;</span><span class="p">),</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
-        <span class="n">version</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">()</span><span class="o">.</span><span class="n">rstrip</span><span class="p">()</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">__file__</span><span class="p">),</span> <span class="s1">&#39;..&#39;</span><span class="p">,</span> <span class="s1">&#39;VERSION.txt&#39;</span><span class="p">),</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="n">version</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">()</span><span class="o">.</span><span class="n">rstrip</span><span class="p">()</span>
+    <span class="k">except</span><span class="p">:</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">__file__</span><span class="p">),</span> <span class="s1">&#39;VERSION.txt&#39;</span><span class="p">),</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="n">version</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">()</span><span class="o">.</span><span class="n">rstrip</span><span class="p">()</span>
     <span class="k">return</span> <span class="n">version</span></div>
 
 
@@ -303,6 +307,19 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">sbml</span> <span class="o">=</span> <span class="n">antimonyToSBML</span><span class="p">(</span><span class="n">ant</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">roadrunner</span><span class="o">.</span><span class="n">RoadRunner</span><span class="p">(</span><span class="n">sbml</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="loads"><a class="viewcode-back" href="../../_apidoc/tellurium.html#tellurium.tellurium.loads">[docs]</a><span class="k">def</span> <span class="nf">loads</span><span class="p">(</span><span class="n">ant</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Load SBML model with tellurium</span>
+
+<span class="sd">    See also: :func:`loadSBMLModel`</span>
+
+<span class="sd">    :param ant: SBML model</span>
+<span class="sd">    :type ant: str | file</span>
+<span class="sd">    :returns: RoadRunner instance with model loaded</span>
+<span class="sd">    :rtype: roadrunner.RoadRunner</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">loadSBMLModel</span><span class="p">(</span><span class="n">ant</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="loadSBMLModel"><a class="viewcode-back" href="../../tellurium_methods.html#tellurium.tellurium.loadSBMLModel">[docs]</a><span class="k">def</span> <span class="nf">loadSBMLModel</span><span class="p">(</span><span class="n">sbml</span><span class="p">):</span>
@@ -836,9 +853,11 @@
     <span class="c1"># ---------------------------------------------------------------------</span>
 <div class="viewcode-block" id="ExtendedRoadRunner.draw"><a class="viewcode-back" href="../../tellurium_methods.html#tellurium.tellurium.ExtendedRoadRunner.draw">[docs]</a>    <span class="k">def</span> <span class="nf">draw</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Draws an SBMLDiagram of the current model.</span>
+
 <span class="sd">        To set the width of the output plot provide the &#39;width&#39; argument.</span>
 <span class="sd">        Species are drawn as white circles (boundary species</span>
 <span class="sd">        shaded in blue), reactions as grey squares.</span>
+<span class="sd">        Currently only the drawing of medium-size networks is supported.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="kn">from</span> <span class="nn">visualization.sbmldiagram</span> <span class="kn">import</span> <span class="n">SBMLDiagram</span>
         <span class="n">diagram</span> <span class="o">=</span> <span class="n">SBMLDiagram</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">getSBML</span><span class="p">())</span>
@@ -847,15 +866,18 @@
 <div class="viewcode-block" id="ExtendedRoadRunner.plot"><a class="viewcode-back" href="../../tellurium_methods.html#tellurium.tellurium.ExtendedRoadRunner.plot">[docs]</a>    <span class="k">def</span> <span class="nf">plot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">result</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="s1">&#39;upper right&#39;</span><span class="p">,</span> <span class="n">show</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
              <span class="n">xlabel</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">xlim</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">ylim</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
              <span class="n">xscale</span><span class="o">=</span><span class="s1">&#39;linear&#39;</span><span class="p">,</span> <span class="n">yscale</span><span class="o">=</span><span class="s2">&quot;linear&quot;</span><span class="p">,</span> <span class="n">grid</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Plot data generated by a simulation.</span>
+        <span class="sd">&quot;&quot;&quot; Plot roadrunner simulation data.</span>
 
-<span class="sd">        Plot results from a simulation carried out by the simulate or gillespie</span>
-<span class="sd">        functions. This is a roadrunner method.</span>
-<span class="sd">        Data is a numpy array where the first column is considered the x axis and all remaining columns the y axis.</span>
-<span class="sd">        If no data is provided the data currently held by roadrunner generated in the last simulation is used.</span>
+<span class="sd">        Plot is called with simulation data to plot as the first argument. If no data is provided the data currently</span>
+<span class="sd">        held by roadrunner generated in the last simulation is used. The first column is considered the x axis and</span>
+<span class="sd">        all remaining columns the y axis.</span>
+<span class="sd">        If the result array has no names, than the current r.selections are used for naming. In this case the</span>
+<span class="sd">        dimension of the r.selections has to be the same like the number of columns of the result array.</span>
+
 <span class="sd">        Curves are plotted in order of selection (columns in result).</span>
 
-<span class="sd">        Supports all matplotlib.pyplot.plot keyword arguments, like color, alpha, linewidth, linestyle, marker, ...</span>
+<span class="sd">        In addition to the listed keywords plot supports all matplotlib.pyplot.plot keyword arguments,</span>
+<span class="sd">        like color, alpha, linewidth, linestyle, marker, ...</span>
 <span class="sd">        ::</span>
 
 <span class="sd">            sbml = te.getTestModel(&#39;feedback.xml&#39;)</span>
@@ -865,11 +887,35 @@
 <span class="sd">                   title=&quot;Feedback Oscillation&quot;, xlabel=&quot;time&quot;, ylabel=&quot;concentration&quot;, xlim=[0,100], ylim=[-1, 4])</span>
 
 <span class="sd">        :param result: results data to plot</span>
-<span class="sd">        :param loc: location of plot legend</span>
-<span class="sd">        :param show: show the plot</span>
+<span class="sd">        :type result: numpy array</span>
+<span class="sd">        :param loc: location of plot legend (standard matplotlib arguments). If loc=None or loc=False no legend is shown.</span>
+<span class="sd">        :type loc: str or None</span>
+<span class="sd">        :param show: show the plot, use show=False to plot multiple simulations in one plot</span>
+<span class="sd">        :type show: bool</span>
+<span class="sd">        :param xlabel: x-axis label</span>
+<span class="sd">        :type xlabel: str</span>
+<span class="sd">        :param ylabel: y-axis label</span>
+<span class="sd">        :type ylabel: str</span>
+<span class="sd">        :param title: plot title</span>
+<span class="sd">        :type title: str</span>
+<span class="sd">        :param xlim: limits on x-axis</span>
+<span class="sd">        :type xlim: tuple [start, end]</span>
+<span class="sd">        :param ylim: limits on y-axis</span>
+<span class="sd">        :type ylim: tuple [start, end]</span>
+<span class="sd">        :param xscale: &#39;linear&#39; or &#39;log&#39; scale for x-axis</span>
+<span class="sd">        :type xscale: &#39;str&#39;</span>
+<span class="sd">        :param yscale: &#39;linear&#39; or &#39;log&#39; scale for y-axis</span>
+<span class="sd">        :type yscale: &#39;str&#39;</span>
+<span class="sd">        :param grid: show grid</span>
+<span class="sd">        :type grid: bool</span>
+<span class="sd">        :param kwargs: additional matplotlib keywords like marker, lineStyle, color, alpha, ...</span>
+<span class="sd">        :return:</span>
+<span class="sd">        :rtype:</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">result</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
             <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getSimulationData</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">loc</span> <span class="ow">is</span> <span class="bp">False</span><span class="p">:</span>
+            <span class="n">loc</span> <span class="o">=</span> <span class="bp">None</span>
 
         <span class="k">if</span> <span class="s1">&#39;linewidth&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
             <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;linewidth&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">2.0</span>
@@ -1065,7 +1111,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../',
-            VERSION:'1.3.0',
+            VERSION:'1.3.1',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true
