@@ -305,6 +305,22 @@ class TelluriumTestCase(unittest.TestCase):
         # using the give selection list
         result = r.gillespie(0, 40, 20, ['time', 'S1'])
 
+    def test_getSeed(self):
+        r = te.loada("""
+            S1 -> S2; k1*S1;
+            k1 = 0.1; S1 = 40; S2 = 0.0;
+        """)
+        seed = r.getSeed()
+        self.assertIsNotNone(seed)
+
+    def test_setSeed(self):
+        r = te.loada("""
+            S1 -> S2; k1*S1;
+            k1 = 0.1; S1 = 40; S2 = 0.0;
+        """)
+        r.setSeed(123)
+        self.assertEqual(123, r.getSeed())
+
     # ---------------------------------------------------------------------
     # Testing
     # ---------------------------------------------------------------------
