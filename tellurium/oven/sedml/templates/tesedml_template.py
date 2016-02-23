@@ -1,3 +1,4 @@
+{% import 'macros_helpers.py' as helpers %}
 """
     tellurium {{ version }}
 
@@ -12,14 +13,31 @@ import tellurium as te
 import numpy as np
 import matplotlib.pyplot as plt
 import libsedml
+import os.path
 
-# *** Models ***
+{{ helpers.heading(doc.getListOfModels(), 'Model') }}
+{% for m in doc.getListOfModels() %}
+# load model
+{% if m|SEDML_isSBMLModel %}
+{{ m.getId() }} = te.loadSBMLModel(os.path.join('{{ factory.workingDir }}', '{{ m.getSource() }}'))
+{% endif %}
+{% endfor %}
 
-# *** Simulations ***
 
-# *** Tasks ***
+{{ helpers.heading(doc.getListOfSimulations(), 'Simulation') }}
 
-# *** DataGenerators ***
+{{ helpers.heading(doc.getListOfTasks(), 'Task') }}
+{% for s in doc.getListOfModels() %}
+# UniformTimeCourse
 
-# *** Outputs ***
+# SteadyState
+print('{{ s.getId() }}', '{{ s.getName() }}')
+{% if s.getTypeCode() == libsedml.SEDML_SIMULATION_ONESTEP %}
+print('OneStep')
+{% endif %}
 
+{% endfor %}
+
+{{ helpers.heading(doc.getListOfDataGenerators(), 'DataGenerator') }}
+
+{{ helpers.heading(doc.getListOfOutputs(), 'Output') }}

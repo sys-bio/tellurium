@@ -141,6 +141,10 @@ class SEDMLCodeFactory(object):
         if self.sedmlDoc.getErrorLog().getNumFailsWithSeverity(libsedml.LIBSEDML_SEV_ERROR) > 0:
             raise IOError(self.sedmlDoc.getErrorLog().toString())
 
+        # parse the models & prepare for roadrunner
+        self.models = None
+        self._parseSEDMLModels()
+
     def __str__(self):
         """ Print Input
         :return:
@@ -200,6 +204,81 @@ class SEDMLCodeFactory(object):
                 # FIXME: there could be multiple SEDML files in archive (currently only first used)
                 self.sedmlDoc = libsedml.readSedMLFromString(sedmlFiles[0])
                 self.inputType = self.__class__.INPUT_TYPE_FILE_COMBINE
+
+    def _parseSEDMLModels(self):
+        """
+
+        :return:
+        :rtype:
+        """
+        pass
+
+    def _loadModel(self):
+        """ Load model. """
+        model_sources = {}
+        for m in self.sedmlDoc.getListOfModels():
+            model_sources[m.getId()] = m.getSource()
+
+        print(model_sources)
+        # recursive search for original model
+        # Necessary to apply all changes on the way
+        def findSource(mid):
+            if model_sources.has_key(mid):
+                return findSource(model_sources[mid])
+
+        for m in self.sedmlDoc.getListOfModels():
+            mid = m.getId()
+            model_sources[mid] = findSource(mid)
+        print(model_sources)
+
+        """
+
+        string = currentModel.getSource()
+        string = string.replace("\\", "/")
+        if isId(string):                             # it's the Id of a model
+            originalModel = sedmlDoc.getModel(string)
+            if originalModel is not None:
+                string = originalModel.getSource()          #  !!! for now, we reuse the original model to which the current model is referring to
+            else:
+                pass
+        if string.startswith("."):                  # relative location, we trust it but need it trimmed
+            if string.startswith("../"):
+                string = string[3:]
+            elif string.startswith("./"):
+                string = string[2:]
+            print(rrName + ".load('" + path.replace("\\","/") + string + "')")    # SBML model name recovered from "source" attr
+            #from os.path import expanduser
+            #path = expanduser("~")
+            #print(rrName + ".load('" + path + "\\" + string + "')")    # SBML model name recovered from "source" attr
+        elif "\\" or "/" or "urn:miriam" not in string:
+            print(rrName + ".load('" + path.replace("\\","/") + string + "')")
+        elif string.startswith("urn:miriam"):
+            print("Downloading model from BioModels Database...")
+            astr = string.rsplit(':', 1)
+            astr = astr[1]
+            string = path + astr + ".xml"
+            if not os.path.exists(string):
+                conn = httplib.HTTPConnection("www.ebi.ac.uk")
+                conn.request("GET", "/biomodels-main/download?mid=" + astr)
+                r1 = conn.getresponse()
+                #print(r1.status, r1.reason)
+                data1 = r1.read()
+                conn.close()
+                f1 = open(string, 'w')
+                f1.write(data1)
+                f1.close()
+            else:
+                pass
+            print(rrName + ".load('" + string +"'))")
+        else:         # assume absolute path pointing to hard disk location
+            string = string.replace("\\", "/")
+            print(rrName + ".load('" + string + "')")
+
+        """
+
+    def _parseSimulations(self):
+        pass
+
 
     @staticmethod
     def __extractArchive(archivePath, directory):
@@ -280,8 +359,9 @@ class SEDMLCodeFactory(object):
                              lstrip_blocks=True)
 
         # additional filters
-        # for key in sbmlfilters.filters:
-        #     env.filters[key] = getattr(sbmlfilters, key)
+        import sedmlfilters
+        for key in sedmlfilters.filters:
+             env.filters[key] = getattr(sedmlfilters, key)
 
         template = env.get_template(python_template)
 
@@ -299,6 +379,16 @@ class SEDMLCodeFactory(object):
         }
         return template.render(c)
 
+    def executePython(self):
+        """ Executes created python code.
+        See :func:`createpython`
+        """
+        execStr = self.toPython()
+        try:
+            # This calls exec. Be very sure that nothing bad happens here.
+            exec execStr
+        except Exception as e:
+            raise e
 
 
 if __name__ == "__main__":
@@ -310,3 +400,13 @@ if __name__ == "__main__":
     print(python_str)
     print('-'*80)
 
+    factory.executePython()
+
+    # doc = libsedml.SedDocument()
+    # doc.getNum
+
+    """
+    sim = libsedml.SedSimulation()
+    sim.getTypeCode()
+    libsedml.SEDML_SIMULATION_ONESTEP
+    """
