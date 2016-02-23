@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """
 Tellurium SED-ML support.
 
@@ -67,12 +68,22 @@ The Output Class
 """
 from __future__ import print_function, division
 import os
+import sys
 import warnings
 import libsedml
 import libsbml
+from jinja2 import Environment, FileSystemLoader
 import zipfile
 
 # TODO: handle combine archives with multiple SEDML-Files
+
+# Change default encoding to UTF-8
+# We need to reload sys module first, because setdefaultencoding is available only at startup time
+reload(sys)
+sys.setdefaultencoding('utf-8')
+
+# template location
+TEMPLATE_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'templates')
 
 
 def sedml_to_python(input):
@@ -251,19 +262,47 @@ class SEDMLCodeFactory(object):
         return filePaths
 
 
-    def toPython(self):
-        """ Create python code and return.
+    def toPython(self, python_template='tesedml_template.py'):
+        """ Create python code by rendering the python template.
+        Uses the information in the SED-ML document to create
+        python code
 
         Renders the respective template.
 
-        :return:
-        :rtype:
+        :return: returns the rendered template
+        :rtype: str
         """
+
+        # template environment
+        env = Environment(loader=FileSystemLoader(TEMPLATE_DIR),
+                             extensions=['jinja2.ext.autoescape'],
+                             trim_blocks=True,
+                             lstrip_blocks=True)
+
+        # additional filters
+        # for key in sbmlfilters.filters:
+        #     env.filters[key] = getattr(sbmlfilters, key)
+
+        template = env.get_template(python_template)
+
+        from tellurium import getTelluriumVersion
+
+        # Context
+        c = {
+            'version': getTelluriumVersion(),
+            'factory': self,
+            'doc': self.sedmlDoc
+        }
+        return template.render(c)
 
 
 
 if __name__ == "__main__":
     input = "app2sim.sedml"
     factory = SEDMLCodeFactory(input)
-    print(factory)
-    # sedmlToPython(input)
+    python_str = factory.toPython()
+
+    print('-'*80)
+    print(python_str)
+    print('-'*80)
+
