@@ -286,10 +286,14 @@ class SEDMLCodeFactory(object):
         template = env.get_template(python_template)
 
         from tellurium import getTelluriumVersion
+        import datetime
+        time = datetime.datetime.now()
+        timestamp = time.strftime('%Y-%m-%dT%H:%M:%S')
 
         # Context
         c = {
             'version': getTelluriumVersion(),
+            'timestamp': timestamp,
             'factory': self,
             'doc': self.sedmlDoc
         }
