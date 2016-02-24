@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- Written by libSedML v1.1.4180.29212 see http://libsedml.sf.net -->
-<sedML level="1" version="1" xmlns="http://sed-ml.org/">
+<sedML level="1" version="2" xmlns="http://sed-ml.org/sed-ml/level1/version2">
   <listOfSimulations>
     <steadyState id="steady">
       <algorithm kisaoID="KISAO:0000099" />
@@ -81,13 +81,13 @@
   <listOfOutputs>
     <report id="report1" name="Steady State Values">
       <listOfDataSets>
-        <dataSet id="col_0" dataReference="MAPK1" label="" />
-        <dataSet id="col_1" dataReference="MAPK_P1" label="" />
-        <dataSet id="col_2" dataReference="MAPK_PP1" label="" />
-        <dataSet id="col_3" dataReference="MKK1" label="" />
-        <dataSet id="col_4" dataReference="MKKK1" label="" />
-        <dataSet id="col_5" dataReference="MKK_P1" label="" />
-        <dataSet id="col_6" dataReference="MKKK_P1" label="" />
+        <dataSet id="col_0" dataReference="MAPK1" label="MAPK1" />
+        <dataSet id="col_1" dataReference="MAPK_P1" label="MAPK1_P1" />
+        <dataSet id="col_2" dataReference="MAPK_PP1" label="MAPK1_PP1" />
+        <dataSet id="col_3" dataReference="MKK1" label="MKK1" />
+        <dataSet id="col_4" dataReference="MKKK1" label="MKKK1" />
+        <dataSet id="col_5" dataReference="MKK_P1" label="MKK_P1" />
+        <dataSet id="col_6" dataReference="MKKK_P1" label="MKKK_P1" />
       </listOfDataSets>
     </report>
     <plot2D id="plot1" name="MAPK feedback (Kholodenko, 2000)">

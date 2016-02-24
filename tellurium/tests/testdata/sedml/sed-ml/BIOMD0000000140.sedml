@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- Written by libSedML v1.1.4180.30731 see http://libsedml.sf.net -->
-<sedML level="1" version="1" xmlns="http://sed-ml.org/">
+<sedML level="1" version="2" xmlns="http://sed-ml.org/sed-ml/level1/version2">
   <listOfSimulations>
     <uniformTimeCourse id="simulation1" initialTime="0" outputStartTime="0" outputEndTime="2500" numberOfPoints="1000">
       <algorithm kisaoID="KISAO:0000019" />

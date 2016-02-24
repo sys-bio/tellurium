@@ -136,8 +136,6 @@ class SEDMLTools(object):
         :return: dictionary of SedDocument, inputType and working directory.
         :rtype: {doc, inputType, workingDir}
         """
-        workingDir = os.getcwd()
-
         # SEDML-String
         try:
             from xml.etree import ElementTree
@@ -166,14 +164,14 @@ class SEDMLTools(object):
                 archive = inputStr
                 inputType = cls.INPUT_TYPE_FILE_COMBINE
 
-                # in case of sedx and combine a working directory has to be
-                # created where the files are extracted to
-                workingDir = os.path.join(workingDir, '_te_{}'.format(filename))
+                # in case of sedx and combine a working directory is created
+                # in which the files are extracted
+                workingDir = os.path.join(os.path.dirname(os.path.realpath(inputStr)), filename)
                 # extract the archive to working directory
                 cls.extractArchive(archive, workingDir)
                 # get SEDML files from archive
                 # FIXME: there could be multiple SEDML files in archive (currently only first used)
-                sedmlFiles = cls.sedmlFilesFromArchive(workingDir)
+                sedmlFiles = cls.filePathsFromExtractedArchive(workingDir)
                 doc = libsedml.readSedMLFromString(sedmlFiles[0])
                 cls.checkSEDMLDocument(doc)
 
@@ -225,7 +223,7 @@ class SEDMLTools(object):
         """
         import xml.etree.ElementTree as et
         filePaths = []
-        tree = et.parse(os.path.join(directory + "manifest.xml"))
+        tree = et.parse(os.path.join(directory, "manifest.xml"))
         root = tree.getroot()
         print(root)
         for child in root:
@@ -241,31 +239,68 @@ class SEDMLTools(object):
         return filePaths
 
 
-    @classmethod
-    def _changeListsForModels(self, doc):
-        """ Resolves the original model and the change list
-         which has to be applied to the model.
+    @staticmethod
+    def resolveModelChanges(doc):
+        """ Resolves the original source model and full change lists for models.
+
+         Going through the tree of model upwards until root is reached and
+         collecting changes on the way (example models m* and changes c*)
+         m1 (source) -> m2 (c1, c2) -> m3 (c3, c4)
+         resolves to
+         m1 (source) []
+         m2 (source) [c1,c2]
+         m3 (source) [c1,c2,c3,c4]
+         The order of changes is important (at least between nodes on different
+         levels of hierarchies), because later changes of derived models could
+         reverse earlier changes.
+
+         Uses recursive search strategy, which should be okay as long as the model tree hierarchy is
+         not getting to big.
          """
+        # initial dicts (handle source & change information for single node)
         model_sources = {}
-        change_lists = {}
-
-        for m in self.sedmlDoc.getListOfModels():
-            mid = m.getId()
-            model_sources[mid] = m.getSource()
-            change_lists[mid] = []
-            for change in m.getListOfChanges():
-                change_lists[mid].append(change)
-
-        # recursive search for original model and store the
-        # changes which have to be applied in the list of changes
-        def findSource(mid):
-            if model_sources.has_key(mid):
-                return findSource(model_sources[mid])
+        model_changes = {}
 
         for m in doc.getListOfModels():
             mid = m.getId()
-            model_sources[mid] = findSource(mid)
+            source = m.getSource()
+            model_sources[mid] = source
+            changes = []
+            # store the changes unique for this model
+            for c in m.getListOfChanges():
+                changes.append(c)
+            model_changes[mid] = changes
+
+        # recursive search for original model and store the
+        # changes which have to be applied in the list of changes
+        def findSource(mid, changes):
+
+            # mid is node above
+            if mid in model_sources:
+                # add changes for node
+                for c in model_changes[mid]:
+                    changes.append(c)
+                # keep looking deeper
+                return findSource(model_sources[mid], changes)
+            # the source is no longer a key in the sources, it is the source
+            return mid, changes
+
+        all_changes = {}
+
+        mids = [m.getId() for m in doc.getListOfModels()]
+        for mid in mids:
+            source, changes = findSource(mid, changes=list())
+            model_sources[mid] = source
+            all_changes[mid] = changes[::-1]
+
         print(model_sources)
+        print(all_changes)
+        return model_sources, all_changes
+
+
+    def applyChangeToXML(self):
+        # TODO: implement
+        pass
 
 
 class SEDMLCodeFactory(object):
@@ -289,8 +324,10 @@ class SEDMLCodeFactory(object):
 
         # parse the models & prepare for roadrunner
         # TODO: implement
-        self.models = None
-        self._parseSEDMLModels()
+
+        SEDMLTools.resolveModelChanges(self.doc)
+
+
 
     def __str__(self):
         """ Print Input
@@ -299,12 +336,12 @@ class SEDMLCodeFactory(object):
         """
         lines = [
             '{}'.format(self.__class__),
-            'sedmlDoc: {}'.format(self.sedmlDoc),
+            'doc: {}'.format(self.doc),
             'workingDir: {}'.format(self.workingDir),
             'inputType: {}'.format(self.inputType)
         ]
-        if self.inputType != self.INPUT_TYPE_STR:
-            lines.append('input: {}'.format(self.input))
+        if self.inputType != SEDMLTools.INPUT_TYPE_STR:
+            lines.append('input: {}'.format(self.inputStr))
         return '\n'.join(lines)
 
     def _parseSEDMLModels(self):
@@ -415,11 +452,50 @@ class SEDMLCodeFactory(object):
 
 if __name__ == "__main__":
     import os
-    from tellurium.tests.testdata import sedmlDir
+    from tellurium.tests.testdata import sedmlDir, sedxDir, psedmlDir
 
-    # test sedml file
+    # test file
     sedml_input = os.path.join(sedmlDir, 'app2sim.sedml')
+    # resolve models
     factory = SEDMLCodeFactory(sedml_input)
+
+    # test file
+    sedml_input = os.path.join(sedxDir, 'app2sim.sedx')
+    # resolve models
+    factory = SEDMLCodeFactory(sedml_input)
+
+    exit()
+
+
+    # ------------------------------------------------------
+    def testInput(sedmlInput):
+        """ Test function run on inputStr. """
+        print('\n', '*'*100)
+        print(sedmlInput)
+        print('*'*100)
+        factory = SEDMLCodeFactory(sedmlInput)
+        print(factory)
+
+    # ------------------------------------------------------
+    # Check sed-ml files
+    for fname in sorted(os.listdir(sedmlDir)):
+        if fname.endswith(".sedml"):
+            testInput(os.path.join(sedmlDir, fname))
+
+    # Check sedx archives
+    for fname in sorted(os.listdir(sedxDir)):
+        if fname.endswith(".sedx"):
+            testInput(os.path.join(sedxDir, fname))
+
+    # Check phrasedml files
+    for fname in sorted(os.listdir(psedmlDir)):
+        if fname.endswith(".psedml"):
+            pass
+            # testInput(os.path.join(psedmlDir, fname))
+
+    # ------------------------------------------------------
+
+    """
     python_str = factory.toPython()
 
     print('#'*80)
@@ -427,6 +503,7 @@ if __name__ == "__main__":
     print('#'*80)
 
     factory.executePython()
+    """
 
     """
     sim = libsedml.SedSimulation()

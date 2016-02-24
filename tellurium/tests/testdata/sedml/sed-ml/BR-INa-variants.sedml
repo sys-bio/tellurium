@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<sedML xmlns="http://www.biomodels.net/sed-ml" level="1" version="1">
+<sedML level="1" version="2" xmlns="http://sed-ml.org/sed-ml/level1/version2">
   <listOfSimulations>
 		<uniformTimeCourse id="simulation"
 			initialTime="0"
