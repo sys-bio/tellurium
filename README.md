@@ -2,8 +2,8 @@
 # tellurium
 [![Documentation Status](https://readthedocs.org/projects/tellurium/badge/?version=latest)](http://tellurium.readthedocs.org/en/latest/?badge=latest)
 
-Copyright 2014  
-Michal Galdzicki, Herbert Sauro
+Copyright 2014-2016
+Kiri Choi, Matthias König, J Kyle Medley, Kaylene Stocking, Caroline Cannistra, Michal Galdzicki, and Herbert Sauro
 
 Tellurium is a python environment based on the spyder2 IDE that can be used for model construction and simulation in systems and synthetic biology. It combines a number of existing libraries, including libSBML, libRoadRunner (including libStruct), libAntimony.
 
