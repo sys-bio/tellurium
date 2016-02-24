@@ -9,13 +9,13 @@ Kiri Choi, Matthias König, J Kyle Medley, Kaylene Stocking, Caroline Cannistra,
 
 *Parmeter scan example courtesy of Matthias König*
 
-## Introduction
+### Introduction
 
 Tellurium is a python environment based on the [Spyder2 IDE](https://github.com/spyder-ide/spyder) for building, simulating, and analysing models of biochemical networks, including gene regulatory networks, metabolic networks, and signaling pathways. It combines state-of-the-art scientific Python libraries, such as [NumPy](http://www.numpy.org/) and [SciPy](http://www.scipy.org/), and includes special-purpose systems biology Python tools. Out of the box, Tellurium includes [libRoadRunner](https://github.com/sys-bio/roadrunner), [Antimony](http://antimony.sourceforge.net/), [PhraSED-ML](http://phrasedml.sf.net/), [libSBML](http://sbml.org/Software/libSBML) (via its [Python bindings](http://sbml.org/Software/libSBML/5.12.0/docs/formatted/python-api/)), and [libSED-ML](https://github.com/fbergmann/libSEDML).
 
 The Tellurium project is funded from the NIH/NIGMS (GM081070).
 
-**Usage**
+### Usage
 ```{python}
 import tellurium as te
 
@@ -34,11 +34,11 @@ te.plotArray(result)
 
 ![Tellurium front page demo](https://raw.githubusercontent.com/wiki/sys-bio/tellurium/img/tellurium-front-page-image.png)
 
-## API documentation 
+### API documentation 
 
 http://tellurium.readthedocs.org/en/latest/
 
-## Legal
+### Legal
 
 The source code for the Tellurium Python package is hosted at https://github.com/sys-bio/tellurium and is licensed under the [Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0). Tellurium uses third-party dependencies which may be licensed under different terms. Consult the documentation for the respective third-party packages for more details.
 
