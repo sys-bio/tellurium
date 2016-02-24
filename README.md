@@ -5,6 +5,12 @@
 Copyright 2014-2016
 Kiri Choi, Matthias König, J Kyle Medley, Kaylene Stocking, Caroline Cannistra, Michal Galdzicki, and Herbert Sauro
 
+![Parameter scan demo](http://tellurium.readthedocs.org/en/latest/_images/parameter_scan_2_0.png)
+
+*Parmeter scan example courtesy of Matthias König*
+
+## Introduction
+
 Tellurium is a python environment based on the [Spyder2 IDE](https://github.com/spyder-ide/spyder) for building, simulating, and analysing models of biochemical networks, including gene regulatory networks, metabolic networks, and signaling pathways. It combines state-of-the-art scientific Python libraries, such as [NumPy](http://www.numpy.org/) and [SciPy](http://www.scipy.org/), and includes special-purpose systems biology Python tools. Out of the box, Tellurium includes [libRoadRunner](https://github.com/sys-bio/roadrunner), [Antimony](http://antimony.sourceforge.net/), [PhraSED-ML](http://phrasedml.sf.net/), [libSBML](http://sbml.org/Software/libSBML) (via its [Python bindings](http://sbml.org/Software/libSBML/5.12.0/docs/formatted/python-api/)), and [libSED-ML](https://github.com/fbergmann/libSEDML).
 
 The Tellurium project is funded from the NIH/NIGMS (GM081070).
