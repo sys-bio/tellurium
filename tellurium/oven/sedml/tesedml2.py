@@ -166,13 +166,18 @@ class SEDMLTools(object):
 
                 # in case of sedx and combine a working directory is created
                 # in which the files are extracted
-                workingDir = os.path.join(os.path.dirname(os.path.realpath(inputStr)), filename)
+                workingDir = os.path.join(os.path.dirname(os.path.realpath(inputStr)), '_te_{}'.format(filename))
                 # extract the archive to working directory
                 cls.extractArchive(archive, workingDir)
                 # get SEDML files from archive
                 # FIXME: there could be multiple SEDML files in archive (currently only first used)
                 sedmlFiles = cls.filePathsFromExtractedArchive(workingDir)
-                doc = libsedml.readSedMLFromString(sedmlFiles[0])
+                print('sedml files in archive:', sedmlFiles)
+                if len(sedmlFiles) == 0:
+                    raise IOError("No SEDML files found in archive.")
+                if len(sedmlFiles) > 1:
+                    warnings.warn("More than 1 sedml file in archive, only processing first one.")
+                doc = libsedml.readSedMLFromFile(sedmlFiles[0])
                 cls.checkSEDMLDocument(doc)
 
         return {'doc': doc,
@@ -194,6 +199,8 @@ class SEDMLTools(object):
 
         if not os.path.isdir(directory):
             os.makedirs(directory)
+        else:
+            warnings.warn("Folder for combine archive already exists:{}".format(directory))
 
         for each in zip.namelist():
             # check if the item includes a subdirectory
@@ -221,21 +228,33 @@ class SEDMLTools(object):
         :return: list of paths
         :rtype: list
         """
-        import xml.etree.ElementTree as et
-        filePaths = []
-        tree = et.parse(os.path.join(directory, "manifest.xml"))
-        root = tree.getroot()
-        print(root)
-        for child in root:
-            format = child.attrib['format']
-            if format.endswith(formatType):
-                location = child.attrib['location']
 
-                # real path
-                fpath = os.path.join(directory, location)
-                if not os.path.exists(fpath):
-                    raise IOError('Path specified in manifest.xml does not exist in archive: {}'.format(fpath))
-                filePaths.append(fpath)
+        filePaths = []
+
+        manifest = os.path.join(directory, "manifest.xml")
+        if os.path.exists(manifest):
+            # get the sedml files from the manifest
+            import xml.etree.ElementTree as et
+            tree = et.parse(manifest)
+            root = tree.getroot()
+            print(root)
+            for child in root:
+                format = child.attrib['format']
+                if format.endswith(formatType):
+                    location = child.attrib['location']
+
+                    # real path
+                    fpath = os.path.join(directory, location)
+                    if not os.path.exists(fpath):
+                        raise IOError('Path specified in manifest.xml does not exist in archive: {}'.format(fpath))
+                    filePaths.append(fpath)
+        else:
+            # no manifest (use all sedml files in folder)
+            warnings.warn("No 'manifest.xml' in archive, using all '*.sedml' files.")
+            for fname in os.listdir(directory):
+                if fname.endswith(".sedml") or fname.endswith(".sedx.xml"):
+                    filePaths.append(os.path.join(directory, fname))
+
         return filePaths
 
 
@@ -463,9 +482,6 @@ if __name__ == "__main__":
     sedml_input = os.path.join(sedxDir, 'app2sim.sedx')
     # resolve models
     factory = SEDMLCodeFactory(sedml_input)
-
-    exit()
-
 
     # ------------------------------------------------------
     def testInput(sedmlInput):
