@@ -32,6 +32,8 @@ result = rr.simulate(0, 40, 500)
 te.plotArray(result)
 ```
 
+![Tellurium front page demo](https://raw.githubusercontent.com/wiki/sys-bio/tellurium/img/tellurium-front-page-image.png)
+
 ## API documentation 
 
 http://tellurium.readthedocs.org/en/latest/
