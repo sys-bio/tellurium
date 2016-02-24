@@ -15,7 +15,13 @@ Tellurium is a python environment based on the [Spyder2 IDE](https://github.com/
 
 The Tellurium project is funded from the NIH/NIGMS (GM081070).
 
+### Download
+
+* [Download Tellurium 1.3.0 for Windows](https://sourceforge.net/projects/pytellurium/files/Tellurium-1.3/1.3.0/Tellurium-1.3.0-Python-2.7-win32-portable-setup-v0.2.exe/download)
+* [Download Tellurium 1.3.0 for Mac OS X](https://sourceforge.net/projects/pytellurium/files/Tellurium-1.3/1.3.0/Tellurium-1.3.0-Spyder-2.3.5.2-OSX.dmg/download)
+
 ### Usage
+
 ```{python}
 import tellurium as te
 
