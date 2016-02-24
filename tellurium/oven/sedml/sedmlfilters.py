@@ -10,6 +10,9 @@ import libsedml
 filters = [
     'SEDML_isSBMLModel',
     'SEDML_isCellMLModel',
+    'SEDML_isOneStepSimulation',
+    'SEDML_isSteadyStateSimulation',
+    'SEDML_isUniformTimecourseSimulation',
 ]
 
 
@@ -62,15 +65,22 @@ def SEDML_isCellMLModel(model):
 
 
 # <SIMULATION>
-# SEDML_SIMULATION = _libsedml.SEDML_SIMULATION
 # SEDML_SIMULATION_ALGORITHM = _libsedml.SEDML_SIMULATION_ALGORITHM
-# SEDML_SIMULATION_UNIFORMTIMECOURSE = _libsedml.SEDML_SIMULATION_UNIFORMTIMECOURSE
 # SEDML_SIMULATION_ALGORITHM_PARAMETER = _libsedml.SEDML_SIMULATION_ALGORITHM_PARAMETER
+
 # SEDML_SIMULATION_ONESTEP = _libsedml.SEDML_SIMULATION_ONESTEP
+# SEDML_SIMULATION_UNIFORMTIMECOURSE = _libsedml.SEDML_SIMULATION_UNIFORMTIMECOURSE
 # SEDML_SIMULATION_STEADYSTATE = _libsedml.SEDML_SIMULATION_STEADYSTATE
 
 def SEDML_isOneStepSimulation(simulation):
     return simulation.getTypeCode() == libsedml.SEDML_SIMULATION_ONESTEP
+
+def SEDML_isUniformTimecourseSimulation(simulation):
+    return simulation.getTypeCode() == libsedml.SEDML_SIMULATION_UNIFORMTIMECOURSE
+
+def SEDML_isSteadyStateSimulation(simulation):
+    return simulation.getTypeCode() == libsedml.SEDML_SIMULATION_STEADYSTATE
+
 
 
 def SEDML_isCellMLModel(model):
@@ -99,8 +109,3 @@ def SEDML_isCellMLModel(model):
 # SEDML_RANGE_UNIFORMRANGE = _libsedml.SEDML_RANGE_UNIFORMRANGE
 # SEDML_RANGE_VECTORRANGE = _libsedml.SEDML_RANGE_VECTORRANGE
 # SEDML_RANGE_FUNCTIONALRANGE = _libsedml.SEDML_RANGE_FUNCTIONALRANGE
-
-
-
-doc = libsedml.SedDocument()
-doc.

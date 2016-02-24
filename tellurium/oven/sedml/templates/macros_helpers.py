@@ -4,11 +4,12 @@
 
 {% macro heading(list, name) %}
 {% if list|length > 0 %}
-print('-'*80)
-print('*** {{ name }}s ***')
-print('-'*80)
+# --------------------------------------------------------
+# {{ name }}s
+# --------------------------------------------------------
 {% for item in list %}
-print('{{ name }}: {{ item.getId() }}({{ item.getName() }})')
+#  - {{ item.getId() }} {% if item.isSetName() %}({{ item.getName() }}){% endif %}
+
 {% endfor %}
 {% endif %}
 {% endmacro %}

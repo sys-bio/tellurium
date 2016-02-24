@@ -101,7 +101,7 @@ def sedml_to_python(input):
     return sedmlToPython(input)
 
 
-def sedmlToPython(input):
+def sedmlToPython(inputStr):
     """ Convert sedml file to python code.
 
     :param inputstring: full path name to SedML model or SED-ML string
@@ -109,7 +109,7 @@ def sedmlToPython(input):
     :return: contents
     :rtype:
     """
-    factory = SEDMLCodeFactory(input)
+    factory = SEDMLCodeFactory(inputStr)
     return factory.toPython()
 
 
@@ -121,14 +121,14 @@ class SEDMLCodeFactory(object):
     INPUT_TYPE_FILE_SEDML = 'SEDML_FILE'
     INPUT_TYPE_FILE_COMBINE = 'COMBINE_FILE'  # includes .sedx archives
 
-    def __init__(self, input, workingDir=None):
+    def __init__(self, inputStr, workingDir=None):
         """ Create CodeFactory for given input.
-        :param input:
-        :type input:
+        :param inputStr:
+        :type inputStr:
         :return:
         :rtype:
         """
-        self.input = input
+        self.inputStr = inputStr
         self.inputType = None
 
         # where do we work
@@ -137,6 +137,7 @@ class SEDMLCodeFactory(object):
         self.workingDir = workingDir
 
         # read sedml
+        print('CodeFactory:', inputStr)
         self._readSEDMLDocument()
         if self.sedmlDoc.getErrorLog().getNumFailsWithSeverity(libsedml.LIBSEDML_SEV_ERROR) > 0:
             raise IOError(self.sedmlDoc.getErrorLog().toString())
@@ -172,24 +173,24 @@ class SEDMLCodeFactory(object):
         # SEDML-String
         try:
             from xml.etree import ElementTree
-            x = ElementTree.fromstring(self.input)
+            x = ElementTree.fromstring(self.inputStr)
             # is parsable xml string
-            self.sedmlDoc = libsedml.readSedMLFromString(self.input)
+            self.sedmlDoc = libsedml.readSedMLFromString(self.inputStr)
             self.inputType = self.__class__.INPUT_TYPE_STR
 
         # SEDML-File
         except ElementTree.ParseError:
-            if not os.path.exists(input):
-                raise IOError("File not found:", input)
+            if not os.path.exists(self.inputStr):
+                raise IOError("File not found:", self.inputStr)
 
-            filename, extension = os.path.splitext(os.path.basename(self.input))
+            filename, extension = os.path.splitext(os.path.basename(self.inputStr))
 
             # SEDML file
             if extension in [".sedml", '.xml']:
-                self.sedmlDoc = libsedml.readSedMLFromFile(self.input)
+                self.sedmlDoc = libsedml.readSedMLFromFile(self.inputStr)
                 self.inputType = self.__class__.INPUT_TYPE_FILE_SEDML
                 # working directory is where the sedml file is
-                self.workingDir = os.path.dirname(os.path.realpath(input))
+                self.workingDir = os.path.dirname(os.path.realpath(self.inputStr))
 
             # Archive
             elif zipfile.is_zipfile(self.input):
@@ -392,18 +393,19 @@ class SEDMLCodeFactory(object):
 
 
 if __name__ == "__main__":
-    input = "app2sim.sedml"
-    factory = SEDMLCodeFactory(input)
+    import os
+    from tellurium.tests.testdata import sedmlDir
+
+    # test sedml file
+    sedml_input = os.path.join(sedmlDir, 'app2sim.sedml')
+    factory = SEDMLCodeFactory(sedml_input)
     python_str = factory.toPython()
 
-    print('-'*80)
+    print('#'*80)
     print(python_str)
-    print('-'*80)
+    print('#'*80)
 
     factory.executePython()
-
-    # doc = libsedml.SedDocument()
-    # doc.getNum
 
     """
     sim = libsedml.SedSimulation()

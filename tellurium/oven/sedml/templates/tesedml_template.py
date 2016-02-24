@@ -3,9 +3,11 @@
     tellurium {{ version }}
 
     auto-generated code ({{ timestamp }})
-        sedmlDoc: L{{ doc.getLevel() }}V{{ doc.getVersion() }} {{ factory.sedmlDoc }}
+        sedmlDoc: L{{ doc.getLevel() }}V{{ doc.getVersion() }} {% if doc.isSetId() %}id={{ doc.getId() }} {% endif %} {% if doc.isSetName() %}name={{ doc.getName() }}{% endif %}
         workingDir: {{ factory.workingDir }}
         inputType: {{ factory.inputType }}
+
+    TODO: add code for extracting sedx archive in working directory
 
 """
 from __future__ import print_function, division
@@ -15,29 +17,44 @@ import matplotlib.pyplot as plt
 import libsedml
 import os.path
 
+workingDir = '{{ factory.workingDir }}'
+
 {{ helpers.heading(doc.getListOfModels(), 'Model') }}
 {% for m in doc.getListOfModels() %}
-# load model
+# Model <{{ m.getId() }}>
 {% if m|SEDML_isSBMLModel %}
-{{ m.getId() }} = te.loadSBMLModel(os.path.join('{{ factory.workingDir }}', '{{ m.getSource() }}'))
+{{ m.getId() }} = te.loadSBMLModel(os.path.join(workingDir, '{{ m.getSource() }}'))
+{% endif %}
+{% if m|SEDML_isCellMLModel %}
+{{ m.getId() }} = te.loadCellMLModel(os.path.join(workingDir, '{{ m.getSource() }}'))
 {% endif %}
 {% endfor %}
 
-
 {{ helpers.heading(doc.getListOfSimulations(), 'Simulation') }}
-
-{{ helpers.heading(doc.getListOfTasks(), 'Task') }}
-{% for s in doc.getListOfModels() %}
-# UniformTimeCourse
-
-# SteadyState
-print('{{ s.getId() }}', '{{ s.getName() }}')
-{% if s.getTypeCode() == libsedml.SEDML_SIMULATION_ONESTEP %}
+{% for s in doc.getListOfSimulations() %}
+# Simulation <{{ s.getId() }}>
+{% if s|SEDML_isOneStepSimulation %}
 print('OneStep')
 {% endif %}
+{% if s|SEDML_isUniformTimecourseSimulation %}
+print('UniformTimecourse')
+{% endif %}
+{% if s|SEDML_isSteadyStateSimulation %}
+print('SteadyState')
+{% endif %}
+{% endfor %}
 
+{{ helpers.heading(doc.getListOfTasks(), 'Task') }}
+{% for task in doc.getListOfTasks() %}
+# Task <{{ task.getId() }}>
 {% endfor %}
 
 {{ helpers.heading(doc.getListOfDataGenerators(), 'DataGenerator') }}
+{% for dg in doc.getListOfDataGenerators() %}
+# DataGenerator <{{ dg.getId() }}>
+{% endfor %}
 
 {{ helpers.heading(doc.getListOfOutputs(), 'Output') }}
+{% for out in doc.getListOfOutputs() %}
+# Output <{{ out.getId() }}>
+{% endfor %}
