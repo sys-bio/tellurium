@@ -74,16 +74,15 @@ import libsedml
 import libsbml
 from jinja2 import Environment, FileSystemLoader
 import zipfile
+import sedmlfilters
+from tellurium import getTelluriumVersion
+import datetime
 
-# TODO: handle combine archives with multiple SEDML-Files
 
 # Change default encoding to UTF-8
 # We need to reload sys module first, because setdefaultencoding is available only at startup time
 reload(sys)
 sys.setdefaultencoding('utf-8')
-
-# template location
-TEMPLATE_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'templates')
 
 
 def sedml_to_python(input):
@@ -113,15 +112,169 @@ def sedmlToPython(inputStr):
     return factory.toPython()
 
 
-class SEDMLCodeFactory(object):
-    """ Code Factory generating executable code. """
+class SEDMLTools(object):
+    """ Helper functions to work with sedml. """
 
-    # possible input types to the factory
     INPUT_TYPE_STR = 'SEDML_STRING'
     INPUT_TYPE_FILE_SEDML = 'SEDML_FILE'
     INPUT_TYPE_FILE_COMBINE = 'COMBINE_FILE'  # includes .sedx archives
 
-    def __init__(self, inputStr, workingDir=None):
+    @classmethod
+    def checkSEDMLDocument(cls, doc):
+        """ Checks the SedDocument for errors.
+        Raises IOError if error exists.
+        :param doc:
+        :type doc:
+        """
+        if doc.getErrorLog().getNumFailsWithSeverity(libsedml.LIBSEDML_SEV_ERROR) > 0:
+            raise IOError(doc.getErrorLog().toString())
+
+    @classmethod
+    def readSEDMLDocument(cls, inputStr):
+        """ Parses SedMLDocument from given input.
+
+        :return: dictionary of SedDocument, inputType and working directory.
+        :rtype: {doc, inputType, workingDir}
+        """
+        workingDir = os.getcwd()
+
+        # SEDML-String
+        try:
+            from xml.etree import ElementTree
+            x = ElementTree.fromstring(inputStr)
+            # is parsable xml string
+            doc = libsedml.readSedMLFromString(inputStr)
+            inputType = cls.INPUT_TYPE_STR
+
+        # SEDML-File
+        except ElementTree.ParseError:
+            if not os.path.exists(inputStr):
+                raise IOError("File not found:", inputStr)
+
+            filename, extension = os.path.splitext(os.path.basename(inputStr))
+
+            # SEDML file
+            if extension in [".sedml", '.xml']:
+                inputType = cls.INPUT_TYPE_FILE_SEDML
+                doc = libsedml.readSedMLFromFile(inputStr)
+                cls.checkSEDMLDocument(doc)
+                # working directory is where the sedml file is
+                workingDir = os.path.dirname(os.path.realpath(inputStr))
+
+            # Archive
+            elif zipfile.is_zipfile(inputStr):
+                archive = inputStr
+                inputType = cls.INPUT_TYPE_FILE_COMBINE
+
+                # in case of sedx and combine a working directory has to be
+                # created where the files are extracted to
+                workingDir = os.path.join(workingDir, '_te_{}'.format(filename))
+                # extract the archive to working directory
+                cls.extractArchive(archive, workingDir)
+                # get SEDML files from archive
+                # FIXME: there could be multiple SEDML files in archive (currently only first used)
+                sedmlFiles = cls.sedmlFilesFromArchive(workingDir)
+                doc = libsedml.readSedMLFromString(sedmlFiles[0])
+                cls.checkSEDMLDocument(doc)
+
+        return {'doc': doc,
+                'inputType': inputType,
+                'workingDir': workingDir}
+
+    @staticmethod
+    def extractArchive(archivePath, directory):
+        """ Extracts given archive into the target directory.
+
+        :param archivePath:
+        :type archivePath:
+        :param directory:
+        :type directory:
+        :return:
+        :rtype:
+        """
+        zip = zipfile.ZipFile(archivePath, 'r')
+
+        if not os.path.isdir(directory):
+            os.makedirs(directory)
+
+        for each in zip.namelist():
+            # check if the item includes a subdirectory
+            # if it does, create the subdirectory in the output folder and write the file
+            # otherwise, just write the file to the output folder
+            if not each.endswith('/'):
+                root, name = os.path.split(each)
+                directory = os.path.normpath(os.path.join(directory, root))
+                if not os.path.isdir(directory):
+                    os.makedirs(directory)
+                file(os.path.join(directory, name), 'wb').write(zip.read(each))
+        zip.close()
+
+    @staticmethod
+    def filePathsFromExtractedArchive(directory, formatType='sed-ml'):
+        """ Reads file paths from extracted combine archive.
+        Searches the manifest.xml of the archive for files of the
+        specified formatType and checks if the files exist in the directory.
+
+        Supported formatTypes are:
+            'sed-ml' : SED-ML files
+            'sbml' : SBML files
+
+        :param directory: directory of extracted archive
+        :return: list of paths
+        :rtype: list
+        """
+        import xml.etree.ElementTree as et
+        filePaths = []
+        tree = et.parse(os.path.join(directory + "manifest.xml"))
+        root = tree.getroot()
+        print(root)
+        for child in root:
+            format = child.attrib['format']
+            if format.endswith(formatType):
+                location = child.attrib['location']
+
+                # real path
+                fpath = os.path.join(directory, location)
+                if not os.path.exists(fpath):
+                    raise IOError('Path specified in manifest.xml does not exist in archive: {}'.format(fpath))
+                filePaths.append(fpath)
+        return filePaths
+
+
+    @classmethod
+    def _changeListsForModels(self, doc):
+        """ Resolves the original model and the change list
+         which has to be applied to the model.
+         """
+        model_sources = {}
+        change_lists = {}
+
+        for m in self.sedmlDoc.getListOfModels():
+            mid = m.getId()
+            model_sources[mid] = m.getSource()
+            change_lists[mid] = []
+            for change in m.getListOfChanges():
+                change_lists[mid].append(change)
+
+        # recursive search for original model and store the
+        # changes which have to be applied in the list of changes
+        def findSource(mid):
+            if model_sources.has_key(mid):
+                return findSource(model_sources[mid])
+
+        for m in doc.getListOfModels():
+            mid = m.getId()
+            model_sources[mid] = findSource(mid)
+        print(model_sources)
+
+
+class SEDMLCodeFactory(object):
+    """ Code Factory generating executable code. """
+
+    # template location
+    TEMPLATE_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'templates')
+
+    def __init__(self, inputStr):
         """ Create CodeFactory for given input.
         :param inputStr:
         :type inputStr:
@@ -129,20 +282,13 @@ class SEDMLCodeFactory(object):
         :rtype:
         """
         self.inputStr = inputStr
-        self.inputType = None
-
-        # where do we work
-        if workingDir is None:
-            workingDir = os.getcwd()
-        self.workingDir = workingDir
-
-        # read sedml
-        print('CodeFactory:', inputStr)
-        self._readSEDMLDocument()
-        if self.sedmlDoc.getErrorLog().getNumFailsWithSeverity(libsedml.LIBSEDML_SEV_ERROR) > 0:
-            raise IOError(self.sedmlDoc.getErrorLog().toString())
+        info = SEDMLTools.readSEDMLDocument(inputStr)
+        self.doc = info['doc']
+        self.inputType = info['inputType']
+        self.workingDir = info['workingDir']
 
         # parse the models & prepare for roadrunner
+        # TODO: implement
         self.models = None
         self._parseSEDMLModels()
 
@@ -161,79 +307,19 @@ class SEDMLCodeFactory(object):
             lines.append('input: {}'.format(self.input))
         return '\n'.join(lines)
 
-    def _readSEDMLDocument(self):
-        """ Parses the SedMLDocument from given input.
-
-        Necessary to find out the respective type of the input and set
-        the path information respectively.
-
-        :return:
-        :rtype:
-        """
-        # SEDML-String
-        try:
-            from xml.etree import ElementTree
-            x = ElementTree.fromstring(self.inputStr)
-            # is parsable xml string
-            self.sedmlDoc = libsedml.readSedMLFromString(self.inputStr)
-            self.inputType = self.__class__.INPUT_TYPE_STR
-
-        # SEDML-File
-        except ElementTree.ParseError:
-            if not os.path.exists(self.inputStr):
-                raise IOError("File not found:", self.inputStr)
-
-            filename, extension = os.path.splitext(os.path.basename(self.inputStr))
-
-            # SEDML file
-            if extension in [".sedml", '.xml']:
-                self.sedmlDoc = libsedml.readSedMLFromFile(self.inputStr)
-                self.inputType = self.__class__.INPUT_TYPE_FILE_SEDML
-                # working directory is where the sedml file is
-                self.workingDir = os.path.dirname(os.path.realpath(self.inputStr))
-
-            # Archive
-            elif zipfile.is_zipfile(self.input):
-                # in case of sedx and combine a working directory has to be
-                # created where the files are extracted to
-                self.workingDir = os.path.join(self.workingDir, '_te_{}'.format(filename))
-                # extract the archive to working directory
-                self.__extractArchive(self.input, self.workingDir)
-                # get SEDML files from archive
-                sedmlFiles = self.__sedmlFilesFromArchive(self.workingDir)
-                print(sedmlFiles)
-                # FIXME: there could be multiple SEDML files in archive (currently only first used)
-                self.sedmlDoc = libsedml.readSedMLFromString(sedmlFiles[0])
-                self.inputType = self.__class__.INPUT_TYPE_FILE_COMBINE
-
     def _parseSEDMLModels(self):
         """
-
         :return:
         :rtype:
         """
+        # TODO: implement
         pass
 
     def _loadModel(self):
         """ Load model. """
-        model_sources = {}
-        for m in self.sedmlDoc.getListOfModels():
-            model_sources[m.getId()] = m.getSource()
-
-        print(model_sources)
-        # recursive search for original model
-        # Necessary to apply all changes on the way
-        def findSource(mid):
-            if model_sources.has_key(mid):
-                return findSource(model_sources[mid])
-
-        for m in self.sedmlDoc.getListOfModels():
-            mid = m.getId()
-            model_sources[mid] = findSource(mid)
-        print(model_sources)
-
+        # TODO: implement
+        pass
         """
-
         string = currentModel.getSource()
         string = string.replace("\\", "/")
         if isId(string):                             # it's the Id of a model
@@ -278,69 +364,8 @@ class SEDMLCodeFactory(object):
         """
 
     def _parseSimulations(self):
+        # TODO: implement
         pass
-
-
-    @staticmethod
-    def __extractArchive(archivePath, directory):
-        """ Extracts given archive into the target directory.
-
-        :param archivePath:
-        :type archivePath:
-        :param directory:
-        :type directory:
-        :return:
-        :rtype:
-        """
-        # FIXME: refactor in tecombine (generic archive function)
-        zip = zipfile.ZipFile(archivePath, 'r')
-
-        if not os.path.isdir(directory):
-            os.makedirs(directory)
-
-        for each in zip.namelist():
-            # check if the item includes a subdirectory
-            # if it does, create the subdirectory in the output folder and write the file
-            # otherwise, just write the file to the output folder
-            if not each.endswith('/'):
-                root, name = os.path.split(each)
-                directory = os.path.normpath(os.path.join(directory, root))
-                if not os.path.isdir(directory):
-                    os.makedirs(directory)
-                file(os.path.join(directory, name), 'wb').write(zip.read(each))
-        zip.close()
-
-    @staticmethod
-    def __filePathsFromExtractedArchive(directory, formatType='sed-ml'):
-        """ Reads file paths from extracted combine archive.
-        Searches the manifest.xml of the archive for files of the
-        specified formatType and checks if the files exist in the directory.
-
-        Supported formatTypes are:
-            'sed-ml' : SED-ML files
-            'sbml' : SBML files
-
-        :param directory: directory of extracted archive
-        :return: list of paths
-        :rtype: list
-        """
-        import xml.etree.ElementTree as et
-        filePaths = []
-        tree = et.parse(os.path.join(directory + "manifest.xml"))
-        root = tree.getroot()
-        print(root)
-        for child in root:
-            format = child.attrib['format']
-            if format.endswith(formatType):
-                location = child.attrib['location']
-
-                # real path
-                fpath = os.path.join(directory, location)
-                if not os.path.exists(fpath):
-                    raise IOError('Path specified in manifest.xml does not exist in archive: {}'.format(fpath))
-                filePaths.append(fpath)
-        return filePaths
-
 
     def toPython(self, python_template='tesedml_template.py'):
         """ Create python code by rendering the python template.
@@ -352,22 +377,18 @@ class SEDMLCodeFactory(object):
         :return: returns the rendered template
         :rtype: str
         """
-
         # template environment
-        env = Environment(loader=FileSystemLoader(TEMPLATE_DIR),
+        env = Environment(loader=FileSystemLoader(self.TEMPLATE_DIR),
                              extensions=['jinja2.ext.autoescape'],
                              trim_blocks=True,
                              lstrip_blocks=True)
 
         # additional filters
-        import sedmlfilters
         for key in sedmlfilters.filters:
              env.filters[key] = getattr(sedmlfilters, key)
-
         template = env.get_template(python_template)
 
-        from tellurium import getTelluriumVersion
-        import datetime
+        # timestamp
         time = datetime.datetime.now()
         timestamp = time.strftime('%Y-%m-%dT%H:%M:%S')
 
@@ -376,7 +397,7 @@ class SEDMLCodeFactory(object):
             'version': getTelluriumVersion(),
             'timestamp': timestamp,
             'factory': self,
-            'doc': self.sedmlDoc
+            'doc': self.doc
         }
         return template.render(c)
 
