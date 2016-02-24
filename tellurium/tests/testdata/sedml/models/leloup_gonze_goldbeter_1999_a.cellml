@@ -1,0 +1,1363 @@
+<?xml version="1.0"?>
+<model xmlns="http://www.cellml.org/cellml/1.0#" xmlns:cmeta="http://www.cellml.org/metadata/1.0#" cmeta:id="leloup_1999" name="leloup_1999">
+
+<documentation xmlns="http://cellml.org/tmp-documentation">
+<article>
+  <articleinfo>
+  <title>Limit cycle models for circadian rhythms based on transcriptional regulation in Drosophila and Neurospora</title>
+  <author>
+    <firstname>Catherine</firstname>
+          <surname>Lloyd</surname>
+    <affiliation>
+      <shortaffil>Auckland Bioengineering Institute, The University of Auckland</shortaffil>
+    </affiliation>
+  </author>
+</articleinfo>
+  <section id="sec_status">
+    <title>Model Status</title>
+    <para>
+            This CellML model runs in COR and OpenCell to reproduce the published results (figure 2a). The units are consistent. This particular version of the model has been translated from equations 1a-1j (Drosophila).
+          </para>
+  </section>
+  <sect1 id="sec_structure">
+<title>Model Structure</title>
+
+<para>
+ABSTRACT: We examine theoretical models for circadian oscillations based on transcriptional regulation in Drosophila and Neurospora. For Drosophila, the molecular model is based on the negative feedback exerted on the expression of the per and tim genes by the complex formed between the PER and TIM proteins. For Neurospora, similarly, the model relies on the feedback exerted on the expression of the frq gene by its protein product FRQ. In both models, sustained rhythmic variations in protein and mRNA levels occur in continuous darkness, in the form of limit cycle oscillations. The effect of light on circadian rhythms is taken into account in the models by considering that it triggers degradation of the TIM protein in Drosophila, and frq transcription in Neurospora. When incorporating the control exerted by light at the molecular level, we show that the models can account for the entrainment of circadian rhythms by light-dark cycles and for the damping of the oscillations in constant light, though such damping occurs more readily in the Drosophila model. The models account for the phase shifts induced by light pulses and allow the construction of phase response curves. These compare well with experimental results obtained in Drosophila. The model for Drosophila shows that when applied at the appropriate phase, light pulses of appropriate duration and magnitude can permanently or transiently suppress circadian rhythmicity. We investigate the effects of the magnitude of light-induced changes on oscillatory behavior. Finally, we discuss the common and distinctive features of circadian oscillations in the two organisms.
+</para>
+
+<para>
+The original paper reference is cited below:
+</para>
+
+<para>
+Limit Cycle Models for Circadian Rhythms Based on Transcriptional Regulation in <emphasis>Drosophila</emphasis> and <emphasis>Neurospora</emphasis>, Jean-Christophe Leloup, Didier Gonze, and Albert Goldbeter, 1999,  <emphasis>Journal of Biological Rhythms</emphasis>, 14, 433-448.  <ulink url="http://www.ncbi.nlm.nih.gov/pubmed/10643740">PubMed ID: 10643740</ulink>
+</para>
+
+<informalfigure float="0" id="fig_reaction_diagram1">
+<mediaobject>
+  <imageobject>
+    <objectinfo>
+      <title>reaction diagram</title>
+    </objectinfo>
+    <imagedata fileref="leloup_1999.png"/>
+  </imageobject>
+</mediaobject>
+<caption>Scheme for the model for circadian oscillations in <emphasis>Drosophila</emphasis> involving negative regulation of gene expression by the PER-TIM protein complex.  And beneath this is the scheme for the model for circadian rhythms in <emphasis>Neurospora</emphasis>.  This model is based on negative feedback exerted by the protein FRQ on the transcription of the <emphasis>frq</emphasis> gene.</caption>
+</informalfigure>
+
+
+</sect1>
+</article>
+</documentation>
+  
+  
+  <units name="nanomolar">
+    <unit prefix="nano" units="mole"/>
+    <unit exponent="-1" units="litre"/>
+  </units>
+  
+  <units name="hour">
+    <unit multiplier="3600.0" units="second"/>
+  </units>
+  
+  <units name="flux">
+    <unit units="nanomolar"/>
+    <unit exponent="-1" units="hour"/>
+  </units>
+  
+  <units name="first_order_rate_constant">
+    <unit exponent="-1" units="hour"/>
+  </units>
+  
+  <units name="second_order_rate_constant">
+    <unit exponent="-1" units="nanomolar"/>
+    <unit exponent="-1" units="hour"/>
+  </units>
+  
+  
+  <component name="environment">
+    <variable cmeta:id="environment_time" name="time" public_interface="out" units="hour"/>
+  </component>
+  
+  <!--
+    The following components describe all the reactants and products involved in
+    reactions. 
+  -->
+  
+  <component cmeta:id="MP" name="MP">
+    <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+      <rdf:Description rdf:about="#MP">
+        <dc:title xmlns:dc="http://purl.org/dc/elements/1.1/">MP</dc:title>
+        <dcterms:alternative xmlns:dcterms="http://purl.org/dc/terms/">Per mRNA</dcterms:alternative>  
+      </rdf:Description>
+    </rdf:RDF> 
+    <variable cmeta:id="MP_MP" initial_value="0.1" name="MP" public_interface="out" units="nanomolar"/>
+    
+    <variable initial_value="1" name="vsP" units="flux"/>
+    <variable initial_value="0.7" name="vmP" units="flux"/> 
+    <variable initial_value="0.2" name="KmP" units="nanomolar"/>
+    <variable initial_value="1.0" name="KIP" units="nanomolar"/> 
+    
+    <variable name="kd" public_interface="in" units="first_order_rate_constant"/> 
+    <variable name="CN" public_interface="in" units="nanomolar"/>
+    <variable name="time" public_interface="in" units="hour"/>
+    <variable name="n" public_interface="in" units="dimensionless"/>
+    
+    <math xmlns="http://www.w3.org/1998/Math/MathML"> 
+      <apply>
+        <eq/> 
+        <apply>
+          <diff/> 
+          <bvar>
+            <ci>time</ci>
+          </bvar> 
+          <ci>MP</ci> 
+        </apply>
+        <apply>
+          <minus/>
+          <apply>
+            <times/>
+            <ci> vsP </ci>
+            <apply>
+              <divide/>
+              <apply>
+                <power/>
+                <ci> KIP </ci>
+                <ci> n </ci>
+              </apply>
+              <apply>
+                <plus/>
+                <apply>
+                  <power/>
+                  <ci> KIP </ci>
+                  <ci> n </ci>
+                </apply>
+                <apply>
+                  <power/>
+                  <ci> CN </ci>
+                  <ci> n </ci>
+                </apply>
+              </apply>
+            </apply>
+          </apply>
+          <apply>
+            <plus/>
+            <apply>
+              <times/>
+              <ci> vmP </ci>
+              <apply>
+                <divide/>
+                <ci> MP </ci>
+                <apply>
+                  <plus/>
+                  <ci> KmP </ci>
+                  <ci> MP </ci>
+                </apply>
+              </apply>
+            </apply>
+            <apply>
+              <times/>
+              <ci> kd </ci>
+              <ci> MP </ci>
+            </apply>
+          </apply>
+        </apply>
+      </apply>    
+    </math>
+  </component>
+  
+  <component cmeta:id="P0" name="P0">
+    <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+      <rdf:Description rdf:about="#P0">
+        <dc:title xmlns:dc="http://purl.org/dc/elements/1.1/">P0</dc:title>
+        <dcterms:alternative xmlns:dcterms="http://purl.org/dc/terms/">non-phopshorylated PER</dcterms:alternative>  
+      </rdf:Description>
+    </rdf:RDF>
+    <variable cmeta:id="P0_P0" initial_value="0.1" name="P0" public_interface="out" units="nanomolar"/>
+    
+    <variable initial_value="0.9" name="ksP" units="first_order_rate_constant"/>
+    
+    <variable name="V1P" public_interface="in" units="flux"/>
+    <variable name="V2P" public_interface="in" units="flux"/>
+    <variable name="K1P" public_interface="in" units="nanomolar"/>
+    <variable name="K2P" public_interface="in" units="nanomolar"/>
+    <variable name="kd" public_interface="in" units="first_order_rate_constant"/>
+    <variable name="P1" public_interface="in" units="nanomolar"/>
+    <variable name="MP" public_interface="in" units="nanomolar"/>
+    <variable name="time" public_interface="in" units="hour"/>
+    
+    <math xmlns="http://www.w3.org/1998/Math/MathML"> 
+      <apply>
+        <eq/> 
+        <apply>
+          <diff/> 
+          <bvar>
+            <ci>time</ci>
+          </bvar> 
+          <ci>P0</ci> 
+        </apply>
+        <apply>
+          <minus/>
+          <apply>
+            <plus/>
+            <apply>
+              <times/>
+              <ci> ksP </ci>
+              <ci> MP </ci>
+            </apply>
+            <apply>
+              <times/>
+              <ci> V2P </ci>
+              <apply>
+                <divide/>
+                <ci> P1 </ci>
+                <apply>
+                  <plus/>
+                  <ci> K2P </ci>
+                  <ci> P1 </ci>
+                </apply>
+              </apply>
+            </apply>
+          </apply>
+          <apply>
+            <plus/>
+            <apply>
+              <times/>
+              <ci> V1P </ci>
+              <apply>
+                <divide/>
+                <ci> P0 </ci>
+                <apply>
+                  <plus/>
+                  <ci> K1P </ci>
+                  <ci> P0 </ci>
+                </apply>
+              </apply>
+            </apply>
+            <apply>
+              <times/>
+              <ci> kd </ci>
+              <ci> P0 </ci>
+            </apply>
+          </apply>
+        </apply>
+      </apply>    
+    </math>
+  </component> 
+  
+  <component cmeta:id="P1" name="P1">
+    <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+      <rdf:Description rdf:about="#P1">
+        <dc:title xmlns:dc="http://purl.org/dc/elements/1.1/">P1</dc:title>
+        <dcterms:alternative xmlns:dcterms="http://purl.org/dc/terms/">phopshorylated PER</dcterms:alternative>  
+      </rdf:Description>
+    </rdf:RDF>
+    <variable cmeta:id="P1_P1" initial_value="0.1" name="P1" public_interface="out" units="nanomolar"/>
+    
+    <variable name="V1P" public_interface="in" units="flux"/>
+    <variable name="V2P" public_interface="in" units="flux"/>
+    <variable name="V3P" public_interface="in" units="flux"/>
+    <variable name="V4P" public_interface="in" units="flux"/>
+    <variable name="K1P" public_interface="in" units="nanomolar"/>
+    <variable name="K2P" public_interface="in" units="nanomolar"/>
+    <variable name="K3P" public_interface="in" units="nanomolar"/>
+    <variable name="K4P" public_interface="in" units="nanomolar"/>
+    <variable name="kd" public_interface="in" units="first_order_rate_constant"/>
+    <variable name="P0" public_interface="in" units="nanomolar"/>
+    <variable name="P2" public_interface="in" units="nanomolar"/>
+    <variable name="time" public_interface="in" units="hour"/>
+    
+    <math xmlns="http://www.w3.org/1998/Math/MathML"> 
+      <apply>
+        <eq/> 
+        <apply>
+          <diff/> 
+          <bvar>
+            <ci>time</ci>
+          </bvar> 
+          <ci>P1</ci> 
+        </apply>
+        <apply>
+          <minus/>
+          <apply>
+            <plus/>
+            <apply>
+              <times/>
+              <ci> V1P </ci>
+              <apply>
+                <divide/>
+                <ci> P0 </ci>
+                <apply>
+                  <plus/>
+                  <ci> K1P </ci>
+                  <ci> P0 </ci>
+                </apply>
+              </apply>
+            </apply>
+            <apply>
+              <times/>
+              <ci> V4P </ci>
+              <apply>
+                <divide/>
+                <ci> P2 </ci>
+                <apply>
+                  <plus/>
+                  <ci> K4P </ci>
+                  <ci> P2 </ci>
+                </apply>
+              </apply>
+            </apply>
+          </apply>
+          <apply>
+            <plus/>
+            <apply>
+              <times/>
+              <ci> V2P </ci>
+              <apply>
+                <divide/>
+                <ci> P1 </ci>
+                <apply>
+                  <plus/>
+                  <ci> K2P </ci>
+                  <ci> P1 </ci>
+                </apply>
+              </apply>
+            </apply>
+            <apply>
+              <times/>
+              <ci> V3P </ci>
+              <apply>
+                <divide/>
+                <ci> P1 </ci>
+                <apply>
+                  <plus/>
+                  <ci> K3P </ci>
+                  <ci> P1 </ci>
+                </apply>
+              </apply>
+            </apply>
+            <apply>
+              <times/>
+              <ci> kd </ci>
+              <ci> P1 </ci>
+            </apply>
+          </apply>
+        </apply>
+      </apply>    
+    </math>
+  </component> 
+ 
+  <component cmeta:id="P2" name="P2">
+    <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+      <rdf:Description rdf:about="#P2">
+        <dc:title xmlns:dc="http://purl.org/dc/elements/1.1/">P2</dc:title>
+        <dcterms:alternative xmlns:dcterms="http://purl.org/dc/terms/">phopshorylated PER</dcterms:alternative>  
+      </rdf:Description>
+    </rdf:RDF>
+    <variable cmeta:id="P2_P2" initial_value="0.1" name="P2" public_interface="out" units="nanomolar"/>
+    
+    <variable initial_value="2" name="vdP" units="flux"/>
+    <variable initial_value="0.2" name="KdP" units="nanomolar"/>
+    <variable name="CN" public_interface="in" units="nanomolar"/>
+    <variable cmeta:id="P2_Pt" name="Pt" units="nanomolar"/>
+    <variable name="P0" public_interface="in" units="nanomolar"/>
+    <variable name="V3P" public_interface="in" units="flux"/>
+    <variable name="V4P" public_interface="in" units="flux"/>
+    <variable name="k3" public_interface="in" units="second_order_rate_constant"/>
+    <variable name="k4" public_interface="in" units="first_order_rate_constant"/>
+    <variable name="K3P" public_interface="in" units="nanomolar"/>
+    <variable name="K4P" public_interface="in" units="nanomolar"/>
+    <variable name="kd" public_interface="in" units="first_order_rate_constant"/>
+    <variable name="P1" public_interface="in" units="nanomolar"/>
+    <variable name="T2" public_interface="in" units="nanomolar"/>
+    <variable name="C" public_interface="in" units="nanomolar"/>
+    <variable name="time" public_interface="in" units="hour"/>
+    
+    <math xmlns="http://www.w3.org/1998/Math/MathML"> 
+      <apply>
+        <eq/> 
+        <apply>
+          <diff/> 
+          <bvar>
+            <ci>time</ci>
+          </bvar> 
+          <ci>P2</ci> 
+        </apply>
+        <apply>
+          <minus/>
+          <apply>
+            <plus/>
+            <apply>
+              <times/>
+              <ci> V3P </ci>
+              <apply>
+                <divide/>
+                <ci> P1 </ci>
+                <apply>
+                  <plus/>
+                  <ci> K3P </ci>
+                  <ci> P1 </ci>
+                </apply>
+              </apply>
+            </apply>
+            <apply>
+              <times/>
+              <ci> k4 </ci>
+              <ci> C </ci>
+            </apply>
+          </apply>
+          <apply>
+            <plus/>
+            <apply>
+              <times/>
+              <ci> V4P </ci>
+              <apply>
+                <divide/>
+                <ci> P2 </ci>
+                <apply>
+                  <plus/>
+                  <ci> K4P </ci>
+                  <ci> P2 </ci>
+                </apply>
+              </apply>
+            </apply>
+            <apply>
+              <times/>
+              <ci> k3 </ci>
+              <ci> P2 </ci>
+              <ci> T2 </ci>
+            </apply>
+            <apply>
+              <times/>
+              <ci> vdP </ci>
+              <apply>
+                <divide/>
+                <ci> P2 </ci>
+                <apply>
+                  <plus/>
+                  <ci> KdP </ci>
+                  <ci> P2 </ci>
+                </apply>
+              </apply>
+            </apply>
+            <apply>
+              <times/>
+              <ci> kd </ci>
+              <ci> P2 </ci>
+            </apply>
+          </apply>
+        </apply>
+      </apply>    
+    <apply>
+        <eq/>
+        <ci>Pt</ci>
+        <apply>
+          <plus/>
+          <ci>P0</ci>
+          <ci>P1</ci>
+          <ci>P2</ci>
+          <ci>C</ci>
+          <ci>CN</ci>
+        </apply>
+      </apply>
+    </math>
+  </component> 
+  
+  <component cmeta:id="MT" name="MT">
+    <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+      <rdf:Description rdf:about="#MT">
+        <dc:title xmlns:dc="http://purl.org/dc/elements/1.1/">MT</dc:title>
+        <dcterms:alternative xmlns:dcterms="http://purl.org/dc/terms/">Tim mRNA</dcterms:alternative>  
+      </rdf:Description>
+    </rdf:RDF> 
+    <variable cmeta:id="MT_MT" initial_value="1.6" name="MT" public_interface="out" units="nanomolar"/>
+    
+    <variable initial_value="1.0" name="vsT" units="flux"/>
+    <variable initial_value="0.7" name="vmT" units="flux"/> 
+    <variable initial_value="0.2" name="KmT" units="nanomolar"/>
+    <variable initial_value="1.0" name="KIT" units="nanomolar"/> 
+    
+    <variable name="kd" public_interface="in" units="first_order_rate_constant"/> 
+    <variable name="CN" public_interface="in" units="nanomolar"/>
+    <variable name="time" public_interface="in" units="hour"/>
+    <variable name="n" public_interface="in" units="dimensionless"/>
+    
+    <math xmlns="http://www.w3.org/1998/Math/MathML"> 
+      <apply>
+        <eq/> 
+        <apply>
+          <diff/> 
+          <bvar>
+            <ci>time</ci>
+          </bvar> 
+          <ci>MT</ci> 
+        </apply>
+        <apply>
+          <minus/>
+          <apply>
+            <times/>
+            <ci> vsT </ci>
+            <apply>
+              <divide/>
+              <apply>
+                <power/>
+                <ci> KIT </ci>
+                <ci> n </ci>
+              </apply>
+              <apply>
+                <plus/>
+                <apply>
+                  <power/>
+                  <ci> KIT </ci>
+                  <ci> n </ci>
+                </apply>
+                <apply>
+                  <power/>
+                  <ci> CN </ci>
+                  <ci> n </ci>
+                </apply>
+              </apply>
+            </apply>
+          </apply>
+          <apply>
+            <plus/>
+            <apply>
+              <times/>
+              <ci> vmT </ci>
+              <apply>
+                <divide/>
+                <ci> MT </ci>
+                <apply>
+                  <plus/>
+                  <ci> KmT </ci>
+                  <ci> MT </ci>
+                </apply>
+              </apply>
+            </apply>
+            <apply>
+              <times/>
+              <ci> kd </ci>
+              <ci> MT </ci>
+            </apply>
+          </apply>
+        </apply>
+      </apply>    
+    </math>
+  </component>
+  
+  <component cmeta:id="T0" name="T0">
+    <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+      <rdf:Description rdf:about="#T0">
+        <dc:title xmlns:dc="http://purl.org/dc/elements/1.1/">T0</dc:title>
+        <dcterms:alternative xmlns:dcterms="http://purl.org/dc/terms/">non-phopshorylated TIM</dcterms:alternative>  
+      </rdf:Description>
+    </rdf:RDF>
+    <variable cmeta:id="T0_T0" initial_value="0.1" name="T0" public_interface="out" units="nanomolar"/>
+    
+    <variable initial_value="0.9" name="ksT" units="first_order_rate_constant"/>
+    
+    <variable name="V1T" public_interface="in" units="flux"/>
+    <variable name="V2T" public_interface="in" units="flux"/>
+    <variable name="K1T" public_interface="in" units="nanomolar"/>
+    <variable name="K2T" public_interface="in" units="nanomolar"/>
+    <variable name="kd" public_interface="in" units="first_order_rate_constant"/>
+    <variable name="T1" public_interface="in" units="nanomolar"/>
+    <variable name="MT" public_interface="in" units="nanomolar"/>
+    <variable name="time" public_interface="in" units="hour"/>
+    
+    <math xmlns="http://www.w3.org/1998/Math/MathML"> 
+      <apply>
+        <eq/> 
+        <apply>
+          <diff/> 
+          <bvar>
+            <ci>time</ci>
+          </bvar> 
+          <ci>T0</ci> 
+        </apply>
+        <apply>
+          <minus/>
+          <apply>
+            <plus/>
+            <apply>
+              <times/>
+              <ci> ksT </ci>
+              <ci> MT </ci>
+            </apply>
+            <apply>
+              <times/>
+              <ci> V2T </ci>
+              <apply>
+                <divide/>
+                <ci> T1 </ci>
+                <apply>
+                  <plus/>
+                  <ci> K2T </ci>
+                  <ci> T1 </ci>
+                </apply>
+              </apply>
+            </apply>
+          </apply>
+          <apply>
+            <plus/>
+            <apply>
+              <times/>
+              <ci> V1T </ci>
+              <apply>
+                <divide/>
+                <ci> T0 </ci>
+                <apply>
+                  <plus/>
+                  <ci> K1T </ci>
+                  <ci> T0 </ci>
+                </apply>
+              </apply>
+            </apply>
+            <apply>
+              <times/>
+              <ci> kd </ci>
+              <ci> T0 </ci>
+            </apply>
+          </apply>
+        </apply>
+      </apply>    
+    </math>
+  </component> 
+  
+  <component cmeta:id="T1" name="T1">
+    <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+      <rdf:Description rdf:about="#T1">
+        <dc:title xmlns:dc="http://purl.org/dc/elements/1.1/">T1</dc:title>
+        <dcterms:alternative xmlns:dcterms="http://purl.org/dc/terms/">phopshorylated TIM</dcterms:alternative>  
+      </rdf:Description>
+    </rdf:RDF>
+    <variable cmeta:id="T1_T1" initial_value="0.1" name="T1" public_interface="out" units="nanomolar"/>
+    
+    <variable name="V1T" public_interface="in" units="flux"/>
+    <variable name="V2T" public_interface="in" units="flux"/>
+    <variable name="V3T" public_interface="in" units="flux"/>
+    <variable name="V4T" public_interface="in" units="flux"/>
+    <variable name="K1T" public_interface="in" units="nanomolar"/>
+    <variable name="K2T" public_interface="in" units="nanomolar"/>
+    <variable name="K3T" public_interface="in" units="nanomolar"/>
+    <variable name="K4T" public_interface="in" units="nanomolar"/>
+    <variable name="kd" public_interface="in" units="first_order_rate_constant"/>
+    <variable name="T0" public_interface="in" units="nanomolar"/>
+    <variable name="T2" public_interface="in" units="nanomolar"/>
+    <variable name="time" public_interface="in" units="hour"/>
+    
+    <math xmlns="http://www.w3.org/1998/Math/MathML"> 
+      <apply>
+        <eq/> 
+        <apply>
+          <diff/> 
+          <bvar>
+            <ci>time</ci>
+          </bvar> 
+          <ci>T1</ci> 
+        </apply>
+        <apply>
+          <minus/>
+          <apply>
+            <plus/>
+            <apply>
+              <times/>
+              <ci> V1T </ci>
+              <apply>
+                <divide/>
+                <ci> T0 </ci>
+                <apply>
+                  <plus/>
+                  <ci> K1T </ci>
+                  <ci> T0 </ci>
+                </apply>
+              </apply>
+            </apply>
+            <apply>
+              <times/>
+              <ci> V4T </ci>
+              <apply>
+                <divide/>
+                <ci> T2 </ci>
+                <apply>
+                  <plus/>
+                  <ci> K4T </ci>
+                  <ci> T2 </ci>
+                </apply>
+              </apply>
+            </apply>
+          </apply>
+          <apply>
+            <plus/>
+            <apply>
+              <times/>
+              <ci> V2T </ci>
+              <apply>
+                <divide/>
+                <ci> T1 </ci>
+                <apply>
+                  <plus/>
+                  <ci> K2T </ci>
+                  <ci> T1 </ci>
+                </apply>
+              </apply>
+            </apply>
+            <apply>
+              <times/>
+              <ci> V3T </ci>
+              <apply>
+                <divide/>
+                <ci> T1 </ci>
+                <apply>
+                  <plus/>
+                  <ci> K3T </ci>
+                  <ci> T1 </ci>
+                </apply>
+              </apply>
+            </apply>
+            <apply>
+              <times/>
+              <ci> kd </ci>
+              <ci> T1 </ci>
+            </apply>
+          </apply>
+        </apply>
+      </apply>    
+    </math>
+  </component> 
+  
+  <component cmeta:id="T2" name="T2">
+    <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+      <rdf:Description rdf:about="#T2">
+        <dc:title xmlns:dc="http://purl.org/dc/elements/1.1/">T2</dc:title>
+        <dcterms:alternative xmlns:dcterms="http://purl.org/dc/terms/">phopshorylated TIM</dcterms:alternative>  
+      </rdf:Description>
+    </rdf:RDF>
+    <variable cmeta:id="T2_T2" initial_value="0.1" name="T2" public_interface="out" units="nanomolar"/>
+    
+    <variable cmeta:id="T2_vdT" initial_value="2" name="vdT" units="flux"/>
+    <variable initial_value="0.2" name="KdT" units="nanomolar"/>
+    
+    <variable name="V3T" public_interface="in" units="flux"/>
+    <variable name="V4T" public_interface="in" units="flux"/>
+    <variable name="k3" public_interface="in" units="second_order_rate_constant"/>
+    <variable name="k4" public_interface="in" units="first_order_rate_constant"/>
+    <variable name="K3T" public_interface="in" units="nanomolar"/>
+    <variable name="K4T" public_interface="in" units="nanomolar"/>
+    <variable name="kd" public_interface="in" units="first_order_rate_constant"/>
+    <variable name="T1" public_interface="in" units="nanomolar"/>
+    <variable name="P2" public_interface="in" units="nanomolar"/>
+    <variable name="C" public_interface="in" units="nanomolar"/>
+    <variable name="time" public_interface="in" units="hour"/>
+    
+    <math xmlns="http://www.w3.org/1998/Math/MathML"> 
+      <apply>
+        <eq/> 
+        <apply>
+          <diff/> 
+          <bvar>
+            <ci>time</ci>
+          </bvar> 
+          <ci>T2</ci> 
+        </apply>
+        <apply>
+          <minus/>
+          <apply>
+            <plus/>
+            <apply>
+              <times/>
+              <ci> V3T </ci>
+              <apply>
+                <divide/>
+                <ci> T1 </ci>
+                <apply>
+                  <plus/>
+                  <ci> K3T </ci>
+                  <ci> T1 </ci>
+                </apply>
+              </apply>
+            </apply>
+            <apply>
+              <times/>
+              <ci> k4 </ci>
+              <ci> C </ci>
+            </apply>
+          </apply>
+          <apply>
+            <plus/>
+            <apply>
+              <times/>
+              <ci> V4T </ci>
+              <apply>
+                <divide/>
+                <ci> T2 </ci>
+                <apply>
+                  <plus/>
+                  <ci> K4T </ci>
+                  <ci> T2 </ci>
+                </apply>
+              </apply>
+            </apply>
+            <apply>
+              <times/>
+              <ci> k3 </ci>
+              <ci> P2 </ci>
+              <ci> T2 </ci>
+            </apply>
+            <apply>
+              <times/>
+              <ci> vdT </ci>
+              <apply>
+                <divide/>
+                <ci> T2 </ci>
+                <apply>
+                  <plus/>
+                  <ci> KdT </ci>
+                  <ci> T2 </ci>
+                </apply>
+              </apply>
+            </apply>
+            <apply>
+              <times/>
+              <ci> kd </ci>
+              <ci> T2 </ci>
+            </apply>
+          </apply>
+        </apply>
+      </apply>    
+    </math>
+  </component> 
+  
+  <component cmeta:id="C" name="C">
+    <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+      <rdf:Description rdf:about="#C">
+        <dc:title xmlns:dc="http://purl.org/dc/elements/1.1/">C</dc:title>
+        <dcterms:alternative xmlns:dcterms="http://purl.org/dc/terms/">cytosolic PER-TIM complex</dcterms:alternative>  
+      </rdf:Description>
+    </rdf:RDF>
+    <variable cmeta:id="C_C" initial_value="0.1" name="C" public_interface="out" units="nanomolar"/>
+    
+    <variable initial_value="0.01" name="kdC" units="first_order_rate_constant"/>
+    
+    <variable name="k1" public_interface="in" units="first_order_rate_constant"/>
+    <variable name="k2" public_interface="in" units="first_order_rate_constant"/>
+    <variable name="k3" public_interface="in" units="second_order_rate_constant"/>
+    <variable name="k4" public_interface="in" units="first_order_rate_constant"/>
+    <variable name="T2" public_interface="in" units="nanomolar"/>
+    <variable name="P2" public_interface="in" units="nanomolar"/>
+    <variable name="CN" public_interface="in" units="nanomolar"/>
+    <variable name="time" public_interface="in" units="hour"/>
+    
+    <math xmlns="http://www.w3.org/1998/Math/MathML"> 
+      <apply>
+        <eq/> 
+        <apply>
+          <diff/> 
+          <bvar>
+            <ci>time</ci>
+          </bvar> 
+          <ci>C</ci> 
+        </apply>
+        <apply>
+          <minus/>
+          <apply>
+            <plus/>
+            <apply>
+              <times/>
+              <ci> k3 </ci>
+              <ci> P2 </ci>
+              <ci> T2 </ci>
+            </apply>
+            <apply>
+              <times/>
+              <ci> k2 </ci>
+              <ci> CN </ci>
+            </apply>
+          </apply>
+          <apply>
+            <plus/>
+            <apply>
+              <times/>
+              <ci> k4 </ci>
+              <ci> C </ci>
+            </apply>
+            <apply>
+              <times/>
+              <ci> k1 </ci>
+              <ci> C </ci>
+            </apply>
+            <apply>
+              <times/>
+              <ci> kdC </ci>
+              <ci> C </ci>
+            </apply>
+          </apply>
+        </apply>
+      </apply>    
+    </math>
+  </component> 
+  
+  <component cmeta:id="CN" name="CN">
+    <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+      <rdf:Description rdf:about="#CN">
+        <dc:title xmlns:dc="http://purl.org/dc/elements/1.1/">CN</dc:title>
+        <dcterms:alternative xmlns:dcterms="http://purl.org/dc/terms/">nuclear PER-TIM complex</dcterms:alternative>  
+      </rdf:Description>
+    </rdf:RDF>
+    <variable cmeta:id="CN_CN" initial_value="1.25" name="CN" public_interface="out" units="nanomolar"/>
+    
+    <variable initial_value="0.01" name="kdN" units="first_order_rate_constant"/>
+    
+    <variable name="k1" public_interface="in" units="first_order_rate_constant"/>
+    <variable name="k2" public_interface="in" units="first_order_rate_constant"/>
+    <variable name="C" public_interface="in" units="nanomolar"/>
+    <variable name="time" public_interface="in" units="hour"/>
+    
+    <math xmlns="http://www.w3.org/1998/Math/MathML"> 
+      <apply>
+        <eq/> 
+        <apply>
+          <diff/> 
+          <bvar>
+            <ci>time</ci>
+          </bvar> 
+          <ci>CN</ci> 
+        </apply>
+        <apply>
+          <minus/>
+          <apply>
+            <times/>
+            <ci> k1 </ci>
+            <ci> C </ci>
+          </apply>
+          <apply>
+            <plus/>
+            <apply>
+              <times/>
+              <ci> k2 </ci>
+              <ci> CN </ci>
+            </apply>
+            <apply>
+              <times/>
+              <ci> kdN </ci>
+              <ci> CN </ci>
+            </apply>
+          </apply>
+        </apply>
+      </apply>    
+    </math>
+  </component> 
+  
+  <!--
+    The following component defines the parameters of the model.
+  -->
+  
+  <component name="parameters">
+    <variable initial_value="0.6" name="k1" public_interface="out" units="first_order_rate_constant"/>
+    <variable initial_value="0.2" name="k2" public_interface="out" units="first_order_rate_constant"/>
+    <variable initial_value="1.2" name="k3" public_interface="out" units="second_order_rate_constant"/>
+    <variable initial_value="0.6" name="k4" public_interface="out" units="first_order_rate_constant"/>
+    <variable initial_value="0.01" name="kd" public_interface="out" units="first_order_rate_constant"/>
+    <variable initial_value="8.0" name="V1P" public_interface="out" units="flux"/>
+    <variable initial_value="8.0" name="V1T" public_interface="out" units="flux"/>
+    <variable initial_value="1.0" name="V2P" public_interface="out" units="flux"/>
+    <variable initial_value="1.0" name="V2T" public_interface="out" units="flux"/>
+    <variable initial_value="8.0" name="V3P" public_interface="out" units="flux"/>
+    <variable initial_value="8.0" name="V3T" public_interface="out" units="flux"/>
+    <variable initial_value="1.0" name="V4P" public_interface="out" units="flux"/>
+    <variable initial_value="1.0" name="V4T" public_interface="out" units="flux"/>
+    <variable initial_value="2.0" name="K1P" public_interface="out" units="nanomolar"/>
+    <variable initial_value="2.0" name="K1T" public_interface="out" units="nanomolar"/>
+    <variable initial_value="2.0" name="K2P" public_interface="out" units="nanomolar"/>
+    <variable initial_value="2.0" name="K2T" public_interface="out" units="nanomolar"/>
+    <variable initial_value="2.0" name="K3P" public_interface="out" units="nanomolar"/>
+    <variable initial_value="2.0" name="K3T" public_interface="out" units="nanomolar"/>
+    <variable initial_value="1" name="K4P" public_interface="out" units="nanomolar"/>
+    <variable initial_value="1" name="K4T" public_interface="out" units="nanomolar"/>
+    <variable initial_value="4.0" name="n" public_interface="out" units="dimensionless"/>
+  </component>
+  
+  
+  <connection>
+    <map_components component_1="MP" component_2="parameters"/>
+    <map_variables variable_1="n" variable_2="n"/>
+    <map_variables variable_1="kd" variable_2="kd"/>
+  </connection>
+  
+  <connection>
+    <map_components component_1="MT" component_2="parameters"/>
+    <map_variables variable_1="n" variable_2="n"/>
+    <map_variables variable_1="kd" variable_2="kd"/>
+  </connection>
+  
+  <connection>
+    <map_components component_1="P0" component_2="parameters"/>
+    <map_variables variable_1="V1P" variable_2="V1P"/>
+    <map_variables variable_1="V2P" variable_2="V2P"/>
+    <map_variables variable_1="kd" variable_2="kd"/>
+    <map_variables variable_1="K1P" variable_2="K1P"/>
+    <map_variables variable_1="K2P" variable_2="K2P"/>
+  </connection>
+  
+  <connection>
+    <map_components component_1="P1" component_2="parameters"/>
+    <map_variables variable_1="V1P" variable_2="V1P"/>
+    <map_variables variable_1="V2P" variable_2="V2P"/>
+    <map_variables variable_1="V3P" variable_2="V3P"/>
+    <map_variables variable_1="V4P" variable_2="V4P"/>
+    <map_variables variable_1="kd" variable_2="kd"/>
+    <map_variables variable_1="K1P" variable_2="K1P"/>
+    <map_variables variable_1="K2P" variable_2="K2P"/>
+    <map_variables variable_1="K3P" variable_2="K3P"/>
+    <map_variables variable_1="K4P" variable_2="K4P"/>
+  </connection>
+  
+  <connection>
+    <map_components component_1="P2" component_2="parameters"/>
+    <map_variables variable_1="V3P" variable_2="V3P"/>
+    <map_variables variable_1="V4P" variable_2="V4P"/>
+    <map_variables variable_1="kd" variable_2="kd"/>
+    <map_variables variable_1="K3P" variable_2="K3P"/>
+    <map_variables variable_1="K4P" variable_2="K4P"/>
+    <map_variables variable_1="k3" variable_2="k3"/>
+    <map_variables variable_1="k4" variable_2="k4"/>
+  </connection>
+  
+  <connection>
+    <map_components component_1="T0" component_2="parameters"/>
+    <map_variables variable_1="V1T" variable_2="V1T"/>
+    <map_variables variable_1="V2T" variable_2="V2T"/>
+    <map_variables variable_1="kd" variable_2="kd"/>
+    <map_variables variable_1="K1T" variable_2="K1T"/>
+    <map_variables variable_1="K2T" variable_2="K2T"/>
+  </connection>
+  
+  <connection>
+    <map_components component_1="T1" component_2="parameters"/>
+    <map_variables variable_1="V1T" variable_2="V1T"/>
+    <map_variables variable_1="V2T" variable_2="V2T"/>
+    <map_variables variable_1="V3T" variable_2="V3T"/>
+    <map_variables variable_1="V4T" variable_2="V4T"/>
+    <map_variables variable_1="kd" variable_2="kd"/>
+    <map_variables variable_1="K1T" variable_2="K1T"/>
+    <map_variables variable_1="K2T" variable_2="K2T"/>
+    <map_variables variable_1="K3T" variable_2="K3T"/>
+    <map_variables variable_1="K4T" variable_2="K4T"/>
+  </connection>
+  
+  <connection>
+    <map_components component_1="T2" component_2="parameters"/>
+    <map_variables variable_1="V3T" variable_2="V3T"/>
+    <map_variables variable_1="V4T" variable_2="V4T"/>
+    <map_variables variable_1="kd" variable_2="kd"/>
+    <map_variables variable_1="K3T" variable_2="K3T"/>
+    <map_variables variable_1="K4T" variable_2="K4T"/>
+    <map_variables variable_1="k3" variable_2="k3"/>
+    <map_variables variable_1="k4" variable_2="k4"/>
+  </connection>
+  
+  <connection>
+    <map_components component_1="C" component_2="parameters"/>
+    <map_variables variable_1="k1" variable_2="k1"/>
+    <map_variables variable_1="k2" variable_2="k2"/>
+    <map_variables variable_1="k3" variable_2="k3"/>
+    <map_variables variable_1="k4" variable_2="k4"/>
+  </connection>
+  
+  <connection>
+    <map_components component_1="CN" component_2="parameters"/>
+    <map_variables variable_1="k1" variable_2="k1"/>
+    <map_variables variable_1="k2" variable_2="k2"/>
+  </connection>
+  
+  <connection>
+    <map_components component_1="MP" component_2="CN"/>
+    <map_variables variable_1="CN" variable_2="CN"/>
+  </connection>
+  
+  <connection>
+    <map_components component_1="MT" component_2="CN"/>
+    <map_variables variable_1="CN" variable_2="CN"/>
+  </connection>
+  
+  <connection>
+    <map_components component_1="P0" component_2="MP"/>
+    <map_variables variable_1="MP" variable_2="MP"/>
+  </connection>
+  
+  <connection>
+    <map_components component_1="P0" component_2="P1"/>
+    <map_variables variable_1="P1" variable_2="P1"/>
+    <map_variables variable_1="P0" variable_2="P0"/>
+  </connection>
+  
+  <connection>
+    <map_components component_1="P1" component_2="P2"/>
+    <map_variables variable_1="P2" variable_2="P2"/>
+    <map_variables variable_1="P1" variable_2="P1"/>
+  </connection>
+  
+  <connection>
+    <map_components component_1="P2" component_2="T2"/>
+    <map_variables variable_1="T2" variable_2="T2"/>
+    <map_variables variable_1="P2" variable_2="P2"/>
+  </connection>
+  
+  <connection>
+    <map_components component_1="P2" component_2="C"/>
+    <map_variables variable_1="C" variable_2="C"/>
+    <map_variables variable_1="P2" variable_2="P2"/>
+  </connection>
+  
+  <connection>
+    <map_components component_1="T0" component_2="MT"/>
+    <map_variables variable_1="MT" variable_2="MT"/>
+  </connection>
+  
+  <connection>
+    <map_components component_1="T0" component_2="T1"/>
+    <map_variables variable_1="T1" variable_2="T1"/>
+    <map_variables variable_1="T0" variable_2="T0"/>
+  </connection>
+  
+  <connection>
+    <map_components component_1="T1" component_2="T2"/>
+    <map_variables variable_1="T2" variable_2="T2"/>
+    <map_variables variable_1="T1" variable_2="T1"/>
+  </connection>
+  
+  <connection>
+    <map_components component_1="T2" component_2="C"/>
+    <map_variables variable_1="C" variable_2="C"/>
+    <map_variables variable_1="T2" variable_2="T2"/>
+  </connection>
+  
+  <connection>
+    <map_components component_1="C" component_2="CN"/>
+    <map_variables variable_1="C" variable_2="C"/>
+    <map_variables variable_1="CN" variable_2="CN"/>
+  </connection>
+  
+  <connection>
+    <map_components component_1="MP" component_2="environment"/>
+    <map_variables variable_1="time" variable_2="time"/>
+  </connection>
+  
+  <connection>
+    <map_components component_1="MT" component_2="environment"/>
+    <map_variables variable_1="time" variable_2="time"/>
+  </connection>
+  
+  <connection>
+    <map_components component_1="P0" component_2="environment"/>
+    <map_variables variable_1="time" variable_2="time"/>
+  </connection>
+  
+  <connection>
+    <map_components component_1="P1" component_2="environment"/>
+    <map_variables variable_1="time" variable_2="time"/>
+  </connection>
+  
+  <connection>
+    <map_components component_1="P2" component_2="environment"/>
+    <map_variables variable_1="time" variable_2="time"/>
+  </connection>
+  
+  <connection>
+    <map_components component_1="T0" component_2="environment"/>
+    <map_variables variable_1="time" variable_2="time"/>
+  </connection>
+  
+  <connection>
+    <map_components component_1="T1" component_2="environment"/>
+    <map_variables variable_1="time" variable_2="time"/>
+  </connection>
+  
+  <connection>
+    <map_components component_1="T2" component_2="environment"/>
+    <map_variables variable_1="time" variable_2="time"/>
+  </connection>
+  
+  <connection>
+    <map_components component_1="C" component_2="environment"/>
+    <map_variables variable_1="time" variable_2="time"/>
+  </connection>
+  
+  <connection>
+    <map_components component_1="CN" component_2="environment"/>
+    <map_variables variable_1="time" variable_2="time"/>
+  </connection>
+  
+
+
+<connection>
+    <map_components component_1="P2" component_2="CN"/>
+    <map_variables variable_1="CN" variable_2="CN"/>
+  </connection>
+  <connection>
+    <map_components component_1="P0" component_2="P2"/>
+    <map_variables variable_1="P0" variable_2="P0"/>
+  </connection>
+  
+<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+  <rdf:Bag rdf:about="rdf:#2e2e8fb8-bb4b-496e-aa0f-d4061c62c2ba">
+    <rdf:li>circadian rhythms</rdf:li>
+    <rdf:li>signal transduction</rdf:li>
+    <rdf:li>drosophila</rdf:li>
+  </rdf:Bag>
+  <rdf:Seq rdf:about="rdf:#7da8af5e-7768-4b36-8330-8dcf3407b4c8">
+    <rdf:li rdf:resource="rdf:#b700623c-41da-4a37-ab0e-9a4af0f40668"/>
+    <rdf:li rdf:resource="rdf:#0a901c2a-c066-4e78-8cc1-9b940798b36b"/>
+    <rdf:li rdf:resource="rdf:#42cf7418-0743-4cba-8e83-95f091c5dede"/>
+  </rdf:Seq>
+  <rdf:Description rdf:about="rdf:#1f9fa075-16b8-4a5a-915b-dae80cf14249">
+    <dcterms:W3CDTF xmlns:dcterms="http://purl.org/dc/terms/">2003-09-24T00:00:00+00:00</dcterms:W3CDTF>
+  </rdf:Description>
+  <rdf:Description rdf:about="rdf:#a3daf125-aa71-4b55-927e-1b34c8629dfb">
+    <vCard:Given xmlns:vCard="http://www.w3.org/2001/vcard-rdf/3.0#">Albert</vCard:Given>
+    <vCard:Family xmlns:vCard="http://www.w3.org/2001/vcard-rdf/3.0#">Goldbeter</vCard:Family>
+  </rdf:Description>
+  <rdf:Description rdf:about="rdf:#923bfd0e-42c0-4d29-b031-bf5452611928">
+    <vCard:Orgname xmlns:vCard="http://www.w3.org/2001/vcard-rdf/3.0#">The University of Auckland</vCard:Orgname>
+    <vCard:Orgunit xmlns:vCard="http://www.w3.org/2001/vcard-rdf/3.0#">Auckland Bioengineering Institute</vCard:Orgunit>
+  </rdf:Description>
+  <rdf:Description rdf:about="">
+    <dc:title xmlns:dc="http://purl.org/dc/elements/1.1/">Limit Cycle Model for Circadian Rhythms in Drosophila and Neurospora (Drosophila model)</dc:title>
+	<dc:publisher xmlns:dc="http://purl.org/dc/elements/1.1/">The University of Auckland, Auckland Bioengineering Institute</dc:publisher>
+    <cmeta:comment rdf:resource="rdf:#e1711b7c-891f-4a80-ab5a-21e0384cadd7"/>
+    <dcterms:created xmlns:dcterms="http://purl.org/dc/terms/" rdf:resource="rdf:#1f9fa075-16b8-4a5a-915b-dae80cf14249"/>
+    <dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/" rdf:resource="rdf:#fcc7eb5e-1e73-406f-b11e-4c2ae5a6ebbe"/>
+    <cmeta:modification rdf:resource="rdf:#09e8c147-d534-4089-b129-3b42f92771b6"/>
+    <cmeta:modification rdf:resource="rdf:#87cc02ee-19c4-4b37-b155-aa9bbfcc9ca9"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="rdf:#535a3d2b-57db-4085-a7c2-814d58e6fa1f">
+    <dcterms:W3CDTF xmlns:dcterms="http://purl.org/dc/terms/">1999-12</dcterms:W3CDTF>
+  </rdf:Description>
+  <rdf:Description rdf:about="rdf:#72fd8854-409d-4535-80f5-f9922799f8be">
+    <bqs:Pubmed_id xmlns:bqs="http://www.cellml.org/bqs/1.0#">10643740</bqs:Pubmed_id>
+    <bqs:JournalArticle xmlns:bqs="http://www.cellml.org/bqs/1.0#" rdf:resource="rdf:#bd0260e9-57a8-4df6-862e-612a3c11d625"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="rdf:#$RUs082">
+    <ns7:endingValue xmlns:ns7="http://www.cellml.org/metadata/simulation/1.0#">100</ns7:endingValue>
+    <ns7:nonstandard-pointDensity xmlns:ns7="http://www.cellml.org/metadata/simulation/1.0#">10000</ns7:nonstandard-pointDensity>
+    <ns7:maximumStepSize xmlns:ns7="http://www.cellml.org/metadata/simulation/1.0#">0.1</ns7:maximumStepSize>
+  </rdf:Description>
+  <rdf:Description rdf:about="rdf:#fcc7eb5e-1e73-406f-b11e-4c2ae5a6ebbe">
+    <vCard:ORG xmlns:vCard="http://www.w3.org/2001/vcard-rdf/3.0#" rdf:resource="rdf:#923bfd0e-42c0-4d29-b031-bf5452611928"/>
+    <vCard:EMAIL xmlns:vCard="http://www.w3.org/2001/vcard-rdf/3.0#" rdf:resource="rdf:#2a2663ff-79d2-431c-bb37-14c36ae5227e"/>
+    <vCard:N xmlns:vCard="http://www.w3.org/2001/vcard-rdf/3.0#" rdf:resource="rdf:#10c236f3-dca5-4336-926b-fd10da654f58"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="rdf:#55ff19ef-a8ec-40f2-b8e0-c0ba6226c894">
+    <vCard:FN xmlns:vCard="http://www.w3.org/2001/vcard-rdf/3.0#"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="rdf:#62835309-4d36-4dbf-93b4-1396945103b0">
+    <vCard:Given xmlns:vCard="http://www.w3.org/2001/vcard-rdf/3.0#">Jean-Christophe</vCard:Given>
+    <vCard:Family xmlns:vCard="http://www.w3.org/2001/vcard-rdf/3.0#">Leloup</vCard:Family>
+  </rdf:Description>
+  <rdf:Description rdf:about="rdf:#2d6616c6-94da-4ace-95f9-9c3297743d0f">
+    <vCard:N xmlns:vCard="http://www.w3.org/2001/vcard-rdf/3.0#" rdf:resource="rdf:#4afe6db4-a1f0-40b0-8c0a-0c19b1d77d17"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="rdf:#60918037-2dad-48eb-9023-ff585ed3c9df">
+    <bqs:subject_type xmlns:bqs="http://www.cellml.org/bqs/1.0#">keyword</bqs:subject_type>
+    <rdf:value rdf:resource="rdf:#2e2e8fb8-bb4b-496e-aa0f-d4061c62c2ba"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="rdf:#bd0260e9-57a8-4df6-862e-612a3c11d625">
+    <dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/" rdf:resource="rdf:#7da8af5e-7768-4b36-8330-8dcf3407b4c8"/>
+    <dc:title xmlns:dc="http://purl.org/dc/elements/1.1/">Limit Cycle Models for Circadian Rhythms Based on Transcriptional Regulation in Drosophila and Neurospora</dc:title>
+    <bqs:volume xmlns:bqs="http://www.cellml.org/bqs/1.0#">14</bqs:volume>
+    <bqs:first_page xmlns:bqs="http://www.cellml.org/bqs/1.0#">433</bqs:first_page>
+    <bqs:Journal xmlns:bqs="http://www.cellml.org/bqs/1.0#" rdf:resource="rdf:#67eb2311-6273-4465-9459-8760347e051b"/>
+    <dcterms:issued xmlns:dcterms="http://purl.org/dc/terms/" rdf:resource="rdf:#535a3d2b-57db-4085-a7c2-814d58e6fa1f"/>
+    <bqs:last_page xmlns:bqs="http://www.cellml.org/bqs/1.0#">448</bqs:last_page>
+  </rdf:Description>
+  <rdf:Description rdf:about="rdf:#$QUs082">
+    <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+    <rdf:first rdf:resource="rdf:#$RUs082"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="rdf:#bd6761e1-7cb7-4bd8-b45a-9d1ded78f593">
+    <dc:subject xmlns:dc="http://purl.org/dc/elements/1.1/" rdf:resource="rdf:#60918037-2dad-48eb-9023-ff585ed3c9df"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="rdf:#0d2fc15c-ed23-4f60-95b1-b38283330348">
+    <dcterms:W3CDTF xmlns:dcterms="http://purl.org/dc/terms/">2008-09-05T13:19:24+12:00</dcterms:W3CDTF>
+  </rdf:Description>
+  <rdf:Description rdf:about="rdf:#2a2663ff-79d2-431c-bb37-14c36ae5227e">
+    <rdf:type rdf:resource="http://imc.org/vCard/3.0#internet"/>
+    <rdf:value>c.lloyd@auckland.ac.nz</rdf:value>
+  </rdf:Description>
+  <rdf:Description rdf:about="rdf:#f226f477-8730-46bd-9d2f-a97f3f899a25">
+    <vCard:Given xmlns:vCard="http://www.w3.org/2001/vcard-rdf/3.0#">Didier</vCard:Given>
+    <vCard:Family xmlns:vCard="http://www.w3.org/2001/vcard-rdf/3.0#">Gonze</vCard:Family>
+  </rdf:Description>
+  <rdf:Description rdf:about="rdf:#d321c9f4-3542-46a3-be9b-5d9729d110d2">
+    <dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/" rdf:resource="rdf:#4e079499-d35f-4c5f-92b4-f600c0cb4a56"/>
+    <rdf:value>This is the CellML description of Leloup et al.'s 1999 mathematical model of circadian rhythms in Drosophila.</rdf:value>
+  </rdf:Description>
+  <rdf:Description rdf:about="rdf:#09e8c147-d534-4089-b129-3b42f92771b6">
+    <dcterms:modified xmlns:dcterms="http://purl.org/dc/terms/" rdf:resource="rdf:#3db5e8b8-e91a-43cb-9fe6-d658657d171c"/>
+    <rdf:value>Corrected some initial conditions according to Dagmar Kohn's keen spotting!</rdf:value>
+    <cmeta:modifier rdf:resource="rdf:#2d6616c6-94da-4ace-95f9-9c3297743d0f"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="rdf:#b700623c-41da-4a37-ab0e-9a4af0f40668">
+    <rdf:type rdf:resource="http://www.cellml.org/bqs/1.0#Person"/>
+    <vCard:N xmlns:vCard="http://www.w3.org/2001/vcard-rdf/3.0#" rdf:resource="rdf:#62835309-4d36-4dbf-93b4-1396945103b0"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="rdf:#5fa52bda-ae3c-4e2f-a69d-fc8c025a5be5">
+    <vCard:N xmlns:vCard="http://www.w3.org/2001/vcard-rdf/3.0#" rdf:resource="rdf:#f28f9094-c62f-4d6c-918d-484258f9d922"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="rdf:#4afe6db4-a1f0-40b0-8c0a-0c19b1d77d17">
+    <vCard:Given xmlns:vCard="http://www.w3.org/2001/vcard-rdf/3.0#">Catherine</vCard:Given>
+    <vCard:Family xmlns:vCard="http://www.w3.org/2001/vcard-rdf/3.0#">Lloyd</vCard:Family>
+    <vCard:Other xmlns:vCard="http://www.w3.org/2001/vcard-rdf/3.0#">May</vCard:Other>
+  </rdf:Description>
+  <rdf:Description rdf:about="rdf:#87cc02ee-19c4-4b37-b155-aa9bbfcc9ca9">
+    <dcterms:modified xmlns:dcterms="http://purl.org/dc/terms/" rdf:resource="rdf:#0d2fc15c-ed23-4f60-95b1-b38283330348"/>
+    <rdf:value>Added equation for Pt to allow replication of publication figure 1. 
+
+Added simulation metadata.</rdf:value>
+    <cmeta:modifier rdf:resource="rdf:#5fa52bda-ae3c-4e2f-a69d-fc8c025a5be5"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="rdf:#0a901c2a-c066-4e78-8cc1-9b940798b36b">
+    <rdf:type rdf:resource="http://www.cellml.org/bqs/1.0#Person"/>
+    <vCard:N xmlns:vCard="http://www.w3.org/2001/vcard-rdf/3.0#" rdf:resource="rdf:#f226f477-8730-46bd-9d2f-a97f3f899a25"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="rdf:#e1711b7c-891f-4a80-ab5a-21e0384cadd7">
+    <dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/" rdf:resource="rdf:#55ff19ef-a8ec-40f2-b8e0-c0ba6226c894"/>
+    <rdf:value/>
+  </rdf:Description>
+  <rdf:Description rdf:about="rdf:#$PUs082">
+    <ns7:boundIntervals xmlns:ns7="http://www.cellml.org/metadata/simulation/1.0#" rdf:resource="rdf:#$QUs082"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="rdf:#f28f9094-c62f-4d6c-918d-484258f9d922">
+    <vCard:Given xmlns:vCard="http://www.w3.org/2001/vcard-rdf/3.0#">James</vCard:Given>
+    <vCard:Family xmlns:vCard="http://www.w3.org/2001/vcard-rdf/3.0#">Lawson</vCard:Family>
+  </rdf:Description>
+  <rdf:Description rdf:about="rdf:#4e079499-d35f-4c5f-92b4-f600c0cb4a56">
+    <vCard:FN xmlns:vCard="http://www.w3.org/2001/vcard-rdf/3.0#">Catherine Lloyd</vCard:FN>
+  </rdf:Description>
+  <rdf:Description rdf:about="rdf:#3db5e8b8-e91a-43cb-9fe6-d658657d171c">
+    <dcterms:W3CDTF xmlns:dcterms="http://purl.org/dc/terms/">2009-04-14T13:51:23+12:00</dcterms:W3CDTF>
+  </rdf:Description>
+  <rdf:Description rdf:about="rdf:#42cf7418-0743-4cba-8e83-95f091c5dede">
+    <rdf:type rdf:resource="http://www.cellml.org/bqs/1.0#Person"/>
+    <vCard:N xmlns:vCard="http://www.w3.org/2001/vcard-rdf/3.0#" rdf:resource="rdf:#a3daf125-aa71-4b55-927e-1b34c8629dfb"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="rdf:#10c236f3-dca5-4336-926b-fd10da654f58">
+    <vCard:Given xmlns:vCard="http://www.w3.org/2001/vcard-rdf/3.0#">Catherine</vCard:Given>
+    <vCard:Family xmlns:vCard="http://www.w3.org/2001/vcard-rdf/3.0#">Lloyd</vCard:Family>
+    <vCard:Other xmlns:vCard="http://www.w3.org/2001/vcard-rdf/3.0#">May</vCard:Other>
+  </rdf:Description>
+  <rdf:Description rdf:about="rdf:#67eb2311-6273-4465-9459-8760347e051b">
+    <dc:title xmlns:dc="http://purl.org/dc/elements/1.1/">Journal of Biological Rhythms</dc:title>
+  </rdf:Description>
+  <rdf:Description rdf:about="#leloup_1999">
+    <ns7:simulation xmlns:ns7="http://www.cellml.org/metadata/simulation/1.0#" rdf:resource="rdf:#$PUs082"/>
+    <dc:title xmlns:dc="http://purl.org/dc/elements/1.1/">Leloup et al.'s 1999 mathematical model of circadian rhythms in 
+        Drosophila.</dc:title>
+    <cmeta:comment rdf:resource="rdf:#d321c9f4-3542-46a3-be9b-5d9729d110d2"/>
+    <bqs:reference xmlns:bqs="http://www.cellml.org/bqs/1.0#" rdf:resource="rdf:#72fd8854-409d-4535-80f5-f9922799f8be"/>
+    <bqs:reference xmlns:bqs="http://www.cellml.org/bqs/1.0#" rdf:resource="rdf:#bd6761e1-7cb7-4bd8-b45a-9d1ded78f593"/>
+    <cmeta:species>Drosophila</cmeta:species>
+  </rdf:Description>
+</rdf:RDF>
+</model>

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Written by libSedML v1.1.4188.33041 see http://libsedml.sf.net -->
+<sedML level="1" version="1" xmlns="http://sed-ml.org/">
+  <listOfSimulations>
+    <uniformTimeCourse id="sim1" initialTime="0" outputStartTime="0" outputEndTime="100" numberOfPoints="1000">
+      <algorithm kisaoID="KISAO:0000019" />
+    </uniformTimeCourse>
+  </listOfSimulations>
+  <listOfModels>
+    <model id="leloup_gonze_goldbeter_1999_a_cellml" language="urn:sedml:language:cellml" source="../models/leloup_gonze_goldbeter_1999_a.cellml" />
+  </listOfModels>
+  <listOfTasks>
+    <task id="sim1_task1" modelReference="leloup_gonze_goldbeter_1999_a_cellml" simulationReference="sim1" />
+  </listOfTasks>
+  <listOfDataGenerators>
+    <dataGenerator id="dg_environment_time" name="environment_time">
+      <listOfVariables>
+        <variable id="environment_time" taskReference="sim1_task1" target="/cellml:model/cellml:component[@name='environment']/cellml:variable[@name='time']" />
+      </listOfVariables>
+      <math xmlns="http://www.w3.org/1998/Math/MathML">
+        <ci> environment_time </ci>
+      </math>
+    </dataGenerator>
+    <dataGenerator id="dg_MP_MP" name="MP_MP">
+      <listOfVariables>
+        <variable id="MP_MP" taskReference="sim1_task1" target="/cellml:model/cellml:component[@name='MP']/cellml:variable[@name='MP']" />
+      </listOfVariables>
+      <math xmlns="http://www.w3.org/1998/Math/MathML">
+        <ci> MP_MP </ci>
+      </math>
+    </dataGenerator>
+    <dataGenerator id="dg_MT_MT" name="MT_MT">
+      <listOfVariables>
+        <variable id="MT_MT" taskReference="sim1_task1" target="/cellml:model/cellml:component[@name='MT']/cellml:variable[@name='MT']" />
+      </listOfVariables>
+      <math xmlns="http://www.w3.org/1998/Math/MathML">
+        <ci> MT_MT </ci>
+      </math>
+    </dataGenerator>
+  </listOfDataGenerators>
+  <listOfOutputs>
+    <plot2D id="plot1">
+      <listOfCurves>
+        <curve id="curve_MP_MP" logX="false" logY="false" xDataReference="dg_environment_time" yDataReference="dg_MP_MP" />
+        <curve id="curve_MT_MT" logX="false" logY="false" xDataReference="dg_environment_time" yDataReference="dg_MT_MT" />
+      </listOfCurves>
+    </plot2D>
+  </listOfOutputs>
+</sedML>

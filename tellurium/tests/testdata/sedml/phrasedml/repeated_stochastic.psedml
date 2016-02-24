@@ -1,0 +1,5 @@
+model1 = model "../models/borisejb.xml"
+timecourse1 = simulate uniform_stochastic(0, 4000, 1000)
+task0 = run model1 with timecourse1
+task1 = repeat task0 for uniform(0, 10, 10) with reset
+plot task1.time vs task1.MAPK, task1.MAPK_P, task1.MAPK_PP, task1.MKK, task1.MKK_P, task1.MKKK, task1.MKKK_P

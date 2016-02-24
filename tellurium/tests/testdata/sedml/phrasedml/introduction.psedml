@@ -1,0 +1,4 @@
+mod1 = model "../sbml_model.xml"
+sim1 = simulate uniform(0,10,100)
+task1 = run sim1 on mod1
+plot time vs S1

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Written by libSedML v1.1.4180.29212 see http://libsedml.sf.net -->
+<sedML level="1" version="1" xmlns="http://sed-ml.org/">
+  <listOfSimulations>
+    <steadyState id="steady1">
+      <algorithm kisaoID="KISAO:0000099" />
+    </steadyState>
+    <nestedSimulation id="nested1" resetModel="True" originalTask="task2">
+      <algorithm kisaoID="" />
+      <uniformRange start="0" end="10" numberOfPoints="100" />
+      <setValue target="J0_v0">
+        <math>&lt;math xmlns="http://www.biomodels.net/sed-ml" /&gt;</math>
+      </setValue>
+    </nestedSimulation>
+  </listOfSimulations>
+  <listOfModels>
+    <model id="model1" language="urn:sedml:language:sbml" source="../models/oscli.xml" />
+  </listOfModels>
+  <listOfTasks>
+    <task id="task1" modelReference="model1" simulationReference="nested1" />
+    <task id="task2" modelReference="model1" simulationReference="steady1" />
+  </listOfTasks>
+  <listOfDataGenerators>
+    <dataGenerator id="J0_v0_1" name="J0_v0">
+      <listOfVariables>
+        <variable id="J0_v0" name="J0_v0" taskReference="task1" target="/sbml:sbml/sbml:model/sbml:listOfParameters/sbml:parameter[@id='J0_v0']" />
+      </listOfVariables>
+      <math xmlns="http://www.w3.org/1998/Math/MathML">
+        <ci> J0_v0 </ci>
+      </math>
+    </dataGenerator>
+    <dataGenerator id="S1_1" name="S1">
+      <listOfVariables>
+        <variable id="S1" name="S1" taskReference="task1" target="/sbml:sbml/sbml:model/sbml:listOfSpecies/sbml:species[@id='S1']" />
+      </listOfVariables>
+      <math xmlns="http://www.w3.org/1998/Math/MathML">
+        <ci> S1 </ci>
+      </math>
+    </dataGenerator>
+    <dataGenerator id="S2_1" name="S2">
+      <listOfVariables>
+        <variable id="S2" name="S2" taskReference="task1" target="/sbml:sbml/sbml:model/sbml:listOfSpecies/sbml:species[@id='S2']" />
+      </listOfVariables>
+      <math xmlns="http://www.w3.org/1998/Math/MathML">
+        <ci> S2 </ci>
+      </math>
+    </dataGenerator>
+  </listOfDataGenerators>
+  <listOfOutputs>
+    <report id="report1" name="Steady State Values">
+      <listOfDataSets>
+        <dataSet id="col_0" dataReference="J0_v0_1" label="" />
+        <dataSet id="col_1" dataReference="S1_1" label="" />
+        <dataSet id="col_2" dataReference="S2_1" label="" />
+      </listOfDataSets>
+    </report>
+    <plot2D id="plot1" name="Steady State Scan (Oscli)">
+      <listOfCurves>
+        <curve id="curve_0" logX="false" logY="false" xDataReference="J0_v0_1" yDataReference="S1_1" />
+        <curve id="curve_1" logX="false" logY="false" xDataReference="J0_v0_1" yDataReference="S2_1" />
+      </listOfCurves>
+    </plot2D>
+  </listOfOutputs>
+</sedML>

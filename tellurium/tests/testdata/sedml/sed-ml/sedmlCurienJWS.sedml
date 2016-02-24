@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Written by libSedML v1.1.4180.29212 see http://libsedml.sf.net -->
+<sedML level="1" version="1" xmlns="http://sed-ml.org/">
+  <notes>
+    <p xmlns="http://www.w3.org/1999/xhtml">Time course, Curien model</p>
+  </notes>
+  <listOfSimulations>
+    <uniformTimeCourse id="simulation1" initialTime="0" outputStartTime="0" outputEndTime="500" numberOfPoints="500">
+      <algorithm kisaoID="KISAO:0000019" />
+    </uniformTimeCourse>
+  </listOfSimulations>
+  <listOfModels>
+    <model id="model1" name="Curien" language="urn:sedml:language:sbml" source="../models/curien.xml" />
+  </listOfModels>
+  <listOfTasks>
+    <task id="task1" name="time course simulation with standard parameters" modelReference="model1" simulationReference="simulation1" />
+  </listOfTasks>
+  <listOfDataGenerators>
+    <dataGenerator id="time" name="Time">
+      <listOfVariables>
+        <variable id="var_time_0" taskReference="task1" symbol="urn:sedml:symbol:time" />
+      </listOfVariables>
+      <math xmlns="http://www.w3.org/1998/Math/MathML">
+        <ci> var_time_0 </ci>
+      </math>
+    </dataGenerator>
+    <dataGenerator id="uM" name="Metabolites">
+      <listOfVariables>
+        <variable id="v1" taskReference="task1" target="/sbml:sbml/sbml:model/sbml:listOfSpecies/sbml:species[@id='Phser']" />
+      </listOfVariables>
+      <math:math xmlns:math="http://www.w3.org/1998/Math/MathML">
+        <math:ci>v1</math:ci>
+      </math:math>
+    </dataGenerator>
+  </listOfDataGenerators>
+  <listOfOutputs>
+    <plot2D id="plot1" name="Number of metabolite Phser over time">
+      <listOfCurves>
+        <curve id="curve_0" logX="false" logY="false" xDataReference="time" yDataReference="uM" />
+      </listOfCurves>
+    </plot2D>
+  </listOfOutputs>
+</sedML>

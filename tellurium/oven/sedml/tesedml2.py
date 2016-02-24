@@ -185,7 +185,7 @@ class SEDMLCodeFactory(object):
             filename, extension = os.path.splitext(os.path.basename(self.input))
 
             # SEDML file
-            if extension == ".sedml":
+            if extension in [".sedml", '.xml']:
                 self.sedmlDoc = libsedml.readSedMLFromFile(self.input)
                 self.inputType = self.__class__.INPUT_TYPE_FILE_SEDML
                 # working directory is where the sedml file is

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Written by libSedML v1.1.4180.29212 see http://libsedml.sf.net -->
+<sedML level="1" version="1" xmlns="http://sed-ml.org/">
+  <listOfSimulations>
+    <uniformTimeCourse id="uniform1" initialTime="0" outputStartTime="0" outputEndTime="200" numberOfPoints="1000">
+      <algorithm kisaoID="KISAO:0000019" />
+    </uniformTimeCourse>
+  </listOfSimulations>
+  <listOfModels>
+    <model id="model1" language="urn:sedml:language:sbml" source="../models/lorenz.xml" />
+  </listOfModels>
+  <listOfTasks>
+    <task id="task1" modelReference="model1" simulationReference="uniform1" />
+  </listOfTasks>
+  <listOfDataGenerators>
+    <dataGenerator id="time1" name="time1">
+      <listOfVariables>
+        <variable id="time" taskReference="task1" symbol="urn:sedml:symbol:time" />
+      </listOfVariables>
+      <math xmlns="http://www.w3.org/1998/Math/MathML">
+        <ci> time </ci>
+      </math>
+    </dataGenerator>
+    <dataGenerator id="X1" name="X1">
+      <listOfVariables>
+        <variable id="X" taskReference="task1" target="/sbml:sbml/sbml:model/sbml:listOfSpecies/sbml:species[@id='X']" />
+      </listOfVariables>
+      <math xmlns="http://www.w3.org/1998/Math/MathML">
+        <ci> X </ci>
+      </math>
+    </dataGenerator>
+    <dataGenerator id="Y1" name="Y1">
+      <listOfVariables>
+        <variable id="Y" taskReference="task1" target="/sbml:sbml/sbml:model/sbml:listOfSpecies/sbml:species[@id='Y']" />
+      </listOfVariables>
+      <math xmlns="http://www.w3.org/1998/Math/MathML">
+        <ci> Y </ci>
+      </math>
+    </dataGenerator>
+    <dataGenerator id="Z1" name="Z1">
+      <listOfVariables>
+        <variable id="Z" taskReference="task1" target="/sbml:sbml/sbml:model/sbml:listOfSpecies/sbml:species[@id='Z']" />
+      </listOfVariables>
+      <math xmlns="http://www.w3.org/1998/Math/MathML">
+        <ci> Z </ci>
+      </math>
+    </dataGenerator>
+  </listOfDataGenerators>
+  <listOfOutputs>
+    <plot2D id="plot1" name="The Lorenz Attractor (time series)">
+      <listOfCurves>
+        <curve id="curve_0" logX="false" logY="false" xDataReference="time1" yDataReference="X1" />
+        <curve id="curve_1" logX="false" logY="false" xDataReference="time1" yDataReference="Y1" />
+        <curve id="curve_2" logX="false" logY="false" xDataReference="time1" yDataReference="Z1" />
+      </listOfCurves>
+    </plot2D>
+    <plot2D id="plot2" name="The Lorenz Attractor (phase plot x vs y)">
+      <listOfCurves>
+        <curve id="curve_3" logX="false" logY="false" xDataReference="X1" yDataReference="Y1" />
+      </listOfCurves>
+    </plot2D>
+    <plot2D id="plot3" name="The Lorenz Attractor (phase plot x vs z)">
+      <listOfCurves>
+        <curve id="curve_4" logX="false" logY="false" xDataReference="X1" yDataReference="Z1" />
+      </listOfCurves>
+    </plot2D>
+    <plot2D id="plot4" name="The Lorenz Attractor (phase plot y vs z)">
+      <listOfCurves>
+        <curve id="curve_5" logX="false" logY="false" xDataReference="Y1" yDataReference="Z1" />
+      </listOfCurves>
+    </plot2D>
+  </listOfOutputs>
+</sedML>
