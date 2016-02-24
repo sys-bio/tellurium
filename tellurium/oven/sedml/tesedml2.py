@@ -312,12 +312,11 @@ class SEDMLTools(object):
             model_sources[mid] = source
             all_changes[mid] = changes[::-1]
 
-        print(model_sources)
-        print(all_changes)
         return model_sources, all_changes
 
 
-    def applyChangeToXML(self):
+    @classmethod
+    def applyChangesToXML(changes, ):
         # TODO: implement
         pass
 
@@ -341,12 +340,10 @@ class SEDMLCodeFactory(object):
         self.inputType = info['inputType']
         self.workingDir = info['workingDir']
 
-        # parse the models & prepare for roadrunner
-        # TODO: implement
-
-        SEDMLTools.resolveModelChanges(self.doc)
-
-
+        # parse the models (resolve the source models & the applied changes for all models)
+        model_sources, model_changes =SEDMLTools.resolveModelChanges(self.doc)
+        self.model_sources = model_sources
+        self.model_changes = model_changes
 
     def __str__(self):
         """ Print Input
@@ -453,7 +450,9 @@ class SEDMLCodeFactory(object):
             'version': getTelluriumVersion(),
             'timestamp': timestamp,
             'factory': self,
-            'doc': self.doc
+            'doc': self.doc,
+            'model_sources': self.model_sources,
+            'model_changes': self.model_changes,
         }
         return template.render(c)
 
@@ -477,6 +476,17 @@ if __name__ == "__main__":
     sedml_input = os.path.join(sedmlDir, 'app2sim.sedml')
     # resolve models
     factory = SEDMLCodeFactory(sedml_input)
+    python_str = factory.toPython()
+
+    print('#'*80)
+    print(python_str)
+    print('#'*80)
+
+    factory.executePython()
+
+
+
+    exit()
 
     # test file
     sedml_input = os.path.join(sedxDir, 'app2sim.sedx')
@@ -512,13 +522,7 @@ if __name__ == "__main__":
     # ------------------------------------------------------
 
     """
-    python_str = factory.toPython()
 
-    print('#'*80)
-    print(python_str)
-    print('#'*80)
-
-    factory.executePython()
     """
 
     """

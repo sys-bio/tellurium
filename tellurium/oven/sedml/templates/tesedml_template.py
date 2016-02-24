@@ -22,13 +22,18 @@ workingDir = '{{ factory.workingDir }}'
 {{ helpers.heading(doc.getListOfModels(), 'Model') }}
 {% for m in doc.getListOfModels() %}
 # Model <{{ m.getId() }}>
+{% for change in model_changes.get(m.getId()) %}
+#   Change: {{ change }}
+{% endfor %}
 {% if m|SEDML_isSBMLModel %}
-{{ m.getId() }} = te.loadSBMLModel(os.path.join(workingDir, '{{ m.getSource() }}'))
+{{ m.getId() }} = te.loadSBMLModel(os.path.join(workingDir, '{{ model_sources.get(m.getId()) }}'))
 {% endif %}
 {% if m|SEDML_isCellMLModel %}
-{{ m.getId() }} = te.loadCellMLModel(os.path.join(workingDir, '{{ m.getSource() }}'))
+{{ m.getId() }} = te.loadCellMLModel(os.path.join(workingDir, '{{ model_sources.get(m.getId()) }}'))
 {% endif %}
+
 {% endfor %}
+
 
 {{ helpers.heading(doc.getListOfSimulations(), 'Simulation') }}
 {% for s in doc.getListOfSimulations() %}
