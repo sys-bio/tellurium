@@ -1,7 +1,6 @@
 import tellurium as te
 import antimony as a
 import phrasedml as p
-import libsedml as lsm
 
 antimonyStr = '''
 // Created by libAntimony v2.9
