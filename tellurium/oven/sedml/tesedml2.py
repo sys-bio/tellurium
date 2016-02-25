@@ -332,6 +332,7 @@ class SEDMLCodeFactory(object):
              env.filters[key] = getattr(sedmlfilters, key)
         template = env.get_template(python_template)
         env.globals['modelChangeToPython'] = self.modelChangeToPython
+        env.globals['taskToPython'] = self.taskToPython
 
         # timestamp
         time = datetime.datetime.now()
@@ -404,17 +405,15 @@ class SEDMLCodeFactory(object):
     def taskToPython(doc, task):
         """ Creates the simulation python code for a given task.
 
-        handle: ".conservedMoietyAnalysis = False"
-
-        handle steadyStateSelections & timeCourseSelections via variablesList
-
-
         cvode (19; the default for uniform time course simulations)
         gillespie (241; the default for stochastic time course simulations)
         steadystate (407; the default for steady state simulations)
         rk4 (32; 4th-order Runge-Kutta)
         rk45 (435; embedded Runge-Kutta)
         """
+        # TODO: handle: ".conservedMoietyAnalysis = False"
+        # TODO: handle steadyStateSelections & timeCourseSelections via variablesList
+        # TODO: handle outputStartTime
         # FIXME: There are many more nodes in the KISAO ontology (handle more terms)
         lines = []
 
@@ -472,33 +471,88 @@ class SEDMLCodeFactory(object):
         lines.append("{}.setIntegrator('{}')".format(mid, integratorName))
 
         # Set integrator settings (AlgorithmParameters)
-        def setSettingForAlgorithmParameter(par):
-            parKisao = par.getKisaoID()
-            parValue = par.getValue()
-
-            TODO:
-
-            if key:
-                lines.append("{}.getIntegrator('{}').setValue({}, {})".format(integratorName, key, value))
-            if not key:
-                lines.append("# Unsupported AlgorithmParameter: {} = {})".format(parKisao, parValue))
-
-
         for par in algorithm.getListOfAlgorithmParameters():
-            setSettingForAlgorithmParameter(par)
-
+            lines.append(SEDMLCodeFactory.algorithmParameterToPython(par))
 
         # Integrator settings & simulate call
         if simType == libsedml.SEDML_SIMULATION_UNIFORMTIMECOURSE:
-            pass
+            # simulate call
+            initialTime = simulation.getInitialTime()
+            outputStartTime = simulation.getOutputStartTime()
+            outputEndTime = simulation.getOutputEndTime()
+            numberOfPoints = simulation.getNumberOfPoints()
+
+            # throw some points away
+            if abs(outputStartTime - initialTime) > 1E-6:
+                lines.append("pre-simulation")
+                lines.append("{}.simulate(start={}, end={}, points=2)".format(
+                                    mid, initialTime, outputStartTime))
+            # real simulation
+            lines.append("{} = {}.simulate(start={}, end={}, steps={})".format(
+                                    sid, mid, outputStartTime, outputEndTime, numberOfPoints))
+
         elif simType == libsedml.SEDML_SIMULATION_ONESTEP:
-            pass
+            step = simulation.getStep()
+            lines.append("{} = {}.simulate(start=0.0, end={}, points=2)".format(sid, mid, step))
+
         elif simType == libsedml.SEDML_SIMULATION_STEADYSTATE:
-            pass
+            lines.append("{} = {}.steadyState()".format(sid, mid))
         else:
             lines.append("# Unsupported simulation: {}".format(str(simType)))
 
         return "\n".join(lines)
+
+    @staticmethod
+    def algorithmParameterToPython(par):
+        """ Create python code for algorithm parameter.
+
+        Sets the algorithm parameter for the current integrator.
+
+            relative_tolerance (209; the relative tolerance)
+            absolute_tolerance (211; the absolute tolerance)
+            maximum_bdf_order (220; the maximum BDF (stiff) order)
+            maximum_adams_order (219; the maximum Adams (non-stiff) order)
+            maximum_num_steps (415; the maximum number of steps that can be taken before exiting)
+            maximum_time_step (467; the maximum time step that can be taken)
+            minimum_time_step (485; the minimum time step that can be taken)
+            initial_time_step (332; the initial value of the time step for algorithms that change this value)
+            variable_step_size (107; whether or not the algorithm proceeds with an adaptive step size or not)
+            maximum_iterations (486; the maximum number of iterations the algorithm should take before exiting)
+            minimum_damping (487; minimum damping value)
+            seed (488; the seed for stochastic runs of the algorithm)
+        """
+        kid = par.getKisaoID()
+        value = par.getValue()
+
+        if kid == 'KISAO_0000209':
+            key = 'relative_tolerance'
+        elif kid == 'KISAO_0000211':
+            key = 'relative_tolerance'
+        elif kid == 'KISAO_0000220':
+            key = 'maximum_bdf_order'
+        elif kid == 'KISAO_0000219':
+            key = 'maximum_adams_order'
+        elif kid == 'KISAO_0000415':
+            key = 'maximum_num_steps'
+        elif kid == 'KISAO_0000467':
+            key = 'maximum_time_step'
+        elif kid == 'KISAO_0000485':
+            key = 'minimum_time_step'
+        elif kid == 'KISAO_0000332':
+            key = 'initial_time_step'
+        elif kid == 'KISAO_0000107':
+            key = 'variable_step_size'
+        elif kid == 'KISAO_0000486':
+            key = 'maximum_iterations'
+        elif kid == 'KISAO_0000487':
+            key = 'maximum_damping'
+        elif kid == 'KISAO_0000488':
+            key = 'seed'
+        # set the setting
+        if key:
+            return "{}.getIntegrator().setValue({}, {})".format(key, value)
+        if not key:
+            return "# Unsupported AlgorithmParameter: {} = {})".format(kid, value)
 
     def executePython(self):
         """ Executes created python code.
@@ -530,12 +584,6 @@ if __name__ == "__main__":
     print('#'*80)
 
     factory.executePython()
-
-    # SEDMLTools.resolveSimulations(factory.doc)
-    for task in factory.doc.getListOfTasks():
-        test_str = factory.taskToPython(factory.doc, task)
-        print(test_str)
-
 
     exit()
 

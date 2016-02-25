@@ -1,7 +1,7 @@
 """
     tellurium 1.3.1
 
-    auto-generated code (2016-02-25T13:51:35)
+    auto-generated code (2016-02-25T15:42:58)
         sedmlDoc: L1V1          workingDir: /home/mkoenig/git/tellurium/tellurium/tests/testdata/sedml/sed-ml
         inputType: SEDML_FILE
 
@@ -26,7 +26,7 @@ workingDir = '/home/mkoenig/git/tellurium/tellurium/tests/testdata/sedml/sed-ml'
 # Model <Application0>
 Application0 = te.loadSBMLModel(os.path.join(workingDir, '../models/app2sim.xml'))
 # Model <Application0_0>
-#   Change: <libsedml.SedChangeAttribute; proxy of <Swig Object of type 'SedChangeAttribute_t *' at 0x7f4f3dd61150> >
+#   Change: <libsedml.SedChangeAttribute; proxy of <Swig Object of type 'SedChangeAttribute_t *' at 0x7fb22156a150> >
 Application0_0 = te.loadSBMLModel(os.path.join(workingDir, '../models/app2sim.xml'))
 # /sbml:sbml/sbml:model/sbml:listOfSpecies/sbml:species[@id='s1'] 10.0
 Application0_0['init([s1])'] = 10.0
@@ -38,7 +38,13 @@ Application0_0['init([s1])'] = 10.0
 #  - task_0_1 (task_0_1)
 
 # Task <task_0_0>
+# 62: Simulation0
+Application0.setIntegrator('cvode')
+Simulation0 = Application0.simulate(start=0.0, end=20.0, steps=1000)
 # Task <task_0_1>
+# 62: Simulation1
+Application0_0.setIntegrator('cvode')
+Simulation1 = Application0_0.simulate(start=0.0, end=30.0, steps=1000)
 
 # --------------------------------------------------------
 # DataGenerators
