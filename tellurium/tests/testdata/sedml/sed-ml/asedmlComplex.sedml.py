@@ -6,12 +6,12 @@ import matplotlib.pyplot as plt
 
 # Execute the tasks of model: Application0
 Application0 = roadrunner.RoadRunner()
-Application0.load('/home/mkoenig/git/tellurium/tellurium/tests/testdata/sedml/asedmlComplex/asedmlComplex_Application0.xml')
+Application0.load('/home/mkoenig/git/tellurium/tellurium/tests/testdata/sedml/sed-ml/models/asedmlComplex.xml')
 # There are no simulations to run for this model: Application0
 
 # Execute the tasks of model: Application0_0
 Application0_0 = roadrunner.RoadRunner()
-Application0_0.load('/home/mkoenig/git/tellurium/tellurium/tests/testdata/sedml/asedmlComplex/asedmlComplex_Application0.xml')
+Application0_0.load('/home/mkoenig/git/tellurium/tellurium/tests/testdata/sedml/sed-ml/models/asedmlComplex.xml')
 Application0_0.model["init([s0])"] = 25.0
 
 Application0_0.simulateOptions.resetModel = True

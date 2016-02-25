@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 
 # Execute the tasks of model: Application0
 Application0 = roadrunner.RoadRunner()
-Application0.load('/home/mkoenig/git/tellurium/tellurium/tests/testdata/sedml/asedml3repeat/asedml3repeat_Application0.xml')
+Application0.load('/home/mkoenig/git/tellurium/tellurium/tests/testdata/sedml/sed-ml/models/asedml3repeat.xml')
 
 Application0.simulateOptions.resetModel = True
 

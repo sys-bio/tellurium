@@ -77,6 +77,7 @@ import zipfile
 import sedmlfilters
 from tellurium import getTelluriumVersion
 import datetime
+from tellurium.tecombine import CombineTools
 
 
 # Change default encoding to UTF-8
@@ -168,94 +169,20 @@ class SEDMLTools(object):
                 # in which the files are extracted
                 workingDir = os.path.join(os.path.dirname(os.path.realpath(inputStr)), '_te_{}'.format(filename))
                 # extract the archive to working directory
-                cls.extractArchive(archive, workingDir)
+                CombineTools.extractArchive(archive, workingDir)
                 # get SEDML files from archive
                 # FIXME: there could be multiple SEDML files in archive (currently only first used)
-                sedmlFiles = cls.filePathsFromExtractedArchive(workingDir)
-                print('sedml files in archive:', sedmlFiles)
+                sedmlFiles = CombineTools.filePathsFromExtractedArchive(workingDir)
                 if len(sedmlFiles) == 0:
                     raise IOError("No SEDML files found in archive.")
                 if len(sedmlFiles) > 1:
-                    warnings.warn("More than 1 sedml file in archive, only processing first one.")
+                    warnings.warn("More than one sedml file in archive, only processing first one.")
                 doc = libsedml.readSedMLFromFile(sedmlFiles[0])
                 cls.checkSEDMLDocument(doc)
 
         return {'doc': doc,
                 'inputType': inputType,
                 'workingDir': workingDir}
-
-    @staticmethod
-    def extractArchive(archivePath, directory):
-        """ Extracts given archive into the target directory.
-
-        :param archivePath:
-        :type archivePath:
-        :param directory:
-        :type directory:
-        :return:
-        :rtype:
-        """
-        zip = zipfile.ZipFile(archivePath, 'r')
-
-        if not os.path.isdir(directory):
-            os.makedirs(directory)
-        else:
-            warnings.warn("Folder for combine archive already exists:{}".format(directory))
-
-        for each in zip.namelist():
-            # check if the item includes a subdirectory
-            # if it does, create the subdirectory in the output folder and write the file
-            # otherwise, just write the file to the output folder
-            if not each.endswith('/'):
-                root, name = os.path.split(each)
-                directory = os.path.normpath(os.path.join(directory, root))
-                if not os.path.isdir(directory):
-                    os.makedirs(directory)
-                file(os.path.join(directory, name), 'wb').write(zip.read(each))
-        zip.close()
-
-    @staticmethod
-    def filePathsFromExtractedArchive(directory, formatType='sed-ml'):
-        """ Reads file paths from extracted combine archive.
-        Searches the manifest.xml of the archive for files of the
-        specified formatType and checks if the files exist in the directory.
-
-        Supported formatTypes are:
-            'sed-ml' : SED-ML files
-            'sbml' : SBML files
-
-        :param directory: directory of extracted archive
-        :return: list of paths
-        :rtype: list
-        """
-
-        filePaths = []
-
-        manifest = os.path.join(directory, "manifest.xml")
-        if os.path.exists(manifest):
-            # get the sedml files from the manifest
-            import xml.etree.ElementTree as et
-            tree = et.parse(manifest)
-            root = tree.getroot()
-            print(root)
-            for child in root:
-                format = child.attrib['format']
-                if format.endswith(formatType):
-                    location = child.attrib['location']
-
-                    # real path
-                    fpath = os.path.join(directory, location)
-                    if not os.path.exists(fpath):
-                        raise IOError('Path specified in manifest.xml does not exist in archive: {}'.format(fpath))
-                    filePaths.append(fpath)
-        else:
-            # no manifest (use all sedml files in folder)
-            warnings.warn("No 'manifest.xml' in archive, using all '*.sedml' files.")
-            for fname in os.listdir(directory):
-                if fname.endswith(".sedml") or fname.endswith(".sedx.xml"):
-                    filePaths.append(os.path.join(directory, fname))
-
-        return filePaths
 
 
     @staticmethod

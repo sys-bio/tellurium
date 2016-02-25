@@ -3,11 +3,93 @@ Utilities for working with combine archives.
 """
 from __future__ import print_function, division
 
+import os
 from os.path import exists, isfile, basename
-from zipfile import ZipFile
+import warnings
+import zipfile
 import phrasedml
 import antimony
 import re
+
+
+class CombineTools(object):
+    """ Helper functions to work with combine archives."""
+
+    @staticmethod
+    def extractArchive(archivePath, directory):
+        """ Extracts given archive into the target directory.
+
+        Target directory is created if it does not exist.
+        Files are overwritten in the directory !
+
+        :param archivePath: path to combine archive
+        :type archivePath: str
+        :param directory: path to directory where to extract to
+        :type directory:
+        :return:
+        :rtype:
+        """
+        zip = zipfile.ZipFile(archivePath, 'r')
+
+        if not os.path.isdir(directory):
+            os.makedirs(directory)
+        else:
+            warnings.warn("Combine archive directory already exists:{}".format(directory))
+
+        for each in zip.namelist():
+            # check if the item includes a subdirectory
+            # if it does, create the subdirectory in the output folder and write the file
+            # otherwise, just write the file to the output folder
+            if not each.endswith('/'):
+                root, name = os.path.split(each)
+                directory = os.path.normpath(os.path.join(directory, root))
+                if not os.path.isdir(directory):
+                    os.makedirs(directory)
+                file(os.path.join(directory, name), 'wb').write(zip.read(each))
+        zip.close()
+
+    @staticmethod
+    def filePathsFromExtractedArchive(directory, formatType='sed-ml'):
+        """ Reads file paths from extracted combine archive.
+
+        Searches the manifest.xml of the archive for files of the
+        specified formatType and checks if the files exist in the directory.
+
+        Supported formatTypes are:
+            'sed-ml' : SED-ML files
+            'sbml' : SBML files
+
+        :param directory: directory of extracted archive
+        :return: list of paths
+        :rtype: list
+        """
+        filePaths = []
+
+        manifest = os.path.join(directory, "manifest.xml")
+        if os.path.exists(manifest):
+            # get the sedml files from the manifest
+            import xml.etree.ElementTree as et
+            tree = et.parse(manifest)
+            root = tree.getroot()
+            print(root)
+            for child in root:
+                format = child.attrib['format']
+                if format.endswith(formatType):
+                    location = child.attrib['location']
+
+                    # real path
+                    fpath = os.path.join(directory, location)
+                    if not os.path.exists(fpath):
+                        raise IOError('Path specified in manifest.xml does not exist in archive: {}'.format(fpath))
+                    filePaths.append(fpath)
+        else:
+            # no manifest (use all sedml files in folder)
+            warnings.warn("No 'manifest.xml' in archive, using all '*.sedml' files.")
+            for fname in os.listdir(directory):
+                if fname.endswith(".sedml") or fname.endswith(".sedx.xml"):
+                    filePaths.append(os.path.join(directory, fname))
+
+        return filePaths
 
 
 class CombineAsset(object):
@@ -226,7 +308,7 @@ class MakeCombine:
 
     def write(self, outfile):
         self.manifest = ''
-        with ZipFile(outfile, 'w') as z:
+        with zipfile.ZipFile(outfile, 'w') as z:
             self.manifest += '<?xml version="1.0"  encoding="utf-8"?>\n<omexManifest  xmlns="http://identifiers.org/combine.specifications/omex-manifest">\n'
             self.manifest += '    <content location="./manifest.xml" format="http://identifiers.org/combine.specifications/omex-manifest"/>\n'
 
