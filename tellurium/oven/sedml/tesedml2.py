@@ -273,7 +273,14 @@ class SEDMLTools(object):
 
 
 class SEDMLCodeFactory(object):
-    """ Code Factory generating executable code. """
+    """ Code Factory generating executable code.
+        The following SED-ML constructs are currently not supported:
+        - Change.RemoveXML
+        - Change.AddXML
+        - Change.ChangeXML
+        - Change.ComputeChange
+
+    """
 
     # template location
     TEMPLATE_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'templates')
@@ -420,6 +427,7 @@ class SEDMLCodeFactory(object):
         # model
         mid = task.getModelReference()
         model = doc.getModel(mid)
+        taskType = task.getTypeCode()
         sid = task.getSimulationReference()
         simulation = doc.getSimulation(sid)
         simType = simulation.getTypeCode()
@@ -428,79 +436,138 @@ class SEDMLCodeFactory(object):
 
         lines.append("# {}: {}".format(str(simType), sid))
 
-        # KISAO:0000433 : CVODE-like method
-        # KISAO:0000019 : CVODE
-        # KISAO:0000241 : Gillespie-like method
-        # KISAO_0000064 : Runge-Kutta based method
-        # KISAO_0000032 : explicit fourth-order Runge-Kutta method
-        # KISAO_0000435 : embedded Runge-Kutta 5(4) method
-
         # Check if supported algorithm
-        def isSupportedKisao(simType, kisao):
-            supported = []
-            if simType == libsedml.SEDML_SIMULATION_UNIFORMTIMECOURSE:
-                supported = ['KISAO:0000433', 'KISAO:0000019', 'KISAO:0000241', 'KISAO:0000032', 'KISAO:0000435', 'KISAO_0000064']
-            elif simType == libsedml.SEDML_SIMULATION_ONESTEP:
-                supported = ['KISAO:0000433', 'KISAO:0000019', 'KISAO:0000241', 'KISAO:0000032', 'KISAO:0000435', 'KISAO_0000064']
-            elif simType == libsedml.SEDML_SIMULATION_STEADYSTATE:
-                supported = ['KISAO:0000099', 'KISAO:0000407']
-            return kisao in supported
-
-        if not isSupportedKisao(simType, kisao):
+        if not SEDMLCodeFactory.isSupportedKisaoIDForSimulation(kisao=kisao, simType=simType):
             lines.append("# Unsupported KisaoID {} for Algorithm {}".format(kisao, simType))
-            return
+            return "\n".join(lines)
 
         # Set integrator
-        def getIntegratorName(kisao):
-            # cvode & steady state are mapped to cvode
-            if kisao in ['KISAO:0000433', 'KISAO:0000019', 'KISAO:0000407']:
-                return 'cvode'
-            elif kisao == 'KISAO:0000241':
-                return 'gillespie'
-            elif kisao == 'KISAO:0000032':
-                return 'rk4'
-            elif kisao in ['KISAO:0000435', 'KISAO_0000064']:
-                return 'rk45'
-            else:
-                return None
-
-        integratorName = getIntegratorName(kisao)
+        integratorName = SEDMLCodeFactory.getIntegratorNameForKisaoID(kisao)
         if not integratorName:
             lines.append("# No integrator for KisaoID {} in tellurium".format(kisao))
-            return
+            return "\n".join(lines)
         lines.append("{}.setIntegrator('{}')".format(mid, integratorName))
 
         # Set integrator settings (AlgorithmParameters)
         for par in algorithm.getListOfAlgorithmParameters():
             lines.append(SEDMLCodeFactory.algorithmParameterToPython(par))
 
-        # Integrator settings & simulate call
+        # selections
+        selections = SEDMLCodeFactory.selectionsForTask(doc, task)
+
+        # -------------------------------------------------------------------------
+        # <UNIFORM TIMECOURSE>
+        # -------------------------------------------------------------------------
         if simType == libsedml.SEDML_SIMULATION_UNIFORMTIMECOURSE:
-            # simulate call
+            lines.append("# UniformTimecourse")
+            lines.append("{}.timeCourseSelections = {}".format(mid, list(selections)))
+
             initialTime = simulation.getInitialTime()
             outputStartTime = simulation.getOutputStartTime()
             outputEndTime = simulation.getOutputEndTime()
             numberOfPoints = simulation.getNumberOfPoints()
 
-            # throw some points away
-            if abs(outputStartTime - initialTime) > 1E-6:
-                lines.append("pre-simulation")
-                lines.append("{}.simulate(start={}, end={}, points=2)".format(
-                                    mid, initialTime, outputStartTime))
-            # real simulation
-            lines.append("{} = {}.simulate(start={}, end={}, steps={})".format(
-                                    sid, mid, outputStartTime, outputEndTime, numberOfPoints))
+            # <SIMPLE TASK>
+            if taskType == libsedml.SEDML_TASK:
+                lines.append("# SimpleTask")
+                # throw some points away
+                if abs(outputStartTime - initialTime) > 1E-6:
+                    lines.append("pre-simulation")
+                    lines.append("{}.simulate(start={}, end={}, points=2)".format(
+                                        mid, initialTime, outputStartTime))
+                # real simulation
+                lines.append("{} = {}.simulate(start={}, end={}, steps={})".format(
+                                        sid, mid, outputStartTime, outputEndTime, numberOfPoints))
 
+            # <REPEATED TASK>
+            elif taskType == libsedml.SEDML_TASK_REPEATEDTASK:
+                lines.append("# RepeatedTask")
+                pass
+            else:
+                lines.append("# Unsupported task: {}".format(taskType))
+        # -------------------------------------------------------------------------
+        # <ONESTEP>
+        # -------------------------------------------------------------------------
         elif simType == libsedml.SEDML_SIMULATION_ONESTEP:
+            lines.append("# OneStep")
+            lines.append("{}.timeCourseSelections = {}".format(mid, list(selections)))
             step = simulation.getStep()
-            lines.append("{} = {}.simulate(start=0.0, end={}, points=2)".format(sid, mid, step))
 
+            # <SIMPLE TASK>
+            if taskType == libsedml.SEDML_TASK:
+                lines.append("# SimpleTask")
+                lines.append("{} = {}.simulate(start=0.0, end={}, points=2)".format(sid, mid, step))
+
+            # <REPEATED TASK>
+            elif taskType == libsedml.SEDML_TASK_REPEATEDTASK:
+                lines.append("# RepeatedTask")
+            else:
+                lines.append("# Unsupported task: {}".format(taskType))
+        # -------------------------------------------------------------------------
+        # <STEADY STATE>
+        # -------------------------------------------------------------------------
         elif simType == libsedml.SEDML_SIMULATION_STEADYSTATE:
-            lines.append("{} = {}.steadyState()".format(sid, mid))
+            lines.append("# SteadyState")
+            lines.append("{}.steadyStateSelections = {}".format(mid, list(selections)))
+            # <SIMPLE TASK>
+            if taskType == libsedml.SEDML_TASK:
+                lines.append("# SimpleTask")
+                lines.append("{} = {}.steadyState()".format(sid, mid))
+
+            # <REPEATED TASK>
+            elif taskType == libsedml.SEDML_TASK_REPEATEDTASK:
+                lines.append("# RepeatedTask")
+            else:
+                lines.append("# Unsupported task: {}".format(taskType))
+
         else:
-            lines.append("# Unsupported simulation: {}".format(str(simType)))
+            lines.append("# Unsupported simulation: {}".format(simType))
 
         return "\n".join(lines)
+
+    @staticmethod
+    def isSupportedKisaoIDForSimulation(kisao, simType):
+        """ Test if Algorithm Kisao Id is supported for simulation.
+
+            KISAO:0000433 : CVODE-like method
+            KISAO:0000019 : CVODE
+            KISAO:0000241 : Gillespie-like method
+            KISAO_0000064 : Runge-Kutta based method
+            KISAO_0000032 : explicit fourth-order Runge-Kutta method
+            KISAO_0000435 : embedded Runge-Kutta 5(4) method
+
+        :return:
+        :rtype: bool
+        """
+        supported = []
+        if simType == libsedml.SEDML_SIMULATION_UNIFORMTIMECOURSE:
+            supported = ['KISAO:0000433', 'KISAO:0000019', 'KISAO:0000241', 'KISAO:0000032', 'KISAO:0000435', 'KISAO_0000064']
+        elif simType == libsedml.SEDML_SIMULATION_ONESTEP:
+            supported = ['KISAO:0000433', 'KISAO:0000019', 'KISAO:0000241', 'KISAO:0000032', 'KISAO:0000435', 'KISAO_0000064']
+        elif simType == libsedml.SEDML_SIMULATION_STEADYSTATE:
+            supported = ['KISAO:0000099', 'KISAO:0000407']
+        return kisao in supported
+
+    @staticmethod
+    def getIntegratorNameForKisaoID(kid):
+        """ RoadRunner integrator name for algorithm KisaoID.
+
+        :param kid: KisaoID
+        :type kid: str
+        :return: RoadRunner integrator name.
+        :rtype: str
+        """
+        # cvode & steady state are mapped to cvode
+        if kid in ['KISAO:0000433', 'KISAO:0000019', 'KISAO:0000407']:
+            return 'cvode'
+        elif kid == 'KISAO:0000241':
+            return 'gillespie'
+        elif kid == 'KISAO:0000032':
+            return 'rk4'
+        elif kid in ['KISAO:0000435', 'KISAO_0000064']:
+            return 'rk45'
+        else:
+            return None
 
     @staticmethod
     def algorithmParameterToPython(par):
@@ -565,6 +632,45 @@ class SEDMLCodeFactory(object):
         except Exception as e:
             raise e
 
+
+    @staticmethod
+    def selectionsForTask(doc, task):
+        """ Populate variable lists from the data generators for the given task.
+        These are the timeCourseSelections and steadyStateSelections
+        in RoadRunner.
+
+        Search all data generators for variables which have to be part of the simulation.
+        """
+        selections = set()
+
+        for dg in doc.getListOfDataGenerators():
+
+            for var in dg.getListOfVariables():
+                # either has not task reference or not for the current task
+                if var.getTaskReference() != task.getId():
+                    continue
+
+                # symbol field of variable is set
+                if var.isSetSymbol():
+                    cvs = var.getSymbol()
+                    astr = cvs.rsplit("symbol:")
+                    astr = astr[1]
+                    selections.add(astr)
+
+                elif var.isSetTarget():
+                    cvt = var.getTarget()    # target field of variable is set
+                    astr = cvt.rsplit("@id='")
+                    astr = astr[1]
+                    astr = astr[:-2]
+                    if 'species' in cvt:
+                        selections.add('[{}]'.format(astr))
+                    else:
+                        selections.add('{}'.format(astr))
+                else:
+                    warnings.warn("Unrecognized data generator variable")
+
+        return selections
+    
 
 if __name__ == "__main__":
     import os
