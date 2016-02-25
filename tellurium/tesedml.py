@@ -1,5 +1,5 @@
 """
-Legacy Tellurium SED-ML support.
+Tellurium SED-ML support.
 """
 
 from __future__ import print_function, division
