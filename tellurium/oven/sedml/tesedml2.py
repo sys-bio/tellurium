@@ -242,10 +242,34 @@ class SEDMLTools(object):
         return model_sources, all_changes
 
 
-    @classmethod
-    def applyChangesToXML(changes, ):
-        # TODO: implement
-        pass
+    @staticmethod
+    def resolveSimulations(doc):
+        """ Resolves all the settings for the simulation.
+
+        The parsed algorithm settings are stores in dictionaries which allow than to
+        easily set the simulation options and the integrator settings.
+        Two dictionaries are created:
+            simulate_settings: keyword arguments for simulate
+            integrator_setting
+
+        :return:
+        :rtype:
+        """
+        sids = [sim.getId() for sim in doc.getListOfSimulations()]
+        print(sids)
+        simulate_settings = {}
+        integrator_settings = {}
+        algorithms = {}
+        for sim in doc.getListOfSimulations():
+            sid = sim.getId()
+            alg = sim.getAlgorithm()
+            algorithms[sid] = alg
+            kisaoId = alg.getKisaoID()
+            print(kisaoId)
+
+        print(algorithms)
+
+        return None
 
 
 class SEDMLCodeFactory(object):
@@ -287,66 +311,6 @@ class SEDMLCodeFactory(object):
             lines.append('input: {}'.format(self.inputStr))
         return '\n'.join(lines)
 
-    def _parseSEDMLModels(self):
-        """
-        :return:
-        :rtype:
-        """
-        # TODO: implement
-        pass
-
-    def _loadModel(self):
-        """ Load model. """
-        # TODO: implement
-        pass
-        """
-        string = currentModel.getSource()
-        string = string.replace("\\", "/")
-        if isId(string):                             # it's the Id of a model
-            originalModel = sedmlDoc.getModel(string)
-            if originalModel is not None:
-                string = originalModel.getSource()          #  !!! for now, we reuse the original model to which the current model is referring to
-            else:
-                pass
-        if string.startswith("."):                  # relative location, we trust it but need it trimmed
-            if string.startswith("../"):
-                string = string[3:]
-            elif string.startswith("./"):
-                string = string[2:]
-            print(rrName + ".load('" + path.replace("\\","/") + string + "')")    # SBML model name recovered from "source" attr
-            #from os.path import expanduser
-            #path = expanduser("~")
-            #print(rrName + ".load('" + path + "\\" + string + "')")    # SBML model name recovered from "source" attr
-        elif "\\" or "/" or "urn:miriam" not in string:
-            print(rrName + ".load('" + path.replace("\\","/") + string + "')")
-        elif string.startswith("urn:miriam"):
-            print("Downloading model from BioModels Database...")
-            astr = string.rsplit(':', 1)
-            astr = astr[1]
-            string = path + astr + ".xml"
-            if not os.path.exists(string):
-                conn = httplib.HTTPConnection("www.ebi.ac.uk")
-                conn.request("GET", "/biomodels-main/download?mid=" + astr)
-                r1 = conn.getresponse()
-                #print(r1.status, r1.reason)
-                data1 = r1.read()
-                conn.close()
-                f1 = open(string, 'w')
-                f1.write(data1)
-                f1.close()
-            else:
-                pass
-            print(rrName + ".load('" + string +"'))")
-        else:         # assume absolute path pointing to hard disk location
-            string = string.replace("\\", "/")
-            print(rrName + ".load('" + string + "')")
-
-        """
-
-    def _parseSimulations(self):
-        # TODO: implement
-        pass
-
     def toPython(self, python_template='tesedml_template.py'):
         """ Create python code by rendering the python template.
         Uses the information in the SED-ML document to create
@@ -367,6 +331,7 @@ class SEDMLCodeFactory(object):
         for key in sedmlfilters.filters:
              env.filters[key] = getattr(sedmlfilters, key)
         template = env.get_template(python_template)
+        env.globals['modelChangeToPython'] = self.modelChangeToPython
 
         # timestamp
         time = datetime.datetime.now()
@@ -382,6 +347,124 @@ class SEDMLCodeFactory(object):
             'model_changes': self.model_changes,
         }
         return template.render(c)
+
+    # <CHANGE>
+    # SEDML_CHANGE_ATTRIBUTE = _libsedml.SEDML_CHANGE_ATTRIBUTE
+    # SEDML_CHANGE_REMOVEXML = _libsedml.SEDML_CHANGE_REMOVEXML
+    # SEDML_CHANGE_COMPUTECHANGE = _libsedml.SEDML_CHANGE_COMPUTECHANGE
+    # SEDML_CHANGE_ADDXML = _libsedml.SEDML_CHANGE_ADDXML
+    # SEDML_CHANGE_CHANGEXML = _libsedml.SEDML_CHANGE_CHANGEXML
+
+    @staticmethod
+    def modelChangeToPython(model, change):
+        """ Creates the apply change python string for given model and change.
+
+        Currently only a very limited subset of model changes is supported.
+        Namely changes of parameters and concentrations within a SedChangeAttribute.
+
+        :param model: given model
+        :type model: SedModel
+        :param change: model change
+        :type change: SedChange
+        :return:
+        :rtype: str
+        """
+        # FIXME: getting of sids, pids not very robust
+        lines = []
+        mid = model.getId()
+
+        # is a libsedml.SedChangeAttribute instance
+        if change.getTypeCode() == libsedml.SEDML_CHANGE_ATTRIBUTE:
+            value = change.getNewValue()
+            target = change.getTarget()
+            lines.append("# {} {}".format(target, value))
+
+            # parameter value change
+            if ("model" in target) and ("parameter" in target):
+                target = target.rsplit("id=\'", 1)[1]
+                pid = target.rsplit("\'", 1)[0]
+                s = "{}['{}'] = {}".format(mid, pid, value)
+                lines.append(s)
+
+            # species concentration change
+            elif ("model" in target) and ("species" in target):
+                target = target.rsplit("id=\'", 1)[1]
+                sid = target.rsplit("\'", 1)[0]
+                s = "{}['init([{}])'] = {}".format(mid, sid, value)
+                lines.append(s)
+
+            else:
+                lines.append("# Unsupported changeAttribute target: {}".format(target))
+        else:
+            lines.append("# Unsupported change: {}".format(change.getElementName()))
+
+        return '\n'.join(lines)
+
+    @staticmethod
+    def taskToPython(doc, task):
+        """ Creates the simulation python code for a given task.
+
+        handle: ".conservedMoietyAnalysis = False"
+
+        handle steadyStateSelections & timeCourseSelections via variablesList
+
+
+        cvode (19; the default for uniform time course simulations)
+        gillespie (241; the default for stochastic time course simulations)
+        rk4 (32; 4th-order Runge-Kutta)
+        rk45 (435; embedded Runge-Kutta)
+        steadystate (407; the default for steady state simulations)
+
+        """
+
+        lines = []
+
+        # model
+        mid = task.getModelReference()
+        model = doc.getModel(mid)
+
+        # simulation
+        sid = task.getSimulationReference()
+        simulation = doc.getSimulation(sid)
+        simType = simulation.getTypeCode()
+
+        # algorithm
+        algorithm = simulation.getAlgorithm()
+        kisao = algorithm.getKisaoID()
+
+        import roadrunner
+
+        def setIntegrator(kisao):
+            if kisao == 'KISAO:0000019'
+                return 'cvode'
+
+
+        if simType in [libsedml.SEDML_SIMULATION_UNIFORMTIMECOURSE, libsedml.SEDML_SIMULATION_ONESTEP]:
+            lines.append("# UniformTimecourse/OneStep: {}".format(sid))
+
+            if kisao not in ['KISAO:0000019', 'KISAO:0000241', 'KISAO:0000032']:
+                lines.append("# Unsupported KisaoID {}".format(kisao))
+            else:
+                # set the integrator
+                if simType == libsedml.SEDML_SIMULATION_UNIFORMTIMECOURSE:
+
+
+
+                elif simType == libsedml.SEDML_SIMULATION_ONESTEP:
+                    pass
+
+        elif simType == libsedml.SEDML_SIMULATION_STEADYSTATE:
+            lines.append("# SteadyState: {}".format(sid))
+
+            if kisao != "KISAO:0000099":
+                lines.append("# Unsupported KisaoID {}".format(kisao))
+
+
+
+
+        else:
+            print("# Unsupported simulation " + str(simType))
+
 
     def executePython(self):
         """ Executes created python code.
@@ -404,6 +487,11 @@ if __name__ == "__main__":
     # resolve models
     factory = SEDMLCodeFactory(sedml_input)
     python_str = factory.toPython()
+    # create file
+    with open(sedml_input + '.py', 'w') as f:
+        f.write(python_str)
+
+
 
     print('#'*80)
     print(python_str)
@@ -411,6 +499,9 @@ if __name__ == "__main__":
 
     factory.executePython()
 
+    SEDMLTools.resolveSimulations(factory.doc)
+    for task in factory.doc.getListOfTasks():
+        factory.taskToPython(factory.doc, task)
 
 
     exit()

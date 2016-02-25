@@ -31,22 +31,9 @@ workingDir = '{{ factory.workingDir }}'
 {% if m|SEDML_isCellMLModel %}
 {{ m.getId() }} = te.loadCellMLModel(os.path.join(workingDir, '{{ model_sources.get(m.getId()) }}'))
 {% endif %}
-
+{% for change in model_changes.get(m.getId()) %}
+{{ modelChangeToPython(m, change) }}
 {% endfor %}
-
-
-{{ helpers.heading(doc.getListOfSimulations(), 'Simulation') }}
-{% for s in doc.getListOfSimulations() %}
-# Simulation <{{ s.getId() }}>
-{% if s|SEDML_isOneStepSimulation %}
-print('OneStep')
-{% endif %}
-{% if s|SEDML_isUniformTimecourseSimulation %}
-print('UniformTimecourse')
-{% endif %}
-{% if s|SEDML_isSteadyStateSimulation %}
-print('SteadyState')
-{% endif %}
 {% endfor %}
 
 {{ helpers.heading(doc.getListOfTasks(), 'Task') }}
