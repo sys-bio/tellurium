@@ -411,60 +411,94 @@ class SEDMLCodeFactory(object):
 
         cvode (19; the default for uniform time course simulations)
         gillespie (241; the default for stochastic time course simulations)
+        steadystate (407; the default for steady state simulations)
         rk4 (32; 4th-order Runge-Kutta)
         rk45 (435; embedded Runge-Kutta)
-        steadystate (407; the default for steady state simulations)
-
         """
-
+        # FIXME: There are many more nodes in the KISAO ontology (handle more terms)
         lines = []
 
         # model
         mid = task.getModelReference()
         model = doc.getModel(mid)
-
-        # simulation
         sid = task.getSimulationReference()
         simulation = doc.getSimulation(sid)
         simType = simulation.getTypeCode()
-
-        # algorithm
         algorithm = simulation.getAlgorithm()
         kisao = algorithm.getKisaoID()
 
-        import roadrunner
+        lines.append("# {}: {}".format(str(simType), sid))
 
-        def setIntegrator(kisao):
-            if kisao == 'KISAO:0000019'
+        # KISAO:0000433 : CVODE-like method
+        # KISAO:0000019 : CVODE
+        # KISAO:0000241 : Gillespie-like method
+        # KISAO_0000064 : Runge-Kutta based method
+        # KISAO_0000032 : explicit fourth-order Runge-Kutta method
+        # KISAO_0000435 : embedded Runge-Kutta 5(4) method
+
+        # Check if supported algorithm
+        def isSupportedKisao(simType, kisao):
+            supported = []
+            if simType == libsedml.SEDML_SIMULATION_UNIFORMTIMECOURSE:
+                supported = ['KISAO:0000433', 'KISAO:0000019', 'KISAO:0000241', 'KISAO:0000032', 'KISAO:0000435', 'KISAO_0000064']
+            elif simType == libsedml.SEDML_SIMULATION_ONESTEP:
+                supported = ['KISAO:0000433', 'KISAO:0000019', 'KISAO:0000241', 'KISAO:0000032', 'KISAO:0000435', 'KISAO_0000064']
+            elif simType == libsedml.SEDML_SIMULATION_STEADYSTATE:
+                supported = ['KISAO:0000099', 'KISAO:0000407']
+            return kisao in supported
+
+        if not isSupportedKisao(simType, kisao):
+            lines.append("# Unsupported KisaoID {} for Algorithm {}".format(kisao, simType))
+            return
+
+        # Set integrator
+        def getIntegratorName(kisao):
+            # cvode & steady state are mapped to cvode
+            if kisao in ['KISAO:0000433', 'KISAO:0000019', 'KISAO:0000407']:
                 return 'cvode'
-
-
-        if simType in [libsedml.SEDML_SIMULATION_UNIFORMTIMECOURSE, libsedml.SEDML_SIMULATION_ONESTEP]:
-            lines.append("# UniformTimecourse/OneStep: {}".format(sid))
-
-            if kisao not in ['KISAO:0000019', 'KISAO:0000241', 'KISAO:0000032']:
-                lines.append("# Unsupported KisaoID {}".format(kisao))
+            elif kisao == 'KISAO:0000241':
+                return 'gillespie'
+            elif kisao == 'KISAO:0000032':
+                return 'rk4'
+            elif kisao in ['KISAO:0000435', 'KISAO_0000064']:
+                return 'rk45'
             else:
-                # set the integrator
-                if simType == libsedml.SEDML_SIMULATION_UNIFORMTIMECOURSE:
+                return None
+
+        integratorName = getIntegratorName(kisao)
+        if not integratorName:
+            lines.append("# No integrator for KisaoID {} in tellurium".format(kisao))
+            return
+        lines.append("{}.setIntegrator('{}')".format(mid, integratorName))
+
+        # Set integrator settings (AlgorithmParameters)
+        def setSettingForAlgorithmParameter(par):
+            parKisao = par.getKisaoID()
+            parValue = par.getValue()
+
+            TODO:
+
+            if key:
+                lines.append("{}.getIntegrator('{}').setValue({}, {})".format(integratorName, key, value))
+            if not key:
+                lines.append("# Unsupported AlgorithmParameter: {} = {})".format(parKisao, parValue))
 
 
+        for par in algorithm.getListOfAlgorithmParameters():
+            setSettingForAlgorithmParameter(par)
 
-                elif simType == libsedml.SEDML_SIMULATION_ONESTEP:
-                    pass
 
+        # Integrator settings & simulate call
+        if simType == libsedml.SEDML_SIMULATION_UNIFORMTIMECOURSE:
+            pass
+        elif simType == libsedml.SEDML_SIMULATION_ONESTEP:
+            pass
         elif simType == libsedml.SEDML_SIMULATION_STEADYSTATE:
-            lines.append("# SteadyState: {}".format(sid))
-
-            if kisao != "KISAO:0000099":
-                lines.append("# Unsupported KisaoID {}".format(kisao))
-
-
-
-
+            pass
         else:
-            print("# Unsupported simulation " + str(simType))
+            lines.append("# Unsupported simulation: {}".format(str(simType)))
 
+        return "\n".join(lines)
 
     def executePython(self):
         """ Executes created python code.
@@ -491,17 +525,16 @@ if __name__ == "__main__":
     with open(sedml_input + '.py', 'w') as f:
         f.write(python_str)
 
-
-
     print('#'*80)
     print(python_str)
     print('#'*80)
 
     factory.executePython()
 
-    SEDMLTools.resolveSimulations(factory.doc)
+    # SEDMLTools.resolveSimulations(factory.doc)
     for task in factory.doc.getListOfTasks():
-        factory.taskToPython(factory.doc, task)
+        test_str = factory.taskToPython(factory.doc, task)
+        print(test_str)
 
 
     exit()
