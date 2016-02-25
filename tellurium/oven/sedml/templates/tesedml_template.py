@@ -39,7 +39,7 @@ workingDir = '{{ factory.workingDir }}'
 {{ helpers.heading(doc.getListOfTasks(), 'Task') }}
 {% for task in doc.getListOfTasks() %}
 # Task <{{ task.getId() }}>
-{{ taskToPython(factory.doc, task)}}
+{{ taskToPython(factory.doc, task) }}
 {% endfor %}
 
 {{ helpers.heading(doc.getListOfDataGenerators(), 'DataGenerator') }}

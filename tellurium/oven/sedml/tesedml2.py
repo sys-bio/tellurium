@@ -408,15 +408,16 @@ class SEDMLCodeFactory(object):
 
         return '\n'.join(lines)
 
+
     @staticmethod
-    def taskToPython(doc, task):
+    def subtaskToPython(doc, task):
         """ Creates the simulation python code for a given task.
 
-        cvode (19; the default for uniform time course simulations)
-        gillespie (241; the default for stochastic time course simulations)
-        steadystate (407; the default for steady state simulations)
-        rk4 (32; 4th-order Runge-Kutta)
-        rk45 (435; embedded Runge-Kutta)
+            cvode (19; the default for uniform time course simulations)
+            gillespie (241; the default for stochastic time course simulations)
+            steadystate (407; the default for steady state simulations)
+            rk4 (32; 4th-order Runge-Kutta)
+            rk45 (435; embedded Runge-Kutta)
         """
         # TODO: handle: ".conservedMoietyAnalysis = False"
         # TODO: handle steadyStateSelections & timeCourseSelections via variablesList
@@ -424,10 +425,7 @@ class SEDMLCodeFactory(object):
         # FIXME: There are many more nodes in the KISAO ontology (handle more terms)
         lines = []
 
-        # model
         mid = task.getModelReference()
-        model = doc.getModel(mid)
-        taskType = task.getTypeCode()
         sid = task.getSimulationReference()
         simulation = doc.getSimulation(sid)
         simType = simulation.getTypeCode()
@@ -467,24 +465,14 @@ class SEDMLCodeFactory(object):
             outputEndTime = simulation.getOutputEndTime()
             numberOfPoints = simulation.getNumberOfPoints()
 
-            # <SIMPLE TASK>
-            if taskType == libsedml.SEDML_TASK:
-                lines.append("# SimpleTask")
-                # throw some points away
-                if abs(outputStartTime - initialTime) > 1E-6:
-                    lines.append("pre-simulation")
-                    lines.append("{}.simulate(start={}, end={}, points=2)".format(
-                                        mid, initialTime, outputStartTime))
-                # real simulation
-                lines.append("{} = {}.simulate(start={}, end={}, steps={})".format(
-                                        sid, mid, outputStartTime, outputEndTime, numberOfPoints))
-
-            # <REPEATED TASK>
-            elif taskType == libsedml.SEDML_TASK_REPEATEDTASK:
-                lines.append("# RepeatedTask")
-                pass
-            else:
-                lines.append("# Unsupported task: {}".format(taskType))
+            # throw some points away
+            if abs(outputStartTime - initialTime) > 1E-6:
+                lines.append("pre-simulation")
+                lines.append("{}.simulate(start={}, end={}, points=2)".format(
+                                    mid, initialTime, outputStartTime))
+            # real simulation
+            lines.append("{} = {}.simulate(start={}, end={}, steps={})".format(
+                                    sid, mid, outputStartTime, outputEndTime, numberOfPoints))
         # -------------------------------------------------------------------------
         # <ONESTEP>
         # -------------------------------------------------------------------------
@@ -493,16 +481,8 @@ class SEDMLCodeFactory(object):
             lines.append("{}.timeCourseSelections = {}".format(mid, list(selections)))
             step = simulation.getStep()
 
-            # <SIMPLE TASK>
-            if taskType == libsedml.SEDML_TASK:
-                lines.append("# SimpleTask")
-                lines.append("{} = {}.simulate(start=0.0, end={}, points=2)".format(sid, mid, step))
-
-            # <REPEATED TASK>
-            elif taskType == libsedml.SEDML_TASK_REPEATEDTASK:
-                lines.append("# RepeatedTask")
-            else:
-                lines.append("# Unsupported task: {}".format(taskType))
+            lines.append("# SimpleTask")
+            lines.append("{} = {}.simulate(start=0.0, end={}, points=2)".format(sid, mid, step))
         # -------------------------------------------------------------------------
         # <STEADY STATE>
         # -------------------------------------------------------------------------
@@ -510,20 +490,107 @@ class SEDMLCodeFactory(object):
             lines.append("# SteadyState")
             lines.append("{}.steadyStateSelections = {}".format(mid, list(selections)))
             # <SIMPLE TASK>
-            if taskType == libsedml.SEDML_TASK:
-                lines.append("# SimpleTask")
-                lines.append("{} = {}.steadyState()".format(sid, mid))
+            lines.append("# SimpleTask")
+            lines.append("{} = {}.steadyState()".format(sid, mid))
 
-            # <REPEATED TASK>
-            elif taskType == libsedml.SEDML_TASK_REPEATEDTASK:
-                lines.append("# RepeatedTask")
-            else:
-                lines.append("# Unsupported task: {}".format(taskType))
-
+        # -------------------------------------------------------------------------
+        # <OTHER>
+        # -------------------------------------------------------------------------
         else:
             lines.append("# Unsupported simulation: {}".format(simType))
 
         return "\n".join(lines)
+
+
+    @staticmethod
+    def taskToPython(doc, task):
+        """ Create python for arbitrary task (repeated or simple).
+
+        :param doc:
+        :type doc:
+        :param task:
+        :type task:
+        :return:
+        :rtype:
+        """
+        lines = []
+        taskType = task.getTypeCode()
+
+        # <SIMPLE TASK>
+        if taskType == libsedml.SEDML_TASK:
+            lines.append("# SimpleTask")
+            lines.append(SEDMLCodeFactory.subtaskToPython(doc, task))
+
+        # <REPEATED TASK>
+        elif taskType == libsedml.SEDML_TASK_REPEATEDTASK:
+            lines.append("# RepeatedTask")
+            resetModel = task.getResetModel()
+            rangeId = task.getRangeId()
+
+            for subtask in task.getListOfSubTasks():
+                t = doc.getTask(subtask.getTask())  # get real task by belonging to subtask
+                mid = t.getModelReference()
+
+                # get master range
+                masterRange = task.getRange(rangeId)
+
+                # create range to iterate
+                import numpy as np
+                if masterRange.getTypeCode() == libsedml.SEDML_RANGE_UNIFORMRANGE:
+                    rStart = masterRange.getStart()
+                    rEnd = masterRange.getEnd()
+                    rPoints = masterRange.getNumberOfPoints()
+                    rType = masterRange.getType()
+                    if rType == 'Linear':
+                        npRange = np.linspace(start=rStart, stop=rEnd, num=rPoints)
+                    elif rType == 'Log':
+                        npRange = np.logspace(start=rStart, stop=rEnd, num=rPoints)
+                    else:
+                        warnings.warn("Unsupported range type in UniformRange: {}".format(rType))
+
+                elif masterRange.getTypeCode() == libsedml.SEDML_RANGE_VECTORRANGE:
+                    npRange = np.zeros(shape=[1, masterRange.getNumValues()])
+                    for k, v in masterRange.getValues():
+                        npRange[1, k] = v
+
+                elif masterRange.getTypeCode() == libsedml.SEDML_RANGE_FUNCTIONALRANGE:
+                    # TODO: implement
+                    warnings.warn('FunctionalRange NOT IMPLEMENTED')
+
+                # iterate over the range
+                for k, value in enumerate(npRange):
+                    # TODO: all ranges have to be used (coupled to masterRange)
+
+                    # resetModel
+                    if resetModel:
+                        lines.append("{}.reset()".format(mid))
+
+                    # apply changes
+                    for change in task.getListOfTaskChanges():
+                        if change.getElementName() != "setValue":
+                            warnings.warn("# Only setValue changes are supported at this time")
+                            return
+
+                        target = change.getTarget()
+                        vn = target
+                        vn = vn.rsplit("id=\'", 1)[1]
+                        vid = vn.rsplit("\'", 1)[0]
+
+                        # Analog to the model changes
+                        if ("model" in target) and ("parameter" in target):
+                            lines.append("{}['{}'] = {}".format(mid, vid, value))
+                        elif ("model" in target) and ("species" in target):
+                            lines.append("{}['init([{}])'] = {}".format(mid, vid, value))
+                        else:
+                            warnings.warn("# Unsupported setValue target " + target)
+                            return
+
+                    # Run single repeat
+                    lines.append(SEDMLCodeFactory.subtaskToPython(doc, t))
+        else:
+            lines.append("# Unsupported task: {}".format(taskType))
+        return "\n".join(lines)
+
 
     @staticmethod
     def isSupportedKisaoIDForSimulation(kisao, simType):
@@ -621,6 +688,57 @@ class SEDMLCodeFactory(object):
         if not key:
             return "# Unsupported AlgorithmParameter: {} = {})".format(kid, value)
 
+    @staticmethod
+    def dataGeneratorToPython(doc, generator):
+        """ Create the variable from the data generators and the simulations. """
+
+        """
+        variablesDictionary = []      # matching pairs of sedml variable ID and sbml variable ID
+        variablesList = []            # the IDs of the sbml variables, non duplicate entries
+        bFoundAtLeastOneTask = False
+
+        for e in range(0,sedmlDoc.getNumTasks()):
+            task1 = sedmlDoc.getTask(e)
+
+            # repeated task
+            if task1.getElementName() == "repeatedTask":
+                for i in range(0, task1.getNumSubTasks()):
+                    task2 = task1.getSubTask(i)     # the subtask which points to the real task we need to call repeatedly for each value in range
+                    task2 = task2.getTask()         # the Id of the real task
+                    task2 = sedmlDoc.getTask(task2) # get real task by Id
+                    if task2.getModelReference() != currentModel.getId():
+                        continue
+                    aRange = task1.getRange(0)       # we assume one single master range - we don't know how to deel flatten
+                    if aRange.getElementName() != "uniformRange":
+                        print("# Only uniformRange ranges are supported at this time")
+                        continue
+                    variablesDictionary = []
+                    variablesList = []
+                    # need to use the RepeatedTask because the data generators refer to it
+                    populateVariableLists(sedmlDoc, task1, variablesList, variablesDictionary)
+                    # for each point in the range we compute the new values of the variables affected
+                    # and generate a task
+                    for j in range(0, aRange.getNumberOfPoints()):
+                        # need to use both the real Task (task2) because it has the reference to model and simulation
+                        # and the repeated task (task1) because its Id is used for generating the flattened Id's
+                        generateDataLoop(sedmlDoc, currentModel, task2, variablesList, variablesDictionary, j, task1, dataGeneratorsList)
+                        bFoundAtLeastOneTask = True
+                        print("")
+
+            # not a repeated task
+            else:
+                if task1.getModelReference() != currentModel.getId():
+                    continue
+                variablesDictionary = []
+                variablesList = []
+                populateVariableLists(sedmlDoc, task1, variablesList, variablesDictionary)
+                if len(variablesList) == 0:
+                    continue
+                generateDataLoop(sedmlDoc, currentModel, task1, variablesList, variablesDictionary, -1)
+                bFoundAtLeastOneTask = True
+
+        """
+
     def executePython(self):
         """ Executes created python code.
         See :func:`createpython`
@@ -676,20 +794,24 @@ if __name__ == "__main__":
     import os
     from tellurium.tests.testdata import sedmlDir, sedxDir, psedmlDir
 
-    # test file
-    sedml_input = os.path.join(sedmlDir, 'app2sim.sedml')
-    # resolve models
-    factory = SEDMLCodeFactory(sedml_input)
-    python_str = factory.toPython()
-    # create file
-    with open(sedml_input + '.py', 'w') as f:
-        f.write(python_str)
+    for fname in [# 'app2sim.sedml',
+                  'asedml3repeat.sedml',
+                  # 'asedmlComplex.sedml',
+                  # 'BioModel1_repressor_activator_oscillations.sedml'
+                ]:
 
-    print('#'*80)
-    print(python_str)
-    print('#'*80)
-
-    factory.executePython()
+        sedml_input = os.path.join(sedmlDir, fname)
+        factory = SEDMLCodeFactory(sedml_input)
+        # create python
+        python_str = factory.toPython()
+        print('#'*80)
+        print(python_str)
+        print('#'*80)
+        # create python file
+        with open(sedml_input + '.py', 'w') as f:
+            f.write(python_str)
+        # execute python
+        factory.executePython()
 
     exit()
 

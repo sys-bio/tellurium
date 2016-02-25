@@ -1,7 +1,7 @@
 """
     tellurium 1.3.1
 
-    auto-generated code (2016-02-25T16:59:40)
+    auto-generated code (2016-02-25T17:23:06)
         sedmlDoc: L1V1          workingDir: /home/mkoenig/git/tellurium/tellurium/tests/testdata/sedml/sed-ml
         inputType: SEDML_FILE
 
@@ -26,7 +26,7 @@ workingDir = '/home/mkoenig/git/tellurium/tellurium/tests/testdata/sedml/sed-ml'
 # Model <Application0>
 Application0 = te.loadSBMLModel(os.path.join(workingDir, '../models/app2sim.xml'))
 # Model <Application0_0>
-#   Change: <libsedml.SedChangeAttribute; proxy of <Swig Object of type 'SedChangeAttribute_t *' at 0x7f8e36421240> >
+#   Change: <libsedml.SedChangeAttribute; proxy of <Swig Object of type 'SedChangeAttribute_t *' at 0x7f4eadbc3270> >
 Application0_0 = te.loadSBMLModel(os.path.join(workingDir, '../models/app2sim.xml'))
 # /sbml:sbml/sbml:model/sbml:listOfSpecies/sbml:species[@id='s1'] 10.0
 Application0_0['init([s1])'] = 10.0
