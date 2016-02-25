@@ -2,18 +2,26 @@
 # tellurium
 [![Documentation Status](https://readthedocs.org/projects/tellurium/badge/?version=latest)](http://tellurium.readthedocs.org/en/latest/?badge=latest)
 
-Copyright 2014  
-Michal Galdzicki, Herbert Sauro
+Copyright 2014-2016
+Kiri Choi, Matthias König, J Kyle Medley, Kaylene Stocking, Caroline Cannistra, Michal Galdzicki, and Herbert Sauro
 
-Tellurium is a python environment based on the spyder2 IDE that can be used for model construction and simulation in systems and synthetic biology. It combines a number of existing libraries, including libSBML, libRoadRunner (including libStruct), libAntimony.
+![Parameter scan demo](http://tellurium.readthedocs.org/en/latest/_images/parameter_scan_2_0.png)
 
-In addition full access is available to other tools kits such as matplotlib.
+*Parmeter scan example courtesy of Matthias König*
+
+### Introduction
+
+Tellurium is a python environment based on the [Spyder2 IDE](https://github.com/spyder-ide/spyder) for building, simulating, and analysing models of biochemical networks, including gene regulatory networks, metabolic networks, and signaling pathways. It combines state-of-the-art scientific Python libraries, such as [NumPy](http://www.numpy.org/) and [SciPy](http://www.scipy.org/), and includes special-purpose systems biology Python tools. Out of the box, Tellurium includes [libRoadRunner](https://github.com/sys-bio/roadrunner), [Antimony](http://antimony.sourceforge.net/), [PhraSED-ML](http://phrasedml.sf.net/), [libSBML](http://sbml.org/Software/libSBML) (via its [Python bindings](http://sbml.org/Software/libSBML/5.12.0/docs/formatted/python-api/)), and [libSED-ML](https://github.com/fbergmann/libSEDML).
 
 The Tellurium project is funded from the NIH/NIGMS (GM081070).
 
-Tellurium code is licensed under the Apache License, Version 2.0. Temporarily use PyQt4 GPL licensed code. Licences used include LGPL, Apache 2, MIT, and BSD.
+### Download
 
-**Usage**
+* [Download Tellurium 1.3.0 for Windows](https://sourceforge.net/projects/pytellurium/files/Tellurium-1.3/1.3.0/Tellurium-1.3.0-Python-2.7-win32-portable-setup-v0.2.exe/download)
+* [Download Tellurium 1.3.0 for Mac OS X](https://sourceforge.net/projects/pytellurium/files/Tellurium-1.3/1.3.0/Tellurium-1.3.0-Spyder-2.3.5.2-OSX.dmg/download)
+
+### Usage
+
 ```{python}
 import tellurium as te
 
@@ -30,6 +38,15 @@ result = rr.simulate(0, 40, 500)
 te.plotArray(result)
 ```
 
-**API documentation**  
+![Tellurium front page demo](https://raw.githubusercontent.com/wiki/sys-bio/tellurium/img/tellurium-front-page-image.png)
+
+### API documentation 
+
 http://tellurium.readthedocs.org/en/latest/
+
+### Legal
+
+The source code for the Tellurium Python package is hosted at https://github.com/sys-bio/tellurium and is licensed under the [Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0). Tellurium uses third-party dependencies which may be licensed under different terms. Consult the documentation for the respective third-party packages for more details.
+
+TELLURIUM AND ALL SOFTWARE BUNDLED WITH TELLURIUM (HEREAFTER "THE SOFTWARE") IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDERS OR ANYONE DISTRIBUTING THE SOFTWARE BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THE SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
