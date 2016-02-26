@@ -1,65 +1,87 @@
-# Translated SED-ML
-# Beginning of generated script
-import roadrunner
+"""
+    tellurium 1.3.1
+
+    auto-generated code (2016-02-26T09:10:18)
+        sedmlDoc: L1V1          workingDir: /home/mkoenig/git/tellurium/tellurium/tests/testdata/sedml/sed-ml
+        inputType: SEDML_FILE
+
+"""
+from __future__ import print_function, division
+import tellurium as te
 import numpy as np
 import matplotlib.pyplot as plt
+import libsedml
+import os.path
 
-# Execute the tasks of model: repressor_activator_oscillations
-repressor_activator_oscillations = roadrunner.RoadRunner()
-repressor_activator_oscillations.load('/home/mkoenig/git/tellurium/tellurium/tests/testdata/sedml/sed-ml/models/BioModel1_repressor_activator_oscillations.xml')
+workingDir = '/home/mkoenig/git/tellurium/tellurium/tests/testdata/sedml/sed-ml'
 
-repressor_activator_oscillations.simulateOptions.resetModel = True
+# --------------------------------------------------------
+# Models
+# --------------------------------------------------------
+#  - repressor_activator_oscillations (repressor_activator_oscillations)
 
-repressor_activator_oscillations.model["common_delta_A"] = 0.2
-repressor_activator_oscillations.timeCourseSelections = ["time","mRNA_R","A","R","PrmA","PrmR","C","PrmA_bound","PrmR_bound","mRNA_A_"]
-rt_0_0_0 = repressor_activator_oscillations.simulate(0, 200, 400)
+# Model <repressor_activator_oscillations>
+repressor_activator_oscillations = te.loadSBMLModel(os.path.join(workingDir, '../models/BioModel1_repressor_activator_oscillations.xml'))
 
-repressor_activator_oscillations.model["common_delta_A"] = 0.6
-repressor_activator_oscillations.timeCourseSelections = ["time","mRNA_R","A","R","PrmA","PrmR","C","PrmA_bound","PrmR_bound","mRNA_A_"]
-rt_0_0_1 = repressor_activator_oscillations.simulate(0, 200, 400)
+# --------------------------------------------------------
+# Tasks
+# --------------------------------------------------------
+#  - task_0_0 (task_0_0)
+#  - repeatedTask_0_0 (repeatedTask_0_0)
 
-repressor_activator_oscillations.model["common_delta_A"] = 1.0
-repressor_activator_oscillations.timeCourseSelections = ["time","mRNA_R","A","R","PrmA","PrmR","C","PrmA_bound","PrmR_bound","mRNA_A_"]
-rt_0_0_2 = repressor_activator_oscillations.simulate(0, 200, 400)
+# Task <task_0_0>
+repressor_activator_oscillations.setIntegrator('cvode')
+repressor_activator_oscillations.timeCourseSelections = []
+task_0_0 = repressor_activator_oscillations.simulate(start=0.0, end=200.0, steps=400)
 
-# List of Data Generators
-time_rt_0_0_0 = rt_0_0_0[0:,0]
-dGen_rt_0_0_mRNA_R_0 = rt_0_0_0[0:,1]
-dGen_rt_0_0_A_0 = rt_0_0_0[0:,2]
-dGen_rt_0_0_R_0 = rt_0_0_0[0:,3]
-dGen_rt_0_0_PrmA_0 = rt_0_0_0[0:,4]
-dGen_rt_0_0_PrmR_0 = rt_0_0_0[0:,5]
-dGen_rt_0_0_C_0 = rt_0_0_0[0:,6]
-dGen_rt_0_0_PrmA_bound_0 = rt_0_0_0[0:,7]
-dGen_rt_0_0_PrmR_bound_0 = rt_0_0_0[0:,8]
-dGen_rt_0_0_mRNA_A__0 = rt_0_0_0[0:,9]
+# Task <repeatedTask_0_0>
+__range = [0.20000000000000001, 0.60000000000000009, 1.0]
+repeatedTask_0_0 = [None] * len(__range)
+for k, value in enumerate(__range):
+    repressor_activator_oscillations.reset()
+    repressor_activator_oscillations['common_delta_A'] = value
+    repressor_activator_oscillations.setIntegrator('cvode')
+    repressor_activator_oscillations.timeCourseSelections = []
+    repeatedTask_0_0[k] = repressor_activator_oscillations.simulate(start=0.0, end=200.0, steps=400)
 
-time_rt_0_0_1 = rt_0_0_1[0:,0]
-dGen_rt_0_0_mRNA_R_1 = rt_0_0_1[0:,1]
-dGen_rt_0_0_A_1 = rt_0_0_1[0:,2]
-dGen_rt_0_0_R_1 = rt_0_0_1[0:,3]
-dGen_rt_0_0_PrmA_1 = rt_0_0_1[0:,4]
-dGen_rt_0_0_PrmR_1 = rt_0_0_1[0:,5]
-dGen_rt_0_0_C_1 = rt_0_0_1[0:,6]
-dGen_rt_0_0_PrmA_bound_1 = rt_0_0_1[0:,7]
-dGen_rt_0_0_PrmR_bound_1 = rt_0_0_1[0:,8]
-dGen_rt_0_0_mRNA_A__1 = rt_0_0_1[0:,9]
+# --------------------------------------------------------
+# DataGenerators
+# --------------------------------------------------------
+#  - time_repeatedTask_0_0 (time_repeatedTask_0_0)
+#  - dataGen_repeatedTask_0_0_mRNA_R (dataGen_repeatedTask_0_0_mRNA_R)
+#  - dataGen_repeatedTask_0_0_A (dataGen_repeatedTask_0_0_A)
+#  - dataGen_repeatedTask_0_0_R (dataGen_repeatedTask_0_0_R)
+#  - dataGen_repeatedTask_0_0_PrmA (dataGen_repeatedTask_0_0_PrmA)
+#  - dataGen_repeatedTask_0_0_PrmR (dataGen_repeatedTask_0_0_PrmR)
+#  - dataGen_repeatedTask_0_0_C (dataGen_repeatedTask_0_0_C)
+#  - dataGen_repeatedTask_0_0_PrmA_bound (dataGen_repeatedTask_0_0_PrmA_bound)
+#  - dataGen_repeatedTask_0_0_PrmR_bound (dataGen_repeatedTask_0_0_PrmR_bound)
+#  - dataGen_repeatedTask_0_0_mRNA_A_ (dataGen_repeatedTask_0_0_mRNA_A_)
 
-time_rt_0_0_2 = rt_0_0_2[0:,0]
-dGen_rt_0_0_mRNA_R_2 = rt_0_0_2[0:,1]
-dGen_rt_0_0_A_2 = rt_0_0_2[0:,2]
-dGen_rt_0_0_R_2 = rt_0_0_2[0:,3]
-dGen_rt_0_0_PrmA_2 = rt_0_0_2[0:,4]
-dGen_rt_0_0_PrmR_2 = rt_0_0_2[0:,5]
-dGen_rt_0_0_C_2 = rt_0_0_2[0:,6]
-dGen_rt_0_0_PrmA_bound_2 = rt_0_0_2[0:,7]
-dGen_rt_0_0_PrmR_bound_2 = rt_0_0_2[0:,8]
-dGen_rt_0_0_mRNA_A__2 = rt_0_0_2[0:,9]
+# DataGenerator <time_repeatedTask_0_0>
 
-# List of Outputs
-Y_0 = np.array([dGen_rt_0_0_mRNA_R_0, dGen_rt_0_0_A_0, dGen_rt_0_0_R_0, dGen_rt_0_0_PrmA_0, dGen_rt_0_0_PrmR_0, dGen_rt_0_0_C_0, dGen_rt_0_0_PrmA_bound_0, dGen_rt_0_0_PrmR_bound_0, dGen_rt_0_0_mRNA_A__0]).T
-plt.plot(time_rt_0_0_0, Y_0)
-plt.title('repressor_activator_oscillationsplots')
-plt.show()
+# DataGenerator <dataGen_repeatedTask_0_0_mRNA_R>
 
-# End of generated script
+# DataGenerator <dataGen_repeatedTask_0_0_A>
+
+# DataGenerator <dataGen_repeatedTask_0_0_R>
+
+# DataGenerator <dataGen_repeatedTask_0_0_PrmA>
+
+# DataGenerator <dataGen_repeatedTask_0_0_PrmR>
+
+# DataGenerator <dataGen_repeatedTask_0_0_C>
+
+# DataGenerator <dataGen_repeatedTask_0_0_PrmA_bound>
+
+# DataGenerator <dataGen_repeatedTask_0_0_PrmR_bound>
+
+# DataGenerator <dataGen_repeatedTask_0_0_mRNA_A_>
+
+# --------------------------------------------------------
+# Outputs
+# --------------------------------------------------------
+#  - plot2d_scan_for_delta_A (repressor_activator_oscillationsplots)
+
+# Output <plot2d_scan_for_delta_A>
+

@@ -78,6 +78,7 @@ import sedmlfilters
 from tellurium import getTelluriumVersion
 import datetime
 from tellurium.tecombine import CombineTools
+from collections import namedtuple
 
 
 # Change default encoding to UTF-8
@@ -283,6 +284,15 @@ class SEDMLCodeFactory(object):
 
         - Range.FunctionalRange
 
+
+
+        TODO: Handle MathML with variables and parameters (evaluation)
+        - functional range
+        - data generators
+        - changes
+
+        TODO: Handle general XML transformations
+
     """
 
     # template location
@@ -333,9 +343,9 @@ class SEDMLCodeFactory(object):
         """
         # template environment
         env = Environment(loader=FileSystemLoader(self.TEMPLATE_DIR),
-                             extensions=['jinja2.ext.autoescape'],
-                             trim_blocks=True,
-                             lstrip_blocks=True)
+                          extensions=['jinja2.ext.autoescape'],
+                          trim_blocks=True,
+                          lstrip_blocks=True)
 
         # additional filters
         for key in sedmlfilters.filters:
@@ -359,13 +369,6 @@ class SEDMLCodeFactory(object):
         }
         return template.render(c)
 
-    # <CHANGE>
-    # SEDML_CHANGE_ATTRIBUTE = _libsedml.SEDML_CHANGE_ATTRIBUTE
-    # SEDML_CHANGE_REMOVEXML = _libsedml.SEDML_CHANGE_REMOVEXML
-    # SEDML_CHANGE_COMPUTECHANGE = _libsedml.SEDML_CHANGE_COMPUTECHANGE
-    # SEDML_CHANGE_ADDXML = _libsedml.SEDML_CHANGE_ADDXML
-    # SEDML_CHANGE_CHANGEXML = _libsedml.SEDML_CHANGE_CHANGEXML
-
     @staticmethod
     def modelChangeToPython(model, change):
         """ Creates the apply change python string for given model and change.
@@ -380,40 +383,80 @@ class SEDMLCodeFactory(object):
         :return:
         :rtype: str
         """
-        # FIXME: getting of sids, pids not very robust
         lines = []
         mid = model.getId()
 
-        # is a libsedml.SedChangeAttribute instance
         if change.getTypeCode() == libsedml.SEDML_CHANGE_ATTRIBUTE:
+
+            # resolve target change
+            xpath = change.getTarget()
             value = change.getNewValue()
-            target = change.getTarget()
-            lines.append("# {} {}".format(target, value))
+            lines.append("# {} {}".format(xpath, value))
+            lines.append(SEDMLCodeFactory.targetToPython(xpath, value, modelId=mid))
 
-            # parameter value change
-            if ("model" in target) and ("parameter" in target):
-                target = target.rsplit("id=\'", 1)[1]
-                pid = target.rsplit("\'", 1)[0]
-                s = "{}['{}'] = {}".format(mid, pid, value)
-                lines.append(s)
+        elif change.getTypeCode() == libsedml.SEDML_CHANGE_COMPUTECHANGE:
+            lines.append("# Unsupported change: {}".format(change.getElementName()))
+            # TODO: implement
 
-            # species concentration change
-            elif ("model" in target) and ("species" in target):
-                target = target.rsplit("id=\'", 1)[1]
-                sid = target.rsplit("\'", 1)[0]
-                s = "{}['init([{}])'] = {}".format(mid, sid, value)
-                lines.append(s)
-
-            else:
-                lines.append("# Unsupported changeAttribute target: {}".format(target))
+        elif change.getTypeCode() in [libsedml.SEDML_CHANGE_REMOVEXML,
+                                      libsedml.SEDML_CHANGE_ADDXML,
+                                      libsedml.SEDML_CHANGE_CHANGEXML]:
+            lines.append("# Unsupported change: {}".format(change.getElementName()))
+            # TODO: implement
         else:
             lines.append("# Unsupported change: {}".format(change.getElementName()))
 
         return '\n'.join(lines)
 
+    @staticmethod
+    def targetToPython(xpath, value, modelId):
+        """ Creates python line for given xpath target and value.
+        :param xpath:
+        :type xpath:
+        :param value:
+        :type value:
+        :return:
+        :rtype:
+        """
+        target = SEDMLCodeFactory.resolveTargetFromXPath(xpath)
+
+        # parameter value change
+        if target.type == "parameter":
+            line = ("{}['{}'] = {}".format(modelId, target.id, value))
+        # species concentration change
+        elif target.type == "species":
+            line = ("{}['init([{}])'] = {}".format(modelId, target.id, value))
+        else:
+            line = ("# Unsupported target: {}".format(xpath))
+        return line
 
     @staticmethod
-    def subtaskToPython(doc, task, resultVariable=None, intentation=''):
+    def resolveTargetFromXPath(xpath):
+        """ Resolve the model target to model identifier.
+
+        :param xpath:
+        :type xpath:
+        :return:
+        :rtype:
+        """
+        # FIXME: getting of sids, pids not very robust
+        # TODO: handle more cases (rules, reactions, ...)
+        Target = namedtuple('Target', 'id type')
+
+        def getId(xpath):
+            xpath = xpath.rsplit("id=\'", 1)[1]
+            return xpath.rsplit("\'", 1)[0]
+
+        # parameter value change
+        if ("model" in xpath) and ("parameter" in xpath):
+            return Target(getId(xpath), 'parameter')
+
+        # species concentration change
+        elif ("model" in xpath) and ("species" in xpath):
+            return Target(getId(xpath), 'species')
+
+    @staticmethod
+    def subtaskToPython(doc, task, resultVariable=None):
         """ Creates the simulation python code for a given task.
 
             cvode (19; the default for uniform time course simulations)
@@ -497,11 +540,7 @@ class SEDMLCodeFactory(object):
         else:
             lines.append("# Unsupported simulation: {}".format(simType))
 
-        # add intentation
-        for k, line in enumerate(lines):
-            lines[k] = intentation + line
-
-        return "\n".join(lines)
+        return lines
 
 
     @staticmethod
@@ -520,7 +559,7 @@ class SEDMLCodeFactory(object):
 
         # <SIMPLE TASK>
         if taskType == libsedml.SEDML_TASK:
-            lines.append(SEDMLCodeFactory.subtaskToPython(doc, task))
+            lines.extend(SEDMLCodeFactory.subtaskToPython(doc, task))
 
         # <REPEATED TASK>
         elif taskType == libsedml.SEDML_TASK_REPEATEDTASK:
@@ -564,11 +603,11 @@ class SEDMLCodeFactory(object):
                 lines.append("for k, value in enumerate(__range):")
 
                 # we have to intent all lines from now on (in for loop)
-                intentation = '    '
+                forLines = []
 
                 # resetModel
                 if resetModel:
-                    lines.append("{}{}.reset()".format(intentation, mid))
+                    forLines.append("{}.reset()".format(mid))
 
                 # apply changes
                 for change in task.getListOfTaskChanges():
@@ -576,24 +615,15 @@ class SEDMLCodeFactory(object):
                         warnings.warn("Only setValue changes are supported at this time")
                         return
 
-                    target = change.getTarget()
-                    vn = target
-                    vn = vn.rsplit("id=\'", 1)[1]
-                    vid = vn.rsplit("\'", 1)[0]
-
-                    # Analog to the model changes
-                    if ("model" in target) and ("parameter" in target):
-                        lines.append("{}{}['{}'] = value".format(intentation, mid, vid))
-                    elif ("model" in target) and ("species" in target):
-                        lines.append("{}{}['init([{}])'] = value".format(intentation, mid, vid))
-                    else:
-                        warnings.warn("Unsupported setValue target " + target)
-                        return
+                    xpath = change.getTarget()
+                    forLines.append(SEDMLCodeFactory.targetToPython(xpath, value="value", modelId=mid))
 
                 # Run single repeat
+                # TODO: implement multiple subtasks
                 resultVariable = "{}[k]".format(task.getId())
-                lines.append(SEDMLCodeFactory.subtaskToPython(doc, task=t,
-                                                              resultVariable=resultVariable, intentation=intentation))
+                forLines.extend(SEDMLCodeFactory.subtaskToPython(doc, task=t, resultVariable=resultVariable))
+                # add the intendend for lines
+                lines.extend('    ' + line for line in forLines)
         else:
             lines.append("# Unsupported task: {}".format(taskType))
         return "\n".join(lines)
@@ -696,6 +726,44 @@ class SEDMLCodeFactory(object):
             return "{}# Unsupported AlgorithmParameter: {} = {})".format(kid, value)
 
     @staticmethod
+    def selectionsForTask(doc, task):
+        """ Populate variable lists from the data generators for the given task.
+        These are the timeCourseSelections and steadyStateSelections
+        in RoadRunner.
+
+        Search all data generators for variables which have to be part of the simulation.
+        """
+        selections = set()
+
+        for dg in doc.getListOfDataGenerators():
+
+            for var in dg.getListOfVariables():
+                # either has not task reference or not for the current task
+                if var.getTaskReference() != task.getId():
+                    continue
+
+                # symbol field of variable is set
+                if var.isSetSymbol():
+                    cvs = var.getSymbol()
+                    astr = cvs.rsplit("symbol:")
+                    astr = astr[1]
+                    selections.add(astr)
+
+                elif var.isSetTarget():
+                    cvt = var.getTarget()    # target field of variable is set
+                    astr = cvt.rsplit("@id='")
+                    astr = astr[1]
+                    astr = astr[:-2]
+                    if 'species' in cvt:
+                        selections.add('[{}]'.format(astr))
+                    else:
+                        selections.add('{}'.format(astr))
+                else:
+                    warnings.warn("Unrecognized data generator variable")
+
+        return selections
+
+    @staticmethod
     def dataGeneratorToPython(doc, generator):
         """ Create the variable from the data generators and the simulations. """
 
@@ -757,46 +825,7 @@ class SEDMLCodeFactory(object):
         except Exception as e:
             raise e
 
-
-    @staticmethod
-    def selectionsForTask(doc, task):
-        """ Populate variable lists from the data generators for the given task.
-        These are the timeCourseSelections and steadyStateSelections
-        in RoadRunner.
-
-        Search all data generators for variables which have to be part of the simulation.
-        """
-        selections = set()
-
-        for dg in doc.getListOfDataGenerators():
-
-            for var in dg.getListOfVariables():
-                # either has not task reference or not for the current task
-                if var.getTaskReference() != task.getId():
-                    continue
-
-                # symbol field of variable is set
-                if var.isSetSymbol():
-                    cvs = var.getSymbol()
-                    astr = cvs.rsplit("symbol:")
-                    astr = astr[1]
-                    selections.add(astr)
-
-                elif var.isSetTarget():
-                    cvt = var.getTarget()    # target field of variable is set
-                    astr = cvt.rsplit("@id='")
-                    astr = astr[1]
-                    astr = astr[:-2]
-                    if 'species' in cvt:
-                        selections.add('[{}]'.format(astr))
-                    else:
-                        selections.add('{}'.format(astr))
-                else:
-                    warnings.warn("Unrecognized data generator variable")
-
-        return selections
-    
-
+##################################################################################################
 if __name__ == "__main__":
     import os
     from tellurium.tests.testdata import sedmlDir, sedxDir, psedmlDir

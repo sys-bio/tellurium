@@ -32,21 +32,21 @@ workingDir = '{{ factory.workingDir }}'
 {% for change in model_changes.get(m.getId()) %}
 {{ modelChangeToPython(m, change) }}
 {% endfor %}
-{% endfor %}
 
+{% endfor %}
 {{ helpers.heading(doc.getListOfTasks(), 'Task') }}
 {% for task in doc.getListOfTasks() %}
 # Task <{{ task.getId() }}>
 {{ taskToPython(factory.doc, task) }}
 
 {% endfor %}
-
 {{ helpers.heading(doc.getListOfDataGenerators(), 'DataGenerator') }}
 {% for dg in doc.getListOfDataGenerators() %}
 # DataGenerator <{{ dg.getId() }}>
-{% endfor %}
 
+{% endfor %}
 {{ helpers.heading(doc.getListOfOutputs(), 'Output') }}
 {% for out in doc.getListOfOutputs() %}
 # Output <{{ out.getId() }}>
+
 {% endfor %}

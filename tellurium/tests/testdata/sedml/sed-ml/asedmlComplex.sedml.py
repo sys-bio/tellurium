@@ -1,53 +1,73 @@
-# Translated SED-ML
-# Beginning of generated script
-import roadrunner
+"""
+    tellurium 1.3.1
+
+    auto-generated code (2016-02-26T09:10:17)
+        sedmlDoc: L1V1          workingDir: /home/mkoenig/git/tellurium/tellurium/tests/testdata/sedml/sed-ml
+        inputType: SEDML_FILE
+
+"""
+from __future__ import print_function, division
+import tellurium as te
 import numpy as np
 import matplotlib.pyplot as plt
+import libsedml
+import os.path
 
-# Execute the tasks of model: Application0
-Application0 = roadrunner.RoadRunner()
-Application0.load('/home/mkoenig/git/tellurium/tellurium/tests/testdata/sedml/sed-ml/models/asedmlComplex.xml')
-# There are no simulations to run for this model: Application0
+workingDir = '/home/mkoenig/git/tellurium/tellurium/tests/testdata/sedml/sed-ml'
 
-# Execute the tasks of model: Application0_0
-Application0_0 = roadrunner.RoadRunner()
-Application0_0.load('/home/mkoenig/git/tellurium/tellurium/tests/testdata/sedml/sed-ml/models/asedmlComplex.xml')
-Application0_0.model["init([s0])"] = 25.0
+# --------------------------------------------------------
+# Models
+# --------------------------------------------------------
+#  - Application0 (Application0)
+#  - Application0_0 (Application0 modified)
 
-Application0_0.simulateOptions.resetModel = True
+# Model <Application0>
+Application0 = te.loadSBMLModel(os.path.join(workingDir, '../models/asedmlComplex.xml'))
 
-Application0_0.model["init([s0])"] = 25.0
-Application0_0.model["init([s1])"] = 5.0
-Application0_0.timeCourseSelections = ["time","s0","s1"]
-rt_0_0_0 = Application0_0.simulate(0, 30, 1000)
+# Model <Application0_0>
+#   Change: <libsedml.SedChangeAttribute; proxy of <Swig Object of type 'SedChangeAttribute_t *' at 0x7fece6f83f90> >
+Application0_0 = te.loadSBMLModel(os.path.join(workingDir, '../models/asedmlComplex.xml'))
+# /sbml:sbml/sbml:model/sbml:listOfSpecies/sbml:species[@id='s0'] 25.0
+Application0_0['init([s0])'] = 25.0
 
-Application0_0.model["init([s0])"] = 25.0
-Application0_0.model["init([s1])"] = 10.0
-Application0_0.timeCourseSelections = ["time","s0","s1"]
-rt_0_0_1 = Application0_0.simulate(0, 30, 1000)
+# --------------------------------------------------------
+# Tasks
+# --------------------------------------------------------
+#  - task_0_0 (task_0_0)
+#  - repeatedTask_0_0 (repeatedTask_0_0)
 
-Application0_0.model["init([s0])"] = 25.0
-Application0_0.model["init([s1])"] = 15.0
-Application0_0.timeCourseSelections = ["time","s0","s1"]
-rt_0_0_2 = Application0_0.simulate(0, 30, 1000)
+# Task <task_0_0>
+Application0_0.setIntegrator('cvode')
+Application0_0.timeCourseSelections = []
+task_0_0 = Application0_0.simulate(start=0.0, end=30.0, steps=1000)
 
-# List of Data Generators
-time_rt_0_0_0 = rt_0_0_0[0:,0]
-dGen_rt_0_0_s0_0 = rt_0_0_0[0:,1]
-dGen_rt_0_0_s1_0 = rt_0_0_0[0:,2]
+# Task <repeatedTask_0_0>
+__range = [5.0, 10.0, 15.0]
+repeatedTask_0_0 = [None] * len(__range)
+for k, value in enumerate(__range):
+    Application0_0.reset()
+    Application0_0['init([s1])'] = value
+    Application0_0.setIntegrator('cvode')
+    Application0_0.timeCourseSelections = []
+    repeatedTask_0_0[k] = Application0_0.simulate(start=0.0, end=30.0, steps=1000)
 
-time_rt_0_0_1 = rt_0_0_1[0:,0]
-dGen_rt_0_0_s0_1 = rt_0_0_1[0:,1]
-dGen_rt_0_0_s1_1 = rt_0_0_1[0:,2]
+# --------------------------------------------------------
+# DataGenerators
+# --------------------------------------------------------
+#  - time_repeatedTask_0_0 (time_repeatedTask_0_0)
+#  - dataGen_repeatedTask_0_0_s0 (dataGen_repeatedTask_0_0_s0)
+#  - dataGen_repeatedTask_0_0_s1 (dataGen_repeatedTask_0_0_s1)
 
-time_rt_0_0_2 = rt_0_0_2[0:,0]
-dGen_rt_0_0_s0_2 = rt_0_0_2[0:,1]
-dGen_rt_0_0_s1_2 = rt_0_0_2[0:,2]
+# DataGenerator <time_repeatedTask_0_0>
 
-# List of Outputs
-Y_0 = np.array([dGen_rt_0_0_s0_0, dGen_rt_0_0_s1_0]).T
-plt.plot(time_rt_0_0_0, Y_0)
-plt.title('Application0plots')
-plt.show()
+# DataGenerator <dataGen_repeatedTask_0_0_s0>
 
-# End of generated script
+# DataGenerator <dataGen_repeatedTask_0_0_s1>
+
+# --------------------------------------------------------
+# Outputs
+# --------------------------------------------------------
+#  - plot2d_Simulation1 (Application0plots)
+
+# Output <plot2d_Simulation1>
+

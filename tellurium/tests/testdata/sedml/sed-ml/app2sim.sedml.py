@@ -1,11 +1,9 @@
 """
     tellurium 1.3.1
 
-    auto-generated code (2016-02-25T17:23:06)
+    auto-generated code (2016-02-26T09:10:17)
         sedmlDoc: L1V1          workingDir: /home/mkoenig/git/tellurium/tellurium/tests/testdata/sedml/sed-ml
         inputType: SEDML_FILE
-
-    TODO: add code for extracting sedx archive in working directory
 
 """
 from __future__ import print_function, division
@@ -25,8 +23,9 @@ workingDir = '/home/mkoenig/git/tellurium/tellurium/tests/testdata/sedml/sed-ml'
 
 # Model <Application0>
 Application0 = te.loadSBMLModel(os.path.join(workingDir, '../models/app2sim.xml'))
+
 # Model <Application0_0>
-#   Change: <libsedml.SedChangeAttribute; proxy of <Swig Object of type 'SedChangeAttribute_t *' at 0x7f4eadbc3270> >
+#   Change: <libsedml.SedChangeAttribute; proxy of <Swig Object of type 'SedChangeAttribute_t *' at 0x7fece6f70540> >
 Application0_0 = te.loadSBMLModel(os.path.join(workingDir, '../models/app2sim.xml'))
 # /sbml:sbml/sbml:model/sbml:listOfSpecies/sbml:species[@id='s1'] 10.0
 Application0_0['init([s1])'] = 10.0
@@ -38,19 +37,14 @@ Application0_0['init([s1])'] = 10.0
 #  - task_0_1 (task_0_1)
 
 # Task <task_0_0>
-# 62: Simulation0
 Application0.setIntegrator('cvode')
-# UniformTimecourse
 Application0.timeCourseSelections = ['[s0]', '[s1]', 'time']
-# SimpleTask
-Simulation0 = Application0.simulate(start=0.0, end=20.0, steps=1000)
+task_0_0 = Application0.simulate(start=0.0, end=20.0, steps=1000)
+
 # Task <task_0_1>
-# 62: Simulation1
 Application0_0.setIntegrator('cvode')
-# UniformTimecourse
 Application0_0.timeCourseSelections = ['[s0]', '[s1]', 'time']
-# SimpleTask
-Simulation1 = Application0_0.simulate(start=0.0, end=30.0, steps=1000)
+task_0_1 = Application0_0.simulate(start=0.0, end=30.0, steps=1000)
 
 # --------------------------------------------------------
 # DataGenerators
@@ -63,10 +57,15 @@ Simulation1 = Application0_0.simulate(start=0.0, end=30.0, steps=1000)
 #  - dataGen_task_0_1_s1 (dataGen_task_0_1_s1)
 
 # DataGenerator <time_task_0_0>
+
 # DataGenerator <dataGen_task_0_0_s0>
+
 # DataGenerator <dataGen_task_0_0_s1>
+
 # DataGenerator <time_task_0_1>
+
 # DataGenerator <dataGen_task_0_1_s0>
+
 # DataGenerator <dataGen_task_0_1_s1>
 
 # --------------------------------------------------------
@@ -76,4 +75,6 @@ Simulation1 = Application0_0.simulate(start=0.0, end=30.0, steps=1000)
 #  - plot2d_Simulation1 (Application0plots)
 
 # Output <plot2d_Simulation0>
+
 # Output <plot2d_Simulation1>
+
