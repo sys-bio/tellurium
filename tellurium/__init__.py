@@ -22,21 +22,22 @@ from tellurium import sbmlToAntimony
 from tellurium import sbmlToCellML
 from tellurium import cellmlToAntimony
 from tellurium import cellmlToSBML
-from tellurium import experiment
 from tellurium import getEigenvalues
 from tellurium import plotArray
 from tellurium import loadTestModel
 from tellurium import getTestModel
 from tellurium import listTestModels
 
-# provide important helper classes
+# helper classes
 from io.latex import LatexExport
 from analysis.parameterscan import ParameterScan, SteadyStateScan
-from sedml.tesedml2 import sedmlToPython
+# sedml support
+from sedml.tesedml import sedmlToPython
+from sedml.tephrasedml import experiment
 
 import optimization
 import visualization
-# import tesedml
+
 try:
     import notebooks
 except ImportError:

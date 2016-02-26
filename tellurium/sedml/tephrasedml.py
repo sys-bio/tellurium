@@ -23,20 +23,12 @@ import os.path
 import re
 import tempfile
 
-import roadrunner
-import tellurium.tellurium.tellurium as te
-
-import tellurium.sedml.tesedml
+import tellurium as te
 import tellurium.tecombine
+import phrasedml
+import tesedml
 
-try:
-    import phrasedml
-except ImportError as e:
-    phrasedml = None
-    roadrunner.Logger.log(roadrunner.Logger.LOG_WARNING, str(e))
-
-
-class tePhrasedml(object):
+class experiment(object):
     """ SEDML helper class.
 
     This class is responsible for the creation of executable tellurium code
@@ -46,12 +38,13 @@ class tePhrasedml(object):
     """
 
     def __init__(self, antimonyStr, phrasedmlStr):
-        """ Constructor from antimony string and phrasedml string.
+        """ Create experiment from antimony and phrasedml string.
 
-        :param antimonyStr: antimony model string
-        :type antimonyStr: str
-        :param phrasedmlStr: phrasedml string
-        :type phrasedmlStr: str
+            :param ant: Antimony string of model
+            :type ant: str
+            :param phrasedml: phrasedml simulation description
+            :type phrasedml: str
+            :returns: SEDML experiment description
         """
         modelispath = False
         if type(antimonyStr) != str:
@@ -152,7 +145,6 @@ class tePhrasedml(object):
         phrasedml.clearReferencedSBML()
 
 
-
     def execute(self):
         """ Executes created python code.
         See :func:`createpython`
@@ -171,7 +163,7 @@ class tePhrasedml(object):
         :returns: python string to execute
         :rtype: str
         """
-        # created sedml
+        # create sedml
         rePath = r"(\w*).load\('(.*)'\)"
         reLoad = r"(\w*) = roadrunner.RoadRunner\(\)"
         reModel = r"""(\w*) = model ('|")(.*)('|")"""
@@ -187,14 +179,18 @@ class tePhrasedml(object):
         sedmlstr = phrasedml.convertString(self.phrasedmlStr)
         if sedmlstr is None:
             raise Exception(phrasedml.getLastError())
-
         phrasedml.clearReferencedSBML()
 
-        fd1, sedmlfilepath = tempfile.mkstemp()
-        os.write(fd1, sedmlstr)
-        pysedml = tellurium.sedml.tesedml.sedmlToPython(sedmlfilepath)
+        # Create sedml file
+        fsedml = tempfile.NamedTemporaryFile('w', suffix=".sedml")
+        fsedml.write(sedmlstr)
+        fsedml.flush()
+        # Create python code
+        factory = tesedml.SEDMLCodeFactory(fsedml.name)
+        pysedml = factory.toPython()
 
-        # perform some replacements in the sedml
+        # perform some replacements in the python code sedml
+        """
         if self.modelispath is False:
             lines = pysedml.splitlines()
             for k, line in enumerate(lines):
@@ -216,8 +212,8 @@ class tePhrasedml(object):
                             lines.insert(k, "import tellurium as te")
                         else:
                             pass
-
         pysedml = '\n'.join(lines)
+        """
 
         # List of replacements
         pysedml = pysedml.replace('"compartment"', '"compartment_"')
@@ -225,15 +221,11 @@ class tePhrasedml(object):
 
         outputstr = str(modelname) + " = '''" + self.antimonyStr + "'''\n\n" + pysedml
 
-        os.close(fd1)
-        os.remove(sedmlfilepath)
-
         return outputstr
 
     def printpython(self):
         """ Prints the created python string by :func:`createpython`. """
-        execStr = self.createpython()
-        print(execStr)
+        print(self.createpython())
 
 
 

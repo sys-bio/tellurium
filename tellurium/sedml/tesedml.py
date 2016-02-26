@@ -78,7 +78,7 @@ from collections import namedtuple
 import libsedml
 import sedmlfilters
 from jinja2 import Environment, FileSystemLoader
-from tellurium import getTelluriumVersion
+import tellurium as te
 from tellurium.tecombine import CombineTools
 
 # Change default encoding to UTF-8
@@ -130,6 +130,14 @@ class SEDMLTools(object):
         """
         if doc.getErrorLog().getNumFailsWithSeverity(libsedml.LIBSEDML_SEV_ERROR) > 0:
             raise IOError(doc.getErrorLog().toString())
+        if doc.getErrorLog().getNumFailsWithSeverity(libsedml.LIBSEDML_SEV_FATAL) > 0:
+            raise IOError(doc.getErrorLog().toString())
+        if doc.getErrorLog().getNumFailsWithSeverity(libsedml.LIBSEDML_SEV_WARNING) > 0:
+            warnings.warn(doc.getErrorLog().toString())
+        if doc.getErrorLog().getNumFailsWithSeverity(libsedml.LIBSEDML_SEV_SCHEMA_ERROR) > 0:
+            warnings.warn(doc.getErrorLog().toString())
+        if doc.getErrorLog().getNumFailsWithSeverity(libsedml.LIBSEDML_SEV_GENERAL_WARNING) > 0:
+            warnings.warn(doc.getErrorLog().toString())
 
     @classmethod
     def readSEDMLDocument(cls, inputStr):
@@ -138,23 +146,30 @@ class SEDMLTools(object):
         :return: dictionary of SedDocument, inputType and working directory.
         :rtype: {doc, inputType, workingDir}
         """
+        if not isinstance(inputStr, basestring):
+            raise IOError("SED-ML input is not instance of basestring:", inputStr)
+
         # SEDML-String
-        try:
-            from xml.etree import ElementTree
-            x = ElementTree.fromstring(inputStr)
-            # is parsable xml string
-            doc = libsedml.readSedMLFromString(inputStr)
-            inputType = cls.INPUT_TYPE_STR
+        if not os.path.exists(inputStr):
+            try:
+                from xml.etree import ElementTree
+                x = ElementTree.fromstring(inputStr)
+                # is parsable xml string
+                doc = libsedml.readSedMLFromString(inputStr)
+                inputType = cls.INPUT_TYPE_STR
+
+            except ElementTree.ParseError:
+                if not os.path.exists(inputStr):
+                    raise IOError("SED-ML String is not valid XML:", inputStr)
 
         # SEDML-File
-        except ElementTree.ParseError:
-            if not os.path.exists(inputStr):
-                raise IOError("File not found:", inputStr)
-
+        else:
             filename, extension = os.path.splitext(os.path.basename(inputStr))
 
-            # SEDML file
-            if extension in [".sedml", '.xml']:
+            # SEDML single file
+            if os.path.isfile(inputStr):
+                if extension not in [".sedml", '.xml']:
+                    raise IOError("SEDML file should have [.sedml|.xml] extension:", inputStr)
                 inputType = cls.INPUT_TYPE_FILE_SEDML
                 doc = libsedml.readSedMLFromFile(inputStr)
                 cls.checkSEDMLDocument(doc)
@@ -357,14 +372,28 @@ class SEDMLCodeFactory(object):
 
         # Context
         c = {
-            'version': getTelluriumVersion(),
+            'version': te.getTelluriumVersion(),
             'timestamp': timestamp,
             'factory': self,
             'doc': self.doc,
             'model_sources': self.model_sources,
             'model_changes': self.model_changes,
         }
-        return template.render(c)
+        try:
+            pysedml = template.render(c)
+        except Exception as e:
+            # something went wrong in the conversion to python
+            # show detailed information about the factory
+            # and the libsedml document
+            raise type(e), type(e)(e.message + '\n'
+                                   + '-'*80 + '\n'
+                                   + self.__str__() + '\n'
+                                   + '-'*80 + '\n'
+                                   + libsedml.writeSedMLToString(self.doc)
+                                   + '-'*80
+                                   ), sys.exc_info()[2]
+
+        return pysedml
 
     def executePython(self):
         """ Executes created python code.
@@ -459,9 +488,9 @@ class SEDMLCodeFactory(object):
                     rEnd = masterRange.getEnd()
                     rPoints = masterRange.getNumberOfPoints()
                     rType = masterRange.getType()
-                    if rType == 'Linear':
+                    if rType in ['Linear', 'linear']:
                         __range = np.linspace(start=rStart, stop=rEnd, num=rPoints)
-                    elif rType == 'Log':
+                    elif rType in ['Log', 'log']:
                         __range = np.logspace(start=rStart, stop=rEnd, num=rPoints)
                     else:
                         warnings.warn("Unsupported range type in UniformRange: {}".format(rType))
@@ -530,6 +559,11 @@ class SEDMLCodeFactory(object):
         simulation = doc.getSimulation(sid)
         simType = simulation.getTypeCode()
         algorithm = simulation.getAlgorithm()
+        if algorithm is None:
+            warnings.warn("Algorithm missing on simulation, defaulting to 'cvode: KisaoID:0000019'")
+            algorithm = simulation.createAlgorithm()
+            algorithm.setKisaoID("KisaoID:0000019")
+
         kisao = algorithm.getKisaoID()
 
         # Check if supported algorithm
@@ -754,15 +788,21 @@ class SEDMLCodeFactory(object):
         :rtype:
         """
         target = SEDMLCodeFactory.resolveTargetFromXPath(xpath)
-
-        # parameter value change
-        if target.type == "parameter":
-            line = ("{}['{}'] = {}".format(modelId, target.id, value))
-        # species concentration change
-        elif target.type == "species":
-            line = ("{}['init([{}])'] = {}".format(modelId, target.id, value))
-        else:
+        if target is None:
             line = ("# Unsupported target: {}".format(xpath))
+        else:
+            # parameter value change
+            if target.type == "parameter":
+                line = ("{}['{}'] = {}".format(modelId, target.id, value))
+            # species concentration change
+            elif target.type == "species":
+                line = ("{}['init([{}])'] = {}".format(modelId, target.id, value))
+            # unknown
+            elif target.type == "unknown":
+                line = ("{}['{}'] = {}".format(modelId, target.id, value))
+            else:
+                line = ("# Unsupported target: {}".format(xpath))
+
         return line
 
     @staticmethod
@@ -776,6 +816,7 @@ class SEDMLCodeFactory(object):
         """
         # FIXME: getting of sids, pids not very robust
         # TODO: handle more cases (rules, reactions, ...)
+        # real xpath with SBML (get all objects)
         Target = namedtuple('Target', 'id type')
 
         def getId(xpath):
@@ -789,6 +830,15 @@ class SEDMLCodeFactory(object):
         # species concentration change
         elif ("model" in xpath) and ("species" in xpath):
             return Target(getId(xpath), 'species')
+
+        # other
+        elif ("model" in xpath) and ("id" in xpath):
+            return Target(getId(xpath), 'unknown')
+
+        # cannot be parsed
+        else:
+            warnings.warn("Unsupported target: {}".format(xpath))
+            return None
 
     @staticmethod
     def dataGeneratorToPython(doc, generator):

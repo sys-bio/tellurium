@@ -54,4 +54,5 @@ plot task1.time vs task1.S1, task1.S2, task1.J0_v0
 '''
 
 exp = te.experiment(antimonyStr, phrasedmlStr)
-exp.execute()
+python_str = exp.printpython()
+# exp.execute()

@@ -12,7 +12,7 @@ import antimony
 import matplotlib.pyplot as plt
 import roadrunner
 
-from tellurium.sedml import tephrasedml
+from .sedml import tephrasedml
 
 try:
     import libsedml
@@ -319,21 +319,6 @@ def cellmlToSBML(cellml):
         code = antimony.loadCellMLString(cellml)
     _checkAntimonyReturnCode(code)
     return antimony.getSBMLString(None)
-
-
-# ---------------------------------------------------------------------
-# SEDML Utilities
-# ---------------------------------------------------------------------
-def experiment(ant, phrasedml):
-    """ Create experiment from antimony and phrasedml string.
-
-    :param ant: Antimony string of model
-    :type ant: str
-    :param phrasedml: phrasedml simulation description
-    :type phrasedml: str
-    :returns: SEDML experiment description
-    """
-    return tephrasedml.tePhrasedml(ant, phrasedml)
 
 
 # ---------------------------------------------------------------------
