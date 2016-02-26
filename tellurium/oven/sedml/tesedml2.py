@@ -274,11 +274,14 @@ class SEDMLTools(object):
 
 class SEDMLCodeFactory(object):
     """ Code Factory generating executable code.
-        The following SED-ML constructs are currently not supported:
+        The following SED-ML constructs are currently NOT supported:
+
         - Change.RemoveXML
         - Change.AddXML
         - Change.ChangeXML
         - Change.ComputeChange
+
+        - Range.FunctionalRange
 
     """
 
@@ -410,7 +413,7 @@ class SEDMLCodeFactory(object):
 
 
     @staticmethod
-    def subtaskToPython(doc, task):
+    def subtaskToPython(doc, task, resultVariable=None, intentation=''):
         """ Creates the simulation python code for a given task.
 
             cvode (19; the default for uniform time course simulations)
@@ -432,8 +435,6 @@ class SEDMLCodeFactory(object):
         algorithm = simulation.getAlgorithm()
         kisao = algorithm.getKisaoID()
 
-        lines.append("# {}: {}".format(str(simType), sid))
-
         # Check if supported algorithm
         if not SEDMLCodeFactory.isSupportedKisaoIDForSimulation(kisao=kisao, simType=simType):
             lines.append("# Unsupported KisaoID {} for Algorithm {}".format(kisao, simType))
@@ -453,11 +454,14 @@ class SEDMLCodeFactory(object):
         # selections
         selections = SEDMLCodeFactory.selectionsForTask(doc, task)
 
+        # handle result variable
+        if resultVariable is None:
+            resultVariable = task.getId()
+
         # -------------------------------------------------------------------------
         # <UNIFORM TIMECOURSE>
         # -------------------------------------------------------------------------
         if simType == libsedml.SEDML_SIMULATION_UNIFORMTIMECOURSE:
-            lines.append("# UniformTimecourse")
             lines.append("{}.timeCourseSelections = {}".format(mid, list(selections)))
 
             initialTime = simulation.getInitialTime()
@@ -467,37 +471,35 @@ class SEDMLCodeFactory(object):
 
             # throw some points away
             if abs(outputStartTime - initialTime) > 1E-6:
-                lines.append("pre-simulation")
                 lines.append("{}.simulate(start={}, end={}, points=2)".format(
                                     mid, initialTime, outputStartTime))
             # real simulation
             lines.append("{} = {}.simulate(start={}, end={}, steps={})".format(
-                                    sid, mid, outputStartTime, outputEndTime, numberOfPoints))
+                                    resultVariable, mid, outputStartTime, outputEndTime, numberOfPoints))
         # -------------------------------------------------------------------------
         # <ONESTEP>
         # -------------------------------------------------------------------------
         elif simType == libsedml.SEDML_SIMULATION_ONESTEP:
-            lines.append("# OneStep")
             lines.append("{}.timeCourseSelections = {}".format(mid, list(selections)))
             step = simulation.getStep()
+            lines.append("{} = {}.simulate(start=0.0, end={}, points=2)".format(resultVariable, mid, step))
 
-            lines.append("# SimpleTask")
-            lines.append("{} = {}.simulate(start=0.0, end={}, points=2)".format(sid, mid, step))
         # -------------------------------------------------------------------------
         # <STEADY STATE>
         # -------------------------------------------------------------------------
         elif simType == libsedml.SEDML_SIMULATION_STEADYSTATE:
-            lines.append("# SteadyState")
             lines.append("{}.steadyStateSelections = {}".format(mid, list(selections)))
-            # <SIMPLE TASK>
-            lines.append("# SimpleTask")
-            lines.append("{} = {}.steadyState()".format(sid, mid))
+            lines.append("{} = {}.steadyState()".format(resultVariable, mid))
 
         # -------------------------------------------------------------------------
         # <OTHER>
         # -------------------------------------------------------------------------
         else:
             lines.append("# Unsupported simulation: {}".format(simType))
+
+        # add intentation
+        for k, line in enumerate(lines):
+            lines[k] = intentation + line
 
         return "\n".join(lines)
 
@@ -518,12 +520,10 @@ class SEDMLCodeFactory(object):
 
         # <SIMPLE TASK>
         if taskType == libsedml.SEDML_TASK:
-            lines.append("# SimpleTask")
             lines.append(SEDMLCodeFactory.subtaskToPython(doc, task))
 
         # <REPEATED TASK>
         elif taskType == libsedml.SEDML_TASK_REPEATEDTASK:
-            lines.append("# RepeatedTask")
             resetModel = task.getResetModel()
             rangeId = task.getRangeId()
 
@@ -542,51 +542,58 @@ class SEDMLCodeFactory(object):
                     rPoints = masterRange.getNumberOfPoints()
                     rType = masterRange.getType()
                     if rType == 'Linear':
-                        npRange = np.linspace(start=rStart, stop=rEnd, num=rPoints)
+                        __range = np.linspace(start=rStart, stop=rEnd, num=rPoints)
                     elif rType == 'Log':
-                        npRange = np.logspace(start=rStart, stop=rEnd, num=rPoints)
+                        __range = np.logspace(start=rStart, stop=rEnd, num=rPoints)
                     else:
                         warnings.warn("Unsupported range type in UniformRange: {}".format(rType))
 
                 elif masterRange.getTypeCode() == libsedml.SEDML_RANGE_VECTORRANGE:
-                    npRange = np.zeros(shape=[1, masterRange.getNumValues()])
+                    __range = np.zeros(shape=[1, masterRange.getNumValues()])
                     for k, v in masterRange.getValues():
-                        npRange[1, k] = v
+                        __range[1, k] = v
 
                 elif masterRange.getTypeCode() == libsedml.SEDML_RANGE_FUNCTIONALRANGE:
                     # TODO: implement
                     warnings.warn('FunctionalRange NOT IMPLEMENTED')
 
                 # iterate over the range
-                for k, value in enumerate(npRange):
-                    # TODO: all ranges have to be used (coupled to masterRange)
+                # this has to be a list to handle variable_step integrations
+                lines.append("__range = {}".format(list(__range)))
+                lines.append("{} = [None] * len(__range)".format(task.getId()))
+                lines.append("for k, value in enumerate(__range):")
 
-                    # resetModel
-                    if resetModel:
-                        lines.append("{}.reset()".format(mid))
+                # we have to intent all lines from now on (in for loop)
+                intentation = '    '
 
-                    # apply changes
-                    for change in task.getListOfTaskChanges():
-                        if change.getElementName() != "setValue":
-                            warnings.warn("# Only setValue changes are supported at this time")
-                            return
+                # resetModel
+                if resetModel:
+                    lines.append("{}{}.reset()".format(intentation, mid))
 
-                        target = change.getTarget()
-                        vn = target
-                        vn = vn.rsplit("id=\'", 1)[1]
-                        vid = vn.rsplit("\'", 1)[0]
+                # apply changes
+                for change in task.getListOfTaskChanges():
+                    if change.getElementName() != "setValue":
+                        warnings.warn("Only setValue changes are supported at this time")
+                        return
 
-                        # Analog to the model changes
-                        if ("model" in target) and ("parameter" in target):
-                            lines.append("{}['{}'] = {}".format(mid, vid, value))
-                        elif ("model" in target) and ("species" in target):
-                            lines.append("{}['init([{}])'] = {}".format(mid, vid, value))
-                        else:
-                            warnings.warn("# Unsupported setValue target " + target)
-                            return
+                    target = change.getTarget()
+                    vn = target
+                    vn = vn.rsplit("id=\'", 1)[1]
+                    vid = vn.rsplit("\'", 1)[0]
 
-                    # Run single repeat
-                    lines.append(SEDMLCodeFactory.subtaskToPython(doc, t))
+                    # Analog to the model changes
+                    if ("model" in target) and ("parameter" in target):
+                        lines.append("{}{}['{}'] = value".format(intentation, mid, vid))
+                    elif ("model" in target) and ("species" in target):
+                        lines.append("{}{}['init([{}])'] = value".format(intentation, mid, vid))
+                    else:
+                        warnings.warn("Unsupported setValue target " + target)
+                        return
+
+                # Run single repeat
+                resultVariable = "{}[k]".format(task.getId())
+                lines.append(SEDMLCodeFactory.subtaskToPython(doc, task=t,
+                                                              resultVariable=resultVariable, intentation=intentation))
         else:
             lines.append("# Unsupported task: {}".format(taskType))
         return "\n".join(lines)
@@ -684,9 +691,9 @@ class SEDMLCodeFactory(object):
             key = 'seed'
         # set the setting
         if key:
-            return "{}.getIntegrator().setValue({}, {})".format(key, value)
+            return "{}{}.getIntegrator().setValue({}, {})".format(key, value)
         if not key:
-            return "# Unsupported AlgorithmParameter: {} = {})".format(kid, value)
+            return "{}# Unsupported AlgorithmParameter: {} = {})".format(kid, value)
 
     @staticmethod
     def dataGeneratorToPython(doc, generator):

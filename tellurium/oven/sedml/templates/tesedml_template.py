@@ -7,8 +7,6 @@
         workingDir: {{ factory.workingDir }}
         inputType: {{ factory.inputType }}
 
-    TODO: add code for extracting sedx archive in working directory
-
 """
 from __future__ import print_function, division
 import tellurium as te
@@ -40,6 +38,7 @@ workingDir = '{{ factory.workingDir }}'
 {% for task in doc.getListOfTasks() %}
 # Task <{{ task.getId() }}>
 {{ taskToPython(factory.doc, task) }}
+
 {% endfor %}
 
 {{ helpers.heading(doc.getListOfDataGenerators(), 'DataGenerator') }}

@@ -1,11 +1,9 @@
 """
     tellurium 1.3.1
 
-    auto-generated code (2016-02-25T18:55:25)
+    auto-generated code (2016-02-26T09:03:10)
         sedmlDoc: L1V1          workingDir: /home/mkoenig/git/tellurium/tellurium/tests/testdata/sedml/sed-ml
         inputType: SEDML_FILE
-
-    TODO: add code for extracting sedx archive in working directory
 
 """
 from __future__ import print_function, division
@@ -32,35 +30,20 @@ Application0 = te.loadSBMLModel(os.path.join(workingDir, '../models/asedml3repea
 #  - repeatedTask_0_0 (repeatedTask_0_0)
 
 # Task <task_0_0>
-# SimpleTask
-# 62: Simulation0
 Application0.setIntegrator('cvode')
-# UniformTimecourse
 Application0.timeCourseSelections = []
-Simulation0 = Application0.simulate(start=0.0, end=30.0, steps=1000)
+task_0_0 = Application0.simulate(start=0.0, end=30.0, steps=1000)
+
 # Task <repeatedTask_0_0>
-# RepeatedTask
-Application0.reset()
-Application0['init([s1])'] = 10.0
-# 62: Simulation0
-Application0.setIntegrator('cvode')
-# UniformTimecourse
-Application0.timeCourseSelections = []
-Simulation0 = Application0.simulate(start=0.0, end=30.0, steps=1000)
-Application0.reset()
-Application0['init([s1])'] = 20.0
-# 62: Simulation0
-Application0.setIntegrator('cvode')
-# UniformTimecourse
-Application0.timeCourseSelections = []
-Simulation0 = Application0.simulate(start=0.0, end=30.0, steps=1000)
-Application0.reset()
-Application0['init([s1])'] = 30.0
-# 62: Simulation0
-Application0.setIntegrator('cvode')
-# UniformTimecourse
-Application0.timeCourseSelections = []
-Simulation0 = Application0.simulate(start=0.0, end=30.0, steps=1000)
+__range = [10.0, 20.0, 30.0]
+repeatedTask_0_0 = [None] * len(__range)
+for k, value in enumerate(__range):
+    Application0.reset()
+    Application0['init([s1])'] = value
+    Application0.setIntegrator('cvode')
+    Application0.timeCourseSelections = []
+    repeatedTask_0_0[k] = Application0.simulate(start=0.0, end=30.0, steps=1000)
+
 
 # --------------------------------------------------------
 # DataGenerators
