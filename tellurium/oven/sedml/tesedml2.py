@@ -409,54 +409,98 @@ class SEDMLCodeFactory(object):
         return '\n'.join(lines)
 
     @staticmethod
-    def targetToPython(xpath, value, modelId):
-        """ Creates python line for given xpath target and value.
-        :param xpath:
-        :type xpath:
-        :param value:
-        :type value:
+    def taskToPython(doc, task):
+        """ Create python for arbitrary task (repeated or simple).
+
+        :param doc:
+        :type doc:
+        :param task:
+        :type task:
         :return:
         :rtype:
         """
-        target = SEDMLCodeFactory.resolveTargetFromXPath(xpath)
+        lines = []
+        taskType = task.getTypeCode()
 
-        # parameter value change
-        if target.type == "parameter":
-            line = ("{}['{}'] = {}".format(modelId, target.id, value))
-        # species concentration change
-        elif target.type == "species":
-            line = ("{}['init([{}])'] = {}".format(modelId, target.id, value))
+        # <SIMPLE TASK>
+        if taskType == libsedml.SEDML_TASK:
+            selections = SEDMLCodeFactory.selectionsForTask(doc=doc, task=task)
+            lines.extend(SEDMLCodeFactory.subtaskToPython(doc=doc, task=task, selections=selections))
+
+        # <REPEATED TASK>
+        elif taskType == libsedml.SEDML_TASK_REPEATEDTASK:
+            resetModel = task.getResetModel()
+            rangeId = task.getRangeId()
+
+            for subtask in task.getListOfSubTasks():
+                t = doc.getTask(subtask.getTask())  # get real task by belonging to subtask
+                mid = t.getModelReference()
+
+                # get master range
+                masterRange = task.getRange(rangeId)
+
+                # create range to iterate
+                import numpy as np
+                if masterRange.getTypeCode() == libsedml.SEDML_RANGE_UNIFORMRANGE:
+                    rStart = masterRange.getStart()
+                    rEnd = masterRange.getEnd()
+                    rPoints = masterRange.getNumberOfPoints()
+                    rType = masterRange.getType()
+                    if rType == 'Linear':
+                        __range = np.linspace(start=rStart, stop=rEnd, num=rPoints)
+                    elif rType == 'Log':
+                        __range = np.logspace(start=rStart, stop=rEnd, num=rPoints)
+                    else:
+                        warnings.warn("Unsupported range type in UniformRange: {}".format(rType))
+
+                elif masterRange.getTypeCode() == libsedml.SEDML_RANGE_VECTORRANGE:
+                    __range = np.zeros(shape=[1, masterRange.getNumValues()])
+                    for k, v in masterRange.getValues():
+                        __range[1, k] = v
+
+                elif masterRange.getTypeCode() == libsedml.SEDML_RANGE_FUNCTIONALRANGE:
+                    # TODO: implement
+                    warnings.warn('FunctionalRange NOT IMPLEMENTED')
+
+                # ---------------------------
+                # iterate over range
+                # ---------------------------
+                lines.append("__range = {}".format(list(__range)))
+                lines.append("{} = [None] * len(__range)".format(task.getId()))
+                lines.append("for k, value in enumerate(__range):")
+
+                # we have to intent all lines from now on (in for loop)
+                forLines = []
+
+                # resetModel
+                if resetModel:
+                    forLines.append("{}.reset()".format(mid))
+
+                # apply changes
+                for change in task.getListOfTaskChanges():
+                    if change.getElementName() != "setValue":
+                        warnings.warn("Only setValue changes are supported at this time")
+                        return
+
+                    xpath = change.getTarget()
+                    forLines.append(SEDMLCodeFactory.targetToPython(xpath, value="value", modelId=mid))
+
+                # Run single repeat
+                # TODO: implement multiple subtasks
+                resultVariable = "{}[k]".format(task.getId())
+                selections = SEDMLCodeFactory.selectionsForTask(doc=doc, task=task)
+                forLines.extend(SEDMLCodeFactory.subtaskToPython(doc, task=t,
+                                                                 selections=selections,
+                                                                 resultVariable=resultVariable))
+                # ---------------------------
+                # add the intendend for lines
+                lines.extend('    ' + line for line in forLines)
         else:
-            line = ("# Unsupported target: {}".format(xpath))
-        return line
+            lines.append("# Unsupported task: {}".format(taskType))
+        return "\n".join(lines)
 
     @staticmethod
-    def resolveTargetFromXPath(xpath):
-        """ Resolve the model target to model identifier.
-
-        :param xpath:
-        :type xpath:
-        :return:
-        :rtype:
-        """
-        # FIXME: getting of sids, pids not very robust
-        # TODO: handle more cases (rules, reactions, ...)
-        Target = namedtuple('Target', 'id type')
-
-        def getId(xpath):
-            xpath = xpath.rsplit("id=\'", 1)[1]
-            return xpath.rsplit("\'", 1)[0]
-
-        # parameter value change
-        if ("model" in xpath) and ("parameter" in xpath):
-            return Target(getId(xpath), 'parameter')
-
-        # species concentration change
-        elif ("model" in xpath) and ("species" in xpath):
-            return Target(getId(xpath), 'species')
-
-    @staticmethod
-    def subtaskToPython(doc, task, resultVariable=None):
+    def subtaskToPython(doc, task, selections, resultVariable=None):
         """ Creates the simulation python code for a given task.
 
             cvode (19; the default for uniform time course simulations)
@@ -465,10 +509,7 @@ class SEDMLCodeFactory(object):
             rk4 (32; 4th-order Runge-Kutta)
             rk45 (435; embedded Runge-Kutta)
         """
-        # TODO: handle: ".conservedMoietyAnalysis = False"
-        # TODO: handle steadyStateSelections & timeCourseSelections via variablesList
-        # TODO: handle outputStartTime
-        # FIXME: There are many more nodes in the KISAO ontology (handle more terms)
+        # TODO: handle: ".conservedMoietyAnalysis = False/True"
         lines = []
 
         mid = task.getModelReference()
@@ -493,9 +534,6 @@ class SEDMLCodeFactory(object):
         # Set integrator settings (AlgorithmParameters)
         for par in algorithm.getListOfAlgorithmParameters():
             lines.append(SEDMLCodeFactory.algorithmParameterToPython(par))
-
-        # selections
-        selections = SEDMLCodeFactory.selectionsForTask(doc, task)
 
         # handle result variable
         if resultVariable is None:
@@ -542,92 +580,41 @@ class SEDMLCodeFactory(object):
 
         return lines
 
-
     @staticmethod
-    def taskToPython(doc, task):
-        """ Create python for arbitrary task (repeated or simple).
+    def selectionsForTask(doc, task):
+        """ Populate variable lists from the data generators for the given task.
 
-        :param doc:
-        :type doc:
-        :param task:
-        :type task:
-        :return:
-        :rtype:
+        These are the timeCourseSelections and steadyStateSelections
+        in RoadRunner.
+
+        Search all data generators for variables which have to be part of the simulation.
         """
-        lines = []
-        taskType = task.getTypeCode()
+        selections = set()
+        for dg in doc.getListOfDataGenerators():
+            for var in dg.getListOfVariables():
+                # either has not task reference or not for the current task
+                if var.getTaskReference() != task.getId():
+                    continue
 
-        # <SIMPLE TASK>
-        if taskType == libsedml.SEDML_TASK:
-            lines.extend(SEDMLCodeFactory.subtaskToPython(doc, task))
+                # symbol field of variable is set
+                if var.isSetSymbol():
+                    cvs = var.getSymbol()
+                    astr = cvs.rsplit("symbol:")
+                    astr = astr[1]
+                    selections.add(astr)
 
-        # <REPEATED TASK>
-        elif taskType == libsedml.SEDML_TASK_REPEATEDTASK:
-            resetModel = task.getResetModel()
-            rangeId = task.getRangeId()
-
-            for subtask in task.getListOfSubTasks():
-                t = doc.getTask(subtask.getTask())  # get real task by belonging to subtask
-                mid = t.getModelReference()
-
-                # get master range
-                masterRange = task.getRange(rangeId)
-
-                # create range to iterate
-                import numpy as np
-                if masterRange.getTypeCode() == libsedml.SEDML_RANGE_UNIFORMRANGE:
-                    rStart = masterRange.getStart()
-                    rEnd = masterRange.getEnd()
-                    rPoints = masterRange.getNumberOfPoints()
-                    rType = masterRange.getType()
-                    if rType == 'Linear':
-                        __range = np.linspace(start=rStart, stop=rEnd, num=rPoints)
-                    elif rType == 'Log':
-                        __range = np.logspace(start=rStart, stop=rEnd, num=rPoints)
+                elif var.isSetTarget():
+                    cvt = var.getTarget()    # target field of variable is set
+                    astr = cvt.rsplit("@id='")
+                    astr = astr[1]
+                    astr = astr[:-2]
+                    if 'species' in cvt:
+                        selections.add('[{}]'.format(astr))
                     else:
-                        warnings.warn("Unsupported range type in UniformRange: {}".format(rType))
-
-                elif masterRange.getTypeCode() == libsedml.SEDML_RANGE_VECTORRANGE:
-                    __range = np.zeros(shape=[1, masterRange.getNumValues()])
-                    for k, v in masterRange.getValues():
-                        __range[1, k] = v
-
-                elif masterRange.getTypeCode() == libsedml.SEDML_RANGE_FUNCTIONALRANGE:
-                    # TODO: implement
-                    warnings.warn('FunctionalRange NOT IMPLEMENTED')
-
-                # iterate over the range
-                # this has to be a list to handle variable_step integrations
-                lines.append("__range = {}".format(list(__range)))
-                lines.append("{} = [None] * len(__range)".format(task.getId()))
-                lines.append("for k, value in enumerate(__range):")
-
-                # we have to intent all lines from now on (in for loop)
-                forLines = []
-
-                # resetModel
-                if resetModel:
-                    forLines.append("{}.reset()".format(mid))
-
-                # apply changes
-                for change in task.getListOfTaskChanges():
-                    if change.getElementName() != "setValue":
-                        warnings.warn("Only setValue changes are supported at this time")
-                        return
-
-                    xpath = change.getTarget()
-                    forLines.append(SEDMLCodeFactory.targetToPython(xpath, value="value", modelId=mid))
-
-                # Run single repeat
-                # TODO: implement multiple subtasks
-                resultVariable = "{}[k]".format(task.getId())
-                forLines.extend(SEDMLCodeFactory.subtaskToPython(doc, task=t, resultVariable=resultVariable))
-                # add the intendend for lines
-                lines.extend('    ' + line for line in forLines)
-        else:
-            lines.append("# Unsupported task: {}".format(taskType))
-        return "\n".join(lines)
-
+                        selections.add('{}'.format(astr))
+                else:
+                    warnings.warn("Unrecognized data generator variable")
+        return selections
 
     @staticmethod
     def isSupportedKisaoIDForSimulation(kisao, simType):
@@ -726,42 +713,51 @@ class SEDMLCodeFactory(object):
             return "{}# Unsupported AlgorithmParameter: {} = {})".format(kid, value)
 
     @staticmethod
-    def selectionsForTask(doc, task):
-        """ Populate variable lists from the data generators for the given task.
-        These are the timeCourseSelections and steadyStateSelections
-        in RoadRunner.
-
-        Search all data generators for variables which have to be part of the simulation.
+    def targetToPython(xpath, value, modelId):
+        """ Creates python line for given xpath target and value.
+        :param xpath:
+        :type xpath:
+        :param value:
+        :type value:
+        :return:
+        :rtype:
         """
-        selections = set()
+        target = SEDMLCodeFactory.resolveTargetFromXPath(xpath)
 
-        for dg in doc.getListOfDataGenerators():
+        # parameter value change
+        if target.type == "parameter":
+            line = ("{}['{}'] = {}".format(modelId, target.id, value))
+        # species concentration change
+        elif target.type == "species":
+            line = ("{}['init([{}])'] = {}".format(modelId, target.id, value))
+        else:
+            line = ("# Unsupported target: {}".format(xpath))
+        return line
 
-            for var in dg.getListOfVariables():
-                # either has not task reference or not for the current task
-                if var.getTaskReference() != task.getId():
-                    continue
+    @staticmethod
+    def resolveTargetFromXPath(xpath):
+        """ Resolve the model target to model identifier.
 
-                # symbol field of variable is set
-                if var.isSetSymbol():
-                    cvs = var.getSymbol()
-                    astr = cvs.rsplit("symbol:")
-                    astr = astr[1]
-                    selections.add(astr)
+        :param xpath:
+        :type xpath:
+        :return:
+        :rtype:
+        """
+        # FIXME: getting of sids, pids not very robust
+        # TODO: handle more cases (rules, reactions, ...)
+        Target = namedtuple('Target', 'id type')
 
-                elif var.isSetTarget():
-                    cvt = var.getTarget()    # target field of variable is set
-                    astr = cvt.rsplit("@id='")
-                    astr = astr[1]
-                    astr = astr[:-2]
-                    if 'species' in cvt:
-                        selections.add('[{}]'.format(astr))
-                    else:
-                        selections.add('{}'.format(astr))
-                else:
-                    warnings.warn("Unrecognized data generator variable")
+        def getId(xpath):
+            xpath = xpath.rsplit("id=\'", 1)[1]
+            return xpath.rsplit("\'", 1)[0]
 
-        return selections
+        # parameter value change
+        if ("model" in xpath) and ("parameter" in xpath):
+            return Target(getId(xpath), 'parameter')
+
+        # species concentration change
+        elif ("model" in xpath) and ("species" in xpath):
+            return Target(getId(xpath), 'species')
 
     @staticmethod
     def dataGeneratorToPython(doc, generator):
@@ -830,8 +826,8 @@ if __name__ == "__main__":
     import os
     from tellurium.tests.testdata import sedmlDir, sedxDir, psedmlDir
 
-    for fname in [# 'app2sim.sedml',
-                  'asedml3repeat.sedml',
+    for fname in ['app2sim.sedml',
+                  # 'asedml3repeat.sedml',
                   # 'asedmlComplex.sedml',
                   # 'BioModel1_repressor_activator_oscillations.sedml'
                 ]:
