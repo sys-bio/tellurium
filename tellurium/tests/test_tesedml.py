@@ -4,12 +4,13 @@ Testing tesedml.
 Generating executable python code from the SEDML files.
 """
 from __future__ import print_function
-import unittest
 
 import os
-import tellurium.tesedml as tesedml
+import unittest
 
+import tellurium.sedml.tesedml as tesedml
 from tellurium.tests.testdata import sedmlDir
+
 
 class TesedmlTestCase(unittest.TestCase):
 

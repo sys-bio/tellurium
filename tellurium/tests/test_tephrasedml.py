@@ -2,9 +2,11 @@
 Testing tephrasedml.
 """
 from __future__ import print_function
-import unittest
-import tellurium.tephrasedml as tephrasedml
+
 import tempfile
+import unittest
+
+import tellurium.sedml.tephrasedml as tephrasedml
 
 
 @unittest.skipIf(tephrasedml.phrasedml is None, "only run tests if phrasedml is available")

@@ -20,12 +20,14 @@ Provides a simple description language to create the SED-ML parts
 from __future__ import print_function, division
 
 import os.path
-import tempfile
 import re
+import tempfile
+
 import roadrunner
-import tellurium as te
-import tecombine
-import tesedml
+import tellurium.tellurium.tellurium as te
+
+import tellurium.sedml.tesedml
+import tellurium.tecombine
 
 try:
     import phrasedml
@@ -112,6 +114,45 @@ class tePhrasedml(object):
 
         return sedmlstr
 
+    def exportAsCombine(self, outputpath):
+        """ Export as a combine archive.
+
+        This is the clean way to execute it.
+        A combine archive is created which afterwards is handeled by the SEDML to python script.
+
+        :param outputpath: full path of the combine zip file to create
+        :type outputpath: str
+        """
+        # TODO:
+
+        # FIXME: why is this not using the combine archive (tecombine)
+        # Temporary failsafe - Should be revised once libphrasedml adopts returning of model name
+        reModel = r"""(\w*) = model ('|")(.*)('|")"""
+        # rePlot = r"""plot ('|")(.*)('|") (.*)"""
+        lines = self.phrasedmlStr.splitlines()
+        for i, s in enumerate(lines):
+            reSearchModel = re.split(reModel, s)
+            # reSearchPlot = re.split(rePlot, s)
+            if len(reSearchModel) > 1:
+                modelsource = str(reSearchModel[3])
+                modelname = os.path.basename(modelsource)
+                if ".xml" or ".sbml" not in modelsource:
+                    modelname = modelname + ".xml"
+                s = s.replace(modelsource, modelname)
+                lines[i] = s
+
+                # if len(reSearchPlot) > 1:
+                #    plottitle = str(reSearchPlot[2])
+
+        revphrasedml = '\n'.join(lines)
+
+        # export the combine archive
+        phrasedml.setReferencedSBML(modelname, te.antimonyToSBML(self.antimonyStr))
+        tellurium.tecombine.export(outputpath, self.antimonyStr, modelname, revphrasedml)
+        phrasedml.clearReferencedSBML()
+
+
+
     def execute(self):
         """ Executes created python code.
         See :func:`createpython`
@@ -151,7 +192,7 @@ class tePhrasedml(object):
 
         fd1, sedmlfilepath = tempfile.mkstemp()
         os.write(fd1, sedmlstr)
-        pysedml = tesedml.sedmlToPython(sedmlfilepath)
+        pysedml = tellurium.sedml.tesedml.sedmlToPython(sedmlfilepath)
 
         # perform some replacements in the sedml
         if self.modelispath is False:
@@ -194,34 +235,5 @@ class tePhrasedml(object):
         execStr = self.createpython()
         print(execStr)
 
-    def exportAsCombine(self, outputpath):
-        """ Export as a combine archive.
 
-        :param outputpath: full path of the combine zip file to create
-        :type outputpath: str
-        """
-        # FIXME: why is this not using the combine archive (tecombine)
-        # Temporary failsafe - Should be revised once libphrasedml adopts returning of model name
-        reModel = r"""(\w*) = model ('|")(.*)('|")"""
-        # rePlot = r"""plot ('|")(.*)('|") (.*)"""
-        lines = self.phrasedmlStr.splitlines()
-        for i, s in enumerate(lines):
-            reSearchModel = re.split(reModel, s)
-            # reSearchPlot = re.split(rePlot, s)
-            if len(reSearchModel) > 1:
-                modelsource = str(reSearchModel[3])
-                modelname = os.path.basename(modelsource)
-                if ".xml" or ".sbml" not in modelsource:
-                    modelname = modelname + ".xml"
-                s = s.replace(modelsource, modelname)
-                lines[i] = s
 
-                # if len(reSearchPlot) > 1:
-                #    plottitle = str(reSearchPlot[2])
-
-        revphrasedml = '\n'.join(lines)
-
-        # export the combine archive
-        phrasedml.setReferencedSBML(modelname, te.antimonyToSBML(self.antimonyStr))
-        tecombine.export(outputpath, self.antimonyStr, modelname, revphrasedml)
-        phrasedml.clearReferencedSBML()

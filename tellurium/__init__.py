@@ -32,11 +32,11 @@ from tellurium import listTestModels
 # provide important helper classes
 from io.latex import LatexExport
 from analysis.parameterscan import ParameterScan, SteadyStateScan
-from tesedml import sedmlToPython
+from sedml.tesedml2 import sedmlToPython
 
 import optimization
 import visualization
-import tesedml
+# import tesedml
 try:
     import notebooks
 except ImportError:

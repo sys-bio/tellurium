@@ -7,10 +7,12 @@ from __future__ import print_function, division
 
 import os
 import warnings
-import roadrunner
+
 import antimony
 import matplotlib.pyplot as plt
-import tephrasedml
+import roadrunner
+
+from tellurium.sedml import tephrasedml
 
 try:
     import libsedml

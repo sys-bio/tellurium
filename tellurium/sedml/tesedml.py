@@ -67,19 +67,19 @@ The Output Class
     of the DataGenerator class.
 """
 from __future__ import print_function, division
-import os
+
 import sys
+import os.path
 import warnings
-import libsedml
-import libsbml
-from jinja2 import Environment, FileSystemLoader
-import zipfile
-import sedmlfilters
-from tellurium import getTelluriumVersion
 import datetime
-from tellurium.tecombine import CombineTools
+import zipfile
 from collections import namedtuple
 
+import libsedml
+import sedmlfilters
+from jinja2 import Environment, FileSystemLoader
+from tellurium import getTelluriumVersion
+from tellurium.tecombine import CombineTools
 
 # Change default encoding to UTF-8
 # We need to reload sys module first, because setdefaultencoding is available only at startup time

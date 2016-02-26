@@ -14,6 +14,8 @@ import httplib
 import xml.etree.ElementTree as et
 from collections import namedtuple
 
+raise ImportError("This should never be imported, use the new implementation")
+
 MatchingSetsOfVariableIDs = namedtuple("MatchingSetsOfVariableIDs", "datagenID, taskReference, sedmlID, sbmlID")
 MatchingSetsOfRepeatedTasksDataGenerators = namedtuple("MatchingSetsOfRepeatedTasksDataGenerators", "datagenID, rangeSize")
 
