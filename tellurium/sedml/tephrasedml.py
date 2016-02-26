@@ -107,18 +107,15 @@ class experiment(object):
 
         return sedmlstr
 
-    def exportAsCombine(self, outputpath):
+    def exportAsCombine(self, exportPath):
         """ Export as a combine archive.
 
         This is the clean way to execute it.
         A combine archive is created which afterwards is handeled by the SEDML to python script.
 
-        :param outputpath: full path of the combine zip file to create
-        :type outputpath: str
+        :param exportPath: full path of the combine zip file to create
+        :type exportPath: str
         """
-        # TODO:
-
-        # FIXME: why is this not using the combine archive (tecombine)
         # Temporary failsafe - Should be revised once libphrasedml adopts returning of model name
         reModel = r"""(\w*) = model ('|")(.*)('|")"""
         # rePlot = r"""plot ('|")(.*)('|") (.*)"""
@@ -141,7 +138,7 @@ class experiment(object):
 
         # export the combine archive
         phrasedml.setReferencedSBML(modelname, te.antimonyToSBML(self.antimonyStr))
-        tellurium.tecombine.export(outputpath, self.antimonyStr, modelname, revphrasedml)
+        tellurium.tecombine.export(exportPath, self.antimonyStr, modelname, revphrasedml)
         phrasedml.clearReferencedSBML()
 
 
@@ -158,12 +155,17 @@ class experiment(object):
 
     def createpython(self):
         """ Create and return python script given antimony and phrasedml strings.
-        Uses the tesedml.create
+
+        This creates the full model decription including the
+        antimony and phrasedml strings.
 
         :returns: python string to execute
         :rtype: str
         """
-        # create sedml
+        # TODO: refactor (what is searched for?)
+        tempdir = tempfile.mkdtemp(suffix='phrasedml')
+
+        # create xml and sedml
         rePath = r"(\w*).load\('(.*)'\)"
         reLoad = r"(\w*) = roadrunner.RoadRunner\(\)"
         reModel = r"""(\w*) = model ('|")(.*)('|")"""
@@ -175,17 +177,25 @@ class experiment(object):
                 modelname = os.path.basename(modelsource)
                 modelname = str(modelname).replace(".xml", '')
 
-        phrasedml.setReferencedSBML(modelsource, te.antimonyToSBML(self.antimonyStr))
+                sbml_str = te.antimonyToSBML(self.antimonyStr)
+                phrasedml.setReferencedSBML(modelsource, sbml_str)
+
+        # create sedml from phrasedml
         sedmlstr = phrasedml.convertString(self.phrasedmlStr)
         if sedmlstr is None:
             raise Exception(phrasedml.getLastError())
         phrasedml.clearReferencedSBML()
 
+        # Create sbml file
+        fsbmlPath = os.path.join(tempdir, "{}.xml".format(modelname))
+        with open(fsbmlPath, 'w') as fsbml:
+            fsbml.write(te.antimonyToSBML())
 
         # Create sedml file
-        fsedml = tempfile.NamedTemporaryFile('w', suffix=".sedml")
-        fsedml.write(sedmlstr)
-        fsedml.flush()
+        fsedmlPath = os.path.join(tempdir, "{}.sedml".format(modelname))
+        with open(fsedmlPath, 'w') as fsedml:
+            fsedml.write(sedmlstr)
+
         # Create python code
         factory = tesedml.SEDMLCodeFactory(fsedml.name)
         pysedml = factory.toPython()

@@ -20,22 +20,11 @@ import os.path
 workingDir = '{{ factory.workingDir }}'
 
 {{ helpers.heading(doc.getListOfModels(), 'Model') }}
-{% for m in doc.getListOfModels() %}
-# Model <{{ m.getId() }}>
-{% for change in model_changes.get(m.getId()) %}
-#   Change: {{ change }}
-{% endfor %}
-{% if m|SEDML_isSBMLModel %}
-{{ m.getId() }} = te.loadSBMLModel(os.path.join(workingDir, '{{ model_sources.get(m.getId()) }}'))
-{% endif %}
-{% if m|SEDML_isCellMLModel %}
-{{ m.getId() }} = te.loadCellMLModel(os.path.join(workingDir, '{{ model_sources.get(m.getId()) }}'))
-{% endif %}
-{% for change in model_changes.get(m.getId()) %}
-{{ modelChangeToPython(m, change) }}
+{% for model in doc.getListOfModels() %}
+# Model <{{ model.getId() }}>
+{{ modelToPython(model) }}
 {% endfor %}
 
-{% endfor %}
 {{ helpers.heading(doc.getListOfTasks(), 'Task') }}
 {% for task in doc.getListOfTasks() %}
 # Task <{{ task.getId() }}>

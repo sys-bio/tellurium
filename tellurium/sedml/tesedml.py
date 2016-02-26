@@ -76,8 +76,8 @@ import zipfile
 from collections import namedtuple
 
 import libsedml
-import sedmlfilters
 from jinja2 import Environment, FileSystemLoader
+
 import tellurium as te
 from tellurium.tecombine import CombineTools
 
@@ -112,180 +112,6 @@ def sedmlToPython(inputStr):
     """
     factory = SEDMLCodeFactory(inputStr)
     return factory.toPython()
-
-
-class SEDMLTools(object):
-    """ Helper functions to work with sedml. """
-
-    INPUT_TYPE_STR = 'SEDML_STRING'
-    INPUT_TYPE_FILE_SEDML = 'SEDML_FILE'
-    INPUT_TYPE_FILE_COMBINE = 'COMBINE_FILE'  # includes .sedx archives
-
-    @classmethod
-    def checkSEDMLDocument(cls, doc):
-        """ Checks the SedDocument for errors.
-        Raises IOError if error exists.
-        :param doc:
-        :type doc:
-        """
-        if doc.getErrorLog().getNumFailsWithSeverity(libsedml.LIBSEDML_SEV_ERROR) > 0:
-            raise IOError(doc.getErrorLog().toString())
-        if doc.getErrorLog().getNumFailsWithSeverity(libsedml.LIBSEDML_SEV_FATAL) > 0:
-            raise IOError(doc.getErrorLog().toString())
-        if doc.getErrorLog().getNumFailsWithSeverity(libsedml.LIBSEDML_SEV_WARNING) > 0:
-            warnings.warn(doc.getErrorLog().toString())
-        if doc.getErrorLog().getNumFailsWithSeverity(libsedml.LIBSEDML_SEV_SCHEMA_ERROR) > 0:
-            warnings.warn(doc.getErrorLog().toString())
-        if doc.getErrorLog().getNumFailsWithSeverity(libsedml.LIBSEDML_SEV_GENERAL_WARNING) > 0:
-            warnings.warn(doc.getErrorLog().toString())
-
-    @classmethod
-    def readSEDMLDocument(cls, inputStr):
-        """ Parses SedMLDocument from given input.
-
-        :return: dictionary of SedDocument, inputType and working directory.
-        :rtype: {doc, inputType, workingDir}
-        """
-        if not isinstance(inputStr, basestring):
-            raise IOError("SED-ML input is not instance of basestring:", inputStr)
-
-        # SEDML-String
-        if not os.path.exists(inputStr):
-            try:
-                from xml.etree import ElementTree
-                x = ElementTree.fromstring(inputStr)
-                # is parsable xml string
-                doc = libsedml.readSedMLFromString(inputStr)
-                inputType = cls.INPUT_TYPE_STR
-
-            except ElementTree.ParseError:
-                if not os.path.exists(inputStr):
-                    raise IOError("SED-ML String is not valid XML:", inputStr)
-
-        # SEDML-File
-        else:
-            filename, extension = os.path.splitext(os.path.basename(inputStr))
-
-            # SEDML single file
-            if os.path.isfile(inputStr):
-                if extension not in [".sedml", '.xml']:
-                    raise IOError("SEDML file should have [.sedml|.xml] extension:", inputStr)
-                inputType = cls.INPUT_TYPE_FILE_SEDML
-                doc = libsedml.readSedMLFromFile(inputStr)
-                cls.checkSEDMLDocument(doc)
-                # working directory is where the sedml file is
-                workingDir = os.path.dirname(os.path.realpath(inputStr))
-
-            # Archive
-            elif zipfile.is_zipfile(inputStr):
-                archive = inputStr
-                inputType = cls.INPUT_TYPE_FILE_COMBINE
-
-                # in case of sedx and combine a working directory is created
-                # in which the files are extracted
-                workingDir = os.path.join(os.path.dirname(os.path.realpath(inputStr)), '_te_{}'.format(filename))
-                # extract the archive to working directory
-                CombineTools.extractArchive(archive, workingDir)
-                # get SEDML files from archive
-                # FIXME: there could be multiple SEDML files in archive (currently only first used)
-                sedmlFiles = CombineTools.filePathsFromExtractedArchive(workingDir)
-                if len(sedmlFiles) == 0:
-                    raise IOError("No SEDML files found in archive.")
-                if len(sedmlFiles) > 1:
-                    warnings.warn("More than one sedml file in archive, only processing first one.")
-                doc = libsedml.readSedMLFromFile(sedmlFiles[0])
-                cls.checkSEDMLDocument(doc)
-
-        return {'doc': doc,
-                'inputType': inputType,
-                'workingDir': workingDir}
-
-
-    @staticmethod
-    def resolveModelChanges(doc):
-        """ Resolves the original source model and full change lists for models.
-
-         Going through the tree of model upwards until root is reached and
-         collecting changes on the way (example models m* and changes c*)
-         m1 (source) -> m2 (c1, c2) -> m3 (c3, c4)
-         resolves to
-         m1 (source) []
-         m2 (source) [c1,c2]
-         m3 (source) [c1,c2,c3,c4]
-         The order of changes is important (at least between nodes on different
-         levels of hierarchies), because later changes of derived models could
-         reverse earlier changes.
-
-         Uses recursive search strategy, which should be okay as long as the model tree hierarchy is
-         not getting to big.
-         """
-        # initial dicts (handle source & change information for single node)
-        model_sources = {}
-        model_changes = {}
-
-        for m in doc.getListOfModels():
-            mid = m.getId()
-            source = m.getSource()
-            model_sources[mid] = source
-            changes = []
-            # store the changes unique for this model
-            for c in m.getListOfChanges():
-                changes.append(c)
-            model_changes[mid] = changes
-
-        # recursive search for original model and store the
-        # changes which have to be applied in the list of changes
-        def findSource(mid, changes):
-
-            # mid is node above
-            if mid in model_sources:
-                # add changes for node
-                for c in model_changes[mid]:
-                    changes.append(c)
-                # keep looking deeper
-                return findSource(model_sources[mid], changes)
-            # the source is no longer a key in the sources, it is the source
-            return mid, changes
-
-        all_changes = {}
-
-        mids = [m.getId() for m in doc.getListOfModels()]
-        for mid in mids:
-            source, changes = findSource(mid, changes=list())
-            model_sources[mid] = source
-            all_changes[mid] = changes[::-1]
-
-        return model_sources, all_changes
-
-
-    @staticmethod
-    def resolveSimulations(doc):
-        """ Resolves all the settings for the simulation.
-
-        The parsed algorithm settings are stores in dictionaries which allow than to
-        easily set the simulation options and the integrator settings.
-        Two dictionaries are created:
-            simulate_settings: keyword arguments for simulate
-            integrator_setting
-
-        :return:
-        :rtype:
-        """
-        sids = [sim.getId() for sim in doc.getListOfSimulations()]
-        print(sids)
-        simulate_settings = {}
-        integrator_settings = {}
-        algorithms = {}
-        for sim in doc.getListOfSimulations():
-            sid = sim.getId()
-            alg = sim.getAlgorithm()
-            algorithms[sid] = alg
-            kisaoId = alg.getKisaoID()
-            print(kisaoId)
-
-        print(algorithms)
-
-        return None
 
 
 class SEDMLCodeFactory(object):
@@ -341,6 +167,14 @@ class SEDMLCodeFactory(object):
             lines.append('input: {}'.format(self.inputStr))
         return '\n'.join(lines)
 
+    def sedmlString(self):
+        """ Get the SEDML XML string of the current document.
+
+        :return: SED-ML XML
+        :rtype: str
+        """
+        return libsedml.writeSedMLToString(self.doc)
+
     def toPython(self, python_template='tesedml_template.py'):
         """ Create python code by rendering the python template.
         Uses the information in the SED-ML document to create
@@ -358,10 +192,10 @@ class SEDMLCodeFactory(object):
                           lstrip_blocks=True)
 
         # additional filters
-        for key in sedmlfilters.filters:
-             env.filters[key] = getattr(sedmlfilters, key)
+        # for key in sedmlfilters.filters:
+        #      env.filters[key] = getattr(sedmlfilters, key)
         template = env.get_template(python_template)
-        env.globals['modelChangeToPython'] = self.modelChangeToPython
+        env.globals['modelToPython'] = self.modelToPython
         env.globals['taskToPython'] = self.taskToPython
         env.globals['dataGeneratorToPython'] = self.dataGeneratorToPython
         env.globals['outputToPython'] = self.outputToPython
@@ -406,6 +240,29 @@ class SEDMLCodeFactory(object):
         except Exception as e:
             raise e
 
+    def modelToPython(self, model):
+        lines = []
+        language = model.getLanguage()
+        mid = model.getId()
+
+        def isSBML():
+            return 'sbml' in language
+        def isCellML():
+            return 'cellml' in language
+
+        if isSBML():
+            lines.append("{} = te.loadSBMLModel(os.path.join(workingDir, '{}'))".format(mid, self.model_sources[mid]))
+        elif isCellML():
+            lines.append("{} = te.loadCellMLModel(os.path.join(workingDir, '{}'))".format(mid, self.model_sources[mid]))
+        else:
+            warnings.warn("Unsupported model language:".format(language))
+
+        for change in self.model_changes[mid]:
+            lines.extent(SEDMLCodeFactory.modelChangeToPython(model, change))
+
+        return '\n'.join(lines)
+
+
     @staticmethod
     def modelChangeToPython(model, change):
         """ Creates the apply change python string for given model and change.
@@ -443,7 +300,7 @@ class SEDMLCodeFactory(object):
         else:
             lines.append("# Unsupported change: {}".format(change.getElementName()))
 
-        return '\n'.join(lines)
+        return lines
 
     @staticmethod
     def taskToPython(doc, task):
@@ -473,6 +330,11 @@ class SEDMLCodeFactory(object):
         elif taskType == libsedml.SEDML_TASK_REPEATEDTASK:
             resetModel = task.getResetModel()
             rangeId = task.getRangeId()
+
+            for change in task.getListOfTaskChanges():
+                # TODO: implement
+                warnings.warn("Unsupported listOfChanges on RepeatedTask")
+                break
 
             for subtask in task.getListOfSubTasks():
                 t = doc.getTask(subtask.getTask())  # get real task by belonging to subtask
@@ -989,6 +851,181 @@ class SEDMLCodeFactory(object):
         lines.append("ax.show()".format(title))
 
         return lines
+
+
+##################################################################################################
+class SEDMLTools(object):
+    """ Helper functions to work with sedml. """
+
+    INPUT_TYPE_STR = 'SEDML_STRING'
+    INPUT_TYPE_FILE_SEDML = 'SEDML_FILE'
+    INPUT_TYPE_FILE_COMBINE = 'COMBINE_FILE'  # includes .sedx archives
+
+    @classmethod
+    def checkSEDMLDocument(cls, doc):
+        """ Checks the SedDocument for errors.
+        Raises IOError if error exists.
+        :param doc:
+        :type doc:
+        """
+        if doc.getErrorLog().getNumFailsWithSeverity(libsedml.LIBSEDML_SEV_ERROR) > 0:
+            raise IOError(doc.getErrorLog().toString())
+        if doc.getErrorLog().getNumFailsWithSeverity(libsedml.LIBSEDML_SEV_FATAL) > 0:
+            raise IOError(doc.getErrorLog().toString())
+        if doc.getErrorLog().getNumFailsWithSeverity(libsedml.LIBSEDML_SEV_WARNING) > 0:
+            warnings.warn(doc.getErrorLog().toString())
+        if doc.getErrorLog().getNumFailsWithSeverity(libsedml.LIBSEDML_SEV_SCHEMA_ERROR) > 0:
+            warnings.warn(doc.getErrorLog().toString())
+        if doc.getErrorLog().getNumFailsWithSeverity(libsedml.LIBSEDML_SEV_GENERAL_WARNING) > 0:
+            warnings.warn(doc.getErrorLog().toString())
+
+    @classmethod
+    def readSEDMLDocument(cls, inputStr):
+        """ Parses SedMLDocument from given input.
+
+        :return: dictionary of SedDocument, inputType and working directory.
+        :rtype: {doc, inputType, workingDir}
+        """
+        if not isinstance(inputStr, basestring):
+            raise IOError("SED-ML input is not instance of basestring:", inputStr)
+
+        # SEDML-String
+        if not os.path.exists(inputStr):
+            try:
+                from xml.etree import ElementTree
+                x = ElementTree.fromstring(inputStr)
+                # is parsable xml string
+                doc = libsedml.readSedMLFromString(inputStr)
+                inputType = cls.INPUT_TYPE_STR
+
+            except ElementTree.ParseError:
+                if not os.path.exists(inputStr):
+                    raise IOError("SED-ML String is not valid XML:", inputStr)
+
+        # SEDML-File
+        else:
+            filename, extension = os.path.splitext(os.path.basename(inputStr))
+
+            # Archive
+            if zipfile.is_zipfile(inputStr):
+                archive = inputStr
+                inputType = cls.INPUT_TYPE_FILE_COMBINE
+
+                # in case of sedx and combine a working directory is created
+                # in which the files are extracted
+                workingDir = os.path.join(os.path.dirname(os.path.realpath(inputStr)), '_te_{}'.format(filename))
+                # extract the archive to working directory
+                CombineTools.extractArchive(archive, workingDir)
+                # get SEDML files from archive
+                # FIXME: there could be multiple SEDML files in archive (currently only first used)
+                sedmlFiles = CombineTools.filePathsFromExtractedArchive(workingDir)
+                if len(sedmlFiles) == 0:
+                    raise IOError("No SEDML files found in archive.")
+                if len(sedmlFiles) > 1:
+                    warnings.warn("More than one sedml file in archive, only processing first one.")
+                doc = libsedml.readSedMLFromFile(sedmlFiles[0])
+                cls.checkSEDMLDocument(doc)
+
+            # SEDML single file
+            elif os.path.isfile(inputStr):
+                if extension not in [".sedml", '.xml']:
+                    raise IOError("SEDML file should have [.sedml|.xml] extension:", inputStr)
+                inputType = cls.INPUT_TYPE_FILE_SEDML
+                doc = libsedml.readSedMLFromFile(inputStr)
+                cls.checkSEDMLDocument(doc)
+                # working directory is where the sedml file is
+                workingDir = os.path.dirname(os.path.realpath(inputStr))
+
+        return {'doc': doc,
+                'inputType': inputType,
+                'workingDir': workingDir}
+
+
+    @staticmethod
+    def resolveModelChanges(doc):
+        """ Resolves the original source model and full change lists for models.
+
+         Going through the tree of model upwards until root is reached and
+         collecting changes on the way (example models m* and changes c*)
+         m1 (source) -> m2 (c1, c2) -> m3 (c3, c4)
+         resolves to
+         m1 (source) []
+         m2 (source) [c1,c2]
+         m3 (source) [c1,c2,c3,c4]
+         The order of changes is important (at least between nodes on different
+         levels of hierarchies), because later changes of derived models could
+         reverse earlier changes.
+
+         Uses recursive search strategy, which should be okay as long as the model tree hierarchy is
+         not getting to big.
+         """
+        # initial dicts (handle source & change information for single node)
+        model_sources = {}
+        model_changes = {}
+
+        for m in doc.getListOfModels():
+            mid = m.getId()
+            source = m.getSource()
+            model_sources[mid] = source
+            changes = []
+            # store the changes unique for this model
+            for c in m.getListOfChanges():
+                changes.append(c)
+            model_changes[mid] = changes
+
+        # recursive search for original model and store the
+        # changes which have to be applied in the list of changes
+        def findSource(mid, changes):
+
+            # mid is node above
+            if mid in model_sources:
+                # add changes for node
+                for c in model_changes[mid]:
+                    changes.append(c)
+                # keep looking deeper
+                return findSource(model_sources[mid], changes)
+            # the source is no longer a key in the sources, it is the source
+            return mid, changes
+
+        all_changes = {}
+
+        mids = [m.getId() for m in doc.getListOfModels()]
+        for mid in mids:
+            source, changes = findSource(mid, changes=list())
+            model_sources[mid] = source
+            all_changes[mid] = changes[::-1]
+
+        return model_sources, all_changes
+
+
+    @staticmethod
+    def resolveSimulations(doc):
+        """ Resolves all the settings for the simulation.
+
+        The parsed algorithm settings are stores in dictionaries which allow than to
+        easily set the simulation options and the integrator settings.
+        Two dictionaries are created:
+            simulate_settings: keyword arguments for simulate
+            integrator_setting
+
+        :return:
+        :rtype:
+        """
+        sids = [sim.getId() for sim in doc.getListOfSimulations()]
+        print(sids)
+        simulate_settings = {}
+        integrator_settings = {}
+        algorithms = {}
+        for sim in doc.getListOfSimulations():
+            sid = sim.getId()
+            alg = sim.getAlgorithm()
+            algorithms[sid] = alg
+            kisaoId = alg.getKisaoID()
+            print(kisaoId)
+
+        print(algorithms)
+
+        return None
 
 
 ##################################################################################################
