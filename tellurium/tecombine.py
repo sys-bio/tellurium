@@ -4,13 +4,15 @@ Utilities for working with combine archives.
 from __future__ import print_function, division
 
 import os
-from os.path import exists, isfile, basename
 import warnings
-import zipfile
+from zipfile import ZipFile
 import phrasedml
 import antimony
 import re
-
+import tellurium as te
+import roadrunner
+from xml.etree import ElementTree as et
+import libsedml
 
 class CombineTools(object):
     """ Helper functions to work with combine archives."""
@@ -29,7 +31,7 @@ class CombineTools(object):
         :return:
         :rtype:
         """
-        zip = zipfile.ZipFile(archivePath, 'r')
+        zip = ZipFile(archivePath, 'r')
 
         if not os.path.isdir(directory):
             os.makedirs(directory)
@@ -68,7 +70,6 @@ class CombineTools(object):
         manifest = os.path.join(directory, "manifest.xml")
         if os.path.exists(manifest):
             # get the sedml files from the manifest
-            import xml.etree.ElementTree as et
             tree = et.parse(manifest)
             root = tree.getroot()
             print(root)
@@ -142,7 +143,7 @@ class CombineFileAsset(CombineAsset):
         return True
 
     def getbasename(self, f):
-        return basename(f)
+        return os.path.basename(f)
 
     def getFileName(self):
         return self.filename
@@ -262,7 +263,7 @@ class MakeCombine:
         self.assets = []
 
     def checkfile(self, filename):
-        if not exists(filename) or not isfile(filename):
+        if not os.path.exists(filename) or not os.path.isfile(filename):
             raise RuntimeError('No such file: {}'.format(filename))
 
     # Add raw strings:
@@ -295,11 +296,11 @@ class MakeCombine:
         self.checkfile(filename)
         self.assets.append(CombinePhraSEDMLFileAsset(filename))
 
-    def writeAsset(self, zipfile, asset):
+    def writeAsset(self, zf, asset):
         if asset.isFile():
-            zipfile.write(asset.getFileName(), asset.getArchName())
+            zf.write(asset.getFileName(), asset.getArchName())
         else:
-            zipfile.writestr(asset.getArchName(), asset.getExportedStr())
+            zf.writestr(asset.getArchName(), asset.getExportedStr())
 
         self.manifest += '    <content location="./{}" master="true" format="{}"/>\n'.format(
             asset.getArchName(),
@@ -308,7 +309,7 @@ class MakeCombine:
 
     def write(self, outfile):
         self.manifest = ''
-        with zipfile.ZipFile(outfile, 'w') as z:
+        with ZipFile(outfile, 'w') as z:
             self.manifest += '<?xml version="1.0"  encoding="utf-8"?>\n<omexManifest  xmlns="http://identifiers.org/combine.specifications/omex-manifest">\n'
             self.manifest += '    <content location="./manifest.xml" format="http://identifiers.org/combine.specifications/omex-manifest"/>\n'
 
@@ -319,16 +320,340 @@ class MakeCombine:
 
             z.writestr('manifest.xml', self.manifest)
 
+class OpenCombine(object):
+    def __init__(self, combinePath):
+        if os.path.exists(combinePath):
+            self.combinePath = combinePath
+        else:
+            raise Exception("Invalid path for combine archive")
+    
+    def addSBML(self, sbmlPath):
+        modelname = self.getModelName(sbmlPath)
+        contents = self.listContents()
+        zf = ZipFile(self.combinePath, 'a')
+        if os.path.exists(sbmlPath):
+            numSame = 0
+            while contents.count(modelname + '.xml') == 1:
+                modelname = modelname + '_' + str(numSame)
+                numSame += 1
+            zf.write(sbmlPath, arcname=modelname + '.xml')
+        elif sbmlPath.startswith(r'<?xml'):
+            numSame = 0
+            while contents.count(modelname + '.xml') == 1:
+                modelname = modelname + '_' + str(numSame)
+                numSame += 1
+            zf.writestr(modelname + '.xml', sbmlPath)
+        else:
+            raise Exception("Invalid string for sbml: Check the path of the file")
+        zf.close()
+        self.updateManifest(modelname + '.xml', 'sbml')
+   
+    def addAntimony(self, antimonyStr):
+        sbmlStr = te.antimonyToSBML(antimonyStr)
+        self.addSBML(sbmlStr)
+    
+    def addSEDML(self, sedmlPath, arcname=None):
+        contents = self.listContents()
+        sedmlBase = os.path.basename(sedmlPath)
+        try:
+            arcname, arcFormat = os.path.splitext(arcname)
+        except AttributeError:
+            pass
+        zf = ZipFile(self.combinePath, 'a')
+        if os.path.exists(sedmlPath):
+            if arcname == None:
+                sedmlname, sedmlFormat = os.path.splitext(sedmlBase)
+                numSame = 0
+                while contents.count(sedmlname + '.xml') == 1:
+                    sedmlname = sedmlname + '_' + str(numSame)
+                    numSame += 1
+                zf.write(sedmlPath, arcname=sedmlname + '.xml')
+            else:
+                if arcname + '.xml' in contents:
+                    raise Exception('Combine archive contains a file with the same name. Please try different name.')
+                else:
+                    zf.write(sedmlPath, arcname=arcname + '.xml')
+        elif sedmlPath.startswith(r'<?xml'):
+            if arcname == None:
+                raise Exception("Name of sedml file not defined.")
+            else:
+                if arcname + '.xml' in contents:
+                    raise Exception('Combine archive contains a file with the same name. Please try different name.')
+                else:
+                    zf.writestr(arcname + '.xml', sedmlPath)
+        else:
+            raise Exception("Invalid string for sbml: Check the path of the file")
+        zf.close()
+        if arcname == None:
+            self.updateManifest(sedmlname + '.xml', 'sedml')
+        else:
+            self.updateManifest(arcname + '.xml', 'sedml')
+    
+    def addPhrasedml(self, phrasedmlStr, arcname=None):
+        antInd = None
+        reModel = r"""(\w*) = model ('|")(.*)('|")"""
+        phrasedmllines = phrasedmlStr.splitlines()
+        for k, line in enumerate(phrasedmllines):
+            reSearchModel = re.split(reModel, line)
+            if len(reSearchModel) > 1:
+                modelsource = str(reSearchModel[3])
+                modelname = os.path.basename(modelsource)
+                modelname = str(modelname).replace(".xml", '')
+                
+        for i in range(len(self.antimonyStr)):
+            r = te.loada(self.antimonyStr[i])
+            modelName = r.getModel().getModelName()
+            if modelName == modelsource:
+                antInd = i
+        
+        if antInd == None:
+            raise Exception("Cannot find the model name referenced in the PhraSEDML string")
+        else:
+            pass
+        
+        phrasedml.setReferencedSBML(modelsource, te.antimonyToSBML(self.antimonyStr[antInd]))
+        sedmlstr = phrasedml.convertString(phrasedmlStr)
+        if sedmlstr is None:
+            raise Exception(phrasedml.getLastError())
 
-def export(outfile, antimonyStr, SBMLName, *args):
+        phrasedml.clearReferencedSBML()
+        self.addSEDML(sedmlstr, arcname)
+        
+    def addFile(self, filePath):
+        acceptedFormats = ('png','jpg','jpeg','pdf','txt','csv','dat')
+        contents = self.listContents()
+        fileBase = os.path.basename(filePath)
+        fileName, fileFormat = os.path.splitext(fileBase)
+        zf = ZipFile(self.combinePath, 'a')
+        if os.path.exists(filePath):
+            if filePath.lower().endswith(acceptedFormats):
+                if filePath.lower().endswith('png') or filePath.lower().endswith('jpg') or filePath.lower().endswith('jpeg'):
+                    numSame = 0
+                    while contents.count("fig/" + fileName + fileFormat) == 1:
+                        fileName = fileName + '_' + str(numSame)
+                        numSame += 1
+                    zf.write(filePath, arcname="fig/" + fileName + fileFormat)
+                if filePath.lower().endswith('pdf') or filePath.lower().endswith('txt') or filePath.lower().endswith('csv') or filePath.lower().endswith('dat'):
+                    numSame = 0
+                    while contents.count("data/" + fileName + fileFormat) == 1:
+                        fileName = fileName + '_' + str(numSame)
+                        numSame += 1
+                    zf.write(filePath, arcname="data/" + fileName + fileFormat)
+            else:
+                raise Exception("Unsupported file format")
+        else:
+            raise Exception("Cannot find the file")
+        zf.close()
+        self.updateManifest(fileName + fileFormat, fileFormat[1:])
+    
+    def getModelName(self, sbmlfile):
+        r = roadrunner.RoadRunner(sbmlfile)
+        return r.getModel().getModelName()
+        
+    def listContents(self):
+        zf = ZipFile(self.combinePath, 'r')
+        temp = zf.namelist()
+        print(zf.namelist())
+        zf.close()
+        return temp
+        
+    def listDetailedContents(self):
+        contentList = []
+        man = self.readManifest()
+        xml = et.ElementTree(et.fromstring(man))
+        root = xml.getroot()
+        for child in root:
+            attribute = child.attrib
+            formtype = attribute.get('format')
+            loc = attribute.get('location')
+            if formtype == "http://identifiers.org/combine.specifications/sbml":
+                if loc.startswith('http') or loc.startswith('www'):
+                    contentList.append({'filename':loc, 'type':'sbml'})                    
+                else:
+                    contentList.append({'filename':os.path.basename(loc), 'type':'sbml'})
+            elif formtype == "http://identifiers.org/combine.specifications/sed-ml":
+                zf = ZipFile(self.combinePath, 'r')
+                try:
+                    sedmlRaw = zf.read(loc)
+                except KeyError as e:
+                    try:
+                        sedmlRaw = zf.read(os.path.basename(loc))
+                    except KeyError as e:
+                        raise e
+                sedmlDoc = libsedml.readSedMLFromString(sedmlRaw)
+                tempSedmlSource = []
+                for i in range(0, sedmlDoc.getNumModels()):
+                    currentModel = sedmlDoc.getModel(i)
+                    if os.path.splitext(os.path.basename(currentModel.getSource()))[1] == '':
+                        pass
+                    else:
+                        tempSedmlSource.append(os.path.basename(currentModel.getSource()))
+                contentList.append({'filename':os.path.basename(loc), 'type':'sedml', 'modelsource':tempSedmlSource})
+                zf.close()
+            elif formtype == "image/png":
+                contentList.append({'filename':os.path.basename(loc), 'type':'png'})
+            elif formtype == "image/jpg" or formtype == "image/jpeg":
+                contentList.append({'filename':os.path.basename(loc), 'type':'jpg'})
+            elif formtype == "application/pdf":
+                contentList.append({'filename':os.path.basename(loc), 'type':'pdf'})
+            elif formtype == "plain/text":
+                contentList.append({'filename':os.path.basename(loc), 'type':'txt'})
+            elif formtype == "plain/csv":
+                contentList.append({'filename':os.path.basename(loc), 'type':'csv'})
+            elif formtype == "plain/dat":
+                contentList.append({'filename':os.path.basename(loc), 'type':'dat'})
+            
+        print(contentList)
+        
+    def removeFile(self, fileName):
+        baseName, fileFormat = os.path.splitext(fileName)
+        tempPath = os.path.join(os.path.dirname(self.combinePath), os.path.splitext(
+            os.path.basename(self.combinePath))[0] + '_tempcombine' + os.path.splitext(os.path.basename(self.combinePath))[1])
+        zin = ZipFile (self.combinePath, 'r')
+        zout = ZipFile (tempPath, 'w')
+        for item in zin.infolist():
+            buffer = zin.read(item.filename)
+            if (item.filename != fileName):
+                zout.writestr(item, buffer)
+        zout.close()
+        zin.close()
+        os.remove(self.combinePath)
+        os.rename(tempPath, self.combinePath)
+        if fileName == 'manifest.xml':
+            pass
+        else:
+            self.updateManifest(baseName + fileFormat, fileFormat[1:], delete=True)
+    
+    def update(self, fileName, targetId, value):
+        tempContent = []
+        if fileName.endswith(('xml', 'sbml', 'sedml')):
+            pass
+        else:
+            raise Exception("Unsupported file types for update function. If format is not defined, define file format")
+        
+        content = self.listContents()
+        for i in range(len(content)):
+            tempContent.append(os.path.basename(content[i]))
+        
+        if not fileName in tempContent:
+            raise Exception("Cannot find file " + str(fileName) + " in the combine archive")
+
+        contentPath = content[tempContent.index(fileName)]
+        zf = ZipFile(self.combinePath, 'r')
+        targetFile = zf.read(contentPath)
+        zf.close()
+        if r'<sedML' not in targetFile:
+            r = te.loadSBMLModel(targetFile)
+            r.setValue(str(targetId), float(value))
+            updatedSBML = r.getCurrentSBML()
+            self.removeFile(contentPath)
+            zf = ZipFile(self.combinePath, 'a')
+            zf.writestr(contentPath, updatedSBML)
+            zf.close()
+        else:
+            phrasedmlStr = phrasedml.convertString(targetFile)
+            
+            antInd = None
+            reModel = r"""(\w*) = model ('|")(.*)('|")"""
+            phrasedmllines = phrasedmlStr.splitlines()
+            for k, line in enumerate(phrasedmllines):
+                reSearchModel = re.split(reModel, line)
+                if len(reSearchModel) > 1:
+                    modelsource = str(reSearchModel[3])
+                    modelname = os.path.basename(modelsource)
+                    modelname = str(modelname).replace(".xml", '')
+                    
+            for i in range(len(self.antimonyStr)):
+                r = te.loada(self.antimonyStr[i])
+                modelName = r.getModel().getModelName()
+                if modelName == modelsource:
+                    antInd = i
+            
+            if antInd == None:
+                raise Exception("Cannot find the model name referenced in the PhraSEDML string")
+            else:
+                pass
+            
+            phrasedml.setReferencedSBML(modelsource, te.antimonyToSBML(self.antimonyStr[antInd]))
+            sedmlstr = phrasedml.convertString(phrasedmlStr)
+            if sedmlstr is None:
+                raise Exception(phrasedml.getLastError())
+    
+            phrasedml.clearReferencedSBML()
+            self.removeFile(contentPath)
+            zf = ZipFile(self.combinePath, 'a')
+            zf.writestr(contentPath, sedmlstr)
+            zf.close()
+    
+    def readManifest(self):
+        zf = ZipFile(self.combinePath, 'r')
+        try:
+            man = zf.read(r'manifest.xml')
+        except KeyError as e:
+            raise e
+        zf.close()
+        return man
+            
+    def updateManifest(self, fileName, fileType, delete=False):
+        man = self.readManifest()
+        man = man.splitlines()
+        
+        if delete == True:
+            matching = [s for s in man if fileName in s]
+            man.remove(matching[0])
+        else:
+            if fileType == 'sbml':
+                value = r'    <content location="./' + fileName + '" format="http://identifiers.org/combine.specifications/sbml"/>'
+            elif fileType == 'sedml':
+                value = r'    <content location="./' + fileName + '" master="true" format="http://identifiers.org/combine.specifications/sed-ml"/>'
+            elif fileType == 'png':
+                value = r'    <content location="./fig/'+ fileName + '" format="image/png"/>'
+            elif fileType == 'jpg' or fileType == '.jpeg':
+                value = r'    <content location="./fig/'+ fileName + '" format="image/jpg"/>'
+            elif fileType == 'pdf':
+                value = r'    <content location="./data/'+ fileName + '" format="application/pdf"/>'
+            elif fileType == 'txt':
+                value = r'    <content location="./data/'+ fileName + '" format="plain/text"/>'
+            elif fileType == 'csv':
+                value = r'    <content location="./data/'+ fileName + '" format="plain/csv"/>'
+            elif fileType == 'dat':
+                value = r'    <content location="./data/'+ fileName + '" format="plain/dat"/>'
+            else:
+                raise Exception("Unsupported file type")            
+            man.insert(-1, value)
+        man = "\n".join(man)
+        self.removeFile(r'manifest.xml')
+        
+        zf = ZipFile(self.combinePath, 'a')
+        zf.writestr(r'manifest.xml', man)
+        zf.close()
+
+def export(outfile, antimonyStr, phrasedmlStrs):
     m = MakeCombine()
-
-    m.addAntimonyStr(antimonyStr, SBMLName)
+    modelNames = []
+    for i in range(len(antimonyStr)):
+        r = te.loada(antimonyStr[i])
+        SBMLName = r.getModel().getModelName()
+        m.addAntimonyStr(antimonyStr[i], SBMLName + ".xml")
+        modelNames.append(SBMLName)
 
     # remaining arguments are assumed to be phrasedml
     n = 1
-    for phrasedmlStr in args:
+    for phrasedmlStr in phrasedmlStrs:
+        reModel = r"""(\w*) = model ('|")(.*)('|")"""
+        lines = phrasedmlStr.splitlines()
+        for i, s in enumerate(lines):
+            reSearchModel = re.split(reModel, s)
+            if len(reSearchModel) > 1:
+                modelsource = str(reSearchModel[3])
+                modelname = os.path.basename(modelsource)
+        
+        if modelname not in modelNames:
+            raise Exception("Cannot find the model defined in phrasedml string. Check the model name in antimony")
+        phrasedml.setReferencedSBML(modelname, te.antimonyToSBML(antimonyStr[modelNames.index(modelname)]))
         m.addPhraSEDMLStr(phrasedmlStr, 'experiment{}.xml'.format(n))
         n += 1
 
     m.write(outfile)
+    phrasedml.clearReferencedSBML()
+    

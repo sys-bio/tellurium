@@ -11,6 +11,7 @@ import roadrunner
 import antimony
 import matplotlib.pyplot as plt
 import tephrasedml
+import tecombine
 
 try:
     import libsedml
@@ -320,7 +321,7 @@ def cellmlToSBML(cellml):
 
 
 # ---------------------------------------------------------------------
-# SEDML Utilities
+# COMBINE Utilities
 # ---------------------------------------------------------------------
 def experiment(ant, phrasedml):
     """ Create experiment from antimony and phrasedml string.
@@ -334,6 +335,16 @@ def experiment(ant, phrasedml):
     return tephrasedml.tePhrasedml(ant, phrasedml)
 
 
+def combine(combinePath):
+    """ Open a combine archive from local directory.
+
+    :param combinePath: Path to a combine archive
+    :type combinePath: str
+    :returns: OpenCombine instance
+    """
+    return tecombine.OpenCombine(combinePath)
+    
+    
 # ---------------------------------------------------------------------
 # Math Utilities
 # ---------------------------------------------------------------------

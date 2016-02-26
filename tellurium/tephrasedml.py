@@ -46,104 +46,75 @@ class tePhrasedml(object):
     def __init__(self, antimonyStr, phrasedmlStr):
         """ Constructor from antimony string and phrasedml string.
 
-        :param antimonyStr: antimony model string
-        :type antimonyStr: str
-        :param phrasedmlStr: phrasedml string
-        :type phrasedmlStr: str
+        :param antimonyStr: list of antimony model string
+        :type antimonyStr: list
+        :param phrasedmlStr: list of phrasedml string
+        :type phrasedmlStr: list
         """
-        modelispath = False
-        if type(antimonyStr) != str:
-            raise Exception("Invalid Antimony string/model path")
-        else:
-            if os.path.exists(antimonyStr):
-                # incomplete - load model path directly.
-                modelispath = True
+        modelispath = []
+        if type(antimonyStr) != list:
+                raise Exception("antimony models must given as a list")
+        for i in range(len(antimonyStr)):
+            if type(antimonyStr[i]) != str:
+                raise Exception("invalid Antimony string/model path")
             else:
-                pass
-        if type(phrasedmlStr) != str:
-            raise Exception("Invalid PhrasedML string")
+                if os.path.exists(antimonyStr[i]):
+                    modelispath.append(True)
+                else:
+                    modelispath.append(False)
+        if type(phrasedmlStr) != list:
+            raise Exception("sedml files must given as a list")
 
         self.modelispath = modelispath
         self.antimonyStr = antimonyStr
         self.phrasedmlStr = phrasedmlStr
 
-    def getAntimonyString(self):
-        """ Get antimony string.
-
-        :returns: antimony string
-        :rtype: str
-        """
-        return self.antimonyStr
-
-    def getSbmlString(self):
-        """ Get SBML string.
-
-        :returns: SBML string
-        :rtype: str
-        """
-        return te.antimonyToSBML(self.antimonyStr)
-
-    def getPhrasedmlString(self):
-        """ Get phrasedml string.
-
-        :returns: phrasedml string
-        :rtype: str
-        """
-        return self.phrasedmlStr
-
-    def getSedmlString(self):
-        """ Get sedml string.
-
-        :returns: sedml
-        :rtype: str
-        """
-        reModel = r"""(\w*) = model ('|")(.*)('|")"""
-        phrasedmllines = self.phrasedmlStr.splitlines()
-        for line in phrasedmllines:
-            reSearchModel = re.split(reModel, line)
-            if len(reSearchModel) > 1:
-                modelsource = str(reSearchModel[3])
-
-        phrasedml.setReferencedSBML(modelsource, te.antimonyToSBML(self.antimonyStr))
-        sedmlstr = phrasedml.convertString(self.phrasedmlStr)
-        if sedmlstr is None:
-            raise Exception(phrasedml.getLastError())
-        phrasedml.clearReferencedSBML()
-
-        return sedmlstr
-
-    def execute(self):
+    def execute(self, selPhrasedml):
         """ Executes created python code.
         See :func:`createpython`
+        
+        :param selPhrasedml: Name of PhraSEDML string defined in the code
+        :type selPhrasedml: str
         """
-        execStr = self.createpython()
+        execStr = self.createpython(selPhrasedml)
         try:
             # This calls exec. Be very sure that nothing bad happens here.
             exec execStr
         except Exception as e:
             raise e
 
-    def createpython(self):
-        """ Create and return python script given antimony and phrasedml strings.
-        Uses the tesedml.create
+    def createpython(self, selPhrasedml):
+        """ Create and return python script given phrasedml string.
+        
+        :param selPhrasedml: Name of PhraSEDML string defined in the code
+        :type selPhrasedml: str
 
         :returns: python string to execute
         :rtype: str
         """
-        # created sedml
+        antInd = None
         rePath = r"(\w*).load\('(.*)'\)"
         reLoad = r"(\w*) = roadrunner.RoadRunner\(\)"
         reModel = r"""(\w*) = model ('|")(.*)('|")"""
-        phrasedmllines = self.phrasedmlStr.splitlines()
+        phrasedmllines = selPhrasedml.splitlines()
         for k, line in enumerate(phrasedmllines):
             reSearchModel = re.split(reModel, line)
             if len(reSearchModel) > 1:
                 modelsource = str(reSearchModel[3])
                 modelname = os.path.basename(modelsource)
                 modelname = str(modelname).replace(".xml", '')
-
-        phrasedml.setReferencedSBML(modelsource, te.antimonyToSBML(self.antimonyStr))
-        sedmlstr = phrasedml.convertString(self.phrasedmlStr)
+        for i in range(len(self.antimonyStr)):
+            r = te.loada(self.antimonyStr[i])
+            modelName = r.getModel().getModelName()
+            if modelName == modelsource:
+                antInd = i
+        
+        if antInd == None:
+            raise Exception("Cannot find the model name referenced in the PhraSEDML string")
+        else:
+            pass
+        phrasedml.setReferencedSBML(modelsource, te.antimonyToSBML(self.antimonyStr[antInd]))
+        sedmlstr = phrasedml.convertString(selPhrasedml)
         if sedmlstr is None:
             raise Exception(phrasedml.getLastError())
 
@@ -154,7 +125,7 @@ class tePhrasedml(object):
         pysedml = tesedml.sedmlToPython(sedmlfilepath)
 
         # perform some replacements in the sedml
-        if self.modelispath is False:
+        if self.modelispath[antInd] is False:
             lines = pysedml.splitlines()
             for k, line in enumerate(lines):
                 reSearchPath = re.split(rePath, line)
@@ -182,16 +153,20 @@ class tePhrasedml(object):
         pysedml = pysedml.replace('"compartment"', '"compartment_"')
         pysedml = pysedml.replace("'compartment'", "'compartment_'")
 
-        outputstr = str(modelname) + " = '''" + self.antimonyStr + "'''\n\n" + pysedml
+        outputstr = str(modelname) + " = '''" + self.antimonyStr[antInd] + "'''\n\n" + pysedml
 
         os.close(fd1)
         os.remove(sedmlfilepath)
 
         return outputstr
 
-    def printpython(self):
-        """ Prints the created python string by :func:`createpython`. """
-        execStr = self.createpython()
+    def printpython(self, selPhrasedml):
+        """ Prints the created python string by :func:`createpython`. 
+        
+        :param selPhrasedml: Name of PhraSEDML string defined in the code
+        :type selPhrasedml: str        
+        """
+        execStr = self.createpython(selPhrasedml)
         print(execStr)
 
     def exportAsCombine(self, outputpath):
@@ -200,28 +175,6 @@ class tePhrasedml(object):
         :param outputpath: full path of the combine zip file to create
         :type outputpath: str
         """
-        # FIXME: why is this not using the combine archive (tecombine)
-        # Temporary failsafe - Should be revised once libphrasedml adopts returning of model name
-        reModel = r"""(\w*) = model ('|")(.*)('|")"""
-        # rePlot = r"""plot ('|")(.*)('|") (.*)"""
-        lines = self.phrasedmlStr.splitlines()
-        for i, s in enumerate(lines):
-            reSearchModel = re.split(reModel, s)
-            # reSearchPlot = re.split(rePlot, s)
-            if len(reSearchModel) > 1:
-                modelsource = str(reSearchModel[3])
-                modelname = os.path.basename(modelsource)
-                if ".xml" or ".sbml" not in modelsource:
-                    modelname = modelname + ".xml"
-                s = s.replace(modelsource, modelname)
-                lines[i] = s
-
-                # if len(reSearchPlot) > 1:
-                #    plottitle = str(reSearchPlot[2])
-
-        revphrasedml = '\n'.join(lines)
 
         # export the combine archive
-        phrasedml.setReferencedSBML(modelname, te.antimonyToSBML(self.antimonyStr))
-        tecombine.export(outputpath, self.antimonyStr, modelname, revphrasedml)
-        phrasedml.clearReferencedSBML()
+        tecombine.export(outputpath, self.antimonyStr, self.phrasedmlStr)
