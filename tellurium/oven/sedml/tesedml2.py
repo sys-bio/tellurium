@@ -865,29 +865,35 @@ class SEDMLCodeFactory(object):
         :return: list of python lines
         :rtype: list(str)
         """
-        # TODO: handle repeated Tasks
+        # TODO: colors, all lines of one curve should have same color
+        colors = [u'b', u'g', u'r', u'c', u'm', u'y', u'k']
         lines = []
 
-        for curve in output.getListOfCurves():
-            title = curve.getName()
-            if title is None:
-                title = output.getId()
+        title = output.getId()
+        for kc, curve in enumerate(output.getListOfCurves()):
             logX = curve.getLogX()
             logY = curve.getLogY()
             xId = curve.getXDataReference()
             yId = curve.getYDataReference()
             dgx = doc.getDataGenerator(xId)
             dgy = doc.getDataGenerator(yId)
-            lines.append("plt.plot({}[0], {}[0])".format(xId, yId))
-            lines.append("plt.xlabel('{}')".format(xId))
-            lines.append("plt.ylabel('{}')".format(yId))
+            color = colors[kc % len(colors)]
+
+            lines.append("for k in range(len({})):".format(xId))
+            lines.append("    if k==0:")
+            lines.append("        plt.plot({}[k], {}[k], color='{}', linewidth=1.5, label='{}')".format(xId, yId, color, yId))
+            lines.append("    else:")
+            lines.append("        plt.plot({}[k], {}[k], color='{}', linewidth=1.5)".format(xId, yId, color))
+            # lines.append("plt.xlabel('{}')".format(xId))
+            # lines.append("plt.ylabel('{}')".format(yId))
 
             if logX is True:
                 lines.append("plt.xscale('log')")
             if logY is True:
                 lines.append("plt.yscale('log')")
-            lines.append("plt.title('{}')".format(title))
-            lines.append("plt.show()".format(title))
+        lines.append("plt.title('{}')".format(title))
+        lines.append("plt.legend()")
+        lines.append("plt.show()".format(title))
 
         return lines
 
@@ -981,10 +987,10 @@ if __name__ == "__main__":
     import os
     from tellurium.tests.testdata import sedmlDir, sedxDir, psedmlDir
 
-    for fname in [# 'app2sim.sedml',
+    for fname in ['app2sim.sedml',
                   'asedml3repeat.sedml',
-                  # 'asedmlComplex.sedml',
-                  # 'BioModel1_repressor_activator_oscillations.sedml'
+                  'asedmlComplex.sedml',
+                  'BioModel1_repressor_activator_oscillations.sedml'
                   ]:
 
         sedml_input = os.path.join(sedmlDir, fname)
@@ -1034,13 +1040,3 @@ if __name__ == "__main__":
             # testInput(os.path.join(psedmlDir, fname))
 
     # ------------------------------------------------------
-
-    """
-
-    """
-
-    """
-    sim = libsedml.SedSimulation()
-    sim.getTypeCode()
-    libsedml.SEDML_SIMULATION_ONESTEP
-    """

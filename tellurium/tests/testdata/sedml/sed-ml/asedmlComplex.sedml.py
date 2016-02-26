@@ -1,7 +1,7 @@
 """
     tellurium 1.3.1
 
-    auto-generated code (2016-02-26T11:13:53)
+    auto-generated code (2016-02-26T12:33:09)
         sedmlDoc: L1V1          workingDir: /home/mkoenig/git/tellurium/tellurium/tests/testdata/sedml/sed-ml
         inputType: SEDML_FILE
 
@@ -11,6 +11,7 @@ import tellurium as te
 import numpy as np
 import matplotlib.pyplot as plt
 import libsedml
+import pandas
 import os.path
 
 workingDir = '/home/mkoenig/git/tellurium/tellurium/tests/testdata/sedml/sed-ml'
@@ -25,7 +26,7 @@ workingDir = '/home/mkoenig/git/tellurium/tellurium/tests/testdata/sedml/sed-ml'
 Application0 = te.loadSBMLModel(os.path.join(workingDir, '../models/asedmlComplex.xml'))
 
 # Model <Application0_0>
-#   Change: <libsedml.SedChangeAttribute; proxy of <Swig Object of type 'SedChangeAttribute_t *' at 0x7fd6de83a150> >
+#   Change: <libsedml.SedChangeAttribute; proxy of <Swig Object of type 'SedChangeAttribute_t *' at 0x7f1ff59268a0> >
 Application0_0 = te.loadSBMLModel(os.path.join(workingDir, '../models/asedmlComplex.xml'))
 # /sbml:sbml/sbml:model/sbml:listOfSpecies/sbml:species[@id='s0'] 25.0
 Application0_0['init([s0])'] = 25.0
@@ -74,4 +75,16 @@ dataGen_repeatedTask_0_0_s1 = [sim['[s1]'] for sim in repeatedTask_0_0]
 #  - plot2d_Simulation1 (Application0plots)
 
 # Output <plot2d_Simulation1>
-
+for k in range(len(time_repeatedTask_0_0)):
+    if k==0:
+        plt.plot(time_repeatedTask_0_0[k], dataGen_repeatedTask_0_0_s0[k], color='b', label=dataGen_repeatedTask_0_0_s0)
+    else:
+        plt.plot(time_repeatedTask_0_0[k], dataGen_repeatedTask_0_0_s0[k], color='b')
+for k in range(len(time_repeatedTask_0_0)):
+    if k==0:
+        plt.plot(time_repeatedTask_0_0[k], dataGen_repeatedTask_0_0_s1[k], color='g', label=dataGen_repeatedTask_0_0_s1)
+    else:
+        plt.plot(time_repeatedTask_0_0[k], dataGen_repeatedTask_0_0_s1[k], color='g')
+plt.title('plot2d_Simulation1')
+plt.legend()
+plt.show()

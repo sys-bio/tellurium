@@ -1,7 +1,7 @@
 """
     tellurium 1.3.1
 
-    auto-generated code (2016-02-26T12:08:56)
+    auto-generated code (2016-02-26T12:33:08)
         sedmlDoc: L1V1          workingDir: /home/mkoenig/git/tellurium/tellurium/tests/testdata/sedml/sed-ml
         inputType: SEDML_FILE
 
@@ -68,13 +68,16 @@ dataGen_repeatedTask_0_0_s1 = [sim['[s1]'] for sim in repeatedTask_0_0]
 #  - plot2d_Simulation0 (Application0plots)
 
 # Output <plot2d_Simulation0>
-plt.plot(time_repeatedTask_0_0[0], dataGen_repeatedTask_0_0_s0[0])
-plt.xlabel('time_repeatedTask_0_0')
-plt.ylabel('dataGen_repeatedTask_0_0_s0')
-plt.title('curve_0')
-plt.show()
-plt.plot(time_repeatedTask_0_0[0], dataGen_repeatedTask_0_0_s1[0])
-plt.xlabel('time_repeatedTask_0_0')
-plt.ylabel('dataGen_repeatedTask_0_0_s1')
-plt.title('curve_1')
+for k in range(len(time_repeatedTask_0_0)):
+    if k==0:
+        plt.plot(time_repeatedTask_0_0[k], dataGen_repeatedTask_0_0_s0[k], color='b', label=dataGen_repeatedTask_0_0_s0)
+    else:
+        plt.plot(time_repeatedTask_0_0[k], dataGen_repeatedTask_0_0_s0[k], color='b')
+for k in range(len(time_repeatedTask_0_0)):
+    if k==0:
+        plt.plot(time_repeatedTask_0_0[k], dataGen_repeatedTask_0_0_s1[k], color='g', label=dataGen_repeatedTask_0_0_s1)
+    else:
+        plt.plot(time_repeatedTask_0_0[k], dataGen_repeatedTask_0_0_s1[k], color='g')
+plt.title('plot2d_Simulation0')
+plt.legend()
 plt.show()
