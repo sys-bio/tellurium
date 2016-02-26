@@ -560,22 +560,21 @@ class SEDMLCodeFactory(object):
         simType = simulation.getTypeCode()
         algorithm = simulation.getAlgorithm()
         if algorithm is None:
-            warnings.warn("Algorithm missing on simulation, defaulting to 'cvode: KisaoID:0000019'")
+            warnings.warn("Algorithm missing on simulation, defaulting to 'cvode: KISAO:0000019'")
             algorithm = simulation.createAlgorithm()
-            algorithm.setKisaoID("KisaoID:0000019")
-
+            algorithm.setKisaoID("KISAO:0000019")
         kisao = algorithm.getKisaoID()
 
         # Check if supported algorithm
         if not SEDMLCodeFactory.isSupportedKisaoIDForSimulation(kisao=kisao, simType=simType):
-            lines.append("# Unsupported KisaoID {} for Algorithm {}".format(kisao, simType))
-            return "\n".join(lines)
+            lines.append("# Unsupported Algorithm {} for SimulationType {}".format(kisao, simulation.getElementName()))
+            return lines
 
         # Set integrator
         integratorName = SEDMLCodeFactory.getIntegratorNameForKisaoID(kisao)
         if not integratorName:
-            lines.append("# No integrator for KisaoID {} in tellurium".format(kisao))
-            return "\n".join(lines)
+            lines.append("# No integrator exists for {} in roadrunner".format(kisao))
+            return lines
         lines.append("{}.setIntegrator('{}')".format(mid, integratorName))
 
         # Set integrator settings (AlgorithmParameters)

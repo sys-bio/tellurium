@@ -181,6 +181,7 @@ class experiment(object):
             raise Exception(phrasedml.getLastError())
         phrasedml.clearReferencedSBML()
 
+
         # Create sedml file
         fsedml = tempfile.NamedTemporaryFile('w', suffix=".sedml")
         fsedml.write(sedmlstr)
@@ -188,6 +189,9 @@ class experiment(object):
         # Create python code
         factory = tesedml.SEDMLCodeFactory(fsedml.name)
         pysedml = factory.toPython()
+
+        # necessary to make some replacements
+
 
         # perform some replacements in the python code sedml
         """
