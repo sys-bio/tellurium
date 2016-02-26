@@ -71,7 +71,7 @@ def sedmlToPython(inputstring):
     if not isinstance(inputstring, basestring):
         raise TypeError("For SedmlToPy translation, input must be string")
 
-    if inputstring.startswith(r"<?"):  # Check if string is a SED-ML string
+    if inputstring.startswith(r"<?xml"):  # Check if string is a SED-ML string
         sedmlDoc = libsedml.readSedMLFromString(inputstring)
         path = os.getcwd() + "\\" # Temp. assumption
 
@@ -379,6 +379,119 @@ def populateVariableLists(sedmlDoc, task1, variablesList, variablesDictionary):
                 sys.exit(5)
     return
 
+def generateKisao(currentSimulation, rrName, taskId):
+    """ Check kisao terms and modify roadrunner accordingly.
+    """
+    __cvode = False
+    __stiff = True
+    __rungekutta = False
+    __stochastic = False
+    __steadystate = False
+    
+    algorithm = currentSimulation.getAlgorithm()
+    
+    if currentSimulation.isSetAlgorithm() == False:
+        print("# Algorithm not set for simulation " + currentSimulation.getName())
+        pass
+    
+    if kisaoList.get(algorithm.getKisaoID()) == "CVODE":
+        print(rrName + ".setIntegrator('cvode')")
+        __cvode = True
+    elif kisaoList.get(algorithm.getKisaoID()) == "Adams-Moulton":
+        print(rrName + ".setIntegrator('cvode')")
+        print(rrName + ".getIntegrator().stiff = False")
+        __cvode = True
+        __stiff = False
+    elif kisaoList.get(algorithm.getKisaoID()) == "BDF":
+        print(rrName + ".setIntegrator('cvode')")
+        print(rrName + ".getIntegrator().stiff = True")
+        __cvode = True
+    elif kisaoList.get(algorithm.getKisaoID()) == "RK4":
+        print(rrName + ".setIntegrator('rk4')")
+        __rungekutta = True
+    elif kisaoList.get(algorithm.getKisaoID()) == "RKF45":
+        print(rrName + ".setIntegrator('rk45')")
+        __rungekutta = True
+    elif kisaoList.get(algorithm.getKisaoID()) == "SteadyState":
+        __steadystate = True
+    elif kisaoList.get(algorithm.getKisaoID()) == "Gillespie":
+        print(rrName + ".setIntegrator('gillespie')")
+        __stochastic = True
+    else:
+        print("# Unsupported KisaoID " + algorithm.getKisaoID() + " for simulation " + currentSimulation.getName())
+        pass
+    
+    if algorithm.getNumAlgorithmParameters() > 0:
+        for i in range(algorithm.getNumAlgorithmParameters()):
+            param = algorithm.getAlgorithmParameter(i)
+            if kisaoList.get(param.getKisaoID()) == "variable_step_size":
+                print(rrName + ".getIntegrator().variable_step_size = True)")
+            if kisaoList.get(param.getKisaoID()) == "relative_tolerance":
+                if __cvode:
+                    print(rrName + ".getIntegrator().relative_tolerance = " + str(param.getValue()))
+                elif __steadystate:
+                    print(rrName + ".steadyStateSolver.relative_tolerance = " + str(param.getValue()))
+                else:
+                    print("# Algorithm parameter " + param.getKisaoID() + " is valid only for cvode and steady state solver")
+            if kisaoList.get(param.getKisaoID()) == "absolute_tolerance":
+                if __cvode:
+                    print(rrName + ".getIntegrator().absolute_tolerance = " + str(param.getValue()))
+                else:
+                    print("# Algorithm parameter " + param.getKisaoID() + " is valid only for CVODE solver")
+            if kisaoList.get(param.getKisaoID()) == "maximum_adams_order":
+                if __cvode:
+                    if not __stiff:
+                        print(rrName + ".getIntegrator().maximum_adams_order = " + str(param.getValue()))
+                    else:
+                        print("# Algorithm parameter " + param.getKisaoID() + " is valid only for Adams-Moulton algorithm")
+                else:
+                    print("# Algorithm parameter " + param.getKisaoID() + " is valid only for CVODE solver")
+            if kisaoList.get(param.getKisaoID()) == "maximum_bdf_order":
+                if __cvode:
+                    if __stiff:
+                        print(rrName + ".getIntegrator().maximum_bdf_order = " + str(param.getValue()))
+                    else:
+                        print("# Algorithm parameter " + param.getKisaoID() + " is valid only for BDF")
+                else:
+                    print("# Algorithm parameter " + param.getKisaoID() + " is valid only for CVODE solver")
+            if kisaoList.get(param.getKisaoID()) == "initial_time_step":
+                if __cvode or __rungekutta or __stochastic:
+                    print(rrName + ".getIntegrator().initial_time_step = " + str(param.getValue()))
+                else:
+                    print("# Algorithm parameter " + param.getKisaoID() + " is not valid for steady state solver")
+            if kisaoList.get(param.getKisaoID()) == "maximum_num_steps":
+                if __cvode:
+                    print(rrName + ".getIntegrator().maximum_num_steps = " + str(param.getValue()))
+                else:
+                    print("# Algorithm parameter " + param.getKisaoID() + " is valid only for CVODE solver")
+            if kisaoList.get(param.getKisaoID()) == "maximum_time_step":
+                if __cvode or __rungekutta or __stochastic:
+                    print(rrName + ".getIntegrator().initial_time_step = " + str(param.getValue()))
+                else:
+                    print("# Algorithm parameter " + param.getKisaoID() + " is not valid for steady state solver")
+            if kisaoList.get(param.getKisaoID()) == "minimum_time_step":
+                if __cvode or __rungekutta or __stochastic:
+                    print(rrName + ".getIntegrator().initial_time_step = " + str(param.getValue()))
+                else:
+                    print("# Algorithm parameter " + param.getKisaoID() + " is not valid for steady state solver")
+            if kisaoList.get(param.getKisaoID()) == "maximum_iterations":
+                if __steadystate:
+                    print(rrName + ".steadyStateSolver.maximum_iterations = " + str(param.getValue()))
+                else:
+                    print("# Algorithm parameter " + param.getKisaoID() + " is valid only for steady state simulations")
+            if kisaoList.get(param.getKisaoID()) == "minimum_damping":
+                if __steadystate:
+                    print(rrName + ".steadyStateSolver.minimum_damping = " + str(param.getValue()))
+                else:
+                    print("# Algorithm parameter " + param.getKisaoID() + " is valid only for steady state simulations")
+            if kisaoList.get(param.getKisaoID()) == "seed":
+                if __stochastic:
+                    print(rrName + ".getIntegrator().seed = " + str(param.getValue()))
+                else:
+                    print("# Algorithm parameter " + param.getKisaoID() + " is valid only for stochastic simulations")
+
+    #return __stiff, __BDF
+
 
 def generateSimulation(rrName, sedmlDoc, currentModel, task1, variablesList, variablesDictionary, repeatedTaskIndex, repeatedTask = None):
     """ Generate simulation. """
@@ -403,13 +516,6 @@ def generateSimulation(rrName, sedmlDoc, currentModel, task1, variablesList, var
                 string += "]"
                 print(string)
             __uniform = True
-            algorithm = currentSimulation.getAlgorithm()
-            if currentSimulation.isSetAlgorithm() == False:
-                print("# Algorithm not set for simulation " + currentSimulation.getName())
-                continue
-            if algorithm.getKisaoID() != "KISAO:0000019":
-                print("# Unsupported KisaoID " + algorithm.getKisaoID() + " for simulation " + currentSimulation.getName())
-                continue
             if repeatedTaskIndex == -1:    # we expand the repeatedTask id because they need to be flattened for each element in ranges
                 taskId = task1.getId()
             else:
@@ -435,10 +541,6 @@ def generateSimulation(rrName, sedmlDoc, currentModel, task1, variablesList, var
             else:
                 pass
             __steady = True
-            algorithm = currentSimulation.getAlgorithm()
-            if algorithm.getKisaoID() != "KISAO:0000099":
-                print("# Unsupported KisaoID " + algorithm.getKisaoID() + " for simulation " + currentSimulation.getName())
-                continue
             if repeatedTaskIndex == -1:
                 taskId = task1.getId()
             else:
@@ -460,13 +562,6 @@ def generateSimulation(rrName, sedmlDoc, currentModel, task1, variablesList, var
                 string += "\"" + variablesList[i] + "\""
             string += "]"
             print(string)
-            algorithm = currentSimulation.getAlgorithm()
-            if not currentSimulation.isSetAlgorithm():
-                print("# Algorithm not set for simulation " + currentSimulation.getName())
-                continue
-            if algorithm.getKisaoID() != "KISAO:0000019":
-                print("# Unsupported KisaoID " + algorithm.getKisaoID() + " for simulation " + currentSimulation.getName())
-                continue
             if repeatedTaskIndex == -1:    # we expand the repeatedTask id because they need to be flattened for each element in ranges
                 taskId = task1.getId()
             else:
@@ -475,9 +570,9 @@ def generateSimulation(rrName, sedmlDoc, currentModel, task1, variablesList, var
                 taskId = taskId.replace(k, v)
             stepsize = currentSimulation.getStep()
             if __uniform:
-                string = taskId + " = " + rrName + ".simulate(" + str(variablesList[-2]) + ", " + str(variablesList[-2] + stepsize) + ", 1)"
+                string = taskId + " = " + rrName + ".oneStep(" + str(variablesList[-2]) + ", " + str(stepsize) + ")"
             else:
-                string = taskId + " = " + rrName + ".simulate(0, " + str(stepsize) + ", 1)"
+                string = taskId + " = " + rrName + ".oneStep(0, " + str(stepsize) + ")"
             print(string)
         else:
             print("# Unsupported type " + str(currentSimulation.getTypeCode()) + " for simulation " + currentSimulation.getName())
@@ -797,3 +892,70 @@ if __name__ == "__main__":
     python_str = sedml_to_python(f_sedml)
     print(python_str)
 
+# List of KiSAO algorithms supported
+kisaoList = {
+"KISAO:0000003":"Gillespie",
+"KISAO:0000015":"Gillespie",
+"KISAO:0000019":"CVODE",
+"KISAO:0000022":"Gillespie",
+"KISAO:0000027":"Gillespie",
+"KISAO:0000028":"Gillespie",
+"KISAO:0000029":"Gillespie",
+"KISAO:0000032":"RK4",
+"KISAO:0000038":"Gillespie",
+"KISAO:0000039":"Gillespie",
+"KISAO:0000040":"Gillespie",
+"KISAO:0000045":"Gillespie",
+"KISAO:0000046":"Gillespie",
+"KISAO:0000048":"Gillespie",
+"KISAO:0000051":"Gillespie",
+"KISAO:0000074":"Gillespie",
+"KISAO:0000075":"Gillespie",
+"KISAO:0000076":"Gillespie",
+"KISAO:0000081":"Gillespie",
+"KISAO:0000082":"Gillespie",
+"KISAO:0000084":"Gillespie",
+"KISAO:0000095":"Gillespie",
+"KISAO:0000107":"variable_step_size",
+"KISAO:0000209":"relative_tolerance",
+"KISAO:0000211":"absolute_tolerance",
+"KISAO:0000219":"maximum_adams_order",
+"KISAO:0000220":"maximum_bdf_order",
+"KISAO:0000241":"Gillespie",
+"KISAO:0000274":"Gillespie",
+"KISAO:0000278":"Gillespie",
+"KISAO:0000280":"Adams-Moulton",
+"KISAO:0000282":"SteadyState",
+"KISAO:0000283":"SteadyState",
+"KISAO:0000288":"BDF",
+"KISAO:0000319":"Gillespie",
+"KISAO:0000323":"Gillespie",
+"KISAO:0000324":"Gillespie",
+"KISAO:0000329":"Gillespie",
+"KISAO:0000330":"Gillespie",
+"KISAO:0000331":"Gillespie",
+"KISAO:0000332":"initial_time_step",
+"KISAO:0000333":"Gillespie",
+"KISAO:0000335":"Gillespie",
+"KISAO:0000336":"Gillespie",
+"KISAO:0000350":"Gillespie",
+"KISAO:0000351":"Gillespie",
+"KISAO:0000355":"SteadyState",
+"KISAO:0000356":"SteadyState",
+"KISAO:0000407":"SteadyState",
+"KISAO:0000408":"SteadyState",
+"KISAO:0000409":"SteadyState",
+"KISAO:0000410":"SteadyState",
+"KISAO:0000411":"SteadyState",
+"KISAO:0000412":"SteadyState",
+"KISAO:0000413":"SteadyState",
+"KISAO:0000415":"maximum_num_steps",
+"KISAO:0000432":"SteadyState",
+"KISAO:0000435":"RKF45",
+"KISAO:0000437":"SteadyState",
+"KISAO:0000467":"maximum_time_step",
+"KISAO:0000485":"minimum_time_step",
+"KISAO:0000486":"maximum_iterations",
+"KISAO:0000487":"minimum_damping",
+"KISAO:0000488":"seed"
+}
