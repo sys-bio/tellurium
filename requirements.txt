@@ -13,7 +13,8 @@ matplotlib
 numpy
 pygraphviz
 ipython
-# pandas
+jinja2
+pandas
 
 # for testing
 nose

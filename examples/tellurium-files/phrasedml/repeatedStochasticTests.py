@@ -83,25 +83,5 @@ plot task1.time vs task1.MAPK, task1.MAPK_P, task1.MAPK_PP, task1.MKK, task1.MKK
 
 exp = te.experiment(antimonyStr, phrasedmlStr)
 
-# Create an archive & use the archive to run the simulation
-expArchive = 'repeatedStochasticTest.sedx'
-exp.exportAsCombine(expArchive)
-exec(te.sedmlToPython(expArchive))
-
-# Start <DEBUGGING>
-if False:
-    from tellurium.sedml.tesedml import SEDMLCodeFactory
-    factory = SEDMLCodeFactory(expArchive)
-    pysedml = factory.toPython()
-    # pysedml = te.sedmlToPython(expArchive)
-
-    print('*' * 80)
-    print(factory.sedmlString())
-    print('*' * 80)
-    print(pysedml)
-    print('*' * 80)
-    exec(pysedml)
-# <DEBUGGING>
-
 # directly via execute (not working yet)
 exp.execute()

@@ -27,7 +27,7 @@ class tePhrasedMLTestCase(unittest.TestCase):
           task1 = run sim1 on model1
           plot "Figure 1" time vs S1, S2
         '''
-        self.tep = tephrasedml.tePhrasedml(self.antimony, self.phrasedml)
+        self.tep = tephrasedml.experiment(self.antimony, self.phrasedml)
 
         self.tep.getSbmlString()
         self.tep.getSedmlString()
@@ -59,24 +59,24 @@ class tePhrasedMLTestCase(unittest.TestCase):
 
     def test_execute(self):
         """Test execute."""
-        exp = tephrasedml.tePhrasedml(self.antimony, self.phrasedml)
+        exp = tephrasedml.experiment(self.antimony, self.phrasedml)
         exp.execute()
 
     def test_createpython(self):
         """Test createpython."""
-        exp = tephrasedml.tePhrasedml(self.antimony, self.phrasedml)
+        exp = tephrasedml.experiment(self.antimony, self.phrasedml)
         pstr = exp.createpython()
         self.assertIsNotNone(pstr)
 
     def test_printpython(self):
         """Test printpython."""
-        exp = tephrasedml.tePhrasedml(self.antimony, self.phrasedml)
+        exp = tephrasedml.experiment(self.antimony, self.phrasedml)
         exp.printpython()
 
     def test_experiment(self):
         """Test experiment."""
         import tellurium as te
-        exp = te.experiment(self.antimony, self.phrasedml)
+        exp = tephrasedml.experiment(self.antimony, self.phrasedml)
         pstr = exp.createpython()
         self.assertIsNotNone(pstr)
 

@@ -97,7 +97,7 @@ class TesedmlTestCase(unittest.TestCase):
           </listOfOutputs>
         </sedML>
         """
-        python_str = tesedml.sedmlToPython(inputstring=sedml_string)
+        python_str = tesedml.sedmlToPython(sedml_string)
         self.assertIsNotNone(python_str)
 
 if __name__ == "__main__":

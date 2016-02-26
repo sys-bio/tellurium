@@ -69,17 +69,25 @@ The Output Class
 from __future__ import print_function, division
 
 import sys
-import os.path
 import warnings
 import datetime
 import zipfile
 from collections import namedtuple
+import os.path
 
 import libsedml
 from jinja2 import Environment, FileSystemLoader
 
 import tellurium as te
 from tellurium.tecombine import CombineTools
+
+try:
+    # requrired imports
+    import pandas
+    import matplotlib.pyplot as plt
+    import mpl_toolkits.mplot3d
+except ImportError:
+    warnings.warn("Dependencies for SEDML code generation not fullfilled.")
 
 # Change default encoding to UTF-8
 # We need to reload sys module first, because setdefaultencoding is available only at startup time
@@ -929,6 +937,7 @@ class SEDMLTools(object):
                 # is parsable xml string
                 doc = libsedml.readSedMLFromString(inputStr)
                 inputType = cls.INPUT_TYPE_STR
+                workingDir = os.getcwd()
 
             except ElementTree.ParseError:
                 if not os.path.exists(inputStr):
