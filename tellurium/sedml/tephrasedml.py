@@ -28,8 +28,9 @@ import tellurium.tecombine
 import phrasedml
 import tesedml
 
+
 class experiment(object):
-    """ SEDML helper class.
+    """ Phrasedml experiment.
 
     This class is responsible for the creation of executable tellurium code
     phrasedml descriptions. Main function is a code factory.
@@ -133,6 +134,8 @@ class experiment(object):
         :returns: python string to execute
         :rtype: str
         """
+        # TODO: remove the tempfiles !
+
         # create xml and sedml
         rePath = r"(\w*).load\('(.*)'\)"
         reLoad = r"(\w*) = roadrunner.RoadRunner\(\)"
@@ -148,8 +151,11 @@ class experiment(object):
                 sbml_str = te.antimonyToSBML(self.antimonyStr)
                 phrasedml.setReferencedSBML(modelsource, sbml_str)
 
-        # create archive
-        expArchive = os.path.join(os.getcwd(), "{}.sedx".format(modelname))
+        # create temporary archive
+        import tempfile
+        tempdir = tempfile.mkdtemp(suffix="_sedml")
+
+        expArchive = os.path.join(tempdir, "{}.sedx".format(modelname))
         print("Combine Archive:", expArchive)
         self.exportAsCombine(expArchive)
 

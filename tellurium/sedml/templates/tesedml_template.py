@@ -3,10 +3,10 @@
     tellurium {{ version }}
 
     auto-generated code ({{ timestamp }})
-        sedmlDoc: L{{ doc.getLevel() }}V{{ doc.getVersion() }} {% if doc.isSetId() %}id={{ doc.getId() }} {% endif %} {% if doc.isSetName() %}name={{ doc.getName() }}{% endif %}
-        workingDir: {{ factory.workingDir }}
-        inputType: {{ factory.inputType }}
+    sedmlDoc: L{{ doc.getLevel() }}V{{ doc.getVersion() }} {% if doc.isSetId() %}id={{ doc.getId() }} {% endif %} {% if doc.isSetName() %}name={{ doc.getName() }}{% endif %}
 
+    workingDir: {{ factory.workingDir }}
+    inputType: {{ factory.inputType }}
 """
 from __future__ import print_function, division
 import tellurium as te

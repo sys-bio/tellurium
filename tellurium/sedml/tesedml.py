@@ -435,8 +435,7 @@ class SEDMLCodeFactory(object):
             # <REPEATED TASK>
             elif t.getTypeCode() == libsedml.SEDML_TASK_REPEATEDTASK:
                 # lines.extend(SEDMLCodeFactory.repeatedTaskToPython(doc, task=t))
-                warnings.warn("RepeatedTasks of repeated tasks not supported.")
-                # TODO: implement
+                raise NotImplementedError("RepeatedTasks of repeated tasks not supported.")
 
         return lines
 

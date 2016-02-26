@@ -92,26 +92,4 @@ sedml = p.phrasedml.convertString(phrasedmlStr)
 
 # Create experiment
 exp = te.experiment(antimonyStr, phrasedmlStr)
-
-# Create an archive & use the archive to run the simulation
-expArchive = 'parameterScan2D.sedx'
-exp.exportAsCombine(expArchive)
-# exec(te.sedmlToPython(expArchive))
-
-# Start <DEBUGGING>
-if True:
-    from tellurium.sedml.tesedml import SEDMLCodeFactory
-    factory = SEDMLCodeFactory(expArchive)
-    pysedml = factory.toPython()
-    # pysedml = te.sedmlToPython(expArchive)
-
-    print('*' * 80)
-    print(factory.sedmlString())
-    print('*' * 80)
-    print(pysedml)
-    print('*' * 80)
-    exec(pysedml)
-# <DEBUGGING>
-
-# directly via execute (not working yet)
-# exp.execute()
+exp.execute()
