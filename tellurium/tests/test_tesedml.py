@@ -4,12 +4,12 @@ Testing tesedml.
 Generating executable python code from the SEDML files.
 """
 from __future__ import print_function
-import unittest
 
 import os
-import tellurium.tesedml as tesedml
+import unittest
 
-test_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'testdata', 'sedml')
+import tellurium.sedml.tesedml as tesedml
+from tellurium.tests.testdata import sedmlDir
 
 
 class TesedmlTestCase(unittest.TestCase):
@@ -31,19 +31,19 @@ class TesedmlTestCase(unittest.TestCase):
 
     def test_app2sim(self):
         """Test app2sim SED-ML example."""
-        self.single_check(os.path.join(test_dir, 'app2sim', 'app2sim.sedml'))
+        self.single_check(os.path.join(sedmlDir, 'app2sim.sedml'))
 
     def test_asedml3repeat(self):
         """Test asedml3repeat SED-ML example."""
-        self.single_check(os.path.join(test_dir, 'asedml3repeat', 'asedml3repeat.sedml'))
+        self.single_check(os.path.join(sedmlDir, 'asedml3repeat.sedml'))
 
     def test_asedmlComplex(self):
         """Test asedmlComplex SED-ML example."""
-        self.single_check(os.path.join(test_dir, 'asedmlComplex', 'asedmlComplex.sedml'))
+        self.single_check(os.path.join(sedmlDir, 'asedmlComplex.sedml'))
 
     def test_constant_maybe(self):
         """Test constant_maybe SED-ML example."""
-        self.single_check(os.path.join(test_dir, 'constant_maybe', 'BioModel1.sedml'))
+        self.single_check(os.path.join(sedmlDir, 'BioModel1_repressor_activator_oscillations.sedml'))
 
     def test_via_sedml_string(self):
         """Test SED-ML from string."""
@@ -97,7 +97,7 @@ class TesedmlTestCase(unittest.TestCase):
           </listOfOutputs>
         </sedML>
         """
-        python_str = tesedml.sedmlToPython(inputstring=sedml_string)
+        python_str = tesedml.sedmlToPython(sedml_string)
         self.assertIsNotNone(python_str)
 
 if __name__ == "__main__":

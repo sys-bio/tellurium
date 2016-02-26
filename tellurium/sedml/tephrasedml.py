@@ -20,22 +20,17 @@ Provides a simple description language to create the SED-ML parts
 from __future__ import print_function, division
 
 import os.path
-import tempfile
 import re
-import roadrunner
+import tempfile
+
 import tellurium as te
-import tecombine
+import tellurium.tecombine
+import phrasedml
 import tesedml
 
-try:
-    import phrasedml
-except ImportError as e:
-    phrasedml = None
-    roadrunner.Logger.log(roadrunner.Logger.LOG_WARNING, str(e))
 
-
-class tePhrasedml(object):
-    """ SEDML helper class.
+class experiment(object):
+    """ Phrasedml experiment.
 
     This class is responsible for the creation of executable tellurium code
     phrasedml descriptions. Main function is a code factory.
@@ -44,12 +39,13 @@ class tePhrasedml(object):
     """
 
     def __init__(self, antimonyStr, phrasedmlStr):
-        """ Constructor from antimony string and phrasedml string.
+        """ Create experiment from antimony and phrasedml string.
 
-        :param antimonyStr: antimony model string
-        :type antimonyStr: str
-        :param phrasedmlStr: phrasedml string
-        :type phrasedmlStr: str
+            :param ant: Antimony string of model
+            :type ant: str
+            :param phrasedml: phrasedml simulation description
+            :type phrasedml: str
+            :returns: SEDML experiment description
         """
         modelispath = False
         if type(antimonyStr) != str:
@@ -112,11 +108,17 @@ class tePhrasedml(object):
 
         return sedmlstr
 
-    def execute(self):
+    def execute(self, show=True):
         """ Executes created python code.
         See :func:`createpython`
         """
         execStr = self.createpython()
+        if show:
+            print('*'*80)
+            print('EXECUTED')
+            print('*'*80)
+            print(execStr)
+            print('*'*80)
         try:
             # This calls exec. Be very sure that nothing bad happens here.
             exec execStr
@@ -125,12 +127,16 @@ class tePhrasedml(object):
 
     def createpython(self):
         """ Create and return python script given antimony and phrasedml strings.
-        Uses the tesedml.create
+
+        This creates the full model decription including the
+        antimony and phrasedml strings.
 
         :returns: python string to execute
         :rtype: str
         """
-        # created sedml
+        # TODO: remove the tempfiles !
+
+        # create xml and sedml
         rePath = r"(\w*).load\('(.*)'\)"
         reLoad = r"(\w*) = roadrunner.RoadRunner\(\)"
         reModel = r"""(\w*) = model ('|")(.*)('|")"""
@@ -142,65 +148,32 @@ class tePhrasedml(object):
                 modelname = os.path.basename(modelsource)
                 modelname = str(modelname).replace(".xml", '')
 
-        phrasedml.setReferencedSBML(modelsource, te.antimonyToSBML(self.antimonyStr))
-        sedmlstr = phrasedml.convertString(self.phrasedmlStr)
-        if sedmlstr is None:
-            raise Exception(phrasedml.getLastError())
+                sbml_str = te.antimonyToSBML(self.antimonyStr)
+                phrasedml.setReferencedSBML(modelsource, sbml_str)
 
-        phrasedml.clearReferencedSBML()
+        # create temporary archive
+        import tempfile
+        tempdir = tempfile.mkdtemp(suffix="_sedml")
 
-        fd1, sedmlfilepath = tempfile.mkstemp()
-        os.write(fd1, sedmlstr)
-        pysedml = tesedml.sedmlToPython(sedmlfilepath)
+        expArchive = os.path.join(tempdir, "{}.sedx".format(modelname))
+        print("Combine Archive:", expArchive)
+        self.exportAsCombine(expArchive)
 
-        # perform some replacements in the sedml
-        if self.modelispath is False:
-            lines = pysedml.splitlines()
-            for k, line in enumerate(lines):
-                reSearchPath = re.split(rePath, line)
-                if len(reSearchPath) > 1:
-                    del lines[k]
+        # Create python code
+        pysedml = tesedml.sedmlToPython(expArchive)
+        # outputstr = str(modelname) + " = '''" + self.antimonyStr + "'''\n\n" + pysedml
 
-            for k, line in enumerate(lines):
-                reSearchLoad = re.split(reLoad, line)
-                if len(reSearchLoad) > 1:
-                    line = line.replace("roadrunner.RoadRunner()", "te.loada(" + str(modelname) + ")")
-                    lines[k] = line
+        return pysedml
 
-            if "import tellurium" not in pysedml:
-                if "import roadrunner" in pysedml:
-                    for k, line in enumerate(lines):
-                        if "import roadrunner" in line:
-                            del lines[k]
-                            lines.insert(k, "import tellurium as te")
-                        else:
-                            pass
-
-        pysedml = '\n'.join(lines)
-
-        # List of replacements
-        pysedml = pysedml.replace('"compartment"', '"compartment_"')
-        pysedml = pysedml.replace("'compartment'", "'compartment_'")
-
-        outputstr = str(modelname) + " = '''" + self.antimonyStr + "'''\n\n" + pysedml
-
-        os.close(fd1)
-        os.remove(sedmlfilepath)
-
-        return outputstr
-
-    def printpython(self):
-        """ Prints the created python string by :func:`createpython`. """
-        execStr = self.createpython()
-        print(execStr)
-
-    def exportAsCombine(self, outputpath):
+    def exportAsCombine(self, exportPath):
         """ Export as a combine archive.
 
-        :param outputpath: full path of the combine zip file to create
-        :type outputpath: str
+        This is the clean way to execute it.
+        A combine archive is created which afterwards is handeled by the SEDML to python script.
+
+        :param exportPath: full path of the combine zip file to create
+        :type exportPath: str
         """
-        # FIXME: why is this not using the combine archive (tecombine)
         # Temporary failsafe - Should be revised once libphrasedml adopts returning of model name
         reModel = r"""(\w*) = model ('|")(.*)('|")"""
         # rePlot = r"""plot ('|")(.*)('|") (.*)"""
@@ -223,5 +196,12 @@ class tePhrasedml(object):
 
         # export the combine archive
         phrasedml.setReferencedSBML(modelname, te.antimonyToSBML(self.antimonyStr))
-        tecombine.export(outputpath, self.antimonyStr, modelname, revphrasedml)
+        tellurium.tecombine.export(exportPath, self.antimonyStr, modelname, revphrasedml)
         phrasedml.clearReferencedSBML()
+
+    def printpython(self):
+        """ Prints the created python string by :func:`createpython`. """
+        print(self.createpython())
+
+
+
