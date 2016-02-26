@@ -71,7 +71,6 @@ class CombineTools(object):
             import xml.etree.ElementTree as et
             tree = et.parse(manifest)
             root = tree.getroot()
-            print(root)
             for child in root:
                 format = child.attrib['format']
                 if format.endswith(formatType):

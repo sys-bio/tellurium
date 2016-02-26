@@ -1,3 +1,11 @@
+# -*- coding: utf-8 -*-
+"""
+phrasedml 2D parameter scan
+see https://github.com/sys-bio/tellurium/issues/100
+
+UserWarning: RepeatedTask of RepeatedTask currently not supported
+"""
+
 import tellurium as te
 import antimony as a
 import phrasedml as p
@@ -81,5 +89,29 @@ a.loadAntimonyString(antimonyStr)
 sbml = a.getSBMLString(None)
 p.phrasedml.setReferencedSBML("BorisEJB.xml", sbml)
 sedml = p.phrasedml.convertString(phrasedmlStr)
+
+# Create experiment
 exp = te.experiment(antimonyStr, phrasedmlStr)
-exp.execute()
+
+# Create an archive & use the archive to run the simulation
+expArchive = 'parameterScan2D.sedx'
+exp.exportAsCombine(expArchive)
+# exec(te.sedmlToPython(expArchive))
+
+# Start <DEBUGGING>
+if True:
+    from tellurium.sedml.tesedml import SEDMLCodeFactory
+    factory = SEDMLCodeFactory(expArchive)
+    pysedml = factory.toPython()
+    # pysedml = te.sedmlToPython(expArchive)
+
+    print('*' * 80)
+    print(factory.sedmlString())
+    print('*' * 80)
+    print(pysedml)
+    print('*' * 80)
+    exec(pysedml)
+# <DEBUGGING>
+
+# directly via execute (not working yet)
+# exp.execute()

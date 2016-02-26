@@ -230,7 +230,9 @@ class SEDMLCodeFactory(object):
         return pysedml
 
     def executePython(self):
-        """ Executes created python code.
+        """ Executes python code.
+
+        The python code is created during the function call.
         See :func:`createpython`
         """
         execStr = self.toPython()
@@ -241,27 +243,30 @@ class SEDMLCodeFactory(object):
             raise e
 
     def modelToPython(self, model):
+        """ Python code for SedModel.
+
+        :param model: SedModel instance
+        :type model: SedModel
+        :return: python str
+        :rtype: str
+        """
         lines = []
-        language = model.getLanguage()
         mid = model.getId()
+        language = model.getLanguage()
 
-        def isSBML():
-            return 'sbml' in language
-        def isCellML():
-            return 'cellml' in language
-
-        if isSBML():
+        # read model
+        if 'sbml' in language:
             lines.append("{} = te.loadSBMLModel(os.path.join(workingDir, '{}'))".format(mid, self.model_sources[mid]))
-        elif isCellML():
+        elif 'cellml' in language:
             lines.append("{} = te.loadCellMLModel(os.path.join(workingDir, '{}'))".format(mid, self.model_sources[mid]))
         else:
             warnings.warn("Unsupported model language:".format(language))
 
+        # apply model changes
         for change in self.model_changes[mid]:
-            lines.extent(SEDMLCodeFactory.modelChangeToPython(model, change))
+            lines.extend(SEDMLCodeFactory.modelChangeToPython(model, change))
 
         return '\n'.join(lines)
-
 
     @staticmethod
     def modelChangeToPython(model, change):
@@ -318,90 +323,115 @@ class SEDMLCodeFactory(object):
 
         # <SIMPLE TASK>
         if taskType == libsedml.SEDML_TASK:
-            tid = task.getId()
-            lines.append("{} = [None]".format(tid))
-            resultVariable = "{}[0]".format(tid)
-            selections = SEDMLCodeFactory.selectionsForTask(doc=doc, task=task)
-            lines.extend(SEDMLCodeFactory.subtaskToPython(doc=doc, task=task,
-                                                          selections=selections,
-                                                          resultVariable=resultVariable))
-
+            lines.extend(SEDMLCodeFactory.simpleTaskToPython(doc, task))
         # <REPEATED TASK>
         elif taskType == libsedml.SEDML_TASK_REPEATEDTASK:
-            resetModel = task.getResetModel()
-            rangeId = task.getRangeId()
+            lines.extend(SEDMLCodeFactory.repeatedTaskToPython(doc, task))
+        else:
+            lines.append("# Unsupported task: {}".format(taskType))
+        return '\n'.join(lines)
 
-            for change in task.getListOfTaskChanges():
+    @staticmethod
+    def simpleTaskToPython(doc, task):
+        """ Create python for simple task. """
+        lines = []
+        tid = task.getId()
+        lines.append("{} = [None]".format(tid))
+        resultVariable = "{}[0]".format(tid)
+        selections = SEDMLCodeFactory.selectionsForTask(doc=doc, task=task)
+        lines.extend(SEDMLCodeFactory.subtaskToPython(doc=doc, task=task,
+                                                      selections=selections,
+                                                      resultVariable=resultVariable))
+        return lines
+
+    @staticmethod
+    def repeatedTaskToPython(doc, task):
+        """ Create python for RepeatedTask. """
+        lines = []
+
+        resetModel = task.getResetModel()
+        rangeId = task.getRangeId()
+
+        for change in task.getListOfTaskChanges():
+            # TODO: implement
+            warnings.warn("Unsupported listOfChanges on RepeatedTask")
+            break
+
+        for subtask in task.getListOfSubTasks():
+            t = doc.getTask(subtask.getTask())  # get real task which belongs to subtask
+            mid = t.getModelReference()
+
+            # get master range
+            masterRange = task.getRange(rangeId)
+
+            # create range to iterate
+            import numpy as np
+            if masterRange.getTypeCode() == libsedml.SEDML_RANGE_UNIFORMRANGE:
+                rStart = masterRange.getStart()
+                rEnd = masterRange.getEnd()
+                rPoints = masterRange.getNumberOfPoints()
+                rType = masterRange.getType()
+                if rType in ['Linear', 'linear']:
+                    __range = np.linspace(start=rStart, stop=rEnd, num=rPoints)
+                elif rType in ['Log', 'log']:
+                    __range = np.logspace(start=rStart, stop=rEnd, num=rPoints)
+                else:
+                    warnings.warn("Unsupported range type in UniformRange: {}".format(rType))
+
+            elif masterRange.getTypeCode() == libsedml.SEDML_RANGE_VECTORRANGE:
+                __range = np.zeros(shape=[masterRange.getNumValues()])
+                for k, v in enumerate(masterRange.getValues()):
+                    __range[k] = v
+
+            elif masterRange.getTypeCode() == libsedml.SEDML_RANGE_FUNCTIONALRANGE:
                 # TODO: implement
-                warnings.warn("Unsupported listOfChanges on RepeatedTask")
-                break
+                warnings.warn('FunctionalRange NOT IMPLEMENTED')
 
-            for subtask in task.getListOfSubTasks():
-                t = doc.getTask(subtask.getTask())  # get real task by belonging to subtask
-                mid = t.getModelReference()
+            # ---------------------------
+            # iterate over range
+            # ---------------------------
+            lines.append("__range_{} = {}".format(task.getId(), list(__range)))
+            lines.append("{} = [None] * len(__range_{})".format(task.getId(), task.getId()))
+            lines.append("for k, value in enumerate(__range_{}):".format(task.getId()))
 
-                # get master range
-                masterRange = task.getRange(rangeId)
+            # we have to intent all lines from now on (in for loop)
+            forLines = []
 
-                # create range to iterate
-                import numpy as np
-                if masterRange.getTypeCode() == libsedml.SEDML_RANGE_UNIFORMRANGE:
-                    rStart = masterRange.getStart()
-                    rEnd = masterRange.getEnd()
-                    rPoints = masterRange.getNumberOfPoints()
-                    rType = masterRange.getType()
-                    if rType in ['Linear', 'linear']:
-                        __range = np.linspace(start=rStart, stop=rEnd, num=rPoints)
-                    elif rType in ['Log', 'log']:
-                        __range = np.logspace(start=rStart, stop=rEnd, num=rPoints)
-                    else:
-                        warnings.warn("Unsupported range type in UniformRange: {}".format(rType))
+            # resetModel
+            if resetModel:
+                forLines.append("{}.reset()".format(mid))
 
-                elif masterRange.getTypeCode() == libsedml.SEDML_RANGE_VECTORRANGE:
-                    __range = np.zeros(shape=[1, masterRange.getNumValues()])
-                    for k, v in masterRange.getValues():
-                        __range[1, k] = v
+            # apply changes
+            for change in task.getListOfTaskChanges():
+                if change.getElementName() != "setValue":
+                    warnings.warn("Only setValue changes are supported at this time")
+                    return
 
-                elif masterRange.getTypeCode() == libsedml.SEDML_RANGE_FUNCTIONALRANGE:
-                    # TODO: implement
-                    warnings.warn('FunctionalRange NOT IMPLEMENTED')
+                xpath = change.getTarget()
+                forLines.append(SEDMLCodeFactory.targetToPython(xpath, value="value", modelId=mid))
 
-                # ---------------------------
-                # iterate over range
-                # ---------------------------
-                lines.append("__range = {}".format(list(__range)))
-                lines.append("{} = [None] * len(__range)".format(task.getId()))
-                lines.append("for k, value in enumerate(__range):")
-
-                # we have to intent all lines from now on (in for loop)
-                forLines = []
-
-                # resetModel
-                if resetModel:
-                    forLines.append("{}.reset()".format(mid))
-
-                # apply changes
-                for change in task.getListOfTaskChanges():
-                    if change.getElementName() != "setValue":
-                        warnings.warn("Only setValue changes are supported at this time")
-                        return
-
-                    xpath = change.getTarget()
-                    forLines.append(SEDMLCodeFactory.targetToPython(xpath, value="value", modelId=mid))
-
-                # Run single repeat
-                # TODO: implement multiple subtasks
-                resultVariable = "{}[k]".format(task.getId())
-                selections = SEDMLCodeFactory.selectionsForTask(doc=doc, task=task)
+            # Run single repeat
+            # TODO: implement multiple subtasks
+            resultVariable = "{}[k]".format(task.getId())
+            selections = SEDMLCodeFactory.selectionsForTask(doc=doc, task=task)
+            # <SIMPLE TASK>
+            if t.getTypeCode() == libsedml.SEDML_TASK:
+                # lines.extend(SEDMLCodeFactory.simpleTaskToPython(doc, task))
                 forLines.extend(SEDMLCodeFactory.subtaskToPython(doc, task=t,
-                                                                 selections=selections,
-                                                                 resultVariable=resultVariable))
+                                                             selections=selections,
+                                                             resultVariable=resultVariable))
                 # ---------------------------
                 # add the intendend for lines
                 lines.extend('    ' + line for line in forLines)
-        else:
-            lines.append("# Unsupported task: {}".format(taskType))
-        return "\n".join(lines)
+
+            # <REPEATED TASK>
+            elif t.getTypeCode() == libsedml.SEDML_TASK_REPEATEDTASK:
+                # lines.extend(SEDMLCodeFactory.repeatedTaskToPython(doc, task=t))
+                warnings.warn("RepeatedTasks of repeated tasks not supported.")
+                # TODO: implement
+
+        return lines
+
 
     @staticmethod
     def subtaskToPython(doc, task, selections, resultVariable=None):
@@ -415,10 +445,10 @@ class SEDMLCodeFactory(object):
         """
         # TODO: handle: ".conservedMoietyAnalysis = False/True"
         lines = []
-
         mid = task.getModelReference()
         sid = task.getSimulationReference()
         simulation = doc.getSimulation(sid)
+
         simType = simulation.getTypeCode()
         algorithm = simulation.getAlgorithm()
         if algorithm is None:
@@ -441,7 +471,8 @@ class SEDMLCodeFactory(object):
 
         # Set integrator settings (AlgorithmParameters)
         for par in algorithm.getListOfAlgorithmParameters():
-            lines.append(SEDMLCodeFactory.algorithmParameterToPython(par))
+            pkey = SEDMLCodeFactory.algorithmParameterToParameterKey(par)
+            lines.append("{}.getIntegrator().setValue('{}', '{}')".format(mid, pkey.key, pkey.value))
 
         # handle result variable
         if resultVariable is None:
@@ -587,10 +618,8 @@ class SEDMLCodeFactory(object):
             return None
 
     @staticmethod
-    def algorithmParameterToPython(par):
-        """ Create python code for algorithm parameter.
-
-        Sets the algorithm parameter for the current integrator.
+    def algorithmParameterToParameterKey(par):
+        """ Resolve the mapping between parameter keys and roadrunner integrator keys.
 
             relative_tolerance (209; the relative tolerance)
             absolute_tolerance (211; the absolute tolerance)
@@ -607,36 +636,39 @@ class SEDMLCodeFactory(object):
         """
         kid = par.getKisaoID()
         value = par.getValue()
+        ParameterKey = namedtuple('ParameterKey', 'key value')
+        key = None
 
-        if kid == 'KISAO_0000209':
+        if kid == 'KISAO:0000209':
             key = 'relative_tolerance'
-        elif kid == 'KISAO_0000211':
+        elif kid == 'KISAO:0000211':
             key = 'relative_tolerance'
-        elif kid == 'KISAO_0000220':
+        elif kid == 'KISAO:0000220':
             key = 'maximum_bdf_order'
-        elif kid == 'KISAO_0000219':
+        elif kid == 'KISAO:0000219':
             key = 'maximum_adams_order'
-        elif kid == 'KISAO_0000415':
+        elif kid == 'KISAO:0000415':
             key = 'maximum_num_steps'
-        elif kid == 'KISAO_0000467':
+        elif kid == 'KISAO:0000467':
             key = 'maximum_time_step'
-        elif kid == 'KISAO_0000485':
+        elif kid == 'KISAO:0000485':
             key = 'minimum_time_step'
-        elif kid == 'KISAO_0000332':
+        elif kid == 'KISAO:0000332':
             key = 'initial_time_step'
-        elif kid == 'KISAO_0000107':
+        elif kid == 'KISAO:0000107':
             key = 'variable_step_size'
-        elif kid == 'KISAO_0000486':
+        elif kid == 'KISAO:0000486':
             key = 'maximum_iterations'
-        elif kid == 'KISAO_0000487':
+        elif kid == 'KISAO:0000487':
             key = 'maximum_damping'
-        elif kid == 'KISAO_0000488':
+        elif kid == 'KISAO:0000488':
             key = 'seed'
         # set the setting
-        if key:
-            return "{}{}.getIntegrator().setValue({}, {})".format(key, value)
-        if not key:
-            return "{}# Unsupported AlgorithmParameter: {} = {})".format(kid, value)
+        if key is not None:
+            return ParameterKey(key, value)
+        else:
+            warnings.warn("Unsupported AlgorithmParameter: {} = {})".format(kid, value))
+            return None
 
     @staticmethod
     def targetToPython(xpath, value, modelId):
@@ -1033,9 +1065,9 @@ if __name__ == "__main__":
     import os
     from tellurium.tests.testdata import sedmlDir, sedxDir, psedmlDir
 
-    for fname in ['app2sim.sedml',
-                  'asedml3repeat.sedml',
-                  'asedmlComplex.sedml',
+    for fname in [# 'app2sim.sedml',
+                  # 'asedml3repeat.sedml',
+                  # 'asedmlComplex.sedml',
                   'BioModel1_repressor_activator_oscillations.sedml'
                   ]:
 

@@ -1,0 +1,330 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created by libAntimony version v2.9 on 2016-02-26 18:36 with libSBML version 5.12.1. -->
+<sbml xmlns="http://www.sbml.org/sbml/level3/version1/core" level="3" version="1">
+  <model id="BorisEJB" name="BorisEJB">
+    <listOfCompartments>
+      <compartment id="compartment_" spatialDimensions="3" size="1" constant="true"/>
+    </listOfCompartments>
+    <listOfSpecies>
+      <species id="MKKK" compartment="compartment_" initialConcentration="90" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+      <species id="MKKK_P" compartment="compartment_" initialConcentration="10" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+      <species id="MKK" compartment="compartment_" initialConcentration="280" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+      <species id="MKK_P" compartment="compartment_" initialConcentration="10" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+      <species id="MKK_PP" compartment="compartment_" initialConcentration="10" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+      <species id="MAPK" compartment="compartment_" initialConcentration="280" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+      <species id="MAPK_P" compartment="compartment_" initialConcentration="10" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+      <species id="MAPK_PP" compartment="compartment_" initialConcentration="10" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+    </listOfSpecies>
+    <listOfParameters>
+      <parameter id="J0_V1" value="2.5" constant="true"/>
+      <parameter id="J0_Ki" value="9" constant="true"/>
+      <parameter id="J0_n" value="1" constant="true"/>
+      <parameter id="J0_K1" value="10" constant="true"/>
+      <parameter id="J1_V2" value="0.25" constant="true"/>
+      <parameter id="J1_KK2" value="8" constant="true"/>
+      <parameter id="J2_k3" value="0.025" constant="true"/>
+      <parameter id="J2_KK3" value="15" constant="true"/>
+      <parameter id="J3_k4" value="0.025" constant="true"/>
+      <parameter id="J3_KK4" value="15" constant="true"/>
+      <parameter id="J4_V5" value="0.75" constant="true"/>
+      <parameter id="J4_KK5" value="15" constant="true"/>
+      <parameter id="J5_V6" value="0.75" constant="true"/>
+      <parameter id="J5_KK6" value="15" constant="true"/>
+      <parameter id="J6_k7" value="0.025" constant="true"/>
+      <parameter id="J6_KK7" value="15" constant="true"/>
+      <parameter id="J7_k8" value="0.025" constant="true"/>
+      <parameter id="J7_KK8" value="15" constant="true"/>
+      <parameter id="J8_V9" value="0.5" constant="true"/>
+      <parameter id="J8_KK9" value="15" constant="true"/>
+      <parameter id="J9_V10" value="0.5" constant="true"/>
+      <parameter id="J9_KK10" value="15" constant="true"/>
+    </listOfParameters>
+    <listOfReactions>
+      <reaction id="J0" reversible="false" fast="false">
+        <listOfReactants>
+          <speciesReference species="MKKK" stoichiometry="1" constant="true"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="MKKK_P" stoichiometry="1" constant="true"/>
+        </listOfProducts>
+        <listOfModifiers>
+          <modifierSpeciesReference species="MAPK_PP"/>
+        </listOfModifiers>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <divide/>
+              <apply>
+                <times/>
+                <ci> J0_V1 </ci>
+                <ci> MKKK </ci>
+              </apply>
+              <apply>
+                <times/>
+                <apply>
+                  <plus/>
+                  <cn type="integer"> 1 </cn>
+                  <apply>
+                    <power/>
+                    <apply>
+                      <divide/>
+                      <ci> MAPK_PP </ci>
+                      <ci> J0_Ki </ci>
+                    </apply>
+                    <ci> J0_n </ci>
+                  </apply>
+                </apply>
+                <apply>
+                  <plus/>
+                  <ci> J0_K1 </ci>
+                  <ci> MKKK </ci>
+                </apply>
+              </apply>
+            </apply>
+          </math>
+        </kineticLaw>
+      </reaction>
+      <reaction id="J1" reversible="false" fast="false">
+        <listOfReactants>
+          <speciesReference species="MKKK_P" stoichiometry="1" constant="true"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="MKKK" stoichiometry="1" constant="true"/>
+        </listOfProducts>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <divide/>
+              <apply>
+                <times/>
+                <ci> J1_V2 </ci>
+                <ci> MKKK_P </ci>
+              </apply>
+              <apply>
+                <plus/>
+                <ci> J1_KK2 </ci>
+                <ci> MKKK_P </ci>
+              </apply>
+            </apply>
+          </math>
+        </kineticLaw>
+      </reaction>
+      <reaction id="J2" reversible="false" fast="false">
+        <listOfReactants>
+          <speciesReference species="MKK" stoichiometry="1" constant="true"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="MKK_P" stoichiometry="1" constant="true"/>
+        </listOfProducts>
+        <listOfModifiers>
+          <modifierSpeciesReference species="MKKK_P"/>
+        </listOfModifiers>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <divide/>
+              <apply>
+                <times/>
+                <ci> J2_k3 </ci>
+                <ci> MKKK_P </ci>
+                <ci> MKK </ci>
+              </apply>
+              <apply>
+                <plus/>
+                <ci> J2_KK3 </ci>
+                <ci> MKK </ci>
+              </apply>
+            </apply>
+          </math>
+        </kineticLaw>
+      </reaction>
+      <reaction id="J3" reversible="false" fast="false">
+        <listOfReactants>
+          <speciesReference species="MKK_P" stoichiometry="1" constant="true"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="MKK_PP" stoichiometry="1" constant="true"/>
+        </listOfProducts>
+        <listOfModifiers>
+          <modifierSpeciesReference species="MKKK_P"/>
+        </listOfModifiers>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <divide/>
+              <apply>
+                <times/>
+                <ci> J3_k4 </ci>
+                <ci> MKKK_P </ci>
+                <ci> MKK_P </ci>
+              </apply>
+              <apply>
+                <plus/>
+                <ci> J3_KK4 </ci>
+                <ci> MKK_P </ci>
+              </apply>
+            </apply>
+          </math>
+        </kineticLaw>
+      </reaction>
+      <reaction id="J4" reversible="false" fast="false">
+        <listOfReactants>
+          <speciesReference species="MKK_PP" stoichiometry="1" constant="true"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="MKK_P" stoichiometry="1" constant="true"/>
+        </listOfProducts>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <divide/>
+              <apply>
+                <times/>
+                <ci> J4_V5 </ci>
+                <ci> MKK_PP </ci>
+              </apply>
+              <apply>
+                <plus/>
+                <ci> J4_KK5 </ci>
+                <ci> MKK_PP </ci>
+              </apply>
+            </apply>
+          </math>
+        </kineticLaw>
+      </reaction>
+      <reaction id="J5" reversible="false" fast="false">
+        <listOfReactants>
+          <speciesReference species="MKK_P" stoichiometry="1" constant="true"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="MKK" stoichiometry="1" constant="true"/>
+        </listOfProducts>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <divide/>
+              <apply>
+                <times/>
+                <ci> J5_V6 </ci>
+                <ci> MKK_P </ci>
+              </apply>
+              <apply>
+                <plus/>
+                <ci> J5_KK6 </ci>
+                <ci> MKK_P </ci>
+              </apply>
+            </apply>
+          </math>
+        </kineticLaw>
+      </reaction>
+      <reaction id="J6" reversible="false" fast="false">
+        <listOfReactants>
+          <speciesReference species="MAPK" stoichiometry="1" constant="true"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="MAPK_P" stoichiometry="1" constant="true"/>
+        </listOfProducts>
+        <listOfModifiers>
+          <modifierSpeciesReference species="MKK_PP"/>
+        </listOfModifiers>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <divide/>
+              <apply>
+                <times/>
+                <ci> J6_k7 </ci>
+                <ci> MKK_PP </ci>
+                <ci> MAPK </ci>
+              </apply>
+              <apply>
+                <plus/>
+                <ci> J6_KK7 </ci>
+                <ci> MAPK </ci>
+              </apply>
+            </apply>
+          </math>
+        </kineticLaw>
+      </reaction>
+      <reaction id="J7" reversible="false" fast="false">
+        <listOfReactants>
+          <speciesReference species="MAPK_P" stoichiometry="1" constant="true"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="MAPK_PP" stoichiometry="1" constant="true"/>
+        </listOfProducts>
+        <listOfModifiers>
+          <modifierSpeciesReference species="MKK_PP"/>
+        </listOfModifiers>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <divide/>
+              <apply>
+                <times/>
+                <ci> J7_k8 </ci>
+                <ci> MKK_PP </ci>
+                <ci> MAPK_P </ci>
+              </apply>
+              <apply>
+                <plus/>
+                <ci> J7_KK8 </ci>
+                <ci> MAPK_P </ci>
+              </apply>
+            </apply>
+          </math>
+        </kineticLaw>
+      </reaction>
+      <reaction id="J8" reversible="false" fast="false">
+        <listOfReactants>
+          <speciesReference species="MAPK_PP" stoichiometry="1" constant="true"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="MAPK_P" stoichiometry="1" constant="true"/>
+        </listOfProducts>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <divide/>
+              <apply>
+                <times/>
+                <ci> J8_V9 </ci>
+                <ci> MAPK_PP </ci>
+              </apply>
+              <apply>
+                <plus/>
+                <ci> J8_KK9 </ci>
+                <ci> MAPK_PP </ci>
+              </apply>
+            </apply>
+          </math>
+        </kineticLaw>
+      </reaction>
+      <reaction id="J9" reversible="false" fast="false">
+        <listOfReactants>
+          <speciesReference species="MAPK_P" stoichiometry="1" constant="true"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="MAPK" stoichiometry="1" constant="true"/>
+        </listOfProducts>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <divide/>
+              <apply>
+                <times/>
+                <ci> J9_V10 </ci>
+                <ci> MAPK_P </ci>
+              </apply>
+              <apply>
+                <plus/>
+                <ci> J9_KK10 </ci>
+                <ci> MAPK_P </ci>
+              </apply>
+            </apply>
+          </math>
+        </kineticLaw>
+      </reaction>
+    </listOfReactions>
+  </model>
+</sbml>

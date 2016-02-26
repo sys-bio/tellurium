@@ -1,7 +1,7 @@
 """
     tellurium 1.3.1
 
-    auto-generated code (2016-02-26T12:50:21)
+    auto-generated code (2016-02-26T18:28:18)
         sedmlDoc: L1V1          workingDir: /home/mkoenig/git/tellurium/tellurium/tests/testdata/sedml/sed-ml
         inputType: SEDML_FILE
 
@@ -38,9 +38,9 @@ Application0.timeCourseSelections = []
 task_0_0[0] = Application0.simulate(start=0.0, end=30.0, steps=1000)
 
 # Task <repeatedTask_0_0>
-__range = [10.0, 20.0, 30.0]
-repeatedTask_0_0 = [None] * len(__range)
-for k, value in enumerate(__range):
+__range_repeatedTask_0_0 = [10.0, 20.0, 30.0]
+repeatedTask_0_0 = [None] * len(__range_repeatedTask_0_0)
+for k, value in enumerate(__range_repeatedTask_0_0):
     Application0.reset()
     Application0['init([s1])'] = value
     Application0.setIntegrator('cvode')

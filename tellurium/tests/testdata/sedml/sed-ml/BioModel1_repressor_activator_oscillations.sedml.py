@@ -1,7 +1,7 @@
 """
     tellurium 1.3.1
 
-    auto-generated code (2016-02-26T12:50:22)
+    auto-generated code (2016-02-26T18:32:56)
         sedmlDoc: L1V1          workingDir: /home/mkoenig/git/tellurium/tellurium/tests/testdata/sedml/sed-ml
         inputType: SEDML_FILE
 
@@ -38,9 +38,9 @@ repressor_activator_oscillations.timeCourseSelections = []
 task_0_0[0] = repressor_activator_oscillations.simulate(start=0.0, end=200.0, steps=400)
 
 # Task <repeatedTask_0_0>
-__range = [0.20000000000000001, 0.60000000000000009, 1.0]
-repeatedTask_0_0 = [None] * len(__range)
-for k, value in enumerate(__range):
+__range_repeatedTask_0_0 = [0.20000000000000001, 0.60000000000000009, 1.0]
+repeatedTask_0_0 = [None] * len(__range_repeatedTask_0_0)
+for k, value in enumerate(__range_repeatedTask_0_0):
     repressor_activator_oscillations.reset()
     repressor_activator_oscillations['common_delta_A'] = value
     repressor_activator_oscillations.setIntegrator('cvode')
