@@ -277,22 +277,17 @@ class SEDMLCodeFactory(object):
     """ Code Factory generating executable code.
         The following SED-ML constructs are currently NOT supported:
 
+        TODO: Handle general XML transformations
         - Change.RemoveXML
         - Change.AddXML
         - Change.ChangeXML
-        - Change.ComputeChange
 
-        - Range.FunctionalRange
-
-
+        TODO: Handle CellML targets & xml expressions
 
         TODO: Handle MathML with variables and parameters (evaluation)
         - functional range
         - data generators
-        - changes
-
-        TODO: Handle general XML transformations
-
+        - Change.ComputeChange
     """
 
     # template location
@@ -353,6 +348,8 @@ class SEDMLCodeFactory(object):
         template = env.get_template(python_template)
         env.globals['modelChangeToPython'] = self.modelChangeToPython
         env.globals['taskToPython'] = self.taskToPython
+        env.globals['dataGeneratorToPython'] = self.dataGeneratorToPython
+        env.globals['outputToPython'] = self.outputToPython
 
         # timestamp
         time = datetime.datetime.now()
@@ -368,6 +365,17 @@ class SEDMLCodeFactory(object):
             'model_changes': self.model_changes,
         }
         return template.render(c)
+
+    def executePython(self):
+        """ Executes created python code.
+        See :func:`createpython`
+        """
+        execStr = self.toPython()
+        try:
+            # This calls exec. Be very sure that nothing bad happens here.
+            exec execStr
+        except Exception as e:
+            raise e
 
     @staticmethod
     def modelChangeToPython(model, change):
@@ -424,8 +432,13 @@ class SEDMLCodeFactory(object):
 
         # <SIMPLE TASK>
         if taskType == libsedml.SEDML_TASK:
+            tid = task.getId()
+            lines.append("{} = [None]".format(tid))
+            resultVariable = "{}[0]".format(tid)
             selections = SEDMLCodeFactory.selectionsForTask(doc=doc, task=task)
-            lines.extend(SEDMLCodeFactory.subtaskToPython(doc=doc, task=task, selections=selections))
+            lines.extend(SEDMLCodeFactory.subtaskToPython(doc=doc, task=task,
+                                                          selections=selections,
+                                                          resultVariable=resultVariable))
 
         # <REPEATED TASK>
         elif taskType == libsedml.SEDML_TASK_REPEATEDTASK:
@@ -596,25 +609,43 @@ class SEDMLCodeFactory(object):
                 if var.getTaskReference() != task.getId():
                     continue
 
-                # symbol field of variable is set
-                if var.isSetSymbol():
-                    cvs = var.getSymbol()
-                    astr = cvs.rsplit("symbol:")
-                    astr = astr[1]
-                    selections.add(astr)
+                sel = SEDMLCodeFactory.resolveSelectionFromVariable(var)
+                selections.add(sel.id)
 
-                elif var.isSetTarget():
-                    cvt = var.getTarget()    # target field of variable is set
-                    astr = cvt.rsplit("@id='")
-                    astr = astr[1]
-                    astr = astr[:-2]
-                    if 'species' in cvt:
-                        selections.add('[{}]'.format(astr))
-                    else:
-                        selections.add('{}'.format(astr))
-                else:
-                    warnings.warn("Unrecognized data generator variable")
         return selections
+
+    @staticmethod
+    def resolveSelectionFromVariable(var):
+        """ Resolve the model target to model identifier.
+
+        :param var:
+        :type var: SedVariable
+        :return:
+        :rtype: Target
+        """
+        Selection = namedtuple('Selection', 'id type')
+
+        # symbol field of variable is set
+        if var.isSetSymbol():
+            cvs = var.getSymbol()
+            astr = cvs.rsplit("symbol:")
+            sid = astr[1]
+            return Selection(sid, 'symbol')
+
+        elif var.isSetTarget():
+            cvt = var.getTarget()    # target field of variable is set
+            astr = cvt.rsplit("@id='")
+            astr = astr[1]
+            sid = astr[:-2]
+            if 'species' in cvt:
+                return Selection('[{}]'.format(sid), 'species')
+            if 'parameter' in cvt:
+                return Selection(sid, 'parameter')
+            else:
+                return Selection(sid, 'other')
+        else:
+            warnings.warn("Unrecognized Selection in variable")
+            return None
 
     @staticmethod
     def isSupportedKisaoIDForSimulation(kisao, simType):
@@ -761,76 +792,200 @@ class SEDMLCodeFactory(object):
 
     @staticmethod
     def dataGeneratorToPython(doc, generator):
-        """ Create the variable from the data generators and the simulations. """
+        """ Create variable from the data generators and the simulations. """
+        # TODO: implement math, variables, parameters
+        lines = []
+        gid = generator.getId()
+
+        for variable in generator.getListOfVariables():
+            # FIXME: just take first variable as long as no proper implementation
+            taskId = variable.getTaskReference()
+            selection = SEDMLCodeFactory.resolveSelectionFromVariable(variable)
+            lines.append("{} = [sim['{}'] for sim in {}]".format(gid, selection.id, taskId))
+            break
+
+        return '\n'.join(lines)
+
+    @staticmethod
+    def outputToPython(doc, output):
+        """ Create output """
+        lines = []
+
+        typeCode = output.getTypeCode()
+        if typeCode == libsedml.SEDML_OUTPUT_REPORT:
+            lines.extend(SEDMLCodeFactory.outputReportToPython(doc, output))
+
+        elif typeCode == libsedml.SEDML_OUTPUT_PLOT2D:
+            lines.extend(SEDMLCodeFactory.outputPlot2DToPython(doc, output))
+
+        elif typeCode == libsedml.SEDML_OUTPUT_PLOT3D:
+            lines.extend(SEDMLCodeFactory.outputPlot3DToPython(doc, output))
+
+        else:
+            lines.append("# Unsupported output type: {}".format(output.getElementName()))
+
+        return '\n'.join(lines)
+
+    @staticmethod
+    def outputReportToPython(doc, output):
+        """ OutputReport
+
+        :param doc:
+        :type doc: SedDocument
+        :param output:
+        :type output: SedOutputReport
+        :return: list of python lines
+        :rtype: list(str)
+        """
+        # TODO: reports for repeated tasks?
+        lines = []
+
+        headers = []
+        columns = []
+        for dataSet in output.getListOfDataSets():
+            # these are the columns
+            label = dataSet.getLabel()
+            headers.append(label)
+            # data generator (the id is the id of the data in python)
+            dgid = dataSet.getDataReference()
+            columns.append("{}[:,0]".format(dgid))
+
+        lines.append("print(df.head(10))")
+        lines.append("df = pandas.DataFrame(np.array(" + str(columns).replace("'", "") + ").T, \n    columns=" + str(headers) + ")")
+        return lines
+
+    @staticmethod
+    def outputPlot2DToPython(doc, output):
+        """ OutputReport
+
+        :param doc:
+        :type doc: SedDocument
+        :param output:
+        :type output: SedOutputReport
+        :return: list of python lines
+        :rtype: list(str)
+        """
+        # TODO: handle repeated Tasks
+        lines = []
+
+        for curve in output.getListOfCurves():
+            title = curve.getName()
+            if title is None:
+                title = output.getId()
+            logX = curve.getLogX()
+            logY = curve.getLogY()
+            xId = curve.getXDataReference()
+            yId = curve.getYDataReference()
+            dgx = doc.getDataGenerator(xId)
+            dgy = doc.getDataGenerator(yId)
+            lines.append("plt.plot({}[0], {}[0])".format(xId, yId))
+            lines.append("plt.xlabel('{}')".format(xId))
+            lines.append("plt.ylabel('{}')".format(yId))
+
+            if logX is True:
+                lines.append("plt.xscale('log')")
+            if logY is True:
+                lines.append("plt.yscale('log')")
+            lines.append("plt.title('{}')".format(title))
+            lines.append("plt.show()".format(title))
+
+        return lines
+
+    @staticmethod
+    def outputPlot3DToPython(doc, output):
+        """ OutputPlot3D
+
+        :param doc:
+        :type doc: SedDocument
+        :param output:
+        :type output: SedOutputReport
+        :return: list of python lines
+        :rtype: list(str)
+        """
+        # TODO: implement
+        pass
+        lines = []
+        return lines
 
         """
-        variablesDictionary = []      # matching pairs of sedml variable ID and sbml variable ID
-        variablesList = []            # the IDs of the sbml variables, non duplicate entries
-        bFoundAtLeastOneTask = False
-
-        for e in range(0,sedmlDoc.getNumTasks()):
-            task1 = sedmlDoc.getTask(e)
-
-            # repeated task
-            if task1.getElementName() == "repeatedTask":
-                for i in range(0, task1.getNumSubTasks()):
-                    task2 = task1.getSubTask(i)     # the subtask which points to the real task we need to call repeatedly for each value in range
-                    task2 = task2.getTask()         # the Id of the real task
-                    task2 = sedmlDoc.getTask(task2) # get real task by Id
-                    if task2.getModelReference() != currentModel.getId():
-                        continue
-                    aRange = task1.getRange(0)       # we assume one single master range - we don't know how to deel flatten
-                    if aRange.getElementName() != "uniformRange":
-                        print("# Only uniformRange ranges are supported at this time")
-                        continue
-                    variablesDictionary = []
-                    variablesList = []
-                    # need to use the RepeatedTask because the data generators refer to it
-                    populateVariableLists(sedmlDoc, task1, variablesList, variablesDictionary)
-                    # for each point in the range we compute the new values of the variables affected
-                    # and generate a task
-                    for j in range(0, aRange.getNumberOfPoints()):
-                        # need to use both the real Task (task2) because it has the reference to model and simulation
-                        # and the repeated task (task1) because its Id is used for generating the flattened Id's
-                        generateDataLoop(sedmlDoc, currentModel, task2, variablesList, variablesDictionary, j, task1, dataGeneratorsList)
-                        bFoundAtLeastOneTask = True
-                        print("")
-
-            # not a repeated task
+        print("from mpl_toolkits.mplot3d import Axes3D")
+            print("fig = plt.figure()")
+            print("ax = fig.gca(projection='3d')")
+            for x in range(0, sedmlDoc.getNumTasks()):
+                task1 = sedmlDoc.getTask(x)
+                taskList.append(task1.getElementName())
+            if "repeatedTask" in taskList:    #For repeated tasks
+                for y in range(0, sedmlDoc.getNumTasks()):
+                    task1 = sedmlDoc.getTask(y)
+                    if task1.getElementName() == "repeatedTask":
+                        for z in range(0, task1.getNumSubTasks()):
+                            aRange = task1.getRange(0)
+                            for l in range(0, aRange.getNumberOfPoints()):
+                                if output.getNumSurfaces() > 1:
+                                    allX = []
+                                    allY = []
+                                    allZ = []
+                                    for q in range(0, output.getNumSurfaces()):
+                                        surface = output.getSurface(q)
+                                        xDataReference = surface.getXDataReference()
+                                        yDataReference = surface.getYDataReference()
+                                        zDataReference = surface.getZDataReference()
+                                        for k, v in mapping:
+                                            xDataReference = xDataReference.replace(k, v)
+                                            yDataReference = yDataReference.replace(k, v)
+                                            zDataReference = zDataReference.replace(k, v)
+                                        if not len(dataGeneratorsList) == 0:
+                                            allX.append(xDataReference + "_" + str(i))
+                                            allY.append(yDataReference + "_" + str(i))
+                                            allZ.append(zDataReference + "_" + str(i))
+                                        else:
+                                            allX.append(xDataReference)
+                                            allY.append(yDataReference)
+                                            allZ.append(zDataReference)
+            elif "repeatedTask" not in taskList:    #There is no repeated tasks
+                if output.getNumSurfaces() > 0:
+                    allX = []
+                    allY = []
+                    allZ = []
+                    for m in range(0, output.getNumSurfaces()):
+                        surface = output.getSurface(m)
+                        xDataReference = surface.getXDataReference()
+                        yDataReference = surface.getYDataReference()
+                        zDataReference = surface.getZDataReference()
+                        for k, v in mapping:
+                            xDataReference = xDataReference.replace(k, v)
+                            yDataReference = yDataReference.replace(k, v)
+                            zDataReference = zDataReference.replace(k, v)
+                        if not len(dataGeneratorsList) == 0:
+                            allX.append(xDataReference + "_" + str(i))
+                            allY.append(yDataReference + "_" + str(i))
+                            allZ.append(zDataReference + "_" + str(i))
+                        else:
+                            allX.append(xDataReference)
+                            allY.append(yDataReference)
+                            allZ.append(zDataReference)
+            #print "X_" + str(i) + " = np.array(" + str(allX).replace("'","") + ").T"
+            #print "Y_" + str(i) + " = np.array(" + str(allY).replace("'","") + ").T"
+            #print "Z_" + str(i) + " = np.array(" + str(allZ).replace("'","") + ").T"
+            for x in range(len(allX)):
+                print("ax.plot(" + str(allX[x]) + ", " + str(allY[x]) + ", " + str(allZ[x]) + ")")
+            if output.getName() != '':
+                print("plt.title('" + output.getName() + "')")
             else:
-                if task1.getModelReference() != currentModel.getId():
-                    continue
-                variablesDictionary = []
-                variablesList = []
-                populateVariableLists(sedmlDoc, task1, variablesList, variablesDictionary)
-                if len(variablesList) == 0:
-                    continue
-                generateDataLoop(sedmlDoc, currentModel, task1, variablesList, variablesDictionary, -1)
-                bFoundAtLeastOneTask = True
-
+                print("plt.title('" + output.getId() + "')")
+            print("plt.show()\n")
         """
-
-    def executePython(self):
-        """ Executes created python code.
-        See :func:`createpython`
-        """
-        execStr = self.toPython()
-        try:
-            # This calls exec. Be very sure that nothing bad happens here.
-            exec execStr
-        except Exception as e:
-            raise e
 
 ##################################################################################################
 if __name__ == "__main__":
     import os
     from tellurium.tests.testdata import sedmlDir, sedxDir, psedmlDir
 
-    for fname in ['app2sim.sedml',
-                  # 'asedml3repeat.sedml',
+    for fname in [# 'app2sim.sedml',
+                  'asedml3repeat.sedml',
                   # 'asedmlComplex.sedml',
                   # 'BioModel1_repressor_activator_oscillations.sedml'
-                ]:
+                  ]:
 
         sedml_input = os.path.join(sedmlDir, fname)
         factory = SEDMLCodeFactory(sedml_input)

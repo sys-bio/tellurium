@@ -1,7 +1,7 @@
 """
     tellurium 1.3.1
 
-    auto-generated code (2016-02-26T10:28:48)
+    auto-generated code (2016-02-26T11:10:53)
         sedmlDoc: L1V1          workingDir: /home/mkoenig/git/tellurium/tellurium/tests/testdata/sedml/sed-ml
         inputType: SEDML_FILE
 
@@ -25,7 +25,7 @@ workingDir = '/home/mkoenig/git/tellurium/tellurium/tests/testdata/sedml/sed-ml'
 Application0 = te.loadSBMLModel(os.path.join(workingDir, '../models/app2sim.xml'))
 
 # Model <Application0_0>
-#   Change: <libsedml.SedChangeAttribute; proxy of <Swig Object of type 'SedChangeAttribute_t *' at 0x7f63f9596600> >
+#   Change: <libsedml.SedChangeAttribute; proxy of <Swig Object of type 'SedChangeAttribute_t *' at 0x7f3f4a1f8750> >
 Application0_0 = te.loadSBMLModel(os.path.join(workingDir, '../models/app2sim.xml'))
 # /sbml:sbml/sbml:model/sbml:listOfSpecies/sbml:species[@id='s1'] 10.0
 Application0_0['init([s1])'] = 10.0
@@ -37,14 +37,16 @@ Application0_0['init([s1])'] = 10.0
 #  - task_0_1 (task_0_1)
 
 # Task <task_0_0>
+task_0_0 = [None]
 Application0.setIntegrator('cvode')
 Application0.timeCourseSelections = ['[s0]', '[s1]', 'time']
-task_0_0 = Application0.simulate(start=0.0, end=20.0, steps=1000)
+task_0_0[0] = Application0.simulate(start=0.0, end=20.0, steps=1000)
 
 # Task <task_0_1>
+task_0_1 = [None]
 Application0_0.setIntegrator('cvode')
 Application0_0.timeCourseSelections = ['[s0]', '[s1]', 'time']
-task_0_1 = Application0_0.simulate(start=0.0, end=30.0, steps=1000)
+task_0_1[0] = Application0_0.simulate(start=0.0, end=30.0, steps=1000)
 
 # --------------------------------------------------------
 # DataGenerators
@@ -57,16 +59,22 @@ task_0_1 = Application0_0.simulate(start=0.0, end=30.0, steps=1000)
 #  - dataGen_task_0_1_s1 (dataGen_task_0_1_s1)
 
 # DataGenerator <time_task_0_0>
+time_task_0_0 = [sim['time'] for sim in task_0_0]
 
 # DataGenerator <dataGen_task_0_0_s0>
+dataGen_task_0_0_s0 = [sim['[s0]'] for sim in task_0_0]
 
 # DataGenerator <dataGen_task_0_0_s1>
+dataGen_task_0_0_s1 = [sim['[s1]'] for sim in task_0_0]
 
 # DataGenerator <time_task_0_1>
+time_task_0_1 = [sim['time'] for sim in task_0_1]
 
 # DataGenerator <dataGen_task_0_1_s0>
+dataGen_task_0_1_s0 = [sim['[s0]'] for sim in task_0_1]
 
 # DataGenerator <dataGen_task_0_1_s1>
+dataGen_task_0_1_s1 = [sim['[s1]'] for sim in task_0_1]
 
 # --------------------------------------------------------
 # Outputs

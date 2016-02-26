@@ -13,6 +13,7 @@ import tellurium as te
 import numpy as np
 import matplotlib.pyplot as plt
 import libsedml
+import pandas
 import os.path
 
 workingDir = '{{ factory.workingDir }}'
@@ -43,10 +44,11 @@ workingDir = '{{ factory.workingDir }}'
 {{ helpers.heading(doc.getListOfDataGenerators(), 'DataGenerator') }}
 {% for dg in doc.getListOfDataGenerators() %}
 # DataGenerator <{{ dg.getId() }}>
+{{ dataGeneratorToPython(factory.doc, dg) }}
 
 {% endfor %}
 {{ helpers.heading(doc.getListOfOutputs(), 'Output') }}
 {% for out in doc.getListOfOutputs() %}
 # Output <{{ out.getId() }}>
-
+{{ outputToPython(factory.doc, out) }}
 {% endfor %}
