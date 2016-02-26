@@ -1,7 +1,7 @@
 """
     tellurium 1.3.1
 
-    auto-generated code (2016-02-26T12:33:10)
+    auto-generated code (2016-02-26T12:50:22)
         sedmlDoc: L1V1          workingDir: /home/mkoenig/git/tellurium/tellurium/tests/testdata/sedml/sed-ml
         inputType: SEDML_FILE
 
@@ -10,6 +10,7 @@ from __future__ import print_function, division
 import tellurium as te
 import numpy as np
 import matplotlib.pyplot as plt
+import mpl_toolkits.mplot3d
 import libsedml
 import pandas
 import os.path
@@ -98,49 +99,49 @@ dataGen_repeatedTask_0_0_mRNA_A_ = [sim['[mRNA_A_]'] for sim in repeatedTask_0_0
 # Output <plot2d_scan_for_delta_A>
 for k in range(len(time_repeatedTask_0_0)):
     if k==0:
-        plt.plot(time_repeatedTask_0_0[k], dataGen_repeatedTask_0_0_mRNA_R[k], color='b', label=dataGen_repeatedTask_0_0_mRNA_R)
+        plt.plot(time_repeatedTask_0_0[k], dataGen_repeatedTask_0_0_mRNA_R[k], color='b', linewidth=1.5, label='[mRNA_R]')
     else:
-        plt.plot(time_repeatedTask_0_0[k], dataGen_repeatedTask_0_0_mRNA_R[k], color='b')
+        plt.plot(time_repeatedTask_0_0[k], dataGen_repeatedTask_0_0_mRNA_R[k], color='b', linewidth=1.5)
 for k in range(len(time_repeatedTask_0_0)):
     if k==0:
-        plt.plot(time_repeatedTask_0_0[k], dataGen_repeatedTask_0_0_A[k], color='g', label=dataGen_repeatedTask_0_0_A)
+        plt.plot(time_repeatedTask_0_0[k], dataGen_repeatedTask_0_0_A[k], color='g', linewidth=1.5, label='[A]')
     else:
-        plt.plot(time_repeatedTask_0_0[k], dataGen_repeatedTask_0_0_A[k], color='g')
+        plt.plot(time_repeatedTask_0_0[k], dataGen_repeatedTask_0_0_A[k], color='g', linewidth=1.5)
 for k in range(len(time_repeatedTask_0_0)):
     if k==0:
-        plt.plot(time_repeatedTask_0_0[k], dataGen_repeatedTask_0_0_R[k], color='r', label=dataGen_repeatedTask_0_0_R)
+        plt.plot(time_repeatedTask_0_0[k], dataGen_repeatedTask_0_0_R[k], color='r', linewidth=1.5, label='[R]')
     else:
-        plt.plot(time_repeatedTask_0_0[k], dataGen_repeatedTask_0_0_R[k], color='r')
+        plt.plot(time_repeatedTask_0_0[k], dataGen_repeatedTask_0_0_R[k], color='r', linewidth=1.5)
 for k in range(len(time_repeatedTask_0_0)):
     if k==0:
-        plt.plot(time_repeatedTask_0_0[k], dataGen_repeatedTask_0_0_PrmA[k], color='c', label=dataGen_repeatedTask_0_0_PrmA)
+        plt.plot(time_repeatedTask_0_0[k], dataGen_repeatedTask_0_0_PrmA[k], color='c', linewidth=1.5, label='[PrmA]')
     else:
-        plt.plot(time_repeatedTask_0_0[k], dataGen_repeatedTask_0_0_PrmA[k], color='c')
+        plt.plot(time_repeatedTask_0_0[k], dataGen_repeatedTask_0_0_PrmA[k], color='c', linewidth=1.5)
 for k in range(len(time_repeatedTask_0_0)):
     if k==0:
-        plt.plot(time_repeatedTask_0_0[k], dataGen_repeatedTask_0_0_PrmR[k], color='m', label=dataGen_repeatedTask_0_0_PrmR)
+        plt.plot(time_repeatedTask_0_0[k], dataGen_repeatedTask_0_0_PrmR[k], color='m', linewidth=1.5, label='[PrmR]')
     else:
-        plt.plot(time_repeatedTask_0_0[k], dataGen_repeatedTask_0_0_PrmR[k], color='m')
+        plt.plot(time_repeatedTask_0_0[k], dataGen_repeatedTask_0_0_PrmR[k], color='m', linewidth=1.5)
 for k in range(len(time_repeatedTask_0_0)):
     if k==0:
-        plt.plot(time_repeatedTask_0_0[k], dataGen_repeatedTask_0_0_C[k], color='y', label=dataGen_repeatedTask_0_0_C)
+        plt.plot(time_repeatedTask_0_0[k], dataGen_repeatedTask_0_0_C[k], color='y', linewidth=1.5, label='[C]')
     else:
-        plt.plot(time_repeatedTask_0_0[k], dataGen_repeatedTask_0_0_C[k], color='y')
+        plt.plot(time_repeatedTask_0_0[k], dataGen_repeatedTask_0_0_C[k], color='y', linewidth=1.5)
 for k in range(len(time_repeatedTask_0_0)):
     if k==0:
-        plt.plot(time_repeatedTask_0_0[k], dataGen_repeatedTask_0_0_PrmA_bound[k], color='k', label=dataGen_repeatedTask_0_0_PrmA_bound)
+        plt.plot(time_repeatedTask_0_0[k], dataGen_repeatedTask_0_0_PrmA_bound[k], color='k', linewidth=1.5, label='[PrmA_bound]')
     else:
-        plt.plot(time_repeatedTask_0_0[k], dataGen_repeatedTask_0_0_PrmA_bound[k], color='k')
+        plt.plot(time_repeatedTask_0_0[k], dataGen_repeatedTask_0_0_PrmA_bound[k], color='k', linewidth=1.5)
 for k in range(len(time_repeatedTask_0_0)):
     if k==0:
-        plt.plot(time_repeatedTask_0_0[k], dataGen_repeatedTask_0_0_PrmR_bound[k], color='b', label=dataGen_repeatedTask_0_0_PrmR_bound)
+        plt.plot(time_repeatedTask_0_0[k], dataGen_repeatedTask_0_0_PrmR_bound[k], color='b', linewidth=1.5, label='[PrmR_bound]')
     else:
-        plt.plot(time_repeatedTask_0_0[k], dataGen_repeatedTask_0_0_PrmR_bound[k], color='b')
+        plt.plot(time_repeatedTask_0_0[k], dataGen_repeatedTask_0_0_PrmR_bound[k], color='b', linewidth=1.5)
 for k in range(len(time_repeatedTask_0_0)):
     if k==0:
-        plt.plot(time_repeatedTask_0_0[k], dataGen_repeatedTask_0_0_mRNA_A_[k], color='g', label=dataGen_repeatedTask_0_0_mRNA_A_)
+        plt.plot(time_repeatedTask_0_0[k], dataGen_repeatedTask_0_0_mRNA_A_[k], color='g', linewidth=1.5, label='[mRNA_A_]')
     else:
-        plt.plot(time_repeatedTask_0_0[k], dataGen_repeatedTask_0_0_mRNA_A_[k], color='g')
+        plt.plot(time_repeatedTask_0_0[k], dataGen_repeatedTask_0_0_mRNA_A_[k], color='g', linewidth=1.5)
 plt.title('plot2d_scan_for_delta_A')
 plt.legend()
 plt.show()

@@ -865,9 +865,10 @@ class SEDMLCodeFactory(object):
         :return: list of python lines
         :rtype: list(str)
         """
-        # TODO: colors, all lines of one curve should have same color
-        colors = [u'b', u'g', u'r', u'c', u'm', u'y', u'k']
         lines = []
+
+        # all lines of same cuve have same color
+        colors = [u'b', u'g', u'r', u'c', u'm', u'y', u'k']
 
         title = output.getId()
         for kc, curve in enumerate(output.getListOfCurves()):
@@ -879,9 +880,16 @@ class SEDMLCodeFactory(object):
             dgy = doc.getDataGenerator(yId)
             color = colors[kc % len(colors)]
 
+            yLabel = yId
+            for variable in dgy.getListOfVariables():
+                # FIXME: Hack as long as math not resolved
+                selection = SEDMLCodeFactory.resolveSelectionFromVariable(variable)
+                yLabel = selection.id
+                break
+
             lines.append("for k in range(len({})):".format(xId))
             lines.append("    if k==0:")
-            lines.append("        plt.plot({}[k], {}[k], color='{}', linewidth=1.5, label='{}')".format(xId, yId, color, yId))
+            lines.append("        plt.plot({}[k], {}[k], color='{}', linewidth=1.5, label='{}')".format(xId, yId, color, yLabel))
             lines.append("    else:")
             lines.append("        plt.plot({}[k], {}[k], color='{}', linewidth=1.5)".format(xId, yId, color))
             # lines.append("plt.xlabel('{}')".format(xId))
@@ -908,79 +916,31 @@ class SEDMLCodeFactory(object):
         :return: list of python lines
         :rtype: list(str)
         """
-        # TODO: implement
-        pass
         lines = []
+        lines.append("from mpl_toolkits.mplot3d import Axes3D")
+        lines.append("fig = plt.figure()")
+        lines.append("ax = fig.gca(projection='3d')")
+
+        title = output.getId()
+        for kc, surf in enumerate(output.getListOfSurfaces()):
+            logX = surf.getLogX()
+            logY = surf.getLogY()
+            logZ = surf.getLogZ()
+            xId = surf.getXDataReference()
+            yId = surf.getYDataReference()
+            zId = surf.getYDataReference()
+            dgx = doc.getDataGenerator(xId)
+            dgy = doc.getDataGenerator(yId)
+            dgz = doc.getDataGenerator(zId)
+
+            lines.append("for k in range(len({})):".format(xId))
+            lines.append("    ax.plot({}[k], {}[k], {}[k])".format(xId, yId, zId))
+
+        lines.append("ax.title('{}')".format(title))
+        lines.append("ax.show()".format(title))
+
         return lines
 
-        """
-        print("from mpl_toolkits.mplot3d import Axes3D")
-            print("fig = plt.figure()")
-            print("ax = fig.gca(projection='3d')")
-            for x in range(0, sedmlDoc.getNumTasks()):
-                task1 = sedmlDoc.getTask(x)
-                taskList.append(task1.getElementName())
-            if "repeatedTask" in taskList:    #For repeated tasks
-                for y in range(0, sedmlDoc.getNumTasks()):
-                    task1 = sedmlDoc.getTask(y)
-                    if task1.getElementName() == "repeatedTask":
-                        for z in range(0, task1.getNumSubTasks()):
-                            aRange = task1.getRange(0)
-                            for l in range(0, aRange.getNumberOfPoints()):
-                                if output.getNumSurfaces() > 1:
-                                    allX = []
-                                    allY = []
-                                    allZ = []
-                                    for q in range(0, output.getNumSurfaces()):
-                                        surface = output.getSurface(q)
-                                        xDataReference = surface.getXDataReference()
-                                        yDataReference = surface.getYDataReference()
-                                        zDataReference = surface.getZDataReference()
-                                        for k, v in mapping:
-                                            xDataReference = xDataReference.replace(k, v)
-                                            yDataReference = yDataReference.replace(k, v)
-                                            zDataReference = zDataReference.replace(k, v)
-                                        if not len(dataGeneratorsList) == 0:
-                                            allX.append(xDataReference + "_" + str(i))
-                                            allY.append(yDataReference + "_" + str(i))
-                                            allZ.append(zDataReference + "_" + str(i))
-                                        else:
-                                            allX.append(xDataReference)
-                                            allY.append(yDataReference)
-                                            allZ.append(zDataReference)
-            elif "repeatedTask" not in taskList:    #There is no repeated tasks
-                if output.getNumSurfaces() > 0:
-                    allX = []
-                    allY = []
-                    allZ = []
-                    for m in range(0, output.getNumSurfaces()):
-                        surface = output.getSurface(m)
-                        xDataReference = surface.getXDataReference()
-                        yDataReference = surface.getYDataReference()
-                        zDataReference = surface.getZDataReference()
-                        for k, v in mapping:
-                            xDataReference = xDataReference.replace(k, v)
-                            yDataReference = yDataReference.replace(k, v)
-                            zDataReference = zDataReference.replace(k, v)
-                        if not len(dataGeneratorsList) == 0:
-                            allX.append(xDataReference + "_" + str(i))
-                            allY.append(yDataReference + "_" + str(i))
-                            allZ.append(zDataReference + "_" + str(i))
-                        else:
-                            allX.append(xDataReference)
-                            allY.append(yDataReference)
-                            allZ.append(zDataReference)
-            #print "X_" + str(i) + " = np.array(" + str(allX).replace("'","") + ").T"
-            #print "Y_" + str(i) + " = np.array(" + str(allY).replace("'","") + ").T"
-            #print "Z_" + str(i) + " = np.array(" + str(allZ).replace("'","") + ").T"
-            for x in range(len(allX)):
-                print("ax.plot(" + str(allX[x]) + ", " + str(allY[x]) + ", " + str(allZ[x]) + ")")
-            if output.getName() != '':
-                print("plt.title('" + output.getName() + "')")
-            else:
-                print("plt.title('" + output.getId() + "')")
-            print("plt.show()\n")
-        """
 
 ##################################################################################################
 if __name__ == "__main__":

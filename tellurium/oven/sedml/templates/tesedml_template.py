@@ -12,6 +12,7 @@ from __future__ import print_function, division
 import tellurium as te
 import numpy as np
 import matplotlib.pyplot as plt
+import mpl_toolkits.mplot3d
 import libsedml
 import pandas
 import os.path
