@@ -1,7 +1,7 @@
 """
     tellurium 1.3.1
 
-    auto-generated code (2016-02-29T15:26:14)
+    auto-generated code (2016-02-29T16:36:08)
     sedmlDoc: L1V1  
     workingDir: /home/mkoenig/git/tellurium/tellurium/tests/testdata/sedml/sed-ml
     inputType: SEDML_FILE
@@ -93,55 +93,56 @@ Mt_1 = [sim['[Mt]'] for sim in task1]
 
 # Output <plot1>
 for k in range(len(time)):
-    if k==0:
+    if k == 0:
         plt.plot(time[k], P0_1[k], color='b', linewidth=1.5, label='[P0]')
     else:
         plt.plot(time[k], P0_1[k], color='b', linewidth=1.5)
 for k in range(len(time)):
-    if k==0:
+    if k == 0:
         plt.plot(time[k], T0_1[k], color='g', linewidth=1.5, label='[T0]')
     else:
         plt.plot(time[k], T0_1[k], color='g', linewidth=1.5)
 for k in range(len(time)):
-    if k==0:
+    if k == 0:
         plt.plot(time[k], P1_1[k], color='r', linewidth=1.5, label='[P1]')
     else:
         plt.plot(time[k], P1_1[k], color='r', linewidth=1.5)
 for k in range(len(time)):
-    if k==0:
+    if k == 0:
         plt.plot(time[k], T1_1[k], color='c', linewidth=1.5, label='[T1]')
     else:
         plt.plot(time[k], T1_1[k], color='c', linewidth=1.5)
 for k in range(len(time)):
-    if k==0:
+    if k == 0:
         plt.plot(time[k], P2_1[k], color='m', linewidth=1.5, label='[P2]')
     else:
         plt.plot(time[k], P2_1[k], color='m', linewidth=1.5)
 for k in range(len(time)):
-    if k==0:
+    if k == 0:
         plt.plot(time[k], T2_1[k], color='y', linewidth=1.5, label='[T2]')
     else:
         plt.plot(time[k], T2_1[k], color='y', linewidth=1.5)
 for k in range(len(time)):
-    if k==0:
+    if k == 0:
         plt.plot(time[k], CC_1[k], color='k', linewidth=1.5, label='[CC]')
     else:
         plt.plot(time[k], CC_1[k], color='k', linewidth=1.5)
 for k in range(len(time)):
-    if k==0:
+    if k == 0:
         plt.plot(time[k], Cn_1[k], color='b', linewidth=1.5, label='[Cn]')
     else:
         plt.plot(time[k], Cn_1[k], color='b', linewidth=1.5)
 for k in range(len(time)):
-    if k==0:
+    if k == 0:
         plt.plot(time[k], Mp_1[k], color='g', linewidth=1.5, label='[Mp]')
     else:
         plt.plot(time[k], Mp_1[k], color='g', linewidth=1.5)
 for k in range(len(time)):
-    if k==0:
+    if k == 0:
         plt.plot(time[k], Mt_1[k], color='r', linewidth=1.5, label='[Mt]')
     else:
         plt.plot(time[k], Mt_1[k], color='r', linewidth=1.5)
 plt.title('plot1')
 plt.legend()
 plt.show()
+

@@ -7,7 +7,7 @@
     </uniformTimeCourse>
   </listOfSimulations>
   <listOfModels>
-    <model id="model1" language="urn:sedml:language:sbml" source="c:\users\fbergmann\documents\sbml models\BorisEjb.xml" />
+    <model id="model1" language="urn:sedml:language:sbml" source="../models/BorisEJB.xml" />
   </listOfModels>
   <listOfTasks>
     <task id="task1" modelReference="model1" simulationReference="timecourse1" />

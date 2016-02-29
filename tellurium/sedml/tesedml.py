@@ -254,9 +254,9 @@ class SEDMLCodeFactory(object):
             # and the libsedml document
             raise type(e), type(e)('-'*80 + '\n'
                                    + self.__str__() + '\n'
-                                   + '*'*80
-                                   + execStr
-                                   + '*'*80
+                                   + '*'*80 + '\n'
+                                   + execStr + '\n'
+                                   + '*'*80 + '\n'
                                    + e.message + '\n'
                                    ), sys.exc_info()[2]
 
@@ -509,7 +509,7 @@ class SEDMLCodeFactory(object):
         # Set integrator
         integratorName = SEDMLCodeFactory.getIntegratorNameForKisaoID(kisao)
         if not integratorName:
-            lines.append("# No integrator exists for {} in roadrunner".format(kisao))
+            warnings.warn("No integrator exists for {} in roadrunner".format(kisao))
             return lines
         lines.append("{}.setIntegrator('{}')".format(mid, integratorName))
 
@@ -517,6 +517,8 @@ class SEDMLCodeFactory(object):
         for par in algorithm.getListOfAlgorithmParameters():
             pkey = SEDMLCodeFactory.algorithmParameterToParameterKey(par)
             lines.append("{}.getIntegrator().setValue('{}', '{}')".format(mid, pkey.key, pkey.value))
+            # FIXME: settings for steady state solver have to be set via {}.steadyStateSolver
+
 
         # handle result variable
         if resultVariable is None:
@@ -552,8 +554,13 @@ class SEDMLCodeFactory(object):
         # <STEADY STATE>
         # -------------------------------------------------------------------------
         elif simType == libsedml.SEDML_SIMULATION_STEADYSTATE:
+            lines.append("Config = {}".format(mid, list(selections)))
+            lines.append("{}.conservedMoietyAnalysis = True".format(mid))
             lines.append("{}.steadyStateSelections = {}".format(mid, list(selections)))
-            lines.append("{} = {}.steadyState()".format(resultVariable, mid))
+            lines.append("{}.steadyState()".format(mid))
+            # FIX as long as no NamedArrays are returned
+            lines.append("{} = dict(zip({}.steadyStateSelections, {}.getSteadyStateValues()))".format(resultVariable, mid, mid))
+            lines.append("{}.conservedMoietyAnalysis = False".format(mid))
 
         # -------------------------------------------------------------------------
         # <OTHER>
@@ -607,7 +614,7 @@ class SEDMLCodeFactory(object):
             astr = cvt.rsplit("@id='")
             if len(astr) is 1:
                 astr = cvt.rsplit("@name='")
-            astr = astr[1]
+            astr = astr[len(astr)-1]
             sid = astr[:-2]
             if 'species' in cvt:
                 return Selection('[{}]'.format(sid), 'species')
@@ -652,7 +659,7 @@ class SEDMLCodeFactory(object):
         :rtype: str
         """
         # cvode & steady state are mapped to cvode
-        if kid in ['KISAO:0000433', 'KISAO:0000019', 'KISAO:0000407']:
+        if kid in ['KISAO:0000433', 'KISAO:0000019', 'KISAO:0000407', 'KISAO:0000099']:
             return 'cvode'
         elif kid == 'KISAO:0000241':
             return 'gillespie'
@@ -840,10 +847,10 @@ class SEDMLCodeFactory(object):
             headers.append(label)
             # data generator (the id is the id of the data in python)
             dgid = dataSet.getDataReference()
-            columns.append("{}[:,0]".format(dgid))
+            columns.append("{}".format(dgid))
 
-        lines.append("print(df.head(10))")
         lines.append("df = pandas.DataFrame(np.array(" + str(columns).replace("'", "") + ").T, \n    columns=" + str(headers) + ")")
+        lines.append("print(df.head(10))")
         return lines
 
     @staticmethod
@@ -880,7 +887,7 @@ class SEDMLCodeFactory(object):
                 break
 
             lines.append("for k in range(len({})):".format(xId))
-            lines.append("    if k==0:")
+            lines.append("    if k == 0:")
             lines.append("        plt.plot({}[k], {}[k], color='{}', linewidth=1.5, label='{}')".format(xId, yId, color, yLabel))
             lines.append("    else:")
             lines.append("        plt.plot({}[k], {}[k], color='{}', linewidth=1.5)".format(xId, yId, color))
@@ -1023,23 +1030,6 @@ class SEDMLTools(object):
                 'workingDir': workingDir}
 
     @staticmethod
-    def getSBMLFromBiomodelsURN(urn):
-        """
-        Get the SBML from a given BioModels URN.
-        Searches for a BioModels identifier in the given urn and retrieves the SBML from biomodels.
-        :param urn:
-        :type urn:
-        :return:
-        :rtype:
-        """
-        pattern = "((BIOMD|MODEL)\d{10})|(BMID\d{12})"
-        match = re.search(pattern, urn)
-        mid = match.group(0)
-        biomodels = bioservices.BioModels()
-        return biomodels.getModelSBMLById(mid)
-
-
-    @staticmethod
     def resolveModelChanges(doc):
         """ Resolves the original source model and full change lists for models.
 
@@ -1174,6 +1164,9 @@ if __name__ == "__main__":
         factory.executePython()
 
     # ------------------------------------------------------
+
+    testInput(os.path.join(sedmlDir, "BorisEJB-steady.sedml"))
+
     # Check sed-ml files
     for fname in sorted(os.listdir(sedmlDir)):
         if fname.endswith(".sedml"):

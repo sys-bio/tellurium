@@ -1,7 +1,7 @@
 """
     tellurium 1.3.1
 
-    auto-generated code (2016-02-29T15:26:22)
+    auto-generated code (2016-02-29T15:34:05)
     sedmlDoc: L1V2  
     workingDir: /home/mkoenig/git/tellurium/tellurium/tests/testdata/sedml/sed-ml
     inputType: SEDML_FILE
@@ -41,19 +41,19 @@ BRDR = te.loadCellMLModel('http://models.cellml.org/workspace/a1/@@rawfile/7bc23
 # Task <BRtask>
 BRtask = [None]
 BR.setIntegrator('cvode')
-BR.timeCourseSelections = ["time']/cellml:variabl", "exposed_variables']/cellml:variabl"]
+BR.timeCourseSelections = ['Vm', 'time']
 BRtask[0] = BR.simulate(start=0.0, end=1500.0, steps=1500)
 
 # Task <BREJtask>
 BREJtask = [None]
 BREJ.setIntegrator('cvode')
-BREJ.timeCourseSelections = ["time']/cellml:variabl", "fast_sodium_current']/cellml:variabl"]
+BREJ.timeCourseSelections = ['V', 'time']
 BREJtask[0] = BREJ.simulate(start=0.0, end=1500.0, steps=1500)
 
 # Task <BRDRtask>
 BRDRtask = [None]
 BRDR.setIntegrator('cvode')
-BRDR.timeCourseSelections = ["time']/cellml:variabl", "fast_sodium_current']/cellml:variabl"]
+BRDR.timeCourseSelections = ['V', 'time']
 BRDRtask[0] = BRDR.simulate(start=0.0, end=1500.0, steps=1500)
 
 # --------------------------------------------------------
@@ -67,22 +67,22 @@ BRDRtask[0] = BRDR.simulate(start=0.0, end=1500.0, steps=1500)
 #  - BRDRVm (BRDR Vm)
 
 # DataGenerator <BRtime>
-BRtime = [sim['time']/cellml:variabl'] for sim in BRtask]
+BRtime = [sim['time'] for sim in BRtask]
 
 # DataGenerator <BRVm>
-BRVm = [sim['exposed_variables']/cellml:variabl'] for sim in BRtask]
+BRVm = [sim['Vm'] for sim in BRtask]
 
 # DataGenerator <BREJtime>
-BREJtime = [sim['time']/cellml:variabl'] for sim in BREJtask]
+BREJtime = [sim['time'] for sim in BREJtask]
 
 # DataGenerator <BREJVm>
-BREJVm = [sim['fast_sodium_current']/cellml:variabl'] for sim in BREJtask]
+BREJVm = [sim['V'] for sim in BREJtask]
 
 # DataGenerator <BRDRtime>
-BRDRtime = [sim['time']/cellml:variabl'] for sim in BRDRtask]
+BRDRtime = [sim['time'] for sim in BRDRtask]
 
 # DataGenerator <BRDRVm>
-BRDRVm = [sim['fast_sodium_current']/cellml:variabl'] for sim in BRDRtask]
+BRDRVm = [sim['V'] for sim in BRDRtask]
 
 # --------------------------------------------------------
 # Outputs
@@ -92,17 +92,17 @@ BRDRVm = [sim['fast_sodium_current']/cellml:variabl'] for sim in BRDRtask]
 # Output <plot1>
 for k in range(len(BRtime)):
     if k==0:
-        plt.plot(BRtime[k], BRVm[k], color='b', linewidth=1.5, label='exposed_variables']/cellml:variabl')
+        plt.plot(BRtime[k], BRVm[k], color='b', linewidth=1.5, label='Vm')
     else:
         plt.plot(BRtime[k], BRVm[k], color='b', linewidth=1.5)
 for k in range(len(BREJtime)):
     if k==0:
-        plt.plot(BREJtime[k], BREJVm[k], color='g', linewidth=1.5, label='fast_sodium_current']/cellml:variabl')
+        plt.plot(BREJtime[k], BREJVm[k], color='g', linewidth=1.5, label='V')
     else:
         plt.plot(BREJtime[k], BREJVm[k], color='g', linewidth=1.5)
 for k in range(len(BRDRtime)):
     if k==0:
-        plt.plot(BRDRtime[k], BRDRVm[k], color='r', linewidth=1.5, label='fast_sodium_current']/cellml:variabl')
+        plt.plot(BRDRtime[k], BRDRVm[k], color='r', linewidth=1.5, label='V')
     else:
         plt.plot(BRDRtime[k], BRDRVm[k], color='r', linewidth=1.5)
 plt.title('plot1')

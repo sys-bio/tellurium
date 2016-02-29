@@ -1,7 +1,7 @@
 """
     tellurium 1.3.1
 
-    auto-generated code (2016-02-29T15:26:16)
+    auto-generated code (2016-02-29T16:36:10)
     sedmlDoc: L1V1  
     workingDir: /home/mkoenig/git/tellurium/tellurium/tests/testdata/sedml/sed-ml
     inputType: SEDML_FILE
@@ -57,10 +57,11 @@ Total_NFkBn = [sim['Total_NFkBn'] for sim in task1]
 
 # Output <plot1>
 for k in range(len(time)):
-    if k==0:
+    if k == 0:
         plt.plot(time[k], Total_NFkBn[k], color='b', linewidth=1.5, label='Total_NFkBn')
     else:
         plt.plot(time[k], Total_NFkBn[k], color='b', linewidth=1.5)
 plt.title('plot1')
 plt.legend()
 plt.show()
+

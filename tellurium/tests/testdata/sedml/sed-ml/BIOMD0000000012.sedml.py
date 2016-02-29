@@ -1,7 +1,7 @@
 """
     tellurium 1.3.1
 
-    auto-generated code (2016-02-29T15:26:10)
+    auto-generated code (2016-02-29T16:36:05)
     sedmlDoc: L1V1  
     workingDir: /home/mkoenig/git/tellurium/tellurium/tests/testdata/sedml/sed-ml
     inputType: SEDML_FILE
@@ -94,39 +94,41 @@ Z1 = [sim['[Z]'] for sim in task2]
 
 # Output <plot1>
 for k in range(len(time)):
-    if k==0:
+    if k == 0:
         plt.plot(time[k], X[k], color='b', linewidth=1.5, label='[X]')
     else:
         plt.plot(time[k], X[k], color='b', linewidth=1.5)
 for k in range(len(time)):
-    if k==0:
+    if k == 0:
         plt.plot(time[k], Y[k], color='g', linewidth=1.5, label='[Y]')
     else:
         plt.plot(time[k], Y[k], color='g', linewidth=1.5)
 for k in range(len(time)):
-    if k==0:
+    if k == 0:
         plt.plot(time[k], Z[k], color='r', linewidth=1.5, label='[Z]')
     else:
         plt.plot(time[k], Z[k], color='r', linewidth=1.5)
 plt.title('plot1')
 plt.legend()
 plt.show()
+
 # Output <plot2>
 for k in range(len(time)):
-    if k==0:
+    if k == 0:
         plt.plot(time[k], X1[k], color='b', linewidth=1.5, label='[X]')
     else:
         plt.plot(time[k], X1[k], color='b', linewidth=1.5)
 for k in range(len(time)):
-    if k==0:
+    if k == 0:
         plt.plot(time[k], Y1[k], color='g', linewidth=1.5, label='[Y]')
     else:
         plt.plot(time[k], Y1[k], color='g', linewidth=1.5)
 for k in range(len(time)):
-    if k==0:
+    if k == 0:
         plt.plot(time[k], Z1[k], color='r', linewidth=1.5, label='[Z]')
     else:
         plt.plot(time[k], Z1[k], color='r', linewidth=1.5)
 plt.title('plot2')
 plt.legend()
 plt.show()
+

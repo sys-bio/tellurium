@@ -1,7 +1,7 @@
 """
     tellurium 1.3.1
 
-    auto-generated code (2016-02-29T15:26:08)
+    auto-generated code (2016-02-29T16:36:02)
     sedmlDoc: L1V1  
     workingDir: /home/mkoenig/git/tellurium/tellurium/tests/testdata/sedml/sed-ml
     inputType: SEDML_FILE
@@ -69,25 +69,26 @@ Total = [sim['[X]'] for sim in task1]
 
 # Output <plot1>
 for k in range(len(time)):
-    if k==0:
+    if k == 0:
         plt.plot(time[k], C1[k], color='b', linewidth=1.5, label='[C]')
     else:
         plt.plot(time[k], C1[k], color='b', linewidth=1.5)
 for k in range(len(time)):
-    if k==0:
+    if k == 0:
         plt.plot(time[k], M1[k], color='g', linewidth=1.5, label='[M]')
     else:
         plt.plot(time[k], M1[k], color='g', linewidth=1.5)
 for k in range(len(time)):
-    if k==0:
+    if k == 0:
         plt.plot(time[k], X1[k], color='r', linewidth=1.5, label='[X]')
     else:
         plt.plot(time[k], X1[k], color='r', linewidth=1.5)
 for k in range(len(time)):
-    if k==0:
+    if k == 0:
         plt.plot(time[k], Total[k], color='c', linewidth=1.5, label='[X]')
     else:
         plt.plot(time[k], Total[k], color='c', linewidth=1.5)
 plt.title('plot1')
 plt.legend()
 plt.show()
+

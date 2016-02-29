@@ -41,4 +41,5 @@ workingDir = '{{ factory.workingDir }}'
 {% for out in doc.getListOfOutputs() %}
 # Output <{{ out.getId() }}>
 {{ outputToPython(factory.doc, out) }}
+
 {% endfor %}
