@@ -55,4 +55,5 @@ plot task1.time vs task1.S1, task1.S2, task1.J0_v0
 
 # phrasedml experiment
 exp = te.experiment(antimonyStr, phrasedmlStr)
-exp.execute()
+import os
+exp.execute(phrasedmlStr, workingDir=os.getcwd())

@@ -125,19 +125,21 @@ def sedmlToPython(inputStr):
 
 class SEDMLCodeFactory(object):
     """ Code Factory generating executable code.
+        All implemented operations are supported for SBML models,
+        wheras the cellml support is very limited.
+
         The following SED-ML constructs are currently NOT supported:
+            1. XML transformation changes:
+                - Change.RemoveXML
+                - Change.AddXML
+                - Change.ChangeXML
 
-        TODO: Handle general XML transformations
-        - Change.RemoveXML
-        - Change.AddXML
-        - Change.ChangeXML
+            2. Repeated simulations of repeated simulations
 
-        TODO: Handle CellML targets & xml expressions
-
-        TODO: Handle MathML with variables and parameters (evaluation)
-        - functional range
-        - data generators
-        - Change.ComputeChange
+            3. Functional evaluation of MathML expressions
+                - functional range
+                - data generators
+                - Change.ComputeChange
     """
 
     # template location
@@ -339,16 +341,18 @@ class SEDMLCodeFactory(object):
             lines.append(SEDMLCodeFactory.targetToPython(xpath, value, modelId=mid))
 
         elif change.getTypeCode() == libsedml.SEDML_CHANGE_COMPUTECHANGE:
+            # TODO: IMPLEMENT
             lines.append("# Unsupported change: {}".format(change.getElementName()))
-            # TODO: implement
+            warnings.warn("Unsupported change: {}".format(change.getElementName()))
 
         elif change.getTypeCode() in [libsedml.SEDML_CHANGE_REMOVEXML,
                                       libsedml.SEDML_CHANGE_ADDXML,
                                       libsedml.SEDML_CHANGE_CHANGEXML]:
             lines.append("# Unsupported change: {}".format(change.getElementName()))
-            # TODO: implement
+            warnings.warn("Unsupported change: {}".format(change.getElementName()))
         else:
             lines.append("# Unsupported change: {}".format(change.getElementName()))
+            warnings.warn("Unsupported change: {}".format(change.getElementName()))
 
         return lines
 

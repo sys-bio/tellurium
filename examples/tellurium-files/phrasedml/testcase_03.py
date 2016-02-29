@@ -1,19 +1,31 @@
+"""
+Calculating values by formulas.
+"""
+
 from __future__ import print_function
 import tellurium as te
 
 antimonyStr = '''
-model test()
-  J0: -> S1; 0.3
-  S1 = 0
+model testcase_03()
+  J0: S1 -> S2; k1*S1
+  S1 = 10.0; S2 = 0.0;
+  k1 = 0.5;
 end
 '''
 
 phrasedmlStr = '''
-  mod1 = model "test"
-  sim1 = simulate uniform(0,10,100)
+  mod1 = model "testcase_03"
+  mod2 = model mod1 with S1=0.3, S2=S1+4
+  sim1 = simulate uniform(0, 10, 100)
   task1 = run sim1 on mod1
-  plot "Example plot" time vs S1
+  task2 = run sim1 on mod2
+  plot "Example plot" task1.time vs task1.S1, task1.S2, task2.S1, task2.S2
 '''
 
 exp = te.experiment(antimonyStr, phrasedmlStr)
-exp.execute()
+print('*'*80)
+exp.printPython(phrasedmlStr)
+print('*'*80)
+
+import os
+exp.execute(phrasedmlStr, workingDir=os.getcwd())

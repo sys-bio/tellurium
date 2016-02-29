@@ -6,7 +6,7 @@ from __future__ import print_function
 import tellurium as te
 
 antimonyStr = """
-model test
+model testcase_01
     J0: S1 -> S2; k1*S1;
     S1 = 10.0; S2=0.0;
     k1 = 0.1;
@@ -14,7 +14,7 @@ end
 """
 
 phrasedmlStr = """
-    model0 = model "test"
+    model0 = model "testcase_01"
     sim0 = simulate uniform(0, 10, 100)
     task0 = run sim0 on model0
     plot task0.time vs task0.S1
@@ -25,8 +25,5 @@ print('*'*80)
 exp.printPython()
 print('*'*80)
 
-
-# import tempfile
-# tempdir = tempfile.mkdtemp(suffix="_sedml")
 import os
 exp.execute(phrasedmlStr, workingDir=os.getcwd())

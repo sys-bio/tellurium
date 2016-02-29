@@ -97,7 +97,7 @@ class experiment(object):
 
             if len(self.phrasedmlList) == 1:
                 phrasedmlStr = self.phrasedmlList[0]
-                warnings.warn("No phrasedml str selected, defaulting to first phrasedml.")
+                warnings.warn("No phrasedml string selected, defaulting to first phrasedml.")
             else:
                 raise IOError('No phrasedmlStr selected.')
 
