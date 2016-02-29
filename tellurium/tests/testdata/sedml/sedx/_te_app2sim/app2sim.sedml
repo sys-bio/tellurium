@@ -16,7 +16,7 @@
     </uniformTimeCourse>
   </listOfSimulations>
   <listOfModels>
-    <model id="Application0" name="Application0" language="urn:sedml:language:sbml" source="../BioModel1_Application0.xml" />
+    <model id="Application0" name="Application0" language="urn:sedml:language:sbml" source="BioModel1_Application0.xml" />
     <model id="Application0_0" name="Application0 modified" language="urn:sedml:language:sbml" source="Application0">
       <listOfChanges>
         <changeAttribute newValue="10.0" target="/sbml:sbml/sbml:model/sbml:listOfSpecies/sbml:species[@id='s1']" />

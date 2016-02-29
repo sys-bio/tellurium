@@ -1,5 +1,0 @@
-model1 = model "../models/oscli.xml"
-stepper = simulate onestep(0.1)
-task0 = run stepper on model1
-task1 = repeat task0 for local.x in uniform(0, 10, 100), J0_v0 = piecewise(8, x<4, 0.1, 4<=x<6, 8)
-plot task1.time vs task1.S1, task1.S2, task1.J0_v0

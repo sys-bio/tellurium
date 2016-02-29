@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created by JWS2SBML on 2008/05/26 09:12:19-->
+<sbml xmlns="http://www.sbml.org/sbml/level2" level="2" version="1">
+<model name="curien">
+  <listOfCompartments>
+    <compartment id="compartment" name="compartment" size="1"/>
+  </listOfCompartments>
+  <listOfSpecies>
+    <species id="Hser" name="Hser" compartment="compartment" initialConcentration="0" boundaryCondition="true" constant="true"/>
+    <species id="Phser" name="Phser" compartment="compartment" initialConcentration="0"/>
+    <species id="Cys" name="Cys" compartment="compartment" initialConcentration="15" boundaryCondition="true" constant="true"/>
+    <species id="Cystathionine" name="Cystathionine" compartment="compartment" initialConcentration="0" boundaryCondition="true" constant="true"/>
+    <species id="Phi" name="Phi" compartment="compartment" initialConcentration="10000" boundaryCondition="true" constant="true"/>
+    <species id="Thr" name="Thr" compartment="compartment" initialConcentration="0" boundaryCondition="true" constant="true"/>
+  </listOfSpecies>
+  <listOfParameters>
+    <parameter id="V1" name="V1" value="1"/>
+    <parameter id="kcat2" name="kcat2" value="30"/>
+    <parameter id="KmCYS" name="KmCYS" value="460"/>
+    <parameter id="KmPHSER" name="KmPHSER" value="2500"/>
+    <parameter id="Ki2" name="Ki2" value="2000"/>
+    <parameter id="Ki3" name="Ki3" value="1000"/>
+    <parameter id="CGS" name="CGS" value="0.7"/>
+    <parameter id="TS" name="TS" value="5"/>
+    <parameter id="AdoMet" name="AdoMet" value="20"/>
+  </listOfParameters>
+  <listOfReactions>
+    <reaction id="v1" name="v1">
+      <listOfReactants>
+        <speciesReference species="Hser"/>
+      </listOfReactants>
+      <listOfProducts>
+        <speciesReference species="Phser"/>
+      </listOfProducts>
+      <kineticLaw>
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <ci> V1 </ci>
+        </math>
+      </kineticLaw>
+    </reaction>
+    <reaction id="vCys" name="vCys">
+      <listOfReactants>
+        <speciesReference species="Phser"/>
+        <speciesReference species="Cys"/>
+      </listOfReactants>
+      <listOfProducts>
+        <speciesReference species="Cystathionine"/>
+        <speciesReference species="Phi"/>
+      </listOfProducts>
+      <kineticLaw>
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <apply>
+            <divide/>
+            <apply>
+              <times/>
+              <ci> CGS </ci>
+              <apply>
+                <divide/>
+                <ci> kcat2 </ci>
+                <apply>
+                  <plus/>
+                  <cn type="integer"> 1 </cn>
+                  <apply>
+                    <divide/>
+                    <ci> KmCYS </ci>
+                    <ci> Cys </ci>
+                  </apply>
+                </apply>
+              </apply>
+              <ci> Phser </ci>
+            </apply>
+            <apply>
+              <plus/>
+              <ci> Phser </ci>
+              <apply>
+                <divide/>
+                <apply>
+                  <times/>
+                  <ci> KmPHSER </ci>
+                  <apply>
+                    <plus/>
+                    <cn type="integer"> 1 </cn>
+                    <apply>
+                      <divide/>
+                      <ci> Phi </ci>
+                      <ci> Ki2 </ci>
+                    </apply>
+                  </apply>
+                </apply>
+                <apply>
+                  <plus/>
+                  <cn type="integer"> 1 </cn>
+                  <apply>
+                    <divide/>
+                    <ci> KmCYS </ci>
+                    <ci> Cys </ci>
+                  </apply>
+                </apply>
+              </apply>
+            </apply>
+          </apply>
+        </math>
+      </kineticLaw>
+    </reaction>
+    <reaction id="vThr" name="vThr">
+      <listOfReactants>
+        <speciesReference species="Phser"/>
+      </listOfReactants>
+      <listOfProducts>
+        <speciesReference species="Thr"/>
+        <speciesReference species="Phi"/>
+      </listOfProducts>
+      <kineticLaw>
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <apply>
+            <divide/>
+            <apply>
+              <times/>
+              <ci> TS </ci>
+              <apply>
+                <divide/>
+                <apply>
+                  <plus/>
+                  <cn> 0.42 </cn>
+                  <apply>
+                    <divide/>
+                    <apply>
+                      <times/>
+                      <cn> 3.5 </cn>
+                      <apply>
+                        <power/>
+                        <ci> AdoMet </ci>
+                        <cn type="integer"> 2 </cn>
+                      </apply>
+                    </apply>
+                    <cn type="integer"> 73 </cn>
+                  </apply>
+                </apply>
+                <apply>
+                  <plus/>
+                  <cn type="integer"> 1 </cn>
+                  <apply>
+                    <divide/>
+                    <apply>
+                      <power/>
+                      <ci> AdoMet </ci>
+                      <cn type="integer"> 2 </cn>
+                    </apply>
+                    <cn type="integer"> 73 </cn>
+                  </apply>
+                </apply>
+              </apply>
+              <ci> Phser </ci>
+            </apply>
+            <apply>
+              <plus/>
+              <apply>
+                <divide/>
+                <apply>
+                  <times/>
+                  <apply>
+                    <plus/>
+                    <cn type="integer"> 1 </cn>
+                    <apply>
+                      <divide/>
+                      <ci> Phi </ci>
+                      <ci> Ki3 </ci>
+                    </apply>
+                  </apply>
+                  <apply>
+                    <divide/>
+                    <apply>
+                      <times/>
+                      <cn type="integer"> 250 </cn>
+                      <apply>
+                        <plus/>
+                        <cn type="integer"> 1 </cn>
+                        <apply>
+                          <divide/>
+                          <ci> AdoMet </ci>
+                          <cn> 0.5 </cn>
+                        </apply>
+                      </apply>
+                    </apply>
+                    <apply>
+                      <plus/>
+                      <cn type="integer"> 1 </cn>
+                      <apply>
+                        <divide/>
+                        <ci> AdoMet </ci>
+                        <cn> 1.09 </cn>
+                      </apply>
+                    </apply>
+                  </apply>
+                </apply>
+                <apply>
+                  <plus/>
+                  <cn type="integer"> 1 </cn>
+                  <apply>
+                    <divide/>
+                    <apply>
+                      <power/>
+                      <ci> AdoMet </ci>
+                      <cn type="integer"> 2 </cn>
+                    </apply>
+                    <cn type="integer"> 142 </cn>
+                  </apply>
+                </apply>
+              </apply>
+              <ci> Phser </ci>
+            </apply>
+          </apply>
+        </math>
+      </kineticLaw>
+    </reaction>
+  </listOfReactions>
+</model></sbml>

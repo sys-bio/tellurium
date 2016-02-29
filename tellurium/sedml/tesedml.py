@@ -642,11 +642,24 @@ class SEDMLCodeFactory(object):
         """
         supported = []
         if simType == libsedml.SEDML_SIMULATION_UNIFORMTIMECOURSE:
-            supported = ['KISAO:0000433', 'KISAO:0000019', 'KISAO:0000241', 'KISAO:0000032', 'KISAO:0000435', 'KISAO_0000064']
+            supported = ['KISAO:0000433',
+                         'KISAO:0000019',
+                         'KISAO:0000241',
+                         'KISAO:0000032',
+                         'KISAO:0000435',
+                         'KISAO_0000064',
+                         'KISAO:0000035',
+                         'KISAO:0000071']
         elif simType == libsedml.SEDML_SIMULATION_ONESTEP:
-            supported = ['KISAO:0000433', 'KISAO:0000019', 'KISAO:0000241', 'KISAO:0000032', 'KISAO:0000435', 'KISAO_0000064']
+            supported = ['KISAO:0000433',
+                         'KISAO:0000019',
+                         'KISAO:0000241',
+                         'KISAO:0000032',
+                         'KISAO:0000435',
+                         'KISAO_0000064']
         elif simType == libsedml.SEDML_SIMULATION_STEADYSTATE:
-            supported = ['KISAO:0000099', 'KISAO:0000407']
+            supported = ['KISAO:0000099',
+                         'KISAO:0000407']
         return kisao in supported
 
     @staticmethod
@@ -659,13 +672,19 @@ class SEDMLCodeFactory(object):
         :rtype: str
         """
         # cvode & steady state are mapped to cvode
-        if kid in ['KISAO:0000433', 'KISAO:0000019', 'KISAO:0000407', 'KISAO:0000099']:
+        if kid in ['KISAO:0000433',
+                   'KISAO:0000019',
+                   'KISAO:0000407',
+                   'KISAO:0000099',
+                   'KISAO:0000035',
+                   'KISAO:0000071']:
             return 'cvode'
         elif kid == 'KISAO:0000241':
             return 'gillespie'
         elif kid == 'KISAO:0000032':
             return 'rk4'
-        elif kid in ['KISAO:0000435', 'KISAO_0000064']:
+        elif kid in ['KISAO:0000435',
+                     'KISAO_0000064']:
             return 'rk45'
         else:
             return None
@@ -847,9 +866,9 @@ class SEDMLCodeFactory(object):
             headers.append(label)
             # data generator (the id is the id of the data in python)
             dgid = dataSet.getDataReference()
-            columns.append("{}".format(dgid))
+            columns.append("{}[0]".format(dgid))
 
-        lines.append("df = pandas.DataFrame(np.array(" + str(columns).replace("'", "") + ").T, \n    columns=" + str(headers) + ")")
+        lines.append("df = pandas.DataFrame(np.column_stack(" + str(columns).replace("'", "") + "), \n    columns=" + str(headers) + ")")
         lines.append("print(df.head(10))")
         return lines
 
@@ -1119,36 +1138,10 @@ class SEDMLTools(object):
 ##################################################################################################
 if __name__ == "__main__":
     import os
-    from tellurium.tests.testdata import sedmlDir, sedxDir, psedmlDir
-
+    from tellurium.tests.testdata import sedmlDir, sedxDir
     import matplotlib
     matplotlib.pyplot.switch_backend("Agg")
 
-    for fname in [# 'app2sim.sedml',
-                  # 'asedml3repeat.sedml',
-                  # 'asedmlComplex.sedml',
-                  # 'BioModel1_repressor_activator_oscillations.sedml'
-                  ]:
-
-        sedml_input = os.path.join(sedmlDir, fname)
-        factory = SEDMLCodeFactory(sedml_input)
-        # create python
-        python_str = factory.toPython()
-        print('#'*80)
-        print(python_str)
-        print('#'*80)
-        # create python file
-        with open(sedml_input + '.py', 'w') as f:
-            f.write(python_str)
-        # execute python
-        factory.executePython()
-
-    # test file
-    sedml_input = os.path.join(sedxDir, 'app2sim.sedx')
-    # resolve models
-    factory = SEDMLCodeFactory(sedml_input)
-
-    # ------------------------------------------------------
     def testInput(sedmlInput):
         """ Test function run on inputStr. """
         print('\n', '*'*100)
@@ -1163,26 +1156,14 @@ if __name__ == "__main__":
         # execute python
         factory.executePython()
 
-    # ------------------------------------------------------
-
-    testInput(os.path.join(sedmlDir, "BorisEJB-steady.sedml"))
 
     # Check sed-ml files
     for fname in sorted(os.listdir(sedmlDir)):
         if fname.endswith(".sedml"):
             testInput(os.path.join(sedmlDir, fname))
 
-    exit()
 
     # Check sedx archives
     for fname in sorted(os.listdir(sedxDir)):
         if fname.endswith(".sedx"):
             testInput(os.path.join(sedxDir, fname))
-
-    # Check phrasedml files
-    for fname in sorted(os.listdir(psedmlDir)):
-        if fname.endswith(".psedml"):
-            pass
-            # testInput(os.path.join(psedmlDir, fname))
-
-    # ------------------------------------------------------

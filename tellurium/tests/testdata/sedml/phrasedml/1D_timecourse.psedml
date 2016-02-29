@@ -1,5 +1,0 @@
-model1 = model "http://sourceforge.net/p/libsedml/code/119/tree/trunk/Samples/models/oscli.xml?format=raw"
-timecourse1 = simulate uniform(0, 20, 1000)
-task0 = run model1 with timecourse1
-task1 = repeat task0 for J0_v0 in [8, 4, 0.4] with reset
-plot task1.time vs task1.S1, task1.S2

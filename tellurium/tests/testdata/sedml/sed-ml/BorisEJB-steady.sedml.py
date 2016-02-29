@@ -1,7 +1,7 @@
 """
     tellurium 1.3.1
 
-    auto-generated code (2016-02-29T16:36:17)
+    auto-generated code (2016-02-29T17:11:00)
     sedmlDoc: L1V2  
     workingDir: /home/mkoenig/git/tellurium/tellurium/tests/testdata/sedml/sed-ml
     inputType: SEDML_FILE
@@ -83,7 +83,7 @@ MKKK_P1 = [sim['[MKKK_P]'] for sim in task1]
 #  - plot1 (MAPK feedback (Kholodenko, 2000))
 
 # Output <report1>
-df = pandas.DataFrame(np.array([MAPK1, MAPK_P1, MAPK_PP1, MKK1, MKKK1, MKK_P1, MKKK_P1]).T, 
+df = pandas.DataFrame(np.column_stack([MAPK1[0], MAPK_P1[0], MAPK_PP1[0], MKK1[0], MKKK1[0], MKK_P1[0], MKKK_P1[0]]), 
     columns=['MAPK1', 'MAPK1_P1', 'MAPK1_PP1', 'MKK1', 'MKKK1', 'MKK_P1', 'MKKK_P1'])
 print(df.head(10))
 

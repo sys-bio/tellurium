@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Written by libSedML v1.1.4183.14049 see http://libsedml.sf.net -->
+<sedML level="1" version="1" xmlns="http://sed-ml.org/">
+  <listOfSimulations>
+    <uniformTimeCourse id="uniform1" initialTime="0" outputStartTime="0" outputEndTime="10" numberOfPoints="1000">
+      <algorithm kisaoID="KISAO:0000019" />
+    </uniformTimeCourse>
+  </listOfSimulations>
+  <listOfModels>
+    <model id="model1" language="urn:sedml:language:sbml" source="model1.xml" />
+  </listOfModels>
+  <listOfTasks>
+    <task id="task1" modelReference="model1" simulationReference="uniform1" />
+  </listOfTasks>
+  <listOfDataGenerators>
+    <dataGenerator id="time1" name="time">
+      <listOfVariables>
+        <variable id="time" taskReference="task1" symbol="urn:sedml:symbol:time" />
+      </listOfVariables>
+      <math xmlns="http://www.w3.org/1998/Math/MathML">
+        <ci> time </ci>
+      </math>
+    </dataGenerator>
+    <dataGenerator id="Glucose1" name="Glucose">
+      <listOfVariables>
+        <variable id="Glucose" name="Glucose" taskReference="task1" target="/sbml:sbml/sbml:model/sbml:listOfSpecies/sbml:species[@id='Glucose']" />
+      </listOfVariables>
+      <math xmlns="http://www.w3.org/1998/Math/MathML">
+        <ci> Glucose </ci>
+      </math>
+    </dataGenerator>
+    <dataGenerator id="fructose_1_6_bisphosphate1" name="fructose_1_6_bisphosphate">
+      <listOfVariables>
+        <variable id="fructose_1_6_bisphosphate" name="fructose_1_6_bisphosphate" taskReference="task1" target="/sbml:sbml/sbml:model/sbml:listOfSpecies/sbml:species[@id='fructose_1_6_bisphosphate']" />
+      </listOfVariables>
+      <math xmlns="http://www.w3.org/1998/Math/MathML">
+        <ci> fructose_1_6_bisphosphate </ci>
+      </math>
+    </dataGenerator>
+    <dataGenerator id="glyceraldehyde_3_phosphate1" name="glyceraldehyde_3_phosphate">
+      <listOfVariables>
+        <variable id="glyceraldehyde_3_phosphate" name="glyceraldehyde_3_phosphate" taskReference="task1" target="/sbml:sbml/sbml:model/sbml:listOfSpecies/sbml:species[@id='glyceraldehyde_3_phosphate']" />
+      </listOfVariables>
+      <math xmlns="http://www.w3.org/1998/Math/MathML">
+        <ci> glyceraldehyde_3_phosphate </ci>
+      </math>
+    </dataGenerator>
+    <dataGenerator id="glycerate_3_phosphate1" name="glycerate_3_phosphate">
+      <listOfVariables>
+        <variable id="glycerate_3_phosphate" name="glycerate_3_phosphate" taskReference="task1" target="/sbml:sbml/sbml:model/sbml:listOfSpecies/sbml:species[@id='glycerate_3_phosphate']" />
+      </listOfVariables>
+      <math xmlns="http://www.w3.org/1998/Math/MathML">
+        <ci> glycerate_3_phosphate </ci>
+      </math>
+    </dataGenerator>
+    <dataGenerator id="pyruvate1" name="pyruvate">
+      <listOfVariables>
+        <variable id="pyruvate" name="pyruvate" taskReference="task1" target="/sbml:sbml/sbml:model/sbml:listOfSpecies/sbml:species[@id='pyruvate']" />
+      </listOfVariables>
+      <math xmlns="http://www.w3.org/1998/Math/MathML">
+        <ci> pyruvate </ci>
+      </math>
+    </dataGenerator>
+    <dataGenerator id="Acetyladehyde1" name="Acetyladehyde">
+      <listOfVariables>
+        <variable id="Acetyladehyde" name="Acetyladehyde" taskReference="task1" target="/sbml:sbml/sbml:model/sbml:listOfSpecies/sbml:species[@id='Acetyladehyde']" />
+      </listOfVariables>
+      <math xmlns="http://www.w3.org/1998/Math/MathML">
+        <ci> Acetyladehyde </ci>
+      </math>
+    </dataGenerator>
+    <dataGenerator id="External_acetaldehyde1" name="External_acetaldehyde">
+      <listOfVariables>
+        <variable id="External_acetaldehyde" name="External_acetaldehyde" taskReference="task1" target="/sbml:sbml/sbml:model/sbml:listOfSpecies/sbml:species[@id='External_acetaldehyde']" />
+      </listOfVariables>
+      <math xmlns="http://www.w3.org/1998/Math/MathML">
+        <ci> External_acetaldehyde </ci>
+      </math>
+    </dataGenerator>
+    <dataGenerator id="ATP1" name="ATP">
+      <listOfVariables>
+        <variable id="ATP" name="ATP" taskReference="task1" target="/sbml:sbml/sbml:model/sbml:listOfSpecies/sbml:species[@id='ATP']" />
+      </listOfVariables>
+      <math xmlns="http://www.w3.org/1998/Math/MathML">
+        <ci> ATP </ci>
+      </math>
+    </dataGenerator>
+    <dataGenerator id="ADP1" name="ADP">
+      <listOfVariables>
+        <variable id="ADP" name="ADP" taskReference="task1" target="/sbml:sbml/sbml:model/sbml:listOfSpecies/sbml:species[@id='ADP']" />
+      </listOfVariables>
+      <math xmlns="http://www.w3.org/1998/Math/MathML">
+        <ci> ADP </ci>
+      </math>
+    </dataGenerator>
+    <dataGenerator id="NAD1" name="NAD">
+      <listOfVariables>
+        <variable id="NAD" name="NAD" taskReference="task1" target="/sbml:sbml/sbml:model/sbml:listOfSpecies/sbml:species[@id='NAD']" />
+      </listOfVariables>
+      <math xmlns="http://www.w3.org/1998/Math/MathML">
+        <ci> NAD </ci>
+      </math>
+    </dataGenerator>
+    <dataGenerator id="NADH1" name="NADH">
+      <listOfVariables>
+        <variable id="NADH" name="NADH" taskReference="task1" target="/sbml:sbml/sbml:model/sbml:listOfSpecies/sbml:species[@id='NADH']" />
+      </listOfVariables>
+      <math xmlns="http://www.w3.org/1998/Math/MathML">
+        <ci> NADH </ci>
+      </math>
+    </dataGenerator>
+  </listOfDataGenerators>
+  <listOfOutputs>
+    <plot2D id="plot1" name="JanaWolf Glycolysis">
+      <listOfCurves>
+        <curve id="curve_0" logX="false" logY="false" xDataReference="time1" yDataReference="Glucose1" />
+        <curve id="curve_1" logX="false" logY="false" xDataReference="time1" yDataReference="fructose_1_6_bisphosphate1" />
+        <curve id="curve_2" logX="false" logY="false" xDataReference="time1" yDataReference="glyceraldehyde_3_phosphate1" />
+        <curve id="curve_3" logX="false" logY="false" xDataReference="time1" yDataReference="glycerate_3_phosphate1" />
+        <curve id="curve_4" logX="false" logY="false" xDataReference="time1" yDataReference="pyruvate1" />
+        <curve id="curve_5" logX="false" logY="false" xDataReference="time1" yDataReference="Acetyladehyde1" />
+        <curve id="curve_6" logX="false" logY="false" xDataReference="time1" yDataReference="External_acetaldehyde1" />
+        <curve id="curve_7" logX="false" logY="false" xDataReference="time1" yDataReference="ATP1" />
+        <curve id="curve_8" logX="false" logY="false" xDataReference="time1" yDataReference="ADP1" />
+        <curve id="curve_9" logX="false" logY="false" xDataReference="time1" yDataReference="NAD1" />
+        <curve id="curve_10" logX="false" logY="false" xDataReference="time1" yDataReference="NADH1" />
+      </listOfCurves>
+    </plot2D>
+  </listOfOutputs>
+</sedML>

@@ -1,10 +1,10 @@
 """
     tellurium 1.3.1
 
-    auto-generated code (2016-02-29T15:22:17)
-    sedmlDoc: L1V2  
-    workingDir: /home/mkoenig/git/tellurium/tellurium/tests/testdata/sedml/sed-ml
-    inputType: SEDML_FILE
+    auto-generated code (2016-02-29T17:11:18)
+    sedmlDoc: L1V1  
+    workingDir: /home/mkoenig/git/tellurium/tellurium/tests/testdata/sedml/sedx/_te_app2sim
+    inputType: COMBINE_FILE
 """
 from __future__ import print_function, division
 import tellurium as te
@@ -15,96 +15,100 @@ import libsedml
 import pandas
 import os.path
 
-workingDir = '/home/mkoenig/git/tellurium/tellurium/tests/testdata/sedml/sed-ml'
+workingDir = '/home/mkoenig/git/tellurium/tellurium/tests/testdata/sedml/sedx/_te_app2sim'
 
 # --------------------------------------------------------
 # Models
 # --------------------------------------------------------
-#  - BR 
-#  - BREJ 
-#  - BRDR 
+#  - Application0 (Application0)
+#  - Application0_0 (Application0 modified)
 
-# Model <BR>
-BR = te.loadCellMLModel('http://models.cellml.org/workspace/a1/@@rawfile/7bc23d0526e23d54d45e1fb7deda0f55d7f0f086/models/1977_beeler/experiments/periodic-stimulus.xml')
-# Model <BREJ>
-BREJ = te.loadCellMLModel('http://models.cellml.org/workspace/a1/@@rawfile/7bc23d0526e23d54d45e1fb7deda0f55d7f0f086/models/1977_beeler/experiments/1980_ebihara_johnson.xml')
-# Model <BRDR>
-BRDR = te.loadCellMLModel('http://models.cellml.org/workspace/a1/@@rawfile/7bc23d0526e23d54d45e1fb7deda0f55d7f0f086/models/1977_beeler/experiments/1987_drouhard_roberge.xml')
+# Model <Application0>
+Application0 = te.loadSBMLModel(os.path.join(workingDir, 'BioModel1_Application0.xml'))
+# Model <Application0_0>
+Application0_0 = te.loadSBMLModel(os.path.join(workingDir, 'BioModel1_Application0.xml'))
+# /sbml:sbml/sbml:model/sbml:listOfSpecies/sbml:species[@id='s1'] 10.0
+Application0_0['init([s1])'] = 10.0
 
 # --------------------------------------------------------
 # Tasks
 # --------------------------------------------------------
-#  - BRtask 
-#  - BREJtask 
-#  - BRDRtask 
+#  - task_0_0 (task_0_0)
+#  - task_0_1 (task_0_1)
 
-# Task <BRtask>
-BRtask = [None]
-BR.setIntegrator('cvode')
-BR.timeCourseSelections = ["time']/cellml:variabl", "exposed_variables']/cellml:variabl"]
-BRtask[0] = BR.simulate(start=0.0, end=1500.0, steps=1500)
+# Task <task_0_0>
+task_0_0 = [None]
+Application0.setIntegrator('cvode')
+Application0.timeCourseSelections = ['[s0]', '[s1]', 'time']
+task_0_0[0] = Application0.simulate(start=0.0, end=20.0, steps=1000)
 
-# Task <BREJtask>
-BREJtask = [None]
-BREJ.setIntegrator('cvode')
-BREJ.timeCourseSelections = ["time']/cellml:variabl", "fast_sodium_current']/cellml:variabl"]
-BREJtask[0] = BREJ.simulate(start=0.0, end=1500.0, steps=1500)
-
-# Task <BRDRtask>
-BRDRtask = [None]
-BRDR.setIntegrator('cvode')
-BRDR.timeCourseSelections = ["time']/cellml:variabl", "fast_sodium_current']/cellml:variabl"]
-BRDRtask[0] = BRDR.simulate(start=0.0, end=1500.0, steps=1500)
+# Task <task_0_1>
+task_0_1 = [None]
+Application0_0.setIntegrator('cvode')
+Application0_0.timeCourseSelections = ['[s0]', '[s1]', 'time']
+task_0_1[0] = Application0_0.simulate(start=0.0, end=30.0, steps=1000)
 
 # --------------------------------------------------------
 # DataGenerators
 # --------------------------------------------------------
-#  - BRtime (BR time)
-#  - BRVm (BR Vm)
-#  - BREJtime (BREJ time)
-#  - BREJVm (BREJ Vm)
-#  - BRDRtime (BRDR time)
-#  - BRDRVm (BRDR Vm)
+#  - time_task_0_0 (time_task_0_0)
+#  - dataGen_task_0_0_s0 (dataGen_task_0_0_s0)
+#  - dataGen_task_0_0_s1 (dataGen_task_0_0_s1)
+#  - time_task_0_1 (time_task_0_1)
+#  - dataGen_task_0_1_s0 (dataGen_task_0_1_s0)
+#  - dataGen_task_0_1_s1 (dataGen_task_0_1_s1)
 
-# DataGenerator <BRtime>
-BRtime = [sim['time']/cellml:variabl'] for sim in BRtask]
+# DataGenerator <time_task_0_0>
+time_task_0_0 = [sim['time'] for sim in task_0_0]
 
-# DataGenerator <BRVm>
-BRVm = [sim['exposed_variables']/cellml:variabl'] for sim in BRtask]
+# DataGenerator <dataGen_task_0_0_s0>
+dataGen_task_0_0_s0 = [sim['[s0]'] for sim in task_0_0]
 
-# DataGenerator <BREJtime>
-BREJtime = [sim['time']/cellml:variabl'] for sim in BREJtask]
+# DataGenerator <dataGen_task_0_0_s1>
+dataGen_task_0_0_s1 = [sim['[s1]'] for sim in task_0_0]
 
-# DataGenerator <BREJVm>
-BREJVm = [sim['fast_sodium_current']/cellml:variabl'] for sim in BREJtask]
+# DataGenerator <time_task_0_1>
+time_task_0_1 = [sim['time'] for sim in task_0_1]
 
-# DataGenerator <BRDRtime>
-BRDRtime = [sim['time']/cellml:variabl'] for sim in BRDRtask]
+# DataGenerator <dataGen_task_0_1_s0>
+dataGen_task_0_1_s0 = [sim['[s0]'] for sim in task_0_1]
 
-# DataGenerator <BRDRVm>
-BRDRVm = [sim['fast_sodium_current']/cellml:variabl'] for sim in BRDRtask]
+# DataGenerator <dataGen_task_0_1_s1>
+dataGen_task_0_1_s1 = [sim['[s1]'] for sim in task_0_1]
 
 # --------------------------------------------------------
 # Outputs
 # --------------------------------------------------------
-#  - plot1 (Action Potentials)
+#  - plot2d_Simulation0 (Application0plots)
+#  - plot2d_Simulation1 (Application0plots)
 
-# Output <plot1>
-for k in range(len(BRtime)):
-    if k==0:
-        plt.plot(BRtime[k], BRVm[k], color='b', linewidth=1.5, label='exposed_variables']/cellml:variabl')
+# Output <plot2d_Simulation0>
+for k in range(len(time_task_0_0)):
+    if k == 0:
+        plt.plot(time_task_0_0[k], dataGen_task_0_0_s0[k], color='b', linewidth=1.5, label='[s0]')
     else:
-        plt.plot(BRtime[k], BRVm[k], color='b', linewidth=1.5)
-for k in range(len(BREJtime)):
-    if k==0:
-        plt.plot(BREJtime[k], BREJVm[k], color='g', linewidth=1.5, label='fast_sodium_current']/cellml:variabl')
+        plt.plot(time_task_0_0[k], dataGen_task_0_0_s0[k], color='b', linewidth=1.5)
+for k in range(len(time_task_0_0)):
+    if k == 0:
+        plt.plot(time_task_0_0[k], dataGen_task_0_0_s1[k], color='g', linewidth=1.5, label='[s1]')
     else:
-        plt.plot(BREJtime[k], BREJVm[k], color='g', linewidth=1.5)
-for k in range(len(BRDRtime)):
-    if k==0:
-        plt.plot(BRDRtime[k], BRDRVm[k], color='r', linewidth=1.5, label='fast_sodium_current']/cellml:variabl')
-    else:
-        plt.plot(BRDRtime[k], BRDRVm[k], color='r', linewidth=1.5)
-plt.title('plot1')
+        plt.plot(time_task_0_0[k], dataGen_task_0_0_s1[k], color='g', linewidth=1.5)
+plt.title('plot2d_Simulation0')
 plt.legend()
 plt.show()
+
+# Output <plot2d_Simulation1>
+for k in range(len(time_task_0_1)):
+    if k == 0:
+        plt.plot(time_task_0_1[k], dataGen_task_0_1_s0[k], color='b', linewidth=1.5, label='[s0]')
+    else:
+        plt.plot(time_task_0_1[k], dataGen_task_0_1_s0[k], color='b', linewidth=1.5)
+for k in range(len(time_task_0_1)):
+    if k == 0:
+        plt.plot(time_task_0_1[k], dataGen_task_0_1_s1[k], color='g', linewidth=1.5, label='[s1]')
+    else:
+        plt.plot(time_task_0_1[k], dataGen_task_0_1_s1[k], color='g', linewidth=1.5)
+plt.title('plot2d_Simulation1')
+plt.legend()
+plt.show()
+
