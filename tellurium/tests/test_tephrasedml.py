@@ -40,19 +40,19 @@ class tePhrasedMLTestCase(unittest.TestCase):
     def test_createpython(self):
         """Test createpython."""
         exp = tephrasedml.experiment(self.antimony, self.phrasedml)
-        pstr = exp.createpython(self.phrasedml)
+        pstr = exp._toPython(self.phrasedml)
         self.assertIsNotNone(pstr)
 
     def test_printpython(self):
         """Test printpython."""
         exp = tephrasedml.experiment(self.antimony, self.phrasedml)
-        exp.printpython(self.phrasedml)
+        exp.printPython(self.phrasedml)
 
     def test_experiment(self):
         """Test experiment."""
         import tellurium as te
         exp = te.experiment(self.antimony, self.phrasedml)
-        pstr = exp.createpython(self.phrasedml)
+        pstr = exp._toPython(self.phrasedml)
         self.assertIsNotNone(pstr)
 
     def test_exportAsCombine(self):
@@ -103,7 +103,7 @@ class tePhrasedMLTestCase(unittest.TestCase):
             plot task0.time vs task0.S1
         """
         exp = te.experiment(antimonyStr, phrasedmlStr)
-        pystr = exp.createpython(phrasedmlStr)
+        pystr = exp._toPython(phrasedmlStr)
         self.assertTrue('rk4' in pystr)
 
 if __name__ == '__main__':

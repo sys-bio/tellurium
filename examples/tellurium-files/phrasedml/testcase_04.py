@@ -21,6 +21,4 @@ phrasedmlStr = """
 """
 
 exp = te.experiment(antimonyStr, phrasedmlStr)
-exp.createpython()
-
 exp.execute(phrasedmlStr)

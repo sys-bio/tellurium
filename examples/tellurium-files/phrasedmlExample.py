@@ -23,6 +23,6 @@ phrasedml = '''
 # create experiment
 exp = te.experiment(ant, phrasedml)
 exp.execute()
-exp.printpython()
+exp.printPython()
 
 

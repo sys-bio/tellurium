@@ -665,4 +665,4 @@ def export(outfile, antimonyStr, phrasedmlStrs):
 
     m.write(outfile)
     phrasedml.clearReferencedSBML()
-    
+

@@ -264,7 +264,11 @@ class SEDMLCodeFactory(object):
 
         # read model
         if 'sbml' in language:
-            lines.append("{} = te.loadSBMLModel(os.path.join(workingDir, '{}'))".format(mid, self.model_sources[mid]))
+            source = self.model_sources[mid]
+            if not source.endswith('.xml'):
+                # FIXME: this is a bug in how the combine archive is created
+                source += '.xml'
+            lines.append("{} = te.loadSBMLModel(os.path.join(workingDir, '{}'))".format(mid, source))
         elif 'cellml' in language:
             lines.append("{} = te.loadCellMLModel(os.path.join(workingDir, '{}'))".format(mid, self.model_sources[mid]))
         else:

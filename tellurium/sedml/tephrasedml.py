@@ -22,6 +22,7 @@ from __future__ import print_function, division
 import os.path
 import re
 import tempfile
+import warnings
 
 import tellurium as te
 import tellurium.tecombine as tecombine
@@ -65,51 +66,61 @@ class experiment(object):
         self.antimonyList = antimonyList
         self.phrasedmlList = phrasedmlList
 
-    def execute(self, selPhrasedml):
-        """ Executes created python code.
+    def execute(self, selPhrasedml=None, workingDir=None):
+        """ Executes the python code created for the given phrasedml.
+        The workingDir sets the path variable where the combine
+        archive and files are generated for execution.
+
         See :func:`createpython`
         
         :param selPhrasedml: Name of PhraSEDML string defined in the code
         :type selPhrasedml: str
         """
-        execStr = self.createpython(selPhrasedml)
-
+        if selPhrasedml is None:
+            warnings.warn("No phrasedmlStr provided in experiment.execute()")
+        execStr = self._toPython(selPhrasedml, workingDir=workingDir)
         # This calls exec. Be very sure that nothing bad happens here.
         exec execStr
 
-
-    def createpython(self, selPhrasedml):
+    def _toPython(self, phrasedmlStr, workingDir=None):
         """ Create and return python script given phrasedml string.
         
-        :param selPhrasedml: Name of PhraSEDML string defined in the code
-        :type selPhrasedml: str
+        :param phrasedmlStr: Name of PhraSEDML string defined in the code
+        :type phrasedmlStr: str
 
         :returns: python string to execute
         :rtype: str
         """
+        import tempfile
 
+        if phrasedmlStr == None:
 
-        antInd = None
+            if len(self.phrasedmlList) == 1:
+                phrasedmlStr = self.phrasedmlList[0]
+                warnings.warn("No phrasedml str selected, defaulting to first phrasedml.")
+            else:
+                raise IOError('No phrasedmlStr selected.')
+
         rePath = r"(\w*).load\('(.*)'\)"
-        reLoad = r"(\w*) = roadrunner.RoadRunner\(\)"
-        reModel = r"""(\w*) = model ('|")(.*)('|")"""
-        phrasedmllines = selPhrasedml.splitlines()
-        for k, line in enumerate(phrasedmllines):
-            reSearchModel = re.split(reModel, line)
-            if len(reSearchModel) > 1:
-                modelsource = str(reSearchModel[3])
-                modelname = os.path.basename(modelsource)
-                modelname = str(modelname).replace(".xml", '')
+        # reLoad = r"(\w*) = roadrunner.RoadRunner\(\)"
 
-        # find index
+        # model info from phrasedml
+        modelsource, modelname = self._modelInfoFromPhrasedml(phrasedmlStr)
+        print('Model source:', modelsource)
+        # print('Model name:', modelname)
+
+        # find index of antimony str
+        antIndex = None
         for k, antStr in enumerate(self.antimonyList):
             r = te.loada(antStr)
             modelName = r.getModel().getModelName()
             if modelName == modelsource:
-                antInd = k
+                antIndex = k
+        if antIndex is None:
+            raise Exception("Cannot find the model name referenced in the PhraSEDML string")
 
-        phrasedml.setReferencedSBML(modelsource, te.antimonyToSBML(self.antimonyList[antInd]))
-        sedmlstr = phrasedml.convertString(selPhrasedml)
+        phrasedml.setReferencedSBML(modelsource, te.antimonyToSBML(self.antimonyList[antIndex]))
+        sedmlstr = phrasedml.convertString(phrasedmlStr)
         if sedmlstr is None:
             raise Exception(phrasedml.getLastError())
 
@@ -120,20 +131,19 @@ class experiment(object):
         pysedml = tesedml.sedmlToPython(f.name)
 
         # perform some replacements in the sedml
-        if self.modelispath[antInd] is False:
+        if self.modelispath[antIndex] is False:
             lines = pysedml.splitlines()
             for k, line in enumerate(lines):
                 reSearchPath = re.split(rePath, line)
                 if len(reSearchPath) > 1:
                     del lines[k]
 
-        if antInd is None:
-            raise Exception("Cannot find the model name referenced in the PhraSEDML string")
+        # Create the combine archive and use it for execution
+        if workingDir is None:
 
-        # create temporary archive
-        tempdir = tempfile.mkdtemp(suffix="_sedml")
+            workingDir = tempfile.mkdtemp(suffix="_sedml")
 
-        expArchive = os.path.join(tempdir, "{}.sedx".format(modelname))
+        expArchive = os.path.join(workingDir, "{}.sedx".format(modelname))
         print("Combine Archive:", expArchive)
         self.exportAsCombine(expArchive)
 
@@ -143,14 +153,13 @@ class experiment(object):
         # outputstr = str(modelname) + " = '''" + self.antimonyList[antInd] + "'''\n\n" + pysedml
         return pysedml
 
-
-    def printpython(self, selPhrasedml):
+    def printPython(self, phrasedmlStr=None):
         """ Prints the created python string by :func:`createpython`. 
         
-        :param selPhrasedml: Name of PhraSEDML string defined in the code
-        :type selPhrasedml: str        
+        :param phrasedmlStr: Name of PhraSEDML string defined in the code
+        :type phrasedmlStr: str
         """
-        execStr = self.createpython(selPhrasedml)
+        execStr = self._toPython(phrasedmlStr)
         print(execStr)
 
     def exportAsCombine(self, outputpath):
@@ -165,3 +174,21 @@ class experiment(object):
         # export the combine archive
         tecombine.export(outputpath, self.antimonyList, self.phrasedmlList)
 
+    @staticmethod
+    def _modelInfoFromPhrasedml(phrasedmlStr):
+        """ Find model information in phrasedml String. """
+        # find model source, name
+        reModel = r"""(\w+)\s*=\s*model\s*('|")(.*)('|")"""
+        lines = phrasedmlStr.splitlines()
+        for k, line in enumerate(lines):
+            reSearchModel = re.split(reModel, line)
+            if (len(reSearchModel) > 1):
+                # FIXME: work with multiple antimony models
+                modelsource = str(reSearchModel[3])
+                modelname = os.path.basename(modelsource)
+                modelname = str(modelname).replace(".xml", '')
+                break
+        else:
+            raise IOError('No model definition in phrasedml string: {}'.format(phrasedmlStr))
+
+        return modelsource, modelname

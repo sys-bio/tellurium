@@ -11,7 +11,7 @@ end
 
 phrasedmlStr = """
     model0 = model "test"
-    model1 = model "test" with S1=5.0, k2=0.3
+    model1 = model "test" with S1=5.0, k1=0.3
     sim0 = simulate uniform(0, 10, 100)
     sim1 = simulate uniform_stochastic(0, 10, 100)
     task0 = run sim0 on model0

@@ -31,7 +31,7 @@ phrasedml = '''
 exp = te.experiment(antimony, phrasedml)
 
 exp.execute()
-exp.printpython()
+exp.printPython()
 
 
 # ### Combine Archive

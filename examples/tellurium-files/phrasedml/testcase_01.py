@@ -21,6 +21,12 @@ phrasedmlStr = """
 """
 
 exp = te.experiment(antimonyStr, phrasedmlStr)
-exp.createpython()
+print('*'*80)
+exp.printPython()
+print('*'*80)
 
-exp.execute(phrasedmlStr)
+
+# import tempfile
+# tempdir = tempfile.mkdtemp(suffix="_sedml")
+import os
+exp.execute(phrasedmlStr, workingDir=os.getcwd())
