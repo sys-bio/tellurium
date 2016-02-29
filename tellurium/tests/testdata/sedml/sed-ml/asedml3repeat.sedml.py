@@ -1,7 +1,11 @@
 """
     tellurium 1.3.1
 
+<<<<<<< HEAD
     auto-generated code (2016-02-29T08:07:17)
+=======
+    auto-generated code (2016-02-26T23:20:06)
+>>>>>>> e3b2b99f654b459c1a71719ab70ab85555d780ce
     sedmlDoc: L1V1  
     workingDir: /home/mkoenig/git/tellurium/tellurium/tests/testdata/sedml/sed-ml
     inputType: SEDML_FILE

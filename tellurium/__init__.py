@@ -22,6 +22,11 @@ from tellurium import sbmlToAntimony
 from tellurium import sbmlToCellML
 from tellurium import cellmlToAntimony
 from tellurium import cellmlToSBML
+<<<<<<< HEAD
+=======
+from tellurium import experiment
+from tellurium import combine
+>>>>>>> master
 from tellurium import getEigenvalues
 from tellurium import plotArray
 from tellurium import loadTestModel

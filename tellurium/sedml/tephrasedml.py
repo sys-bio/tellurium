@@ -41,28 +41,38 @@ class experiment(object):
     def __init__(self, antimonyStr, phrasedmlStr):
         """ Create experiment from antimony and phrasedml string.
 
+<<<<<<< HEAD:tellurium/sedml/tephrasedml.py
             :param ant: Antimony string of model
             :type ant: str
             :param phrasedml: phrasedml simulation description
             :type phrasedml: str
             :returns: SEDML experiment description
+=======
+        :param antimonyStr: list of antimony model string
+        :type antimonyStr: list
+        :param phrasedmlStr: list of phrasedml string
+        :type phrasedmlStr: list
+>>>>>>> master:tellurium/tephrasedml.py
         """
-        modelispath = False
-        if type(antimonyStr) != str:
-            raise Exception("Invalid Antimony string/model path")
-        else:
-            if os.path.exists(antimonyStr):
-                # incomplete - load model path directly.
-                modelispath = True
+        modelispath = []
+        if type(antimonyStr) != list:
+                raise Exception("antimony models must given as a list")
+        for i in range(len(antimonyStr)):
+            if type(antimonyStr[i]) != str:
+                raise Exception("invalid Antimony string/model path")
             else:
-                pass
-        if type(phrasedmlStr) != str:
-            raise Exception("Invalid PhrasedML string")
+                if os.path.exists(antimonyStr[i]):
+                    modelispath.append(True)
+                else:
+                    modelispath.append(False)
+        if type(phrasedmlStr) != list:
+            raise Exception("sedml files must given as a list")
 
         self.modelispath = modelispath
         self.antimonyStr = antimonyStr
         self.phrasedmlStr = phrasedmlStr
 
+<<<<<<< HEAD:tellurium/sedml/tephrasedml.py
     def getAntimonyString(self):
         """ Get antimony string.
 
@@ -109,9 +119,16 @@ class experiment(object):
         return sedmlstr
 
     def execute(self, show=True):
+=======
+    def execute(self, selPhrasedml):
+>>>>>>> master:tellurium/tephrasedml.py
         """ Executes created python code.
         See :func:`createpython`
+        
+        :param selPhrasedml: Name of PhraSEDML string defined in the code
+        :type selPhrasedml: str
         """
+<<<<<<< HEAD:tellurium/sedml/tephrasedml.py
         execStr = self.createpython()
         if show:
             print('*'*80)
@@ -119,37 +136,83 @@ class experiment(object):
             print('*'*80)
             print(execStr)
             print('*'*80)
+=======
+        execStr = self.createpython(selPhrasedml)
+>>>>>>> master:tellurium/tephrasedml.py
         try:
             # This calls exec. Be very sure that nothing bad happens here.
             exec execStr
         except Exception as e:
             raise e
 
+<<<<<<< HEAD:tellurium/sedml/tephrasedml.py
     def createpython(self):
         """ Create and return python script given antimony and phrasedml strings.
 
         This creates the full model decription including the
         antimony and phrasedml strings.
+=======
+    def createpython(self, selPhrasedml):
+        """ Create and return python script given phrasedml string.
+        
+        :param selPhrasedml: Name of PhraSEDML string defined in the code
+        :type selPhrasedml: str
+>>>>>>> master:tellurium/tephrasedml.py
 
         :returns: python string to execute
         :rtype: str
         """
+<<<<<<< HEAD:tellurium/sedml/tephrasedml.py
         # TODO: remove the tempfiles !
 
         # create xml and sedml
+=======
+        antInd = None
+>>>>>>> master:tellurium/tephrasedml.py
         rePath = r"(\w*).load\('(.*)'\)"
         reLoad = r"(\w*) = roadrunner.RoadRunner\(\)"
         reModel = r"""(\w*) = model ('|")(.*)('|")"""
-        phrasedmllines = self.phrasedmlStr.splitlines()
+        phrasedmllines = selPhrasedml.splitlines()
         for k, line in enumerate(phrasedmllines):
             reSearchModel = re.split(reModel, line)
             if len(reSearchModel) > 1:
                 modelsource = str(reSearchModel[3])
                 modelname = os.path.basename(modelsource)
                 modelname = str(modelname).replace(".xml", '')
+<<<<<<< HEAD:tellurium/sedml/tephrasedml.py
 
                 sbml_str = te.antimonyToSBML(self.antimonyStr)
                 phrasedml.setReferencedSBML(modelsource, sbml_str)
+=======
+        for i in range(len(self.antimonyStr)):
+            r = te.loada(self.antimonyStr[i])
+            modelName = r.getModel().getModelName()
+            if modelName == modelsource:
+                antInd = i
+        
+        if antInd == None:
+            raise Exception("Cannot find the model name referenced in the PhraSEDML string")
+        else:
+            pass
+        phrasedml.setReferencedSBML(modelsource, te.antimonyToSBML(self.antimonyStr[antInd]))
+        sedmlstr = phrasedml.convertString(selPhrasedml)
+        if sedmlstr is None:
+            raise Exception(phrasedml.getLastError())
+
+        phrasedml.clearReferencedSBML()
+
+        fd1, sedmlfilepath = tempfile.mkstemp()
+        os.write(fd1, sedmlstr)
+        pysedml = tesedml.sedmlToPython(sedmlfilepath)
+
+        # perform some replacements in the sedml
+        if self.modelispath[antInd] is False:
+            lines = pysedml.splitlines()
+            for k, line in enumerate(lines):
+                reSearchPath = re.split(rePath, line)
+                if len(reSearchPath) > 1:
+                    del lines[k]
+>>>>>>> master:tellurium/tephrasedml.py
 
         # create temporary archive
         import tempfile
@@ -165,7 +228,27 @@ class experiment(object):
 
         return pysedml
 
+<<<<<<< HEAD:tellurium/sedml/tephrasedml.py
     def exportAsCombine(self, exportPath):
+=======
+        outputstr = str(modelname) + " = '''" + self.antimonyStr[antInd] + "'''\n\n" + pysedml
+
+        os.close(fd1)
+        os.remove(sedmlfilepath)
+
+        return outputstr
+
+    def printpython(self, selPhrasedml):
+        """ Prints the created python string by :func:`createpython`. 
+        
+        :param selPhrasedml: Name of PhraSEDML string defined in the code
+        :type selPhrasedml: str        
+        """
+        execStr = self.createpython(selPhrasedml)
+        print(execStr)
+
+    def exportAsCombine(self, outputpath):
+>>>>>>> master:tellurium/tephrasedml.py
         """ Export as a combine archive.
 
         This is the clean way to execute it.
@@ -174,6 +257,7 @@ class experiment(object):
         :param exportPath: full path of the combine zip file to create
         :type exportPath: str
         """
+<<<<<<< HEAD:tellurium/sedml/tephrasedml.py
         # Temporary failsafe - Should be revised once libphrasedml adopts returning of model name
         reModel = r"""(\w*) = model ('|")(.*)('|")"""
         # rePlot = r"""plot ('|")(.*)('|") (.*)"""
@@ -205,3 +289,8 @@ class experiment(object):
 
 
 
+=======
+
+        # export the combine archive
+        tecombine.export(outputpath, self.antimonyStr, self.phrasedmlStr)
+>>>>>>> master:tellurium/tephrasedml.py

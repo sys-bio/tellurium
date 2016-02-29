@@ -48,6 +48,7 @@ const compartment_, J0_v0, J1_k3, J2_k1, J2_k_1, J2_c, J2_q, J3_k2;
 end
 '''
 
+
 phrasedmlStr = '''
 model1 = model "oscli"
 timecourse1 = simulate uniform(0, 20, 1000)
