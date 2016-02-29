@@ -15,7 +15,7 @@ end
 
 phrasedmlStr = '''
   mod1 = model "testcase_03"
-  mod2 = model mod1 with S1=0.3, S2=S1+4
+  mod2 = model mod1 with S2=S1+4
   sim1 = simulate uniform(0, 10, 100)
   task1 = run sim1 on mod1
   task2 = run sim1 on mod2
