@@ -156,7 +156,7 @@ class SEDMLCodeFactory(object):
         self.workingDir = info['workingDir']
 
         # parse the models (resolve the source models & the applied changes for all models)
-        model_sources, model_changes =SEDMLTools.resolveModelChanges(self.doc)
+        model_sources, model_changes = SEDMLTools.resolveModelChanges(self.doc)
         self.model_sources = model_sources
         self.model_changes = model_changes
 
@@ -248,7 +248,17 @@ class SEDMLCodeFactory(object):
             # This calls exec. Be very sure that nothing bad happens here.
             exec execStr
         except Exception as e:
-            raise e
+            # something went wrong in the conversion to python
+            # show detailed information about the factory
+            # and the libsedml document
+            raise type(e), type(e)('-'*80 + '\n'
+                                   + self.__str__() + '\n'
+                                   + '*'*80
+                                   + execStr
+                                   + '*'*80
+                                   + e.message + '\n'
+                                   ), sys.exc_info()[2]
+
 
     def modelToPython(self, model):
         """ Python code for SedModel.
@@ -265,6 +275,9 @@ class SEDMLCodeFactory(object):
         # read model
         if 'sbml' in language:
             source = self.model_sources[mid]
+            if source.startswith('urn') or source.startswith('URN'):
+                # TODO handle URN cases
+
             if not source.endswith('.xml'):
                 # FIXME: this is a bug in how the combine archive is created
                 source += '.xml'
@@ -1077,9 +1090,12 @@ if __name__ == "__main__":
     import os
     from tellurium.tests.testdata import sedmlDir, sedxDir, psedmlDir
 
-    for fname in [# 'app2sim.sedml',
-                  # 'asedml3repeat.sedml',
-                  # 'asedmlComplex.sedml',
+    import matplotlib
+    matplotlib.pyplot.switch_backend("Agg")
+
+    for fname in ['app2sim.sedml',
+                  'asedml3repeat.sedml',
+                  'asedmlComplex.sedml',
                   'BioModel1_repressor_activator_oscillations.sedml'
                   ]:
 
@@ -1096,8 +1112,6 @@ if __name__ == "__main__":
         # execute python
         factory.executePython()
 
-    exit()
-
     # test file
     sedml_input = os.path.join(sedxDir, 'app2sim.sedx')
     # resolve models
@@ -1110,13 +1124,21 @@ if __name__ == "__main__":
         print(sedmlInput)
         print('*'*100)
         factory = SEDMLCodeFactory(sedmlInput)
-        print(factory)
+
+        # create python file
+        python_str = factory.toPython()
+        with open(sedml_input + '.py', 'w') as f:
+            f.write(python_str)
+        # execute python
+        factory.executePython()
 
     # ------------------------------------------------------
     # Check sed-ml files
     for fname in sorted(os.listdir(sedmlDir)):
         if fname.endswith(".sedml"):
             testInput(os.path.join(sedmlDir, fname))
+
+    exit()
 
     # Check sedx archives
     for fname in sorted(os.listdir(sedxDir)):

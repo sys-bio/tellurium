@@ -18,6 +18,7 @@ class TelluriumTestCase(unittest.TestCase):
         import matplotlib
         matplotlib.pyplot.switch_backend("Agg")
 
+
         self.ant_str = '''
         model pathway()
              S1 -> S2; k1*S1
@@ -123,6 +124,10 @@ class TelluriumTestCase(unittest.TestCase):
         self.ant_file = os.path.join(test_dir, 'models', 'example1')
         self.sbml_file = os.path.join(test_dir, 'models', 'example1.xml')
         self.cellml_file = os.path.join(test_dir, 'models', 'example1.cellml')
+
+    def tearDown(self):
+        import matplotlib
+        matplotlib.rcdefaults()
 
     # ---------------------------------------------------------------------
     # Loading Models Methods
