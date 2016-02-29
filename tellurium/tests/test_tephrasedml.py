@@ -27,59 +27,32 @@ class tePhrasedMLTestCase(unittest.TestCase):
           task1 = run sim1 on model1
           plot "Figure 1" time vs S1, S2
         '''
-<<<<<<< HEAD
-        self.tep = tephrasedml.experiment(self.antimony, self.phrasedml)
-
-        self.tep.getSbmlString()
-        self.tep.getSedmlString()
-=======
-        self.tep = tephrasedml.tePhrasedml([self.antimony], [self.phrasedml])
->>>>>>> master
+        self.tep = tephrasedml.experiment([self.antimony], [self.phrasedml])
 
     def tearDown(self):
         self.tep = None
 
     def test_execute(self):
         """Test execute."""
-<<<<<<< HEAD
-        exp = tephrasedml.experiment(self.antimony, self.phrasedml)
-        exp.execute()
-
-    def test_createpython(self):
-        """Test createpython."""
-        exp = tephrasedml.experiment(self.antimony, self.phrasedml)
-        pstr = exp.createpython()
-=======
-        exp = tephrasedml.tePhrasedml([self.antimony], [self.phrasedml])
+        exp = tephrasedml.experiment([self.antimony], [self.phrasedml])
         exp.execute(self.phrasedml)
 
     def test_createpython(self):
         """Test createpython."""
-        exp = tephrasedml.tePhrasedml([self.antimony], [self.phrasedml])
+        exp = tephrasedml.experiment([self.antimony], [self.phrasedml])
         pstr = exp.createpython(self.phrasedml)
->>>>>>> master
         self.assertIsNotNone(pstr)
 
     def test_printpython(self):
         """Test printpython."""
-<<<<<<< HEAD
-        exp = tephrasedml.experiment(self.antimony, self.phrasedml)
-        exp.printpython()
-=======
-        exp = tephrasedml.tePhrasedml([self.antimony], [self.phrasedml])
+        exp = tephrasedml.experiment([self.antimony], [self.phrasedml])
         exp.printpython(self.phrasedml)
->>>>>>> master
 
     def test_experiment(self):
         """Test experiment."""
         import tellurium as te
-<<<<<<< HEAD
-        exp = tephrasedml.experiment(self.antimony, self.phrasedml)
-        pstr = exp.createpython()
-=======
         exp = te.experiment([self.antimony], [self.phrasedml])
         pstr = exp.createpython(self.phrasedml)
->>>>>>> master
         self.assertIsNotNone(pstr)
 
     def test_exportAsCombine(self):

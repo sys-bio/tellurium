@@ -22,11 +22,6 @@ from tellurium import sbmlToAntimony
 from tellurium import sbmlToCellML
 from tellurium import cellmlToAntimony
 from tellurium import cellmlToSBML
-<<<<<<< HEAD
-=======
-from tellurium import experiment
-from tellurium import combine
->>>>>>> master
 from tellurium import getEigenvalues
 from tellurium import plotArray
 from tellurium import loadTestModel
@@ -36,9 +31,12 @@ from tellurium import listTestModels
 # helper classes
 from io.latex import LatexExport
 from analysis.parameterscan import ParameterScan, SteadyStateScan
-# sedml support
+
+# sedml & combine support
 from sedml.tesedml import sedmlToPython
 from sedml.tephrasedml import experiment
+from tecombine import combine
+
 
 import optimization
 import visualization

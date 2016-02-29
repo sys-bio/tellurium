@@ -14,6 +14,16 @@ import roadrunner
 from xml.etree import ElementTree as et
 import libsedml
 
+def combine(combinePath):
+    """ Open a combine archive from local directory.
+
+    :param combinePath: Path to a combine archive
+    :type combinePath: str
+    :returns: OpenCombine instance
+    """
+    return OpenCombine(combinePath)
+
+
 class CombineTools(object):
     """ Helper functions to work with combine archives."""
 

@@ -30,34 +30,35 @@ class TesedmlTestCase(unittest.TestCase):
         # TODO: execute the file
 
     def test_kisao_relative_tolerance(self):
+        self.assertEqual(0,1)
+        """
+        TODO: implement
 
-
-
-    if kid == 'KISAO:0000209':
-    key = 'relative_tolerance'
-elif kid == 'KISAO:0000211':
-    key = 'relative_tolerance'
-elif kid == 'KISAO:0000220':
-    key = 'maximum_bdf_order'
-elif kid == 'KISAO:0000219':
-    key = 'maximum_adams_order'
-elif kid == 'KISAO:0000415':
-    key = 'maximum_num_steps'
-elif kid == 'KISAO:0000467':
-    key = 'maximum_time_step'
-elif kid == 'KISAO:0000485':
-    key = 'minimum_time_step'
-elif kid == 'KISAO:0000332':
-    key = 'initial_time_step'
-elif kid == 'KISAO:0000107':
-    key = 'variable_step_size'
-elif kid == 'KISAO:0000486':
-    key = 'maximum_iterations'
-elif kid == 'KISAO:0000487':
-    key = 'maximum_damping'
-elif kid == 'KISAO:0000488':
-    key = 'seed'
-
+            if kid == 'KISAO:0000209':
+            key = 'relative_tolerance'
+        elif kid == 'KISAO:0000211':
+            key = 'relative_tolerance'
+        elif kid == 'KISAO:0000220':
+            key = 'maximum_bdf_order'
+        elif kid == 'KISAO:0000219':
+            key = 'maximum_adams_order'
+        elif kid == 'KISAO:0000415':
+            key = 'maximum_num_steps'
+        elif kid == 'KISAO:0000467':
+            key = 'maximum_time_step'
+        elif kid == 'KISAO:0000485':
+            key = 'minimum_time_step'
+        elif kid == 'KISAO:0000332':
+            key = 'initial_time_step'
+        elif kid == 'KISAO:0000107':
+            key = 'variable_step_size'
+        elif kid == 'KISAO:0000486':
+            key = 'maximum_iterations'
+        elif kid == 'KISAO:0000487':
+            key = 'maximum_damping'
+        elif kid == 'KISAO:0000488':
+            key = 'seed'
+        """
 
     def test_app2sim(self):
         """Test app2sim SED-ML example."""

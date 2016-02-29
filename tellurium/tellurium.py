@@ -10,14 +10,10 @@ import warnings
 
 import antimony
 import matplotlib.pyplot as plt
-<<<<<<< HEAD
+
 import roadrunner
 
 from .sedml import tephrasedml
-=======
-import tephrasedml
-import tecombine
->>>>>>> master
 
 try:
     import libsedml
@@ -325,36 +321,7 @@ def cellmlToSBML(cellml):
     _checkAntimonyReturnCode(code)
     return antimony.getSBMLString(None)
 
-
 # ---------------------------------------------------------------------
-<<<<<<< HEAD
-=======
-# COMBINE Utilities
-# ---------------------------------------------------------------------
-def experiment(ant, phrasedml):
-    """ Create experiment from antimony and phrasedml string.
-
-    :param ant: Antimony string of model
-    :type ant: str
-    :param phrasedml: phrasedml simulation description
-    :type phrasedml: str
-    :returns: SEDML experiment description
-    """
-    return tephrasedml.tePhrasedml(ant, phrasedml)
-
-
-def combine(combinePath):
-    """ Open a combine archive from local directory.
-
-    :param combinePath: Path to a combine archive
-    :type combinePath: str
-    :returns: OpenCombine instance
-    """
-    return tecombine.OpenCombine(combinePath)
-    
-    
-# ---------------------------------------------------------------------
->>>>>>> master
 # Math Utilities
 # ---------------------------------------------------------------------
 def getEigenvalues(m):
