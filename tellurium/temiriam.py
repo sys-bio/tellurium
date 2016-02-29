@@ -1,11 +1,13 @@
 """
-Helper functions for MIRIAM.
+Helper functions for MIRIAM and identifiers.org.
 
 resolve the locations of:
 urn:miriam:biomodels.db:BIOMD0000000003.xml
 
 """
 from __future__ import print_function, division
+import zipfile
+
 import bioservices
 import re
 
@@ -16,15 +18,15 @@ def getSBMLFromBiomodelsURN(urn):
     Searches for a BioModels identifier in the given urn and retrieves the SBML from biomodels.
     :param urn:
     :type urn:
-    :return:
-    :rtype:
+    :return: SBML string fro given model urn
+    :rtype: str
     """
     pattern = "((BIOMD|MODEL)\d{10})|(BMID\d{12})"
     match = re.search(pattern, urn)
     mid = match.group(0)
     biomodels = bioservices.BioModels()
-    return biomodels.getModelSBMLById(mid)
-
+    sbml = biomodels.getModelSBMLById(mid)
+    return str(sbml)
 
 
 if __name__ == "__main__":

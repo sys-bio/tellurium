@@ -29,7 +29,7 @@ from tellurium import getTestModel
 from tellurium import listTestModels
 
 # helper classes
-from io.latex import LatexExport
+from teio.latex import LatexExport
 from analysis.parameterscan import ParameterScan, SteadyStateScan
 
 # sedml & combine support

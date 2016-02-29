@@ -7,7 +7,7 @@
     </uniformTimeCourse>
   </listOfSimulations>
   <listOfModels>
-    <model id="model1" language="urn:sedml:language:sbml" source="http://www.ebi.ac.uk/biomodels/models-main/publ/BIOMD0000000012/BIOMD0000000012.xml" />
+    <model id="model1" language="urn:sedml:language:sbml" source="urn:miriam:biomodels.db:BIOMD0000000012" />
     <model id="model2" language="urn:sedml:language:sbml" source="model1">
       <listOfChanges>
         <changeAttribute target="/sbml:sbml/sbml:model/sbml:listOfParameters/sbml:parameter[@id=&quot;ps_0&quot;]/@value" newValue="1.3e-5" />

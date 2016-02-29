@@ -1,7 +1,7 @@
 """
     tellurium 1.3.1
 
-    auto-generated code (2016-02-29T15:22:17)
+    auto-generated code (2016-02-29T15:26:22)
     sedmlDoc: L1V2  
     workingDir: /home/mkoenig/git/tellurium/tellurium/tests/testdata/sedml/sed-ml
     inputType: SEDML_FILE

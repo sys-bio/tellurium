@@ -74,6 +74,7 @@ import datetime
 import zipfile
 from collections import namedtuple
 import os.path
+import re
 
 import libsedml
 from jinja2 import Environment, FileSystemLoader
@@ -271,19 +272,38 @@ class SEDMLCodeFactory(object):
         lines = []
         mid = model.getId()
         language = model.getLanguage()
+        source = self.model_sources[mid]
+
+        def isUrn():
+            return source.startswith('urn') or source.startswith('URN')
+
+        def isHttp():
+            return source.startswith('http') or source.startswith('HTTP')
 
         # read model
         if 'sbml' in language:
-            source = self.model_sources[mid]
-            if source.startswith('urn') or source.startswith('URN'):
-                # TODO handle URN cases
+            # urn
+            if isUrn():
+                lines.append("import tellurium.temiriam as temiriam")
+                lines.append("__{}_sbml = temiriam.getSBMLFromBiomodelsURN('{}')".format(mid, source))
+                lines.append("{} = te.loadSBMLModel(__{}_sbml)".format(mid, mid))
+            # http
+            elif isHttp():
+                lines.append("{} = te.loadSBMLModel('{}')".format(mid, source))
+            # file
+            else:
+                if not source.endswith('.xml'):
+                    # FIXME: this is a bug in how the combine archive is created
+                    source += '.xml'
+                lines.append("{} = te.loadSBMLModel(os.path.join(workingDir, '{}'))".format(mid, source))
 
-            if not source.endswith('.xml'):
-                # FIXME: this is a bug in how the combine archive is created
-                source += '.xml'
-            lines.append("{} = te.loadSBMLModel(os.path.join(workingDir, '{}'))".format(mid, source))
         elif 'cellml' in language:
-            lines.append("{} = te.loadCellMLModel(os.path.join(workingDir, '{}'))".format(mid, self.model_sources[mid]))
+            # http
+            if isHttp():
+                lines.append("{} = te.loadCellMLModel('{}')".format(mid, source))
+            # file
+            else:
+                lines.append("{} = te.loadCellMLModel(os.path.join(workingDir, '{}'))".format(mid, self.model_sources[mid]))
         else:
             warnings.warn("Unsupported model language:".format(language))
 
@@ -585,6 +605,8 @@ class SEDMLCodeFactory(object):
         elif var.isSetTarget():
             cvt = var.getTarget()    # target field of variable is set
             astr = cvt.rsplit("@id='")
+            if len(astr) is 1:
+                astr = cvt.rsplit("@name='")
             astr = astr[1]
             sid = astr[:-2]
             if 'species' in cvt:
@@ -737,8 +759,11 @@ class SEDMLCodeFactory(object):
         Target = namedtuple('Target', 'id type')
 
         def getId(xpath):
-            xpath = xpath.rsplit("id=\'", 1)[1]
-            return xpath.rsplit("\'", 1)[0]
+            xpath = xpath.replace('"', "'")
+            match = re.findall(r"id='(.*?)'", xpath)
+            if (match is None) or (len(match) is 0):
+                warnings.warn("Xpath could not be resolved: {}".format(xpath))
+            return match[0]
 
         # parameter value change
         if ("model" in xpath) and ("parameter" in xpath):
@@ -997,6 +1022,22 @@ class SEDMLTools(object):
                 'inputType': inputType,
                 'workingDir': workingDir}
 
+    @staticmethod
+    def getSBMLFromBiomodelsURN(urn):
+        """
+        Get the SBML from a given BioModels URN.
+        Searches for a BioModels identifier in the given urn and retrieves the SBML from biomodels.
+        :param urn:
+        :type urn:
+        :return:
+        :rtype:
+        """
+        pattern = "((BIOMD|MODEL)\d{10})|(BMID\d{12})"
+        match = re.search(pattern, urn)
+        mid = match.group(0)
+        biomodels = bioservices.BioModels()
+        return biomodels.getModelSBMLById(mid)
+
 
     @staticmethod
     def resolveModelChanges(doc):
@@ -1093,10 +1134,10 @@ if __name__ == "__main__":
     import matplotlib
     matplotlib.pyplot.switch_backend("Agg")
 
-    for fname in ['app2sim.sedml',
-                  'asedml3repeat.sedml',
-                  'asedmlComplex.sedml',
-                  'BioModel1_repressor_activator_oscillations.sedml'
+    for fname in [# 'app2sim.sedml',
+                  # 'asedml3repeat.sedml',
+                  # 'asedmlComplex.sedml',
+                  # 'BioModel1_repressor_activator_oscillations.sedml'
                   ]:
 
         sedml_input = os.path.join(sedmlDir, fname)
@@ -1127,7 +1168,7 @@ if __name__ == "__main__":
 
         # create python file
         python_str = factory.toPython()
-        with open(sedml_input + '.py', 'w') as f:
+        with open(sedmlInput + '.py', 'w') as f:
             f.write(python_str)
         # execute python
         factory.executePython()
