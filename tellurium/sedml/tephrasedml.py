@@ -38,32 +38,32 @@ class experiment(object):
     from from given SED-ML.
     """
 
-    def __init__(self, antimonyStr, phrasedmlStr):
-        """ Create experiment from antimony and phrasedml string.
+    def __init__(self, antimonyList, phrasedmlList):
+        """ Create experiment from lists of antimony and phrasedml strings.
 
-        :param antimonyStr: list of antimony model string
-        :type antimonyStr: list
-        :param phrasedmlStr: list of phrasedml string
-        :type phrasedmlStr: list
+        :param antimonyList: list of antimony model string
+        :type antimonyList: list
+        :param phrasedmlList: list of phrasedml string
+        :type phrasedmlList: list
         """
         modelispath = []
-        if type(antimonyStr) != list:
-                raise Exception("antimony models must given as a list")
-        for i in range(len(antimonyStr)):
-            if type(antimonyStr[i]) != str:
-                raise Exception("invalid Antimony string/model path")
+        if isinstance(antimonyList, basestring):
+            antimonyList = [antimonyList]
+        if isinstance(phrasedmlList, basestring):
+            phrasedmlList = [phrasedmlList]
+
+        for aStr in antimonyList:
+            if not isinstance(aStr, basestring):
+                raise IOError("invalid Antimony string/model path")
             else:
-                if os.path.exists(antimonyStr[i]):
+                if os.path.exists(aStr):
                     modelispath.append(True)
                 else:
                     modelispath.append(False)
-        if type(phrasedmlStr) != list:
-            raise Exception("sedml files must given as a list")
 
         self.modelispath = modelispath
-        self.antimonyStr = antimonyStr
-        self.phrasedmlStr = phrasedmlStr
-
+        self.antimonyList = antimonyList
+        self.phrasedmlList = phrasedmlList
 
     def execute(self, selPhrasedml):
         """ Executes created python code.
@@ -73,11 +73,10 @@ class experiment(object):
         :type selPhrasedml: str
         """
         execStr = self.createpython(selPhrasedml)
-        try:
-            # This calls exec. Be very sure that nothing bad happens here.
-            exec execStr
-        except Exception as e:
-            raise e
+
+        # This calls exec. Be very sure that nothing bad happens here.
+        exec execStr
+
 
     def createpython(self, selPhrasedml):
         """ Create and return python script given phrasedml string.
@@ -88,6 +87,8 @@ class experiment(object):
         :returns: python string to execute
         :rtype: str
         """
+
+
         antInd = None
         rePath = r"(\w*).load\('(.*)'\)"
         reLoad = r"(\w*) = roadrunner.RoadRunner\(\)"
@@ -99,26 +100,24 @@ class experiment(object):
                 modelsource = str(reSearchModel[3])
                 modelname = os.path.basename(modelsource)
                 modelname = str(modelname).replace(".xml", '')
-        for i in range(len(self.antimonyStr)):
-            r = te.loada(self.antimonyStr[i])
+
+        # find index
+        for k, antStr in enumerate(self.antimonyList):
+            r = te.loada(antStr)
             modelName = r.getModel().getModelName()
             if modelName == modelsource:
-                antInd = i
-        
-        if antInd == None:
-            raise Exception("Cannot find the model name referenced in the PhraSEDML string")
-        else:
-            pass
-        phrasedml.setReferencedSBML(modelsource, te.antimonyToSBML(self.antimonyStr[antInd]))
+                antInd = k
+
+        phrasedml.setReferencedSBML(modelsource, te.antimonyToSBML(self.antimonyList[antInd]))
         sedmlstr = phrasedml.convertString(selPhrasedml)
         if sedmlstr is None:
             raise Exception(phrasedml.getLastError())
 
         phrasedml.clearReferencedSBML()
-
-        fd1, sedmlfilepath = tempfile.mkstemp()
-        os.write(fd1, sedmlstr)
-        pysedml = tesedml.sedmlToPython(sedmlfilepath)
+        f = tempfile.NamedTemporaryFile('w', suffix=".sedml")
+        f.write(sedmlstr)
+        f.flush()
+        pysedml = tesedml.sedmlToPython(f.name)
 
         # perform some replacements in the sedml
         if self.modelispath[antInd] is False:
@@ -128,8 +127,10 @@ class experiment(object):
                 if len(reSearchPath) > 1:
                     del lines[k]
 
+        if antInd is None:
+            raise Exception("Cannot find the model name referenced in the PhraSEDML string")
+
         # create temporary archive
-        import tempfile
         tempdir = tempfile.mkdtemp(suffix="_sedml")
 
         expArchive = os.path.join(tempdir, "{}.sedx".format(modelname))
@@ -138,16 +139,10 @@ class experiment(object):
 
         # Create python code
         pysedml = tesedml.sedmlToPython(expArchive)
-        # outputstr = str(modelname) + " = '''" + self.antimonyStr + "'''\n\n" + pysedml
 
+        # outputstr = str(modelname) + " = '''" + self.antimonyList[antInd] + "'''\n\n" + pysedml
         return pysedml
 
-        outputstr = str(modelname) + " = '''" + self.antimonyStr[antInd] + "'''\n\n" + pysedml
-
-        os.close(fd1)
-        os.remove(sedmlfilepath)
-
-        return outputstr
 
     def printpython(self, selPhrasedml):
         """ Prints the created python string by :func:`createpython`. 
@@ -168,5 +163,5 @@ class experiment(object):
         :type exportPath: str
         """
         # export the combine archive
-        tecombine.export(outputpath, self.antimonyStr, self.phrasedmlStr)
+        tecombine.export(outputpath, self.antimonyList, self.phrasedmlList)
 

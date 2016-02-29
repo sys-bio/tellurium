@@ -1,6 +1,6 @@
 """
 Minimal experiment
-CVODE uniformTime course on model
+Gillespie simulation / stochastic.
 """
 from __future__ import print_function
 import tellurium as te
@@ -15,7 +15,7 @@ end
 
 phrasedmlStr = """
     model0 = model "test"
-    sim0 = simulate uniform(0, 10, 100)
+    sim0 = simulate uniform_stochastic(0, 10, 100)
     task0 = run sim0 on model0
     plot task0.time vs task0.S1
 """
