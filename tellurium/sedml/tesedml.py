@@ -75,6 +75,8 @@ import zipfile
 from collections import namedtuple
 import os.path
 import re
+import numpy as np
+import mathml
 
 import libsedml
 from jinja2 import Environment, FileSystemLoader
@@ -399,6 +401,39 @@ class SEDMLCodeFactory(object):
                                                       resultVariable=resultVariable))
         return lines
 
+
+    @staticmethod
+    def uniformRangeToPython(r):
+        """ Create python lines for uniform range.
+        :param r:
+        :type r:
+        :return:
+        :rtype:
+        """
+        lines = []
+        rId = r.getId()
+        rStart = r.getStart()
+        rEnd = r.getEnd()
+        rPoints = r.getNumberOfPoints()+1  # One point more than number of points
+        rType = r.getType()
+        if rType in ['Linear', 'linear']:
+            lines.append("__range_{} = list(np.linspace(start=rStart, stop=rEnd, num=rPoints))".format(rId, rStart, rEnd, rPoints))
+        elif rType in ['Log', 'log']:
+            lines.append("__range_{} = list(np.logspace(start=rStart, stop=rEnd, num=rPoints))".format(rId, rStart, rEnd, rPoints))
+        else:
+            warnings.warn("Unsupported range type in UniformRange: {}".format(rType))
+        return lines
+
+    @staticmethod
+    def vectorRangeToPython(r):
+        lines = []
+        __range = np.zeros(shape=[r.getNumValues()])
+        for k, v in enumerate(r.getValues()):
+            __range[k] = v
+        lines.append("__range_{} = {}".format(r.getId(), list(__range) ))
+        return lines
+
+
     @staticmethod
     def repeatedTaskToPython(doc, task):
         """ Create python for RepeatedTask. """
@@ -416,38 +451,31 @@ class SEDMLCodeFactory(object):
             t = doc.getTask(subtask.getTask())  # get real task which belongs to subtask
             mid = t.getModelReference()
 
-            # get master range
+            # create master range
             masterRange = task.getRange(rangeId)
-
-            # create range to iterate
-            import numpy as np
             if masterRange.getTypeCode() == libsedml.SEDML_RANGE_UNIFORMRANGE:
-                rStart = masterRange.getStart()
-                rEnd = masterRange.getEnd()
-                rPoints = masterRange.getNumberOfPoints()+1  # One point more than number of points
-                rType = masterRange.getType()
-                if rType in ['Linear', 'linear']:
-                    __range = np.linspace(start=rStart, stop=rEnd, num=rPoints)
-                elif rType in ['Log', 'log']:
-                    __range = np.logspace(start=rStart, stop=rEnd, num=rPoints)
-                else:
-                    warnings.warn("Unsupported range type in UniformRange: {}".format(rType))
-
+                lines.extend(SEDMLCodeFactory.uniformRangeToPython(masterRange))
             elif masterRange.getTypeCode() == libsedml.SEDML_RANGE_VECTORRANGE:
-                __range = np.zeros(shape=[masterRange.getNumValues()])
-                for k, v in enumerate(masterRange.getValues()):
-                    __range[k] = v
-
+                lines.extend(SEDMLCodeFactory.vectorRangeToPython(masterRange))
             elif masterRange.getTypeCode() == libsedml.SEDML_RANGE_FUNCTIONALRANGE:
-                # TODO: implement
-                warnings.warn('FunctionalRange NOT IMPLEMENTED')
+                warnings.warn("FunctionalRange for master range not supported in task.")
+
+            # create all other ranges
+            for range in task.getListOfRanges():
+                if range.getId() != rangeId:
+                    if range.getTypeCode() == libsedml.SEDML_RANGE_UNIFORMRANGE:
+                        lines.extend(SEDMLCodeFactory.uniformRangeToPython(range))
+                    elif range.getTypeCode() == libsedml.SEDML_RANGE_VECTORRANGE:
+                        lines.extend(SEDMLCodeFactory.vectorRangeToPython(range))
 
             # ---------------------------
             # iterate over range
             # ---------------------------
-            lines.append("__range_{} = {}".format(task.getId(), list(__range)))
-            lines.append("{} = [None] * len(__range_{})".format(task.getId(), task.getId()))
-            lines.append("for k, value in enumerate(__range_{}):".format(task.getId()))
+
+            # storage of results
+            lines.append("{} = [None]*len(__range_{})".format(task.getId(), rangeId))
+            # iterate over master range
+            lines.append("for k in range(len(__range_{})):".format(rangeId))
 
             # we have to intent all lines from now on (in for loop)
             forLines = []
@@ -457,13 +485,36 @@ class SEDMLCodeFactory(object):
                 forLines.append("{}.reset()".format(mid))
 
             # apply changes
-            for change in task.getListOfTaskChanges():
-                if change.getElementName() != "setValue":
-                    warnings.warn("Only setValue changes are supported at this time")
-                    return
+            for setValue in task.getListOfTaskChanges():
+                if setValue.getElementName() != "setValue":
+                    warnings.warn('Only setValue changes allowed in RepeatedTask.')
 
-                xpath = change.getTarget()
-                forLines.append(SEDMLCodeFactory.targetToPython(xpath, value="value", modelId=mid))
+                value = mathml.evaluateMathML(setValue.getMathML(), variables={}, parameters={})
+                xpath = setValue.getTarget()
+                forLines.append(SEDMLCodeFactory.targetToPython(xpath, value=value, modelId=mid))
+
+            # get value of masterRange in iteration
+            forLines.append("__range_{}_value = __range_{}[k]".format(rangeId, rangeId))
+            # all other range values
+            for r in task.getListOfRanges():
+                if r.getId() != rangeId:
+                    if r.getTypeCode() in [libsedml.SEDML_RANGE_UNIFORMRANGE,
+                                           libsedml.SEDML_RANGE_VECTORRANGE]:
+                        forLines.append("__range_{}_value = __range_{}[k]".format(r.getId(), r.getId()))
+                    elif r.getTypeCode() == libsedml.SEDML_RANGE_FUNCTIONALRANGE:
+                        import mathml
+                        parameters = {}
+                        for par in r.getListOfParameters():
+                            parameters[par.getId()] = par.getValue()
+                        variables = {}
+                        for var in r.getListOfVariables():
+                            selection = SEDMLCodeFactory.resolveSelectionFromVariable(var)
+                            target = SEDMLCodeFactory.resolveTargetFromXPath(var.getTarget())
+                            variables[selection.id] = "{}['{}']".format(mid, target.id)
+                        r.getMathML()
+                        value = mathml.evaluateMathML(r.getMathML(), variables=variables, parameters=parameters)
+                        forLines.append("__range_{}_value = {}".format(r.getId(), value))
+
 
             # Run single repeat
             # TODO: implement multiple subtasks

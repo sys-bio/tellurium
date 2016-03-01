@@ -30,38 +30,5 @@ The return value types of XPath evaluations vary, depending on the XPath express
     a list of items, when the XPath expression has a list as result. The items may include Elements (also comments and processing instructions), strings and tuples. Text nodes and attributes in the result are returned as 'smart' string values. Namespace declarations are returned as tuples of strings: (prefix, URI).
 """
 
-import libsbml
-mathml = """
-       <math xmlns="http://www.w3.org/1998/Math/MathML">
-            <piecewise>
-              <piece>
-                <cn type="integer"> 8 </cn>
-                <apply>
-                  <lt/>
-                  <ci> x </ci>
-                  <cn type="integer"> 4 </cn>
-                </apply>
-              </piece>
-              <piece>
-                <cn> 0.1 </cn>
-                <apply>
-                  <and/>
-                  <apply>
-                    <leq/>
-                    <cn type="integer"> 4 </cn>
-                    <ci> x </ci>
-                  </apply>
-                  <apply>
-                    <lt/>
-                    <ci> x </ci>
-                    <cn type="integer"> 6 </cn>
-                  </apply>
-                </apply>
-              </piece>
-              <otherwise>
-                <cn type="integer"> 8 </cn>
-              </otherwise>
-            </piecewise>
-          </math>
-"""
+
 
