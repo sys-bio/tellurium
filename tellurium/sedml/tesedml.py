@@ -76,7 +76,7 @@ from collections import namedtuple
 import os.path
 import re
 import numpy as np
-from mathml import evaluateMathML
+from mathml import evaluateMathML, executableMathML
 
 import libsedml
 from jinja2 import Environment, FileSystemLoader
@@ -333,22 +333,27 @@ class SEDMLCodeFactory(object):
         """
         lines = []
         mid = model.getId()
+        xpath = change.getTarget()
 
         if change.getTypeCode() == libsedml.SEDML_CHANGE_ATTRIBUTE:
-
             # resolve target change
-            xpath = change.getTarget()
             value = change.getNewValue()
             lines.append("# {} {}".format(xpath, value))
             lines.append(SEDMLCodeFactory.targetToPython(xpath, value, modelId=mid))
 
         elif change.getTypeCode() == libsedml.SEDML_CHANGE_COMPUTECHANGE:
-            lines.append("__{}_sbml = {}.getCurrentSBML()".format(mid, mid))
-            lines.append("__{}_doc = libsbml.readSBMLFromFile(__{}_sbml)".format(mid, mid))
-            # TODO: apply the changes
+            variables = {}
+            for par in change.getListOfParameters():
+                variables[par.getId()] = par.getValue()
+            for var in change.getListOfVariables():
+                vid = var.getId()
+                # TODO: resolve variable!
+                lines.append("__var__{} = 5".format(vid))
+                variables[vid] = "__var__{}".format(vid)
 
-            lines.append("# Unsupported change: {}".format(change.getElementName()))
-            warnings.warn("Unsupported change: {}".format(change.getElementName()))
+            # value is calculated with the current state of model
+            value = executableMathML(change.getMath(), variables=variables)
+            lines.append(SEDMLCodeFactory.targetToPython(xpath, value, modelId=mid))
 
         elif change.getTypeCode() in [libsedml.SEDML_CHANGE_REMOVEXML,
                                       libsedml.SEDML_CHANGE_ADDXML,
@@ -446,7 +451,10 @@ class SEDMLCodeFactory(object):
             t = doc.getTask(subtask.getTask())  # get real task which belongs to subtask
             mid = t.getModelReference()
 
-            # create master range
+            # ---------------------------
+            # create ranges
+            # ---------------------------
+            # master range
             masterRange = task.getRange(rangeId)
             if masterRange.getTypeCode() == libsedml.SEDML_RANGE_UNIFORMRANGE:
                 lines.extend(SEDMLCodeFactory.uniformRangeToPython(masterRange))
@@ -455,7 +463,7 @@ class SEDMLCodeFactory(object):
             elif masterRange.getTypeCode() == libsedml.SEDML_RANGE_FUNCTIONALRANGE:
                 warnings.warn("FunctionalRange for master range not supported in task.")
 
-            # create all other ranges
+            # other ranges
             for range in task.getListOfRanges():
                 if range.getId() != rangeId:
                     if range.getTypeCode() == libsedml.SEDML_RANGE_UNIFORMRANGE:
@@ -466,7 +474,6 @@ class SEDMLCodeFactory(object):
             # ---------------------------
             # iterate over range
             # ---------------------------
-
             # storage of results
             lines.append("{} = [None]*len(__range__{})".format(task.getId(), rangeId))
             # iterate over master range
@@ -475,18 +482,20 @@ class SEDMLCodeFactory(object):
             # we have to intent all lines from now on (in for loop)
             forLines = []
 
-            # resetModel
+            # <resetModel>
             if resetModel:
                 forLines.append("{}.reset()".format(mid))
 
-            # get value of masterRange in iteration
+            # <range values>
+            # value for masterRange
             forLines.append("__value__{} = __range__{}[k]".format(rangeId, rangeId))
-            # all other range values
+            # other range values
             for r in task.getListOfRanges():
                 if r.getId() != rangeId:
                     if r.getTypeCode() in [libsedml.SEDML_RANGE_UNIFORMRANGE,
                                            libsedml.SEDML_RANGE_VECTORRANGE]:
                         forLines.append("__value__{} = __range__{}[k]".format(r.getId(), r.getId()))
+                    # functional range
                     elif r.getTypeCode() == libsedml.SEDML_RANGE_FUNCTIONALRANGE:
                         import mathml
                         parameters = {}
@@ -497,21 +506,21 @@ class SEDMLCodeFactory(object):
                             selection = SEDMLCodeFactory.resolveSelectionFromVariable(var)
                             target = SEDMLCodeFactory.resolveTargetFromXPath(var.getTarget())
                             variables[selection.id] = "{}['{}']".format(mid, target.id)
-                        r.getMathML()
                         value = mathml.evaluateMathML(r.getMathML(), variables=variables, parameters=parameters)
                         forLines.append("__value__{} = {}".format(r.getId(), value))
 
+            # <setValues>
             # apply changes based on current variables, parameters and range variables
             for setValue in task.getListOfTaskChanges():
                 if setValue.getElementName() != "setValue":
                     warnings.warn('Only setValue changes allowed in RepeatedTask.')
 
                 # value = evaluateMathML(setValue.getMath(), variables={})
-                # TODO: here the evaluation is necessary
+                # TODO: here evaluation is necessary
+
                 value = "__value__{}".format(setValue.getRange())
                 xpath = setValue.getTarget()
                 forLines.append(SEDMLCodeFactory.targetToPython(xpath, value=value, modelId=mid))
-
 
             # Run single repeat
             # TODO: implement multiple subtasks

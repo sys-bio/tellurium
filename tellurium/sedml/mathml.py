@@ -83,6 +83,21 @@ def f_or(*args):
     return 0
 """
 
+def executableMathML(astnode, variables={}):
+    # replace variables with provided values
+    for key, value in variables.iteritems():
+        astnode.replaceArgument(key, libsbml.parseFormula(str(value)))
+
+    # get formula
+    formula = libsbml.formulaToL3String(astnode)
+
+    # make replacements in formula
+    formula = formula.replace("&&", 'and')
+    formula = formula.replace("||", 'or')
+
+    return formula
+
+
 def evaluateMathML(astnode, variables={}):
     """ Evaluate MathML string with given set of variable and parameter values.
 

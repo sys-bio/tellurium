@@ -1,9 +1,9 @@
 """
     tellurium 1.3.1
 
-    auto-generated code (2016-03-01T12:41:13)
+    auto-generated code (2016-03-01T17:47:01)
     sedmlDoc: L1V2  
-    workingDir: /tmp/tmp77gutz_sedml/_te_testcase_03
+    workingDir: /tmp/tmpIvAza2_sedml/_te_testcase_03
     inputType: COMBINE_FILE
 """
 from __future__ import print_function, division
@@ -16,7 +16,7 @@ import libsbml
 import pandas
 import os.path
 
-workingDir = '/tmp/tmp77gutz_sedml/_te_testcase_03'
+workingDir = '/tmp/tmpIvAza2_sedml/_te_testcase_03'
 
 # --------------------------------------------------------
 # Models
@@ -28,9 +28,8 @@ workingDir = '/tmp/tmp77gutz_sedml/_te_testcase_03'
 mod1 = te.loadSBMLModel(os.path.join(workingDir, 'testcase_03.xml'))
 # Model <mod2>
 mod2 = te.loadSBMLModel(os.path.join(workingDir, 'testcase_03.xml'))
-__mod2_sbml = mod2.getCurrentSBML()
-__mod2_doc = libsbml.readSBMLFromFile(__mod2_sbml)
-# Unsupported change: computeChange
+__var__S1 = 5
+mod2['S2'] = __var__S1 + 4
 
 # --------------------------------------------------------
 # Tasks
