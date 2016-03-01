@@ -8,7 +8,7 @@ import tellurium as te
 
 antimonyStr = '''
 // Created by libAntimony v2.9
-model *oscli()
+model *onestep()
 
 // Compartments and Species:
 compartment compartment_;
@@ -46,7 +46,7 @@ end
 '''
 
 phrasedmlStr = '''
-model1 = model "oscli"
+model1 = model "onestep"
 stepper = simulate onestep(0.1)
 task0 = run stepper on model1
 task1 = repeat task0 for local.x in uniform(0, 10, 100), J0_v0 = piecewise(8, x<4, 0.1, 4<=x<6, 8)
@@ -55,5 +55,12 @@ plot task1.time vs task1.S1, task1.S2, task1.J0_v0
 
 # phrasedml experiment
 exp = te.experiment(antimonyStr, phrasedmlStr)
+
+# python code
+import os
+with open(os.path.realpath(__file__) + 'code.py', 'w') as f:
+    f.write(exp._toPython(phrasedmlStr))
+
+# execute python
 import os
 exp.execute(phrasedmlStr, workingDir=os.getcwd())

@@ -820,16 +820,43 @@ class SEDMLCodeFactory(object):
 
     @staticmethod
     def dataGeneratorToPython(doc, generator):
-        """ Create variable from the data generators and the simulations. """
-        # TODO: implement math, variables, parameters
+        """ Create variable from the data generators and the simulations.
+
+            The data of repeatedTasks is handled differently depending
+            on if reset=True or reset=False.
+            reset=True:
+                every repeat is a single curve, i.e. the data is a list of data
+            reset=False:
+                all curves belong to a single simulation and are concatenated to one dataset
+        """
+        # TODO: implement math, variables, parameters (calculation has to be performed)
         lines = []
         gid = generator.getId()
 
+
         for variable in generator.getListOfVariables():
-            # FIXME: just take first variable as long as no proper implementation
-            taskId = variable.getTaskReference()
+            # for now only take the first variable
             selection = SEDMLCodeFactory.resolveSelectionFromVariable(variable)
+
+            isTime = False
+            if selection.type == "symbol" and selection.id == "time":
+                isTime = True
+
+            resetModel = True
+            taskId = variable.getTaskReference()
+            task = doc.getTask(taskId)
+            if task.getTypeCode() == libsedml.SEDML_TASK_REPEATEDTASK:
+                resetModel = task.getResetModel()
+            # Series of curves
             lines.append("{} = [sim['{}'] for sim in {}]".format(gid, selection.id, taskId))
+            # One curve via time adjusted concatanate
+            if resetModel is False:
+                lines.append("# resetModel=False in RepeatedTask")
+                if isTime is False:
+                    lines.append("{} = [np.concatenate({})]".format(gid, gid))
+                else:
+                    # adjust times
+                    lines.append("{} = [np.cumsum({})]".format(gid, gid))
             break
 
         return '\n'.join(lines)
@@ -917,9 +944,9 @@ class SEDMLCodeFactory(object):
 
             lines.append("for k in range(len({})):".format(xId))
             lines.append("    if k == 0:")
-            lines.append("        plt.plot({}[k], {}[k], color='{}', linewidth=1.5, label='{}')".format(xId, yId, color, yLabel))
+            lines.append("        plt.plot({}[k], {}[k], '-o', color='{}', linewidth=1.5, label='{}')".format(xId, yId, color, yLabel))
             lines.append("    else:")
-            lines.append("        plt.plot({}[k], {}[k], color='{}', linewidth=1.5)".format(xId, yId, color))
+            lines.append("        plt.plot({}[k], {}[k], '-o', color='{}', linewidth=1.5)".format(xId, yId, color))
             # lines.append("plt.xlabel('{}')".format(xId))
             # lines.append("plt.ylabel('{}')".format(yId))
 
@@ -1113,36 +1140,6 @@ class SEDMLTools(object):
             all_changes[mid] = changes[::-1]
 
         return model_sources, all_changes
-
-
-    @staticmethod
-    def resolveSimulations(doc):
-        """ Resolves all the settings for the simulation.
-
-        The parsed algorithm settings are stores in dictionaries which allow than to
-        easily set the simulation options and the integrator settings.
-        Two dictionaries are created:
-            simulate_settings: keyword arguments for simulate
-            integrator_setting
-
-        :return:
-        :rtype:
-        """
-        sids = [sim.getId() for sim in doc.getListOfSimulations()]
-        print(sids)
-        simulate_settings = {}
-        integrator_settings = {}
-        algorithms = {}
-        for sim in doc.getListOfSimulations():
-            sid = sim.getId()
-            alg = sim.getAlgorithm()
-            algorithms[sid] = alg
-            kisaoId = alg.getKisaoID()
-            print(kisaoId)
-
-        print(algorithms)
-
-        return None
 
 
 ##################################################################################################
