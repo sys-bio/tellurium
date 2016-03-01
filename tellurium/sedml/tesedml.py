@@ -497,26 +497,34 @@ class SEDMLCodeFactory(object):
                     if r.getTypeCode() in [libsedml.SEDML_RANGE_UNIFORMRANGE,
                                            libsedml.SEDML_RANGE_VECTORRANGE]:
                         forLines.append("__value__{} = __range__{}[k]".format(r.getId(), r.getId()))
-                    # functional range
+
+                    # <functional range>
                     elif r.getTypeCode() == libsedml.SEDML_RANGE_FUNCTIONALRANGE:
-                        import mathml
-                        parameters = {}
-                        for par in r.getListOfParameters():
-                            parameters[par.getId()] = par.getValue()
+                        # TODO: refactor (code reusage of the MathML evaluation
                         variables = {}
+                        # range variables
+                        variables[rangeId] = "__value__{}".format(rangeId)
+                        for key in helperRanges.keys():
+                            variables[key] = "__value__{}".format(key)
+                        # parameters
+                        for par in r.getListOfParameters():
+                            variables[par.getId()] = par.getValue()
                         for var in r.getListOfVariables():
+                            vid = var.getId()
                             selection = SEDMLCodeFactory.resolveSelectionFromVariable(var)
-                            target = SEDMLCodeFactory.resolveTargetFromXPath(var.getTarget())
-                            variables[selection.id] = "{}['{}']".format(mid, target.id)
-                        value = mathml.evaluateMathML(r.getMathML(), variables=variables, parameters=parameters)
+                            if type == "species":
+                                forLines.append("__var__{} = {}['[{}]']".format(vid, mid, selection.id))
+                            else:
+                                forLines.append("__var__{} = {}['{}']".format(vid, mid, selection.id))
+                            variables[vid] = "__var__{}".format(vid)
+
+                        # value is calculated with the current state of model
+                        value = executableMathML(r.getMath(), variables=variables)
                         forLines.append("__value__{} = {}".format(r.getId(), value))
 
             # <setValues>
             # apply changes based on current variables, parameters and range variables
             for setValue in task.getListOfTaskChanges():
-                if setValue.getElementName() != "setValue":
-                    warnings.warn('Only setValue changes allowed in RepeatedTask.')
-
                 variables = {}
                 # range variables
                 variables[rangeId] = "__value__{}".format(rangeId)
@@ -539,9 +547,6 @@ class SEDMLCodeFactory(object):
                 xpath = setValue.getTarget()
                 forLines.append(SEDMLCodeFactory.targetToPython(xpath, value, modelId=mid))
 
-                # value = "__value__{}".format(setValue.getRange())
-                # xpath = setValue.getTarget()
-                # forLines.append(SEDMLCodeFactory.targetToPython(xpath, value=value, modelId=mid))
 
             # Run single repeat
             # TODO: implement multiple subtasks
@@ -906,9 +911,34 @@ class SEDMLCodeFactory(object):
             reset=False:
                 all curves belong to a single simulation and are concatenated to one dataset
         """
-        # TODO: implement math, variables, parameters (calculation has to be performed)
         lines = []
         gid = generator.getId()
+
+        """
+        # TODO: implement math, variables, parameters (calculation has to be performed)
+        for setValue in task.getListOfTaskChanges():
+            variables = {}
+            # range variables
+            variables[rangeId] = "__value__{}".format(rangeId)
+            for key in helperRanges.keys():
+                variables[key] = "__value__{}".format(key)
+            # parameters
+            for par in setValue.getListOfParameters():
+                variables[par.getId()] = par.getValue()
+            for var in setValue.getListOfVariables():
+                vid = var.getId()
+                selection = SEDMLCodeFactory.resolveSelectionFromVariable(var)
+                if type == "species":
+                    lines.append("__var__{} = {}['[{}]']".format(vid, mid, selection.id))
+                else:
+                    lines.append("__var__{} = {}['{}']".format(vid, mid, selection.id))
+                variables[vid] = "__var__{}".format(vid)
+
+            # value is calculated with the current state of model
+            value = executableMathML(setValue.getMath(), variables=variables)
+            xpath = setValue.getTarget()
+            forLines.append(SEDMLCodeFactory.targetToPython(xpath, value, modelId=mid))
+        """
 
 
         for variable in generator.getListOfVariables():
@@ -997,6 +1027,7 @@ class SEDMLCodeFactory(object):
         :return: list of python lines
         :rtype: list(str)
         """
+        # TODO: handle mix of log and linear axis
         lines = []
 
         # all lines of same cuve have same color
@@ -1048,6 +1079,7 @@ class SEDMLCodeFactory(object):
         :return: list of python lines
         :rtype: list(str)
         """
+        # TODO: handle mix of log and linear axis
         lines = []
         lines.append("from mpl_toolkits.mplot3d import Axes3D")
         lines.append("fig = plt.figure()")
@@ -1239,7 +1271,6 @@ if __name__ == "__main__":
             f.write(python_str)
         # execute python
         factory.executePython()
-
 
     # Check sed-ml files
     for fname in sorted(os.listdir(sedmlDir)):
