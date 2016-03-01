@@ -297,7 +297,7 @@ class SEDMLCodeFactory(object):
             # file
             else:
                 if not source.endswith('.xml'):
-                    # FIXME: this is a bug in how the combine archive is created
+                    # FIXME: this is a bug in how the combine archive is created (missing .xml)
                     source += '.xml'
                 lines.append("{} = te.loadSBMLModel(os.path.join(workingDir, '{}'))".format(mid, source))
 
@@ -347,8 +347,11 @@ class SEDMLCodeFactory(object):
                 variables[par.getId()] = par.getValue()
             for var in change.getListOfVariables():
                 vid = var.getId()
-                # TODO: resolve variable!
-                lines.append("__var__{} = 5".format(vid))
+                selection = SEDMLCodeFactory.resolveSelectionFromVariable(var)
+                if type == "species":
+                    lines.append("__var__{} = {}['[{}]']".format(vid, mid, selection.id))
+                else:
+                    lines.append("__var__{} = {}['{}']".format(vid, mid, selection.id))
                 variables[vid] = "__var__{}".format(vid)
 
             # value is calculated with the current state of model
@@ -995,7 +998,7 @@ class SEDMLCodeFactory(object):
             for variable in dgy.getListOfVariables():
                 # FIXME: Hack as long as math not resolved
                 selection = SEDMLCodeFactory.resolveSelectionFromVariable(variable)
-                yLabel = selection.id
+                yLabel = "{}-{}".format(selection.id, yId)
                 break
 
             lines.append("for k in range(len({})):".format(xId))

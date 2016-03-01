@@ -11,7 +11,7 @@ import phrasedml.phrasedml as phrasedml
 
 antimonyStr = '''
 // Created by libAntimony v2.9
-model *oscli()
+model *parameterScan1D()
 
 // Compartments and Species:
 compartment compartment_;
@@ -48,22 +48,23 @@ const compartment_, J0_v0, J1_k3, J2_k1, J2_k_1, J2_c, J2_q, J3_k2;
 end
 '''
 
-
 phrasedmlStr = '''
-model1 = model "oscli"
+model1 = model "parameterScan1D"
 timecourse1 = simulate uniform(0, 20, 1000)
 task0 = run timecourse1 on model1
 task1 = repeat task0 for J0_v0 in [8, 4, 0.4], reset=true
 plot task1.time vs task1.S1, task1.S2
 '''
 
-r = te.loada(antimonyStr)
-sbml = r.getSBML()
-
-phrasedml.setReferencedSBML("oscli", sbml)
-sedml = phrasedml.convertString(phrasedmlStr)
 
 # phrasedml experiment
 exp = te.experiment(antimonyStr, phrasedmlStr)
-exp.execute()
 
+# python code
+import os
+with open(os.path.realpath(__file__) + 'code.py', 'w') as f:
+    f.write(exp._toPython(phrasedmlStr))
+
+# execute python
+import os
+exp.execute(phrasedmlStr, workingDir=os.getcwd())

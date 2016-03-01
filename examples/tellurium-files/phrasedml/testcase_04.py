@@ -1,15 +1,14 @@
 """
-How to handle the ComputeChanges.
-
+More complex compute change.
 """
 from __future__ import print_function
 import tellurium as te
 
 antimonyStr = '''
 model testcase_04()
-  J0: S1 -> S2; k1*S1
+  J0: S1 -> S2; k1*S1-k2*S2
   S1 = 10.0; S2 = 0.0;
-  k1 = 0.5;
+  k1 = 0.5; k2=0.4
 end
 '''
 
@@ -24,5 +23,14 @@ phrasedmlStr = '''
   plot "Example plot" task1.time vs task1.S1, task1.S2, task2.S1, task2.S2, task3.S1, task3.S2
 '''
 
+# phrasedml experiment
 exp = te.experiment(antimonyStr, phrasedmlStr)
-exp.execute(phrasedmlStr)
+
+# python code
+import os
+with open(os.path.realpath(__file__) + 'code.py', 'w') as f:
+    f.write(exp._toPython(phrasedmlStr))
+
+# execute python
+import os
+exp.execute(phrasedmlStr, workingDir=os.getcwd())

@@ -12,7 +12,7 @@ import phrasedml as p
 
 antimonyStr = '''
 // Created by libAntimony v2.9
-model *BorisEJB()
+model *parameterScan2D()
 
   // Compartments and Species:
   compartment compartment_;
@@ -77,7 +77,7 @@ end
 '''
 
 phrasedmlStr = '''
-  model_3 = model "BorisEJB.xml"
+  model_3 = model "parameterScan2D"
   sim_repeat = simulate steadystate
   task_1 = run sim_repeat on model_3
   repeatedtask_1 = repeat task_1 for J1_KK2 in [1, 5, 10, 50, 60, 70, 80, 90, 100]
@@ -85,11 +85,14 @@ phrasedmlStr = '''
   plot repeatedtask_2.J4_KK5 vs repeatedtask_2.MKK, repeatedtask_2.MKK_P
 '''
 
-a.loadAntimonyString(antimonyStr)
-sbml = a.getSBMLString(None)
-p.phrasedml.setReferencedSBML("BorisEJB.xml", sbml)
-sedml = p.phrasedml.convertString(phrasedmlStr)
-
-# Create experiment
+# phrasedml experiment
 exp = te.experiment(antimonyStr, phrasedmlStr)
-exp.execute()
+
+# python code
+import os
+with open(os.path.realpath(__file__) + 'code.py', 'w') as f:
+    f.write(exp._toPython(phrasedmlStr))
+
+# execute python
+import os
+exp.execute(phrasedmlStr, workingDir=os.getcwd())

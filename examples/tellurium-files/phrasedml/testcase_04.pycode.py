@@ -1,9 +1,9 @@
 """
     tellurium 1.3.1
 
-    auto-generated code (2016-03-01T17:59:06)
+    auto-generated code (2016-03-01T18:16:53)
     sedmlDoc: L1V2  
-    workingDir: /tmp/tmpHhFXOv_sedml/_te_testcase_03
+    workingDir: /tmp/tmpQBkGgb_sedml/_te_testcase_04
     inputType: COMBINE_FILE
 """
 from __future__ import print_function, division
@@ -12,31 +12,30 @@ import numpy as np
 import matplotlib.pyplot as plt
 import mpl_toolkits.mplot3d
 import libsedml
-import libsbml
 import pandas
 import os.path
 
-workingDir = '/tmp/tmpHhFXOv_sedml/_te_testcase_03'
+workingDir = '/tmp/tmpQBkGgb_sedml/_te_testcase_04'
 
 # --------------------------------------------------------
 # Models
 # --------------------------------------------------------
-#  - mod1 
-#  - mod2 
-
 # Model <mod1>
-mod1 = te.loadSBMLModel(os.path.join(workingDir, 'testcase_03.xml'))
+mod1 = te.loadSBMLModel(os.path.join(workingDir, 'testcase_04.xml'))
 # Model <mod2>
-mod2 = te.loadSBMLModel(os.path.join(workingDir, 'testcase_03.xml'))
+mod2 = te.loadSBMLModel(os.path.join(workingDir, 'testcase_04.xml'))
 __var__S1 = mod2['S1']
 mod2['S2'] = __var__S1 + 4
+# Model <mod3>
+mod3 = te.loadSBMLModel(os.path.join(workingDir, 'testcase_04.xml'))
+__var__S1 = mod3['S1']
+mod3['S2'] = __var__S1 + 4
+# /sbml:sbml/sbml:model/listOfSpecies/species[@id='S1']/@initialConcentration 10
+mod3['init([S1])'] = 10
 
 # --------------------------------------------------------
 # Tasks
 # --------------------------------------------------------
-#  - task1 
-#  - task2 
-
 # Task <task1>
 task1 = [None]
 mod1.setIntegrator('cvode')
@@ -49,15 +48,15 @@ mod2.setIntegrator('cvode')
 mod2.timeCourseSelections = ['S2', 'S1']
 task2[0] = mod2.simulate(start=0.0, end=10.0, steps=100)
 
+# Task <task3>
+task3 = [None]
+mod2.setIntegrator('cvode')
+mod2.timeCourseSelections = ['S2', 'S1']
+task3[0] = mod2.simulate(start=0.0, end=10.0, steps=100)
+
 # --------------------------------------------------------
 # DataGenerators
 # --------------------------------------------------------
-#  - plot_0_0_0 (task1.time)
-#  - plot_0_0_1 (task1.S1)
-#  - plot_0_1_1 (task1.S2)
-#  - plot_0_2_1 (task2.S1)
-#  - plot_0_3_1 (task2.S2)
-
 # DataGenerator <plot_0_0_0>
 plot_0_0_0 = [sim['time'] for sim in task1]
 
@@ -73,11 +72,15 @@ plot_0_2_1 = [sim['S1'] for sim in task2]
 # DataGenerator <plot_0_3_1>
 plot_0_3_1 = [sim['S2'] for sim in task2]
 
+# DataGenerator <plot_0_4_1>
+plot_0_4_1 = [sim['S1'] for sim in task3]
+
+# DataGenerator <plot_0_5_1>
+plot_0_5_1 = [sim['S2'] for sim in task3]
+
 # --------------------------------------------------------
 # Outputs
 # --------------------------------------------------------
-#  - plot_0 (Example plot)
-
 # Output <plot_0>
 for k in range(len(plot_0_0_0)):
     if k == 0:
@@ -99,6 +102,16 @@ for k in range(len(plot_0_0_0)):
         plt.plot(plot_0_0_0[k], plot_0_3_1[k], '-o', color='c', linewidth=1.5, label='S2-plot_0_3_1')
     else:
         plt.plot(plot_0_0_0[k], plot_0_3_1[k], '-o', color='c', linewidth=1.5)
+for k in range(len(plot_0_0_0)):
+    if k == 0:
+        plt.plot(plot_0_0_0[k], plot_0_4_1[k], '-o', color='m', linewidth=1.5, label='S1-plot_0_4_1')
+    else:
+        plt.plot(plot_0_0_0[k], plot_0_4_1[k], '-o', color='m', linewidth=1.5)
+for k in range(len(plot_0_0_0)):
+    if k == 0:
+        plt.plot(plot_0_0_0[k], plot_0_5_1[k], '-o', color='y', linewidth=1.5, label='S2-plot_0_5_1')
+    else:
+        plt.plot(plot_0_0_0[k], plot_0_5_1[k], '-o', color='y', linewidth=1.5)
 plt.title('plot_0')
 plt.legend()
 plt.show()

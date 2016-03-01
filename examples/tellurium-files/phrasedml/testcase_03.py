@@ -1,6 +1,6 @@
 """
 Calculating values by formulas.
-ComputeChanges on models via InitialAssignments.
+ComputeChanges on models.
 """
 
 from __future__ import print_function
@@ -8,9 +8,9 @@ import tellurium as te
 
 antimonyStr = '''
 model testcase_03()
-  J0: S1 -> S2; k1*S1
+  J0: S1 -> S2; k1*S1-k2*S2
   S1 = 10.0; S2 = 0.0;
-  k1 = 0.5;
+  k1 = 0.5; k2=0.4
 end
 '''
 

@@ -8,7 +8,7 @@ import tellurium as te
 
 antimonyStr = '''
 // Created by libAntimony v2.9
-model *BorisEJB()
+model *repeatedStochastic()
 
 // Compartments and Species:
 compartment compartment_;
@@ -73,7 +73,7 @@ end
 '''
 
 phrasedmlStr = '''
-model1 = model "borisejb.xml"
+model1 = model "repeatedStochastic.xml"
 timecourse1 = simulate uniform_stochastic(0, 4000, 1000)
 timecourse1.algorithm.seed = 1003
 task0 = run timecourse1 on model1
@@ -81,7 +81,14 @@ task1 = repeat task0 for local.x in uniform(0, 10, 10), reset=true
 plot task1.time vs task1.MAPK, task1.MAPK_P, task1.MAPK_PP, task1.MKK, task1.MKK_P, task1.MKKK, task1.MKKK_P
 '''
 
+# phrasedml experiment
 exp = te.experiment(antimonyStr, phrasedmlStr)
 
-# directly via execute (not working yet)
-exp.execute()
+# python code
+import os
+with open(os.path.realpath(__file__) + 'code.py', 'w') as f:
+    f.write(exp._toPython(phrasedmlStr))
+
+# execute python
+import os
+exp.execute(phrasedmlStr, workingDir=os.getcwd())

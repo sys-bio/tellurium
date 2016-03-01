@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created by libAntimony version v2.9 on 2016-02-26 18:38 with libSBML version 5.12.1. -->
+<!-- Created by libAntimony version v2.9 on 2016-03-01 18:29 with libSBML version 5.12.1. -->
 <sbml xmlns="http://www.sbml.org/sbml/level3/version1/core" level="3" version="1">
-  <model id="oscli" name="oscli">
+  <model id="parameterScan1D" name="parameterScan1D">
     <listOfCompartments>
       <compartment id="compartment_" spatialDimensions="3" size="1" constant="true"/>
     </listOfCompartments>
