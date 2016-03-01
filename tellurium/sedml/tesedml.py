@@ -341,7 +341,10 @@ class SEDMLCodeFactory(object):
             lines.append(SEDMLCodeFactory.targetToPython(xpath, value, modelId=mid))
 
         elif change.getTypeCode() == libsedml.SEDML_CHANGE_COMPUTECHANGE:
-            # TODO: IMPLEMENT
+            lines.append("__{}_sbml = {}.getCurrentSBML()".format(mid, mid))
+            lines.append("__{}_doc = libsbml.readSBMLFromFile(__{}_sbml)".format(mid, mid))
+            # TODO: apply the changes
+
             lines.append("# Unsupported change: {}".format(change.getElementName()))
             warnings.warn("Unsupported change: {}".format(change.getElementName()))
 
@@ -355,6 +358,9 @@ class SEDMLCodeFactory(object):
             warnings.warn("Unsupported change: {}".format(change.getElementName()))
 
         return lines
+
+
+
 
     @staticmethod
     def taskToPython(doc, task):

@@ -1,5 +1,6 @@
 """
 Calculating values by formulas.
+ComputeChanges on models via InitialAssignments.
 """
 
 from __future__ import print_function
@@ -26,6 +27,15 @@ exp = te.experiment(antimonyStr, phrasedmlStr)
 print('*'*80)
 exp.printPython(phrasedmlStr)
 print('*'*80)
+
+python_str = exp._toPython(phrasedmlStr)
+import os
+fpath = os.path.realpath(__file__) + 'code.py'
+print(fpath)
+
+with open(fpath, 'w') as f:
+    f.write(python_str)
+# execute python
 
 import os
 exp.execute(phrasedmlStr, workingDir=os.getcwd())
