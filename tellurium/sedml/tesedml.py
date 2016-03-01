@@ -264,7 +264,6 @@ class SEDMLCodeFactory(object):
                                    + e.message + '\n'
                                    ), sys.exc_info()[2]
 
-
     def modelToPython(self, model):
         """ Python code for SedModel.
 
@@ -342,6 +341,7 @@ class SEDMLCodeFactory(object):
             lines.append(SEDMLCodeFactory.targetToPython(xpath, value, modelId=mid))
 
         elif change.getTypeCode() == libsedml.SEDML_CHANGE_COMPUTECHANGE:
+            # TODO: refactor in function and reuse in SedSetValue
             variables = {}
             for par in change.getListOfParameters():
                 variables[par.getId()] = par.getValue()
@@ -368,9 +368,6 @@ class SEDMLCodeFactory(object):
             warnings.warn("Unsupported change: {}".format(change.getElementName()))
 
         return lines
-
-
-
 
     @staticmethod
     def taskToPython(doc, task):
@@ -493,8 +490,10 @@ class SEDMLCodeFactory(object):
             # value for masterRange
             forLines.append("__value__{} = __range__{}[k]".format(rangeId, rangeId))
             # other range values
+            helperRanges = {}
             for r in task.getListOfRanges():
                 if r.getId() != rangeId:
+                    helperRanges[r.getId()] = r
                     if r.getTypeCode() in [libsedml.SEDML_RANGE_UNIFORMRANGE,
                                            libsedml.SEDML_RANGE_VECTORRANGE]:
                         forLines.append("__value__{} = __range__{}[k]".format(r.getId(), r.getId()))
@@ -518,12 +517,31 @@ class SEDMLCodeFactory(object):
                 if setValue.getElementName() != "setValue":
                     warnings.warn('Only setValue changes allowed in RepeatedTask.')
 
-                # value = evaluateMathML(setValue.getMath(), variables={})
-                # TODO: here evaluation is necessary
+                variables = {}
+                # range variables
+                variables[rangeId] = "__value__{}".format(rangeId)
+                for key in helperRanges.keys():
+                    variables[key] = "__value__{}".format(key)
+                # parameters
+                for par in setValue.getListOfParameters():
+                    variables[par.getId()] = par.getValue()
+                for var in setValue.getListOfVariables():
+                    vid = var.getId()
+                    selection = SEDMLCodeFactory.resolveSelectionFromVariable(var)
+                    if type == "species":
+                        lines.append("__var__{} = {}['[{}]']".format(vid, mid, selection.id))
+                    else:
+                        lines.append("__var__{} = {}['{}']".format(vid, mid, selection.id))
+                    variables[vid] = "__var__{}".format(vid)
 
-                value = "__value__{}".format(setValue.getRange())
+                # value is calculated with the current state of model
+                value = executableMathML(setValue.getMath(), variables=variables)
                 xpath = setValue.getTarget()
-                forLines.append(SEDMLCodeFactory.targetToPython(xpath, value=value, modelId=mid))
+                forLines.append(SEDMLCodeFactory.targetToPython(xpath, value, modelId=mid))
+
+                # value = "__value__{}".format(setValue.getRange())
+                # xpath = setValue.getTarget()
+                # forLines.append(SEDMLCodeFactory.targetToPython(xpath, value=value, modelId=mid))
 
             # Run single repeat
             # TODO: implement multiple subtasks

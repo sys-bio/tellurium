@@ -10,6 +10,7 @@
 """
 from __future__ import print_function, division
 import tellurium as te
+from tellurium.sedml.mathml import *
 import numpy as np
 import matplotlib.pyplot as plt
 import mpl_toolkits.mplot3d

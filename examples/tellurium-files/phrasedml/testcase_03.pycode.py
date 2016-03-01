@@ -1,9 +1,9 @@
 """
     tellurium 1.3.1
 
-    auto-generated code (2016-03-01T17:59:06)
+    auto-generated code (2016-03-01T18:57:32)
     sedmlDoc: L1V2  
-    workingDir: /tmp/tmpHhFXOv_sedml/_te_testcase_03
+    workingDir: /tmp/tmp9hCxWv_sedml/_te_testcase_03
     inputType: COMBINE_FILE
 """
 from __future__ import print_function, division
@@ -12,18 +12,14 @@ import numpy as np
 import matplotlib.pyplot as plt
 import mpl_toolkits.mplot3d
 import libsedml
-import libsbml
 import pandas
 import os.path
 
-workingDir = '/tmp/tmpHhFXOv_sedml/_te_testcase_03'
+workingDir = '/tmp/tmp9hCxWv_sedml/_te_testcase_03'
 
 # --------------------------------------------------------
 # Models
 # --------------------------------------------------------
-#  - mod1 
-#  - mod2 
-
 # Model <mod1>
 mod1 = te.loadSBMLModel(os.path.join(workingDir, 'testcase_03.xml'))
 # Model <mod2>
@@ -34,9 +30,6 @@ mod2['S2'] = __var__S1 + 4
 # --------------------------------------------------------
 # Tasks
 # --------------------------------------------------------
-#  - task1 
-#  - task2 
-
 # Task <task1>
 task1 = [None]
 mod1.setIntegrator('cvode')
@@ -52,12 +45,6 @@ task2[0] = mod2.simulate(start=0.0, end=10.0, steps=100)
 # --------------------------------------------------------
 # DataGenerators
 # --------------------------------------------------------
-#  - plot_0_0_0 (task1.time)
-#  - plot_0_0_1 (task1.S1)
-#  - plot_0_1_1 (task1.S2)
-#  - plot_0_2_1 (task2.S1)
-#  - plot_0_3_1 (task2.S2)
-
 # DataGenerator <plot_0_0_0>
 plot_0_0_0 = [sim['time'] for sim in task1]
 
@@ -76,8 +63,6 @@ plot_0_3_1 = [sim['S2'] for sim in task2]
 # --------------------------------------------------------
 # Outputs
 # --------------------------------------------------------
-#  - plot_0 (Example plot)
-
 # Output <plot_0>
 for k in range(len(plot_0_0_0)):
     if k == 0:

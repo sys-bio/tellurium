@@ -1,9 +1,9 @@
 """
     tellurium 1.3.1
 
-    auto-generated code (2016-03-01T17:24:21)
+    auto-generated code (2016-03-01T18:57:21)
     sedmlDoc: L1V2  
-    workingDir: /tmp/tmpObY77x_sedml/_te_testcase_02
+    workingDir: /tmp/tmpUQhqHW_sedml/_te_testcase_02
     inputType: COMBINE_FILE
 """
 from __future__ import print_function, division
@@ -12,18 +12,14 @@ import numpy as np
 import matplotlib.pyplot as plt
 import mpl_toolkits.mplot3d
 import libsedml
-import libsbml
 import pandas
 import os.path
 
-workingDir = '/tmp/tmpObY77x_sedml/_te_testcase_02'
+workingDir = '/tmp/tmpUQhqHW_sedml/_te_testcase_02'
 
 # --------------------------------------------------------
 # Models
 # --------------------------------------------------------
-#  - model0 
-#  - model1 
-
 # Model <model0>
 model0 = te.loadSBMLModel(os.path.join(workingDir, 'testcase_02.xml'))
 # Model <model1>
@@ -34,9 +30,6 @@ model1['init([S1])'] = 5
 # --------------------------------------------------------
 # Tasks
 # --------------------------------------------------------
-#  - task0 
-#  - task1 
-
 # Task <task0>
 task0 = [None]
 model1.setIntegrator('cvode')
@@ -57,10 +50,6 @@ for k in range(len(__range__uniform_linear_for_k1)):
 # --------------------------------------------------------
 # DataGenerators
 # --------------------------------------------------------
-#  - plot_0_0_0 (task1.time)
-#  - plot_0_0_1 (task1.S1)
-#  - plot_0_1_1 (task1.S2)
-
 # DataGenerator <plot_0_0_0>
 plot_0_0_0 = [sim['time'] for sim in task1]
 
@@ -73,17 +62,15 @@ plot_0_1_1 = [sim['S2'] for sim in task1]
 # --------------------------------------------------------
 # Outputs
 # --------------------------------------------------------
-#  - plot_0 
-
 # Output <plot_0>
 for k in range(len(plot_0_0_0)):
     if k == 0:
-        plt.plot(plot_0_0_0[k], plot_0_0_1[k], '-o', color='b', linewidth=1.5, label='S1')
+        plt.plot(plot_0_0_0[k], plot_0_0_1[k], '-o', color='b', linewidth=1.5, label='S1-plot_0_0_1')
     else:
         plt.plot(plot_0_0_0[k], plot_0_0_1[k], '-o', color='b', linewidth=1.5)
 for k in range(len(plot_0_0_0)):
     if k == 0:
-        plt.plot(plot_0_0_0[k], plot_0_1_1[k], '-o', color='g', linewidth=1.5, label='S2')
+        plt.plot(plot_0_0_0[k], plot_0_1_1[k], '-o', color='g', linewidth=1.5, label='S2-plot_0_1_1')
     else:
         plt.plot(plot_0_0_0[k], plot_0_1_1[k], '-o', color='g', linewidth=1.5)
 plt.title('plot_0')

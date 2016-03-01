@@ -1,13 +1,14 @@
 """
     tellurium 1.3.1
 
-    auto-generated code (2016-03-01T18:26:12)
+    auto-generated code (2016-03-01T18:59:02)
     sedmlDoc: L1V2  
-    workingDir: /tmp/tmp3H62J__sedml/_te_oneStep
+    workingDir: /tmp/tmpZoDFzl_sedml/_te_oneStep
     inputType: COMBINE_FILE
 """
 from __future__ import print_function, division
 import tellurium as te
+from tellurium.sedml.mathml import *
 import numpy as np
 import matplotlib.pyplot as plt
 import mpl_toolkits.mplot3d
@@ -15,7 +16,7 @@ import libsedml
 import pandas
 import os.path
 
-workingDir = '/tmp/tmp3H62J__sedml/_te_oneStep'
+workingDir = '/tmp/tmpZoDFzl_sedml/_te_oneStep'
 
 # --------------------------------------------------------
 # Models
@@ -37,7 +38,7 @@ __range__x = list(np.linspace(start=0.0, stop=10.0, num=101))
 task1 = [None]*len(__range__x)
 for k in range(len(__range__x)):
     __value__x = __range__x[k]
-    model1['J0_v0'] = __value__x
+    model1['J0_v0'] = piecewise(8, __value__x < 4, 0.1, (4 <= __value__x) and (__value__x < 6), 8)
     model1.setIntegrator('cvode')
     model1.timeCourseSelections = ['S2', 'S1', 'J0_v0', 'time']
     task1[k] = model1.simulate(start=0.0, end=0.1, points=2)
