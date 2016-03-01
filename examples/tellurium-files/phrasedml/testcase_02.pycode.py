@@ -1,9 +1,9 @@
 """
     tellurium 1.3.1
 
-    auto-generated code (2016-03-01T12:41:13)
+    auto-generated code (2016-03-01T12:26:24)
     sedmlDoc: L1V2  
-    workingDir: /tmp/tmp77gutz_sedml/_te_testcase_03
+    workingDir: /tmp/tmpxLukMd_sedml/_te_testcase_02
     inputType: COMBINE_FILE
 """
 from __future__ import print_function, division
@@ -12,43 +12,45 @@ import numpy as np
 import matplotlib.pyplot as plt
 import mpl_toolkits.mplot3d
 import libsedml
-import libsbml
 import pandas
 import os.path
 
-workingDir = '/tmp/tmp77gutz_sedml/_te_testcase_03'
+workingDir = '/tmp/tmpxLukMd_sedml/_te_testcase_02'
 
 # --------------------------------------------------------
 # Models
 # --------------------------------------------------------
-#  - mod1 
-#  - mod2 
+#  - model0 
+#  - model1 
 
-# Model <mod1>
-mod1 = te.loadSBMLModel(os.path.join(workingDir, 'testcase_03.xml'))
-# Model <mod2>
-mod2 = te.loadSBMLModel(os.path.join(workingDir, 'testcase_03.xml'))
-__mod2_sbml = mod2.getCurrentSBML()
-__mod2_doc = libsbml.readSBMLFromFile(__mod2_sbml)
-# Unsupported change: computeChange
+# Model <model0>
+model0 = te.loadSBMLModel(os.path.join(workingDir, 'testcase_02.xml'))
+# Model <model1>
+model1 = te.loadSBMLModel(os.path.join(workingDir, 'testcase_02.xml'))
+# /sbml:sbml/sbml:model/listOfSpecies/species[@id='S1']/@initialConcentration 5
+model1['init([S1])'] = 5
 
 # --------------------------------------------------------
 # Tasks
 # --------------------------------------------------------
+#  - task0 
 #  - task1 
-#  - task2 
+
+# Task <task0>
+task0 = [None]
+model1.setIntegrator('cvode')
+model1.timeCourseSelections = []
+task0[0] = model1.simulate(start=0.0, end=10.0, steps=100)
 
 # Task <task1>
-task1 = [None]
-mod1.setIntegrator('cvode')
-mod1.timeCourseSelections = ['S2', 'S1', 'time']
-task1[0] = mod1.simulate(start=0.0, end=10.0, steps=100)
-
-# Task <task2>
-task2 = [None]
-mod2.setIntegrator('cvode')
-mod2.timeCourseSelections = ['S2', 'S1']
-task2[0] = mod2.simulate(start=0.0, end=10.0, steps=100)
+__range_task1 = [0.0, 1.0, 2.0, 3.0, 4.0, 5.0]
+task1 = [None] * len(__range_task1)
+for k, value in enumerate(__range_task1):
+    model1.reset()
+    model1['k1'] = value
+    model1.setIntegrator('cvode')
+    model1.timeCourseSelections = ['S2', 'S1', 'time']
+    task1[k] = model1.simulate(start=0.0, end=10.0, steps=100)
 
 # --------------------------------------------------------
 # DataGenerators
@@ -56,8 +58,6 @@ task2[0] = mod2.simulate(start=0.0, end=10.0, steps=100)
 #  - plot_0_0_0 (task1.time)
 #  - plot_0_0_1 (task1.S1)
 #  - plot_0_1_1 (task1.S2)
-#  - plot_0_2_1 (task2.S1)
-#  - plot_0_3_1 (task2.S2)
 
 # DataGenerator <plot_0_0_0>
 plot_0_0_0 = [sim['time'] for sim in task1]
@@ -68,16 +68,10 @@ plot_0_0_1 = [sim['S1'] for sim in task1]
 # DataGenerator <plot_0_1_1>
 plot_0_1_1 = [sim['S2'] for sim in task1]
 
-# DataGenerator <plot_0_2_1>
-plot_0_2_1 = [sim['S1'] for sim in task2]
-
-# DataGenerator <plot_0_3_1>
-plot_0_3_1 = [sim['S2'] for sim in task2]
-
 # --------------------------------------------------------
 # Outputs
 # --------------------------------------------------------
-#  - plot_0 (Example plot)
+#  - plot_0 
 
 # Output <plot_0>
 for k in range(len(plot_0_0_0)):
@@ -90,16 +84,6 @@ for k in range(len(plot_0_0_0)):
         plt.plot(plot_0_0_0[k], plot_0_1_1[k], '-o', color='g', linewidth=1.5, label='S2')
     else:
         plt.plot(plot_0_0_0[k], plot_0_1_1[k], '-o', color='g', linewidth=1.5)
-for k in range(len(plot_0_0_0)):
-    if k == 0:
-        plt.plot(plot_0_0_0[k], plot_0_2_1[k], '-o', color='r', linewidth=1.5, label='S1')
-    else:
-        plt.plot(plot_0_0_0[k], plot_0_2_1[k], '-o', color='r', linewidth=1.5)
-for k in range(len(plot_0_0_0)):
-    if k == 0:
-        plt.plot(plot_0_0_0[k], plot_0_3_1[k], '-o', color='c', linewidth=1.5, label='S2')
-    else:
-        plt.plot(plot_0_0_0[k], plot_0_3_1[k], '-o', color='c', linewidth=1.5)
 plt.title('plot_0')
 plt.legend()
 plt.show()

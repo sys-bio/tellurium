@@ -23,19 +23,14 @@ phrasedmlStr = '''
   plot "Example plot" task1.time vs task1.S1, task1.S2, task2.S1, task2.S2
 '''
 
+# phrasedml experiment
 exp = te.experiment(antimonyStr, phrasedmlStr)
-print('*'*80)
-exp.printPython(phrasedmlStr)
-print('*'*80)
 
-python_str = exp._toPython(phrasedmlStr)
+# python code
 import os
-fpath = os.path.realpath(__file__) + 'code.py'
-print(fpath)
+with open(os.path.realpath(__file__) + 'code.py', 'w') as f:
+    f.write(exp._toPython(phrasedmlStr))
 
-with open(fpath, 'w') as f:
-    f.write(python_str)
 # execute python
-
 import os
 exp.execute(phrasedmlStr, workingDir=os.getcwd())

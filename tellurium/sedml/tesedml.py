@@ -424,7 +424,7 @@ class SEDMLCodeFactory(object):
             if masterRange.getTypeCode() == libsedml.SEDML_RANGE_UNIFORMRANGE:
                 rStart = masterRange.getStart()
                 rEnd = masterRange.getEnd()
-                rPoints = masterRange.getNumberOfPoints()
+                rPoints = masterRange.getNumberOfPoints()+1  # One point more than number of points
                 rType = masterRange.getType()
                 if rType in ['Linear', 'linear']:
                     __range = np.linspace(start=rStart, stop=rEnd, num=rPoints)

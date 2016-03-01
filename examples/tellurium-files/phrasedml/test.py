@@ -15,7 +15,13 @@ print(sedml_model)
 
 def applyComputeChange(sbml_doc, change):
     print('* Resolve target *')
+    # TODO: resolve the xpath
+
+
+    xpath =
+
     target = SEDMLCodeFactory.resolveTargetFromXPath()
+
     print('* Resolve variables *')
     for var in change.getListOfVariables():
         selection = SEDMLCodeFactory.resolveSelectionFromVariable(var)
