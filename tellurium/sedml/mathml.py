@@ -83,11 +83,11 @@ def f_or(*args):
     return 0
 """
 
-def evaluateMathML(mathml, variables={}, parameters={}):
+def evaluateMathML(astnode, variables={}):
     """ Evaluate MathML string with given set of variable and parameter values.
 
-    :param mathml: MathML string
-    :type mathml: str
+    :param astnode: astnode of MathML string
+    :type astnode: libsbml.ASTNode
     :param variables: dictionary of var : value
     :type variables: dict
     :param parameters: dictionary of par : value
@@ -96,30 +96,25 @@ def evaluateMathML(mathml, variables={}, parameters={}):
     :rtype: float
     """
 
-    ast = libsbml.readMathMLFromString(mathml)
-
     # replace variables with provided values
     for key, value in variables.iteritems():
-        ast.replaceArgument(key, libsbml.parseFormula(str(value)))
-
-    # replace parameters with provided values
-    for key, value in parameters.iteritems():
-        ast.replaceArgument(key, libsbml.parseFormula(str(value)))
+        astnode.replaceArgument(key, libsbml.parseFormula(str(value)))
 
     # get formula
-    formula = libsbml.formulaToL3String(ast)
+    formula = libsbml.formulaToL3String(astnode)
 
     # make replacements in formula
     formula = formula.replace("&&", 'and')
     formula = formula.replace("||", 'or')
 
+    print(formula)
     # return the evaluated formula
     return eval(formula)
 
 
 if __name__ == "__main__":
 
-    mathml = """
+    mathmlStr = """
            <math xmlns="http://www.w3.org/1998/Math/MathML">
                 <piecewise>
                   <piece>
@@ -154,6 +149,9 @@ if __name__ == "__main__":
     """
 
     # evaluate the function with the values
-    res = evaluateMathML(mathml,
-                         parameters={'x': 10.0})
+    astnode = libsbml.readMathMLFromString(mathmlStr)
+
+    y = 5
+    res = evaluateMathML(astnode,
+                         variables={'x': "y"})
     print('Result:', res)

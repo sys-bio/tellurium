@@ -1,9 +1,9 @@
 """
     tellurium 1.3.1
 
-    auto-generated code (2016-03-01T12:26:24)
+    auto-generated code (2016-03-01T17:15:32)
     sedmlDoc: L1V2  
-    workingDir: /tmp/tmpxLukMd_sedml/_te_testcase_02
+    workingDir: /tmp/tmpfcRzEC_sedml/_te_testcase_02
     inputType: COMBINE_FILE
 """
 from __future__ import print_function, division
@@ -12,10 +12,11 @@ import numpy as np
 import matplotlib.pyplot as plt
 import mpl_toolkits.mplot3d
 import libsedml
+import libsbml
 import pandas
 import os.path
 
-workingDir = '/tmp/tmpxLukMd_sedml/_te_testcase_02'
+workingDir = '/tmp/tmpfcRzEC_sedml/_te_testcase_02'
 
 # --------------------------------------------------------
 # Models
@@ -43,11 +44,12 @@ model1.timeCourseSelections = []
 task0[0] = model1.simulate(start=0.0, end=10.0, steps=100)
 
 # Task <task1>
-__range_task1 = [0.0, 1.0, 2.0, 3.0, 4.0, 5.0]
-task1 = [None] * len(__range_task1)
-for k, value in enumerate(__range_task1):
+__range__uniform_linear_for_k1 = list(np.linspace(start=0.0, stop=5.0, num=6))
+task1 = [None]*len(__range__uniform_linear_for_k1)
+for k in range(len(__range__uniform_linear_for_k1)):
     model1.reset()
-    model1['k1'] = value
+    __value__uniform_linear_for_k1 = __range__uniform_linear_for_k1[k]
+    model1['k1'] = __value__uniform_linear_for_k1
     model1.setIntegrator('cvode')
     model1.timeCourseSelections = ['S2', 'S1', 'time']
     task1[k] = model1.simulate(start=0.0, end=10.0, steps=100)
