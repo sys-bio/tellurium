@@ -913,31 +913,46 @@ class SEDMLCodeFactory(object):
         """
         lines = []
         gid = generator.getId()
+        mathml = generator.getMath()
 
-        """
-        # TODO: implement math, variables, parameters (calculation has to be performed)
-        for setValue in task.getListOfTaskChanges():
-            variables = {}
-            # range variables
-            variables[rangeId] = "__value__{}".format(rangeId)
-            for key in helperRanges.keys():
-                variables[key] = "__value__{}".format(key)
-            # parameters
-            for par in setValue.getListOfParameters():
-                variables[par.getId()] = par.getValue()
-            for var in setValue.getListOfVariables():
-                vid = var.getId()
-                selection = SEDMLCodeFactory.resolveSelectionFromVariable(var)
-                if type == "species":
-                    lines.append("__var__{} = {}['[{}]']".format(vid, mid, selection.id))
+        # create variables
+        variables = {}
+        for par in generator.getListOfParameters():
+            variables[par.getId()] = par.getValue()
+        for var in generator.getListOfVariables():
+            varId = var.getId()
+            variables[varId] = "__var__{}".format(varId)
+
+        # create python for variables
+        for var in generator.getListOfVariables():
+            taskId = var.getTaskReference()
+            task = doc.getTask(taskId)
+            modelId = task.getModelReference()
+
+            selection = SEDMLCodeFactory.resolveSelectionFromVariable(var)
+            isTime = False
+            if selection.type == "symbol" and selection.id == "time":
+                isTime = True
+            resetModel = True
+            if task.getTypeCode() == libsedml.SEDML_TASK_REPEATEDTASK:
+                resetModel = task.getResetModel()
+
+            # Series of curves
+            lines.append("__var__{} = np.array([sim['{}'] for sim in {}])".format(varId, selection.id, taskId))
+            # One curve via time adjusted concatenate
+            if resetModel is False:
+                if isTime is False:
+                    lines.append("__var__{} = np.concatenate({})".format(varId, varId))
                 else:
-                    lines.append("__var__{} = {}['{}']".format(vid, mid, selection.id))
-                variables[vid] = "__var__{}".format(vid)
+                    # adjust times
+                    lines.append("__var__{} = np.cumsum({})".format(varId, varId))
 
-            # value is calculated with the current state of model
-            value = executableMathML(setValue.getMath(), variables=variables)
-            xpath = setValue.getTarget()
-            forLines.append(SEDMLCodeFactory.targetToPython(xpath, value, modelId=mid))
+        # calculate data generator
+        value = executableMathML(mathml, variables=variables)
+        lines.append("{} = {}".format(gid, value))
+
+        return "\n".join(lines)
+
         """
 
 
@@ -954,6 +969,7 @@ class SEDMLCodeFactory(object):
             task = doc.getTask(taskId)
             if task.getTypeCode() == libsedml.SEDML_TASK_REPEATEDTASK:
                 resetModel = task.getResetModel()
+
             # Series of curves
             lines.append("{} = [sim['{}'] for sim in {}]".format(gid, selection.id, taskId))
             # One curve via time adjusted concatanate
@@ -967,25 +983,21 @@ class SEDMLCodeFactory(object):
             break
 
         return '\n'.join(lines)
+        """
 
     @staticmethod
     def outputToPython(doc, output):
         """ Create output """
         lines = []
-
         typeCode = output.getTypeCode()
         if typeCode == libsedml.SEDML_OUTPUT_REPORT:
             lines.extend(SEDMLCodeFactory.outputReportToPython(doc, output))
-
         elif typeCode == libsedml.SEDML_OUTPUT_PLOT2D:
             lines.extend(SEDMLCodeFactory.outputPlot2DToPython(doc, output))
-
         elif typeCode == libsedml.SEDML_OUTPUT_PLOT3D:
             lines.extend(SEDMLCodeFactory.outputPlot3DToPython(doc, output))
-
         else:
             lines.append("# Unsupported output type: {}".format(output.getElementName()))
-
         return '\n'.join(lines)
 
     @staticmethod

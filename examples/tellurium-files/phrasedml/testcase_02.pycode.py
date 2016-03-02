@@ -1,13 +1,14 @@
 """
     tellurium 1.3.1
 
-    auto-generated code (2016-03-01T18:57:21)
+    auto-generated code (2016-03-02T09:25:24)
     sedmlDoc: L1V2  
-    workingDir: /tmp/tmpUQhqHW_sedml/_te_testcase_02
+    workingDir: /tmp/tmpseInTB_sedml/_te_testcase_02
     inputType: COMBINE_FILE
 """
 from __future__ import print_function, division
 import tellurium as te
+from tellurium.sedml.mathml import *
 import numpy as np
 import matplotlib.pyplot as plt
 import mpl_toolkits.mplot3d
@@ -15,7 +16,7 @@ import libsedml
 import pandas
 import os.path
 
-workingDir = '/tmp/tmpUQhqHW_sedml/_te_testcase_02'
+workingDir = '/tmp/tmpseInTB_sedml/_te_testcase_02'
 
 # --------------------------------------------------------
 # Models
@@ -51,13 +52,16 @@ for k in range(len(__range__uniform_linear_for_k1)):
 # DataGenerators
 # --------------------------------------------------------
 # DataGenerator <plot_0_0_0>
-plot_0_0_0 = [sim['time'] for sim in task1]
+__var__task1_____time = [sim['time'] for sim in task1]
+plot_0_0_0 = __var__task1_____time
 
 # DataGenerator <plot_0_0_1>
-plot_0_0_1 = [sim['S1'] for sim in task1]
+__var__task1_____S1 = [sim['S1'] for sim in task1]
+plot_0_0_1 = __var__task1_____S1
 
 # DataGenerator <plot_0_1_1>
-plot_0_1_1 = [sim['S2'] for sim in task1]
+__var__task1_____S2 = [sim['S2'] for sim in task1]
+plot_0_1_1 = __var__task1_____S2
 
 # --------------------------------------------------------
 # Outputs

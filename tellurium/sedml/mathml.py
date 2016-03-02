@@ -1,10 +1,19 @@
 """
 Helper functions for evaluation of mathml expressions.
-"""
-import libsbml
+In this namespace all the possible names occuring in formula strings have to be defined.
 
-def pow(x, y):
-    return x**y
+In build in python are
+    *, /, +, -
+    and, or, not
+
+"""
+from __future__ import print_function, division
+from math import *
+import libsbml
+import operator
+
+def product(*args):
+    return reduce(operator.mul, args, 1)
 
 def sqr(x):
     return x*x
@@ -34,6 +43,9 @@ def piecewise(*args):
         return args[Nargs-1]
 
 """
+def pow(x, y):
+    return x**y
+
 def gt(a, b):
    if a > b:
    	  return 1
