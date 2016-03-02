@@ -938,14 +938,14 @@ class SEDMLCodeFactory(object):
                 resetModel = task.getResetModel()
 
             # Series of curves
-            lines.append("__var__{} = np.array([sim['{}'] for sim in {}])".format(varId, selection.id, taskId))
+            lines.append("__var__{} = np.transpose(np.array([sim['{}'] for sim in {}]))".format(varId, selection.id, taskId))
             # One curve via time adjusted concatenate
             if resetModel is False:
                 if isTime is False:
-                    lines.append("__var__{} = np.concatenate({})".format(varId, varId))
+                    lines.append("__var__{} = np.concatenate(__var__{})".format(varId, varId))
                 else:
                     # adjust times
-                    lines.append("__var__{} = np.cumsum({})".format(varId, varId))
+                    lines.append("__var__{} = np.cumsum(__var__{})".format(varId, varId))
 
         # calculate data generator
         value = evaluableMathML(mathml, variables=variables, array=True)
@@ -1011,7 +1011,7 @@ class SEDMLCodeFactory(object):
         lines = []
 
         # all lines of same cuve have same color
-        colors = [u'b', u'g', u'r', u'c', u'm', u'y', u'k']
+        colors = [u'r', u'b', u'g', u'c', u'm', u'y', u'k']
 
         title = output.getId()
         if output.isSetName():
@@ -1048,14 +1048,19 @@ class SEDMLCodeFactory(object):
             elif xLabel != allXLabel:
                 oneXLabel = False
 
-            lines.append("for k in range(len({})):".format(xId))
-            lines.append("    if k == 0:")
-            lines.append("        plt.plot({}[k], {}[k], '-o', color='{}', linewidth=1.5, markersize=4.0, alpha=0.8, label='{}')".format(xId, yId, color, yLabel))
-            lines.append("    else:")
-            lines.append("        plt.plot({}[k], {}[k], '-o', color='{}', linewidth=1.5, markersize=4.0, alpha=0.8)".format(xId, yId, color))
-            # lines.append("plt.xlabel('{}')".format(xId))
-            # lines.append("plt.ylabel('{}')".format(yId))
+            lines.append("if len({}) == 1:".format(xId))
+            lines.append("    __Nplot = 1".format())
+            lines.append("else:".format())
+            lines.append("    __Nplot = {}.shape[1]".format(xId))
 
+            lines.append("for k in range(__Nplot):".format(xId))
+            lines.append("    if k == 0:")
+            lines.append("        plt.plot({}[:,k], {}[:,k], '-o', color='{}', linewidth=1.5, markersize=4.0, alpha=0.8, label='{}')".format(xId, yId, color, yLabel))
+            lines.append("    else:")
+            lines.append("        plt.plot({}[:,k], {}[:,k], '-o', color='{}', linewidth=1.5, markersize=4.0, alpha=0.8)".format(xId, yId, color))
+
+
+            # FIXME: has to be handeled via multiple axis
             if logX is True:
                 lines.append("plt.xscale('log')")
             if logY is True:

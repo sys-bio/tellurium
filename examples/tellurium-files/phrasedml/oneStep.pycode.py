@@ -1,9 +1,9 @@
 """
     tellurium 1.3.1
 
-    auto-generated code (2016-03-01T19:17:03)
+    auto-generated code (2016-03-02T11:17:28)
     sedmlDoc: L1V2  
-    workingDir: /tmp/tmpJ8oheZ_sedml/_te_oneStep
+    workingDir: /tmp/tmpk7LaDd_sedml/_te_oneStep
     inputType: COMBINE_FILE
 """
 from __future__ import print_function, division
@@ -16,7 +16,7 @@ import libsedml
 import pandas
 import os.path
 
-workingDir = '/tmp/tmpJ8oheZ_sedml/_te_oneStep'
+workingDir = '/tmp/tmpk7LaDd_sedml/_te_oneStep'
 
 # --------------------------------------------------------
 # Models
@@ -47,45 +47,65 @@ for k in range(len(__range__x)):
 # DataGenerators
 # --------------------------------------------------------
 # DataGenerator <plot_0_0_0>
-plot_0_0_0 = [sim['time'] for sim in task1]
-# resetModel=False in RepeatedTask
-plot_0_0_0 = [np.cumsum(plot_0_0_0)]
+__var__task1_____time = np.transpose(np.array([sim['time'] for sim in task1]))
+__var__task1_____time = np.cumsum(__var__task1_____time)
+plot_0_0_0 = __var__task1_____time
 
 # DataGenerator <plot_0_0_1>
-plot_0_0_1 = [sim['S1'] for sim in task1]
-# resetModel=False in RepeatedTask
-plot_0_0_1 = [np.concatenate(plot_0_0_1)]
+__var__task1_____S1 = np.transpose(np.array([sim['S1'] for sim in task1]))
+__var__task1_____S1 = np.concatenate(__var__task1_____S1)
+plot_0_0_1 = __var__task1_____S1
 
 # DataGenerator <plot_0_1_1>
-plot_0_1_1 = [sim['S2'] for sim in task1]
-# resetModel=False in RepeatedTask
-plot_0_1_1 = [np.concatenate(plot_0_1_1)]
+__var__task1_____S2 = np.transpose(np.array([sim['S2'] for sim in task1]))
+__var__task1_____S2 = np.concatenate(__var__task1_____S2)
+plot_0_1_1 = __var__task1_____S2
 
 # DataGenerator <plot_0_2_1>
-plot_0_2_1 = [sim['J0_v0'] for sim in task1]
-# resetModel=False in RepeatedTask
-plot_0_2_1 = [np.concatenate(plot_0_2_1)]
+__var__task1_____J0_v0 = np.transpose(np.array([sim['J0_v0'] for sim in task1]))
+__var__task1_____J0_v0 = np.concatenate(__var__task1_____J0_v0)
+plot_0_2_1 = __var__task1_____J0_v0
 
 # --------------------------------------------------------
 # Outputs
 # --------------------------------------------------------
 # Output <plot_0>
-for k in range(len(plot_0_0_0)):
+plt.figure(num=None, figsize=(9, 5), dpi=80, facecolor='w', edgecolor='k')
+from matplotlib import gridspec
+__gs = gridspec.GridSpec(1, 2, width_ratios=[3, 1])
+plt.subplot(__gs[0])
+if len(plot_0_0_0) == 1:
+    __Nplot = 1
+else:
+    __Nplot = plot_0_0_0.shape[1]
+for k in range(__Nplot):
     if k == 0:
-        plt.plot(plot_0_0_0[k], plot_0_0_1[k], '-o', color='b', linewidth=1.5, label='S1-plot_0_0_1')
+        plt.plot(plot_0_0_0[:,k], plot_0_0_1[:,k], '-o', color='r', linewidth=1.5, markersize=4.0, alpha=0.8, label='task1.S1')
     else:
-        plt.plot(plot_0_0_0[k], plot_0_0_1[k], '-o', color='b', linewidth=1.5)
-for k in range(len(plot_0_0_0)):
+        plt.plot(plot_0_0_0[:,k], plot_0_0_1[:,k], '-o', color='r', linewidth=1.5, markersize=4.0, alpha=0.8)
+if len(plot_0_0_0) == 1:
+    __Nplot = 1
+else:
+    __Nplot = plot_0_0_0.shape[1]
+for k in range(__Nplot):
     if k == 0:
-        plt.plot(plot_0_0_0[k], plot_0_1_1[k], '-o', color='g', linewidth=1.5, label='S2-plot_0_1_1')
+        plt.plot(plot_0_0_0[:,k], plot_0_1_1[:,k], '-o', color='b', linewidth=1.5, markersize=4.0, alpha=0.8, label='task1.S2')
     else:
-        plt.plot(plot_0_0_0[k], plot_0_1_1[k], '-o', color='g', linewidth=1.5)
-for k in range(len(plot_0_0_0)):
+        plt.plot(plot_0_0_0[:,k], plot_0_1_1[:,k], '-o', color='b', linewidth=1.5, markersize=4.0, alpha=0.8)
+if len(plot_0_0_0) == 1:
+    __Nplot = 1
+else:
+    __Nplot = plot_0_0_0.shape[1]
+for k in range(__Nplot):
     if k == 0:
-        plt.plot(plot_0_0_0[k], plot_0_2_1[k], '-o', color='r', linewidth=1.5, label='J0_v0-plot_0_2_1')
+        plt.plot(plot_0_0_0[:,k], plot_0_2_1[:,k], '-o', color='g', linewidth=1.5, markersize=4.0, alpha=0.8, label='task1.J0_v0')
     else:
-        plt.plot(plot_0_0_0[k], plot_0_2_1[k], '-o', color='r', linewidth=1.5)
-plt.title('plot_0')
-plt.legend()
+        plt.plot(plot_0_0_0[:,k], plot_0_2_1[:,k], '-o', color='g', linewidth=1.5, markersize=4.0, alpha=0.8)
+plt.title('plot_0', fontweight='bold')
+plt.xlabel('task1.time', fontweight='bold')
+__lg = plt.legend(bbox_to_anchor=(1.05, 1), loc=2, borderaxespad=0.)
+__lg.draw_frame(False)
+plt.setp(__lg.get_texts(), fontsize='small')
+plt.setp(__lg.get_texts(), fontweight='bold')
 plt.show()
 
