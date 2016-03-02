@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created by phraSED-ML version v1.0.1 on 2016-03-02 11:43 with libSBML version 5.12.1. -->
+<sedML xmlns="http://sed-ml.org/sed-ml/level1/version2" level="1" version="2">
+  <listOfSimulations>
+    <uniformTimeCourse id="sim1" initialTime="0" outputStartTime="0" outputEndTime="10" numberOfPoints="100">
+      <algorithm kisaoID="KISAO:0000019"/>
+    </uniformTimeCourse>
+  </listOfSimulations>
+  <listOfModels>
+    <model id="mod1" language="urn:sedml:language:sbml.level-3.version-1" source="testcase_06"/>
+  </listOfModels>
+  <listOfTasks>
+    <task id="task1" modelReference="mod1" simulationReference="sim1"/>
+    <repeatedTask id="repeat1" range="uniform_linear_for_S2" resetModel="false">
+      <listOfRanges>
+        <vectorRange id="vector_for_S1">
+          <value> 1 </value>
+          <value> 3 </value>
+          <value> 5 </value>
+        </vectorRange>
+        <uniformRange id="uniform_linear_for_S2" start="0" end="10" numberOfPoints="2" type="linear"/>
+      </listOfRanges>
+      <listOfChanges>
+        <setValue range="vector_for_S1" modelReference="mod1" target="/sbml:sbml/sbml:model/descendant::*[@id='S1']">
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <ci> vector_for_S1 </ci>
+          </math>
+        </setValue>
+        <setValue range="uniform_linear_for_S2" modelReference="mod1" target="/sbml:sbml/sbml:model/descendant::*[@id='S2']">
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <ci> uniform_linear_for_S2 </ci>
+          </math>
+        </setValue>
+      </listOfChanges>
+      <listOfSubTasks>
+        <subTask order="0" task="task1"/>
+      </listOfSubTasks>
+    </repeatedTask>
+  </listOfTasks>
+  <listOfDataGenerators>
+    <dataGenerator id="plot_0_0_0" name="repeat1.time">
+      <listOfVariables>
+        <variable id="repeat1_____time" symbol="urn:sedml:symbol:time" taskReference="repeat1"/>
+      </listOfVariables>
+      <math xmlns="http://www.w3.org/1998/Math/MathML">
+        <ci> repeat1_____time </ci>
+      </math>
+    </dataGenerator>
+    <dataGenerator id="plot_0_0_1" name="repeat1.S1">
+      <listOfVariables>
+        <variable id="repeat1_____S1" target="/sbml:sbml/sbml:model/descendant::*[@id='S1']" taskReference="repeat1" modelReference="mod1"/>
+      </listOfVariables>
+      <math xmlns="http://www.w3.org/1998/Math/MathML">
+        <ci> repeat1_____S1 </ci>
+      </math>
+    </dataGenerator>
+    <dataGenerator id="plot_0_1_1" name="repeat1.S2">
+      <listOfVariables>
+        <variable id="repeat1_____S2" target="/sbml:sbml/sbml:model/descendant::*[@id='S2']" taskReference="repeat1" modelReference="mod1"/>
+      </listOfVariables>
+      <math xmlns="http://www.w3.org/1998/Math/MathML">
+        <ci> repeat1_____S2 </ci>
+      </math>
+    </dataGenerator>
+  </listOfDataGenerators>
+  <listOfOutputs>
+    <plot2D id="plot_0" name="Example plot">
+      <listOfCurves>
+        <curve logX="false" logY="false" xDataReference="plot_0_0_0" yDataReference="plot_0_0_1"/>
+        <curve logX="false" logY="false" xDataReference="plot_0_0_0" yDataReference="plot_0_1_1"/>
+      </listOfCurves>
+    </plot2D>
+  </listOfOutputs>
+</sedML>

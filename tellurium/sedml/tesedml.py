@@ -946,6 +946,8 @@ class SEDMLCodeFactory(object):
                 else:
                     # adjust times
                     lines.append("__var__{} = np.cumsum(__var__{})".format(varId, varId))
+            lines.append("if len(__var__{}.shape) == 1:".format(varId))
+            lines.append("     __var__{}.shape += (1,)".format(varId))
 
         # calculate data generator
         value = evaluableMathML(mathml, variables=variables, array=True)
@@ -1048,12 +1050,7 @@ class SEDMLCodeFactory(object):
             elif xLabel != allXLabel:
                 oneXLabel = False
 
-            lines.append("if len({}) == 1:".format(xId))
-            lines.append("    __Nplot = 1".format())
-            lines.append("else:".format())
-            lines.append("    __Nplot = {}.shape[1]".format(xId))
-
-            lines.append("for k in range(__Nplot):".format(xId))
+            lines.append("for k in range({}.shape[1]):".format(xId))
             lines.append("    if k == 0:")
             lines.append("        plt.plot({}[:,k], {}[:,k], '-o', color='{}', linewidth=1.5, markersize=4.0, alpha=0.8, label='{}')".format(xId, yId, color, yLabel))
             lines.append("    else:")
