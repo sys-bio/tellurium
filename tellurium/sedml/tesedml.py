@@ -995,17 +995,24 @@ class SEDMLCodeFactory(object):
         lines = []
 
         headers = []
+        dgIds = []
         columns = []
         for dataSet in output.getListOfDataSets():
             # these are the columns
-            label = dataSet.getLabel()
-            headers.append(label)
+            headers.append(dataSet.getLabel())
             # data generator (the id is the id of the data in python)
-            dgid = dataSet.getDataReference()
-            columns.append("{}[0]".format(dgid))
-
-        lines.append("df = pandas.DataFrame(np.column_stack(" + str(columns).replace("'", "") + "), \n    columns=" + str(headers) + ")")
-        lines.append("print(df.head(10))")
+            dgId = dataSet.getDataReference()
+            dgIds.append(dgId)
+            columns.append("{}[:,k]".format(dgId))
+        # create data frames for the repeats
+        lines.append("__dfs__{} = []".format(output.getId()))
+        lines.append("for k in range({}.shape[1]):".format(dgIds[0]))
+        lines.append("    print('-'*80)")
+        lines.append("    print('{}, Repeat:', k)".format(output.getId()))
+        lines.append("    print('-'*80)")
+        lines.append("    __df__k = pandas.DataFrame(np.column_stack(" + str(columns).replace("'", "") + "), \n    columns=" + str(headers) + ")")
+        lines.append("    print(__df__k.head(10))")
+        lines.append("    __dfs__{}.append(__df__k)".format(output.getId()))
         return lines
 
     @staticmethod
@@ -1023,7 +1030,7 @@ class SEDMLCodeFactory(object):
         lines = []
 
         # all lines of same cuve have same color
-        colors = [u'r', u'b', u'g', u'c', u'm', u'y', u'k']
+        colors = [u'r', u'b', u'g', u'm', u'c', u'y', u'k']
 
         title = output.getId()
         if output.isSetName():
@@ -1093,7 +1100,7 @@ class SEDMLCodeFactory(object):
         :param doc:
         :type doc: SedDocument
         :param output:
-        :type output: SedOutputReport
+        :type output: SedOutputPlot3D
         :return: list of python lines
         :rtype: list(str)
         """
@@ -1140,8 +1147,10 @@ class SEDMLTools(object):
         :type doc:
         """
         if doc.getErrorLog().getNumFailsWithSeverity(libsedml.LIBSEDML_SEV_ERROR) > 0:
+            print(libsedml.writeSedMLToString(doc))
             raise IOError(doc.getErrorLog().toString())
         if doc.getErrorLog().getNumFailsWithSeverity(libsedml.LIBSEDML_SEV_FATAL) > 0:
+            print(libsedml.writeSedMLToString(doc))
             raise IOError(doc.getErrorLog().toString())
         if doc.getErrorLog().getNumFailsWithSeverity(libsedml.LIBSEDML_SEV_WARNING) > 0:
             warnings.warn(doc.getErrorLog().toString())
