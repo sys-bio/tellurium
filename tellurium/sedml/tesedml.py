@@ -484,7 +484,13 @@ class SEDMLCodeFactory(object):
 
             # <resetModel>
             if resetModel:
+                # reset before every iteration
                 forLines.append("{}.reset()".format(mid))
+            else:
+                # reset before first iteration of repeated task
+                forLines.append("if k == 0:")
+                forLines.append("    {}.reset()".format(mid))
+
 
             # <range values>
             # value for masterRange
@@ -927,25 +933,28 @@ class SEDMLCodeFactory(object):
         for var in generator.getListOfVariables():
             taskId = var.getTaskReference()
             task = doc.getTask(taskId)
-            modelId = task.getModelReference()
 
             selection = SEDMLCodeFactory.resolveSelectionFromVariable(var)
             isTime = False
             if selection.type == "symbol" and selection.id == "time":
                 isTime = True
+
             resetModel = True
             if task.getTypeCode() == libsedml.SEDML_TASK_REPEATEDTASK:
                 resetModel = task.getResetModel()
 
             # Series of curves
-            lines.append("__var__{} = np.transpose(np.array([sim['{}'] for sim in {}]))".format(varId, selection.id, taskId))
-            # One curve via time adjusted concatenate
-            if resetModel is False:
-                if isTime is False:
-                    lines.append("__var__{} = np.concatenate(__var__{})".format(varId, varId))
+
+            if resetModel is True:
+                lines.append("__var__{} = np.transpose(np.array([sim['{}'] for sim in {}]))".format(varId, selection.id, taskId))
+            else:
+                # One curve via time adjusted concatenate
+                if isTime is True:
+                    lines.append("__var__{} = np.transpose(np.array([sim['{}']+(k*sim['{}'][-1]) for k,sim in enumerate({})]))".format(varId, selection.id, selection.id, taskId))
+                    lines.append("__var__{} = np.concatenate(np.transpose(__var__{}))".format(varId, varId))
                 else:
-                    # adjust times
-                    lines.append("__var__{} = np.cumsum(__var__{})".format(varId, varId))
+                    lines.append("__var__{} = np.transpose(np.array([sim['{}'] for sim in {}]))".format(varId, selection.id, taskId))
+                    lines.append("__var__{} = np.concatenate(np.transpose(__var__{}))".format(varId, varId))
             lines.append("if len(__var__{}.shape) == 1:".format(varId))
             lines.append("     __var__{}.shape += (1,)".format(varId))
 
@@ -958,6 +967,7 @@ class SEDMLCodeFactory(object):
     @staticmethod
     def outputToPython(doc, output):
         """ Create output """
+        # TODO: save plots and reports in workingDir
         lines = []
         typeCode = output.getTypeCode()
         if typeCode == libsedml.SEDML_OUTPUT_REPORT:

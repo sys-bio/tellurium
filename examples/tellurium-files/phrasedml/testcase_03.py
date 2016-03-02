@@ -20,7 +20,7 @@ phrasedmlStr = '''
   sim1 = simulate uniform(0, 10, 100)
   task1 = run sim1 on mod1
   task2 = run sim1 on mod2
-  plot "Example plot" task1.time vs task1.S1, task1.S2, task2.S1, task2.S2
+  plot "ComputeChanges" task1.time vs task1.S1, task1.S2, task2.S1, task2.S2
 '''
 
 # phrasedml experiment

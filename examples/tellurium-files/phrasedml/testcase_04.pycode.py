@@ -1,9 +1,9 @@
 """
     tellurium 1.3.1
 
-    auto-generated code (2016-03-02T11:34:31)
+    auto-generated code (2016-03-02T16:46:12)
     sedmlDoc: L1V2  
-    workingDir: /tmp/tmpYFZqoD_sedml/_te_testcase_04
+    workingDir: /tmp/tmpwo9jxh_sedml/_te_testcase_04
     inputType: COMBINE_FILE
 """
 from __future__ import print_function, division
@@ -16,7 +16,7 @@ import libsedml
 import pandas
 import os.path
 
-workingDir = '/tmp/tmpYFZqoD_sedml/_te_testcase_04'
+workingDir = '/tmp/tmpwo9jxh_sedml/_te_testcase_04'
 
 # --------------------------------------------------------
 # Models
@@ -31,8 +31,8 @@ mod2['S2'] = __var__S1 + 4
 mod3 = te.loadSBMLModel(os.path.join(workingDir, 'testcase_04.xml'))
 __var__S1 = mod3['S1']
 mod3['S2'] = __var__S1 + 4
-# /sbml:sbml/sbml:model/listOfSpecies/species[@id='S1']/@initialConcentration 10
-mod3['init([S1])'] = 10
+# /sbml:sbml/sbml:model/listOfSpecies/species[@id='S1']/@initialConcentration 20
+mod3['init([S1])'] = 20
 
 # --------------------------------------------------------
 # Tasks
@@ -51,9 +51,9 @@ task2[0] = mod2.simulate(start=0.0, end=10.0, steps=100)
 
 # Task <task3>
 task3 = [None]
-mod2.setIntegrator('cvode')
-mod2.timeCourseSelections = ['S2', 'S1']
-task3[0] = mod2.simulate(start=0.0, end=10.0, steps=100)
+mod3.setIntegrator('cvode')
+mod3.timeCourseSelections = ['S2', 'S1']
+task3[0] = mod3.simulate(start=0.0, end=10.0, steps=100)
 
 # --------------------------------------------------------
 # DataGenerators

@@ -20,7 +20,7 @@ phrasedmlStr = """
     sim0 = simulate uniform(0, 10, 100)
     task0 = run sim0 on model1
     task1 = repeat task0 for k1 in uniform(0.0, 5.0, 5), reset = true
-    plot task1.time vs task1.S1, task1.S2
+    plot "Repeated task with reset" task1.time vs task1.S1, task1.S2
 """
 
 # phrasedml experiment

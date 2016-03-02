@@ -1,9 +1,9 @@
 """
     tellurium 1.3.1
 
-    auto-generated code (2016-03-02T11:34:16)
+    auto-generated code (2016-03-02T16:34:41)
     sedmlDoc: L1V2  
-    workingDir: /tmp/tmpRJsFSy_sedml/_te_testcase_03
+    workingDir: /tmp/tmpKhKhDj_sedml/_te_testcase_03
     inputType: COMBINE_FILE
 """
 from __future__ import print_function, division
@@ -16,7 +16,7 @@ import libsedml
 import pandas
 import os.path
 
-workingDir = '/tmp/tmpRJsFSy_sedml/_te_testcase_03'
+workingDir = '/tmp/tmpKhKhDj_sedml/_te_testcase_03'
 
 # --------------------------------------------------------
 # Models
@@ -104,7 +104,7 @@ for k in range(plot_0_0_0.shape[1]):
         plt.plot(plot_0_0_0[:,k], plot_0_3_1[:,k], '-o', color='c', linewidth=1.5, markersize=4.0, alpha=0.8, label='task2.S2')
     else:
         plt.plot(plot_0_0_0[:,k], plot_0_3_1[:,k], '-o', color='c', linewidth=1.5, markersize=4.0, alpha=0.8)
-plt.title('Example plot', fontweight='bold')
+plt.title('ComputeChanges', fontweight='bold')
 plt.xlabel('task1.time', fontweight='bold')
 __lg = plt.legend(bbox_to_anchor=(1.05, 1), loc=2, borderaxespad=0.)
 __lg.draw_frame(False)

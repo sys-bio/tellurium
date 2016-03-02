@@ -16,8 +16,10 @@ phrasedmlStr = '''
   mod1 = model "testcase_06"
   sim1 = simulate uniform(0, 10, 100)
   task1 = run sim1 on mod1
-  repeat1 = repeat task1 for S1 in [1, 3, 5], S2 in uniform(0, 10, 2)
+  repeat1 = repeat task1 for S1 in [1, 3, 5], S2 in uniform(0, 10, 2), reset=True
+  repeat2 = repeat task1 for S1 in [1, 3, 5], S2 in uniform(0, 10, 2), reset=False
   plot "Example plot" repeat1.time vs repeat1.S1, repeat1.S2
+  plot "Example plot" repeat2.time vs repeat2.S1, repeat2.S2
 '''
 
 # phrasedml experiment
