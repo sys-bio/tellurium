@@ -76,7 +76,7 @@ from collections import namedtuple
 import os.path
 import re
 import numpy as np
-from mathml import evaluateMathML, executableMathML
+from mathml import evaluateMathML, evaluableMathML
 
 import libsedml
 from jinja2 import Environment, FileSystemLoader
@@ -355,7 +355,7 @@ class SEDMLCodeFactory(object):
                 variables[vid] = "__var__{}".format(vid)
 
             # value is calculated with the current state of model
-            value = executableMathML(change.getMath(), variables=variables)
+            value = evaluableMathML(change.getMath(), variables=variables)
             lines.append(SEDMLCodeFactory.targetToPython(xpath, value, modelId=mid))
 
         elif change.getTypeCode() in [libsedml.SEDML_CHANGE_REMOVEXML,
@@ -519,7 +519,7 @@ class SEDMLCodeFactory(object):
                             variables[vid] = "__var__{}".format(vid)
 
                         # value is calculated with the current state of model
-                        value = executableMathML(r.getMath(), variables=variables)
+                        value = evaluableMathML(r.getMath(), variables=variables)
                         forLines.append("__value__{} = {}".format(r.getId(), value))
 
             # <setValues>
@@ -543,7 +543,7 @@ class SEDMLCodeFactory(object):
                     variables[vid] = "__var__{}".format(vid)
 
                 # value is calculated with the current state of model
-                value = executableMathML(setValue.getMath(), variables=variables)
+                value = evaluableMathML(setValue.getMath(), variables=variables)
                 xpath = setValue.getTarget()
                 forLines.append(SEDMLCodeFactory.targetToPython(xpath, value, modelId=mid))
 
@@ -948,42 +948,10 @@ class SEDMLCodeFactory(object):
                     lines.append("__var__{} = np.cumsum({})".format(varId, varId))
 
         # calculate data generator
-        value = executableMathML(mathml, variables=variables)
+        value = evaluableMathML(mathml, variables=variables, array=True)
         lines.append("{} = {}".format(gid, value))
 
         return "\n".join(lines)
-
-        """
-
-
-        for variable in generator.getListOfVariables():
-            # for now only take the first variable
-            selection = SEDMLCodeFactory.resolveSelectionFromVariable(variable)
-
-            isTime = False
-            if selection.type == "symbol" and selection.id == "time":
-                isTime = True
-
-            resetModel = True
-            taskId = variable.getTaskReference()
-            task = doc.getTask(taskId)
-            if task.getTypeCode() == libsedml.SEDML_TASK_REPEATEDTASK:
-                resetModel = task.getResetModel()
-
-            # Series of curves
-            lines.append("{} = [sim['{}'] for sim in {}]".format(gid, selection.id, taskId))
-            # One curve via time adjusted concatanate
-            if resetModel is False:
-                lines.append("# resetModel=False in RepeatedTask")
-                if isTime is False:
-                    lines.append("{} = [np.concatenate({})]".format(gid, gid))
-                else:
-                    # adjust times
-                    lines.append("{} = [np.cumsum({})]".format(gid, gid))
-            break
-
-        return '\n'.join(lines)
-        """
 
     @staticmethod
     def outputToPython(doc, output):
@@ -1046,6 +1014,16 @@ class SEDMLCodeFactory(object):
         colors = [u'b', u'g', u'r', u'c', u'm', u'y', u'k']
 
         title = output.getId()
+        if output.isSetName():
+            title = output.getName()
+
+        lines.append("plt.figure(num=None, figsize=(9, 5), dpi=80, facecolor='w', edgecolor='k')")
+        lines.append("from matplotlib import gridspec")
+        lines.append("__gs = gridspec.GridSpec(1, 2, width_ratios=[3, 1])")
+        lines.append("plt.subplot(__gs[0])")
+
+        oneXLabel = True
+        allXLabel = None
         for kc, curve in enumerate(output.getListOfCurves()):
             logX = curve.getLogX()
             logY = curve.getLogY()
@@ -1056,17 +1034,25 @@ class SEDMLCodeFactory(object):
             color = colors[kc % len(colors)]
 
             yLabel = yId
-            for variable in dgy.getListOfVariables():
-                # FIXME: Hack as long as math not resolved
-                selection = SEDMLCodeFactory.resolveSelectionFromVariable(variable)
-                yLabel = "{}-{}".format(selection.id, yId)
-                break
+            if curve.isSetName():
+                yLabel = curve.getName()
+            elif dgy.isSetName():
+                yLabel = dgy.getName()
+            xLabel = xId
+            if dgx.isSetName():
+                xLabel = dgx.getName()
+
+            # do all curves have the same xLabel
+            if kc == 0:
+                allXLabel = xLabel
+            elif xLabel != allXLabel:
+                oneXLabel = False
 
             lines.append("for k in range(len({})):".format(xId))
             lines.append("    if k == 0:")
-            lines.append("        plt.plot({}[k], {}[k], '-o', color='{}', linewidth=1.5, label='{}')".format(xId, yId, color, yLabel))
+            lines.append("        plt.plot({}[k], {}[k], '-o', color='{}', linewidth=1.5, markersize=4.0, alpha=0.8, label='{}')".format(xId, yId, color, yLabel))
             lines.append("    else:")
-            lines.append("        plt.plot({}[k], {}[k], '-o', color='{}', linewidth=1.5)".format(xId, yId, color))
+            lines.append("        plt.plot({}[k], {}[k], '-o', color='{}', linewidth=1.5, markersize=4.0, alpha=0.8)".format(xId, yId, color))
             # lines.append("plt.xlabel('{}')".format(xId))
             # lines.append("plt.ylabel('{}')".format(yId))
 
@@ -1074,8 +1060,16 @@ class SEDMLCodeFactory(object):
                 lines.append("plt.xscale('log')")
             if logY is True:
                 lines.append("plt.yscale('log')")
-        lines.append("plt.title('{}')".format(title))
-        lines.append("plt.legend()")
+        lines.append("plt.title('{}', fontweight='bold')".format(title))
+        if oneXLabel:
+            lines.append("plt.xlabel('{}', fontweight='bold')".format(xLabel))
+        if len(output.getListOfCurves()) == 1:
+            lines.append("plt.ylabel('{}', fontweight='bold')".format(yLabel))
+
+        lines.append("__lg = plt.legend(bbox_to_anchor=(1.05, 1), loc=2, borderaxespad=0.)")
+        lines.append("__lg.draw_frame(False)")
+        lines.append("plt.setp(__lg.get_texts(), fontsize='small')")
+        lines.append("plt.setp(__lg.get_texts(), fontweight='bold')")
         lines.append("plt.show()".format(title))
 
         return lines

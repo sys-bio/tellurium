@@ -95,7 +95,10 @@ def f_or(*args):
     return 0
 """
 
-def executableMathML(astnode, variables={}):
+def evaluableMathML(astnode, variables={}, array=False):
+    """ Create evaluable python string.
+
+    """
     # replace variables with provided values
     for key, value in variables.iteritems():
         astnode.replaceArgument(key, libsbml.parseFormula(str(value)))
@@ -103,14 +106,23 @@ def executableMathML(astnode, variables={}):
     # get formula
     formula = libsbml.formulaToL3String(astnode)
 
-    # make replacements in formula
-    formula = formula.replace("&&", 'and')
-    formula = formula.replace("||", 'or')
+    # <replacements>
+    # FIXME: these are not exhaustive, but are improved with examples
+    if array is False:
+        # scalar
+        formula = formula.replace("&&", 'and')
+        formula = formula.replace("||", 'or')
+    else:
+        # np.array
+        formula = formula.replace("max", 'np.max')
+        formula = formula.replace("min", 'np.min')
+        formula = formula.replace("sum", 'np.sum')
+        formula = formula.replace("product", 'np.prod')
 
     return formula
 
 
-def evaluateMathML(astnode, variables={}):
+def evaluateMathML(astnode, variables={}, array=False):
     """ Evaluate MathML string with given set of variable and parameter values.
 
     :param astnode: astnode of MathML string
@@ -122,18 +134,7 @@ def evaluateMathML(astnode, variables={}):
     :return: value of evaluated MathML
     :rtype: float
     """
-
-    # replace variables with provided values
-    for key, value in variables.iteritems():
-        astnode.replaceArgument(key, libsbml.parseFormula(str(value)))
-
-    # get formula
-    formula = libsbml.formulaToL3String(astnode)
-
-    # make replacements in formula
-    formula = formula.replace("&&", 'and')
-    formula = formula.replace("||", 'or')
-
+    formula = evaluableMathML(astnode, variables=variables, array=array)
     print(formula)
     # return the evaluated formula
     return eval(formula)
