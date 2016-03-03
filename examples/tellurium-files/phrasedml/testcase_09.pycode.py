@@ -1,9 +1,9 @@
 """
     tellurium 1.3.1
 
-    auto-generated code (2016-03-03T09:45:56)
+    auto-generated code (2016-03-03T19:00:14)
     sedmlDoc: L1V2  
-    workingDir: /tmp/tmpGnBCYw_sedml/_te_testcase_09
+    workingDir: /tmp/tmpl7UuVc_sedml/_te_testcase_09
     inputType: COMBINE_FILE
 """
 from __future__ import print_function, division
@@ -16,7 +16,7 @@ import libsedml
 import pandas
 import os.path
 
-workingDir = '/tmp/tmpGnBCYw_sedml/_te_testcase_09'
+workingDir = '/tmp/tmpl7UuVc_sedml/_te_testcase_09'
 
 # --------------------------------------------------------
 # Models
@@ -35,13 +35,14 @@ task1[0] = mod1.simulate(start=0.0, end=4000.0, steps=1000)
 
 # Task <repeat1>
 __range__x = list(np.linspace(start=0.0, stop=10.0, num=11))
-repeat1 = [None]*len(__range__x)
+repeat1 = []
 for k in range(len(__range__x)):
-    mod1.reset()
     __value__x = __range__x[k]
+    mod1.reset()
     mod1.setIntegrator('cvode')
     mod1.timeCourseSelections = ['MAPK', 'MAPK_PP', 'MKK', 'MAPK_P', 'time']
-    repeat1[k] = mod1.simulate(start=0.0, end=4000.0, steps=1000)
+    __subtask__ = mod1.simulate(start=0.0, end=4000.0, steps=1000)
+    repeat1.extend([__subtask__])
 
 # --------------------------------------------------------
 # DataGenerators

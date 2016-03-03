@@ -232,13 +232,9 @@ class SEDMLCodeFactory(object):
             # something went wrong in the conversion to python
             # show detailed information about the factory
             # and the libsedml document
-            raise type(e), type(e)(e.message + '\n'
-                                   + '-'*80 + '\n'
-                                   + self.__str__() + '\n'
-                                   + '-'*80 + '\n'
-                                  #  + libsedml.writeSedMLToString(self.doc) + '\n'
-                                   + '-'*80
-                                   ), sys.exc_info()[2]
+            # msg = e.message + '\n' + self.__str__() + '\n' + libsedml.writeSedMLToString(self.doc) + '\n'
+            msg = e.message
+            raise type(e), type(e)(msg), sys.exc_info()[2]
 
         return pysedml
 
@@ -467,11 +463,13 @@ class SEDMLCodeFactory(object):
         # -- iterate over ordered subtasks ----------
         subtasks = task.getListOfSubTasks()
         subtaskOrder = [st.getOrder() for st in subtasks]
-        orderIndex = sorted(range(len(subtaskOrder)), key=lambda k: subtaskOrder[k])
-        subtasks = subtasks[orderIndex]
+
+        # sort by order, if all subtasks have order (not required)
+        if all(subtaskOrder) != None:
+            subtasks = [st for (stOrder, st) in sorted(zip(subtaskOrder, subtasks))]
 
         # storage of results
-        lines.append("{} = [[]]*len(__range__{})".format(task.getId(), rangeId))
+        lines.append("{} = []".format(task.getId()))
 
         # -- iterate over master range ----------
         lines.append("for k in range(len(__range__{})):".format(rangeId))
@@ -518,7 +516,7 @@ class SEDMLCodeFactory(object):
                     forLines.append("__value__{} = {}".format(r.getId(), value))
 
         # reset all subtask models before executing the subtasks if necessary
-        st_mids = set([st.getModelReference() for st in subtasks])
+        st_mids = set([doc.getTask(st.getTask()).getModelReference() for st in subtasks])
         for st_mid in st_mids:
             # <resetModel>
             if resetModel:
@@ -555,40 +553,36 @@ class SEDMLCodeFactory(object):
             xpath = setValue.getTarget()
             forLines.append(SEDMLCodeFactory.targetToPython(xpath, value, modelId=mid))
 
-        for ksub, subtask in subtasks:
+        for ksub, subtask in enumerate(subtasks):
             # All subtasks have to be carried out sequentially, each continuing
             # from the current model state (i.e. at the end of the previous subTask,
             # assuming it simulates the same model), and with their results
             # concatenated (thus appearing identical to a single complex simulation).
-
             # get task which belongs to subtask
             t = doc.getTask(subtask.getTask())
 
             # <Run single repeat>
             # All local variables for the loop iteration and subtask are available.
             # Run the single simulation now.
-            resultVariable = "__{}__".format(subtask.getId())
+            resultVariable = "__subtask__".format(t.getId())
             selections = SEDMLCodeFactory.selectionsForTask(doc=doc, task=task)
             if t.getTypeCode() == libsedml.SEDML_TASK:
                 # lines.extend(SEDMLCodeFactory.simpleTaskToPython(doc, task))
                 forLines.extend(SEDMLCodeFactory.subtaskToPython(doc, task=t,
-                                                             selections=selections,
-                                                             resultVariable=resultVariable))
+                                                          selections=selections,
+                                                          resultVariable=resultVariable))
+                # append subtask to task simulation
+                forLines.append("{}.extend([__subtask__])".format(task.getId()))
 
             # <REPEATED TASK>
             elif t.getTypeCode() == libsedml.SEDML_TASK_REPEATEDTASK:
                 # lines.extend(SEDMLCodeFactory.repeatedTaskToPython(doc, task=t))
                 # raise NotImplementedError("RepeatedTasks of repeated tasks not supported.")
                 warnings.warn("RepeatedTasks of repeated tasks not supported.")
+                # TODO: extend with the whole set
 
-            # append the subtask
-            forLines.append("{}[k].append(__{}__)".format(task.getId(), subtask.getId()))
-
-            # add lines
-            forLines.extend('    ' + line for line in forLines)
-
-        # combine the subtasks
-        lines.append("{}[k] = np.concatenate(np.array({}[k]))".format(task.getId(), task.getId()))
+        # add lines
+        lines.extend('    ' + line for line in forLines)
 
         return lines
 
