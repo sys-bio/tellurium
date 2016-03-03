@@ -236,7 +236,7 @@ class SEDMLCodeFactory(object):
                                    + '-'*80 + '\n'
                                    + self.__str__() + '\n'
                                    + '-'*80 + '\n'
-                                   + libsedml.writeSedMLToString(self.doc)
+                                  #  + libsedml.writeSedMLToString(self.doc) + '\n'
                                    + '-'*80
                                    ), sys.exc_info()[2]
 
@@ -447,132 +447,148 @@ class SEDMLCodeFactory(object):
         resetModel = task.getResetModel()
         rangeId = task.getRangeId()
 
-        for subtask in task.getListOfSubTasks():
-            t = doc.getTask(subtask.getTask())  # get real task which belongs to subtask
-            mid = t.getModelReference()
+        # -- create ranges ----------
+        # master range
+        masterRange = task.getRange(rangeId)
+        if masterRange.getTypeCode() == libsedml.SEDML_RANGE_UNIFORMRANGE:
+            lines.extend(SEDMLCodeFactory.uniformRangeToPython(masterRange))
+        elif masterRange.getTypeCode() == libsedml.SEDML_RANGE_VECTORRANGE:
+            lines.extend(SEDMLCodeFactory.vectorRangeToPython(masterRange))
+        elif masterRange.getTypeCode() == libsedml.SEDML_RANGE_FUNCTIONALRANGE:
+            warnings.warn("FunctionalRange for master range not supported in task.")
+        # other ranges
+        for r in task.getListOfRanges():
+            if r.getId() != rangeId:
+                if r.getTypeCode() == libsedml.SEDML_RANGE_UNIFORMRANGE:
+                    lines.extend(SEDMLCodeFactory.uniformRangeToPython(r))
+                elif r.getTypeCode() == libsedml.SEDML_RANGE_VECTORRANGE:
+                    lines.extend(SEDMLCodeFactory.vectorRangeToPython(r))
 
-            # ---------------------------
-            # create ranges
-            # ---------------------------
-            # master range
-            masterRange = task.getRange(rangeId)
-            if masterRange.getTypeCode() == libsedml.SEDML_RANGE_UNIFORMRANGE:
-                lines.extend(SEDMLCodeFactory.uniformRangeToPython(masterRange))
-            elif masterRange.getTypeCode() == libsedml.SEDML_RANGE_VECTORRANGE:
-                lines.extend(SEDMLCodeFactory.vectorRangeToPython(masterRange))
-            elif masterRange.getTypeCode() == libsedml.SEDML_RANGE_FUNCTIONALRANGE:
-                warnings.warn("FunctionalRange for master range not supported in task.")
+        # -- iterate over ordered subtasks ----------
+        subtasks = task.getListOfSubTasks()
+        subtaskOrder = [st.getOrder() for st in subtasks]
+        orderIndex = sorted(range(len(subtaskOrder)), key=lambda k: subtaskOrder[k])
+        subtasks = subtasks[orderIndex]
 
-            # other ranges
-            for range in task.getListOfRanges():
-                if range.getId() != rangeId:
-                    if range.getTypeCode() == libsedml.SEDML_RANGE_UNIFORMRANGE:
-                        lines.extend(SEDMLCodeFactory.uniformRangeToPython(range))
-                    elif range.getTypeCode() == libsedml.SEDML_RANGE_VECTORRANGE:
-                        lines.extend(SEDMLCodeFactory.vectorRangeToPython(range))
+        # storage of results
+        lines.append("{} = [[]]*len(__range__{})".format(task.getId(), rangeId))
 
-            # ---------------------------
-            # iterate over range
-            # ---------------------------
-            # storage of results
-            lines.append("{} = [None]*len(__range__{})".format(task.getId(), rangeId))
-            # iterate over master range
-            lines.append("for k in range(len(__range__{})):".format(rangeId))
+        # -- iterate over master range ----------
+        lines.append("for k in range(len(__range__{})):".format(rangeId))
 
-            # we have to intent all lines from now on (in for loop)
-            forLines = []
+        # Everything from now on is done in every iteration of the range
+        # We have to collect & intent all lines in the loop)
+        forLines = []
 
+         # <range values>
+        # calculate the current values of all range variables
+        # value for masterRange
+        forLines.append("__value__{} = __range__{}[k]".format(rangeId, rangeId))
+        # other range values
+        helperRanges = {}
+        for r in task.getListOfRanges():
+            if r.getId() != rangeId:
+                helperRanges[r.getId()] = r
+                if r.getTypeCode() in [libsedml.SEDML_RANGE_UNIFORMRANGE,
+                                       libsedml.SEDML_RANGE_VECTORRANGE]:
+                    forLines.append("__value__{} = __range__{}[k]".format(r.getId(), r.getId()))
+
+                # <functional range>
+                if r.getTypeCode() == libsedml.SEDML_RANGE_FUNCTIONALRANGE:
+                    # TODO: refactor (code reusage of the MathML evaluation
+                    variables = {}
+                    # range variables
+                    variables[rangeId] = "__value__{}".format(rangeId)
+                    for key in helperRanges.keys():
+                        variables[key] = "__value__{}".format(key)
+                    # parameters
+                    for par in r.getListOfParameters():
+                        variables[par.getId()] = par.getValue()
+                    for var in r.getListOfVariables():
+                        vid = var.getId()
+                        selection = SEDMLCodeFactory.resolveSelectionFromVariable(var)
+                        if type == "species":
+                            forLines.append("__var__{} = {}['[{}]']".format(vid, mid, selection.id))
+                        else:
+                            forLines.append("__var__{} = {}['{}']".format(vid, mid, selection.id))
+                        variables[vid] = "__var__{}".format(vid)
+
+                    # value is calculated with the current state of model
+                    value = evaluableMathML(r.getMath(), variables=variables)
+                    forLines.append("__value__{} = {}".format(r.getId(), value))
+
+        # reset all subtask models before executing the subtasks if necessary
+        st_mids = set([st.getModelReference() for st in subtasks])
+        for st_mid in st_mids:
             # <resetModel>
             if resetModel:
                 # reset before every iteration
-                forLines.append("{}.reset()".format(mid))
+                forLines.append("{}.reset()".format(st_mid))
             else:
                 # reset before first iteration of repeated task
                 forLines.append("if k == 0:")
-                forLines.append("    {}.reset()".format(mid))
+                forLines.append("    {}.reset()".format(st_mid))
 
+        # <setValues>
+        # apply changes based on current variables, parameters and range variables
+        for setValue in task.getListOfTaskChanges():
+            variables = {}
+            # range variables
+            variables[rangeId] = "__value__{}".format(rangeId)
+            for key in helperRanges.keys():
+                variables[key] = "__value__{}".format(key)
+            # parameters
+            for par in setValue.getListOfParameters():
+                variables[par.getId()] = par.getValue()
+            for var in setValue.getListOfVariables():
+                vid = var.getId()
+                mid = var.getModelReference()
+                selection = SEDMLCodeFactory.resolveSelectionFromVariable(var)
+                if type == "species":
+                    forLines.append("__var__{} = {}['[{}]']".format(vid, mid, selection.id))
+                else:
+                    forLines.append("__var__{} = {}['{}']".format(vid, mid, selection.id))
+                variables[vid] = "__var__{}".format(vid)
 
-            # <range values>
-            # value for masterRange
-            forLines.append("__value__{} = __range__{}[k]".format(rangeId, rangeId))
-            # other range values
-            helperRanges = {}
-            for r in task.getListOfRanges():
-                if r.getId() != rangeId:
-                    helperRanges[r.getId()] = r
-                    if r.getTypeCode() in [libsedml.SEDML_RANGE_UNIFORMRANGE,
-                                           libsedml.SEDML_RANGE_VECTORRANGE]:
-                        forLines.append("__value__{} = __range__{}[k]".format(r.getId(), r.getId()))
+            # value is calculated with the current state of model
+            value = evaluableMathML(setValue.getMath(), variables=variables)
+            xpath = setValue.getTarget()
+            forLines.append(SEDMLCodeFactory.targetToPython(xpath, value, modelId=mid))
 
-                    # <functional range>
-                    elif r.getTypeCode() == libsedml.SEDML_RANGE_FUNCTIONALRANGE:
-                        # TODO: refactor (code reusage of the MathML evaluation
-                        variables = {}
-                        # range variables
-                        variables[rangeId] = "__value__{}".format(rangeId)
-                        for key in helperRanges.keys():
-                            variables[key] = "__value__{}".format(key)
-                        # parameters
-                        for par in r.getListOfParameters():
-                            variables[par.getId()] = par.getValue()
-                        for var in r.getListOfVariables():
-                            vid = var.getId()
-                            selection = SEDMLCodeFactory.resolveSelectionFromVariable(var)
-                            if type == "species":
-                                forLines.append("__var__{} = {}['[{}]']".format(vid, mid, selection.id))
-                            else:
-                                forLines.append("__var__{} = {}['{}']".format(vid, mid, selection.id))
-                            variables[vid] = "__var__{}".format(vid)
+        for ksub, subtask in subtasks:
+            # All subtasks have to be carried out sequentially, each continuing
+            # from the current model state (i.e. at the end of the previous subTask,
+            # assuming it simulates the same model), and with their results
+            # concatenated (thus appearing identical to a single complex simulation).
 
-                        # value is calculated with the current state of model
-                        value = evaluableMathML(r.getMath(), variables=variables)
-                        forLines.append("__value__{} = {}".format(r.getId(), value))
+            # get task which belongs to subtask
+            t = doc.getTask(subtask.getTask())
 
-            # <setValues>
-            # apply changes based on current variables, parameters and range variables
-            for setValue in task.getListOfTaskChanges():
-                variables = {}
-                # range variables
-                variables[rangeId] = "__value__{}".format(rangeId)
-                for key in helperRanges.keys():
-                    variables[key] = "__value__{}".format(key)
-                # parameters
-                for par in setValue.getListOfParameters():
-                    variables[par.getId()] = par.getValue()
-                for var in setValue.getListOfVariables():
-                    vid = var.getId()
-                    selection = SEDMLCodeFactory.resolveSelectionFromVariable(var)
-                    if type == "species":
-                        lines.append("__var__{} = {}['[{}]']".format(vid, mid, selection.id))
-                    else:
-                        lines.append("__var__{} = {}['{}']".format(vid, mid, selection.id))
-                    variables[vid] = "__var__{}".format(vid)
-
-                # value is calculated with the current state of model
-                value = evaluableMathML(setValue.getMath(), variables=variables)
-                xpath = setValue.getTarget()
-                forLines.append(SEDMLCodeFactory.targetToPython(xpath, value, modelId=mid))
-
-
-            # Run single repeat
-            # TODO: implement multiple subtasks
-            resultVariable = "{}[k]".format(task.getId())
+            # <Run single repeat>
+            # All local variables for the loop iteration and subtask are available.
+            # Run the single simulation now.
+            resultVariable = "__{}__".format(subtask.getId())
             selections = SEDMLCodeFactory.selectionsForTask(doc=doc, task=task)
-            # <SIMPLE TASK>
             if t.getTypeCode() == libsedml.SEDML_TASK:
                 # lines.extend(SEDMLCodeFactory.simpleTaskToPython(doc, task))
                 forLines.extend(SEDMLCodeFactory.subtaskToPython(doc, task=t,
                                                              selections=selections,
                                                              resultVariable=resultVariable))
-                # ---------------------------
-                # add the intendation for lines
-                lines.extend('    ' + line for line in forLines)
 
             # <REPEATED TASK>
             elif t.getTypeCode() == libsedml.SEDML_TASK_REPEATEDTASK:
                 # lines.extend(SEDMLCodeFactory.repeatedTaskToPython(doc, task=t))
                 # raise NotImplementedError("RepeatedTasks of repeated tasks not supported.")
                 warnings.warn("RepeatedTasks of repeated tasks not supported.")
+
+            # append the subtask
+            forLines.append("{}[k].append(__{}__)".format(task.getId(), subtask.getId()))
+
+            # add lines
+            forLines.extend('    ' + line for line in forLines)
+
+        # combine the subtasks
+        lines.append("{}[k] = np.concatenate(np.array({}[k]))".format(task.getId(), task.getId()))
 
         return lines
 

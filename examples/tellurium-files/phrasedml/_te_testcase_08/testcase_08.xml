@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created by libAntimony version v2.9 on 2016-03-03 12:30 with libSBML version 5.12.1. -->
+<!-- Created by libAntimony version v2.9 on 2016-03-03 11:41 with libSBML version 5.12.1. -->
 <sbml xmlns="http://www.sbml.org/sbml/level3/version1/core" level="3" version="1">
-  <model id="testcase_01" name="testcase_01">
+  <model id="testcase_08" name="testcase_08">
     <listOfCompartments>
       <compartment sboTerm="SBO:0000410" id="default_compartment" spatialDimensions="3" size="1" constant="true"/>
     </listOfCompartments>
@@ -10,7 +10,8 @@
       <species id="S2" compartment="default_compartment" initialConcentration="0" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
     </listOfSpecies>
     <listOfParameters>
-      <parameter id="k1" value="0.1" constant="true"/>
+      <parameter id="k1" value="0.5" constant="true"/>
+      <parameter id="k2" value="0.4" constant="true"/>
     </listOfParameters>
     <listOfReactions>
       <reaction id="J0" reversible="true" fast="false">
@@ -23,9 +24,17 @@
         <kineticLaw>
           <math xmlns="http://www.w3.org/1998/Math/MathML">
             <apply>
-              <times/>
-              <ci> k1 </ci>
-              <ci> S1 </ci>
+              <minus/>
+              <apply>
+                <times/>
+                <ci> k1 </ci>
+                <ci> S1 </ci>
+              </apply>
+              <apply>
+                <times/>
+                <ci> k2 </ci>
+                <ci> S2 </ci>
+              </apply>
             </apply>
           </math>
         </kineticLaw>
