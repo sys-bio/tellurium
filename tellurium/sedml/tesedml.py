@@ -470,7 +470,6 @@ class SEDMLCodeFactory(object):
 
         # storage of results
         lines.append("{} = []".format(task.getId()))
-
         # -- iterate over master range ----------
         lines.append("for k in range(len(__range__{})):".format(rangeId))
 
@@ -551,8 +550,11 @@ class SEDMLCodeFactory(object):
             # value is calculated with the current state of model
             value = evaluableMathML(setValue.getMath(), variables=variables)
             xpath = setValue.getTarget()
+            mid = setValue.getModelReference()
             forLines.append(SEDMLCodeFactory.targetToPython(xpath, value, modelId=mid))
 
+        # handle the offsets of the next subtask
+        offset = 0
         for ksub, subtask in enumerate(subtasks):
             # All subtasks have to be carried out sequentially, each continuing
             # from the current model state (i.e. at the end of the previous subTask,
@@ -567,10 +569,11 @@ class SEDMLCodeFactory(object):
             resultVariable = "__subtask__".format(t.getId())
             selections = SEDMLCodeFactory.selectionsForTask(doc=doc, task=task)
             if t.getTypeCode() == libsedml.SEDML_TASK:
+
                 # lines.extend(SEDMLCodeFactory.simpleTaskToPython(doc, task))
                 forLines.extend(SEDMLCodeFactory.subtaskToPython(doc, task=t,
                                                           selections=selections,
-                                                          resultVariable=resultVariable))
+                                                          resultVariable=resultVariable, offset=offset))
                 # append subtask to task simulation
                 forLines.append("{}.extend([__subtask__])".format(task.getId()))
 
@@ -647,7 +650,7 @@ class SEDMLCodeFactory(object):
             # throw some points away
             if abs(outputStartTime - initialTime) > 1E-6:
                 lines.append("{}.simulate(start={}, end={}, points=2)".format(
-                                    mid, initialTime, outputStartTime))
+                                    mid, initialTime+offset, outputStartTime))
             # real simulation
             lines.append("{} = {}.simulate(start={}, end={}, steps={})".format(
                                     resultVariable, mid, outputStartTime, outputEndTime, numberOfPoints))
@@ -657,7 +660,7 @@ class SEDMLCodeFactory(object):
         elif simType == libsedml.SEDML_SIMULATION_ONESTEP:
             lines.append("{}.timeCourseSelections = {}".format(mid, list(selections)))
             step = simulation.getStep()
-            lines.append("{} = {}.simulate(start=0.0, end={}, points=2)".format(resultVariable, mid, step))
+            lines.append("{} = {}.simulate(start={}, end={}, points=2)".format(resultVariable, mid, 0.0, step))
 
         # -------------------------------------------------------------------------
         # <STEADY STATE>
@@ -961,7 +964,9 @@ class SEDMLCodeFactory(object):
             else:
                 # One curve via time adjusted concatenate
                 if isTime is True:
-                    lines.append("__var__{} = np.transpose(np.array([sim['{}']+(k*sim['{}'][-1]) for k,sim in enumerate({})]))".format(varId, selection.id, selection.id, taskId))
+                    lines.append("__offsets__{} = np.cumsum(np.array([sim['{}'][-1] for sim in {}]))".format(taskId, selection.id, taskId))
+                    lines.append("__offsets__{} = np.insert(__offsets__{}, 0, 0)".format(taskId, taskId))
+                    lines.append("__var__{} = np.transpose(np.array([sim['{}']+__offsets__{}[k] for k, sim in enumerate({})]))".format(varId, selection.id, taskId, taskId))
                     lines.append("__var__{} = np.concatenate(np.transpose(__var__{}))".format(varId, varId))
                 else:
                     lines.append("__var__{} = np.transpose(np.array([sim['{}'] for sim in {}]))".format(varId, selection.id, taskId))
