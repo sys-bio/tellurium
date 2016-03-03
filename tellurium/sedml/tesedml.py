@@ -573,7 +573,7 @@ class SEDMLCodeFactory(object):
                 # lines.extend(SEDMLCodeFactory.simpleTaskToPython(doc, task))
                 forLines.extend(SEDMLCodeFactory.subtaskToPython(doc, task=t,
                                                           selections=selections,
-                                                          resultVariable=resultVariable, offset=offset))
+                                                          resultVariable=resultVariable))
                 # append subtask to task simulation
                 forLines.append("{}.extend([__subtask__])".format(task.getId()))
 

@@ -1,9 +1,9 @@
 """
     tellurium 1.3.1
 
-    auto-generated code (2016-03-03T20:06:06)
+    auto-generated code (2016-03-03T20:20:42)
     sedmlDoc: L1V2  
-    workingDir: /tmp/tmpISewTX_sedml/_te_testcase_08
+    workingDir: /tmp/tmpNDv2DQ_sedml/_te_testcase_08
     inputType: COMBINE_FILE
 """
 from __future__ import print_function, division
@@ -16,13 +16,15 @@ import libsedml
 import pandas
 import os.path
 
-workingDir = '/tmp/tmpISewTX_sedml/_te_testcase_08'
+workingDir = '/tmp/tmpNDv2DQ_sedml/_te_testcase_08'
 
 # --------------------------------------------------------
 # Models
 # --------------------------------------------------------
 # Model <mod1>
 mod1 = te.loadSBMLModel(os.path.join(workingDir, 'testcase_08.xml'))
+# Model <mod2>
+mod2 = te.loadSBMLModel(os.path.join(workingDir, 'testcase_08.xml'))
 
 # --------------------------------------------------------
 # Tasks
@@ -63,9 +65,7 @@ for k in range(len(__range__uniform_linear_for_S2)):
 # --------------------------------------------------------
 # DataGenerator <plot_0_0_0>
 __offsets__repeat1 = np.cumsum(np.array([sim['time'][-1] for sim in repeat1]))
-print(__offsets__repeat1)
 __offsets__repeat1 = np.insert(__offsets__repeat1, 0, 0)
-print(__offsets__repeat1)
 __var__repeat1_____mod1_____time = np.transpose(np.array([sim['time']+__offsets__repeat1[k] for k, sim in enumerate(repeat1)]))
 __var__repeat1_____mod1_____time = np.concatenate(np.transpose(__var__repeat1_____mod1_____time))
 if len(__var__repeat1_____mod1_____time.shape) == 1:

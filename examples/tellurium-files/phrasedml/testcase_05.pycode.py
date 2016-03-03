@@ -1,9 +1,9 @@
 """
     tellurium 1.3.1
 
-    auto-generated code (2016-03-02T16:49:52)
+    auto-generated code (2016-03-03T20:21:30)
     sedmlDoc: L1V2  
-    workingDir: /tmp/tmpJI2NNe_sedml/_te_testcase_05
+    workingDir: /tmp/tmpNIGdtN_sedml/_te_testcase_05
     inputType: COMBINE_FILE
 """
 from __future__ import print_function, division
@@ -16,7 +16,7 @@ import libsedml
 import pandas
 import os.path
 
-workingDir = '/tmp/tmpJI2NNe_sedml/_te_testcase_05'
+workingDir = '/tmp/tmpNIGdtN_sedml/_te_testcase_05'
 
 # --------------------------------------------------------
 # Models

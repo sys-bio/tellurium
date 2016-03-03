@@ -1,9 +1,9 @@
 """
     tellurium 1.3.1
 
-    auto-generated code (2016-03-02T16:50:05)
+    auto-generated code (2016-03-03T20:21:40)
     sedmlDoc: L1V2  
-    workingDir: /tmp/tmpWMC54Z_sedml/_te_testcase_06
+    workingDir: /tmp/tmpb4qNRf_sedml/_te_testcase_06
     inputType: COMBINE_FILE
 """
 from __future__ import print_function, division
@@ -16,7 +16,7 @@ import libsedml
 import pandas
 import os.path
 
-workingDir = '/tmp/tmpWMC54Z_sedml/_te_testcase_06'
+workingDir = '/tmp/tmpb4qNRf_sedml/_te_testcase_06'
 
 # --------------------------------------------------------
 # Models
@@ -36,31 +36,33 @@ task1[0] = mod1.simulate(start=0.0, end=10.0, steps=100)
 # Task <repeat1>
 __range__uniform_linear_for_S2 = list(np.linspace(start=0.0, stop=10.0, num=3))
 __range__vector_for_S1 = [1.0, 3.0, 5.0]
-repeat1 = [None]*len(__range__uniform_linear_for_S2)
+repeat1 = []
 for k in range(len(__range__uniform_linear_for_S2)):
-    mod1.reset()
     __value__uniform_linear_for_S2 = __range__uniform_linear_for_S2[k]
     __value__vector_for_S1 = __range__vector_for_S1[k]
+    mod1.reset()
     mod1['S1'] = __value__vector_for_S1
     mod1['S2'] = __value__uniform_linear_for_S2
     mod1.setIntegrator('cvode')
     mod1.timeCourseSelections = ['S2', 'S1', 'time']
-    repeat1[k] = mod1.simulate(start=0.0, end=10.0, steps=100)
+    __subtask__ = mod1.simulate(start=0.0, end=10.0, steps=100)
+    repeat1.extend([__subtask__])
 
 # Task <repeat2>
 __range__uniform_linear_for_S2 = list(np.linspace(start=0.0, stop=10.0, num=3))
 __range__vector_for_S1 = [1.0, 3.0, 5.0]
-repeat2 = [None]*len(__range__uniform_linear_for_S2)
+repeat2 = []
 for k in range(len(__range__uniform_linear_for_S2)):
-    if k == 0:
-        mod1.reset()
     __value__uniform_linear_for_S2 = __range__uniform_linear_for_S2[k]
     __value__vector_for_S1 = __range__vector_for_S1[k]
+    if k == 0:
+        mod1.reset()
     mod1['S1'] = __value__vector_for_S1
     mod1['S2'] = __value__uniform_linear_for_S2
     mod1.setIntegrator('cvode')
     mod1.timeCourseSelections = ['S2', 'S1', 'time']
-    repeat2[k] = mod1.simulate(start=0.0, end=10.0, steps=100)
+    __subtask__ = mod1.simulate(start=0.0, end=10.0, steps=100)
+    repeat2.extend([__subtask__])
 
 # --------------------------------------------------------
 # DataGenerators
@@ -84,7 +86,9 @@ if len(__var__repeat1_____S2.shape) == 1:
 plot_0_1_1 = __var__repeat1_____S2
 
 # DataGenerator <plot_1_0_0>
-__var__repeat2_____time = np.transpose(np.array([sim['time']+(k*sim['time'][-1]) for k,sim in enumerate(repeat2)]))
+__offsets__repeat2 = np.cumsum(np.array([sim['time'][-1] for sim in repeat2]))
+__offsets__repeat2 = np.insert(__offsets__repeat2, 0, 0)
+__var__repeat2_____time = np.transpose(np.array([sim['time']+__offsets__repeat2[k] for k, sim in enumerate(repeat2)]))
 __var__repeat2_____time = np.concatenate(np.transpose(__var__repeat2_____time))
 if len(__var__repeat2_____time.shape) == 1:
      __var__repeat2_____time.shape += (1,)

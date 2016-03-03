@@ -1,9 +1,9 @@
 """
     tellurium 1.3.1
 
-    auto-generated code (2016-03-02T16:51:47)
+    auto-generated code (2016-03-03T20:23:44)
     sedmlDoc: L1V2  
-    workingDir: /tmp/tmpkra6yL_sedml/_te_oneStep
+    workingDir: /tmp/tmp63FENj_sedml/_te_oneStep
     inputType: COMBINE_FILE
 """
 from __future__ import print_function, division
@@ -16,7 +16,7 @@ import libsedml
 import pandas
 import os.path
 
-workingDir = '/tmp/tmpkra6yL_sedml/_te_oneStep'
+workingDir = '/tmp/tmp63FENj_sedml/_te_oneStep'
 
 # --------------------------------------------------------
 # Models
@@ -35,21 +35,24 @@ task0[0] = model1.simulate(start=0.0, end=0.1, points=2)
 
 # Task <task1>
 __range__x = list(np.linspace(start=0.0, stop=10.0, num=101))
-task1 = [None]*len(__range__x)
+task1 = []
 for k in range(len(__range__x)):
+    __value__x = __range__x[k]
     if k == 0:
         model1.reset()
-    __value__x = __range__x[k]
     model1['J0_v0'] = piecewise(8, __value__x < 4, 0.1, (4 <= __value__x) and (__value__x < 6), 8)
     model1.setIntegrator('cvode')
     model1.timeCourseSelections = ['S2', 'S1', 'J0_v0', 'time']
-    task1[k] = model1.simulate(start=0.0, end=0.1, points=2)
+    __subtask__ = model1.simulate(start=0.0, end=0.1, points=2)
+    task1.extend([__subtask__])
 
 # --------------------------------------------------------
 # DataGenerators
 # --------------------------------------------------------
 # DataGenerator <plot_0_0_0>
-__var__task1_____time = np.transpose(np.array([sim['time']+(k*sim['time'][-1]) for k,sim in enumerate(task1)]))
+__offsets__task1 = np.cumsum(np.array([sim['time'][-1] for sim in task1]))
+__offsets__task1 = np.insert(__offsets__task1, 0, 0)
+__var__task1_____time = np.transpose(np.array([sim['time']+__offsets__task1[k] for k, sim in enumerate(task1)]))
 __var__task1_____time = np.concatenate(np.transpose(__var__task1_____time))
 if len(__var__task1_____time.shape) == 1:
      __var__task1_____time.shape += (1,)

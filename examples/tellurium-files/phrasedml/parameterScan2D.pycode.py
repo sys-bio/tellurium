@@ -1,9 +1,9 @@
 """
     tellurium 1.3.1
 
-    auto-generated code (2016-03-03T08:48:12)
+    auto-generated code (2016-03-03T20:23:58)
     sedmlDoc: L1V2  
-    workingDir: /tmp/tmpY88p3I_sedml/_te_parameterScan2D
+    workingDir: /tmp/tmpQxoj2R_sedml/_te_parameterScan2D
     inputType: COMBINE_FILE
 """
 from __future__ import print_function, division
@@ -16,7 +16,7 @@ import libsedml
 import pandas
 import os.path
 
-workingDir = '/tmp/tmpY88p3I_sedml/_te_parameterScan2D'
+workingDir = '/tmp/tmpQxoj2R_sedml/_te_parameterScan2D'
 
 # --------------------------------------------------------
 # Models
@@ -39,24 +39,29 @@ model_3.conservedMoietyAnalysis = False
 
 # Task <repeatedtask_1>
 __range__vector_for_J1_KK2 = [1.0, 5.0, 10.0, 50.0, 60.0, 70.0, 80.0, 90.0, 100.0]
-repeatedtask_1 = [None]*len(__range__vector_for_J1_KK2)
+repeatedtask_1 = []
 for k in range(len(__range__vector_for_J1_KK2)):
+    __value__vector_for_J1_KK2 = __range__vector_for_J1_KK2[k]
     if k == 0:
         model_3.reset()
-    __value__vector_for_J1_KK2 = __range__vector_for_J1_KK2[k]
     model_3['J1_KK2'] = __value__vector_for_J1_KK2
     model_3.setIntegrator('cvode')
     Config = model_3
     model_3.conservedMoietyAnalysis = True
     model_3.steadyStateSelections = []
     model_3.steadyState()
-    repeatedtask_1[k] = dict(zip(model_3.steadyStateSelections, model_3.getSteadyStateValues()))
+    __subtask__ = dict(zip(model_3.steadyStateSelections, model_3.getSteadyStateValues()))
     model_3.conservedMoietyAnalysis = False
+    repeatedtask_1.extend([__subtask__])
 
 # Task <repeatedtask_2>
 __range__uniform_linear_for_J4_KK5 = list(np.linspace(start=1.0, stop=40.0, num=101))
-repeatedtask_2 = [None]*len(__range__uniform_linear_for_J4_KK5)
+repeatedtask_2 = []
 for k in range(len(__range__uniform_linear_for_J4_KK5)):
+    __value__uniform_linear_for_J4_KK5 = __range__uniform_linear_for_J4_KK5[k]
+    if k == 0:
+        .reset()
+    model_3['J4_KK5'] = __value__uniform_linear_for_J4_KK5
 
 # --------------------------------------------------------
 # DataGenerators
