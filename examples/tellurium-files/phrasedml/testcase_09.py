@@ -1,14 +1,12 @@
-# -*- coding: utf-8 -*-
 """
-phrasedml repeated stochastic test
-see https://github.com/sys-bio/tellurium/issues/98
+outputPlot3D
 """
 from __future__ import print_function
 import tellurium as te
 
 antimonyStr = '''
 // Created by libAntimony v2.9
-model *repeatedStochastic()
+model *testcase_09()
 
 // Compartments and Species:
 compartment compartment_;
@@ -83,6 +81,15 @@ repeat1 = repeat task1 for local.x in uniform(0, 10, 10), reset=true
 repeat2 = repeat task2 for local.x in uniform(0, 10, 10), reset=true
 plot "Repeats with SEED" repeat1.time vs repeat1.MAPK, repeat1.MAPK_P, repeat1.MAPK_PP, repeat1.MKK, repeat1.MKK_P, repeat1.MKKK, repeat1.MKKK_P
 plot "Repeates without SEED" repeat2.time vs repeat2.MAPK, repeat2.MAPK_P, repeat2.MAPK_PP, repeat2.MKK, repeat2.MKK_P, repeat2.MKKK, repeat2.MKKK_P
+'''
+
+phrasedmlStr = '''
+  mod1 = model "testcase_09"
+  # sim1 = simulate uniform_stochastic(0, 4000, 1000)
+  sim1 = simulate uniform(0, 4000, 1000)
+  task1 = run sim1 on mod1
+  repeat1 = repeat task1 for local.x in uniform(0, 10, 10), reset=true
+  plot "MAPK oscillations" repeat1.MAPK vs repeat1.time vs repeat1.MAPK_P, repeat1.MAPK vs repeat1.time vs repeat1.MAPK_PP, repeat1.MAPK vs repeat1.time vs repeat1.MKK
 '''
 
 # phrasedml experiment

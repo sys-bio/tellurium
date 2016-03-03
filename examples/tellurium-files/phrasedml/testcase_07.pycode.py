@@ -1,9 +1,9 @@
 """
     tellurium 1.3.1
 
-    auto-generated code (2016-03-02T17:17:51)
+    auto-generated code (2016-03-03T08:26:43)
     sedmlDoc: L1V2  
-    workingDir: /tmp/tmpMC4lhY_sedml/_te_testcase_07
+    workingDir: /tmp/tmphP5R5b_sedml/_te_testcase_07
     inputType: COMBINE_FILE
 """
 from __future__ import print_function, division
@@ -16,7 +16,7 @@ import libsedml
 import pandas
 import os.path
 
-workingDir = '/tmp/tmpMC4lhY_sedml/_te_testcase_07'
+workingDir = '/tmp/tmphP5R5b_sedml/_te_testcase_07'
 
 # --------------------------------------------------------
 # Models
@@ -107,8 +107,7 @@ report_1_0_3 = __var__repeat1_____S1 / __var__repeat1_____S2
 # Output <report_0>
 __dfs__report_0 = []
 for k in range(report_0_0_0.shape[1]):
-    print(
-'-'*80)
+    print('-'*80)
     print('report_0, Repeat:', k)
     print('-'*80)
     __df__k = pandas.DataFrame(np.column_stack([report_0_0_0[:,k], report_0_0_1[:,k], report_0_0_2[:,k], report_0_0_3[:,k]]), 
@@ -119,8 +118,7 @@ for k in range(report_0_0_0.shape[1]):
 # Output <report_1>
 __dfs__report_1 = []
 for k in range(report_1_0_0.shape[1]):
-    print(
-'-'*80)
+    print('-'*80)
     print('report_1, Repeat:', k)
     print('-'*80)
     __df__k = pandas.DataFrame(np.column_stack([report_1_0_0[:,k], report_1_0_1[:,k], report_1_0_2[:,k], report_1_0_3[:,k]]), 

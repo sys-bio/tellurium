@@ -571,7 +571,8 @@ class SEDMLCodeFactory(object):
             # <REPEATED TASK>
             elif t.getTypeCode() == libsedml.SEDML_TASK_REPEATEDTASK:
                 # lines.extend(SEDMLCodeFactory.repeatedTaskToPython(doc, task=t))
-                raise NotImplementedError("RepeatedTasks of repeated tasks not supported.")
+                # raise NotImplementedError("RepeatedTasks of repeated tasks not supported.")
+                warnings.warn("RepeatedTasks of repeated tasks not supported.")
 
         return lines
 
@@ -1016,6 +1017,28 @@ class SEDMLCodeFactory(object):
         return lines
 
     @staticmethod
+    def outputPlotSettings():
+        """ Settings for all plot types.
+
+        :return:
+        :rtype:
+        """
+        PlotSettings = namedtuple('PlotSettings', 'colors, figsize, dpi, facecolor, edgecolor, linewidth, markersize, alpha')
+
+        # all lines of same cuve have same color
+        settings = PlotSettings(
+            colors=[u'r', u'b', u'g', u'm', u'c', u'y', u'k'],
+            figsize=(9, 5),
+            dpi=80,
+            facecolor='w',
+            edgecolor='k',
+            linewidth=1.5,
+            markersize=4.0,
+            alpha=0.8
+        )
+        return settings
+
+    @staticmethod
     def outputPlot2DToPython(doc, output):
         """ OutputReport
 
@@ -1028,15 +1051,13 @@ class SEDMLCodeFactory(object):
         """
         # TODO: handle mix of log and linear axis
         lines = []
-
-        # all lines of same cuve have same color
-        colors = [u'r', u'b', u'g', u'm', u'c', u'y', u'k']
+        settings = SEDMLCodeFactory.outputPlotSettings()
 
         title = output.getId()
         if output.isSetName():
             title = output.getName()
 
-        lines.append("plt.figure(num=None, figsize=(9, 5), dpi=80, facecolor='w', edgecolor='k')")
+        lines.append("plt.figure(num=None, figsize={}, dpi={}, facecolor='{}', edgecolor='{}')".format(settings.figsize, settings.dpi, settings.facecolor, settings.edgecolor))
         lines.append("from matplotlib import gridspec")
         lines.append("__gs = gridspec.GridSpec(1, 2, width_ratios=[3, 1])")
         lines.append("plt.subplot(__gs[0])")
@@ -1050,7 +1071,7 @@ class SEDMLCodeFactory(object):
             yId = curve.getYDataReference()
             dgx = doc.getDataGenerator(xId)
             dgy = doc.getDataGenerator(yId)
-            color = colors[kc % len(colors)]
+            color = settings.colors[kc % len(settings.colors)]
 
             yLabel = yId
             if curve.isSetName():
@@ -1069,9 +1090,9 @@ class SEDMLCodeFactory(object):
 
             lines.append("for k in range({}.shape[1]):".format(xId))
             lines.append("    if k == 0:")
-            lines.append("        plt.plot({}[:,k], {}[:,k], '-o', color='{}', linewidth=1.5, markersize=4.0, alpha=0.8, label='{}')".format(xId, yId, color, yLabel))
+            lines.append("        plt.plot({}[:,k], {}[:,k], '-o', color='{}', linewidth={}, markersize={}, alpha={}, label='{}')".format(xId, yId, color, settings.linewidth, settings.markersize, settings.alpha, yLabel))
             lines.append("    else:")
-            lines.append("        plt.plot({}[:,k], {}[:,k], '-o', color='{}', linewidth=1.5, markersize=4.0, alpha=0.8)".format(xId, yId, color))
+            lines.append("        plt.plot({}[:,k], {}[:,k], '-o', color='{}', linewidth={}, markersize={}, alpha={})".format(xId, yId, color, settings.linewidth, settings.markersize, settings.alpha))
 
 
             # FIXME: has to be handeled via multiple axis
@@ -1105,28 +1126,79 @@ class SEDMLCodeFactory(object):
         :rtype: list(str)
         """
         # TODO: handle mix of log and linear axis
+        settings = SEDMLCodeFactory.outputPlotSettings()
         lines = []
         lines.append("from mpl_toolkits.mplot3d import Axes3D")
-        lines.append("fig = plt.figure()")
-        lines.append("ax = fig.gca(projection='3d')")
+        lines.append("fig = plt.figure(num=None, figsize={}, dpi={}, facecolor='{}', edgecolor='{}')".format(settings.figsize, settings.dpi, settings.facecolor, settings.edgecolor))
+        lines.append("from matplotlib import gridspec")
+        lines.append("__gs = gridspec.GridSpec(1, 2, width_ratios=[3, 1])")
+        lines.append("ax = plt.subplot(__gs[0], projection='3d')")
+        # lines.append("ax = fig.gca(projection='3d')")
 
         title = output.getId()
+        if output.isSetName():
+            title = output.getName()
+
+        oneXLabel = True
+        oneYLabel = True
+        allXLabel = None
+        allYLabel = None
+
         for kc, surf in enumerate(output.getListOfSurfaces()):
             logX = surf.getLogX()
             logY = surf.getLogY()
             logZ = surf.getLogZ()
             xId = surf.getXDataReference()
             yId = surf.getYDataReference()
-            zId = surf.getYDataReference()
+            zId = surf.getZDataReference()
             dgx = doc.getDataGenerator(xId)
             dgy = doc.getDataGenerator(yId)
             dgz = doc.getDataGenerator(zId)
+            color = settings.colors[kc % len(settings.colors)]
 
-            lines.append("for k in range(len({})):".format(xId))
-            lines.append("    ax.plot({}[k], {}[k], {}[k])".format(xId, yId, zId))
+            zLabel = zId
+            if surf.isSetName():
+                zLabel = surf.getName()
+            elif dgy.isSetName():
+                zLabel = dgz.getName()
 
-        lines.append("ax.title('{}')".format(title))
-        lines.append("ax.show()".format(title))
+            xLabel = xId
+            if dgx.isSetName():
+                xLabel = dgx.getName()
+            yLabel = yId
+            if dgy.isSetName():
+                yLabel = dgy.getName()
+
+            # do all curves have the same xLabel & yLabel
+            if kc == 0:
+                allXLabel = xLabel
+                allYLabel = yLabel
+            if xLabel != allXLabel:
+                oneXLabel = False
+            if yLabel != allYLabel:
+                oneYLabel = False
+
+            lines.append("for k in range({}.shape[1]):".format(xId))
+            lines.append("    if k == 0:")
+            lines.append("        ax.plot({}[:,k], {}[:,k], {}[:,k], '-o', color='{}', linewidth=1.5, markersize=4.0, alpha=0.8, label='{}')".format(xId, yId, zId, color, zLabel))
+            lines.append("    else:")
+            lines.append("        ax.plot({}[:,k], {}[:,k], {}[:,k], '-o', color='{}', linewidth=1.5, markersize=4.0, alpha=0.8)".format(xId, yId, zId, color))
+
+        lines.append("ax.set_title('{}', fontweight='bold')".format(title))
+        if oneXLabel:
+            lines.append("ax.set_xlabel('{}', fontweight='bold')".format(xLabel))
+        if oneYLabel:
+            lines.append("ax.set_ylabel('{}', fontweight='bold')".format(yLabel))
+        if len(output.getListOfSurfaces()) == 1:
+            lines.append("ax.set_zlabel('{}', fontweight='bold')".format(zLabel))
+
+        lines.append("__lg = plt.legend(bbox_to_anchor=(1.05, 1), loc=2, borderaxespad=0.)")
+        lines.append("__lg.draw_frame(False)")
+        lines.append("plt.setp(__lg.get_texts(), fontsize='small')")
+        lines.append("plt.setp(__lg.get_texts(), fontweight='bold')")
+        lines.append("plt.tick_params(axis='both', which='major', labelsize=10)")
+        lines.append("plt.tick_params(axis='both', which='minor', labelsize=8)")
+        lines.append("plt.show()".format(title))
 
         return lines
 

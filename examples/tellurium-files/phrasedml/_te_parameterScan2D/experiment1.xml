@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created by phraSED-ML version v1.0 on 2016-02-26 19:48 with libSBML version 5.12.1. -->
+<!-- Created by phraSED-ML version v1.0.1 on 2016-03-03 08:48 with libSBML version 5.12.1. -->
 <sedML xmlns="http://sed-ml.org/sed-ml/level1/version2" level="1" version="2">
   <listOfSimulations>
-    <steadyState id="sim_repeat"/>
+    <steadyState id="sim_repeat">
+      <algorithm kisaoID="KISAO:0000407"/>
+    </steadyState>
   </listOfSimulations>
   <listOfModels>
-    <model id="model_3" language="urn:sedml:language:sbml.level-3.version-1" source="BorisEJB.xml.xml"/>
+    <model id="model_3" language="urn:sedml:language:sbml.level-3.version-1" source="parameterScan2D"/>
   </listOfModels>
   <listOfTasks>
     <task id="task_1" modelReference="model_3" simulationReference="sim_repeat"/>
