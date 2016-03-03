@@ -438,6 +438,7 @@ class SEDMLCodeFactory(object):
     @staticmethod
     def repeatedTaskToPython(doc, task):
         """ Create python for RepeatedTask. """
+        print('repeatedTask:', task.getId())
         lines = []
 
         resetModel = task.getResetModel()
@@ -515,7 +516,18 @@ class SEDMLCodeFactory(object):
                     forLines.append("__value__{} = {}".format(r.getId(), value))
 
         # reset all subtask models before executing the subtasks if necessary
-        st_mids = set([doc.getTask(st.getTask()).getModelReference() for st in subtasks])
+        st_mids = set([])
+        for st in subtasks:
+            t_tmp = doc.getTask(st.getTask())
+            if t_tmp.getTypeCode() == libsedml.SEDML_TASK:
+                # simple task, add model reference
+                st_mids.add(t_tmp.getModelReference())
+            elif t_tmp.getTypeCode() == libsedml.SEDML_TASK_REPEATEDTASK:
+                # we allow repeated tasks of repeated tasks
+                for st2 in t_tmp.getListOfSubTasks():
+                    t_tmp2 = doc.getTask(st2.getTask())
+                    st_mids.add(t_tmp2.getModelReference())
+
         for st_mid in st_mids:
             # <resetModel>
             if resetModel:
@@ -553,8 +565,6 @@ class SEDMLCodeFactory(object):
             mid = setValue.getModelReference()
             forLines.append(SEDMLCodeFactory.targetToPython(xpath, value, modelId=mid))
 
-        # handle the offsets of the next subtask
-        offset = 0
         for ksub, subtask in enumerate(subtasks):
             # All subtasks have to be carried out sequentially, each continuing
             # from the current model state (i.e. at the end of the previous subTask,
@@ -579,10 +589,10 @@ class SEDMLCodeFactory(object):
 
             # <REPEATED TASK>
             elif t.getTypeCode() == libsedml.SEDML_TASK_REPEATEDTASK:
-                # lines.extend(SEDMLCodeFactory.repeatedTaskToPython(doc, task=t))
-                # raise NotImplementedError("RepeatedTasks of repeated tasks not supported.")
-                warnings.warn("RepeatedTasks of repeated tasks not supported.")
-                # TODO: extend with the whole set
+                forLines.extend(SEDMLCodeFactory.repeatedTaskToPython(doc, task=t))
+                warnings.warn("RepeatedTasks of repeated tasks.")
+                # append repeatedTask to simulation
+                forLines.append("{}.extend({})".format(task.getId(), t.getId()))
 
         # add lines
         lines.extend('    ' + line for line in forLines)
