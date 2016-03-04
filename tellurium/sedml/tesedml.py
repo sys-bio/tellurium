@@ -67,6 +67,7 @@ The Output Class
     and the according axes or columns are all assigned to one of the formerly specified instances
     of the DataGenerator class.
 """
+# FIXME: settings for steady state solver have to be set via {}.steadyStateSolver
 # TODO: implement proper resolving of xpath expressions (target, selection) (see xpath.py for example)
 # TODO: implement XML changes
 # FIXME: bug multiple model instances of same model (https://github.com/sys-bio/roadrunner/issues/305)
@@ -269,30 +270,26 @@ class SEDMLCodeFactory(object):
         def isHttp():
             return source.startswith('http') or source.startswith('HTTP')
 
-        # read model
+        # read SBML
         if 'sbml' in language:
-            # urn
             if isUrn():
                 lines.append("import tellurium.temiriam as temiriam")
                 lines.append("__{}_sbml = temiriam.getSBMLFromBiomodelsURN('{}')".format(mid, source))
                 lines.append("{} = te.loadSBMLModel(__{}_sbml)".format(mid, mid))
-            # http
             elif isHttp():
                 lines.append("{} = te.loadSBMLModel('{}')".format(mid, source))
-            # file
             else:
                 if not source.endswith('.xml'):
                     # FIXME: this is a bug in how the combine archive is created (missing .xml)
                     source += '.xml'
                 lines.append("{} = te.loadSBMLModel(os.path.join(workingDir, '{}'))".format(mid, source))
-
+        # read CellML
         elif 'cellml' in language:
-            # http
             if isHttp():
                 lines.append("{} = te.loadCellMLModel('{}')".format(mid, source))
-            # file
             else:
                 lines.append("{} = te.loadCellMLModel(os.path.join(workingDir, '{}'))".format(mid, self.model_sources[mid]))
+        # other
         else:
             warnings.warn("Unsupported model language:".format(language))
 
@@ -327,7 +324,6 @@ class SEDMLCodeFactory(object):
             lines.append(SEDMLCodeFactory.targetToPython(xpath, value, modelId=mid))
 
         elif change.getTypeCode() == libsedml.SEDML_CHANGE_COMPUTECHANGE:
-            # TODO: refactor in function and reuse in SedSetValue
             variables = {}
             for par in change.getListOfParameters():
                 variables[par.getId()] = par.getValue()
@@ -357,10 +353,8 @@ class SEDMLCodeFactory(object):
 
     ################################################################################################
     # Here the main work is done,
-    # the transformation of the tasks to python code.
+    # transformation of tasks to python code
     ################################################################################################
-
-
     @staticmethod
     def taskToPython(doc, task):
         """ Create python for arbitrary task (repeated or simple).
@@ -375,208 +369,142 @@ class SEDMLCodeFactory(object):
         # If no DataGenerator references the task, no execution is necessary
         dgs = SEDMLCodeFactory.getDataGeneratorsForTask(doc, task)
         if len(dgs) == 0:
-            return "# Task not used in any DataGenerator: {}".format(task.getId())
+            return "# not part of any DataGenerator: {}".format(task.getId())
 
-        # otherwise we generate the task
-        lines = []
-        taskType = task.getTypeCode()
+        # tasks contain other subtasks, which can contain subtasks. This
+        # results in a tree of task dependencies where the
+        # simple tasks are the node leaves. These tree has to be resolved to
+        # generate code for more complex task dependencies.
 
-        # resolve the task tree, i.e. what is the order of tasks
-        # is it tree or list?
+        # resolve task tree (order & dependency of tasks) & generate code
+        taskTree = SEDMLCodeFactory.createTaskTree(doc, rootTask=task)
+        return SEDMLCodeFactory.taskTreeToPython(doc, tree=taskTree)
 
+    class TaskNode(object):
+        """ Tree implementation of task tree. """
+        def __init__(self, task, depth):
+            self.task = task
+            self.depth = depth
+            self.children = []
 
-        # <SIMPLE TASK>
-        if taskType == libsedml.SEDML_TASK:
-            lines.extend(SEDMLCodeFactory.simpleTaskToPython(doc, task))
-        # <REPEATED TASK>
-        elif taskType == libsedml.SEDML_TASK_REPEATEDTASK:
-            lines.extend(SEDMLCodeFactory.repeatedTaskToPython(doc, task))
-        else:
-            lines.append("# Unsupported task: {}".format(taskType))
-            warnings.warn("Unsupported task: {}".format(taskType))
-        return '\n'.join(lines)
+        def add_child(self, obj):
+            self.children.append(obj)
 
+        def __str__(self):
+            lines = ["<[{}] {} ({})>".format(self.depth, self.task.getId(), self.task.getElementName())]
+            for child in self.children:
+                child_str = child.__str__()
+                lines.extend(["\t{}".format(line) for line in child_str.split('\n')])
+            return "\n".join(lines)
+
+        def __iter__(self):
+            """ Depth-first iterator which yields TaskNodes."""
+            yield self
+            for child in self.children:
+                for node in child:
+                    yield node
 
     @staticmethod
-    def simpleTaskToPython(doc, task):
-        """ Create python for simple task. """
-        lines = []
-        tid = task.getId()
-        lines.append("{} = [None]".format(tid))
-        resultVariable = "{}[0]".format(tid)
-        selections = SEDMLCodeFactory.selectionsForTask(doc=doc, task=task)
-        lines.extend(SEDMLCodeFactory.subtaskToPython(doc=doc, task=task,
-                                                      selections=selections,
-                                                      resultVariable=resultVariable))
-        return lines
+    def createTaskTree(doc, rootTask):
+        """ Creates the task tree.
+        Required for resolution of order of all simulations.
+        """
+        def add_children(node):
+            typeCode = node.task.getTypeCode()
+            if typeCode == libsedml.SEDML_TASK:
+                return  # no children
+            elif typeCode == libsedml.SEDML_TASK_REPEATEDTASK:
+                # add the ordered list of subtasks as children
+                subtasks = SEDMLCodeFactory.getOrderedSubtasks(node.task)
+                for st in subtasks:
+                    # get real task for subtask
+                    t = doc.getTask(st.getTask())
+                    child = SEDMLCodeFactory.TaskNode(t, depth=node.depth+1)
+                    node.add_child(child)
+                    # recursive adding of children
+                    add_children(child)
+            else:
+                raise IOError('Unsupported task type: {}'.format(node.task.getElementName()))
+
+        # create root
+        root = SEDMLCodeFactory.TaskNode(rootTask, depth=0)
+        # recursive adding of children
+        add_children(root)
+        return root
 
     @staticmethod
-    def repeatedTaskToPython(doc, task):
-        """ Create python for RepeatedTask. """
-        print('repeatedTask:', task.getId())
-        lines = []
-
-        resetModel = task.getResetModel()
-        rangeId = task.getRangeId()
-
-        # -- create ranges ----------
-        # master range
-        masterRange = task.getRange(rangeId)
-        if masterRange.getTypeCode() == libsedml.SEDML_RANGE_UNIFORMRANGE:
-            lines.extend(SEDMLCodeFactory.uniformRangeToPython(masterRange))
-        elif masterRange.getTypeCode() == libsedml.SEDML_RANGE_VECTORRANGE:
-            lines.extend(SEDMLCodeFactory.vectorRangeToPython(masterRange))
-        elif masterRange.getTypeCode() == libsedml.SEDML_RANGE_FUNCTIONALRANGE:
-            warnings.warn("FunctionalRange for master range not supported in task.")
-        # other ranges
-        for r in task.getListOfRanges():
-            if r.getId() != rangeId:
-                if r.getTypeCode() == libsedml.SEDML_RANGE_UNIFORMRANGE:
-                    lines.extend(SEDMLCodeFactory.uniformRangeToPython(r))
-                elif r.getTypeCode() == libsedml.SEDML_RANGE_VECTORRANGE:
-                    lines.extend(SEDMLCodeFactory.vectorRangeToPython(r))
-
-        # -- iterate over ordered subtasks ----------
+    def getOrderedSubtasks(task):
+        """ Ordered list of subtasks for task."""
         subtasks = task.getListOfSubTasks()
         subtaskOrder = [st.getOrder() for st in subtasks]
-
         # sort by order, if all subtasks have order (not required)
         if all(subtaskOrder) != None:
             subtasks = [st for (stOrder, st) in sorted(zip(subtaskOrder, subtasks))]
+        return subtasks
 
-        # storage of results
-        lines.append("{} = []".format(task.getId()))
-        # -- iterate over master range ----------
-        lines.append("for k in range(len(__range__{})):".format(rangeId))
+    @staticmethod
+    def taskTreeToPython(doc, tree):
+        """ Python code generation from task tree. """
+        print('-' * 80)
+        print(tree)
+        print('-' * 80)
 
-        # Everything from now on is done in every iteration of the range
-        # We have to collect & intent all lines in the loop)
-        forLines = []
+        # TODO: howto handle selections via tree
+        # TODO: howto handle resets via tree
 
-         # <range values>
-        # calculate the current values of all range variables
-        # value for masterRange
-        forLines.append("__value__{} = __range__{}[k]".format(rangeId, rangeId))
-        # other range values
-        helperRanges = {}
-        for r in task.getListOfRanges():
-            if r.getId() != rangeId:
-                helperRanges[r.getId()] = r
-                if r.getTypeCode() in [libsedml.SEDML_RANGE_UNIFORMRANGE,
-                                       libsedml.SEDML_RANGE_VECTORRANGE]:
-                    forLines.append("__value__{} = __range__{}[k]".format(r.getId(), r.getId()))
+        # go forward through task tree
+        lines = []
+        for node in tree:
+            print("* [{}] <{} ({})>".format(node.depth, node.task.getId(), node.task.getElementName()))
+            taskType = node.task.getTypeCode()
 
-                # <functional range>
-                if r.getTypeCode() == libsedml.SEDML_RANGE_FUNCTIONALRANGE:
-                    # TODO: refactor (code reusage of the MathML evaluation
-                    variables = {}
-                    # range variables
-                    variables[rangeId] = "__value__{}".format(rangeId)
-                    for key in helperRanges.keys():
-                        variables[key] = "__value__{}".format(key)
-                    # parameters
-                    for par in r.getListOfParameters():
-                        variables[par.getId()] = par.getValue()
-                    for var in r.getListOfVariables():
-                        vid = var.getId()
-                        mid = var.getModelReference()
-                        selection = SEDMLCodeFactory.resolveSelectionFromVariable(var)
-                        if type == "species":
-                            forLines.append("__var__{} = {}['[{}]']".format(vid, mid, selection.id))
-                        else:
-                            forLines.append("__var__{} = {}['{}']".format(vid, mid, selection.id))
-                        variables[vid] = "__var__{}".format(vid)
+            if taskType == libsedml.SEDML_TASK_REPEATEDTASK:
+                taskLines = SEDMLCodeFactory.repeatedTaskToPython(doc, node.task)
 
-                    # value is calculated with the current state of model
-                    value = evaluableMathML(r.getMath(), variables=variables)
-                    forLines.append("__value__{} = {}".format(r.getId(), value))
-
-        # reset all subtask models before executing the subtasks if necessary
-        st_mids = set([])
-        for st in subtasks:
-            t_tmp = doc.getTask(st.getTask())
-            if t_tmp.getTypeCode() == libsedml.SEDML_TASK:
-                # simple task, add model reference
-                st_mids.add(t_tmp.getModelReference())
-            elif t_tmp.getTypeCode() == libsedml.SEDML_TASK_REPEATEDTASK:
-                # we allow repeated tasks of repeated tasks
-                for st2 in t_tmp.getListOfSubTasks():
-                    t_tmp2 = doc.getTask(st2.getTask())
-                    st_mids.add(t_tmp2.getModelReference())
-
-        for st_mid in st_mids:
-            # <resetModel>
-            if resetModel:
-                # reset before every iteration
-                forLines.append("{}.reset()".format(st_mid))
+            elif taskType == libsedml.SEDML_TASK:
+                tid = node.task.getId()
+                taskLines = [
+                    "",
+                    "# execute simpleTask: <{}>".format(tid),
+                    "{} = [None]".format(tid),
+                ]
+                resultVariable = "{}[0]".format(tid)
+                selections = SEDMLCodeFactory.selectionsForTask(doc=doc, task=node.task)
+                taskLines.extend(SEDMLCodeFactory.simpleTaskToPython(doc=doc, task=node.task,
+                                                      selections=selections,
+                                                      resultVariable=resultVariable))
             else:
-                # reset before first iteration of repeated task
-                forLines.append("if k == 0:")
-                forLines.append("    {}.reset()".format(st_mid))
+                lines.append("# Unsupported task: {}".format(taskType))
+                warnings.warn("Unsupported task: {}".format(taskType))
+            lines.extend(["    "*node.depth + line for line in taskLines])
 
-        # <setValues>
-        # apply changes based on current variables, parameters and range variables
-        for setValue in task.getListOfTaskChanges():
-            variables = {}
-            # range variables
-            variables[rangeId] = "__value__{}".format(rangeId)
-            for key in helperRanges.keys():
-                variables[key] = "__value__{}".format(key)
-            # parameters
-            for par in setValue.getListOfParameters():
-                variables[par.getId()] = par.getValue()
-            for var in setValue.getListOfVariables():
-                vid = var.getId()
-                mid = var.getModelReference()
-                selection = SEDMLCodeFactory.resolveSelectionFromVariable(var)
-                if type == "species":
-                    forLines.append("__var__{} = {}['[{}]']".format(vid, mid, selection.id))
-                else:
-                    forLines.append("__var__{} = {}['{}']".format(vid, mid, selection.id))
-                variables[vid] = "__var__{}".format(vid)
+        # go backwards through task tree (to collect)
 
-            # value is calculated with the current state of model
-            value = evaluableMathML(setValue.getMath(), variables=variables)
-            xpath = setValue.getTarget()
-            mid = setValue.getModelReference()
-            forLines.append(SEDMLCodeFactory.targetToPython(xpath, value, modelId=mid))
+        return '\n'.join(lines)
 
+    '''
+    @staticmethod
+    def simpleTaskToPython(doc, task):
+        """ Create python for simple task. """
         for ksub, subtask in enumerate(subtasks):
-            # All subtasks have to be carried out sequentially, each continuing
-            # from the current model state (i.e. at the end of the previous subTask,
-            # assuming it simulates the same model), and with their results
-            # concatenated (thus appearing identical to a single complex simulation).
-            # get task which belongs to subtask
             t = doc.getTask(subtask.getTask())
 
-            # <Run single repeat>
-            # All local variables for the loop iteration and subtask are available.
-            # Run the single simulation now.
             resultVariable = "__subtask__".format(t.getId())
             selections = SEDMLCodeFactory.selectionsForTask(doc=doc, task=task)
             if t.getTypeCode() == libsedml.SEDML_TASK:
-
-                # lines.extend(SEDMLCodeFactory.simpleTaskToPython(doc, task))
                 forLines.extend(SEDMLCodeFactory.subtaskToPython(doc, task=t,
                                                           selections=selections,
                                                           resultVariable=resultVariable))
-                # append subtask to task simulation
                 forLines.append("{}.extend([__subtask__])".format(task.getId()))
 
-            # <REPEATED TASK>
             elif t.getTypeCode() == libsedml.SEDML_TASK_REPEATEDTASK:
                 forLines.extend(SEDMLCodeFactory.repeatedTaskToPython(doc, task=t))
-                warnings.warn("RepeatedTasks of repeated tasks.")
-                # append repeatedTask to simulation
                 forLines.append("{}.extend({})".format(task.getId(), t.getId()))
+    '''
 
-        # add lines
-        lines.extend('    ' + line for line in forLines)
-
-        return lines
 
     @staticmethod
-    def subtaskToPython(doc, task, selections, resultVariable=None):
+    def simpleTaskToPython(doc, task, selections, resultVariable=None):
         """ Creates the simulation python code for a given task.
 
             cvode (19; the default for uniform time course simulations)
@@ -667,6 +595,126 @@ class SEDMLCodeFactory(object):
 
         return lines
 
+
+    @staticmethod
+    def repeatedTaskToPython(doc, task):
+        """ Create python for RepeatedTask.
+
+        Must create
+        - the ranges (Ranges)
+        - apply all changes (SetValues)
+        """
+        lines = []
+        # storage of results
+        lines = ["", "{} = []".format(task.getId())]
+
+        # <Range Definition>
+        # master range
+        rangeId = task.getRangeId()
+        masterRange = task.getRange(rangeId)
+        if masterRange.getTypeCode() == libsedml.SEDML_RANGE_UNIFORMRANGE:
+            lines.extend(SEDMLCodeFactory.uniformRangeToPython(masterRange))
+        elif masterRange.getTypeCode() == libsedml.SEDML_RANGE_VECTORRANGE:
+            lines.extend(SEDMLCodeFactory.vectorRangeToPython(masterRange))
+        elif masterRange.getTypeCode() == libsedml.SEDML_RANGE_FUNCTIONALRANGE:
+            warnings.warn("FunctionalRange for master range not supported in task.")
+        # lock-in ranges
+        for r in task.getListOfRanges():
+            if r.getId() != rangeId:
+                if r.getTypeCode() == libsedml.SEDML_RANGE_UNIFORMRANGE:
+                    lines.extend(SEDMLCodeFactory.uniformRangeToPython(r))
+                elif r.getTypeCode() == libsedml.SEDML_RANGE_VECTORRANGE:
+                    lines.extend(SEDMLCodeFactory.vectorRangeToPython(r))
+
+         # <Range Iteration>
+        # iterate master range
+        lines.append("for k, __value__{} in enumerate(__range__{}):".format(rangeId, rangeId))
+
+        # Everything from now on is done in every iteration of the range
+        # We have to collect & intent all lines in the loop)
+        forLines = []
+
+        # values of lock-in ranges
+        helperRanges = {}
+        for r in task.getListOfRanges():
+            if r.getId() != rangeId:
+                helperRanges[r.getId()] = r
+                if r.getTypeCode() in [libsedml.SEDML_RANGE_UNIFORMRANGE,
+                                       libsedml.SEDML_RANGE_VECTORRANGE]:
+                    forLines.append("__value__{} = __range__{}[k]".format(r.getId(), r.getId()))
+
+                # <functional range>
+                if r.getTypeCode() == libsedml.SEDML_RANGE_FUNCTIONALRANGE:
+                    variables = {}
+                    # range variables
+                    variables[rangeId] = "__value__{}".format(rangeId)
+                    for key in helperRanges.keys():
+                        variables[key] = "__value__{}".format(key)
+                    # parameters
+                    for par in r.getListOfParameters():
+                        variables[par.getId()] = par.getValue()
+                    for var in r.getListOfVariables():
+                        vid = var.getId()
+                        mid = var.getModelReference()
+                        selection = SEDMLCodeFactory.resolveSelectionFromVariable(var)
+                        if type == "species":
+                            variables[vid] = "{}['[{}]']".format(vid, mid, selection.id)
+                        else:
+                            variables[vid] = "{}['{}']".format(vid, mid, selection.id)
+
+                    # value is calculated with the current state of model
+                    value = evaluableMathML(r.getMath(), variables=variables)
+                    forLines.append("__value__{} = {}".format(r.getId(), value))
+
+        # <resetModels>
+        # FIXME: how to handle the reset via tree to submodel
+        resetModel = task.getResetModel()
+        # models to reset
+        t_mids = set([])
+        for st in SEDMLCodeFactory.getOrderedSubtasks(task):
+            t = doc.getTask(st.getTask())
+            if t.getTypeCode() == libsedml.SEDML_TASK:
+                t_mids.add(t.getModelReference())
+        for t_mid in t_mids:
+            if resetModel:
+                # reset before every iteration
+                forLines.append("{}.reset()".format(t_mid))
+            else:
+                # reset before first iteration
+                forLines.append("if k == 0:")
+                forLines.append("    {}.reset()".format(t_mid))
+
+        # <setValues>
+        # apply changes based on current variables, parameters and range variables
+        for setValue in task.getListOfTaskChanges():
+            variables = {}
+            # range variables
+            variables[rangeId] = "__value__{}".format(rangeId)
+            for key in helperRanges.keys():
+                variables[key] = "__value__{}".format(key)
+            # parameters
+            for par in setValue.getListOfParameters():
+                variables[par.getId()] = par.getValue()
+            for var in setValue.getListOfVariables():
+                vid = var.getId()
+                mid = var.getModelReference()
+                selection = SEDMLCodeFactory.resolveSelectionFromVariable(var)
+                if type == "species":
+                    variables[vid] = "{}['[{}]']".format(vid, mid, selection.id)
+                else:
+                    variables[vid] = "{}['{}']".format(vid, mid, selection.id)
+
+            # value is calculated with the current state of model
+            value = evaluableMathML(setValue.getMath(), variables=variables)
+            xpath = setValue.getTarget()
+            mid = setValue.getModelReference()
+            forLines.append(SEDMLCodeFactory.targetToPython(xpath, value, modelId=mid))
+
+        # add lines
+        lines.extend('    ' + line for line in forLines)
+
+        return lines
+
     ################################################################################################
     ################################################################################################
 
@@ -723,9 +771,9 @@ class SEDMLCodeFactory(object):
         rPoints = r.getNumberOfPoints()+1  # One point more than number of points
         rType = r.getType()
         if rType in ['Linear', 'linear']:
-            lines.append("__range__{} = list(np.linspace(start={}, stop={}, num={}))".format(rId, rStart, rEnd, rPoints))
+            lines.append("__range__{} = np.linspace(start={}, stop={}, num={})".format(rId, rStart, rEnd, rPoints))
         elif rType in ['Log', 'log']:
-            lines.append("__range__{} = list(np.logspace(start={}, stop={}, num={}))".format(rId, rStart, rEnd, rPoints))
+            lines.append("__range__{} = np.logspace(start={}, stop={}, num={})".format(rId, rStart, rEnd, rPoints))
         else:
             warnings.warn("Unsupported range type in UniformRange: {}".format(rType))
         return lines
