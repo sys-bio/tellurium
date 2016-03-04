@@ -78,12 +78,12 @@ end
 
 phrasedmlStr = '''
   model_3 = model "parameterScan2D"
-  sim_repeat = simulate steadystate
-  # sim_repeat = simulate uniform(0,100,100)
+  sim_repeat = simulate uniform(0,3000,100)
   task_1 = run sim_repeat on model_3
-  repeatedtask_1 = repeat task_1 for J1_KK2 in [1, 5, 10, 50, 60, 70, 80, 90, 100]
-  repeatedtask_2 = repeat repeatedtask_1 for J4_KK5 in uniform(1, 40, 3)
-  plot repeatedtask_2.J4_KK5 vs repeatedtask_2.MKK, repeatedtask_2.MKK_P
+  repeatedtask_1 = repeat task_1 for J1_KK2 in [1, 5, 10, 50, 60, 70, 80, 90, 100], reset=true
+  repeatedtask_2 = repeat repeatedtask_1 for J4_KK5 in uniform(1, 40, 10), reset=true
+  plot repeatedtask_2.J4_KK5 vs repeatedtask_2.J1_KK2
+  plot repeatedtask_2.time vs repeatedtask_2.MKK, repeatedtask_2.MKK_P
 '''
 
 # phrasedml experiment

@@ -1,9 +1,9 @@
 """
     tellurium 1.3.1
 
-    auto-generated code (2016-03-03T20:22:03)
+    auto-generated code (2016-03-04T16:27:21)
     sedmlDoc: L1V2  
-    workingDir: /tmp/tmpchrgbV_sedml/_te_testcase_09
+    workingDir: /tmp/tmp7GRRr9_sedml/_te_testcase_09
     inputType: COMBINE_FILE
 """
 from __future__ import print_function, division
@@ -16,7 +16,7 @@ import libsedml
 import pandas
 import os.path
 
-workingDir = '/tmp/tmpchrgbV_sedml/_te_testcase_09'
+workingDir = '/tmp/tmp7GRRr9_sedml/_te_testcase_09'
 
 # --------------------------------------------------------
 # Models
@@ -28,21 +28,21 @@ mod1 = te.loadSBMLModel(os.path.join(workingDir, 'testcase_09.xml'))
 # Tasks
 # --------------------------------------------------------
 # Task <task1>
-task1 = [None]
-mod1.setIntegrator('cvode')
-mod1.timeCourseSelections = []
-task1[0] = mod1.simulate(start=0.0, end=4000.0, steps=1000)
+# not part of any DataGenerator: task1
 
 # Task <repeat1>
-__range__x = list(np.linspace(start=0.0, stop=10.0, num=11))
+
 repeat1 = []
-for k in range(len(__range__x)):
-    __value__x = __range__x[k]
+__range__x = np.linspace(start=0.0, stop=10.0, num=11)
+for __k__x, __value__x in enumerate(__range__x):
     mod1.reset()
+    # execute simpleTask: <task1>
+    task1 = [None]
     mod1.setIntegrator('cvode')
-    mod1.timeCourseSelections = ['MAPK', 'MAPK_PP', 'MKK', 'MAPK_P', 'time']
-    __subtask__ = mod1.simulate(start=0.0, end=4000.0, steps=1000)
-    repeat1.extend([__subtask__])
+    mod1.timeCourseSelections = ['MAPK', 'time', 'MKK', 'MAPK_P', 'MAPK_PP']
+    task1[0] = mod1.simulate(start=0.0, end=4000.0, steps=1000)
+
+    repeat1.extend(task1)
 
 # --------------------------------------------------------
 # DataGenerators

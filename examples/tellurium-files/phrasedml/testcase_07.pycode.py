@@ -1,9 +1,9 @@
 """
     tellurium 1.3.1
 
-    auto-generated code (2016-03-03T20:21:54)
+    auto-generated code (2016-03-04T16:19:46)
     sedmlDoc: L1V2  
-    workingDir: /tmp/tmpEuqBbv_sedml/_te_testcase_07
+    workingDir: /tmp/tmp0PJHaw_sedml/_te_testcase_07
     inputType: COMBINE_FILE
 """
 from __future__ import print_function, division
@@ -16,7 +16,7 @@ import libsedml
 import pandas
 import os.path
 
-workingDir = '/tmp/tmpEuqBbv_sedml/_te_testcase_07'
+workingDir = '/tmp/tmp0PJHaw_sedml/_te_testcase_07'
 
 # --------------------------------------------------------
 # Models
@@ -28,22 +28,26 @@ mod1 = te.loadSBMLModel(os.path.join(workingDir, 'testcase_07.xml'))
 # Tasks
 # --------------------------------------------------------
 # Task <task1>
+# execute simpleTask: <task1>
 task1 = [None]
 mod1.setIntegrator('cvode')
 mod1.timeCourseSelections = ['S2', 'S1', 'time']
 task1[0] = mod1.simulate(start=0.0, end=10.0, steps=100)
 
 # Task <repeat1>
-__range__vector_for_S1 = [1.0, 3.0, 5.0]
+
 repeat1 = []
-for k in range(len(__range__vector_for_S1)):
-    __value__vector_for_S1 = __range__vector_for_S1[k]
+__range__vector_for_S1 = [1.0, 3.0, 5.0]
+for __k__vector_for_S1, __value__vector_for_S1 in enumerate(__range__vector_for_S1):
     mod1.reset()
-    mod1['S1'] = __value__vector_for_S1
+    # execute simpleTask: <task1>
+    task1 = [None]
     mod1.setIntegrator('cvode')
-    mod1.timeCourseSelections = ['S2', 'S1', 'time']
-    __subtask__ = mod1.simulate(start=0.0, end=10.0, steps=100)
-    repeat1.extend([__subtask__])
+    mod1['S1'] = __value__vector_for_S1
+    mod1.timeCourseSelections = ['time', 'S2', 'S1']
+    task1[0] = mod1.simulate(start=0.0, end=10.0, steps=100)
+
+    repeat1.extend(task1)
 
 # --------------------------------------------------------
 # DataGenerators

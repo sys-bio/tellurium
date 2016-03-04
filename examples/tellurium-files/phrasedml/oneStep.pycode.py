@@ -1,9 +1,9 @@
 """
     tellurium 1.3.1
 
-    auto-generated code (2016-03-03T20:23:44)
+    auto-generated code (2016-03-04T16:47:15)
     sedmlDoc: L1V2  
-    workingDir: /tmp/tmp63FENj_sedml/_te_oneStep
+    workingDir: /tmp/tmpB99M2h_sedml/_te_oneStep
     inputType: COMBINE_FILE
 """
 from __future__ import print_function, division
@@ -16,7 +16,7 @@ import libsedml
 import pandas
 import os.path
 
-workingDir = '/tmp/tmp63FENj_sedml/_te_oneStep'
+workingDir = '/tmp/tmpB99M2h_sedml/_te_oneStep'
 
 # --------------------------------------------------------
 # Models
@@ -28,23 +28,23 @@ model1 = te.loadSBMLModel(os.path.join(workingDir, 'oneStep.xml'))
 # Tasks
 # --------------------------------------------------------
 # Task <task0>
-task0 = [None]
-model1.setIntegrator('cvode')
-model1.timeCourseSelections = []
-task0[0] = model1.simulate(start=0.0, end=0.1, points=2)
+# not part of any DataGenerator: task0
 
 # Task <task1>
-__range__x = list(np.linspace(start=0.0, stop=10.0, num=101))
+
 task1 = []
-for k in range(len(__range__x)):
-    __value__x = __range__x[k]
-    if k == 0:
+__range__x = np.linspace(start=0.0, stop=10.0, num=101)
+for __k__x, __value__x in enumerate(__range__x):
+    if __k__x == 0:
         model1.reset()
-    model1['J0_v0'] = piecewise(8, __value__x < 4, 0.1, (4 <= __value__x) and (__value__x < 6), 8)
+    # Task: <task0>
+    task0 = [None]
     model1.setIntegrator('cvode')
+    model1['J0_v0'] = piecewise(8, __value__x < 4, 0.1, (4 <= __value__x) and (__value__x < 6), 8)
     model1.timeCourseSelections = ['S2', 'S1', 'J0_v0', 'time']
-    __subtask__ = model1.simulate(start=0.0, end=0.1, points=2)
-    task1.extend([__subtask__])
+    task0[0] = model1.simulate(start=0.0, end=0.1, points=2)
+
+    task1.extend(task0)
 
 # --------------------------------------------------------
 # DataGenerators

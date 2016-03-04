@@ -1,9 +1,9 @@
 """
     tellurium 1.3.1
 
-    auto-generated code (2016-03-03T20:21:06)
+    auto-generated code (2016-03-04T16:16:30)
     sedmlDoc: L1V2  
-    workingDir: /tmp/tmpO8HwAw_sedml/_te_testcase_02
+    workingDir: /tmp/tmpzHgd6F_sedml/_te_testcase_02
     inputType: COMBINE_FILE
 """
 from __future__ import print_function, division
@@ -16,7 +16,7 @@ import libsedml
 import pandas
 import os.path
 
-workingDir = '/tmp/tmpO8HwAw_sedml/_te_testcase_02'
+workingDir = '/tmp/tmpzHgd6F_sedml/_te_testcase_02'
 
 # --------------------------------------------------------
 # Models
@@ -32,22 +32,22 @@ model1['init([S1])'] = 5
 # Tasks
 # --------------------------------------------------------
 # Task <task0>
-task0 = [None]
-model1.setIntegrator('cvode')
-model1.timeCourseSelections = []
-task0[0] = model1.simulate(start=0.0, end=10.0, steps=100)
+# not part of any DataGenerator: task0
 
 # Task <task1>
-__range__uniform_linear_for_k1 = list(np.linspace(start=0.0, stop=5.0, num=6))
+
 task1 = []
-for k in range(len(__range__uniform_linear_for_k1)):
-    __value__uniform_linear_for_k1 = __range__uniform_linear_for_k1[k]
+__range__uniform_linear_for_k1 = np.linspace(start=0.0, stop=5.0, num=6)
+for __k__uniform_linear_for_k1, __value__uniform_linear_for_k1 in enumerate(__range__uniform_linear_for_k1):
     model1.reset()
-    model1['k1'] = __value__uniform_linear_for_k1
+    # execute simpleTask: <task0>
+    task0 = [None]
     model1.setIntegrator('cvode')
+    model1['k1'] = __value__uniform_linear_for_k1
     model1.timeCourseSelections = ['S2', 'S1', 'time']
-    __subtask__ = model1.simulate(start=0.0, end=10.0, steps=100)
-    task1.extend([__subtask__])
+    task0[0] = model1.simulate(start=0.0, end=10.0, steps=100)
+
+    task1.extend(task0)
 
 # --------------------------------------------------------
 # DataGenerators

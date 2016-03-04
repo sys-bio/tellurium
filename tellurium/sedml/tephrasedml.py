@@ -106,7 +106,6 @@ class experiment(object):
 
         # model info from phrasedml
         modelsource, modelname = self._modelInfoFromPhrasedml(phrasedmlStr)
-        print('Model source:', modelsource)
         # print('Model name:', modelname)
 
         # find index of antimony str

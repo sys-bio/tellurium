@@ -1,9 +1,9 @@
 """
     tellurium 1.3.1
 
-    auto-generated code (2016-03-02T16:52:00)
+    auto-generated code (2016-03-04T16:47:24)
     sedmlDoc: L1V2  
-    workingDir: /tmp/tmpBo0ZRb_sedml/_te_parameterScan1D
+    workingDir: /tmp/tmp215qD2_sedml/_te_parameterScan1D
     inputType: COMBINE_FILE
 """
 from __future__ import print_function, division
@@ -16,7 +16,7 @@ import libsedml
 import pandas
 import os.path
 
-workingDir = '/tmp/tmpBo0ZRb_sedml/_te_parameterScan1D'
+workingDir = '/tmp/tmp215qD2_sedml/_te_parameterScan1D'
 
 # --------------------------------------------------------
 # Models
@@ -28,21 +28,22 @@ model1 = te.loadSBMLModel(os.path.join(workingDir, 'parameterScan1D.xml'))
 # Tasks
 # --------------------------------------------------------
 # Task <task0>
-task0 = [None]
-model1.setIntegrator('cvode')
-model1.timeCourseSelections = []
-task0[0] = model1.simulate(start=0.0, end=20.0, steps=1000)
+# not part of any DataGenerator: task0
 
 # Task <task1>
+
+task1 = []
 __range__vector_for_J0_v0 = [8.0, 4.0, 0.40000000000000002]
-task1 = [None]*len(__range__vector_for_J0_v0)
-for k in range(len(__range__vector_for_J0_v0)):
+for __k__vector_for_J0_v0, __value__vector_for_J0_v0 in enumerate(__range__vector_for_J0_v0):
     model1.reset()
-    __value__vector_for_J0_v0 = __range__vector_for_J0_v0[k]
-    model1['J0_v0'] = __value__vector_for_J0_v0
+    # Task: <task0>
+    task0 = [None]
     model1.setIntegrator('cvode')
+    model1['J0_v0'] = __value__vector_for_J0_v0
     model1.timeCourseSelections = ['S2', 'S1', 'time']
-    task1[k] = model1.simulate(start=0.0, end=20.0, steps=1000)
+    task0[0] = model1.simulate(start=0.0, end=20.0, steps=1000)
+
+    task1.extend(task0)
 
 # --------------------------------------------------------
 # DataGenerators

@@ -1,5 +1,6 @@
 """
-Using outputStartTime to set of output
+Using outputStartTime to set of output.
+Two parallel repeated tasks.
 """
 from __future__ import print_function
 import tellurium as te

@@ -1,7 +1,7 @@
 """
     tellurium 1.3.1
 
-    auto-generated code (2016-03-03T12:32:48)
+    auto-generated code (2016-03-04T17:18:37)
     sedmlDoc: L1V1  
     workingDir: /home/mkoenig/git/tellurium/tellurium/tests/testdata/sedml/sed-ml
     inputType: SEDML_FILE
@@ -30,6 +30,7 @@ model1 = te.loadSBMLModel(__model1_sbml)
 # Tasks
 # --------------------------------------------------------
 # Task <task1>
+# Task: <task1>
 task1 = [None]
 model1.setIntegrator('cvode')
 model1.timeCourseSelections = ['[C]', '[M]', '[X]', 'time']
@@ -81,24 +82,24 @@ __gs = gridspec.GridSpec(1, 2, width_ratios=[3, 1])
 plt.subplot(__gs[0])
 for k in range(time.shape[1]):
     if k == 0:
-        plt.plot(time[:,k], C1[:,k], '-o', color='r', linewidth=1.5, markersize=4.0, alpha=0.8, label='C1')
+        plt.plot(time[:,k], C1[:,k], '-o', color='r', linewidth=1.5, markersize=3.0, alpha=0.8, label='C1')
     else:
-        plt.plot(time[:,k], C1[:,k], '-o', color='r', linewidth=1.5, markersize=4.0, alpha=0.8)
+        plt.plot(time[:,k], C1[:,k], '-o', color='r', linewidth=1.5, markersize=3.0, alpha=0.8)
 for k in range(time.shape[1]):
     if k == 0:
-        plt.plot(time[:,k], M1[:,k], '-o', color='b', linewidth=1.5, markersize=4.0, alpha=0.8, label='M1')
+        plt.plot(time[:,k], M1[:,k], '-o', color='b', linewidth=1.5, markersize=3.0, alpha=0.8, label='M1')
     else:
-        plt.plot(time[:,k], M1[:,k], '-o', color='b', linewidth=1.5, markersize=4.0, alpha=0.8)
+        plt.plot(time[:,k], M1[:,k], '-o', color='b', linewidth=1.5, markersize=3.0, alpha=0.8)
 for k in range(time.shape[1]):
     if k == 0:
-        plt.plot(time[:,k], X1[:,k], '-o', color='g', linewidth=1.5, markersize=4.0, alpha=0.8, label='X1')
+        plt.plot(time[:,k], X1[:,k], '-o', color='g', linewidth=1.5, markersize=3.0, alpha=0.8, label='X1')
     else:
-        plt.plot(time[:,k], X1[:,k], '-o', color='g', linewidth=1.5, markersize=4.0, alpha=0.8)
+        plt.plot(time[:,k], X1[:,k], '-o', color='g', linewidth=1.5, markersize=3.0, alpha=0.8)
 for k in range(time.shape[1]):
     if k == 0:
-        plt.plot(time[:,k], Total[:,k], '-o', color='m', linewidth=1.5, markersize=4.0, alpha=0.8, label='Total')
+        plt.plot(time[:,k], Total[:,k], '-o', color='m', linewidth=1.5, markersize=3.0, alpha=0.8, label='Total')
     else:
-        plt.plot(time[:,k], Total[:,k], '-o', color='m', linewidth=1.5, markersize=4.0, alpha=0.8)
+        plt.plot(time[:,k], Total[:,k], '-o', color='m', linewidth=1.5, markersize=3.0, alpha=0.8)
 plt.title('BioModel 3', fontweight='bold')
 plt.xlabel('time', fontweight='bold')
 __lg = plt.legend(bbox_to_anchor=(1.05, 1), loc=2, borderaxespad=0.)

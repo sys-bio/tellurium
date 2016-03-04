@@ -1,9 +1,9 @@
 """
     tellurium 1.3.1
 
-    auto-generated code (2016-03-04T10:59:10)
+    auto-generated code (2016-03-04T16:14:14)
     sedmlDoc: L1V2  
-    workingDir: /tmp/tmpCP0o4p_sedml/_te_testcase_01
+    workingDir: /tmp/tmpaRl_Q7_sedml/_te_testcase_01
     inputType: COMBINE_FILE
 """
 from __future__ import print_function, division
@@ -16,7 +16,7 @@ import libsedml
 import pandas
 import os.path
 
-workingDir = '/tmp/tmpCP0o4p_sedml/_te_testcase_01'
+workingDir = '/tmp/tmpaRl_Q7_sedml/_te_testcase_01'
 
 # --------------------------------------------------------
 # Models
@@ -28,7 +28,11 @@ model0 = te.loadSBMLModel(os.path.join(workingDir, 'testcase_01.xml'))
 # Tasks
 # --------------------------------------------------------
 # Task <task0>
-None
+# execute simpleTask: <task0>
+task0 = [None]
+model0.setIntegrator('cvode')
+model0.timeCourseSelections = ['S1', 'time']
+task0[0] = model0.simulate(start=0.0, end=10.0, steps=100)
 
 # --------------------------------------------------------
 # DataGenerators

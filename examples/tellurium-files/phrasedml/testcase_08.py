@@ -1,6 +1,6 @@
 """
 Set values in repeated Task & multiple tasks via same range
-Multiple subtasks.
+Multiple subtasks which have to be joined.
 """
 from __future__ import print_function
 import tellurium as te

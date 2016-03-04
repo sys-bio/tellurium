@@ -1,9 +1,9 @@
 """
     tellurium 1.3.1
 
-    auto-generated code (2016-03-04T08:38:20)
+    auto-generated code (2016-03-04T16:45:15)
     sedmlDoc: L1V2  
-    workingDir: /tmp/tmp4akmSP_sedml/_te_testcase_08
+    workingDir: /tmp/tmpnX4U9h_sedml/_te_testcase_08
     inputType: COMBINE_FILE
 """
 from __future__ import print_function, division
@@ -16,7 +16,7 @@ import libsedml
 import pandas
 import os.path
 
-workingDir = '/tmp/tmp4akmSP_sedml/_te_testcase_08'
+workingDir = '/tmp/tmpnX4U9h_sedml/_te_testcase_08'
 
 # --------------------------------------------------------
 # Models
@@ -30,35 +30,38 @@ mod2 = te.loadSBMLModel(os.path.join(workingDir, 'testcase_08.xml'))
 # Tasks
 # --------------------------------------------------------
 # Task <task1>
-task1 = [None]
-mod1.setIntegrator('cvode')
-mod1.timeCourseSelections = []
-task1[0] = mod1.simulate(start=0.0, end=10.0, steps=20)
+# not part of any DataGenerator: task1
 
 # Task <task2>
-task2 = [None]
-mod1.setIntegrator('cvode')
-mod1.timeCourseSelections = []
-task2[0] = mod1.simulate(start=0.0, end=3.0, steps=10)
+# not part of any DataGenerator: task2
 
 # Task <repeat1>
-__range__uniform_linear_for_S2 = list(np.linspace(start=0.0, stop=10.0, num=10))
+
 repeat1 = []
-for k in range(len(__range__uniform_linear_for_S2)):
-    __value__uniform_linear_for_S2 = __range__uniform_linear_for_S2[k]
-    if k == 0:
+__range__uniform_linear_for_S2 = np.linspace(start=0.0, stop=10.0, num=10)
+for __k__uniform_linear_for_S2, __value__uniform_linear_for_S2 in enumerate(__range__uniform_linear_for_S2):
+    if __k__uniform_linear_for_S2 == 0:
         mod1.reset()
+    # Task: <task1>
+    task1 = [None]
+    mod1.setIntegrator('cvode')
     mod1['S2'] = __value__uniform_linear_for_S2
-    __var__S2 = mod1['S2']
-    mod1['S1'] = __var__S2 + 3
-    mod1.setIntegrator('cvode')
+    __value__S2 = mod1['S2']
+    mod1['S1'] = __value__S2 + 3
     mod1.timeCourseSelections = ['S2', 'S1', 'time']
-    __subtask__ = mod1.simulate(start=0.0, end=10.0, steps=20)
-    repeat1.extend([__subtask__])
+    task1[0] = mod1.simulate(start=0.0, end=10.0, steps=20)
+    # Task: <task2>
+    task2 = [None]
     mod1.setIntegrator('cvode')
+    mod1['S2'] = __value__uniform_linear_for_S2
+    __value__S2 = mod1['S2']
+    mod1['S1'] = __value__S2 + 3
     mod1.timeCourseSelections = ['S2', 'S1', 'time']
-    __subtask__ = mod1.simulate(start=0.0, end=3.0, steps=10)
-    repeat1.extend([__subtask__])
+    task2[0] = mod1.simulate(start=0.0, end=3.0, steps=10)
+
+    task1.extend(task2)
+
+    repeat1.extend(task1)
 
 # --------------------------------------------------------
 # DataGenerators

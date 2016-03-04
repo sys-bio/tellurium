@@ -435,7 +435,6 @@ class SEDMLCodeFactory(object):
         def __str__(self):
             return "stack: " + str([item.info() for item in self.items])
 
-
     @staticmethod
     def createTaskTree(doc, rootTask):
         """ Creates the task tree.
@@ -477,12 +476,8 @@ class SEDMLCodeFactory(object):
     @staticmethod
     def taskTreeToPython(doc, tree):
         """ Python code generation from task tree. """
-        print('-' * 80)
         print(tree)
-        print('-' * 80)
 
-        # TODO: howto handle selections via tree
-        # TODO: howto handle resets via tree
         # TODO: implement the merge of subtasks & and collection of simulations
 
         # go forward through task tree
@@ -492,8 +487,8 @@ class SEDMLCodeFactory(object):
 
         # iterate over the tree
         for kn, node in enumerate(treeNodes):
-            print("* [{}] <{} ({})>".format(node.depth, node.task.getId(), node.task.getElementName()))
-            print(nodeStack)
+            # print("* [{}] <{} ({})>".format(node.depth, node.task.getId(), node.task.getElementName()))
+            # print(nodeStack)
             taskType = node.task.getTypeCode()
 
             # Create information for task
@@ -541,10 +536,11 @@ class SEDMLCodeFactory(object):
             # The next node is further up in the tree, or there is no next node
             # and still nodes on the stack
             if (nextNode is None) or (nextNode.depth < node.depth):
-                if (nextNode is None):
-                    print('last node')
-                else:
-                    print('nextNode higher')
+                # if (nextNode is None):
+                #     print('last node')
+                # else:
+                #     print('nextNode higher')
+
                 # necessary to pop nodes from the stack and close the code
                 test = True
                 while test is True:
@@ -555,18 +551,19 @@ class SEDMLCodeFactory(object):
                     # try to pop next one
                     peek = nodeStack.peek()
                     if (nextNode is None) or (peek.depth > nextNode.depth):
+                        # TODO: the reset evaluation has to be done here
                         lines.extend([
                             "",
                             "    "*node.depth + "{}.extend({})".format(peek.task.getId(), node.task.getId()),
                         ])
                         node = nodeStack.pop()
-                        print("pop:", peek.info())
+                        # print("pop:", peek.info())
                     else:
                         test = False
             else:
                 # we are going done or next subtask -> put node on stack
                 nodeStack.push(node)
-                print("push:", node.info())
+                # print("push:", node.info())
 
         return "\n".join(lines)
 
@@ -583,7 +580,7 @@ class SEDMLCodeFactory(object):
         """
         lines = []
         task = node.task
-        lines.append("# execute simpleTask: <{}>".format(task.getId()))
+        lines.append("# Task: <{}>".format(task.getId()))
         lines.append("{} = [None]".format(task.getId()))
 
         mid = task.getModelReference()
@@ -616,20 +613,21 @@ class SEDMLCodeFactory(object):
             lines.append("{}.getIntegrator().setValue('{}', '{}')".format(mid, pkey.key, pkey.value))
             # FIXME: settings for steady state solver have to be set via {}.steadyStateSolver
 
+        if simType == libsedml.SEDML_SIMULATION_STEADYSTATE:
+            lines.append("{}.conservedMoietyAnalysis = True".format(mid))
+
         # get parents
         parents = []
         parent = node.parent
         while parent is not None:
             parents.append(parent)
             parent = parent.parent
-        print(parents)
 
         # <selections> of all parents
         # ---------------------------
         selections = SEDMLCodeFactory.selectionsForTask(doc=doc, task=node.task)
         for p in parents:
             selections.update(SEDMLCodeFactory.selectionsForTask(doc=doc, task=p.task))
-        print(selections)
 
         # <setValues> of all parents
         # ---------------------------
@@ -654,10 +652,11 @@ class SEDMLCodeFactory(object):
                     vid = var.getId()
                     mid = var.getModelReference()
                     selection = SEDMLCodeFactory.resolveSelectionFromVariable(var)
+                    variables[vid] = "__value__{}".format(vid)
                     if type == "species":
-                        variables[vid] = "{}['[{}]']".format(vid, mid, selection.id)
+                        lines.append("__value__{} = {}['[{}]']".format(vid, mid, selection.id))
                     else:
-                        variables[vid] = "{}['{}']".format(vid, mid, selection.id)
+                        lines.append("__value__{} = {}['{}']".format(vid, mid, selection.id))
 
                 # value is calculated with the current state of model
                 value = evaluableMathML(setValue.getMath(), variables=variables)
@@ -698,12 +697,9 @@ class SEDMLCodeFactory(object):
         # <STEADY STATE>
         # -------------------------------------------------------------------------
         elif simType == libsedml.SEDML_SIMULATION_STEADYSTATE:
-            lines.append("Config = {}".format(mid, list(selections)))
-            lines.append("{}.conservedMoietyAnalysis = True".format(mid))
             lines.append("{}.steadyStateSelections = {}".format(mid, list(selections)))
-            lines.append("{}.steadyState()".format(mid))
-            # FIX as long as no NamedArrays are returned
-            lines.append("{} = dict(zip({}.steadyStateSelections, {}.getSteadyStateValues()))".format(resultVariable, mid, mid))
+            lines.append("{}.simulate()".format(mid))  # for stability of the steady state solver
+            lines.append("{} = {}.steadyState()".format(resultVariable, mid))
             lines.append("{}.conservedMoietyAnalysis = False".format(mid))
 
         # -------------------------------------------------------------------------
@@ -777,10 +773,11 @@ class SEDMLCodeFactory(object):
                         vid = var.getId()
                         mid = var.getModelReference()
                         selection = SEDMLCodeFactory.resolveSelectionFromVariable(var)
+                        variables[vid] = "__value__{}".format(vid)
                         if type == "species":
-                            variables[vid] = "{}['[{}]']".format(vid, mid, selection.id)
+                            lines.append("__value__{} = {}['[{}]']".format(vid, mid, selection.id))
                         else:
-                            variables[vid] = "{}['{}']".format(vid, mid, selection.id)
+                            lines.append("__value__{} = {}['{}']".format(vid, mid, selection.id))
 
                     # value is calculated with the current state of model
                     value = evaluableMathML(r.getMath(), variables=variables)
@@ -1226,7 +1223,7 @@ class SEDMLCodeFactory(object):
             facecolor='w',
             edgecolor='k',
             linewidth=1.5,
-            markersize=4.0,
+            markersize=3.0,
             alpha=0.8
         )
         return settings
