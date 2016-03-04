@@ -122,7 +122,7 @@ class experiment(object):
         phrasedml.setReferencedSBML(modelsource, te.antimonyToSBML(self.antimonyList[antIndex]))
         sedmlstr = phrasedml.convertString(phrasedmlStr)
         if sedmlstr is None:
-            raise Exception(phrasedml.getLastPhrasedError())
+            raise Exception(phrasedml.getLastError())
 
         phrasedml.clearReferencedSBML()
         f = tempfile.NamedTemporaryFile('w', suffix=".sedml")

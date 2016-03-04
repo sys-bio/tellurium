@@ -2,24 +2,25 @@
 """
 Tellurium SED-ML support.
 
-This module reads SED-ML files ('.sedml' extension) or archives ('.sedx' extension)
-and generates executable python code.
-To work with phrasedml files convert these to SED-ML first (see `tephrasedml.py`).
+This module implements SED-ML L1V2 support for tellurium.
+In the current implementation all SED-ML constructs with exception of
+    XML transformation changes of the model
+        - Change.RemoveXML
+        - Change.AddXML
+        - Change.ChangeXML
+are supported.
 
-::
+SBML models are fully supported, whereas for CellML models only basic support
+is implemented (when additional support is requested it be implemented).
+CellML models are transformed to SBML models which results in different XPath expressions,
+so that targets, selections cannot be easily resolved in the CellMl-SBML.
 
-    # execute example sedml
-    import tellurium.tesedml as s2p
-    ret = s2p.sedmlToPython('example.sedml')
-    exec ret
+Supported input for SED-ML are either SED-ML files ('.sedml' extension),
+SED-ML XML strings or archives ('.sedx'|'.omex' extension).
+Executable python code is generated from the SED-ML which allows the
+execution of the defined simulation experiment.
 
-    # execute sedml archive (sedx)
-    import SedmlToRr as s2p
-    ret = s2p.sedmlToPython("example.sedx")
-    exec ret
-
-
-SED-ML is build of five main classes, which are translated in python code:
+SED-ML is build of five main classes
     the Model Class,
     the Simulation Class,
     the Task Class,
@@ -69,23 +70,23 @@ The Output Class
 from __future__ import print_function, division
 
 import sys
+import os.path
 import warnings
 import datetime
 import zipfile
 from collections import namedtuple
-import os.path
 import re
 import numpy as np
-from mathml import evaluateMathML, evaluableMathML
+from jinja2 import Environment, FileSystemLoader
+from mathml import evaluableMathML
 
 import libsedml
-from jinja2 import Environment, FileSystemLoader
 
 import tellurium as te
 from tellurium.tecombine import CombineTools
 
 try:
-    # requrired imports
+    # requrired imports within generated code
     import pandas
     import matplotlib.pyplot as plt
     import mpl_toolkits.mplot3d
@@ -126,23 +127,9 @@ def sedmlToPython(inputStr):
 
 
 class SEDMLCodeFactory(object):
-    """ Code Factory generating executable code.
-        All implemented operations are supported for SBML models,
-        wheras the cellml support is very limited.
-
-        The following SED-ML constructs are currently NOT supported:
-            1. XML transformation changes:
-                - Change.RemoveXML
-                - Change.AddXML
-                - Change.ChangeXML
-
-            2. Repeated simulations of repeated simulations
-
-            3. Functional evaluation of MathML expressions
-                - functional range
-                - data generators
-                - Change.ComputeChange
-    """
+    """ Code Factory generating executable code."""
+    # TODO: implement proper resolving of xpath expressions (target, selection) (see xpath.py for example)
+    # TODO: implement XML changes
 
     # template location
     TEMPLATE_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'templates')
@@ -504,6 +491,7 @@ class SEDMLCodeFactory(object):
                         variables[par.getId()] = par.getValue()
                     for var in r.getListOfVariables():
                         vid = var.getId()
+                        mid = var.getModelReference()
                         selection = SEDMLCodeFactory.resolveSelectionFromVariable(var)
                         if type == "species":
                             forLines.append("__var__{} = {}['[{}]']".format(vid, mid, selection.id))
@@ -660,7 +648,7 @@ class SEDMLCodeFactory(object):
             # throw some points away
             if abs(outputStartTime - initialTime) > 1E-6:
                 lines.append("{}.simulate(start={}, end={}, points=2)".format(
-                                    mid, initialTime+offset, outputStartTime))
+                                    mid, initialTime, outputStartTime))
             # real simulation
             lines.append("{} = {}.simulate(start={}, end={}, steps={})".format(
                                     resultVariable, mid, outputStartTime, outputEndTime, numberOfPoints))
@@ -1075,6 +1063,7 @@ class SEDMLCodeFactory(object):
         :rtype: list(str)
         """
         # TODO: handle mix of log and linear axis
+        # TODO: display range information in Legend|TextBox (than it is clear in Figure what was iterated)
         lines = []
         settings = SEDMLCodeFactory.outputPlotSettings()
 
