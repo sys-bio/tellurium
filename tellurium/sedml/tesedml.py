@@ -67,6 +67,11 @@ The Output Class
     and the according axes or columns are all assigned to one of the formerly specified instances
     of the DataGenerator class.
 """
+# TODO: implement proper resolving of xpath expressions (target, selection) (see xpath.py for example)
+# TODO: implement XML changes
+# FIXME: bug multiple model instances of same model (https://github.com/sys-bio/roadrunner/issues/305)
+# FIXME: bug in creation of combine archives (missing .xml)
+
 from __future__ import print_function, division
 
 import sys
@@ -128,8 +133,6 @@ def sedmlToPython(inputStr):
 
 class SEDMLCodeFactory(object):
     """ Code Factory generating executable code."""
-    # TODO: implement proper resolving of xpath expressions (target, selection) (see xpath.py for example)
-    # TODO: implement XML changes
 
     # template location
     TEMPLATE_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'templates')
@@ -352,6 +355,12 @@ class SEDMLCodeFactory(object):
 
         return lines
 
+    ################################################################################################
+    # Here the main work is done,
+    # the transformation of the tasks to python code.
+    ################################################################################################
+
+
     @staticmethod
     def taskToPython(doc, task):
         """ Create python for arbitrary task (repeated or simple).
@@ -363,8 +372,18 @@ class SEDMLCodeFactory(object):
         :return:
         :rtype:
         """
+        # If no DataGenerator references the task, no execution is necessary
+        dgs = SEDMLCodeFactory.getDataGeneratorsForTask(doc, task)
+        if len(dgs) == 0:
+            return "# Task not used in any DataGenerator: {}".format(task.getId())
+
+        # otherwise we generate the task
         lines = []
         taskType = task.getTypeCode()
+
+        # resolve the task tree, i.e. what is the order of tasks
+        # is it tree or list?
+
 
         # <SIMPLE TASK>
         if taskType == libsedml.SEDML_TASK:
@@ -374,7 +393,9 @@ class SEDMLCodeFactory(object):
             lines.extend(SEDMLCodeFactory.repeatedTaskToPython(doc, task))
         else:
             lines.append("# Unsupported task: {}".format(taskType))
+            warnings.warn("Unsupported task: {}".format(taskType))
         return '\n'.join(lines)
+
 
     @staticmethod
     def simpleTaskToPython(doc, task):
@@ -388,39 +409,6 @@ class SEDMLCodeFactory(object):
                                                       selections=selections,
                                                       resultVariable=resultVariable))
         return lines
-
-
-    @staticmethod
-    def uniformRangeToPython(r):
-        """ Create python lines for uniform range.
-        :param r:
-        :type r:
-        :return:
-        :rtype:
-        """
-        lines = []
-        rId = r.getId()
-        rStart = r.getStart()
-        rEnd = r.getEnd()
-        rPoints = r.getNumberOfPoints()+1  # One point more than number of points
-        rType = r.getType()
-        if rType in ['Linear', 'linear']:
-            lines.append("__range__{} = list(np.linspace(start={}, stop={}, num={}))".format(rId, rStart, rEnd, rPoints))
-        elif rType in ['Log', 'log']:
-            lines.append("__range__{} = list(np.logspace(start={}, stop={}, num={}))".format(rId, rStart, rEnd, rPoints))
-        else:
-            warnings.warn("Unsupported range type in UniformRange: {}".format(rType))
-        return lines
-
-    @staticmethod
-    def vectorRangeToPython(r):
-        lines = []
-        __range = np.zeros(shape=[r.getNumValues()])
-        for k, v in enumerate(r.getValues()):
-            __range[k] = v
-        lines.append("__range__{} = {}".format(r.getId(), list(__range)))
-        return lines
-
 
     @staticmethod
     def repeatedTaskToPython(doc, task):
@@ -587,7 +575,6 @@ class SEDMLCodeFactory(object):
 
         return lines
 
-
     @staticmethod
     def subtaskToPython(doc, task, selections, resultVariable=None):
         """ Creates the simulation python code for a given task.
@@ -680,6 +667,28 @@ class SEDMLCodeFactory(object):
 
         return lines
 
+    ################################################################################################
+    ################################################################################################
+
+    @staticmethod
+    def getDataGeneratorsForTask(doc, task):
+        """ Get the DataGenerators which reference the given task.
+
+        :param doc:
+        :type doc:
+        :param task:
+        :type task:
+        :return:
+        :rtype:
+        """
+        dgs = []
+        for dg in doc.getListOfDataGenerators():
+            for var in dg.getListOfVariables():
+                if var.getTaskReference() == task.getId():
+                    dgs.append(dg)
+                    break  # the DataGenerator is added, no need to look at rest of variables
+        return dgs
+
     @staticmethod
     def selectionsForTask(doc, task):
         """ Populate variable lists from the data generators for the given task.
@@ -692,14 +701,44 @@ class SEDMLCodeFactory(object):
         selections = set()
         for dg in doc.getListOfDataGenerators():
             for var in dg.getListOfVariables():
-                # either has not task reference or not for the current task
-                if var.getTaskReference() != task.getId():
-                    continue
-
-                sel = SEDMLCodeFactory.resolveSelectionFromVariable(var)
-                selections.add(sel.id)
+                if var.getTaskReference() == task.getId():
+                    sel = SEDMLCodeFactory.resolveSelectionFromVariable(var)
+                    selections.add(sel.id)
 
         return selections
+
+
+    @staticmethod
+    def uniformRangeToPython(r):
+        """ Create python lines for uniform range.
+        :param r:
+        :type r:
+        :return:
+        :rtype:
+        """
+        lines = []
+        rId = r.getId()
+        rStart = r.getStart()
+        rEnd = r.getEnd()
+        rPoints = r.getNumberOfPoints()+1  # One point more than number of points
+        rType = r.getType()
+        if rType in ['Linear', 'linear']:
+            lines.append("__range__{} = list(np.linspace(start={}, stop={}, num={}))".format(rId, rStart, rEnd, rPoints))
+        elif rType in ['Log', 'log']:
+            lines.append("__range__{} = list(np.logspace(start={}, stop={}, num={}))".format(rId, rStart, rEnd, rPoints))
+        else:
+            warnings.warn("Unsupported range type in UniformRange: {}".format(rType))
+        return lines
+
+    @staticmethod
+    def vectorRangeToPython(r):
+        lines = []
+        __range = np.zeros(shape=[r.getNumValues()])
+        for k, v in enumerate(r.getValues()):
+            __range[k] = v
+        lines.append("__range__{} = {}".format(r.getId(), list(__range)))
+        return lines
+
 
     @staticmethod
     def resolveSelectionFromVariable(var):

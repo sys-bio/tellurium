@@ -1,9 +1,9 @@
 """
     tellurium 1.3.1
 
-    auto-generated code (2016-03-04T09:15:15)
+    auto-generated code (2016-03-04T09:51:58)
     sedmlDoc: L1V2  
-    workingDir: /tmp/tmpzt4NK4_sedml/_te_testcase_11
+    workingDir: /tmp/tmpD1tByQ_sedml/_te_testcase_11
     inputType: COMBINE_FILE
 """
 from __future__ import print_function, division
@@ -16,7 +16,7 @@ import libsedml
 import pandas
 import os.path
 
-workingDir = '/tmp/tmpzt4NK4_sedml/_te_testcase_11'
+workingDir = '/tmp/tmpD1tByQ_sedml/_te_testcase_11'
 
 # --------------------------------------------------------
 # Models
@@ -28,44 +28,13 @@ mod1 = te.loadSBMLModel(os.path.join(workingDir, 'testcase_11.xml'))
 # Tasks
 # --------------------------------------------------------
 # Task <task1>
-task1 = [None]
-mod1.setIntegrator('cvode')
-mod1.timeCourseSelections = []
-task1[0] = mod1.simulate(start=0.0, end=10.0, steps=100)
+
 
 # Task <rtask1>
-__range__uniform_linear_for_k1 = list(np.linspace(start=0.0, stop=1.0, num=6))
-rtask1 = []
-for k in range(len(__range__uniform_linear_for_k1)):
-    __value__uniform_linear_for_k1 = __range__uniform_linear_for_k1[k]
-    if k == 0:
-        mod1.reset()
-    mod1['k1'] = __value__uniform_linear_for_k1
-    mod1.setIntegrator('cvode')
-    mod1.timeCourseSelections = []
-    __subtask__ = mod1.simulate(start=0.0, end=10.0, steps=100)
-    rtask1.extend([__subtask__])
+
 
 # Task <rtask2>
-__range__uniform_linear_for_k2 = list(np.linspace(start=0.0, stop=1.0, num=6))
-rtask2 = []
-for k in range(len(__range__uniform_linear_for_k2)):
-    __value__uniform_linear_for_k2 = __range__uniform_linear_for_k2[k]
-    if k == 0:
-        mod1.reset()
-    mod1['k2'] = __value__uniform_linear_for_k2
-    __range__uniform_linear_for_k1 = list(np.linspace(start=0.0, stop=1.0, num=6))
-    rtask1 = []
-    for k in range(len(__range__uniform_linear_for_k1)):
-        __value__uniform_linear_for_k1 = __range__uniform_linear_for_k1[k]
-        if k == 0:
-            mod1.reset()
-        mod1['k1'] = __value__uniform_linear_for_k1
-        mod1.setIntegrator('cvode')
-        mod1.timeCourseSelections = []
-        __subtask__ = mod1.simulate(start=0.0, end=10.0, steps=100)
-        rtask1.extend([__subtask__])
-    rtask2.extend(rtask1)
+
 
 # Task <rtask3>
 __range__vector_for_S1 = [5.0, 10.0]
