@@ -386,9 +386,14 @@ class SEDMLCodeFactory(object):
             self.task = task
             self.depth = depth
             self.children = []
+            self.parent = None
 
         def add_child(self, obj):
+            obj.parent = self
             self.children.append(obj)
+
+        def is_leaf(self):
+            return len(self.children) == 0
 
         def __str__(self):
             lines = ["<[{}] {} ({})>".format(self.depth, self.task.getId(), self.task.getElementName())]
@@ -397,12 +402,39 @@ class SEDMLCodeFactory(object):
                 lines.extend(["\t{}".format(line) for line in child_str.split('\n')])
             return "\n".join(lines)
 
+        def info(self):
+            return "<[{}] {} ({})>".format(self.depth, self.task.getId(), self.task.getElementName())
+
         def __iter__(self):
             """ Depth-first iterator which yields TaskNodes."""
             yield self
             for child in self.children:
                 for node in child:
                     yield node
+
+    class Stack(object):
+        """ Stack implementation for nodes."""
+        def __init__(self):
+            self.items = []
+
+        def isEmpty(self):
+            return self.items == []
+
+        def push(self, item):
+            self.items.append(item)
+
+        def pop(self):
+            return self.items.pop()
+
+        def peek(self):
+            return self.items[len(self.items)-1]
+
+        def size(self):
+            return len(self.items)
+
+        def __str__(self):
+            return "stack: " + str([item.info() for item in self.items])
+
 
     @staticmethod
     def createTaskTree(doc, rootTask):
@@ -451,13 +483,21 @@ class SEDMLCodeFactory(object):
 
         # TODO: howto handle selections via tree
         # TODO: howto handle resets via tree
+        # TODO: implement the merge of subtasks & and collection of simulations
 
         # go forward through task tree
         lines = []
-        for node in tree:
+        nodeStack = SEDMLCodeFactory.Stack()
+        treeNodes = [n for n in tree]
+
+        # iterate over the tree
+        for kn, node in enumerate(treeNodes):
             print("* [{}] <{} ({})>".format(node.depth, node.task.getId(), node.task.getElementName()))
+            print(nodeStack)
             taskType = node.task.getTypeCode()
 
+            # Create information for task
+            # We are going down in the tree
             if taskType == libsedml.SEDML_TASK_REPEATEDTASK:
                 taskLines = SEDMLCodeFactory.repeatedTaskToPython(doc, node.task)
 
@@ -470,17 +510,61 @@ class SEDMLCodeFactory(object):
                 ]
                 resultVariable = "{}[0]".format(tid)
                 selections = SEDMLCodeFactory.selectionsForTask(doc=doc, task=node.task)
+                parent = node.parent
+                while parent is not None:
+                    selections.update(SEDMLCodeFactory.selectionsForTask(doc=doc, task=parent.task))
+                    parent = parent.parent
+                print(selections)
                 taskLines.extend(SEDMLCodeFactory.simpleTaskToPython(doc=doc, task=node.task,
                                                       selections=selections,
                                                       resultVariable=resultVariable))
             else:
                 lines.append("# Unsupported task: {}".format(taskType))
                 warnings.warn("Unsupported task: {}".format(taskType))
+
             lines.extend(["    "*node.depth + line for line in taskLines])
 
-        # go backwards through task tree (to collect)
 
-        return '\n'.join(lines)
+            # Collect information
+            # We have to go back up
+            # Look at next node in the treeNodes (this is the next one to write)
+            if kn == (len(treeNodes)-1):
+                nextNode = None
+            else:
+                nextNode = treeNodes[kn+1]
+
+            # The next node is further up in the tree, or there is no next node
+            # and still nodes on the stack
+            if (nextNode is None) or (nextNode.depth < node.depth):
+                if (nextNode is None):
+                    print('last node')
+                else:
+                    print('nextNode higher')
+                # necessary to pop nodes from the stack and close the code
+                test = True
+                while test is True:
+                    # stack is empty
+                    if nodeStack.size() == 0:
+                        test = False
+                        continue
+                    # try to pop next one
+                    peek = nodeStack.peek()
+                    if (nextNode is None) or (peek.depth > nextNode.depth):
+                        lines.extend([
+                            "",
+                            "    "*peek.depth + "{}.extend({})".format(peek.task.getId(), node.task.getId()),
+                        ])
+                        node = nodeStack.pop()
+                        print("pop:", peek.info())
+                    else:
+                        test = False
+            else:
+                # we are going done or next subtask -> put node on stack
+                nodeStack.push(node)
+                print("push:", node.info())
+
+
+        return "\n".join(lines)
 
     '''
     @staticmethod
