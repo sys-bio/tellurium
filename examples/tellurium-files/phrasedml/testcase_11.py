@@ -17,10 +17,10 @@ phrasedmlStr = '''
   mod1 = model "testcase_11"
   sim1 = simulate uniform(0, 10, 100)
   task1 = run sim1 on mod1
-  rtask1 = repeat task1 for k1 in uniform(0, 1, 5)
-  rtask2 = repeat rtask1 for k2 in uniform(0, 1, 5)
-  rtask3 = repeat rtask2 for S1 in [5, 10]
-  plot rtask3.time vs rtask3.S1, rtask3.S2
+  rtask1 = repeat task1 for k1 in uniform(0, 1, 2)
+  rtask2 = repeat rtask1 for k2 in uniform(0, 1, 3)
+  rtask3 = repeat rtask2 for S1 in [5, 10], reset=true
+  plot "RepeatedTask of RepeatedTask" rtask3.time vs rtask3.S1, rtask3.S2
 '''
 
 # phrasedml experiment
