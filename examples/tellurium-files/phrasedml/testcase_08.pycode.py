@@ -1,9 +1,9 @@
 """
     tellurium 1.3.1
 
-    auto-generated code (2016-03-04T16:45:15)
+    auto-generated code (2016-03-04T17:24:31)
     sedmlDoc: L1V2  
-    workingDir: /tmp/tmpnX4U9h_sedml/_te_testcase_08
+    workingDir: /tmp/tmpiVMK5v_sedml/_te_testcase_08
     inputType: COMBINE_FILE
 """
 from __future__ import print_function, division
@@ -16,7 +16,7 @@ import libsedml
 import pandas
 import os.path
 
-workingDir = '/tmp/tmpnX4U9h_sedml/_te_testcase_08'
+workingDir = '/tmp/tmpiVMK5v_sedml/_te_testcase_08'
 
 # --------------------------------------------------------
 # Models
@@ -59,9 +59,8 @@ for __k__uniform_linear_for_S2, __value__uniform_linear_for_S2 in enumerate(__ra
     mod1.timeCourseSelections = ['S2', 'S1', 'time']
     task2[0] = mod1.simulate(start=0.0, end=3.0, steps=10)
 
-    task1.extend(task2)
-
-    repeat1.extend(task1)
+    # task1.extend(task2)
+    repeat1.extend(__subtasks__)
 
 # --------------------------------------------------------
 # DataGenerators
@@ -99,14 +98,14 @@ __gs = gridspec.GridSpec(1, 2, width_ratios=[3, 1])
 plt.subplot(__gs[0])
 for k in range(plot_0_0_0.shape[1]):
     if k == 0:
-        plt.plot(plot_0_0_0[:,k], plot_0_0_1[:,k], '-o', color='r', linewidth=1.5, markersize=4.0, alpha=0.8, label='repeat1.mod1.S1')
+        plt.plot(plot_0_0_0[:,k], plot_0_0_1[:,k], '-o', color='r', linewidth=1.5, markersize=3.0, alpha=0.8, label='repeat1.mod1.S1')
     else:
-        plt.plot(plot_0_0_0[:,k], plot_0_0_1[:,k], '-o', color='r', linewidth=1.5, markersize=4.0, alpha=0.8)
+        plt.plot(plot_0_0_0[:,k], plot_0_0_1[:,k], '-o', color='r', linewidth=1.5, markersize=3.0, alpha=0.8)
 for k in range(plot_0_0_0.shape[1]):
     if k == 0:
-        plt.plot(plot_0_0_0[:,k], plot_0_1_1[:,k], '-o', color='b', linewidth=1.5, markersize=4.0, alpha=0.8, label='repeat1.mod1.S2')
+        plt.plot(plot_0_0_0[:,k], plot_0_1_1[:,k], '-o', color='b', linewidth=1.5, markersize=3.0, alpha=0.8, label='repeat1.mod1.S2')
     else:
-        plt.plot(plot_0_0_0[:,k], plot_0_1_1[:,k], '-o', color='b', linewidth=1.5, markersize=4.0, alpha=0.8)
+        plt.plot(plot_0_0_0[:,k], plot_0_1_1[:,k], '-o', color='b', linewidth=1.5, markersize=3.0, alpha=0.8)
 plt.title('Repeated Multiple Subtasks', fontweight='bold')
 plt.xlabel('repeat1.mod1.time', fontweight='bold')
 __lg = plt.legend(bbox_to_anchor=(1.05, 1), loc=2, borderaxespad=0.)

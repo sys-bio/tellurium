@@ -23,7 +23,7 @@
     </dataGenerator>
     <dataGenerator id="Total_NFkBn" name="Total_NFkBn">
       <listOfVariables>
-        <variable id="Total_NFkBn_Total_NFkBn_0" taskReference="task1" target="/sbml:sbml/sbml:model/sbml:listOfParameters/sbml:parameter[@id='Total_NFkBn']" />
+        <variable id="Total_NFkBn" taskReference="task1" target="/sbml:sbml/sbml:model/sbml:listOfParameters/sbml:parameter[@id='Total_NFkBn']" />
       </listOfVariables>
       <math xmlns="http://www.w3.org/1998/Math/MathML">
         <ci> Total_NFkBn </ci>

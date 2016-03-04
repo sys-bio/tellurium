@@ -23,7 +23,7 @@
     </dataGenerator>
     <dataGenerator id="X" name="X">
       <listOfVariables>
-        <variable id="X_X_0" taskReference="task1" target="/sbml:sbml/sbml:model/sbml:listOfSpecies/sbml:species[@id='X']" />
+        <variable id="X" taskReference="task1" target="/sbml:sbml/sbml:model/sbml:listOfSpecies/sbml:species[@id='X']" />
       </listOfVariables>
       <math xmlns="http://www.w3.org/1998/Math/MathML">
         <ci> X </ci>
@@ -31,7 +31,7 @@
     </dataGenerator>
     <dataGenerator id="Y" name="Y">
       <listOfVariables>
-        <variable id="Y_Y_0" taskReference="task1" target="/sbml:sbml/sbml:model/sbml:listOfSpecies/sbml:species[@id='Y']" />
+        <variable id="Y" taskReference="task1" target="/sbml:sbml/sbml:model/sbml:listOfSpecies/sbml:species[@id='Y']" />
       </listOfVariables>
       <math xmlns="http://www.w3.org/1998/Math/MathML">
         <ci> Y </ci>
@@ -39,7 +39,7 @@
     </dataGenerator>
     <dataGenerator id="Z" name="Z">
       <listOfVariables>
-        <variable id="Z_Z_0" taskReference="task1" target="/sbml:sbml/sbml:model/sbml:listOfSpecies/sbml:species[@id='Z']" />
+        <variable id="Z" taskReference="task1" target="/sbml:sbml/sbml:model/sbml:listOfSpecies/sbml:species[@id='Z']" />
       </listOfVariables>
       <math xmlns="http://www.w3.org/1998/Math/MathML">
         <ci> Z </ci>

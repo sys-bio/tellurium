@@ -28,7 +28,7 @@
           <listOfVariables />
           <listOfParameters />
           <math:math>
-            <math:ci>s1_init_uM</math:ci>
+            <math:ci>range_0_0_s1_init_uM</math:ci>
           </math:math>
         </setValue>
       </listOfChanges>

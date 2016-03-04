@@ -33,7 +33,7 @@
         <variable id="tim1_v1_0" taskReference="task1" target="/sbml:sbml/sbml:model/sbml:listOfSpecies/sbml:species[@id='Mt']" />
       </listOfVariables>
       <math xmlns="http://www.w3.org/1998/Math/MathML">
-        <ci> v1 </ci>
+        <ci> tim1_v1_0 </ci>
       </math>
     </dataGenerator>
     <dataGenerator id="tim2" name="tim2">
@@ -41,7 +41,7 @@
         <variable id="tim2_v2_0" taskReference="task2" target="/sbml:sbml/sbml:model/sbml:listOfSpecies/sbml:species[@id='Mt']" />
       </listOfVariables>
       <math xmlns="http://www.w3.org/1998/Math/MathML">
-        <ci> v2 </ci>
+        <ci> tim2_v2_0 </ci>
       </math>
     </dataGenerator>
     <dataGenerator id="tim3" name="tim3">

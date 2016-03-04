@@ -72,6 +72,8 @@ The Output Class
 # TODO: implement XML changes
 # FIXME: bug multiple model instances of same model (https://github.com/sys-bio/roadrunner/issues/305)
 # FIXME: bug in creation of combine archives (missing .xml)
+# TODO: concatenate subtasks
+# TODO: better handling of model.reset for task tree
 
 from __future__ import print_function, division
 
@@ -551,13 +553,14 @@ class SEDMLCodeFactory(object):
                     # try to pop next one
                     peek = nodeStack.peek()
                     if (nextNode is None) or (peek.depth > nextNode.depth):
-                        # TODO: the reset evaluation has to be done here
+                        # TODO: reset evaluation has to be defined here
                         lines.extend([
                             "",
                             "    "*node.depth + "{}.extend({})".format(peek.task.getId(), node.task.getId()),
                         ])
                         node = nodeStack.pop()
                         # print("pop:", peek.info())
+
                     else:
                         test = False
             else:
@@ -1120,6 +1123,7 @@ class SEDMLCodeFactory(object):
 
         # create python for variables
         for var in generator.getListOfVariables():
+            varId = var.getId()
             taskId = var.getTaskReference()
             task = doc.getTask(taskId)
 
@@ -1561,6 +1565,9 @@ if __name__ == "__main__":
             f.write(python_str)
         # execute python
         factory.executePython()
+
+    testInput(os.path.join(sedmlDir, "sedMLBIOM21.sedml"))
+
 
     # Check sed-ml files
     for fname in sorted(os.listdir(sedmlDir)):
