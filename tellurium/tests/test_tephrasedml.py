@@ -5,6 +5,9 @@ from __future__ import print_function
 import unittest
 import tellurium.tephrasedml as tephrasedml
 import tempfile
+import tellurium as te
+import os
+import shutil
 
 
 @unittest.skipIf(tephrasedml.phrasedml is None, "only run tests if phrasedml is available")
@@ -55,8 +58,6 @@ class tePhrasedMLTestCase(unittest.TestCase):
 
     def test_exportAsCombine(self):
         """Test exportAsCombine."""
-        import tellurium as te
-        import os
         exp = te.experiment([self.antimony], [self.phrasedml])
         tmpdir = tempfile.mkdtemp()
         tmparchive = os.path.join(tmpdir, 'test.zip')
@@ -64,6 +65,21 @@ class tePhrasedMLTestCase(unittest.TestCase):
         # try to re
         import zipfile
         zip = zipfile.ZipFile(tmparchive)
+        zip.close()
+        shutil.rmtree(tmpdir)
+        
+    def test_update(self):
+        """Test update."""
+        exp = te.experiment([self.antimony], [self.phrasedml])
+        tmpdir = tempfile.mkdtemp()
+        tmparchive = os.path.join(tmpdir, 'test.zip')
+        exp.exportAsCombine(tmparchive)
+        exp.update(tmparchive)
+        # try to re
+        import zipfile
+        zip = zipfile.ZipFile(tmparchive)
+        zip.close()
+        shutil.rmtree(tmpdir)
 
 
 if __name__ == '__main__':

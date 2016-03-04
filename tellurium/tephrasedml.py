@@ -178,3 +178,14 @@ class tePhrasedml(object):
 
         # export the combine archive
         tecombine.export(outputpath, self.antimonyStr, self.phrasedmlStr)
+        
+    def update(self, outputpath):
+        """ Update target combine archive with the current experiment.
+
+        :param outputpath: full path of the combine zip file to create
+        :type outputpath: str
+        """
+        if os.path.exists(outputpath):
+            self.exportAsCombine(outputpath)
+        else:
+            raise Exception("Cannot find the file")
