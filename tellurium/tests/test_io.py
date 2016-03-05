@@ -44,13 +44,13 @@ class ExportTestCase(unittest.TestCase):
             # writing latex document: /tmp/tmpi722ME/Model_code.txt
             self.assertTrue(os.path.isfile(os.path.join(temp_dir, 'Model_data1.txt')))
             self.assertTrue(os.path.isfile(os.path.join(temp_dir, 'Model_data2.txt')))
-            self.assertTrue(os.path.isfile(os.path.join(temp_dir, 'Model_code.txt')))
+            self.assertTrue(os.path.isfile(os.path.join(temp_dir, 'Model_code.tex')))
 
             # test without result
             p.saveToFile()
             self.assertTrue(os.path.isfile(os.path.join(temp_dir, 'Model_data1.txt')))
             self.assertTrue(os.path.isfile(os.path.join(temp_dir, 'Model_data2.txt')))
-            self.assertTrue(os.path.isfile(os.path.join(temp_dir, 'Model_code.txt')))
+            self.assertTrue(os.path.isfile(os.path.join(temp_dir, 'Model_code.tex')))
 
         finally:
             shutil.rmtree(temp_dir)
