@@ -31,7 +31,7 @@
     </dataGenerator>
     <dataGenerator id="M1" name="M1">
       <listOfVariables>
-        <variable id="M1_M_0" taskReference="task1" target="/sbml:sbml/sbml:model/sbml:listOfSpecies/sbml:species[@id='M']" />
+        <variable id="M" taskReference="task1" target="/sbml:sbml/sbml:model/sbml:listOfSpecies/sbml:species[@id='M']" />
       </listOfVariables>
       <math xmlns="http://www.w3.org/1998/Math/MathML">
         <ci> M </ci>
@@ -39,7 +39,7 @@
     </dataGenerator>
     <dataGenerator id="X1" name="X1">
       <listOfVariables>
-        <variable id="X1_X_0" taskReference="task1" target="/sbml:sbml/sbml:model/sbml:listOfSpecies/sbml:species[@id='X']" />
+        <variable id="X" taskReference="task1" target="/sbml:sbml/sbml:model/sbml:listOfSpecies/sbml:species[@id='X']" />
       </listOfVariables>
       <math xmlns="http://www.w3.org/1998/Math/MathML">
         <ci> X </ci>

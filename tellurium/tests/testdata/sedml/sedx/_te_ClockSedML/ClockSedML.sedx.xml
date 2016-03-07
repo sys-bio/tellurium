@@ -84,10 +84,7 @@
         </variable>
       </listOfVariables>
       <math:math>
-        <math:apply>
-          <math:plus />
           <math:ci>time</math:ci>
-        </math:apply>
       </math:math>
     </dataGenerator>
     <dataGenerator id="tim1" name="tim mRNA (total)">

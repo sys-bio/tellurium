@@ -1566,14 +1566,14 @@ if __name__ == "__main__":
         # execute python
         factory.executePython()
 
-    testInput(os.path.join(sedmlDir, "sedMLBIOM21.sedml"))
+    # testInput(os.path.join(sedmlDir, "sedMLBIOM21.sedml"))
 
-
+    """
     # Check sed-ml files
     for fname in sorted(os.listdir(sedmlDir)):
         if fname.endswith(".sedml"):
             testInput(os.path.join(sedmlDir, fname))
-
+    """
 
     # Check sedx archives
     for fname in sorted(os.listdir(sedxDir)):

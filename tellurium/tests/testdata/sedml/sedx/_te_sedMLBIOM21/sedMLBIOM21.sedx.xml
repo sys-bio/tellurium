@@ -33,7 +33,7 @@
     </dataGenerator>
     <dataGenerator id="tim1" name="tim mRNA (total)">
       <listOfVariables>
-        <variable id="tim1_v1_0" taskReference="task1" target="/sbml:sbml/sbml:model/sbml:listOfSpecies/sbml:species[@id='Mt']" />
+        <variable id="v1" taskReference="task1" target="/sbml:sbml/sbml:model/sbml:listOfSpecies/sbml:species[@id='Mt']" />
       </listOfVariables>
       <math xmlns="http://www.w3.org/1998/Math/MathML">
         <ci> v1 </ci>
@@ -41,7 +41,7 @@
     </dataGenerator>
     <dataGenerator id="tim2" name="tim mRNA (changed parameters)">
       <listOfVariables>
-        <variable id="tim2_v2_0" taskReference="task2" target="/sbml:sbml/sbml:model/sbml:listOfSpecies/sbml:species[@id='Mt']" />
+        <variable id="v2" taskReference="task2" target="/sbml:sbml/sbml:model/sbml:listOfSpecies/sbml:species[@id='Mt']" />
       </listOfVariables>
       <math xmlns="http://www.w3.org/1998/Math/MathML">
         <ci> v2 </ci>

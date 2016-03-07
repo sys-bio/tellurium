@@ -1,7 +1,7 @@
 """
     tellurium 1.3.1
 
-    auto-generated code (2016-03-04T18:08:41)
+    auto-generated code (2016-03-07T08:42:51)
     sedmlDoc: L1V1  
     workingDir: /home/mkoenig/git/tellurium/tellurium/tests/testdata/sedml/sedx/_te_BIOMD0000000003
     inputType: COMBINE_FILE
@@ -50,16 +50,16 @@ if len(__var__C.shape) == 1:
 C1 = __var__C
 
 # DataGenerator <M1>
-__var__M1_M_0 = np.transpose(np.array([sim['[M]'] for sim in task1]))
-if len(__var__M1_M_0.shape) == 1:
-     __var__M1_M_0.shape += (1,)
-M1 = M
+__var__M = np.transpose(np.array([sim['[M]'] for sim in task1]))
+if len(__var__M.shape) == 1:
+     __var__M.shape += (1,)
+M1 = __var__M
 
 # DataGenerator <X1>
-__var__X1_X_0 = np.transpose(np.array([sim['[X]'] for sim in task1]))
-if len(__var__X1_X_0.shape) == 1:
-     __var__X1_X_0.shape += (1,)
-X1 = X
+__var__X = np.transpose(np.array([sim['[X]'] for sim in task1]))
+if len(__var__X.shape) == 1:
+     __var__X.shape += (1,)
+X1 = __var__X
 
 # DataGenerator <Total>
 __var__X = np.transpose(np.array([sim['[X]'] for sim in task1]))
