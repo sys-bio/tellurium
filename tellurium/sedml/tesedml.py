@@ -71,7 +71,7 @@ The Output Class
 # TODO: implement proper resolving of xpath expressions (target, selection) (see xpath.py for example)
 # TODO: implement XML changes
 # FIXME: bug multiple model instances of same model (https://github.com/sys-bio/roadrunner/issues/305)
-# FIXME: bug in creation of combine archives (missing .xml)
+# FIXME: bug in creation of combine archives (missing .xml) -> missing xml in model source
 # TODO: concatenate subtasks
 # TODO: better handling of model.reset for task tree
 
@@ -1222,7 +1222,7 @@ class SEDMLCodeFactory(object):
         lines.append("    print('{}, Repeat:', k)".format(output.getId()))
         lines.append("    print('-'*80)")
         lines.append("    __df__k = pandas.DataFrame(np.column_stack(" + str(columns).replace("'", "") + "), \n    columns=" + str(headers) + ")")
-        lines.append("    print(__df__k.head(10))")
+        lines.append("    print(__df__k.head(5))")
         lines.append("    __dfs__{}.append(__df__k)".format(output.getId()))
         lines.append("    __df__k.to_csv(os.path.join(workingDir, '{}_{{}}.csv'.format(k)), sep='\t', index=False)".format(output.getId()))
         return lines

@@ -49,6 +49,7 @@ class experiment(object):
         :param phrasedmlList: list of phrasedml string
         :type phrasedmlList: list
         """
+        # FIXME: has to work without given antimony model
         modelispath = []
         if isinstance(antimonyList, basestring):
             antimonyList = [antimonyList]
@@ -121,6 +122,7 @@ class experiment(object):
         rePath = r"(\w*).load\('(.*)'\)"
         # reLoad = r"(\w*) = roadrunner.RoadRunner\(\)"
 
+
         # model info from phrasedml
         modelsource, modelname = self._modelInfoFromPhrasedml(phrasedmlStr)
 
@@ -153,6 +155,9 @@ class experiment(object):
                 if len(reSearchPath) > 1:
                     del lines[k]
 
+        # necessary to add the *.xml ending to the source
+        # FIXME: *.xml required in source
+
         # Export archive and create python code based on archive
         expArchive = os.path.join(workingDir, "{}.sedx".format(modelname))
         self.exportAsCombine(expArchive)
@@ -164,6 +169,28 @@ class experiment(object):
 
         # outputstr = str(modelname) + " = '''" + self.antimonyList[antInd] + "'''\n\n" + pysedml
         return pysedml
+
+
+    @staticmethod
+    def _modelInfoFromPhrasedml(phrasedmlStr):
+        """ Find model information in phrasedml String. """
+        # FIXME: has to handle multiple models
+
+        # find model source, name
+        reModel = r"""(\w+)\s*=\s*model\s*('|")(.*)('|")"""
+        lines = phrasedmlStr.splitlines()
+        for k, line in enumerate(lines):
+            reSearchModel = re.split(reModel, line)
+            if (len(reSearchModel) > 1):
+                # FIXME: work with multiple antimony models
+                modelsource = str(reSearchModel[3])
+                modelname = os.path.basename(modelsource)
+                modelname = str(modelname).replace(".xml", '')
+                break
+        else:
+            raise IOError('No model definition in phrasedml string: {}'.format(phrasedmlStr))
+
+        return modelsource, modelname
 
     '''
     def createpython(self, selPhrasedml):
@@ -272,21 +299,3 @@ class experiment(object):
         else:
             raise Exception("Cannot find the file")
 
-    @staticmethod
-    def _modelInfoFromPhrasedml(phrasedmlStr):
-        """ Find model information in phrasedml String. """
-        # find model source, name
-        reModel = r"""(\w+)\s*=\s*model\s*('|")(.*)('|")"""
-        lines = phrasedmlStr.splitlines()
-        for k, line in enumerate(lines):
-            reSearchModel = re.split(reModel, line)
-            if (len(reSearchModel) > 1):
-                # FIXME: work with multiple antimony models
-                modelsource = str(reSearchModel[3])
-                modelname = os.path.basename(modelsource)
-                modelname = str(modelname).replace(".xml", '')
-                break
-        else:
-            raise IOError('No model definition in phrasedml string: {}'.format(phrasedmlStr))
-
-        return modelsource, modelname
