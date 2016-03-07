@@ -404,6 +404,11 @@ def plotArray(result, loc='upper right', show=True, resetColorCycle=True,
         plt.show()
     return p
 
+def plotWithLegend(r, result=None, loc='upper left', show=True, **kwargs):
+    warnings.warn("'plotWithLegend' is deprecated. Use 'r.plot' instead. Will be removed in tellurium v1.4",
+                  DeprecationWarning, stacklevel=2)
+    return r.plot(result=result, loc=loc, show=show, **kwargs)
+
 
 # ---------------------------------------------------------------------
 # Test Models

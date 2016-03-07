@@ -1,4 +1,8 @@
 """
+THIS IS OBSOLETE - ONLY FOR LOOKUP
+DO NOT USE OR IMPORT
+
+
 Tellurium SED-ML support.
 """
 

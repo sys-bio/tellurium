@@ -7,6 +7,7 @@ import warnings
 import tempfile
 import libsbml
 from IPython.display import Image, display
+import os
 
 try:
     import pygraphviz as pgv
@@ -132,9 +133,11 @@ class SBMLDiagram(object):
         :param layout: pygraphviz layout algorithm (default: 'neato')
         :type layout: str
         """
-        f = tempfile.NamedTemporaryFile(suffix='.png')
+        f, filePath = tempfile.mkstemp(suffix='.png')
         self.g.layout(prog=layout)
-        self.g.draw(f.name)
-
-        i = Image(filename=f.name, **kwargs)
+        self.g.draw(filePath)
+        
+        i = Image(filename=filePath)
         display(i)
+        os.close(f)
+        os.remove(filePath)

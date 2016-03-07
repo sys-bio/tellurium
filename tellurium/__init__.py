@@ -24,6 +24,7 @@ from tellurium import cellmlToAntimony
 from tellurium import cellmlToSBML
 from tellurium import getEigenvalues
 from tellurium import plotArray
+from tellurium import plotWithLegend
 from tellurium import loadTestModel
 from tellurium import getTestModel
 from tellurium import listTestModels

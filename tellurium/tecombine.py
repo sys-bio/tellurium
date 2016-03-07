@@ -398,8 +398,7 @@ class OpenCombine(object):
         else:
             self.updateManifest(arcname + '.xml', 'sedml')
     
-    def addPhrasedml(self, phrasedmlStr, arcname=None):
-        antInd = None
+    def addPhrasedml(self, phrasedmlStr, antimonyStr, arcname=None):
         reModel = r"""(\w*) = model ('|")(.*)('|")"""
         phrasedmllines = phrasedmlStr.splitlines()
         for k, line in enumerate(phrasedmllines):
@@ -408,19 +407,8 @@ class OpenCombine(object):
                 modelsource = str(reSearchModel[3])
                 modelname = os.path.basename(modelsource)
                 modelname = str(modelname).replace(".xml", '')
-                
-        for i in range(len(self.antimonyStr)):
-            r = te.loada(self.antimonyStr[i])
-            modelName = r.getModel().getModelName()
-            if modelName == modelsource:
-                antInd = i
-        
-        if antInd == None:
-            raise Exception("Cannot find the model name referenced in the PhraSEDML string")
-        else:
-            pass
-        
-        phrasedml.setReferencedSBML(modelsource, te.antimonyToSBML(self.antimonyStr[antInd]))
+
+        phrasedml.setReferencedSBML(modelsource, te.antimonyToSBML(antimonyStr))
         sedmlstr = phrasedml.convertString(phrasedmlStr)
         if sedmlstr is None:
             raise Exception(phrasedml.getLastError())
@@ -436,13 +424,13 @@ class OpenCombine(object):
         zf = ZipFile(self.combinePath, 'a')
         if os.path.exists(filePath):
             if filePath.lower().endswith(acceptedFormats):
-                if filePath.lower().endswith('png') or filePath.lower().endswith('jpg') or filePath.lower().endswith('jpeg'):
+                if filePath.lower().endswith(('png', 'jpg', 'jpeg')):
                     numSame = 0
                     while contents.count("fig/" + fileName + fileFormat) == 1:
                         fileName = fileName + '_' + str(numSame)
                         numSame += 1
                     zf.write(filePath, arcname="fig/" + fileName + fileFormat)
-                if filePath.lower().endswith('pdf') or filePath.lower().endswith('txt') or filePath.lower().endswith('csv') or filePath.lower().endswith('dat'):
+                if filePath.lower().endswith(('pdf', 'txt', 'csv', 'dat')):
                     numSame = 0
                     while contents.count("data/" + fileName + fileFormat) == 1:
                         fileName = fileName + '_' + str(numSame)
@@ -458,6 +446,36 @@ class OpenCombine(object):
     def getModelName(self, sbmlfile):
         r = roadrunner.RoadRunner(sbmlfile)
         return r.getModel().getModelName()
+        
+    def getSBML(self, sbmlfile):
+        zf = ZipFile(self.combinePath, 'r')
+        sbmlStr = zf.read(sbmlfile)
+        zf.close()
+        print(sbmlStr)
+        return sbmlStr
+        
+    def getSBMLAsAntimony(self, sbmlfile):
+        zf = ZipFile(self.combinePath, 'r')
+        sbmlStr = zf.read(sbmlfile)
+        zf.close()
+        antStr = te.sbmlToAntimony(sbmlStr)
+        print(antStr)
+        return antStr
+
+    def getSEDML(self, sedmlfile):
+        zf = ZipFile(self.combinePath, 'r')
+        sedmlStr = zf.read(sedmlfile)
+        zf.close()
+        print(sedmlStr)
+        return sedmlStr
+        
+    def getSEDMLAsPhrasedml(self, sedmlfile):
+        zf = ZipFile(self.combinePath, 'r')
+        sedmlStr = zf.read(sedmlfile)
+        zf.close()
+        phrasedmlStr = phrasedml.convertString(sedmlStr)
+        print(phrasedmlStr)
+        return phrasedmlStr        
         
     def listContents(self):
         zf = ZipFile(self.combinePath, 'r')
@@ -514,6 +532,8 @@ class OpenCombine(object):
             
         print(contentList)
         
+        return(contentList)
+        
     def removeFile(self, fileName):
         baseName, fileFormat = os.path.splitext(fileName)
         tempPath = os.path.join(os.path.dirname(self.combinePath), os.path.splitext(
@@ -533,67 +553,9 @@ class OpenCombine(object):
         else:
             self.updateManifest(baseName + fileFormat, fileFormat[1:], delete=True)
     
-    def update(self, fileName, targetId, value):
-        tempContent = []
-        if fileName.endswith(('xml', 'sbml', 'sedml')):
-            pass
-        else:
-            raise Exception("Unsupported file types for update function. If format is not defined, define file format")
+    def update(self, currentExp):
+        currentExp.update(self.combinePath)
         
-        content = self.listContents()
-        for i in range(len(content)):
-            tempContent.append(os.path.basename(content[i]))
-        
-        if not fileName in tempContent:
-            raise Exception("Cannot find file " + str(fileName) + " in the combine archive")
-
-        contentPath = content[tempContent.index(fileName)]
-        zf = ZipFile(self.combinePath, 'r')
-        targetFile = zf.read(contentPath)
-        zf.close()
-        if r'<sedML' not in targetFile:
-            r = te.loadSBMLModel(targetFile)
-            r.setValue(str(targetId), float(value))
-            updatedSBML = r.getCurrentSBML()
-            self.removeFile(contentPath)
-            zf = ZipFile(self.combinePath, 'a')
-            zf.writestr(contentPath, updatedSBML)
-            zf.close()
-        else:
-            phrasedmlStr = phrasedml.convertString(targetFile)
-            
-            antInd = None
-            reModel = r"""(\w*) = model ('|")(.*)('|")"""
-            phrasedmllines = phrasedmlStr.splitlines()
-            for k, line in enumerate(phrasedmllines):
-                reSearchModel = re.split(reModel, line)
-                if len(reSearchModel) > 1:
-                    modelsource = str(reSearchModel[3])
-                    modelname = os.path.basename(modelsource)
-                    modelname = str(modelname).replace(".xml", '')
-                    
-            for i in range(len(self.antimonyStr)):
-                r = te.loada(self.antimonyStr[i])
-                modelName = r.getModel().getModelName()
-                if modelName == modelsource:
-                    antInd = i
-            
-            if antInd == None:
-                raise Exception("Cannot find the model name referenced in the PhraSEDML string")
-            else:
-                pass
-            
-            phrasedml.setReferencedSBML(modelsource, te.antimonyToSBML(self.antimonyStr[antInd]))
-            sedmlstr = phrasedml.convertString(phrasedmlStr)
-            if sedmlstr is None:
-                raise Exception(phrasedml.getLastError())
-    
-            phrasedml.clearReferencedSBML()
-            self.removeFile(contentPath)
-            zf = ZipFile(self.combinePath, 'a')
-            zf.writestr(contentPath, sedmlstr)
-            zf.close()
-    
     def readManifest(self):
         zf = ZipFile(self.combinePath, 'r')
         try:

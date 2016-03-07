@@ -74,7 +74,7 @@ class LatexExport(object):
         return path
 
     def saveToFile(self, result=None):
-        """Creates .txt files for plotting result of simulation with LaTeX.
+        """Creates .tex and .txt files for plotting result of simulation with LaTeX.
         Outputs one file with code to be pasted into LaTeX, and one data file
         for each variable in results after the first.
 
@@ -102,7 +102,7 @@ class LatexExport(object):
                     f.write("{0}\n".format(row))
 
         # write one latex document
-        latexPath = self._getPath(suffix='_code')
+        latexPath = self._getPath(suffix='_code').replace('txt', 'tex')
         print("writing latex document: " + latexPath)
 
         with open(latexPath, 'w') as f:

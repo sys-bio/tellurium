@@ -7,6 +7,7 @@ import tempfile
 import unittest
 import matplotlib
 import os
+import shutil
 
 import tellurium.sedml.tephrasedml as tephrasedml
 import tellurium as te
@@ -64,7 +65,6 @@ class tePhrasedMLTestCase(unittest.TestCase):
 
     def test_exportAsCombine(self):
         """ Test exportAsCombine. """
-
         exp = te.experiment(self.antimony, self.phrasedml)
         tmpdir = tempfile.mkdtemp()
         tmparchive = os.path.join(tmpdir, 'test.zip')
@@ -72,6 +72,21 @@ class tePhrasedMLTestCase(unittest.TestCase):
         # try to re
         import zipfile
         zip = zipfile.ZipFile(tmparchive)
+        zip.close()
+        shutil.rmtree(tmpdir)
+        
+    def test_update(self):
+        """Test update."""
+        exp = te.experiment([self.antimony], [self.phrasedml])
+        tmpdir = tempfile.mkdtemp()
+        tmparchive = os.path.join(tmpdir, 'test.zip')
+        exp.exportAsCombine(tmparchive)
+        exp.update(tmparchive)
+        # try to re
+        import zipfile
+        zip = zipfile.ZipFile(tmparchive)
+        zip.close()
+        shutil.rmtree(tmpdir)
 
     def test_minimalExperiment(self):
         """ Minimal example which should work. """

@@ -10,18 +10,20 @@ and create SED-ML files. A basic phraSED-ML script will look like this:
   task1 = run sim1 on mod1
   plot time vs S1
 
-Provides a simple description language to create the SED-ML parts
-- models
-- simulations
-- tasks
-- output
+phrasedml provides a simple description language to create the key SED-ML components
+    - models
+    - simulations
+    - tasks
+    - outputs
 """
 
 from __future__ import print_function, division
 
 import os.path
-import re
+import shutil
 import tempfile
+
+import re
 import warnings
 
 import tellurium as te
@@ -76,11 +78,22 @@ class experiment(object):
         :param selPhrasedml: Name of PhraSEDML string defined in the code
         :type selPhrasedml: str
         """
+        # create a temporary working directory
+        isTmpDir = False
+        if workingDir is None:
+            workingDir = tempfile.mkdtemp(suffix="_sedml")
+            isTmpDir = True
+
         if selPhrasedml is None:
             warnings.warn("No phrasedmlStr provided in experiment.execute()")
-        execStr = self._toPython(selPhrasedml, workingDir=workingDir)
+
         # This calls exec. Be very sure that nothing bad happens here.
+        execStr = self._toPython(selPhrasedml, workingDir=workingDir)
         exec execStr
+
+        # remove the temporary directory
+        if isTmpDir:
+            shutil.rmtree(workingDir)
 
     def _toPython(self, phrasedmlStr, workingDir=None):
         """ Create and return python script given phrasedml string.
@@ -92,9 +105,13 @@ class experiment(object):
         :rtype: str
         """
         import tempfile
+        # create a temporary working directory
+        isTmpDir = False
+        if workingDir is None:
+            workingDir = tempfile.mkdtemp(suffix="_sedml")
+            isTmpDir = True
 
-        if phrasedmlStr == None:
-
+        if phrasedmlStr is None:
             if len(self.phrasedmlList) == 1:
                 phrasedmlStr = self.phrasedmlList[0]
                 warnings.warn("No phrasedml string selected, defaulting to first phrasedml.")
@@ -137,10 +154,6 @@ class experiment(object):
                 if len(reSearchPath) > 1:
                     del lines[k]
 
-        # Create the combine archive and use it for execution
-        if workingDir is None:
-            workingDir = tempfile.mkdtemp(suffix="_sedml")
-
         expArchive = os.path.join(workingDir, "{}.sedx".format(modelname))
         print("Combine Archive:", expArchive)
         self.exportAsCombine(expArchive)
@@ -148,8 +161,83 @@ class experiment(object):
         # Create python code
         pysedml = tesedml.sedmlToPython(expArchive)
 
+        # remove the temporary directory
+        if isTmpDir:
+            shutil.rmtree(workingDir)
+
         # outputstr = str(modelname) + " = '''" + self.antimonyList[antInd] + "'''\n\n" + pysedml
         return pysedml
+
+    '''
+    def createpython(self, selPhrasedml):
+        antInd = None
+        rePath = r"(\w*).load\('(.*)'\)"
+        reLoad = r"(\w*) = roadrunner.RoadRunner\(\)"
+        reModel = r"""(\w*) = model ('|")(.*)('|")"""
+        phrasedmllines = selPhrasedml.splitlines()
+        for k, line in enumerate(phrasedmllines):
+            reSearchModel = re.split(reModel, line)
+            if len(reSearchModel) > 1:
+                modelsource = str(reSearchModel[3])
+                modelname = os.path.basename(modelsource)
+                modelname = str(modelname).replace(".xml", '')
+        for i in range(len(self.antimonyStr)):
+            r = te.loada(self.antimonyStr[i])
+            modelName = r.getModel().getModelName()
+            if modelName == modelsource:
+                antInd = i
+
+        if antInd == None:
+            raise Exception("Cannot find the model name referenced in the PhraSEDML string")
+        else:
+            pass
+        phrasedml.setReferencedSBML(modelsource, te.antimonyToSBML(self.antimonyStr[antInd]))
+        sedmlstr = phrasedml.convertString(selPhrasedml)
+        if sedmlstr is None:
+            raise Exception(phrasedml.getLastError())
+
+        phrasedml.clearReferencedSBML()
+
+        fd1, sedmlfilepath = tempfile.mkstemp()
+        os.write(fd1, sedmlstr)
+        pysedml = tesedml.sedmlToPython(sedmlfilepath)
+
+        # perform some replacements in the sedml
+        if self.modelispath[antInd] is False:
+            lines = pysedml.splitlines()
+            for k, line in enumerate(lines):
+                reSearchPath = re.split(rePath, line)
+                if len(reSearchPath) > 1:
+                    del lines[k]
+
+            for k, line in enumerate(lines):
+                reSearchLoad = re.split(reLoad, line)
+                if len(reSearchLoad) > 1:
+                    line = line.replace("roadrunner.RoadRunner()", "te.loada(" + str(modelname) + ")")
+                    lines[k] = line
+
+            if "import tellurium" not in pysedml:
+                if "import roadrunner" in pysedml:
+                    for k, line in enumerate(lines):
+                        if "import roadrunner" in line:
+                            del lines[k]
+                            lines.insert(k, "import tellurium as te")
+                        else:
+                            pass
+
+        pysedml = '\n'.join(lines)
+
+        # List of replacements
+        pysedml = pysedml.replace('"compartment"', '"compartment_"')
+        pysedml = pysedml.replace("'compartment'", "'compartment_'")
+
+        outputstr = str(modelname) + " = '''" + self.antimonyStr[antInd] + "'''\n\n" + pysedml
+
+        os.close(fd1)
+        os.remove(sedmlfilepath)
+
+        return outputstr
+    '''
 
     def printPython(self, phrasedmlStr=None):
         """ Prints the created python string by :func:`createpython`. 
@@ -171,6 +259,17 @@ class experiment(object):
         """
         # export the combine archive
         tecombine.export(outputpath, self.antimonyList, self.phrasedmlList)
+
+    def update(self, outputpath):
+        """ Update target combine archive with the current experiment.
+
+        :param outputpath: full path of the combine zip file to create
+        :type outputpath: str
+        """
+        if os.path.exists(outputpath):
+            self.exportAsCombine(outputpath)
+        else:
+            raise Exception("Cannot find the file")
 
     @staticmethod
     def _modelInfoFromPhrasedml(phrasedmlStr):
