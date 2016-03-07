@@ -1,7 +1,7 @@
 """
     tellurium 1.3.1
 
-    auto-generated code (2016-03-07T13:03:03)
+    auto-generated code
     sedmlDoc: L1V2  
     workingDir: /home/mkoenig/git/tellurium/examples/tellurium-files/phrasedml/_te_repeatedStochastic
     inputType: COMBINE_FILE
@@ -253,7 +253,7 @@ for k in range(plot_1_0_0.shape[1]):
         plt.plot(plot_1_0_0[:,k], plot_1_6_1[:,k], '-o', color='k', linewidth=1.5, markersize=3.0, alpha=0.8, label='repeat2.MKKK_P')
     else:
         plt.plot(plot_1_0_0[:,k], plot_1_6_1[:,k], '-o', color='k', linewidth=1.5, markersize=3.0, alpha=0.8)
-plt.title('Repeates without SEED', fontweight='bold')
+plt.title('Repeats without SEED', fontweight='bold')
 plt.xlabel('repeat2.time', fontweight='bold')
 __lg = plt.legend(bbox_to_anchor=(1.05, 1), loc=2, borderaxespad=0.)
 __lg.draw_frame(False)

@@ -51,10 +51,10 @@ tellurium.tests.test_runner module
     :undoc-members:
     :show-inheritance:
 
-tellurium.tests.test_sedml module
----------------------------------
+tellurium.tests.test_tecombine module
+-------------------------------------
 
-.. automodule:: tellurium.tests.test_sedml
+.. automodule:: tellurium.tests.test_tecombine
     :members:
     :undoc-members:
     :show-inheritance:
@@ -71,6 +71,14 @@ tellurium.tests.test_tephrasedml module
 ---------------------------------------
 
 .. automodule:: tellurium.tests.test_tephrasedml
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+tellurium.tests.test_tesedml module
+-----------------------------------
+
+.. automodule:: tellurium.tests.test_tesedml
     :members:
     :undoc-members:
     :show-inheritance:

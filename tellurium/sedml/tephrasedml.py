@@ -123,7 +123,6 @@ class experiment(object):
 
         # model info from phrasedml
         modelsource, modelname = self._modelInfoFromPhrasedml(phrasedmlStr)
-        # print('Model name:', modelname)
 
         # find index of antimony str
         antIndex = None
@@ -154,11 +153,9 @@ class experiment(object):
                 if len(reSearchPath) > 1:
                     del lines[k]
 
+        # Export archive and create python code based on archive
         expArchive = os.path.join(workingDir, "{}.sedx".format(modelname))
-        print("Combine Archive:", expArchive)
         self.exportAsCombine(expArchive)
-
-        # Create python code
         pysedml = tesedml.sedmlToPython(expArchive)
 
         # remove the temporary directory
@@ -247,6 +244,10 @@ class experiment(object):
         """
         execStr = self._toPython(phrasedmlStr)
         print(execStr)
+
+    def getPython(self, phrasedmlStr=None):
+        """ Gets the created python string. """
+        return self._toPython(phrasedmlStr)
 
     def exportAsCombine(self, outputpath):
         """ Export as a combine archive.

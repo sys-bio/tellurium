@@ -1,7 +1,7 @@
 """
     tellurium 1.3.1
 
-    auto-generated code (2016-03-07T13:03:00)
+    auto-generated code
     sedmlDoc: L1V2  
     workingDir: /home/mkoenig/git/tellurium/examples/tellurium-files/phrasedml/_te_case_08
     inputType: COMBINE_FILE

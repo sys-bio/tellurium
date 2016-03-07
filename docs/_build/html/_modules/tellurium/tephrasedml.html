@@ -133,21 +133,7 @@
   <h1>Source code for tellurium.tephrasedml</h1><div class="highlight"><pre>
 <span class="c1"># -*- coding: utf-8 -*-</span>
 <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">SEDML support for PhraSED-ML: The Paraphrased Human-Readable Adaptation of SED-ML</span>
-<span class="sd">PhraSED-ML is a language and a library that provide a text-based way to read, summarize,</span>
-<span class="sd">and create SED-ML files. A basic phraSED-ML script will look like this:</span>
-<span class="sd">::</span>
-
-<span class="sd">  mod1 = model &quot;sbml_model.xml&quot;</span>
-<span class="sd">  sim1 = simulate uniform(0,10,100)</span>
-<span class="sd">  task1 = run sim1 on mod1</span>
-<span class="sd">  plot time vs S1</span>
-
-<span class="sd">Provides a simple description language to create the SED-ML parts</span>
-<span class="sd">- models</span>
-<span class="sd">- simulations</span>
-<span class="sd">- tasks</span>
-<span class="sd">- output</span>
+<span class="sd">SEDML support for phrasedml.</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
 <span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">print_function</span><span class="p">,</span> <span class="n">division</span>
@@ -168,13 +154,7 @@
 
 
 <div class="viewcode-block" id="tePhrasedml"><a class="viewcode-back" href="../../_apidoc/tellurium.html#tellurium.tephrasedml.tePhrasedml">[docs]</a><span class="k">class</span> <span class="nc">tePhrasedml</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; SEDML helper class.</span>
-
-<span class="sd">    This class is responsible for the creation of executable tellurium code</span>
-<span class="sd">    phrasedml descriptions. Main function is a code factory.</span>
-<span class="sd">    Very similar to the more general tesedml which creates python executable code</span>
-<span class="sd">    from from given SED-ML.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="sd">&quot;&quot;&quot; phrasedml helper class. &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">antimonyStr</span><span class="p">,</span> <span class="n">phrasedmlStr</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Constructor from antimony string and phrasedml string.</span>
@@ -202,33 +182,29 @@
 
 <div class="viewcode-block" id="tePhrasedml.getAntimonyString"><a class="viewcode-back" href="../../_apidoc/tellurium.html#tellurium.tephrasedml.tePhrasedml.getAntimonyString">[docs]</a>    <span class="k">def</span> <span class="nf">getAntimonyString</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Get antimony string.</span>
-
 <span class="sd">        :returns: antimony string</span>
-<span class="sd">        :rtype: str</span>
+<span class="sd">        :rtype: string</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">antimonyStr</span></div>
 
 <div class="viewcode-block" id="tePhrasedml.getSbmlString"><a class="viewcode-back" href="../../_apidoc/tellurium.html#tellurium.tephrasedml.tePhrasedml.getSbmlString">[docs]</a>    <span class="k">def</span> <span class="nf">getSbmlString</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Get SBML string.</span>
-
 <span class="sd">        :returns: SBML string</span>
-<span class="sd">        :rtype: str</span>
+<span class="sd">        :rtype: string</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">te</span><span class="o">.</span><span class="n">antimonyToSBML</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">antimonyStr</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="tePhrasedml.getPhrasedmlString"><a class="viewcode-back" href="../../_apidoc/tellurium.html#tellurium.tephrasedml.tePhrasedml.getPhrasedmlString">[docs]</a>    <span class="k">def</span> <span class="nf">getPhrasedmlString</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Get phrasedml string.</span>
-
 <span class="sd">        :returns: phrasedml string</span>
-<span class="sd">        :rtype: str</span>
+<span class="sd">        :rtype: string</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">phrasedmlStr</span></div>
 
 <div class="viewcode-block" id="tePhrasedml.getSedmlString"><a class="viewcode-back" href="../../_apidoc/tellurium.html#tellurium.tephrasedml.tePhrasedml.getSedmlString">[docs]</a>    <span class="k">def</span> <span class="nf">getSedmlString</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Get sedml string.</span>
-
-<span class="sd">        :returns: sedml</span>
-<span class="sd">        :rtype: str</span>
+<span class="sd">        :returns: sedml string</span>
+<span class="sd">        :rtype: string</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">reModel</span> <span class="o">=</span> <span class="s2">r&quot;&quot;&quot;(\w*) = model (&#39;|&quot;)(.*)(&#39;|&quot;)&quot;&quot;&quot;</span>
         <span class="n">phrasedmllines</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">phrasedmlStr</span><span class="o">.</span><span class="n">splitlines</span><span class="p">()</span>
@@ -251,19 +227,16 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">execStr</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">createpython</span><span class="p">()</span>
         <span class="k">try</span><span class="p">:</span>
-            <span class="c1"># This calls exec. Be very sure that nothing bad happens here.</span>
             <span class="k">exec</span> <span class="n">execStr</span>
         <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">e</span></div>
 
 <div class="viewcode-block" id="tePhrasedml.createpython"><a class="viewcode-back" href="../../_apidoc/tellurium.html#tellurium.tephrasedml.tePhrasedml.createpython">[docs]</a>    <span class="k">def</span> <span class="nf">createpython</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Create and return python script given antimony and phrasedml strings.</span>
-<span class="sd">        Uses the tesedml.create</span>
 
 <span class="sd">        :returns: python string to execute</span>
 <span class="sd">        :rtype: str</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="c1"># created sedml</span>
         <span class="n">rePath</span> <span class="o">=</span> <span class="s2">r&quot;(\w*).load\(&#39;(.*)&#39;\)&quot;</span>
         <span class="n">reLoad</span> <span class="o">=</span> <span class="s2">r&quot;(\w*) = roadrunner.RoadRunner\(\)&quot;</span>
         <span class="n">reModel</span> <span class="o">=</span> <span class="s2">r&quot;&quot;&quot;(\w*) = model (&#39;|&quot;)(.*)(&#39;|&quot;)&quot;&quot;&quot;</span>
@@ -284,9 +257,8 @@
 
         <span class="n">fd1</span><span class="p">,</span> <span class="n">sedmlfilepath</span> <span class="o">=</span> <span class="n">tempfile</span><span class="o">.</span><span class="n">mkstemp</span><span class="p">()</span>
         <span class="n">os</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">fd1</span><span class="p">,</span> <span class="n">sedmlstr</span><span class="p">)</span>
-        <span class="n">pysedml</span> <span class="o">=</span> <span class="n">tesedml</span><span class="o">.</span><span class="n">sedmlToPython</span><span class="p">(</span><span class="n">sedmlfilepath</span><span class="p">)</span>
 
-        <span class="c1"># perform some replacements in the sedml</span>
+        <span class="n">pysedml</span> <span class="o">=</span> <span class="n">tesedml</span><span class="o">.</span><span class="n">sedmlToPython</span><span class="p">(</span><span class="n">sedmlfilepath</span><span class="p">)</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">modelispath</span> <span class="ow">is</span> <span class="bp">False</span><span class="p">:</span>
             <span class="n">lines</span> <span class="o">=</span> <span class="n">pysedml</span><span class="o">.</span><span class="n">splitlines</span><span class="p">()</span>
             <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">line</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">lines</span><span class="p">):</span>

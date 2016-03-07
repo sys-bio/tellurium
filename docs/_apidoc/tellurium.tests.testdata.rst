@@ -1,13 +1,6 @@
 tellurium.tests.testdata package
 ================================
 
-Subpackages
------------
-
-.. toctree::
-
-    tellurium.tests.testdata.models
-
 Module contents
 ---------------
 

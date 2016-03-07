@@ -103,9 +103,11 @@ except ImportError:
 
 # Change default encoding to UTF-8
 # We need to reload sys module first, because setdefaultencoding is available only at startup time
-reload(sys)
-sys.setdefaultencoding('utf-8')
+# FIXME: the following creates problems with jupyter notebook prints (just leave it out for now)
+# reload(sys)
+# sys.setdefaultencoding('utf-8')
 
+######################################################################################################################
 
 def sedml_to_python(input):
     """ Convert sedml file to python code.
@@ -133,6 +135,20 @@ def sedmlToPython(inputStr):
     factory = SEDMLCodeFactory(inputStr)
     return factory.toPython()
 
+
+def executeSEDML(inputStr):
+    """ Run a SED-ML file or archive.
+    :param inputStr:
+    :type inputStr:
+    :return:
+    :rtype:
+    """
+    # execute the sedml
+    factory = SEDMLCodeFactory(inputStr)
+    factory.executePython()
+
+
+######################################################################################################################
 
 class SEDMLCodeFactory(object):
     """ Code Factory generating executable code."""
@@ -478,7 +494,7 @@ class SEDMLCodeFactory(object):
     @staticmethod
     def taskTreeToPython(doc, tree):
         """ Python code generation from task tree. """
-        print(tree)
+        # print(tree)
 
         # TODO: implement the merge of subtasks & and collection of simulations
 

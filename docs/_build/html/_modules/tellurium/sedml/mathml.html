@@ -1,0 +1,380 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>tellurium.sedml.mathml &mdash; tellurium 1.3.1 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="tellurium 1.3.1 documentation" href="../../../index.html"/>
+        <link rel="up" title="Module code" href="../../index.html"/> 
+
+  
+  <script src="../../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> tellurium
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.3.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../notebooks.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tellurium_methods.html">Tellurium Methods</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../_apidoc/tellurium.html">API (tellurium)</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../../../index.html">tellurium</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../../index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+      
+    <li>tellurium.sedml.mathml</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for tellurium.sedml.mathml</h1><div class="highlight"><pre>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Helper functions for evaluation of mathml expressions.</span>
+<span class="sd">In this namespace all the possible names occuring in formula strings have to be defined.</span>
+
+<span class="sd">In build in python are</span>
+<span class="sd">    *, /, +, -</span>
+<span class="sd">    and, or, not</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">print_function</span><span class="p">,</span> <span class="n">division</span>
+<span class="kn">from</span> <span class="nn">math</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">import</span> <span class="nn">libsbml</span>
+<span class="kn">import</span> <span class="nn">operator</span>
+
+<div class="viewcode-block" id="product"><a class="viewcode-back" href="../../../_apidoc/tellurium.sedml.html#tellurium.sedml.mathml.product">[docs]</a><span class="k">def</span> <span class="nf">product</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">):</span>
+    <span class="k">return</span> <span class="nb">reduce</span><span class="p">(</span><span class="n">operator</span><span class="o">.</span><span class="n">mul</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="sqr"><a class="viewcode-back" href="../../../_apidoc/tellurium.sedml.html#tellurium.sedml.mathml.sqr">[docs]</a><span class="k">def</span> <span class="nf">sqr</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">x</span><span class="o">*</span><span class="n">x</span></div>
+
+<div class="viewcode-block" id="root"><a class="viewcode-back" href="../../../_apidoc/tellurium.sedml.html#tellurium.sedml.mathml.root">[docs]</a><span class="k">def</span> <span class="nf">root</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">a</span><span class="o">^</span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="n">b</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="xor"><a class="viewcode-back" href="../../../_apidoc/tellurium.sedml.html#tellurium.sedml.mathml.xor">[docs]</a><span class="k">def</span> <span class="nf">xor</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">):</span>
+    <span class="n">foundZero</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">foundOne</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">args</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">a</span><span class="p">:</span>
+           <span class="n">foundZero</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="k">else</span><span class="p">:</span>
+           <span class="n">foundOne</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="k">if</span> <span class="n">foundZero</span> <span class="ow">and</span> <span class="n">foundOne</span><span class="p">:</span>
+        <span class="k">return</span> <span class="mi">1</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="mi">0</span></div>
+
+<div class="viewcode-block" id="piecewise"><a class="viewcode-back" href="../../../_apidoc/tellurium.sedml.html#tellurium.sedml.mathml.piecewise">[docs]</a><span class="k">def</span> <span class="nf">piecewise</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">):</span>
+    <span class="n">Nargs</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">xrange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">Nargs</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">args</span><span class="p">[</span><span class="n">k</span><span class="o">+</span><span class="mi">1</span><span class="p">]:</span>
+            <span class="k">return</span> <span class="n">args</span><span class="p">[</span><span class="n">k</span><span class="p">]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">args</span><span class="p">[</span><span class="n">Nargs</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span></div>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">def pow(x, y):</span>
+<span class="sd">    return x**y</span>
+
+<span class="sd">def gt(a, b):</span>
+<span class="sd">   if a &gt; b:</span>
+<span class="sd">   	  return 1</span>
+<span class="sd">   else:</span>
+<span class="sd">      return 0</span>
+
+<span class="sd">def lt(a, b):</span>
+<span class="sd">   if a &lt; b:</span>
+<span class="sd">   	  return 1</span>
+<span class="sd">   else:</span>
+<span class="sd">      return 0</span>
+
+<span class="sd">def geq(a, b):</span>
+<span class="sd">   if a &gt;= b:</span>
+<span class="sd">   	  return 1</span>
+<span class="sd">   else:</span>
+<span class="sd">      return 0</span>
+
+<span class="sd">def leq(a, b):</span>
+<span class="sd">   if a &lt;= b:</span>
+<span class="sd">   	  return 1</span>
+<span class="sd">   else:</span>
+<span class="sd">      return 0</span>
+
+<span class="sd">def neq(a, b):</span>
+<span class="sd">   if a != b:</span>
+<span class="sd">   	  return 1</span>
+<span class="sd">   else:</span>
+<span class="sd">      return 0</span>
+
+<span class="sd">def f_not(a):</span>
+<span class="sd">   if a == 1:</span>
+<span class="sd">   	  return 0</span>
+<span class="sd">   else:</span>
+<span class="sd">      return 1</span>
+
+<span class="sd">def f_and(*args):</span>
+<span class="sd">    for a in args:</span>
+<span class="sd">       if a != 1:</span>
+<span class="sd">          return 0</span>
+<span class="sd">    return 1</span>
+
+<span class="sd">def f_or(*args):</span>
+<span class="sd">    for a in args:</span>
+<span class="sd">       if a != 0:</span>
+<span class="sd">          return  1</span>
+<span class="sd">    return 0</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="evaluableMathML"><a class="viewcode-back" href="../../../_apidoc/tellurium.sedml.html#tellurium.sedml.mathml.evaluableMathML">[docs]</a><span class="k">def</span> <span class="nf">evaluableMathML</span><span class="p">(</span><span class="n">astnode</span><span class="p">,</span> <span class="n">variables</span><span class="o">=</span><span class="p">{},</span> <span class="n">array</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Create evaluable python string.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># replace variables with provided values</span>
+    <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">variables</span><span class="o">.</span><span class="n">iteritems</span><span class="p">():</span>
+        <span class="n">astnode</span><span class="o">.</span><span class="n">replaceArgument</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">libsbml</span><span class="o">.</span><span class="n">parseFormula</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">value</span><span class="p">)))</span>
+
+    <span class="c1"># get formula</span>
+    <span class="n">formula</span> <span class="o">=</span> <span class="n">libsbml</span><span class="o">.</span><span class="n">formulaToL3String</span><span class="p">(</span><span class="n">astnode</span><span class="p">)</span>
+
+    <span class="c1"># &lt;replacements&gt;</span>
+    <span class="c1"># FIXME: these are not exhaustive, but are improved with examples</span>
+    <span class="k">if</span> <span class="n">array</span> <span class="ow">is</span> <span class="bp">False</span><span class="p">:</span>
+        <span class="c1"># scalar</span>
+        <span class="n">formula</span> <span class="o">=</span> <span class="n">formula</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;&amp;&amp;&quot;</span><span class="p">,</span> <span class="s1">&#39;and&#39;</span><span class="p">)</span>
+        <span class="n">formula</span> <span class="o">=</span> <span class="n">formula</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;||&quot;</span><span class="p">,</span> <span class="s1">&#39;or&#39;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c1"># np.array</span>
+        <span class="n">formula</span> <span class="o">=</span> <span class="n">formula</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;max&quot;</span><span class="p">,</span> <span class="s1">&#39;np.max&#39;</span><span class="p">)</span>
+        <span class="n">formula</span> <span class="o">=</span> <span class="n">formula</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;min&quot;</span><span class="p">,</span> <span class="s1">&#39;np.min&#39;</span><span class="p">)</span>
+        <span class="n">formula</span> <span class="o">=</span> <span class="n">formula</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;sum&quot;</span><span class="p">,</span> <span class="s1">&#39;np.sum&#39;</span><span class="p">)</span>
+        <span class="n">formula</span> <span class="o">=</span> <span class="n">formula</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;product&quot;</span><span class="p">,</span> <span class="s1">&#39;np.prod&#39;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">formula</span></div>
+
+
+<div class="viewcode-block" id="evaluateMathML"><a class="viewcode-back" href="../../../_apidoc/tellurium.sedml.html#tellurium.sedml.mathml.evaluateMathML">[docs]</a><span class="k">def</span> <span class="nf">evaluateMathML</span><span class="p">(</span><span class="n">astnode</span><span class="p">,</span> <span class="n">variables</span><span class="o">=</span><span class="p">{},</span> <span class="n">array</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Evaluate MathML string with given set of variable and parameter values.</span>
+
+<span class="sd">    :param astnode: astnode of MathML string</span>
+<span class="sd">    :type astnode: libsbml.ASTNode</span>
+<span class="sd">    :param variables: dictionary of var : value</span>
+<span class="sd">    :type variables: dict</span>
+<span class="sd">    :param parameters: dictionary of par : value</span>
+<span class="sd">    :type parameters: dict</span>
+<span class="sd">    :return: value of evaluated MathML</span>
+<span class="sd">    :rtype: float</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">formula</span> <span class="o">=</span> <span class="n">evaluableMathML</span><span class="p">(</span><span class="n">astnode</span><span class="p">,</span> <span class="n">variables</span><span class="o">=</span><span class="n">variables</span><span class="p">,</span> <span class="n">array</span><span class="o">=</span><span class="n">array</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">formula</span><span class="p">)</span>
+    <span class="c1"># return the evaluated formula</span>
+    <span class="k">return</span> <span class="nb">eval</span><span class="p">(</span><span class="n">formula</span><span class="p">)</span></div>
+
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+
+    <span class="n">mathmlStr</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">           &lt;math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot;&gt;</span>
+<span class="s2">                &lt;piecewise&gt;</span>
+<span class="s2">                  &lt;piece&gt;</span>
+<span class="s2">                    &lt;cn type=&quot;integer&quot;&gt; 8 &lt;/cn&gt;</span>
+<span class="s2">                    &lt;apply&gt;</span>
+<span class="s2">                      &lt;lt/&gt;</span>
+<span class="s2">                      &lt;ci&gt; x &lt;/ci&gt;</span>
+<span class="s2">                      &lt;cn type=&quot;integer&quot;&gt; 4 &lt;/cn&gt;</span>
+<span class="s2">                    &lt;/apply&gt;</span>
+<span class="s2">                  &lt;/piece&gt;</span>
+<span class="s2">                  &lt;piece&gt;</span>
+<span class="s2">                    &lt;cn&gt; 0.1 &lt;/cn&gt;</span>
+<span class="s2">                    &lt;apply&gt;</span>
+<span class="s2">                      &lt;and/&gt;</span>
+<span class="s2">                      &lt;apply&gt;</span>
+<span class="s2">                        &lt;leq/&gt;</span>
+<span class="s2">                        &lt;cn type=&quot;integer&quot;&gt; 4 &lt;/cn&gt;</span>
+<span class="s2">                        &lt;ci&gt; x &lt;/ci&gt;</span>
+<span class="s2">                      &lt;/apply&gt;</span>
+<span class="s2">                      &lt;apply&gt;</span>
+<span class="s2">                        &lt;lt/&gt;</span>
+<span class="s2">                        &lt;ci&gt; x &lt;/ci&gt;</span>
+<span class="s2">                        &lt;cn type=&quot;integer&quot;&gt; 6 &lt;/cn&gt;</span>
+<span class="s2">                      &lt;/apply&gt;</span>
+<span class="s2">                    &lt;/apply&gt;</span>
+<span class="s2">                  &lt;/piece&gt;</span>
+<span class="s2">                  &lt;otherwise&gt;</span>
+<span class="s2">                    &lt;cn type=&quot;integer&quot;&gt; 8 &lt;/cn&gt;</span>
+<span class="s2">                  &lt;/otherwise&gt;</span>
+<span class="s2">                &lt;/piecewise&gt;</span>
+<span class="s2">              &lt;/math&gt;</span>
+<span class="s2">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># evaluate the function with the values</span>
+    <span class="n">astnode</span> <span class="o">=</span> <span class="n">libsbml</span><span class="o">.</span><span class="n">readMathMLFromString</span><span class="p">(</span><span class="n">mathmlStr</span><span class="p">)</span>
+
+    <span class="n">y</span> <span class="o">=</span> <span class="mi">5</span>
+    <span class="n">res</span> <span class="o">=</span> <span class="n">evaluateMathML</span><span class="p">(</span><span class="n">astnode</span><span class="p">,</span>
+                         <span class="n">variables</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;x&#39;</span><span class="p">:</span> <span class="s2">&quot;y&quot;</span><span class="p">})</span>
+    <span class="k">print</span><span class="p">(</span><span class="s1">&#39;Result:&#39;</span><span class="p">,</span> <span class="n">res</span><span class="p">)</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016, sys-bio.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../../',
+            VERSION:'1.3.1',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

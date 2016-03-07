@@ -21,7 +21,7 @@ end
 phrasedmlStr = """
     model0 = model "case_02"
     model1 = model model0 with S1=5.0
-    sim0 = simulate uniform(0, 10, 100)
+    sim0 = simulate uniform(0, 6, 100)
     task0 = run sim0 on model1
     task1 = repeat task0 for k1 in uniform(0.0, 5.0, 5), reset = true
     plot "Repeated task with reset" task1.time vs task1.S1, task1.S2

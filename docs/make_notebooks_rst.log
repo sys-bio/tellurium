@@ -1,4 +1,4 @@
-Mon Feb 22 12:44:32 CET 2016
+Mon Mär  7 15:43:58 CET 2016
 --------------------------------------
 convert notebooks to rst
 --------------------------------------
@@ -8,7 +8,7 @@ convert notebooks to rst
 [NbConvertApp] Making directory antimonyExample_files
 [NbConvertApp] Making directory antimonyExample_files
 [NbConvertApp] Making directory antimonyExample_files
-[NbConvertApp] Writing 5895 bytes to antimonyExample.rst
+[NbConvertApp] Writing 5890 bytes to antimonyExample.rst
 [NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/computeSteadyState.ipynb to rst
 [NbConvertApp] Executing notebook with kernel: python2
 [NbConvertApp] Writing 965 bytes to computeSteadyState.rst
@@ -41,7 +41,7 @@ convert notebooks to rst
 [NbConvertApp] Writing 554 bytes to model_modelFromBioModels.rst
 [NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/model_nonUnitStoichiometries.ipynb to rst
 [NbConvertApp] Executing notebook with kernel: python2
-[NbConvertApp] Writing 999 bytes to model_nonUnitStoichiometries.rst
+[NbConvertApp] Writing 997 bytes to model_nonUnitStoichiometries.rst
 [NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/model_normalizedSpecies.ipynb to rst
 [NbConvertApp] Executing notebook with kernel: python2
 [NbConvertApp] Support files will be in model_normalizedSpecies_files/
@@ -57,7 +57,20 @@ convert notebooks to rst
 [NbConvertApp] Executing notebook with kernel: python2
 [NbConvertApp] Support files will be in phrasedmlExample_files/
 [NbConvertApp] Making directory phrasedmlExample_files
-[NbConvertApp] Writing 2010 bytes to phrasedmlExample.rst
+[NbConvertApp] Making directory phrasedmlExample_files
+[NbConvertApp] Making directory phrasedmlExample_files
+[NbConvertApp] Making directory phrasedmlExample_files
+[NbConvertApp] Making directory phrasedmlExample_files
+[NbConvertApp] Making directory phrasedmlExample_files
+[NbConvertApp] Making directory phrasedmlExample_files
+[NbConvertApp] Making directory phrasedmlExample_files
+[NbConvertApp] Making directory phrasedmlExample_files
+[NbConvertApp] Making directory phrasedmlExample_files
+[NbConvertApp] Making directory phrasedmlExample_files
+[NbConvertApp] Making directory phrasedmlExample_files
+[NbConvertApp] Making directory phrasedmlExample_files
+[NbConvertApp] Making directory phrasedmlExample_files
+[NbConvertApp] Writing 21642 bytes to phrasedmlExample.rst
 [NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/plot2DParameterScan.ipynb to rst
 [NbConvertApp] Executing notebook with kernel: python2
 [NbConvertApp] Support files will be in plot2DParameterScan_files/
@@ -94,7 +107,7 @@ convert notebooks to rst
 [NbConvertApp] Writing 13157 bytes to tellurium_examples.rst
 [NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/tellurium_export.ipynb to rst
 [NbConvertApp] Executing notebook with kernel: python2
-[NbConvertApp] Writing 12951 bytes to tellurium_export.rst
+[NbConvertApp] Writing 12947 bytes to tellurium_export.rst
 [NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/tellurium_interconversion.ipynb to rst
 [NbConvertApp] Executing notebook with kernel: python2
 [NbConvertApp] Writing 601 bytes to tellurium_interconversion.rst
@@ -130,21 +143,18 @@ convert notebooks to rst
 [NbConvertApp] Writing 1608 bytes to tellurium_stochastic.rst
 [NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/tellurium_test.ipynb to rst
 [NbConvertApp] Executing notebook with kernel: python2
-[NbConvertApp] Writing 1901 bytes to tellurium_test.rst
+[NbConvertApp] Writing 1899 bytes to tellurium_test.rst
 [NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/tellurium_utility.ipynb to rst
 [NbConvertApp] Executing notebook with kernel: python2
 [NbConvertApp] Support files will be in tellurium_utility_files/
 [NbConvertApp] Making directory tellurium_utility_files
-[NbConvertApp] Writing 7394 bytes to tellurium_utility.rst
+[NbConvertApp] Writing 7391 bytes to tellurium_utility.rst
 [NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/template.ipynb to rst
 [NbConvertApp] Executing notebook with kernel: python2
 [NbConvertApp] Writing 260 bytes to template.rst
 [NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/tesedmlExample.ipynb to rst
 [NbConvertApp] Executing notebook with kernel: python2
-[NbConvertApp] Writing 4618 bytes to tesedmlExample.rst
-[NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/Untitled.ipynb to rst
-[NbConvertApp] Executing notebook with kernel: python2
-[NbConvertApp] Writing 11669 bytes to Untitled.rst
+[NbConvertApp] Writing 4616 bytes to tesedmlExample.rst
 [NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/widgets/widgets_lorenz.ipynb to rst
 [NbConvertApp] Executing notebook with kernel: python2
 [NbConvertApp] Support files will be in widgets_lorenz_files/
@@ -204,7 +214,7 @@ create python code
 [NbConvertApp] Writing 1277 bytes to parameter_scan.py
 [NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/phrasedmlExample.ipynb to python
 [NbConvertApp] Executing notebook with kernel: python2
-[NbConvertApp] Writing 1008 bytes to phrasedmlExample.py
+[NbConvertApp] Writing 13852 bytes to phrasedmlExample.py
 [NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/plot2DParameterScan.ipynb to python
 [NbConvertApp] Executing notebook with kernel: python2
 [NbConvertApp] Writing 575 bytes to plot2DParameterScan.py
@@ -247,7 +257,4 @@ create python code
 [NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/tesedmlExample.ipynb to python
 [NbConvertApp] Executing notebook with kernel: python2
 [NbConvertApp] Writing 2075 bytes to tesedmlExample.py
-[NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/Untitled.ipynb to python
-[NbConvertApp] Executing notebook with kernel: python2
-[NbConvertApp] Writing 2197 bytes to Untitled.py
 DONE

@@ -32,7 +32,7 @@
   
     <link rel="top" title="tellurium 1.3.1 documentation" href="../index.html"/>
         <link rel="up" title="tellurium package" href="tellurium.html"/>
-        <link rel="next" title="tellurium.tests package" href="tellurium.tests.html"/>
+        <link rel="next" title="tellurium.sedml package" href="tellurium.sedml.html"/>
         <link rel="prev" title="tellurium.notebooks package" href="tellurium.notebooks.html"/> 
 
   
@@ -90,7 +90,6 @@
 <li class="toctree-l1 current"><a class="reference internal" href="tellurium.html">API (tellurium)</a><ul class="current">
 <li class="toctree-l2 current"><a class="reference internal" href="tellurium.html#subpackages">Subpackages</a><ul class="current">
 <li class="toctree-l3"><a class="reference internal" href="tellurium.analysis.html">tellurium.analysis package</a></li>
-<li class="toctree-l3"><a class="reference internal" href="tellurium.io.html">tellurium.io package</a></li>
 <li class="toctree-l3"><a class="reference internal" href="tellurium.notebooks.html">tellurium.notebooks package</a></li>
 <li class="toctree-l3 current"><a class="current reference internal" href="">tellurium.optimization package</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#submodules">Submodules</a></li>
@@ -98,6 +97,8 @@
 <li class="toctree-l4"><a class="reference internal" href="#module-tellurium.optimization">Module contents</a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="tellurium.sedml.html">tellurium.sedml package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tellurium.teio.html">tellurium.teio package</a></li>
 <li class="toctree-l3"><a class="reference internal" href="tellurium.tests.html">tellurium.tests package</a></li>
 <li class="toctree-l3"><a class="reference internal" href="tellurium.visualization.html">tellurium.visualization package</a></li>
 </ul>
@@ -105,8 +106,7 @@
 <li class="toctree-l2"><a class="reference internal" href="tellurium.html#submodules">Submodules</a></li>
 <li class="toctree-l2"><a class="reference internal" href="tellurium.html#module-tellurium.tecombine">tellurium.tecombine module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="tellurium.html#module-tellurium.tellurium">tellurium.tellurium module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="tellurium.html#module-tellurium.tephrasedml">tellurium.tephrasedml module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="tellurium.html#module-tellurium.tesedml">tellurium.tesedml module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tellurium.html#module-tellurium.temiriam">tellurium.temiriam module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="tellurium.html#module-tellurium">Module contents</a></li>
 </ul>
 </li>
@@ -242,7 +242,74 @@ can be used on nondifferentiable and discrete problems (Storn &amp; Price 1997).
 </div>
 <div class="section" id="module-tellurium.optimization">
 <span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-tellurium.optimization" title="Permalink to this headline">¶</a></h2>
-<p>optimization imports</p>
+<p>Tellurium optimization functions.</p>
+<p>The modules in tellurium.optimization implement functions for the fitting of model
+parameters to experimental data.</p>
+<p>The fitting routines require
+- model</p>
+<blockquote>
+<div>(SBML, Antimony)</div></blockquote>
+<ul>
+<li><dl class="first docutils">
+<dt>list of parameters to fit (with lower and upper bounds) + initial value (from model)</dt>
+<dd><dl class="first last docutils">
+<dt>{k1: [0.1, 1.0],</dt>
+<dd><p class="first last">k2: [0.1, 5.0]}</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>list of experimental values for given time and selection</dt>
+<dd><p class="first last">time, selection, value
+0.0, S1, 10.0
+5.0, S1, 5.0
+10.0, S1, 2.0
+0.0, S2, 0.0
+5.0, S2, 5.0
+10.0, S2, 10.0</p>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>minimization function</dt>
+<dd><p class="first last">This is build from the model, parameters, list of experimental data.
+Within the minimization function one (multiple) simulations are performed for
+the given parameter set and some distance measure calculated between simulation
+results and experimental data.</p>
+</dd>
+</dl>
+</li>
+</ul>
+<p>Algorithms which will be implemented in future versions are</p>
+<dl class="docutils">
+<dt>Differential Evolution (SciPy)</dt>
+<dd><p class="first">scipy.optimize.differential_evolution
+<a class="reference external" href="http://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.differential_evolution.html#scipy.optimize.differential_evolution">http://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.differential_evolution.html#scipy.optimize.differential_evolution</a></p>
+<p class="last">Finds the global minimum of a multivariate function. Differential Evolution is stochastic in nature
+(does not use gradient methods) to find the minimium, and can search large areas of candidate space,
+but often requires larger numbers of function evaluations than conventional gradient based techniques.
+The algorithm is due to Storn and Price [R140].</p>
+</dd>
+<dt>Grid Search (Scikit-Learn) | brute (SciPy)</dt>
+<dd><p class="first">scipy.optimize.brute
+Minimize a function over a given range by brute force.
+Uses the “brute force” method, i.e. computes the function’s value at each point of a
+multidimensional grid of points, to find the global minimum of the function.</p>
+<p class="last">scikit-learn.org/stable/modules/grid_search.html
+from sklearn.grid_search import GridSearchCV
+Parameters that are not directly learnt within estimators can be set by searching a parameter space for the
+best Cross-validation: evaluating estimator performance score. Typical examples include C, kernel and gamma for
+Support Vector Classifier, alpha for Lasso, etc.</p>
+</dd>
+<dt>Basin-hopping</dt>
+<dd>scipy.optimize.basinhopping
+Find the global minimum of a function using the basin-hopping algorithm</dd>
+</dl>
+<p>Levenberg-Marquardt</p>
+<p>Particle Swarm</p>
+<p>Simulated Annealing</p>
 </div>
 </div>
 
@@ -253,7 +320,7 @@ can be used on nondifferentiable and discrete problems (Storn &amp; Price 1997).
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="tellurium.tests.html" class="btn btn-neutral float-right" title="tellurium.tests package" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="tellurium.sedml.html" class="btn btn-neutral float-right" title="tellurium.sedml package" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="tellurium.notebooks.html" class="btn btn-neutral" title="tellurium.notebooks package" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>

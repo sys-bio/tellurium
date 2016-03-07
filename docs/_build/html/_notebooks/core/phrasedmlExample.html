@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>phrasedml experiment &mdash; tellurium 1.3.1 documentation</title>
+  <title>SED-ML L1V2 specification example &mdash; tellurium 1.3.1 documentation</title>
   
 
   
@@ -115,7 +115,7 @@
   <ul class="wy-breadcrumbs">
     <li><a href="../../index.html">Docs</a> &raquo;</li>
       
-    <li>phrasedml experiment</li>
+    <li>SED-ML L1V2 specification example</li>
       <li class="wy-breadcrumbs-aside">
         
           
@@ -129,7 +129,94 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="phrasedml-experiment">
+  <div class="section" id="sed-ml-l1v2-specification-example">
+<h1>SED-ML L1V2 specification example<a class="headerlink" href="#sed-ml-l1v2-specification-example" title="Permalink to this headline">¶</a></h1>
+<p>Repressilator example which demonstrates the use of phrasedml with URN
+examples.</p>
+<p>The examples are the reference examples from the SED-ML specification
+document available from
+<a class="reference external" href="http://sed-ml.sourceforge.net/documents/sed-ml-L1V2.pdf">http://sed-ml.sourceforge.net/documents/sed-ml-L1V2.pdf</a> (Introduction
+Section).</p>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">tellurium</span> <span class="kn">as</span> <span class="nn">te</span>
+<span class="kn">import</span> <span class="nn">phrasedml</span>
+
+<span class="c1"># Get SBML from URN and set for phrasedml</span>
+<span class="n">urn</span> <span class="o">=</span> <span class="s2">&quot;urn:miriam:biomodels.db:BIOMD0000000012&quot;</span>
+<span class="n">sbmlStr</span> <span class="o">=</span> <span class="n">te</span><span class="o">.</span><span class="n">temiriam</span><span class="o">.</span><span class="n">getSBMLFromBiomodelsURN</span><span class="p">(</span><span class="n">urn</span><span class="o">=</span><span class="n">urn</span><span class="p">)</span>
+<span class="n">phrasedml</span><span class="o">.</span><span class="n">setReferencedSBML</span><span class="p">(</span><span class="n">urn</span><span class="p">,</span> <span class="n">sbmlStr</span><span class="p">)</span>
+
+<span class="c1"># &lt;SBML species&gt;</span>
+<span class="c1">#   PX - LacI protein</span>
+<span class="c1">#   PY - TetR protein</span>
+<span class="c1">#   PZ - cI protein</span>
+<span class="c1">#   X - LacI mRNA</span>
+<span class="c1">#   Y - TetR mRNA</span>
+<span class="c1">#   Z - cI mRNA</span>
+
+<span class="c1"># &lt;SBML parameters&gt;</span>
+<span class="c1">#   ps_a - tps_active: Transcrition from free promotor in transcripts per second and promotor</span>
+<span class="c1">#   ps_0 - tps_repr: Transcrition from fully repressed promotor in transcripts per second and promotor</span>
+
+<span class="n">phrasedmlStr</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">    model1 = model &quot;{}&quot;</span>
+<span class="s2">    model2 = model model1 with ps_0=1.3E-5, ps_a=0.013</span>
+<span class="s2">    sim1 = simulate uniform(0, 1000, 1000)</span>
+<span class="s2">    task1 = run sim1 on model1</span>
+<span class="s2">    task2 = run sim1 on model2</span>
+
+<span class="s2">    # A simple timecourse simulation</span>
+<span class="s2">    plot &quot;Figure 1.1 Timecourse of repressilator&quot; task1.time vs task1.PX, task1.PZ, task1.PY</span>
+
+<span class="s2">    # Applying preprocessing</span>
+<span class="s2">    plot &quot;Figure 1.2 Timecourse after pre-processing&quot; task2.time vs task2.PX, task2.PZ, task2.PY</span>
+
+<span class="s2">    # Applying postprocessing</span>
+<span class="s2">    plot &quot;Figure 1.3 Timecourse after post-processing&quot; task1.PX/max(task1.PX) vs task1.PZ/max(task1.PZ), </span><span class="se">\</span>
+<span class="s2">                                                       task1.PY/max(task1.PY) vs task1.PX/max(task1.PX), </span><span class="se">\</span>
+<span class="s2">                                                       task1.PZ/max(task1.PZ) vs task1.PY/max(task1.PY)</span>
+<span class="s2">&quot;&quot;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">urn</span><span class="p">)</span>
+
+<span class="c1"># convert to SED-ML</span>
+<span class="n">sedmlStr</span> <span class="o">=</span> <span class="n">phrasedml</span><span class="o">.</span><span class="n">convertString</span><span class="p">(</span><span class="n">phrasedmlStr</span><span class="p">)</span>
+<span class="k">if</span> <span class="n">sedmlStr</span> <span class="o">==</span> <span class="bp">None</span><span class="p">:</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">phrasedml</span><span class="o">.</span><span class="n">getLastError</span><span class="p">())</span>
+
+<span class="c1"># Run SED-ML file</span>
+<span class="n">te</span><span class="o">.</span><span class="n">executeSEDML</span><span class="p">(</span><span class="n">sedmlStr</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre>INFO:root:Initialising BioModels service (WSDL)
+INFO:root:Initialising BioModels service (WSDL)
+INFO:root:Initialising BioModels service (WSDL)
+</pre></div>
+</div>
+<img alt="_notebooks/core/_notebooks/core/phrasedmlExample_files/phrasedmlExample_2_1.png" src="_notebooks/core/_notebooks/core/phrasedmlExample_files/phrasedmlExample_2_1.png" />
+<img alt="_notebooks/core/_notebooks/core/phrasedmlExample_files/phrasedmlExample_2_2.png" src="_notebooks/core/_notebooks/core/phrasedmlExample_files/phrasedmlExample_2_2.png" />
+<img alt="_notebooks/core/_notebooks/core/phrasedmlExample_files/phrasedmlExample_2_3.png" src="_notebooks/core/_notebooks/core/phrasedmlExample_files/phrasedmlExample_2_3.png" />
+</div>
+<div class="section" id="execute-combine-archive">
+<h1>Execute Combine Archive<a class="headerlink" href="#execute-combine-archive" title="Permalink to this headline">¶</a></h1>
+<p>Executing the SED-ML from a combine archive.</p>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">tellurium</span> <span class="kn">as</span> <span class="nn">te</span>
+<span class="kn">from</span> <span class="nn">tellurium.tests.testdata</span> <span class="kn">import</span> <span class="n">sedxDir</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="n">omexPath</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">sedxDir</span><span class="p">,</span> <span class="s2">&quot;BIOMD0000000003.sedx&quot;</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">omexPath</span><span class="p">)</span>
+<span class="n">te</span><span class="o">.</span><span class="n">executeSEDML</span><span class="p">(</span><span class="n">omexPath</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre>/home/mkoenig/git/tellurium/tellurium/tests/testdata/sedml/sedx/BIOMD0000000003.sedx
+</pre></div>
+</div>
+<pre class="literal-block">
+/home/mkoenig/git/tellurium/tellurium/tecombine.py:49: UserWarning: Combine archive directory already exists:/home/mkoenig/git/tellurium/tellurium/tests/testdata/sedml/sedx/_te_BIOMD0000000003
+  warnings.warn(&quot;Combine archive directory already exists:{}&quot;.format(directory))
+/home/mkoenig/git/tellurium/tellurium/tecombine.py:97: UserWarning: No 'manifest.xml' in archive, using all '<em>.sedml' files.
+  warnings.warn(&quot;No 'manifest.xml' in archive, using all '</em>.sedml' files.&quot;)
+</pre>
+<img alt="_notebooks/core/_notebooks/core/phrasedmlExample_files/phrasedmlExample_4_2.png" src="_notebooks/core/_notebooks/core/phrasedmlExample_files/phrasedmlExample_4_2.png" />
+</div>
+<div class="section" id="phrasedml-experiment">
 <h1>phrasedml experiment<a class="headerlink" href="#phrasedml-experiment" title="Permalink to this headline">¶</a></h1>
 <p>Tellurium provides support for simulation descriptions in SED-ML the
 export in Combine Archive format.</p>
@@ -150,47 +237,541 @@ export in Combine Archive format.</p>
 <span class="s1">  plot &quot;Figure 1&quot; time vs S1, S2</span>
 <span class="s1">&#39;&#39;&#39;</span>
 
-<span class="c1"># create an experiment and perform it</span>
+<span class="c1"># create an experiment</span>
 <span class="n">exp</span> <span class="o">=</span> <span class="n">te</span><span class="o">.</span><span class="n">experiment</span><span class="p">(</span><span class="n">antimony</span><span class="p">,</span> <span class="n">phrasedml</span><span class="p">)</span>
-
-<span class="n">exp</span><span class="o">.</span><span class="n">execute</span><span class="p">()</span>
-<span class="n">exp</span><span class="o">.</span><span class="n">printpython</span><span class="p">()</span>
+<span class="c1"># execute it</span>
+<span class="n">exp</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">phrasedml</span><span class="p">)</span>
+<span class="c1"># print python code</span>
+<span class="n">exp</span><span class="o">.</span><span class="n">printPython</span><span class="p">(</span><span class="n">phrasedml</span><span class="p">)</span>
 </pre></div>
 </div>
-<img alt="_notebooks/core/_notebooks/core/phrasedmlExample_files/phrasedmlExample_2_0.png" src="_notebooks/core/_notebooks/core/phrasedmlExample_files/phrasedmlExample_2_0.png" />
-<div class="highlight-python"><div class="highlight"><pre><span class="n">myModel</span> <span class="o">=</span> <span class="s1">&#39;&#39;&#39;</span>
-<span class="s1">model myModel</span>
-<span class="s1">  S1 -&gt; S2; k1*S1</span>
-<span class="s1">  S1 = 10; S2 = 0</span>
-<span class="s1">  k1 = 1</span>
+<img alt="_notebooks/core/_notebooks/core/phrasedmlExample_files/phrasedmlExample_6_0.png" src="_notebooks/core/_notebooks/core/phrasedmlExample_files/phrasedmlExample_6_0.png" />
+<div class="highlight-python"><div class="highlight"><pre><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    tellurium 1.3.1</span>
+
+<span class="sd">    auto-generated code</span>
+<span class="sd">    sedmlDoc: L1V2</span>
+<span class="sd">    workingDir: /tmp/tmpgtZuA4_sedml/_te_myModel</span>
+<span class="sd">    inputType: COMBINE_FILE</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">tellurium</span> <span class="kn">as</span> <span class="nn">te</span>
+<span class="kn">from</span> <span class="nn">tellurium.sedml.mathml</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">mpl_toolkits.mplot3d</span>
+<span class="kn">import</span> <span class="nn">libsedml</span>
+<span class="kn">import</span> <span class="nn">pandas</span>
+<span class="kn">import</span> <span class="nn">os.path</span>
+
+<span class="n">workingDir</span> <span class="o">=</span> <span class="s1">&#39;/tmp/tmpgtZuA4_sedml/_te_myModel&#39;</span>
+
+<span class="c1"># --------------------------------------------------------</span>
+<span class="c1"># Models</span>
+<span class="c1"># --------------------------------------------------------</span>
+<span class="c1"># Model &lt;model1&gt;</span>
+<span class="n">model1</span> <span class="o">=</span> <span class="n">te</span><span class="o">.</span><span class="n">loadSBMLModel</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">workingDir</span><span class="p">,</span> <span class="s1">&#39;myModel.xml&#39;</span><span class="p">))</span>
+
+<span class="c1"># --------------------------------------------------------</span>
+<span class="c1"># Tasks</span>
+<span class="c1"># --------------------------------------------------------</span>
+<span class="c1"># Task &lt;task1&gt;</span>
+<span class="c1"># Task: &lt;task1&gt;</span>
+<span class="n">task1</span> <span class="o">=</span> <span class="p">[</span><span class="bp">None</span><span class="p">]</span>
+<span class="n">model1</span><span class="o">.</span><span class="n">setIntegrator</span><span class="p">(</span><span class="s1">&#39;cvode&#39;</span><span class="p">)</span>
+<span class="n">model1</span><span class="o">.</span><span class="n">timeCourseSelections</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;S2&#39;</span><span class="p">,</span> <span class="s1">&#39;S1&#39;</span><span class="p">,</span> <span class="s1">&#39;time&#39;</span><span class="p">]</span>
+<span class="n">task1</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">model1</span><span class="o">.</span><span class="n">simulate</span><span class="p">(</span><span class="n">start</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="mf">5.0</span><span class="p">,</span> <span class="n">steps</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+
+<span class="c1"># --------------------------------------------------------</span>
+<span class="c1"># DataGenerators</span>
+<span class="c1"># --------------------------------------------------------</span>
+<span class="c1"># DataGenerator &lt;plot_0_0_0&gt;</span>
+<span class="n">__var__time</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">sim</span><span class="p">[</span><span class="s1">&#39;time&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">sim</span> <span class="ow">in</span> <span class="n">task1</span><span class="p">]))</span>
+<span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">__var__time</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+     <span class="n">__var__time</span><span class="o">.</span><span class="n">shape</span> <span class="o">+=</span> <span class="p">(</span><span class="mi">1</span><span class="p">,)</span>
+<span class="n">plot_0_0_0</span> <span class="o">=</span> <span class="n">__var__time</span>
+
+<span class="c1"># DataGenerator &lt;plot_0_0_1&gt;</span>
+<span class="n">__var__S1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">sim</span><span class="p">[</span><span class="s1">&#39;S1&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">sim</span> <span class="ow">in</span> <span class="n">task1</span><span class="p">]))</span>
+<span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">__var__S1</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+     <span class="n">__var__S1</span><span class="o">.</span><span class="n">shape</span> <span class="o">+=</span> <span class="p">(</span><span class="mi">1</span><span class="p">,)</span>
+<span class="n">plot_0_0_1</span> <span class="o">=</span> <span class="n">__var__S1</span>
+
+<span class="c1"># DataGenerator &lt;plot_0_1_1&gt;</span>
+<span class="n">__var__S2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">sim</span><span class="p">[</span><span class="s1">&#39;S2&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">sim</span> <span class="ow">in</span> <span class="n">task1</span><span class="p">]))</span>
+<span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">__var__S2</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+     <span class="n">__var__S2</span><span class="o">.</span><span class="n">shape</span> <span class="o">+=</span> <span class="p">(</span><span class="mi">1</span><span class="p">,)</span>
+<span class="n">plot_0_1_1</span> <span class="o">=</span> <span class="n">__var__S2</span>
+
+<span class="c1"># --------------------------------------------------------</span>
+<span class="c1"># Outputs</span>
+<span class="c1"># --------------------------------------------------------</span>
+<span class="c1"># Output &lt;plot_0&gt;</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">num</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">9</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">80</span><span class="p">,</span> <span class="n">facecolor</span><span class="o">=</span><span class="s1">&#39;w&#39;</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">)</span>
+<span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">gridspec</span>
+<span class="n">__gs</span> <span class="o">=</span> <span class="n">gridspec</span><span class="o">.</span><span class="n">GridSpec</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">width_ratios</span><span class="o">=</span><span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="n">__gs</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">plot_0_0_0</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]):</span>
+    <span class="k">if</span> <span class="n">k</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">plot_0_0_0</span><span class="p">[:,</span><span class="n">k</span><span class="p">],</span> <span class="n">plot_0_0_1</span><span class="p">[:,</span><span class="n">k</span><span class="p">],</span> <span class="s1">&#39;-o&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">1.5</span><span class="p">,</span> <span class="n">markersize</span><span class="o">=</span><span class="mf">3.0</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.8</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;S1&#39;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">plot_0_0_0</span><span class="p">[:,</span><span class="n">k</span><span class="p">],</span> <span class="n">plot_0_0_1</span><span class="p">[:,</span><span class="n">k</span><span class="p">],</span> <span class="s1">&#39;-o&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">1.5</span><span class="p">,</span> <span class="n">markersize</span><span class="o">=</span><span class="mf">3.0</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.8</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">plot_0_0_0</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]):</span>
+    <span class="k">if</span> <span class="n">k</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">plot_0_0_0</span><span class="p">[:,</span><span class="n">k</span><span class="p">],</span> <span class="n">plot_0_1_1</span><span class="p">[:,</span><span class="n">k</span><span class="p">],</span> <span class="s1">&#39;-o&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">1.5</span><span class="p">,</span> <span class="n">markersize</span><span class="o">=</span><span class="mf">3.0</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.8</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;S2&#39;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">plot_0_0_0</span><span class="p">[:,</span><span class="n">k</span><span class="p">],</span> <span class="n">plot_0_1_1</span><span class="p">[:,</span><span class="n">k</span><span class="p">],</span> <span class="s1">&#39;-o&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">1.5</span><span class="p">,</span> <span class="n">markersize</span><span class="o">=</span><span class="mf">3.0</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.8</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Figure 1&#39;</span><span class="p">,</span> <span class="n">fontweight</span><span class="o">=</span><span class="s1">&#39;bold&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;time&#39;</span><span class="p">,</span> <span class="n">fontweight</span><span class="o">=</span><span class="s1">&#39;bold&#39;</span><span class="p">)</span>
+<span class="n">__lg</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">bbox_to_anchor</span><span class="o">=</span><span class="p">(</span><span class="mf">1.05</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">loc</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">borderaxespad</span><span class="o">=</span><span class="mf">0.</span><span class="p">)</span>
+<span class="n">__lg</span><span class="o">.</span><span class="n">draw_frame</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">setp</span><span class="p">(</span><span class="n">__lg</span><span class="o">.</span><span class="n">get_texts</span><span class="p">(),</span> <span class="n">fontsize</span><span class="o">=</span><span class="s1">&#39;small&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">setp</span><span class="p">(</span><span class="n">__lg</span><span class="o">.</span><span class="n">get_texts</span><span class="p">(),</span> <span class="n">fontweight</span><span class="o">=</span><span class="s1">&#39;bold&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">workingDir</span><span class="p">,</span> <span class="s1">&#39;plot_0.png&#39;</span><span class="p">),</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="onestep">
+<h1>OneStep<a class="headerlink" href="#onestep" title="Permalink to this headline">¶</a></h1>
+<p>Running a one step simulation.</p>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">tellurium</span> <span class="kn">as</span> <span class="nn">te</span>
+
+<span class="n">antimonyStr</span> <span class="o">=</span> <span class="s1">&#39;&#39;&#39;</span>
+<span class="s1">// Created by libAntimony v2.9</span>
+<span class="s1">model *oneStep()</span>
+
+<span class="s1">// Compartments and Species:</span>
+<span class="s1">compartment compartment_;</span>
+<span class="s1">species S1 in compartment_, S2 in compartment_, $X0 in compartment_, $X1 in compartment_;</span>
+<span class="s1">species $X2 in compartment_;</span>
+
+<span class="s1">// Reactions:</span>
+<span class="s1">J0: $X0 =&gt; S1; J0_v0;</span>
+<span class="s1">J1: S1 =&gt; $X1; J1_k3*S1;</span>
+<span class="s1">J2: S1 =&gt; S2; (J2_k1*S1 - J2_k_1*S2)*(1 + J2_c*S2^J2_q);</span>
+<span class="s1">J3: S2 =&gt; $X2; J3_k2*S2;</span>
+
+<span class="s1">// Species initializations:</span>
+<span class="s1">S1 = 0;</span>
+<span class="s1">S2 = 1;</span>
+<span class="s1">X0 = 1;</span>
+<span class="s1">X1 = 0;</span>
+<span class="s1">X2 = 0;</span>
+
+<span class="s1">// Compartment initializations:</span>
+<span class="s1">compartment_ = 1;</span>
+
+<span class="s1">// Variable initializations:</span>
+<span class="s1">J0_v0 = 8;</span>
+<span class="s1">J1_k3 = 0;</span>
+<span class="s1">J2_k1 = 1;</span>
+<span class="s1">J2_k_1 = 0;</span>
+<span class="s1">J2_c = 1;</span>
+<span class="s1">J2_q = 3;</span>
+<span class="s1">J3_k2 = 5;</span>
+
+<span class="s1">// Other declarations:</span>
+<span class="s1">const compartment_, J0_v0, J1_k3, J2_k1, J2_k_1, J2_c, J2_q, J3_k2;</span>
 <span class="s1">end</span>
 <span class="s1">&#39;&#39;&#39;</span>
 
-<span class="c1"># Translated SED-ML</span>
-<span class="c1"># Beginning of generated script</span>
-<span class="kn">import</span> <span class="nn">tellurium</span> <span class="kn">as</span> <span class="nn">te</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
+<span class="n">phrasedmlStr</span> <span class="o">=</span> <span class="s1">&#39;&#39;&#39;</span>
+<span class="s1">model1 = model &quot;oneStep&quot;</span>
+<span class="s1">stepper = simulate onestep(0.1)</span>
+<span class="s1">task0 = run stepper on model1</span>
+<span class="s1">task1 = repeat task0 for local.x in uniform(0, 10, 100), J0_v0 = piecewise(8, x&lt;4, 0.1, 4&lt;=x&lt;6, 8)</span>
+<span class="s1">plot &quot;One Step Simulation&quot; task1.time vs task1.S1, task1.S2, task1.J0_v0</span>
+<span class="s1">report task1.time vs task1.S1, task1.S2, task1.J0_v0</span>
+<span class="s1">&#39;&#39;&#39;</span>
 
-<span class="c1"># Execute the tasks of model: model1</span>
-<span class="n">model1</span> <span class="o">=</span> <span class="n">te</span><span class="o">.</span><span class="n">loada</span><span class="p">(</span><span class="n">myModel</span><span class="p">)</span>
-<span class="n">model1</span><span class="o">.</span><span class="n">timeCourseSelections</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;time&quot;</span><span class="p">,</span><span class="s2">&quot;S1&quot;</span><span class="p">,</span><span class="s2">&quot;S2&quot;</span><span class="p">]</span>
-<span class="n">t1</span> <span class="o">=</span> <span class="n">model1</span><span class="o">.</span><span class="n">simulate</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
-
-<span class="c1"># List of Data Generators</span>
-<span class="n">plot_0_0_0</span> <span class="o">=</span> <span class="n">t1</span><span class="p">[</span><span class="mi">0</span><span class="p">:,</span><span class="mi">0</span><span class="p">]</span>
-<span class="n">plot_0_0_1</span> <span class="o">=</span> <span class="n">t1</span><span class="p">[</span><span class="mi">0</span><span class="p">:,</span><span class="mi">1</span><span class="p">]</span>
-<span class="n">plot_0_1_1</span> <span class="o">=</span> <span class="n">t1</span><span class="p">[</span><span class="mi">0</span><span class="p">:,</span><span class="mi">2</span><span class="p">]</span>
-
-<span class="c1"># List of Outputs</span>
-<span class="n">Y_0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">plot_0_0_1</span><span class="p">,</span> <span class="n">plot_0_1_1</span><span class="p">])</span><span class="o">.</span><span class="n">T</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">plot_0_0_0</span><span class="p">,</span> <span class="n">Y_0</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Figure 1&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
-
-<span class="c1"># End of generated script</span>
+<span class="c1"># phrasedml experiment</span>
+<span class="n">exp</span> <span class="o">=</span> <span class="n">te</span><span class="o">.</span><span class="n">experiment</span><span class="p">(</span><span class="n">antimonyStr</span><span class="p">,</span> <span class="n">phrasedmlStr</span><span class="p">)</span>
+<span class="n">exp</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">phrasedmlStr</span><span class="p">)</span>
 </pre></div>
 </div>
+<img alt="_notebooks/core/_notebooks/core/phrasedmlExample_files/phrasedmlExample_8_0.png" src="_notebooks/core/_notebooks/core/phrasedmlExample_files/phrasedmlExample_8_0.png" />
+<div class="highlight-python"><div class="highlight"><pre>--------------------------------------------------------------------------------
+report_1, Repeat: 0
+--------------------------------------------------------------------------------
+   task1.time  task1.S1  task1.S2  task1.J0_v0
+0         0.0  0.000000  1.000000            8
+1         0.1  0.745532  0.652365            8
+2         0.1  0.745532  0.652365            8
+3         0.2  1.417837  0.498244            8
+4         0.2  1.417837  0.498244            8
+5         0.3  2.027316  0.454142            8
+6         0.3  2.027316  0.454142            8
+7         0.4  2.574011  0.476847            8
+8         0.4  2.574011  0.476847            8
+9         0.5  3.054914  0.542557            8
+</pre></div>
+</div>
+</div>
+<div class="section" id="parameterscan1d">
+<h1>parameterScan1D<a class="headerlink" href="#parameterscan1d" title="Permalink to this headline">¶</a></h1>
+<p>One dimensional parameter scan.</p>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">tellurium</span> <span class="kn">as</span> <span class="nn">te</span>
+
+<span class="n">antimonyStr</span> <span class="o">=</span> <span class="s1">&#39;&#39;&#39;</span>
+<span class="s1">// Created by libAntimony v2.9</span>
+<span class="s1">model *parameterScan1D()</span>
+
+<span class="s1">// Compartments and Species:</span>
+<span class="s1">compartment compartment_;</span>
+<span class="s1">species S1 in compartment_, S2 in compartment_, $X0 in compartment_, $X1 in compartment_;</span>
+<span class="s1">species $X2 in compartment_;</span>
+
+<span class="s1">// Reactions:</span>
+<span class="s1">J0: $X0 =&gt; S1; J0_v0;</span>
+<span class="s1">J1: S1 =&gt; $X1; J1_k3*S1;</span>
+<span class="s1">J2: S1 =&gt; S2; (J2_k1*S1 - J2_k_1*S2)*(1 + J2_c*S2^J2_q);</span>
+<span class="s1">J3: S2 =&gt; $X2; J3_k2*S2;</span>
+
+<span class="s1">// Species initializations:</span>
+<span class="s1">S1 = 0;</span>
+<span class="s1">S2 = 1;</span>
+<span class="s1">X0 = 1;</span>
+<span class="s1">X1 = 0;</span>
+<span class="s1">X2 = 0;</span>
+
+<span class="s1">// Compartment initializations:</span>
+<span class="s1">compartment_ = 1;</span>
+
+<span class="s1">// Variable initializations:</span>
+<span class="s1">J0_v0 = 8;</span>
+<span class="s1">J1_k3 = 0;</span>
+<span class="s1">J2_k1 = 1;</span>
+<span class="s1">J2_k_1 = 0;</span>
+<span class="s1">J2_c = 1;</span>
+<span class="s1">J2_q = 3;</span>
+<span class="s1">J3_k2 = 5;</span>
+
+<span class="s1">// Other declarations:</span>
+<span class="s1">const compartment_, J0_v0, J1_k3, J2_k1, J2_k_1, J2_c, J2_q, J3_k2;</span>
+<span class="s1">end</span>
+<span class="s1">&#39;&#39;&#39;</span>
+
+<span class="n">phrasedmlStr</span> <span class="o">=</span> <span class="s1">&#39;&#39;&#39;</span>
+<span class="s1">model1 = model &quot;parameterScan1D&quot;</span>
+<span class="s1">timecourse1 = simulate uniform(0, 20, 1000)</span>
+<span class="s1">task0 = run timecourse1 on model1</span>
+<span class="s1">task1 = repeat task0 for J0_v0 in [8, 4, 0.4], reset=true</span>
+<span class="s1">plot task1.time vs task1.S1, task1.S2</span>
+<span class="s1">&#39;&#39;&#39;</span>
+
+<span class="c1"># phrasedml experiment</span>
+<span class="n">exp</span> <span class="o">=</span> <span class="n">te</span><span class="o">.</span><span class="n">experiment</span><span class="p">(</span><span class="n">antimonyStr</span><span class="p">,</span> <span class="n">phrasedmlStr</span><span class="p">)</span>
+<span class="n">exp</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">phrasedmlStr</span><span class="p">)</span>
+</pre></div>
+</div>
+<img alt="_notebooks/core/_notebooks/core/phrasedmlExample_files/phrasedmlExample_10_0.png" src="_notebooks/core/_notebooks/core/phrasedmlExample_files/phrasedmlExample_10_0.png" />
+</div>
+<div class="section" id="parameterscan2d">
+<h1>parameterScan2D<a class="headerlink" href="#parameterscan2d" title="Permalink to this headline">¶</a></h1>
+<p>2D parameter scan</p>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">tellurium</span> <span class="kn">as</span> <span class="nn">te</span>
+
+<span class="n">antimonyStr</span> <span class="o">=</span> <span class="s1">&#39;&#39;&#39;</span>
+<span class="s1">// Created by libAntimony v2.9</span>
+<span class="s1">model *parameterScan2D()</span>
+
+<span class="s1">  // Compartments and Species:</span>
+<span class="s1">  compartment compartment_;</span>
+<span class="s1">  species MKKK in compartment_, MKKK_P in compartment_, MKK in compartment_;</span>
+<span class="s1">  species MKK_P in compartment_, MKK_PP in compartment_, MAPK in compartment_;</span>
+<span class="s1">  species MAPK_P in compartment_, MAPK_PP in compartment_;</span>
+
+<span class="s1">  // Reactions:</span>
+<span class="s1">  J0: MKKK =&gt; MKKK_P; (J0_V1*MKKK)/((1 + (MAPK_PP/J0_Ki)^J0_n)*(J0_K1 + MKKK));</span>
+<span class="s1">  J1: MKKK_P =&gt; MKKK; (J1_V2*MKKK_P)/(J1_KK2 + MKKK_P);</span>
+<span class="s1">  J2: MKK =&gt; MKK_P; (J2_k3*MKKK_P*MKK)/(J2_KK3 + MKK);</span>
+<span class="s1">  J3: MKK_P =&gt; MKK_PP; (J3_k4*MKKK_P*MKK_P)/(J3_KK4 + MKK_P);</span>
+<span class="s1">  J4: MKK_PP =&gt; MKK_P; (J4_V5*MKK_PP)/(J4_KK5 + MKK_PP);</span>
+<span class="s1">  J5: MKK_P =&gt; MKK; (J5_V6*MKK_P)/(J5_KK6 + MKK_P);</span>
+<span class="s1">  J6: MAPK =&gt; MAPK_P; (J6_k7*MKK_PP*MAPK)/(J6_KK7 + MAPK);</span>
+<span class="s1">  J7: MAPK_P =&gt; MAPK_PP; (J7_k8*MKK_PP*MAPK_P)/(J7_KK8 + MAPK_P);</span>
+<span class="s1">  J8: MAPK_PP =&gt; MAPK_P; (J8_V9*MAPK_PP)/(J8_KK9 + MAPK_PP);</span>
+<span class="s1">  J9: MAPK_P =&gt; MAPK; (J9_V10*MAPK_P)/(J9_KK10 + MAPK_P);</span>
+
+<span class="s1">  // Species initializations:</span>
+<span class="s1">  MKKK = 90;</span>
+<span class="s1">  MKKK_P = 10;</span>
+<span class="s1">  MKK = 280;</span>
+<span class="s1">  MKK_P = 10;</span>
+<span class="s1">  MKK_PP = 10;</span>
+<span class="s1">  MAPK = 280;</span>
+<span class="s1">  MAPK_P = 10;</span>
+<span class="s1">  MAPK_PP = 10;</span>
+
+<span class="s1">  // Compartment initializations:</span>
+<span class="s1">  compartment_ = 1;</span>
+
+<span class="s1">  // Variable initializations:</span>
+<span class="s1">  J0_V1 = 2.5;</span>
+<span class="s1">  J0_Ki = 9;</span>
+<span class="s1">  J0_n = 1;</span>
+<span class="s1">  J0_K1 = 10;</span>
+<span class="s1">  J1_V2 = 0.25;</span>
+<span class="s1">  J1_KK2 = 8;</span>
+<span class="s1">  J2_k3 = 0.025;</span>
+<span class="s1">  J2_KK3 = 15;</span>
+<span class="s1">  J3_k4 = 0.025;</span>
+<span class="s1">  J3_KK4 = 15;</span>
+<span class="s1">  J4_V5 = 0.75;</span>
+<span class="s1">  J4_KK5 = 15;</span>
+<span class="s1">  J5_V6 = 0.75;</span>
+<span class="s1">  J5_KK6 = 15;</span>
+<span class="s1">  J6_k7 = 0.025;</span>
+<span class="s1">  J6_KK7 = 15;</span>
+<span class="s1">  J7_k8 = 0.025;</span>
+<span class="s1">  J7_KK8 = 15;</span>
+<span class="s1">  J8_V9 = 0.5;</span>
+<span class="s1">  J8_KK9 = 15;</span>
+<span class="s1">  J9_V10 = 0.5;</span>
+<span class="s1">  J9_KK10 = 15;</span>
+
+<span class="s1">  // Other declarations:</span>
+<span class="s1">  const compartment_, J0_V1, J0_Ki, J0_n, J0_K1, J1_V2, J1_KK2, J2_k3, J2_KK3;</span>
+<span class="s1">  const J3_k4, J3_KK4, J4_V5, J4_KK5, J5_V6, J5_KK6, J6_k7, J6_KK7, J7_k8;</span>
+<span class="s1">  const J7_KK8, J8_V9, J8_KK9, J9_V10, J9_KK10;</span>
+<span class="s1">end</span>
+<span class="s1">&#39;&#39;&#39;</span>
+
+<span class="n">phrasedmlStr</span> <span class="o">=</span> <span class="s1">&#39;&#39;&#39;</span>
+<span class="s1">  model_3 = model &quot;parameterScan2D&quot;</span>
+<span class="s1">  sim_repeat = simulate uniform(0,3000,100)</span>
+<span class="s1">  task_1 = run sim_repeat on model_3</span>
+<span class="s1">  repeatedtask_1 = repeat task_1 for J1_KK2 in [1, 5, 10, 50, 60, 70, 80, 90, 100], reset=true</span>
+<span class="s1">  repeatedtask_2 = repeat repeatedtask_1 for J4_KK5 in uniform(1, 40, 10), reset=true</span>
+<span class="s1">  plot repeatedtask_2.J4_KK5 vs repeatedtask_2.J1_KK2</span>
+<span class="s1">  plot repeatedtask_2.time vs repeatedtask_2.MKK, repeatedtask_2.MKK_P</span>
+<span class="s1">&#39;&#39;&#39;</span>
+
+<span class="c1"># phrasedml experiment</span>
+<span class="n">exp</span> <span class="o">=</span> <span class="n">te</span><span class="o">.</span><span class="n">experiment</span><span class="p">(</span><span class="n">antimonyStr</span><span class="p">,</span> <span class="n">phrasedmlStr</span><span class="p">)</span>
+<span class="n">exp</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">phrasedmlStr</span><span class="p">)</span>
+</pre></div>
+</div>
+<img alt="_notebooks/core/_notebooks/core/phrasedmlExample_files/phrasedmlExample_12_0.png" src="_notebooks/core/_notebooks/core/phrasedmlExample_files/phrasedmlExample_12_0.png" />
+<img alt="_notebooks/core/_notebooks/core/phrasedmlExample_files/phrasedmlExample_12_1.png" src="_notebooks/core/_notebooks/core/phrasedmlExample_files/phrasedmlExample_12_1.png" />
+</div>
+<div class="section" id="repeatedstochastic">
+<h1>repeatedStochastic<a class="headerlink" href="#repeatedstochastic" title="Permalink to this headline">¶</a></h1>
+<p>Repeated stochastic simulation with setting seed.</p>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">phrasedml repeated stochastic test</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">tellurium</span> <span class="kn">as</span> <span class="nn">te</span>
+
+<span class="n">antimonyStr</span> <span class="o">=</span> <span class="s1">&#39;&#39;&#39;</span>
+<span class="s1">// Created by libAntimony v2.9</span>
+<span class="s1">model *repeatedStochastic()</span>
+
+<span class="s1">// Compartments and Species:</span>
+<span class="s1">compartment compartment_;</span>
+<span class="s1">species MKKK in compartment_, MKKK_P in compartment_, MKK in compartment_;</span>
+<span class="s1">species MKK_P in compartment_, MKK_PP in compartment_, MAPK in compartment_;</span>
+<span class="s1">species MAPK_P in compartment_, MAPK_PP in compartment_;</span>
+
+<span class="s1">// Reactions:</span>
+<span class="s1">J0: MKKK =&gt; MKKK_P; (J0_V1*MKKK)/((1 + (MAPK_PP/J0_Ki)^J0_n)*(J0_K1 + MKKK));</span>
+<span class="s1">J1: MKKK_P =&gt; MKKK; (J1_V2*MKKK_P)/(J1_KK2 + MKKK_P);</span>
+<span class="s1">J2: MKK =&gt; MKK_P; (J2_k3*MKKK_P*MKK)/(J2_KK3 + MKK);</span>
+<span class="s1">J3: MKK_P =&gt; MKK_PP; (J3_k4*MKKK_P*MKK_P)/(J3_KK4 + MKK_P);</span>
+<span class="s1">J4: MKK_PP =&gt; MKK_P; (J4_V5*MKK_PP)/(J4_KK5 + MKK_PP);</span>
+<span class="s1">J5: MKK_P =&gt; MKK; (J5_V6*MKK_P)/(J5_KK6 + MKK_P);</span>
+<span class="s1">J6: MAPK =&gt; MAPK_P; (J6_k7*MKK_PP*MAPK)/(J6_KK7 + MAPK);</span>
+<span class="s1">J7: MAPK_P =&gt; MAPK_PP; (J7_k8*MKK_PP*MAPK_P)/(J7_KK8 + MAPK_P);</span>
+<span class="s1">J8: MAPK_PP =&gt; MAPK_P; (J8_V9*MAPK_PP)/(J8_KK9 + MAPK_PP);</span>
+<span class="s1">J9: MAPK_P =&gt; MAPK; (J9_V10*MAPK_P)/(J9_KK10 + MAPK_P);</span>
+
+<span class="s1">// Species initializations:</span>
+<span class="s1">MKKK = 90;</span>
+<span class="s1">MKKK_P = 10;</span>
+<span class="s1">MKK = 280;</span>
+<span class="s1">MKK_P = 10;</span>
+<span class="s1">MKK_PP = 10;</span>
+<span class="s1">MAPK = 280;</span>
+<span class="s1">MAPK_P = 10;</span>
+<span class="s1">MAPK_PP = 10;</span>
+
+<span class="s1">// Compartment initializations:</span>
+<span class="s1">compartment_ = 1;</span>
+
+<span class="s1">// Variable initializations:</span>
+<span class="s1">J0_V1 = 2.5;</span>
+<span class="s1">J0_Ki = 9;</span>
+<span class="s1">J0_n = 1;</span>
+<span class="s1">J0_K1 = 10;</span>
+<span class="s1">J1_V2 = 0.25;</span>
+<span class="s1">J1_KK2 = 8;</span>
+<span class="s1">J2_k3 = 0.025;</span>
+<span class="s1">J2_KK3 = 15;</span>
+<span class="s1">J3_k4 = 0.025;</span>
+<span class="s1">J3_KK4 = 15;</span>
+<span class="s1">J4_V5 = 0.75;</span>
+<span class="s1">J4_KK5 = 15;</span>
+<span class="s1">J5_V6 = 0.75;</span>
+<span class="s1">J5_KK6 = 15;</span>
+<span class="s1">J6_k7 = 0.025;</span>
+<span class="s1">J6_KK7 = 15;</span>
+<span class="s1">J7_k8 = 0.025;</span>
+<span class="s1">J7_KK8 = 15;</span>
+<span class="s1">J8_V9 = 0.5;</span>
+<span class="s1">J8_KK9 = 15;</span>
+<span class="s1">J9_V10 = 0.5;</span>
+<span class="s1">J9_KK10 = 15;</span>
+
+<span class="s1">// Other declarations:</span>
+<span class="s1">const compartment_, J0_V1, J0_Ki, J0_n, J0_K1, J1_V2, J1_KK2, J2_k3, J2_KK3;</span>
+<span class="s1">const J3_k4, J3_KK4, J4_V5, J4_KK5, J5_V6, J5_KK6, J6_k7, J6_KK7, J7_k8;</span>
+<span class="s1">const J7_KK8, J8_V9, J8_KK9, J9_V10, J9_KK10;</span>
+<span class="s1">end</span>
+<span class="s1">&#39;&#39;&#39;</span>
+
+<span class="n">phrasedmlStr</span> <span class="o">=</span> <span class="s1">&#39;&#39;&#39;</span>
+<span class="s1">model1 = model &quot;repeatedStochastic&quot;</span>
+<span class="s1">timecourse1 = simulate uniform_stochastic(0, 4000, 1000)</span>
+<span class="s1">timecourse1.algorithm.seed = 1003</span>
+<span class="s1">timecourse2 = simulate uniform_stochastic(0, 4000, 1000)</span>
+<span class="s1">task1 = run timecourse1 on model1</span>
+<span class="s1">task2 = run timecourse2 on model1</span>
+<span class="s1">repeat1 = repeat task1 for local.x in uniform(0, 10, 10), reset=true</span>
+<span class="s1">repeat2 = repeat task2 for local.x in uniform(0, 10, 10), reset=true</span>
+<span class="s1">plot &quot;Repeats with SEED&quot; repeat1.time vs repeat1.MAPK, repeat1.MAPK_P, repeat1.MAPK_PP, repeat1.MKK, repeat1.MKK_P, repeat1.MKKK, repeat1.MKKK_P</span>
+<span class="s1">plot &quot;Repeates without SEED&quot; repeat2.time vs repeat2.MAPK, repeat2.MAPK_P, repeat2.MAPK_PP, repeat2.MKK, repeat2.MKK_P, repeat2.MKKK, repeat2.MKKK_P</span>
+<span class="s1">&#39;&#39;&#39;</span>
+
+<span class="c1"># phrasedml experiment</span>
+<span class="n">exp</span> <span class="o">=</span> <span class="n">te</span><span class="o">.</span><span class="n">experiment</span><span class="p">(</span><span class="n">antimonyStr</span><span class="p">,</span> <span class="n">phrasedmlStr</span><span class="p">)</span>
+<span class="n">exp</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">phrasedmlStr</span><span class="p">)</span>
+</pre></div>
+</div>
+<img alt="_notebooks/core/_notebooks/core/phrasedmlExample_files/phrasedmlExample_14_0.png" src="_notebooks/core/_notebooks/core/phrasedmlExample_files/phrasedmlExample_14_0.png" />
+<img alt="_notebooks/core/_notebooks/core/phrasedmlExample_files/phrasedmlExample_14_1.png" src="_notebooks/core/_notebooks/core/phrasedmlExample_files/phrasedmlExample_14_1.png" />
+</div>
+<div class="section" id="case-02">
+<h1>Case 02<a class="headerlink" href="#case-02" title="Permalink to this headline">¶</a></h1>
+<p>Perform repeated simulation after change of initial concentration to
+model. Within every repeat the value of a parameter k1 is changed. The
+model is reset after every repeat.</p>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">tellurium</span> <span class="kn">as</span> <span class="nn">te</span>
+
+<span class="n">antimonyStr</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">model case_02</span>
+<span class="s2">    J0: S1 -&gt; S2; k1*S1;</span>
+<span class="s2">    S1 = 10.0; S2=0.0;</span>
+<span class="s2">    k1 = 0.1;</span>
+<span class="s2">end</span>
+<span class="s2">&quot;&quot;&quot;</span>
+
+<span class="n">phrasedmlStr</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">    model0 = model &quot;case_02&quot;</span>
+<span class="s2">    model1 = model model0 with S1=5.0</span>
+<span class="s2">    sim0 = simulate uniform(0, 6, 100)</span>
+<span class="s2">    task0 = run sim0 on model1</span>
+<span class="s2">    task1 = repeat task0 for k1 in uniform(0.0, 5.0, 5), reset = true</span>
+<span class="s2">    plot &quot;Repeated task with reset&quot; task1.time vs task1.S1, task1.S2</span>
+<span class="s2">    plot &quot;Repeated task varying k1&quot; task1.k1 vs task1.S1</span>
+<span class="s2">    # report task1.time vs task1.S1, task1.S2</span>
+<span class="s2">&quot;&quot;&quot;</span>
+
+<span class="c1"># phrasedml experiment</span>
+<span class="n">exp</span> <span class="o">=</span> <span class="n">te</span><span class="o">.</span><span class="n">experiment</span><span class="p">(</span><span class="n">antimonyStr</span><span class="p">,</span> <span class="n">phrasedmlStr</span><span class="p">)</span>
+<span class="n">exp</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">phrasedmlStr</span><span class="p">)</span>
+</pre></div>
+</div>
+<img alt="_notebooks/core/_notebooks/core/phrasedmlExample_files/phrasedmlExample_16_0.png" src="_notebooks/core/_notebooks/core/phrasedmlExample_files/phrasedmlExample_16_0.png" />
+<img alt="_notebooks/core/_notebooks/core/phrasedmlExample_files/phrasedmlExample_16_1.png" src="_notebooks/core/_notebooks/core/phrasedmlExample_files/phrasedmlExample_16_1.png" />
+</div>
+<div class="section" id="outputplot3d">
+<h1>outputPlot3D<a class="headerlink" href="#outputplot3d" title="Permalink to this headline">¶</a></h1>
+<p>Oscillations of MAPK pathway.</p>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">tellurium</span> <span class="kn">as</span> <span class="nn">te</span>
+
+<span class="n">antimonyStr</span> <span class="o">=</span> <span class="s1">&#39;&#39;&#39;</span>
+<span class="s1">// Created by libAntimony v2.9</span>
+<span class="s1">model *case_09()</span>
+
+<span class="s1">// Compartments and Species:</span>
+<span class="s1">compartment compartment_;</span>
+<span class="s1">species MKKK in compartment_, MKKK_P in compartment_, MKK in compartment_;</span>
+<span class="s1">species MKK_P in compartment_, MKK_PP in compartment_, MAPK in compartment_;</span>
+<span class="s1">species MAPK_P in compartment_, MAPK_PP in compartment_;</span>
+
+<span class="s1">// Reactions:</span>
+<span class="s1">J0: MKKK =&gt; MKKK_P; (J0_V1*MKKK)/((1 + (MAPK_PP/J0_Ki)^J0_n)*(J0_K1 + MKKK));</span>
+<span class="s1">J1: MKKK_P =&gt; MKKK; (J1_V2*MKKK_P)/(J1_KK2 + MKKK_P);</span>
+<span class="s1">J2: MKK =&gt; MKK_P; (J2_k3*MKKK_P*MKK)/(J2_KK3 + MKK);</span>
+<span class="s1">J3: MKK_P =&gt; MKK_PP; (J3_k4*MKKK_P*MKK_P)/(J3_KK4 + MKK_P);</span>
+<span class="s1">J4: MKK_PP =&gt; MKK_P; (J4_V5*MKK_PP)/(J4_KK5 + MKK_PP);</span>
+<span class="s1">J5: MKK_P =&gt; MKK; (J5_V6*MKK_P)/(J5_KK6 + MKK_P);</span>
+<span class="s1">J6: MAPK =&gt; MAPK_P; (J6_k7*MKK_PP*MAPK)/(J6_KK7 + MAPK);</span>
+<span class="s1">J7: MAPK_P =&gt; MAPK_PP; (J7_k8*MKK_PP*MAPK_P)/(J7_KK8 + MAPK_P);</span>
+<span class="s1">J8: MAPK_PP =&gt; MAPK_P; (J8_V9*MAPK_PP)/(J8_KK9 + MAPK_PP);</span>
+<span class="s1">J9: MAPK_P =&gt; MAPK; (J9_V10*MAPK_P)/(J9_KK10 + MAPK_P);</span>
+
+<span class="s1">// Species initializations:</span>
+<span class="s1">MKKK = 90;</span>
+<span class="s1">MKKK_P = 10;</span>
+<span class="s1">MKK = 280;</span>
+<span class="s1">MKK_P = 10;</span>
+<span class="s1">MKK_PP = 10;</span>
+<span class="s1">MAPK = 280;</span>
+<span class="s1">MAPK_P = 10;</span>
+<span class="s1">MAPK_PP = 10;</span>
+
+<span class="s1">// Compartment initializations:</span>
+<span class="s1">compartment_ = 1;</span>
+
+<span class="s1">// Variable initializations:</span>
+<span class="s1">J0_V1 = 2.5;</span>
+<span class="s1">J0_Ki = 9;</span>
+<span class="s1">J0_n = 1;</span>
+<span class="s1">J0_K1 = 10;</span>
+<span class="s1">J1_V2 = 0.25;</span>
+<span class="s1">J1_KK2 = 8;</span>
+<span class="s1">J2_k3 = 0.025;</span>
+<span class="s1">J2_KK3 = 15;</span>
+<span class="s1">J3_k4 = 0.025;</span>
+<span class="s1">J3_KK4 = 15;</span>
+<span class="s1">J4_V5 = 0.75;</span>
+<span class="s1">J4_KK5 = 15;</span>
+<span class="s1">J5_V6 = 0.75;</span>
+<span class="s1">J5_KK6 = 15;</span>
+<span class="s1">J6_k7 = 0.025;</span>
+<span class="s1">J6_KK7 = 15;</span>
+<span class="s1">J7_k8 = 0.025;</span>
+<span class="s1">J7_KK8 = 15;</span>
+<span class="s1">J8_V9 = 0.5;</span>
+<span class="s1">J8_KK9 = 15;</span>
+<span class="s1">J9_V10 = 0.5;</span>
+<span class="s1">J9_KK10 = 15;</span>
+
+<span class="s1">// Other declarations:</span>
+<span class="s1">const compartment_, J0_V1, J0_Ki, J0_n, J0_K1, J1_V2, J1_KK2, J2_k3, J2_KK3;</span>
+<span class="s1">const J3_k4, J3_KK4, J4_V5, J4_KK5, J5_V6, J5_KK6, J6_k7, J6_KK7, J7_k8;</span>
+<span class="s1">const J7_KK8, J8_V9, J8_KK9, J9_V10, J9_KK10;</span>
+<span class="s1">end</span>
+<span class="s1">&#39;&#39;&#39;</span>
+
+<span class="n">phrasedmlStr</span> <span class="o">=</span> <span class="s1">&#39;&#39;&#39;</span>
+<span class="s1">  mod1 = model &quot;case_09&quot;</span>
+<span class="s1">  # sim1 = simulate uniform_stochastic(0, 4000, 1000)</span>
+<span class="s1">  sim1 = simulate uniform(0, 4000, 1000)</span>
+<span class="s1">  task1 = run sim1 on mod1</span>
+<span class="s1">  repeat1 = repeat task1 for local.x in uniform(0, 10, 10), reset=true</span>
+<span class="s1">  plot &quot;MAPK oscillations&quot; repeat1.MAPK vs repeat1.time vs repeat1.MAPK_P, repeat1.MAPK vs repeat1.time vs repeat1.MAPK_PP, repeat1.MAPK vs repeat1.time vs repeat1.MKK</span>
+<span class="s1">  # report repeat1.MAPK vs repeat1.time vs repeat1.MAPK_P, repeat1.MAPK vs repeat1.time vs repeat1.MAPK_PP, repeat1.MAPK vs repeat1.time vs repeat1.MKK</span>
+<span class="s1">&#39;&#39;&#39;</span>
+
+<span class="c1"># phrasedml experiment</span>
+<span class="n">exp</span> <span class="o">=</span> <span class="n">te</span><span class="o">.</span><span class="n">experiment</span><span class="p">(</span><span class="n">antimonyStr</span><span class="p">,</span> <span class="n">phrasedmlStr</span><span class="p">)</span>
+<span class="n">exp</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">phrasedmlStr</span><span class="p">)</span>
+</pre></div>
+</div>
+<img alt="_notebooks/core/_notebooks/core/phrasedmlExample_files/phrasedmlExample_18_0.png" src="_notebooks/core/_notebooks/core/phrasedmlExample_files/phrasedmlExample_18_0.png" />
 </div>
 <div class="section" id="combine-archive">
 <h1>Combine Archive<a class="headerlink" href="#combine-archive" title="Permalink to this headline">¶</a></h1>
@@ -207,7 +788,7 @@ stored as Combine Archive.</p>
 <span class="k">print</span><span class="p">(</span><span class="nb">zip</span><span class="o">.</span><span class="n">namelist</span><span class="p">())</span>
 </pre></div>
 </div>
-<div class="highlight-python"><div class="highlight"><pre><span class="p">[</span><span class="s1">&#39;myModel.xml&#39;</span><span class="p">,</span> <span class="s1">&#39;experiment1.xml&#39;</span><span class="p">,</span> <span class="s1">&#39;manifest.xml&#39;</span><span class="p">]</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">[</span><span class="s1">&#39;case_09.xml&#39;</span><span class="p">,</span> <span class="s1">&#39;experiment1.xml&#39;</span><span class="p">,</span> <span class="s1">&#39;manifest.xml&#39;</span><span class="p">]</span>
 </pre></div>
 </div>
 </div>

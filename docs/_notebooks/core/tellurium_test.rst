@@ -36,7 +36,7 @@ Load test model
 
 .. parsed-literal::
 
-    // Created by libAntimony v2.8.1
+    // Created by libAntimony v2.9
     model *feedback()
     
       // Compartments and Species:

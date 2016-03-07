@@ -1,0 +1,5 @@
+<?xml version="1.0"  encoding="utf-8"?>
+<omexManifest  xmlns="http://identifiers.org/combine.specifications/omex-manifest">
+    <content location="./manifest.xml" format="http://identifiers.org/combine.specifications/omex-manifest"/>
+    <content location="./specificationL1V1.sedml" master="true" format="http://identifiers.org/combine.specifications/sed-ml"/>
+</omexManifest>

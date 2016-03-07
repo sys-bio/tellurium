@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """
 Helper functions for MIRIAM and identifiers.org.
 
@@ -26,10 +27,12 @@ def getSBMLFromBiomodelsURN(urn):
     mid = match.group(0)
     biomodels = bioservices.BioModels()
     sbml = biomodels.getModelSBMLById(mid)
+    sbml = sbml.encode('utf8')
     return str(sbml)
 
 
 if __name__ == "__main__":
-    urn = 'urn:miriam:biomodels.db:BIOMD0000000003.xml'
+    print("Get SBML from URN")
+    urn = 'urn:miriam:biomodels.db:BIOMD0000000003'
     sbml = getSBMLFromBiomodelsURN(urn)
     print(sbml)

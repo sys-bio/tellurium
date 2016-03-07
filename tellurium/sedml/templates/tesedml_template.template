@@ -2,7 +2,7 @@
 """
     tellurium {{ version }}
 
-    auto-generated code ({{ timestamp }})
+    auto-generated code
     sedmlDoc: L{{ doc.getLevel() }}V{{ doc.getVersion() }} {% if doc.isSetId() %}id={{ doc.getId() }} {% endif %} {% if doc.isSetName() %}name={{ doc.getName() }}{% endif %}
 
     workingDir: {{ factory.workingDir }}

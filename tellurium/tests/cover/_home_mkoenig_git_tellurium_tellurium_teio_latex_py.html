@@ -318,7 +318,7 @@
 <p id="t74" class="stm run hide_run">&nbsp; &nbsp; &nbsp; &nbsp; <span class="key">return</span> <span class="nam">path</span><span class="strut">&nbsp;</span></p>
 <p id="t75" class="pln"><span class="strut">&nbsp;</span></p>
 <p id="t76" class="stm run hide_run">&nbsp; &nbsp; <span class="key">def</span> <span class="nam">saveToFile</span><span class="op">(</span><span class="nam">self</span><span class="op">,</span> <span class="nam">result</span><span class="op">=</span><span class="nam">None</span><span class="op">)</span><span class="op">:</span><span class="strut">&nbsp;</span></p>
-<p id="t77" class="pln">&nbsp; &nbsp; &nbsp; &nbsp; <span class="str">&quot;&quot;&quot;Creates .txt files for plotting result of simulation with LaTeX.</span><span class="strut">&nbsp;</span></p>
+<p id="t77" class="pln">&nbsp; &nbsp; &nbsp; &nbsp; <span class="str">&quot;&quot;&quot;Creates .tex and .txt files for plotting result of simulation with LaTeX.</span><span class="strut">&nbsp;</span></p>
 <p id="t78" class="pln"><span class="str">&nbsp; &nbsp; &nbsp; &nbsp; Outputs one file with code to be pasted into LaTeX, and one data file</span><span class="strut">&nbsp;</span></p>
 <p id="t79" class="pln"><span class="str">&nbsp; &nbsp; &nbsp; &nbsp; for each variable in results after the first.</span><span class="strut">&nbsp;</span></p>
 <p id="t80" class="pln"><span class="strut">&nbsp;</span></p>
@@ -346,7 +346,7 @@
 <p id="t102" class="stm run hide_run">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span class="nam">f</span><span class="op">.</span><span class="nam">write</span><span class="op">(</span><span class="str">&quot;{0}\n&quot;</span><span class="op">.</span><span class="nam">format</span><span class="op">(</span><span class="nam">row</span><span class="op">)</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
 <p id="t103" class="pln"><span class="strut">&nbsp;</span></p>
 <p id="t104" class="pln">&nbsp; &nbsp; &nbsp; &nbsp; <span class="com"># write one latex document</span><span class="strut">&nbsp;</span></p>
-<p id="t105" class="stm run hide_run">&nbsp; &nbsp; &nbsp; &nbsp; <span class="nam">latexPath</span> <span class="op">=</span> <span class="nam">self</span><span class="op">.</span><span class="nam">_getPath</span><span class="op">(</span><span class="nam">suffix</span><span class="op">=</span><span class="str">&#39;_code&#39;</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
+<p id="t105" class="stm run hide_run">&nbsp; &nbsp; &nbsp; &nbsp; <span class="nam">latexPath</span> <span class="op">=</span> <span class="nam">self</span><span class="op">.</span><span class="nam">_getPath</span><span class="op">(</span><span class="nam">suffix</span><span class="op">=</span><span class="str">&#39;_code&#39;</span><span class="op">)</span><span class="op">.</span><span class="nam">replace</span><span class="op">(</span><span class="str">&#39;txt&#39;</span><span class="op">,</span> <span class="str">&#39;tex&#39;</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
 <p id="t106" class="stm run hide_run">&nbsp; &nbsp; &nbsp; &nbsp; <span class="key">print</span><span class="op">(</span><span class="str">&quot;writing latex document: &quot;</span> <span class="op">+</span> <span class="nam">latexPath</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
 <p id="t107" class="pln"><span class="strut">&nbsp;</span></p>
 <p id="t108" class="stm run hide_run">&nbsp; &nbsp; &nbsp; &nbsp; <span class="key">with</span> <span class="nam">open</span><span class="op">(</span><span class="nam">latexPath</span><span class="op">,</span> <span class="str">&#39;w&#39;</span><span class="op">)</span> <span class="key">as</span> <span class="nam">f</span><span class="op">:</span><span class="strut">&nbsp;</span></p>
@@ -424,7 +424,7 @@
     <div class="content">
         <p>
             <a class="nav" href="index.html">&#xab; index</a> &nbsp; &nbsp; <a class="nav" href="https://coverage.readthedocs.org">coverage.py v4.0.3</a>,
-            created at 2016-03-07 12:18
+            created at 2016-03-07 15:32
         </p>
     </div>
 </div>

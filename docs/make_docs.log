@@ -1,9 +1,9 @@
-Mon Feb 22 12:44:32 CET 2016
+Mon Mär  7 15:43:58 CET 2016
 --------------------------------------
 remove old documentation
 --------------------------------------
 DONE
-Mon Feb 22 12:44:32 CET 2016
+Mon Mär  7 15:43:58 CET 2016
 --------------------------------------
 convert notebooks to rst
 --------------------------------------
@@ -13,7 +13,7 @@ convert notebooks to rst
 [NbConvertApp] Making directory antimonyExample_files
 [NbConvertApp] Making directory antimonyExample_files
 [NbConvertApp] Making directory antimonyExample_files
-[NbConvertApp] Writing 5895 bytes to antimonyExample.rst
+[NbConvertApp] Writing 5890 bytes to antimonyExample.rst
 [NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/computeSteadyState.ipynb to rst
 [NbConvertApp] Executing notebook with kernel: python2
 [NbConvertApp] Writing 965 bytes to computeSteadyState.rst
@@ -46,7 +46,7 @@ convert notebooks to rst
 [NbConvertApp] Writing 554 bytes to model_modelFromBioModels.rst
 [NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/model_nonUnitStoichiometries.ipynb to rst
 [NbConvertApp] Executing notebook with kernel: python2
-[NbConvertApp] Writing 999 bytes to model_nonUnitStoichiometries.rst
+[NbConvertApp] Writing 997 bytes to model_nonUnitStoichiometries.rst
 [NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/model_normalizedSpecies.ipynb to rst
 [NbConvertApp] Executing notebook with kernel: python2
 [NbConvertApp] Support files will be in model_normalizedSpecies_files/
@@ -62,7 +62,20 @@ convert notebooks to rst
 [NbConvertApp] Executing notebook with kernel: python2
 [NbConvertApp] Support files will be in phrasedmlExample_files/
 [NbConvertApp] Making directory phrasedmlExample_files
-[NbConvertApp] Writing 2010 bytes to phrasedmlExample.rst
+[NbConvertApp] Making directory phrasedmlExample_files
+[NbConvertApp] Making directory phrasedmlExample_files
+[NbConvertApp] Making directory phrasedmlExample_files
+[NbConvertApp] Making directory phrasedmlExample_files
+[NbConvertApp] Making directory phrasedmlExample_files
+[NbConvertApp] Making directory phrasedmlExample_files
+[NbConvertApp] Making directory phrasedmlExample_files
+[NbConvertApp] Making directory phrasedmlExample_files
+[NbConvertApp] Making directory phrasedmlExample_files
+[NbConvertApp] Making directory phrasedmlExample_files
+[NbConvertApp] Making directory phrasedmlExample_files
+[NbConvertApp] Making directory phrasedmlExample_files
+[NbConvertApp] Making directory phrasedmlExample_files
+[NbConvertApp] Writing 21642 bytes to phrasedmlExample.rst
 [NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/plot2DParameterScan.ipynb to rst
 [NbConvertApp] Executing notebook with kernel: python2
 [NbConvertApp] Support files will be in plot2DParameterScan_files/
@@ -99,7 +112,7 @@ convert notebooks to rst
 [NbConvertApp] Writing 13157 bytes to tellurium_examples.rst
 [NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/tellurium_export.ipynb to rst
 [NbConvertApp] Executing notebook with kernel: python2
-[NbConvertApp] Writing 12951 bytes to tellurium_export.rst
+[NbConvertApp] Writing 12947 bytes to tellurium_export.rst
 [NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/tellurium_interconversion.ipynb to rst
 [NbConvertApp] Executing notebook with kernel: python2
 [NbConvertApp] Writing 601 bytes to tellurium_interconversion.rst
@@ -135,21 +148,18 @@ convert notebooks to rst
 [NbConvertApp] Writing 1608 bytes to tellurium_stochastic.rst
 [NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/tellurium_test.ipynb to rst
 [NbConvertApp] Executing notebook with kernel: python2
-[NbConvertApp] Writing 1901 bytes to tellurium_test.rst
+[NbConvertApp] Writing 1899 bytes to tellurium_test.rst
 [NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/tellurium_utility.ipynb to rst
 [NbConvertApp] Executing notebook with kernel: python2
 [NbConvertApp] Support files will be in tellurium_utility_files/
 [NbConvertApp] Making directory tellurium_utility_files
-[NbConvertApp] Writing 7394 bytes to tellurium_utility.rst
+[NbConvertApp] Writing 7391 bytes to tellurium_utility.rst
 [NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/template.ipynb to rst
 [NbConvertApp] Executing notebook with kernel: python2
 [NbConvertApp] Writing 260 bytes to template.rst
 [NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/tesedmlExample.ipynb to rst
 [NbConvertApp] Executing notebook with kernel: python2
-[NbConvertApp] Writing 4618 bytes to tesedmlExample.rst
-[NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/Untitled.ipynb to rst
-[NbConvertApp] Executing notebook with kernel: python2
-[NbConvertApp] Writing 11669 bytes to Untitled.rst
+[NbConvertApp] Writing 4616 bytes to tesedmlExample.rst
 [NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/widgets/widgets_lorenz.ipynb to rst
 [NbConvertApp] Executing notebook with kernel: python2
 [NbConvertApp] Support files will be in widgets_lorenz_files/
@@ -209,7 +219,7 @@ create python code
 [NbConvertApp] Writing 1277 bytes to parameter_scan.py
 [NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/phrasedmlExample.ipynb to python
 [NbConvertApp] Executing notebook with kernel: python2
-[NbConvertApp] Writing 1008 bytes to phrasedmlExample.py
+[NbConvertApp] Writing 13852 bytes to phrasedmlExample.py
 [NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/plot2DParameterScan.ipynb to python
 [NbConvertApp] Executing notebook with kernel: python2
 [NbConvertApp] Writing 575 bytes to plot2DParameterScan.py
@@ -252,18 +262,16 @@ create python code
 [NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/tesedmlExample.ipynb to python
 [NbConvertApp] Executing notebook with kernel: python2
 [NbConvertApp] Writing 2075 bytes to tesedmlExample.py
-[NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/Untitled.ipynb to python
-[NbConvertApp] Executing notebook with kernel: python2
-[NbConvertApp] Writing 2197 bytes to Untitled.py
 DONE
 --------------------------------------
 create sphinx-apidoc
 --------------------------------------
 Creating file _apidoc/tellurium.rst.
 Creating file _apidoc/tellurium.analysis.rst.
-Creating file _apidoc/tellurium.io.rst.
 Creating file _apidoc/tellurium.notebooks.rst.
 Creating file _apidoc/tellurium.optimization.rst.
+Creating file _apidoc/tellurium.sedml.rst.
+Creating file _apidoc/tellurium.teio.rst.
 Creating file _apidoc/tellurium.tests.rst.
 Creating file _apidoc/tellurium.tests.testdata.rst.
 Creating file _apidoc/tellurium.visualization.rst.
@@ -275,83 +283,56 @@ create html docs
 Running Sphinx v1.3.5
 loading pickled environment... done
 building [mo]: targets for 0 po files that are out of date
-building [html]: targets for 44 source files that are out of date
-updating environment: [config changed] 45 added, 0 changed, 0 removed
-reading sources... [  2%] API
-reading sources... [  4%] _apidoc/modules
-reading sources... [  6%] _apidoc/tellurium
-reading sources... [  8%] _apidoc/tellurium.analysis
-reading sources... [ 11%] _apidoc/tellurium.io
-reading sources... [ 13%] _apidoc/tellurium.notebooks
-reading sources... [ 15%] _apidoc/tellurium.optimization
-reading sources... [ 17%] _apidoc/tellurium.tests
+building [html]: targets for 39 source files that are out of date
+updating environment: 0 added, 42 changed, 0 removed
+reading sources... [  2%] _apidoc/modules
+reading sources... [  4%] _apidoc/tellurium
+reading sources... [  7%] _apidoc/tellurium.analysis
+reading sources... [  9%] _apidoc/tellurium.notebooks
+reading sources... [ 11%] _apidoc/tellurium.optimization
+reading sources... [ 14%] _apidoc/tellurium.sedml
+reading sources... [ 16%] _apidoc/tellurium.teio
+reading sources... [ 19%] _apidoc/tellurium.tests
 [1m[33mWarning: species 'S1' has neither initial amount nor concentration set.  Setting initial concentration to 0.0[0m
 [1m[33mWarning: species 'S2' has neither initial amount nor concentration set.  Setting initial concentration to 0.0[0m
 [1m[33mWarning: species 'S3' has neither initial amount nor concentration set.  Setting initial concentration to 0.0[0m
 [1m[33mWarning: species 'S4' has neither initial amount nor concentration set.  Setting initial concentration to 0.0[0m
 [1m[33mWarning: species 'S5' has neither initial amount nor concentration set.  Setting initial concentration to 0.0[0m
-reading sources... [ 20%] _apidoc/tellurium.tests.testdata
-reading sources... [ 22%] _apidoc/tellurium.visualization
-reading sources... [ 24%] _notebooks/core/Untitled
+reading sources... [ 21%] _apidoc/tellurium.tests.testdata
+reading sources... [ 23%] _apidoc/tellurium.visualization
 reading sources... [ 26%] _notebooks/core/antimonyExample
 reading sources... [ 28%] _notebooks/core/computeSteadyState
-reading sources... [ 31%] _notebooks/core/introduction
+reading sources... [ 30%] _notebooks/core/introduction
 reading sources... [ 33%] _notebooks/core/model_consecutiveUniUniReactions
 reading sources... [ 35%] _notebooks/core/model_feedback_oscillations
-reading sources... [ 37%] _notebooks/core/model_generatingDifferentWaveforms
+reading sources... [ 38%] _notebooks/core/model_generatingDifferentWaveforms
 reading sources... [ 40%] _notebooks/core/model_modelFromBioModels
 reading sources... [ 42%] _notebooks/core/model_nonUnitStoichiometries
-reading sources... [ 44%] _notebooks/core/model_normalizedSpecies
-reading sources... [ 46%] _notebooks/core/parameter_scan
-reading sources... [ 48%] _notebooks/core/phrasedmlExample
-reading sources... [ 51%] _notebooks/core/plot2DParameterScan
-reading sources... [ 53%] _notebooks/core/roadrunnerBasics
-reading sources... [ 55%] _notebooks/core/steadystate_scan
-reading sources... [ 57%] _notebooks/core/tellurium_examples
-reading sources... [ 60%] _notebooks/core/tellurium_export
-reading sources... [ 62%] _notebooks/core/tellurium_interconversion
-reading sources... [ 64%] _notebooks/core/tellurium_model_loading
-reading sources... [ 66%] _notebooks/core/tellurium_plotting
-reading sources... [ 68%] _notebooks/core/tellurium_reset
-reading sources... [ 71%] _notebooks/core/tellurium_stochastic
-reading sources... [ 73%] _notebooks/core/tellurium_test
-reading sources... [ 75%] _notebooks/core/tellurium_utility
-reading sources... [ 77%] _notebooks/core/template
-reading sources... [ 80%] _notebooks/core/tesedmlExample
-reading sources... [ 82%] _notebooks/core/widgets_lorenz
-reading sources... [ 84%] _notebooks/core/widgets_ontology_search
-reading sources... [ 86%] _notebooks/core/widgets_parameter_slider
-reading sources... [ 88%] _notebooks/core/widgets_species_search
-reading sources... [ 91%] index
-reading sources... [ 93%] installation
+reading sources... [ 45%] _notebooks/core/model_normalizedSpecies
+reading sources... [ 47%] _notebooks/core/parameter_scan
+reading sources... [ 50%] _notebooks/core/phrasedmlExample
+reading sources... [ 52%] _notebooks/core/plot2DParameterScan
+reading sources... [ 54%] _notebooks/core/roadrunnerBasics
+reading sources... [ 57%] _notebooks/core/steadystate_scan
+reading sources... [ 59%] _notebooks/core/tellurium_examples
+reading sources... [ 61%] _notebooks/core/tellurium_export
+reading sources... [ 64%] _notebooks/core/tellurium_interconversion
+reading sources... [ 66%] _notebooks/core/tellurium_model_loading
+reading sources... [ 69%] _notebooks/core/tellurium_plotting
+reading sources... [ 71%] _notebooks/core/tellurium_reset
+reading sources... [ 73%] _notebooks/core/tellurium_stochastic
+reading sources... [ 76%] _notebooks/core/tellurium_test
+reading sources... [ 78%] _notebooks/core/tellurium_utility
+reading sources... [ 80%] _notebooks/core/template
+reading sources... [ 83%] _notebooks/core/tesedmlExample
+reading sources... [ 85%] _notebooks/core/widgets_lorenz
+reading sources... [ 88%] _notebooks/core/widgets_ontology_search
+reading sources... [ 90%] _notebooks/core/widgets_parameter_slider
+reading sources... [ 92%] _notebooks/core/widgets_species_search
 reading sources... [ 95%] introduction
 reading sources... [ 97%] notebooks
 reading sources... [100%] tellurium_methods
 
-/home/mkoenig/git/tellurium/tellurium/tellurium.py:docstring of tellurium.tellurium.antimonyToCellML:0: WARNING: duplicate object description of tellurium.tellurium.antimonyToCellML, other instance in /home/mkoenig/git/tellurium/docs/_apidoc/tellurium.rst, use :noindex: for one of them
-/home/mkoenig/git/tellurium/tellurium/tellurium.py:docstring of tellurium.tellurium.antimonyToSBML:0: WARNING: duplicate object description of tellurium.tellurium.antimonyToSBML, other instance in /home/mkoenig/git/tellurium/docs/_apidoc/tellurium.rst, use :noindex: for one of them
-/home/mkoenig/git/tellurium/tellurium/tellurium.py:docstring of tellurium.tellurium.cellmlToAntimony:0: WARNING: duplicate object description of tellurium.tellurium.cellmlToAntimony, other instance in /home/mkoenig/git/tellurium/docs/_apidoc/tellurium.rst, use :noindex: for one of them
-/home/mkoenig/git/tellurium/tellurium/tellurium.py:docstring of tellurium.tellurium.cellmlToSBML:0: WARNING: duplicate object description of tellurium.tellurium.cellmlToSBML, other instance in /home/mkoenig/git/tellurium/docs/_apidoc/tellurium.rst, use :noindex: for one of them
-/home/mkoenig/git/tellurium/tellurium/tellurium.py:docstring of tellurium.tellurium.experiment:0: WARNING: duplicate object description of tellurium.tellurium.experiment, other instance in /home/mkoenig/git/tellurium/docs/_apidoc/tellurium.rst, use :noindex: for one of them
-/home/mkoenig/git/tellurium/tellurium/tellurium.py:docstring of tellurium.tellurium.getEigenvalues:0: WARNING: duplicate object description of tellurium.tellurium.getEigenvalues, other instance in /home/mkoenig/git/tellurium/docs/_apidoc/tellurium.rst, use :noindex: for one of them
-/home/mkoenig/git/tellurium/tellurium/tellurium.py:docstring of tellurium.tellurium.getTelluriumVersion:0: WARNING: duplicate object description of tellurium.tellurium.getTelluriumVersion, other instance in /home/mkoenig/git/tellurium/docs/_apidoc/tellurium.rst, use :noindex: for one of them
-/home/mkoenig/git/tellurium/tellurium/tellurium.py:docstring of tellurium.tellurium.getTestModel:0: WARNING: duplicate object description of tellurium.tellurium.getTestModel, other instance in /home/mkoenig/git/tellurium/docs/_apidoc/tellurium.rst, use :noindex: for one of them
-/home/mkoenig/git/tellurium/tellurium/tellurium.py:docstring of tellurium.tellurium.getVersionInfo:0: WARNING: duplicate object description of tellurium.tellurium.getVersionInfo, other instance in /home/mkoenig/git/tellurium/docs/_apidoc/tellurium.rst, use :noindex: for one of them
-/home/mkoenig/git/tellurium/tellurium/tellurium.py:docstring of tellurium.tellurium.listTestModels:0: WARNING: duplicate object description of tellurium.tellurium.listTestModels, other instance in /home/mkoenig/git/tellurium/docs/_apidoc/tellurium.rst, use :noindex: for one of them
-/home/mkoenig/git/tellurium/tellurium/tellurium.py:docstring of tellurium.tellurium.loadAntimonyModel:0: WARNING: duplicate object description of tellurium.tellurium.loadAntimonyModel, other instance in /home/mkoenig/git/tellurium/docs/_apidoc/tellurium.rst, use :noindex: for one of them
-/home/mkoenig/git/tellurium/tellurium/tellurium.py:docstring of tellurium.tellurium.loadCellMLModel:0: WARNING: duplicate object description of tellurium.tellurium.loadCellMLModel, other instance in /home/mkoenig/git/tellurium/docs/_apidoc/tellurium.rst, use :noindex: for one of them
-/home/mkoenig/git/tellurium/tellurium/tellurium.py:docstring of tellurium.tellurium.loadSBMLModel:0: WARNING: duplicate object description of tellurium.tellurium.loadSBMLModel, other instance in /home/mkoenig/git/tellurium/docs/_apidoc/tellurium.rst, use :noindex: for one of them
-/home/mkoenig/git/tellurium/tellurium/tellurium.py:docstring of tellurium.tellurium.loadTestModel:0: WARNING: duplicate object description of tellurium.tellurium.loadTestModel, other instance in /home/mkoenig/git/tellurium/docs/_apidoc/tellurium.rst, use :noindex: for one of them
-/home/mkoenig/git/tellurium/tellurium/tellurium.py:docstring of tellurium.tellurium.loada:0: WARNING: duplicate object description of tellurium.tellurium.loada, other instance in /home/mkoenig/git/tellurium/docs/_apidoc/tellurium.rst, use :noindex: for one of them
-/home/mkoenig/git/tellurium/tellurium/tellurium.py:docstring of tellurium.tellurium.loada:5: ERROR: Unexpected indentation.
-/home/mkoenig/git/tellurium/tellurium/tellurium.py:docstring of tellurium.tellurium.noticesOff:0: WARNING: duplicate object description of tellurium.tellurium.noticesOff, other instance in /home/mkoenig/git/tellurium/docs/_apidoc/tellurium.rst, use :noindex: for one of them
-/home/mkoenig/git/tellurium/tellurium/tellurium.py:docstring of tellurium.tellurium.noticesOn:0: WARNING: duplicate object description of tellurium.tellurium.noticesOn, other instance in /home/mkoenig/git/tellurium/docs/_apidoc/tellurium.rst, use :noindex: for one of them
-/home/mkoenig/git/tellurium/tellurium/tellurium.py:docstring of tellurium.tellurium.plotArray:0: WARNING: duplicate object description of tellurium.tellurium.plotArray, other instance in /home/mkoenig/git/tellurium/docs/_apidoc/tellurium.rst, use :noindex: for one of them
-/home/mkoenig/git/tellurium/tellurium/tellurium.py:docstring of tellurium.tellurium.printVersionInfo:0: WARNING: duplicate object description of tellurium.tellurium.printVersionInfo, other instance in /home/mkoenig/git/tellurium/docs/_apidoc/tellurium.rst, use :noindex: for one of them
-/home/mkoenig/git/tellurium/tellurium/tellurium.py:docstring of tellurium.tellurium.readFromFile:0: WARNING: duplicate object description of tellurium.tellurium.readFromFile, other instance in /home/mkoenig/git/tellurium/docs/_apidoc/tellurium.rst, use :noindex: for one of them
-/home/mkoenig/git/tellurium/tellurium/tellurium.py:docstring of tellurium.tellurium.saveToFile:0: WARNING: duplicate object description of tellurium.tellurium.saveToFile, other instance in /home/mkoenig/git/tellurium/docs/_apidoc/tellurium.rst, use :noindex: for one of them
-/home/mkoenig/git/tellurium/tellurium/tellurium.py:docstring of tellurium.tellurium.sbmlToAntimony:0: WARNING: duplicate object description of tellurium.tellurium.sbmlToAntimony, other instance in /home/mkoenig/git/tellurium/docs/_apidoc/tellurium.rst, use :noindex: for one of them
-/home/mkoenig/git/tellurium/tellurium/tellurium.py:docstring of tellurium.tellurium.sbmlToCellML:0: WARNING: duplicate object description of tellurium.tellurium.sbmlToCellML, other instance in /home/mkoenig/git/tellurium/docs/_apidoc/tellurium.rst, use :noindex: for one of them
 /home/mkoenig/git/tellurium/tellurium/tellurium.py:docstring of tellurium.tellurium.ExtendedRoadRunner:0: WARNING: duplicate object description of tellurium.tellurium.ExtendedRoadRunner, other instance in /home/mkoenig/git/tellurium/docs/tellurium_methods.rst, use :noindex: for one of them
 /home/mkoenig/git/tellurium/tellurium/tellurium.py:docstring of tellurium.tellurium.ExtendedRoadRunner.bs:0: WARNING: duplicate object description of tellurium.tellurium.ExtendedRoadRunner.bs, other instance in /home/mkoenig/git/tellurium/docs/tellurium_methods.rst, use :noindex: for one of them
 /home/mkoenig/git/tellurium/tellurium/tellurium.py:docstring of tellurium.tellurium.ExtendedRoadRunner.draw:0: WARNING: duplicate object description of tellurium.tellurium.ExtendedRoadRunner.draw, other instance in /home/mkoenig/git/tellurium/docs/tellurium_methods.rst, use :noindex: for one of them
@@ -412,32 +393,30 @@ Stoichiometry
 Floating Species Initial Conditions
 -----------------------------------
 /home/mkoenig/git/tellurium/tellurium/tellurium.py:docstring of tellurium.tellurium.ExtendedRoadRunner.vs:0: WARNING: duplicate object description of tellurium.tellurium.ExtendedRoadRunner.vs, other instance in /home/mkoenig/git/tellurium/docs/tellurium_methods.rst, use :noindex: for one of them
-/home/mkoenig/git/tellurium/tellurium/tellurium.py:docstring of tellurium.tellurium.antimonyToCellML:0: WARNING: duplicate object description of tellurium.tellurium.antimonyToCellML, other instance in /home/mkoenig/git/tellurium/docs/API.rst, use :noindex: for one of them
-/home/mkoenig/git/tellurium/tellurium/tellurium.py:docstring of tellurium.tellurium.antimonyToSBML:0: WARNING: duplicate object description of tellurium.tellurium.antimonyToSBML, other instance in /home/mkoenig/git/tellurium/docs/API.rst, use :noindex: for one of them
-/home/mkoenig/git/tellurium/tellurium/tellurium.py:docstring of tellurium.tellurium.cellmlToAntimony:0: WARNING: duplicate object description of tellurium.tellurium.cellmlToAntimony, other instance in /home/mkoenig/git/tellurium/docs/API.rst, use :noindex: for one of them
-/home/mkoenig/git/tellurium/tellurium/tellurium.py:docstring of tellurium.tellurium.cellmlToSBML:0: WARNING: duplicate object description of tellurium.tellurium.cellmlToSBML, other instance in /home/mkoenig/git/tellurium/docs/API.rst, use :noindex: for one of them
-/home/mkoenig/git/tellurium/tellurium/tellurium.py:docstring of tellurium.tellurium.experiment:0: WARNING: duplicate object description of tellurium.tellurium.experiment, other instance in /home/mkoenig/git/tellurium/docs/API.rst, use :noindex: for one of them
-/home/mkoenig/git/tellurium/tellurium/tellurium.py:docstring of tellurium.tellurium.getEigenvalues:0: WARNING: duplicate object description of tellurium.tellurium.getEigenvalues, other instance in /home/mkoenig/git/tellurium/docs/API.rst, use :noindex: for one of them
-/home/mkoenig/git/tellurium/tellurium/tellurium.py:docstring of tellurium.tellurium.getTelluriumVersion:0: WARNING: duplicate object description of tellurium.tellurium.getTelluriumVersion, other instance in /home/mkoenig/git/tellurium/docs/API.rst, use :noindex: for one of them
-/home/mkoenig/git/tellurium/tellurium/tellurium.py:docstring of tellurium.tellurium.getTestModel:0: WARNING: duplicate object description of tellurium.tellurium.getTestModel, other instance in /home/mkoenig/git/tellurium/docs/API.rst, use :noindex: for one of them
-/home/mkoenig/git/tellurium/tellurium/tellurium.py:docstring of tellurium.tellurium.getVersionInfo:0: WARNING: duplicate object description of tellurium.tellurium.getVersionInfo, other instance in /home/mkoenig/git/tellurium/docs/API.rst, use :noindex: for one of them
-/home/mkoenig/git/tellurium/tellurium/tellurium.py:docstring of tellurium.tellurium.listTestModels:0: WARNING: duplicate object description of tellurium.tellurium.listTestModels, other instance in /home/mkoenig/git/tellurium/docs/API.rst, use :noindex: for one of them
-/home/mkoenig/git/tellurium/tellurium/tellurium.py:docstring of tellurium.tellurium.loadAntimonyModel:0: WARNING: duplicate object description of tellurium.tellurium.loadAntimonyModel, other instance in /home/mkoenig/git/tellurium/docs/API.rst, use :noindex: for one of them
-/home/mkoenig/git/tellurium/tellurium/tellurium.py:docstring of tellurium.tellurium.loadCellMLModel:0: WARNING: duplicate object description of tellurium.tellurium.loadCellMLModel, other instance in /home/mkoenig/git/tellurium/docs/API.rst, use :noindex: for one of them
-/home/mkoenig/git/tellurium/tellurium/tellurium.py:docstring of tellurium.tellurium.loadSBMLModel:0: WARNING: duplicate object description of tellurium.tellurium.loadSBMLModel, other instance in /home/mkoenig/git/tellurium/docs/API.rst, use :noindex: for one of them
-/home/mkoenig/git/tellurium/tellurium/tellurium.py:docstring of tellurium.tellurium.loadTestModel:0: WARNING: duplicate object description of tellurium.tellurium.loadTestModel, other instance in /home/mkoenig/git/tellurium/docs/API.rst, use :noindex: for one of them
-/home/mkoenig/git/tellurium/tellurium/tellurium.py:docstring of tellurium.tellurium.loada:0: WARNING: duplicate object description of tellurium.tellurium.loada, other instance in /home/mkoenig/git/tellurium/docs/API.rst, use :noindex: for one of them
 /home/mkoenig/git/tellurium/tellurium/tellurium.py:docstring of tellurium.tellurium.loada:5: ERROR: Unexpected indentation.
-/home/mkoenig/git/tellurium/tellurium/tellurium.py:docstring of tellurium.tellurium.loads:0: WARNING: duplicate object description of tellurium.tellurium.loads, other instance in /home/mkoenig/git/tellurium/docs/API.rst, use :noindex: for one of them
-/home/mkoenig/git/tellurium/tellurium/tellurium.py:docstring of tellurium.tellurium.noticesOff:0: WARNING: duplicate object description of tellurium.tellurium.noticesOff, other instance in /home/mkoenig/git/tellurium/docs/API.rst, use :noindex: for one of them
-/home/mkoenig/git/tellurium/tellurium/tellurium.py:docstring of tellurium.tellurium.noticesOn:0: WARNING: duplicate object description of tellurium.tellurium.noticesOn, other instance in /home/mkoenig/git/tellurium/docs/API.rst, use :noindex: for one of them
-/home/mkoenig/git/tellurium/tellurium/tellurium.py:docstring of tellurium.tellurium.plotArray:0: WARNING: duplicate object description of tellurium.tellurium.plotArray, other instance in /home/mkoenig/git/tellurium/docs/API.rst, use :noindex: for one of them
-/home/mkoenig/git/tellurium/tellurium/tellurium.py:docstring of tellurium.tellurium.printVersionInfo:0: WARNING: duplicate object description of tellurium.tellurium.printVersionInfo, other instance in /home/mkoenig/git/tellurium/docs/API.rst, use :noindex: for one of them
-/home/mkoenig/git/tellurium/tellurium/tellurium.py:docstring of tellurium.tellurium.readFromFile:0: WARNING: duplicate object description of tellurium.tellurium.readFromFile, other instance in /home/mkoenig/git/tellurium/docs/API.rst, use :noindex: for one of them
-/home/mkoenig/git/tellurium/tellurium/tellurium.py:docstring of tellurium.tellurium.saveToFile:0: WARNING: duplicate object description of tellurium.tellurium.saveToFile, other instance in /home/mkoenig/git/tellurium/docs/API.rst, use :noindex: for one of them
-/home/mkoenig/git/tellurium/tellurium/tellurium.py:docstring of tellurium.tellurium.sbmlToAntimony:0: WARNING: duplicate object description of tellurium.tellurium.sbmlToAntimony, other instance in /home/mkoenig/git/tellurium/docs/API.rst, use :noindex: for one of them
-/home/mkoenig/git/tellurium/tellurium/tellurium.py:docstring of tellurium.tellurium.sbmlToCellML:0: WARNING: duplicate object description of tellurium.tellurium.sbmlToCellML, other instance in /home/mkoenig/git/tellurium/docs/API.rst, use :noindex: for one of them
-/home/mkoenig/git/tellurium/docs/_apidoc/tellurium.tests.testdata.rst:7: WARNING: toctree contains reference to nonexisting document u'_apidoc/tellurium.tests.testdata.models'
+/home/mkoenig/git/tellurium/tellurium/optimization/__init__.py:docstring of tellurium.optimization:8: ERROR: Unexpected indentation.
+/home/mkoenig/git/tellurium/tellurium/optimization/__init__.py:docstring of tellurium.optimization:9: WARNING: Block quote ends without a blank line; unexpected unindent.
+/home/mkoenig/git/tellurium/docs/_apidoc/tellurium.sedml.rst:7: WARNING: toctree contains reference to nonexisting document u'_apidoc/tellurium.sedml.templates'
+/home/mkoenig/git/tellurium/tellurium/sedml/mathml.py:docstring of tellurium.sedml.mathml:5: WARNING: Inline emphasis start-string without end-string.
+/home/mkoenig/git/tellurium/tellurium/sedml/tesedml.py:docstring of tellurium.sedml.tesedml:5: ERROR: Unexpected indentation.
+/home/mkoenig/git/tellurium/tellurium/sedml/tesedml.py:docstring of tellurium.sedml.tesedml:9: WARNING: Block quote ends without a blank line; unexpected unindent.
+/home/mkoenig/git/tellurium/tellurium/sedml/tesedml.py:docstring of tellurium.sedml.tesedml.SEDMLCodeFactory.dataGeneratorToPython:6: ERROR: Unexpected indentation.
+/home/mkoenig/git/tellurium/tellurium/sedml/tesedml.py:docstring of tellurium.sedml.tesedml.SEDMLCodeFactory.dataGeneratorToPython:7: WARNING: Block quote ends without a blank line; unexpected unindent.
+/home/mkoenig/git/tellurium/docs/_apidoc/tellurium.sedml.rst:41: WARNING: autodoc: failed to import module u'tellurium.sedml.xpath'; the following exception was raised:
+Traceback (most recent call last):
+  File "/usr/local/lib/python2.7/dist-packages/sphinx/ext/autodoc.py", line 385, in import_object
+    __import__(self.modname)
+  File "/home/mkoenig/git/tellurium/tellurium/sedml/xpath.py", line 11, in <module>
+    tree = etree.parse(fpath)
+  File "lxml.etree.pyx", line 3239, in lxml.etree.parse (src/lxml/lxml.etree.c:69955)
+  File "parser.pxi", line 1748, in lxml.etree._parseDocument (src/lxml/lxml.etree.c:102066)
+  File "parser.pxi", line 1774, in lxml.etree._parseDocumentFromURL (src/lxml/lxml.etree.c:102330)
+  File "parser.pxi", line 1678, in lxml.etree._parseDocFromFile (src/lxml/lxml.etree.c:101365)
+  File "parser.pxi", line 1110, in lxml.etree._BaseParser._parseDocFromFile (src/lxml/lxml.etree.c:96817)
+  File "parser.pxi", line 582, in lxml.etree._ParserContext._handleParseResultDoc (src/lxml/lxml.etree.c:91275)
+  File "parser.pxi", line 683, in lxml.etree._handleParseResult (src/lxml/lxml.etree.c:92461)
+  File "parser.pxi", line 620, in lxml.etree._raiseParseError (src/lxml/lxml.etree.c:91722)
+IOError: Error reading file '_te_testcase_03/testcase_03.xml': failed to load external entity "_te_testcase_03/testcase_03.xml"
 /home/mkoenig/git/tellurium/docs/_notebooks/core/antimonyExample.rst:49: WARNING: Inline emphasis start-string without end-string.
 /home/mkoenig/git/tellurium/docs/_notebooks/core/antimonyExample.rst:126: WARNING: image file not readable: _notebooks/core/_notebooks/core/antimonyExample_files/antimonyExample_2_1.png
 /home/mkoenig/git/tellurium/docs/_notebooks/core/antimonyExample.rst:176: WARNING: image file not readable: _notebooks/core/_notebooks/core/antimonyExample_files/antimonyExample_2_3.png
@@ -453,7 +432,20 @@ Floating Species Initial Conditions
 /home/mkoenig/git/tellurium/docs/_notebooks/core/model_normalizedSpecies.rst:97: WARNING: image file not readable: _notebooks/core/_notebooks/core/model_normalizedSpecies_files/model_normalizedSpecies_3_0.png
 /home/mkoenig/git/tellurium/docs/_notebooks/core/parameter_scan.rst:43: WARNING: image file not readable: _notebooks/core/_notebooks/core/parameter_scan_files/parameter_scan_2_0.png
 /home/mkoenig/git/tellurium/docs/_notebooks/core/parameter_scan.rst:77: WARNING: image file not readable: _notebooks/core/_notebooks/core/parameter_scan_files/parameter_scan_3_0.png
-/home/mkoenig/git/tellurium/docs/_notebooks/core/phrasedmlExample.rst:38: WARNING: image file not readable: _notebooks/core/_notebooks/core/phrasedmlExample_files/phrasedmlExample_2_0.png
+/home/mkoenig/git/tellurium/docs/_notebooks/core/phrasedmlExample.rst:75: WARNING: image file not readable: _notebooks/core/_notebooks/core/phrasedmlExample_files/phrasedmlExample_2_1.png
+/home/mkoenig/git/tellurium/docs/_notebooks/core/phrasedmlExample.rst:79: WARNING: image file not readable: _notebooks/core/_notebooks/core/phrasedmlExample_files/phrasedmlExample_2_2.png
+/home/mkoenig/git/tellurium/docs/_notebooks/core/phrasedmlExample.rst:82: WARNING: image file not readable: _notebooks/core/_notebooks/core/phrasedmlExample_files/phrasedmlExample_2_3.png
+/home/mkoenig/git/tellurium/docs/_notebooks/core/phrasedmlExample.rst:114: WARNING: image file not readable: _notebooks/core/_notebooks/core/phrasedmlExample_files/phrasedmlExample_4_2.png
+/home/mkoenig/git/tellurium/docs/_notebooks/core/phrasedmlExample.rst:151: WARNING: image file not readable: _notebooks/core/_notebooks/core/phrasedmlExample_files/phrasedmlExample_6_0.png
+/home/mkoenig/git/tellurium/docs/_notebooks/core/phrasedmlExample.rst:305: WARNING: image file not readable: _notebooks/core/_notebooks/core/phrasedmlExample_files/phrasedmlExample_8_0.png
+/home/mkoenig/git/tellurium/docs/_notebooks/core/phrasedmlExample.rst:388: WARNING: image file not readable: _notebooks/core/_notebooks/core/phrasedmlExample_files/phrasedmlExample_10_0.png
+/home/mkoenig/git/tellurium/docs/_notebooks/core/phrasedmlExample.rst:483: WARNING: image file not readable: _notebooks/core/_notebooks/core/phrasedmlExample_files/phrasedmlExample_12_0.png
+/home/mkoenig/git/tellurium/docs/_notebooks/core/phrasedmlExample.rst:486: WARNING: image file not readable: _notebooks/core/_notebooks/core/phrasedmlExample_files/phrasedmlExample_12_1.png
+/home/mkoenig/git/tellurium/docs/_notebooks/core/phrasedmlExample.rst:588: WARNING: image file not readable: _notebooks/core/_notebooks/core/phrasedmlExample_files/phrasedmlExample_14_0.png
+/home/mkoenig/git/tellurium/docs/_notebooks/core/phrasedmlExample.rst:591: WARNING: image file not readable: _notebooks/core/_notebooks/core/phrasedmlExample_files/phrasedmlExample_14_1.png
+/home/mkoenig/git/tellurium/docs/_notebooks/core/phrasedmlExample.rst:631: WARNING: image file not readable: _notebooks/core/_notebooks/core/phrasedmlExample_files/phrasedmlExample_16_0.png
+/home/mkoenig/git/tellurium/docs/_notebooks/core/phrasedmlExample.rst:634: WARNING: image file not readable: _notebooks/core/_notebooks/core/phrasedmlExample_files/phrasedmlExample_16_1.png
+/home/mkoenig/git/tellurium/docs/_notebooks/core/phrasedmlExample.rst:729: WARNING: image file not readable: _notebooks/core/_notebooks/core/phrasedmlExample_files/phrasedmlExample_18_0.png
 /home/mkoenig/git/tellurium/docs/_notebooks/core/plot2DParameterScan.rst:28: WARNING: image file not readable: _notebooks/core/_notebooks/core/plot2DParameterScan_files/plot2DParameterScan_0_0.png
 /home/mkoenig/git/tellurium/docs/_notebooks/core/plot2DParameterScan.rst:38: WARNING: image file not readable: _notebooks/core/_notebooks/core/plot2DParameterScan_files/plot2DParameterScan_0_2.png
 /home/mkoenig/git/tellurium/docs/_notebooks/core/steadystate_scan.rst:67: WARNING: image file not readable: _notebooks/core/_notebooks/core/steadystate_scan_files/steadystate_scan_2_1.png
@@ -509,9 +501,6 @@ Floating Species Initial Conditions
 /home/mkoenig/git/tellurium/docs/_notebooks/core/widgets_parameter_slider.rst:9: ERROR: Content block expected for the "code" directive; none found.
 /home/mkoenig/git/tellurium/docs/_notebooks/core/widgets_parameter_slider.rst:37: WARNING: image file not readable: _notebooks/core/_notebooks/core/widgets_parameter_slider_files/widgets_parameter_slider_4_0.png
 /home/mkoenig/git/tellurium/docs/_notebooks/core/widgets_species_search.rst:8: ERROR: Content block expected for the "code" directive; none found.
-/home/mkoenig/git/tellurium/docs/installation.rst:10: WARNING: Explicit markup ends without a blank line; unexpected unindent.
-/home/mkoenig/git/tellurium/docs/installation.rst:17: WARNING: Explicit markup ends without a blank line; unexpected unindent.
-/home/mkoenig/git/tellurium/docs/installation.rst:24: WARNING: Explicit markup ends without a blank line; unexpected unindent.
 _notebooks/core/model_nonUnitStoichiometries.rst:23: WARNING: Inline emphasis start-string without end-string.
 _notebooks/core/tesedmlExample.rst:53: WARNING: Inline emphasis start-string without end-string.
 _notebooks/core/tesedmlExample.rst:53: WARNING: Inline emphasis start-string without end-string.
@@ -600,7 +589,6 @@ looking for now-outdated files... none found
 pickling environment... done
 checking consistency... /home/mkoenig/git/tellurium/docs/API.rst:: WARNING: document isn't included in any toctree
 /home/mkoenig/git/tellurium/docs/_apidoc/modules.rst:: WARNING: document isn't included in any toctree
-/home/mkoenig/git/tellurium/docs/_notebooks/core/Untitled.rst:: WARNING: document isn't included in any toctree
 /home/mkoenig/git/tellurium/docs/_notebooks/core/antimonyExample.rst:: WARNING: document isn't included in any toctree
 /home/mkoenig/git/tellurium/docs/_notebooks/core/computeSteadyState.rst:: WARNING: document isn't included in any toctree
 /home/mkoenig/git/tellurium/docs/_notebooks/core/introduction.rst:: WARNING: document isn't included in any toctree
@@ -632,140 +620,155 @@ checking consistency... /home/mkoenig/git/tellurium/docs/API.rst:: WARNING: docu
 /home/mkoenig/git/tellurium/docs/_notebooks/core/widgets_species_search.rst:: WARNING: document isn't included in any toctree
 done
 preparing documents... done
-writing output... [  2%] API
-writing output... [  4%] _apidoc/modules
-writing output... [  6%] _apidoc/tellurium
-writing output... [  8%] _apidoc/tellurium.analysis
-writing output... [ 11%] _apidoc/tellurium.io
-writing output... [ 13%] _apidoc/tellurium.notebooks
-writing output... [ 15%] _apidoc/tellurium.optimization
-writing output... [ 17%] _apidoc/tellurium.tests
+writing output... [  2%] _apidoc/modules
+writing output... [  4%] _apidoc/tellurium
+writing output... [  6%] _apidoc/tellurium.analysis
+writing output... [  9%] _apidoc/tellurium.notebooks
+writing output... [ 11%] _apidoc/tellurium.optimization
+writing output... [ 13%] _apidoc/tellurium.sedml
+writing output... [ 16%] _apidoc/tellurium.teio
+writing output... [ 18%] _apidoc/tellurium.tests
 writing output... [ 20%] _apidoc/tellurium.tests.testdata
-writing output... [ 22%] _apidoc/tellurium.visualization
-writing output... [ 24%] _notebooks/core/Untitled
-writing output... [ 26%] _notebooks/core/antimonyExample
-writing output... [ 28%] _notebooks/core/computeSteadyState
-writing output... [ 31%] _notebooks/core/introduction
-writing output... [ 33%] _notebooks/core/model_consecutiveUniUniReactions
-writing output... [ 35%] _notebooks/core/model_feedback_oscillations
+writing output... [ 23%] _apidoc/tellurium.visualization
+writing output... [ 25%] _notebooks/core/antimonyExample
+writing output... [ 27%] _notebooks/core/computeSteadyState
+writing output... [ 30%] _notebooks/core/introduction
+writing output... [ 32%] _notebooks/core/model_consecutiveUniUniReactions
+writing output... [ 34%] _notebooks/core/model_feedback_oscillations
 writing output... [ 37%] _notebooks/core/model_generatingDifferentWaveforms
-writing output... [ 40%] _notebooks/core/model_modelFromBioModels
-writing output... [ 42%] _notebooks/core/model_nonUnitStoichiometries
+writing output... [ 39%] _notebooks/core/model_modelFromBioModels
+writing output... [ 41%] _notebooks/core/model_nonUnitStoichiometries
 writing output... [ 44%] _notebooks/core/model_normalizedSpecies
 writing output... [ 46%] _notebooks/core/parameter_scan
 writing output... [ 48%] _notebooks/core/phrasedmlExample
 writing output... [ 51%] _notebooks/core/plot2DParameterScan
 writing output... [ 53%] _notebooks/core/roadrunnerBasics
 writing output... [ 55%] _notebooks/core/steadystate_scan
-writing output... [ 57%] _notebooks/core/tellurium_examples
+writing output... [ 58%] _notebooks/core/tellurium_examples
 writing output... [ 60%] _notebooks/core/tellurium_export
 writing output... [ 62%] _notebooks/core/tellurium_interconversion
-writing output... [ 64%] _notebooks/core/tellurium_model_loading
-writing output... [ 66%] _notebooks/core/tellurium_plotting
-writing output... [ 68%] _notebooks/core/tellurium_reset
-writing output... [ 71%] _notebooks/core/tellurium_stochastic
-writing output... [ 73%] _notebooks/core/tellurium_test
-writing output... [ 75%] _notebooks/core/tellurium_utility
-writing output... [ 77%] _notebooks/core/template
-writing output... [ 80%] _notebooks/core/tesedmlExample
-writing output... [ 82%] _notebooks/core/widgets_lorenz
-writing output... [ 84%] _notebooks/core/widgets_ontology_search
-writing output... [ 86%] _notebooks/core/widgets_parameter_slider
-writing output... [ 88%] _notebooks/core/widgets_species_search
-writing output... [ 91%] index
-writing output... [ 93%] installation
+writing output... [ 65%] _notebooks/core/tellurium_model_loading
+writing output... [ 67%] _notebooks/core/tellurium_plotting
+writing output... [ 69%] _notebooks/core/tellurium_reset
+writing output... [ 72%] _notebooks/core/tellurium_stochastic
+writing output... [ 74%] _notebooks/core/tellurium_test
+writing output... [ 76%] _notebooks/core/tellurium_utility
+writing output... [ 79%] _notebooks/core/template
+writing output... [ 81%] _notebooks/core/tesedmlExample
+writing output... [ 83%] _notebooks/core/widgets_lorenz
+writing output... [ 86%] _notebooks/core/widgets_ontology_search
+writing output... [ 88%] _notebooks/core/widgets_parameter_slider
+writing output... [ 90%] _notebooks/core/widgets_species_search
+writing output... [ 93%] index
 writing output... [ 95%] introduction
 writing output... [ 97%] notebooks
 writing output... [100%] tellurium_methods
 
 generating indices... genindex py-modindex
 highlighting module code... [  2%] tellurium.tests.test_analysis
-highlighting module code... [  5%] tellurium.tecombine
-highlighting module code... [  8%] tellurium.Export.Export
-highlighting module code... [ 11%] tellurium.notebooktools.notebooktools
-highlighting module code... [ 14%] tellurium.notebooks.parameterslider
-highlighting module code... [ 17%] tellurium.tellurium
-highlighting module code... [ 20%] tellurium.analysis.parameters
-highlighting module code... [ 23%] tellurium.notebooks.ontologysearch
-highlighting module code... [ 26%] tellurium.SedmlToRr
-highlighting module code... [ 29%] tellurium.tests.test_examples
-highlighting module code... [ 32%] tellurium.tests.test_tellurium
-highlighting module code... [ 35%] tellurium.ParameterScan.ParameterScan
-highlighting module code... [ 38%] tellurium.tephrasedml
-highlighting module code... [ 41%] tellurium.tests.test_API
-highlighting module code... [ 44%] tellurium.analysis.match
-highlighting module code... [ 47%] tellurium.tests.test_sedml
-highlighting module code... [ 50%] tellurium.notebooks.speciessearch
-highlighting module code... [ 52%] tellurium.widgets.species_search
-highlighting module code... [ 55%] tellurium.tests.test_tephrasedml
+highlighting module code... [  4%] tellurium.tecombine
+highlighting module code... [  7%] tellurium.Export.Export
+highlighting module code... [  9%] tellurium.notebooktools.notebooktools
+highlighting module code... [ 12%] tellurium.notebooks.parameterslider
+highlighting module code... [ 14%] tellurium.tellurium
+highlighting module code... [ 17%] tellurium.analysis.parameters
+highlighting module code... [ 19%] tellurium.notebooks.ontologysearch
+highlighting module code... [ 21%] tellurium.SedmlToRr
+highlighting module code... [ 24%] tellurium.tests.test_examples
+highlighting module code... [ 26%] tellurium.tests.test_tellurium
+highlighting module code... [ 29%] tellurium.sedml.tesedml
+highlighting module code... [ 31%] tellurium.ParameterScan.ParameterScan
+highlighting module code... [ 34%] tellurium.tephrasedml
+highlighting module code... [ 36%] tellurium.tests.test_API
+highlighting module code... [ 39%] tellurium.analysis.match
+highlighting module code... [ 41%] tellurium.tests.test_sedml
+highlighting module code... [ 43%] tellurium.visualization.SBMLDiagram
+highlighting module code... [ 46%] tellurium.sedml.tephrasedml
+highlighting module code... [ 48%] tellurium.notebooks.speciessearch
+highlighting module code... [ 51%] tellurium.tests.test_tecombine
+highlighting module code... [ 53%] tellurium.widgets.species_search
+highlighting module code... [ 56%] tellurium.tests.test_tephrasedml
 highlighting module code... [ 58%] tellurium.io.latex
-highlighting module code... [ 61%] tellurium.visualization.sbmldiagram
-highlighting module code... [ 64%] tellurium.notebooks.notebooktools
-highlighting module code... [ 67%] tellurium.optimization.DiffEvolution
+highlighting module code... [ 60%] tellurium.visualization.sbmldiagram
+highlighting module code... [ 63%] tellurium.notebooks.notebooktools
+highlighting module code... [ 65%] tellurium.unzipy
+highlighting module code... [ 68%] tellurium.optimization.DiffEvolution
 highlighting module code... [ 70%] tellurium.tesedml
 highlighting module code... [ 73%] tellurium.widgets.ontology_search
-highlighting module code... [ 76%] tellurium.optimization.diffevolution
-highlighting module code... [ 79%] tellurium.analysis.annotations
+highlighting module code... [ 75%] tellurium.teio.latex
+highlighting module code... [ 78%] tellurium.optimization.diffevolution
+highlighting module code... [ 80%] tellurium.analysis.annotations
 highlighting module code... [ 82%] tellurium.analysis.parameterscan
-highlighting module code... [ 85%] tellurium.visualization.SBMLDiagram
-highlighting module code... [ 88%] tellurium.tests.test_Export
-highlighting module code... [ 91%] tellurium.tests.test_io
-highlighting module code... [ 94%] tellurium.unzipy
+highlighting module code... [ 85%] tellurium.sedml.mathml
+highlighting module code... [ 87%] tellurium.temiriam
+highlighting module code... [ 90%] tellurium.tests.test_Export
+highlighting module code... [ 92%] tellurium.tests.test_io
+highlighting module code... [ 95%] tellurium.tests.test_tesedml
 highlighting module code... [ 97%] tellurium.widgets.parameter_slider
 highlighting module code... [100%] tellurium.tests.test_runner
 
 writing additional pages... search
-copying images... [  2%] _notebooks/core/tellurium_examples_files/tellurium_examples_7_0.png
-copying images... [  4%] _notebooks/core/parameter_scan_files/parameter_scan_2_0.png
-copying images... [  6%] _notebooks/core/introduction_files/introduction_2_0.png
+copying images... [  1%] _notebooks/core/tellurium_examples_files/tellurium_examples_7_0.png
+copying images... [  3%] _notebooks/core/parameter_scan_files/parameter_scan_2_0.png
+copying images... [  5%] _notebooks/core/tellurium_examples_files/tellurium_examples_21_0.png
+copying images... [  7%] _notebooks/core/tellurium_model_loading_files/tellurium_model_loading_2_3.png
 copying images... [  8%] _notebooks/core/tellurium_utility_files/tellurium_utility_4_0.png
-copying images... [ 10%] _notebooks/core/parameter_scan_files/parameter_scan_3_0.png
+copying images... [ 10%] _notebooks/core/phrasedmlExample_files/phrasedmlExample_2_3.png
 copying images... [ 12%] _notebooks/core/tellurium_examples_files/tellurium_examples_1_0.png
 copying images... [ 14%] _notebooks/core/tellurium_reset_files/tellurium_reset_2_3.png
-copying images... [ 17%] _notebooks/core/tellurium_stochastic_files/tellurium_stochastic_6_0.png
-copying images... [ 19%] ./images/windows.png
-copying images... [ 21%] _notebooks/core/tellurium_examples_files/tellurium_examples_13_1.png
-copying images... [ 23%] _notebooks/core/tellurium_reset_files/tellurium_reset_2_5.png
-copying images... [ 25%] _notebooks/core/tellurium_examples_files/tellurium_examples_27_0.png
-copying images... [ 27%] _notebooks/core/tellurium_plotting_files/tellurium_plotting_4_0.png
-copying images... [ 29%] _notebooks/core/tellurium_model_loading_files/tellurium_model_loading_2_3.png
-copying images... [ 31%] _notebooks/core/tellurium_examples_files/tellurium_examples_19_0.png
-copying images... [ 34%] _notebooks/core/tellurium_examples_files/tellurium_examples_3_0.png
-copying images... [ 36%] _notebooks/core/tellurium_examples_files/tellurium_examples_21_0.png
-copying images... [ 38%] _notebooks/core/model_normalizedSpecies_files/model_normalizedSpecies_3_0.png
-copying images... [ 40%] _notebooks/core/phrasedmlExample_files/phrasedmlExample_2_0.png
-copying images... [ 42%] _notebooks/core/tellurium_reset_files/tellurium_reset_2_1.png
-copying images... [ 44%] _notebooks/core/tellurium_examples_files/tellurium_examples_15_0.png
-copying images... [ 46%] ./images/tellurium_screenshot2.png
-copying images... [ 48%] _notebooks/core/tellurium_examples_files/tellurium_examples_29_0.png
-copying images... [ 51%] _notebooks/core/tellurium_examples_files/tellurium_examples_23_0.png
-copying images... [ 53%] _notebooks/core/introduction_files/introduction_4_0.png
-copying images... [ 55%] _notebooks/core/tellurium_plotting_files/tellurium_plotting_2_1.png
-copying images... [ 57%] _notebooks/core/tellurium_plotting_files/tellurium_plotting_4_1.png
+copying images... [ 15%] _notebooks/core/tellurium_stochastic_files/tellurium_stochastic_6_0.png
+copying images... [ 17%] _notebooks/core/tellurium_examples_files/tellurium_examples_13_1.png
+copying images... [ 19%] _notebooks/core/tellurium_reset_files/tellurium_reset_2_5.png
+copying images... [ 21%] _notebooks/core/tellurium_examples_files/tellurium_examples_27_0.png
+copying images... [ 22%] _notebooks/core/phrasedmlExample_files/phrasedmlExample_12_1.png
+copying images... [ 24%] _notebooks/core/tellurium_plotting_files/tellurium_plotting_4_0.png
+copying images... [ 26%] _notebooks/core/phrasedmlExample_files/phrasedmlExample_14_1.png
+copying images... [ 28%] _notebooks/core/tellurium_examples_files/tellurium_examples_19_0.png
+copying images... [ 29%] _notebooks/core/tellurium_examples_files/tellurium_examples_3_0.png
+copying images... [ 31%] _notebooks/core/model_normalizedSpecies_files/model_normalizedSpecies_3_0.png
+copying images... [ 33%] _notebooks/core/tellurium_plotting_files/tellurium_plotting_4_1.png
+copying images... [ 35%] _notebooks/core/phrasedmlExample_files/phrasedmlExample_2_2.png
+copying images... [ 36%] _notebooks/core/phrasedmlExample_files/phrasedmlExample_2_1.png
+copying images... [ 38%] _notebooks/core/introduction_files/introduction_2_0.png
+copying images... [ 40%] _notebooks/core/phrasedmlExample_files/phrasedmlExample_10_0.png
+copying images... [ 42%] _notebooks/core/tellurium_examples_files/tellurium_examples_15_0.png
+copying images... [ 43%] ./images/tellurium_screenshot2.png
+copying images... [ 45%] _notebooks/core/parameter_scan_files/parameter_scan_3_0.png
+copying images... [ 47%] _notebooks/core/tellurium_examples_files/tellurium_examples_29_0.png
+copying images... [ 49%] _notebooks/core/phrasedmlExample_files/phrasedmlExample_8_0.png
+copying images... [ 50%] _notebooks/core/introduction_files/introduction_4_0.png
+copying images... [ 52%] _notebooks/core/phrasedmlExample_files/phrasedmlExample_4_2.png
+copying images... [ 54%] _notebooks/core/tellurium_plotting_files/tellurium_plotting_2_1.png
+copying images... [ 56%] _notebooks/core/phrasedmlExample_files/phrasedmlExample_16_0.png
+copying images... [ 57%] _notebooks/core/phrasedmlExample_files/phrasedmlExample_14_0.png
 copying images... [ 59%] _notebooks/core/tellurium_model_loading_files/tellurium_model_loading_2_1.png
 copying images... [ 61%] _notebooks/core/tellurium_examples_files/tellurium_examples_1_1.png
 copying images... [ 63%] _notebooks/core/model_feedback_oscillations_files/model_feedback_oscillations_2_0.png
-copying images... [ 65%] _notebooks/core/model_generatingDifferentWaveforms_files/model_generatingDifferentWaveforms_2_0.png
-copying images... [ 68%] _notebooks/core/tellurium_examples_files/tellurium_examples_5_1.png
-copying images... [ 70%] _notebooks/core/tellurium_plotting_files/tellurium_plotting_6_0.png
-copying images... [ 72%] ./images/macos.png
-copying images... [ 74%] _notebooks/core/tellurium_plotting_files/tellurium_plotting_2_0.png
-copying images... [ 76%] _notebooks/core/tellurium_stochastic_files/tellurium_stochastic_4_0.png
-copying images... [ 78%] _notebooks/core/tellurium_examples_files/tellurium_examples_9_0.png
-copying images... [ 80%] _notebooks/core/tellurium_examples_files/tellurium_examples_11_0.png
+copying images... [ 64%] _notebooks/core/model_generatingDifferentWaveforms_files/model_generatingDifferentWaveforms_2_0.png
+copying images... [ 66%] _notebooks/core/tellurium_examples_files/tellurium_examples_5_1.png
+copying images... [ 68%] _notebooks/core/tellurium_plotting_files/tellurium_plotting_6_0.png
+copying images... [ 70%] _notebooks/core/phrasedmlExample_files/phrasedmlExample_18_0.png
+copying images... [ 71%] _notebooks/core/phrasedmlExample_files/phrasedmlExample_16_1.png
+copying images... [ 73%] _notebooks/core/tellurium_stochastic_files/tellurium_stochastic_4_0.png
+copying images... [ 75%] _notebooks/core/tellurium_examples_files/tellurium_examples_9_0.png
+copying images... [ 77%] _notebooks/core/phrasedmlExample_files/phrasedmlExample_12_0.png
+copying images... [ 78%] _notebooks/core/tellurium_examples_files/tellurium_examples_11_0.png
+copying images... [ 80%] _notebooks/core/tellurium_examples_files/tellurium_examples_23_0.png
 copying images... [ 82%] _notebooks/core/model_feedback_oscillations_files/model_feedback_oscillations_2_1.png
-copying images... [ 85%] _notebooks/core/tellurium_examples_files/tellurium_examples_25_0.png
-copying images... [ 87%] _notebooks/core/tellurium_stochastic_files/tellurium_stochastic_2_0.png
+copying images... [ 84%] _notebooks/core/tellurium_examples_files/tellurium_examples_25_0.png
+copying images... [ 85%] _notebooks/core/tellurium_stochastic_files/tellurium_stochastic_2_0.png
+copying images... [ 87%] _notebooks/core/tellurium_reset_files/tellurium_reset_2_1.png
 copying images... [ 89%] _notebooks/core/tellurium_reset_files/tellurium_reset_2_7.png
 copying images... [ 91%] _notebooks/core/model_modelFromBioModels_files/model_modelFromBioModels_2_0.png
-copying images... [ 93%] _notebooks/core/tellurium_examples_files/tellurium_examples_17_0.png
-copying images... [ 95%] ./images/linux.png
-copying images... [ 97%] _notebooks/core/steadystate_scan_files/steadystate_scan_2_1.png
+copying images... [ 92%] _notebooks/core/phrasedmlExample_files/phrasedmlExample_6_0.png
+copying images... [ 94%] _notebooks/core/tellurium_examples_files/tellurium_examples_17_0.png
+copying images... [ 96%] _notebooks/core/steadystate_scan_files/steadystate_scan_2_1.png
+copying images... [ 98%] _notebooks/core/tellurium_plotting_files/tellurium_plotting_2_0.png
 copying images... [100%] _notebooks/core/model_consecutiveUniUniReactions_files/model_consecutiveUniUniReactions_2_0.png
 
 copying static files... done
 copying extra files... done
 dumping search index in English (code: en) ... done
 dumping object inventory... done
-build succeeded, 273 warnings.
+build succeeded, 242 warnings.
 DONE

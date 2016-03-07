@@ -7,9 +7,10 @@ Subpackages
 .. toctree::
 
     tellurium.analysis
-    tellurium.io
     tellurium.notebooks
     tellurium.optimization
+    tellurium.sedml
+    tellurium.teio
     tellurium.tests
     tellurium.visualization
 
@@ -32,18 +33,10 @@ tellurium.tellurium module
     :undoc-members:
     :show-inheritance:
 
-tellurium.tephrasedml module
-----------------------------
+tellurium.temiriam module
+-------------------------
 
-.. automodule:: tellurium.tephrasedml
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
-tellurium.tesedml module
-------------------------
-
-.. automodule:: tellurium.tesedml
+.. automodule:: tellurium.temiriam
     :members:
     :undoc-members:
     :show-inheritance:

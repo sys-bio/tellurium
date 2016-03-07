@@ -268,6 +268,8 @@ class CombinePhraSEDMLFileAsset(CombineFileAsset, CombinePhraSEDMLAsset):
 
 
 class MakeCombine:
+    """ Class for creating combine archives. """
+
     def __init__(self):
         self.assets = []
 
@@ -317,6 +319,11 @@ class MakeCombine:
             )
 
     def write(self, outfile):
+        """ Write the combine archive to the outfile.
+
+        Writes all assets and creates the manifest file.
+
+        """
         self.manifest = ''
         with ZipFile(outfile, 'w') as z:
             self.manifest += '<?xml version="1.0"  encoding="utf-8"?>\n<omexManifest  xmlns="http://identifiers.org/combine.specifications/omex-manifest">\n'

@@ -136,11 +136,103 @@
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">print_function</span><span class="p">,</span> <span class="n">division</span>
 
-<span class="kn">from</span> <span class="nn">os.path</span> <span class="kn">import</span> <span class="n">exists</span><span class="p">,</span> <span class="n">isfile</span><span class="p">,</span> <span class="n">basename</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">warnings</span>
 <span class="kn">from</span> <span class="nn">zipfile</span> <span class="kn">import</span> <span class="n">ZipFile</span>
 <span class="kn">import</span> <span class="nn">phrasedml</span>
 <span class="kn">import</span> <span class="nn">antimony</span>
 <span class="kn">import</span> <span class="nn">re</span>
+<span class="kn">import</span> <span class="nn">tellurium</span> <span class="kn">as</span> <span class="nn">te</span>
+<span class="kn">import</span> <span class="nn">roadrunner</span>
+<span class="kn">from</span> <span class="nn">xml.etree</span> <span class="kn">import</span> <span class="n">ElementTree</span> <span class="k">as</span> <span class="n">et</span>
+<span class="kn">import</span> <span class="nn">libsedml</span>
+
+<div class="viewcode-block" id="combine"><a class="viewcode-back" href="../../_apidoc/tellurium.html#tellurium.tecombine.combine">[docs]</a><span class="k">def</span> <span class="nf">combine</span><span class="p">(</span><span class="n">combinePath</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Open a combine archive from local directory.</span>
+
+<span class="sd">    :param combinePath: Path to a combine archive</span>
+<span class="sd">    :type combinePath: str</span>
+<span class="sd">    :returns: OpenCombine instance</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">OpenCombine</span><span class="p">(</span><span class="n">combinePath</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="CombineTools"><a class="viewcode-back" href="../../_apidoc/tellurium.html#tellurium.tecombine.CombineTools">[docs]</a><span class="k">class</span> <span class="nc">CombineTools</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Helper functions to work with combine archives.&quot;&quot;&quot;</span>
+
+    <span class="nd">@staticmethod</span>
+<div class="viewcode-block" id="CombineTools.extractArchive"><a class="viewcode-back" href="../../_apidoc/tellurium.html#tellurium.tecombine.CombineTools.extractArchive">[docs]</a>    <span class="k">def</span> <span class="nf">extractArchive</span><span class="p">(</span><span class="n">archivePath</span><span class="p">,</span> <span class="n">directory</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Extracts given archive into the target directory.</span>
+
+<span class="sd">        Target directory is created if it does not exist.</span>
+<span class="sd">        Files are overwritten in the directory !</span>
+
+<span class="sd">        :param archivePath: path to combine archive</span>
+<span class="sd">        :type archivePath: str</span>
+<span class="sd">        :param directory: path to directory where to extract to</span>
+<span class="sd">        :type directory:</span>
+<span class="sd">        :return:</span>
+<span class="sd">        :rtype:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">zip</span> <span class="o">=</span> <span class="n">ZipFile</span><span class="p">(</span><span class="n">archivePath</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isdir</span><span class="p">(</span><span class="n">directory</span><span class="p">):</span>
+            <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">directory</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">&quot;Combine archive directory already exists:{}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">directory</span><span class="p">))</span>
+
+        <span class="k">for</span> <span class="n">each</span> <span class="ow">in</span> <span class="nb">zip</span><span class="o">.</span><span class="n">namelist</span><span class="p">():</span>
+            <span class="c1"># check if the item includes a subdirectory</span>
+            <span class="c1"># if it does, create the subdirectory in the output folder and write the file</span>
+            <span class="c1"># otherwise, just write the file to the output folder</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">each</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">):</span>
+                <span class="n">root</span><span class="p">,</span> <span class="n">name</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">each</span><span class="p">)</span>
+                <span class="n">directory</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">normpath</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">directory</span><span class="p">,</span> <span class="n">root</span><span class="p">))</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isdir</span><span class="p">(</span><span class="n">directory</span><span class="p">):</span>
+                    <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">directory</span><span class="p">)</span>
+                <span class="nb">file</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">directory</span><span class="p">,</span> <span class="n">name</span><span class="p">),</span> <span class="s1">&#39;wb&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="nb">zip</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">each</span><span class="p">))</span>
+        <span class="nb">zip</span><span class="o">.</span><span class="n">close</span><span class="p">()</span></div>
+
+    <span class="nd">@staticmethod</span>
+<div class="viewcode-block" id="CombineTools.filePathsFromExtractedArchive"><a class="viewcode-back" href="../../_apidoc/tellurium.html#tellurium.tecombine.CombineTools.filePathsFromExtractedArchive">[docs]</a>    <span class="k">def</span> <span class="nf">filePathsFromExtractedArchive</span><span class="p">(</span><span class="n">directory</span><span class="p">,</span> <span class="n">formatType</span><span class="o">=</span><span class="s1">&#39;sed-ml&#39;</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Reads file paths from extracted combine archive.</span>
+
+<span class="sd">        Searches the manifest.xml of the archive for files of the</span>
+<span class="sd">        specified formatType and checks if the files exist in the directory.</span>
+
+<span class="sd">        Supported formatTypes are:</span>
+<span class="sd">            &#39;sed-ml&#39; : SED-ML files</span>
+<span class="sd">            &#39;sbml&#39; : SBML files</span>
+
+<span class="sd">        :param directory: directory of extracted archive</span>
+<span class="sd">        :return: list of paths</span>
+<span class="sd">        :rtype: list</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">filePaths</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="n">manifest</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">directory</span><span class="p">,</span> <span class="s2">&quot;manifest.xml&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">manifest</span><span class="p">):</span>
+            <span class="c1"># get the sedml files from the manifest</span>
+            <span class="n">tree</span> <span class="o">=</span> <span class="n">et</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">manifest</span><span class="p">)</span>
+            <span class="n">root</span> <span class="o">=</span> <span class="n">tree</span><span class="o">.</span><span class="n">getroot</span><span class="p">()</span>
+            <span class="k">for</span> <span class="n">child</span> <span class="ow">in</span> <span class="n">root</span><span class="p">:</span>
+                <span class="n">format</span> <span class="o">=</span> <span class="n">child</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s1">&#39;format&#39;</span><span class="p">]</span>
+                <span class="k">if</span> <span class="n">format</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="n">formatType</span><span class="p">):</span>
+                    <span class="n">location</span> <span class="o">=</span> <span class="n">child</span><span class="o">.</span><span class="n">attrib</span><span class="p">[</span><span class="s1">&#39;location&#39;</span><span class="p">]</span>
+
+                    <span class="c1"># real path</span>
+                    <span class="n">fpath</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">directory</span><span class="p">,</span> <span class="n">location</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">fpath</span><span class="p">):</span>
+                        <span class="k">raise</span> <span class="ne">IOError</span><span class="p">(</span><span class="s1">&#39;Path specified in manifest.xml does not exist in archive: {}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">fpath</span><span class="p">))</span>
+                    <span class="n">filePaths</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">fpath</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># no manifest (use all sedml files in folder)</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">&quot;No &#39;manifest.xml&#39; in archive, using all &#39;*.sedml&#39; files.&quot;</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">fname</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">directory</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">fname</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;.sedml&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="n">fname</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;.sedx.xml&quot;</span><span class="p">):</span>
+                    <span class="n">filePaths</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">directory</span><span class="p">,</span> <span class="n">fname</span><span class="p">))</span>
+
+        <span class="k">return</span> <span class="n">filePaths</span></div></div>
 
 
 <div class="viewcode-block" id="CombineAsset"><a class="viewcode-back" href="../../_apidoc/tellurium.html#tellurium.tecombine.CombineAsset">[docs]</a><span class="k">class</span> <span class="nc">CombineAsset</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
@@ -193,7 +285,7 @@
         <span class="k">return</span> <span class="bp">True</span></div>
 
 <div class="viewcode-block" id="CombineFileAsset.getbasename"><a class="viewcode-back" href="../../_apidoc/tellurium.html#tellurium.tecombine.CombineFileAsset.getbasename">[docs]</a>    <span class="k">def</span> <span class="nf">getbasename</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">f</span><span class="p">):</span>
-        <span class="k">return</span> <span class="n">basename</span><span class="p">(</span><span class="n">f</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">f</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="CombineFileAsset.getFileName"><a class="viewcode-back" href="../../_apidoc/tellurium.html#tellurium.tecombine.CombineFileAsset.getFileName">[docs]</a>    <span class="k">def</span> <span class="nf">getFileName</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">filename</span></div>
@@ -309,11 +401,13 @@
 
 
 <div class="viewcode-block" id="MakeCombine"><a class="viewcode-back" href="../../_apidoc/tellurium.html#tellurium.tecombine.MakeCombine">[docs]</a><span class="k">class</span> <span class="nc">MakeCombine</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot; Class for creating combine archives. &quot;&quot;&quot;</span>
+
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">assets</span> <span class="o">=</span> <span class="p">[]</span>
 
 <div class="viewcode-block" id="MakeCombine.checkfile"><a class="viewcode-back" href="../../_apidoc/tellurium.html#tellurium.tecombine.MakeCombine.checkfile">[docs]</a>    <span class="k">def</span> <span class="nf">checkfile</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">):</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">exists</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">isfile</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
             <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s1">&#39;No such file: {}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">filename</span><span class="p">))</span></div>
 
     <span class="c1"># Add raw strings:</span>
@@ -346,11 +440,11 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">checkfile</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">assets</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">CombinePhraSEDMLFileAsset</span><span class="p">(</span><span class="n">filename</span><span class="p">))</span></div>
 
-<div class="viewcode-block" id="MakeCombine.writeAsset"><a class="viewcode-back" href="../../_apidoc/tellurium.html#tellurium.tecombine.MakeCombine.writeAsset">[docs]</a>    <span class="k">def</span> <span class="nf">writeAsset</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">zipfile</span><span class="p">,</span> <span class="n">asset</span><span class="p">):</span>
+<div class="viewcode-block" id="MakeCombine.writeAsset"><a class="viewcode-back" href="../../_apidoc/tellurium.html#tellurium.tecombine.MakeCombine.writeAsset">[docs]</a>    <span class="k">def</span> <span class="nf">writeAsset</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">zf</span><span class="p">,</span> <span class="n">asset</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">asset</span><span class="o">.</span><span class="n">isFile</span><span class="p">():</span>
-            <span class="n">zipfile</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">asset</span><span class="o">.</span><span class="n">getFileName</span><span class="p">(),</span> <span class="n">asset</span><span class="o">.</span><span class="n">getArchName</span><span class="p">())</span>
+            <span class="n">zf</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">asset</span><span class="o">.</span><span class="n">getFileName</span><span class="p">(),</span> <span class="n">asset</span><span class="o">.</span><span class="n">getArchName</span><span class="p">())</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">zipfile</span><span class="o">.</span><span class="n">writestr</span><span class="p">(</span><span class="n">asset</span><span class="o">.</span><span class="n">getArchName</span><span class="p">(),</span> <span class="n">asset</span><span class="o">.</span><span class="n">getExportedStr</span><span class="p">())</span>
+            <span class="n">zf</span><span class="o">.</span><span class="n">writestr</span><span class="p">(</span><span class="n">asset</span><span class="o">.</span><span class="n">getArchName</span><span class="p">(),</span> <span class="n">asset</span><span class="o">.</span><span class="n">getExportedStr</span><span class="p">())</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">manifest</span> <span class="o">+=</span> <span class="s1">&#39;    &lt;content location=&quot;./{}&quot; master=&quot;true&quot; format=&quot;{}&quot;/&gt;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
             <span class="n">asset</span><span class="o">.</span><span class="n">getArchName</span><span class="p">(),</span>
@@ -370,19 +464,305 @@
 
             <span class="n">z</span><span class="o">.</span><span class="n">writestr</span><span class="p">(</span><span class="s1">&#39;manifest.xml&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">manifest</span><span class="p">)</span></div></div>
 
+<div class="viewcode-block" id="OpenCombine"><a class="viewcode-back" href="../../_apidoc/tellurium.html#tellurium.tecombine.OpenCombine">[docs]</a><span class="k">class</span> <span class="nc">OpenCombine</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">combinePath</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">combinePath</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">combinePath</span> <span class="o">=</span> <span class="n">combinePath</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;Invalid path for combine archive&quot;</span><span class="p">)</span>
+    
+<div class="viewcode-block" id="OpenCombine.addSBML"><a class="viewcode-back" href="../../_apidoc/tellurium.html#tellurium.tecombine.OpenCombine.addSBML">[docs]</a>    <span class="k">def</span> <span class="nf">addSBML</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sbmlPath</span><span class="p">):</span>
+        <span class="n">modelname</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getModelName</span><span class="p">(</span><span class="n">sbmlPath</span><span class="p">)</span>
+        <span class="n">contents</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">listContents</span><span class="p">()</span>
+        <span class="n">zf</span> <span class="o">=</span> <span class="n">ZipFile</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">combinePath</span><span class="p">,</span> <span class="s1">&#39;a&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">sbmlPath</span><span class="p">):</span>
+            <span class="n">numSame</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="k">while</span> <span class="n">contents</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="n">modelname</span> <span class="o">+</span> <span class="s1">&#39;.xml&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">modelname</span> <span class="o">=</span> <span class="n">modelname</span> <span class="o">+</span> <span class="s1">&#39;_&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">numSame</span><span class="p">)</span>
+                <span class="n">numSame</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="n">zf</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">sbmlPath</span><span class="p">,</span> <span class="n">arcname</span><span class="o">=</span><span class="n">modelname</span> <span class="o">+</span> <span class="s1">&#39;.xml&#39;</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">sbmlPath</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">r&#39;&lt;?xml&#39;</span><span class="p">):</span>
+            <span class="n">numSame</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="k">while</span> <span class="n">contents</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="n">modelname</span> <span class="o">+</span> <span class="s1">&#39;.xml&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">modelname</span> <span class="o">=</span> <span class="n">modelname</span> <span class="o">+</span> <span class="s1">&#39;_&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">numSame</span><span class="p">)</span>
+                <span class="n">numSame</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="n">zf</span><span class="o">.</span><span class="n">writestr</span><span class="p">(</span><span class="n">modelname</span> <span class="o">+</span> <span class="s1">&#39;.xml&#39;</span><span class="p">,</span> <span class="n">sbmlPath</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;Invalid string for sbml: Check the path of the file&quot;</span><span class="p">)</span>
+        <span class="n">zf</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">updateManifest</span><span class="p">(</span><span class="n">modelname</span> <span class="o">+</span> <span class="s1">&#39;.xml&#39;</span><span class="p">,</span> <span class="s1">&#39;sbml&#39;</span><span class="p">)</span></div>
+   
+<div class="viewcode-block" id="OpenCombine.addAntimony"><a class="viewcode-back" href="../../_apidoc/tellurium.html#tellurium.tecombine.OpenCombine.addAntimony">[docs]</a>    <span class="k">def</span> <span class="nf">addAntimony</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">antimonyStr</span><span class="p">):</span>
+        <span class="n">sbmlStr</span> <span class="o">=</span> <span class="n">te</span><span class="o">.</span><span class="n">antimonyToSBML</span><span class="p">(</span><span class="n">antimonyStr</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">addSBML</span><span class="p">(</span><span class="n">sbmlStr</span><span class="p">)</span></div>
+    
+<div class="viewcode-block" id="OpenCombine.addSEDML"><a class="viewcode-back" href="../../_apidoc/tellurium.html#tellurium.tecombine.OpenCombine.addSEDML">[docs]</a>    <span class="k">def</span> <span class="nf">addSEDML</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sedmlPath</span><span class="p">,</span> <span class="n">arcname</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="n">contents</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">listContents</span><span class="p">()</span>
+        <span class="n">sedmlBase</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">sedmlPath</span><span class="p">)</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">arcname</span><span class="p">,</span> <span class="n">arcFormat</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">splitext</span><span class="p">(</span><span class="n">arcname</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
+            <span class="k">pass</span>
+        <span class="n">zf</span> <span class="o">=</span> <span class="n">ZipFile</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">combinePath</span><span class="p">,</span> <span class="s1">&#39;a&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">sedmlPath</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">arcname</span> <span class="o">==</span> <span class="bp">None</span><span class="p">:</span>
+                <span class="n">sedmlname</span><span class="p">,</span> <span class="n">sedmlFormat</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">splitext</span><span class="p">(</span><span class="n">sedmlBase</span><span class="p">)</span>
+                <span class="n">numSame</span> <span class="o">=</span> <span class="mi">0</span>
+                <span class="k">while</span> <span class="n">contents</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="n">sedmlname</span> <span class="o">+</span> <span class="s1">&#39;.xml&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                    <span class="n">sedmlname</span> <span class="o">=</span> <span class="n">sedmlname</span> <span class="o">+</span> <span class="s1">&#39;_&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">numSame</span><span class="p">)</span>
+                    <span class="n">numSame</span> <span class="o">+=</span> <span class="mi">1</span>
+                <span class="n">zf</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">sedmlPath</span><span class="p">,</span> <span class="n">arcname</span><span class="o">=</span><span class="n">sedmlname</span> <span class="o">+</span> <span class="s1">&#39;.xml&#39;</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">arcname</span> <span class="o">+</span> <span class="s1">&#39;.xml&#39;</span> <span class="ow">in</span> <span class="n">contents</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s1">&#39;Combine archive contains a file with the same name. Please try different name.&#39;</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">zf</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">sedmlPath</span><span class="p">,</span> <span class="n">arcname</span><span class="o">=</span><span class="n">arcname</span> <span class="o">+</span> <span class="s1">&#39;.xml&#39;</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">sedmlPath</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">r&#39;&lt;?xml&#39;</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">arcname</span> <span class="o">==</span> <span class="bp">None</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;Name of sedml file not defined.&quot;</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">arcname</span> <span class="o">+</span> <span class="s1">&#39;.xml&#39;</span> <span class="ow">in</span> <span class="n">contents</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s1">&#39;Combine archive contains a file with the same name. Please try different name.&#39;</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">zf</span><span class="o">.</span><span class="n">writestr</span><span class="p">(</span><span class="n">arcname</span> <span class="o">+</span> <span class="s1">&#39;.xml&#39;</span><span class="p">,</span> <span class="n">sedmlPath</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;Invalid string for sbml: Check the path of the file&quot;</span><span class="p">)</span>
+        <span class="n">zf</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">arcname</span> <span class="o">==</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">updateManifest</span><span class="p">(</span><span class="n">sedmlname</span> <span class="o">+</span> <span class="s1">&#39;.xml&#39;</span><span class="p">,</span> <span class="s1">&#39;sedml&#39;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">updateManifest</span><span class="p">(</span><span class="n">arcname</span> <span class="o">+</span> <span class="s1">&#39;.xml&#39;</span><span class="p">,</span> <span class="s1">&#39;sedml&#39;</span><span class="p">)</span></div>
+    
+<div class="viewcode-block" id="OpenCombine.addPhrasedml"><a class="viewcode-back" href="../../_apidoc/tellurium.html#tellurium.tecombine.OpenCombine.addPhrasedml">[docs]</a>    <span class="k">def</span> <span class="nf">addPhrasedml</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">phrasedmlStr</span><span class="p">,</span> <span class="n">antimonyStr</span><span class="p">,</span> <span class="n">arcname</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="n">reModel</span> <span class="o">=</span> <span class="s2">r&quot;&quot;&quot;(\w*) = model (&#39;|&quot;)(.*)(&#39;|&quot;)&quot;&quot;&quot;</span>
+        <span class="n">phrasedmllines</span> <span class="o">=</span> <span class="n">phrasedmlStr</span><span class="o">.</span><span class="n">splitlines</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">line</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">phrasedmllines</span><span class="p">):</span>
+            <span class="n">reSearchModel</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">reModel</span><span class="p">,</span> <span class="n">line</span><span class="p">)</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">reSearchModel</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">modelsource</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">reSearchModel</span><span class="p">[</span><span class="mi">3</span><span class="p">])</span>
+                <span class="n">modelname</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">modelsource</span><span class="p">)</span>
+                <span class="n">modelname</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">modelname</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;.xml&quot;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
 
-<div class="viewcode-block" id="export"><a class="viewcode-back" href="../../_apidoc/tellurium.html#tellurium.tecombine.export">[docs]</a><span class="k">def</span> <span class="nf">export</span><span class="p">(</span><span class="n">outfile</span><span class="p">,</span> <span class="n">antimonyStr</span><span class="p">,</span> <span class="n">SBMLName</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
+        <span class="n">phrasedml</span><span class="o">.</span><span class="n">setReferencedSBML</span><span class="p">(</span><span class="n">modelsource</span><span class="p">,</span> <span class="n">te</span><span class="o">.</span><span class="n">antimonyToSBML</span><span class="p">(</span><span class="n">antimonyStr</span><span class="p">))</span>
+        <span class="n">sedmlstr</span> <span class="o">=</span> <span class="n">phrasedml</span><span class="o">.</span><span class="n">convertString</span><span class="p">(</span><span class="n">phrasedmlStr</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">sedmlstr</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="n">phrasedml</span><span class="o">.</span><span class="n">getLastError</span><span class="p">())</span>
+
+        <span class="n">phrasedml</span><span class="o">.</span><span class="n">clearReferencedSBML</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">addSEDML</span><span class="p">(</span><span class="n">sedmlstr</span><span class="p">,</span> <span class="n">arcname</span><span class="p">)</span></div>
+        
+<div class="viewcode-block" id="OpenCombine.addFile"><a class="viewcode-back" href="../../_apidoc/tellurium.html#tellurium.tecombine.OpenCombine.addFile">[docs]</a>    <span class="k">def</span> <span class="nf">addFile</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filePath</span><span class="p">):</span>
+        <span class="n">acceptedFormats</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;png&#39;</span><span class="p">,</span><span class="s1">&#39;jpg&#39;</span><span class="p">,</span><span class="s1">&#39;jpeg&#39;</span><span class="p">,</span><span class="s1">&#39;pdf&#39;</span><span class="p">,</span><span class="s1">&#39;txt&#39;</span><span class="p">,</span><span class="s1">&#39;csv&#39;</span><span class="p">,</span><span class="s1">&#39;dat&#39;</span><span class="p">)</span>
+        <span class="n">contents</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">listContents</span><span class="p">()</span>
+        <span class="n">fileBase</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">filePath</span><span class="p">)</span>
+        <span class="n">fileName</span><span class="p">,</span> <span class="n">fileFormat</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">splitext</span><span class="p">(</span><span class="n">fileBase</span><span class="p">)</span>
+        <span class="n">zf</span> <span class="o">=</span> <span class="n">ZipFile</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">combinePath</span><span class="p">,</span> <span class="s1">&#39;a&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">filePath</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">filePath</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="n">acceptedFormats</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">filePath</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">endswith</span><span class="p">((</span><span class="s1">&#39;png&#39;</span><span class="p">,</span> <span class="s1">&#39;jpg&#39;</span><span class="p">,</span> <span class="s1">&#39;jpeg&#39;</span><span class="p">)):</span>
+                    <span class="n">numSame</span> <span class="o">=</span> <span class="mi">0</span>
+                    <span class="k">while</span> <span class="n">contents</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s2">&quot;fig/&quot;</span> <span class="o">+</span> <span class="n">fileName</span> <span class="o">+</span> <span class="n">fileFormat</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                        <span class="n">fileName</span> <span class="o">=</span> <span class="n">fileName</span> <span class="o">+</span> <span class="s1">&#39;_&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">numSame</span><span class="p">)</span>
+                        <span class="n">numSame</span> <span class="o">+=</span> <span class="mi">1</span>
+                    <span class="n">zf</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">filePath</span><span class="p">,</span> <span class="n">arcname</span><span class="o">=</span><span class="s2">&quot;fig/&quot;</span> <span class="o">+</span> <span class="n">fileName</span> <span class="o">+</span> <span class="n">fileFormat</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">filePath</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">endswith</span><span class="p">((</span><span class="s1">&#39;pdf&#39;</span><span class="p">,</span> <span class="s1">&#39;txt&#39;</span><span class="p">,</span> <span class="s1">&#39;csv&#39;</span><span class="p">,</span> <span class="s1">&#39;dat&#39;</span><span class="p">)):</span>
+                    <span class="n">numSame</span> <span class="o">=</span> <span class="mi">0</span>
+                    <span class="k">while</span> <span class="n">contents</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s2">&quot;data/&quot;</span> <span class="o">+</span> <span class="n">fileName</span> <span class="o">+</span> <span class="n">fileFormat</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                        <span class="n">fileName</span> <span class="o">=</span> <span class="n">fileName</span> <span class="o">+</span> <span class="s1">&#39;_&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">numSame</span><span class="p">)</span>
+                        <span class="n">numSame</span> <span class="o">+=</span> <span class="mi">1</span>
+                    <span class="n">zf</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">filePath</span><span class="p">,</span> <span class="n">arcname</span><span class="o">=</span><span class="s2">&quot;data/&quot;</span> <span class="o">+</span> <span class="n">fileName</span> <span class="o">+</span> <span class="n">fileFormat</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;Unsupported file format&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;Cannot find the file&quot;</span><span class="p">)</span>
+        <span class="n">zf</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">updateManifest</span><span class="p">(</span><span class="n">fileName</span> <span class="o">+</span> <span class="n">fileFormat</span><span class="p">,</span> <span class="n">fileFormat</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span></div>
+    
+<div class="viewcode-block" id="OpenCombine.getModelName"><a class="viewcode-back" href="../../_apidoc/tellurium.html#tellurium.tecombine.OpenCombine.getModelName">[docs]</a>    <span class="k">def</span> <span class="nf">getModelName</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sbmlfile</span><span class="p">):</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="n">roadrunner</span><span class="o">.</span><span class="n">RoadRunner</span><span class="p">(</span><span class="n">sbmlfile</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">r</span><span class="o">.</span><span class="n">getModel</span><span class="p">()</span><span class="o">.</span><span class="n">getModelName</span><span class="p">()</span></div>
+        
+<div class="viewcode-block" id="OpenCombine.getSBML"><a class="viewcode-back" href="../../_apidoc/tellurium.html#tellurium.tecombine.OpenCombine.getSBML">[docs]</a>    <span class="k">def</span> <span class="nf">getSBML</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sbmlfile</span><span class="p">):</span>
+        <span class="n">zf</span> <span class="o">=</span> <span class="n">ZipFile</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">combinePath</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span>
+        <span class="n">sbmlStr</span> <span class="o">=</span> <span class="n">zf</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">sbmlfile</span><span class="p">)</span>
+        <span class="n">zf</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+        <span class="k">print</span><span class="p">(</span><span class="n">sbmlStr</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">sbmlStr</span></div>
+        
+<div class="viewcode-block" id="OpenCombine.getSBMLAsAntimony"><a class="viewcode-back" href="../../_apidoc/tellurium.html#tellurium.tecombine.OpenCombine.getSBMLAsAntimony">[docs]</a>    <span class="k">def</span> <span class="nf">getSBMLAsAntimony</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sbmlfile</span><span class="p">):</span>
+        <span class="n">zf</span> <span class="o">=</span> <span class="n">ZipFile</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">combinePath</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span>
+        <span class="n">sbmlStr</span> <span class="o">=</span> <span class="n">zf</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">sbmlfile</span><span class="p">)</span>
+        <span class="n">zf</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+        <span class="n">antStr</span> <span class="o">=</span> <span class="n">te</span><span class="o">.</span><span class="n">sbmlToAntimony</span><span class="p">(</span><span class="n">sbmlStr</span><span class="p">)</span>
+        <span class="k">print</span><span class="p">(</span><span class="n">antStr</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">antStr</span></div>
+
+<div class="viewcode-block" id="OpenCombine.getSEDML"><a class="viewcode-back" href="../../_apidoc/tellurium.html#tellurium.tecombine.OpenCombine.getSEDML">[docs]</a>    <span class="k">def</span> <span class="nf">getSEDML</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sedmlfile</span><span class="p">):</span>
+        <span class="n">zf</span> <span class="o">=</span> <span class="n">ZipFile</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">combinePath</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span>
+        <span class="n">sedmlStr</span> <span class="o">=</span> <span class="n">zf</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">sedmlfile</span><span class="p">)</span>
+        <span class="n">zf</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+        <span class="k">print</span><span class="p">(</span><span class="n">sedmlStr</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">sedmlStr</span></div>
+        
+<div class="viewcode-block" id="OpenCombine.getSEDMLAsPhrasedml"><a class="viewcode-back" href="../../_apidoc/tellurium.html#tellurium.tecombine.OpenCombine.getSEDMLAsPhrasedml">[docs]</a>    <span class="k">def</span> <span class="nf">getSEDMLAsPhrasedml</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sedmlfile</span><span class="p">):</span>
+        <span class="n">zf</span> <span class="o">=</span> <span class="n">ZipFile</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">combinePath</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span>
+        <span class="n">sedmlStr</span> <span class="o">=</span> <span class="n">zf</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">sedmlfile</span><span class="p">)</span>
+        <span class="n">zf</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+        <span class="n">phrasedmlStr</span> <span class="o">=</span> <span class="n">phrasedml</span><span class="o">.</span><span class="n">convertString</span><span class="p">(</span><span class="n">sedmlStr</span><span class="p">)</span>
+        <span class="k">print</span><span class="p">(</span><span class="n">phrasedmlStr</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">phrasedmlStr</span>        </div>
+        
+<div class="viewcode-block" id="OpenCombine.listContents"><a class="viewcode-back" href="../../_apidoc/tellurium.html#tellurium.tecombine.OpenCombine.listContents">[docs]</a>    <span class="k">def</span> <span class="nf">listContents</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">zf</span> <span class="o">=</span> <span class="n">ZipFile</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">combinePath</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span>
+        <span class="n">temp</span> <span class="o">=</span> <span class="n">zf</span><span class="o">.</span><span class="n">namelist</span><span class="p">()</span>
+        <span class="k">print</span><span class="p">(</span><span class="n">zf</span><span class="o">.</span><span class="n">namelist</span><span class="p">())</span>
+        <span class="n">zf</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">temp</span></div>
+        
+<div class="viewcode-block" id="OpenCombine.listDetailedContents"><a class="viewcode-back" href="../../_apidoc/tellurium.html#tellurium.tecombine.OpenCombine.listDetailedContents">[docs]</a>    <span class="k">def</span> <span class="nf">listDetailedContents</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">contentList</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">man</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">readManifest</span><span class="p">()</span>
+        <span class="n">xml</span> <span class="o">=</span> <span class="n">et</span><span class="o">.</span><span class="n">ElementTree</span><span class="p">(</span><span class="n">et</span><span class="o">.</span><span class="n">fromstring</span><span class="p">(</span><span class="n">man</span><span class="p">))</span>
+        <span class="n">root</span> <span class="o">=</span> <span class="n">xml</span><span class="o">.</span><span class="n">getroot</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">child</span> <span class="ow">in</span> <span class="n">root</span><span class="p">:</span>
+            <span class="n">attribute</span> <span class="o">=</span> <span class="n">child</span><span class="o">.</span><span class="n">attrib</span>
+            <span class="n">formtype</span> <span class="o">=</span> <span class="n">attribute</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;format&#39;</span><span class="p">)</span>
+            <span class="n">loc</span> <span class="o">=</span> <span class="n">attribute</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;location&#39;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">formtype</span> <span class="o">==</span> <span class="s2">&quot;http://identifiers.org/combine.specifications/sbml&quot;</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">loc</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;http&#39;</span><span class="p">)</span> <span class="ow">or</span> <span class="n">loc</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;www&#39;</span><span class="p">):</span>
+                    <span class="n">contentList</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s1">&#39;filename&#39;</span><span class="p">:</span><span class="n">loc</span><span class="p">,</span> <span class="s1">&#39;type&#39;</span><span class="p">:</span><span class="s1">&#39;sbml&#39;</span><span class="p">})</span>                    
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">contentList</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s1">&#39;filename&#39;</span><span class="p">:</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">loc</span><span class="p">),</span> <span class="s1">&#39;type&#39;</span><span class="p">:</span><span class="s1">&#39;sbml&#39;</span><span class="p">})</span>
+            <span class="k">elif</span> <span class="n">formtype</span> <span class="o">==</span> <span class="s2">&quot;http://identifiers.org/combine.specifications/sed-ml&quot;</span><span class="p">:</span>
+                <span class="n">zf</span> <span class="o">=</span> <span class="n">ZipFile</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">combinePath</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">sedmlRaw</span> <span class="o">=</span> <span class="n">zf</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">loc</span><span class="p">)</span>
+                <span class="k">except</span> <span class="ne">KeyError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                    <span class="k">try</span><span class="p">:</span>
+                        <span class="n">sedmlRaw</span> <span class="o">=</span> <span class="n">zf</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">loc</span><span class="p">))</span>
+                    <span class="k">except</span> <span class="ne">KeyError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                        <span class="k">raise</span> <span class="n">e</span>
+                <span class="n">sedmlDoc</span> <span class="o">=</span> <span class="n">libsedml</span><span class="o">.</span><span class="n">readSedMLFromString</span><span class="p">(</span><span class="n">sedmlRaw</span><span class="p">)</span>
+                <span class="n">tempSedmlSource</span> <span class="o">=</span> <span class="p">[]</span>
+                <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">sedmlDoc</span><span class="o">.</span><span class="n">getNumModels</span><span class="p">()):</span>
+                    <span class="n">currentModel</span> <span class="o">=</span> <span class="n">sedmlDoc</span><span class="o">.</span><span class="n">getModel</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">splitext</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">currentModel</span><span class="o">.</span><span class="n">getSource</span><span class="p">()))[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;&#39;</span><span class="p">:</span>
+                        <span class="k">pass</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">tempSedmlSource</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">currentModel</span><span class="o">.</span><span class="n">getSource</span><span class="p">()))</span>
+                <span class="n">contentList</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s1">&#39;filename&#39;</span><span class="p">:</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">loc</span><span class="p">),</span> <span class="s1">&#39;type&#39;</span><span class="p">:</span><span class="s1">&#39;sedml&#39;</span><span class="p">,</span> <span class="s1">&#39;modelsource&#39;</span><span class="p">:</span><span class="n">tempSedmlSource</span><span class="p">})</span>
+                <span class="n">zf</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+            <span class="k">elif</span> <span class="n">formtype</span> <span class="o">==</span> <span class="s2">&quot;image/png&quot;</span><span class="p">:</span>
+                <span class="n">contentList</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s1">&#39;filename&#39;</span><span class="p">:</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">loc</span><span class="p">),</span> <span class="s1">&#39;type&#39;</span><span class="p">:</span><span class="s1">&#39;png&#39;</span><span class="p">})</span>
+            <span class="k">elif</span> <span class="n">formtype</span> <span class="o">==</span> <span class="s2">&quot;image/jpg&quot;</span> <span class="ow">or</span> <span class="n">formtype</span> <span class="o">==</span> <span class="s2">&quot;image/jpeg&quot;</span><span class="p">:</span>
+                <span class="n">contentList</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s1">&#39;filename&#39;</span><span class="p">:</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">loc</span><span class="p">),</span> <span class="s1">&#39;type&#39;</span><span class="p">:</span><span class="s1">&#39;jpg&#39;</span><span class="p">})</span>
+            <span class="k">elif</span> <span class="n">formtype</span> <span class="o">==</span> <span class="s2">&quot;application/pdf&quot;</span><span class="p">:</span>
+                <span class="n">contentList</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s1">&#39;filename&#39;</span><span class="p">:</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">loc</span><span class="p">),</span> <span class="s1">&#39;type&#39;</span><span class="p">:</span><span class="s1">&#39;pdf&#39;</span><span class="p">})</span>
+            <span class="k">elif</span> <span class="n">formtype</span> <span class="o">==</span> <span class="s2">&quot;plain/text&quot;</span><span class="p">:</span>
+                <span class="n">contentList</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s1">&#39;filename&#39;</span><span class="p">:</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">loc</span><span class="p">),</span> <span class="s1">&#39;type&#39;</span><span class="p">:</span><span class="s1">&#39;txt&#39;</span><span class="p">})</span>
+            <span class="k">elif</span> <span class="n">formtype</span> <span class="o">==</span> <span class="s2">&quot;plain/csv&quot;</span><span class="p">:</span>
+                <span class="n">contentList</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s1">&#39;filename&#39;</span><span class="p">:</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">loc</span><span class="p">),</span> <span class="s1">&#39;type&#39;</span><span class="p">:</span><span class="s1">&#39;csv&#39;</span><span class="p">})</span>
+            <span class="k">elif</span> <span class="n">formtype</span> <span class="o">==</span> <span class="s2">&quot;plain/dat&quot;</span><span class="p">:</span>
+                <span class="n">contentList</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s1">&#39;filename&#39;</span><span class="p">:</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">loc</span><span class="p">),</span> <span class="s1">&#39;type&#39;</span><span class="p">:</span><span class="s1">&#39;dat&#39;</span><span class="p">})</span>
+            
+        <span class="k">print</span><span class="p">(</span><span class="n">contentList</span><span class="p">)</span>
+        
+        <span class="k">return</span><span class="p">(</span><span class="n">contentList</span><span class="p">)</span></div>
+        
+<div class="viewcode-block" id="OpenCombine.removeFile"><a class="viewcode-back" href="../../_apidoc/tellurium.html#tellurium.tecombine.OpenCombine.removeFile">[docs]</a>    <span class="k">def</span> <span class="nf">removeFile</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fileName</span><span class="p">):</span>
+        <span class="n">baseName</span><span class="p">,</span> <span class="n">fileFormat</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">splitext</span><span class="p">(</span><span class="n">fileName</span><span class="p">)</span>
+        <span class="n">tempPath</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">combinePath</span><span class="p">),</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">splitext</span><span class="p">(</span>
+            <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">combinePath</span><span class="p">))[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="s1">&#39;_tempcombine&#39;</span> <span class="o">+</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">splitext</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">combinePath</span><span class="p">))[</span><span class="mi">1</span><span class="p">])</span>
+        <span class="n">zin</span> <span class="o">=</span> <span class="n">ZipFile</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">combinePath</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span>
+        <span class="n">zout</span> <span class="o">=</span> <span class="n">ZipFile</span> <span class="p">(</span><span class="n">tempPath</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">zin</span><span class="o">.</span><span class="n">infolist</span><span class="p">():</span>
+            <span class="nb">buffer</span> <span class="o">=</span> <span class="n">zin</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">item</span><span class="o">.</span><span class="n">filename</span><span class="p">)</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">item</span><span class="o">.</span><span class="n">filename</span> <span class="o">!=</span> <span class="n">fileName</span><span class="p">):</span>
+                <span class="n">zout</span><span class="o">.</span><span class="n">writestr</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="nb">buffer</span><span class="p">)</span>
+        <span class="n">zout</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+        <span class="n">zin</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">combinePath</span><span class="p">)</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">tempPath</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">combinePath</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">fileName</span> <span class="o">==</span> <span class="s1">&#39;manifest.xml&#39;</span><span class="p">:</span>
+            <span class="k">pass</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">updateManifest</span><span class="p">(</span><span class="n">baseName</span> <span class="o">+</span> <span class="n">fileFormat</span><span class="p">,</span> <span class="n">fileFormat</span><span class="p">[</span><span class="mi">1</span><span class="p">:],</span> <span class="n">delete</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span></div>
+    
+<div class="viewcode-block" id="OpenCombine.update"><a class="viewcode-back" href="../../_apidoc/tellurium.html#tellurium.tecombine.OpenCombine.update">[docs]</a>    <span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">currentExp</span><span class="p">):</span>
+        <span class="n">currentExp</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">combinePath</span><span class="p">)</span></div>
+        
+<div class="viewcode-block" id="OpenCombine.readManifest"><a class="viewcode-back" href="../../_apidoc/tellurium.html#tellurium.tecombine.OpenCombine.readManifest">[docs]</a>    <span class="k">def</span> <span class="nf">readManifest</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">zf</span> <span class="o">=</span> <span class="n">ZipFile</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">combinePath</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">man</span> <span class="o">=</span> <span class="n">zf</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="s1">r&#39;manifest.xml&#39;</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">KeyError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">e</span>
+        <span class="n">zf</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">man</span></div>
+            
+<div class="viewcode-block" id="OpenCombine.updateManifest"><a class="viewcode-back" href="../../_apidoc/tellurium.html#tellurium.tecombine.OpenCombine.updateManifest">[docs]</a>    <span class="k">def</span> <span class="nf">updateManifest</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fileName</span><span class="p">,</span> <span class="n">fileType</span><span class="p">,</span> <span class="n">delete</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+        <span class="n">man</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">readManifest</span><span class="p">()</span>
+        <span class="n">man</span> <span class="o">=</span> <span class="n">man</span><span class="o">.</span><span class="n">splitlines</span><span class="p">()</span>
+        
+        <span class="k">if</span> <span class="n">delete</span> <span class="o">==</span> <span class="bp">True</span><span class="p">:</span>
+            <span class="n">matching</span> <span class="o">=</span> <span class="p">[</span><span class="n">s</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">man</span> <span class="k">if</span> <span class="n">fileName</span> <span class="ow">in</span> <span class="n">s</span><span class="p">]</span>
+            <span class="n">man</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">matching</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">fileType</span> <span class="o">==</span> <span class="s1">&#39;sbml&#39;</span><span class="p">:</span>
+                <span class="n">value</span> <span class="o">=</span> <span class="s1">r&#39;    &lt;content location=&quot;./&#39;</span> <span class="o">+</span> <span class="n">fileName</span> <span class="o">+</span> <span class="s1">&#39;&quot; format=&quot;http://identifiers.org/combine.specifications/sbml&quot;/&gt;&#39;</span>
+            <span class="k">elif</span> <span class="n">fileType</span> <span class="o">==</span> <span class="s1">&#39;sedml&#39;</span><span class="p">:</span>
+                <span class="n">value</span> <span class="o">=</span> <span class="s1">r&#39;    &lt;content location=&quot;./&#39;</span> <span class="o">+</span> <span class="n">fileName</span> <span class="o">+</span> <span class="s1">&#39;&quot; master=&quot;true&quot; format=&quot;http://identifiers.org/combine.specifications/sed-ml&quot;/&gt;&#39;</span>
+            <span class="k">elif</span> <span class="n">fileType</span> <span class="o">==</span> <span class="s1">&#39;png&#39;</span><span class="p">:</span>
+                <span class="n">value</span> <span class="o">=</span> <span class="s1">r&#39;    &lt;content location=&quot;./fig/&#39;</span><span class="o">+</span> <span class="n">fileName</span> <span class="o">+</span> <span class="s1">&#39;&quot; format=&quot;image/png&quot;/&gt;&#39;</span>
+            <span class="k">elif</span> <span class="n">fileType</span> <span class="o">==</span> <span class="s1">&#39;jpg&#39;</span> <span class="ow">or</span> <span class="n">fileType</span> <span class="o">==</span> <span class="s1">&#39;.jpeg&#39;</span><span class="p">:</span>
+                <span class="n">value</span> <span class="o">=</span> <span class="s1">r&#39;    &lt;content location=&quot;./fig/&#39;</span><span class="o">+</span> <span class="n">fileName</span> <span class="o">+</span> <span class="s1">&#39;&quot; format=&quot;image/jpg&quot;/&gt;&#39;</span>
+            <span class="k">elif</span> <span class="n">fileType</span> <span class="o">==</span> <span class="s1">&#39;pdf&#39;</span><span class="p">:</span>
+                <span class="n">value</span> <span class="o">=</span> <span class="s1">r&#39;    &lt;content location=&quot;./data/&#39;</span><span class="o">+</span> <span class="n">fileName</span> <span class="o">+</span> <span class="s1">&#39;&quot; format=&quot;application/pdf&quot;/&gt;&#39;</span>
+            <span class="k">elif</span> <span class="n">fileType</span> <span class="o">==</span> <span class="s1">&#39;txt&#39;</span><span class="p">:</span>
+                <span class="n">value</span> <span class="o">=</span> <span class="s1">r&#39;    &lt;content location=&quot;./data/&#39;</span><span class="o">+</span> <span class="n">fileName</span> <span class="o">+</span> <span class="s1">&#39;&quot; format=&quot;plain/text&quot;/&gt;&#39;</span>
+            <span class="k">elif</span> <span class="n">fileType</span> <span class="o">==</span> <span class="s1">&#39;csv&#39;</span><span class="p">:</span>
+                <span class="n">value</span> <span class="o">=</span> <span class="s1">r&#39;    &lt;content location=&quot;./data/&#39;</span><span class="o">+</span> <span class="n">fileName</span> <span class="o">+</span> <span class="s1">&#39;&quot; format=&quot;plain/csv&quot;/&gt;&#39;</span>
+            <span class="k">elif</span> <span class="n">fileType</span> <span class="o">==</span> <span class="s1">&#39;dat&#39;</span><span class="p">:</span>
+                <span class="n">value</span> <span class="o">=</span> <span class="s1">r&#39;    &lt;content location=&quot;./data/&#39;</span><span class="o">+</span> <span class="n">fileName</span> <span class="o">+</span> <span class="s1">&#39;&quot; format=&quot;plain/dat&quot;/&gt;&#39;</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;Unsupported file type&quot;</span><span class="p">)</span>            
+            <span class="n">man</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+        <span class="n">man</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">man</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">removeFile</span><span class="p">(</span><span class="s1">r&#39;manifest.xml&#39;</span><span class="p">)</span>
+        
+        <span class="n">zf</span> <span class="o">=</span> <span class="n">ZipFile</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">combinePath</span><span class="p">,</span> <span class="s1">&#39;a&#39;</span><span class="p">)</span>
+        <span class="n">zf</span><span class="o">.</span><span class="n">writestr</span><span class="p">(</span><span class="s1">r&#39;manifest.xml&#39;</span><span class="p">,</span> <span class="n">man</span><span class="p">)</span>
+        <span class="n">zf</span><span class="o">.</span><span class="n">close</span><span class="p">()</span></div></div>
+
+<div class="viewcode-block" id="export"><a class="viewcode-back" href="../../_apidoc/tellurium.html#tellurium.tecombine.export">[docs]</a><span class="k">def</span> <span class="nf">export</span><span class="p">(</span><span class="n">outfile</span><span class="p">,</span> <span class="n">antimonyStr</span><span class="p">,</span> <span class="n">phrasedmlStrs</span><span class="p">):</span>
     <span class="n">m</span> <span class="o">=</span> <span class="n">MakeCombine</span><span class="p">()</span>
-
-    <span class="n">m</span><span class="o">.</span><span class="n">addAntimonyStr</span><span class="p">(</span><span class="n">antimonyStr</span><span class="p">,</span> <span class="n">SBMLName</span><span class="p">)</span>
+    <span class="n">modelNames</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">antimonyStr</span><span class="p">)):</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="n">te</span><span class="o">.</span><span class="n">loada</span><span class="p">(</span><span class="n">antimonyStr</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+        <span class="n">SBMLName</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">getModel</span><span class="p">()</span><span class="o">.</span><span class="n">getModelName</span><span class="p">()</span>
+        <span class="n">m</span><span class="o">.</span><span class="n">addAntimonyStr</span><span class="p">(</span><span class="n">antimonyStr</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">SBMLName</span> <span class="o">+</span> <span class="s2">&quot;.xml&quot;</span><span class="p">)</span>
+        <span class="n">modelNames</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">SBMLName</span><span class="p">)</span>
 
     <span class="c1"># remaining arguments are assumed to be phrasedml</span>
     <span class="n">n</span> <span class="o">=</span> <span class="mi">1</span>
-    <span class="k">for</span> <span class="n">phrasedmlStr</span> <span class="ow">in</span> <span class="n">args</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">phrasedmlStr</span> <span class="ow">in</span> <span class="n">phrasedmlStrs</span><span class="p">:</span>
+        <span class="n">reModel</span> <span class="o">=</span> <span class="s2">r&quot;&quot;&quot;(\w*) = model (&#39;|&quot;)(.*)(&#39;|&quot;)&quot;&quot;&quot;</span>
+        <span class="n">lines</span> <span class="o">=</span> <span class="n">phrasedmlStr</span><span class="o">.</span><span class="n">splitlines</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">s</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">lines</span><span class="p">):</span>
+            <span class="n">reSearchModel</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">reModel</span><span class="p">,</span> <span class="n">s</span><span class="p">)</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">reSearchModel</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">modelsource</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">reSearchModel</span><span class="p">[</span><span class="mi">3</span><span class="p">])</span>
+                <span class="n">modelname</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">modelsource</span><span class="p">)</span>
+        
+        <span class="k">if</span> <span class="n">modelname</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">modelNames</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;Cannot find the model defined in phrasedml string. Check the model name in antimony&quot;</span><span class="p">)</span>
+        <span class="n">phrasedml</span><span class="o">.</span><span class="n">setReferencedSBML</span><span class="p">(</span><span class="n">modelname</span><span class="p">,</span> <span class="n">te</span><span class="o">.</span><span class="n">antimonyToSBML</span><span class="p">(</span><span class="n">antimonyStr</span><span class="p">[</span><span class="n">modelNames</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">modelname</span><span class="p">)]))</span>
         <span class="n">m</span><span class="o">.</span><span class="n">addPhraSEDMLStr</span><span class="p">(</span><span class="n">phrasedmlStr</span><span class="p">,</span> <span class="s1">&#39;experiment{}.xml&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">n</span><span class="p">))</span>
         <span class="n">n</span> <span class="o">+=</span> <span class="mi">1</span>
 
-    <span class="n">m</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">outfile</span><span class="p">)</span></div>
+    <span class="n">m</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">outfile</span><span class="p">)</span>
+    <span class="n">phrasedml</span><span class="o">.</span><span class="n">clearReferencedSBML</span><span class="p">()</span></div>
+
 </pre></div>
 
            </div>

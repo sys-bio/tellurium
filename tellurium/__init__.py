@@ -34,7 +34,7 @@ from teio.latex import LatexExport
 from analysis.parameterscan import ParameterScan, SteadyStateScan
 
 # sedml & combine support
-from sedml.tesedml import sedmlToPython
+from sedml.tesedml import sedmlToPython, executeSEDML
 from sedml.tephrasedml import experiment
 from tecombine import combine
 
@@ -42,6 +42,7 @@ from tecombine import combine
 import optimization
 import visualization
 
+import temiriam
 try:
     import notebooks as notebooks
 except ImportError:

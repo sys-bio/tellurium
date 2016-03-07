@@ -132,21 +132,21 @@
             
   <h1>Source code for tellurium.visualization.SBMLDiagram</h1><div class="highlight"><pre>
 <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">SBMLDiagram extension via graphviz.</span>
+<span class="sd">This module creates an SBMLDiagram for the given SBML model using graphviz.</span>
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">print_function</span><span class="p">,</span> <span class="n">division</span>
 <span class="kn">import</span> <span class="nn">roadrunner</span>
-<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">warnings</span>
 <span class="kn">import</span> <span class="nn">tempfile</span>
 <span class="kn">import</span> <span class="nn">libsbml</span>
 <span class="kn">from</span> <span class="nn">IPython.display</span> <span class="kn">import</span> <span class="n">Image</span><span class="p">,</span> <span class="n">display</span>
 
 <span class="k">try</span><span class="p">:</span>
-    <span class="c1"># FIXME: this should always be packed</span>
     <span class="kn">import</span> <span class="nn">pygraphviz</span> <span class="kn">as</span> <span class="nn">pgv</span>
 <span class="k">except</span> <span class="ne">ImportError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
     <span class="n">pgv</span> <span class="o">=</span> <span class="bp">None</span>
     <span class="n">roadrunner</span><span class="o">.</span><span class="n">Logger</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">roadrunner</span><span class="o">.</span><span class="n">Logger</span><span class="o">.</span><span class="n">LOG_WARNING</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">))</span>
+    <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">&quot;&#39;pygraphviz&#39; could not be imported&quot;</span><span class="p">,</span> <span class="ne">ImportWarning</span><span class="p">,</span> <span class="n">stacklevel</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
 
 
 <div class="viewcode-block" id="SBMLDiagram"><a class="viewcode-back" href="../../../_apidoc/tellurium.visualization.html#tellurium.visualization.SBMLDiagram.SBMLDiagram">[docs]</a><span class="k">class</span> <span class="nc">SBMLDiagram</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
@@ -171,6 +171,7 @@
 <span class="sd">        :param modifiers:</span>
 <span class="sd">        :type modifiers:</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># load model</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">sbml</span><span class="p">,</span> <span class="nb">basestring</span><span class="p">):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">doc</span> <span class="o">=</span> <span class="n">libsbml</span><span class="o">.</span><span class="n">readSBMLFromString</span><span class="p">(</span><span class="n">sbml</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">doc</span><span class="o">.</span><span class="n">getModel</span><span class="p">()</span>
@@ -181,29 +182,82 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="n">sbml</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s1">&#39;SBML Input is not valid&#39;</span><span class="p">)</span>
+        <span class="c1"># create graph</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">g</span> <span class="o">=</span> <span class="n">SBMLDiagram</span><span class="o">.</span><span class="n">_createGraph</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">,</span>
+                                          <span class="n">species</span><span class="o">=</span><span class="n">species</span><span class="p">,</span>
+                                          <span class="n">reactions</span><span class="o">=</span><span class="n">reactions</span><span class="p">,</span>
+                                          <span class="n">reactants</span><span class="o">=</span><span class="n">reactants</span><span class="p">,</span>
+                                          <span class="n">products</span><span class="o">=</span><span class="n">products</span><span class="p">,</span>
+                                          <span class="n">modifiers</span><span class="o">=</span><span class="n">modifiers</span><span class="p">)</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">G</span> <span class="o">=</span> <span class="n">pgv</span><span class="o">.</span><span class="n">AGraph</span><span class="p">(</span><span class="n">strict</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">directed</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
 
-        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">s</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">species</span><span class="p">):</span>
-            <span class="k">if</span> <span class="n">s</span><span class="o">.</span><span class="n">getName</span><span class="p">():</span>
-                <span class="n">label</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">getName</span><span class="p">()</span>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">_createGraph</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">species</span><span class="o">=</span><span class="p">{},</span> <span class="n">reactions</span><span class="o">=</span><span class="p">{},</span> <span class="n">reactants</span><span class="o">=</span><span class="p">{},</span> <span class="n">products</span><span class="o">=</span><span class="p">{},</span> <span class="n">modifiers</span><span class="o">=</span><span class="p">{}):</span>
+        <span class="sd">&quot;&quot;&quot; Creates the acyclic graph from the given model.</span>
+
+<span class="sd">        :param model:</span>
+<span class="sd">        :type model:</span>
+<span class="sd">        :param species:</span>
+<span class="sd">        :type species:</span>
+<span class="sd">        :param reactions:</span>
+<span class="sd">        :type reactions:</span>
+<span class="sd">        :param reactants:</span>
+<span class="sd">        :type reactants:</span>
+<span class="sd">        :param products:</span>
+<span class="sd">        :type products:</span>
+<span class="sd">        :param modifiers:</span>
+<span class="sd">        :type modifiers:</span>
+<span class="sd">        :return:</span>
+<span class="sd">        :rtype:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">g</span> <span class="o">=</span> <span class="n">pgv</span><span class="o">.</span><span class="n">AGraph</span><span class="p">(</span><span class="n">strict</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">directed</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+
+        <span class="c1"># set some default node attributes</span>
+        <span class="n">g</span><span class="o">.</span><span class="n">node_attr</span><span class="p">[</span><span class="s1">&#39;style&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;filled&#39;</span>
+        <span class="n">g</span><span class="o">.</span><span class="n">node_attr</span><span class="p">[</span><span class="s1">&#39;shape&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;circle&#39;</span>
+        <span class="n">g</span><span class="o">.</span><span class="n">node_attr</span><span class="p">[</span><span class="s1">&#39;fixedsize&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;true&#39;</span>
+        <span class="n">g</span><span class="o">.</span><span class="n">node_attr</span><span class="p">[</span><span class="s1">&#39;fillcolor&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;#FFFFFF&#39;</span>
+        <span class="n">g</span><span class="o">.</span><span class="n">node_attr</span><span class="p">[</span><span class="s1">&#39;fontcolor&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;#000000&#39;</span>
+        <span class="c1"># g.node_attr[&#39;height&#39;] = &#39;40&#39;</span>
+        <span class="c1"># g.node_attr[&#39;width&#39;] = &#39;40&#39;</span>
+
+        <span class="c1"># species nodes</span>
+        <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">model</span><span class="o">.</span><span class="n">species</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">s</span><span class="o">.</span><span class="n">name</span><span class="p">:</span>
+                <span class="n">label</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">name</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="n">label</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">getId</span><span class="p">()</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">G</span><span class="o">.</span><span class="n">add_node</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">getId</span><span class="p">(),</span> <span class="n">label</span><span class="o">=</span><span class="n">label</span><span class="p">,</span> <span class="o">**</span><span class="n">species</span><span class="p">)</span>
-        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">r</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">reactions</span><span class="p">):</span>
-            <span class="k">if</span> <span class="n">r</span><span class="o">.</span><span class="n">getName</span><span class="p">():</span>
-                <span class="n">label</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">getName</span><span class="p">()</span>
+                <span class="n">label</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">id</span>
+            <span class="n">g</span><span class="o">.</span><span class="n">add_node</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">label</span><span class="p">,</span> <span class="o">**</span><span class="n">species</span><span class="p">)</span>
+            <span class="n">n</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">get_node</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+
+            <span class="c1"># boundary species</span>
+            <span class="k">if</span> <span class="n">s</span><span class="o">.</span><span class="n">boundary_condition</span> <span class="ow">is</span> <span class="bp">True</span><span class="p">:</span>
+                <span class="n">n</span><span class="o">.</span><span class="n">attr</span><span class="p">[</span><span class="s1">&#39;fillcolor&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;#717FF0&#39;</span>
+
+        <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">model</span><span class="o">.</span><span class="n">reactions</span><span class="p">:</span>
+            <span class="c1"># reaction nodes</span>
+            <span class="k">if</span> <span class="n">r</span><span class="o">.</span><span class="n">name</span><span class="p">:</span>
+                <span class="n">label</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">name</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="n">label</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">getId</span><span class="p">()</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">G</span><span class="o">.</span><span class="n">add_node</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">getId</span><span class="p">(),</span> <span class="n">label</span><span class="o">=</span><span class="n">label</span><span class="p">,</span> <span class="o">**</span><span class="n">reactions</span><span class="p">)</span>
+                <span class="n">label</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">id</span>
+            <span class="n">g</span><span class="o">.</span><span class="n">add_node</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">label</span><span class="p">,</span> <span class="o">**</span><span class="n">reactions</span><span class="p">)</span>
+            <span class="n">n</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">get_node</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+            <span class="n">n</span><span class="o">.</span><span class="n">attr</span><span class="p">[</span><span class="s1">&#39;fillcolor&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;#D1D1D1&#39;</span>
+            <span class="n">n</span><span class="o">.</span><span class="n">attr</span><span class="p">[</span><span class="s1">&#39;shape&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;square&#39;</span>
+            <span class="c1"># n.attr[&#39;height&#39;] = int(int(g.node_attr[&#39;height&#39;])/2.0)</span>
+            <span class="c1"># n.attr[&#39;width&#39;] = int(int(g.node_attr[&#39;width&#39;])/2.0)</span>
+
+            <span class="c1"># edges</span>
             <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">r</span><span class="o">.</span><span class="n">reactants</span><span class="p">:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">G</span><span class="o">.</span><span class="n">add_edge</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">getSpecies</span><span class="p">(),</span> <span class="n">r</span><span class="o">.</span><span class="n">getId</span><span class="p">(),</span> <span class="o">**</span><span class="n">reactants</span><span class="p">)</span>
+                <span class="n">g</span><span class="o">.</span><span class="n">add_edge</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">getSpecies</span><span class="p">(),</span> <span class="n">r</span><span class="o">.</span><span class="n">getId</span><span class="p">(),</span> <span class="o">**</span><span class="n">reactants</span><span class="p">)</span>
             <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">r</span><span class="o">.</span><span class="n">products</span><span class="p">:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">G</span><span class="o">.</span><span class="n">add_edge</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">getId</span><span class="p">(),</span> <span class="n">s</span><span class="o">.</span><span class="n">getSpecies</span><span class="p">(),</span> <span class="o">**</span><span class="n">products</span><span class="p">)</span>
+                <span class="n">g</span><span class="o">.</span><span class="n">add_edge</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">getId</span><span class="p">(),</span> <span class="n">s</span><span class="o">.</span><span class="n">getSpecies</span><span class="p">(),</span> <span class="o">**</span><span class="n">products</span><span class="p">)</span>
             <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">r</span><span class="o">.</span><span class="n">modifiers</span><span class="p">:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">G</span><span class="o">.</span><span class="n">add_edge</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">getSpecies</span><span class="p">(),</span> <span class="n">r</span><span class="o">.</span><span class="n">getId</span><span class="p">(),</span> <span class="o">**</span><span class="n">modifiers</span><span class="p">)</span>
+                <span class="n">g</span><span class="o">.</span><span class="n">add_edge</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">getSpecies</span><span class="p">(),</span> <span class="n">r</span><span class="o">.</span><span class="n">getId</span><span class="p">(),</span> <span class="o">**</span><span class="n">modifiers</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">g</span>
 
-<div class="viewcode-block" id="SBMLDiagram.draw"><a class="viewcode-back" href="../../../_apidoc/tellurium.visualization.html#tellurium.visualization.SBMLDiagram.SBMLDiagram.draw">[docs]</a>    <span class="k">def</span> <span class="nf">draw</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">layout</span><span class="o">=</span><span class="s1">&#39;neato&#39;</span><span class="p">):</span>
+<div class="viewcode-block" id="SBMLDiagram.draw"><a class="viewcode-back" href="../../../_apidoc/tellurium.visualization.html#tellurium.visualization.SBMLDiagram.SBMLDiagram.draw">[docs]</a>    <span class="k">def</span> <span class="nf">draw</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">layout</span><span class="o">=</span><span class="s1">&#39;neato&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Draw the graph.</span>
 <span class="sd">        Optional layout=[&#39;neato&#39;|&#39;dot&#39;|&#39;twopi&#39;|&#39;circo&#39;|&#39;fdp&#39;|&#39;nop&#39;]</span>
 <span class="sd">        will use specified graphviz layout method.</span>
@@ -211,14 +265,12 @@
 <span class="sd">        :param layout: pygraphviz layout algorithm (default: &#39;neato&#39;)</span>
 <span class="sd">        :type layout: str</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">f</span> <span class="o">=</span> <span class="n">tempfile</span><span class="o">.</span><span class="n">NamedTemporaryFile</span><span class="p">()</span>
-        <span class="n">fname</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">name</span> <span class="o">+</span> <span class="s1">&#39;.png&#39;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">G</span><span class="o">.</span><span class="n">layout</span><span class="p">(</span><span class="n">prog</span><span class="o">=</span><span class="n">layout</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">G</span><span class="o">.</span><span class="n">draw</span><span class="p">(</span><span class="n">fname</span><span class="p">)</span>
+        <span class="n">f</span> <span class="o">=</span> <span class="n">tempfile</span><span class="o">.</span><span class="n">NamedTemporaryFile</span><span class="p">(</span><span class="n">suffix</span><span class="o">=</span><span class="s1">&#39;.png&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">g</span><span class="o">.</span><span class="n">layout</span><span class="p">(</span><span class="n">prog</span><span class="o">=</span><span class="n">layout</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">g</span><span class="o">.</span><span class="n">draw</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
 
-        <span class="n">i</span> <span class="o">=</span> <span class="n">Image</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="n">fname</span><span class="p">)</span>
-        <span class="n">display</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
-        <span class="n">os</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">fname</span><span class="p">)</span></div></div>
+        <span class="n">i</span> <span class="o">=</span> <span class="n">Image</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="n">f</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="n">display</span><span class="p">(</span><span class="n">i</span><span class="p">)</span></div></div>
 </pre></div>
 
            </div>

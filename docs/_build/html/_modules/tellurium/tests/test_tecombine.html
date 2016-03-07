@@ -1,0 +1,305 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>tellurium.tests.test_tecombine &mdash; tellurium 1.3.1 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="tellurium 1.3.1 documentation" href="../../../index.html"/>
+        <link rel="up" title="Module code" href="../../index.html"/> 
+
+  
+  <script src="../../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> tellurium
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.3.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../notebooks.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tellurium_methods.html">Tellurium Methods</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../_apidoc/tellurium.html">API (tellurium)</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../../../index.html">tellurium</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../../index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+      
+    <li>tellurium.tests.test_tecombine</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for tellurium.tests.test_tecombine</h1><div class="highlight"><pre>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Testing tecombine.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">print_function</span>
+
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">shutil</span>
+<span class="kn">import</span> <span class="nn">tempfile</span>
+<span class="kn">import</span> <span class="nn">unittest</span>
+
+<span class="kn">import</span> <span class="nn">tellurium</span> <span class="kn">as</span> <span class="nn">te</span>
+<span class="kn">import</span> <span class="nn">tellurium.sedml.tephrasedml</span> <span class="kn">as</span> <span class="nn">tephrasedml</span>
+
+<span class="nd">@unittest.skipIf</span><span class="p">(</span><span class="n">tephrasedml</span><span class="o">.</span><span class="n">phrasedml</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">,</span> <span class="s2">&quot;only run tests if phrasedml is available&quot;</span><span class="p">)</span>
+<div class="viewcode-block" id="teCombineTestCase"><a class="viewcode-back" href="../../../_apidoc/tellurium.tests.html#tellurium.tests.test_tecombine.teCombineTestCase">[docs]</a><span class="k">class</span> <span class="nc">teCombineTestCase</span><span class="p">(</span><span class="n">unittest</span><span class="o">.</span><span class="n">TestCase</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Testcases for tecombine. &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="teCombineTestCase.setUp"><a class="viewcode-back" href="../../../_apidoc/tellurium.tests.html#tellurium.tests.test_tecombine.teCombineTestCase.setUp">[docs]</a>    <span class="k">def</span> <span class="nf">setUp</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># create a test instance</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">antimony</span> <span class="o">=</span> <span class="s1">&#39;&#39;&#39;</span>
+<span class="s1">        model myModel</span>
+<span class="s1">          S1 -&gt; S2; k1*S1</span>
+<span class="s1">          S1 = 10; S2 = 0</span>
+<span class="s1">          k1 = 1</span>
+<span class="s1">        end</span>
+<span class="s1">        &#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">newAntimony</span> <span class="o">=</span> <span class="s1">&#39;&#39;&#39;</span>
+<span class="s1">        model newAntimony</span>
+<span class="s1">          S1 -&gt; S2; k1*S1</span>
+<span class="s1">          S1 = 10; S2 = 0</span>
+<span class="s1">          k1 = 1</span>
+<span class="s1">        end</span>
+<span class="s1">        &#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">phrasedml</span> <span class="o">=</span> <span class="s1">&#39;&#39;&#39;</span>
+<span class="s1">          model1 = model &quot;myModel&quot;</span>
+<span class="s1">          sim1 = simulate uniform(0, 5, 100)</span>
+<span class="s1">          task1 = run sim1 on model1</span>
+<span class="s1">          plot &quot;Figure 1&quot; time vs S1, S2</span>
+<span class="s1">        &#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">newPhrasedml</span> <span class="o">=</span> <span class="s1">&#39;&#39;&#39;</span>
+<span class="s1">          model1 = model &quot;newAntimony&quot;</span>
+<span class="s1">          sim1 = simulate uniform(0, 10, 100)</span>
+<span class="s1">          task1 = run sim1 on model1</span>
+<span class="s1">          plot &quot;Figure 1&quot; time vs S1, S2</span>
+<span class="s1">        &#39;&#39;&#39;</span>
+        <span class="n">exp</span> <span class="o">=</span> <span class="n">te</span><span class="o">.</span><span class="n">experiment</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">antimony</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">phrasedml</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tmpdir</span> <span class="o">=</span> <span class="n">tempfile</span><span class="o">.</span><span class="n">mkdtemp</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tmparchive</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">tmpdir</span><span class="p">,</span> <span class="s1">&#39;test.zip&#39;</span><span class="p">)</span>
+        <span class="n">exp</span><span class="o">.</span><span class="n">exportAsCombine</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">tmparchive</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">com</span> <span class="o">=</span> <span class="n">te</span><span class="o">.</span><span class="n">combine</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">tmparchive</span><span class="p">)</span></div>
+        
+<div class="viewcode-block" id="teCombineTestCase.test_addantimony"><a class="viewcode-back" href="../../../_apidoc/tellurium.tests.html#tellurium.tests.test_tecombine.teCombineTestCase.test_addantimony">[docs]</a>    <span class="k">def</span> <span class="nf">test_addantimony</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Test addAntimony. &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">com</span><span class="o">.</span><span class="n">addAntimony</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">newAntimony</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">clearTest</span><span class="p">()</span></div>
+    
+<div class="viewcode-block" id="teCombineTestCase.test_addphrasedml"><a class="viewcode-back" href="../../../_apidoc/tellurium.tests.html#tellurium.tests.test_tecombine.teCombineTestCase.test_addphrasedml">[docs]</a>    <span class="k">def</span> <span class="nf">test_addphrasedml</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Test addPhrasedml. &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">com</span><span class="o">.</span><span class="n">addPhrasedml</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">newPhrasedml</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">newAntimony</span><span class="p">,</span> 
+                              <span class="n">arcname</span><span class="o">=</span><span class="s2">&quot;newphrasedml.xml&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">clearTest</span><span class="p">()</span></div>
+        
+<div class="viewcode-block" id="teCombineTestCase.test_getsbml"><a class="viewcode-back" href="../../../_apidoc/tellurium.tests.html#tellurium.tests.test_tecombine.teCombineTestCase.test_getsbml">[docs]</a>    <span class="k">def</span> <span class="nf">test_getsbml</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Test getSBML. &quot;&quot;&quot;</span>
+        <span class="n">sbmlstr</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">com</span><span class="o">.</span><span class="n">getSBML</span><span class="p">(</span><span class="s2">&quot;myModel.xml&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertIsNotNone</span><span class="p">(</span><span class="n">sbmlstr</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">clearTest</span><span class="p">()</span></div>
+    
+<div class="viewcode-block" id="teCombineTestCase.test_getsbmlasantimony"><a class="viewcode-back" href="../../../_apidoc/tellurium.tests.html#tellurium.tests.test_tecombine.teCombineTestCase.test_getsbmlasantimony">[docs]</a>    <span class="k">def</span> <span class="nf">test_getsbmlasantimony</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Test getSBMLAsAntimony. &quot;&quot;&quot;</span>
+        <span class="n">antstr</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">com</span><span class="o">.</span><span class="n">getSBMLAsAntimony</span><span class="p">(</span><span class="s2">&quot;myModel.xml&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertIsNotNone</span><span class="p">(</span><span class="n">antstr</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">clearTest</span><span class="p">()</span></div>
+    
+<div class="viewcode-block" id="teCombineTestCase.test_getsedml"><a class="viewcode-back" href="../../../_apidoc/tellurium.tests.html#tellurium.tests.test_tecombine.teCombineTestCase.test_getsedml">[docs]</a>    <span class="k">def</span> <span class="nf">test_getsedml</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Test getSEDML.&quot;&quot;&quot;</span>
+        <span class="n">sedmlstr</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">com</span><span class="o">.</span><span class="n">getSEDML</span><span class="p">(</span><span class="s2">&quot;experiment1.xml&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertIsNotNone</span><span class="p">(</span><span class="n">sedmlstr</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">clearTest</span><span class="p">()</span></div>
+    
+<div class="viewcode-block" id="teCombineTestCase.test_getsedmlaspharsedml"><a class="viewcode-back" href="../../../_apidoc/tellurium.tests.html#tellurium.tests.test_tecombine.teCombineTestCase.test_getsedmlaspharsedml">[docs]</a>    <span class="k">def</span> <span class="nf">test_getsedmlaspharsedml</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Test getSEDMLAsPhrasedml. &quot;&quot;&quot;</span>
+        <span class="n">phrasedmlstr</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">com</span><span class="o">.</span><span class="n">getSEDMLAsPhrasedml</span><span class="p">(</span><span class="s2">&quot;experiment1.xml&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertIsNotNone</span><span class="p">(</span><span class="n">phrasedmlstr</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">clearTest</span><span class="p">()</span></div>
+    
+<div class="viewcode-block" id="teCombineTestCase.test_listcontents"><a class="viewcode-back" href="../../../_apidoc/tellurium.tests.html#tellurium.tests.test_tecombine.teCombineTestCase.test_listcontents">[docs]</a>    <span class="k">def</span> <span class="nf">test_listcontents</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Test listContents. &quot;&quot;&quot;</span>
+        <span class="n">contents</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">com</span><span class="o">.</span><span class="n">listContents</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertIsNotNone</span><span class="p">(</span><span class="n">contents</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">clearTest</span><span class="p">()</span></div>
+        
+<div class="viewcode-block" id="teCombineTestCase.test_listdetailedcontents"><a class="viewcode-back" href="../../../_apidoc/tellurium.tests.html#tellurium.tests.test_tecombine.teCombineTestCase.test_listdetailedcontents">[docs]</a>    <span class="k">def</span> <span class="nf">test_listdetailedcontents</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Test listDetailedContents. &quot;&quot;&quot;</span>
+        <span class="n">detailedContents</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">com</span><span class="o">.</span><span class="n">listDetailedContents</span><span class="p">()</span>
+        <span class="k">print</span><span class="p">(</span><span class="n">detailedContents</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertIsNotNone</span><span class="p">(</span><span class="n">detailedContents</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">clearTest</span><span class="p">()</span></div>
+    
+<div class="viewcode-block" id="teCombineTestCase.test_readmanifest"><a class="viewcode-back" href="../../../_apidoc/tellurium.tests.html#tellurium.tests.test_tecombine.teCombineTestCase.test_readmanifest">[docs]</a>    <span class="k">def</span> <span class="nf">test_readmanifest</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Test readManifest. &quot;&quot;&quot;</span>
+        <span class="n">man</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">com</span><span class="o">.</span><span class="n">readManifest</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertIsNotNone</span><span class="p">(</span><span class="n">man</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">clearTest</span><span class="p">()</span></div>
+    
+<div class="viewcode-block" id="teCombineTestCase.clearTest"><a class="viewcode-back" href="../../../_apidoc/tellurium.tests.html#tellurium.tests.test_tecombine.teCombineTestCase.clearTest">[docs]</a>    <span class="k">def</span> <span class="nf">clearTest</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">shutil</span><span class="o">.</span><span class="n">rmtree</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">tmpdir</span><span class="p">)</span></div></div>
+    
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">unittest</span><span class="o">.</span><span class="n">main</span><span class="p">()</span>    
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016, sys-bio.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../../',
+            VERSION:'1.3.1',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

@@ -1,7 +1,7 @@
 """
     tellurium 1.3.1
 
-    auto-generated code (2016-03-07T13:03:06)
+    auto-generated code
     sedmlDoc: L1V2  
     workingDir: /home/mkoenig/git/tellurium/examples/tellurium-files/phrasedml/_te_case_02
     inputType: COMBINE_FILE
@@ -45,7 +45,7 @@ for __k__uniform_linear_for_k1, __value__uniform_linear_for_k1 in enumerate(__ra
     model1.setIntegrator('cvode')
     model1['k1'] = __value__uniform_linear_for_k1
     model1.timeCourseSelections = ['S2', 'S1', 'k1', 'time']
-    task0[0] = model1.simulate(start=0.0, end=10.0, steps=100)
+    task0[0] = model1.simulate(start=0.0, end=6.0, steps=100)
 
     task1.extend(task0)
 
