@@ -181,7 +181,7 @@ class SEDMLCodeFactory(object):
         """
         return libsedml.writeSedMLToString(self.doc)
 
-    def toPython(self, python_template='tesedml_template.py'):
+    def toPython(self, python_template='tesedml_template.template'):
         """ Create python code by rendering the python template.
         Uses the information in the SED-ML document to create
         python code
