@@ -1,14 +1,9 @@
 # -*- coding: utf-8 -*-
 """
 phrasedml 2D parameter scan
-see https://github.com/sys-bio/tellurium/issues/100
-
-UserWarning: RepeatedTask of RepeatedTask currently not supported
 """
-
 import tellurium as te
-import antimony as a
-import phrasedml as p
+import os
 
 antimonyStr = '''
 // Created by libAntimony v2.9
@@ -89,11 +84,10 @@ phrasedmlStr = '''
 # phrasedml experiment
 exp = te.experiment(antimonyStr, phrasedmlStr)
 
-# python code
-import os
-with open(os.path.realpath(__file__) + 'code.py', 'w') as f:
+# write python code
+realPath = os.path.realpath(__file__)
+with open(realPath + 'code.py', 'w') as f:
     f.write(exp._toPython(phrasedmlStr))
 
 # execute python
-import os
-exp.execute(phrasedmlStr, workingDir=os.getcwd())
+exp.execute(phrasedmlStr, workingDir=os.path.dirname(realPath))

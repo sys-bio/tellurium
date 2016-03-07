@@ -1,13 +1,10 @@
 # -*- coding: utf-8 -*-
 """
-phrasedml 1D parameter scan
-see https://github.com/sys-bio/tellurium/issues/99
-
-UserWarning: Unsupported listOfChanges on RepeatedTask
+phrasedml 1D parameter scan.
 """
 from __future__ import print_function
 import tellurium as te
-import phrasedml.phrasedml as phrasedml
+import os
 
 antimonyStr = '''
 // Created by libAntimony v2.9
@@ -56,15 +53,13 @@ task1 = repeat task0 for J0_v0 in [8, 4, 0.4], reset=true
 plot task1.time vs task1.S1, task1.S2
 '''
 
-
 # phrasedml experiment
 exp = te.experiment(antimonyStr, phrasedmlStr)
 
-# python code
-import os
-with open(os.path.realpath(__file__) + 'code.py', 'w') as f:
+# write python code
+realPath = os.path.realpath(__file__)
+with open(realPath + 'code.py', 'w') as f:
     f.write(exp._toPython(phrasedmlStr))
 
 # execute python
-import os
-exp.execute(phrasedmlStr, workingDir=os.getcwd())
+exp.execute(phrasedmlStr, workingDir=os.path.dirname(realPath))

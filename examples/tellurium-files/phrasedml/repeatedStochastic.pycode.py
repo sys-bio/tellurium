@@ -1,9 +1,9 @@
 """
     tellurium 1.3.1
 
-    auto-generated code (2016-03-03T08:46:06)
+    auto-generated code (2016-03-07T10:03:10)
     sedmlDoc: L1V2  
-    workingDir: /tmp/tmpF7Dwa7_sedml/_te_repeatedStochastic
+    workingDir: /tmp/tmpQwHxFp_sedml/_te_repeatedStochastic
     inputType: COMBINE_FILE
 """
 from __future__ import print_function, division
@@ -16,7 +16,7 @@ import libsedml
 import pandas
 import os.path
 
-workingDir = '/tmp/tmpF7Dwa7_sedml/_te_repeatedStochastic'
+workingDir = '/tmp/tmpQwHxFp_sedml/_te_repeatedStochastic'
 
 # --------------------------------------------------------
 # Models
@@ -28,38 +28,39 @@ model1 = te.loadSBMLModel(os.path.join(workingDir, 'repeatedStochastic.xml'))
 # Tasks
 # --------------------------------------------------------
 # Task <task1>
-task1 = [None]
-model1.setIntegrator('gillespie')
-model1.getIntegrator().setValue('seed', '1003')
-model1.timeCourseSelections = []
-task1[0] = model1.simulate(start=0.0, end=4000.0, steps=1000)
+# not part of any DataGenerator: task1
 
 # Task <task2>
-task2 = [None]
-model1.setIntegrator('gillespie')
-model1.timeCourseSelections = []
-task2[0] = model1.simulate(start=0.0, end=4000.0, steps=1000)
+# not part of any DataGenerator: task2
 
 # Task <repeat1>
-__range__x = list(np.linspace(start=0.0, stop=10.0, num=11))
-repeat1 = [None]*len(__range__x)
-for k in range(len(__range__x)):
+
+repeat1 = []
+__range__x = np.linspace(start=0.0, stop=10.0, num=11)
+for __k__x, __value__x in enumerate(__range__x):
     model1.reset()
-    __value__x = __range__x[k]
+    # Task: <task1>
+    task1 = [None]
     model1.setIntegrator('gillespie')
     model1.getIntegrator().setValue('seed', '1003')
     model1.timeCourseSelections = ['MKKK', 'MKK_P', 'MAPK', 'MKK', 'MKKK_P', 'time', 'MAPK_P', 'MAPK_PP']
-    repeat1[k] = model1.simulate(start=0.0, end=4000.0, steps=1000)
+    task1[0] = model1.simulate(start=0.0, end=4000.0, steps=1000)
+
+    repeat1.extend(task1)
 
 # Task <repeat2>
-__range__x = list(np.linspace(start=0.0, stop=10.0, num=11))
-repeat2 = [None]*len(__range__x)
-for k in range(len(__range__x)):
+
+repeat2 = []
+__range__x = np.linspace(start=0.0, stop=10.0, num=11)
+for __k__x, __value__x in enumerate(__range__x):
     model1.reset()
-    __value__x = __range__x[k]
+    # Task: <task2>
+    task2 = [None]
     model1.setIntegrator('gillespie')
     model1.timeCourseSelections = ['MKKK', 'MKK_P', 'MAPK', 'MKK', 'MKKK_P', 'time', 'MAPK_P', 'MAPK_PP']
-    repeat2[k] = model1.simulate(start=0.0, end=4000.0, steps=1000)
+    task2[0] = model1.simulate(start=0.0, end=4000.0, steps=1000)
+
+    repeat2.extend(task2)
 
 # --------------------------------------------------------
 # DataGenerators
@@ -170,45 +171,46 @@ __gs = gridspec.GridSpec(1, 2, width_ratios=[3, 1])
 plt.subplot(__gs[0])
 for k in range(plot_0_0_0.shape[1]):
     if k == 0:
-        plt.plot(plot_0_0_0[:,k], plot_0_0_1[:,k], '-o', color='r', linewidth=1.5, markersize=4.0, alpha=0.8, label='repeat1.MAPK')
+        plt.plot(plot_0_0_0[:,k], plot_0_0_1[:,k], '-o', color='r', linewidth=1.5, markersize=3.0, alpha=0.8, label='repeat1.MAPK')
     else:
-        plt.plot(plot_0_0_0[:,k], plot_0_0_1[:,k], '-o', color='r', linewidth=1.5, markersize=4.0, alpha=0.8)
+        plt.plot(plot_0_0_0[:,k], plot_0_0_1[:,k], '-o', color='r', linewidth=1.5, markersize=3.0, alpha=0.8)
 for k in range(plot_0_0_0.shape[1]):
     if k == 0:
-        plt.plot(plot_0_0_0[:,k], plot_0_1_1[:,k], '-o', color='b', linewidth=1.5, markersize=4.0, alpha=0.8, label='repeat1.MAPK_P')
+        plt.plot(plot_0_0_0[:,k], plot_0_1_1[:,k], '-o', color='b', linewidth=1.5, markersize=3.0, alpha=0.8, label='repeat1.MAPK_P')
     else:
-        plt.plot(plot_0_0_0[:,k], plot_0_1_1[:,k], '-o', color='b', linewidth=1.5, markersize=4.0, alpha=0.8)
+        plt.plot(plot_0_0_0[:,k], plot_0_1_1[:,k], '-o', color='b', linewidth=1.5, markersize=3.0, alpha=0.8)
 for k in range(plot_0_0_0.shape[1]):
     if k == 0:
-        plt.plot(plot_0_0_0[:,k], plot_0_2_1[:,k], '-o', color='g', linewidth=1.5, markersize=4.0, alpha=0.8, label='repeat1.MAPK_PP')
+        plt.plot(plot_0_0_0[:,k], plot_0_2_1[:,k], '-o', color='g', linewidth=1.5, markersize=3.0, alpha=0.8, label='repeat1.MAPK_PP')
     else:
-        plt.plot(plot_0_0_0[:,k], plot_0_2_1[:,k], '-o', color='g', linewidth=1.5, markersize=4.0, alpha=0.8)
+        plt.plot(plot_0_0_0[:,k], plot_0_2_1[:,k], '-o', color='g', linewidth=1.5, markersize=3.0, alpha=0.8)
 for k in range(plot_0_0_0.shape[1]):
     if k == 0:
-        plt.plot(plot_0_0_0[:,k], plot_0_3_1[:,k], '-o', color='m', linewidth=1.5, markersize=4.0, alpha=0.8, label='repeat1.MKK')
+        plt.plot(plot_0_0_0[:,k], plot_0_3_1[:,k], '-o', color='m', linewidth=1.5, markersize=3.0, alpha=0.8, label='repeat1.MKK')
     else:
-        plt.plot(plot_0_0_0[:,k], plot_0_3_1[:,k], '-o', color='m', linewidth=1.5, markersize=4.0, alpha=0.8)
+        plt.plot(plot_0_0_0[:,k], plot_0_3_1[:,k], '-o', color='m', linewidth=1.5, markersize=3.0, alpha=0.8)
 for k in range(plot_0_0_0.shape[1]):
     if k == 0:
-        plt.plot(plot_0_0_0[:,k], plot_0_4_1[:,k], '-o', color='c', linewidth=1.5, markersize=4.0, alpha=0.8, label='repeat1.MKK_P')
+        plt.plot(plot_0_0_0[:,k], plot_0_4_1[:,k], '-o', color='c', linewidth=1.5, markersize=3.0, alpha=0.8, label='repeat1.MKK_P')
     else:
-        plt.plot(plot_0_0_0[:,k], plot_0_4_1[:,k], '-o', color='c', linewidth=1.5, markersize=4.0, alpha=0.8)
+        plt.plot(plot_0_0_0[:,k], plot_0_4_1[:,k], '-o', color='c', linewidth=1.5, markersize=3.0, alpha=0.8)
 for k in range(plot_0_0_0.shape[1]):
     if k == 0:
-        plt.plot(plot_0_0_0[:,k], plot_0_5_1[:,k], '-o', color='y', linewidth=1.5, markersize=4.0, alpha=0.8, label='repeat1.MKKK')
+        plt.plot(plot_0_0_0[:,k], plot_0_5_1[:,k], '-o', color='y', linewidth=1.5, markersize=3.0, alpha=0.8, label='repeat1.MKKK')
     else:
-        plt.plot(plot_0_0_0[:,k], plot_0_5_1[:,k], '-o', color='y', linewidth=1.5, markersize=4.0, alpha=0.8)
+        plt.plot(plot_0_0_0[:,k], plot_0_5_1[:,k], '-o', color='y', linewidth=1.5, markersize=3.0, alpha=0.8)
 for k in range(plot_0_0_0.shape[1]):
     if k == 0:
-        plt.plot(plot_0_0_0[:,k], plot_0_6_1[:,k], '-o', color='k', linewidth=1.5, markersize=4.0, alpha=0.8, label='repeat1.MKKK_P')
+        plt.plot(plot_0_0_0[:,k], plot_0_6_1[:,k], '-o', color='k', linewidth=1.5, markersize=3.0, alpha=0.8, label='repeat1.MKKK_P')
     else:
-        plt.plot(plot_0_0_0[:,k], plot_0_6_1[:,k], '-o', color='k', linewidth=1.5, markersize=4.0, alpha=0.8)
+        plt.plot(plot_0_0_0[:,k], plot_0_6_1[:,k], '-o', color='k', linewidth=1.5, markersize=3.0, alpha=0.8)
 plt.title('Repeats with SEED', fontweight='bold')
 plt.xlabel('repeat1.time', fontweight='bold')
 __lg = plt.legend(bbox_to_anchor=(1.05, 1), loc=2, borderaxespad=0.)
 __lg.draw_frame(False)
 plt.setp(__lg.get_texts(), fontsize='small')
 plt.setp(__lg.get_texts(), fontweight='bold')
+plt.savefig(os.path.join(workingDir, 'plot_0.png'), dpi=100)
 plt.show()
 
 # Output <plot_1>
@@ -218,44 +220,45 @@ __gs = gridspec.GridSpec(1, 2, width_ratios=[3, 1])
 plt.subplot(__gs[0])
 for k in range(plot_1_0_0.shape[1]):
     if k == 0:
-        plt.plot(plot_1_0_0[:,k], plot_1_0_1[:,k], '-o', color='r', linewidth=1.5, markersize=4.0, alpha=0.8, label='repeat2.MAPK')
+        plt.plot(plot_1_0_0[:,k], plot_1_0_1[:,k], '-o', color='r', linewidth=1.5, markersize=3.0, alpha=0.8, label='repeat2.MAPK')
     else:
-        plt.plot(plot_1_0_0[:,k], plot_1_0_1[:,k], '-o', color='r', linewidth=1.5, markersize=4.0, alpha=0.8)
+        plt.plot(plot_1_0_0[:,k], plot_1_0_1[:,k], '-o', color='r', linewidth=1.5, markersize=3.0, alpha=0.8)
 for k in range(plot_1_0_0.shape[1]):
     if k == 0:
-        plt.plot(plot_1_0_0[:,k], plot_1_1_1[:,k], '-o', color='b', linewidth=1.5, markersize=4.0, alpha=0.8, label='repeat2.MAPK_P')
+        plt.plot(plot_1_0_0[:,k], plot_1_1_1[:,k], '-o', color='b', linewidth=1.5, markersize=3.0, alpha=0.8, label='repeat2.MAPK_P')
     else:
-        plt.plot(plot_1_0_0[:,k], plot_1_1_1[:,k], '-o', color='b', linewidth=1.5, markersize=4.0, alpha=0.8)
+        plt.plot(plot_1_0_0[:,k], plot_1_1_1[:,k], '-o', color='b', linewidth=1.5, markersize=3.0, alpha=0.8)
 for k in range(plot_1_0_0.shape[1]):
     if k == 0:
-        plt.plot(plot_1_0_0[:,k], plot_1_2_1[:,k], '-o', color='g', linewidth=1.5, markersize=4.0, alpha=0.8, label='repeat2.MAPK_PP')
+        plt.plot(plot_1_0_0[:,k], plot_1_2_1[:,k], '-o', color='g', linewidth=1.5, markersize=3.0, alpha=0.8, label='repeat2.MAPK_PP')
     else:
-        plt.plot(plot_1_0_0[:,k], plot_1_2_1[:,k], '-o', color='g', linewidth=1.5, markersize=4.0, alpha=0.8)
+        plt.plot(plot_1_0_0[:,k], plot_1_2_1[:,k], '-o', color='g', linewidth=1.5, markersize=3.0, alpha=0.8)
 for k in range(plot_1_0_0.shape[1]):
     if k == 0:
-        plt.plot(plot_1_0_0[:,k], plot_1_3_1[:,k], '-o', color='m', linewidth=1.5, markersize=4.0, alpha=0.8, label='repeat2.MKK')
+        plt.plot(plot_1_0_0[:,k], plot_1_3_1[:,k], '-o', color='m', linewidth=1.5, markersize=3.0, alpha=0.8, label='repeat2.MKK')
     else:
-        plt.plot(plot_1_0_0[:,k], plot_1_3_1[:,k], '-o', color='m', linewidth=1.5, markersize=4.0, alpha=0.8)
+        plt.plot(plot_1_0_0[:,k], plot_1_3_1[:,k], '-o', color='m', linewidth=1.5, markersize=3.0, alpha=0.8)
 for k in range(plot_1_0_0.shape[1]):
     if k == 0:
-        plt.plot(plot_1_0_0[:,k], plot_1_4_1[:,k], '-o', color='c', linewidth=1.5, markersize=4.0, alpha=0.8, label='repeat2.MKK_P')
+        plt.plot(plot_1_0_0[:,k], plot_1_4_1[:,k], '-o', color='c', linewidth=1.5, markersize=3.0, alpha=0.8, label='repeat2.MKK_P')
     else:
-        plt.plot(plot_1_0_0[:,k], plot_1_4_1[:,k], '-o', color='c', linewidth=1.5, markersize=4.0, alpha=0.8)
+        plt.plot(plot_1_0_0[:,k], plot_1_4_1[:,k], '-o', color='c', linewidth=1.5, markersize=3.0, alpha=0.8)
 for k in range(plot_1_0_0.shape[1]):
     if k == 0:
-        plt.plot(plot_1_0_0[:,k], plot_1_5_1[:,k], '-o', color='y', linewidth=1.5, markersize=4.0, alpha=0.8, label='repeat2.MKKK')
+        plt.plot(plot_1_0_0[:,k], plot_1_5_1[:,k], '-o', color='y', linewidth=1.5, markersize=3.0, alpha=0.8, label='repeat2.MKKK')
     else:
-        plt.plot(plot_1_0_0[:,k], plot_1_5_1[:,k], '-o', color='y', linewidth=1.5, markersize=4.0, alpha=0.8)
+        plt.plot(plot_1_0_0[:,k], plot_1_5_1[:,k], '-o', color='y', linewidth=1.5, markersize=3.0, alpha=0.8)
 for k in range(plot_1_0_0.shape[1]):
     if k == 0:
-        plt.plot(plot_1_0_0[:,k], plot_1_6_1[:,k], '-o', color='k', linewidth=1.5, markersize=4.0, alpha=0.8, label='repeat2.MKKK_P')
+        plt.plot(plot_1_0_0[:,k], plot_1_6_1[:,k], '-o', color='k', linewidth=1.5, markersize=3.0, alpha=0.8, label='repeat2.MKKK_P')
     else:
-        plt.plot(plot_1_0_0[:,k], plot_1_6_1[:,k], '-o', color='k', linewidth=1.5, markersize=4.0, alpha=0.8)
+        plt.plot(plot_1_0_0[:,k], plot_1_6_1[:,k], '-o', color='k', linewidth=1.5, markersize=3.0, alpha=0.8)
 plt.title('Repeates without SEED', fontweight='bold')
 plt.xlabel('repeat2.time', fontweight='bold')
 __lg = plt.legend(bbox_to_anchor=(1.05, 1), loc=2, borderaxespad=0.)
 __lg.draw_frame(False)
 plt.setp(__lg.get_texts(), fontsize='small')
 plt.setp(__lg.get_texts(), fontweight='bold')
+plt.savefig(os.path.join(workingDir, 'plot_1.png'), dpi=100)
 plt.show()
 

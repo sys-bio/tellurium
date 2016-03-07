@@ -1,9 +1,9 @@
 """
     tellurium 1.3.1
 
-    auto-generated code (2016-03-04T16:27:21)
+    auto-generated code (2016-03-07T09:50:07)
     sedmlDoc: L1V2  
-    workingDir: /tmp/tmp7GRRr9_sedml/_te_testcase_09
+    workingDir: /tmp/tmpV2zR9W_sedml/_te_testcase_09
     inputType: COMBINE_FILE
 """
 from __future__ import print_function, division
@@ -16,7 +16,7 @@ import libsedml
 import pandas
 import os.path
 
-workingDir = '/tmp/tmp7GRRr9_sedml/_te_testcase_09'
+workingDir = '/tmp/tmpV2zR9W_sedml/_te_testcase_09'
 
 # --------------------------------------------------------
 # Models
@@ -36,7 +36,7 @@ repeat1 = []
 __range__x = np.linspace(start=0.0, stop=10.0, num=11)
 for __k__x, __value__x in enumerate(__range__x):
     mod1.reset()
-    # execute simpleTask: <task1>
+    # Task: <task1>
     task1 = [None]
     mod1.setIntegrator('cvode')
     mod1.timeCourseSelections = ['MAPK', 'time', 'MKK', 'MAPK_P', 'MAPK_PP']
@@ -110,5 +110,18 @@ plt.setp(__lg.get_texts(), fontsize='small')
 plt.setp(__lg.get_texts(), fontweight='bold')
 plt.tick_params(axis='both', which='major', labelsize=10)
 plt.tick_params(axis='both', which='minor', labelsize=8)
+plt.savefig(os.path.join(workingDir, 'plot_0.png'), dpi=100)
 plt.show()
+
+# Output <report_1>
+__dfs__report_1 = []
+for k in range(plot_0_0_0.shape[1]):
+    print('-'*80)
+    print('report_1, Repeat:', k)
+    print('-'*80)
+    __df__k = pandas.DataFrame(np.column_stack([plot_0_0_0[:,k], plot_0_0_1[:,k], plot_0_0_2[:,k], plot_0_0_0[:,k], plot_0_0_1[:,k], plot_0_1_2[:,k], plot_0_0_0[:,k], plot_0_0_1[:,k], plot_0_2_2[:,k]]), 
+    columns=['repeat1.MAPK', 'repeat1.time', 'repeat1.MAPK_P', 'repeat1.MAPK', 'repeat1.time', 'repeat1.MAPK_PP', 'repeat1.MAPK', 'repeat1.time', 'repeat1.MKK'])
+    print(__df__k.head(10))
+    __dfs__report_1.append(__df__k)
+    __df__k.to_csv(os.path.join(workingDir, 'report_1_{}.csv'.format(k)), sep='	', index=False)
 

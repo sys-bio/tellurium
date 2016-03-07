@@ -1,9 +1,9 @@
 """
     tellurium 1.3.1
 
-    auto-generated code (2016-03-04T16:47:24)
+    auto-generated code (2016-03-07T10:00:54)
     sedmlDoc: L1V2  
-    workingDir: /tmp/tmp215qD2_sedml/_te_parameterScan1D
+    workingDir: /tmp/tmpH8Pask_sedml/_te_parameterScan1D
     inputType: COMBINE_FILE
 """
 from __future__ import print_function, division
@@ -16,7 +16,7 @@ import libsedml
 import pandas
 import os.path
 
-workingDir = '/tmp/tmp215qD2_sedml/_te_parameterScan1D'
+workingDir = '/tmp/tmpH8Pask_sedml/_te_parameterScan1D'
 
 # --------------------------------------------------------
 # Models
@@ -76,19 +76,20 @@ __gs = gridspec.GridSpec(1, 2, width_ratios=[3, 1])
 plt.subplot(__gs[0])
 for k in range(plot_0_0_0.shape[1]):
     if k == 0:
-        plt.plot(plot_0_0_0[:,k], plot_0_0_1[:,k], '-o', color='r', linewidth=1.5, markersize=4.0, alpha=0.8, label='task1.S1')
+        plt.plot(plot_0_0_0[:,k], plot_0_0_1[:,k], '-o', color='r', linewidth=1.5, markersize=3.0, alpha=0.8, label='task1.S1')
     else:
-        plt.plot(plot_0_0_0[:,k], plot_0_0_1[:,k], '-o', color='r', linewidth=1.5, markersize=4.0, alpha=0.8)
+        plt.plot(plot_0_0_0[:,k], plot_0_0_1[:,k], '-o', color='r', linewidth=1.5, markersize=3.0, alpha=0.8)
 for k in range(plot_0_0_0.shape[1]):
     if k == 0:
-        plt.plot(plot_0_0_0[:,k], plot_0_1_1[:,k], '-o', color='b', linewidth=1.5, markersize=4.0, alpha=0.8, label='task1.S2')
+        plt.plot(plot_0_0_0[:,k], plot_0_1_1[:,k], '-o', color='b', linewidth=1.5, markersize=3.0, alpha=0.8, label='task1.S2')
     else:
-        plt.plot(plot_0_0_0[:,k], plot_0_1_1[:,k], '-o', color='b', linewidth=1.5, markersize=4.0, alpha=0.8)
+        plt.plot(plot_0_0_0[:,k], plot_0_1_1[:,k], '-o', color='b', linewidth=1.5, markersize=3.0, alpha=0.8)
 plt.title('plot_0', fontweight='bold')
 plt.xlabel('task1.time', fontweight='bold')
 __lg = plt.legend(bbox_to_anchor=(1.05, 1), loc=2, borderaxespad=0.)
 __lg.draw_frame(False)
 plt.setp(__lg.get_texts(), fontsize='small')
 plt.setp(__lg.get_texts(), fontweight='bold')
+plt.savefig(os.path.join(workingDir, 'plot_0.png'), dpi=100)
 plt.show()
 

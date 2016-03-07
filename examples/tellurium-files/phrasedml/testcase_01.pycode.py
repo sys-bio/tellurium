@@ -1,9 +1,9 @@
 """
     tellurium 1.3.1
 
-    auto-generated code (2016-03-04T16:14:14)
+    auto-generated code (2016-03-07T09:39:34)
     sedmlDoc: L1V2  
-    workingDir: /tmp/tmpaRl_Q7_sedml/_te_testcase_01
+    workingDir: /tmp/tmp5APQWb_sedml/_te_testcase_01
     inputType: COMBINE_FILE
 """
 from __future__ import print_function, division
@@ -16,7 +16,7 @@ import libsedml
 import pandas
 import os.path
 
-workingDir = '/tmp/tmpaRl_Q7_sedml/_te_testcase_01'
+workingDir = '/tmp/tmp5APQWb_sedml/_te_testcase_01'
 
 # --------------------------------------------------------
 # Models
@@ -28,7 +28,7 @@ model0 = te.loadSBMLModel(os.path.join(workingDir, 'testcase_01.xml'))
 # Tasks
 # --------------------------------------------------------
 # Task <task0>
-# execute simpleTask: <task0>
+# Task: <task0>
 task0 = [None]
 model0.setIntegrator('cvode')
 model0.timeCourseSelections = ['S1', 'time']
@@ -59,9 +59,9 @@ __gs = gridspec.GridSpec(1, 2, width_ratios=[3, 1])
 plt.subplot(__gs[0])
 for k in range(plot_0_0_0.shape[1]):
     if k == 0:
-        plt.plot(plot_0_0_0[:,k], plot_0_0_1[:,k], '-o', color='r', linewidth=1.5, markersize=4.0, alpha=0.8, label='task0.S1')
+        plt.plot(plot_0_0_0[:,k], plot_0_0_1[:,k], '-o', color='r', linewidth=1.5, markersize=3.0, alpha=0.8, label='task0.S1')
     else:
-        plt.plot(plot_0_0_0[:,k], plot_0_0_1[:,k], '-o', color='r', linewidth=1.5, markersize=4.0, alpha=0.8)
+        plt.plot(plot_0_0_0[:,k], plot_0_0_1[:,k], '-o', color='r', linewidth=1.5, markersize=3.0, alpha=0.8)
 plt.title('UniformTimecourse', fontweight='bold')
 plt.xlabel('task0.time', fontweight='bold')
 plt.ylabel('task0.S1', fontweight='bold')
@@ -69,5 +69,18 @@ __lg = plt.legend(bbox_to_anchor=(1.05, 1), loc=2, borderaxespad=0.)
 __lg.draw_frame(False)
 plt.setp(__lg.get_texts(), fontsize='small')
 plt.setp(__lg.get_texts(), fontweight='bold')
+plt.savefig(os.path.join(workingDir, 'plot_0.png'), dpi=100)
 plt.show()
+
+# Output <report_1>
+__dfs__report_1 = []
+for k in range(plot_0_0_0.shape[1]):
+    print('-'*80)
+    print('report_1, Repeat:', k)
+    print('-'*80)
+    __df__k = pandas.DataFrame(np.column_stack([plot_0_0_0[:,k], plot_0_0_1[:,k]]), 
+    columns=['task0.time', 'task0.S1'])
+    print(__df__k.head(10))
+    __dfs__report_1.append(__df__k)
+    __df__k.to_csv(os.path.join(workingDir, 'report_1_{}.csv'.format(k)), sep='	', index=False)
 

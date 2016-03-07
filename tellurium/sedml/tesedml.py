@@ -1208,6 +1208,7 @@ class SEDMLCodeFactory(object):
         lines.append("    __df__k = pandas.DataFrame(np.column_stack(" + str(columns).replace("'", "") + "), \n    columns=" + str(headers) + ")")
         lines.append("    print(__df__k.head(10))")
         lines.append("    __dfs__{}.append(__df__k)".format(output.getId()))
+        lines.append("    __df__k.to_csv(os.path.join(workingDir, '{}_{{}}.csv'.format(k)), sep='\t', index=False)".format(output.getId()))
         return lines
 
     @staticmethod
@@ -1236,6 +1237,7 @@ class SEDMLCodeFactory(object):
     def outputPlot2DToPython(doc, output):
         """ OutputReport
 
+        If workingDir is provided the plot is saved in the workingDir.
         :param doc:
         :type doc: SedDocument
         :param output:
@@ -1305,6 +1307,7 @@ class SEDMLCodeFactory(object):
         lines.append("__lg.draw_frame(False)")
         lines.append("plt.setp(__lg.get_texts(), fontsize='small')")
         lines.append("plt.setp(__lg.get_texts(), fontweight='bold')")
+        lines.append("plt.savefig(os.path.join(workingDir, '{}.png'), dpi=100)".format(output.getId()))
         lines.append("plt.show()".format(title))
 
         return lines
@@ -1393,6 +1396,7 @@ class SEDMLCodeFactory(object):
         lines.append("plt.setp(__lg.get_texts(), fontweight='bold')")
         lines.append("plt.tick_params(axis='both', which='major', labelsize=10)")
         lines.append("plt.tick_params(axis='both', which='minor', labelsize=8)")
+        lines.append("plt.savefig(os.path.join(workingDir, '{}.png'), dpi=100)".format(output.getId()))
         lines.append("plt.show()".format(title))
 
         return lines
@@ -1561,19 +1565,19 @@ if __name__ == "__main__":
 
         # create python file
         python_str = factory.toPython()
+        realPath = os.path.realpath(sedmlInput)
         with open(sedmlInput + '.py', 'w') as f:
             f.write(python_str)
+
         # execute python
         factory.executePython()
 
     # testInput(os.path.join(sedmlDir, "sedMLBIOM21.sedml"))
 
-    """
     # Check sed-ml files
     for fname in sorted(os.listdir(sedmlDir)):
         if fname.endswith(".sedml"):
             testInput(os.path.join(sedmlDir, fname))
-    """
 
     # Check sedx archives
     for fname in sorted(os.listdir(sedxDir)):

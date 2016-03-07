@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 """
 phrasedml one step test
-see https://github.com/sys-bio/tellurium/issues/97
 """
 from __future__ import print_function
 import tellurium as te
+import os
 
 antimonyStr = '''
 // Created by libAntimony v2.9
@@ -50,16 +50,17 @@ model1 = model "oneStep"
 stepper = simulate onestep(0.1)
 task0 = run stepper on model1
 task1 = repeat task0 for local.x in uniform(0, 10, 100), J0_v0 = piecewise(8, x<4, 0.1, 4<=x<6, 8)
-plot task1.time vs task1.S1, task1.S2, task1.J0_v0
+plot "One Step Simulation" task1.time vs task1.S1, task1.S2, task1.J0_v0
+report task1.time vs task1.S1, task1.S2, task1.J0_v0
 '''
 
 # phrasedml experiment
 exp = te.experiment(antimonyStr, phrasedmlStr)
 
-# python code
-import os
-with open(os.path.realpath(__file__) + 'code.py', 'w') as f:
+# write python code
+realPath = os.path.realpath(__file__)
+with open(realPath + 'code.py', 'w') as f:
     f.write(exp._toPython(phrasedmlStr))
 
 # execute python
-exp.execute(phrasedmlStr, workingDir=os.getcwd())
+exp.execute(phrasedmlStr, workingDir=os.path.dirname(realPath))

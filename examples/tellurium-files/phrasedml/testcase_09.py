@@ -3,6 +3,7 @@ outputPlot3D
 """
 from __future__ import print_function
 import tellurium as te
+import os
 
 antimonyStr = '''
 // Created by libAntimony v2.9
@@ -77,16 +78,16 @@ phrasedmlStr = '''
   task1 = run sim1 on mod1
   repeat1 = repeat task1 for local.x in uniform(0, 10, 10), reset=true
   plot "MAPK oscillations" repeat1.MAPK vs repeat1.time vs repeat1.MAPK_P, repeat1.MAPK vs repeat1.time vs repeat1.MAPK_PP, repeat1.MAPK vs repeat1.time vs repeat1.MKK
+  report repeat1.MAPK vs repeat1.time vs repeat1.MAPK_P, repeat1.MAPK vs repeat1.time vs repeat1.MAPK_PP, repeat1.MAPK vs repeat1.time vs repeat1.MKK
 '''
 
 # phrasedml experiment
 exp = te.experiment(antimonyStr, phrasedmlStr)
 
-# python code
-import os
-with open(os.path.realpath(__file__) + 'code.py', 'w') as f:
+# write python code
+realPath = os.path.realpath(__file__)
+with open(realPath + 'code.py', 'w') as f:
     f.write(exp._toPython(phrasedmlStr))
 
 # execute python
-import os
-exp.execute(phrasedmlStr, workingDir=os.getcwd())
+exp.execute(phrasedmlStr, workingDir=os.path.dirname(realPath))

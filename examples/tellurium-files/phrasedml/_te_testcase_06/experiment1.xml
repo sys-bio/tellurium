@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created by phraSED-ML version v1.0.1 on 2016-03-04 16:19 with libSBML version 5.12.1. -->
+<!-- Created by phraSED-ML version v1.0.1 on 2016-03-07 09:46 with libSBML version 5.12.1. -->
 <sedML xmlns="http://sed-ml.org/sed-ml/level1/version2" level="1" version="2">
   <listOfSimulations>
     <uniformTimeCourse id="sim1" initialTime="0" outputStartTime="0" outputEndTime="10" numberOfPoints="100">
@@ -87,7 +87,7 @@
         <ci> repeat1_____S2 </ci>
       </math>
     </dataGenerator>
-    <dataGenerator id="plot_1_0_0" name="repeat2.time">
+    <dataGenerator id="plot_2_0_0" name="repeat2.time">
       <listOfVariables>
         <variable id="repeat2_____time" symbol="urn:sedml:symbol:time" taskReference="repeat2"/>
       </listOfVariables>
@@ -95,7 +95,7 @@
         <ci> repeat2_____time </ci>
       </math>
     </dataGenerator>
-    <dataGenerator id="plot_1_0_1" name="repeat2.S1">
+    <dataGenerator id="plot_2_0_1" name="repeat2.S1">
       <listOfVariables>
         <variable id="repeat2_____S1" target="/sbml:sbml/sbml:model/descendant::*[@id='S1']" taskReference="repeat2" modelReference="mod1"/>
       </listOfVariables>
@@ -103,7 +103,7 @@
         <ci> repeat2_____S1 </ci>
       </math>
     </dataGenerator>
-    <dataGenerator id="plot_1_1_1" name="repeat2.S2">
+    <dataGenerator id="plot_2_1_1" name="repeat2.S2">
       <listOfVariables>
         <variable id="repeat2_____S2" target="/sbml:sbml/sbml:model/descendant::*[@id='S2']" taskReference="repeat2" modelReference="mod1"/>
       </listOfVariables>
@@ -119,11 +119,25 @@
         <curve logX="false" logY="false" xDataReference="plot_0_0_0" yDataReference="plot_0_1_1"/>
       </listOfCurves>
     </plot2D>
-    <plot2D id="plot_1" name="Example plot">
+    <report id="report_1">
+      <listOfDataSets>
+        <dataSet id="plot_0_0_0_dataset" label="repeat1.time" dataReference="plot_0_0_0"/>
+        <dataSet id="plot_0_0_1_dataset" label="repeat1.S1" dataReference="plot_0_0_1"/>
+        <dataSet id="plot_0_1_1_dataset" label="repeat1.S2" dataReference="plot_0_1_1"/>
+      </listOfDataSets>
+    </report>
+    <plot2D id="plot_2" name="Example plot">
       <listOfCurves>
-        <curve logX="false" logY="false" xDataReference="plot_1_0_0" yDataReference="plot_1_0_1"/>
-        <curve logX="false" logY="false" xDataReference="plot_1_0_0" yDataReference="plot_1_1_1"/>
+        <curve logX="false" logY="false" xDataReference="plot_2_0_0" yDataReference="plot_2_0_1"/>
+        <curve logX="false" logY="false" xDataReference="plot_2_0_0" yDataReference="plot_2_1_1"/>
       </listOfCurves>
     </plot2D>
+    <report id="report_3">
+      <listOfDataSets>
+        <dataSet id="plot_2_0_0_dataset" label="repeat2.time" dataReference="plot_2_0_0"/>
+        <dataSet id="plot_2_0_1_dataset" label="repeat2.S1" dataReference="plot_2_0_1"/>
+        <dataSet id="plot_2_1_1_dataset" label="repeat2.S2" dataReference="plot_2_1_1"/>
+      </listOfDataSets>
+    </report>
   </listOfOutputs>
 </sedML>

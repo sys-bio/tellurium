@@ -1,7 +1,7 @@
 """
     tellurium 1.3.1
 
-    auto-generated code (2016-03-04T18:08:32)
+    auto-generated code (2016-03-07T10:12:41)
     sedmlDoc: L1V2  
     workingDir: /home/mkoenig/git/tellurium/tellurium/tests/testdata/sedml/sed-ml
     inputType: SEDML_FILE
@@ -101,6 +101,7 @@ for k in range(MAPK1.shape[1]):
     columns=['MAPK1', 'MAPK1_P1', 'MAPK1_PP1', 'MKK1', 'MKKK1', 'MKK_P1', 'MKKK_P1'])
     print(__df__k.head(10))
     __dfs__report1.append(__df__k)
+    __df__k.to_csv(os.path.join(workingDir, 'report1_{}.csv'.format(k)), sep='	', index=False)
 
 # Output <plot1>
 plt.figure(num=None, figsize=(9, 5), dpi=80, facecolor='w', edgecolor='k')
@@ -148,5 +149,6 @@ __lg = plt.legend(bbox_to_anchor=(1.05, 1), loc=2, borderaxespad=0.)
 __lg.draw_frame(False)
 plt.setp(__lg.get_texts(), fontsize='small')
 plt.setp(__lg.get_texts(), fontweight='bold')
+plt.savefig(os.path.join(workingDir, 'plot1.png'), dpi=100)
 plt.show()
 

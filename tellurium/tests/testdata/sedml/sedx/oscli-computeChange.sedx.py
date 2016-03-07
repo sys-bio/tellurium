@@ -1,7 +1,7 @@
 """
     tellurium 1.3.1
 
-    auto-generated code (2016-03-07T08:42:58)
+    auto-generated code (2016-03-07T10:13:03)
     sedmlDoc: L1V1  
     workingDir: /home/mkoenig/git/tellurium/tellurium/tests/testdata/sedml/sedx/_te_oscli-computeChange
     inputType: COMBINE_FILE
@@ -95,6 +95,7 @@ for k in range(time1.shape[1]):
     columns=['time1', 'S1_1', 'S1_2', 'S2_1', 'S2_2'])
     print(__df__k.head(10))
     __dfs__report1.append(__df__k)
+    __df__k.to_csv(os.path.join(workingDir, 'report1_{}.csv'.format(k)), sep='	', index=False)
 
 # Output <plot1>
 plt.figure(num=None, figsize=(9, 5), dpi=80, facecolor='w', edgecolor='k')
@@ -117,6 +118,7 @@ __lg = plt.legend(bbox_to_anchor=(1.05, 1), loc=2, borderaxespad=0.)
 __lg.draw_frame(False)
 plt.setp(__lg.get_texts(), fontsize='small')
 plt.setp(__lg.get_texts(), fontweight='bold')
+plt.savefig(os.path.join(workingDir, 'plot1.png'), dpi=100)
 plt.show()
 
 # Output <plot2>
@@ -140,5 +142,6 @@ __lg = plt.legend(bbox_to_anchor=(1.05, 1), loc=2, borderaxespad=0.)
 __lg.draw_frame(False)
 plt.setp(__lg.get_texts(), fontsize='small')
 plt.setp(__lg.get_texts(), fontweight='bold')
+plt.savefig(os.path.join(workingDir, 'plot2.png'), dpi=100)
 plt.show()
 

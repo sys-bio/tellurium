@@ -139,7 +139,6 @@ class experiment(object):
 
         # Create the combine archive and use it for execution
         if workingDir is None:
-
             workingDir = tempfile.mkdtemp(suffix="_sedml")
 
         expArchive = os.path.join(workingDir, "{}.sedx".format(modelname))

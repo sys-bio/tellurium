@@ -1,8 +1,10 @@
 """
 More complex compute change.
 """
+# TODO: bug with resetting & updating model (multiple instances of model required)
 from __future__ import print_function
 import tellurium as te
+import os
 
 antimonyStr = '''
 model testcase_04()
@@ -21,19 +23,16 @@ phrasedmlStr = '''
   task2 = run sim1 on mod2
   task3 = run sim1 on mod3
   plot "Example plot" task1.time vs task1.S1, task1.S2, task2.S1, task2.S2, task3.S1, task3.S2
+  report task1.time vs task1.S1, task1.S2, task2.S1, task2.S2, task3.S1, task3.S2
 '''
-
-# TODO: bug with resetting & updating the model
-# necessary to evaluate the depending equations after ComputeChanges
 
 # phrasedml experiment
 exp = te.experiment(antimonyStr, phrasedmlStr)
 
-# python code
-import os
-with open(os.path.realpath(__file__) + 'code.py', 'w') as f:
+# write python code
+realPath = os.path.realpath(__file__)
+with open(realPath + 'code.py', 'w') as f:
     f.write(exp._toPython(phrasedmlStr))
 
 # execute python
-import os
-exp.execute(phrasedmlStr, workingDir=os.getcwd())
+exp.execute(phrasedmlStr, workingDir=os.path.dirname(realPath))

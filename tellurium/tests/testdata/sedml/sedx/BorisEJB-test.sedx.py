@@ -1,7 +1,7 @@
 """
     tellurium 1.3.1
 
-    auto-generated code (2016-03-07T08:42:55)
+    auto-generated code (2016-03-07T10:12:58)
     sedmlDoc: L1V1  
     workingDir: /home/mkoenig/git/tellurium/tellurium/tests/testdata/sedml/sedx/_te_BorisEJB-test
     inputType: COMBINE_FILE
@@ -134,5 +134,6 @@ __lg = plt.legend(bbox_to_anchor=(1.05, 1), loc=2, borderaxespad=0.)
 __lg.draw_frame(False)
 plt.setp(__lg.get_texts(), fontsize='small')
 plt.setp(__lg.get_texts(), fontweight='bold')
+plt.savefig(os.path.join(workingDir, 'plot1.png'), dpi=100)
 plt.show()
 

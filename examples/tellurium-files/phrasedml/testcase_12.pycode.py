@@ -1,9 +1,9 @@
 """
     tellurium 1.3.1
 
-    auto-generated code (2016-03-04T16:44:25)
+    auto-generated code (2016-03-07T09:56:50)
     sedmlDoc: L1V2  
-    workingDir: /tmp/tmpJvTg9I_sedml/_te_testcase_12
+    workingDir: /tmp/tmpvs8wsZ_sedml/_te_testcase_12
     inputType: COMBINE_FILE
 """
 from __future__ import print_function, division
@@ -16,7 +16,7 @@ import libsedml
 import pandas
 import os.path
 
-workingDir = '/tmp/tmpJvTg9I_sedml/_te_testcase_12'
+workingDir = '/tmp/tmpvs8wsZ_sedml/_te_testcase_12'
 
 # --------------------------------------------------------
 # Models
@@ -117,28 +117,41 @@ __gs = gridspec.GridSpec(1, 2, width_ratios=[3, 1])
 plt.subplot(__gs[0])
 for k in range(plot_0_0_0.shape[1]):
     if k == 0:
-        plt.plot(plot_0_0_0[:,k], plot_0_0_1[:,k], '-o', color='r', linewidth=1.5, markersize=4.0, alpha=0.8, label='repeat2.S1')
+        plt.plot(plot_0_0_0[:,k], plot_0_0_1[:,k], '-o', color='r', linewidth=1.5, markersize=3.0, alpha=0.8, label='repeat2.S1')
     else:
-        plt.plot(plot_0_0_0[:,k], plot_0_0_1[:,k], '-o', color='r', linewidth=1.5, markersize=4.0, alpha=0.8)
+        plt.plot(plot_0_0_0[:,k], plot_0_0_1[:,k], '-o', color='r', linewidth=1.5, markersize=3.0, alpha=0.8)
 for k in range(plot_0_0_0.shape[1]):
     if k == 0:
-        plt.plot(plot_0_0_0[:,k], plot_0_1_1[:,k], '-o', color='b', linewidth=1.5, markersize=4.0, alpha=0.8, label='repeat2.S2')
+        plt.plot(plot_0_0_0[:,k], plot_0_1_1[:,k], '-o', color='b', linewidth=1.5, markersize=3.0, alpha=0.8, label='repeat2.S2')
     else:
-        plt.plot(plot_0_0_0[:,k], plot_0_1_1[:,k], '-o', color='b', linewidth=1.5, markersize=4.0, alpha=0.8)
+        plt.plot(plot_0_0_0[:,k], plot_0_1_1[:,k], '-o', color='b', linewidth=1.5, markersize=3.0, alpha=0.8)
 for k in range(plot_0_2_0.shape[1]):
     if k == 0:
-        plt.plot(plot_0_2_0[:,k], plot_0_2_1[:,k], '-o', color='g', linewidth=1.5, markersize=4.0, alpha=0.8, label='repeat1.S1')
+        plt.plot(plot_0_2_0[:,k], plot_0_2_1[:,k], '-o', color='g', linewidth=1.5, markersize=3.0, alpha=0.8, label='repeat1.S1')
     else:
-        plt.plot(plot_0_2_0[:,k], plot_0_2_1[:,k], '-o', color='g', linewidth=1.5, markersize=4.0, alpha=0.8)
+        plt.plot(plot_0_2_0[:,k], plot_0_2_1[:,k], '-o', color='g', linewidth=1.5, markersize=3.0, alpha=0.8)
 for k in range(plot_0_2_0.shape[1]):
     if k == 0:
-        plt.plot(plot_0_2_0[:,k], plot_0_3_1[:,k], '-o', color='m', linewidth=1.5, markersize=4.0, alpha=0.8, label='repeat1.S2')
+        plt.plot(plot_0_2_0[:,k], plot_0_3_1[:,k], '-o', color='m', linewidth=1.5, markersize=3.0, alpha=0.8, label='repeat1.S2')
     else:
-        plt.plot(plot_0_2_0[:,k], plot_0_3_1[:,k], '-o', color='m', linewidth=1.5, markersize=4.0, alpha=0.8)
+        plt.plot(plot_0_2_0[:,k], plot_0_3_1[:,k], '-o', color='m', linewidth=1.5, markersize=3.0, alpha=0.8)
 plt.title('Offset simulation', fontweight='bold')
 __lg = plt.legend(bbox_to_anchor=(1.05, 1), loc=2, borderaxespad=0.)
 __lg.draw_frame(False)
 plt.setp(__lg.get_texts(), fontsize='small')
 plt.setp(__lg.get_texts(), fontweight='bold')
+plt.savefig(os.path.join(workingDir, 'plot_0.png'), dpi=100)
 plt.show()
+
+# Output <report_1>
+__dfs__report_1 = []
+for k in range(plot_0_0_0.shape[1]):
+    print('-'*80)
+    print('report_1, Repeat:', k)
+    print('-'*80)
+    __df__k = pandas.DataFrame(np.column_stack([plot_0_0_0[:,k], plot_0_0_1[:,k], plot_0_1_1[:,k], plot_0_2_0[:,k], plot_0_2_1[:,k], plot_0_3_1[:,k]]), 
+    columns=['repeat2.time', 'repeat2.S1', 'repeat2.S2', 'repeat1.time', 'repeat1.S1', 'repeat1.S2'])
+    print(__df__k.head(10))
+    __dfs__report_1.append(__df__k)
+    __df__k.to_csv(os.path.join(workingDir, 'report_1_{}.csv'.format(k)), sep='	', index=False)
 
