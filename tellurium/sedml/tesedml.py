@@ -634,7 +634,12 @@ class SEDMLCodeFactory(object):
         # Set integrator settings (AlgorithmParameters)
         for par in algorithm.getListOfAlgorithmParameters():
             pkey = SEDMLCodeFactory.algorithmParameterToParameterKey(par)
-            lines.append("{}.getIntegrator().setValue('{}', '{}')".format(mid, pkey.key, pkey.value))
+            if pkey.dtype is str:
+                value = "'{}'".format(pkey.value)
+            else:
+                value = pkey.value
+            lines.append("{}.getIntegrator().setValue('{}', {})".format(mid, pkey.key, value))
+
             # FIXME: settings for steady state solver have to be set via {}.steadyStateSolver
 
         if simType == libsedml.SEDML_SIMULATION_STEADYSTATE:
@@ -1019,36 +1024,39 @@ class SEDMLCodeFactory(object):
         """
         kid = par.getKisaoID()
         value = par.getValue()
-        ParameterKey = namedtuple('ParameterKey', 'key value')
+        ParameterKey = namedtuple('ParameterKey', 'key value dtype')
         key = None
 
+        # FIXME: add "stiff"
+
         if kid == 'KISAO:0000209':
-            key = 'relative_tolerance'
+            key, dtype = 'relative_tolerance', float
         elif kid == 'KISAO:0000211':
-            key = 'relative_tolerance'
+            key, dtype = 'absolute_tolerance', float
         elif kid == 'KISAO:0000220':
-            key = 'maximum_bdf_order'
+            key, dtype = 'maximum_bdf_order', int
         elif kid == 'KISAO:0000219':
-            key = 'maximum_adams_order'
+            key, dtype = 'maximum_adams_order', int
         elif kid == 'KISAO:0000415':
-            key = 'maximum_num_steps'
+            key, dtype = 'maximum_num_steps', int
         elif kid == 'KISAO:0000467':
-            key = 'maximum_time_step'
+            key, dtype = 'maximum_time_step', float
         elif kid == 'KISAO:0000485':
-            key = 'minimum_time_step'
+            key, dtype = 'minimum_time_step', float
         elif kid == 'KISAO:0000332':
-            key = 'initial_time_step'
+            key, dtype = 'initial_time_step', float
         elif kid == 'KISAO:0000107':
-            key = 'variable_step_size'
+            key, dtype = 'variable_step_size', bool
         elif kid == 'KISAO:0000486':
-            key = 'maximum_iterations'
+            key, dtype = 'maximum_iterations', int
         elif kid == 'KISAO:0000487':
-            key = 'maximum_damping'
+            key, dtype = 'maximum_damping', float
         elif kid == 'KISAO:0000488':
-            key = 'seed'
+            key, dtype = 'seed', int
+
         # set the setting
         if key is not None:
-            return ParameterKey(key, value)
+            return ParameterKey(key, value, dtype)
         else:
             warnings.warn("Unsupported AlgorithmParameter: {} = {})".format(kid, value))
             return None
