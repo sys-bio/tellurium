@@ -35,6 +35,8 @@ import tesedml
 class experiment(object):
     """ Phrasedml experiment.
 
+    Simulation experiments are defined and executed via the experiment class.
+
     This class is responsible for the creation of executable tellurium code
     phrasedml descriptions. Main function is a code factory.
     Very similar to the more general tesedml which creates python executable code
@@ -49,50 +51,65 @@ class experiment(object):
         :param phrasedmlList: list of phrasedml string
         :type phrasedmlList: list
         """
-        # FIXME: has to work without given antimony model
-        modelispath = []
+        # backwards compatibility & simplified syntax
+        # for one phrasedml and antimony string
         if isinstance(antimonyList, basestring):
             antimonyList = [antimonyList]
         if isinstance(phrasedmlList, basestring):
             phrasedmlList = [phrasedmlList]
 
+        modelispath = []
         for aStr in antimonyList:
             if not isinstance(aStr, basestring):
                 raise IOError("invalid Antimony string/model path")
+            if os.path.exists(aStr):
+                modelispath.append(True)
             else:
-                if os.path.exists(aStr):
-                    modelispath.append(True)
-                else:
-                    modelispath.append(False)
+                modelispath.append(False)
 
         self.modelispath = modelispath
         self.antimonyList = antimonyList
         self.phrasedmlList = phrasedmlList
 
-    def execute(self, selPhrasedml=None, workingDir=None):
-        """ Executes the python code created for the given phrasedml.
-        The workingDir sets the path variable where the combine
-        archive and files are generated for execution.
+    def getId(self):
+        return self._experimentId()
 
-        See :func:`createpython`
-        
+    def _experimentId(self):
+        """ Id is necessary to write the files and folders for the experiment.
+        An experiment can contain multiples SBML and SED-ML files, so the model name
+        is not sufficient.
+
+        :return: id of the experiment
+        :rtype: str
+        """
+        sources = self._modelsFromPhrasedml(self.phrasedmlList[0])
+        names = sorted(sources.keys())
+        return "_".join(names)
+
+    def execute(self, selPhrasedml=None, workingDir=None):
+        """ Executes the python code created for the given phrasedml string.
+
+        The execution is performed in the workingDir. Combine archive files and
+        outputs from the experiment are written in the workingDir.
+        If no workingDir is provided a temporary workingDir is used which is
+        removed after the experiment.
+
         :param selPhrasedml: Name of PhraSEDML string defined in the code
         :type selPhrasedml: str
+        :param workingDir: working directory for execution
+        :type workingDir: str
         """
-        # create a temporary working directory
+        # create temporary working directory if no workingDir provided
         isTmpDir = False
         if workingDir is None:
             workingDir = tempfile.mkdtemp(suffix="_sedml")
             isTmpDir = True
 
-        if selPhrasedml is None:
-            warnings.warn("No phrasedmlStr provided in experiment.execute()")
-
-        # This calls exec. Be very sure that nothing bad happens here.
+        # This calls exec. Nothing bad should ever happen here !
         execStr = self._toPython(selPhrasedml, workingDir=workingDir)
         exec execStr
 
-        # remove the temporary directory
+        # remove temporary workingDir
         if isTmpDir:
             shutil.rmtree(workingDir)
 
@@ -105,163 +122,38 @@ class experiment(object):
         :returns: python string to execute
         :rtype: str
         """
+        if phrasedmlStr is None:
+            phrasedmlStr = self._getDefaultPhrasedml()
+
+        # Models have to be resolved from phrasedml string and set as referenced
+        phrasedml.clearReferencedSBML()
+        self._setReferencedSBML(phrasedmlStr)
+
+        # check if conversion is possible
+        self._phrasedmlToSEDML(phrasedmlStr)
+
+        # create temporary working directory
         import tempfile
-        # create a temporary working directory
         isTmpDir = False
         if workingDir is None:
             workingDir = tempfile.mkdtemp(suffix="_sedml")
             isTmpDir = True
 
-        if phrasedmlStr is None:
-            if len(self.phrasedmlList) == 1:
-                phrasedmlStr = self.phrasedmlList[0]
-                warnings.warn("No phrasedml string selected, defaulting to first phrasedml.")
-            else:
-                raise IOError('No phrasedmlStr selected.')
-
-        rePath = r"(\w*).load\('(.*)'\)"
-        # reLoad = r"(\w*) = roadrunner.RoadRunner\(\)"
-
-
-        # model info from phrasedml
-        modelsource, modelname = self._modelInfoFromPhrasedml(phrasedmlStr)
-
-        # find index of antimony str
-        antIndex = None
-        for k, antStr in enumerate(self.antimonyList):
-            r = te.loada(antStr)
-            modelName = r.getModel().getModelName()
-            if modelName == modelsource:
-                antIndex = k
-        if antIndex is None:
-            raise Exception("Cannot find the model name referenced in the PhraSEDML string")
-
-        phrasedml.setReferencedSBML(modelsource, te.antimonyToSBML(self.antimonyList[antIndex]))
-        sedmlstr = phrasedml.convertString(phrasedmlStr)
-        if sedmlstr is None:
-            raise Exception(phrasedml.getLastError())
-
-        phrasedml.clearReferencedSBML()
-        f = tempfile.NamedTemporaryFile('w', suffix=".sedml")
-        f.write(sedmlstr)
-        f.flush()
-        pysedml = tesedml.sedmlToPython(f.name)
-
-        # perform some replacements in the sedml
-        if self.modelispath[antIndex] is False:
-            lines = pysedml.splitlines()
-            for k, line in enumerate(lines):
-                reSearchPath = re.split(rePath, line)
-                if len(reSearchPath) > 1:
-                    del lines[k]
-
-        # necessary to add the *.xml ending to the source
-        # FIXME: *.xml required in source
-
-        # Export archive and create python code based on archive
-        expArchive = os.path.join(workingDir, "{}.sedx".format(modelname))
+        # Export archive
+        expId = self.getId()
+        print(expId)
+        expArchive = os.path.join(workingDir, "{}.sedx".format(expId))
         self.exportAsCombine(expArchive)
-        pysedml = tesedml.sedmlToPython(expArchive)
+
+        # Create python code from archive
+        # This is the clean way to generate the code !
+        pycode = tesedml.sedmlToPython(expArchive)
 
         # remove the temporary directory
         if isTmpDir:
             shutil.rmtree(workingDir)
 
-        # outputstr = str(modelname) + " = '''" + self.antimonyList[antInd] + "'''\n\n" + pysedml
-        return pysedml
-
-
-    @staticmethod
-    def _modelInfoFromPhrasedml(phrasedmlStr):
-        """ Find model information in phrasedml String. """
-        # FIXME: has to handle multiple models
-
-        # find model source, name
-        reModel = r"""(\w+)\s*=\s*model\s*('|")(.*)('|")"""
-        lines = phrasedmlStr.splitlines()
-        for k, line in enumerate(lines):
-            reSearchModel = re.split(reModel, line)
-            if (len(reSearchModel) > 1):
-                # FIXME: work with multiple antimony models
-                modelsource = str(reSearchModel[3])
-                modelname = os.path.basename(modelsource)
-                modelname = str(modelname).replace(".xml", '')
-                break
-        else:
-            raise IOError('No model definition in phrasedml string: {}'.format(phrasedmlStr))
-
-        return modelsource, modelname
-
-    '''
-    def createpython(self, selPhrasedml):
-        antInd = None
-        rePath = r"(\w*).load\('(.*)'\)"
-        reLoad = r"(\w*) = roadrunner.RoadRunner\(\)"
-        reModel = r"""(\w*) = model ('|")(.*)('|")"""
-        phrasedmllines = selPhrasedml.splitlines()
-        for k, line in enumerate(phrasedmllines):
-            reSearchModel = re.split(reModel, line)
-            if len(reSearchModel) > 1:
-                modelsource = str(reSearchModel[3])
-                modelname = os.path.basename(modelsource)
-                modelname = str(modelname).replace(".xml", '')
-        for i in range(len(self.antimonyStr)):
-            r = te.loada(self.antimonyStr[i])
-            modelName = r.getModel().getModelName()
-            if modelName == modelsource:
-                antInd = i
-
-        if antInd == None:
-            raise Exception("Cannot find the model name referenced in the PhraSEDML string")
-        else:
-            pass
-        phrasedml.setReferencedSBML(modelsource, te.antimonyToSBML(self.antimonyStr[antInd]))
-        sedmlstr = phrasedml.convertString(selPhrasedml)
-        if sedmlstr is None:
-            raise Exception(phrasedml.getLastError())
-
-        phrasedml.clearReferencedSBML()
-
-        fd1, sedmlfilepath = tempfile.mkstemp()
-        os.write(fd1, sedmlstr)
-        pysedml = tesedml.sedmlToPython(sedmlfilepath)
-
-        # perform some replacements in the sedml
-        if self.modelispath[antInd] is False:
-            lines = pysedml.splitlines()
-            for k, line in enumerate(lines):
-                reSearchPath = re.split(rePath, line)
-                if len(reSearchPath) > 1:
-                    del lines[k]
-
-            for k, line in enumerate(lines):
-                reSearchLoad = re.split(reLoad, line)
-                if len(reSearchLoad) > 1:
-                    line = line.replace("roadrunner.RoadRunner()", "te.loada(" + str(modelname) + ")")
-                    lines[k] = line
-
-            if "import tellurium" not in pysedml:
-                if "import roadrunner" in pysedml:
-                    for k, line in enumerate(lines):
-                        if "import roadrunner" in line:
-                            del lines[k]
-                            lines.insert(k, "import tellurium as te")
-                        else:
-                            pass
-
-        pysedml = '\n'.join(lines)
-
-        # List of replacements
-        pysedml = pysedml.replace('"compartment"', '"compartment_"')
-        pysedml = pysedml.replace("'compartment'", "'compartment_'")
-
-        outputstr = str(modelname) + " = '''" + self.antimonyStr[antInd] + "'''\n\n" + pysedml
-
-        os.close(fd1)
-        os.remove(sedmlfilepath)
-
-        return outputstr
-    '''
+        return pycode
 
     def printPython(self, phrasedmlStr=None):
         """ Prints the created python string by :func:`createpython`. 
@@ -269,15 +161,16 @@ class experiment(object):
         :param phrasedmlStr: Name of PhraSEDML string defined in the code
         :type phrasedmlStr: str
         """
-        execStr = self._toPython(phrasedmlStr)
+        execStr = self.getPython(phrasedmlStr)
         print(execStr)
 
     def getPython(self, phrasedmlStr=None):
         """ Gets the created python string. """
         return self._toPython(phrasedmlStr)
 
-    def exportAsCombine(self, outputpath):
-        """ Export as a combine archive.
+    def exportAsCombine(self, outputPath):
+        """ Create combine archive for given antimony and phrasedml files.
+        Export as a combine archive.
 
         This is the clean way to execute it.
         A combine archive is created which afterwards is handeled by the SEDML to python script.
@@ -285,17 +178,104 @@ class experiment(object):
         :param exportPath: full path of the combine zip file to create
         :type exportPath: str
         """
-        # export the combine archive
-        tecombine.export(outputpath, self.antimonyList, self.phrasedmlList)
+        m = tecombine.MakeCombine()
 
-    def update(self, outputpath):
-        """ Update target combine archive with the current experiment.
+        # Add antimony models to archive
+        for aStr in self.antimonyList:
+            r = te.loada(aStr)
+            name = r.getModel().getModelName()
+            m.addAntimonyStr(aStr, "{}.xml".format(name))
 
-        :param outputpath: full path of the combine zip file to create
-        :type outputpath: str
+        # Add phrasedml models to archive
+        phrasedml.clearReferencedSBML()
+        for k, phrasedmlStr in enumerate(self.phrasedmlList):
+            # add the asset
+            self._setReferencedSBML(phrasedmlStr)
+            m.addPhraSEDMLStr(phrasedmlStr, self._phrasedmlFileName(k))
+
+        m.write(outputPath)
+        phrasedml.clearReferencedSBML()
+
+    def updateCombine(self, outputPath):
+        """ Update combine archive with the current experiment.
+
+        Overwrites the current archive.
+        :param outputPath: full path of the combine zip file to create
+        :type outputPath: str
         """
-        if os.path.exists(outputpath):
-            self.exportAsCombine(outputpath)
+        if os.path.exists(outputPath):
+            self.exportAsCombine(outputPath)
         else:
-            raise Exception("Cannot find the file")
+            raise Exception("Cannot find combine archive: {}".format(outputPath))
+
+
+    def _getDefaultPhrasedml(self):
+        """ Handling the case when no phrasedml string is supplied. """
+        if len(self.phrasedmlList) > 0:
+            selPhrasedml = self.phrasedmlList[0]
+            warnings.warn("No phrasedml string selected, defaulting to first phrasedml.")
+        else:
+            raise IOError('No phrasedmlStr available.')
+        return selPhrasedml
+
+    def _phrasedmlToSEDML(self, phrasedmlStr):
+        """ Convert phrasedml string to SEDML.
+
+        Necessary to set the reference models via
+            phrasedml.setReferencedSBML
+        first.
+
+        :param phrasedmlStr:
+        :type phrasedmlStr:
+        :return:
+        :rtype:
+        """
+        sedmlstr = phrasedml.convertString(phrasedmlStr)
+        if sedmlstr is None:
+            raise Exception(phrasedml.getLastError())
+        return sedmlstr
+
+    def _setReferencedSBML(self, phrasedmlStr):
+        """ Set phrasedml referenced SBML for given phrasedml String. """
+        modelNames = []
+        for aStr in self.antimonyList:
+            r = te.loada(aStr)
+            name = r.getModel().getModelName()
+            modelNames.append(name)
+
+        sources = self._modelsFromPhrasedml(phrasedmlStr)
+        for source, name in sources.iteritems():
+            # not a antimony model
+            if name not in modelNames:
+                continue
+
+            # set as referenced model
+            aStr = self.antimonyList[modelNames.index(name)]
+            phrasedml.setReferencedSBML(name, te.antimonyToSBML(aStr))
+
+    @staticmethod
+    def _modelsFromPhrasedml(phrasedmlStr):
+        """ Find model sources and names in phrasedml file. """
+        sources = {}
+
+        # find model source, name
+        reModel = r"""(\w+)\s*=\s*model\s*('|")(.*)('|")"""
+        lines = phrasedmlStr.splitlines()
+        for k, line in enumerate(lines):
+            reSearchModel = re.split(reModel, line)
+            if len(reSearchModel) > 1:
+                source = str(reSearchModel[3])
+                name = os.path.basename(source)
+                name = str(name).replace(".xml", '')
+                # add to source dictionary
+                sources[source] = name
+
+        return sources
+
+
+    def _phrasedmlFileName(self, k):
+        """ Name of SEDML-File in Combine Archive for k-th phrasedml."""
+        return 'experiment{}.xml'.format(k+1)
+
+
 

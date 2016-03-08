@@ -132,6 +132,7 @@ def sedmlToPython(inputStr):
     :return: contents
     :rtype:
     """
+    # TODO: necessary to select SEDML files from archive (i.e. if multiple files)
     factory = SEDMLCodeFactory(inputStr)
     return factory.toPython()
 
