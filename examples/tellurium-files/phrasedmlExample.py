@@ -21,8 +21,8 @@ phrasedml = '''
 '''
 
 # create experiment
-exp = te.experiment(ant, phrasedml)
-exp.execute()
-exp.printpython()
+exp = te.experiment([ant], [phrasedml])
+exp.execute(phrasedml)
+exp.printpython(phrasedml)
 
 
