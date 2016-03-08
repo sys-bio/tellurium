@@ -19,7 +19,7 @@ def sqr(x):
     return x*x
 
 def root(a, b):
-    return a^(1/b)
+    return a**(1/b)
 
 def xor(*args):
     foundZero = 0

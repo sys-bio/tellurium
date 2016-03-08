@@ -13,8 +13,6 @@ import matplotlib.pyplot as plt
 
 import roadrunner
 
-from .sedml import tephrasedml
-
 try:
     import libsedml
     # import libsedml before libsbml to handle

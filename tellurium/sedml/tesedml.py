@@ -136,15 +136,18 @@ def sedmlToPython(inputStr):
     return factory.toPython()
 
 
-def executeSEDML(inputStr):
+def executeSEDML(inputStr, workingDir=None):
     """ Run a SED-ML file or archive.
+
+    If a workingDir is provided the files and results are written in the workingDir.
+
     :param inputStr:
     :type inputStr:
     :return:
     :rtype:
     """
     # execute the sedml
-    factory = SEDMLCodeFactory(inputStr)
+    factory = SEDMLCodeFactory(inputStr, workingDir=workingDir)
     factory.executePython()
 
 
@@ -156,7 +159,7 @@ class SEDMLCodeFactory(object):
     # template location
     TEMPLATE_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'templates')
 
-    def __init__(self, inputStr):
+    def __init__(self, inputStr, workingDir=None):
         """ Create CodeFactory for given input.
         :param inputStr:
         :type inputStr:
@@ -164,7 +167,8 @@ class SEDMLCodeFactory(object):
         :rtype:
         """
         self.inputStr = inputStr
-        info = SEDMLTools.readSEDMLDocument(inputStr)
+        self.workingDir = workingDir
+        info = SEDMLTools.readSEDMLDocument(inputStr, workingDir)
         self.doc = info['doc']
         self.inputType = info['inputType']
         self.workingDir = info['workingDir']
@@ -1447,7 +1451,7 @@ class SEDMLTools(object):
             warnings.warn(doc.getErrorLog().toString())
 
     @classmethod
-    def readSEDMLDocument(cls, inputStr):
+    def readSEDMLDocument(cls, inputStr, workingDir):
         """ Parses SedMLDocument from given input.
 
         :return: dictionary of SedDocument, inputType and working directory.
@@ -1464,7 +1468,8 @@ class SEDMLTools(object):
                 # is parsable xml string
                 doc = libsedml.readSedMLFromString(inputStr)
                 inputType = cls.INPUT_TYPE_STR
-                workingDir = os.getcwd()
+                if workingDir is None:
+                    workingDir = os.getcwd()
 
             except ElementTree.ParseError:
                 if not os.path.exists(inputStr):
@@ -1481,7 +1486,8 @@ class SEDMLTools(object):
 
                 # in case of sedx and combine a working directory is created
                 # in which the files are extracted
-                workingDir = os.path.join(os.path.dirname(os.path.realpath(inputStr)), '_te_{}'.format(filename))
+                if workingDir is None:
+                    workingDir = os.path.join(os.path.dirname(os.path.realpath(inputStr)), '_te_{}'.format(filename))
                 # extract the archive to working directory
                 CombineTools.extractArchive(archive, workingDir)
                 # get SEDML files from archive
@@ -1502,7 +1508,8 @@ class SEDMLTools(object):
                 doc = libsedml.readSedMLFromFile(inputStr)
                 cls.checkSEDMLDocument(doc)
                 # working directory is where the sedml file is
-                workingDir = os.path.dirname(os.path.realpath(inputStr))
+                if workingDir is None:
+                    workingDir = os.path.dirname(os.path.realpath(inputStr))
 
         return {'doc': doc,
                 'inputType': inputType,

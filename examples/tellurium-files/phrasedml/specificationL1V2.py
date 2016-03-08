@@ -49,8 +49,13 @@ sedmlStr = phrasedml.convertString(phrasedmlStr)
 if sedmlStr == None:
     print(phrasedml.getLastError())
 
-# Run the SED-ML file
-te.executeSEDML(sedmlStr)
+# Run the SED-ML file with results written in workingDir
+import tempfile
+import shutil
+workingDir = tempfile.mkdtemp(suffix="_sedml")
+te.executeSEDML(sedmlStr, workingDir=workingDir)
+shutil.rmtree(workingDir)
+
 
 # [2] store as combine archive and run
 import os
@@ -59,7 +64,6 @@ combine = MakeCombine()
 combine.addSEDMLStr(sedmlStr, 'specificationL1V2.sedml')
 from tellurium.tests.testdata import sedxDir
 combinePath = os.path.join(sedxDir, 'specificationL1V2.sedx')
-print(combinePath)
 combine.write(combinePath)
 
 # Run Combine archive
