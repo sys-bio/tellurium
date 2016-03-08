@@ -1,4 +1,4 @@
-Tellurium v1.2.4
+Tellurium v1.3.2
 Copyright 2015 Michal Galdzicki, Herbert Sauro
 http://tellurium.analogmachine.org/
 
@@ -59,7 +59,7 @@ libSBML 5.12.0
     Distributed under GNU LGPL 2.1 license
     http://sbml.org/Software/libSBML
 	
-libSEDML 0.3.0
+libSEDML 0.3.1
     Copyright (c) 2013-2015, Frank T. Bergmann, All rights reserved.
     Distributed under Simplified BSD License.
     https://github.com/fbergmann/libSEDML
