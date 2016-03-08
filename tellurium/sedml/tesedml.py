@@ -974,8 +974,23 @@ class SEDMLCodeFactory(object):
                          'KISAO:0000435',
                          'KISAO_0000064']
         elif simType == libsedml.SEDML_SIMULATION_STEADYSTATE:
-            supported = ['KISAO:0000099',
-                         'KISAO:0000407']
+            supported = [
+                'KISAO:0000099',
+                'KISAO:0000407',
+                'KISAO:0000437',
+                'KISAO:0000274',
+                'KISAO:0000408',
+                'KISAO:0000413',
+                'KISAO:0000432',
+                'KISAO:0000355',
+                'KISAO:0000356',
+                'KISAO:0000283',
+                'KISAO:0000412',
+                'KISAO:0000282',
+                'KISAO:0000411',
+                'KISAO:0000409',
+                'KISAO:0000410',
+            ]
         return kisao in supported
 
     @staticmethod
@@ -988,16 +1003,54 @@ class SEDMLCodeFactory(object):
         :rtype: str
         """
         # cvode & steady state are mapped to cvode
-        if kid in ['KISAO:0000433',
-                   'KISAO:0000019',
-                   'KISAO:0000407',
-                   'KISAO:0000099',
-                   'KISAO:0000035',
-                   'KISAO:0000071']:
+        if kid in [
+            'KISAO:0000433',
+            'KISAO:0000019',
+            'KISAO:0000407',
+            'KISAO:0000099',
+            'KISAO:0000035',
+            'KISAO:0000071'
+        ]:
             return 'cvode'
-        elif kid == 'KISAO:0000241':
+        elif kid in [
+            'KISAO:0000241',
+            # List of Lucian
+            'KISAO:0000029',
+            'KISAO:0000319',
+            'KISAO:0000274',
+            'KISAO:0000333',
+            'KISAO:0000329',
+            'KISAO:0000323',
+            'KISAO:0000331',
+            'KISAO:0000027',
+            'KISAO:0000082',
+            'KISAO:0000324',
+            'KISAO:0000350',
+            'KISAO:0000330',
+            'KISAO:0000028',
+            'KISAO:0000038',
+            'KISAO:0000039',
+            'KISAO:0000048',
+            'KISAO:0000074',
+            'KISAO:0000081',
+            'KISAO:0000045',
+            'KISAO:0000351',
+            'KISAO:0000084',
+            'KISAO:0000040',
+            'KISAO:0000046',
+            'KISAO:0000003',
+            'KISAO:0000051',
+            'KISAO:0000335',
+            'KISAO:0000336',
+            'KISAO:0000095',
+            'KISAO:0000022',
+            'KISAO:0000076',
+            'KISAO:0000015',
+            'KISAO:0000075',
+            'KISAO:0000278',
+        ]:
             return 'gillespie'
-        elif kid == 'KISAO:0000032':
+        elif kid in ['KISAO:0000032']:
             return 'rk4'
         elif kid in ['KISAO:0000435',
                      'KISAO_0000064']:
@@ -1047,6 +1100,10 @@ class SEDMLCodeFactory(object):
             key, dtype = 'initial_time_step', float
         elif kid == 'KISAO:0000107':
             key, dtype = 'variable_step_size', bool
+            if value == 'true':
+                value = True
+            elif value == 'false':
+                value = False
         elif kid == 'KISAO:0000486':
             key, dtype = 'maximum_iterations', int
         elif kid == 'KISAO:0000487':

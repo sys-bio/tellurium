@@ -141,7 +141,6 @@ class experiment(object):
 
         # Export archive
         expId = self.getId()
-        print(expId)
         expArchive = os.path.join(workingDir, "{}.sedx".format(expId))
         self.exportAsCombine(expArchive)
 

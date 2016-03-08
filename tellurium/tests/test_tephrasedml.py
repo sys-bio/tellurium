@@ -459,26 +459,221 @@ class tePhrasedMLTestCase(unittest.TestCase):
         p = """
             model0 = model "m1"
             sim0 = simulate uniform(0, 10, 100)
-            sim0.algorithm.maximum_adams_order = 4
+            sim0.algorithm.maximum_adams_order = 5
             task0 = run sim0 on model0
             plot task0.time vs task0.S1
         """
         exp = te.experiment(self.a1, p)
-        self.checkKisaoAlgorithmParameter(exp, 'KISAO:0000219', 'maximum_adams_order', 4)
+        self.checkKisaoAlgorithmParameter(exp, 'KISAO:0000219', 'maximum_adams_order', 5)
         exp.execute()
 
-    def test_kisao_maximum_bdf_order_2(self):
+    def test_kisao_maximum_adams_order_2(self):
         p = """
             model0 = model "m1"
             sim0 = simulate uniform(0, 10, 100)
-            sim0.algorithm.219 = 4
+            sim0.algorithm.219 = 5
             task0 = run sim0 on model0
             plot task0.time vs task0.S1
         """
         exp = te.experiment(self.a1, p)
-        self.checkKisaoAlgorithmParameter(exp, 'KISAO:0000220', 'maximum_bdf_order', 4)
+        self.checkKisaoAlgorithmParameter(exp, 'KISAO:0000219', 'maximum_adams_order', 5)
         exp.execute()
 
+    def test_kisao_maximum_num_steps_1(self):
+        p = """
+            model0 = model "m1"
+            sim0 = simulate uniform(0, 10, 100)
+            sim0.algorithm.maximum_num_steps = 10000
+            task0 = run sim0 on model0
+            plot task0.time vs task0.S1
+        """
+        exp = te.experiment(self.a1, p)
+        self.checkKisaoAlgorithmParameter(exp, 'KISAO:0000415', 'maximum_num_steps', 10000)
+        exp.execute()
+
+    def test_kisao_maximum_num_steps_2(self):
+        p = """
+            model0 = model "m1"
+            sim0 = simulate uniform(0, 10, 100)
+            sim0.algorithm.415 = 10000
+            task0 = run sim0 on model0
+            plot task0.time vs task0.S1
+        """
+        exp = te.experiment(self.a1, p)
+        self.checkKisaoAlgorithmParameter(exp, 'KISAO:0000415', 'maximum_num_steps', 10000)
+        exp.execute()
+
+
+    def test_kisao_maximum_time_step_1(self):
+        p = """
+            model0 = model "m1"
+            sim0 = simulate uniform(0, 10, 100)
+            sim0.algorithm.maximum_time_step = 1
+            task0 = run sim0 on model0
+            plot task0.time vs task0.S1
+        """
+        exp = te.experiment(self.a1, p)
+        self.checkKisaoAlgorithmParameter(exp, 'KISAO:0000467', 'maximum_time_step', 1)
+        exp.execute()
+
+    def test_kisao_maximum_time_step_2(self):
+        p = """
+            model0 = model "m1"
+            sim0 = simulate uniform(0, 10, 100)
+            sim0.algorithm.467 = 1
+            task0 = run sim0 on model0
+            plot task0.time vs task0.S1
+        """
+        exp = te.experiment(self.a1, p)
+        self.checkKisaoAlgorithmParameter(exp, 'KISAO:0000467', 'maximum_time_step', 1)
+        exp.execute()
+
+    def test_kisao_minimum_time_step_1(self):
+        p = """
+            model0 = model "m1"
+            sim0 = simulate uniform(0, 10, 100)
+            sim0.algorithm.minimum_time_step = 1E-5
+            task0 = run sim0 on model0
+            plot task0.time vs task0.S1
+        """
+        exp = te.experiment(self.a1, p)
+        self.checkKisaoAlgorithmParameter(exp, 'KISAO:0000485', 'minimum_time_step', 1E-5)
+        exp.execute()
+
+    def test_kisao_minimum_time_step_2(self):
+        p = """
+            model0 = model "m1"
+            sim0 = simulate uniform(0, 10, 100)
+            sim0.algorithm.485 = 1E-5
+            task0 = run sim0 on model0
+            plot task0.time vs task0.S1
+        """
+        exp = te.experiment(self.a1, p)
+        self.checkKisaoAlgorithmParameter(exp, 'KISAO:0000485', 'minimum_time_step', 1E-5)
+        exp.execute()
+
+    def test_kisao_initial_time_step_1(self):
+        p = """
+            model0 = model "m1"
+            sim0 = simulate uniform(0, 10, 100)
+            sim0.algorithm.initial_time_step = 0.01
+            task0 = run sim0 on model0
+            plot task0.time vs task0.S1
+        """
+        exp = te.experiment(self.a1, p)
+        self.checkKisaoAlgorithmParameter(exp, 'KISAO:0000332', 'initial_time_step', 0.01)
+        exp.execute()
+
+    def test_kisao_initial_time_step_2(self):
+        p = """
+            model0 = model "m1"
+            sim0 = simulate uniform(0, 10, 100)
+            sim0.algorithm.332 = 0.01
+            task0 = run sim0 on model0
+            plot task0.time vs task0.S1
+        """
+        exp = te.experiment(self.a1, p)
+        self.checkKisaoAlgorithmParameter(exp, 'KISAO:0000332', 'initial_time_step', 0.01)
+        exp.execute()
+
+    def test_kisao_variable_step_size_1(self):
+        p = """
+            model0 = model "m1"
+            sim0 = simulate uniform(0, 10, 100)
+            sim0.algorithm.variable_step_size = true
+            task0 = run sim0 on model0
+            plot task0.time vs task0.S1
+        """
+        exp = te.experiment(self.a1, p)
+        self.checkKisaoAlgorithmParameter(exp, 'KISAO:0000107', 'variable_step_size', True)
+        exp.execute()
+
+    def test_kisao_variable_step_size_2(self):
+        p = """
+            model0 = model "m1"
+            sim0 = simulate uniform(0, 10, 100)
+            sim0.algorithm.107 = true
+            task0 = run sim0 on model0
+            plot task0.time vs task0.S1
+        """
+        exp = te.experiment(self.a1, p)
+        self.checkKisaoAlgorithmParameter(exp, 'KISAO:0000107', 'variable_step_size', True)
+        exp.execute()
+
+    # maximum_iterations & maximum_damping currently not used in any integrator
+    '''
+    def test_kisao_maximum_iterations_1(self):
+        p = """
+            model0 = model "m1"
+            sim0 = simulate uniform(0, 10, 100)
+            sim0.algorithm.maximum_iterations = 10
+            task0 = run sim0 on model0
+            plot task0.time vs task0.S1
+        """
+        exp = te.experiment(self.a1, p)
+        self.checkKisaoAlgorithmParameter(exp, 'KISAO:0000486', 'maximum_iterations', 10)
+        exp.execute()
+
+    def test_kisao_maximum_iterations_2(self):
+        p = """
+            model0 = model "m1"
+            sim0 = simulate uniform(0, 10, 100)
+            sim0.algorithm.486 = 10
+            task0 = run sim0 on model0
+            plot task0.time vs task0.S1
+        """
+        exp = te.experiment(self.a1, p)
+        self.checkKisaoAlgorithmParameter(exp, 'KISAO:0000486', 'maximum_iterations', 10)
+        exp.execute()
+
+    def test_kisao_maximum_damping_1(self):
+        p = """
+            model0 = model "m1"
+            sim0 = simulate uniform(0, 10, 100)
+            sim0.algorithm.maximum_damping = 1
+            task0 = run sim0 on model0
+            plot task0.time vs task0.S1
+        """
+        exp = te.experiment(self.a1, p)
+        self.checkKisaoAlgorithmParameter(exp, 'KISAO:0000487', 'maximum_damping', 1)
+        exp.execute()
+
+    def test_kisao_maximum_damping_2(self):
+        p = """
+            model0 = model "m1"
+            sim0 = simulate uniform(0, 10, 100)
+            sim0.algorithm.487 = 1
+            task0 = run sim0 on model0
+            plot task0.time vs task0.S1
+        """
+        exp = te.experiment(self.a1, p)
+        self.checkKisaoAlgorithmParameter(exp, 'KISAO:0000487', 'maximum_damping', 1)
+        exp.execute()
+    '''
+
+    def test_kisao_seed_1(self):
+        p = """
+            model0 = model "m1"
+            sim0 = simulate uniform_stochastic(0, 10, 100)
+            sim0.algorithm.seed = 1234
+            task0 = run sim0 on model0
+            plot task0.time vs task0.S1
+        """
+        exp = te.experiment(self.a1, p)
+        self.checkKisaoAlgorithmParameter(exp, 'KISAO:0000488', 'seed', 1234)
+        exp.execute()
+
+    def test_kisao_seed_2(self):
+        p = """
+            model0 = model "m1"
+            sim0 = simulate uniform_stochastic(0, 10, 100)
+            sim0.algorithm.488 = 1234
+            task0 = run sim0 on model0
+            plot task0.time vs task0.S1
+        """
+        exp = te.experiment(self.a1, p)
+        self.checkKisaoAlgorithmParameter(exp, 'KISAO:0000488', 'seed', 1234)
+        exp.execute()
 
 if __name__ == '__main__':
     unittest.main()
