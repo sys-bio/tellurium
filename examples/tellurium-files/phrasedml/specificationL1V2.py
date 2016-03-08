@@ -56,9 +56,9 @@ te.executeSEDML(sedmlStr)
 import os
 from tellurium.tecombine import MakeCombine
 combine = MakeCombine()
-combine.addSEDMLStr(sedmlStr, 'specificationL1V1.sedml')
+combine.addSEDMLStr(sedmlStr, 'specificationL1V2.sedml')
 from tellurium.tests.testdata import sedxDir
-combinePath = os.path.join(sedxDir, 'specificationL1V1.sedx')
+combinePath = os.path.join(sedxDir, 'specificationL1V2.sedx')
 print(combinePath)
 combine.write(combinePath)
 

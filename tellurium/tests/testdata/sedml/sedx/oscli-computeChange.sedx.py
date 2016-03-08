@@ -1,7 +1,7 @@
 """
     tellurium 1.3.1
 
-    auto-generated code (2016-03-07T10:13:03)
+    auto-generated code
     sedmlDoc: L1V1  
     workingDir: /home/mkoenig/git/tellurium/tellurium/tests/testdata/sedml/sedx/_te_oscli-computeChange
     inputType: COMBINE_FILE
