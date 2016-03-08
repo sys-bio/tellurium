@@ -14,6 +14,7 @@ import roadrunner
 from xml.etree import ElementTree as et
 import libsedml
 
+
 def combine(combinePath):
     """ Open a combine archive from local directory.
 
@@ -24,82 +25,7 @@ def combine(combinePath):
     return OpenCombine(combinePath)
 
 
-class CombineTools(object):
-    """ Helper functions to work with combine archives."""
 
-    @staticmethod
-    def extractArchive(archivePath, directory):
-        """ Extracts given archive into the target directory.
-
-        Target directory is created if it does not exist.
-        Files are overwritten in the directory !
-
-        :param archivePath: path to combine archive
-        :type archivePath: str
-        :param directory: path to directory where to extract to
-        :type directory:
-        :return:
-        :rtype:
-        """
-        zip = ZipFile(archivePath, 'r')
-
-        if not os.path.isdir(directory):
-            os.makedirs(directory)
-        else:
-            warnings.warn("Combine archive directory already exists:{}".format(directory))
-
-        for each in zip.namelist():
-            # check if the item includes a subdirectory
-            # if it does, create the subdirectory in the output folder and write the file
-            # otherwise, just write the file to the output folder
-            if not each.endswith('/'):
-                root, name = os.path.split(each)
-                directory = os.path.normpath(os.path.join(directory, root))
-                if not os.path.isdir(directory):
-                    os.makedirs(directory)
-                file(os.path.join(directory, name), 'wb').write(zip.read(each))
-        zip.close()
-
-    @staticmethod
-    def filePathsFromExtractedArchive(directory, formatType='sed-ml'):
-        """ Reads file paths from extracted combine archive.
-
-        Searches the manifest.xml of the archive for files of the
-        specified formatType and checks if the files exist in the directory.
-
-        Supported formatTypes are:
-            'sed-ml' : SED-ML files
-            'sbml' : SBML files
-
-        :param directory: directory of extracted archive
-        :return: list of paths
-        :rtype: list
-        """
-        filePaths = []
-
-        manifest = os.path.join(directory, "manifest.xml")
-        if os.path.exists(manifest):
-            # get the sedml files from the manifest
-            tree = et.parse(manifest)
-            root = tree.getroot()
-            for child in root:
-                format = child.attrib['format']
-                if format.endswith(formatType):
-                    location = child.attrib['location']
-
-                    # real path
-                    fpath = os.path.join(directory, location)
-                    if not os.path.exists(fpath):
-                        raise IOError('Path specified in manifest.xml does not exist in archive: {}'.format(fpath))
-                    filePaths.append(fpath)
-        else:
-            # no manifest (use all sedml files in folder)
-            warnings.warn("No 'manifest.xml' in archive, using all '*.sedml' files.")
-            for fname in os.listdir(directory):
-                if fname.endswith(".sedml") or fname.endswith(".sedx.xml"):
-                    filePaths.append(os.path.join(directory, fname))
-
-        return filePaths
 
 
 class CombineAsset(object):
@@ -124,6 +50,7 @@ class CombineAsset(object):
 # Raw/file assets:
 # File assets specify a file path in the OS filesystem
 # Raw assets contain the raw string of the entire asset
+
 
 class CombineRawAsset(CombineAsset):
     def __init__(self, raw, archname):
@@ -244,9 +171,11 @@ class CombineSEDMLFileAsset(CombineFileAsset, CombineSEDMLAsset):
 # PhraSEDML:
 
 
-class CombinePhraSEDMLRawAsset(CombineRawAsset,   CombinePhraSEDMLAsset):
+class CombinePhraSEDMLRawAsset(CombineRawAsset, CombinePhraSEDMLAsset):
     # return SEDML, since COMBINE doesn't support PhraSEDML
     def getExportedStr(self):
+        # FIXME: Necessary to add .xml to models due to https://sourceforge.net/p/phrasedml/tickets/15/
+
         return self.getSEDMLStr()
 
 
@@ -561,7 +490,7 @@ class OpenCombine(object):
             self.updateManifest(baseName + fileFormat, fileFormat[1:], delete=True)
     
     def update(self, currentExp):
-        currentExp.update(self.combinePath)
+        currentExp.updateCombine(self.combinePath)
         
     def readManifest(self):
         zf = ZipFile(self.combinePath, 'r')
@@ -606,32 +535,81 @@ class OpenCombine(object):
         zf.writestr(r'manifest.xml', man)
         zf.close()
 
-def export(outfile, antimonyStr, phrasedmlStrs):
-    m = MakeCombine()
-    modelNames = []
-    for i in range(len(antimonyStr)):
-        r = te.loada(antimonyStr[i])
-        SBMLName = r.getModel().getModelName()
-        m.addAntimonyStr(antimonyStr[i], SBMLName + ".xml")
-        modelNames.append(SBMLName)
 
-    # remaining arguments are assumed to be phrasedml
-    n = 1
-    for phrasedmlStr in phrasedmlStrs:
-        reModel = r"""(\w*) = model ('|")(.*)('|")"""
-        lines = phrasedmlStr.splitlines()
-        for i, s in enumerate(lines):
-            reSearchModel = re.split(reModel, s)
-            if len(reSearchModel) > 1:
-                modelsource = str(reSearchModel[3])
-                modelname = os.path.basename(modelsource)
-        
-        if modelname not in modelNames:
-            raise Exception("Cannot find the model defined in phrasedml string. Check the model name in antimony")
-        phrasedml.setReferencedSBML(modelname, te.antimonyToSBML(antimonyStr[modelNames.index(modelname)]))
-        m.addPhraSEDMLStr(phrasedmlStr, 'experiment{}.xml'.format(n))
-        n += 1
 
-    m.write(outfile)
-    phrasedml.clearReferencedSBML()
+class CombineTools(object):
+    """ Helper functions to work with combine archives."""
 
+    @staticmethod
+    def extractArchive(archivePath, directory):
+        """ Extracts given archive into the target directory.
+
+        Target directory is created if it does not exist.
+        Files are overwritten in the directory !
+
+        :param archivePath: path to combine archive
+        :type archivePath: str
+        :param directory: path to directory where to extract to
+        :type directory:
+        :return:
+        :rtype:
+        """
+        zip = ZipFile(archivePath, 'r')
+
+        if not os.path.isdir(directory):
+            os.makedirs(directory)
+        else:
+            warnings.warn("Combine archive directory already exists:{}".format(directory))
+
+        for each in zip.namelist():
+            # check if the item includes a subdirectory
+            # if it does, create the subdirectory in the output folder and write the file
+            # otherwise, just write the file to the output folder
+            if not each.endswith('/'):
+                root, name = os.path.split(each)
+                directory = os.path.normpath(os.path.join(directory, root))
+                if not os.path.isdir(directory):
+                    os.makedirs(directory)
+                file(os.path.join(directory, name), 'wb').write(zip.read(each))
+        zip.close()
+
+    @staticmethod
+    def filePathsFromExtractedArchive(directory, formatType='sed-ml'):
+        """ Reads file paths from extracted combine archive.
+
+        Searches the manifest.xml of the archive for files of the
+        specified formatType and checks if the files exist in the directory.
+
+        Supported formatTypes are:
+            'sed-ml' : SED-ML files
+            'sbml' : SBML files
+
+        :param directory: directory of extracted archive
+        :return: list of paths
+        :rtype: list
+        """
+        filePaths = []
+
+        manifest = os.path.join(directory, "manifest.xml")
+        if os.path.exists(manifest):
+            # get the sedml files from the manifest
+            tree = et.parse(manifest)
+            root = tree.getroot()
+            for child in root:
+                format = child.attrib['format']
+                if format.endswith(formatType):
+                    location = child.attrib['location']
+
+                    # real path
+                    fpath = os.path.join(directory, location)
+                    if not os.path.exists(fpath):
+                        raise IOError('Path specified in manifest.xml does not exist in archive: {}'.format(fpath))
+                    filePaths.append(fpath)
+        else:
+            # no manifest (use all sedml files in folder)
+            warnings.warn("No 'manifest.xml' in archive, using all '*.sedml' files.")
+            for fname in os.listdir(directory):
+                if fname.endswith(".sedml") or fname.endswith(".sedx.xml"):
+                    filePaths.append(os.path.join(directory, fname))
+
+        return filePaths

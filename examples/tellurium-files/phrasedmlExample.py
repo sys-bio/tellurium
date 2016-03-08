@@ -24,5 +24,3 @@ phrasedml = '''
 exp = te.experiment(ant, phrasedml)
 exp.execute()
 exp.printPython()
-
-
