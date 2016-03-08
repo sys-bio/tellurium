@@ -17,7 +17,7 @@ The Tellurium project is funded from the NIH/NIGMS (GM081070).
 
 ### Download
 
-* [Download Tellurium 1.3.2 for Windows](https://sourceforge.net/projects/pytellurium/files/Tellurium-1.3/1.3.2/Tellurium-1.3.2-Python-2.7-win32-portable-setup.exe/download)
+* [Download Tellurium 1.3.2 for Windows](https://sourceforge.net/projects/pytellurium/files/Tellurium-1.3/1.3.2/Tellurium-1.3.2-Python-2.7-win32-portable-setup-v0.2.exe/download)
 * [Download Tellurium 1.3.2 for Mac OS X](https://sourceforge.net/projects/pytellurium/files/Tellurium-1.3/1.3.2/Tellurium-1.3.2-Spyder-2.3.8-OSX.dmg/download)
 
 ### Usage
