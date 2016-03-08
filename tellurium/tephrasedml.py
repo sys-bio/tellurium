@@ -106,7 +106,7 @@ class tePhrasedml(object):
         for i in range(len(self.antimonyStr)):
             r = te.loada(self.antimonyStr[i])
             modelName = r.getModel().getModelName()
-            if modelName == modelsource:
+            if modelName == os.path.splitext(os.path.basename(modelsource))[0]:
                 antInd = i
         
         if antInd == None:
