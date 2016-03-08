@@ -59,4 +59,4 @@ Particle Swarm
 
 Simulated Annealing
 """
-from diffevolution import DiffEvolution
+
