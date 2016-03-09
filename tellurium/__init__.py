@@ -43,9 +43,6 @@ import optimization
 import visualization
 
 import temiriam
-try:
-    import notebooks as notebooks
-except ImportError:
-    pass
+import notebooks
 
 __version__ = getTelluriumVersion()
