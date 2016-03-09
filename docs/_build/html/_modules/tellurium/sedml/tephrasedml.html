@@ -151,11 +151,9 @@
 <span class="sd">&quot;&quot;&quot;</span>
 
 <span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">print_function</span><span class="p">,</span> <span class="n">division</span>
-
 <span class="kn">import</span> <span class="nn">os.path</span>
 <span class="kn">import</span> <span class="nn">shutil</span>
 <span class="kn">import</span> <span class="nn">tempfile</span>
-
 <span class="kn">import</span> <span class="nn">re</span>
 <span class="kn">import</span> <span class="nn">warnings</span>
 
@@ -167,6 +165,8 @@
 
 <div class="viewcode-block" id="experiment"><a class="viewcode-back" href="../../../notebooks.html#tellurium.sedml.tephrasedml.experiment">[docs]</a><span class="k">class</span> <span class="nc">experiment</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; Phrasedml experiment.</span>
+
+<span class="sd">    Simulation experiments are defined and executed via the experiment class.</span>
 
 <span class="sd">    This class is responsible for the creation of executable tellurium code</span>
 <span class="sd">    phrasedml descriptions. Main function is a code factory.</span>
@@ -182,49 +182,65 @@
 <span class="sd">        :param phrasedmlList: list of phrasedml string</span>
 <span class="sd">        :type phrasedmlList: list</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">modelispath</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="c1"># backwards compatibility &amp; simplified syntax</span>
+        <span class="c1"># for one phrasedml and antimony string</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">antimonyList</span><span class="p">,</span> <span class="nb">basestring</span><span class="p">):</span>
             <span class="n">antimonyList</span> <span class="o">=</span> <span class="p">[</span><span class="n">antimonyList</span><span class="p">]</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">phrasedmlList</span><span class="p">,</span> <span class="nb">basestring</span><span class="p">):</span>
             <span class="n">phrasedmlList</span> <span class="o">=</span> <span class="p">[</span><span class="n">phrasedmlList</span><span class="p">]</span>
 
+        <span class="n">modelispath</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">aStr</span> <span class="ow">in</span> <span class="n">antimonyList</span><span class="p">:</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">aStr</span><span class="p">,</span> <span class="nb">basestring</span><span class="p">):</span>
                 <span class="k">raise</span> <span class="ne">IOError</span><span class="p">(</span><span class="s2">&quot;invalid Antimony string/model path&quot;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">aStr</span><span class="p">):</span>
+                <span class="n">modelispath</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">aStr</span><span class="p">):</span>
-                    <span class="n">modelispath</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>
-                <span class="k">else</span><span class="p">:</span>
-                    <span class="n">modelispath</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
+                <span class="n">modelispath</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">modelispath</span> <span class="o">=</span> <span class="n">modelispath</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">antimonyList</span> <span class="o">=</span> <span class="n">antimonyList</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">phrasedmlList</span> <span class="o">=</span> <span class="n">phrasedmlList</span>
 
-<div class="viewcode-block" id="experiment.execute"><a class="viewcode-back" href="../../../_apidoc/tellurium.sedml.html#tellurium.sedml.tephrasedml.experiment.execute">[docs]</a>    <span class="k">def</span> <span class="nf">execute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">selPhrasedml</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">workingDir</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Executes the python code created for the given phrasedml.</span>
-<span class="sd">        The workingDir sets the path variable where the combine</span>
-<span class="sd">        archive and files are generated for execution.</span>
+<div class="viewcode-block" id="experiment.getId"><a class="viewcode-back" href="../../../_apidoc/tellurium.sedml.html#tellurium.sedml.tephrasedml.experiment.getId">[docs]</a>    <span class="k">def</span> <span class="nf">getId</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_experimentId</span><span class="p">()</span></div>
 
-<span class="sd">        See :func:`createpython`</span>
-<span class="sd">        </span>
+    <span class="k">def</span> <span class="nf">_experimentId</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Id is necessary to write the files and folders for the experiment.</span>
+<span class="sd">        An experiment can contain multiples SBML and SED-ML files, so the model name</span>
+<span class="sd">        is not sufficient.</span>
+
+<span class="sd">        :return: id of the experiment</span>
+<span class="sd">        :rtype: str</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">sources</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_modelsFromPhrasedml</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">phrasedmlList</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="n">names</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">sources</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+        <span class="k">return</span> <span class="s2">&quot;_&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">names</span><span class="p">)</span>
+
+<div class="viewcode-block" id="experiment.execute"><a class="viewcode-back" href="../../../_apidoc/tellurium.sedml.html#tellurium.sedml.tephrasedml.experiment.execute">[docs]</a>    <span class="k">def</span> <span class="nf">execute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">selPhrasedml</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">workingDir</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Executes the python code created for the given phrasedml string.</span>
+
+<span class="sd">        The execution is performed in the workingDir. Combine archive files and</span>
+<span class="sd">        outputs from the experiment are written in the workingDir.</span>
+<span class="sd">        If no workingDir is provided a temporary workingDir is used which is</span>
+<span class="sd">        removed after the experiment.</span>
+
 <span class="sd">        :param selPhrasedml: Name of PhraSEDML string defined in the code</span>
 <span class="sd">        :type selPhrasedml: str</span>
+<span class="sd">        :param workingDir: working directory for execution</span>
+<span class="sd">        :type workingDir: str</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="c1"># create a temporary working directory</span>
+        <span class="c1"># create temporary working directory if no workingDir provided</span>
         <span class="n">isTmpDir</span> <span class="o">=</span> <span class="bp">False</span>
         <span class="k">if</span> <span class="n">workingDir</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
             <span class="n">workingDir</span> <span class="o">=</span> <span class="n">tempfile</span><span class="o">.</span><span class="n">mkdtemp</span><span class="p">(</span><span class="n">suffix</span><span class="o">=</span><span class="s2">&quot;_sedml&quot;</span><span class="p">)</span>
             <span class="n">isTmpDir</span> <span class="o">=</span> <span class="bp">True</span>
 
-        <span class="k">if</span> <span class="n">selPhrasedml</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
-            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">&quot;No phrasedmlStr provided in experiment.execute()&quot;</span><span class="p">)</span>
-
-        <span class="c1"># This calls exec. Be very sure that nothing bad happens here.</span>
+        <span class="c1"># This calls exec. Nothing bad should ever happen here !</span>
         <span class="n">execStr</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_toPython</span><span class="p">(</span><span class="n">selPhrasedml</span><span class="p">,</span> <span class="n">workingDir</span><span class="o">=</span><span class="n">workingDir</span><span class="p">)</span>
         <span class="k">exec</span> <span class="n">execStr</span>
 
-        <span class="c1"># remove the temporary directory</span>
+        <span class="c1"># remove temporary workingDir</span>
         <span class="k">if</span> <span class="n">isTmpDir</span><span class="p">:</span>
             <span class="n">shutil</span><span class="o">.</span><span class="n">rmtree</span><span class="p">(</span><span class="n">workingDir</span><span class="p">)</span></div>
 
@@ -237,137 +253,37 @@
 <span class="sd">        :returns: python string to execute</span>
 <span class="sd">        :rtype: str</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">phrasedmlStr</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">phrasedmlStr</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_getDefaultPhrasedml</span><span class="p">()</span>
+
+        <span class="c1"># Models have to be resolved from phrasedml string and set as referenced</span>
+        <span class="n">phrasedml</span><span class="o">.</span><span class="n">clearReferencedSBML</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_setReferencedSBML</span><span class="p">(</span><span class="n">phrasedmlStr</span><span class="p">)</span>
+
+        <span class="c1"># check if conversion is possible</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_phrasedmlToSEDML</span><span class="p">(</span><span class="n">phrasedmlStr</span><span class="p">)</span>
+
+        <span class="c1"># create temporary working directory</span>
         <span class="kn">import</span> <span class="nn">tempfile</span>
-        <span class="c1"># create a temporary working directory</span>
         <span class="n">isTmpDir</span> <span class="o">=</span> <span class="bp">False</span>
         <span class="k">if</span> <span class="n">workingDir</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
             <span class="n">workingDir</span> <span class="o">=</span> <span class="n">tempfile</span><span class="o">.</span><span class="n">mkdtemp</span><span class="p">(</span><span class="n">suffix</span><span class="o">=</span><span class="s2">&quot;_sedml&quot;</span><span class="p">)</span>
             <span class="n">isTmpDir</span> <span class="o">=</span> <span class="bp">True</span>
 
-        <span class="k">if</span> <span class="n">phrasedmlStr</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
-            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">phrasedmlList</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
-                <span class="n">phrasedmlStr</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">phrasedmlList</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-                <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">&quot;No phrasedml string selected, defaulting to first phrasedml.&quot;</span><span class="p">)</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">IOError</span><span class="p">(</span><span class="s1">&#39;No phrasedmlStr selected.&#39;</span><span class="p">)</span>
-
-        <span class="n">rePath</span> <span class="o">=</span> <span class="s2">r&quot;(\w*).load\(&#39;(.*)&#39;\)&quot;</span>
-        <span class="c1"># reLoad = r&quot;(\w*) = roadrunner.RoadRunner\(\)&quot;</span>
-
-        <span class="c1"># model info from phrasedml</span>
-        <span class="n">modelsource</span><span class="p">,</span> <span class="n">modelname</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_modelInfoFromPhrasedml</span><span class="p">(</span><span class="n">phrasedmlStr</span><span class="p">)</span>
-
-        <span class="c1"># find index of antimony str</span>
-        <span class="n">antIndex</span> <span class="o">=</span> <span class="bp">None</span>
-        <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">antStr</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">antimonyList</span><span class="p">):</span>
-            <span class="n">r</span> <span class="o">=</span> <span class="n">te</span><span class="o">.</span><span class="n">loada</span><span class="p">(</span><span class="n">antStr</span><span class="p">)</span>
-            <span class="n">modelName</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">getModel</span><span class="p">()</span><span class="o">.</span><span class="n">getModelName</span><span class="p">()</span>
-            <span class="k">if</span> <span class="n">modelName</span> <span class="o">==</span> <span class="n">modelsource</span><span class="p">:</span>
-                <span class="n">antIndex</span> <span class="o">=</span> <span class="n">k</span>
-        <span class="k">if</span> <span class="n">antIndex</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;Cannot find the model name referenced in the PhraSEDML string&quot;</span><span class="p">)</span>
-
-        <span class="n">phrasedml</span><span class="o">.</span><span class="n">setReferencedSBML</span><span class="p">(</span><span class="n">modelsource</span><span class="p">,</span> <span class="n">te</span><span class="o">.</span><span class="n">antimonyToSBML</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">antimonyList</span><span class="p">[</span><span class="n">antIndex</span><span class="p">]))</span>
-        <span class="n">sedmlstr</span> <span class="o">=</span> <span class="n">phrasedml</span><span class="o">.</span><span class="n">convertString</span><span class="p">(</span><span class="n">phrasedmlStr</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">sedmlstr</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="n">phrasedml</span><span class="o">.</span><span class="n">getLastError</span><span class="p">())</span>
-
-        <span class="n">phrasedml</span><span class="o">.</span><span class="n">clearReferencedSBML</span><span class="p">()</span>
-        <span class="n">f</span> <span class="o">=</span> <span class="n">tempfile</span><span class="o">.</span><span class="n">NamedTemporaryFile</span><span class="p">(</span><span class="s1">&#39;w&#39;</span><span class="p">,</span> <span class="n">suffix</span><span class="o">=</span><span class="s2">&quot;.sedml&quot;</span><span class="p">)</span>
-        <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">sedmlstr</span><span class="p">)</span>
-        <span class="n">f</span><span class="o">.</span><span class="n">flush</span><span class="p">()</span>
-        <span class="n">pysedml</span> <span class="o">=</span> <span class="n">tesedml</span><span class="o">.</span><span class="n">sedmlToPython</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
-
-        <span class="c1"># perform some replacements in the sedml</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">modelispath</span><span class="p">[</span><span class="n">antIndex</span><span class="p">]</span> <span class="ow">is</span> <span class="bp">False</span><span class="p">:</span>
-            <span class="n">lines</span> <span class="o">=</span> <span class="n">pysedml</span><span class="o">.</span><span class="n">splitlines</span><span class="p">()</span>
-            <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">line</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">lines</span><span class="p">):</span>
-                <span class="n">reSearchPath</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">rePath</span><span class="p">,</span> <span class="n">line</span><span class="p">)</span>
-                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">reSearchPath</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
-                    <span class="k">del</span> <span class="n">lines</span><span class="p">[</span><span class="n">k</span><span class="p">]</span>
-
-        <span class="c1"># Export archive and create python code based on archive</span>
-        <span class="n">expArchive</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">workingDir</span><span class="p">,</span> <span class="s2">&quot;{}.sedx&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">modelname</span><span class="p">))</span>
+        <span class="c1"># Export archive</span>
+        <span class="n">expId</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getId</span><span class="p">()</span>
+        <span class="n">expArchive</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">workingDir</span><span class="p">,</span> <span class="s2">&quot;{}.sedx&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">expId</span><span class="p">))</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">exportAsCombine</span><span class="p">(</span><span class="n">expArchive</span><span class="p">)</span>
-        <span class="n">pysedml</span> <span class="o">=</span> <span class="n">tesedml</span><span class="o">.</span><span class="n">sedmlToPython</span><span class="p">(</span><span class="n">expArchive</span><span class="p">)</span>
+
+        <span class="c1"># Create python code from archive</span>
+        <span class="c1"># This is the clean way to generate the code !</span>
+        <span class="n">pycode</span> <span class="o">=</span> <span class="n">tesedml</span><span class="o">.</span><span class="n">sedmlToPython</span><span class="p">(</span><span class="n">expArchive</span><span class="p">)</span>
 
         <span class="c1"># remove the temporary directory</span>
         <span class="k">if</span> <span class="n">isTmpDir</span><span class="p">:</span>
             <span class="n">shutil</span><span class="o">.</span><span class="n">rmtree</span><span class="p">(</span><span class="n">workingDir</span><span class="p">)</span>
 
-        <span class="c1"># outputstr = str(modelname) + &quot; = &#39;&#39;&#39;&quot; + self.antimonyList[antInd] + &quot;&#39;&#39;&#39;\n\n&quot; + pysedml</span>
-        <span class="k">return</span> <span class="n">pysedml</span>
-
-    <span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">    def createpython(self, selPhrasedml):</span>
-<span class="sd">        antInd = None</span>
-<span class="sd">        rePath = r&quot;(\w*).load\(&#39;(.*)&#39;\)&quot;</span>
-<span class="sd">        reLoad = r&quot;(\w*) = roadrunner.RoadRunner\(\)&quot;</span>
-<span class="sd">        reModel = r&quot;&quot;&quot;(\w*) = model (&#39;|&quot;)(.*)(&#39;|&quot;)&quot;&quot;&quot;</span>
-<span class="sd">        phrasedmllines = selPhrasedml.splitlines()</span>
-<span class="sd">        for k, line in enumerate(phrasedmllines):</span>
-<span class="sd">            reSearchModel = re.split(reModel, line)</span>
-<span class="sd">            if len(reSearchModel) &gt; 1:</span>
-<span class="sd">                modelsource = str(reSearchModel[3])</span>
-<span class="sd">                modelname = os.path.basename(modelsource)</span>
-<span class="sd">                modelname = str(modelname).replace(&quot;.xml&quot;, &#39;&#39;)</span>
-<span class="sd">        for i in range(len(self.antimonyStr)):</span>
-<span class="sd">            r = te.loada(self.antimonyStr[i])</span>
-<span class="sd">            modelName = r.getModel().getModelName()</span>
-<span class="sd">            if modelName == modelsource:</span>
-<span class="sd">                antInd = i</span>
-
-<span class="sd">        if antInd == None:</span>
-<span class="sd">            raise Exception(&quot;Cannot find the model name referenced in the PhraSEDML string&quot;)</span>
-<span class="sd">        else:</span>
-<span class="sd">            pass</span>
-<span class="sd">        phrasedml.setReferencedSBML(modelsource, te.antimonyToSBML(self.antimonyStr[antInd]))</span>
-<span class="sd">        sedmlstr = phrasedml.convertString(selPhrasedml)</span>
-<span class="sd">        if sedmlstr is None:</span>
-<span class="sd">            raise Exception(phrasedml.getLastError())</span>
-
-<span class="sd">        phrasedml.clearReferencedSBML()</span>
-
-<span class="sd">        fd1, sedmlfilepath = tempfile.mkstemp()</span>
-<span class="sd">        os.write(fd1, sedmlstr)</span>
-<span class="sd">        pysedml = tesedml.sedmlToPython(sedmlfilepath)</span>
-
-<span class="sd">        # perform some replacements in the sedml</span>
-<span class="sd">        if self.modelispath[antInd] is False:</span>
-<span class="sd">            lines = pysedml.splitlines()</span>
-<span class="sd">            for k, line in enumerate(lines):</span>
-<span class="sd">                reSearchPath = re.split(rePath, line)</span>
-<span class="sd">                if len(reSearchPath) &gt; 1:</span>
-<span class="sd">                    del lines[k]</span>
-
-<span class="sd">            for k, line in enumerate(lines):</span>
-<span class="sd">                reSearchLoad = re.split(reLoad, line)</span>
-<span class="sd">                if len(reSearchLoad) &gt; 1:</span>
-<span class="sd">                    line = line.replace(&quot;roadrunner.RoadRunner()&quot;, &quot;te.loada(&quot; + str(modelname) + &quot;)&quot;)</span>
-<span class="sd">                    lines[k] = line</span>
-
-<span class="sd">            if &quot;import tellurium&quot; not in pysedml:</span>
-<span class="sd">                if &quot;import roadrunner&quot; in pysedml:</span>
-<span class="sd">                    for k, line in enumerate(lines):</span>
-<span class="sd">                        if &quot;import roadrunner&quot; in line:</span>
-<span class="sd">                            del lines[k]</span>
-<span class="sd">                            lines.insert(k, &quot;import tellurium as te&quot;)</span>
-<span class="sd">                        else:</span>
-<span class="sd">                            pass</span>
-
-<span class="sd">        pysedml = &#39;\n&#39;.join(lines)</span>
-
-<span class="sd">        # List of replacements</span>
-<span class="sd">        pysedml = pysedml.replace(&#39;&quot;compartment&quot;&#39;, &#39;&quot;compartment_&quot;&#39;)</span>
-<span class="sd">        pysedml = pysedml.replace(&quot;&#39;compartment&#39;&quot;, &quot;&#39;compartment_&#39;&quot;)</span>
-
-<span class="sd">        outputstr = str(modelname) + &quot; = &#39;&#39;&#39;</span><span class="s2">&quot; + self.antimonyStr[antInd] + &quot;</span><span class="s1">&#39;&#39;&#39;</span><span class="se">\n\n</span><span class="s1">&quot; + pysedml</span>
-
-<span class="s1">        os.close(fd1)</span>
-<span class="s1">        os.remove(sedmlfilepath)</span>
-
-<span class="s1">        return outputstr</span>
-<span class="s1">    &#39;&#39;&#39;</span>
+        <span class="k">return</span> <span class="n">pycode</span>
 
 <div class="viewcode-block" id="experiment.printPython"><a class="viewcode-back" href="../../../_apidoc/tellurium.sedml.html#tellurium.sedml.tephrasedml.experiment.printPython">[docs]</a>    <span class="k">def</span> <span class="nf">printPython</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">phrasedmlStr</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Prints the created python string by :func:`createpython`. </span>
@@ -375,15 +291,16 @@
 <span class="sd">        :param phrasedmlStr: Name of PhraSEDML string defined in the code</span>
 <span class="sd">        :type phrasedmlStr: str</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">execStr</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_toPython</span><span class="p">(</span><span class="n">phrasedmlStr</span><span class="p">)</span>
+        <span class="n">execStr</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getPython</span><span class="p">(</span><span class="n">phrasedmlStr</span><span class="p">)</span>
         <span class="k">print</span><span class="p">(</span><span class="n">execStr</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="experiment.getPython"><a class="viewcode-back" href="../../../_apidoc/tellurium.sedml.html#tellurium.sedml.tephrasedml.experiment.getPython">[docs]</a>    <span class="k">def</span> <span class="nf">getPython</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">phrasedmlStr</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Gets the created python string. &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_toPython</span><span class="p">(</span><span class="n">phrasedmlStr</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="experiment.exportAsCombine"><a class="viewcode-back" href="../../../_apidoc/tellurium.sedml.html#tellurium.sedml.tephrasedml.experiment.exportAsCombine">[docs]</a>    <span class="k">def</span> <span class="nf">exportAsCombine</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">outputpath</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Export as a combine archive.</span>
+<div class="viewcode-block" id="experiment.exportAsCombine"><a class="viewcode-back" href="../../../_apidoc/tellurium.sedml.html#tellurium.sedml.tephrasedml.experiment.exportAsCombine">[docs]</a>    <span class="k">def</span> <span class="nf">exportAsCombine</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">outputPath</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Create combine archive for given antimony and phrasedml files.</span>
+<span class="sd">        Export as a combine archive.</span>
 
 <span class="sd">        This is the clean way to execute it.</span>
 <span class="sd">        A combine archive is created which afterwards is handeled by the SEDML to python script.</span>
@@ -391,38 +308,106 @@
 <span class="sd">        :param exportPath: full path of the combine zip file to create</span>
 <span class="sd">        :type exportPath: str</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="c1"># export the combine archive</span>
-        <span class="n">tecombine</span><span class="o">.</span><span class="n">export</span><span class="p">(</span><span class="n">outputpath</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">antimonyList</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">phrasedmlList</span><span class="p">)</span></div>
+        <span class="n">m</span> <span class="o">=</span> <span class="n">tecombine</span><span class="o">.</span><span class="n">MakeCombine</span><span class="p">()</span>
 
-<div class="viewcode-block" id="experiment.update"><a class="viewcode-back" href="../../../_apidoc/tellurium.sedml.html#tellurium.sedml.tephrasedml.experiment.update">[docs]</a>    <span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">outputpath</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Update target combine archive with the current experiment.</span>
+        <span class="c1"># Add antimony models to archive</span>
+        <span class="k">for</span> <span class="n">aStr</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">antimonyList</span><span class="p">:</span>
+            <span class="n">r</span> <span class="o">=</span> <span class="n">te</span><span class="o">.</span><span class="n">loada</span><span class="p">(</span><span class="n">aStr</span><span class="p">)</span>
+            <span class="n">name</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">getModel</span><span class="p">()</span><span class="o">.</span><span class="n">getModelName</span><span class="p">()</span>
+            <span class="n">m</span><span class="o">.</span><span class="n">addAntimonyStr</span><span class="p">(</span><span class="n">aStr</span><span class="p">,</span> <span class="s2">&quot;{}.xml&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">name</span><span class="p">))</span>
 
-<span class="sd">        :param outputpath: full path of the combine zip file to create</span>
-<span class="sd">        :type outputpath: str</span>
+        <span class="c1"># Add phrasedml models to archive</span>
+        <span class="n">phrasedml</span><span class="o">.</span><span class="n">clearReferencedSBML</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">phrasedmlStr</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">phrasedmlList</span><span class="p">):</span>
+            <span class="c1"># add the asset</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_setReferencedSBML</span><span class="p">(</span><span class="n">phrasedmlStr</span><span class="p">)</span>
+            <span class="n">m</span><span class="o">.</span><span class="n">addPhraSEDMLStr</span><span class="p">(</span><span class="n">phrasedmlStr</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_phrasedmlFileName</span><span class="p">(</span><span class="n">k</span><span class="p">))</span>
+
+        <span class="n">m</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">outputPath</span><span class="p">)</span>
+        <span class="n">phrasedml</span><span class="o">.</span><span class="n">clearReferencedSBML</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="experiment.updateCombine"><a class="viewcode-back" href="../../../_apidoc/tellurium.sedml.html#tellurium.sedml.tephrasedml.experiment.updateCombine">[docs]</a>    <span class="k">def</span> <span class="nf">updateCombine</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">outputPath</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Update combine archive with the current experiment.</span>
+
+<span class="sd">        Overwrites the current archive.</span>
+<span class="sd">        :param outputPath: full path of the combine zip file to create</span>
+<span class="sd">        :type outputPath: str</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">outputpath</span><span class="p">):</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">exportAsCombine</span><span class="p">(</span><span class="n">outputpath</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">outputPath</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">exportAsCombine</span><span class="p">(</span><span class="n">outputPath</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;Cannot find the file&quot;</span><span class="p">)</span></div>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;Cannot find combine archive: {}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">outputPath</span><span class="p">))</span></div>
+
+
+    <span class="k">def</span> <span class="nf">_getDefaultPhrasedml</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Handling the case when no phrasedml string is supplied. &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">phrasedmlList</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">selPhrasedml</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">phrasedmlList</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">&quot;No phrasedml string selected, defaulting to first phrasedml.&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">IOError</span><span class="p">(</span><span class="s1">&#39;No phrasedmlStr available.&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">selPhrasedml</span>
+
+    <span class="k">def</span> <span class="nf">_phrasedmlToSEDML</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">phrasedmlStr</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Convert phrasedml string to SEDML.</span>
+
+<span class="sd">        Necessary to set the reference models via</span>
+<span class="sd">            phrasedml.setReferencedSBML</span>
+<span class="sd">        first.</span>
+
+<span class="sd">        :param phrasedmlStr:</span>
+<span class="sd">        :type phrasedmlStr:</span>
+<span class="sd">        :return:</span>
+<span class="sd">        :rtype:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">sedmlstr</span> <span class="o">=</span> <span class="n">phrasedml</span><span class="o">.</span><span class="n">convertString</span><span class="p">(</span><span class="n">phrasedmlStr</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">sedmlstr</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="n">phrasedml</span><span class="o">.</span><span class="n">getLastError</span><span class="p">())</span>
+        <span class="k">return</span> <span class="n">sedmlstr</span>
+
+    <span class="k">def</span> <span class="nf">_setReferencedSBML</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">phrasedmlStr</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Set phrasedml referenced SBML for given phrasedml String. &quot;&quot;&quot;</span>
+        <span class="n">modelNames</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">aStr</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">antimonyList</span><span class="p">:</span>
+            <span class="n">r</span> <span class="o">=</span> <span class="n">te</span><span class="o">.</span><span class="n">loada</span><span class="p">(</span><span class="n">aStr</span><span class="p">)</span>
+            <span class="n">name</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">getModel</span><span class="p">()</span><span class="o">.</span><span class="n">getModelName</span><span class="p">()</span>
+            <span class="n">modelNames</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+
+        <span class="n">sources</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_modelsFromPhrasedml</span><span class="p">(</span><span class="n">phrasedmlStr</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">source</span><span class="p">,</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">sources</span><span class="o">.</span><span class="n">iteritems</span><span class="p">():</span>
+            <span class="c1"># not a antimony model</span>
+            <span class="k">if</span> <span class="n">name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">modelNames</span><span class="p">:</span>
+                <span class="k">continue</span>
+
+            <span class="c1"># set as referenced model</span>
+            <span class="n">aStr</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">antimonyList</span><span class="p">[</span><span class="n">modelNames</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">name</span><span class="p">)]</span>
+            <span class="n">phrasedml</span><span class="o">.</span><span class="n">setReferencedSBML</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">te</span><span class="o">.</span><span class="n">antimonyToSBML</span><span class="p">(</span><span class="n">aStr</span><span class="p">))</span>
 
     <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">_modelInfoFromPhrasedml</span><span class="p">(</span><span class="n">phrasedmlStr</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Find model information in phrasedml String. &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">_modelsFromPhrasedml</span><span class="p">(</span><span class="n">phrasedmlStr</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Find model sources and names in phrasedml file. &quot;&quot;&quot;</span>
+        <span class="n">sources</span> <span class="o">=</span> <span class="p">{}</span>
+
         <span class="c1"># find model source, name</span>
         <span class="n">reModel</span> <span class="o">=</span> <span class="s2">r&quot;&quot;&quot;(\w+)\s*=\s*model\s*(&#39;|&quot;)(.*)(&#39;|&quot;)&quot;&quot;&quot;</span>
         <span class="n">lines</span> <span class="o">=</span> <span class="n">phrasedmlStr</span><span class="o">.</span><span class="n">splitlines</span><span class="p">()</span>
         <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">line</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">lines</span><span class="p">):</span>
             <span class="n">reSearchModel</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">reModel</span><span class="p">,</span> <span class="n">line</span><span class="p">)</span>
-            <span class="k">if</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">reSearchModel</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">):</span>
-                <span class="c1"># FIXME: work with multiple antimony models</span>
-                <span class="n">modelsource</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">reSearchModel</span><span class="p">[</span><span class="mi">3</span><span class="p">])</span>
-                <span class="n">modelname</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">modelsource</span><span class="p">)</span>
-                <span class="n">modelname</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">modelname</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;.xml&quot;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
-                <span class="k">break</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">IOError</span><span class="p">(</span><span class="s1">&#39;No model definition in phrasedml string: {}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">phrasedmlStr</span><span class="p">))</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">reSearchModel</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">source</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">reSearchModel</span><span class="p">[</span><span class="mi">3</span><span class="p">])</span>
+                <span class="n">name</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">source</span><span class="p">)</span>
+                <span class="n">name</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">name</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;.xml&quot;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
+                <span class="c1"># add to source dictionary</span>
+                <span class="n">sources</span><span class="p">[</span><span class="n">source</span><span class="p">]</span> <span class="o">=</span> <span class="n">name</span>
 
-        <span class="k">return</span> <span class="n">modelsource</span><span class="p">,</span> <span class="n">modelname</span></div>
+        <span class="k">return</span> <span class="n">sources</span>
+
+    <span class="k">def</span> <span class="nf">_phrasedmlFileName</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">k</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Name of SEDML-File in Combine Archive for k-th phrasedml.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="s1">&#39;experiment{}.xml&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">k</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span></div>
+
+
+
 </pre></div>
 
            </div>

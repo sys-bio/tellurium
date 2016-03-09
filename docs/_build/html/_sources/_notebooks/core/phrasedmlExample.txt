@@ -57,8 +57,12 @@ Section).
     if sedmlStr == None:
         print(phrasedml.getLastError())
     
-    # Run SED-ML file
-    te.executeSEDML(sedmlStr)
+    # Run the SED-ML file with results written in workingDir
+    import tempfile
+    import shutil
+    workingDir = tempfile.mkdtemp(suffix="_sedml")
+    te.executeSEDML(sedmlStr, workingDir=workingDir)
+    shutil.rmtree(workingDir)
 
 
 .. parsed-literal::
@@ -102,9 +106,9 @@ Executing the SED-ML from a combine archive.
 
 .. parsed-literal::
 
-    /home/mkoenig/git/tellurium/tellurium/tecombine.py:49: UserWarning: Combine archive directory already exists:/home/mkoenig/git/tellurium/tellurium/tests/testdata/sedml/sedx/_te_BIOMD0000000003
+    /home/mkoenig/git/tellurium/tellurium/tecombine.py:562: UserWarning: Combine archive directory already exists:/home/mkoenig/git/tellurium/tellurium/tests/testdata/sedml/sedx/_te_BIOMD0000000003
       warnings.warn("Combine archive directory already exists:{}".format(directory))
-    /home/mkoenig/git/tellurium/tellurium/tecombine.py:97: UserWarning: No 'manifest.xml' in archive, using all '*.sedml' files.
+    /home/mkoenig/git/tellurium/tellurium/tecombine.py:610: UserWarning: No 'manifest.xml' in archive, using all '*.sedml' files.
       warnings.warn("No 'manifest.xml' in archive, using all '*.sedml' files.")
 
 
@@ -156,7 +160,7 @@ export in Combine Archive format.
     
         auto-generated code
         sedmlDoc: L1V2  
-        workingDir: /tmp/tmpgtZuA4_sedml/_te_myModel
+        workingDir: /tmp/tmpoUPSlI_sedml/_te_myModel
         inputType: COMBINE_FILE
     """
     import tellurium as te
@@ -168,7 +172,7 @@ export in Combine Archive format.
     import pandas
     import os.path
     
-    workingDir = '/tmp/tmpgtZuA4_sedml/_te_myModel'
+    workingDir = '/tmp/tmpoUPSlI_sedml/_te_myModel'
     
     # --------------------------------------------------------
     # Models
@@ -314,11 +318,6 @@ Running a one step simulation.
     2         0.1  0.745532  0.652365            8
     3         0.2  1.417837  0.498244            8
     4         0.2  1.417837  0.498244            8
-    5         0.3  2.027316  0.454142            8
-    6         0.3  2.027316  0.454142            8
-    7         0.4  2.574011  0.476847            8
-    8         0.4  2.574011  0.476847            8
-    9         0.5  3.054914  0.542557            8
 
 
 parameterScan1D
@@ -725,29 +724,4 @@ Oscillations of MAPK pathway.
 
 
 .. image:: _notebooks/core/phrasedmlExample_files/phrasedmlExample_18_0.png
-
-
-Combine Archive
-~~~~~~~~~~~~~~~
-
-The experiment, i.e. model with the simulation description, can be
-stored as Combine Archive.
-
-.. code:: python
-
-    # create Combine Archive
-    import tempfile
-    f = tempfile.NamedTemporaryFile()
-    exp.exportAsCombine(f.name)
-    
-    # print the content of the Combine Archive
-    import zipfile
-    zip=zipfile.ZipFile(f.name)
-    print(zip.namelist())
-
-
-.. parsed-literal::
-
-    ['case_09.xml', 'experiment1.xml', 'manifest.xml']
-
 

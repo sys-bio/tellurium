@@ -117,7 +117,7 @@ for k in range(report_0_0_0.shape[1]):
     print('-'*80)
     __df__k = pandas.DataFrame(np.column_stack([report_0_0_0[:,k], report_0_0_1[:,k], report_0_0_2[:,k], report_0_0_3[:,k]]), 
     columns=['task1.time', 'task1.S1', 'task1.S2', 'task1.S1/task1.S2'])
-    print(__df__k.head(10))
+    print(__df__k.head(5))
     __dfs__report_0.append(__df__k)
     __df__k.to_csv(os.path.join(workingDir, 'report_0_{}.csv'.format(k)), sep='	', index=False)
 
@@ -129,7 +129,7 @@ for k in range(report_1_0_0.shape[1]):
     print('-'*80)
     __df__k = pandas.DataFrame(np.column_stack([report_1_0_0[:,k], report_1_0_1[:,k], report_1_0_2[:,k], report_1_0_3[:,k]]), 
     columns=['repeat1.time', 'repeat1.S1', 'repeat1.S2', 'repeat1.S1/repeat1.S2'])
-    print(__df__k.head(10))
+    print(__df__k.head(5))
     __dfs__report_1.append(__df__k)
     __df__k.to_csv(os.path.join(workingDir, 'report_1_{}.csv'.format(k)), sep='	', index=False)
 

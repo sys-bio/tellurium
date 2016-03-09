@@ -18,11 +18,9 @@ phrasedml provides a simple description language to create the key SED-ML compon
 """
 
 from __future__ import print_function, division
-
 import os.path
 import shutil
 import tempfile
-
 import re
 import warnings
 
@@ -270,7 +268,6 @@ class experiment(object):
                 sources[source] = name
 
         return sources
-
 
     def _phrasedmlFileName(self, k):
         """ Name of SEDML-File in Combine Archive for k-th phrasedml."""

@@ -67,13 +67,16 @@ The Output Class
     and the according axes or columns are all assigned to one of the formerly specified instances
     of the DataGenerator class.
 """
-# FIXME: settings for steady state solver have to be set via {}.steadyStateSolver
-# TODO: implement proper resolving of xpath expressions (target, selection) (see xpath.py for example)
+
+# TODO: implement full resolving of xpath expressions (target, selection) (see xpath.py for example)
 # TODO: implement XML changes
-# FIXME: bug multiple model instances of same model (https://github.com/sys-bio/roadrunner/issues/305)
-# FIXME: bug in creation of combine archives (missing .xml) -> missing xml in model source
-# TODO: concatenate subtasks
+# TODO: implement full concatenation of subtasks
 # TODO: better handling of model.reset for task tree
+
+# FIXME: bug multiple model instances of same model (https://github.com/sys-bio/roadrunner/issues/305)
+# FIXME: bug missing .xml extension in model source in combine archive (https://sourceforge.net/p/phrasedml/tickets/15/)
+# FIXME: rk4 integration not working on linux (https://github.com/sys-bio/roadrunner/issues/307)
+
 
 from __future__ import print_function, division
 
@@ -99,13 +102,8 @@ try:
     import matplotlib.pyplot as plt
     import mpl_toolkits.mplot3d
 except ImportError:
-    warnings.warn("Dependencies for SEDML code generation not fullfilled.")
+    warnings.warn("Dependencies for SEDML code execution not fullfilled.")
 
-# Change default encoding to UTF-8
-# We need to reload sys module first, because setdefaultencoding is available only at startup time
-# FIXME: the following creates problems with jupyter notebook prints (just leave it out for now)
-# reload(sys)
-# sys.setdefaultencoding('utf-8')
 
 ######################################################################################################################
 
@@ -152,6 +150,105 @@ def executeSEDML(inputStr, workingDir=None):
     factory.executePython()
 
 
+######################################################################################################################
+# KISAO MAPPINGS
+######################################################################################################################
+
+KISAOS_CVODE = [  # 'cvode'
+    'KISAO:0000019',  # CVODE
+    'KISAO:0000433',  # CVODE-like method
+    'KISAO:0000407',
+    'KISAO:0000099',
+    'KISAO:0000035',
+    'KISAO:0000071',
+    "KISAO:0000288",  # "BDF" cvode, stiff=true
+    "KISAO:0000280",  # "Adams-Moulton" cvode, stiff=false
+]
+
+KISAOS_RK4 = [  # 'rk4'
+    'KISAO:0000032',  # RK4 explicit fourth-order Runge-Kutta method
+]
+
+KISAOS_RK45 = [  # 'rk45'
+    'KISAO:0000435',  # RK45 embedded Runge-Kutta 5(4) method
+    'KISAO_0000064',  # Runge-Kutta based method
+]
+
+KISAOS_GILLESPIE = [  # 'gillespie'
+    'KISAO:0000241',  # Gillespie-like method
+    'KISAO:0000029',
+    'KISAO:0000319',
+    'KISAO:0000274',
+    'KISAO:0000333',
+    'KISAO:0000329',
+    'KISAO:0000323',
+    'KISAO:0000331',
+    'KISAO:0000027',
+    'KISAO:0000082',
+    'KISAO:0000324',
+    'KISAO:0000350',
+    'KISAO:0000330',
+    'KISAO:0000028',
+    'KISAO:0000038',
+    'KISAO:0000039',
+    'KISAO:0000048',
+    'KISAO:0000074',
+    'KISAO:0000081',
+    'KISAO:0000045',
+    'KISAO:0000351',
+    'KISAO:0000084',
+    'KISAO:0000040',
+    'KISAO:0000046',
+    'KISAO:0000003',
+    'KISAO:0000051',
+    'KISAO:0000335',
+    'KISAO:0000336',
+    'KISAO:0000095',
+    'KISAO:0000022',
+    'KISAO:0000076',
+    'KISAO:0000015',
+    'KISAO:0000075',
+    'KISAO:0000278',
+]
+
+KISAOS_NLEQ = [  # 'nleq'
+    'KISAO:0000099',
+    'KISAO:0000274',
+    'KISAO:0000282',
+    'KISAO:0000283',
+    'KISAO:0000355',
+    'KISAO:0000356',
+    'KISAO:0000407',
+    'KISAO:0000408',
+    'KISAO:0000409',
+    'KISAO:0000410',
+    'KISAO:0000411',
+    'KISAO:0000412',
+    'KISAO:0000413',
+    'KISAO:0000432',
+    'KISAO:0000437',
+]
+
+# allowed algorithms for simulation type
+KISAOS_STEADYSTATE = KISAOS_NLEQ
+KISAOS_UNIFORMTIMECOURSE = KISAOS_CVODE + KISAOS_RK4 + KISAOS_RK45 + KISAOS_GILLESPIE
+KISAOS_ONESTEP = KISAOS_UNIFORMTIMECOURSE
+
+# supported algorithm parameters
+KISAOS_ALGORITHMPARAMETERS = {
+    'KISAO:0000209': ('relative_tolerance', float),  # the relative tolerance
+    'KISAO:0000211': ('absolute_tolerance', float),  # the absolute tolerance
+    'KISAO:0000220': ('maximum_bdf_order', int),  # the maximum BDF (stiff) order
+    'KISAO:0000219': ('maximum_adams_order', int),  # the maximum Adams (non-stiff) order
+    'KISAO:0000415': ('maximum_num_steps', int),  # the maximum number of steps that can be taken before exiting
+    'KISAO:0000467': ('maximum_time_step', float),  # the maximum time step that can be taken
+    'KISAO:0000485': ('minimum_time_step', float),  # the minimum time step that can be taken
+    'KISAO:0000332': ('initial_time_step', float),  # the initial value of the time step for algorithms that change this value
+    'KISAO:0000107': ('variable_step_size', bool),  # whether or not the algorithm proceeds with an adaptive step size or not
+    'KISAO:0000486': ('maximum_iterations', int),  # [nleq] the maximum number of iterations the algorithm should take before exiting
+    'KISAO:0000487': ('minimum_damping', float),  # [nleq] minimum damping value
+    'KISAO:0000488': ('seed', int),  # the seed for stochastic runs of the algorithm
+}
 ######################################################################################################################
 
 class SEDMLCodeFactory(object):
@@ -302,8 +399,9 @@ class SEDMLCodeFactory(object):
             elif isHttp():
                 lines.append("{} = te.loadSBMLModel('{}')".format(mid, source))
             else:
+                # FIXME: this is a bug in how the combine archive is created (missing .xml)
+                # SHOULD NOT BE REQUIRED HERE. THIS IS A TEMPORARY FIX
                 if not source.endswith('.xml'):
-                    # FIXME: this is a bug in how the combine archive is created (missing .xml)
                     source += '.xml'
                 lines.append("{} = te.loadSBMLModel(os.path.join(workingDir, '{}'))".format(mid, source))
         # read CellML
@@ -591,16 +689,19 @@ class SEDMLCodeFactory(object):
 
         return "\n".join(lines)
 
-
     @staticmethod
     def simpleTaskToPython(doc, node):
-        """ Creates the simulation python code for a given task.
+        """ Creates the simulation python code for a given taskNode.
 
-            cvode (19; the default for uniform time course simulations)
-            gillespie (241; the default for stochastic time course simulations)
-            steadystate (407; the default for steady state simulations)
-            rk4 (32; 4th-order Runge-Kutta)
-            rk45 (435; embedded Runge-Kutta)
+        The taskNodes are required to handle the relationships between
+        RepeatedTasks, SubTasks and SimpleTasks (Task).
+
+        :param doc: sedml document
+        :type doc: SEDDocument
+        :param node: taskNode of the current task
+        :type node: TaskNode
+        :return:
+        :rtype:
         """
         lines = []
         task = node.task
@@ -619,30 +720,41 @@ class SEDMLCodeFactory(object):
             algorithm.setKisaoID("KISAO:0000019")
         kisao = algorithm.getKisaoID()
 
-        # Check if supported algorithm
-        if not SEDMLCodeFactory.isSupportedKisaoIDForSimulation(kisao=kisao, simType=simType):
+        # is supported algorithm
+        if not SEDMLCodeFactory.isSupportedAlgorithmForSimulationType(kisao=kisao, simType=simType):
             lines.append("# Unsupported Algorithm {} for SimulationType {}".format(kisao, simulation.getElementName()))
             return lines
 
-        # Set integrator
+        # set integrator/solver
         integratorName = SEDMLCodeFactory.getIntegratorNameForKisaoID(kisao)
         if not integratorName:
             warnings.warn("No integrator exists for {} in roadrunner".format(kisao))
             return lines
-        lines.append("{}.setIntegrator('{}')".format(mid, integratorName))
 
-        # Set integrator settings (AlgorithmParameters)
+        if simType is libsedml.SEDML_SIMULATION_STEADYSTATE:
+            lines.append("{}.setSteadyStateSolver('{}')".format(mid, integratorName))
+        else:
+            lines.append("{}.setIntegrator('{}')".format(mid, integratorName))
+
+        if kisao == "KISAO:0000288":  # BDF
+            lines.append("{}.integrator.setValue('{}', {})".format(mid, 'stiff', True))
+        elif kisao == "KISAO:0000280":  # Adams-Moulton
+            lines.append("{}.integrator.setValue('{}', {})".format(mid, 'stiff', False))
+
+        # integrator/solver settings (AlgorithmParameters)
         for par in algorithm.getListOfAlgorithmParameters():
             pkey = SEDMLCodeFactory.algorithmParameterToParameterKey(par)
             if pkey.dtype is str:
                 value = "'{}'".format(pkey.value)
             else:
                 value = pkey.value
-            lines.append("{}.getIntegrator().setValue('{}', {})".format(mid, pkey.key, value))
 
-            # FIXME: settings for steady state solver have to be set via {}.steadyStateSolver
+            if simType is libsedml.SEDML_SIMULATION_STEADYSTATE:
+                lines.append("{}.steadyStateSolver.setValue('{}', {})".format(mid, pkey.key, value))
+            else:
+                lines.append("{}.integrator.setValue('{}', {})".format(mid, pkey.key, value))
 
-        if simType == libsedml.SEDML_SIMULATION_STEADYSTATE:
+        if simType is libsedml.SEDML_SIMULATION_STEADYSTATE:
             lines.append("{}.conservedMoietyAnalysis = True".format(mid))
 
         # get parents
@@ -747,11 +859,9 @@ class SEDMLCodeFactory(object):
         - the ranges (Ranges)
         - apply all changes (SetValues)
         """
-        lines = []
         # storage of results
         task = node.task
         lines = ["", "{} = []".format(task.getId())]
-
 
         # <Range Definition>
         # master range
@@ -771,7 +881,7 @@ class SEDMLCodeFactory(object):
                 elif r.getTypeCode() == libsedml.SEDML_RANGE_VECTORRANGE:
                     lines.extend(SEDMLCodeFactory.vectorRangeToPython(r))
 
-         # <Range Iteration>
+        # <Range Iteration>
         # iterate master range
         lines.append("for __k__{}, __value__{} in enumerate(__range__{}):".format(rangeId, rangeId, rangeId))
 
@@ -835,7 +945,6 @@ class SEDMLCodeFactory(object):
         return lines
 
     ################################################################################################
-    ################################################################################################
 
     @staticmethod
     def getDataGeneratorsForTask(doc, task):
@@ -873,7 +982,6 @@ class SEDMLCodeFactory(object):
                     selections.add(sel.id)
 
         return selections
-
 
     @staticmethod
     def uniformRangeToPython(r):
@@ -943,54 +1051,19 @@ class SEDMLCodeFactory(object):
             return None
 
     @staticmethod
-    def isSupportedKisaoIDForSimulation(kisao, simType):
-        """ Test if Algorithm Kisao Id is supported for simulation.
+    def isSupportedAlgorithmForSimulationType(kisao, simType):
+        """ Check Algorithm Kisao Id is supported for simulation.
 
-            KISAO:0000433 : CVODE-like method
-            KISAO:0000019 : CVODE
-            KISAO:0000241 : Gillespie-like method
-            KISAO_0000064 : Runge-Kutta based method
-            KISAO_0000032 : explicit fourth-order Runge-Kutta method
-            KISAO_0000435 : embedded Runge-Kutta 5(4) method
-
-        :return:
+        :return: is supported
         :rtype: bool
         """
         supported = []
         if simType == libsedml.SEDML_SIMULATION_UNIFORMTIMECOURSE:
-            supported = ['KISAO:0000433',
-                         'KISAO:0000019',
-                         'KISAO:0000241',
-                         'KISAO:0000032',
-                         'KISAO:0000435',
-                         'KISAO_0000064',
-                         'KISAO:0000035',
-                         'KISAO:0000071']
+            supported = KISAOS_UNIFORMTIMECOURSE
         elif simType == libsedml.SEDML_SIMULATION_ONESTEP:
-            supported = ['KISAO:0000433',
-                         'KISAO:0000019',
-                         'KISAO:0000241',
-                         'KISAO:0000032',
-                         'KISAO:0000435',
-                         'KISAO_0000064']
+            supported = KISAOS_ONESTEP
         elif simType == libsedml.SEDML_SIMULATION_STEADYSTATE:
-            supported = [
-                'KISAO:0000099',
-                'KISAO:0000407',
-                'KISAO:0000437',
-                'KISAO:0000274',
-                'KISAO:0000408',
-                'KISAO:0000413',
-                'KISAO:0000432',
-                'KISAO:0000355',
-                'KISAO:0000356',
-                'KISAO:0000283',
-                'KISAO:0000412',
-                'KISAO:0000282',
-                'KISAO:0000411',
-                'KISAO:0000409',
-                'KISAO:0000410',
-            ]
+            supported = KISAOS_STEADYSTATE
         return kisao in supported
 
     @staticmethod
@@ -1002,119 +1075,40 @@ class SEDMLCodeFactory(object):
         :return: RoadRunner integrator name.
         :rtype: str
         """
-        # cvode & steady state are mapped to cvode
-        if kid in [
-            'KISAO:0000433',
-            'KISAO:0000019',
-            'KISAO:0000407',
-            'KISAO:0000099',
-            'KISAO:0000035',
-            'KISAO:0000071'
-        ]:
+        if kid in KISAOS_NLEQ:
+            return 'nleq'
+        if kid in KISAOS_CVODE:
             return 'cvode'
-        elif kid in [
-            'KISAO:0000241',
-            # List of Lucian
-            'KISAO:0000029',
-            'KISAO:0000319',
-            'KISAO:0000274',
-            'KISAO:0000333',
-            'KISAO:0000329',
-            'KISAO:0000323',
-            'KISAO:0000331',
-            'KISAO:0000027',
-            'KISAO:0000082',
-            'KISAO:0000324',
-            'KISAO:0000350',
-            'KISAO:0000330',
-            'KISAO:0000028',
-            'KISAO:0000038',
-            'KISAO:0000039',
-            'KISAO:0000048',
-            'KISAO:0000074',
-            'KISAO:0000081',
-            'KISAO:0000045',
-            'KISAO:0000351',
-            'KISAO:0000084',
-            'KISAO:0000040',
-            'KISAO:0000046',
-            'KISAO:0000003',
-            'KISAO:0000051',
-            'KISAO:0000335',
-            'KISAO:0000336',
-            'KISAO:0000095',
-            'KISAO:0000022',
-            'KISAO:0000076',
-            'KISAO:0000015',
-            'KISAO:0000075',
-            'KISAO:0000278',
-        ]:
+        if kid in KISAOS_GILLESPIE:
             return 'gillespie'
-        elif kid in ['KISAO:0000032']:
+        if kid in KISAOS_RK4:
             return 'rk4'
-        elif kid in ['KISAO:0000435',
-                     'KISAO_0000064']:
+        if kid in KISAOS_RK45:
             return 'rk45'
-        else:
-            return None
+        return None
 
     @staticmethod
     def algorithmParameterToParameterKey(par):
-        """ Resolve the mapping between parameter keys and roadrunner integrator keys.
-
-            relative_tolerance (209; the relative tolerance)
-            absolute_tolerance (211; the absolute tolerance)
-            maximum_bdf_order (220; the maximum BDF (stiff) order)
-            maximum_adams_order (219; the maximum Adams (non-stiff) order)
-            maximum_num_steps (415; the maximum number of steps that can be taken before exiting)
-            maximum_time_step (467; the maximum time step that can be taken)
-            minimum_time_step (485; the minimum time step that can be taken)
-            initial_time_step (332; the initial value of the time step for algorithms that change this value)
-            variable_step_size (107; whether or not the algorithm proceeds with an adaptive step size or not)
-            maximum_iterations (486; the maximum number of iterations the algorithm should take before exiting)
-            minimum_damping (487; minimum damping value)
-            seed (488; the seed for stochastic runs of the algorithm)
-        """
+        """ Resolve the mapping between parameter keys and roadrunner integrator keys."""
+        ParameterKey = namedtuple('ParameterKey', 'key value dtype')
         kid = par.getKisaoID()
         value = par.getValue()
-        ParameterKey = namedtuple('ParameterKey', 'key value dtype')
-        key = None
 
-        # FIXME: add "stiff"
-
-        if kid == 'KISAO:0000209':
-            key, dtype = 'relative_tolerance', float
-        elif kid == 'KISAO:0000211':
-            key, dtype = 'absolute_tolerance', float
-        elif kid == 'KISAO:0000220':
-            key, dtype = 'maximum_bdf_order', int
-        elif kid == 'KISAO:0000219':
-            key, dtype = 'maximum_adams_order', int
-        elif kid == 'KISAO:0000415':
-            key, dtype = 'maximum_num_steps', int
-        elif kid == 'KISAO:0000467':
-            key, dtype = 'maximum_time_step', float
-        elif kid == 'KISAO:0000485':
-            key, dtype = 'minimum_time_step', float
-        elif kid == 'KISAO:0000332':
-            key, dtype = 'initial_time_step', float
-        elif kid == 'KISAO:0000107':
-            key, dtype = 'variable_step_size', bool
-            if value == 'true':
-                value = True
-            elif value == 'false':
-                value = False
-        elif kid == 'KISAO:0000486':
-            key, dtype = 'maximum_iterations', int
-        elif kid == 'KISAO:0000487':
-            key, dtype = 'maximum_damping', float
-        elif kid == 'KISAO:0000488':
-            key, dtype = 'seed', int
-
-        # set the setting
-        if key is not None:
+        if kid in KISAOS_ALGORITHMPARAMETERS:
+            # algorithm parameter is in the list of parameters
+            key, dtype = KISAOS_ALGORITHMPARAMETERS[kid]
+            if dtype is bool:
+                # transform manually ! (otherwise all strings give True)
+                if value == 'true':
+                    value = True
+                elif value == 'false':
+                    value = False
+            else:
+                # cast to data type of parameter
+                value = dtype(value)
             return ParameterKey(key, value, dtype)
         else:
+            # algorithm parameter not supported
             warnings.warn("Unsupported AlgorithmParameter: {} = {})".format(kid, value))
             return None
 
@@ -1155,9 +1149,7 @@ class SEDMLCodeFactory(object):
         :return:
         :rtype:
         """
-        # FIXME: getting of sids, pids not very robust
-        # TODO: handle more cases (rules, reactions, ...)
-        # real xpath with SBML (get all objects)
+        # FIXME: getting of sids, pids not very robust, handle more cases (rules, reactions, ...)
         Target = namedtuple('Target', 'id type')
 
         def getId(xpath):
@@ -1170,15 +1162,12 @@ class SEDMLCodeFactory(object):
         # parameter value change
         if ("model" in xpath) and ("parameter" in xpath):
             return Target(getId(xpath), 'parameter')
-
         # species concentration change
         elif ("model" in xpath) and ("species" in xpath):
             return Target(getId(xpath), 'species')
-
         # other
         elif ("model" in xpath) and ("id" in xpath):
             return Target(getId(xpath), 'unknown')
-
         # cannot be parsed
         else:
             warnings.warn("Unsupported target: {}".format(xpath))
@@ -1248,7 +1237,6 @@ class SEDMLCodeFactory(object):
     @staticmethod
     def outputToPython(doc, output):
         """ Create output """
-        # TODO: save plots and reports in workingDir
         lines = []
         typeCode = output.getTypeCode()
         if typeCode == libsedml.SEDML_OUTPUT_REPORT:
@@ -1272,7 +1260,6 @@ class SEDMLCodeFactory(object):
         :return: list of python lines
         :rtype: list(str)
         """
-        # TODO: reports for repeated tasks?
         lines = []
 
         headers = []
@@ -1377,8 +1364,6 @@ class SEDMLCodeFactory(object):
             lines.append("    else:")
             lines.append("        plt.plot({}[:,k], {}[:,k], '-o', color='{}', linewidth={}, markersize={}, alpha={})".format(xId, yId, color, settings.linewidth, settings.markersize, settings.alpha))
 
-
-            # FIXME: has to be handeled via multiple axis
             if logX is True:
                 lines.append("plt.xscale('log')")
             if logY is True:

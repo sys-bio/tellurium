@@ -200,13 +200,16 @@
 <span class="sd">    and the according axes or columns are all assigned to one of the formerly specified instances</span>
 <span class="sd">    of the DataGenerator class.</span>
 <span class="sd">&quot;&quot;&quot;</span>
-<span class="c1"># FIXME: settings for steady state solver have to be set via {}.steadyStateSolver</span>
-<span class="c1"># TODO: implement proper resolving of xpath expressions (target, selection) (see xpath.py for example)</span>
+
+<span class="c1"># TODO: implement full resolving of xpath expressions (target, selection) (see xpath.py for example)</span>
 <span class="c1"># TODO: implement XML changes</span>
-<span class="c1"># FIXME: bug multiple model instances of same model (https://github.com/sys-bio/roadrunner/issues/305)</span>
-<span class="c1"># FIXME: bug in creation of combine archives (missing .xml)</span>
-<span class="c1"># TODO: concatenate subtasks</span>
+<span class="c1"># TODO: implement full concatenation of subtasks</span>
 <span class="c1"># TODO: better handling of model.reset for task tree</span>
+
+<span class="c1"># FIXME: bug multiple model instances of same model (https://github.com/sys-bio/roadrunner/issues/305)</span>
+<span class="c1"># FIXME: bug missing .xml extension in model source in combine archive (https://sourceforge.net/p/phrasedml/tickets/15/)</span>
+<span class="c1"># FIXME: rk4 integration not working on linux (https://github.com/sys-bio/roadrunner/issues/307)</span>
+
 
 <span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">print_function</span><span class="p">,</span> <span class="n">division</span>
 
@@ -232,13 +235,8 @@
     <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
     <span class="kn">import</span> <span class="nn">mpl_toolkits.mplot3d</span>
 <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
-    <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">&quot;Dependencies for SEDML code generation not fullfilled.&quot;</span><span class="p">)</span>
+    <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">&quot;Dependencies for SEDML code execution not fullfilled.&quot;</span><span class="p">)</span>
 
-<span class="c1"># Change default encoding to UTF-8</span>
-<span class="c1"># We need to reload sys module first, because setdefaultencoding is available only at startup time</span>
-<span class="c1"># FIXME: the following creates problems with jupyter notebook prints (just leave it out for now)</span>
-<span class="c1"># reload(sys)</span>
-<span class="c1"># sys.setdefaultencoding(&#39;utf-8&#39;)</span>
 
 <span class="c1">######################################################################################################################</span>
 
@@ -265,22 +263,125 @@
 <span class="sd">    :return: contents</span>
 <span class="sd">    :rtype:</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># TODO: necessary to select SEDML files from archive (i.e. if multiple files)</span>
     <span class="n">factory</span> <span class="o">=</span> <span class="n">SEDMLCodeFactory</span><span class="p">(</span><span class="n">inputStr</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">factory</span><span class="o">.</span><span class="n">toPython</span><span class="p">()</span></div>
 
 
-<div class="viewcode-block" id="executeSEDML"><a class="viewcode-back" href="../../../_apidoc/tellurium.sedml.html#tellurium.sedml.tesedml.executeSEDML">[docs]</a><span class="k">def</span> <span class="nf">executeSEDML</span><span class="p">(</span><span class="n">inputStr</span><span class="p">):</span>
+<div class="viewcode-block" id="executeSEDML"><a class="viewcode-back" href="../../../_apidoc/tellurium.sedml.html#tellurium.sedml.tesedml.executeSEDML">[docs]</a><span class="k">def</span> <span class="nf">executeSEDML</span><span class="p">(</span><span class="n">inputStr</span><span class="p">,</span> <span class="n">workingDir</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; Run a SED-ML file or archive.</span>
+
+<span class="sd">    If a workingDir is provided the files and results are written in the workingDir.</span>
+
 <span class="sd">    :param inputStr:</span>
 <span class="sd">    :type inputStr:</span>
 <span class="sd">    :return:</span>
 <span class="sd">    :rtype:</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># execute the sedml</span>
-    <span class="n">factory</span> <span class="o">=</span> <span class="n">SEDMLCodeFactory</span><span class="p">(</span><span class="n">inputStr</span><span class="p">)</span>
+    <span class="n">factory</span> <span class="o">=</span> <span class="n">SEDMLCodeFactory</span><span class="p">(</span><span class="n">inputStr</span><span class="p">,</span> <span class="n">workingDir</span><span class="o">=</span><span class="n">workingDir</span><span class="p">)</span>
     <span class="n">factory</span><span class="o">.</span><span class="n">executePython</span><span class="p">()</span></div>
 
 
+<span class="c1">######################################################################################################################</span>
+<span class="c1"># KISAO MAPPINGS</span>
+<span class="c1">######################################################################################################################</span>
+
+<span class="n">KISAOS_CVODE</span> <span class="o">=</span> <span class="p">[</span>  <span class="c1"># &#39;cvode&#39;</span>
+    <span class="s1">&#39;KISAO:0000019&#39;</span><span class="p">,</span>  <span class="c1"># CVODE</span>
+    <span class="s1">&#39;KISAO:0000433&#39;</span><span class="p">,</span>  <span class="c1"># CVODE-like method</span>
+    <span class="s1">&#39;KISAO:0000407&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;KISAO:0000099&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;KISAO:0000035&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;KISAO:0000071&#39;</span><span class="p">,</span>
+    <span class="s2">&quot;KISAO:0000288&quot;</span><span class="p">,</span>  <span class="c1"># &quot;BDF&quot; cvode, stiff=true</span>
+    <span class="s2">&quot;KISAO:0000280&quot;</span><span class="p">,</span>  <span class="c1"># &quot;Adams-Moulton&quot; cvode, stiff=false</span>
+<span class="p">]</span>
+
+<span class="n">KISAOS_RK4</span> <span class="o">=</span> <span class="p">[</span>  <span class="c1"># &#39;rk4&#39;</span>
+    <span class="s1">&#39;KISAO:0000032&#39;</span><span class="p">,</span>  <span class="c1"># RK4 explicit fourth-order Runge-Kutta method</span>
+<span class="p">]</span>
+
+<span class="n">KISAOS_RK45</span> <span class="o">=</span> <span class="p">[</span>  <span class="c1"># &#39;rk45&#39;</span>
+    <span class="s1">&#39;KISAO:0000435&#39;</span><span class="p">,</span>  <span class="c1"># RK45 embedded Runge-Kutta 5(4) method</span>
+    <span class="s1">&#39;KISAO_0000064&#39;</span><span class="p">,</span>  <span class="c1"># Runge-Kutta based method</span>
+<span class="p">]</span>
+
+<span class="n">KISAOS_GILLESPIE</span> <span class="o">=</span> <span class="p">[</span>  <span class="c1"># &#39;gillespie&#39;</span>
+    <span class="s1">&#39;KISAO:0000241&#39;</span><span class="p">,</span>  <span class="c1"># Gillespie-like method</span>
+    <span class="s1">&#39;KISAO:0000029&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;KISAO:0000319&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;KISAO:0000274&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;KISAO:0000333&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;KISAO:0000329&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;KISAO:0000323&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;KISAO:0000331&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;KISAO:0000027&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;KISAO:0000082&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;KISAO:0000324&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;KISAO:0000350&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;KISAO:0000330&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;KISAO:0000028&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;KISAO:0000038&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;KISAO:0000039&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;KISAO:0000048&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;KISAO:0000074&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;KISAO:0000081&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;KISAO:0000045&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;KISAO:0000351&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;KISAO:0000084&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;KISAO:0000040&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;KISAO:0000046&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;KISAO:0000003&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;KISAO:0000051&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;KISAO:0000335&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;KISAO:0000336&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;KISAO:0000095&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;KISAO:0000022&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;KISAO:0000076&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;KISAO:0000015&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;KISAO:0000075&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;KISAO:0000278&#39;</span><span class="p">,</span>
+<span class="p">]</span>
+
+<span class="n">KISAOS_NLEQ</span> <span class="o">=</span> <span class="p">[</span>  <span class="c1"># &#39;nleq&#39;</span>
+    <span class="s1">&#39;KISAO:0000099&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;KISAO:0000274&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;KISAO:0000282&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;KISAO:0000283&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;KISAO:0000355&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;KISAO:0000356&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;KISAO:0000407&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;KISAO:0000408&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;KISAO:0000409&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;KISAO:0000410&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;KISAO:0000411&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;KISAO:0000412&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;KISAO:0000413&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;KISAO:0000432&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;KISAO:0000437&#39;</span><span class="p">,</span>
+<span class="p">]</span>
+
+<span class="c1"># allowed algorithms for simulation type</span>
+<span class="n">KISAOS_STEADYSTATE</span> <span class="o">=</span> <span class="n">KISAOS_NLEQ</span>
+<span class="n">KISAOS_UNIFORMTIMECOURSE</span> <span class="o">=</span> <span class="n">KISAOS_CVODE</span> <span class="o">+</span> <span class="n">KISAOS_RK4</span> <span class="o">+</span> <span class="n">KISAOS_RK45</span> <span class="o">+</span> <span class="n">KISAOS_GILLESPIE</span>
+<span class="n">KISAOS_ONESTEP</span> <span class="o">=</span> <span class="n">KISAOS_UNIFORMTIMECOURSE</span>
+
+<span class="c1"># supported algorithm parameters</span>
+<span class="n">KISAOS_ALGORITHMPARAMETERS</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;KISAO:0000209&#39;</span><span class="p">:</span> <span class="p">(</span><span class="s1">&#39;relative_tolerance&#39;</span><span class="p">,</span> <span class="nb">float</span><span class="p">),</span>  <span class="c1"># the relative tolerance</span>
+    <span class="s1">&#39;KISAO:0000211&#39;</span><span class="p">:</span> <span class="p">(</span><span class="s1">&#39;absolute_tolerance&#39;</span><span class="p">,</span> <span class="nb">float</span><span class="p">),</span>  <span class="c1"># the absolute tolerance</span>
+    <span class="s1">&#39;KISAO:0000220&#39;</span><span class="p">:</span> <span class="p">(</span><span class="s1">&#39;maximum_bdf_order&#39;</span><span class="p">,</span> <span class="nb">int</span><span class="p">),</span>  <span class="c1"># the maximum BDF (stiff) order</span>
+    <span class="s1">&#39;KISAO:0000219&#39;</span><span class="p">:</span> <span class="p">(</span><span class="s1">&#39;maximum_adams_order&#39;</span><span class="p">,</span> <span class="nb">int</span><span class="p">),</span>  <span class="c1"># the maximum Adams (non-stiff) order</span>
+    <span class="s1">&#39;KISAO:0000415&#39;</span><span class="p">:</span> <span class="p">(</span><span class="s1">&#39;maximum_num_steps&#39;</span><span class="p">,</span> <span class="nb">int</span><span class="p">),</span>  <span class="c1"># the maximum number of steps that can be taken before exiting</span>
+    <span class="s1">&#39;KISAO:0000467&#39;</span><span class="p">:</span> <span class="p">(</span><span class="s1">&#39;maximum_time_step&#39;</span><span class="p">,</span> <span class="nb">float</span><span class="p">),</span>  <span class="c1"># the maximum time step that can be taken</span>
+    <span class="s1">&#39;KISAO:0000485&#39;</span><span class="p">:</span> <span class="p">(</span><span class="s1">&#39;minimum_time_step&#39;</span><span class="p">,</span> <span class="nb">float</span><span class="p">),</span>  <span class="c1"># the minimum time step that can be taken</span>
+    <span class="s1">&#39;KISAO:0000332&#39;</span><span class="p">:</span> <span class="p">(</span><span class="s1">&#39;initial_time_step&#39;</span><span class="p">,</span> <span class="nb">float</span><span class="p">),</span>  <span class="c1"># the initial value of the time step for algorithms that change this value</span>
+    <span class="s1">&#39;KISAO:0000107&#39;</span><span class="p">:</span> <span class="p">(</span><span class="s1">&#39;variable_step_size&#39;</span><span class="p">,</span> <span class="nb">bool</span><span class="p">),</span>  <span class="c1"># whether or not the algorithm proceeds with an adaptive step size or not</span>
+    <span class="s1">&#39;KISAO:0000486&#39;</span><span class="p">:</span> <span class="p">(</span><span class="s1">&#39;maximum_iterations&#39;</span><span class="p">,</span> <span class="nb">int</span><span class="p">),</span>  <span class="c1"># [nleq] the maximum number of iterations the algorithm should take before exiting</span>
+    <span class="s1">&#39;KISAO:0000487&#39;</span><span class="p">:</span> <span class="p">(</span><span class="s1">&#39;minimum_damping&#39;</span><span class="p">,</span> <span class="nb">float</span><span class="p">),</span>  <span class="c1"># [nleq] minimum damping value</span>
+    <span class="s1">&#39;KISAO:0000488&#39;</span><span class="p">:</span> <span class="p">(</span><span class="s1">&#39;seed&#39;</span><span class="p">,</span> <span class="nb">int</span><span class="p">),</span>  <span class="c1"># the seed for stochastic runs of the algorithm</span>
+<span class="p">}</span>
 <span class="c1">######################################################################################################################</span>
 
 <div class="viewcode-block" id="SEDMLCodeFactory"><a class="viewcode-back" href="../../../_apidoc/tellurium.sedml.html#tellurium.sedml.tesedml.SEDMLCodeFactory">[docs]</a><span class="k">class</span> <span class="nc">SEDMLCodeFactory</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
@@ -289,7 +390,7 @@
     <span class="c1"># template location</span>
     <span class="n">TEMPLATE_DIR</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">__file__</span><span class="p">)),</span> <span class="s1">&#39;templates&#39;</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inputStr</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inputStr</span><span class="p">,</span> <span class="n">workingDir</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Create CodeFactory for given input.</span>
 <span class="sd">        :param inputStr:</span>
 <span class="sd">        :type inputStr:</span>
@@ -297,7 +398,8 @@
 <span class="sd">        :rtype:</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">inputStr</span> <span class="o">=</span> <span class="n">inputStr</span>
-        <span class="n">info</span> <span class="o">=</span> <span class="n">SEDMLTools</span><span class="o">.</span><span class="n">readSEDMLDocument</span><span class="p">(</span><span class="n">inputStr</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">workingDir</span> <span class="o">=</span> <span class="n">workingDir</span>
+        <span class="n">info</span> <span class="o">=</span> <span class="n">SEDMLTools</span><span class="o">.</span><span class="n">readSEDMLDocument</span><span class="p">(</span><span class="n">inputStr</span><span class="p">,</span> <span class="n">workingDir</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">doc</span> <span class="o">=</span> <span class="n">info</span><span class="p">[</span><span class="s1">&#39;doc&#39;</span><span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">inputType</span> <span class="o">=</span> <span class="n">info</span><span class="p">[</span><span class="s1">&#39;inputType&#39;</span><span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">workingDir</span> <span class="o">=</span> <span class="n">info</span><span class="p">[</span><span class="s1">&#39;workingDir&#39;</span><span class="p">]</span>
@@ -430,8 +532,9 @@
             <span class="k">elif</span> <span class="n">isHttp</span><span class="p">():</span>
                 <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;{} = te.loadSBMLModel(&#39;{}&#39;)&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">mid</span><span class="p">,</span> <span class="n">source</span><span class="p">))</span>
             <span class="k">else</span><span class="p">:</span>
+                <span class="c1"># FIXME: this is a bug in how the combine archive is created (missing .xml)</span>
+                <span class="c1"># SHOULD NOT BE REQUIRED HERE. THIS IS A TEMPORARY FIX</span>
                 <span class="k">if</span> <span class="ow">not</span> <span class="n">source</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">&#39;.xml&#39;</span><span class="p">):</span>
-                    <span class="c1"># FIXME: this is a bug in how the combine archive is created (missing .xml)</span>
                     <span class="n">source</span> <span class="o">+=</span> <span class="s1">&#39;.xml&#39;</span>
                 <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;{} = te.loadSBMLModel(os.path.join(workingDir, &#39;{}&#39;))&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">mid</span><span class="p">,</span> <span class="n">source</span><span class="p">))</span>
         <span class="c1"># read CellML</span>
@@ -719,16 +822,19 @@
 
         <span class="k">return</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">lines</span><span class="p">)</span></div>
 
-
     <span class="nd">@staticmethod</span>
 <div class="viewcode-block" id="SEDMLCodeFactory.simpleTaskToPython"><a class="viewcode-back" href="../../../_apidoc/tellurium.sedml.html#tellurium.sedml.tesedml.SEDMLCodeFactory.simpleTaskToPython">[docs]</a>    <span class="k">def</span> <span class="nf">simpleTaskToPython</span><span class="p">(</span><span class="n">doc</span><span class="p">,</span> <span class="n">node</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Creates the simulation python code for a given task.</span>
+        <span class="sd">&quot;&quot;&quot; Creates the simulation python code for a given taskNode.</span>
 
-<span class="sd">            cvode (19; the default for uniform time course simulations)</span>
-<span class="sd">            gillespie (241; the default for stochastic time course simulations)</span>
-<span class="sd">            steadystate (407; the default for steady state simulations)</span>
-<span class="sd">            rk4 (32; 4th-order Runge-Kutta)</span>
-<span class="sd">            rk45 (435; embedded Runge-Kutta)</span>
+<span class="sd">        The taskNodes are required to handle the relationships between</span>
+<span class="sd">        RepeatedTasks, SubTasks and SimpleTasks (Task).</span>
+
+<span class="sd">        :param doc: sedml document</span>
+<span class="sd">        :type doc: SEDDocument</span>
+<span class="sd">        :param node: taskNode of the current task</span>
+<span class="sd">        :type node: TaskNode</span>
+<span class="sd">        :return:</span>
+<span class="sd">        :rtype:</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">lines</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="n">task</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">task</span>
@@ -747,25 +853,41 @@
             <span class="n">algorithm</span><span class="o">.</span><span class="n">setKisaoID</span><span class="p">(</span><span class="s2">&quot;KISAO:0000019&quot;</span><span class="p">)</span>
         <span class="n">kisao</span> <span class="o">=</span> <span class="n">algorithm</span><span class="o">.</span><span class="n">getKisaoID</span><span class="p">()</span>
 
-        <span class="c1"># Check if supported algorithm</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">SEDMLCodeFactory</span><span class="o">.</span><span class="n">isSupportedKisaoIDForSimulation</span><span class="p">(</span><span class="n">kisao</span><span class="o">=</span><span class="n">kisao</span><span class="p">,</span> <span class="n">simType</span><span class="o">=</span><span class="n">simType</span><span class="p">):</span>
+        <span class="c1"># is supported algorithm</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">SEDMLCodeFactory</span><span class="o">.</span><span class="n">isSupportedAlgorithmForSimulationType</span><span class="p">(</span><span class="n">kisao</span><span class="o">=</span><span class="n">kisao</span><span class="p">,</span> <span class="n">simType</span><span class="o">=</span><span class="n">simType</span><span class="p">):</span>
             <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;# Unsupported Algorithm {} for SimulationType {}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">kisao</span><span class="p">,</span> <span class="n">simulation</span><span class="o">.</span><span class="n">getElementName</span><span class="p">()))</span>
             <span class="k">return</span> <span class="n">lines</span>
 
-        <span class="c1"># Set integrator</span>
+        <span class="c1"># set integrator/solver</span>
         <span class="n">integratorName</span> <span class="o">=</span> <span class="n">SEDMLCodeFactory</span><span class="o">.</span><span class="n">getIntegratorNameForKisaoID</span><span class="p">(</span><span class="n">kisao</span><span class="p">)</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">integratorName</span><span class="p">:</span>
             <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">&quot;No integrator exists for {} in roadrunner&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">kisao</span><span class="p">))</span>
             <span class="k">return</span> <span class="n">lines</span>
-        <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;{}.setIntegrator(&#39;{}&#39;)&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">mid</span><span class="p">,</span> <span class="n">integratorName</span><span class="p">))</span>
 
-        <span class="c1"># Set integrator settings (AlgorithmParameters)</span>
+        <span class="k">if</span> <span class="n">simType</span> <span class="ow">is</span> <span class="n">libsedml</span><span class="o">.</span><span class="n">SEDML_SIMULATION_STEADYSTATE</span><span class="p">:</span>
+            <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;{}.setSteadyStateSolver(&#39;{}&#39;)&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">mid</span><span class="p">,</span> <span class="n">integratorName</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;{}.setIntegrator(&#39;{}&#39;)&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">mid</span><span class="p">,</span> <span class="n">integratorName</span><span class="p">))</span>
+
+        <span class="k">if</span> <span class="n">kisao</span> <span class="o">==</span> <span class="s2">&quot;KISAO:0000288&quot;</span><span class="p">:</span>  <span class="c1"># BDF</span>
+            <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;{}.integrator.setValue(&#39;{}&#39;, {})&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">mid</span><span class="p">,</span> <span class="s1">&#39;stiff&#39;</span><span class="p">,</span> <span class="bp">True</span><span class="p">))</span>
+        <span class="k">elif</span> <span class="n">kisao</span> <span class="o">==</span> <span class="s2">&quot;KISAO:0000280&quot;</span><span class="p">:</span>  <span class="c1"># Adams-Moulton</span>
+            <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;{}.integrator.setValue(&#39;{}&#39;, {})&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">mid</span><span class="p">,</span> <span class="s1">&#39;stiff&#39;</span><span class="p">,</span> <span class="bp">False</span><span class="p">))</span>
+
+        <span class="c1"># integrator/solver settings (AlgorithmParameters)</span>
         <span class="k">for</span> <span class="n">par</span> <span class="ow">in</span> <span class="n">algorithm</span><span class="o">.</span><span class="n">getListOfAlgorithmParameters</span><span class="p">():</span>
             <span class="n">pkey</span> <span class="o">=</span> <span class="n">SEDMLCodeFactory</span><span class="o">.</span><span class="n">algorithmParameterToParameterKey</span><span class="p">(</span><span class="n">par</span><span class="p">)</span>
-            <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;{}.getIntegrator().setValue(&#39;{}&#39;, &#39;{}&#39;)&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">mid</span><span class="p">,</span> <span class="n">pkey</span><span class="o">.</span><span class="n">key</span><span class="p">,</span> <span class="n">pkey</span><span class="o">.</span><span class="n">value</span><span class="p">))</span>
-            <span class="c1"># FIXME: settings for steady state solver have to be set via {}.steadyStateSolver</span>
+            <span class="k">if</span> <span class="n">pkey</span><span class="o">.</span><span class="n">dtype</span> <span class="ow">is</span> <span class="nb">str</span><span class="p">:</span>
+                <span class="n">value</span> <span class="o">=</span> <span class="s2">&quot;&#39;{}&#39;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">pkey</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">value</span> <span class="o">=</span> <span class="n">pkey</span><span class="o">.</span><span class="n">value</span>
 
-        <span class="k">if</span> <span class="n">simType</span> <span class="o">==</span> <span class="n">libsedml</span><span class="o">.</span><span class="n">SEDML_SIMULATION_STEADYSTATE</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">simType</span> <span class="ow">is</span> <span class="n">libsedml</span><span class="o">.</span><span class="n">SEDML_SIMULATION_STEADYSTATE</span><span class="p">:</span>
+                <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;{}.steadyStateSolver.setValue(&#39;{}&#39;, {})&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">mid</span><span class="p">,</span> <span class="n">pkey</span><span class="o">.</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">))</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;{}.integrator.setValue(&#39;{}&#39;, {})&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">mid</span><span class="p">,</span> <span class="n">pkey</span><span class="o">.</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">))</span>
+
+        <span class="k">if</span> <span class="n">simType</span> <span class="ow">is</span> <span class="n">libsedml</span><span class="o">.</span><span class="n">SEDML_SIMULATION_STEADYSTATE</span><span class="p">:</span>
             <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;{}.conservedMoietyAnalysis = True&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">mid</span><span class="p">))</span>
 
         <span class="c1"># get parents</span>
@@ -870,11 +992,9 @@
 <span class="sd">        - the ranges (Ranges)</span>
 <span class="sd">        - apply all changes (SetValues)</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">lines</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="c1"># storage of results</span>
         <span class="n">task</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">task</span>
         <span class="n">lines</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="s2">&quot;{} = []&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">task</span><span class="o">.</span><span class="n">getId</span><span class="p">())]</span>
-
 
         <span class="c1"># &lt;Range Definition&gt;</span>
         <span class="c1"># master range</span>
@@ -894,7 +1014,7 @@
                 <span class="k">elif</span> <span class="n">r</span><span class="o">.</span><span class="n">getTypeCode</span><span class="p">()</span> <span class="o">==</span> <span class="n">libsedml</span><span class="o">.</span><span class="n">SEDML_RANGE_VECTORRANGE</span><span class="p">:</span>
                     <span class="n">lines</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">SEDMLCodeFactory</span><span class="o">.</span><span class="n">vectorRangeToPython</span><span class="p">(</span><span class="n">r</span><span class="p">))</span>
 
-         <span class="c1"># &lt;Range Iteration&gt;</span>
+        <span class="c1"># &lt;Range Iteration&gt;</span>
         <span class="c1"># iterate master range</span>
         <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;for __k__{}, __value__{} in enumerate(__range__{}):&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">rangeId</span><span class="p">,</span> <span class="n">rangeId</span><span class="p">,</span> <span class="n">rangeId</span><span class="p">))</span>
 
@@ -958,7 +1078,6 @@
         <span class="k">return</span> <span class="n">lines</span></div>
 
     <span class="c1">################################################################################################</span>
-    <span class="c1">################################################################################################</span>
 
     <span class="nd">@staticmethod</span>
 <div class="viewcode-block" id="SEDMLCodeFactory.getDataGeneratorsForTask"><a class="viewcode-back" href="../../../_apidoc/tellurium.sedml.html#tellurium.sedml.tesedml.SEDMLCodeFactory.getDataGeneratorsForTask">[docs]</a>    <span class="k">def</span> <span class="nf">getDataGeneratorsForTask</span><span class="p">(</span><span class="n">doc</span><span class="p">,</span> <span class="n">task</span><span class="p">):</span>
@@ -996,7 +1115,6 @@
                     <span class="n">selections</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">sel</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="n">selections</span></div>
-
 
     <span class="nd">@staticmethod</span>
 <div class="viewcode-block" id="SEDMLCodeFactory.uniformRangeToPython"><a class="viewcode-back" href="../../../_apidoc/tellurium.sedml.html#tellurium.sedml.tesedml.SEDMLCodeFactory.uniformRangeToPython">[docs]</a>    <span class="k">def</span> <span class="nf">uniformRangeToPython</span><span class="p">(</span><span class="n">r</span><span class="p">):</span>
@@ -1066,39 +1184,19 @@
             <span class="k">return</span> <span class="bp">None</span></div>
 
     <span class="nd">@staticmethod</span>
-<div class="viewcode-block" id="SEDMLCodeFactory.isSupportedKisaoIDForSimulation"><a class="viewcode-back" href="../../../_apidoc/tellurium.sedml.html#tellurium.sedml.tesedml.SEDMLCodeFactory.isSupportedKisaoIDForSimulation">[docs]</a>    <span class="k">def</span> <span class="nf">isSupportedKisaoIDForSimulation</span><span class="p">(</span><span class="n">kisao</span><span class="p">,</span> <span class="n">simType</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Test if Algorithm Kisao Id is supported for simulation.</span>
+<div class="viewcode-block" id="SEDMLCodeFactory.isSupportedAlgorithmForSimulationType"><a class="viewcode-back" href="../../../_apidoc/tellurium.sedml.html#tellurium.sedml.tesedml.SEDMLCodeFactory.isSupportedAlgorithmForSimulationType">[docs]</a>    <span class="k">def</span> <span class="nf">isSupportedAlgorithmForSimulationType</span><span class="p">(</span><span class="n">kisao</span><span class="p">,</span> <span class="n">simType</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Check Algorithm Kisao Id is supported for simulation.</span>
 
-<span class="sd">            KISAO:0000433 : CVODE-like method</span>
-<span class="sd">            KISAO:0000019 : CVODE</span>
-<span class="sd">            KISAO:0000241 : Gillespie-like method</span>
-<span class="sd">            KISAO_0000064 : Runge-Kutta based method</span>
-<span class="sd">            KISAO_0000032 : explicit fourth-order Runge-Kutta method</span>
-<span class="sd">            KISAO_0000435 : embedded Runge-Kutta 5(4) method</span>
-
-<span class="sd">        :return:</span>
+<span class="sd">        :return: is supported</span>
 <span class="sd">        :rtype: bool</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">supported</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">if</span> <span class="n">simType</span> <span class="o">==</span> <span class="n">libsedml</span><span class="o">.</span><span class="n">SEDML_SIMULATION_UNIFORMTIMECOURSE</span><span class="p">:</span>
-            <span class="n">supported</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;KISAO:0000433&#39;</span><span class="p">,</span>
-                         <span class="s1">&#39;KISAO:0000019&#39;</span><span class="p">,</span>
-                         <span class="s1">&#39;KISAO:0000241&#39;</span><span class="p">,</span>
-                         <span class="s1">&#39;KISAO:0000032&#39;</span><span class="p">,</span>
-                         <span class="s1">&#39;KISAO:0000435&#39;</span><span class="p">,</span>
-                         <span class="s1">&#39;KISAO_0000064&#39;</span><span class="p">,</span>
-                         <span class="s1">&#39;KISAO:0000035&#39;</span><span class="p">,</span>
-                         <span class="s1">&#39;KISAO:0000071&#39;</span><span class="p">]</span>
+            <span class="n">supported</span> <span class="o">=</span> <span class="n">KISAOS_UNIFORMTIMECOURSE</span>
         <span class="k">elif</span> <span class="n">simType</span> <span class="o">==</span> <span class="n">libsedml</span><span class="o">.</span><span class="n">SEDML_SIMULATION_ONESTEP</span><span class="p">:</span>
-            <span class="n">supported</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;KISAO:0000433&#39;</span><span class="p">,</span>
-                         <span class="s1">&#39;KISAO:0000019&#39;</span><span class="p">,</span>
-                         <span class="s1">&#39;KISAO:0000241&#39;</span><span class="p">,</span>
-                         <span class="s1">&#39;KISAO:0000032&#39;</span><span class="p">,</span>
-                         <span class="s1">&#39;KISAO:0000435&#39;</span><span class="p">,</span>
-                         <span class="s1">&#39;KISAO_0000064&#39;</span><span class="p">]</span>
+            <span class="n">supported</span> <span class="o">=</span> <span class="n">KISAOS_ONESTEP</span>
         <span class="k">elif</span> <span class="n">simType</span> <span class="o">==</span> <span class="n">libsedml</span><span class="o">.</span><span class="n">SEDML_SIMULATION_STEADYSTATE</span><span class="p">:</span>
-            <span class="n">supported</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;KISAO:0000099&#39;</span><span class="p">,</span>
-                         <span class="s1">&#39;KISAO:0000407&#39;</span><span class="p">]</span>
+            <span class="n">supported</span> <span class="o">=</span> <span class="n">KISAOS_STEADYSTATE</span>
         <span class="k">return</span> <span class="n">kisao</span> <span class="ow">in</span> <span class="n">supported</span></div>
 
     <span class="nd">@staticmethod</span>
@@ -1110,74 +1208,40 @@
 <span class="sd">        :return: RoadRunner integrator name.</span>
 <span class="sd">        :rtype: str</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="c1"># cvode &amp; steady state are mapped to cvode</span>
-        <span class="k">if</span> <span class="n">kid</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;KISAO:0000433&#39;</span><span class="p">,</span>
-                   <span class="s1">&#39;KISAO:0000019&#39;</span><span class="p">,</span>
-                   <span class="s1">&#39;KISAO:0000407&#39;</span><span class="p">,</span>
-                   <span class="s1">&#39;KISAO:0000099&#39;</span><span class="p">,</span>
-                   <span class="s1">&#39;KISAO:0000035&#39;</span><span class="p">,</span>
-                   <span class="s1">&#39;KISAO:0000071&#39;</span><span class="p">]:</span>
+        <span class="k">if</span> <span class="n">kid</span> <span class="ow">in</span> <span class="n">KISAOS_NLEQ</span><span class="p">:</span>
+            <span class="k">return</span> <span class="s1">&#39;nleq&#39;</span>
+        <span class="k">if</span> <span class="n">kid</span> <span class="ow">in</span> <span class="n">KISAOS_CVODE</span><span class="p">:</span>
             <span class="k">return</span> <span class="s1">&#39;cvode&#39;</span>
-        <span class="k">elif</span> <span class="n">kid</span> <span class="o">==</span> <span class="s1">&#39;KISAO:0000241&#39;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">kid</span> <span class="ow">in</span> <span class="n">KISAOS_GILLESPIE</span><span class="p">:</span>
             <span class="k">return</span> <span class="s1">&#39;gillespie&#39;</span>
-        <span class="k">elif</span> <span class="n">kid</span> <span class="o">==</span> <span class="s1">&#39;KISAO:0000032&#39;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">kid</span> <span class="ow">in</span> <span class="n">KISAOS_RK4</span><span class="p">:</span>
             <span class="k">return</span> <span class="s1">&#39;rk4&#39;</span>
-        <span class="k">elif</span> <span class="n">kid</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;KISAO:0000435&#39;</span><span class="p">,</span>
-                     <span class="s1">&#39;KISAO_0000064&#39;</span><span class="p">]:</span>
+        <span class="k">if</span> <span class="n">kid</span> <span class="ow">in</span> <span class="n">KISAOS_RK45</span><span class="p">:</span>
             <span class="k">return</span> <span class="s1">&#39;rk45&#39;</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="k">return</span> <span class="bp">None</span></div>
+        <span class="k">return</span> <span class="bp">None</span></div>
 
     <span class="nd">@staticmethod</span>
 <div class="viewcode-block" id="SEDMLCodeFactory.algorithmParameterToParameterKey"><a class="viewcode-back" href="../../../_apidoc/tellurium.sedml.html#tellurium.sedml.tesedml.SEDMLCodeFactory.algorithmParameterToParameterKey">[docs]</a>    <span class="k">def</span> <span class="nf">algorithmParameterToParameterKey</span><span class="p">(</span><span class="n">par</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Resolve the mapping between parameter keys and roadrunner integrator keys.</span>
-
-<span class="sd">            relative_tolerance (209; the relative tolerance)</span>
-<span class="sd">            absolute_tolerance (211; the absolute tolerance)</span>
-<span class="sd">            maximum_bdf_order (220; the maximum BDF (stiff) order)</span>
-<span class="sd">            maximum_adams_order (219; the maximum Adams (non-stiff) order)</span>
-<span class="sd">            maximum_num_steps (415; the maximum number of steps that can be taken before exiting)</span>
-<span class="sd">            maximum_time_step (467; the maximum time step that can be taken)</span>
-<span class="sd">            minimum_time_step (485; the minimum time step that can be taken)</span>
-<span class="sd">            initial_time_step (332; the initial value of the time step for algorithms that change this value)</span>
-<span class="sd">            variable_step_size (107; whether or not the algorithm proceeds with an adaptive step size or not)</span>
-<span class="sd">            maximum_iterations (486; the maximum number of iterations the algorithm should take before exiting)</span>
-<span class="sd">            minimum_damping (487; minimum damping value)</span>
-<span class="sd">            seed (488; the seed for stochastic runs of the algorithm)</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="sd">&quot;&quot;&quot; Resolve the mapping between parameter keys and roadrunner integrator keys.&quot;&quot;&quot;</span>
+        <span class="n">ParameterKey</span> <span class="o">=</span> <span class="n">namedtuple</span><span class="p">(</span><span class="s1">&#39;ParameterKey&#39;</span><span class="p">,</span> <span class="s1">&#39;key value dtype&#39;</span><span class="p">)</span>
         <span class="n">kid</span> <span class="o">=</span> <span class="n">par</span><span class="o">.</span><span class="n">getKisaoID</span><span class="p">()</span>
         <span class="n">value</span> <span class="o">=</span> <span class="n">par</span><span class="o">.</span><span class="n">getValue</span><span class="p">()</span>
-        <span class="n">ParameterKey</span> <span class="o">=</span> <span class="n">namedtuple</span><span class="p">(</span><span class="s1">&#39;ParameterKey&#39;</span><span class="p">,</span> <span class="s1">&#39;key value&#39;</span><span class="p">)</span>
-        <span class="n">key</span> <span class="o">=</span> <span class="bp">None</span>
 
-        <span class="k">if</span> <span class="n">kid</span> <span class="o">==</span> <span class="s1">&#39;KISAO:0000209&#39;</span><span class="p">:</span>
-            <span class="n">key</span> <span class="o">=</span> <span class="s1">&#39;relative_tolerance&#39;</span>
-        <span class="k">elif</span> <span class="n">kid</span> <span class="o">==</span> <span class="s1">&#39;KISAO:0000211&#39;</span><span class="p">:</span>
-            <span class="n">key</span> <span class="o">=</span> <span class="s1">&#39;relative_tolerance&#39;</span>
-        <span class="k">elif</span> <span class="n">kid</span> <span class="o">==</span> <span class="s1">&#39;KISAO:0000220&#39;</span><span class="p">:</span>
-            <span class="n">key</span> <span class="o">=</span> <span class="s1">&#39;maximum_bdf_order&#39;</span>
-        <span class="k">elif</span> <span class="n">kid</span> <span class="o">==</span> <span class="s1">&#39;KISAO:0000219&#39;</span><span class="p">:</span>
-            <span class="n">key</span> <span class="o">=</span> <span class="s1">&#39;maximum_adams_order&#39;</span>
-        <span class="k">elif</span> <span class="n">kid</span> <span class="o">==</span> <span class="s1">&#39;KISAO:0000415&#39;</span><span class="p">:</span>
-            <span class="n">key</span> <span class="o">=</span> <span class="s1">&#39;maximum_num_steps&#39;</span>
-        <span class="k">elif</span> <span class="n">kid</span> <span class="o">==</span> <span class="s1">&#39;KISAO:0000467&#39;</span><span class="p">:</span>
-            <span class="n">key</span> <span class="o">=</span> <span class="s1">&#39;maximum_time_step&#39;</span>
-        <span class="k">elif</span> <span class="n">kid</span> <span class="o">==</span> <span class="s1">&#39;KISAO:0000485&#39;</span><span class="p">:</span>
-            <span class="n">key</span> <span class="o">=</span> <span class="s1">&#39;minimum_time_step&#39;</span>
-        <span class="k">elif</span> <span class="n">kid</span> <span class="o">==</span> <span class="s1">&#39;KISAO:0000332&#39;</span><span class="p">:</span>
-            <span class="n">key</span> <span class="o">=</span> <span class="s1">&#39;initial_time_step&#39;</span>
-        <span class="k">elif</span> <span class="n">kid</span> <span class="o">==</span> <span class="s1">&#39;KISAO:0000107&#39;</span><span class="p">:</span>
-            <span class="n">key</span> <span class="o">=</span> <span class="s1">&#39;variable_step_size&#39;</span>
-        <span class="k">elif</span> <span class="n">kid</span> <span class="o">==</span> <span class="s1">&#39;KISAO:0000486&#39;</span><span class="p">:</span>
-            <span class="n">key</span> <span class="o">=</span> <span class="s1">&#39;maximum_iterations&#39;</span>
-        <span class="k">elif</span> <span class="n">kid</span> <span class="o">==</span> <span class="s1">&#39;KISAO:0000487&#39;</span><span class="p">:</span>
-            <span class="n">key</span> <span class="o">=</span> <span class="s1">&#39;maximum_damping&#39;</span>
-        <span class="k">elif</span> <span class="n">kid</span> <span class="o">==</span> <span class="s1">&#39;KISAO:0000488&#39;</span><span class="p">:</span>
-            <span class="n">key</span> <span class="o">=</span> <span class="s1">&#39;seed&#39;</span>
-        <span class="c1"># set the setting</span>
-        <span class="k">if</span> <span class="n">key</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">ParameterKey</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">kid</span> <span class="ow">in</span> <span class="n">KISAOS_ALGORITHMPARAMETERS</span><span class="p">:</span>
+            <span class="c1"># algorithm parameter is in the list of parameters</span>
+            <span class="n">key</span><span class="p">,</span> <span class="n">dtype</span> <span class="o">=</span> <span class="n">KISAOS_ALGORITHMPARAMETERS</span><span class="p">[</span><span class="n">kid</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">dtype</span> <span class="ow">is</span> <span class="nb">bool</span><span class="p">:</span>
+                <span class="c1"># transform manually ! (otherwise all strings give True)</span>
+                <span class="k">if</span> <span class="n">value</span> <span class="o">==</span> <span class="s1">&#39;true&#39;</span><span class="p">:</span>
+                    <span class="n">value</span> <span class="o">=</span> <span class="bp">True</span>
+                <span class="k">elif</span> <span class="n">value</span> <span class="o">==</span> <span class="s1">&#39;false&#39;</span><span class="p">:</span>
+                    <span class="n">value</span> <span class="o">=</span> <span class="bp">False</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="c1"># cast to data type of parameter</span>
+                <span class="n">value</span> <span class="o">=</span> <span class="n">dtype</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">ParameterKey</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">dtype</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># algorithm parameter not supported</span>
             <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">&quot;Unsupported AlgorithmParameter: {} = {})&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">kid</span><span class="p">,</span> <span class="n">value</span><span class="p">))</span>
             <span class="k">return</span> <span class="bp">None</span></div>
 
@@ -1218,9 +1282,7 @@
 <span class="sd">        :return:</span>
 <span class="sd">        :rtype:</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="c1"># FIXME: getting of sids, pids not very robust</span>
-        <span class="c1"># TODO: handle more cases (rules, reactions, ...)</span>
-        <span class="c1"># real xpath with SBML (get all objects)</span>
+        <span class="c1"># FIXME: getting of sids, pids not very robust, handle more cases (rules, reactions, ...)</span>
         <span class="n">Target</span> <span class="o">=</span> <span class="n">namedtuple</span><span class="p">(</span><span class="s1">&#39;Target&#39;</span><span class="p">,</span> <span class="s1">&#39;id type&#39;</span><span class="p">)</span>
 
         <span class="k">def</span> <span class="nf">getId</span><span class="p">(</span><span class="n">xpath</span><span class="p">):</span>
@@ -1233,15 +1295,12 @@
         <span class="c1"># parameter value change</span>
         <span class="k">if</span> <span class="p">(</span><span class="s2">&quot;model&quot;</span> <span class="ow">in</span> <span class="n">xpath</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="s2">&quot;parameter&quot;</span> <span class="ow">in</span> <span class="n">xpath</span><span class="p">):</span>
             <span class="k">return</span> <span class="n">Target</span><span class="p">(</span><span class="n">getId</span><span class="p">(</span><span class="n">xpath</span><span class="p">),</span> <span class="s1">&#39;parameter&#39;</span><span class="p">)</span>
-
         <span class="c1"># species concentration change</span>
         <span class="k">elif</span> <span class="p">(</span><span class="s2">&quot;model&quot;</span> <span class="ow">in</span> <span class="n">xpath</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="s2">&quot;species&quot;</span> <span class="ow">in</span> <span class="n">xpath</span><span class="p">):</span>
             <span class="k">return</span> <span class="n">Target</span><span class="p">(</span><span class="n">getId</span><span class="p">(</span><span class="n">xpath</span><span class="p">),</span> <span class="s1">&#39;species&#39;</span><span class="p">)</span>
-
         <span class="c1"># other</span>
         <span class="k">elif</span> <span class="p">(</span><span class="s2">&quot;model&quot;</span> <span class="ow">in</span> <span class="n">xpath</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="s2">&quot;id&quot;</span> <span class="ow">in</span> <span class="n">xpath</span><span class="p">):</span>
             <span class="k">return</span> <span class="n">Target</span><span class="p">(</span><span class="n">getId</span><span class="p">(</span><span class="n">xpath</span><span class="p">),</span> <span class="s1">&#39;unknown&#39;</span><span class="p">)</span>
-
         <span class="c1"># cannot be parsed</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">&quot;Unsupported target: {}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">xpath</span><span class="p">))</span>
@@ -1311,7 +1370,6 @@
     <span class="nd">@staticmethod</span>
 <div class="viewcode-block" id="SEDMLCodeFactory.outputToPython"><a class="viewcode-back" href="../../../_apidoc/tellurium.sedml.html#tellurium.sedml.tesedml.SEDMLCodeFactory.outputToPython">[docs]</a>    <span class="k">def</span> <span class="nf">outputToPython</span><span class="p">(</span><span class="n">doc</span><span class="p">,</span> <span class="n">output</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Create output &quot;&quot;&quot;</span>
-        <span class="c1"># TODO: save plots and reports in workingDir</span>
         <span class="n">lines</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="n">typeCode</span> <span class="o">=</span> <span class="n">output</span><span class="o">.</span><span class="n">getTypeCode</span><span class="p">()</span>
         <span class="k">if</span> <span class="n">typeCode</span> <span class="o">==</span> <span class="n">libsedml</span><span class="o">.</span><span class="n">SEDML_OUTPUT_REPORT</span><span class="p">:</span>
@@ -1335,7 +1393,6 @@
 <span class="sd">        :return: list of python lines</span>
 <span class="sd">        :rtype: list(str)</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="c1"># TODO: reports for repeated tasks?</span>
         <span class="n">lines</span> <span class="o">=</span> <span class="p">[]</span>
 
         <span class="n">headers</span> <span class="o">=</span> <span class="p">[]</span>
@@ -1355,7 +1412,7 @@
         <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;    print(&#39;{}, Repeat:&#39;, k)&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">output</span><span class="o">.</span><span class="n">getId</span><span class="p">()))</span>
         <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;    print(&#39;-&#39;*80)&quot;</span><span class="p">)</span>
         <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;    __df__k = pandas.DataFrame(np.column_stack(&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">columns</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;&#39;&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;), </span><span class="se">\n</span><span class="s2">    columns=&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">headers</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;)&quot;</span><span class="p">)</span>
-        <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;    print(__df__k.head(10))&quot;</span><span class="p">)</span>
+        <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;    print(__df__k.head(5))&quot;</span><span class="p">)</span>
         <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;    __dfs__{}.append(__df__k)&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">output</span><span class="o">.</span><span class="n">getId</span><span class="p">()))</span>
         <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;    __df__k.to_csv(os.path.join(workingDir, &#39;{}_{{}}.csv&#39;.format(k)), sep=&#39;</span><span class="se">\t</span><span class="s2">&#39;, index=False)&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">output</span><span class="o">.</span><span class="n">getId</span><span class="p">()))</span>
         <span class="k">return</span> <span class="n">lines</span></div>
@@ -1440,8 +1497,6 @@
             <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;    else:&quot;</span><span class="p">)</span>
             <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;        plt.plot({}[:,k], {}[:,k], &#39;-o&#39;, color=&#39;{}&#39;, linewidth={}, markersize={}, alpha={})&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">xId</span><span class="p">,</span> <span class="n">yId</span><span class="p">,</span> <span class="n">color</span><span class="p">,</span> <span class="n">settings</span><span class="o">.</span><span class="n">linewidth</span><span class="p">,</span> <span class="n">settings</span><span class="o">.</span><span class="n">markersize</span><span class="p">,</span> <span class="n">settings</span><span class="o">.</span><span class="n">alpha</span><span class="p">))</span>
 
-
-            <span class="c1"># FIXME: has to be handeled via multiple axis</span>
             <span class="k">if</span> <span class="n">logX</span> <span class="ow">is</span> <span class="bp">True</span><span class="p">:</span>
                 <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;plt.xscale(&#39;log&#39;)&quot;</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">logY</span> <span class="ow">is</span> <span class="bp">True</span><span class="p">:</span>
@@ -1580,7 +1635,7 @@
             <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="n">doc</span><span class="o">.</span><span class="n">getErrorLog</span><span class="p">()</span><span class="o">.</span><span class="n">toString</span><span class="p">())</span></div>
 
     <span class="nd">@classmethod</span>
-<div class="viewcode-block" id="SEDMLTools.readSEDMLDocument"><a class="viewcode-back" href="../../../_apidoc/tellurium.sedml.html#tellurium.sedml.tesedml.SEDMLTools.readSEDMLDocument">[docs]</a>    <span class="k">def</span> <span class="nf">readSEDMLDocument</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">inputStr</span><span class="p">):</span>
+<div class="viewcode-block" id="SEDMLTools.readSEDMLDocument"><a class="viewcode-back" href="../../../_apidoc/tellurium.sedml.html#tellurium.sedml.tesedml.SEDMLTools.readSEDMLDocument">[docs]</a>    <span class="k">def</span> <span class="nf">readSEDMLDocument</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">inputStr</span><span class="p">,</span> <span class="n">workingDir</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Parses SedMLDocument from given input.</span>
 
 <span class="sd">        :return: dictionary of SedDocument, inputType and working directory.</span>
@@ -1597,7 +1652,8 @@
                 <span class="c1"># is parsable xml string</span>
                 <span class="n">doc</span> <span class="o">=</span> <span class="n">libsedml</span><span class="o">.</span><span class="n">readSedMLFromString</span><span class="p">(</span><span class="n">inputStr</span><span class="p">)</span>
                 <span class="n">inputType</span> <span class="o">=</span> <span class="n">cls</span><span class="o">.</span><span class="n">INPUT_TYPE_STR</span>
-                <span class="n">workingDir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">()</span>
+                <span class="k">if</span> <span class="n">workingDir</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+                    <span class="n">workingDir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">()</span>
 
             <span class="k">except</span> <span class="n">ElementTree</span><span class="o">.</span><span class="n">ParseError</span><span class="p">:</span>
                 <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">inputStr</span><span class="p">):</span>
@@ -1614,7 +1670,8 @@
 
                 <span class="c1"># in case of sedx and combine a working directory is created</span>
                 <span class="c1"># in which the files are extracted</span>
-                <span class="n">workingDir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">realpath</span><span class="p">(</span><span class="n">inputStr</span><span class="p">)),</span> <span class="s1">&#39;_te_{}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">filename</span><span class="p">))</span>
+                <span class="k">if</span> <span class="n">workingDir</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+                    <span class="n">workingDir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">realpath</span><span class="p">(</span><span class="n">inputStr</span><span class="p">)),</span> <span class="s1">&#39;_te_{}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">filename</span><span class="p">))</span>
                 <span class="c1"># extract the archive to working directory</span>
                 <span class="n">CombineTools</span><span class="o">.</span><span class="n">extractArchive</span><span class="p">(</span><span class="n">archive</span><span class="p">,</span> <span class="n">workingDir</span><span class="p">)</span>
                 <span class="c1"># get SEDML files from archive</span>
@@ -1635,7 +1692,8 @@
                 <span class="n">doc</span> <span class="o">=</span> <span class="n">libsedml</span><span class="o">.</span><span class="n">readSedMLFromFile</span><span class="p">(</span><span class="n">inputStr</span><span class="p">)</span>
                 <span class="n">cls</span><span class="o">.</span><span class="n">checkSEDMLDocument</span><span class="p">(</span><span class="n">doc</span><span class="p">)</span>
                 <span class="c1"># working directory is where the sedml file is</span>
-                <span class="n">workingDir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">realpath</span><span class="p">(</span><span class="n">inputStr</span><span class="p">))</span>
+                <span class="k">if</span> <span class="n">workingDir</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+                    <span class="n">workingDir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">realpath</span><span class="p">(</span><span class="n">inputStr</span><span class="p">))</span>
 
         <span class="k">return</span> <span class="p">{</span><span class="s1">&#39;doc&#39;</span><span class="p">:</span> <span class="n">doc</span><span class="p">,</span>
                 <span class="s1">&#39;inputType&#39;</span><span class="p">:</span> <span class="n">inputType</span><span class="p">,</span>

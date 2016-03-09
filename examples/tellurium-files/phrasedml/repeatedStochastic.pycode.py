@@ -42,7 +42,7 @@ for __k__x, __value__x in enumerate(__range__x):
     # Task: <task1>
     task1 = [None]
     model1.setIntegrator('gillespie')
-    model1.getIntegrator().setValue('seed', 1003)
+    model1.integrator.setValue('seed', 1003)
     model1.timeCourseSelections = ['MKKK', 'MKK_P', 'MAPK', 'MKK', 'MKKK_P', 'time', 'MAPK_P', 'MAPK_PP']
     task1[0] = model1.simulate(start=0.0, end=4000.0, steps=1000)
 

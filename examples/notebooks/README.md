@@ -5,7 +5,7 @@ To get the examples clone the repository via
 ```
 git clone https://github.com/sys-bio/tellurium.git
 ```
-To run the notebooks change in the notebook folder in the console  and run jupyter
+To run the notebooks change in the notebook folder in the console and run jupyter
 ```
 cd tellurium/examples/notebooks
 jupyter notebook index.ipynb

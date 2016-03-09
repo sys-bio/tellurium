@@ -264,6 +264,7 @@ plot time vs S1
 <em class="property">class </em><code class="descclassname">tellurium.sedml.tephrasedml.</code><code class="descname">experiment</code><span class="sig-paren">(</span><em>antimonyList</em>, <em>phrasedmlList</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/tellurium/sedml/tephrasedml.html#experiment"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.sedml.tephrasedml.experiment" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
 <p>Phrasedml experiment.</p>
+<p>Simulation experiments are defined and executed via the experiment class.</p>
 <p>This class is responsible for the creation of executable tellurium code
 phrasedml descriptions. Main function is a code factory.
 Very similar to the more general tesedml which creates python executable code
@@ -271,15 +272,20 @@ from from given SED-ML.</p>
 <dl class="method">
 <dt id="tellurium.sedml.tephrasedml.experiment.execute">
 <code class="descname">execute</code><span class="sig-paren">(</span><em>selPhrasedml=None</em>, <em>workingDir=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/tellurium/sedml/tephrasedml.html#experiment.execute"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.sedml.tephrasedml.experiment.execute" title="Permalink to this definition">¶</a></dt>
-<dd><p>Executes the python code created for the given phrasedml.
-The workingDir sets the path variable where the combine
-archive and files are generated for execution.</p>
-<p>See <code class="xref py py-func docutils literal"><span class="pre">createpython()</span></code></p>
+<dd><p>Executes the python code created for the given phrasedml string.</p>
+<p>The execution is performed in the workingDir. Combine archive files and
+outputs from the experiment are written in the workingDir.
+If no workingDir is provided a temporary workingDir is used which is
+removed after the experiment.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>selPhrasedml</strong> (<em>str</em>) &#8211; Name of PhraSEDML string defined in the code</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>selPhrasedml</strong> (<em>str</em>) &#8211; Name of PhraSEDML string defined in the code</li>
+<li><strong>workingDir</strong> (<em>str</em>) &#8211; working directory for execution</li>
+</ul>
+</td>
 </tr>
 </tbody>
 </table>
@@ -287,8 +293,9 @@ archive and files are generated for execution.</p>
 
 <dl class="method">
 <dt id="tellurium.sedml.tephrasedml.experiment.exportAsCombine">
-<code class="descname">exportAsCombine</code><span class="sig-paren">(</span><em>outputpath</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/tellurium/sedml/tephrasedml.html#experiment.exportAsCombine"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.sedml.tephrasedml.experiment.exportAsCombine" title="Permalink to this definition">¶</a></dt>
-<dd><p>Export as a combine archive.</p>
+<code class="descname">exportAsCombine</code><span class="sig-paren">(</span><em>outputPath</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/tellurium/sedml/tephrasedml.html#experiment.exportAsCombine"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.sedml.tephrasedml.experiment.exportAsCombine" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create combine archive for given antimony and phrasedml files.
+Export as a combine archive.</p>
 <p>This is the clean way to execute it.
 A combine archive is created which afterwards is handeled by the SEDML to python script.</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -300,6 +307,11 @@ A combine archive is created which afterwards is handeled by the SEDML to python
 </tbody>
 </table>
 </dd></dl>
+
+<dl class="method">
+<dt id="tellurium.sedml.tephrasedml.experiment.getId">
+<code class="descname">getId</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/tellurium/sedml/tephrasedml.html#experiment.getId"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.sedml.tephrasedml.experiment.getId" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 
 <dl class="method">
 <dt id="tellurium.sedml.tephrasedml.experiment.getPython">
@@ -322,17 +334,12 @@ A combine archive is created which afterwards is handeled by the SEDML to python
 </dd></dl>
 
 <dl class="method">
-<dt id="tellurium.sedml.tephrasedml.experiment.update">
-<code class="descname">update</code><span class="sig-paren">(</span><em>outputpath</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/tellurium/sedml/tephrasedml.html#experiment.update"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.sedml.tephrasedml.experiment.update" title="Permalink to this definition">¶</a></dt>
-<dd><p>Update target combine archive with the current experiment.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>outputpath</strong> (<em>str</em>) &#8211; full path of the combine zip file to create</td>
-</tr>
-</tbody>
-</table>
+<dt id="tellurium.sedml.tephrasedml.experiment.updateCombine">
+<code class="descname">updateCombine</code><span class="sig-paren">(</span><em>outputPath</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/tellurium/sedml/tephrasedml.html#experiment.updateCombine"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.sedml.tephrasedml.experiment.updateCombine" title="Permalink to this definition">¶</a></dt>
+<dd><p>Update combine archive with the current experiment.</p>
+<p>Overwrites the current archive.
+:param outputPath: full path of the combine zip file to create
+:type outputPath: str</p>
 </dd></dl>
 
 </dd></dl>
@@ -408,7 +415,7 @@ of the DataGenerator class.</dd>
 </dl>
 <dl class="class">
 <dt id="tellurium.sedml.tesedml.SEDMLCodeFactory">
-<em class="property">class </em><code class="descclassname">tellurium.sedml.tesedml.</code><code class="descname">SEDMLCodeFactory</code><span class="sig-paren">(</span><em>inputStr</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/tellurium/sedml/tesedml.html#SEDMLCodeFactory"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.sedml.tesedml.SEDMLCodeFactory" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">tellurium.sedml.tesedml.</code><code class="descname">SEDMLCodeFactory</code><span class="sig-paren">(</span><em>inputStr</em>, <em>workingDir=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/tellurium/sedml/tesedml.html#SEDMLCodeFactory"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.sedml.tesedml.SEDMLCodeFactory" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
 <p>Code Factory generating executable code.</p>
 <dl class="class">
@@ -474,18 +481,6 @@ of the DataGenerator class.</dd>
 <dt id="tellurium.sedml.tesedml.SEDMLCodeFactory.algorithmParameterToParameterKey">
 <em class="property">static </em><code class="descclassname">SEDMLCodeFactory.</code><code class="descname">algorithmParameterToParameterKey</code><span class="sig-paren">(</span><em>par</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/tellurium/sedml/tesedml.html#SEDMLCodeFactory.algorithmParameterToParameterKey"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.sedml.tesedml.SEDMLCodeFactory.algorithmParameterToParameterKey" title="Permalink to this definition">¶</a></dt>
 <dd><p>Resolve the mapping between parameter keys and roadrunner integrator keys.</p>
-<p>relative_tolerance (209; the relative tolerance)
-absolute_tolerance (211; the absolute tolerance)
-maximum_bdf_order (220; the maximum BDF (stiff) order)
-maximum_adams_order (219; the maximum Adams (non-stiff) order)
-maximum_num_steps (415; the maximum number of steps that can be taken before exiting)
-maximum_time_step (467; the maximum time step that can be taken)
-minimum_time_step (485; the minimum time step that can be taken)
-initial_time_step (332; the initial value of the time step for algorithms that change this value)
-variable_step_size (107; whether or not the algorithm proceeds with an adaptive step size or not)
-maximum_iterations (486; the maximum number of iterations the algorithm should take before exiting)
-minimum_damping (487; minimum damping value)
-seed (488; the seed for stochastic runs of the algorithm)</p>
 </dd></dl>
 
 <dl class="staticmethod">
@@ -567,21 +562,14 @@ See <code class="xref py py-func docutils literal"><span class="pre">createpytho
 </dd></dl>
 
 <dl class="staticmethod">
-<dt id="tellurium.sedml.tesedml.SEDMLCodeFactory.isSupportedKisaoIDForSimulation">
-<em class="property">static </em><code class="descclassname">SEDMLCodeFactory.</code><code class="descname">isSupportedKisaoIDForSimulation</code><span class="sig-paren">(</span><em>kisao</em>, <em>simType</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/tellurium/sedml/tesedml.html#SEDMLCodeFactory.isSupportedKisaoIDForSimulation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.sedml.tesedml.SEDMLCodeFactory.isSupportedKisaoIDForSimulation" title="Permalink to this definition">¶</a></dt>
-<dd><p>Test if Algorithm Kisao Id is supported for simulation.</p>
-<blockquote>
-<div>KISAO:0000433 : CVODE-like method
-KISAO:0000019 : CVODE
-KISAO:0000241 : Gillespie-like method
-KISAO_0000064 : Runge-Kutta based method
-KISAO_0000032 : explicit fourth-order Runge-Kutta method
-KISAO_0000435 : embedded Runge-Kutta 5(4) method</div></blockquote>
+<dt id="tellurium.sedml.tesedml.SEDMLCodeFactory.isSupportedAlgorithmForSimulationType">
+<em class="property">static </em><code class="descclassname">SEDMLCodeFactory.</code><code class="descname">isSupportedAlgorithmForSimulationType</code><span class="sig-paren">(</span><em>kisao</em>, <em>simType</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/tellurium/sedml/tesedml.html#SEDMLCodeFactory.isSupportedAlgorithmForSimulationType"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.sedml.tesedml.SEDMLCodeFactory.isSupportedAlgorithmForSimulationType" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check Algorithm Kisao Id is supported for simulation.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"></td>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">is supported</td>
 </tr>
 <tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">bool</td>
 </tr>
@@ -789,12 +777,27 @@ in RoadRunner.</p>
 <dl class="staticmethod">
 <dt id="tellurium.sedml.tesedml.SEDMLCodeFactory.simpleTaskToPython">
 <em class="property">static </em><code class="descclassname">SEDMLCodeFactory.</code><code class="descname">simpleTaskToPython</code><span class="sig-paren">(</span><em>doc</em>, <em>node</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/tellurium/sedml/tesedml.html#SEDMLCodeFactory.simpleTaskToPython"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.sedml.tesedml.SEDMLCodeFactory.simpleTaskToPython" title="Permalink to this definition">¶</a></dt>
-<dd><p>Creates the simulation python code for a given task.</p>
-<p>cvode (19; the default for uniform time course simulations)
-gillespie (241; the default for stochastic time course simulations)
-steadystate (407; the default for steady state simulations)
-rk4 (32; 4th-order Runge-Kutta)
-rk45 (435; embedded Runge-Kutta)</p>
+<dd><p>Creates the simulation python code for a given taskNode.</p>
+<p>The taskNodes are required to handle the relationships between
+RepeatedTasks, SubTasks and SimpleTasks (Task).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>doc</strong> (<em>SEDDocument</em>) &#8211; sedml document</li>
+<li><strong>node</strong> (<a class="reference internal" href="#tellurium.sedml.tesedml.SEDMLCodeFactory.TaskNode" title="tellurium.sedml.tesedml.SEDMLCodeFactory.TaskNode"><em>TaskNode</em></a>) &#8211; taskNode of the current task</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"></p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"></p>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="staticmethod">
@@ -906,7 +909,7 @@ Raises IOError if error exists.
 
 <dl class="classmethod">
 <dt id="tellurium.sedml.tesedml.SEDMLTools.readSEDMLDocument">
-<em class="property">classmethod </em><code class="descname">readSEDMLDocument</code><span class="sig-paren">(</span><em>inputStr</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/tellurium/sedml/tesedml.html#SEDMLTools.readSEDMLDocument"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.sedml.tesedml.SEDMLTools.readSEDMLDocument" title="Permalink to this definition">¶</a></dt>
+<em class="property">classmethod </em><code class="descname">readSEDMLDocument</code><span class="sig-paren">(</span><em>inputStr</em>, <em>workingDir</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/tellurium/sedml/tesedml.html#SEDMLTools.readSEDMLDocument"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.sedml.tesedml.SEDMLTools.readSEDMLDocument" title="Permalink to this definition">¶</a></dt>
 <dd><p>Parses SedMLDocument from given input.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -942,12 +945,21 @@ not getting to big.</p>
 
 <dl class="function">
 <dt id="tellurium.sedml.tesedml.executeSEDML">
-<code class="descclassname">tellurium.sedml.tesedml.</code><code class="descname">executeSEDML</code><span class="sig-paren">(</span><em>inputStr</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/tellurium/sedml/tesedml.html#executeSEDML"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.sedml.tesedml.executeSEDML" title="Permalink to this definition">¶</a></dt>
-<dd><p>Run a SED-ML file or archive.
-:param inputStr:
-:type inputStr:
-:return:
-:rtype:</p>
+<code class="descclassname">tellurium.sedml.tesedml.</code><code class="descname">executeSEDML</code><span class="sig-paren">(</span><em>inputStr</em>, <em>workingDir=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/tellurium/sedml/tesedml.html#executeSEDML"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.sedml.tesedml.executeSEDML" title="Permalink to this definition">¶</a></dt>
+<dd><p>Run a SED-ML file or archive.</p>
+<p>If a workingDir is provided the files and results are written in the workingDir.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>inputStr</strong> &#8211; </td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"></td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"></td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="function">

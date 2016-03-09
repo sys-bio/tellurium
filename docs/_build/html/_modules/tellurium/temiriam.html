@@ -140,11 +140,23 @@
 
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">print_function</span><span class="p">,</span> <span class="n">division</span>
-<span class="kn">import</span> <span class="nn">zipfile</span>
-
 <span class="kn">import</span> <span class="nn">bioservices</span>
 <span class="kn">import</span> <span class="nn">re</span>
 
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Implementation without bioservices</span>
+<span class="sd">string = path + astr + &quot;.xml&quot;</span>
+<span class="sd">        if not os.path.exists(string):</span>
+<span class="sd">            conn = httplib.HTTPConnection(&quot;www.ebi.ac.uk&quot;)</span>
+<span class="sd">            conn.request(&quot;GET&quot;, &quot;/biomodels-main/download?mid=&quot; + astr)</span>
+<span class="sd">            r1 = conn.getresponse()</span>
+<span class="sd">            #print(r1.status, r1.reason)</span>
+<span class="sd">            data1 = r1.read()</span>
+<span class="sd">            conn.close()</span>
+<span class="sd">            f1 = open(string, &#39;w&#39;)</span>
+<span class="sd">            f1.write(data1)</span>
+<span class="sd">            f1.close()</span>
+<span class="sd">&quot;&quot;&quot;</span>
 
 <div class="viewcode-block" id="getSBMLFromBiomodelsURN"><a class="viewcode-back" href="../../_apidoc/tellurium.html#tellurium.temiriam.getSBMLFromBiomodelsURN">[docs]</a><span class="k">def</span> <span class="nf">getSBMLFromBiomodelsURN</span><span class="p">(</span><span class="n">urn</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>

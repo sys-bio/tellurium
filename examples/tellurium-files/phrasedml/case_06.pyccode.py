@@ -146,7 +146,7 @@ for k in range(plot_0_0_0.shape[1]):
     print('-'*80)
     __df__k = pandas.DataFrame(np.column_stack([plot_0_0_0[:,k], plot_0_0_1[:,k], plot_0_1_1[:,k]]), 
     columns=['repeat1.time', 'repeat1.S1', 'repeat1.S2'])
-    print(__df__k.head(10))
+    print(__df__k.head(5))
     __dfs__report_1.append(__df__k)
     __df__k.to_csv(os.path.join(workingDir, 'report_1_{}.csv'.format(k)), sep='	', index=False)
 
@@ -182,7 +182,7 @@ for k in range(plot_2_0_0.shape[1]):
     print('-'*80)
     __df__k = pandas.DataFrame(np.column_stack([plot_2_0_0[:,k], plot_2_0_1[:,k], plot_2_1_1[:,k]]), 
     columns=['repeat2.time', 'repeat2.S1', 'repeat2.S2'])
-    print(__df__k.head(10))
+    print(__df__k.head(5))
     __dfs__report_3.append(__df__k)
     __df__k.to_csv(os.path.join(workingDir, 'report_3_{}.csv'.format(k)), sep='	', index=False)
 
