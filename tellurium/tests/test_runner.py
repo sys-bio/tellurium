@@ -36,13 +36,18 @@ class TestRunner(object):
         :return: results of unittest
         :rtype: unittest.TextTestResult
         """
+        import matplotlib
+        backend = matplotlib.rcParams['backend']
+        matplotlib.pyplot.switch_backend("Agg")
+
         # get the test modules and add to test suite
         modules = TestRunner.find_test_modules()
 
-        print(modules)
         suites = [unittest.defaultTestLoader.loadTestsFromName(s) for s in modules]
         testSuite = unittest.TestSuite(suites)
-        return unittest.TextTestRunner(verbosity=2).run(testSuite)
+        results = unittest.TextTestRunner(verbosity=2).run(testSuite)
+        matplotlib.pyplot.switch_backend(backend)
+        return results
 
     def te_passes_tests(self):
         """ Did tellurium pass the tests?

@@ -128,10 +128,6 @@ class TelluriumTestCase(unittest.TestCase):
         self.sbml_file = os.path.join(test_dir, 'models', 'example1.xml')
         self.cellml_file = os.path.join(test_dir, 'models', 'example1.cellml')
 
-    def tearDown(self):
-        import matplotlib
-        matplotlib.rcdefaults()
-
     # ---------------------------------------------------------------------
     # Loading Models Methods
     # ---------------------------------------------------------------------

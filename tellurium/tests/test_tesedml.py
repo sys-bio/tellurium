@@ -30,9 +30,6 @@ class TesedmlTestCase(unittest.TestCase):
         with open(f_sedml+'.py', 'w') as f_py:
             f_py.write(python_str)
 
-        # TODO: execute the file
-
-
     def test_app2sim(self):
         """Test app2sim SED-ML example."""
         self.single_check(os.path.join(sedmlDir, 'app2sim.sedml'))

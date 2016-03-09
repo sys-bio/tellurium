@@ -1,11 +1,16 @@
 import unittest
+import matplotlib
 
 
 class MyTestCase(unittest.TestCase):
+
     def setUp(self):
         # switch the backend of matplotlib, so plots can be tested
-        import matplotlib
+        self.backend = matplotlib.rcParams['backend']
         matplotlib.pyplot.switch_backend("Agg")
+
+    def tearDown(self):
+        matplotlib.pyplot.switch_backend(self.backend)
 
     def test_plot2DParameterScan(self):
         """Test plot2DParameterScan."""
