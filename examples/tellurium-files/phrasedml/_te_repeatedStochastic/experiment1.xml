@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created by phraSED-ML version v1.0.1 on 2016-03-09 12:29 with libSBML version 5.12.1. -->
 <sedML xmlns="http://sed-ml.org/sed-ml/level1/version2" level="1" version="2">
   <listOfSimulations>
     <uniformTimeCourse id="timecourse1" initialTime="0" outputStartTime="0" outputEndTime="4000" numberOfPoints="1000">
@@ -14,7 +13,7 @@
     </uniformTimeCourse>
   </listOfSimulations>
   <listOfModels>
-    <model id="model1" language="urn:sedml:language:sbml.level-3.version-1" source="repeatedStochastic"/>
+    <model id="model1" language="urn:sedml:language:sbml.level-3.version-1" source="repeatedStochastic.xml"/>
   </listOfModels>
   <listOfTasks>
     <task id="task1" modelReference="model1" simulationReference="timecourse1"/>
@@ -47,7 +46,7 @@
     </dataGenerator>
     <dataGenerator id="plot_0_0_1" name="repeat1.MAPK">
       <listOfVariables>
-        <variable id="repeat1_____MAPK" target="/sbml:sbml/sbml:model/descendant::*[@id='MAPK']" taskReference="repeat1" modelReference="model1"/>
+        <variable id="repeat1_____MAPK" target="/sbml:sbml/sbml:model/descendant::*[@id=&apos;MAPK&apos;]" taskReference="repeat1" modelReference="model1"/>
       </listOfVariables>
       <math xmlns="http://www.w3.org/1998/Math/MathML">
         <ci> repeat1_____MAPK </ci>
@@ -55,7 +54,7 @@
     </dataGenerator>
     <dataGenerator id="plot_0_1_1" name="repeat1.MAPK_P">
       <listOfVariables>
-        <variable id="repeat1_____MAPK_P" target="/sbml:sbml/sbml:model/descendant::*[@id='MAPK_P']" taskReference="repeat1" modelReference="model1"/>
+        <variable id="repeat1_____MAPK_P" target="/sbml:sbml/sbml:model/descendant::*[@id=&apos;MAPK_P&apos;]" taskReference="repeat1" modelReference="model1"/>
       </listOfVariables>
       <math xmlns="http://www.w3.org/1998/Math/MathML">
         <ci> repeat1_____MAPK_P </ci>
@@ -63,7 +62,7 @@
     </dataGenerator>
     <dataGenerator id="plot_0_2_1" name="repeat1.MAPK_PP">
       <listOfVariables>
-        <variable id="repeat1_____MAPK_PP" target="/sbml:sbml/sbml:model/descendant::*[@id='MAPK_PP']" taskReference="repeat1" modelReference="model1"/>
+        <variable id="repeat1_____MAPK_PP" target="/sbml:sbml/sbml:model/descendant::*[@id=&apos;MAPK_PP&apos;]" taskReference="repeat1" modelReference="model1"/>
       </listOfVariables>
       <math xmlns="http://www.w3.org/1998/Math/MathML">
         <ci> repeat1_____MAPK_PP </ci>
@@ -71,7 +70,7 @@
     </dataGenerator>
     <dataGenerator id="plot_0_3_1" name="repeat1.MKK">
       <listOfVariables>
-        <variable id="repeat1_____MKK" target="/sbml:sbml/sbml:model/descendant::*[@id='MKK']" taskReference="repeat1" modelReference="model1"/>
+        <variable id="repeat1_____MKK" target="/sbml:sbml/sbml:model/descendant::*[@id=&apos;MKK&apos;]" taskReference="repeat1" modelReference="model1"/>
       </listOfVariables>
       <math xmlns="http://www.w3.org/1998/Math/MathML">
         <ci> repeat1_____MKK </ci>
@@ -79,7 +78,7 @@
     </dataGenerator>
     <dataGenerator id="plot_0_4_1" name="repeat1.MKK_P">
       <listOfVariables>
-        <variable id="repeat1_____MKK_P" target="/sbml:sbml/sbml:model/descendant::*[@id='MKK_P']" taskReference="repeat1" modelReference="model1"/>
+        <variable id="repeat1_____MKK_P" target="/sbml:sbml/sbml:model/descendant::*[@id=&apos;MKK_P&apos;]" taskReference="repeat1" modelReference="model1"/>
       </listOfVariables>
       <math xmlns="http://www.w3.org/1998/Math/MathML">
         <ci> repeat1_____MKK_P </ci>
@@ -87,7 +86,7 @@
     </dataGenerator>
     <dataGenerator id="plot_0_5_1" name="repeat1.MKKK">
       <listOfVariables>
-        <variable id="repeat1_____MKKK" target="/sbml:sbml/sbml:model/descendant::*[@id='MKKK']" taskReference="repeat1" modelReference="model1"/>
+        <variable id="repeat1_____MKKK" target="/sbml:sbml/sbml:model/descendant::*[@id=&apos;MKKK&apos;]" taskReference="repeat1" modelReference="model1"/>
       </listOfVariables>
       <math xmlns="http://www.w3.org/1998/Math/MathML">
         <ci> repeat1_____MKKK </ci>
@@ -95,7 +94,7 @@
     </dataGenerator>
     <dataGenerator id="plot_0_6_1" name="repeat1.MKKK_P">
       <listOfVariables>
-        <variable id="repeat1_____MKKK_P" target="/sbml:sbml/sbml:model/descendant::*[@id='MKKK_P']" taskReference="repeat1" modelReference="model1"/>
+        <variable id="repeat1_____MKKK_P" target="/sbml:sbml/sbml:model/descendant::*[@id=&apos;MKKK_P&apos;]" taskReference="repeat1" modelReference="model1"/>
       </listOfVariables>
       <math xmlns="http://www.w3.org/1998/Math/MathML">
         <ci> repeat1_____MKKK_P </ci>
@@ -111,7 +110,7 @@
     </dataGenerator>
     <dataGenerator id="plot_1_0_1" name="repeat2.MAPK">
       <listOfVariables>
-        <variable id="repeat2_____MAPK" target="/sbml:sbml/sbml:model/descendant::*[@id='MAPK']" taskReference="repeat2" modelReference="model1"/>
+        <variable id="repeat2_____MAPK" target="/sbml:sbml/sbml:model/descendant::*[@id=&apos;MAPK&apos;]" taskReference="repeat2" modelReference="model1"/>
       </listOfVariables>
       <math xmlns="http://www.w3.org/1998/Math/MathML">
         <ci> repeat2_____MAPK </ci>
@@ -119,7 +118,7 @@
     </dataGenerator>
     <dataGenerator id="plot_1_1_1" name="repeat2.MAPK_P">
       <listOfVariables>
-        <variable id="repeat2_____MAPK_P" target="/sbml:sbml/sbml:model/descendant::*[@id='MAPK_P']" taskReference="repeat2" modelReference="model1"/>
+        <variable id="repeat2_____MAPK_P" target="/sbml:sbml/sbml:model/descendant::*[@id=&apos;MAPK_P&apos;]" taskReference="repeat2" modelReference="model1"/>
       </listOfVariables>
       <math xmlns="http://www.w3.org/1998/Math/MathML">
         <ci> repeat2_____MAPK_P </ci>
@@ -127,7 +126,7 @@
     </dataGenerator>
     <dataGenerator id="plot_1_2_1" name="repeat2.MAPK_PP">
       <listOfVariables>
-        <variable id="repeat2_____MAPK_PP" target="/sbml:sbml/sbml:model/descendant::*[@id='MAPK_PP']" taskReference="repeat2" modelReference="model1"/>
+        <variable id="repeat2_____MAPK_PP" target="/sbml:sbml/sbml:model/descendant::*[@id=&apos;MAPK_PP&apos;]" taskReference="repeat2" modelReference="model1"/>
       </listOfVariables>
       <math xmlns="http://www.w3.org/1998/Math/MathML">
         <ci> repeat2_____MAPK_PP </ci>
@@ -135,7 +134,7 @@
     </dataGenerator>
     <dataGenerator id="plot_1_3_1" name="repeat2.MKK">
       <listOfVariables>
-        <variable id="repeat2_____MKK" target="/sbml:sbml/sbml:model/descendant::*[@id='MKK']" taskReference="repeat2" modelReference="model1"/>
+        <variable id="repeat2_____MKK" target="/sbml:sbml/sbml:model/descendant::*[@id=&apos;MKK&apos;]" taskReference="repeat2" modelReference="model1"/>
       </listOfVariables>
       <math xmlns="http://www.w3.org/1998/Math/MathML">
         <ci> repeat2_____MKK </ci>
@@ -143,7 +142,7 @@
     </dataGenerator>
     <dataGenerator id="plot_1_4_1" name="repeat2.MKK_P">
       <listOfVariables>
-        <variable id="repeat2_____MKK_P" target="/sbml:sbml/sbml:model/descendant::*[@id='MKK_P']" taskReference="repeat2" modelReference="model1"/>
+        <variable id="repeat2_____MKK_P" target="/sbml:sbml/sbml:model/descendant::*[@id=&apos;MKK_P&apos;]" taskReference="repeat2" modelReference="model1"/>
       </listOfVariables>
       <math xmlns="http://www.w3.org/1998/Math/MathML">
         <ci> repeat2_____MKK_P </ci>
@@ -151,7 +150,7 @@
     </dataGenerator>
     <dataGenerator id="plot_1_5_1" name="repeat2.MKKK">
       <listOfVariables>
-        <variable id="repeat2_____MKKK" target="/sbml:sbml/sbml:model/descendant::*[@id='MKKK']" taskReference="repeat2" modelReference="model1"/>
+        <variable id="repeat2_____MKKK" target="/sbml:sbml/sbml:model/descendant::*[@id=&apos;MKKK&apos;]" taskReference="repeat2" modelReference="model1"/>
       </listOfVariables>
       <math xmlns="http://www.w3.org/1998/Math/MathML">
         <ci> repeat2_____MKKK </ci>
@@ -159,7 +158,7 @@
     </dataGenerator>
     <dataGenerator id="plot_1_6_1" name="repeat2.MKKK_P">
       <listOfVariables>
-        <variable id="repeat2_____MKKK_P" target="/sbml:sbml/sbml:model/descendant::*[@id='MKKK_P']" taskReference="repeat2" modelReference="model1"/>
+        <variable id="repeat2_____MKKK_P" target="/sbml:sbml/sbml:model/descendant::*[@id=&apos;MKKK_P&apos;]" taskReference="repeat2" modelReference="model1"/>
       </listOfVariables>
       <math xmlns="http://www.w3.org/1998/Math/MathML">
         <ci> repeat2_____MKKK_P </ci>

@@ -175,7 +175,7 @@ class experiment(object):
         :param exportPath: full path of the combine zip file to create
         :type exportPath: str
         """
-        m = tecombine.MakeCombine()
+        m = tecombine.CombineArchive()
 
         # Add antimony models to archive
         for aStr in self.antimonyList:

@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created by phraSED-ML version v1.0.1 on 2016-03-09 12:29 with libSBML version 5.12.1. -->
 <sedML xmlns="http://sed-ml.org/sed-ml/level1/version2" level="1" version="2">
   <listOfSimulations>
     <uniformTimeCourse id="timecourse1" initialTime="0" outputStartTime="0" outputEndTime="20" numberOfPoints="1000">
@@ -7,7 +6,7 @@
     </uniformTimeCourse>
   </listOfSimulations>
   <listOfModels>
-    <model id="model1" language="urn:sedml:language:sbml.level-3.version-1" source="parameterScan1D"/>
+    <model id="model1" language="urn:sedml:language:sbml.level-3.version-1" source="parameterScan1D.xml"/>
   </listOfModels>
   <listOfTasks>
     <task id="task0" modelReference="model1" simulationReference="timecourse1"/>
@@ -20,7 +19,7 @@
         </vectorRange>
       </listOfRanges>
       <listOfChanges>
-        <setValue range="vector_for_J0_v0" modelReference="model1" target="/sbml:sbml/sbml:model/descendant::*[@id='J0_v0']">
+        <setValue range="vector_for_J0_v0" modelReference="model1" target="/sbml:sbml/sbml:model/descendant::*[@id=&apos;J0_v0&apos;]">
           <math xmlns="http://www.w3.org/1998/Math/MathML">
             <ci> vector_for_J0_v0 </ci>
           </math>
@@ -42,7 +41,7 @@
     </dataGenerator>
     <dataGenerator id="plot_0_0_1" name="task1.S1">
       <listOfVariables>
-        <variable id="task1_____S1" target="/sbml:sbml/sbml:model/descendant::*[@id='S1']" taskReference="task1" modelReference="model1"/>
+        <variable id="task1_____S1" target="/sbml:sbml/sbml:model/descendant::*[@id=&apos;S1&apos;]" taskReference="task1" modelReference="model1"/>
       </listOfVariables>
       <math xmlns="http://www.w3.org/1998/Math/MathML">
         <ci> task1_____S1 </ci>
@@ -50,7 +49,7 @@
     </dataGenerator>
     <dataGenerator id="plot_0_1_1" name="task1.S2">
       <listOfVariables>
-        <variable id="task1_____S2" target="/sbml:sbml/sbml:model/descendant::*[@id='S2']" taskReference="task1" modelReference="model1"/>
+        <variable id="task1_____S2" target="/sbml:sbml/sbml:model/descendant::*[@id=&apos;S2&apos;]" taskReference="task1" modelReference="model1"/>
       </listOfVariables>
       <math xmlns="http://www.w3.org/1998/Math/MathML">
         <ci> task1_____S2 </ci>

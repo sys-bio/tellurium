@@ -59,8 +59,8 @@ shutil.rmtree(workingDir)
 
 # [2] store as combine archive and run
 import os
-from tellurium.tecombine import MakeCombine
-combine = MakeCombine()
+from tellurium.tecombine import CombineArchive
+combine = CombineArchive()
 combine.addSEDMLStr(sedmlStr, 'specificationL1V2.sedml')
 from tellurium.tests.testdata import sedxDir
 combinePath = os.path.join(sedxDir, 'specificationL1V2.sedx')

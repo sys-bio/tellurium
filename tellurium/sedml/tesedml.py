@@ -74,7 +74,6 @@ The Output Class
 # TODO: better handling of model.reset for task tree
 
 # FIXME: bug multiple model instances of same model (https://github.com/sys-bio/roadrunner/issues/305)
-# FIXME: bug missing .xml extension in model source in combine archive (https://sourceforge.net/p/phrasedml/tickets/15/)
 # FIXME: rk4 integration not working on linux (https://github.com/sys-bio/roadrunner/issues/307)
 
 
@@ -399,10 +398,6 @@ class SEDMLCodeFactory(object):
             elif isHttp():
                 lines.append("{} = te.loadSBMLModel('{}')".format(mid, source))
             else:
-                # FIXME: this is a bug in how the combine archive is created (missing .xml)
-                # SHOULD NOT BE REQUIRED HERE. THIS IS A TEMPORARY FIX
-                if not source.endswith('.xml'):
-                    source += '.xml'
                 lines.append("{} = te.loadSBMLModel(os.path.join(workingDir, '{}'))".format(mid, source))
         # read CellML
         elif 'cellml' in language:

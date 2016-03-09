@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created by phraSED-ML version v1.0.1 on 2016-03-09 12:29 with libSBML version 5.12.1. -->
 <sedML xmlns="http://sed-ml.org/sed-ml/level1/version2" level="1" version="2">
   <listOfSimulations>
     <uniformTimeCourse id="sim1" initialTime="0" outputStartTime="0" outputEndTime="10" numberOfPoints="100">
@@ -7,7 +6,7 @@
     </uniformTimeCourse>
   </listOfSimulations>
   <listOfModels>
-    <model id="mod1" language="urn:sedml:language:sbml.level-3.version-1" source="case_05"/>
+    <model id="mod1" language="urn:sedml:language:sbml.level-3.version-1" source="case_05.xml"/>
   </listOfModels>
   <listOfTasks>
     <task id="task1" modelReference="mod1" simulationReference="sim1"/>
@@ -23,7 +22,7 @@
     </dataGenerator>
     <dataGenerator id="plot_0_0_1" name="task1.S1">
       <listOfVariables>
-        <variable id="task1_____S1" target="/sbml:sbml/sbml:model/descendant::*[@id='S1']" taskReference="task1" modelReference="mod1"/>
+        <variable id="task1_____S1" target="/sbml:sbml/sbml:model/descendant::*[@id=&apos;S1&apos;]" taskReference="task1" modelReference="mod1"/>
       </listOfVariables>
       <math xmlns="http://www.w3.org/1998/Math/MathML">
         <ci> task1_____S1 </ci>
@@ -31,7 +30,7 @@
     </dataGenerator>
     <dataGenerator id="plot_0_1_1" name="task1.S2">
       <listOfVariables>
-        <variable id="task1_____S2" target="/sbml:sbml/sbml:model/descendant::*[@id='S2']" taskReference="task1" modelReference="mod1"/>
+        <variable id="task1_____S2" target="/sbml:sbml/sbml:model/descendant::*[@id=&apos;S2&apos;]" taskReference="task1" modelReference="mod1"/>
       </listOfVariables>
       <math xmlns="http://www.w3.org/1998/Math/MathML">
         <ci> task1_____S2 </ci>
@@ -39,8 +38,8 @@
     </dataGenerator>
     <dataGenerator id="plot_0_2_1" name="task1.S1/task1.S2">
       <listOfVariables>
-        <variable id="task1_____S1" target="/sbml:sbml/sbml:model/descendant::*[@id='S1']" taskReference="task1" modelReference="mod1"/>
-        <variable id="task1_____S2" target="/sbml:sbml/sbml:model/descendant::*[@id='S2']" taskReference="task1" modelReference="mod1"/>
+        <variable id="task1_____S1" target="/sbml:sbml/sbml:model/descendant::*[@id=&apos;S1&apos;]" taskReference="task1" modelReference="mod1"/>
+        <variable id="task1_____S2" target="/sbml:sbml/sbml:model/descendant::*[@id=&apos;S2&apos;]" taskReference="task1" modelReference="mod1"/>
       </listOfVariables>
       <math xmlns="http://www.w3.org/1998/Math/MathML">
         <apply>
@@ -52,7 +51,7 @@
     </dataGenerator>
     <dataGenerator id="plot_2_0_0" name="task1.S1/max(task1.S1)">
       <listOfVariables>
-        <variable id="task1_____S1" target="/sbml:sbml/sbml:model/descendant::*[@id='S1']" taskReference="task1" modelReference="mod1"/>
+        <variable id="task1_____S1" target="/sbml:sbml/sbml:model/descendant::*[@id=&apos;S1&apos;]" taskReference="task1" modelReference="mod1"/>
       </listOfVariables>
       <math xmlns="http://www.w3.org/1998/Math/MathML">
         <apply>
@@ -67,7 +66,7 @@
     </dataGenerator>
     <dataGenerator id="plot_2_0_1" name="task1.S2/max(task1.S2)">
       <listOfVariables>
-        <variable id="task1_____S2" target="/sbml:sbml/sbml:model/descendant::*[@id='S2']" taskReference="task1" modelReference="mod1"/>
+        <variable id="task1_____S2" target="/sbml:sbml/sbml:model/descendant::*[@id=&apos;S2&apos;]" taskReference="task1" modelReference="mod1"/>
       </listOfVariables>
       <math xmlns="http://www.w3.org/1998/Math/MathML">
         <apply>
