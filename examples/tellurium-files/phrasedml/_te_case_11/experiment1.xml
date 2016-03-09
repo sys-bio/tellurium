@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created by phraSED-ML version v1.0.1 on 2016-03-09 17:03 with libSBML version 5.12.1. -->
 <sedML xmlns="http://sed-ml.org/sed-ml/level1/version2" level="1" version="2">
   <listOfSimulations>
     <uniformTimeCourse id="sim1" initialTime="0" outputStartTime="0" outputEndTime="10" numberOfPoints="100">
@@ -7,7 +6,7 @@
     </uniformTimeCourse>
   </listOfSimulations>
   <listOfModels>
-    <model id="mod1" language="urn:sedml:language:sbml.level-3.version-1" source="case_11"/>
+    <model id="mod1" language="urn:sedml:language:sbml.level-3.version-1" source="case_11.xml"/>
   </listOfModels>
   <listOfTasks>
     <task id="task1" modelReference="mod1" simulationReference="sim1"/>
@@ -16,7 +15,7 @@
         <uniformRange id="uniform_linear_for_k1" start="0" end="1" numberOfPoints="2" type="linear"/>
       </listOfRanges>
       <listOfChanges>
-        <setValue range="uniform_linear_for_k1" modelReference="mod1" target="/sbml:sbml/sbml:model/descendant::*[@id='k1']">
+        <setValue range="uniform_linear_for_k1" modelReference="mod1" target="/sbml:sbml/sbml:model/descendant::*[@id=&apos;k1&apos;]">
           <math xmlns="http://www.w3.org/1998/Math/MathML">
             <ci> uniform_linear_for_k1 </ci>
           </math>
@@ -31,7 +30,7 @@
         <uniformRange id="uniform_linear_for_k2" start="0" end="1" numberOfPoints="3" type="linear"/>
       </listOfRanges>
       <listOfChanges>
-        <setValue range="uniform_linear_for_k2" modelReference="mod1" target="/sbml:sbml/sbml:model/descendant::*[@id='k2']">
+        <setValue range="uniform_linear_for_k2" modelReference="mod1" target="/sbml:sbml/sbml:model/descendant::*[@id=&apos;k2&apos;]">
           <math xmlns="http://www.w3.org/1998/Math/MathML">
             <ci> uniform_linear_for_k2 </ci>
           </math>
@@ -49,7 +48,7 @@
         </vectorRange>
       </listOfRanges>
       <listOfChanges>
-        <setValue range="vector_for_S1" modelReference="mod1" target="/sbml:sbml/sbml:model/descendant::*[@id='S1']">
+        <setValue range="vector_for_S1" modelReference="mod1" target="/sbml:sbml/sbml:model/descendant::*[@id=&apos;S1&apos;]">
           <math xmlns="http://www.w3.org/1998/Math/MathML">
             <ci> vector_for_S1 </ci>
           </math>
@@ -71,7 +70,7 @@
     </dataGenerator>
     <dataGenerator id="plot_0_0_1" name="rtask3.S1">
       <listOfVariables>
-        <variable id="rtask3_____S1" target="/sbml:sbml/sbml:model/descendant::*[@id='S1']" taskReference="rtask3" modelReference="mod1"/>
+        <variable id="rtask3_____S1" target="/sbml:sbml/sbml:model/descendant::*[@id=&apos;S1&apos;]" taskReference="rtask3" modelReference="mod1"/>
       </listOfVariables>
       <math xmlns="http://www.w3.org/1998/Math/MathML">
         <ci> rtask3_____S1 </ci>
@@ -79,7 +78,7 @@
     </dataGenerator>
     <dataGenerator id="plot_0_1_1" name="rtask3.S2">
       <listOfVariables>
-        <variable id="rtask3_____S2" target="/sbml:sbml/sbml:model/descendant::*[@id='S2']" taskReference="rtask3" modelReference="mod1"/>
+        <variable id="rtask3_____S2" target="/sbml:sbml/sbml:model/descendant::*[@id=&apos;S2&apos;]" taskReference="rtask3" modelReference="mod1"/>
       </listOfVariables>
       <math xmlns="http://www.w3.org/1998/Math/MathML">
         <ci> rtask3_____S2 </ci>
@@ -87,7 +86,7 @@
     </dataGenerator>
     <dataGenerator id="plot_1_0_0" name="rtask3.k1">
       <listOfVariables>
-        <variable id="rtask3_____k1" target="/sbml:sbml/sbml:model/descendant::*[@id='k1']" taskReference="rtask3" modelReference="mod1"/>
+        <variable id="rtask3_____k1" target="/sbml:sbml/sbml:model/descendant::*[@id=&apos;k1&apos;]" taskReference="rtask3" modelReference="mod1"/>
       </listOfVariables>
       <math xmlns="http://www.w3.org/1998/Math/MathML">
         <ci> rtask3_____k1 </ci>
@@ -95,7 +94,7 @@
     </dataGenerator>
     <dataGenerator id="plot_1_0_1" name="rtask3.k2">
       <listOfVariables>
-        <variable id="rtask3_____k2" target="/sbml:sbml/sbml:model/descendant::*[@id='k2']" taskReference="rtask3" modelReference="mod1"/>
+        <variable id="rtask3_____k2" target="/sbml:sbml/sbml:model/descendant::*[@id=&apos;k2&apos;]" taskReference="rtask3" modelReference="mod1"/>
       </listOfVariables>
       <math xmlns="http://www.w3.org/1998/Math/MathML">
         <ci> rtask3_____k2 </ci>

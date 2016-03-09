@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created by phraSED-ML version v1.0.1 on 2016-03-09 17:03 with libSBML version 5.12.1. -->
 <sedML xmlns="http://sed-ml.org/sed-ml/level1/version2" level="1" version="2">
   <listOfSimulations>
     <uniformTimeCourse id="sim1" initialTime="0" outputStartTime="0" outputEndTime="10" numberOfPoints="20">
@@ -10,8 +9,8 @@
     </uniformTimeCourse>
   </listOfSimulations>
   <listOfModels>
-    <model id="mod1" language="urn:sedml:language:sbml.level-3.version-1" source="case_08"/>
-    <model id="mod2" language="urn:sedml:language:sbml.level-3.version-1" source="case_08"/>
+    <model id="mod1" language="urn:sedml:language:sbml.level-3.version-1" source="case_08.xml"/>
+    <model id="mod2" language="urn:sedml:language:sbml.level-3.version-1" source="case_08.xml"/>
   </listOfModels>
   <listOfTasks>
     <task id="task1" modelReference="mod1" simulationReference="sim1"/>
@@ -21,14 +20,14 @@
         <uniformRange id="uniform_linear_for_S2" start="0" end="10" numberOfPoints="9" type="linear"/>
       </listOfRanges>
       <listOfChanges>
-        <setValue range="uniform_linear_for_S2" modelReference="mod1" target="/sbml:sbml/sbml:model/descendant::*[@id='S2']">
+        <setValue range="uniform_linear_for_S2" modelReference="mod1" target="/sbml:sbml/sbml:model/descendant::*[@id=&apos;S2&apos;]">
           <math xmlns="http://www.w3.org/1998/Math/MathML">
             <ci> uniform_linear_for_S2 </ci>
           </math>
         </setValue>
-        <setValue modelReference="mod1" target="/sbml:sbml/sbml:model/descendant::*[@id='S1']">
+        <setValue modelReference="mod1" target="/sbml:sbml/sbml:model/descendant::*[@id=&apos;S1&apos;]">
           <listOfVariables>
-            <variable id="S2" target="/sbml:sbml/sbml:model/descendant::*[@id='S2']" modelReference="mod1"/>
+            <variable id="S2" target="/sbml:sbml/sbml:model/descendant::*[@id=&apos;S2&apos;]" modelReference="mod1"/>
           </listOfVariables>
           <math xmlns="http://www.w3.org/1998/Math/MathML">
             <apply>
@@ -56,7 +55,7 @@
     </dataGenerator>
     <dataGenerator id="plot_0_0_1" name="repeat1.mod1.S1">
       <listOfVariables>
-        <variable id="repeat1_____mod1_____S1" target="/sbml:sbml/sbml:model/descendant::*[@id='S1']" taskReference="repeat1" modelReference="mod1"/>
+        <variable id="repeat1_____mod1_____S1" target="/sbml:sbml/sbml:model/descendant::*[@id=&apos;S1&apos;]" taskReference="repeat1" modelReference="mod1"/>
       </listOfVariables>
       <math xmlns="http://www.w3.org/1998/Math/MathML">
         <ci> repeat1_____mod1_____S1 </ci>
@@ -64,7 +63,7 @@
     </dataGenerator>
     <dataGenerator id="plot_0_1_1" name="repeat1.mod1.S2">
       <listOfVariables>
-        <variable id="repeat1_____mod1_____S2" target="/sbml:sbml/sbml:model/descendant::*[@id='S2']" taskReference="repeat1" modelReference="mod1"/>
+        <variable id="repeat1_____mod1_____S2" target="/sbml:sbml/sbml:model/descendant::*[@id=&apos;S2&apos;]" taskReference="repeat1" modelReference="mod1"/>
       </listOfVariables>
       <math xmlns="http://www.w3.org/1998/Math/MathML">
         <ci> repeat1_____mod1_____S2 </ci>
