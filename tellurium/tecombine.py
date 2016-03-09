@@ -1,6 +1,39 @@
 """
-Utilities for working with combine archives.
+Tellurium utilities for working with COMBINE archives.
+
+Open Modeling EXchange format (OMEX) is the basis of the COMBINE Archive, a single file that supports
+the exchange of all the information necessary for a modeling and simulation experiment in biology.
+An OMEX file is a ZIP container that includes a manifest file, listing the content of the archive,
+an optional metadata file adding information about the archive and its content, and the files describing
+the model. The content of a COMBINE Archive consists of files encoded in COMBINE standards whenever
+possible, but may include additional files defined by an Internet Media Type.
+
+The COMBINE Archive facilitates the reproduction of modeling and simulation experiments in biology by
+embedding all the relevant information in one file. Having all the information stored and exchanged at
+once also helps in building activity logs and audit trails.
+
+The COMBINE archive is described in the following publication
+BMC Bioinformatics. 2014 Dec 14;15:369. doi: 10.1186/s12859-014-0369-z.
+COMBINE archive and OMEX format: one file to share all information to reproduce a modeling project.
+
+The specification is available from
+http://co.mbine.org/specifications/omex.version-1
+
+The archive contains
+1. a mandatory manifest file, called manifest.xml, always located at the root of the archive, that describes the
+location and the type of each data file contained in the archive plus an entry describing the archive itself.
+The location of those files is defined by a relative path.
+
+2. metadata files containing clerical information about the various files contained in the archive, and the archive
+itself. A best practice is to include only one file for each file format metadata called metadata.* (where *
+means the suitable file extension)
+
+3. all remaining files necessary to the model and simulation project
 """
+# TODO: MakeCombine should support the storage of data, figures, csv tables, ...
+# required for a CombineWithResults
+
+
 from __future__ import print_function, division
 
 import os
@@ -25,10 +58,8 @@ def combine(combinePath):
     return OpenCombine(combinePath)
 
 
-
-
-
-class CombineAsset(object):
+# Assets --------------------------------------------------------
+class Asset(object):
     @classmethod
     def getCOMBINEResourceURI(cls, x):
         """ Get URI for uri type."
@@ -47,12 +78,9 @@ class CombineAsset(object):
     def isPhraSEDML(self):
         return False
 
-# Raw/file assets:
-# File assets specify a file path in the OS filesystem
-# Raw assets contain the raw string of the entire asset
 
-
-class CombineRawAsset(CombineAsset):
+class RawAsset(Asset):
+    """ Raw assets contain the raw string of the entire asset. """
     def __init__(self, raw, archname):
         self.raw = raw
         self.archname = archname
@@ -66,26 +94,30 @@ class CombineRawAsset(CombineAsset):
     def getRawStr(self):
         return self.raw
 
-    # return a form suitable for exporting to COMBINE (uses dynamic binding)
     def getExportedStr(self):
+        """ Returns a form suitable for exporting to COMBINE (uses dynamic binding)
+        :return:
+        :rtype:
+        """
         return self.getRawStr()
 
 
-class CombineFileAsset(CombineAsset):
+class FileAsset(Asset):
+    """ File assets specify a file path in the file system. """
     def __init__(self, filename):
         self.filename = filename
 
     def isFile(self):
         return True
 
-    def getbasename(self, f):
-        return os.path.basename(f)
-
     def getFileName(self):
         return self.filename
 
     def getArchName(self, f):
-        return self.getbasename(f)
+        return self.getBasename(f)
+
+    def getBasename(self, f):
+        return os.path.basename(f)
 
     def getRawStr(self):
         with open(self.getFileName()) as f:
@@ -94,149 +126,177 @@ class CombineFileAsset(CombineAsset):
     def getExportedStr(self):
         return self.getRawStr()
 
-# Asset types: SBML, SEDML, etc.
 
-class CombineSBMLAsset(CombineAsset):
+# SBML --------------------------------------------------------
+class SBMLAsset(Asset):
+    """ SBML. """
     def getResourceURI(self):
-        return CombineAsset.getCOMBINEResourceURI('sbml')
+        return Asset.getCOMBINEResourceURI('sbml')
+
+class SBMLRawAsset(RawAsset, SBMLAsset):
+    """ SBML raw asset. """
+    pass
+
+class SBMLFileAsset(FileAsset, SBMLAsset):
+    """ SBML file asset. """
+    pass
 
 
-class CombineAntimonyAsset(CombineAsset):
+# SED-ML --------------------------------------------------------
+class SEDMLAsset(Asset):
+    def getResourceURI(self):
+        return Asset.getCOMBINEResourceURI('sed-ml')
+
+class SEDMLRawAsset(RawAsset, SEDMLAsset):
+    pass
+
+class SEDMLFileAsset(FileAsset, SEDMLAsset):
+    pass
+
+
+# Antimony --------------------------------------------------------
+class AntimonyAsset(Asset):
+    """ Antimony. """
     def getSBMLStr(self):
         antimony.clearPreviousLoads()
         antimony.loadString(self.getRawStr())
         return antimony.getSBMLString(antimony.getModuleNames()[-1])
 
     def getResourceURI(self):
-        return CombineAsset.getCOMBINEResourceURI('sbml')
+        return Asset.getCOMBINEResourceURI('sbml')
+
+class AntimonyRawAsset(RawAsset, AntimonyAsset):
+    """ Antimony Raw. """
+    def getExportedStr(self):
+        """ return SBML, since COMBINE doesn't support Antimony."""
+        return self.getSBMLStr()
+
+class AntimonyFileAsset(FileAsset, AntimonyAsset):
+
+    def getArchName(self, f):
+        return self._replace_ext(self.getBasename(f))
+
+    def getExportedStr(self):
+        """ Returns SEDML, since COMBINE doesn't support PhraSEDML. """
+        return self.getSBMLStr()
+
+    def _replace_ext(self, filename):
+        """ Converts a phrasedml extension to a sedml extension.
+        :param filename:
+        :type filename:
+        :return:
+        :rtype:
+        """
+        r = re.compile(r'.*\.([^.]*)')
+        m = r.match(filename)
+        if m is None:
+            raise RuntimeError('Unrecognized file name: {}'.format(filename))
+        return filename.replace(m.groups()[0], 'xml')
 
 
-class CombineSEDMLAsset(CombineAsset):
-    def getResourceURI(self):
-        return CombineAsset.getCOMBINEResourceURI('sed-ml')
-
-
-class CombinePhraSEDMLAsset(CombineAsset):
+# PhrasedML --------------------------------------------------------
+class PhraSEDMLAsset(Asset):
     def isPhraSEDML(self):
         return True
 
     def getSEDMLStr(self):
+        # FIXME: This will create problems, because the referenced models can change since the Asset was created
+        # There should only be SEDML and SBML assets, i.e on creation of PhrasedMlAssets and AntimonyAssets these
+        # should be translated.
         sedmlstr = phrasedml.convertString(self.getRawStr())
-        if sedmlstr == None:
+        if sedmlstr is None:
             raise Exception(phrasedml.getLastError())
         return sedmlstr
 
     def getResourceURI(self):
-        return CombineAsset.getCOMBINEResourceURI('sed-ml')
+        return Asset.getCOMBINEResourceURI('sed-ml')
 
-# SBML:
 
-class CombineSBMLRawAsset(CombineRawAsset, CombineSBMLAsset):
-    pass
-
-class CombineSBMLFileAsset(CombineFileAsset, CombineSBMLAsset):
-    pass
-
-# Antimony:
-
-class CombineAntimonyRawAsset(CombineRawAsset, CombineAntimonyAsset):
-    # return SBML, since COMBINE doesn't support Antimony
+class PhraSEDMLRawAsset(RawAsset, PhraSEDMLAsset):
     def getExportedStr(self):
-        return self.getSBMLStr()
-
-class CombineAntimonyFileAsset(CombineFileAsset, CombineAntimonyAsset):
-    # converts a phrasedml extension to a sedml extension
-    def replace_ext(self, filename):
-        r = re.compile(r'.*\.([^.]*)')
-        m = r.match(filename)
-        if m is None:
-            raise RuntimeError('Unrecognized file name: {}'.format(filename))
-        return filename.replace(m.groups()[0], 'xml')
-
-    def getArchName(self, f):
-        return self.replace_ext(self.getbasename(f))
-
-    # return SEDML, since COMBINE doesn't support PhraSEDML
-    def getExportedStr(self):
-        return self.getSBMLStr()
-
-# SEDML:
-
-class CombineSEDMLRawAsset(CombineRawAsset, CombineSEDMLAsset):
-    pass
-
-class CombineSEDMLFileAsset(CombineFileAsset, CombineSEDMLAsset):
-    pass
-
-# PhraSEDML:
-
-
-class CombinePhraSEDMLRawAsset(CombineRawAsset, CombinePhraSEDMLAsset):
-    # return SEDML, since COMBINE doesn't support PhraSEDML
-    def getExportedStr(self):
+        """ Returns SEDML, since COMBINE doesn't support PhraSEDML. """
         # FIXME: Necessary to add .xml to models due to https://sourceforge.net/p/phrasedml/tickets/15/
-
         return self.getSEDMLStr()
 
 
-class CombinePhraSEDMLFileAsset(CombineFileAsset, CombinePhraSEDMLAsset):
-    # converts a phrasedml extension to a sedml extension
-    def replace_pml_ext(self, filename):
+class PhraSEDMLFileAsset(FileAsset, PhraSEDMLAsset):
+    def getArchName(self, f):
+        return self._replace_pml_ext(self.getBasename(f))
+
+    def _replace_pml_ext(self, filename):
+        """ Converts a phrasedml extension to a sedml extension. """
         r = re.compile(r'.*\.([^.]*)')
         m = r.match(filename)
         if m is None:
             raise RuntimeError('Unrecognized file name: {}'.format(filename))
         return filename.replace(m.groups()[0], 'xml')
 
-    def getArchName(self, f):
-        return self.replace_pml_ext(self.getbasename(f))
-
-    # return SEDML, since COMBINE doesn't support PhraSEDML
     def getExportedStr(self):
+        """ Returns SEDML, since COMBINE doesn't support PhraSEDML."""
         return self.getSEDMLStr()
 
 
 class MakeCombine:
-    """ Class for creating combine archives. """
+    """ Class for creating combine archives.
 
+    Raw and file assets are added to the empty COMBINE archive via
+    the respective add*Str and add*File methods.
+    The archive is written to file via the write function.
+    """
     def __init__(self):
         self.assets = []
+        self.manifest = ''
 
     def checkfile(self, filename):
+        """ Check that file exists. """
         if not os.path.exists(filename) or not os.path.isfile(filename):
             raise RuntimeError('No such file: {}'.format(filename))
 
-    # Add raw strings:
+    # Add raw strings
     def addSBMLStr(self, rawstr, archname):
-        self.assets.append(CombineSBMLRawAsset(rawstr, archname))
+        self.assets.append(SBMLRawAsset(rawstr, archname))
 
     def addAntimonyStr(self, rawstr, archname):
-        self.assets.append(CombineAntimonyRawAsset(rawstr, archname))
+        self.assets.append(AntimonyRawAsset(rawstr, archname))
 
     def addSEDMLStr(self, rawstr, archname):
-        self.assets.append(CombineSEDMLRawAsset(rawstr, archname))
+        self.assets.append(SEDMLRawAsset(rawstr, archname))
 
     def addPhraSEDMLStr(self, rawstr, archname):
-        self.assets.append(CombinePhraSEDMLRawAsset(rawstr, archname))
+        self.assets.append(PhraSEDMLRawAsset(rawstr, archname))
 
-    # Add files:
+    # Add files
     def addSBMLFile(self, filename):
         self.checkfile(filename)
-        self.assets.append(CombineSBMLFileAsset(filename))
+        self.assets.append(SBMLFileAsset(filename))
 
     def addAntimonyFile(self, filename):
         self.checkfile(filename)
-        self.assets.append(CombineAntimonyFileAsset(filename))
+        self.assets.append(AntimonyFileAsset(filename))
 
     def addSEDMLFile(self, filename):
         self.checkfile(filename)
-        self.assets.append(CombineSEDMLFileAsset(filename))
+        self.assets.append(SEDMLFileAsset(filename))
 
     def addPhraSEDMLFile(self, filename):
         self.checkfile(filename)
-        self.assets.append(CombinePhraSEDMLFileAsset(filename))
+        self.assets.append(PhraSEDMLFileAsset(filename))
 
-    def writeAsset(self, zf, asset):
+    def write(self, outfile):
+        """ Write the combine archive to the outfile.
+        Writes all assets and creates the manifest.xml.
+        """
+        with ZipFile(outfile, 'w') as zf:
+            self.manifest += '<?xml version="1.0"  encoding="utf-8"?>\n<omexManifest  xmlns="http://identifiers.org/combine.specifications/omex-manifest">\n'
+            self.manifest += '    <content location="./manifest.xml" format="http://identifiers.org/combine.specifications/omex-manifest"/>\n'
+            for a in self.assets:
+                self._writeAsset(zf, a)
+            self.manifest += '</omexManifest>\n'
+            # write manifest
+            zf.writestr('manifest.xml', self.manifest)
+
+    def _writeAsset(self, zf, asset):
+        """ Writes asset to zip file (archive) and adds the manifest line for the file. """
         if asset.isFile():
             zf.write(asset.getFileName(), asset.getArchName())
         else:
@@ -245,27 +305,11 @@ class MakeCombine:
         self.manifest += '    <content location="./{}" master="true" format="{}"/>\n'.format(
             asset.getArchName(),
             asset.getResourceURI()
-            )
+        )
 
-    def write(self, outfile):
-        """ Write the combine archive to the outfile.
-
-        Writes all assets and creates the manifest file.
-
-        """
-        self.manifest = ''
-        with ZipFile(outfile, 'w') as z:
-            self.manifest += '<?xml version="1.0"  encoding="utf-8"?>\n<omexManifest  xmlns="http://identifiers.org/combine.specifications/omex-manifest">\n'
-            self.manifest += '    <content location="./manifest.xml" format="http://identifiers.org/combine.specifications/omex-manifest"/>\n'
-
-            for a in self.assets:
-                self.writeAsset(z, a)
-
-            self.manifest += '</omexManifest>\n'
-
-            z.writestr('manifest.xml', self.manifest)
 
 class OpenCombine(object):
+
     def __init__(self, combinePath):
         if os.path.exists(combinePath):
             self.combinePath = combinePath
@@ -292,11 +336,14 @@ class OpenCombine(object):
             raise Exception("Invalid string for sbml: Check the path of the file")
         zf.close()
         self.updateManifest(modelname + '.xml', 'sbml')
-   
+
+
     def addAntimony(self, antimonyStr):
+        """ Add antimony to archive. """
         sbmlStr = te.antimonyToSBML(antimonyStr)
         self.addSBML(sbmlStr)
-    
+
+
     def addSEDML(self, sedmlPath, arcname=None):
         contents = self.listContents()
         sedmlBase = os.path.basename(sedmlPath)
@@ -335,6 +382,8 @@ class OpenCombine(object):
             self.updateManifest(arcname + '.xml', 'sedml')
     
     def addPhrasedml(self, phrasedmlStr, antimonyStr, arcname=None):
+        """ Adds phrasedml via conversion to SEDML. """
+        # FIXME: This does not work for multiple referenced models !.
         reModel = r"""(\w*) = model ('|")(.*)('|")"""
         phrasedmllines = phrasedmlStr.splitlines()
         for k, line in enumerate(phrasedmllines):
@@ -353,6 +402,7 @@ class OpenCombine(object):
         self.addSEDML(sedmlstr, arcname)
         
     def addFile(self, filePath):
+        """ Add other file type. """
         acceptedFormats = ('png','jpg','jpeg','pdf','txt','csv','dat')
         contents = self.listContents()
         fileBase = os.path.basename(filePath)
@@ -421,19 +471,28 @@ class OpenCombine(object):
         return temp
         
     def listDetailedContents(self):
-        contentList = []
+        """ List contents of the archive from the manifest.xml
+
+        :return: contentList of dictionaries with keys: filename, type
+        :rtype: [{}]
+        """
+        contents = []
         man = self.readManifest()
         xml = et.ElementTree(et.fromstring(man))
         root = xml.getroot()
         for child in root:
+            # get content for xml element
+            content = None
             attribute = child.attrib
             formtype = attribute.get('format')
             loc = attribute.get('location')
+            # sbml
             if formtype == "http://identifiers.org/combine.specifications/sbml":
                 if loc.startswith('http') or loc.startswith('www'):
-                    contentList.append({'filename':loc, 'type':'sbml'})                    
+                    content = {'filename': loc, 'type': 'sbml'}
                 else:
-                    contentList.append({'filename':os.path.basename(loc), 'type':'sbml'})
+                    content = {'filename': os.path.basename(loc), 'type': 'sbml'}
+            # sedml
             elif formtype == "http://identifiers.org/combine.specifications/sed-ml":
                 zf = ZipFile(self.combinePath, 'r')
                 try:
@@ -445,37 +504,39 @@ class OpenCombine(object):
                         raise e
                 sedmlDoc = libsedml.readSedMLFromString(sedmlRaw)
                 tempSedmlSource = []
-                for i in range(0, sedmlDoc.getNumModels()):
-                    currentModel = sedmlDoc.getModel(i)
-                    if os.path.splitext(os.path.basename(currentModel.getSource()))[1] == '':
+                for model in sedmlDoc.getListOfModels():
+                    if os.path.splitext(os.path.basename(model.getSource()))[1] == '':
                         pass
                     else:
-                        tempSedmlSource.append(os.path.basename(currentModel.getSource()))
-                contentList.append({'filename':os.path.basename(loc), 'type':'sedml', 'modelsource':tempSedmlSource})
+                        tempSedmlSource.append(os.path.basename(model.getSource()))
+                content = {'filename': os.path.basename(loc), 
+                           'type': 'sedml', 
+                           'modelsource': tempSedmlSource}
                 zf.close()
+            # other formats
             elif formtype == "image/png":
-                contentList.append({'filename':os.path.basename(loc), 'type':'png'})
+                content = {'filename': os.path.basename(loc), 'type': 'png'}
             elif formtype == "image/jpg" or formtype == "image/jpeg":
-                contentList.append({'filename':os.path.basename(loc), 'type':'jpg'})
+                content = {'filename': os.path.basename(loc), 'type': 'jpg'}
             elif formtype == "application/pdf":
-                contentList.append({'filename':os.path.basename(loc), 'type':'pdf'})
+                content = {'filename': os.path.basename(loc), 'type': 'pdf'}
             elif formtype == "plain/text":
-                contentList.append({'filename':os.path.basename(loc), 'type':'txt'})
+                content = {'filename': os.path.basename(loc), 'type': 'txt'}
             elif formtype == "plain/csv":
-                contentList.append({'filename':os.path.basename(loc), 'type':'csv'})
+                content = {'filename': os.path.basename(loc), 'type': 'csv'}
             elif formtype == "plain/dat":
-                contentList.append({'filename':os.path.basename(loc), 'type':'dat'})
+                content = {'filename': os.path.basename(loc), 'type': 'dat'}
+            contents.append(content)
             
-        print(contentList)
-        
-        return(contentList)
+        print(contents)
+        return contents
         
     def removeFile(self, fileName):
         baseName, fileFormat = os.path.splitext(fileName)
         tempPath = os.path.join(os.path.dirname(self.combinePath), os.path.splitext(
             os.path.basename(self.combinePath))[0] + '_tempcombine' + os.path.splitext(os.path.basename(self.combinePath))[1])
-        zin = ZipFile (self.combinePath, 'r')
-        zout = ZipFile (tempPath, 'w')
+        zin = ZipFile(self.combinePath, 'r')
+        zout = ZipFile(tempPath, 'w')
         for item in zin.infolist():
             buffer = zin.read(item.filename)
             if (item.filename != fileName):
@@ -536,9 +597,9 @@ class OpenCombine(object):
         zf.close()
 
 
-
 class CombineTools(object):
     """ Helper functions to work with combine archives."""
+    # TODO: integrate with the rest of the combine archive
 
     @staticmethod
     def extractArchive(archivePath, directory):

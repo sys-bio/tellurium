@@ -1,6 +1,8 @@
 """
 Testing tecombine.
 """
+# TODO: implement additional tests/real tests of content.
+
 from __future__ import print_function
 
 import os
@@ -9,10 +11,9 @@ import tempfile
 import unittest
 
 import tellurium as te
-import tellurium.sedml.tephrasedml as tephrasedml
 
-@unittest.skipIf(tephrasedml.phrasedml is None, "only run tests if phrasedml is available")
-class teCombineTestCase(unittest.TestCase):
+
+class tecombineTestCase(unittest.TestCase):
     """ Testcases for tecombine. """
 
     def setUp(self):
@@ -44,8 +45,10 @@ class teCombineTestCase(unittest.TestCase):
           plot "Figure 1" time vs S1, S2
         '''
         exp = te.experiment(self.antimony, self.phrasedml)
+
         self.tmpdir = tempfile.mkdtemp()
         self.tmparchive = os.path.join(self.tmpdir, 'test.zip')
+
         exp.exportAsCombine(self.tmparchive)
         self.com = te.combine(self.tmparchive)
         
