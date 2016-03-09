@@ -1,0 +1,382 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Combine archives &mdash; tellurium 1.3.1 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="tellurium 1.3.1 documentation" href="../../index.html"/> 
+
+  
+  <script src="../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> tellurium
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.3.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../notebooks.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tellurium_methods.html">Tellurium Methods</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../_apidoc/tellurium.html">API (tellurium)</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../../index.html">tellurium</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../index.html">Docs</a> &raquo;</li>
+      
+    <li>Combine archives</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../../_sources/_notebooks/core/combineExample.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="combine-archives">
+<h1>Combine archives<a class="headerlink" href="#combine-archives" title="Permalink to this headline">¶</a></h1>
+<p>The experiment, i.e. model with the simulation description, can be
+stored as Combine Archive.</p>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">tellurium</span> <span class="kn">as</span> <span class="nn">te</span>
+
+<span class="n">antimonyStr</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">model test()</span>
+<span class="s2">    J0: S1 -&gt; S2; k1*S1;</span>
+<span class="s2">    S1 = 10.0; S2=0.0;</span>
+<span class="s2">    k1 = 0.1;</span>
+<span class="s2">end</span>
+<span class="s2">&quot;&quot;&quot;</span>
+
+<span class="n">phrasedmlStr</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">    model0 = model &quot;test&quot;</span>
+<span class="s2">    sim0 = simulate uniform(0, 6, 100)</span>
+<span class="s2">    task0 = run sim0 on model0</span>
+<span class="s2">    plot &quot;Timecourse test model&quot; task0.time vs task0.S1</span>
+<span class="s2">&quot;&quot;&quot;</span>
+
+<span class="c1"># phrasedml experiment</span>
+<span class="n">exp</span> <span class="o">=</span> <span class="n">te</span><span class="o">.</span><span class="n">experiment</span><span class="p">(</span><span class="n">antimonyStr</span><span class="p">,</span> <span class="n">phrasedmlStr</span><span class="p">)</span>
+<span class="n">exp</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">phrasedmlStr</span><span class="p">)</span>
+
+<span class="c1"># create Combine Archive</span>
+<span class="kn">import</span> <span class="nn">tempfile</span>
+<span class="n">f</span> <span class="o">=</span> <span class="n">tempfile</span><span class="o">.</span><span class="n">NamedTemporaryFile</span><span class="p">()</span>
+<span class="n">exp</span><span class="o">.</span><span class="n">exportAsCombine</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+
+<span class="c1"># print the content of the Combine Archive</span>
+<span class="kn">import</span> <span class="nn">zipfile</span>
+<span class="nb">zip</span><span class="o">=</span><span class="n">zipfile</span><span class="o">.</span><span class="n">ZipFile</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="nb">zip</span><span class="o">.</span><span class="n">namelist</span><span class="p">())</span>
+</pre></div>
+</div>
+<img alt="_notebooks/core/_notebooks/core/combineExample_files/combineExample_2_0.png" src="_notebooks/core/_notebooks/core/combineExample_files/combineExample_2_0.png" />
+<div class="highlight-python"><div class="highlight"><pre><span class="p">[</span><span class="s1">&#39;test.xml&#39;</span><span class="p">,</span> <span class="s1">&#39;experiment1.xml&#39;</span><span class="p">,</span> <span class="s1">&#39;manifest.xml&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="create-combine-archive">
+<h1>Create combine archive<a class="headerlink" href="#create-combine-archive" title="Permalink to this headline">¶</a></h1>
+<p>TODO</p>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">tellurium</span> <span class="kn">as</span> <span class="nn">te</span>
+<span class="kn">import</span> <span class="nn">phrasedml</span>
+
+<span class="n">antTest1Str</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">model test1()</span>
+<span class="s2">    J0: S1 -&gt; S2; k1*S1;</span>
+<span class="s2">    S1 = 10.0; S2=0.0;</span>
+<span class="s2">    k1 = 0.1;</span>
+<span class="s2">end</span>
+<span class="s2">&quot;&quot;&quot;</span>
+
+<span class="n">antTest2Str</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">model test2()</span>
+<span class="s2">    v0: X1 -&gt; X2; p1*X1;</span>
+<span class="s2">    X1 = 5.0; X2 = 20.0;</span>
+<span class="s2">    k1 = 0.2;</span>
+<span class="s2">end</span>
+<span class="s2">&quot;&quot;&quot;</span>
+
+<span class="n">phrasedmlStr</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">    model1 = model &quot;test1&quot;</span>
+<span class="s2">    model2 = model &quot;test2&quot;</span>
+<span class="s2">    model3 = model model1 with S1=S2+20</span>
+<span class="s2">    sim1 = simulate uniform(0, 6, 100)</span>
+<span class="s2">    task1 = run sim1 on model1</span>
+<span class="s2">    task2 = run sim1 on model2</span>
+<span class="s2">    plot &quot;Timecourse test1&quot; task1.time vs task1.S1, task1.S2</span>
+<span class="s2">    plot &quot;Timecourse test2&quot; task2.time vs task2.X1, task2.X2</span>
+<span class="s2">&quot;&quot;&quot;</span>
+
+<span class="c1"># phrasedml.setReferencedSBML(&quot;test1&quot;)</span>
+<span class="n">exp</span> <span class="o">=</span> <span class="n">te</span><span class="o">.</span><span class="n">experiment</span><span class="p">(</span><span class="n">phrasedmlList</span><span class="o">=</span><span class="p">[</span><span class="n">phrasedmlStr</span><span class="p">],</span> <span class="n">antimonyList</span><span class="o">=</span><span class="p">[</span><span class="n">antTest1Str</span><span class="p">])</span>
+<span class="k">print</span><span class="p">(</span><span class="n">exp</span><span class="p">)</span>
+
+<span class="c1"># set first model</span>
+<span class="n">phrasedml</span><span class="o">.</span><span class="n">setReferencedSBML</span><span class="p">(</span><span class="s2">&quot;test1&quot;</span><span class="p">,</span> <span class="n">te</span><span class="o">.</span><span class="n">antimonyToSBML</span><span class="p">(</span><span class="n">antTest1Str</span><span class="p">))</span>
+<span class="n">phrasedml</span><span class="o">.</span><span class="n">setReferencedSBML</span><span class="p">(</span><span class="s2">&quot;test2&quot;</span><span class="p">,</span> <span class="n">te</span><span class="o">.</span><span class="n">antimonyToSBML</span><span class="p">(</span><span class="n">antTest2Str</span><span class="p">))</span>
+
+<span class="n">sedmlstr</span> <span class="o">=</span> <span class="n">phrasedml</span><span class="o">.</span><span class="n">convertString</span><span class="p">(</span><span class="n">phrasedmlStr</span><span class="p">)</span>
+<span class="k">if</span> <span class="n">sedmlstr</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+    <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="n">phrasedml</span><span class="o">.</span><span class="n">getLastError</span><span class="p">())</span>
+<span class="k">print</span><span class="p">(</span><span class="n">sedmlstr</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre>&lt;tellurium.sedml.tephrasedml.experiment object at 0x7f6faa81b5d0&gt;
+&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;!-- Created by phraSED-ML version v1.0.1 on 2016-03-09 12:23 with libSBML version 5.12.1. --&gt;
+&lt;sedML xmlns=&quot;http://sed-ml.org/sed-ml/level1/version2&quot; level=&quot;1&quot; version=&quot;2&quot;&gt;
+  &lt;listOfSimulations&gt;
+    &lt;uniformTimeCourse id=&quot;sim1&quot; initialTime=&quot;0&quot; outputStartTime=&quot;0&quot; outputEndTime=&quot;6&quot; numberOfPoints=&quot;100&quot;&gt;
+      &lt;algorithm kisaoID=&quot;KISAO:0000019&quot;/&gt;
+    &lt;/uniformTimeCourse&gt;
+  &lt;/listOfSimulations&gt;
+  &lt;listOfModels&gt;
+    &lt;model id=&quot;model1&quot; language=&quot;urn:sedml:language:sbml.level-3.version-1&quot; source=&quot;test1&quot;/&gt;
+    &lt;model id=&quot;model2&quot; language=&quot;urn:sedml:language:sbml.level-3.version-1&quot; source=&quot;test2&quot;/&gt;
+    &lt;model id=&quot;model3&quot; language=&quot;urn:sedml:language:sbml.level-3.version-1&quot; source=&quot;model1&quot;&gt;
+      &lt;listOfChanges&gt;
+        &lt;computeChange target=&quot;/sbml:sbml/sbml:model/descendant::*[@id=&#39;S1&#39;]&quot;&gt;
+          &lt;listOfVariables&gt;
+            &lt;variable id=&quot;S2&quot; target=&quot;/sbml:sbml/sbml:model/descendant::*[@id=&#39;S2&#39;]&quot; modelReference=&quot;model3&quot;/&gt;
+          &lt;/listOfVariables&gt;
+          &lt;math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot;&gt;
+            &lt;apply&gt;
+              &lt;plus/&gt;
+              &lt;ci&gt; S2 &lt;/ci&gt;
+              &lt;cn type=&quot;integer&quot;&gt; 20 &lt;/cn&gt;
+            &lt;/apply&gt;
+          &lt;/math&gt;
+        &lt;/computeChange&gt;
+      &lt;/listOfChanges&gt;
+    &lt;/model&gt;
+  &lt;/listOfModels&gt;
+  &lt;listOfTasks&gt;
+    &lt;task id=&quot;task1&quot; modelReference=&quot;model1&quot; simulationReference=&quot;sim1&quot;/&gt;
+    &lt;task id=&quot;task2&quot; modelReference=&quot;model2&quot; simulationReference=&quot;sim1&quot;/&gt;
+  &lt;/listOfTasks&gt;
+  &lt;listOfDataGenerators&gt;
+    &lt;dataGenerator id=&quot;plot_0_0_0&quot; name=&quot;task1.time&quot;&gt;
+      &lt;listOfVariables&gt;
+        &lt;variable id=&quot;task1_____time&quot; symbol=&quot;urn:sedml:symbol:time&quot; taskReference=&quot;task1&quot;/&gt;
+      &lt;/listOfVariables&gt;
+      &lt;math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot;&gt;
+        &lt;ci&gt; task1_____time &lt;/ci&gt;
+      &lt;/math&gt;
+    &lt;/dataGenerator&gt;
+    &lt;dataGenerator id=&quot;plot_0_0_1&quot; name=&quot;task1.S1&quot;&gt;
+      &lt;listOfVariables&gt;
+        &lt;variable id=&quot;task1_____S1&quot; target=&quot;/sbml:sbml/sbml:model/descendant::*[@id=&#39;S1&#39;]&quot; taskReference=&quot;task1&quot; modelReference=&quot;model1&quot;/&gt;
+      &lt;/listOfVariables&gt;
+      &lt;math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot;&gt;
+        &lt;ci&gt; task1_____S1 &lt;/ci&gt;
+      &lt;/math&gt;
+    &lt;/dataGenerator&gt;
+    &lt;dataGenerator id=&quot;plot_0_1_1&quot; name=&quot;task1.S2&quot;&gt;
+      &lt;listOfVariables&gt;
+        &lt;variable id=&quot;task1_____S2&quot; target=&quot;/sbml:sbml/sbml:model/descendant::*[@id=&#39;S2&#39;]&quot; taskReference=&quot;task1&quot; modelReference=&quot;model1&quot;/&gt;
+      &lt;/listOfVariables&gt;
+      &lt;math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot;&gt;
+        &lt;ci&gt; task1_____S2 &lt;/ci&gt;
+      &lt;/math&gt;
+    &lt;/dataGenerator&gt;
+    &lt;dataGenerator id=&quot;plot_1_0_0&quot; name=&quot;task2.time&quot;&gt;
+      &lt;listOfVariables&gt;
+        &lt;variable id=&quot;task2_____time&quot; symbol=&quot;urn:sedml:symbol:time&quot; taskReference=&quot;task2&quot;/&gt;
+      &lt;/listOfVariables&gt;
+      &lt;math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot;&gt;
+        &lt;ci&gt; task2_____time &lt;/ci&gt;
+      &lt;/math&gt;
+    &lt;/dataGenerator&gt;
+    &lt;dataGenerator id=&quot;plot_1_0_1&quot; name=&quot;task2.X1&quot;&gt;
+      &lt;listOfVariables&gt;
+        &lt;variable id=&quot;task2_____X1&quot; target=&quot;/sbml:sbml/sbml:model/descendant::*[@id=&#39;X1&#39;]&quot; taskReference=&quot;task2&quot; modelReference=&quot;model2&quot;/&gt;
+      &lt;/listOfVariables&gt;
+      &lt;math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot;&gt;
+        &lt;ci&gt; task2_____X1 &lt;/ci&gt;
+      &lt;/math&gt;
+    &lt;/dataGenerator&gt;
+    &lt;dataGenerator id=&quot;plot_1_1_1&quot; name=&quot;task2.X2&quot;&gt;
+      &lt;listOfVariables&gt;
+        &lt;variable id=&quot;task2_____X2&quot; target=&quot;/sbml:sbml/sbml:model/descendant::*[@id=&#39;X2&#39;]&quot; taskReference=&quot;task2&quot; modelReference=&quot;model2&quot;/&gt;
+      &lt;/listOfVariables&gt;
+      &lt;math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot;&gt;
+        &lt;ci&gt; task2_____X2 &lt;/ci&gt;
+      &lt;/math&gt;
+    &lt;/dataGenerator&gt;
+  &lt;/listOfDataGenerators&gt;
+  &lt;listOfOutputs&gt;
+    &lt;plot2D id=&quot;plot_0&quot; name=&quot;Timecourse test1&quot;&gt;
+      &lt;listOfCurves&gt;
+        &lt;curve logX=&quot;false&quot; logY=&quot;false&quot; xDataReference=&quot;plot_0_0_0&quot; yDataReference=&quot;plot_0_0_1&quot;/&gt;
+        &lt;curve logX=&quot;false&quot; logY=&quot;false&quot; xDataReference=&quot;plot_0_0_0&quot; yDataReference=&quot;plot_0_1_1&quot;/&gt;
+      &lt;/listOfCurves&gt;
+    &lt;/plot2D&gt;
+    &lt;plot2D id=&quot;plot_1&quot; name=&quot;Timecourse test2&quot;&gt;
+      &lt;listOfCurves&gt;
+        &lt;curve logX=&quot;false&quot; logY=&quot;false&quot; xDataReference=&quot;plot_1_0_0&quot; yDataReference=&quot;plot_1_0_1&quot;/&gt;
+        &lt;curve logX=&quot;false&quot; logY=&quot;false&quot; xDataReference=&quot;plot_1_0_0&quot; yDataReference=&quot;plot_1_1_1&quot;/&gt;
+      &lt;/listOfCurves&gt;
+    &lt;/plot2D&gt;
+  &lt;/listOfOutputs&gt;
+&lt;/sedML&gt;
+</pre></div>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016, sys-bio.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../',
+            VERSION:'1.3.1',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

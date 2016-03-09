@@ -116,7 +116,6 @@
 <li class="toctree-l3"><a class="reference internal" href="#repeatedstochastic">repeatedStochastic</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#case-02">Case 02</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#outputplot3d">outputPlot3D</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#combine-archive">Combine Archive</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#tesedml">tesedml</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#creating-sed-ml-file">Creating SED-ML file</a></li>
 </ul>
@@ -632,6 +631,7 @@ description markup language (SED-ML).</p>
 <dt id="tellurium.experiment">
 <code class="descclassname">tellurium.</code><code class="descname">experiment</code><span class="sig-paren">(</span><em>antimonyList</em>, <em>phrasedmlList</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/tellurium/sedml/tephrasedml.html#experiment"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.experiment" title="Permalink to this definition">¶</a></dt>
 <dd><p>Phrasedml experiment.</p>
+<p>Simulation experiments are defined and executed via the experiment class.</p>
 <p>This class is responsible for the creation of executable tellurium code
 phrasedml descriptions. Main function is a code factory.
 Very similar to the more general tesedml which creates python executable code
@@ -690,8 +690,12 @@ Section).</p>
 <span class="k">if</span> <span class="n">sedmlStr</span> <span class="o">==</span> <span class="bp">None</span><span class="p">:</span>
     <span class="k">print</span><span class="p">(</span><span class="n">phrasedml</span><span class="o">.</span><span class="n">getLastError</span><span class="p">())</span>
 
-<span class="c1"># Run SED-ML file</span>
-<span class="n">te</span><span class="o">.</span><span class="n">executeSEDML</span><span class="p">(</span><span class="n">sedmlStr</span><span class="p">)</span>
+<span class="c1"># Run the SED-ML file with results written in workingDir</span>
+<span class="kn">import</span> <span class="nn">tempfile</span>
+<span class="kn">import</span> <span class="nn">shutil</span>
+<span class="n">workingDir</span> <span class="o">=</span> <span class="n">tempfile</span><span class="o">.</span><span class="n">mkdtemp</span><span class="p">(</span><span class="n">suffix</span><span class="o">=</span><span class="s2">&quot;_sedml&quot;</span><span class="p">)</span>
+<span class="n">te</span><span class="o">.</span><span class="n">executeSEDML</span><span class="p">(</span><span class="n">sedmlStr</span><span class="p">,</span> <span class="n">workingDir</span><span class="o">=</span><span class="n">workingDir</span><span class="p">)</span>
+<span class="n">shutil</span><span class="o">.</span><span class="n">rmtree</span><span class="p">(</span><span class="n">workingDir</span><span class="p">)</span>
 </pre></div>
 </div>
 <div class="highlight-python"><div class="highlight"><pre>INFO:root:Initialising BioModels service (WSDL)
@@ -718,9 +722,9 @@ INFO:root:Initialising BioModels service (WSDL)
 </pre></div>
 </div>
 <pre class="literal-block">
-/home/mkoenig/git/tellurium/tellurium/tecombine.py:49: UserWarning: Combine archive directory already exists:/home/mkoenig/git/tellurium/tellurium/tests/testdata/sedml/sedx/_te_BIOMD0000000003
+/home/mkoenig/git/tellurium/tellurium/tecombine.py:562: UserWarning: Combine archive directory already exists:/home/mkoenig/git/tellurium/tellurium/tests/testdata/sedml/sedx/_te_BIOMD0000000003
   warnings.warn(&quot;Combine archive directory already exists:{}&quot;.format(directory))
-/home/mkoenig/git/tellurium/tellurium/tecombine.py:97: UserWarning: No 'manifest.xml' in archive, using all '<em>.sedml' files.
+/home/mkoenig/git/tellurium/tellurium/tecombine.py:610: UserWarning: No 'manifest.xml' in archive, using all '<em>.sedml' files.
   warnings.warn(&quot;No 'manifest.xml' in archive, using all '</em>.sedml' files.&quot;)
 </pre>
 <img alt="_images/phrasedmlExample_4_2.png" src="_images/phrasedmlExample_4_2.png" />
@@ -760,7 +764,7 @@ export in Combine Archive format.</p>
 
 <span class="sd">    auto-generated code</span>
 <span class="sd">    sedmlDoc: L1V2</span>
-<span class="sd">    workingDir: /tmp/tmpgtZuA4_sedml/_te_myModel</span>
+<span class="sd">    workingDir: /tmp/tmpoUPSlI_sedml/_te_myModel</span>
 <span class="sd">    inputType: COMBINE_FILE</span>
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="kn">import</span> <span class="nn">tellurium</span> <span class="kn">as</span> <span class="nn">te</span>
@@ -772,7 +776,7 @@ export in Combine Archive format.</p>
 <span class="kn">import</span> <span class="nn">pandas</span>
 <span class="kn">import</span> <span class="nn">os.path</span>
 
-<span class="n">workingDir</span> <span class="o">=</span> <span class="s1">&#39;/tmp/tmpgtZuA4_sedml/_te_myModel&#39;</span>
+<span class="n">workingDir</span> <span class="o">=</span> <span class="s1">&#39;/tmp/tmpoUPSlI_sedml/_te_myModel&#39;</span>
 
 <span class="c1"># --------------------------------------------------------</span>
 <span class="c1"># Models</span>
@@ -908,11 +912,6 @@ report_1, Repeat: 0
 2         0.1  0.745532  0.652365            8
 3         0.2  1.417837  0.498244            8
 4         0.2  1.417837  0.498244            8
-5         0.3  2.027316  0.454142            8
-6         0.3  2.027316  0.454142            8
-7         0.4  2.574011  0.476847            8
-8         0.4  2.574011  0.476847            8
-9         0.5  3.054914  0.542557            8
 </pre></div>
 </div>
 </div>
@@ -1282,25 +1281,6 @@ model is reset after every repeat.</p>
 </div>
 <img alt="_images/phrasedmlExample_18_0.png" src="_images/phrasedmlExample_18_0.png" />
 </div>
-<div class="section" id="combine-archive">
-<h3>Combine Archive<a class="headerlink" href="#combine-archive" title="Permalink to this headline">¶</a></h3>
-<p>The experiment, i.e. model with the simulation description, can be
-stored as Combine Archive.</p>
-<div class="code python highlight-python"><div class="highlight"><pre><span class="c1"># create Combine Archive</span>
-<span class="kn">import</span> <span class="nn">tempfile</span>
-<span class="n">f</span> <span class="o">=</span> <span class="n">tempfile</span><span class="o">.</span><span class="n">NamedTemporaryFile</span><span class="p">()</span>
-<span class="n">exp</span><span class="o">.</span><span class="n">exportAsCombine</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
-
-<span class="c1"># print the content of the Combine Archive</span>
-<span class="kn">import</span> <span class="nn">zipfile</span>
-<span class="nb">zip</span><span class="o">=</span><span class="n">zipfile</span><span class="o">.</span><span class="n">ZipFile</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
-<span class="k">print</span><span class="p">(</span><span class="nb">zip</span><span class="o">.</span><span class="n">namelist</span><span class="p">())</span>
-</pre></div>
-</div>
-<div class="highlight-python"><div class="highlight"><pre><span class="p">[</span><span class="s1">&#39;case_09.xml&#39;</span><span class="p">,</span> <span class="s1">&#39;experiment1.xml&#39;</span><span class="p">,</span> <span class="s1">&#39;manifest.xml&#39;</span><span class="p">]</span>
-</pre></div>
-</div>
-</div>
 <div class="section" id="tesedml">
 <h3>tesedml<a class="headerlink" href="#tesedml" title="Permalink to this headline">¶</a></h3>
 <p>Simulations can be described within SED-ML, the Simulation Experiment
@@ -1346,7 +1326,7 @@ I.I., Nickerson D., Snoep J.L.,Le Novère, N. BMC Systems Biology
 </pre></div>
 </div>
 <div class="highlight-python"><div class="highlight"><pre>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
-&lt;!-- Created by phraSED-ML version v1.0.1 on 2016-03-07 15:45 with libSBML version 5.12.1. --&gt;
+&lt;!-- Created by phraSED-ML version v1.0.1 on 2016-03-09 12:24 with libSBML version 5.12.1. --&gt;
 &lt;sedML xmlns=&quot;http://sed-ml.org/sed-ml/level1/version2&quot; level=&quot;1&quot; version=&quot;2&quot;&gt;
   &lt;listOfSimulations&gt;
     &lt;uniformTimeCourse id=&quot;sim1&quot; initialTime=&quot;0&quot; outputStartTime=&quot;0&quot; outputEndTime=&quot;5&quot; numberOfPoints=&quot;100&quot;&gt;
@@ -1421,8 +1401,8 @@ I.I., Nickerson D., Snoep J.L.,Le Novère, N. BMC Systems Biology
 <span class="c1"># py_code = s2p.sedml_to_python(s2p)</span>
 </pre></div>
 </div>
-<div class="highlight-python"><div class="highlight"><pre>/tmp/myModelG2F3dU.xml
-/tmp/tmpBxMyz0.sedml
+<div class="highlight-python"><div class="highlight"><pre>/tmp/myModelvPFhVi.xml
+/tmp/tmpEffHZV.sedml
 </pre></div>
 </div>
 </div>

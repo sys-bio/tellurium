@@ -92,8 +92,6 @@
 <li class="toctree-l3"><a class="reference internal" href="tellurium.analysis.html">tellurium.analysis package</a></li>
 <li class="toctree-l3"><a class="reference internal" href="tellurium.notebooks.html">tellurium.notebooks package</a></li>
 <li class="toctree-l3 current"><a class="current reference internal" href="">tellurium.optimization package</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#submodules">Submodules</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#module-tellurium.optimization.diffevolution">tellurium.optimization.diffevolution module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#module-tellurium.optimization">Module contents</a></li>
 </ul>
 </li>
@@ -158,88 +156,6 @@
             
   <div class="section" id="tellurium-optimization-package">
 <h1>tellurium.optimization package<a class="headerlink" href="#tellurium-optimization-package" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="submodules">
-<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
-</div>
-<div class="section" id="module-tellurium.optimization.diffevolution">
-<span id="tellurium-optimization-diffevolution-module"></span><h2>tellurium.optimization.diffevolution module<a class="headerlink" href="#module-tellurium.optimization.diffevolution" title="Permalink to this headline">¶</a></h2>
-<p>Utility functions for parameter estimation.</p>
-<dl class="class">
-<dt id="tellurium.optimization.diffevolution.DiffEvolution">
-<em class="property">class </em><code class="descclassname">tellurium.optimization.diffevolution.</code><code class="descname">DiffEvolution</code><span class="sig-paren">(</span><em>rr</em>, <em>fitnessFcn</em>, <em>simFcn</em>, <em>ASYNC=False</em>, <em>CROSSOVER_RATE=0.5</em>, <em>FITNESS_THRESHOLD=1e-06</em>, <em>MAX_GENS=50</em>, <em>MIXING_RATE=0.8</em>, <em>NON_NEGATIVE=True</em>, <em>paramRangeDict=None</em>, <em>POPULATION=500</em>, <em>SAVE_RESULTS=True</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/tellurium/optimization/diffevolution.html#DiffEvolution"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.optimization.diffevolution.DiffEvolution" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
-<p>Differential evolution.
-Differential evolution is an iterative heuristic optimization method that
-can be used on nondifferentiable and discrete problems (Storn &amp; Price 1997).</p>
-<dl class="method">
-<dt id="tellurium.optimization.diffevolution.DiffEvolution.asyncGetMembersAndFitnesses">
-<code class="descname">asyncGetMembersAndFitnesses</code><span class="sig-paren">(</span><em>newMembers</em>, <em>newFitnesses</em>, <em>newSims</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/tellurium/optimization/diffevolution.html#DiffEvolution.asyncGetMembersAndFitnesses"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.optimization.diffevolution.DiffEvolution.asyncGetMembersAndFitnesses" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="tellurium.optimization.diffevolution.DiffEvolution.asyncSeedPopulation">
-<code class="descname">asyncSeedPopulation</code><span class="sig-paren">(</span><em>firstGen</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/tellurium/optimization/diffevolution.html#DiffEvolution.asyncSeedPopulation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.optimization.diffevolution.DiffEvolution.asyncSeedPopulation" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="tellurium.optimization.diffevolution.DiffEvolution.createRandomMember">
-<code class="descname">createRandomMember</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/tellurium/optimization/diffevolution.html#DiffEvolution.createRandomMember"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.optimization.diffevolution.DiffEvolution.createRandomMember" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="tellurium.optimization.diffevolution.DiffEvolution.getBestMember">
-<code class="descname">getBestMember</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/tellurium/optimization/diffevolution.html#DiffEvolution.getBestMember"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.optimization.diffevolution.DiffEvolution.getBestMember" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="tellurium.optimization.diffevolution.DiffEvolution.getMembersAndFitnesses">
-<code class="descname">getMembersAndFitnesses</code><span class="sig-paren">(</span><em>newMembers</em>, <em>newFitnesses</em>, <em>newSims</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/tellurium/optimization/diffevolution.html#DiffEvolution.getMembersAndFitnesses"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.optimization.diffevolution.DiffEvolution.getMembersAndFitnesses" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="tellurium.optimization.diffevolution.DiffEvolution.mutate">
-<code class="descname">mutate</code><span class="sig-paren">(</span><em>x</em>, <em>a</em>, <em>b</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/tellurium/optimization/diffevolution.html#DiffEvolution.mutate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.optimization.diffevolution.DiffEvolution.mutate" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="tellurium.optimization.diffevolution.DiffEvolution.newGeneration">
-<code class="descname">newGeneration</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/tellurium/optimization/diffevolution.html#DiffEvolution.newGeneration"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.optimization.diffevolution.DiffEvolution.newGeneration" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="tellurium.optimization.diffevolution.DiffEvolution.plotBest">
-<code class="descname">plotBest</code><span class="sig-paren">(</span><em>observed=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/tellurium/optimization/diffevolution.html#DiffEvolution.plotBest"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.optimization.diffevolution.DiffEvolution.plotBest" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="tellurium.optimization.diffevolution.DiffEvolution.plotFitnesses">
-<code class="descname">plotFitnesses</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/tellurium/optimization/diffevolution.html#DiffEvolution.plotFitnesses"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.optimization.diffevolution.DiffEvolution.plotFitnesses" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="tellurium.optimization.diffevolution.DiffEvolution.seedPopulation">
-<code class="descname">seedPopulation</code><span class="sig-paren">(</span><em>firstGen</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/tellurium/optimization/diffevolution.html#DiffEvolution.seedPopulation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.optimization.diffevolution.DiffEvolution.seedPopulation" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="tellurium.optimization.diffevolution.DiffEvolution.start">
-<code class="descname">start</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/tellurium/optimization/diffevolution.html#DiffEvolution.start"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.optimization.diffevolution.DiffEvolution.start" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="tellurium.optimization.diffevolution.DiffEvolution.updateBestFitness">
-<code class="descname">updateBestFitness</code><span class="sig-paren">(</span><em>newFitness</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/tellurium/optimization/diffevolution.html#DiffEvolution.updateBestFitness"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.optimization.diffevolution.DiffEvolution.updateBestFitness" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-<dl class="class">
-<dt id="tellurium.optimization.diffevolution.Member">
-<em class="property">class </em><code class="descclassname">tellurium.optimization.diffevolution.</code><code class="descname">Member</code><span class="sig-paren">(</span><em>params</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/tellurium/optimization/diffevolution.html#Member"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tellurium.optimization.diffevolution.Member" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
-</dd></dl>
-
-</div>
 <div class="section" id="module-tellurium.optimization">
 <span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-tellurium.optimization" title="Permalink to this headline">¶</a></h2>
 <p>Tellurium optimization functions.</p>

@@ -56,8 +56,12 @@ sedmlStr = phrasedml.convertString(phrasedmlStr)
 if sedmlStr == None:
     print(phrasedml.getLastError())
 
-# Run SED-ML file
-te.executeSEDML(sedmlStr)
+# Run the SED-ML file with results written in workingDir
+import tempfile
+import shutil
+workingDir = tempfile.mkdtemp(suffix="_sedml")
+te.executeSEDML(sedmlStr, workingDir=workingDir)
+shutil.rmtree(workingDir)
 
 
 # ### Execute Combine Archive
@@ -524,25 +528,4 @@ phrasedmlStr = '''
 # phrasedml experiment
 exp = te.experiment(antimonyStr, phrasedmlStr)
 exp.execute(phrasedmlStr)
-
-
-# ### Combine Archive
-# The experiment, i.e. model with the simulation description, can be stored as Combine Archive.
-
-# In[10]:
-
-# create Combine Archive
-import tempfile
-f = tempfile.NamedTemporaryFile()
-exp.exportAsCombine(f.name)
-
-# print the content of the Combine Archive
-import zipfile
-zip=zipfile.ZipFile(f.name)
-print(zip.namelist())
-
-
-# In[11]:
-
-
 

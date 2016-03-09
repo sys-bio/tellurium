@@ -207,17 +207,21 @@ class tePhrasedMLTestCase(unittest.TestCase):
         """ Helper function for checking kisao integrator. """
         p = exp.phrasedmlList[0]
 
-        # check that set Kisao set correctly in SedDocument
+        # is kisao correct in SedDocument
         phrasedml.clearReferencedSBML()
         exp._setReferencedSBML(p)
         sedml = exp._phrasedmlToSEDML(p)
         doc = libsedml.readSedMLFromString(sedml)
-        algorithm = doc.getSimulation('sim0').getAlgorithm()
+        simulation = doc.getSimulation('sim0')
+        algorithm = simulation.getAlgorithm()
         self.assertEqual(algorithm.getKisaoID(), kisao)
 
-        # check that integrator is set in python code
+        # is integrator/solver set in python code
         pystr = exp._toPython(p)
-        self.assertTrue(".setIntegrator('{}')".format(name) in pystr)
+        if simulation.getTypeCode() is libsedml.SEDML_SIMULATION_STEADYSTATE:
+            self.assertTrue(".setSteadyStateSolver('{}')".format(name) in pystr)
+        else:
+            self.assertTrue(".setIntegrator('{}')".format(name) in pystr)
 
     def test_kisao_cvode_1(self):
         p = """
@@ -327,6 +331,38 @@ class tePhrasedMLTestCase(unittest.TestCase):
         self.checkKisaoIntegrator(exp, 'KISAO:0000032', 'rk4')
         exp.execute()
 
+    # TODO: write tests
+    def test_kisao_bdf(self):
+        p = """
+            model0 = model "m1"
+            sim0 = simulate uniform(0, 10, 100)
+            sim0.algorithm = stiff
+            task0 = run sim0 on model0
+            plot task0.time vs task0.S1
+        """
+        exp = te.experiment(self.a1, p)
+        self.checkKisaoIntegrator(exp, 'KISAO:0000288', 'cvode')
+        exp.execute()
+        pycode = exp._toPython(p)
+        print(pycode)
+        self.assertTrue("integrator.setValue('stiff', True)" in pycode)
+
+    def test_kisao_adams(self):
+        p = """
+            model0 = model "m1"
+            sim0 = simulate uniform(0, 10, 100)
+            sim0.algorithm = nonstiff
+            task0 = run sim0 on model0
+            plot task0.time vs task0.S1
+        """
+        exp = te.experiment(self.a1, p)
+        self.checkKisaoIntegrator(exp, 'KISAO:0000280', 'cvode')
+        exp.execute()
+        pycode = exp._toPython(p)
+        print(pycode)
+        self.assertTrue("integrator.setValue('stiff', False)" in pycode)
+
+
     # Fails due to : https://github.com/sys-bio/roadrunner/issues/307
     '''
     def test_kisao_rk45_1(self):
@@ -363,7 +399,8 @@ class tePhrasedMLTestCase(unittest.TestCase):
         exp._setReferencedSBML(p)
         sedml = exp._phrasedmlToSEDML(p)
         doc = libsedml.readSedMLFromString(sedml)
-        algorithm = doc.getSimulation('sim0').getAlgorithm()
+        simulation = doc.getSimulation('sim0')
+        algorithm = simulation.getAlgorithm()
         pdict = {p.getKisaoID(): p for p in algorithm.getListOfAlgorithmParameters()}
 
         self.assertTrue(kisao in pdict)
@@ -377,11 +414,21 @@ class tePhrasedMLTestCase(unittest.TestCase):
 
         # check that integrator is set in python code
         pystr = exp._toPython(p)
-        if pkey.dtype == str:
-            self.assertTrue("getIntegrator().setValue('{}', '{}')".format(name, value) in pystr)
+
+        print(simulation.getElementName())
+        print(pystr)
+        if simulation.getTypeCode() is libsedml.SEDML_SIMULATION_STEADYSTATE:
+            if pkey.dtype == str:
+                self.assertTrue(".steadyStateSolver.setValue('{}', '{}')".format(name, value) in pystr)
+            else:
+                # numerical parameter
+                self.assertTrue(".steadyStateSolver.setValue('{}', {})".format(name, value) in pystr)
         else:
-            # numerical parameter
-            self.assertTrue("getIntegrator().setValue('{}', {})".format(name, value) in pystr)
+            if pkey.dtype == str:
+                self.assertTrue(".integrator.setValue('{}', '{}')".format(name, value) in pystr)
+            else:
+                # numerical parameter
+                self.assertTrue(".integrator.setValue('{}', {})".format(name, value) in pystr)
 
     def test_kisao_relative_tolerance_1(self):
         p = """
@@ -508,24 +555,24 @@ class tePhrasedMLTestCase(unittest.TestCase):
         p = """
             model0 = model "m1"
             sim0 = simulate uniform(0, 10, 100)
-            sim0.algorithm.maximum_time_step = 1
+            sim0.algorithm.maximum_time_step = 1.0
             task0 = run sim0 on model0
             plot task0.time vs task0.S1
         """
         exp = te.experiment(self.a1, p)
-        self.checkKisaoAlgorithmParameter(exp, 'KISAO:0000467', 'maximum_time_step', 1)
+        self.checkKisaoAlgorithmParameter(exp, 'KISAO:0000467', 'maximum_time_step', 1.0)
         exp.execute()
 
     def test_kisao_maximum_time_step_2(self):
         p = """
             model0 = model "m1"
             sim0 = simulate uniform(0, 10, 100)
-            sim0.algorithm.467 = 1
+            sim0.algorithm.467 = 1.0
             task0 = run sim0 on model0
             plot task0.time vs task0.S1
         """
         exp = te.experiment(self.a1, p)
-        self.checkKisaoAlgorithmParameter(exp, 'KISAO:0000467', 'maximum_time_step', 1)
+        self.checkKisaoAlgorithmParameter(exp, 'KISAO:0000467', 'maximum_time_step', 1.0)
         exp.execute()
 
     def test_kisao_minimum_time_step_1(self):
@@ -600,12 +647,11 @@ class tePhrasedMLTestCase(unittest.TestCase):
         self.checkKisaoAlgorithmParameter(exp, 'KISAO:0000107', 'variable_step_size', True)
         exp.execute()
 
-    # maximum_iterations & maximum_damping currently not used in any integrator
-    '''
+
     def test_kisao_maximum_iterations_1(self):
         p = """
             model0 = model "m1"
-            sim0 = simulate uniform(0, 10, 100)
+            sim0 = simulate steadystate
             sim0.algorithm.maximum_iterations = 10
             task0 = run sim0 on model0
             plot task0.time vs task0.S1
@@ -617,7 +663,7 @@ class tePhrasedMLTestCase(unittest.TestCase):
     def test_kisao_maximum_iterations_2(self):
         p = """
             model0 = model "m1"
-            sim0 = simulate uniform(0, 10, 100)
+            sim0 = simulate steadystate
             sim0.algorithm.486 = 10
             task0 = run sim0 on model0
             plot task0.time vs task0.S1
@@ -626,30 +672,30 @@ class tePhrasedMLTestCase(unittest.TestCase):
         self.checkKisaoAlgorithmParameter(exp, 'KISAO:0000486', 'maximum_iterations', 10)
         exp.execute()
 
-    def test_kisao_maximum_damping_1(self):
+    def test_kisao_minimum_damping_1(self):
         p = """
             model0 = model "m1"
-            sim0 = simulate uniform(0, 10, 100)
-            sim0.algorithm.maximum_damping = 1
+            sim0 = simulate steadystate
+            sim0.algorithm.minimum_damping = 1.0
             task0 = run sim0 on model0
             plot task0.time vs task0.S1
         """
         exp = te.experiment(self.a1, p)
-        self.checkKisaoAlgorithmParameter(exp, 'KISAO:0000487', 'maximum_damping', 1)
+        self.checkKisaoAlgorithmParameter(exp, 'KISAO:0000487', 'minimum_damping', 1.0)
         exp.execute()
 
-    def test_kisao_maximum_damping_2(self):
+    def test_kisao_minimum_damping_2(self):
         p = """
             model0 = model "m1"
-            sim0 = simulate uniform(0, 10, 100)
+            sim0 = simulate steadystate
             sim0.algorithm.487 = 1
             task0 = run sim0 on model0
             plot task0.time vs task0.S1
         """
         exp = te.experiment(self.a1, p)
-        self.checkKisaoAlgorithmParameter(exp, 'KISAO:0000487', 'maximum_damping', 1)
+        self.checkKisaoAlgorithmParameter(exp, 'KISAO:0000487', 'minimum_damping', 1.0)
+        print(exp._toPython(p))
         exp.execute()
-    '''
 
     def test_kisao_seed_1(self):
         p = """

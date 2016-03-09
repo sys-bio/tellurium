@@ -1,4 +1,4 @@
-Mon Mär  7 15:43:58 CET 2016
+Mit Mär  9 12:23:06 CET 2016
 --------------------------------------
 convert notebooks to rst
 --------------------------------------
@@ -9,6 +9,11 @@ convert notebooks to rst
 [NbConvertApp] Making directory antimonyExample_files
 [NbConvertApp] Making directory antimonyExample_files
 [NbConvertApp] Writing 5890 bytes to antimonyExample.rst
+[NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/combineExample.ipynb to rst
+[NbConvertApp] Executing notebook with kernel: python2
+[NbConvertApp] Support files will be in combineExample_files/
+[NbConvertApp] Making directory combineExample_files
+[NbConvertApp] Writing 7132 bytes to combineExample.rst
 [NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/computeSteadyState.ipynb to rst
 [NbConvertApp] Executing notebook with kernel: python2
 [NbConvertApp] Writing 965 bytes to computeSteadyState.rst
@@ -70,7 +75,7 @@ convert notebooks to rst
 [NbConvertApp] Making directory phrasedmlExample_files
 [NbConvertApp] Making directory phrasedmlExample_files
 [NbConvertApp] Making directory phrasedmlExample_files
-[NbConvertApp] Writing 21642 bytes to phrasedmlExample.rst
+[NbConvertApp] Writing 21095 bytes to phrasedmlExample.rst
 [NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/plot2DParameterScan.ipynb to rst
 [NbConvertApp] Executing notebook with kernel: python2
 [NbConvertApp] Support files will be in plot2DParameterScan_files/
@@ -185,6 +190,9 @@ create python code
 [NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/antimonyExample.ipynb to python
 [NbConvertApp] Executing notebook with kernel: python2
 [NbConvertApp] Writing 955 bytes to antimonyExample.py
+[NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/combineExample.ipynb to python
+[NbConvertApp] Executing notebook with kernel: python2
+[NbConvertApp] Writing 1967 bytes to combineExample.py
 [NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/computeSteadyState.ipynb to python
 [NbConvertApp] Executing notebook with kernel: python2
 [NbConvertApp] Writing 824 bytes to computeSteadyState.py
@@ -214,7 +222,7 @@ create python code
 [NbConvertApp] Writing 1277 bytes to parameter_scan.py
 [NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/phrasedmlExample.ipynb to python
 [NbConvertApp] Executing notebook with kernel: python2
-[NbConvertApp] Writing 13852 bytes to phrasedmlExample.py
+[NbConvertApp] Writing 13659 bytes to phrasedmlExample.py
 [NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/plot2DParameterScan.ipynb to python
 [NbConvertApp] Executing notebook with kernel: python2
 [NbConvertApp] Writing 575 bytes to plot2DParameterScan.py

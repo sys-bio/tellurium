@@ -12,7 +12,7 @@
 [1m[33mWarning: species 'S2' has neither initial amount nor concentration set.  Setting initial concentration to 0.0[0m
 [1m[33mWarning: species 'Xo' has neither initial amount nor concentration set.  Setting initial concentration to 0.0[0m
 [1m[33mWarning: species 'X1' has neither initial amount nor concentration set.  Setting initial concentration to 0.0[0m
-..[1m[33mWarning: species 'S2' has neither initial amount nor concentration set.  Setting initial concentration to 0.0[0m
+...[1m[33mWarning: species 'S2' has neither initial amount nor concentration set.  Setting initial concentration to 0.0[0m
 .[34mNotice: performing conserved moiety conversion[0m
 [1m[33mWarning: species 'X1' has neither initial amount nor concentration set.  Setting initial concentration to 0.0[0m
 [1m[33mWarning: species 'w' has neither initial amount nor concentration set.  Setting initial concentration to 0.0[0m
@@ -31,9 +31,9 @@
 .....INFO:root:Initialising BioModels service (WSDL)
 INFO:root:Initialising BioModels service (WSDL)
 INFO:root:Initialising BioModels service (WSDL)
-/home/mkoenig/git/tellurium/tellurium/tecombine.py:49: UserWarning: Combine archive directory already exists:/home/mkoenig/git/tellurium/tellurium/tests/testdata/sedml/sedx/_te_BIOMD0000000003
+/home/mkoenig/git/tellurium/tellurium/tecombine.py:562: UserWarning: Combine archive directory already exists:/home/mkoenig/git/tellurium/tellurium/tests/testdata/sedml/sedx/_te_BIOMD0000000003
   warnings.warn("Combine archive directory already exists:{}".format(directory))
-/home/mkoenig/git/tellurium/tellurium/tecombine.py:97: UserWarning: No 'manifest.xml' in archive, using all '*.sedml' files.
+/home/mkoenig/git/tellurium/tellurium/tecombine.py:610: UserWarning: No 'manifest.xml' in archive, using all '*.sedml' files.
   warnings.warn("No 'manifest.xml' in archive, using all '*.sedml' files.")
 ....[1m[33mWarning: species 'S2' has neither initial amount nor concentration set.  Setting initial concentration to 0.0[0m
 [1m[33mWarning: species 'S3' has neither initial amount nor concentration set.  Setting initial concentration to 0.0[0m
@@ -46,17 +46,15 @@ INFO:root:Initialising BioModels service (WSDL)
 [1m[33mWarning: species 'X1' has neither initial amount nor concentration set.  Setting initial concentration to 0.0[0m
 .[1m[33mWarning: species 'S2' has neither initial amount nor concentration set.  Setting initial concentration to 0.0[0m
 [1m[33mWarning: species 'S2' has neither initial amount nor concentration set.  Setting initial concentration to 0.0[0m
-............./home/mkoenig/git/tellurium/tellurium/sedml/tephrasedml.py:88: UserWarning: No phrasedmlStr provided in experiment.execute()
-  warnings.warn("No phrasedmlStr provided in experiment.execute()")
-/home/mkoenig/git/tellurium/tellurium/sedml/tephrasedml.py:117: UserWarning: No phrasedml string selected, defaulting to first phrasedml.
+............./home/mkoenig/git/tellurium/tellurium/sedml/tephrasedml.py:213: UserWarning: No phrasedml string selected, defaulting to first phrasedml.
   warnings.warn("No phrasedml string selected, defaulting to first phrasedml.")
 ......../usr/local/lib/python2.7/dist-packages/matplotlib/axes/_axes.py:519: UserWarning: No labelled objects found. Use label='...' kwarg on individual plots.
   warnings.warn("No labelled objects found. "
 ..[1m[33mWarning: species 'Xo' has neither initial amount nor concentration set.  Setting initial concentration to 0.0[0m
 [1m[33mWarning: species 'w' has neither initial amount nor concentration set.  Setting initial concentration to 0.0[0m
-./home/mkoenig/git/tellurium/tellurium/tecombine.py:49: UserWarning: Combine archive directory already exists:/home/mkoenig/git/tellurium/examples/tellurium-files/phrasedml/_te_case_09
+./home/mkoenig/git/tellurium/tellurium/tecombine.py:562: UserWarning: Combine archive directory already exists:/home/mkoenig/git/tellurium/examples/tellurium-files/phrasedml/_te_case_09
   warnings.warn("Combine archive directory already exists:{}".format(directory))
-./home/mkoenig/git/tellurium/tellurium/tecombine.py:49: UserWarning: Combine archive directory already exists:/home/mkoenig/git/tellurium/examples/tellurium-files/phrasedml/_te_case_11
+./home/mkoenig/git/tellurium/tellurium/tecombine.py:562: UserWarning: Combine archive directory already exists:/home/mkoenig/git/tellurium/examples/tellurium-files/phrasedml/_te_case_11
   warnings.warn("Combine archive directory already exists:{}".format(directory))
 ./home/mkoenig/git/tellurium/tellurium/tests/../../examples/tellurium-files/phrasedml/case_01.pycode.py:9: RuntimeWarning: Parent module 'case_01' not found while handling absolute import
   from __future__ import print_function, division
@@ -118,9 +116,9 @@ INFO:root:Initialising BioModels service (WSDL)
   import os.path
 /home/mkoenig/git/tellurium/tellurium/tests/../../examples/tellurium-files/phrasedml/oneStep.pyccode.py:87: RuntimeWarning: Parent module 'oneStep' not found while handling absolute import
   from matplotlib import gridspec
-./home/mkoenig/git/tellurium/tellurium/tecombine.py:49: UserWarning: Combine archive directory already exists:/home/mkoenig/git/tellurium/examples/tellurium-files/phrasedml/_te_case_12
+./home/mkoenig/git/tellurium/tellurium/tecombine.py:562: UserWarning: Combine archive directory already exists:/home/mkoenig/git/tellurium/examples/tellurium-files/phrasedml/_te_case_12
   warnings.warn("Combine archive directory already exists:{}".format(directory))
-../home/mkoenig/git/tellurium/tellurium/tecombine.py:49: UserWarning: Combine archive directory already exists:/home/mkoenig/git/tellurium/examples/tellurium-files/phrasedml/_te_case_07
+../home/mkoenig/git/tellurium/tellurium/tecombine.py:562: UserWarning: Combine archive directory already exists:/home/mkoenig/git/tellurium/examples/tellurium-files/phrasedml/_te_case_07
   warnings.warn("Combine archive directory already exists:{}".format(directory))
 ./home/mkoenig/git/tellurium/tellurium/tests/../../examples/tellurium-files/phrasedml/case_05.pycode.py:9: RuntimeWarning: Parent module 'case_05' not found while handling absolute import
   from __future__ import print_function, division
@@ -210,7 +208,7 @@ INFO:root:Initialising BioModels service (WSDL)
   from matplotlib import gridspec
 /home/mkoenig/git/tellurium/tellurium/tests/../../examples/tellurium-files/phrasedml/parameterScan2D.pycode.py:117: RuntimeWarning: Parent module 'parameterScan2D' not found while handling absolute import
   from matplotlib import gridspec
-./home/mkoenig/git/tellurium/tellurium/tecombine.py:49: UserWarning: Combine archive directory already exists:/home/mkoenig/git/tellurium/examples/tellurium-files/phrasedml/_te_case_05
+./home/mkoenig/git/tellurium/tellurium/tecombine.py:562: UserWarning: Combine archive directory already exists:/home/mkoenig/git/tellurium/examples/tellurium-files/phrasedml/_te_case_05
   warnings.warn("Combine archive directory already exists:{}".format(directory))
 ..../home/mkoenig/git/tellurium/tellurium/tests/../../examples/tellurium-files/phrasedml/case_03.pyccode.py:9: RuntimeWarning: Parent module 'case_03' not found while handling absolute import
   from __future__ import print_function, division
@@ -292,9 +290,9 @@ INFO:root:Initialising BioModels service (WSDL)
   import os.path
 /home/mkoenig/git/tellurium/tellurium/tests/../../examples/tellurium-files/phrasedml/parameterScan1D.pycode.py:74: RuntimeWarning: Parent module 'parameterScan1D' not found while handling absolute import
   from matplotlib import gridspec
-./home/mkoenig/git/tellurium/tellurium/tecombine.py:49: UserWarning: Combine archive directory already exists:/home/mkoenig/git/tellurium/examples/tellurium-files/phrasedml/_te_parameterScan2D
+./home/mkoenig/git/tellurium/tellurium/tecombine.py:562: UserWarning: Combine archive directory already exists:/home/mkoenig/git/tellurium/examples/tellurium-files/phrasedml/_te_parameterScan2D
   warnings.warn("Combine archive directory already exists:{}".format(directory))
-./home/mkoenig/git/tellurium/tellurium/tecombine.py:49: UserWarning: Combine archive directory already exists:/home/mkoenig/git/tellurium/examples/tellurium-files/phrasedml/_te_case_08
+./home/mkoenig/git/tellurium/tellurium/tecombine.py:562: UserWarning: Combine archive directory already exists:/home/mkoenig/git/tellurium/examples/tellurium-files/phrasedml/_te_case_08
   warnings.warn("Combine archive directory already exists:{}".format(directory))
 ../home/mkoenig/git/tellurium/tellurium/tests/../../examples/tellurium-files/phrasedml/case_02.pycode.py:9: RuntimeWarning: Parent module 'case_02' not found while handling absolute import
   from __future__ import print_function, division
@@ -340,9 +338,9 @@ INFO:root:Initialising BioModels service (WSDL)
   from matplotlib import gridspec
 /home/mkoenig/git/tellurium/tellurium/tests/../../examples/tellurium-files/phrasedml/repeatedStochastic.pyccode.py:218: RuntimeWarning: Parent module 'repeatedStochastic' not found while handling absolute import
   from matplotlib import gridspec
-./home/mkoenig/git/tellurium/tellurium/tecombine.py:49: UserWarning: Combine archive directory already exists:/home/mkoenig/git/tellurium/examples/tellurium-files/phrasedml/_te_case_01
+./home/mkoenig/git/tellurium/tellurium/tecombine.py:562: UserWarning: Combine archive directory already exists:/home/mkoenig/git/tellurium/examples/tellurium-files/phrasedml/_te_case_01
   warnings.warn("Combine archive directory already exists:{}".format(directory))
-./home/mkoenig/git/tellurium/tellurium/tecombine.py:49: UserWarning: Combine archive directory already exists:/home/mkoenig/git/tellurium/examples/tellurium-files/phrasedml/_te_case_06
+./home/mkoenig/git/tellurium/tellurium/tecombine.py:562: UserWarning: Combine archive directory already exists:/home/mkoenig/git/tellurium/examples/tellurium-files/phrasedml/_te_case_06
   warnings.warn("Combine archive directory already exists:{}".format(directory))
 ../home/mkoenig/git/tellurium/tellurium/tests/../../examples/tellurium-files/phrasedml/case_02.pyccode.py:9: RuntimeWarning: Parent module 'case_02' not found while handling absolute import
   from __future__ import print_function, division
@@ -366,26 +364,40 @@ INFO:root:Initialising BioModels service (WSDL)
   from matplotlib import gridspec
 /home/mkoenig/git/tellurium/tellurium/tests/../../examples/tellurium-files/phrasedml/case_02.pyccode.py:120: RuntimeWarning: Parent module 'case_02' not found while handling absolute import
   from matplotlib import gridspec
-./home/mkoenig/git/tellurium/tellurium/tecombine.py:49: UserWarning: Combine archive directory already exists:/home/mkoenig/git/tellurium/examples/tellurium-files/phrasedml/_te_parameterScan1D
+./home/mkoenig/git/tellurium/tellurium/tecombine.py:562: UserWarning: Combine archive directory already exists:/home/mkoenig/git/tellurium/examples/tellurium-files/phrasedml/_te_parameterScan1D
   warnings.warn("Combine archive directory already exists:{}".format(directory))
 ..INFO:root:Initialising BioModels service (WSDL)
 INFO:root:Initialising BioModels service (WSDL)
 INFO:root:Initialising BioModels service (WSDL)
-/home/mkoenig/git/tellurium/tellurium/tecombine.py:49: UserWarning: Combine archive directory already exists:/home/mkoenig/git/tellurium/tellurium/tests/testdata/sedml/sedx/_te_specificationL1V1
+/home/mkoenig/git/tellurium/tellurium/tecombine.py:562: UserWarning: Combine archive directory already exists:/home/mkoenig/git/tellurium/tellurium/tests/testdata/sedml/sedx/_te_specificationL1V2
   warnings.warn("Combine archive directory already exists:{}".format(directory))
 INFO:root:Initialising BioModels service (WSDL)
 INFO:root:Initialising BioModels service (WSDL)
-./home/mkoenig/git/tellurium/tellurium/tecombine.py:49: UserWarning: Combine archive directory already exists:/home/mkoenig/git/tellurium/examples/tellurium-files/phrasedml/_te_case_03
+./home/mkoenig/git/tellurium/tellurium/tecombine.py:562: UserWarning: Combine archive directory already exists:/home/mkoenig/git/tellurium/examples/tellurium-files/phrasedml/_te_case_03
   warnings.warn("Combine archive directory already exists:{}".format(directory))
-./home/mkoenig/git/tellurium/tellurium/tecombine.py:49: UserWarning: Combine archive directory already exists:/home/mkoenig/git/tellurium/examples/tellurium-files/phrasedml/_te_oneStep
+./home/mkoenig/git/tellurium/tellurium/tecombine.py:562: UserWarning: Combine archive directory already exists:/home/mkoenig/git/tellurium/examples/tellurium-files/phrasedml/_te_oneStep
   warnings.warn("Combine archive directory already exists:{}".format(directory))
-./home/mkoenig/git/tellurium/tellurium/tecombine.py:49: UserWarning: Combine archive directory already exists:/home/mkoenig/git/tellurium/examples/tellurium-files/phrasedml/_te_repeatedStochastic
+./home/mkoenig/git/tellurium/tellurium/tecombine.py:562: UserWarning: Combine archive directory already exists:/home/mkoenig/git/tellurium/examples/tellurium-files/phrasedml/_te_repeatedStochastic
   warnings.warn("Combine archive directory already exists:{}".format(directory))
-./home/mkoenig/git/tellurium/tellurium/tecombine.py:49: UserWarning: Combine archive directory already exists:/home/mkoenig/git/tellurium/examples/tellurium-files/phrasedml/_te_case_04
+./home/mkoenig/git/tellurium/tellurium/tecombine.py:562: UserWarning: Combine archive directory already exists:/home/mkoenig/git/tellurium/examples/tellurium-files/phrasedml/_te_case_04
   warnings.warn("Combine archive directory already exists:{}".format(directory))
-./home/mkoenig/git/tellurium/tellurium/tecombine.py:49: UserWarning: Combine archive directory already exists:/home/mkoenig/git/tellurium/examples/tellurium-files/phrasedml/_te_case_02
+./home/mkoenig/git/tellurium/tellurium/tecombine.py:562: UserWarning: Combine archive directory already exists:/home/mkoenig/git/tellurium/examples/tellurium-files/phrasedml/_te_case_02
   warnings.warn("Combine archive directory already exists:{}".format(directory))
-...........test_createpython (tellurium.tests.test_tephrasedml.tePhrasedMLTestCase)
+...........test_1Model1PhrasedML (tellurium.tests.test_tephrasedml.tePhrasedMLTestCase)
+Minimal example which should work. ... ok
+test_1Model2PhrasedML (tellurium.tests.test_tephrasedml.tePhrasedMLTestCase)
+Test multiple models and multiple phrasedml files. ... /home/mkoenig/git/tellurium/tellurium/sedml/tesedml.py:1550: UserWarning: More than one sedml file in archive, only processing first one.
+  warnings.warn("More than one sedml file in archive, only processing first one.")
+ok
+test_2Model1PhrasedML (tellurium.tests.test_tephrasedml.tePhrasedMLTestCase)
+Test multiple models and multiple phrasedml files. ... ok
+test_2Model2PhrasedML (tellurium.tests.test_tephrasedml.tePhrasedMLTestCase)
+Test multiple models and multiple phrasedml files. ... ok
+test_ModelAsPath (tellurium.tests.test_tephrasedml.tePhrasedMLTestCase)
+Provide model as path. ... ok
+test_ModelAsURN (tellurium.tests.test_tephrasedml.tePhrasedMLTestCase)
+Provide model via urn. ... ok
+test_createpython (tellurium.tests.test_tephrasedml.tePhrasedMLTestCase)
 Test createpython. ... ok
 test_execute (tellurium.tests.test_tephrasedml.tePhrasedMLTestCase)
 Test execute. ... ok
@@ -393,9 +405,50 @@ test_experiment (tellurium.tests.test_tephrasedml.tePhrasedMLTestCase)
 Test experiment. ... ok
 test_exportAsCombine (tellurium.tests.test_tephrasedml.tePhrasedMLTestCase)
 Test exportAsCombine. ... ok
-test_kisao (tellurium.tests.test_tephrasedml.tePhrasedMLTestCase) ... ok
-test_minimalExperiment (tellurium.tests.test_tephrasedml.tePhrasedMLTestCase)
-Minimal example which should work. ... ok
+test_kisao_absolute_tolerance_1 (tellurium.tests.test_tephrasedml.tePhrasedMLTestCase) ... ok
+test_kisao_absolute_tolerance_2 (tellurium.tests.test_tephrasedml.tePhrasedMLTestCase) ... ok
+test_kisao_adams (tellurium.tests.test_tephrasedml.tePhrasedMLTestCase) ... ok
+test_kisao_bdf (tellurium.tests.test_tephrasedml.tePhrasedMLTestCase) ... ok
+test_kisao_cvode_1 (tellurium.tests.test_tephrasedml.tePhrasedMLTestCase) ... ok
+test_kisao_cvode_2 (tellurium.tests.test_tephrasedml.tePhrasedMLTestCase) ... ok
+test_kisao_cvode_3 (tellurium.tests.test_tephrasedml.tePhrasedMLTestCase)
+Default of uniform is cvode. ... ok
+test_kisao_cvode_4 (tellurium.tests.test_tephrasedml.tePhrasedMLTestCase)
+Default of onestep is cvode. ... ok
+test_kisao_gillespie_1 (tellurium.tests.test_tephrasedml.tePhrasedMLTestCase) ... ok
+test_kisao_gillespie_2 (tellurium.tests.test_tephrasedml.tePhrasedMLTestCase) ... ok
+test_kisao_gillespie_3 (tellurium.tests.test_tephrasedml.tePhrasedMLTestCase)
+Default of uniform_stochastic is gillespie. ... ok
+test_kisao_initial_time_step_1 (tellurium.tests.test_tephrasedml.tePhrasedMLTestCase) ... ok
+test_kisao_initial_time_step_2 (tellurium.tests.test_tephrasedml.tePhrasedMLTestCase) ... ok
+test_kisao_maximum_adams_order_1 (tellurium.tests.test_tephrasedml.tePhrasedMLTestCase) ... ok
+test_kisao_maximum_adams_order_2 (tellurium.tests.test_tephrasedml.tePhrasedMLTestCase) ... ok
+test_kisao_maximum_bdf_order_1 (tellurium.tests.test_tephrasedml.tePhrasedMLTestCase) ... ok
+test_kisao_maximum_bdf_order_2 (tellurium.tests.test_tephrasedml.tePhrasedMLTestCase) ... ok
+test_kisao_maximum_iterations_1 (tellurium.tests.test_tephrasedml.tePhrasedMLTestCase) ... [34mNotice: performing conserved moiety conversion[0m
+ok
+test_kisao_maximum_iterations_2 (tellurium.tests.test_tephrasedml.tePhrasedMLTestCase) ... [34mNotice: performing conserved moiety conversion[0m
+ok
+test_kisao_maximum_num_steps_1 (tellurium.tests.test_tephrasedml.tePhrasedMLTestCase) ... ok
+test_kisao_maximum_num_steps_2 (tellurium.tests.test_tephrasedml.tePhrasedMLTestCase) ... ok
+test_kisao_maximum_time_step_1 (tellurium.tests.test_tephrasedml.tePhrasedMLTestCase) ... ok
+test_kisao_maximum_time_step_2 (tellurium.tests.test_tephrasedml.tePhrasedMLTestCase) ... ok
+test_kisao_minimum_damping_1 (tellurium.tests.test_tephrasedml.tePhrasedMLTestCase) ... [34mNotice: performing conserved moiety conversion[0m
+ok
+test_kisao_minimum_damping_2 (tellurium.tests.test_tephrasedml.tePhrasedMLTestCase) ... [34mNotice: performing conserved moiety conversion[0m
+ok
+test_kisao_minimum_time_step_1 (tellurium.tests.test_tephrasedml.tePhrasedMLTestCase) ... ok
+test_kisao_minimum_time_step_2 (tellurium.tests.test_tephrasedml.tePhrasedMLTestCase) ... ok
+test_kisao_relative_tolerance_1 (tellurium.tests.test_tephrasedml.tePhrasedMLTestCase) ... ok
+test_kisao_relative_tolerance_2 (tellurium.tests.test_tephrasedml.tePhrasedMLTestCase) ... ok
+test_kisao_rk4_1 (tellurium.tests.test_tephrasedml.tePhrasedMLTestCase) ... [34mNotice: creating runge-kutta integrator[0m
+ok
+test_kisao_rk4_2 (tellurium.tests.test_tephrasedml.tePhrasedMLTestCase) ... [34mNotice: creating runge-kutta integrator[0m
+ok
+test_kisao_seed_1 (tellurium.tests.test_tephrasedml.tePhrasedMLTestCase) ... ok
+test_kisao_seed_2 (tellurium.tests.test_tephrasedml.tePhrasedMLTestCase) ... ok
+test_kisao_variable_step_size_1 (tellurium.tests.test_tephrasedml.tePhrasedMLTestCase) ... ok
+test_kisao_variable_step_size_2 (tellurium.tests.test_tephrasedml.tePhrasedMLTestCase) ... ok
 test_printpython (tellurium.tests.test_tephrasedml.tePhrasedMLTestCase)
 Test printpython. ... ok
 test_update (tellurium.tests.test_tephrasedml.tePhrasedMLTestCase)
@@ -403,7 +456,7 @@ Test update. ... ok
 test_app2sim (tellurium.tests.test_tesedml.TesedmlTestCase)
 Test app2sim SED-ML example. ... ok
 test_asedml3repeat (tellurium.tests.test_tesedml.TesedmlTestCase)
-Test asedml3repeat SED-ML example. ... /home/mkoenig/git/tellurium/tellurium/sedml/tesedml.py:1443: UserWarning: line 22: (20203 [Warning]) Unrecognized error encountered by libSed
+Test asedml3repeat SED-ML example. ... /home/mkoenig/git/tellurium/tellurium/sedml/tesedml.py:1498: UserWarning: line 22: (20203 [Warning]) Unrecognized error encountered by libSed
 
 line 22: (20203 [Warning]) Unrecognized error encountered by libSed
 
@@ -411,7 +464,7 @@ line 22: (20203 [Warning]) Unrecognized error encountered by libSed
   warnings.warn(doc.getErrorLog().toString())
 ok
 test_asedmlComplex (tellurium.tests.test_tesedml.TesedmlTestCase)
-Test asedmlComplex SED-ML example. ... /home/mkoenig/git/tellurium/tellurium/sedml/tesedml.py:1443: UserWarning: line 27: (20203 [Warning]) Unrecognized error encountered by libSed
+Test asedmlComplex SED-ML example. ... /home/mkoenig/git/tellurium/tellurium/sedml/tesedml.py:1498: UserWarning: line 27: (20203 [Warning]) Unrecognized error encountered by libSed
 
 line 27: (20203 [Warning]) Unrecognized error encountered by libSed
 
@@ -439,10 +492,12 @@ Test failes if Exception in execution of f. ... [34mNotice: performing conserve
 ok
 test_004_tellurium_interconversion (tellurium.tests.test_examples.PythonExampleTestCase)
 Test failes if Exception in execution of f. ... ok
-test_005_tellurium_utility (tellurium.tests.test_examples.PythonExampleTestCase)
+test_005_combineExample (tellurium.tests.test_examples.PythonExampleTestCase)
+Test failes if Exception in execution of f. ... ok
+test_006_tellurium_utility (tellurium.tests.test_examples.PythonExampleTestCase)
 Test failes if Exception in execution of f. ... [1m[33mWarning: species 'S2' has neither initial amount nor concentration set.  Setting initial concentration to 0.0[0m
 ok
-test_006_tellurium_examples (tellurium.tests.test_examples.PythonExampleTestCase)
+test_007_tellurium_examples (tellurium.tests.test_examples.PythonExampleTestCase)
 Test failes if Exception in execution of f. ... [34mNotice: performing conserved moiety conversion[0m
 [1m[33mWarning: species 'X1' has neither initial amount nor concentration set.  Setting initial concentration to 0.0[0m
 [1m[33mWarning: species 'w' has neither initial amount nor concentration set.  Setting initial concentration to 0.0[0m
@@ -459,35 +514,36 @@ Test failes if Exception in execution of f. ... [34mNotice: performing conserve
 [1m[33mWarning: species 'X1' has neither initial amount nor concentration set.  Setting initial concentration to 0.0[0m
 [34mNotice: performing conserved moiety conversion[0m
 ok
-test_007_tellurium_reset (tellurium.tests.test_examples.PythonExampleTestCase)
+test_008_tellurium_reset (tellurium.tests.test_examples.PythonExampleTestCase)
 Test failes if Exception in execution of f. ... ok
-test_008_model_consecutiveUniUniReactions (tellurium.tests.test_examples.PythonExampleTestCase)
+test_009_model_consecutiveUniUniReactions (tellurium.tests.test_examples.PythonExampleTestCase)
 Test failes if Exception in execution of f. ... ok
-test_009_tellurium_plotting (tellurium.tests.test_examples.PythonExampleTestCase)
+test_010_tellurium_plotting (tellurium.tests.test_examples.PythonExampleTestCase)
 Test failes if Exception in execution of f. ... ok
-test_010_model_generatingDifferentWaveforms (tellurium.tests.test_examples.PythonExampleTestCase)
+test_011_model_generatingDifferentWaveforms (tellurium.tests.test_examples.PythonExampleTestCase)
 Test failes if Exception in execution of f. ... ok
-test_011_phrasedmlExample (tellurium.tests.test_examples.PythonExampleTestCase)
+test_012_phrasedmlExample (tellurium.tests.test_examples.PythonExampleTestCase)
 Test failes if Exception in execution of f. ... INFO:root:Initialising BioModels service (WSDL)
 INFO:root:Initialising BioModels service (WSDL)
 INFO:root:Initialising BioModels service (WSDL)
 ok
-test_012_tesedmlExample (tellurium.tests.test_examples.PythonExampleTestCase)
+test_013_tesedmlExample (tellurium.tests.test_examples.PythonExampleTestCase)
 Test failes if Exception in execution of f. ... ok
-test_013_antimonyExample (tellurium.tests.test_examples.PythonExampleTestCase)
+test_014_antimonyExample (tellurium.tests.test_examples.PythonExampleTestCase)
 Test failes if Exception in execution of f. ... ok
-test_014_model_feedback_oscillations (tellurium.tests.test_examples.PythonExampleTestCase)
+test_015_model_feedback_oscillations (tellurium.tests.test_examples.PythonExampleTestCase)
 Test failes if Exception in execution of f. ... ok
-test_015_introduction (tellurium.tests.test_examples.PythonExampleTestCase)
+test_016_introduction (tellurium.tests.test_examples.PythonExampleTestCase)
 Test failes if Exception in execution of f. ... [1m[33mWarning: species 'S2' has neither initial amount nor concentration set.  Setting initial concentration to 0.0[0m
+[1m[33mWarning: species 'S2' has neither initial amount nor concentration set.  Setting initial concentration to 0.0[0m
 [1m[33mWarning: species 'S3' has neither initial amount nor concentration set.  Setting initial concentration to 0.0[0m
 [1m[33mWarning: species 'S4' has neither initial amount nor concentration set.  Setting initial concentration to 0.0[0m
 ok
-test_016_model_normalizedSpecies (tellurium.tests.test_examples.PythonExampleTestCase)
+test_017_model_normalizedSpecies (tellurium.tests.test_examples.PythonExampleTestCase)
 Test failes if Exception in execution of f. ... ok
-test_017_tellurium_model_loading (tellurium.tests.test_examples.PythonExampleTestCase)
+test_018_tellurium_model_loading (tellurium.tests.test_examples.PythonExampleTestCase)
 Test failes if Exception in execution of f. ... ok
-test_018_parameter_scan (tellurium.tests.test_examples.PythonExampleTestCase)
+test_019_parameter_scan (tellurium.tests.test_examples.PythonExampleTestCase)
 Test failes if Exception in execution of f. ... [1m[33mWarning: species 'Xo' has neither initial amount nor concentration set.  Setting initial concentration to 0.0[0m
 [1m[33mWarning: species 'w' has neither initial amount nor concentration set.  Setting initial concentration to 0.0[0m
 [1m[33mWarning: species 'Xo' has neither initial amount nor concentration set.  Setting initial concentration to 0.0[0m
@@ -495,161 +551,168 @@ Test failes if Exception in execution of f. ... [1m[33mWarning: species 'Xo' h
 [1m[33mWarning: species 'S2' has neither initial amount nor concentration set.  Setting initial concentration to 0.0[0m
 [1m[33mWarning: species 'X1' has neither initial amount nor concentration set.  Setting initial concentration to 0.0[0m
 ok
-test_019_tellurium_stochastic (tellurium.tests.test_examples.PythonExampleTestCase)
+test_020_tellurium_stochastic (tellurium.tests.test_examples.PythonExampleTestCase)
 Test failes if Exception in execution of f. ... [1m[33mWarning: species 'S2' has neither initial amount nor concentration set.  Setting initial concentration to 0.0[0m
 [1m[33mWarning: species 'S2' has neither initial amount nor concentration set.  Setting initial concentration to 0.0[0m
 ok
-test_020_tellurium_test (tellurium.tests.test_examples.PythonExampleTestCase)
+test_021_tellurium_test (tellurium.tests.test_examples.PythonExampleTestCase)
 Test failes if Exception in execution of f. ... ok
-test_021_template (tellurium.tests.test_examples.PythonExampleTestCase)
+test_022_template (tellurium.tests.test_examples.PythonExampleTestCase)
 Test failes if Exception in execution of f. ... ok
-test_022_plot2DParameterScan (tellurium.tests.test_examples.PythonExampleTestCase)
+test_023_plot2DParameterScan (tellurium.tests.test_examples.PythonExampleTestCase)
 Test failes if Exception in execution of f. ... ok
-test_023_tellurium_export (tellurium.tests.test_examples.PythonExampleTestCase)
-Test failes if Exception in execution of f. ... ok
-test_024_model_nonUnitStoichiometries (tellurium.tests.test_examples.PythonExampleTestCase)
+test_024_tellurium_export (tellurium.tests.test_examples.PythonExampleTestCase)
+Test failes if Exception in execution of f. ... [1m[33mWarning: species 'S2' has neither initial amount nor concentration set.  Setting initial concentration to 0.0[0m
+ok
+test_025_model_nonUnitStoichiometries (tellurium.tests.test_examples.PythonExampleTestCase)
 Test failes if Exception in execution of f. ... [1m[33mWarning: species 'S1' has neither initial amount nor concentration set.  Setting initial concentration to 0.0[0m
 [1m[33mWarning: species 'S2' has neither initial amount nor concentration set.  Setting initial concentration to 0.0[0m
 [1m[33mWarning: species 'S3' has neither initial amount nor concentration set.  Setting initial concentration to 0.0[0m
 [1m[33mWarning: species 'S4' has neither initial amount nor concentration set.  Setting initial concentration to 0.0[0m
 [1m[33mWarning: species 'S5' has neither initial amount nor concentration set.  Setting initial concentration to 0.0[0m
 ok
-test_025_consecutiveUniUniReactions (tellurium.tests.test_examples.PythonExampleTestCase)
+test_026_consecutiveUniUniReactions (tellurium.tests.test_examples.PythonExampleTestCase)
 Test failes if Exception in execution of f. ... ok
-test_026_computeSteadyState (tellurium.tests.test_examples.PythonExampleTestCase)
+test_027_computeSteadyState (tellurium.tests.test_examples.PythonExampleTestCase)
+Test failes if Exception in execution of f. ... [34mNotice: performing conserved moiety conversion[0m
+ok
+test_028_parameterscanExample (tellurium.tests.test_examples.PythonExampleTestCase)
 Test failes if Exception in execution of f. ... ok
-test_027_parameterscanExample (tellurium.tests.test_examples.PythonExampleTestCase)
+test_029_exportToMatlab (tellurium.tests.test_examples.PythonExampleTestCase)
 Test failes if Exception in execution of f. ... ok
-test_028_exportToMatlab (tellurium.tests.test_examples.PythonExampleTestCase)
+test_030_linearChain (tellurium.tests.test_examples.PythonExampleTestCase)
 Test failes if Exception in execution of f. ... ok
-test_029_linearChain (tellurium.tests.test_examples.PythonExampleTestCase)
+test_031_nonUnitStoichiometries (tellurium.tests.test_examples.PythonExampleTestCase)
 Test failes if Exception in execution of f. ... ok
-test_030_nonUnitStoichiometries (tellurium.tests.test_examples.PythonExampleTestCase)
+test_032_simpleUniUniReaction (tellurium.tests.test_examples.PythonExampleTestCase)
 Test failes if Exception in execution of f. ... ok
-test_031_simpleUniUniReaction (tellurium.tests.test_examples.PythonExampleTestCase)
+test_033_phrasedmlExample (tellurium.tests.test_examples.PythonExampleTestCase)
 Test failes if Exception in execution of f. ... ok
-test_032_phrasedmlExample (tellurium.tests.test_examples.PythonExampleTestCase)
+test_034_singleGeneExpressingProteinAndProteinDegradation (tellurium.tests.test_examples.PythonExampleTestCase)
 Test failes if Exception in execution of f. ... ok
-test_033_singleGeneExpressingProteinAndProteinDegradation (tellurium.tests.test_examples.PythonExampleTestCase)
+test_035_generatingDifferentWaveforms (tellurium.tests.test_examples.PythonExampleTestCase)
 Test failes if Exception in execution of f. ... ok
-test_034_generatingDifferentWaveforms (tellurium.tests.test_examples.PythonExampleTestCase)
+test_036_SBMLfromBioModelsDB (tellurium.tests.test_examples.PythonExampleTestCase)
 Test failes if Exception in execution of f. ... ok
-test_035_SBMLfromBioModelsDB (tellurium.tests.test_examples.PythonExampleTestCase)
+test_037_settingBoundarySpecies (tellurium.tests.test_examples.PythonExampleTestCase)
 Test failes if Exception in execution of f. ... ok
-test_036_settingBoundarySpecies (tellurium.tests.test_examples.PythonExampleTestCase)
+test_038_latex_export (tellurium.tests.test_examples.PythonExampleTestCase)
 Test failes if Exception in execution of f. ... ok
-test_037_latex_export (tellurium.tests.test_examples.PythonExampleTestCase)
+test_039_steadystatescan (tellurium.tests.test_examples.PythonExampleTestCase)
+Test failes if Exception in execution of f. ... [34mNotice: performing conserved moiety conversion[0m
+[1m[33mWarning: species 'S1' has neither initial amount nor concentration set.  Setting initial concentration to 0.0[0m
+[1m[33mWarning: species 'S2' has neither initial amount nor concentration set.  Setting initial concentration to 0.0[0m
+[1m[33mWarning: species 'Xo' has neither initial amount nor concentration set.  Setting initial concentration to 0.0[0m
+[1m[33mWarning: species 'X1' has neither initial amount nor concentration set.  Setting initial concentration to 0.0[0m
+ok
+test_040_create_colormap (tellurium.tests.test_examples.PythonExampleTestCase)
 Test failes if Exception in execution of f. ... ok
-test_038_steadystatescan (tellurium.tests.test_examples.PythonExampleTestCase)
+test_041_plot_multi_array (tellurium.tests.test_examples.PythonExampleTestCase)
 Test failes if Exception in execution of f. ... ok
-test_039_create_colormap (tellurium.tests.test_examples.PythonExampleTestCase)
+test_042_plot_array (tellurium.tests.test_examples.PythonExampleTestCase)
 Test failes if Exception in execution of f. ... ok
-test_040_plot_multi_array (tellurium.tests.test_examples.PythonExampleTestCase)
-Test failes if Exception in execution of f. ... ok
-test_041_plot_array (tellurium.tests.test_examples.PythonExampleTestCase)
-Test failes if Exception in execution of f. ... ok
-test_042_parameter_scan (tellurium.tests.test_examples.PythonExampleTestCase)
+test_043_parameter_scan (tellurium.tests.test_examples.PythonExampleTestCase)
 Test failes if Exception in execution of f. ... [1m[33mWarning: species 'Xo' has neither initial amount nor concentration set.  Setting initial concentration to 0.0[0m
 [1m[33mWarning: species 'w' has neither initial amount nor concentration set.  Setting initial concentration to 0.0[0m
 ok
-test_043_case_09 (tellurium.tests.test_examples.PythonExampleTestCase)
+test_044_case_09 (tellurium.tests.test_examples.PythonExampleTestCase)
 Test failes if Exception in execution of f. ... ok
-test_044_case_11 (tellurium.tests.test_examples.PythonExampleTestCase)
+test_045_case_11 (tellurium.tests.test_examples.PythonExampleTestCase)
 Test failes if Exception in execution of f. ... ok
-test_045_case_01_pycode (tellurium.tests.test_examples.PythonExampleTestCase)
+test_046_case_01_pycode (tellurium.tests.test_examples.PythonExampleTestCase)
 Test failes if Exception in execution of f. ... ok
-test_046_parameterScan1D_pyccode (tellurium.tests.test_examples.PythonExampleTestCase)
+test_047_parameterScan1D_pyccode (tellurium.tests.test_examples.PythonExampleTestCase)
 Test failes if Exception in execution of f. ... ok
-test_047_oneStep_pyccode (tellurium.tests.test_examples.PythonExampleTestCase)
+test_048_oneStep_pyccode (tellurium.tests.test_examples.PythonExampleTestCase)
 Test failes if Exception in execution of f. ... ok
-test_048_case_12 (tellurium.tests.test_examples.PythonExampleTestCase)
+test_049_case_12 (tellurium.tests.test_examples.PythonExampleTestCase)
 Test failes if Exception in execution of f. ... ok
-test_049_case_09_pyccode (tellurium.tests.test_examples.PythonExampleTestCase)
+test_050_case_09_pyccode (tellurium.tests.test_examples.PythonExampleTestCase)
 Test failes if Exception in execution of f. ... ok
-test_050_case_07 (tellurium.tests.test_examples.PythonExampleTestCase)
+test_051_case_07 (tellurium.tests.test_examples.PythonExampleTestCase)
 Test failes if Exception in execution of f. ... ok
-test_051_case_05_pycode (tellurium.tests.test_examples.PythonExampleTestCase)
+test_052_case_05_pycode (tellurium.tests.test_examples.PythonExampleTestCase)
 Test failes if Exception in execution of f. ... ok
-test_052_parameterScan2D_pyccode (tellurium.tests.test_examples.PythonExampleTestCase)
+test_053_parameterScan2D_pyccode (tellurium.tests.test_examples.PythonExampleTestCase)
 Test failes if Exception in execution of f. ... ok
-test_053_case_06_pyccode (tellurium.tests.test_examples.PythonExampleTestCase)
+test_054_case_06_pyccode (tellurium.tests.test_examples.PythonExampleTestCase)
 Test failes if Exception in execution of f. ... ok
-test_054_parameterScan2D_pycode (tellurium.tests.test_examples.PythonExampleTestCase)
+test_055_parameterScan2D_pycode (tellurium.tests.test_examples.PythonExampleTestCase)
 Test failes if Exception in execution of f. ... ok
-test_055_case_05 (tellurium.tests.test_examples.PythonExampleTestCase)
+test_056_case_05 (tellurium.tests.test_examples.PythonExampleTestCase)
 Test failes if Exception in execution of f. ... ok
-test_056_case_09_pycode (tellurium.tests.test_examples.PythonExampleTestCase)
+test_057_case_09_pycode (tellurium.tests.test_examples.PythonExampleTestCase)
 Test failes if Exception in execution of f. ... ok
-test_057_case_07_pycode (tellurium.tests.test_examples.PythonExampleTestCase)
+test_058_case_07_pycode (tellurium.tests.test_examples.PythonExampleTestCase)
 Test failes if Exception in execution of f. ... ok
-test_058_case_07_pyccode (tellurium.tests.test_examples.PythonExampleTestCase)
+test_059_case_07_pyccode (tellurium.tests.test_examples.PythonExampleTestCase)
 Test failes if Exception in execution of f. ... ok
-test_059_case_03_pyccode (tellurium.tests.test_examples.PythonExampleTestCase)
+test_060_case_03_pyccode (tellurium.tests.test_examples.PythonExampleTestCase)
 Test failes if Exception in execution of f. ... ok
-test_060_case_12_pyccode (tellurium.tests.test_examples.PythonExampleTestCase)
+test_061_case_12_pyccode (tellurium.tests.test_examples.PythonExampleTestCase)
 Test failes if Exception in execution of f. ... ok
-test_061_oneStep_pycode (tellurium.tests.test_examples.PythonExampleTestCase)
+test_062_oneStep_pycode (tellurium.tests.test_examples.PythonExampleTestCase)
 Test failes if Exception in execution of f. ... ok
-test_062_case_04_pyccode (tellurium.tests.test_examples.PythonExampleTestCase)
+test_063_case_04_pyccode (tellurium.tests.test_examples.PythonExampleTestCase)
 Test failes if Exception in execution of f. ... ok
-test_063_case_11_pycode (tellurium.tests.test_examples.PythonExampleTestCase)
+test_064_case_11_pycode (tellurium.tests.test_examples.PythonExampleTestCase)
 Test failes if Exception in execution of f. ... ok
-test_064_parameterScan1D_pycode (tellurium.tests.test_examples.PythonExampleTestCase)
+test_065_parameterScan1D_pycode (tellurium.tests.test_examples.PythonExampleTestCase)
 Test failes if Exception in execution of f. ... ok
-test_065_parameterScan2D (tellurium.tests.test_examples.PythonExampleTestCase)
+test_066_parameterScan2D (tellurium.tests.test_examples.PythonExampleTestCase)
 Test failes if Exception in execution of f. ... ok
-test_066_case_08 (tellurium.tests.test_examples.PythonExampleTestCase)
+test_067_case_08 (tellurium.tests.test_examples.PythonExampleTestCase)
 Test failes if Exception in execution of f. ... ok
-test_067_case_05_pyccode (tellurium.tests.test_examples.PythonExampleTestCase)
+test_068_case_05_pyccode (tellurium.tests.test_examples.PythonExampleTestCase)
 Test failes if Exception in execution of f. ... ok
-test_068_case_02_pycode (tellurium.tests.test_examples.PythonExampleTestCase)
+test_069_case_02_pycode (tellurium.tests.test_examples.PythonExampleTestCase)
 Test failes if Exception in execution of f. ... ok
-test_069_case_11_pyccode (tellurium.tests.test_examples.PythonExampleTestCase)
+test_070_case_11_pyccode (tellurium.tests.test_examples.PythonExampleTestCase)
 Test failes if Exception in execution of f. ... ok
-test_070_case_08_pyccode (tellurium.tests.test_examples.PythonExampleTestCase)
+test_071_case_08_pyccode (tellurium.tests.test_examples.PythonExampleTestCase)
 Test failes if Exception in execution of f. ... ok
-test_071_repeatedStochastic_pyccode (tellurium.tests.test_examples.PythonExampleTestCase)
+test_072_repeatedStochastic_pyccode (tellurium.tests.test_examples.PythonExampleTestCase)
 Test failes if Exception in execution of f. ... ok
-test_072_case_01 (tellurium.tests.test_examples.PythonExampleTestCase)
+test_073_case_01 (tellurium.tests.test_examples.PythonExampleTestCase)
 Test failes if Exception in execution of f. ... ok
-test_073_case_06 (tellurium.tests.test_examples.PythonExampleTestCase)
+test_074_case_06 (tellurium.tests.test_examples.PythonExampleTestCase)
 Test failes if Exception in execution of f. ... ok
-test_074_case_12_pycode (tellurium.tests.test_examples.PythonExampleTestCase)
+test_075_case_12_pycode (tellurium.tests.test_examples.PythonExampleTestCase)
 Test failes if Exception in execution of f. ... ok
-test_075_case_02_pyccode (tellurium.tests.test_examples.PythonExampleTestCase)
+test_076_case_02_pyccode (tellurium.tests.test_examples.PythonExampleTestCase)
 Test failes if Exception in execution of f. ... ok
-test_076_parameterScan1D (tellurium.tests.test_examples.PythonExampleTestCase)
+test_077_parameterScan1D (tellurium.tests.test_examples.PythonExampleTestCase)
 Test failes if Exception in execution of f. ... ok
-test_077_case_08_pycode (tellurium.tests.test_examples.PythonExampleTestCase)
+test_078_case_08_pycode (tellurium.tests.test_examples.PythonExampleTestCase)
 Test failes if Exception in execution of f. ... ok
-test_078_specificationL1V2 (tellurium.tests.test_examples.PythonExampleTestCase)
+test_079_specificationL1V2 (tellurium.tests.test_examples.PythonExampleTestCase)
 Test failes if Exception in execution of f. ... INFO:root:Initialising BioModels service (WSDL)
 INFO:root:Initialising BioModels service (WSDL)
 INFO:root:Initialising BioModels service (WSDL)
 INFO:root:Initialising BioModels service (WSDL)
 INFO:root:Initialising BioModels service (WSDL)
 ok
-test_079_case_03 (tellurium.tests.test_examples.PythonExampleTestCase)
+test_080_case_03 (tellurium.tests.test_examples.PythonExampleTestCase)
 Test failes if Exception in execution of f. ... ok
-test_080_oneStep (tellurium.tests.test_examples.PythonExampleTestCase)
+test_081_oneStep (tellurium.tests.test_examples.PythonExampleTestCase)
 Test failes if Exception in execution of f. ... ok
-test_081_repeatedStochastic (tellurium.tests.test_examples.PythonExampleTestCase)
+test_082_repeatedStochastic (tellurium.tests.test_examples.PythonExampleTestCase)
 Test failes if Exception in execution of f. ... ok
-test_082_case_04 (tellurium.tests.test_examples.PythonExampleTestCase)
+test_083_case_04 (tellurium.tests.test_examples.PythonExampleTestCase)
 Test failes if Exception in execution of f. ... ok
-test_083_case_02 (tellurium.tests.test_examples.PythonExampleTestCase)
+test_084_case_02 (tellurium.tests.test_examples.PythonExampleTestCase)
 Test failes if Exception in execution of f. ... ok
-test_084_case_01_pyccode (tellurium.tests.test_examples.PythonExampleTestCase)
+test_085_case_01_pyccode (tellurium.tests.test_examples.PythonExampleTestCase)
 Test failes if Exception in execution of f. ... ok
-test_085_repeatedStochastic_pycode (tellurium.tests.test_examples.PythonExampleTestCase)
+test_086_repeatedStochastic_pycode (tellurium.tests.test_examples.PythonExampleTestCase)
 Test failes if Exception in execution of f. ... ok
-test_086_case_06_pycode (tellurium.tests.test_examples.PythonExampleTestCase)
+test_087_case_06_pycode (tellurium.tests.test_examples.PythonExampleTestCase)
 Test failes if Exception in execution of f. ... ok
-test_087_case_03_pycode (tellurium.tests.test_examples.PythonExampleTestCase)
+test_088_case_03_pycode (tellurium.tests.test_examples.PythonExampleTestCase)
 Test failes if Exception in execution of f. ... ok
-test_088_case_04_pycode (tellurium.tests.test_examples.PythonExampleTestCase)
+test_089_case_04_pycode (tellurium.tests.test_examples.PythonExampleTestCase)
 Test failes if Exception in execution of f. ... ok
-test_089_events (tellurium.tests.test_examples.PythonExampleTestCase)
+test_090_events (tellurium.tests.test_examples.PythonExampleTestCase)
 Test failes if Exception in execution of f. ... ok
 test_README_example (tellurium.tests.test_tellurium.TelluriumTestCase)
 Tests the source example in the main README.md. ... ok
@@ -939,7 +1002,7 @@ test_latex_export2 (tellurium.tests.test_io.ExportTestCase)
 Test latex export. ... ok
 
 ----------------------------------------------------------------------
-Ran 237 tests in 70.209s
+Ran 277 tests in 92.484s
 
 OK (expected failures=2)
 .....................................[1m[33mWarning: Global parameter, 'pathway_time_' missing value and missing init assignment and assignment rule!, defaulting value to 0.0.[0m
@@ -1005,7 +1068,13 @@ ConservedMoietyConverter::setDocument
 [1m[33mWarning: to remove this warning, set ROADRUNNER_DISABLE_WARNINGS to 1 or 3 in the config file[0m
 [34mNotice: performing conserved moiety conversion[0m
 .....[1m[33mWarning: species 'S2' has neither initial amount nor concentration set.  Setting initial concentration to 0.0[0m
-...............
+.............................[34mNotice: performing conserved moiety conversion[0m
+.[34mNotice: performing conserved moiety conversion[0m
+.....[34mNotice: performing conserved moiety conversion[0m
+.[34mNotice: performing conserved moiety conversion[0m
+.....[34mNotice: creating runge-kutta integrator[0m
+.[34mNotice: creating runge-kutta integrator[0m
+............
 Name                                                                              Stmts   Miss  Cover   Missing
 ---------------------------------------------------------------------------------------------------------------
 /home/mkoenig/git/tellurium/tellurium/__init__.py                                    37      2    95%   48-49
@@ -1017,19 +1086,18 @@ Name                                                                            
 /home/mkoenig/git/tellurium/tellurium/notebooks/ontologysearch.py                    64     54    16%   14-45, 48-50, 53-54, 62-88, 95-106
 /home/mkoenig/git/tellurium/tellurium/notebooks/parameterslider.py                   41     32    22%   36-38, 69-115
 /home/mkoenig/git/tellurium/tellurium/notebooks/speciessearch.py                     64     54    16%   30-79, 87-97, 106-115, 124-132, 139
-/home/mkoenig/git/tellurium/tellurium/optimization/__init__.py                        2      0   100%   
-/home/mkoenig/git/tellurium/tellurium/optimization/diffevolution.py                 208    188    10%   26-68, 71-91, 94-106, 109-119, 122-137, 140-198, 201-246, 249-252, 255-269, 272-278, 282-284, 287-304, 307-309, 314
+/home/mkoenig/git/tellurium/tellurium/optimization/__init__.py                        1      0   100%   
 /home/mkoenig/git/tellurium/tellurium/sedml/__init__.py                               0      0   100%   
 /home/mkoenig/git/tellurium/tellurium/sedml/mathml.py                                48     20    58%   16, 19, 22, 25-35, 137-140, 145-185
 /home/mkoenig/git/tellurium/tellurium/sedml/templates/__init__.py                     0      0   100%   
-/home/mkoenig/git/tellurium/tellurium/sedml/tephrasedml.py                          103      9    91%   60, 63, 119, 135, 140, 154, 250, 273, 290
-/home/mkoenig/git/tellurium/tellurium/sedml/tesedml.py                              779    145    81%   101-102, 122-124, 182-190, 198, 240-246, 260-264, 298, 305-312, 347, 352, 361-368, 414, 417-421, 424, 439, 454, 476, 521-522, 581, 612-614, 619-620, 625-626, 636, 669, 676, 718-728, 754-755, 760, 783-803, 884-887, 922, 928, 932-933, 966-967, 992-996, 1021, 1023, 1025, 1027, 1029, 1031, 1033, 1035, 1037, 1039, 1041, 1048-1049, 1063, 1075, 1097, 1114-1115, 1135, 1191, 1313, 1315, 1375, 1391, 1393, 1437-1438, 1440-1441, 1445, 1447, 1457, 1469-1471, 1491, 1493, 1500, 1570-1601
+/home/mkoenig/git/tellurium/tellurium/sedml/tephrasedml.py                          118      6    95%   62, 64, 206, 215, 232, 247
+/home/mkoenig/git/tellurium/tellurium/sedml/tesedml.py                              786    128    84%   104-105, 120-122, 284-292, 300, 342-348, 362-366, 400, 408-415, 450, 455, 464-471, 517, 520-524, 527, 542, 557, 579, 624-625, 684, 718-720, 725-726, 731-732, 748, 791, 798, 850, 874-875, 880, 903-923, 1002-1005, 1040, 1046, 1050-1051, 1086-1088, 1104-1105, 1112-1113, 1127, 1139, 1159, 1173-1174, 1194, 1249, 1368, 1370, 1430, 1446, 1448, 1492-1493, 1495-1496, 1500, 1502, 1512, 1525-1527, 1548, 1557, 1628-1659
 /home/mkoenig/git/tellurium/tellurium/sedml/xpath.py                                 15     15     0%   1-24
-/home/mkoenig/git/tellurium/tellurium/tecombine.py                                  435    119    73%   59, 93, 122, 149, 152, 155, 158, 161, 164-165, 168, 174, 194, 199, 223-227, 230, 234, 256-260, 263, 267, 277-278, 282, 295-296, 299-300, 303-304, 307-308, 312, 344, 351-355, 359-360, 363, 376-377, 380-391, 394, 397, 401, 404, 421, 427-451, 505, 515-516, 524, 528, 530, 532, 534, 536, 538, 561, 564, 570-571, 580-581, 587-600, 630
+/home/mkoenig/git/tellurium/tellurium/tecombine.py                                  411    118    71%   48, 76, 79, 82, 85, 88, 91-92, 95, 101, 121, 126, 150-154, 157, 161, 185-189, 192, 196, 206-207, 211, 224-225, 228-229, 232-233, 236-237, 241, 273, 280-284, 288-289, 292, 305-306, 309-320, 323, 326, 330, 333, 350, 356-380, 434, 444-445, 453, 457, 459, 461, 463, 465, 467, 490, 493, 499-500, 509-510, 516-529, 572, 606
 /home/mkoenig/git/tellurium/tellurium/teio/__init__.py                                0      0   100%   
 /home/mkoenig/git/tellurium/tellurium/teio/latex.py                                  85      1    99%   140
-/home/mkoenig/git/tellurium/tellurium/tellurium.py                                  312     42    87%   22-25, 29-32, 36-39, 43-46, 91-93, 150, 222-224, 336-338, 391, 408-410, 609-611, 685, 698-703, 788, 836-841, 931
-/home/mkoenig/git/tellurium/tellurium/temiriam.py                                    18      4    78%   35-38
+/home/mkoenig/git/tellurium/tellurium/tellurium.py                                  311     42    86%   20-23, 27-30, 34-37, 41-44, 89-91, 148, 220-222, 334-336, 389, 406-408, 607-609, 683, 696-701, 786, 834-839, 929
+/home/mkoenig/git/tellurium/tellurium/temiriam.py                                    17      4    76%   47-50
 __init__.py                                                                           0      0   100%   
 test_API.py                                                                          21      1    95%   139
 test_analysis.py                                                                     14      1    93%   32
@@ -1038,14 +1106,14 @@ test_io.py                                                                      
 test_runner.py                                                                       28      2    93%   66-67
 test_tecombine.py                                                                    58      1    98%   110
 test_tellurium.py                                                                   213      4    98%   18, 173, 178, 464
-test_tephrasedml.py                                                                  65      2    97%   18, 129
+test_tephrasedml.py                                                                 305      6    98%   22, 222, 410, 422, 428, 725
 test_tesedml.py                                                                      31      1    97%   108
 testdata/__init__.py                                                                  4      0   100%   
 /home/mkoenig/git/tellurium/tellurium/visualization/__init__.py                       1      0   100%   
 /home/mkoenig/git/tellurium/tellurium/visualization/sbmldiagram.py                   64     12    81%   14-17, 46-52, 96, 109
 ---------------------------------------------------------------------------------------------------------------
-TOTAL                                                                              3336    952    71%   
+TOTAL                                                                              3363    747    78%   
 ----------------------------------------------------------------------
-Ran 241 tests in 140.851s
+Ran 281 tests in 179.833s
 
 OK

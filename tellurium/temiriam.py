@@ -10,6 +10,20 @@ from __future__ import print_function, division
 import bioservices
 import re
 
+"""
+Implementation without bioservices
+string = path + astr + ".xml"
+        if not os.path.exists(string):
+            conn = httplib.HTTPConnection("www.ebi.ac.uk")
+            conn.request("GET", "/biomodels-main/download?mid=" + astr)
+            r1 = conn.getresponse()
+            #print(r1.status, r1.reason)
+            data1 = r1.read()
+            conn.close()
+            f1 = open(string, 'w')
+            f1.write(data1)
+            f1.close()
+"""
 
 def getSBMLFromBiomodelsURN(urn):
     """
