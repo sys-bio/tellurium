@@ -895,8 +895,11 @@ class ExtendedRoadRunner(roadrunner.RoadRunner):
         :param kwargs: parameters for simulate
         :returns: simulation results
         """
+        integratorName = self.integrator.getName()
         self.setIntegrator('gillespie')
-        return self.simulate(*args, **kwargs)
+        s = self.simulate(*args, **kwargs)
+        self.setIntegrator(integratorName)
+        return s
 
 
 # ---------------------------------------------------------------
