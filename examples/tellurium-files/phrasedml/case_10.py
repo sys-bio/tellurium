@@ -1,7 +1,5 @@
 """
 Set values in repeated Task & multiple tasks via same range
-bug in phrasedml
-https://sourceforge.net/p/phrasedml/tickets/14/
 """
 from __future__ import print_function
 import tellurium as te

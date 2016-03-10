@@ -133,23 +133,12 @@ class SEDMLAsset(Asset):
     def fromPhrasedML(cls, phrasedmlStr, archname):
 
         sedmlStr = phrasedml.convertString(phrasedmlStr)
+        # necessary to add xml extensions to antimony models
+        phrasedml.addDotXMLToModelSources()
+        sedmlStr = phrasedml.getLastSEDML()
         if sedmlStr is None:
             raise Exception(phrasedml.getLastError())
 
-        # necessary to add xml extensions to Antimony models
-        # https://sourceforge.net/p/phrasedml/tickets/15/
-        changed = False
-        doc = libsedml.readSedMLFromString(sedmlStr)
-        mids = set([m.getId() for m in doc.getListOfModels()])
-        for model in doc.getListOfModels():
-            source = model.getSource()
-            if source not in mids:
-                # source is not a link to other model & no urn/http
-                if not source.startswith('http') and not source.startswith('urn'):
-                    model.setSource('{}.xml'.format(source))
-                    changed = True
-        if changed:
-            sedmlStr = libsedml.writeSedMLToString(doc)
         return cls.fromRaw(raw=sedmlStr, archname=archname)
 
 
