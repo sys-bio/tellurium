@@ -29,10 +29,28 @@ itself. A best practice is to include only one file for each file format metadat
 means the suitable file extension)
 
 3. all remaining files necessary to the model and simulation project
-"""
-# TODO: MakeCombine should support the storage of data, figures, csv tables, ...
-# required for a CombineWithResults
 
+
+    An entry in the OmexManifest is represented by the Content class. It declares a file in the COMBINE archive. A
+    content element possesses two required attributes, location and format, as well as an optional one, master.
+
+    The location attribute of type string is required. It represents the relative location of an entry within the archive.
+        The archive is represented by a dot '.'.
+
+        The format attribute of type string is required. It indicates the file type of the Content element. The allowed
+        values fall in two categories. Either the format denotes one of the COMBINE standards, in which case the format is
+        the corresponding Identifiers.org URI. Or the format represents an InternetMedia type (Freed and Borenstein,
+        1996) (previously known as "MIME type"), in which case the format indicates this Media type.
+
+        The master attribute of type boolean optional. When set to "true", it indicates that the file declared by the content
+        element should be used first when processing the content of the archive. The file can be for instance the description
+        of an upper model in a composed model, itself declaring the various submodels; a simulation description,
+        declaring the different model descriptions and data sources used in the experiment. In most cases, one content
+        element per archive will have its master attribute set to true.
+
+
+"""
+# TODO: handle real world archives from other tools
 
 from __future__ import print_function, division
 
@@ -44,8 +62,8 @@ import re
 
 import tellurium as te
 import roadrunner
-from xml.etree import ElementTree as et
 import libsedml
+from xml.etree import ElementTree as et
 
 
 def combine(combinePath):
@@ -59,36 +77,72 @@ def combine(combinePath):
 
 
 class Asset(object):
-    RESOURCE_URI = {
-        'sbml': 'http://identifiers.org/combine.specifications/sbml',
-        'sed-ml': 'http://identifiers.org/combine.specifications/sed-ml'
+    COMBINE_PREFIX = 'http://identifiers.org/combine.specifications/'
+    MEDIATYPE_PREFIX = 'http://purl.org/NET/mediatypes/'
+
+    FORMATS = {
+        # combine formats
+        # http://co.mbine.org/standards/specifications/
+        'biopax': COMBINE_PREFIX + 'biopax',                # Biological Pathway Exchange format
+        'cellml': COMBINE_PREFIX + 'cellml',                # CellML
+        'omex': COMBINE_PREFIX + 'omex',                    # COMBINE archive
+        'omex-manifest': COMBINE_PREFIX + 'omex-manifest',  # COMBINE archive manifest
+        'omex-metadata': COMBINE_PREFIX + 'omex-metadata',  # COMBINE archive metadata
+        'gpml': COMBINE_PREFIX + 'gpml',                    # GenMAPP Pathway Markup Language
+        'sbgn': COMBINE_PREFIX + 'sbgn',                    # Systems Biology Graphical Notation
+        'sbml': COMBINE_PREFIX + 'sbml',                    # Systems Biology Markup Language
+        'sbol': COMBINE_PREFIX + 'sbol',                    # Synthetic Biology Open Language
+        'sed-ml': COMBINE_PREFIX + 'sed-ml',                # Simulation Experiment Description Markup Language
+        'teddy': COMBINE_PREFIX + 'teddy',                  # TErminology for the Description of DYnamics
+
+        # File assets
+        'png': MEDIATYPE_PREFIX + 'image/png',
+        'jpg': MEDIATYPE_PREFIX + 'image/jpg',
+        'jpeg': MEDIATYPE_PREFIX + 'image/jpg',
+        'svg': MEDIATYPE_PREFIX + 'image/svg+xml',
+
+        'pdf': MEDIATYPE_PREFIX + 'application/pdf',
+
+        'txt': MEDIATYPE_PREFIX + 'text/plain',
+        'csv': MEDIATYPE_PREFIX + 'text/csv',
+        'dat': MEDIATYPE_PREFIX + 'text/dat',
+        'md': MEDIATYPE_PREFIX + 'text/x-markdown',
     }
 
-    def __init__(self, raw=None, archname=None):
+    def __init__(self, raw=None, location=None, filetype=None, master=False):
         self.raw = raw
-        self.archname = archname
-        self.filename = None
-        self.uri = None
+        self.location = location
+        self.master = master
+        self.format = Asset.formatFromFiletype(filetype)
+        # subfolders for figures and data
+        if filetype in ['png', 'jpg', 'jpeg', 'svg']:
+            self.location = 'fig/{}'.format(self.location)
+        if filetype in ['txt', 'csv', 'dat']:
+            self.location = 'data/{}'.format(self.location)
+
 
     @classmethod
-    def fromRaw(cls, raw, archname):
+    def formatFromFiletype(cls, filetype):
+        if filetype not in cls.FORMATS:
+            raise IOError("Unsupported filetype for CombineArchive. Supported are: {}".format(cls.FORMATS.keys()))
+        return cls.FORMATS[filetype]
+
+
+    @classmethod
+    def fromRaw(cls, raw, location, filetype, master=None):
         """ Create asset from raw string.
 
         :param raw: raw string content
         :type raw: str
-        :param archname: ??
-        :type archname: ??
+        :param location: ??
+        :type location: ??
         :return:
         :rtype:
         """
-        asset = cls()
-        asset.filename = None
-        asset.raw = raw
-        asset.archname = archname
-        return asset
+        return cls(raw=raw, location=location, filetype=filetype, master=master)
 
     @classmethod
-    def fromFile(cls, filename):
+    def fromFile(cls, filename, filetype, master=None):
         """ Create asset from filename.
 
         :param filename:
@@ -96,42 +150,27 @@ class Asset(object):
         :return:
         :rtype:
         """
-        asset = cls()
-        asset.filename = filename
-        asset.archname = os.path.basename(filename)
+        location = os.path.basename(filename)
         with open(filename) as f:
-            asset.raw = f.read()
-        return asset
-
-
-class SBMLAsset(Asset):
-    """ SBML asset. """
-    def getResourceURI(self):
-        return Asset.RESOURCE_URI['sbml']
+            raw = f.read()
+        return cls(raw=raw, location=location, filetype=filetype, master=master)
 
     @classmethod
-    def fromAntimony(cls, antimonyStr, archname):
+    def fromAntimony(cls, antimonyStr, location, master=None):
         """ Create SBMLAsset from antimonyStr
         :param antimonyStr:
         :type antimonyStr:
-        :param archname:
-        :type archname:
+        :param location:
+        :type location:
         :return:
         :rtype:
         """
         r = te.loada(antimonyStr)
         raw = r.getSBML()
-        return cls.fromRaw(raw=raw, archname=archname)
-
-
-class SEDMLAsset(Asset):
-    """ SEDML asset. """
-    def getResourceURI(self):
-        return Asset.RESOURCE_URI['sed-ml']
+        return cls.fromRaw(raw=raw, location=location, filetype='sbml', master=master)
 
     @classmethod
-    def fromPhrasedML(cls, phrasedmlStr, archname):
-
+    def fromPhrasedML(cls, phrasedmlStr, location, master=None):
         sedmlStr = phrasedml.convertString(phrasedmlStr)
         # necessary to add xml extensions to antimony models
         phrasedml.addDotXMLToModelSources()
@@ -139,7 +178,7 @@ class SEDMLAsset(Asset):
         if sedmlStr is None:
             raise Exception(phrasedml.getLastError())
 
-        return cls.fromRaw(raw=sedmlStr, archname=archname)
+        return cls.fromRaw(raw=sedmlStr, location=location, filetype='sed-ml', master=master)
 
 
 class CombineArchive(object):
@@ -149,11 +188,8 @@ class CombineArchive(object):
     the respective add*Str and add*File methods.
     The archive is written to file via the write function.
     """
-    # TODO: add general file asset
-
     def __init__(self):
         self.assets = []
-        self.manifest = ''
 
     def checkfile(self, filename):
         """ Check that file exists. """
@@ -163,51 +199,141 @@ class CombineArchive(object):
     def addAsset(self, asset):
         self.assets.append(asset)
 
-    def addSBMLStr(self, sbmlStr, archname):
-        self.addAsset(SBMLAsset.fromRaw(sbmlStr, archname))
+    def addSBMLStr(self, sbmlStr, location):
+        self.addAsset(Asset.fromRaw(sbmlStr, location, filetype='sbml'))
 
-    def addAntimonyStr(self, antimonyStr, archname):
-        self.addAsset(SBMLAsset.fromAntimony(antimonyStr, archname))
+    def addAntimonyStr(self, antimonyStr, location):
+        self.addAsset(Asset.fromAntimony(antimonyStr, location))
 
-    def addSEDMLStr(self, sedmlStr, archname):
-        self.addAsset(SEDMLAsset.fromRaw(sedmlStr, archname))
+    def addSEDMLStr(self, sedmlStr, location):
+        self.addAsset(Asset.fromRaw(sedmlStr, location, filetype='sed-ml'))
 
-    def addPhraSEDMLStr(self, phrasedmlStr, archname):
-        self.addAsset(SEDMLAsset.fromPhrasedML(phrasedmlStr, archname))
+    def addPhraSEDMLStr(self, phrasedmlStr, location):
+        self.addAsset(Asset.fromPhrasedML(phrasedmlStr, location))
 
     def addSBMLFile(self, filename):
         self.checkfile(filename)
-        self.addAsset(SBMLAsset.fromFile(filename))
+        self.addAsset(Asset.fromFile(filename, filetype='sbml'))
 
     def addSEDMLFile(self, filename):
         self.checkfile(filename)
-        self.addAsset(SEDMLAsset.fromFile(filename))
+        self.addAsset(Asset.fromFile(filename, filetype='sed-ml'))
+
+    def addFile(self, filename, filetype):
+        self.addAsset(Asset.fromFile(filename=filename, filetype=filetype))
+
+    def addStr(self, textStr, location, filetype):
+        self.addAsset(Asset.fromRaw(raw=textStr, location=location, filetype=filetype))
 
     def write(self, outfile):
         """ Write the combine archive to the outfile.
         Writes all assets and creates the manifest.xml.
         """
+        manifestStr = self._createManifestString()
+
         with ZipFile(outfile, 'w') as zf:
-            self.manifest += '<?xml version="1.0"  encoding="utf-8"?>\n<omexManifest  xmlns="http://identifiers.org/combine.specifications/omex-manifest">\n'
-            self.manifest += '    <content location="./manifest.xml" format="http://identifiers.org/combine.specifications/omex-manifest"/>\n'
+            # write assets
             for a in self.assets:
-                self._writeAsset(zf, a)
-            self.manifest += '</omexManifest>\n'
+                zf.writestr(a.location, a.raw)
             # write manifest
-            zf.writestr('manifest.xml', self.manifest)
+            zf.writestr('manifest.xml', manifestStr)
 
-    def _writeAsset(self, zf, asset):
-        """ Writes asset to zip file (archive) and adds the manifest line for the file. """
-        if asset.filename is not None:
-            zf.write(asset.filename, asset.archname)
+    def _createManifestString(self):
+        lines = ['<?xml version="1.0" encoding="utf-8"?>',
+                 '<omexManifest xmlns="http://identifiers.org/combine.specifications/omex-manifest">',
+                 '    <content location="./manifest.xml" format="http://identifiers.org/combine.specifications/omex-manifest"/>']
+        for a in self.assets:
+            if a.master:
+                lines.append('    <content location="./{}" format="{}" master="true"/>'.format(a.location, a.format))
+            else:
+                lines.append('    <content location="./{}" format="{}"/>'.format(a.location, a.format))
+        lines.append('</omexManifest>')
+        return "\n".join(lines)
+
+
+    @staticmethod
+    def extractArchive(archivePath, directory):
+        """ Extracts given archive into the target directory.
+
+        Target directory is created if it does not exist.
+        Files are overwritten in the directory !
+
+        :param archivePath: path to combine archive
+        :type archivePath: str
+        :param directory: path to directory where to extract to
+        :type directory:
+        """
+        if not os.path.isdir(directory):
+            os.makedirs(directory)
         else:
-            zf.writestr(asset.archname, asset.raw)
+            warnings.warn("Combine archive directory already exists:{}".format(directory))
 
-        self.manifest += '    <content location="./{}" master="true" format="{}"/>\n'.format(
-            asset.archname,
-            asset.getResourceURI()
-        )
+        fh = open(archivePath, 'rb')
+        z = ZipFile(fh)
+        for name in z.namelist():
+            z.extract(name, directory)
+        fh.close()
 
+    @staticmethod
+    def readContentsFromManifest(manifestPath):
+        """ Reads the manifest information.
+
+        :param manifestPath:
+        :type manifestPath:
+        :return:
+        :rtype:
+        """
+        from collections import namedtuple
+        Content = namedtuple('Content', 'location format master')
+        contents = []
+
+        tree = et.parse(manifestPath)
+        root = tree.getroot()
+        for child in root:
+            location = child.attrib['location']
+            format = child.attrib['format']
+            master = child.attrib.get('master', None)
+            contents.append(Content(location, format, master))
+        return contents
+
+    @staticmethod
+    def filePathsFromExtractedArchive(directory, filetype):
+        """ Reads file paths from extracted combine archive.
+
+        Searches the manifest.xml of the archive for files of the
+        specified filetype and checks if the files exist in the directory.
+
+        :param directory: directory of extracted archive
+        :return: list of paths
+        :rtype: list
+        """
+        paths = []
+        manifest = os.path.join(directory, "manifest.xml")
+        if os.path.exists(manifest):
+            contents = CombineArchive.readContentsFromManifest(manifest)
+            for c in contents:
+                # matches the filetype
+                if filetype in c.format:
+                    # real path
+                    path = os.path.join(directory, c.location)
+                    if not os.path.exists(path):
+                        raise IOError('Path specified in manifest.xml does not exist in archive: {}'.format(p))
+                    paths.append(path)
+        else:
+            # no manifest, use all files in folder
+            warnings.warn("No 'manifest.xml' in archive, trying to resolve manually")
+            for fname in os.listdir(directory):
+                if filetype == "sed-ml":
+                    if fname.endswith(".sedml") or fname.endswith(".sedx.xml"):
+                        paths.append(os.path.join(directory, fname))
+
+        paths = [os.path.normpath(p) for p in paths]
+        return paths
+
+
+
+###########################################################################################
+# working with existing combine archives
 
 class OpenCombine(object):
     """ Main class for handling COMBINE Archives. """
@@ -508,81 +634,3 @@ class OpenCombine(object):
         zf.writestr(r'manifest.xml', man)
         zf.close()
 
-
-class CombineTools(object):
-    """ Helper functions to work with combine archives."""
-    # TODO: integrate with the rest of the combine archive
-
-    @staticmethod
-    def extractArchive(archivePath, directory):
-        """ Extracts given archive into the target directory.
-
-        Target directory is created if it does not exist.
-        Files are overwritten in the directory !
-
-        :param archivePath: path to combine archive
-        :type archivePath: str
-        :param directory: path to directory where to extract to
-        :type directory:
-        :return:
-        :rtype:
-        """
-        zip = ZipFile(archivePath, 'r')
-
-        if not os.path.isdir(directory):
-            os.makedirs(directory)
-        else:
-            warnings.warn("Combine archive directory already exists:{}".format(directory))
-
-        for each in zip.namelist():
-            # check if the item includes a subdirectory
-            # if it does, create the subdirectory in the output folder and write the file
-            # otherwise, just write the file to the output folder
-            if not each.endswith('/'):
-                root, name = os.path.split(each)
-                directory = os.path.normpath(os.path.join(directory, root))
-                if not os.path.isdir(directory):
-                    os.makedirs(directory)
-                file(os.path.join(directory, name), 'wb').write(zip.read(each))
-        zip.close()
-
-    @staticmethod
-    def filePathsFromExtractedArchive(directory, formatType='sed-ml'):
-        """ Reads file paths from extracted combine archive.
-
-        Searches the manifest.xml of the archive for files of the
-        specified formatType and checks if the files exist in the directory.
-
-        Supported formatTypes are:
-            'sed-ml' : SED-ML files
-            'sbml' : SBML files
-
-        :param directory: directory of extracted archive
-        :return: list of paths
-        :rtype: list
-        """
-        filePaths = []
-
-        manifest = os.path.join(directory, "manifest.xml")
-        if os.path.exists(manifest):
-            # get the sedml files from the manifest
-            tree = et.parse(manifest)
-            root = tree.getroot()
-            for child in root:
-                format = child.attrib['format']
-                if format.endswith(formatType):
-                    location = child.attrib['location']
-
-                    # real path
-                    fpath = os.path.join(directory, location)
-                    if not os.path.exists(fpath):
-                        raise IOError('Path specified in manifest.xml does not exist in archive: {}'.format(fpath))
-                    filePaths.append(fpath)
-        else:
-            # no manifest (use all sedml files in folder)
-            warnings.warn("No 'manifest.xml' in archive, using all '*.sedml' files.")
-            for fname in os.listdir(directory):
-                if fname.endswith(".sedml") or fname.endswith(".sedx.xml"):
-                    filePaths.append(os.path.join(directory, fname))
-
-        return filePaths

@@ -16,6 +16,7 @@ phrasedml provides a simple description language to create the key SED-ML compon
     - tasks
     - outputs
 """
+# TODO: handle multiple phrasedml files with multiple models
 
 from __future__ import print_function, division
 import os.path
@@ -165,16 +166,15 @@ class experiment(object):
         """ Gets the created python string. """
         return self._toPython(phrasedmlStr)
 
-    def exportAsCombine(self, outputPath):
-        """ Create combine archive for given antimony and phrasedml files.
-        Export as a combine archive.
+    def exportAsCombine(self, outputPath, execute=False):
+        """ Creates COMBINE archive for given antimony and phrasedml files.
 
-        This is the clean way to execute it.
-        A combine archive is created which afterwards is handeled by the SEDML to python script.
+        If execute=True all phrasedml are executed and the results written
 
         :param exportPath: full path of the combine zip file to create
         :type exportPath: str
         """
+        # Create empty archive
         m = tecombine.CombineArchive()
 
         # Add antimony models to archive
@@ -184,26 +184,58 @@ class experiment(object):
             m.addAntimonyStr(aStr, "{}.xml".format(name))
 
         # Add phrasedml models to archive
-        phrasedml.clearReferencedSBML()
         for k, phrasedmlStr in enumerate(self.phrasedmlList):
-            # add the asset
+            phrasedml.clearReferencedSBML()
             self._setReferencedSBML(phrasedmlStr)
             m.addPhraSEDMLStr(phrasedmlStr, self._phrasedmlFileName(k))
-
-        m.write(outputPath)
         phrasedml.clearReferencedSBML()
 
-    def updateCombine(self, outputPath):
-        """ Update combine archive with the current experiment.
+        # Add README.md to archive
+        readmeStr = self.createReadmeString(outputPath)
+        m.addStr(readmeStr, location='README.md', filetype='md')
 
-        Overwrites the current archive.
-        :param outputPath: full path of the combine zip file to create
-        :type outputPath: str
+        # add output files to archive
+        if execute:
+            for phrasedmlStr in self.phrasedmlList:
+                # execute in temporary directory
+                workingDir = tempfile.mkdtemp(suffix="_sedml")
+                execStr = self._toPython(phrasedmlStr, workingDir=workingDir)
+                exec execStr
+
+                # Add output files to archive
+                files = [f for f in os.listdir(workingDir)]
+
+                for f in files:
+                    filepath = os.path.join(workingDir, f)
+                    if f.endswith('.xml'):
+                        # SBML or SEDML resulting from antimony/phrasedml (already in archive)
+                        pass
+                    elif f.endswith('.md'):
+                        # README.md (already in archive)
+                        pass
+                    elif f.endswith('.png'):
+                        # outputPlot2D | outputPlot3D
+                        m.addFile(filepath, filetype="png")
+                    elif f.endswith('.csv'):
+                        # outputReport
+                        m.addFile(filepath, filetype="csv")
+                    else:
+                        warnings.warn('Unsupported file type not written in COMBINE archive: {}'.format(filepath))
+                # remove temporary workingDir
+                shutil.rmtree(workingDir)
+
+        # Write archive
+        m.write(outputPath)
+
+    def exportAsCombineWithOutputs(self, outputPath):
+        """ Combine archive with SED-ML outputs.
+
+        All phrasedml files are run and the outputs added to the archive.
+
+        :param exportPath: full path of the combine zip file to create
+        :type exportPath: str
         """
-        if os.path.exists(outputPath):
-            self.exportAsCombine(outputPath)
-        else:
-            raise Exception("Cannot find combine archive: {}".format(outputPath))
+        self.exportAsCombine(outputPath=outputPath, execute=True)
 
 
     def _getDefaultPhrasedml(self):
@@ -273,5 +305,25 @@ class experiment(object):
         """ Name of SEDML-File in Combine Archive for k-th phrasedml."""
         return 'experiment{}.xml'.format(k+1)
 
+    def createReadmeString(self, outputPath):
+        """ README.md added to the archive.
 
+        :return: readme information
+        :rtype: str
+        """
+        readme = """
+        # Tellurium {} experiment
+        This COMBINE archive stores an tellurium experiment.
+        http://tellurium.analogmachine.org/
 
+        ## Run Experiment
+        To reproduce the experiment and to create the figures and data run
+        ```
+        import tellurium as te
+        omexPath = '{}'
+        te.executeSEDML(omexPath)
+        ```
+        in tellurium, with `omexPath` the path to this archive file.
+        """.format(te.getTelluriumVersion(),
+                   os.path.basename(outputPath))
+        return readme

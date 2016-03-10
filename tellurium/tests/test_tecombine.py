@@ -108,6 +108,35 @@ class tecombineTestCase(unittest.TestCase):
     
     def clearTest(self):
         shutil.rmtree(self.tmpdir)
+
+
+    def writingAndReadingExecution(self):
+
+        antimonyStr = '''
+        model myModel
+          S1 -> S2; k1*S1;
+          S1 = 10; S2 = 0;
+          k1 = 1;
+        end
+        '''
+        phrasedmlStr = '''
+          model1 = model "myModel"
+          sim1 = simulate uniform(0, 5, 100)
+          task1 = run sim1 on model1
+          plot "Figure 1" time vs S1, S2
+          report time vs S1, S2
+        '''
+        import tellurium as te
+
+        # Create experiment
+        exp = te.experiment(antimonyStr, phrasedmlStr)
+        # Run and store with results
+        tmpdir = tempfile.mkdtemp()
+        exp.exportAsCombineWithOutputs(os.path.join(tmpdir, 'test.omex'))
+        # Execute the created archive
+        te.executeOMEX('test.omex', workingDir=tmpdir)
+        shutil.rmtree(tmpdir)
+
     
 if __name__ == '__main__':
     unittest.main()    

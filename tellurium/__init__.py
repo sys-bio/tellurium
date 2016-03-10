@@ -34,7 +34,7 @@ from teio.latex import LatexExport
 from analysis.parameterscan import ParameterScan, SteadyStateScan
 
 # sedml & combine support
-from sedml.tesedml import sedmlToPython, executeSEDML
+from sedml.tesedml import sedmlToPython, executeSEDML, executeOMEX
 from sedml.tephrasedml import experiment
 from tecombine import combine
 

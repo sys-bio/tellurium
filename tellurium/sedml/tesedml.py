@@ -76,6 +76,12 @@ The Output Class
 # FIXME: bug multiple model instances of same model (https://github.com/sys-bio/roadrunner/issues/305)
 # FIXME: rk4 integration not working on linux (https://github.com/sys-bio/roadrunner/issues/307)
 
+# TODO: handle multiple sedml files
+# TODO: handle OMEX correctly
+# TODO: execute OMEX with saving results
+
+
+
 
 from __future__ import print_function, division
 
@@ -93,7 +99,7 @@ from mathml import evaluableMathML
 import libsedml
 
 import tellurium as te
-from tellurium.tecombine import CombineTools
+from tellurium.tecombine import CombineArchive
 
 try:
     # requrired imports within generated code
@@ -129,7 +135,6 @@ def sedmlToPython(inputStr):
     :return: contents
     :rtype:
     """
-    # TODO: necessary to select SEDML files from archive (i.e. if multiple files)
     factory = SEDMLCodeFactory(inputStr)
     return factory.toPython()
 
@@ -147,6 +152,42 @@ def executeSEDML(inputStr, workingDir=None):
     # execute the sedml
     factory = SEDMLCodeFactory(inputStr, workingDir=workingDir)
     factory.executePython()
+
+
+def executeOMEX(omexPath, workingDir=None):
+    """ Run all SED-ML simulations in given OMEX COMBINE archive.
+
+    :param omexPath: OMEX Combine archive
+    :type omexPath: path
+    :param workingDir: directory to extract archive to
+    :type workingDir: directory path
+
+    """
+    filename, extension = os.path.splitext(os.path.basename(omexPath))
+
+    # Archive
+    if zipfile.is_zipfile(omexPath):
+
+        # a directory is created in which the files are extracted
+        if workingDir is None:
+            extractDir = os.path.join(os.path.dirname(os.path.realpath(omexPath)), '_te_{}'.format(filename))
+        else:
+            extractDir = workingDir
+
+        # extract the archive to working directory
+        CombineArchive.extractArchive(omexPath, extractDir)
+        # get SEDML files from archive
+        sedmlFiles = CombineArchive.filePathsFromExtractedArchive(extractDir, filetype='sed-ml')
+
+        if len(sedmlFiles) == 0:
+            raise IOError("No SEDML files found in COMBINE archive: {}".format(omexPath))
+
+        for sedmlFile in sedmlFiles:
+            factory = SEDMLCodeFactory(sedmlFile, workingDir=os.path.dirname(sedmlFile))
+            factory.executePython()
+    else:
+        raise IOError("File is not an OMEX Combine Archive in zip format: {}".format(omexPath))
+
 
 
 ######################################################################################################################
@@ -1527,24 +1568,37 @@ class SEDMLTools(object):
 
             # Archive
             if zipfile.is_zipfile(inputStr):
-                archive = inputStr
+                omexPath = inputStr
                 inputType = cls.INPUT_TYPE_FILE_COMBINE
 
                 # in case of sedx and combine a working directory is created
                 # in which the files are extracted
                 if workingDir is None:
-                    workingDir = os.path.join(os.path.dirname(os.path.realpath(inputStr)), '_te_{}'.format(filename))
+                    extractDir = os.path.join(os.path.dirname(os.path.realpath(omexPath)), '_te_{}'.format(filename))
+                else:
+                    extractDir = workingDir
+
                 # extract the archive to working directory
-                CombineTools.extractArchive(archive, workingDir)
+                CombineArchive.extractArchive(omexPath, extractDir)
                 # get SEDML files from archive
-                # FIXME: there could be multiple SEDML files in archive (currently only first used)
-                sedmlFiles = CombineTools.filePathsFromExtractedArchive(workingDir)
+                sedmlFiles = CombineArchive.filePathsFromExtractedArchive(extractDir, filetype='sed-ml')
+
                 if len(sedmlFiles) == 0:
                     raise IOError("No SEDML files found in archive.")
+
+                # FIXME: there could be multiple SEDML files in archive (currently only first used)
+                # analogue to executeOMEX
                 if len(sedmlFiles) > 1:
                     warnings.warn("More than one sedml file in archive, only processing first one.")
-                doc = libsedml.readSedMLFromFile(sedmlFiles[0])
+
+                sedmlFile = sedmlFiles[0]
+                print(sedmlFile)
+                doc = libsedml.readSedMLFromFile(sedmlFile)
+                # we have to work relative to the SED-ML file
+                workingDir = os.path.dirname(sedmlFile)
+
                 cls.checkSEDMLDocument(doc)
+
 
             # SEDML single file
             elif os.path.isfile(inputStr):

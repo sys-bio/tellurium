@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- Created by phraSED-ML version v1.0.1 on 2016-03-10 19:50 with libSBML version 5.12.1. -->
 <sedML xmlns="http://sed-ml.org/sed-ml/level1/version2" level="1" version="2">
   <listOfSimulations>
     <uniformTimeCourse id="sim0" initialTime="0" outputStartTime="0" outputEndTime="6" numberOfPoints="100">
@@ -9,7 +10,7 @@
     <model id="model0" language="urn:sedml:language:sbml.level-3.version-1" source="case_02.xml"/>
     <model id="model1" language="urn:sedml:language:sbml.level-3.version-1" source="model0">
       <listOfChanges>
-        <changeAttribute target="/sbml:sbml/sbml:model/listOfSpecies/species[@id=&apos;S1&apos;]/@initialConcentration" newValue="5"/>
+        <changeAttribute target="/sbml:sbml/sbml:model/listOfSpecies/species[@id='S1']/@initialConcentration" newValue="5"/>
       </listOfChanges>
     </model>
   </listOfModels>
@@ -20,7 +21,7 @@
         <uniformRange id="uniform_linear_for_k1" start="0" end="5" numberOfPoints="5" type="linear"/>
       </listOfRanges>
       <listOfChanges>
-        <setValue range="uniform_linear_for_k1" modelReference="model1" target="/sbml:sbml/sbml:model/descendant::*[@id=&apos;k1&apos;]">
+        <setValue range="uniform_linear_for_k1" modelReference="model1" target="/sbml:sbml/sbml:model/descendant::*[@id='k1']">
           <math xmlns="http://www.w3.org/1998/Math/MathML">
             <ci> uniform_linear_for_k1 </ci>
           </math>
@@ -42,7 +43,7 @@
     </dataGenerator>
     <dataGenerator id="plot_0_0_1" name="task1.S1">
       <listOfVariables>
-        <variable id="task1_____S1" target="/sbml:sbml/sbml:model/descendant::*[@id=&apos;S1&apos;]" taskReference="task1" modelReference="model1"/>
+        <variable id="task1_____S1" target="/sbml:sbml/sbml:model/descendant::*[@id='S1']" taskReference="task1" modelReference="model1"/>
       </listOfVariables>
       <math xmlns="http://www.w3.org/1998/Math/MathML">
         <ci> task1_____S1 </ci>
@@ -50,7 +51,7 @@
     </dataGenerator>
     <dataGenerator id="plot_0_1_1" name="task1.S2">
       <listOfVariables>
-        <variable id="task1_____S2" target="/sbml:sbml/sbml:model/descendant::*[@id=&apos;S2&apos;]" taskReference="task1" modelReference="model1"/>
+        <variable id="task1_____S2" target="/sbml:sbml/sbml:model/descendant::*[@id='S2']" taskReference="task1" modelReference="model1"/>
       </listOfVariables>
       <math xmlns="http://www.w3.org/1998/Math/MathML">
         <ci> task1_____S2 </ci>
@@ -58,7 +59,7 @@
     </dataGenerator>
     <dataGenerator id="plot_2_0_0" name="task1.k1">
       <listOfVariables>
-        <variable id="task1_____k1" target="/sbml:sbml/sbml:model/descendant::*[@id=&apos;k1&apos;]" taskReference="task1" modelReference="model1"/>
+        <variable id="task1_____k1" target="/sbml:sbml/sbml:model/descendant::*[@id='k1']" taskReference="task1" modelReference="model1"/>
       </listOfVariables>
       <math xmlns="http://www.w3.org/1998/Math/MathML">
         <ci> task1_____k1 </ci>

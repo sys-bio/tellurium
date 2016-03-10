@@ -93,19 +93,7 @@ class tePhrasedMLTestCase(unittest.TestCase):
         zip = zipfile.ZipFile(tmparchive)
         zip.close()
         shutil.rmtree(tmpdir)
-        
-    def test_update(self):
-        """Test update."""
-        exp = te.experiment([self.antimony], [self.phrasedml])
-        tmpdir = tempfile.mkdtemp()
-        tmparchive = os.path.join(tmpdir, 'test.zip')
-        exp.exportAsCombine(tmparchive)
-        exp.updateCombine(tmparchive)
-        # try to re
-        import zipfile
-        zip = zipfile.ZipFile(tmparchive)
-        zip.close()
-        shutil.rmtree(tmpdir)
+
 
     def test_1Model1PhrasedML(self):
         """ Minimal example which should work. """
