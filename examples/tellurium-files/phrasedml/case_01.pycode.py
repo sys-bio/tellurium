@@ -8,6 +8,7 @@
 """
 from __future__ import print_function, division
 import tellurium as te
+from roadrunner import Config
 from tellurium.sedml.mathml import *
 import numpy as np
 import matplotlib.pyplot as plt
@@ -15,6 +16,7 @@ import mpl_toolkits.mplot3d
 import libsedml
 import pandas
 import os.path
+Config.LOADSBMLOPTIONS_RECOMPILE = True
 
 workingDir = '/home/mkoenig/git/tellurium/examples/tellurium-files/phrasedml/_te_case_01'
 

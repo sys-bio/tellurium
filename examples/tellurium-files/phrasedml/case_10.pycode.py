@@ -8,6 +8,7 @@
 """
 from __future__ import print_function, division
 import tellurium as te
+from roadrunner import Config
 from tellurium.sedml.mathml import *
 import numpy as np
 import matplotlib.pyplot as plt
@@ -15,6 +16,7 @@ import mpl_toolkits.mplot3d
 import libsedml
 import pandas
 import os.path
+Config.LOADSBMLOPTIONS_RECOMPILE = True
 
 workingDir = '/home/mkoenig/git/tellurium/examples/tellurium-files/phrasedml/_te_case_10'
 
@@ -49,8 +51,8 @@ for __k__X, __value__X in enumerate(__range__X):
     mod1.setIntegrator('cvode')
     mod1['S1'] = __value__X
     mod2['S1'] = __value__X + 3
-    mod2.timeCourseSelections = ['S2', 'S1', 'time']
-    task1[0] = mod2.simulate(start=0.0, end=10.0, steps=100)
+    mod1.timeCourseSelections = ['S2', 'S1', 'time']
+    task1[0] = mod1.simulate(start=0.0, end=10.0, steps=100)
     # Task: <task2>
     task2 = [None]
     mod2.setIntegrator('cvode')

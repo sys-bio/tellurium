@@ -69,19 +69,12 @@ The Output Class
 """
 
 # TODO: implement full resolving of xpath expressions (target, selection) (see xpath.py for example)
+# TODO: handle OMEX correctly & execute OMEX with saving results
+
 # TODO: implement XML changes
 # TODO: implement full concatenation of subtasks
 # TODO: better handling of model.reset for task tree
-
-# FIXME: bug multiple model instances of same model (https://github.com/sys-bio/roadrunner/issues/305)
 # FIXME: rk4 integration not working on linux (https://github.com/sys-bio/roadrunner/issues/307)
-
-# TODO: handle multiple sedml files
-# TODO: handle OMEX correctly
-# TODO: execute OMEX with saving results
-
-
-
 
 from __future__ import print_function, division
 
@@ -486,11 +479,13 @@ class SEDMLCodeFactory(object):
                 variables[par.getId()] = par.getValue()
             for var in change.getListOfVariables():
                 vid = var.getId()
-                selection = SEDMLCodeFactory.resolveSelectionFromVariable(var)
-                if type == "species":
-                    lines.append("__var__{} = {}['[{}]']".format(vid, mid, selection.id))
-                else:
-                    lines.append("__var__{} = {}['{}']".format(vid, mid, selection.id))
+                selection = SEDMLCodeFactory.selectionFromVariable(var, mid)
+                expr = selection.id
+                if selection.type == "concentration":
+                    expr = "init([{}])".format(selection.id)
+                elif selection.type == "amount":
+                    expr = "init({})".format(selection.id)
+                lines.append("__var__{} = {}['{}']".format(vid, mid, expr))
                 variables[vid] = "__var__{}".format(vid)
 
             # value is calculated with the current state of model
@@ -828,18 +823,23 @@ class SEDMLCodeFactory(object):
                 for var in setValue.getListOfVariables():
                     vid = var.getId()
                     mid = var.getModelReference()
-                    selection = SEDMLCodeFactory.resolveSelectionFromVariable(var)
+                    selection = SEDMLCodeFactory.selectionFromVariable(var, mid)
+                    expr = selection.id
+                    if selection.type == 'concentration':
+                        expr = "init([{}])".format(selection.id)
+                    elif selection.type == 'amount':
+                        expr = "init({})".format(selection.id)
+
+                    # create variable
+                    lines.append("__value__{} = {}['{}']".format(vid, mid, expr))
+                    # variable for replacement
                     variables[vid] = "__value__{}".format(vid)
-                    if type == "species":
-                        lines.append("__value__{} = {}['[{}]']".format(vid, mid, selection.id))
-                    else:
-                        lines.append("__value__{} = {}['{}']".format(vid, mid, selection.id))
 
                 # value is calculated with the current state of model
-                value = evaluableMathML(setValue.getMath(), variables=variables)
-                xpath = setValue.getTarget()
-                mid = setValue.getModelReference()
-                lines.append(SEDMLCodeFactory.targetToPython(xpath, value, modelId=mid))
+                lines.append(SEDMLCodeFactory.targetToPython(xpath=setValue.getTarget(),
+                                                             value=evaluableMathML(setValue.getMath(), variables=variables),
+                                                             modelId=setValue.getModelReference())
+                             )
 
         # handle result variable
         resultVariable = "{}[0]".format(task.getId())
@@ -947,12 +947,12 @@ class SEDMLCodeFactory(object):
                     for var in r.getListOfVariables():
                         vid = var.getId()
                         mid = var.getModelReference()
-                        selection = SEDMLCodeFactory.resolveSelectionFromVariable(var)
+                        selection = SEDMLCodeFactory.selectionFromVariable(var, mid)
+                        expr = selection.id
+                        if selection.type == 'concentration':
+                            expr = "[{}]".format(selection.id)
+                        lines.append("__value__{} = {}['{}']".format(vid, mid, expr))
                         variables[vid] = "__value__{}".format(vid)
-                        if type == "species":
-                            lines.append("__value__{} = {}['[{}]']".format(vid, mid, selection.id))
-                        else:
-                            lines.append("__value__{} = {}['{}']".format(vid, mid, selection.id))
 
                     # value is calculated with the current state of model
                     value = evaluableMathML(r.getMath(), variables=variables)
@@ -1010,12 +1010,16 @@ class SEDMLCodeFactory(object):
 
         Search all data generators for variables which have to be part of the simulation.
         """
+        modelId = task.getModelReference()
         selections = set()
         for dg in doc.getListOfDataGenerators():
             for var in dg.getListOfVariables():
                 if var.getTaskReference() == task.getId():
-                    sel = SEDMLCodeFactory.resolveSelectionFromVariable(var)
-                    selections.add(sel.id)
+                    selection = SEDMLCodeFactory.selectionFromVariable(var, modelId)
+                    expr = selection.id
+                    if selection.type == "concentration":
+                        expr = "[{}]".format(selection.id)
+                    selections.add(expr)
 
         return selections
 
@@ -1049,42 +1053,6 @@ class SEDMLCodeFactory(object):
             __range[k] = v
         lines.append("__range__{} = {}".format(r.getId(), list(__range)))
         return lines
-
-
-    @staticmethod
-    def resolveSelectionFromVariable(var):
-        """ Resolve the model target to model identifier.
-
-        :param var:
-        :type var: SedVariable
-        :return:
-        :rtype: Target
-        """
-        Selection = namedtuple('Selection', 'id type')
-
-        # symbol field of variable is set
-        if var.isSetSymbol():
-            cvs = var.getSymbol()
-            astr = cvs.rsplit("symbol:")
-            sid = astr[1]
-            return Selection(sid, 'symbol')
-
-        elif var.isSetTarget():
-            cvt = var.getTarget()    # target field of variable is set
-            astr = cvt.rsplit("@id='")
-            if len(astr) is 1:
-                astr = cvt.rsplit("@name='")
-            astr = astr[len(astr)-1]
-            sid = astr[:-2]
-            if 'species' in cvt:
-                return Selection('[{}]'.format(sid), 'species')
-            if 'parameter' in cvt:
-                return Selection(sid, 'parameter')
-            else:
-                return Selection(sid, 'other')
-        else:
-            warnings.warn("Unrecognized Selection in variable")
-            return None
 
     @staticmethod
     def isSupportedAlgorithmForSimulationType(kisao, simType):
@@ -1158,34 +1126,78 @@ class SEDMLCodeFactory(object):
         :return:
         :rtype:
         """
-        target = SEDMLCodeFactory.resolveTargetFromXPath(xpath)
-        if target is None:
-            line = ("# Unsupported target: {}".format(xpath))
-        else:
-            # parameter value change
-            if target.type == "parameter":
-                line = ("{}['{}'] = {}".format(modelId, target.id, value))
-            # species concentration change
-            elif target.type == "species":
-                line = ("{}['init([{}])'] = {}".format(modelId, target.id, value))
-            # unknown
-            elif target.type == "unknown":
-                line = ("{}['{}'] = {}".format(modelId, target.id, value))
+        target = SEDMLCodeFactory._resolveXPath(xpath, modelId)
+        if target:
+            # initial concentration
+            if target.type == "concentration":
+                expr = 'init([{}])'.format(target.id)
+            # initial amount
+            elif target.type == "amount":
+                expr = 'init({})'.format(target.id)
+            # other (parameter, flux, ...)
             else:
-                line = ("# Unsupported target: {}".format(xpath))
+                expr = target.id
+            line = ("{}['{}'] = {}".format(modelId, expr, value))
+        else:
+            line = ("# Unsupported target xpath: {}".format(xpath))
 
         return line
 
     @staticmethod
-    def resolveTargetFromXPath(xpath):
-        """ Resolve the model target to model identifier.
+    def selectionFromVariable(var, modelId):
+        """ Resolves the selection for the given variable.
 
-        :param xpath:
-        :type xpath:
-        :return:
-        :rtype:
+        First checks if the variable is a symbol and returns the symbol.
+        If no symbol is set the xpath of the target is resolved
+        and used in the selection
+
+        :param var: variable to resolve
+        :type var: SedVariable
+        :return: a single selection
+        :rtype: Selection (namedtuple: id type)
         """
+        Selection = namedtuple('Selection', 'id type')
+
+        # parse symbol expression
+        if var.isSetSymbol():
+            cvs = var.getSymbol()
+            astr = cvs.rsplit("symbol:")
+            sid = astr[1]
+            return Selection(sid, 'symbol')
+        # use xpath
+        elif var.isSetTarget():
+            xpath = var.getTarget()
+            target = SEDMLCodeFactory._resolveXPath(xpath, modelId)
+            return Selection(target.id, target.type)
+
+        else:
+            warnings.warn("Unrecognized Selection in variable")
+            return None
+
+    @staticmethod
+    def _resolveXPath(xpath, modelId):
+        """ Resolve the target from the xpath expression.
+
+        A single target in the model corresponding to the modelId is resolved.
+        Currently, the model is not used for xpath resolution.
+
+        :param xpath: xpath expression.
+        :type xpath: str
+        :param modelId: id of model in which xpath should be resolved
+        :type modelId: str
+        :return: single target of xpath expression
+        :rtype: Target (namedtuple: id type)
+        """
+        # TODO: via better xpath expression
+        #   get type from the SBML document for the given id.
+        #   The xpath expression can be very general and does not need to contain the full
+        #   xml path
+        #   For instance:
+        #   /sbml:sbml/sbml:model/descendant::*[@id='S1']
+        #   has to resolve to species.
+        # TODO: figure out concentration or amount (from SBML document)
         # FIXME: getting of sids, pids not very robust, handle more cases (rules, reactions, ...)
+
         Target = namedtuple('Target', 'id type')
 
         def getId(xpath):
@@ -1200,14 +1212,15 @@ class SEDMLCodeFactory(object):
             return Target(getId(xpath), 'parameter')
         # species concentration change
         elif ("model" in xpath) and ("species" in xpath):
-            return Target(getId(xpath), 'species')
+            return Target(getId(xpath), 'concentration')
         # other
         elif ("model" in xpath) and ("id" in xpath):
-            return Target(getId(xpath), 'unknown')
+            return Target(getId(xpath), 'other')
         # cannot be parsed
         else:
             warnings.warn("Unsupported target: {}".format(xpath))
             return None
+
 
     @staticmethod
     def dataGeneratorToPython(doc, generator):
@@ -1237,8 +1250,9 @@ class SEDMLCodeFactory(object):
             varId = var.getId()
             taskId = var.getTaskReference()
             task = doc.getTask(taskId)
+            modelId = task.getModelReference()
 
-            selection = SEDMLCodeFactory.resolveSelectionFromVariable(var)
+            selection = SEDMLCodeFactory.selectionFromVariable(var, modelId)
             isTime = False
             if selection.type == "symbol" and selection.id == "time":
                 isTime = True
@@ -1247,19 +1261,22 @@ class SEDMLCodeFactory(object):
             if task.getTypeCode() == libsedml.SEDML_TASK_REPEATEDTASK:
                 resetModel = task.getResetModel()
 
-            # Series of curves
+            sid = selection.id
+            if selection.type == "concentration":
+                sid = "[{}]".format(selection.id)
 
+            # Series of curves
             if resetModel is True:
-                lines.append("__var__{} = np.transpose(np.array([sim['{}'] for sim in {}]))".format(varId, selection.id, taskId))
+                lines.append("__var__{} = np.transpose(np.array([sim['{}'] for sim in {}]))".format(varId, sid, taskId))
             else:
                 # One curve via time adjusted concatenate
                 if isTime is True:
-                    lines.append("__offsets__{} = np.cumsum(np.array([sim['{}'][-1] for sim in {}]))".format(taskId, selection.id, taskId))
+                    lines.append("__offsets__{} = np.cumsum(np.array([sim['{}'][-1] for sim in {}]))".format(taskId, sid, taskId))
                     lines.append("__offsets__{} = np.insert(__offsets__{}, 0, 0)".format(taskId, taskId))
-                    lines.append("__var__{} = np.transpose(np.array([sim['{}']+__offsets__{}[k] for k, sim in enumerate({})]))".format(varId, selection.id, taskId, taskId))
+                    lines.append("__var__{} = np.transpose(np.array([sim['{}']+__offsets__{}[k] for k, sim in enumerate({})]))".format(varId, sid, taskId, taskId))
                     lines.append("__var__{} = np.concatenate(np.transpose(__var__{}))".format(varId, varId))
                 else:
-                    lines.append("__var__{} = np.transpose(np.array([sim['{}'] for sim in {}]))".format(varId, selection.id, taskId))
+                    lines.append("__var__{} = np.transpose(np.array([sim['{}'] for sim in {}]))".format(varId, sid, taskId))
                     lines.append("__var__{} = np.concatenate(np.transpose(__var__{}))".format(varId, varId))
             lines.append("if len(__var__{}.shape) == 1:".format(varId))
             lines.append("     __var__{}.shape += (1,)".format(varId))

@@ -1,7 +1,6 @@
 """
 More complex compute change.
 """
-# TODO: bug with resetting & updating model (multiple instances of model required)
 from __future__ import print_function
 import tellurium as te
 import os
