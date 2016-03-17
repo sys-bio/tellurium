@@ -777,8 +777,10 @@ class ExtendedRoadRunner(roadrunner.RoadRunner):
         if names is None:
             names = self.selections
 
-        # reset color cycle (repeated simulations have the same colors)
-        plt.gca().set_prop_cycle(None)
+        # check if set_prop_cycle is supported
+        if hasattr(plt.gca(), 'set_prop_cycle'):
+            # reset color cycle (repeated simulations have the same colors)
+            plt.gca().set_prop_cycle(None)
 
         # make plot
         Ncol = result.shape[1]
