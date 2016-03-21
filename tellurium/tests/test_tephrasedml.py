@@ -94,7 +94,6 @@ class tePhrasedMLTestCase(unittest.TestCase):
         zip.close()
         shutil.rmtree(tmpdir)
 
-
     def test_1Model1PhrasedML(self):
         """ Minimal example which should work. """
         antimonyStr = """

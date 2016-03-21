@@ -24,6 +24,13 @@ except ImportError as e:
 
 try:
     import libsbml
+    # try to deactivate the libsbml timestamp if possible
+    # see discussion https://groups.google.com/forum/?utm_medium=email&utm_source=footer#!msg/libsbml-development/Yy78LSwOHzU/9t5PcpD2AAAJ
+    # try:
+    #     libsbml.XMLOutputStream.setWriteTimestamp(False)
+    # except AttributeError:
+    #     warnings.warn("'libsbml' timestamps can not be deactivated in this libsbml version", ImportWarning, stacklevel=2)
+
 except ImportError as e:
     libsbml = None
     roadrunner.Logger.log(roadrunner.Logger.LOG_WARNING, str(e))
