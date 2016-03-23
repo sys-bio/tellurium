@@ -64,3 +64,6 @@ with open(realPath + 'code.py', 'w') as f:
 
 # execute python
 exp.execute(phrasedmlStr, workingDir=workingDir)
+
+# remove sedx (not hashable due to timestamp)
+os.remove(os.path.join(workingDir, 'parameterScan1D.sedx'))

@@ -23,8 +23,6 @@ phrasedmlStr = """
     report task0.time vs task0.S1
 """
 
-
-
 # phrasedml experiment
 exp = te.experiment(antimonyStr, phrasedmlStr)
 
@@ -36,3 +34,6 @@ with open(realPath + 'code.py', 'w') as f:
 
 # execute python
 exp.execute(phrasedmlStr, workingDir=workingDir)
+
+# remove sedx (not hashable due to timestamp)
+os.remove(os.path.join(workingDir, 'case_01.sedx'))

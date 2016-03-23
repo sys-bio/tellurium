@@ -68,3 +68,6 @@ combine.write(combinePath)
 
 # Run Combine archive
 te.executeSEDML(combinePath)
+
+# remove sedx (not hashable due to timestamp)
+os.remove(combinePath)

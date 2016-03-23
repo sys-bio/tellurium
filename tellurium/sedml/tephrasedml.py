@@ -17,6 +17,8 @@ phrasedml provides a simple description language to create the key SED-ML compon
     - outputs
 """
 # TODO: handle multiple phrasedml files with multiple models
+# TODO: implement general experiment which works with SEDML files, phrasedml files, SBML, URI, ...
+#   The experiment has to be able to represent all possible combinatinons
 
 from __future__ import print_function, division
 import os.path

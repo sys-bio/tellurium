@@ -317,7 +317,7 @@ class CombineArchive(object):
                     # real path
                     path = os.path.join(directory, c.location)
                     if not os.path.exists(path):
-                        raise IOError('Path specified in manifest.xml does not exist in archive: {}'.format(p))
+                        raise IOError('Path specified in manifest.xml does not exist in archive: {}'.format(path))
                     paths.append(path)
         else:
             # no manifest, use all files in folder
