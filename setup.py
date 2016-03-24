@@ -11,7 +11,7 @@ setup(name='tellurium',
       packages=[
           'tellurium',
           'tellurium.analysis',
-          'tellurium.io',
+          'tellurium.teio',
           'tellurium.notebooks',
           'tellurium.optimization',
           'tellurium.visualization',
