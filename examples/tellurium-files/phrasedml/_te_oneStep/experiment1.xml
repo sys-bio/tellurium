@@ -16,7 +16,7 @@
         <uniformRange id="x" start="0" end="10" numberOfPoints="100" type="linear"/>
       </listOfRanges>
       <listOfChanges>
-        <setValue range="x" modelReference="model1" target="/sbml:sbml/sbml:model/descendant::*[@id='J0_v0']">
+        <setValue range="x" modelReference="model1" target="/sbml:sbml/sbml:model/sbml:listOfParameters/sbml:parameter[@id='J0_v0']">
           <math xmlns="http://www.w3.org/1998/Math/MathML">
             <piecewise>
               <piece>
@@ -66,7 +66,7 @@
     </dataGenerator>
     <dataGenerator id="plot_0_0_1" name="task1.S1">
       <listOfVariables>
-        <variable id="task1_____S1" target="/sbml:sbml/sbml:model/descendant::*[@id='S1']" taskReference="task1" modelReference="model1"/>
+        <variable id="task1_____S1" target="/sbml:sbml/sbml:model/sbml:listOfSpecies/sbml:species[@id='S1']" taskReference="task1" modelReference="model1"/>
       </listOfVariables>
       <math xmlns="http://www.w3.org/1998/Math/MathML">
         <ci> task1_____S1 </ci>
@@ -74,7 +74,7 @@
     </dataGenerator>
     <dataGenerator id="plot_0_1_1" name="task1.S2">
       <listOfVariables>
-        <variable id="task1_____S2" target="/sbml:sbml/sbml:model/descendant::*[@id='S2']" taskReference="task1" modelReference="model1"/>
+        <variable id="task1_____S2" target="/sbml:sbml/sbml:model/sbml:listOfSpecies/sbml:species[@id='S2']" taskReference="task1" modelReference="model1"/>
       </listOfVariables>
       <math xmlns="http://www.w3.org/1998/Math/MathML">
         <ci> task1_____S2 </ci>
@@ -82,7 +82,7 @@
     </dataGenerator>
     <dataGenerator id="plot_0_2_1" name="task1.J0_v0">
       <listOfVariables>
-        <variable id="task1_____J0_v0" target="/sbml:sbml/sbml:model/descendant::*[@id='J0_v0']" taskReference="task1" modelReference="model1"/>
+        <variable id="task1_____J0_v0" target="/sbml:sbml/sbml:model/sbml:listOfParameters/sbml:parameter[@id='J0_v0']" taskReference="task1" modelReference="model1"/>
       </listOfVariables>
       <math xmlns="http://www.w3.org/1998/Math/MathML">
         <ci> task1_____J0_v0 </ci>
@@ -92,9 +92,9 @@
   <listOfOutputs>
     <plot2D id="plot_0" name="One Step Simulation">
       <listOfCurves>
-        <curve logX="false" logY="false" xDataReference="plot_0_0_0" yDataReference="plot_0_0_1"/>
-        <curve logX="false" logY="false" xDataReference="plot_0_0_0" yDataReference="plot_0_1_1"/>
-        <curve logX="false" logY="false" xDataReference="plot_0_0_0" yDataReference="plot_0_2_1"/>
+        <curve id="plot_0__plot_0_0_0__plot_0_0_1" logX="false" logY="false" xDataReference="plot_0_0_0" yDataReference="plot_0_0_1"/>
+        <curve id="plot_0__plot_0_0_0__plot_0_1_1" logX="false" logY="false" xDataReference="plot_0_0_0" yDataReference="plot_0_1_1"/>
+        <curve id="plot_0__plot_0_0_0__plot_0_2_1" logX="false" logY="false" xDataReference="plot_0_0_0" yDataReference="plot_0_2_1"/>
       </listOfCurves>
     </plot2D>
     <report id="report_1">

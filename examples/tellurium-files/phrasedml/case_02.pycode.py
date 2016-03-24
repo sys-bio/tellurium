@@ -27,7 +27,7 @@ workingDir = '/home/mkoenig/git/tellurium/examples/tellurium-files/phrasedml/_te
 model0 = te.loadSBMLModel(os.path.join(workingDir, 'case_02.xml'))
 # Model <model1>
 model1 = te.loadSBMLModel(os.path.join(workingDir, 'case_02.xml'))
-# /sbml:sbml/sbml:model/listOfSpecies/species[@id='S1']/@initialConcentration 5
+# /sbml:sbml/sbml:model/sbml:listOfSpecies/sbml:species[@id='S1']/@initialConcentration 5
 model1['init([S1])'] = 5
 
 # --------------------------------------------------------
@@ -46,7 +46,7 @@ for __k__uniform_linear_for_k1, __value__uniform_linear_for_k1 in enumerate(__ra
     task0 = [None]
     model1.setIntegrator('cvode')
     model1['k1'] = __value__uniform_linear_for_k1
-    model1.timeCourseSelections = ['S2', 'S1', 'k1', 'time']
+    model1.timeCourseSelections = ['k1', '[S1]', '[S2]', 'time']
     task0[0] = model1.simulate(start=0.0, end=6.0, steps=100)
 
     task1.extend(task0)
@@ -61,13 +61,13 @@ if len(__var__task1_____time.shape) == 1:
 plot_0_0_0 = __var__task1_____time
 
 # DataGenerator <plot_0_0_1>
-__var__task1_____S1 = np.transpose(np.array([sim['S1'] for sim in task1]))
+__var__task1_____S1 = np.transpose(np.array([sim['[S1]'] for sim in task1]))
 if len(__var__task1_____S1.shape) == 1:
      __var__task1_____S1.shape += (1,)
 plot_0_0_1 = __var__task1_____S1
 
 # DataGenerator <plot_0_1_1>
-__var__task1_____S2 = np.transpose(np.array([sim['S2'] for sim in task1]))
+__var__task1_____S2 = np.transpose(np.array([sim['[S2]'] for sim in task1]))
 if len(__var__task1_____S2.shape) == 1:
      __var__task1_____S2.shape += (1,)
 plot_0_1_1 = __var__task1_____S2

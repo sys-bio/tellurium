@@ -23,7 +23,7 @@
     </dataGenerator>
     <dataGenerator id="plot_0_0_1" name="task0.S1">
       <listOfVariables>
-        <variable id="task0_____S1" target="/sbml:sbml/sbml:model/descendant::*[@id='S1']" taskReference="task0" modelReference="model0"/>
+        <variable id="task0_____S1" target="/sbml:sbml/sbml:model/sbml:listOfSpecies/sbml:species[@id='S1']" taskReference="task0" modelReference="model0"/>
       </listOfVariables>
       <math xmlns="http://www.w3.org/1998/Math/MathML">
         <ci> task0_____S1 </ci>
@@ -33,7 +33,7 @@
   <listOfOutputs>
     <plot2D id="plot_0" name="UniformTimecourse">
       <listOfCurves>
-        <curve logX="false" logY="false" xDataReference="plot_0_0_0" yDataReference="plot_0_0_1"/>
+        <curve id="plot_0__plot_0_0_0__plot_0_0_1" logX="false" logY="false" xDataReference="plot_0_0_0" yDataReference="plot_0_0_1"/>
       </listOfCurves>
     </plot2D>
     <report id="report_1">

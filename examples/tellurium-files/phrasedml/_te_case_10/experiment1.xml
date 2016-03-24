@@ -21,12 +21,12 @@
         <uniformRange id="X" start="0" end="10" numberOfPoints="9" type="linear"/>
       </listOfRanges>
       <listOfChanges>
-        <setValue range="X" modelReference="mod1" target="/sbml:sbml/sbml:model/descendant::*[@id='S1']">
+        <setValue range="X" modelReference="mod1" target="/sbml:sbml/sbml:model/sbml:listOfSpecies/sbml:species[@id='S1']">
           <math xmlns="http://www.w3.org/1998/Math/MathML">
             <ci> X </ci>
           </math>
         </setValue>
-        <setValue range="X" modelReference="mod2" target="/sbml:sbml/sbml:model/descendant::*[@id='S1']">
+        <setValue range="X" modelReference="mod2" target="/sbml:sbml/sbml:model/sbml:listOfSpecies/sbml:species[@id='S1']">
           <math xmlns="http://www.w3.org/1998/Math/MathML">
             <apply>
               <plus/>
@@ -53,7 +53,7 @@
     </dataGenerator>
     <dataGenerator id="plot_0_0_1" name="repeat1.mod1.S1">
       <listOfVariables>
-        <variable id="repeat1_____mod1_____S1" target="/sbml:sbml/sbml:model/descendant::*[@id='S1']" taskReference="repeat1" modelReference="mod1"/>
+        <variable id="repeat1_____mod1_____S1" target="/sbml:sbml/sbml:model/sbml:listOfSpecies/sbml:species[@id='S1']" taskReference="repeat1" modelReference="mod1"/>
       </listOfVariables>
       <math xmlns="http://www.w3.org/1998/Math/MathML">
         <ci> repeat1_____mod1_____S1 </ci>
@@ -61,7 +61,7 @@
     </dataGenerator>
     <dataGenerator id="plot_0_1_1" name="repeat1.mod1.S2">
       <listOfVariables>
-        <variable id="repeat1_____mod1_____S2" target="/sbml:sbml/sbml:model/descendant::*[@id='S2']" taskReference="repeat1" modelReference="mod1"/>
+        <variable id="repeat1_____mod1_____S2" target="/sbml:sbml/sbml:model/sbml:listOfSpecies/sbml:species[@id='S2']" taskReference="repeat1" modelReference="mod1"/>
       </listOfVariables>
       <math xmlns="http://www.w3.org/1998/Math/MathML">
         <ci> repeat1_____mod1_____S2 </ci>
@@ -77,7 +77,7 @@
     </dataGenerator>
     <dataGenerator id="plot_0_2_1" name="repeat1.mod2.S1">
       <listOfVariables>
-        <variable id="repeat1_____mod2_____S1" target="/sbml:sbml/sbml:model/descendant::*[@id='S1']" taskReference="repeat1" modelReference="mod2"/>
+        <variable id="repeat1_____mod2_____S1" target="/sbml:sbml/sbml:model/sbml:listOfSpecies/sbml:species[@id='S1']" taskReference="repeat1" modelReference="mod2"/>
       </listOfVariables>
       <math xmlns="http://www.w3.org/1998/Math/MathML">
         <ci> repeat1_____mod2_____S1 </ci>
@@ -85,7 +85,7 @@
     </dataGenerator>
     <dataGenerator id="plot_0_3_1" name="repeat1.mod2.S2">
       <listOfVariables>
-        <variable id="repeat1_____mod2_____S2" target="/sbml:sbml/sbml:model/descendant::*[@id='S2']" taskReference="repeat1" modelReference="mod2"/>
+        <variable id="repeat1_____mod2_____S2" target="/sbml:sbml/sbml:model/sbml:listOfSpecies/sbml:species[@id='S2']" taskReference="repeat1" modelReference="mod2"/>
       </listOfVariables>
       <math xmlns="http://www.w3.org/1998/Math/MathML">
         <ci> repeat1_____mod2_____S2 </ci>
@@ -95,10 +95,10 @@
   <listOfOutputs>
     <plot2D id="plot_0">
       <listOfCurves>
-        <curve logX="false" logY="false" xDataReference="plot_0_0_0" yDataReference="plot_0_0_1"/>
-        <curve logX="false" logY="false" xDataReference="plot_0_0_0" yDataReference="plot_0_1_1"/>
-        <curve logX="false" logY="false" xDataReference="plot_0_2_0" yDataReference="plot_0_2_1"/>
-        <curve logX="false" logY="false" xDataReference="plot_0_2_0" yDataReference="plot_0_3_1"/>
+        <curve id="plot_0__plot_0_0_0__plot_0_0_1" logX="false" logY="false" xDataReference="plot_0_0_0" yDataReference="plot_0_0_1"/>
+        <curve id="plot_0__plot_0_0_0__plot_0_1_1" logX="false" logY="false" xDataReference="plot_0_0_0" yDataReference="plot_0_1_1"/>
+        <curve id="plot_0__plot_0_2_0__plot_0_2_1" logX="false" logY="false" xDataReference="plot_0_2_0" yDataReference="plot_0_2_1"/>
+        <curve id="plot_0__plot_0_2_0__plot_0_3_1" logX="false" logY="false" xDataReference="plot_0_2_0" yDataReference="plot_0_3_1"/>
       </listOfCurves>
     </plot2D>
   </listOfOutputs>

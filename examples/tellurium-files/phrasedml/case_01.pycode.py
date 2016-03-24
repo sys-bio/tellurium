@@ -33,7 +33,7 @@ model0 = te.loadSBMLModel(os.path.join(workingDir, 'case_01.xml'))
 # Task: <task0>
 task0 = [None]
 model0.setIntegrator('cvode')
-model0.timeCourseSelections = ['S1', 'time']
+model0.timeCourseSelections = ['[S1]', 'time']
 task0[0] = model0.simulate(start=0.0, end=10.0, steps=100)
 
 # --------------------------------------------------------
@@ -46,7 +46,7 @@ if len(__var__task0_____time.shape) == 1:
 plot_0_0_0 = __var__task0_____time
 
 # DataGenerator <plot_0_0_1>
-__var__task0_____S1 = np.transpose(np.array([sim['S1'] for sim in task0]))
+__var__task0_____S1 = np.transpose(np.array([sim['[S1]'] for sim in task0]))
 if len(__var__task0_____S1.shape) == 1:
      __var__task0_____S1.shape += (1,)
 plot_0_0_1 = __var__task0_____S1

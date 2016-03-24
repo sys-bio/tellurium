@@ -41,7 +41,7 @@ for __k__x, __value__x in enumerate(__range__x):
     # Task: <task1>
     task1 = [None]
     mod1.setIntegrator('cvode')
-    mod1.timeCourseSelections = ['MAPK', 'time', 'MKK', 'MAPK_P', 'MAPK_PP']
+    mod1.timeCourseSelections = ['[MAPK_P]', '[MAPK]', '[MKK]', '[MAPK_PP]', 'time']
     task1[0] = mod1.simulate(start=0.0, end=4000.0, steps=1000)
 
     repeat1.extend(task1)
@@ -50,7 +50,7 @@ for __k__x, __value__x in enumerate(__range__x):
 # DataGenerators
 # --------------------------------------------------------
 # DataGenerator <plot_0_0_0>
-__var__repeat1_____MAPK = np.transpose(np.array([sim['MAPK'] for sim in repeat1]))
+__var__repeat1_____MAPK = np.transpose(np.array([sim['[MAPK]'] for sim in repeat1]))
 if len(__var__repeat1_____MAPK.shape) == 1:
      __var__repeat1_____MAPK.shape += (1,)
 plot_0_0_0 = __var__repeat1_____MAPK
@@ -62,19 +62,19 @@ if len(__var__repeat1_____time.shape) == 1:
 plot_0_0_1 = __var__repeat1_____time
 
 # DataGenerator <plot_0_0_2>
-__var__repeat1_____MAPK_P = np.transpose(np.array([sim['MAPK_P'] for sim in repeat1]))
+__var__repeat1_____MAPK_P = np.transpose(np.array([sim['[MAPK_P]'] for sim in repeat1]))
 if len(__var__repeat1_____MAPK_P.shape) == 1:
      __var__repeat1_____MAPK_P.shape += (1,)
 plot_0_0_2 = __var__repeat1_____MAPK_P
 
 # DataGenerator <plot_0_1_2>
-__var__repeat1_____MAPK_PP = np.transpose(np.array([sim['MAPK_PP'] for sim in repeat1]))
+__var__repeat1_____MAPK_PP = np.transpose(np.array([sim['[MAPK_PP]'] for sim in repeat1]))
 if len(__var__repeat1_____MAPK_PP.shape) == 1:
      __var__repeat1_____MAPK_PP.shape += (1,)
 plot_0_1_2 = __var__repeat1_____MAPK_PP
 
 # DataGenerator <plot_0_2_2>
-__var__repeat1_____MKK = np.transpose(np.array([sim['MKK'] for sim in repeat1]))
+__var__repeat1_____MKK = np.transpose(np.array([sim['[MKK]'] for sim in repeat1]))
 if len(__var__repeat1_____MKK.shape) == 1:
      __var__repeat1_____MKK.shape += (1,)
 plot_0_2_2 = __var__repeat1_____MKK

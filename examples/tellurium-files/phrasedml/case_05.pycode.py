@@ -33,7 +33,7 @@ mod1 = te.loadSBMLModel(os.path.join(workingDir, 'case_05.xml'))
 # Task: <task1>
 task1 = [None]
 mod1.setIntegrator('cvode')
-mod1.timeCourseSelections = ['S2', 'S1', 'time']
+mod1.timeCourseSelections = ['[S1]', '[S2]', 'time']
 task1[0] = mod1.simulate(start=0.0, end=10.0, steps=100)
 
 # --------------------------------------------------------
@@ -46,34 +46,34 @@ if len(__var__task1_____time.shape) == 1:
 plot_0_0_0 = __var__task1_____time
 
 # DataGenerator <plot_0_0_1>
-__var__task1_____S1 = np.transpose(np.array([sim['S1'] for sim in task1]))
+__var__task1_____S1 = np.transpose(np.array([sim['[S1]'] for sim in task1]))
 if len(__var__task1_____S1.shape) == 1:
      __var__task1_____S1.shape += (1,)
 plot_0_0_1 = __var__task1_____S1
 
 # DataGenerator <plot_0_1_1>
-__var__task1_____S2 = np.transpose(np.array([sim['S2'] for sim in task1]))
+__var__task1_____S2 = np.transpose(np.array([sim['[S2]'] for sim in task1]))
 if len(__var__task1_____S2.shape) == 1:
      __var__task1_____S2.shape += (1,)
 plot_0_1_1 = __var__task1_____S2
 
 # DataGenerator <plot_0_2_1>
-__var__task1_____S1 = np.transpose(np.array([sim['S1'] for sim in task1]))
+__var__task1_____S1 = np.transpose(np.array([sim['[S1]'] for sim in task1]))
 if len(__var__task1_____S1.shape) == 1:
      __var__task1_____S1.shape += (1,)
-__var__task1_____S2 = np.transpose(np.array([sim['S2'] for sim in task1]))
+__var__task1_____S2 = np.transpose(np.array([sim['[S2]'] for sim in task1]))
 if len(__var__task1_____S2.shape) == 1:
      __var__task1_____S2.shape += (1,)
 plot_0_2_1 = __var__task1_____S1 / __var__task1_____S2
 
 # DataGenerator <plot_2_0_0>
-__var__task1_____S1 = np.transpose(np.array([sim['S1'] for sim in task1]))
+__var__task1_____S1 = np.transpose(np.array([sim['[S1]'] for sim in task1]))
 if len(__var__task1_____S1.shape) == 1:
      __var__task1_____S1.shape += (1,)
 plot_2_0_0 = __var__task1_____S1 / np.max(__var__task1_____S1)
 
 # DataGenerator <plot_2_0_1>
-__var__task1_____S2 = np.transpose(np.array([sim['S2'] for sim in task1]))
+__var__task1_____S2 = np.transpose(np.array([sim['[S2]'] for sim in task1]))
 if len(__var__task1_____S2.shape) == 1:
      __var__task1_____S2.shape += (1,)
 plot_2_0_1 = __var__task1_____S2 / np.max(__var__task1_____S2)

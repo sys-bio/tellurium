@@ -49,16 +49,16 @@ for __k__X, __value__X in enumerate(__range__X):
     # Task: <task1>
     task1 = [None]
     mod1.setIntegrator('cvode')
-    mod1['S1'] = __value__X
-    mod2['S1'] = __value__X + 3
-    mod1.timeCourseSelections = ['S2', 'S1', 'time']
+    mod1['init([S1])'] = __value__X
+    mod2['init([S1])'] = __value__X + 3
+    mod1.timeCourseSelections = ['[S1]', '[S2]', 'time']
     task1[0] = mod1.simulate(start=0.0, end=10.0, steps=100)
     # Task: <task2>
     task2 = [None]
     mod2.setIntegrator('cvode')
-    mod1['S1'] = __value__X
-    mod2['S1'] = __value__X + 3
-    mod2.timeCourseSelections = ['S2', 'S1', 'time']
+    mod1['init([S1])'] = __value__X
+    mod2['init([S1])'] = __value__X + 3
+    mod2.timeCourseSelections = ['[S1]', '[S2]', 'time']
     task2[0] = mod2.simulate(start=0.0, end=3.0, steps=10)
 
     task1.extend(task2)
@@ -78,14 +78,14 @@ if len(__var__repeat1_____mod1_____time.shape) == 1:
 plot_0_0_0 = __var__repeat1_____mod1_____time
 
 # DataGenerator <plot_0_0_1>
-__var__repeat1_____mod1_____S1 = np.transpose(np.array([sim['S1'] for sim in repeat1]))
+__var__repeat1_____mod1_____S1 = np.transpose(np.array([sim['[S1]'] for sim in repeat1]))
 __var__repeat1_____mod1_____S1 = np.concatenate(np.transpose(__var__repeat1_____mod1_____S1))
 if len(__var__repeat1_____mod1_____S1.shape) == 1:
      __var__repeat1_____mod1_____S1.shape += (1,)
 plot_0_0_1 = __var__repeat1_____mod1_____S1
 
 # DataGenerator <plot_0_1_1>
-__var__repeat1_____mod1_____S2 = np.transpose(np.array([sim['S2'] for sim in repeat1]))
+__var__repeat1_____mod1_____S2 = np.transpose(np.array([sim['[S2]'] for sim in repeat1]))
 __var__repeat1_____mod1_____S2 = np.concatenate(np.transpose(__var__repeat1_____mod1_____S2))
 if len(__var__repeat1_____mod1_____S2.shape) == 1:
      __var__repeat1_____mod1_____S2.shape += (1,)
@@ -101,14 +101,14 @@ if len(__var__repeat1_____mod2_____time.shape) == 1:
 plot_0_2_0 = __var__repeat1_____mod2_____time
 
 # DataGenerator <plot_0_2_1>
-__var__repeat1_____mod2_____S1 = np.transpose(np.array([sim['S1'] for sim in repeat1]))
+__var__repeat1_____mod2_____S1 = np.transpose(np.array([sim['[S1]'] for sim in repeat1]))
 __var__repeat1_____mod2_____S1 = np.concatenate(np.transpose(__var__repeat1_____mod2_____S1))
 if len(__var__repeat1_____mod2_____S1.shape) == 1:
      __var__repeat1_____mod2_____S1.shape += (1,)
 plot_0_2_1 = __var__repeat1_____mod2_____S1
 
 # DataGenerator <plot_0_3_1>
-__var__repeat1_____mod2_____S2 = np.transpose(np.array([sim['S2'] for sim in repeat1]))
+__var__repeat1_____mod2_____S2 = np.transpose(np.array([sim['[S2]'] for sim in repeat1]))
 __var__repeat1_____mod2_____S2 = np.concatenate(np.transpose(__var__repeat1_____mod2_____S2))
 if len(__var__repeat1_____mod2_____S2.shape) == 1:
      __var__repeat1_____mod2_____S2.shape += (1,)

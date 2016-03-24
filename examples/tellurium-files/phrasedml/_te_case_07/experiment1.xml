@@ -20,7 +20,7 @@
         </vectorRange>
       </listOfRanges>
       <listOfChanges>
-        <setValue range="vector_for_S1" modelReference="mod1" target="/sbml:sbml/sbml:model/descendant::*[@id='S1']">
+        <setValue range="vector_for_S1" modelReference="mod1" target="/sbml:sbml/sbml:model/sbml:listOfSpecies/sbml:species[@id='S1']">
           <math xmlns="http://www.w3.org/1998/Math/MathML">
             <ci> vector_for_S1 </ci>
           </math>
@@ -42,7 +42,7 @@
     </dataGenerator>
     <dataGenerator id="report_0_0_1" name="task1.S1">
       <listOfVariables>
-        <variable id="task1_____S1" target="/sbml:sbml/sbml:model/descendant::*[@id='S1']" taskReference="task1" modelReference="mod1"/>
+        <variable id="task1_____S1" target="/sbml:sbml/sbml:model/sbml:listOfSpecies/sbml:species[@id='S1']" taskReference="task1" modelReference="mod1"/>
       </listOfVariables>
       <math xmlns="http://www.w3.org/1998/Math/MathML">
         <ci> task1_____S1 </ci>
@@ -50,7 +50,7 @@
     </dataGenerator>
     <dataGenerator id="report_0_0_2" name="task1.S2">
       <listOfVariables>
-        <variable id="task1_____S2" target="/sbml:sbml/sbml:model/descendant::*[@id='S2']" taskReference="task1" modelReference="mod1"/>
+        <variable id="task1_____S2" target="/sbml:sbml/sbml:model/sbml:listOfSpecies/sbml:species[@id='S2']" taskReference="task1" modelReference="mod1"/>
       </listOfVariables>
       <math xmlns="http://www.w3.org/1998/Math/MathML">
         <ci> task1_____S2 </ci>
@@ -58,8 +58,8 @@
     </dataGenerator>
     <dataGenerator id="report_0_0_3" name="task1.S1/task1.S2">
       <listOfVariables>
-        <variable id="task1_____S1" target="/sbml:sbml/sbml:model/descendant::*[@id='S1']" taskReference="task1" modelReference="mod1"/>
-        <variable id="task1_____S2" target="/sbml:sbml/sbml:model/descendant::*[@id='S2']" taskReference="task1" modelReference="mod1"/>
+        <variable id="task1_____S1" target="/sbml:sbml/sbml:model/sbml:listOfSpecies/sbml:species[@id='S1']" taskReference="task1" modelReference="mod1"/>
+        <variable id="task1_____S2" target="/sbml:sbml/sbml:model/sbml:listOfSpecies/sbml:species[@id='S2']" taskReference="task1" modelReference="mod1"/>
       </listOfVariables>
       <math xmlns="http://www.w3.org/1998/Math/MathML">
         <apply>
@@ -79,7 +79,7 @@
     </dataGenerator>
     <dataGenerator id="report_1_0_1" name="repeat1.S1">
       <listOfVariables>
-        <variable id="repeat1_____S1" target="/sbml:sbml/sbml:model/descendant::*[@id='S1']" taskReference="repeat1" modelReference="mod1"/>
+        <variable id="repeat1_____S1" target="/sbml:sbml/sbml:model/sbml:listOfSpecies/sbml:species[@id='S1']" taskReference="repeat1" modelReference="mod1"/>
       </listOfVariables>
       <math xmlns="http://www.w3.org/1998/Math/MathML">
         <ci> repeat1_____S1 </ci>
@@ -87,7 +87,7 @@
     </dataGenerator>
     <dataGenerator id="report_1_0_2" name="repeat1.S2">
       <listOfVariables>
-        <variable id="repeat1_____S2" target="/sbml:sbml/sbml:model/descendant::*[@id='S2']" taskReference="repeat1" modelReference="mod1"/>
+        <variable id="repeat1_____S2" target="/sbml:sbml/sbml:model/sbml:listOfSpecies/sbml:species[@id='S2']" taskReference="repeat1" modelReference="mod1"/>
       </listOfVariables>
       <math xmlns="http://www.w3.org/1998/Math/MathML">
         <ci> repeat1_____S2 </ci>
@@ -95,8 +95,8 @@
     </dataGenerator>
     <dataGenerator id="report_1_0_3" name="repeat1.S1/repeat1.S2">
       <listOfVariables>
-        <variable id="repeat1_____S1" target="/sbml:sbml/sbml:model/descendant::*[@id='S1']" taskReference="repeat1" modelReference="mod1"/>
-        <variable id="repeat1_____S2" target="/sbml:sbml/sbml:model/descendant::*[@id='S2']" taskReference="repeat1" modelReference="mod1"/>
+        <variable id="repeat1_____S1" target="/sbml:sbml/sbml:model/sbml:listOfSpecies/sbml:species[@id='S1']" taskReference="repeat1" modelReference="mod1"/>
+        <variable id="repeat1_____S2" target="/sbml:sbml/sbml:model/sbml:listOfSpecies/sbml:species[@id='S2']" taskReference="repeat1" modelReference="mod1"/>
       </listOfVariables>
       <math xmlns="http://www.w3.org/1998/Math/MathML">
         <apply>

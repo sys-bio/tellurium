@@ -45,7 +45,7 @@ for __k__x, __value__x in enumerate(__range__x):
     task1 = [None]
     model1.setIntegrator('gillespie')
     model1.integrator.setValue('seed', 1003)
-    model1.timeCourseSelections = ['MKKK', 'MKK_P', 'MAPK', 'MKK', 'MKKK_P', 'time', 'MAPK_P', 'MAPK_PP']
+    model1.timeCourseSelections = ['[MKKK]', '[MKKK_P]', '[MAPK]', '[MAPK_PP]', '[MKK_P]', '[MAPK_P]', 'time', '[MKK]']
     task1[0] = model1.simulate(start=0.0, end=4000.0, steps=1000)
 
     repeat1.extend(task1)
@@ -59,7 +59,7 @@ for __k__x, __value__x in enumerate(__range__x):
     # Task: <task2>
     task2 = [None]
     model1.setIntegrator('gillespie')
-    model1.timeCourseSelections = ['MKKK', 'MKK_P', 'MAPK', 'MKK', 'MKKK_P', 'time', 'MAPK_P', 'MAPK_PP']
+    model1.timeCourseSelections = ['[MKKK]', '[MKKK_P]', '[MAPK]', '[MAPK_PP]', '[MKK_P]', '[MAPK_P]', 'time', '[MKK]']
     task2[0] = model1.simulate(start=0.0, end=4000.0, steps=1000)
 
     repeat2.extend(task2)
@@ -74,43 +74,43 @@ if len(__var__repeat1_____time.shape) == 1:
 plot_0_0_0 = __var__repeat1_____time
 
 # DataGenerator <plot_0_0_1>
-__var__repeat1_____MAPK = np.transpose(np.array([sim['MAPK'] for sim in repeat1]))
+__var__repeat1_____MAPK = np.transpose(np.array([sim['[MAPK]'] for sim in repeat1]))
 if len(__var__repeat1_____MAPK.shape) == 1:
      __var__repeat1_____MAPK.shape += (1,)
 plot_0_0_1 = __var__repeat1_____MAPK
 
 # DataGenerator <plot_0_1_1>
-__var__repeat1_____MAPK_P = np.transpose(np.array([sim['MAPK_P'] for sim in repeat1]))
+__var__repeat1_____MAPK_P = np.transpose(np.array([sim['[MAPK_P]'] for sim in repeat1]))
 if len(__var__repeat1_____MAPK_P.shape) == 1:
      __var__repeat1_____MAPK_P.shape += (1,)
 plot_0_1_1 = __var__repeat1_____MAPK_P
 
 # DataGenerator <plot_0_2_1>
-__var__repeat1_____MAPK_PP = np.transpose(np.array([sim['MAPK_PP'] for sim in repeat1]))
+__var__repeat1_____MAPK_PP = np.transpose(np.array([sim['[MAPK_PP]'] for sim in repeat1]))
 if len(__var__repeat1_____MAPK_PP.shape) == 1:
      __var__repeat1_____MAPK_PP.shape += (1,)
 plot_0_2_1 = __var__repeat1_____MAPK_PP
 
 # DataGenerator <plot_0_3_1>
-__var__repeat1_____MKK = np.transpose(np.array([sim['MKK'] for sim in repeat1]))
+__var__repeat1_____MKK = np.transpose(np.array([sim['[MKK]'] for sim in repeat1]))
 if len(__var__repeat1_____MKK.shape) == 1:
      __var__repeat1_____MKK.shape += (1,)
 plot_0_3_1 = __var__repeat1_____MKK
 
 # DataGenerator <plot_0_4_1>
-__var__repeat1_____MKK_P = np.transpose(np.array([sim['MKK_P'] for sim in repeat1]))
+__var__repeat1_____MKK_P = np.transpose(np.array([sim['[MKK_P]'] for sim in repeat1]))
 if len(__var__repeat1_____MKK_P.shape) == 1:
      __var__repeat1_____MKK_P.shape += (1,)
 plot_0_4_1 = __var__repeat1_____MKK_P
 
 # DataGenerator <plot_0_5_1>
-__var__repeat1_____MKKK = np.transpose(np.array([sim['MKKK'] for sim in repeat1]))
+__var__repeat1_____MKKK = np.transpose(np.array([sim['[MKKK]'] for sim in repeat1]))
 if len(__var__repeat1_____MKKK.shape) == 1:
      __var__repeat1_____MKKK.shape += (1,)
 plot_0_5_1 = __var__repeat1_____MKKK
 
 # DataGenerator <plot_0_6_1>
-__var__repeat1_____MKKK_P = np.transpose(np.array([sim['MKKK_P'] for sim in repeat1]))
+__var__repeat1_____MKKK_P = np.transpose(np.array([sim['[MKKK_P]'] for sim in repeat1]))
 if len(__var__repeat1_____MKKK_P.shape) == 1:
      __var__repeat1_____MKKK_P.shape += (1,)
 plot_0_6_1 = __var__repeat1_____MKKK_P
@@ -122,43 +122,43 @@ if len(__var__repeat2_____time.shape) == 1:
 plot_1_0_0 = __var__repeat2_____time
 
 # DataGenerator <plot_1_0_1>
-__var__repeat2_____MAPK = np.transpose(np.array([sim['MAPK'] for sim in repeat2]))
+__var__repeat2_____MAPK = np.transpose(np.array([sim['[MAPK]'] for sim in repeat2]))
 if len(__var__repeat2_____MAPK.shape) == 1:
      __var__repeat2_____MAPK.shape += (1,)
 plot_1_0_1 = __var__repeat2_____MAPK
 
 # DataGenerator <plot_1_1_1>
-__var__repeat2_____MAPK_P = np.transpose(np.array([sim['MAPK_P'] for sim in repeat2]))
+__var__repeat2_____MAPK_P = np.transpose(np.array([sim['[MAPK_P]'] for sim in repeat2]))
 if len(__var__repeat2_____MAPK_P.shape) == 1:
      __var__repeat2_____MAPK_P.shape += (1,)
 plot_1_1_1 = __var__repeat2_____MAPK_P
 
 # DataGenerator <plot_1_2_1>
-__var__repeat2_____MAPK_PP = np.transpose(np.array([sim['MAPK_PP'] for sim in repeat2]))
+__var__repeat2_____MAPK_PP = np.transpose(np.array([sim['[MAPK_PP]'] for sim in repeat2]))
 if len(__var__repeat2_____MAPK_PP.shape) == 1:
      __var__repeat2_____MAPK_PP.shape += (1,)
 plot_1_2_1 = __var__repeat2_____MAPK_PP
 
 # DataGenerator <plot_1_3_1>
-__var__repeat2_____MKK = np.transpose(np.array([sim['MKK'] for sim in repeat2]))
+__var__repeat2_____MKK = np.transpose(np.array([sim['[MKK]'] for sim in repeat2]))
 if len(__var__repeat2_____MKK.shape) == 1:
      __var__repeat2_____MKK.shape += (1,)
 plot_1_3_1 = __var__repeat2_____MKK
 
 # DataGenerator <plot_1_4_1>
-__var__repeat2_____MKK_P = np.transpose(np.array([sim['MKK_P'] for sim in repeat2]))
+__var__repeat2_____MKK_P = np.transpose(np.array([sim['[MKK_P]'] for sim in repeat2]))
 if len(__var__repeat2_____MKK_P.shape) == 1:
      __var__repeat2_____MKK_P.shape += (1,)
 plot_1_4_1 = __var__repeat2_____MKK_P
 
 # DataGenerator <plot_1_5_1>
-__var__repeat2_____MKKK = np.transpose(np.array([sim['MKKK'] for sim in repeat2]))
+__var__repeat2_____MKKK = np.transpose(np.array([sim['[MKKK]'] for sim in repeat2]))
 if len(__var__repeat2_____MKKK.shape) == 1:
      __var__repeat2_____MKKK.shape += (1,)
 plot_1_5_1 = __var__repeat2_____MKKK
 
 # DataGenerator <plot_1_6_1>
-__var__repeat2_____MKKK_P = np.transpose(np.array([sim['MKKK_P'] for sim in repeat2]))
+__var__repeat2_____MKKK_P = np.transpose(np.array([sim['[MKKK_P]'] for sim in repeat2]))
 if len(__var__repeat2_____MKKK_P.shape) == 1:
      __var__repeat2_____MKKK_P.shape += (1,)
 plot_1_6_1 = __var__repeat2_____MKKK_P

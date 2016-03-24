@@ -21,12 +21,12 @@
         <uniformRange id="uniform_linear_for_S2" start="0" end="10" numberOfPoints="2" type="linear"/>
       </listOfRanges>
       <listOfChanges>
-        <setValue range="vector_for_S1" modelReference="mod1" target="/sbml:sbml/sbml:model/descendant::*[@id='S1']">
+        <setValue range="vector_for_S1" modelReference="mod1" target="/sbml:sbml/sbml:model/sbml:listOfSpecies/sbml:species[@id='S1']">
           <math xmlns="http://www.w3.org/1998/Math/MathML">
             <ci> vector_for_S1 </ci>
           </math>
         </setValue>
-        <setValue range="uniform_linear_for_S2" modelReference="mod1" target="/sbml:sbml/sbml:model/descendant::*[@id='S2']">
+        <setValue range="uniform_linear_for_S2" modelReference="mod1" target="/sbml:sbml/sbml:model/sbml:listOfSpecies/sbml:species[@id='S2']">
           <math xmlns="http://www.w3.org/1998/Math/MathML">
             <ci> uniform_linear_for_S2 </ci>
           </math>
@@ -46,12 +46,12 @@
         <uniformRange id="uniform_linear_for_S2" start="0" end="10" numberOfPoints="2" type="linear"/>
       </listOfRanges>
       <listOfChanges>
-        <setValue range="vector_for_S1" modelReference="mod1" target="/sbml:sbml/sbml:model/descendant::*[@id='S1']">
+        <setValue range="vector_for_S1" modelReference="mod1" target="/sbml:sbml/sbml:model/sbml:listOfSpecies/sbml:species[@id='S1']">
           <math xmlns="http://www.w3.org/1998/Math/MathML">
             <ci> vector_for_S1 </ci>
           </math>
         </setValue>
-        <setValue range="uniform_linear_for_S2" modelReference="mod1" target="/sbml:sbml/sbml:model/descendant::*[@id='S2']">
+        <setValue range="uniform_linear_for_S2" modelReference="mod1" target="/sbml:sbml/sbml:model/sbml:listOfSpecies/sbml:species[@id='S2']">
           <math xmlns="http://www.w3.org/1998/Math/MathML">
             <ci> uniform_linear_for_S2 </ci>
           </math>
@@ -73,7 +73,7 @@
     </dataGenerator>
     <dataGenerator id="plot_0_0_1" name="repeat1.S1">
       <listOfVariables>
-        <variable id="repeat1_____S1" target="/sbml:sbml/sbml:model/descendant::*[@id='S1']" taskReference="repeat1" modelReference="mod1"/>
+        <variable id="repeat1_____S1" target="/sbml:sbml/sbml:model/sbml:listOfSpecies/sbml:species[@id='S1']" taskReference="repeat1" modelReference="mod1"/>
       </listOfVariables>
       <math xmlns="http://www.w3.org/1998/Math/MathML">
         <ci> repeat1_____S1 </ci>
@@ -81,7 +81,7 @@
     </dataGenerator>
     <dataGenerator id="plot_0_1_1" name="repeat1.S2">
       <listOfVariables>
-        <variable id="repeat1_____S2" target="/sbml:sbml/sbml:model/descendant::*[@id='S2']" taskReference="repeat1" modelReference="mod1"/>
+        <variable id="repeat1_____S2" target="/sbml:sbml/sbml:model/sbml:listOfSpecies/sbml:species[@id='S2']" taskReference="repeat1" modelReference="mod1"/>
       </listOfVariables>
       <math xmlns="http://www.w3.org/1998/Math/MathML">
         <ci> repeat1_____S2 </ci>
@@ -97,7 +97,7 @@
     </dataGenerator>
     <dataGenerator id="plot_2_0_1" name="repeat2.S1">
       <listOfVariables>
-        <variable id="repeat2_____S1" target="/sbml:sbml/sbml:model/descendant::*[@id='S1']" taskReference="repeat2" modelReference="mod1"/>
+        <variable id="repeat2_____S1" target="/sbml:sbml/sbml:model/sbml:listOfSpecies/sbml:species[@id='S1']" taskReference="repeat2" modelReference="mod1"/>
       </listOfVariables>
       <math xmlns="http://www.w3.org/1998/Math/MathML">
         <ci> repeat2_____S1 </ci>
@@ -105,7 +105,7 @@
     </dataGenerator>
     <dataGenerator id="plot_2_1_1" name="repeat2.S2">
       <listOfVariables>
-        <variable id="repeat2_____S2" target="/sbml:sbml/sbml:model/descendant::*[@id='S2']" taskReference="repeat2" modelReference="mod1"/>
+        <variable id="repeat2_____S2" target="/sbml:sbml/sbml:model/sbml:listOfSpecies/sbml:species[@id='S2']" taskReference="repeat2" modelReference="mod1"/>
       </listOfVariables>
       <math xmlns="http://www.w3.org/1998/Math/MathML">
         <ci> repeat2_____S2 </ci>
@@ -115,8 +115,8 @@
   <listOfOutputs>
     <plot2D id="plot_0" name="Example plot">
       <listOfCurves>
-        <curve logX="false" logY="false" xDataReference="plot_0_0_0" yDataReference="plot_0_0_1"/>
-        <curve logX="false" logY="false" xDataReference="plot_0_0_0" yDataReference="plot_0_1_1"/>
+        <curve id="plot_0__plot_0_0_0__plot_0_0_1" logX="false" logY="false" xDataReference="plot_0_0_0" yDataReference="plot_0_0_1"/>
+        <curve id="plot_0__plot_0_0_0__plot_0_1_1" logX="false" logY="false" xDataReference="plot_0_0_0" yDataReference="plot_0_1_1"/>
       </listOfCurves>
     </plot2D>
     <report id="report_1">
@@ -128,8 +128,8 @@
     </report>
     <plot2D id="plot_2" name="Example plot">
       <listOfCurves>
-        <curve logX="false" logY="false" xDataReference="plot_2_0_0" yDataReference="plot_2_0_1"/>
-        <curve logX="false" logY="false" xDataReference="plot_2_0_0" yDataReference="plot_2_1_1"/>
+        <curve id="plot_2__plot_2_0_0__plot_2_0_1" logX="false" logY="false" xDataReference="plot_2_0_0" yDataReference="plot_2_0_1"/>
+        <curve id="plot_2__plot_2_0_0__plot_2_1_1" logX="false" logY="false" xDataReference="plot_2_0_0" yDataReference="plot_2_1_1"/>
       </listOfCurves>
     </plot2D>
     <report id="report_3">

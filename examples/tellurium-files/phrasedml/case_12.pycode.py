@@ -44,10 +44,10 @@ for __k__uniform_linear_for_S1, __value__uniform_linear_for_S1 in enumerate(__ra
     # Task: <task1>
     task1 = [None]
     mod1.setIntegrator('cvode')
-    mod1['S1'] = __value__uniform_linear_for_S1
-    __value__S1 = mod1['S1']
-    mod1['S2'] = __value__S1 + 20
-    mod1.timeCourseSelections = ['S2', 'S1', 'time']
+    mod1['init([S1])'] = __value__uniform_linear_for_S1
+    __value__S1 = mod1['init([S1])']
+    mod1['init([S2])'] = __value__S1 + 20
+    mod1.timeCourseSelections = ['[S1]', '[S2]', 'time']
     mod1.simulate(start=0.0, end=2.0, points=2)
     task1[0] = mod1.simulate(start=2.0, end=10.0, steps=49)
 
@@ -62,10 +62,10 @@ for __k__uniform_linear_for_S1, __value__uniform_linear_for_S1 in enumerate(__ra
     # Task: <task2>
     task2 = [None]
     mod1.setIntegrator('cvode')
-    mod1['S1'] = __value__uniform_linear_for_S1
-    __value__S1 = mod1['S1']
-    mod1['S2'] = __value__S1 + 20
-    mod1.timeCourseSelections = ['S2', 'S1', 'time']
+    mod1['init([S1])'] = __value__uniform_linear_for_S1
+    __value__S1 = mod1['init([S1])']
+    mod1['init([S2])'] = __value__S1 + 20
+    mod1.timeCourseSelections = ['[S1]', '[S2]', 'time']
     task2[0] = mod1.simulate(start=0.0, end=15.0, steps=49)
 
     repeat2.extend(task2)
@@ -80,13 +80,13 @@ if len(__var__repeat2_____time.shape) == 1:
 plot_0_0_0 = __var__repeat2_____time
 
 # DataGenerator <plot_0_0_1>
-__var__repeat2_____S1 = np.transpose(np.array([sim['S1'] for sim in repeat2]))
+__var__repeat2_____S1 = np.transpose(np.array([sim['[S1]'] for sim in repeat2]))
 if len(__var__repeat2_____S1.shape) == 1:
      __var__repeat2_____S1.shape += (1,)
 plot_0_0_1 = __var__repeat2_____S1
 
 # DataGenerator <plot_0_1_1>
-__var__repeat2_____S2 = np.transpose(np.array([sim['S2'] for sim in repeat2]))
+__var__repeat2_____S2 = np.transpose(np.array([sim['[S2]'] for sim in repeat2]))
 if len(__var__repeat2_____S2.shape) == 1:
      __var__repeat2_____S2.shape += (1,)
 plot_0_1_1 = __var__repeat2_____S2
@@ -98,13 +98,13 @@ if len(__var__repeat1_____time.shape) == 1:
 plot_0_2_0 = __var__repeat1_____time
 
 # DataGenerator <plot_0_2_1>
-__var__repeat1_____S1 = np.transpose(np.array([sim['S1'] for sim in repeat1]))
+__var__repeat1_____S1 = np.transpose(np.array([sim['[S1]'] for sim in repeat1]))
 if len(__var__repeat1_____S1.shape) == 1:
      __var__repeat1_____S1.shape += (1,)
 plot_0_2_1 = __var__repeat1_____S1
 
 # DataGenerator <plot_0_3_1>
-__var__repeat1_____S2 = np.transpose(np.array([sim['S2'] for sim in repeat1]))
+__var__repeat1_____S2 = np.transpose(np.array([sim['[S2]'] for sim in repeat1]))
 if len(__var__repeat1_____S2.shape) == 1:
      __var__repeat1_____S2.shape += (1,)
 plot_0_3_1 = __var__repeat1_____S2

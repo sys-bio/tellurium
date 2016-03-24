@@ -43,7 +43,7 @@ for __k__x, __value__x in enumerate(__range__x):
     task0 = [None]
     model1.setIntegrator('cvode')
     model1['J0_v0'] = piecewise(8, __value__x < 4, 0.1, (4 <= __value__x) and (__value__x < 6), 8)
-    model1.timeCourseSelections = ['S2', 'S1', 'J0_v0', 'time']
+    model1.timeCourseSelections = ['[S1]', '[S2]', 'J0_v0', 'time']
     task0[0] = model1.simulate(start=0.0, end=0.1, points=2)
 
     task1.extend(task0)
@@ -61,14 +61,14 @@ if len(__var__task1_____time.shape) == 1:
 plot_0_0_0 = __var__task1_____time
 
 # DataGenerator <plot_0_0_1>
-__var__task1_____S1 = np.transpose(np.array([sim['S1'] for sim in task1]))
+__var__task1_____S1 = np.transpose(np.array([sim['[S1]'] for sim in task1]))
 __var__task1_____S1 = np.concatenate(np.transpose(__var__task1_____S1))
 if len(__var__task1_____S1.shape) == 1:
      __var__task1_____S1.shape += (1,)
 plot_0_0_1 = __var__task1_____S1
 
 # DataGenerator <plot_0_1_1>
-__var__task1_____S2 = np.transpose(np.array([sim['S2'] for sim in task1]))
+__var__task1_____S2 = np.transpose(np.array([sim['[S2]'] for sim in task1]))
 __var__task1_____S2 = np.concatenate(np.transpose(__var__task1_____S2))
 if len(__var__task1_____S2.shape) == 1:
      __var__task1_____S2.shape += (1,)

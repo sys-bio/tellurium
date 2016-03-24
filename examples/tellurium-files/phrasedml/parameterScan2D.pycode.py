@@ -51,7 +51,7 @@ for __k__uniform_linear_for_J4_KK5, __value__uniform_linear_for_J4_KK5 in enumer
         model_3.setIntegrator('cvode')
         model_3['J4_KK5'] = __value__uniform_linear_for_J4_KK5
         model_3['J1_KK2'] = __value__vector_for_J1_KK2
-        model_3.timeCourseSelections = ['J1_KK2', 'J4_KK5', 'MKK_P', 'MKK', 'time']
+        model_3.timeCourseSelections = ['J1_KK2', 'J4_KK5', 'time', '[MKK]', '[MKK_P]']
         task_1[0] = model_3.simulate(start=0.0, end=3000.0, steps=100)
 
         repeatedtask_1.extend(task_1)
@@ -80,13 +80,13 @@ if len(__var__repeatedtask_2_____time.shape) == 1:
 plot_1_0_0 = __var__repeatedtask_2_____time
 
 # DataGenerator <plot_1_0_1>
-__var__repeatedtask_2_____MKK = np.transpose(np.array([sim['MKK'] for sim in repeatedtask_2]))
+__var__repeatedtask_2_____MKK = np.transpose(np.array([sim['[MKK]'] for sim in repeatedtask_2]))
 if len(__var__repeatedtask_2_____MKK.shape) == 1:
      __var__repeatedtask_2_____MKK.shape += (1,)
 plot_1_0_1 = __var__repeatedtask_2_____MKK
 
 # DataGenerator <plot_1_1_1>
-__var__repeatedtask_2_____MKK_P = np.transpose(np.array([sim['MKK_P'] for sim in repeatedtask_2]))
+__var__repeatedtask_2_____MKK_P = np.transpose(np.array([sim['[MKK_P]'] for sim in repeatedtask_2]))
 if len(__var__repeatedtask_2_____MKK_P.shape) == 1:
      __var__repeatedtask_2_____MKK_P.shape += (1,)
 plot_1_1_1 = __var__repeatedtask_2_____MKK_P

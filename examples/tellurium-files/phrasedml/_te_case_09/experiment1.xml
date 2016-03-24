@@ -23,7 +23,7 @@
   <listOfDataGenerators>
     <dataGenerator id="plot_0_0_0" name="repeat1.MAPK">
       <listOfVariables>
-        <variable id="repeat1_____MAPK" target="/sbml:sbml/sbml:model/descendant::*[@id='MAPK']" taskReference="repeat1" modelReference="mod1"/>
+        <variable id="repeat1_____MAPK" target="/sbml:sbml/sbml:model/sbml:listOfSpecies/sbml:species[@id='MAPK']" taskReference="repeat1" modelReference="mod1"/>
       </listOfVariables>
       <math xmlns="http://www.w3.org/1998/Math/MathML">
         <ci> repeat1_____MAPK </ci>
@@ -39,7 +39,7 @@
     </dataGenerator>
     <dataGenerator id="plot_0_0_2" name="repeat1.MAPK_P">
       <listOfVariables>
-        <variable id="repeat1_____MAPK_P" target="/sbml:sbml/sbml:model/descendant::*[@id='MAPK_P']" taskReference="repeat1" modelReference="mod1"/>
+        <variable id="repeat1_____MAPK_P" target="/sbml:sbml/sbml:model/sbml:listOfSpecies/sbml:species[@id='MAPK_P']" taskReference="repeat1" modelReference="mod1"/>
       </listOfVariables>
       <math xmlns="http://www.w3.org/1998/Math/MathML">
         <ci> repeat1_____MAPK_P </ci>
@@ -47,7 +47,7 @@
     </dataGenerator>
     <dataGenerator id="plot_0_1_2" name="repeat1.MAPK_PP">
       <listOfVariables>
-        <variable id="repeat1_____MAPK_PP" target="/sbml:sbml/sbml:model/descendant::*[@id='MAPK_PP']" taskReference="repeat1" modelReference="mod1"/>
+        <variable id="repeat1_____MAPK_PP" target="/sbml:sbml/sbml:model/sbml:listOfSpecies/sbml:species[@id='MAPK_PP']" taskReference="repeat1" modelReference="mod1"/>
       </listOfVariables>
       <math xmlns="http://www.w3.org/1998/Math/MathML">
         <ci> repeat1_____MAPK_PP </ci>
@@ -55,7 +55,7 @@
     </dataGenerator>
     <dataGenerator id="plot_0_2_2" name="repeat1.MKK">
       <listOfVariables>
-        <variable id="repeat1_____MKK" target="/sbml:sbml/sbml:model/descendant::*[@id='MKK']" taskReference="repeat1" modelReference="mod1"/>
+        <variable id="repeat1_____MKK" target="/sbml:sbml/sbml:model/sbml:listOfSpecies/sbml:species[@id='MKK']" taskReference="repeat1" modelReference="mod1"/>
       </listOfVariables>
       <math xmlns="http://www.w3.org/1998/Math/MathML">
         <ci> repeat1_____MKK </ci>
@@ -65,9 +65,9 @@
   <listOfOutputs>
     <plot3D id="plot_0" name="MAPK oscillations">
       <listOfSurfaces>
-        <surface logX="false" logY="false" xDataReference="plot_0_0_0" yDataReference="plot_0_0_1" logZ="false" zDataReference="plot_0_0_2"/>
-        <surface logX="false" logY="false" xDataReference="plot_0_0_0" yDataReference="plot_0_0_1" logZ="false" zDataReference="plot_0_1_2"/>
-        <surface logX="false" logY="false" xDataReference="plot_0_0_0" yDataReference="plot_0_0_1" logZ="false" zDataReference="plot_0_2_2"/>
+        <surface id="plot_0__plot_0_0_0__plot_0_0_1__plot_0_0_2" logX="false" logY="false" xDataReference="plot_0_0_0" yDataReference="plot_0_0_1" logZ="false" zDataReference="plot_0_0_2"/>
+        <surface id="plot_0__plot_0_0_0__plot_0_0_1__plot_0_1_2" logX="false" logY="false" xDataReference="plot_0_0_0" yDataReference="plot_0_0_1" logZ="false" zDataReference="plot_0_1_2"/>
+        <surface id="plot_0__plot_0_0_0__plot_0_0_1__plot_0_2_2" logX="false" logY="false" xDataReference="plot_0_0_0" yDataReference="plot_0_0_1" logZ="false" zDataReference="plot_0_2_2"/>
       </listOfSurfaces>
     </plot3D>
     <report id="report_1">

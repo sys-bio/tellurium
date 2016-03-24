@@ -47,18 +47,18 @@ for __k__uniform_linear_for_S2, __value__uniform_linear_for_S2 in enumerate(__ra
     # Task: <task1>
     task1 = [None]
     mod1.setIntegrator('cvode')
-    mod1['S2'] = __value__uniform_linear_for_S2
-    __value__S2 = mod1['S2']
-    mod1['S1'] = __value__S2 + 3
-    mod1.timeCourseSelections = ['S2', 'S1', 'time']
+    mod1['init([S2])'] = __value__uniform_linear_for_S2
+    __value__S2 = mod1['init([S2])']
+    mod1['init([S1])'] = __value__S2 + 3
+    mod1.timeCourseSelections = ['[S1]', '[S2]', 'time']
     task1[0] = mod1.simulate(start=0.0, end=10.0, steps=20)
     # Task: <task2>
     task2 = [None]
     mod1.setIntegrator('cvode')
-    mod1['S2'] = __value__uniform_linear_for_S2
-    __value__S2 = mod1['S2']
-    mod1['S1'] = __value__S2 + 3
-    mod1.timeCourseSelections = ['S2', 'S1', 'time']
+    mod1['init([S2])'] = __value__uniform_linear_for_S2
+    __value__S2 = mod1['init([S2])']
+    mod1['init([S1])'] = __value__S2 + 3
+    mod1.timeCourseSelections = ['[S1]', '[S2]', 'time']
     task2[0] = mod1.simulate(start=0.0, end=3.0, steps=10)
 
     task1.extend(task2)
@@ -78,14 +78,14 @@ if len(__var__repeat1_____mod1_____time.shape) == 1:
 plot_0_0_0 = __var__repeat1_____mod1_____time
 
 # DataGenerator <plot_0_0_1>
-__var__repeat1_____mod1_____S1 = np.transpose(np.array([sim['S1'] for sim in repeat1]))
+__var__repeat1_____mod1_____S1 = np.transpose(np.array([sim['[S1]'] for sim in repeat1]))
 __var__repeat1_____mod1_____S1 = np.concatenate(np.transpose(__var__repeat1_____mod1_____S1))
 if len(__var__repeat1_____mod1_____S1.shape) == 1:
      __var__repeat1_____mod1_____S1.shape += (1,)
 plot_0_0_1 = __var__repeat1_____mod1_____S1
 
 # DataGenerator <plot_0_1_1>
-__var__repeat1_____mod1_____S2 = np.transpose(np.array([sim['S2'] for sim in repeat1]))
+__var__repeat1_____mod1_____S2 = np.transpose(np.array([sim['[S2]'] for sim in repeat1]))
 __var__repeat1_____mod1_____S2 = np.concatenate(np.transpose(__var__repeat1_____mod1_____S2))
 if len(__var__repeat1_____mod1_____S2.shape) == 1:
      __var__repeat1_____mod1_____S2.shape += (1,)

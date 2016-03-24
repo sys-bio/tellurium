@@ -59,10 +59,10 @@ for __k__vector_for_S1, __value__vector_for_S1 in enumerate(__range__vector_for_
             # Task: <task1>
             task1 = [None]
             mod1.setIntegrator('cvode')
-            mod1['S1'] = __value__vector_for_S1
+            mod1['init([S1])'] = __value__vector_for_S1
             mod1['k2'] = __value__uniform_linear_for_k2
             mod1['k1'] = __value__uniform_linear_for_k1
-            mod1.timeCourseSelections = ['S2', 'S1', 'time', 'k1', 'k2']
+            mod1.timeCourseSelections = ['k2', 'k1', '[S1]', '[S2]', 'time']
             task1[0] = mod1.simulate(start=0.0, end=10.0, steps=100)
 
             rtask1.extend(task1)
@@ -81,13 +81,13 @@ if len(__var__rtask3_____time.shape) == 1:
 plot_0_0_0 = __var__rtask3_____time
 
 # DataGenerator <plot_0_0_1>
-__var__rtask3_____S1 = np.transpose(np.array([sim['S1'] for sim in rtask3]))
+__var__rtask3_____S1 = np.transpose(np.array([sim['[S1]'] for sim in rtask3]))
 if len(__var__rtask3_____S1.shape) == 1:
      __var__rtask3_____S1.shape += (1,)
 plot_0_0_1 = __var__rtask3_____S1
 
 # DataGenerator <plot_0_1_1>
-__var__rtask3_____S2 = np.transpose(np.array([sim['S2'] for sim in rtask3]))
+__var__rtask3_____S2 = np.transpose(np.array([sim['[S2]'] for sim in rtask3]))
 if len(__var__rtask3_____S2.shape) == 1:
      __var__rtask3_____S2.shape += (1,)
 plot_0_1_1 = __var__rtask3_____S2

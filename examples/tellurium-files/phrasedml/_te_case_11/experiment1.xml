@@ -16,7 +16,7 @@
         <uniformRange id="uniform_linear_for_k1" start="0" end="1" numberOfPoints="2" type="linear"/>
       </listOfRanges>
       <listOfChanges>
-        <setValue range="uniform_linear_for_k1" modelReference="mod1" target="/sbml:sbml/sbml:model/descendant::*[@id='k1']">
+        <setValue range="uniform_linear_for_k1" modelReference="mod1" target="/sbml:sbml/sbml:model/sbml:listOfParameters/sbml:parameter[@id='k1']">
           <math xmlns="http://www.w3.org/1998/Math/MathML">
             <ci> uniform_linear_for_k1 </ci>
           </math>
@@ -31,7 +31,7 @@
         <uniformRange id="uniform_linear_for_k2" start="0" end="1" numberOfPoints="3" type="linear"/>
       </listOfRanges>
       <listOfChanges>
-        <setValue range="uniform_linear_for_k2" modelReference="mod1" target="/sbml:sbml/sbml:model/descendant::*[@id='k2']">
+        <setValue range="uniform_linear_for_k2" modelReference="mod1" target="/sbml:sbml/sbml:model/sbml:listOfParameters/sbml:parameter[@id='k2']">
           <math xmlns="http://www.w3.org/1998/Math/MathML">
             <ci> uniform_linear_for_k2 </ci>
           </math>
@@ -49,7 +49,7 @@
         </vectorRange>
       </listOfRanges>
       <listOfChanges>
-        <setValue range="vector_for_S1" modelReference="mod1" target="/sbml:sbml/sbml:model/descendant::*[@id='S1']">
+        <setValue range="vector_for_S1" modelReference="mod1" target="/sbml:sbml/sbml:model/sbml:listOfSpecies/sbml:species[@id='S1']">
           <math xmlns="http://www.w3.org/1998/Math/MathML">
             <ci> vector_for_S1 </ci>
           </math>
@@ -71,7 +71,7 @@
     </dataGenerator>
     <dataGenerator id="plot_0_0_1" name="rtask3.S1">
       <listOfVariables>
-        <variable id="rtask3_____S1" target="/sbml:sbml/sbml:model/descendant::*[@id='S1']" taskReference="rtask3" modelReference="mod1"/>
+        <variable id="rtask3_____S1" target="/sbml:sbml/sbml:model/sbml:listOfSpecies/sbml:species[@id='S1']" taskReference="rtask3" modelReference="mod1"/>
       </listOfVariables>
       <math xmlns="http://www.w3.org/1998/Math/MathML">
         <ci> rtask3_____S1 </ci>
@@ -79,7 +79,7 @@
     </dataGenerator>
     <dataGenerator id="plot_0_1_1" name="rtask3.S2">
       <listOfVariables>
-        <variable id="rtask3_____S2" target="/sbml:sbml/sbml:model/descendant::*[@id='S2']" taskReference="rtask3" modelReference="mod1"/>
+        <variable id="rtask3_____S2" target="/sbml:sbml/sbml:model/sbml:listOfSpecies/sbml:species[@id='S2']" taskReference="rtask3" modelReference="mod1"/>
       </listOfVariables>
       <math xmlns="http://www.w3.org/1998/Math/MathML">
         <ci> rtask3_____S2 </ci>
@@ -87,7 +87,7 @@
     </dataGenerator>
     <dataGenerator id="plot_1_0_0" name="rtask3.k1">
       <listOfVariables>
-        <variable id="rtask3_____k1" target="/sbml:sbml/sbml:model/descendant::*[@id='k1']" taskReference="rtask3" modelReference="mod1"/>
+        <variable id="rtask3_____k1" target="/sbml:sbml/sbml:model/sbml:listOfParameters/sbml:parameter[@id='k1']" taskReference="rtask3" modelReference="mod1"/>
       </listOfVariables>
       <math xmlns="http://www.w3.org/1998/Math/MathML">
         <ci> rtask3_____k1 </ci>
@@ -95,7 +95,7 @@
     </dataGenerator>
     <dataGenerator id="plot_1_0_1" name="rtask3.k2">
       <listOfVariables>
-        <variable id="rtask3_____k2" target="/sbml:sbml/sbml:model/descendant::*[@id='k2']" taskReference="rtask3" modelReference="mod1"/>
+        <variable id="rtask3_____k2" target="/sbml:sbml/sbml:model/sbml:listOfParameters/sbml:parameter[@id='k2']" taskReference="rtask3" modelReference="mod1"/>
       </listOfVariables>
       <math xmlns="http://www.w3.org/1998/Math/MathML">
         <ci> rtask3_____k2 </ci>
@@ -105,13 +105,13 @@
   <listOfOutputs>
     <plot2D id="plot_0" name="RepeatedTask of RepeatedTask">
       <listOfCurves>
-        <curve logX="false" logY="false" xDataReference="plot_0_0_0" yDataReference="plot_0_0_1"/>
-        <curve logX="false" logY="false" xDataReference="plot_0_0_0" yDataReference="plot_0_1_1"/>
+        <curve id="plot_0__plot_0_0_0__plot_0_0_1" logX="false" logY="false" xDataReference="plot_0_0_0" yDataReference="plot_0_0_1"/>
+        <curve id="plot_0__plot_0_0_0__plot_0_1_1" logX="false" logY="false" xDataReference="plot_0_0_0" yDataReference="plot_0_1_1"/>
       </listOfCurves>
     </plot2D>
     <plot3D id="plot_1">
       <listOfSurfaces>
-        <surface logX="false" logY="false" xDataReference="plot_1_0_0" yDataReference="plot_1_0_1" logZ="false" zDataReference="plot_0_0_1"/>
+        <surface id="plot_1__plot_1_0_0__plot_1_0_1__plot_0_0_1" logX="false" logY="false" xDataReference="plot_1_0_0" yDataReference="plot_1_0_1" logZ="false" zDataReference="plot_0_0_1"/>
       </listOfSurfaces>
     </plot3D>
   </listOfOutputs>
