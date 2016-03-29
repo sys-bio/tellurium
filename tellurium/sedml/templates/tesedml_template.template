@@ -20,7 +20,7 @@ import pandas
 import os.path
 Config.LOADSBMLOPTIONS_RECOMPILE = True
 
-workingDir = '{{ factory.workingDir }}'
+workingDir = r'{{ factory.workingDir }}'
 
 {{ helpers.heading(doc.getListOfModels(), 'Model') }}
 {% for model in doc.getListOfModels() %}
