@@ -90,6 +90,8 @@ class LatexExport(object):
 
         # write one data file per column
         Ncol = result.shape[1] - 1
+        if len (self.color) < Ncol:
+           raise StandardError ('The number of specified colors does not match the number of data columns') 
         for i in range(Ncol):
             dataPath = self._getPath(suffix='_data', count=i+1)
             print("writing data document: " + dataPath)
