@@ -142,6 +142,8 @@ class LatexExport(object):
             result = self.rr.getSimulationData()
 
         Ncol = result.shape[1] - 1
+        if len (self.color) < Ncol:
+           raise StandardError ('The number of specified colors does not match the number of data columns') 
         latexPath = self._getPath(suffix='')
         print("writing latex document: " + latexPath)
         with open(latexPath, 'w') as f:
