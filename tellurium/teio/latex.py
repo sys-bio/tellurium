@@ -153,7 +153,7 @@ class LatexExport(object):
             f.write('\\begin{{axis}}[xlabel=${}$, ylabel=${}$, axis lines = middle, xlabel near'
                     ' ticks, ylabel near ticks]\n'.format(self.xlabel, self.ylabel))
             for i in range(Ncol):
-                f.write('\\addplot coordinates {\n')
+                f.write('\\addplot[line width = 2pt, %s] coordinates {\n' % (self.color[i]))
                 r = result[:, [0,(i + 1)]]
                 count = 1
                 for row in r:
