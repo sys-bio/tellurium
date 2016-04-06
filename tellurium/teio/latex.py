@@ -151,7 +151,7 @@ class LatexExport(object):
                 
             f.write('\\begin{tikzpicture}[scale = 1.0]\n')
             f.write('\\begin{{axis}}[xlabel=${}$, ylabel=${}$, axis lines = middle, xlabel near'
-                    ' ticks, ylabel near ticks\n'.format(self.xlabel, self.ylabel))
+                    ' ticks, ylabel near ticks]\n'.format(self.xlabel, self.ylabel))
             for i in range(Ncol):
                 f.write('\\addplot coordinates {\n')
                 r = result[:, [0,(i + 1)]]
