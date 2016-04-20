@@ -718,9 +718,13 @@ class ExtendedRoadRunner(roadrunner.RoadRunner):
         shaded in blue), reactions as grey squares.
         Currently only the drawing of medium-size networks is supported.
         """
-        from visualization.sbmldiagram import SBMLDiagram
-        diagram = SBMLDiagram(self.getSBML())
-        diagram.draw(**kwargs)
+        if os.name == 'nt' and 'Graphviz' not in os.environ['PATH']:
+            warnings.warn("Graphviz is not installed in your machine. 'draw' command cannot produce a diagram",
+                Warning, stacklevel=2)
+        else:
+            from visualization.sbmldiagram import SBMLDiagram
+            diagram = SBMLDiagram(self.getSBML())
+            diagram.draw(**kwargs)
 
     def plot(self, result=None, loc='upper right', show=True,
              xlabel=None, ylabel=None, title=None, xlim=None, ylim=None,
