@@ -90,6 +90,8 @@ class LatexExport(object):
 
         # write one data file per column
         Ncol = result.shape[1] - 1
+        if len (self.color) < Ncol:
+           raise StandardError ('The number of specified colors does not match the number of data columns') 
         for i in range(Ncol):
             dataPath = self._getPath(suffix='_data', count=i+1)
             print("writing data document: " + dataPath)
@@ -114,7 +116,7 @@ class LatexExport(object):
                 
             f.write('\\begin{tikzpicture}[scale = 1.0]\n')
             f.write('\\begin{{axis}}[xlabel=${}$, ylabel=${}$, axis lines = middle, xlabel near ticks,'
-                    ' ylabel near ticks\n'.format(self.xlabel, self.ylabel))
+                    ' ylabel near ticks]\n'.format(self.xlabel, self.ylabel))
             for i in range(Ncol):
                 f.write('\\addplot[%s, thin] table {%s_data%s.txt};\n' 
                         % (self.color[i], dataPath, (i + 1)))
@@ -140,6 +142,8 @@ class LatexExport(object):
             result = self.rr.getSimulationData()
 
         Ncol = result.shape[1] - 1
+        if len (self.color) < Ncol:
+           raise StandardError ('The number of specified colors does not match the number of data columns') 
         latexPath = self._getPath(suffix='')
         print("writing latex document: " + latexPath)
         with open(latexPath, 'w') as f:
@@ -151,9 +155,9 @@ class LatexExport(object):
                 
             f.write('\\begin{tikzpicture}[scale = 1.0]\n')
             f.write('\\begin{{axis}}[xlabel=${}$, ylabel=${}$, axis lines = middle, xlabel near'
-                    ' ticks, ylabel near ticks\n'.format(self.xlabel, self.ylabel))
+                    ' ticks, ylabel near ticks]\n'.format(self.xlabel, self.ylabel))
             for i in range(Ncol):
-                f.write('\\addplot coordinates {\n')
+                f.write('\\addplot[line width = 2pt, %s] coordinates {\n' % (self.color[i]))
                 r = result[:, [0,(i + 1)]]
                 count = 1
                 for row in r:
