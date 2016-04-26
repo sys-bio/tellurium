@@ -18,7 +18,7 @@ import pandas
 import os.path
 Config.LOADSBMLOPTIONS_RECOMPILE = True
 
-workingDir = '/home/mkoenig/git/tellurium/examples/tellurium-files/phrasedml/_te_parameterScan1D'
+workingDir = r'/home/mkoenig/git/tellurium/examples/tellurium-files/phrasedml/_te_parameterScan1D'
 
 # --------------------------------------------------------
 # Models

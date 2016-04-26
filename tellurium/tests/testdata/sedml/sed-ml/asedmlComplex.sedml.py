@@ -18,7 +18,7 @@ import pandas
 import os.path
 Config.LOADSBMLOPTIONS_RECOMPILE = True
 
-workingDir = '/home/mkoenig/git/tellurium/tellurium/tests/testdata/sedml/sed-ml'
+workingDir = r'/home/mkoenig/git/tellurium/tellurium/tests/testdata/sedml/sed-ml'
 
 # --------------------------------------------------------
 # Models
