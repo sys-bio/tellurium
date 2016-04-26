@@ -1,6 +1,7 @@
 """
 Test the latex export.
 """
+from __future__ import print_function, division
 import unittest
 import tempfile
 import shutil
