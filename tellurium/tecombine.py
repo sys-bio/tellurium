@@ -566,7 +566,6 @@ class OpenCombine(object):
                 content = {'filename': os.path.basename(loc), 'type': 'dat'}
             contents.append(content)
             
-        print(contents)
         return contents
         
     def removeFile(self, fileName):
