@@ -15,5 +15,10 @@ setup(name='tellurium',
           'tellurium.notebooks',
           'tellurium.optimization',
           'tellurium.visualization',
-      ]
+          'tellurium.sedml',
+      ],
+      package_data={
+          "tellurium" : ["*.txt"],
+          "tellurium.sedml" : ["templates/*.template"],
+      },
       )
