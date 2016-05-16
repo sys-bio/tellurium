@@ -42,7 +42,10 @@ from tecombine import combine
 import optimization
 import visualization
 
-import temiriam
+try:
+    import temiriam
+except ImportError:
+    pass
 import notebooks
 
 __version__ = getTelluriumVersion()
