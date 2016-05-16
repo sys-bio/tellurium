@@ -11,7 +11,7 @@ Log of changes
 *	Updated SEDML translation
 *	Updated COMBINE support
 *	New packages: CobraPy, lxml
-*	Updated pip, Jinja2, jupyter
+*	Updated pip, Jinja2
 
 
 
