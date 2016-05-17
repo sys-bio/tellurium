@@ -1,5 +1,5 @@
 """
-    tellurium 1.3.1
+    tellurium 1.3.3
 
     auto-generated code
     sedmlDoc: L1V2  
@@ -90,19 +90,19 @@ __gs = gridspec.GridSpec(1, 2, width_ratios=[3, 1])
 ax = plt.subplot(__gs[0], projection='3d')
 for k in range(plot_0_0_0.shape[1]):
     if k == 0:
-        ax.plot(plot_0_0_0[:,k], plot_0_0_1[:,k], plot_0_0_2[:,k], '-o', color='r', linewidth=1.5, markersize=4.0, alpha=0.8, label='repeat1.MAPK_P')
+        ax.plot(plot_0_0_0[:,k], plot_0_0_1[:,k], plot_0_0_2[:,k], marker = '.', color='r', linewidth=1.5, markersize=4.0, alpha=0.8, label='repeat1.MAPK_P')
     else:
-        ax.plot(plot_0_0_0[:,k], plot_0_0_1[:,k], plot_0_0_2[:,k], '-o', color='r', linewidth=1.5, markersize=4.0, alpha=0.8)
+        ax.plot(plot_0_0_0[:,k], plot_0_0_1[:,k], plot_0_0_2[:,k], marker = '.', color='r', linewidth=1.5, markersize=4.0, alpha=0.8)
 for k in range(plot_0_0_0.shape[1]):
     if k == 0:
-        ax.plot(plot_0_0_0[:,k], plot_0_0_1[:,k], plot_0_1_2[:,k], '-o', color='b', linewidth=1.5, markersize=4.0, alpha=0.8, label='repeat1.MAPK_PP')
+        ax.plot(plot_0_0_0[:,k], plot_0_0_1[:,k], plot_0_1_2[:,k], marker = '.', color='b', linewidth=1.5, markersize=4.0, alpha=0.8, label='repeat1.MAPK_PP')
     else:
-        ax.plot(plot_0_0_0[:,k], plot_0_0_1[:,k], plot_0_1_2[:,k], '-o', color='b', linewidth=1.5, markersize=4.0, alpha=0.8)
+        ax.plot(plot_0_0_0[:,k], plot_0_0_1[:,k], plot_0_1_2[:,k], marker = '.', color='b', linewidth=1.5, markersize=4.0, alpha=0.8)
 for k in range(plot_0_0_0.shape[1]):
     if k == 0:
-        ax.plot(plot_0_0_0[:,k], plot_0_0_1[:,k], plot_0_2_2[:,k], '-o', color='g', linewidth=1.5, markersize=4.0, alpha=0.8, label='repeat1.MKK')
+        ax.plot(plot_0_0_0[:,k], plot_0_0_1[:,k], plot_0_2_2[:,k], marker = '.', color='g', linewidth=1.5, markersize=4.0, alpha=0.8, label='repeat1.MKK')
     else:
-        ax.plot(plot_0_0_0[:,k], plot_0_0_1[:,k], plot_0_2_2[:,k], '-o', color='g', linewidth=1.5, markersize=4.0, alpha=0.8)
+        ax.plot(plot_0_0_0[:,k], plot_0_0_1[:,k], plot_0_2_2[:,k], marker = '.', color='g', linewidth=1.5, markersize=4.0, alpha=0.8)
 ax.set_title('MAPK oscillations', fontweight='bold')
 ax.set_xlabel('repeat1.MAPK', fontweight='bold')
 ax.set_ylabel('repeat1.time', fontweight='bold')

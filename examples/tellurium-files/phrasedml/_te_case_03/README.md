@@ -1,5 +1,5 @@
 
-        # Tellurium 1.3.1 experiment
+        # Tellurium 1.3.3 experiment
         This COMBINE archive stores an tellurium experiment.
         http://tellurium.analogmachine.org/
 

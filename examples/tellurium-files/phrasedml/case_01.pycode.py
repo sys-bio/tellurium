@@ -1,5 +1,5 @@
 """
-    tellurium 1.3.1
+    tellurium 1.3.3
 
     auto-generated code
     sedmlDoc: L1V2  
@@ -61,9 +61,9 @@ __gs = gridspec.GridSpec(1, 2, width_ratios=[3, 1])
 plt.subplot(__gs[0])
 for k in range(plot_0_0_0.shape[1]):
     if k == 0:
-        plt.plot(plot_0_0_0[:,k], plot_0_0_1[:,k], '-o', color='r', linewidth=1.5, markersize=3.0, alpha=0.8, label='task0.S1')
+        plt.plot(plot_0_0_0[:,k], plot_0_0_1[:,k], marker = '.', color='r', linewidth=1.5, markersize=3.0, alpha=0.8, label='task0.S1')
     else:
-        plt.plot(plot_0_0_0[:,k], plot_0_0_1[:,k], '-o', color='r', linewidth=1.5, markersize=3.0, alpha=0.8)
+        plt.plot(plot_0_0_0[:,k], plot_0_0_1[:,k], marker = '.', color='r', linewidth=1.5, markersize=3.0, alpha=0.8)
 plt.title('UniformTimecourse', fontweight='bold')
 plt.xlabel('task0.time', fontweight='bold')
 plt.ylabel('task0.S1', fontweight='bold')

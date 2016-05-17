@@ -1,5 +1,5 @@
 """
-    tellurium 1.3.1
+    tellurium 1.3.3
 
     auto-generated code
     sedmlDoc: L1V1  
@@ -96,14 +96,14 @@ __gs = gridspec.GridSpec(1, 2, width_ratios=[3, 1])
 plt.subplot(__gs[0])
 for k in range(time_task_0_0.shape[1]):
     if k == 0:
-        plt.plot(time_task_0_0[:,k], dataGen_task_0_0_s0[:,k], '-o', color='r', linewidth=1.5, markersize=3.0, alpha=0.8, label='curve_0')
+        plt.plot(time_task_0_0[:,k], dataGen_task_0_0_s0[:,k], marker = '.', color='r', linewidth=1.5, markersize=3.0, alpha=0.8, label='curve_0')
     else:
-        plt.plot(time_task_0_0[:,k], dataGen_task_0_0_s0[:,k], '-o', color='r', linewidth=1.5, markersize=3.0, alpha=0.8)
+        plt.plot(time_task_0_0[:,k], dataGen_task_0_0_s0[:,k], marker = '.', color='r', linewidth=1.5, markersize=3.0, alpha=0.8)
 for k in range(time_task_0_0.shape[1]):
     if k == 0:
-        plt.plot(time_task_0_0[:,k], dataGen_task_0_0_s1[:,k], '-o', color='b', linewidth=1.5, markersize=3.0, alpha=0.8, label='curve_1')
+        plt.plot(time_task_0_0[:,k], dataGen_task_0_0_s1[:,k], marker = '.', color='b', linewidth=1.5, markersize=3.0, alpha=0.8, label='curve_1')
     else:
-        plt.plot(time_task_0_0[:,k], dataGen_task_0_0_s1[:,k], '-o', color='b', linewidth=1.5, markersize=3.0, alpha=0.8)
+        plt.plot(time_task_0_0[:,k], dataGen_task_0_0_s1[:,k], marker = '.', color='b', linewidth=1.5, markersize=3.0, alpha=0.8)
 plt.title('Application0plots', fontweight='bold')
 plt.xlabel('time_task_0_0', fontweight='bold')
 __lg = plt.legend(bbox_to_anchor=(1.05, 1), loc=2, borderaxespad=0.)
@@ -120,14 +120,14 @@ __gs = gridspec.GridSpec(1, 2, width_ratios=[3, 1])
 plt.subplot(__gs[0])
 for k in range(time_task_0_1.shape[1]):
     if k == 0:
-        plt.plot(time_task_0_1[:,k], dataGen_task_0_1_s0[:,k], '-o', color='r', linewidth=1.5, markersize=3.0, alpha=0.8, label='curve_0')
+        plt.plot(time_task_0_1[:,k], dataGen_task_0_1_s0[:,k], marker = '.', color='r', linewidth=1.5, markersize=3.0, alpha=0.8, label='curve_0')
     else:
-        plt.plot(time_task_0_1[:,k], dataGen_task_0_1_s0[:,k], '-o', color='r', linewidth=1.5, markersize=3.0, alpha=0.8)
+        plt.plot(time_task_0_1[:,k], dataGen_task_0_1_s0[:,k], marker = '.', color='r', linewidth=1.5, markersize=3.0, alpha=0.8)
 for k in range(time_task_0_1.shape[1]):
     if k == 0:
-        plt.plot(time_task_0_1[:,k], dataGen_task_0_1_s1[:,k], '-o', color='b', linewidth=1.5, markersize=3.0, alpha=0.8, label='curve_1')
+        plt.plot(time_task_0_1[:,k], dataGen_task_0_1_s1[:,k], marker = '.', color='b', linewidth=1.5, markersize=3.0, alpha=0.8, label='curve_1')
     else:
-        plt.plot(time_task_0_1[:,k], dataGen_task_0_1_s1[:,k], '-o', color='b', linewidth=1.5, markersize=3.0, alpha=0.8)
+        plt.plot(time_task_0_1[:,k], dataGen_task_0_1_s1[:,k], marker = '.', color='b', linewidth=1.5, markersize=3.0, alpha=0.8)
 plt.title('Application0plots', fontweight='bold')
 plt.xlabel('time_task_0_1', fontweight='bold')
 __lg = plt.legend(bbox_to_anchor=(1.05, 1), loc=2, borderaxespad=0.)

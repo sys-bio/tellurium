@@ -1,5 +1,5 @@
 """
-    tellurium 1.3.1
+    tellurium 1.3.3
 
     auto-generated code
     sedmlDoc: L1V1  
@@ -120,49 +120,49 @@ __gs = gridspec.GridSpec(1, 2, width_ratios=[3, 1])
 plt.subplot(__gs[0])
 for k in range(time_repeatedTask_0_0.shape[1]):
     if k == 0:
-        plt.plot(time_repeatedTask_0_0[:,k], dataGen_repeatedTask_0_0_mRNA_R[:,k], '-o', color='r', linewidth=1.5, markersize=3.0, alpha=0.8, label='curve_0')
+        plt.plot(time_repeatedTask_0_0[:,k], dataGen_repeatedTask_0_0_mRNA_R[:,k], marker = '.', color='r', linewidth=1.5, markersize=3.0, alpha=0.8, label='curve_0')
     else:
-        plt.plot(time_repeatedTask_0_0[:,k], dataGen_repeatedTask_0_0_mRNA_R[:,k], '-o', color='r', linewidth=1.5, markersize=3.0, alpha=0.8)
+        plt.plot(time_repeatedTask_0_0[:,k], dataGen_repeatedTask_0_0_mRNA_R[:,k], marker = '.', color='r', linewidth=1.5, markersize=3.0, alpha=0.8)
 for k in range(time_repeatedTask_0_0.shape[1]):
     if k == 0:
-        plt.plot(time_repeatedTask_0_0[:,k], dataGen_repeatedTask_0_0_A[:,k], '-o', color='b', linewidth=1.5, markersize=3.0, alpha=0.8, label='curve_1')
+        plt.plot(time_repeatedTask_0_0[:,k], dataGen_repeatedTask_0_0_A[:,k], marker = '.', color='b', linewidth=1.5, markersize=3.0, alpha=0.8, label='curve_1')
     else:
-        plt.plot(time_repeatedTask_0_0[:,k], dataGen_repeatedTask_0_0_A[:,k], '-o', color='b', linewidth=1.5, markersize=3.0, alpha=0.8)
+        plt.plot(time_repeatedTask_0_0[:,k], dataGen_repeatedTask_0_0_A[:,k], marker = '.', color='b', linewidth=1.5, markersize=3.0, alpha=0.8)
 for k in range(time_repeatedTask_0_0.shape[1]):
     if k == 0:
-        plt.plot(time_repeatedTask_0_0[:,k], dataGen_repeatedTask_0_0_R[:,k], '-o', color='g', linewidth=1.5, markersize=3.0, alpha=0.8, label='curve_2')
+        plt.plot(time_repeatedTask_0_0[:,k], dataGen_repeatedTask_0_0_R[:,k], marker = '.', color='g', linewidth=1.5, markersize=3.0, alpha=0.8, label='curve_2')
     else:
-        plt.plot(time_repeatedTask_0_0[:,k], dataGen_repeatedTask_0_0_R[:,k], '-o', color='g', linewidth=1.5, markersize=3.0, alpha=0.8)
+        plt.plot(time_repeatedTask_0_0[:,k], dataGen_repeatedTask_0_0_R[:,k], marker = '.', color='g', linewidth=1.5, markersize=3.0, alpha=0.8)
 for k in range(time_repeatedTask_0_0.shape[1]):
     if k == 0:
-        plt.plot(time_repeatedTask_0_0[:,k], dataGen_repeatedTask_0_0_PrmA[:,k], '-o', color='m', linewidth=1.5, markersize=3.0, alpha=0.8, label='curve_3')
+        plt.plot(time_repeatedTask_0_0[:,k], dataGen_repeatedTask_0_0_PrmA[:,k], marker = '.', color='m', linewidth=1.5, markersize=3.0, alpha=0.8, label='curve_3')
     else:
-        plt.plot(time_repeatedTask_0_0[:,k], dataGen_repeatedTask_0_0_PrmA[:,k], '-o', color='m', linewidth=1.5, markersize=3.0, alpha=0.8)
+        plt.plot(time_repeatedTask_0_0[:,k], dataGen_repeatedTask_0_0_PrmA[:,k], marker = '.', color='m', linewidth=1.5, markersize=3.0, alpha=0.8)
 for k in range(time_repeatedTask_0_0.shape[1]):
     if k == 0:
-        plt.plot(time_repeatedTask_0_0[:,k], dataGen_repeatedTask_0_0_PrmR[:,k], '-o', color='c', linewidth=1.5, markersize=3.0, alpha=0.8, label='curve_4')
+        plt.plot(time_repeatedTask_0_0[:,k], dataGen_repeatedTask_0_0_PrmR[:,k], marker = '.', color='c', linewidth=1.5, markersize=3.0, alpha=0.8, label='curve_4')
     else:
-        plt.plot(time_repeatedTask_0_0[:,k], dataGen_repeatedTask_0_0_PrmR[:,k], '-o', color='c', linewidth=1.5, markersize=3.0, alpha=0.8)
+        plt.plot(time_repeatedTask_0_0[:,k], dataGen_repeatedTask_0_0_PrmR[:,k], marker = '.', color='c', linewidth=1.5, markersize=3.0, alpha=0.8)
 for k in range(time_repeatedTask_0_0.shape[1]):
     if k == 0:
-        plt.plot(time_repeatedTask_0_0[:,k], dataGen_repeatedTask_0_0_C[:,k], '-o', color='y', linewidth=1.5, markersize=3.0, alpha=0.8, label='curve_5')
+        plt.plot(time_repeatedTask_0_0[:,k], dataGen_repeatedTask_0_0_C[:,k], marker = '.', color='y', linewidth=1.5, markersize=3.0, alpha=0.8, label='curve_5')
     else:
-        plt.plot(time_repeatedTask_0_0[:,k], dataGen_repeatedTask_0_0_C[:,k], '-o', color='y', linewidth=1.5, markersize=3.0, alpha=0.8)
+        plt.plot(time_repeatedTask_0_0[:,k], dataGen_repeatedTask_0_0_C[:,k], marker = '.', color='y', linewidth=1.5, markersize=3.0, alpha=0.8)
 for k in range(time_repeatedTask_0_0.shape[1]):
     if k == 0:
-        plt.plot(time_repeatedTask_0_0[:,k], dataGen_repeatedTask_0_0_PrmA_bound[:,k], '-o', color='k', linewidth=1.5, markersize=3.0, alpha=0.8, label='curve_6')
+        plt.plot(time_repeatedTask_0_0[:,k], dataGen_repeatedTask_0_0_PrmA_bound[:,k], marker = '.', color='k', linewidth=1.5, markersize=3.0, alpha=0.8, label='curve_6')
     else:
-        plt.plot(time_repeatedTask_0_0[:,k], dataGen_repeatedTask_0_0_PrmA_bound[:,k], '-o', color='k', linewidth=1.5, markersize=3.0, alpha=0.8)
+        plt.plot(time_repeatedTask_0_0[:,k], dataGen_repeatedTask_0_0_PrmA_bound[:,k], marker = '.', color='k', linewidth=1.5, markersize=3.0, alpha=0.8)
 for k in range(time_repeatedTask_0_0.shape[1]):
     if k == 0:
-        plt.plot(time_repeatedTask_0_0[:,k], dataGen_repeatedTask_0_0_PrmR_bound[:,k], '-o', color='r', linewidth=1.5, markersize=3.0, alpha=0.8, label='curve_7')
+        plt.plot(time_repeatedTask_0_0[:,k], dataGen_repeatedTask_0_0_PrmR_bound[:,k], marker = '.', color='r', linewidth=1.5, markersize=3.0, alpha=0.8, label='curve_7')
     else:
-        plt.plot(time_repeatedTask_0_0[:,k], dataGen_repeatedTask_0_0_PrmR_bound[:,k], '-o', color='r', linewidth=1.5, markersize=3.0, alpha=0.8)
+        plt.plot(time_repeatedTask_0_0[:,k], dataGen_repeatedTask_0_0_PrmR_bound[:,k], marker = '.', color='r', linewidth=1.5, markersize=3.0, alpha=0.8)
 for k in range(time_repeatedTask_0_0.shape[1]):
     if k == 0:
-        plt.plot(time_repeatedTask_0_0[:,k], dataGen_repeatedTask_0_0_mRNA_A_[:,k], '-o', color='b', linewidth=1.5, markersize=3.0, alpha=0.8, label='curve_8')
+        plt.plot(time_repeatedTask_0_0[:,k], dataGen_repeatedTask_0_0_mRNA_A_[:,k], marker = '.', color='b', linewidth=1.5, markersize=3.0, alpha=0.8, label='curve_8')
     else:
-        plt.plot(time_repeatedTask_0_0[:,k], dataGen_repeatedTask_0_0_mRNA_A_[:,k], '-o', color='b', linewidth=1.5, markersize=3.0, alpha=0.8)
+        plt.plot(time_repeatedTask_0_0[:,k], dataGen_repeatedTask_0_0_mRNA_A_[:,k], marker = '.', color='b', linewidth=1.5, markersize=3.0, alpha=0.8)
 plt.title('repressor_activator_oscillationsplots', fontweight='bold')
 plt.xlabel('time_repeatedTask_0_0', fontweight='bold')
 __lg = plt.legend(bbox_to_anchor=(1.05, 1), loc=2, borderaxespad=0.)

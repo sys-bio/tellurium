@@ -1,5 +1,5 @@
 """
-    tellurium 1.3.1
+    tellurium 1.3.3
 
     auto-generated code
     sedmlDoc: L1V2  
@@ -119,24 +119,24 @@ __gs = gridspec.GridSpec(1, 2, width_ratios=[3, 1])
 plt.subplot(__gs[0])
 for k in range(plot_0_0_0.shape[1]):
     if k == 0:
-        plt.plot(plot_0_0_0[:,k], plot_0_0_1[:,k], '-o', color='r', linewidth=1.5, markersize=3.0, alpha=0.8, label='repeat2.S1')
+        plt.plot(plot_0_0_0[:,k], plot_0_0_1[:,k], marker = '.', color='r', linewidth=1.5, markersize=3.0, alpha=0.8, label='repeat2.S1')
     else:
-        plt.plot(plot_0_0_0[:,k], plot_0_0_1[:,k], '-o', color='r', linewidth=1.5, markersize=3.0, alpha=0.8)
+        plt.plot(plot_0_0_0[:,k], plot_0_0_1[:,k], marker = '.', color='r', linewidth=1.5, markersize=3.0, alpha=0.8)
 for k in range(plot_0_0_0.shape[1]):
     if k == 0:
-        plt.plot(plot_0_0_0[:,k], plot_0_1_1[:,k], '-o', color='b', linewidth=1.5, markersize=3.0, alpha=0.8, label='repeat2.S2')
+        plt.plot(plot_0_0_0[:,k], plot_0_1_1[:,k], marker = '.', color='b', linewidth=1.5, markersize=3.0, alpha=0.8, label='repeat2.S2')
     else:
-        plt.plot(plot_0_0_0[:,k], plot_0_1_1[:,k], '-o', color='b', linewidth=1.5, markersize=3.0, alpha=0.8)
+        plt.plot(plot_0_0_0[:,k], plot_0_1_1[:,k], marker = '.', color='b', linewidth=1.5, markersize=3.0, alpha=0.8)
 for k in range(plot_0_2_0.shape[1]):
     if k == 0:
-        plt.plot(plot_0_2_0[:,k], plot_0_2_1[:,k], '-o', color='g', linewidth=1.5, markersize=3.0, alpha=0.8, label='repeat1.S1')
+        plt.plot(plot_0_2_0[:,k], plot_0_2_1[:,k], marker = '.', color='g', linewidth=1.5, markersize=3.0, alpha=0.8, label='repeat1.S1')
     else:
-        plt.plot(plot_0_2_0[:,k], plot_0_2_1[:,k], '-o', color='g', linewidth=1.5, markersize=3.0, alpha=0.8)
+        plt.plot(plot_0_2_0[:,k], plot_0_2_1[:,k], marker = '.', color='g', linewidth=1.5, markersize=3.0, alpha=0.8)
 for k in range(plot_0_2_0.shape[1]):
     if k == 0:
-        plt.plot(plot_0_2_0[:,k], plot_0_3_1[:,k], '-o', color='m', linewidth=1.5, markersize=3.0, alpha=0.8, label='repeat1.S2')
+        plt.plot(plot_0_2_0[:,k], plot_0_3_1[:,k], marker = '.', color='m', linewidth=1.5, markersize=3.0, alpha=0.8, label='repeat1.S2')
     else:
-        plt.plot(plot_0_2_0[:,k], plot_0_3_1[:,k], '-o', color='m', linewidth=1.5, markersize=3.0, alpha=0.8)
+        plt.plot(plot_0_2_0[:,k], plot_0_3_1[:,k], marker = '.', color='m', linewidth=1.5, markersize=3.0, alpha=0.8)
 plt.title('Offset simulation', fontweight='bold')
 __lg = plt.legend(bbox_to_anchor=(1.05, 1), loc=2, borderaxespad=0.)
 __lg.draw_frame(False)
