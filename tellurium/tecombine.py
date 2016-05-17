@@ -475,7 +475,7 @@ class OpenCombine(object):
         zf = ZipFile(self.combinePath, 'r')
         sbmlStr = zf.read(sbmlfile)
         zf.close()
-        print(sbmlStr)
+        
         return sbmlStr
         
     def getSBMLAsAntimony(self, sbmlfile):
@@ -483,14 +483,14 @@ class OpenCombine(object):
         sbmlStr = zf.read(sbmlfile)
         zf.close()
         antStr = te.sbmlToAntimony(sbmlStr)
-        print(antStr)
+        
         return antStr
 
     def getSEDML(self, sedmlfile):
         zf = ZipFile(self.combinePath, 'r')
         sedmlStr = zf.read(sedmlfile)
         zf.close()
-        print(sedmlStr)
+        
         return sedmlStr
         
     def getSEDMLAsPhrasedml(self, sedmlfile):
@@ -498,13 +498,12 @@ class OpenCombine(object):
         sedmlStr = zf.read(sedmlfile)
         zf.close()
         phrasedmlStr = phrasedml.convertString(sedmlStr)
-        print(phrasedmlStr)
+        
         return phrasedmlStr        
         
     def listContents(self):
         zf = ZipFile(self.combinePath, 'r')
         temp = zf.namelist()
-        print(zf.namelist())
         zf.close()
         return temp
         
@@ -551,6 +550,9 @@ class OpenCombine(object):
                            'type': 'sedml', 
                            'modelsource': tempSedmlSource}
                 zf.close()
+            # manifest
+            elif formtype == "http://identifiers.org/combine.specifications/omex-manifest":
+                content = {'filename': os.path.basename(loc), 'type': 'manifest'}
             # other formats
             elif formtype == "image/png":
                 content = {'filename': os.path.basename(loc), 'type': 'png'}
@@ -566,7 +568,6 @@ class OpenCombine(object):
                 content = {'filename': os.path.basename(loc), 'type': 'dat'}
             contents.append(content)
             
-        print(contents)
         return contents
         
     def removeFile(self, fileName):

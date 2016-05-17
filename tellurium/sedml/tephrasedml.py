@@ -282,7 +282,7 @@ class experiment(object):
 
             # set as referenced model
             aStr = self.antimonyList[modelNames.index(name)]
-            phrasedml.setReferencedSBML(name, te.antimonyToSBML(aStr))
+            phrasedml.setReferencedSBML(source, te.antimonyToSBML(aStr))
 
     @staticmethod
     def _modelsFromPhrasedml(phrasedmlStr):

@@ -1413,9 +1413,9 @@ class SEDMLCodeFactory(object):
 
             lines.append("for k in range({}.shape[1]):".format(xId))
             lines.append("    if k == 0:")
-            lines.append("        plt.plot({}[:,k], {}[:,k], '-o', color='{}', linewidth={}, markersize={}, alpha={}, label='{}')".format(xId, yId, color, settings.linewidth, settings.markersize, settings.alpha, yLabel))
+            lines.append("        plt.plot({}[:,k], {}[:,k], marker = '.', color='{}', linewidth={}, markersize={}, alpha={}, label='{}')".format(xId, yId, color, settings.linewidth, settings.markersize, settings.alpha, yLabel))
             lines.append("    else:")
-            lines.append("        plt.plot({}[:,k], {}[:,k], '-o', color='{}', linewidth={}, markersize={}, alpha={})".format(xId, yId, color, settings.linewidth, settings.markersize, settings.alpha))
+            lines.append("        plt.plot({}[:,k], {}[:,k], marker = '.', color='{}', linewidth={}, markersize={}, alpha={})".format(xId, yId, color, settings.linewidth, settings.markersize, settings.alpha))
 
             if logX is True:
                 lines.append("plt.xscale('log')")
@@ -1502,9 +1502,9 @@ class SEDMLCodeFactory(object):
 
             lines.append("for k in range({}.shape[1]):".format(xId))
             lines.append("    if k == 0:")
-            lines.append("        ax.plot({}[:,k], {}[:,k], {}[:,k], '-o', color='{}', linewidth=1.5, markersize=4.0, alpha=0.8, label='{}')".format(xId, yId, zId, color, zLabel))
+            lines.append("        ax.plot({}[:,k], {}[:,k], {}[:,k], marker = '.', color='{}', linewidth=1.5, markersize=4.0, alpha=0.8, label='{}')".format(xId, yId, zId, color, zLabel))
             lines.append("    else:")
-            lines.append("        ax.plot({}[:,k], {}[:,k], {}[:,k], '-o', color='{}', linewidth=1.5, markersize=4.0, alpha=0.8)".format(xId, yId, zId, color))
+            lines.append("        ax.plot({}[:,k], {}[:,k], {}[:,k], marker = '.', color='{}', linewidth=1.5, markersize=4.0, alpha=0.8)".format(xId, yId, zId, color))
 
         lines.append("ax.set_title('{}', fontweight='bold')".format(title))
         if oneXLabel:

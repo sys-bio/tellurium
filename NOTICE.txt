@@ -9,6 +9,11 @@ bioservices 1.4.5
     Licensed under GPL License
     https://github.com/cokelaer/bioservices
 
+cobraPy 0.4.1
+    Copyright (c) Daniel Robert Hyduke and Ali Ebrahim 
+    Licensed under LGPL/GPL v2
+    https://opencobra.github.io/cobrapy/
+	
 control 0.7.0
     Copyright Richard M. Murray et al.
 	Licensed under BSD license

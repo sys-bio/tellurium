@@ -3,7 +3,19 @@ tellurium
 Log of changes
 
 
-1.3.1
+1.3.3
+
+*	Updated roadrunner to 1.4.5
+*	Updated tellurium to 1.3.3
+*	Updated phrasedml to 1.0.3
+*	Updated SEDML translation
+*	Updated COMBINE support
+*	New packages: CobraPy, lxml
+*	Updated pip, Jinja2
+
+
+
+1.3.2
 
 *	Updated Roadrunner to 1.4.3
 *	Updated tellurium.py to 1.3.1
