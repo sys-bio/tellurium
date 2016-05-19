@@ -7,23 +7,8 @@ urn:miriam:biomodels.db:BIOMD0000000003.xml
 
 """
 from __future__ import print_function, division
-import bioservices
 import re
 
-"""
-Implementation without bioservices
-string = path + astr + ".xml"
-        if not os.path.exists(string):
-            conn = httplib.HTTPConnection("www.ebi.ac.uk")
-            conn.request("GET", "/biomodels-main/download?mid=" + astr)
-            r1 = conn.getresponse()
-            #print(r1.status, r1.reason)
-            data1 = r1.read()
-            conn.close()
-            f1 = open(string, 'w')
-            f1.write(data1)
-            f1.close()
-"""
 
 def getSBMLFromBiomodelsURN(urn):
     """
@@ -37,9 +22,23 @@ def getSBMLFromBiomodelsURN(urn):
     pattern = "((BIOMD|MODEL)\d{10})|(BMID\d{12})"
     match = re.search(pattern, urn)
     mid = match.group(0)
-    biomodels = bioservices.BioModels()
-    sbml = biomodels.getModelSBMLById(mid)
-    sbml = sbml.encode('utf8')
+    try:
+        # read SBML via bioservices
+        import bioservices
+        biomodels = bioservices.BioModels()
+        sbml = biomodels.getModelSBMLById(mid)
+        sbml = sbml.encode('utf8')
+    except ImportError:
+        # if there are issues with bioservice import, do a workaround
+        # see https://github.com/sys-bio/tellurium/issues/125
+        import httplib
+        conn = httplib.HTTPConnection("www.ebi.ac.uk")
+        conn.request("GET", "/biomodels-main/download?mid=" + mid)
+        r1 = conn.getresponse()
+        # print(r1.status, r1.reason)
+        sbml = r1.read()
+        conn.close()
+
     return str(sbml)
 
 
@@ -48,3 +47,7 @@ if __name__ == "__main__":
     urn = 'urn:miriam:biomodels.db:BIOMD0000000003'
     sbml = getSBMLFromBiomodelsURN(urn)
     print(sbml)
+
+    import roadrunner
+    r = roadrunner.RoadRunner(sbml)
+    print(r)
