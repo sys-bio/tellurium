@@ -779,6 +779,11 @@ class SEDMLCodeFactory(object):
                 value = "'{}'".format(pkey.value)
             else:
                 value = pkey.value
+                
+            if value == str('inf') or pkey.value == float('inf'):
+                value = "float('inf')"
+            else:
+                pass
 
             if simType is libsedml.SEDML_SIMULATION_STEADYSTATE:
                 lines.append("{}.steadyStateSolver.setValue('{}', {})".format(mid, pkey.key, value))
