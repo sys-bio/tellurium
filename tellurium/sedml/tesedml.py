@@ -200,11 +200,11 @@ KISAOS_CVODE = [  # 'cvode'
 
 KISAOS_RK4 = [  # 'rk4'
     'KISAO:0000032',  # RK4 explicit fourth-order Runge-Kutta method
+    'KISAO:0000064',  # Runge-Kutta based method
 ]
 
 KISAOS_RK45 = [  # 'rk45'
-    'KISAO:0000435',  # RK45 embedded Runge-Kutta 5(4) method
-    'KISAO_0000064',  # Runge-Kutta based method
+    'KISAO:0000086',  # RKF45 embedded Runge-Kutta-Fehlberg 5(4) method
 ]
 
 KISAOS_GILLESPIE = [  # 'gillespie'
