@@ -881,7 +881,7 @@ class SEDMLCodeFactory(object):
         elif simType == libsedml.SEDML_SIMULATION_STEADYSTATE:
             lines.append("{}.steadyStateSelections = {}".format(mid, list(selections)))
             lines.append("{}.simulate()".format(mid))  # for stability of the steady state solver
-            lines.append("{} = {}.steadyState()".format(resultVariable, mid))
+            lines.append("{} = {}.steadyStateNamedArray()".format(resultVariable, mid))
             lines.append("{}.conservedMoietyAnalysis = False".format(mid))
 
         # -------------------------------------------------------------------------
