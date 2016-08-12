@@ -44,7 +44,7 @@ libAntimony 2.8.0
     Distributed under BSD license
     http://antimony.sourceforge.net/
 
-libRoadRunner 1.4.3
+libRoadRunner 1.4.8
     Copyright (C) 2012-2015 Andy Somogyi, Herbert Sauro
     Distributed under Apache License, Version 2.0
     http://libroadrunner.org/

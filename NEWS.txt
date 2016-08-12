@@ -2,6 +2,14 @@ tellurium
 
 Log of changes
 
+1.3.4
+
+*	Updated roadrunner to 1.4.8
+*	Updated tellurium to 1.3.4
+*	Minor updates on tecombine
+*	Bug fixes
+
+
 
 1.3.3
 
