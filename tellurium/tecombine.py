@@ -54,7 +54,7 @@ means the suitable file extension)
 
 from __future__ import print_function, division
 
-import os
+import os, shutil
 import warnings
 from zipfile import ZipFile
 import phrasedml
@@ -641,8 +641,8 @@ class OpenCombine(object):
                 zout.writestr(item, buffer)
         zout.close()
         zin.close()
-        os.remove(self.combinePath)
-        os.rename(tempPath, self.combinePath)
+        shutil.move(tempPath, self.combinePath)
+
         if fileName == 'manifest.xml':
             pass
         else:
