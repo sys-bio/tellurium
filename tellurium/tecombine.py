@@ -199,28 +199,28 @@ class CombineArchive(object):
     def addAsset(self, asset):
         self.assets.append(asset)
 
-    def addSBMLStr(self, sbmlStr, location):
-        self.addAsset(Asset.fromRaw(sbmlStr, location, filetype='sbml'))
+    def addSBMLStr(self, sbmlStr, location, master=None):
+        self.addAsset(Asset.fromRaw(sbmlStr, location, filetype='sbml', master=master))
 
-    def addAntimonyStr(self, antimonyStr, location):
-        self.addAsset(Asset.fromAntimony(antimonyStr, location))
+    def addAntimonyStr(self, antimonyStr, location, master=None):
+        self.addAsset(Asset.fromAntimony(antimonyStr, location, master=master))
 
-    def addSEDMLStr(self, sedmlStr, location):
-        self.addAsset(Asset.fromRaw(sedmlStr, location, filetype='sed-ml'))
+    def addSEDMLStr(self, sedmlStr, location, master=None):
+        self.addAsset(Asset.fromRaw(sedmlStr, location, filetype='sed-ml', master=master))
 
-    def addPhraSEDMLStr(self, phrasedmlStr, location):
-        self.addAsset(Asset.fromPhrasedML(phrasedmlStr, location))
+    def addPhraSEDMLStr(self, phrasedmlStr, location, master=None):
+        self.addAsset(Asset.fromPhrasedML(phrasedmlStr, location, master=master))
 
-    def addSBMLFile(self, filename):
+    def addSBMLFile(self, filename, master=None):
         self.checkfile(filename)
-        self.addAsset(Asset.fromFile(filename, filetype='sbml'))
+        self.addAsset(Asset.fromFile(filename, filetype='sbml', master=master))
 
-    def addSEDMLFile(self, filename):
+    def addSEDMLFile(self, filename, master=None):
         self.checkfile(filename)
-        self.addAsset(Asset.fromFile(filename, filetype='sed-ml'))
+        self.addAsset(Asset.fromFile(filename, filetype='sed-ml', master=master))
 
-    def addFile(self, filename, filetype):
-        self.addAsset(Asset.fromFile(filename=filename, filetype=filetype))
+    def addFile(self, filename, filetype, master=None):
+        self.addAsset(Asset.fromFile(filename=filename, filetype=filetype, master=master))
 
     def addStr(self, textStr, location, filetype):
         self.addAsset(Asset.fromRaw(raw=textStr, location=location, filetype=filetype))
