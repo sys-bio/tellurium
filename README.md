@@ -15,10 +15,36 @@ Tellurium is a python environment based on the [Spyder2 IDE](https://github.com/
 
 The Tellurium project is funded from the NIH/NIGMS (GM081070).
 
-### Download
+### Install
+
+Tellurium is availlable as a self-contained installer or as an installable collection of packages via the Anaconda package manager.
+
+Conventional installers:
 
 * [Download Tellurium 1.3.3 for Windows](https://sourceforge.net/projects/pytellurium/files/Tellurium-1.3/1.3.3/Tellurium-1.3.3-Python-2.7-win32-portable-setup.exe/download)
 * [Download Tellurium 1.3.3 for Mac OS X 10.10 or later](https://sourceforge.net/projects/pytellurium/files/Tellurium-1.3/1.3.3/Tellurium-1.3.3-Spyder-2.3.8-OSX.dmg/download)
+
+Anaconda package (Linux/OSX) instructions:
+
+Run the following in a terminal to install Tellurium and the packages it includes (such as roadrunner):
+
+```
+conda install -c sys-bio tellurium
+```
+
+#### Recommended additional packages:
+
+To install additional packages for standards and interoperability:
+
+```
+conda install -c SBMLTeam python-libsbml
+```
+
+To install additional packages MIRIAM and reproducibility:
+
+```
+conda install -c bioconda bioservices
+```
 
 ### Usage
 
