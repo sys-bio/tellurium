@@ -32,7 +32,13 @@ Run the following in a terminal to install Tellurium and the packages it include
 conda install -c sys-bio tellurium
 ```
 
-#### Recommended additional packages:
+#### Recommended additional Anaconda packages:
+
+To install Spyder:
+
+```
+conda install spyder
+```
 
 To install additional packages for standards and interoperability:
 
@@ -40,7 +46,7 @@ To install additional packages for standards and interoperability:
 conda install -c SBMLTeam python-libsbml
 ```
 
-To install additional packages MIRIAM and reproducibility:
+To install additional packages for MIRIAM and reproducibility:
 
 ```
 conda install -c bioconda bioservices
