@@ -9,7 +9,10 @@ In build in python are
 """
 from __future__ import print_function, division
 from math import *
-import libsbml
+try:
+    import libsbml
+except ImportError:
+    pass
 import operator
 
 def product(*args):

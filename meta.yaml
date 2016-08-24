@@ -1,0 +1,19 @@
+package:
+  name: tellurium
+  version: 1.3.4
+
+requirements:
+  build:
+    - python
+    - setuptools
+  run:
+    - roadrunner
+    - antimony
+    - phrasedml
+
+about:
+  home: http://tellurium.analogmachine.org/
+
+extra:
+  maintainers:
+   - Kyle Medley (https://github.com/0u812)
