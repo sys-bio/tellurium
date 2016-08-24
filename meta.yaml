@@ -7,11 +7,9 @@ requirements:
     - python
     - setuptools
   run:
-    - libsbml
     - roadrunner
     - antimony
     - phrasedml
-    - bioservices
 
 about:
   home: http://tellurium.analogmachine.org/
