@@ -3,7 +3,7 @@
 [![Documentation Status](https://readthedocs.org/projects/tellurium/badge/?version=latest)](http://tellurium.readthedocs.org/en/latest/?badge=latest)
 
 Copyright 2014-2016
-Kiri Choi, Matthias König, J Kyle Medley, Kaylene Stocking, Caroline Cannistra, Michal Galdzicki, and Herbert Sauro
+Kiri Choi, J Kyle Medley, Matthias König, Kaylene Stocking, Caroline Cannistra, Michal Galdzicki, and Herbert Sauro
 
 ![Parameter scan demo](http://tellurium.readthedocs.org/en/latest/_images/parameter_scan_2_0.png)
 
@@ -26,30 +26,18 @@ Tellurium is availlable as a self-contained installer or as an installable colle
 
 #### Anaconda package (Linux/OSX) instructions:
 
-Run the following in a terminal to install Tellurium and the packages it includes (such as roadrunner):
+Tellurium requires several packages such as libsbml and libsedml to be installed. On Mac, the complete installation instructions are:
 
 ```
 conda install -c sys-bio tellurium
+conda install -c sys-bio libsedml
+conda install -c SBMLTeam python-libsbml 
 ```
 
-#### Recommended additional Anaconda packages:
-
-To install Spyder:
+On Linux, libsedml is not available as an Anaconda package. Therefore, it must be installed via pip:
 
 ```
-conda install spyder
-```
-
-To install additional packages for standards and interoperability:
-
-```
-conda install -c SBMLTeam python-libsbml
-```
-
-To install additional packages for MIRIAM and reproducibility:
-
-```
-conda install -c bioconda bioservices
+pip install python-libsedml
 ```
 
 ## Usage
