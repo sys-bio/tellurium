@@ -34,11 +34,7 @@ conda install -c sys-bio libsedml
 conda install -c SBMLTeam python-libsbml 
 ```
 
-On Linux, libsedml is not available as an Anaconda package. Therefore, it must be installed via pip:
-
-```
-pip install python-libsedml
-```
+On Linux, libsedml is not available as an Anaconda package. See https://github.com/fbergmann/libSEDML for instructions on how to build from source.
 
 ## Usage
 
