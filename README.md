@@ -26,15 +26,12 @@ Tellurium is availlable as a self-contained installer or as an installable colle
 
 #### Anaconda package (Linux/OSX) instructions:
 
-Tellurium requires several packages such as libsbml and libsedml to be installed. On Mac, the complete installation instructions are:
+Binaries for Tellurium are available via the Anaconda package manager, which is the most straight-forward installation option for users who do not wish to be locked-in to the full Spyder IDE. Tellurium requires the libsbml Python package to be installed. This package is available on Anaconda via the SBMLTeam channel. The following instructions can be used to install Tellurium and libsbml on both Linux and OS X:
 
 ```
 conda install -c sys-bio tellurium
-conda install -c sys-bio libsedml
 conda install -c SBMLTeam python-libsbml 
 ```
-
-On Linux, libsedml is not available as an Anaconda package. See https://github.com/fbergmann/libSEDML for instructions on how to build from source.
 
 ## Usage
 
