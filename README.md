@@ -22,7 +22,7 @@ Tellurium is availlable as a self-contained installer or as an installable colle
 #### Conventional installers:
 
 * [Download Tellurium for Windows](https://sourceforge.net/projects/pytellurium/files/Tellurium-1.3/1.3.4/Tellurium-1.3.4-Python-2.7-win32-portable-setup.exe/download)
-* [Download Tellurium for Mac OS X 10.10 or later](https://github.com/sys-bio/tellurium/releases/download/1.3.4-rc1/Tellurium-1.3.4-Spyder-2.3.8-OSX.dmg)
+* [Download Tellurium for Mac OS X 10.10 or later](https://sourceforge.net/projects/pytellurium/files/Tellurium-1.3/1.3.4/Tellurium-1.3.4-Spyder-2.3.8-OSX.dmg/download)
 
 #### Anaconda package (Linux/OSX) instructions:
 
