@@ -1,8 +1,12 @@
 from distutils.core import setup
 
 import os
-with open(os.path.join(os.path.dirname(__file__), 'VERSION.txt'), 'r') as f:
-    version = f.read().rstrip()
+try:
+    with open(os.path.join(os.path.dirname(__file__), 'VERSION.txt'), 'r') as f:
+        version = f.read().rstrip()
+except IOError:
+    with open(os.path.join(os.path.dirname(__file__), 'tellurium/VERSION.txt'), 'r') as f:
+        version = f.read().rstrip()
 
 setup(name='tellurium',
       version=version,
