@@ -33,14 +33,6 @@ conda install -c sys-bio tellurium
 conda install -c SBMLTeam python-libsbml 
 ```
 
-##### Additional packages
-
-These packages enable additional functionality on some platforms. See https://github.com/SynBioDex/pysbol2 for more info.
-
-```
-conda install -c sys-bio pysbol2
-```
-
 ## Usage
 
 ```{python}
