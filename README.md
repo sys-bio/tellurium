@@ -22,7 +22,7 @@ Tellurium is availlable as a self-contained installer or as an installable colle
 #### Conventional installers:
 
 * [Download Tellurium for Windows](https://sourceforge.net/projects/pytellurium/files/Tellurium-1.3/1.3.4/Tellurium-1.3.4-Python-2.7-win32-portable-setup.exe/download)
-* [Download Tellurium for Mac OS X 10.10 or later](https://sourceforge.net/projects/pytellurium/files/Tellurium-1.3/1.3.4/Tellurium-1.3.4-Spyder-2.3.8-OSX.dmg/download)
+* [Download Tellurium for Mac OS X 10.10 or later](https://github.com/sys-bio/tellurium/releases/download/1.3.5-rc1/Tellurium-1.3.5-Spyder-2.3.8-OSX.dmg)
 
 #### Anaconda package (Linux/OSX) instructions:
 
@@ -31,6 +31,14 @@ Binaries for Tellurium are available via the Anaconda package manager, which is 
 ```
 conda install -c sys-bio tellurium
 conda install -c SBMLTeam python-libsbml 
+```
+
+##### Additional packages
+
+These packages enable additional functionality on some platforms. See https://github.com/SynBioDex/pysbol2 for more info.
+
+```
+conda install -c sys-bio pysbol2
 ```
 
 ## Usage
