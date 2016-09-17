@@ -2,6 +2,13 @@ tellurium
 
 Log of changes
 
+1.3.5
+
+*	New Package: pysbol2
+*	Updated tellurium to 1.3.5
+
+
+
 1.3.4
 
 *	Updated roadrunner to 1.4.8
