@@ -2,8 +2,12 @@
 from setuptools import setup  # allows 'python setup.py develop'
 
 import os
-with open(os.path.join(os.path.dirname(__file__), 'VERSION.txt'), 'r') as f:
-    version = f.read().rstrip()
+try:
+    with open(os.path.join(os.path.dirname(__file__), 'VERSION.txt'), 'r') as f:
+        version = f.read().rstrip()
+except IOError:
+    with open(os.path.join(os.path.dirname(__file__), 'tellurium/VERSION.txt'), 'r') as f:
+        version = f.read().rstrip()
 
 setup(name='tellurium',
       version=version,
@@ -17,5 +21,10 @@ setup(name='tellurium',
           'tellurium.notebooks',
           'tellurium.optimization',
           'tellurium.visualization',
-      ]
+          'tellurium.sedml',
+      ],
+      package_data={
+          "tellurium" : ["*.txt"],
+          "tellurium.sedml" : ["templates/*.template"],
+      },
       )

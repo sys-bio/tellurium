@@ -44,7 +44,7 @@ libAntimony 2.8.0
     Distributed under BSD license
     http://antimony.sourceforge.net/
 
-libRoadRunner 1.4.3
+libRoadRunner 1.4.8
     Copyright (C) 2012-2015 Andy Somogyi, Herbert Sauro
     Distributed under Apache License, Version 2.0
     http://libroadrunner.org/
@@ -125,9 +125,9 @@ PyQt4 (PyQt4-4.11.4-gpl-Py2.7-Qt4.8.7-x32)
     see GPL_EXCEPTION.TXT in the PyQt4 Source Code. The right to use Open Source Licenses not compatible with the GNU General Public License: Apache License 2.0
     http://www.riverbankcomputing.com/
 
-pySBOL 1.1
+pySBOL 2.0.1
     Distributed under Apache 2.0 license.
-    https://github.com/SynBioDex/pySBOL
+    https://github.com/SynBioDex/pysbol2
 
 Python 2.7.10
     Copyright (c) 2001-2015 Python Software Foundation; All Rights Reserved

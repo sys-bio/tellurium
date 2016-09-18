@@ -189,7 +189,7 @@ class experiment(object):
         for k, phrasedmlStr in enumerate(self.phrasedmlList):
             phrasedml.clearReferencedSBML()
             self._setReferencedSBML(phrasedmlStr)
-            m.addPhraSEDMLStr(phrasedmlStr, self._phrasedmlFileName(k))
+            m.addPhraSEDMLStr(phrasedmlStr, self._phrasedmlFileName(k), master=True)
         phrasedml.clearReferencedSBML()
 
         # Add README.md to archive

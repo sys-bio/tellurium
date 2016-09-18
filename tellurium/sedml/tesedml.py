@@ -200,11 +200,11 @@ KISAOS_CVODE = [  # 'cvode'
 
 KISAOS_RK4 = [  # 'rk4'
     'KISAO:0000032',  # RK4 explicit fourth-order Runge-Kutta method
+    'KISAO:0000064',  # Runge-Kutta based method
 ]
 
 KISAOS_RK45 = [  # 'rk45'
-    'KISAO:0000435',  # RK45 embedded Runge-Kutta 5(4) method
-    'KISAO_0000064',  # Runge-Kutta based method
+    'KISAO:0000086',  # RKF45 embedded Runge-Kutta-Fehlberg 5(4) method
 ]
 
 KISAOS_GILLESPIE = [  # 'gillespie'
@@ -779,6 +779,11 @@ class SEDMLCodeFactory(object):
                 value = "'{}'".format(pkey.value)
             else:
                 value = pkey.value
+                
+            if value == str('inf') or pkey.value == float('inf'):
+                value = "float('inf')"
+            else:
+                pass
 
             if simType is libsedml.SEDML_SIMULATION_STEADYSTATE:
                 lines.append("{}.steadyStateSolver.setValue('{}', {})".format(mid, pkey.key, value))
@@ -876,7 +881,7 @@ class SEDMLCodeFactory(object):
         elif simType == libsedml.SEDML_SIMULATION_STEADYSTATE:
             lines.append("{}.steadyStateSelections = {}".format(mid, list(selections)))
             lines.append("{}.simulate()".format(mid))  # for stability of the steady state solver
-            lines.append("{} = {}.steadyState()".format(resultVariable, mid))
+            lines.append("{} = {}.steadyStateNamedArray()".format(resultVariable, mid))
             lines.append("{}.conservedMoietyAnalysis = False".format(mid))
 
         # -------------------------------------------------------------------------

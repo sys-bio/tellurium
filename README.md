@@ -3,24 +3,37 @@
 [![Documentation Status](https://readthedocs.org/projects/tellurium/badge/?version=latest)](http://tellurium.readthedocs.org/en/latest/?badge=latest)
 
 Copyright 2014-2016
-Kiri Choi, Matthias König, J Kyle Medley, Kaylene Stocking, Caroline Cannistra, Michal Galdzicki, and Herbert Sauro
+Kiri Choi, J Kyle Medley, Matthias König, Kaylene Stocking, Caroline Cannistra, Michal Galdzicki, and Herbert Sauro
 
 ![Parameter scan demo](http://tellurium.readthedocs.org/en/latest/_images/parameter_scan_2_0.png)
 
 *Parmeter scan example courtesy of Matthias König*
 
-### Introduction
+## Introduction
 
 Tellurium is a python environment based on the [Spyder2 IDE](https://github.com/spyder-ide/spyder) for building, simulating, and analysing models of biochemical networks, including gene regulatory networks, metabolic networks, and signaling pathways. It combines state-of-the-art scientific Python libraries, such as [NumPy](http://www.numpy.org/) and [SciPy](http://www.scipy.org/), and includes special-purpose systems biology Python tools. Out of the box, Tellurium includes [libRoadRunner](https://github.com/sys-bio/roadrunner), [Antimony](http://antimony.sourceforge.net/), [PhraSED-ML](http://phrasedml.sf.net/), [libSBML](http://sbml.org/Software/libSBML) (via its [Python bindings](http://sbml.org/Software/libSBML/5.12.0/docs/formatted/python-api/)), and [libSED-ML](https://github.com/fbergmann/libSEDML).
 
 The Tellurium project is funded from the NIH/NIGMS (GM081070).
 
-### Download
+## Install
 
-* [Download Tellurium 1.3.3 for Windows](https://sourceforge.net/projects/pytellurium/files/Tellurium-1.3/1.3.3/Tellurium-1.3.3-Python-2.7-win32-portable-setup.exe/download)
-* [Download Tellurium 1.3.3 for Mac OS X 10.10 or later](https://sourceforge.net/projects/pytellurium/files/Tellurium-1.3/1.3.3/Tellurium-1.3.3-Spyder-2.3.8-OSX.dmg/download)
+Tellurium is availlable as a self-contained installer or as an installable collection of packages via the Anaconda package manager.
 
-### Usage
+#### Conventional installers:
+
+* [Download Tellurium for Windows](https://sourceforge.net/projects/pytellurium/files/Tellurium-1.3/1.3.4/Tellurium-1.3.4-Python-2.7-win32-portable-setup.exe/download)
+* [Download Tellurium for Mac OS X 10.10 or later](https://github.com/sys-bio/tellurium/releases/download/1.3.5-rc1/Tellurium-1.3.5-Spyder-2.3.8-OSX.dmg)
+
+#### Anaconda package (Linux/OSX) instructions:
+
+Binaries for Tellurium are available via the Anaconda package manager, which is the most straight-forward installation option for users who do not wish to be locked-in to the full Spyder IDE. Tellurium requires the libsbml Python package to be installed. This package is available on Anaconda via the SBMLTeam channel. The following instructions can be used to install Tellurium and libsbml on both Linux and OS X:
+
+```
+conda install -c sys-bio tellurium
+conda install -c SBMLTeam python-libsbml 
+```
+
+## Usage
 
 ```{python}
 import tellurium as te
@@ -40,11 +53,11 @@ te.plotArray(result)
 
 ![Tellurium front page demo](https://raw.githubusercontent.com/wiki/sys-bio/tellurium/img/tellurium-front-page-image.png)
 
-### API documentation 
+## API documentation 
 
 http://tellurium.readthedocs.org/en/latest/
 
-### Legal
+## Legal
 
 The source code for the Tellurium Python package is hosted at https://github.com/sys-bio/tellurium and is licensed under the [Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0). Tellurium uses third-party dependencies which may be licensed under different terms. Consult the documentation for the respective third-party packages for more details.
 

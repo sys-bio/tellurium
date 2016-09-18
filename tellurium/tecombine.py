@@ -54,7 +54,7 @@ means the suitable file extension)
 
 from __future__ import print_function, division
 
-import os
+import os, shutil
 import warnings
 from zipfile import ZipFile
 import phrasedml
@@ -199,28 +199,28 @@ class CombineArchive(object):
     def addAsset(self, asset):
         self.assets.append(asset)
 
-    def addSBMLStr(self, sbmlStr, location):
-        self.addAsset(Asset.fromRaw(sbmlStr, location, filetype='sbml'))
+    def addSBMLStr(self, sbmlStr, location, master=None):
+        self.addAsset(Asset.fromRaw(sbmlStr, location, filetype='sbml', master=master))
 
-    def addAntimonyStr(self, antimonyStr, location):
-        self.addAsset(Asset.fromAntimony(antimonyStr, location))
+    def addAntimonyStr(self, antimonyStr, location, master=None):
+        self.addAsset(Asset.fromAntimony(antimonyStr, location, master=master))
 
-    def addSEDMLStr(self, sedmlStr, location):
-        self.addAsset(Asset.fromRaw(sedmlStr, location, filetype='sed-ml'))
+    def addSEDMLStr(self, sedmlStr, location, master=None):
+        self.addAsset(Asset.fromRaw(sedmlStr, location, filetype='sed-ml', master=master))
 
-    def addPhraSEDMLStr(self, phrasedmlStr, location):
-        self.addAsset(Asset.fromPhrasedML(phrasedmlStr, location))
+    def addPhraSEDMLStr(self, phrasedmlStr, location, master=None):
+        self.addAsset(Asset.fromPhrasedML(phrasedmlStr, location, master=master))
 
-    def addSBMLFile(self, filename):
+    def addSBMLFile(self, filename, master=None):
         self.checkfile(filename)
-        self.addAsset(Asset.fromFile(filename, filetype='sbml'))
+        self.addAsset(Asset.fromFile(filename, filetype='sbml', master=master))
 
-    def addSEDMLFile(self, filename):
+    def addSEDMLFile(self, filename, master=None):
         self.checkfile(filename)
-        self.addAsset(Asset.fromFile(filename, filetype='sed-ml'))
+        self.addAsset(Asset.fromFile(filename, filetype='sed-ml', master=master))
 
-    def addFile(self, filename, filetype):
-        self.addAsset(Asset.fromFile(filename=filename, filetype=filetype))
+    def addFile(self, filename, filetype, master=None):
+        self.addAsset(Asset.fromFile(filename=filename, filetype=filetype, master=master))
 
     def addStr(self, textStr, location, filetype):
         self.addAsset(Asset.fromRaw(raw=textStr, location=location, filetype=filetype))
@@ -349,7 +349,10 @@ class OpenCombine(object):
 
 
     # <SBML>
-    def addSBML(self, sbmlPath):
+    def addSBML(self, sbmlPath, filename=None):
+        """ Adds SBML file into COMBINE archive.
+        :param sbmlPath: path to SBML file or full SBML file string
+        """
         modelname = self.getModelName(sbmlPath)
         contents = self.listContents()
         zf = ZipFile(self.combinePath, 'a')
@@ -357,33 +360,47 @@ class OpenCombine(object):
             numSame = 0
             while contents.count(modelname + '.xml') == 1:
                 # This should never happen (breaks the SEDML files)
-                modelname = modelname + '_' + str(numSame)
+                modelname = modelname + '_' + str(numSame) + '.xml'
                 numSame += 1
-            zf.write(sbmlPath, arcname=modelname + '.xml')
+            if filename != None:
+                if filename[-3:] != ('xml' or 'sbml'):
+                    filename = filename + '.xml'
+                modelname = filename
+            zf.write(sbmlPath, arcname=modelname)
         elif sbmlPath.startswith(r'<?xml'):
             numSame = 0
             while contents.count(modelname + '.xml') == 1:
-                modelname = modelname + '_' + str(numSame)
+                modelname = modelname + '_' + str(numSame) + '.xml'
                 numSame += 1
-            zf.writestr(modelname + '.xml', sbmlPath)
+            if filename != None:
+                if filename[-3:] != ('xml' or 'sbml'):
+                    filename = filename + '.xml'
+                modelname = filename
+            zf.writestr(modelname, sbmlPath)
         else:
             raise Exception("Invalid string for sbml: Check the path of the file")
         zf.close()
-        self.updateManifest(modelname + '.xml', 'sbml')
+        self.updateManifest(modelname, 'sbml')
 
     def getModelName(self, sbmlfile):
         r = roadrunner.RoadRunner(sbmlfile)
         return r.getModel().getModelName()
 
 
-    def addAntimony(self, antimonyStr):
-        """ Add antimony to archive. """
+    def addAntimony(self, antimonyStr, filename=None):
+        """ Adds SBML file as Antimony into COMBINE archive.
+        :param antimonyStr: antimony string
+        """        
         sbmlStr = te.antimonyToSBML(antimonyStr)
-        self.addSBML(sbmlStr)
+        self.addSBML(sbmlStr, filename)
 
     # <SEDML>
 
     def addSEDML(self, sedmlPath, arcname=None):
+        """ Adds SEDML file into COMBINE archive.
+        :param sedmlPath: path to SEDML file
+        :param arcname: (optional) desired name of SEDML file
+        """    
         contents = self.listContents()
         sedmlBase = os.path.basename(sedmlPath)
         try:
@@ -421,7 +438,11 @@ class OpenCombine(object):
             self.updateManifest(arcname + '.xml', 'sedml')
     
     def addPhrasedml(self, phrasedmlStr, antimonyStr, arcname=None):
-        """ Adds phrasedml via conversion to SEDML. """
+        """ Adds SEDML file as phraSEDML string into COMBINE archive.
+        :param phrasedmlStr: phraSEDML string
+        :param antimonyStr: antimony string to be referenced
+        :param arcname: (optional) desired name of SEDML file
+        """            
         # FIXME: This does not work for multiple referenced models !.
         reModel = r"""(\w*) = model ('|")(.*)('|")"""
         phrasedmllines = phrasedmlStr.splitlines()
@@ -443,7 +464,12 @@ class OpenCombine(object):
     # Other file
 
     def addFile(self, filePath):
-        """ Add other file type. """
+        """ Adds other file into COMBINE archive.
+        
+        Currently, png, jpg, pdf, txt, csv, dat formats are supported.
+        
+        :param filePath: path to the file
+        """     
         acceptedFormats = ('png','jpg','jpeg','pdf','txt','csv','dat')
         contents = self.listContents()
         fileBase = os.path.basename(filePath)
@@ -472,6 +498,13 @@ class OpenCombine(object):
     
 
     def getSBML(self, sbmlfile):
+        """ returns SBML
+        
+        :param sbmlfile: filename of SBML file in COMBINE archive
+        :return: SBML string
+        :rtype: str
+        """
+        
         zf = ZipFile(self.combinePath, 'r')
         sbmlStr = zf.read(sbmlfile)
         zf.close()
@@ -479,6 +512,12 @@ class OpenCombine(object):
         return sbmlStr
         
     def getSBMLAsAntimony(self, sbmlfile):
+        """ returns SBML as antimony
+        
+        :param sbmlfile: filename of SBML file in COMBINE archive
+        :return: antimony string
+        :rtype: str
+        """        
         zf = ZipFile(self.combinePath, 'r')
         sbmlStr = zf.read(sbmlfile)
         zf.close()
@@ -487,6 +526,12 @@ class OpenCombine(object):
         return antStr
 
     def getSEDML(self, sedmlfile):
+        """ returns SEDML
+        
+        :param sbmlfile: filename of SEDML file in COMBINE archive
+        :return: SEDML string
+        :rtype: str
+        """        
         zf = ZipFile(self.combinePath, 'r')
         sedmlStr = zf.read(sedmlfile)
         zf.close()
@@ -494,6 +539,12 @@ class OpenCombine(object):
         return sedmlStr
         
     def getSEDMLAsPhrasedml(self, sedmlfile):
+        """ returns SEDML as phraSEDML
+        
+        :param sbmlfile: filename of SEDML file in COMBINE archive
+        :return: phraSEDML string
+        :rtype: str
+        """        
         zf = ZipFile(self.combinePath, 'r')
         sedmlStr = zf.read(sedmlfile)
         zf.close()
@@ -502,6 +553,9 @@ class OpenCombine(object):
         return phrasedmlStr        
         
     def listContents(self):
+        """ returns simplified content list
+        
+        """
         zf = ZipFile(self.combinePath, 'r')
         temp = zf.namelist()
         zf.close()
@@ -566,11 +620,16 @@ class OpenCombine(object):
                 content = {'filename': os.path.basename(loc), 'type': 'csv'}
             elif formtype == "plain/dat":
                 content = {'filename': os.path.basename(loc), 'type': 'dat'}
-            contents.append(content)
+            if content != None:
+                contents.append(content)
             
         return contents
         
     def removeFile(self, fileName):
+        """ remove specified file from COMBINE archive
+        
+        :param fileName: name of the file to be removed        
+        """
         baseName, fileFormat = os.path.splitext(fileName)
         tempPath = os.path.join(os.path.dirname(self.combinePath), os.path.splitext(
             os.path.basename(self.combinePath))[0] + '_tempcombine' + os.path.splitext(os.path.basename(self.combinePath))[1])
@@ -582,15 +641,38 @@ class OpenCombine(object):
                 zout.writestr(item, buffer)
         zout.close()
         zin.close()
-        os.remove(self.combinePath)
-        os.rename(tempPath, self.combinePath)
+        shutil.move(tempPath, self.combinePath)
+
         if fileName == 'manifest.xml':
             pass
         else:
             self.updateManifest(baseName + fileFormat, fileFormat[1:], delete=True)
     
-    def update(self, currentExp):
-        currentExp.updateCombine(self.combinePath)
+    def update(self, targetFile, change):
+        """ update the contents of SBML or SEDML files in COMBINE archive
+        
+        Only supports antimony or phrasedml string. For other input types, use removeFile().
+        
+        :param targetFile: SBML or SEDML file to be updated
+        :param change: antimony or phrasedml string
+        """
+        contentList = self.listDetailedContents()
+        
+        try:
+            filetype = (item for item in contentList if item["filename"] == targetFile).next().get('type')
+        except TypeError:
+            raise Exception('There is no file name called ' + targetFile + 'in COMBINE archive')
+            
+        if filetype == 'sbml':
+            self.removeFile(targetFile)
+            self.addAntimony(change, filename=targetFile)
+        elif filetype == 'sedml':
+            modelSource = (item for item in contentList if item["filename"] == targetFile).next().get('modelsource')[0]
+            refAntStr = self.getSBMLAsAntimony(modelSource)
+            self.removeFile(targetFile)
+            self.addPhrasedml(change, refAntStr, arcname=targetFile)
+        else:
+            raise Exception('Unsupported file type')
         
     def readManifest(self):
         zf = ZipFile(self.combinePath, 'r')
