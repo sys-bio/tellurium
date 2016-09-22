@@ -19,28 +19,41 @@ The Tellurium project is funded from the NIH/NIGMS (GM081070).
 
 Tellurium is availlable as a self-contained installer or as an installable collection of packages via the Anaconda package manager.
 
-It is recommended that you try the conventional installers first. On windows, download the installer, run the installer and follow the instructions. For the Mac, download the dmg file, then:
+It is recommended that you try the conventional installers first. 
 
-1. Double-click the .dmg to open a new window
+#### Windows
+
+Download the exe file, then:
+
+1. Double-click the installer to start the installation
+2. Follow the instructions
+
+NOTE: Installation requires administrative rights. It is recommended to accept the default settings.
+
+#### Mac OSX
+
+Download the dmg file, then:
+
+1. Double-click the .dmg file to open a new window
 2. Double-click the Spyder icon
 
-On some older hardware we have noticed that the .dmg sometimes fails, if this happens to you then we recommend using the Anaconda package manager (see below). 
+NOTE: On some older hardware we have noticed that the .dmg sometimes fails. If this happens, we recommend using the [Anaconda package manager](#### Anaconda package (Linux/OSX) instructions:). 
 
-#### Installers for Tellurium:
+#### Download Installers for Tellurium:
 
 * [Download Tellurium for Windows](https://sourceforge.net/projects/pytellurium/files/Tellurium-1.3/1.3.5/Tellurium-1.3.5-Python-2.7-win32-portable-setup.exe/download)
 * [Download Tellurium for Mac OS X 10.10 or later](https://sourceforge.net/projects/pytellurium/files/Tellurium-1.3/1.3.5/Tellurium-1.3.5-Spyder-2.3.8-OSX.dmg/download)
 
 #### Anaconda package (Linux/OSX) instructions:
 
-Binaries for Tellurium are available via the [Anaconda](https://www.continuum.io/downloads) package manager. The Tellurium plugins for Spyder are not available when using this method. To install Tellurium and libsbml on both Linux and OS X, type the following into a terminal:
+Binaries for Tellurium are available via the [Anaconda](https://www.continuum.io/downloads) package manager. The Tellurium plugins for Spyder are not available when using this method. To install Tellurium and the necessary packages on both Linux and OS X, type the following into a terminal:
 
 ```
 conda install -c sys-bio tellurium
 conda install -c SBMLTeam python-libsbml 
 ```
 
-For further information we refer the reader to the [conda installation instructions.](http://conda.pydata.org/docs/using/pkgs.html) 
+For further information refer to the [conda installation instructions.](http://conda.pydata.org/docs/using/pkgs.html) 
 
 ## Usage
 
