@@ -23,26 +23,19 @@ It is recommended that you try the conventional installers first.
 
 #### Windows
 
-Download the exe file, then:
-
-1. Double-click the installer to start the installation
-2. Follow the instructions
+1. [Download Tellurium for Windows](https://sourceforge.net/projects/pytellurium/files/Tellurium-1.3/1.3.5/Tellurium-1.3.5-Python-2.7-win32-portable-setup.exe/download)
+2. Double-click the installer to start the installation
+3. Follow the instructions
 
 NOTE: Installation requires administrative rights. It is recommended to accept the default settings.
 
 #### Mac OSX
 
-Download the dmg file, then:
+1. [Download Tellurium for Mac OS X 10.10 or later](https://sourceforge.net/projects/pytellurium/files/Tellurium-1.3/1.3.5/Tellurium-1.3.5-Spyder-2.3.8-OSX.dmg/download)
+2. Double-click the .dmg file to open a new window
+3. Double-click the Spyder icon
 
-1. Double-click the .dmg file to open a new window
-2. Double-click the Spyder icon
-
-NOTE: On some older hardware we have noticed that the .dmg sometimes fails. If this happens, we recommend using the [Anaconda package manager](#### Anaconda package (Linux/OSX) instructions:). 
-
-#### Download Installers for Tellurium:
-
-* [Download Tellurium for Windows](https://sourceforge.net/projects/pytellurium/files/Tellurium-1.3/1.3.5/Tellurium-1.3.5-Python-2.7-win32-portable-setup.exe/download)
-* [Download Tellurium for Mac OS X 10.10 or later](https://sourceforge.net/projects/pytellurium/files/Tellurium-1.3/1.3.5/Tellurium-1.3.5-Spyder-2.3.8-OSX.dmg/download)
+NOTE: On some older hardware we have noticed that the .dmg sometimes fails. If this happens, we recommend using the [Anaconda package manager](#Anaconda-package-(Linux/OSX)-instructions:).
 
 #### Anaconda package (Linux/OSX) instructions:
 
