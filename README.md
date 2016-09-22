@@ -19,12 +19,12 @@ The Tellurium project is funded from the NIH/NIGMS (GM081070).
 
 Tellurium is availlable as a self-contained installer or as an installable collection of packages via the Anaconda package manager.
 
-It is recommended that you try the conventional installers first. On windows download the installer, run the installer and follow the instructions. For the Mac, download the dmg file, then:
+It is recommended that you try the conventional installers first. On windows, download the installer, run the installer and follow the instructions. For the Mac, download the dmg file, then:
 
 1. Double click the .dmg to make its content available (name will show up in the Finder sidebar), usually a window opens showing the content as well.
 2. Drag the application from the .dmg window into /Applications to install (may need an administrator password)
 
-On some hardware we have noticed that the Mac distribution fails, if this happens to you then we recommend using the Anaconda package manager. 
+On some older hardware we have noticed that the Mac distribution fails, if this happens to you then we recommend using the Anaconda package manager, see below. 
 
 #### Conventional installers:
 
