@@ -35,7 +35,7 @@ NOTE: Installation requires administrative rights. It is recommended to accept t
 2. Double-click the .dmg file to open a new window
 3. Double-click the Spyder icon
 
-NOTE: On some older hardware we have noticed that the .dmg sometimes fails. If this happens, we recommend using the [Anaconda package manager](#Anaconda-package-(Linux/OSX)-instructions:).
+NOTE: On some older hardware we have noticed that the .dmg sometimes fails. If this happens, we recommend using the [Anaconda package manager](#anaconda-package-linuxosx-instructions).
 
 #### Anaconda package (Linux/OSX) instructions:
 
