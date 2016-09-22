@@ -33,6 +33,8 @@ conda install -c sys-bio tellurium
 conda install -c SBMLTeam python-libsbml 
 ```
 
+I'm a Mac user and I've no idea what these installation instructions mean?
+
 ## Usage
 
 ```{python}
