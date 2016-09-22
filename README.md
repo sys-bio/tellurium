@@ -28,8 +28,8 @@ On some older hardware we have noticed that the Mac distribution fails, if this 
 
 #### Conventional installers:
 
-* [Download Tellurium for Windows](https://sourceforge.net/projects/pytellurium/files/Tellurium-1.3/1.3.4/Tellurium-1.3.4-Python-2.7-win32-portable-setup.exe/download)
-* [Download Tellurium for Mac OS X 10.10 or later](https://github.com/sys-bio/tellurium/releases/download/1.3.5-rc1/Tellurium-1.3.5-Spyder-2.3.8-OSX.dmg)
+* [Download Tellurium for Windows](https://sourceforge.net/projects/pytellurium/files/Tellurium-1.3/1.3.5/Tellurium-1.3.5-Python-2.7-win32-portable-setup.exe/download)
+* [Download Tellurium for Mac OS X 10.10 or later](https://sourceforge.net/projects/pytellurium/files/Tellurium-1.3/1.3.5/Tellurium-1.3.5-Spyder-2.3.8-OSX.dmg/download)
 
 #### Anaconda package (Linux/OSX) instructions:
 
