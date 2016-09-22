@@ -40,7 +40,7 @@ conda install -c sys-bio tellurium
 conda install -c SBMLTeam python-libsbml 
 ```
 
-I'm a Mac user and I've no idea what these installation instructions mean?
+For further information we refer the reader to the [conda installation instructions.](http://conda.pydata.org/docs/using/pkgs.html) 
 
 ## Usage
 
