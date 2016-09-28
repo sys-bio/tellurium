@@ -26,9 +26,9 @@ Tellurium is availlable via two distributions:
 1. As a Windows setup file / Apple disk image which includes the Spyder IDE and all Tellurium packages
 2. As a Python meta-package which can be installed via the Anaconda package manager
 
-Option 1. does not modify or conflict with any previous Python installation. Option 2. allows you to use Tellurium from within a pre-existing Anaconda installation, including via a notebook.
+Option 1. does not modify or conflict with any previous Python installation. Option 2. allows you to use Tellurium from within a pre-existing Anaconda installation, including via a notebook. If you are a new user, it is recommended that you try option 1. first.
 
-### Option 1: IDE
+### Option 1: IDE installer
 
 #### Windows
 
