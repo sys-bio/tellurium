@@ -47,7 +47,7 @@ conda install jinja2 ipython gcc
 conda install -c SBMLTeam python-libsbml 
 ```
 
-For further information refer to the [conda installation instructions.](http://conda.pydata.org/docs/using/pkgs.html) 
+Detailed instructions for using the `conda` package manager are available [here.](http://conda.pydata.org/docs/using/pkgs.html) 
 
 ## Usage
 
