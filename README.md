@@ -21,9 +21,14 @@ The Tellurium project is funded from the NIH/NIGMS (GM081070).
 
 ## Installation Instructions
 
-Tellurium is availlable as a self-contained installer or as an installable collection of packages via the Anaconda package manager.
+Tellurium is availlable via two distributions:
 
-It is recommended that you try the conventional installers first. 
+1. As a Windows setup file / Apple disk image which includes the Spyder IDE and all Tellurium packages
+2. As a Python meta-package which can be installed via the Anaconda package manager
+
+Option 1. does not modify or conflict with any previous Python installation. Option 2. allows you to use Tellurium from within a pre-existing Anaconda installation, including via a notebook.
+
+## Option 1: IDE
 
 #### Windows
 
@@ -41,7 +46,7 @@ NOTE: Installation requires administrative rights. It is recommended to accept t
 
 NOTE: On some older hardware we have noticed that the .dmg sometimes fails. If this happens, we recommend using the Anaconda package manager (see below).
 
-#### Anaconda package (Linux/OSX) instructions:
+#### Option 2: Anaconda package (Linux/OSX only):
 
 Binaries for Tellurium are available via the [Anaconda](https://www.continuum.io/downloads) package manager for **Python 2.7**. The Tellurium plugins for Spyder are not available when using this method. To install Tellurium and the necessary packages on both Linux and OS X, type the following into a terminal:
 
