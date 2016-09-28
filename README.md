@@ -53,6 +53,10 @@ conda install -c SBMLTeam python-libsbml
 
 Detailed instructions for using the `conda` package manager are available [here.](http://conda.pydata.org/docs/using/pkgs.html) 
 
+## System Requirements
+
+The [Spyder IDE](https://github.com/sys-bio/tellurium#installation-instructions) installers are tested with Windows 7+ and Mac OS X 10.9+. Some older Macs cannot run Spyder, regardless of whether the operating system is up-to-date. Anaconda packages are tested on RHEL 6.6, Debian 8, Ubuntu 14.04, and Mac OS X 10.10.
+
 ## Usage
 
 ```{python}
