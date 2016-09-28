@@ -48,7 +48,7 @@ NOTE: On some older hardware we have noticed that the .dmg sometimes fails. If t
 
 ### Option 2: Anaconda package (Linux/OSX only):
 
-Binaries for Tellurium are available via the [Anaconda](https://www.continuum.io/downloads) package manager for **Python 2.7**. The Tellurium plugins for Spyder are not available when using this method. To install Tellurium and the necessary packages on both Linux and OS X, type the following into a terminal:
+Binaries for Tellurium are available via the [Anaconda](https://www.continuum.io/downloads) package manager for **Python 2.7**. Neither the IDE plugins for Spyder nor SBOL functionality is available when using this method. To install Tellurium and the necessary packages on both Linux and OS X, type the following into a terminal:
 
 ```
 conda install -c sys-bio tellurium
