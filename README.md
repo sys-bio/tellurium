@@ -52,7 +52,7 @@ Binaries for Tellurium are available via the [Anaconda](https://www.continuum.io
 
 ```
 conda install -c sys-bio tellurium
-conda install jinja2 ipython gcc
+conda install jinja2 ipython
 conda install -c SBMLTeam python-libsbml 
 ```
 
