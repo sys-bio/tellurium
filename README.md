@@ -15,6 +15,10 @@ Tellurium is a python environment based on the [Spyder2 IDE](https://github.com/
 
 The Tellurium project is funded from the NIH/NIGMS (GM081070).
 
+## Python support
+
+**Python 2** is the highest supported Python version at the time of writing, due to the fact that not all packages included in Tellurium are Python 3 compatible.
+
 ## Installation Instructions
 
 Tellurium is availlable as a self-contained installer or as an installable collection of packages via the Anaconda package manager.
@@ -39,7 +43,7 @@ NOTE: On some older hardware we have noticed that the .dmg sometimes fails. If t
 
 #### Anaconda package (Linux/OSX) instructions:
 
-Binaries for Tellurium are available via the [Anaconda](https://www.continuum.io/downloads) package manager. The Tellurium plugins for Spyder are not available when using this method. To install Tellurium and the necessary packages on both Linux and OS X, type the following into a terminal:
+Binaries for Tellurium are available via the [Anaconda](https://www.continuum.io/downloads) package manager for **Python 2.7**. The Tellurium plugins for Spyder are not available when using this method. To install Tellurium and the necessary packages on both Linux and OS X, type the following into a terminal:
 
 ```
 conda install -c sys-bio tellurium
