@@ -1476,7 +1476,7 @@ class Editor(SpyderPluginWidget):
                        '"""', 'Created on Thu Feb 27 18:56:59 2014', '',
                        '@author: mgaldzic',
                        '"""', '', 'import tellurium as te', 'import roadrunner',
-                       'import libantimony', '',
+                       'import antimony', '',
                        """antStr = '''
 model feedback()
    // Reactions:
