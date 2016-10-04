@@ -1,0 +1,268 @@
+Mit Mär  9 12:23:06 CET 2016
+--------------------------------------
+convert notebooks to rst
+--------------------------------------
+[NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/antimonyExample.ipynb to rst
+[NbConvertApp] Executing notebook with kernel: python2
+[NbConvertApp] Support files will be in antimonyExample_files/
+[NbConvertApp] Making directory antimonyExample_files
+[NbConvertApp] Making directory antimonyExample_files
+[NbConvertApp] Making directory antimonyExample_files
+[NbConvertApp] Writing 5890 bytes to antimonyExample.rst
+[NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/combineExample.ipynb to rst
+[NbConvertApp] Executing notebook with kernel: python2
+[NbConvertApp] Support files will be in combineExample_files/
+[NbConvertApp] Making directory combineExample_files
+[NbConvertApp] Writing 7132 bytes to combineExample.rst
+[NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/computeSteadyState.ipynb to rst
+[NbConvertApp] Executing notebook with kernel: python2
+[NbConvertApp] Writing 965 bytes to computeSteadyState.rst
+[NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/introduction.ipynb to rst
+[NbConvertApp] Executing notebook with kernel: python2
+[NbConvertApp] Support files will be in introduction_files/
+[NbConvertApp] Making directory introduction_files
+[NbConvertApp] Making directory introduction_files
+[NbConvertApp] Writing 1620 bytes to introduction.rst
+[NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/model_consecutiveUniUniReactions.ipynb to rst
+[NbConvertApp] Executing notebook with kernel: python2
+[NbConvertApp] Support files will be in model_consecutiveUniUniReactions_files/
+[NbConvertApp] Making directory model_consecutiveUniUniReactions_files
+[NbConvertApp] Writing 804 bytes to model_consecutiveUniUniReactions.rst
+[NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/model_feedback_oscillations.ipynb to rst
+[NbConvertApp] Executing notebook with kernel: python2
+[NbConvertApp] Support files will be in model_feedback_oscillations_files/
+[NbConvertApp] Making directory model_feedback_oscillations_files
+[NbConvertApp] Making directory model_feedback_oscillations_files
+[NbConvertApp] Writing 1162 bytes to model_feedback_oscillations.rst
+[NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/model_generatingDifferentWaveforms.ipynb to rst
+[NbConvertApp] Executing notebook with kernel: python2
+[NbConvertApp] Support files will be in model_generatingDifferentWaveforms_files/
+[NbConvertApp] Making directory model_generatingDifferentWaveforms_files
+[NbConvertApp] Writing 1879 bytes to model_generatingDifferentWaveforms.rst
+[NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/model_modelFromBioModels.ipynb to rst
+[NbConvertApp] Executing notebook with kernel: python2
+[NbConvertApp] Support files will be in model_modelFromBioModels_files/
+[NbConvertApp] Making directory model_modelFromBioModels_files
+[NbConvertApp] Writing 554 bytes to model_modelFromBioModels.rst
+[NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/model_nonUnitStoichiometries.ipynb to rst
+[NbConvertApp] Executing notebook with kernel: python2
+[NbConvertApp] Writing 997 bytes to model_nonUnitStoichiometries.rst
+[NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/model_normalizedSpecies.ipynb to rst
+[NbConvertApp] Executing notebook with kernel: python2
+[NbConvertApp] Support files will be in model_normalizedSpecies_files/
+[NbConvertApp] Making directory model_normalizedSpecies_files
+[NbConvertApp] Writing 2692 bytes to model_normalizedSpecies.rst
+[NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/parameter_scan.ipynb to rst
+[NbConvertApp] Executing notebook with kernel: python2
+[NbConvertApp] Support files will be in parameter_scan_files/
+[NbConvertApp] Making directory parameter_scan_files
+[NbConvertApp] Making directory parameter_scan_files
+[NbConvertApp] Writing 1590 bytes to parameter_scan.rst
+[NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/phrasedmlExample.ipynb to rst
+[NbConvertApp] Executing notebook with kernel: python2
+[NbConvertApp] Support files will be in phrasedmlExample_files/
+[NbConvertApp] Making directory phrasedmlExample_files
+[NbConvertApp] Making directory phrasedmlExample_files
+[NbConvertApp] Making directory phrasedmlExample_files
+[NbConvertApp] Making directory phrasedmlExample_files
+[NbConvertApp] Making directory phrasedmlExample_files
+[NbConvertApp] Making directory phrasedmlExample_files
+[NbConvertApp] Making directory phrasedmlExample_files
+[NbConvertApp] Making directory phrasedmlExample_files
+[NbConvertApp] Making directory phrasedmlExample_files
+[NbConvertApp] Making directory phrasedmlExample_files
+[NbConvertApp] Making directory phrasedmlExample_files
+[NbConvertApp] Making directory phrasedmlExample_files
+[NbConvertApp] Making directory phrasedmlExample_files
+[NbConvertApp] Making directory phrasedmlExample_files
+[NbConvertApp] Writing 21095 bytes to phrasedmlExample.rst
+[NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/plot2DParameterScan.ipynb to rst
+[NbConvertApp] Executing notebook with kernel: python2
+[NbConvertApp] Support files will be in plot2DParameterScan_files/
+[NbConvertApp] Making directory plot2DParameterScan_files
+[NbConvertApp] Making directory plot2DParameterScan_files
+[NbConvertApp] Writing 985 bytes to plot2DParameterScan.rst
+[NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/roadrunnerBasics.ipynb to rst
+[NbConvertApp] Executing notebook with kernel: python2
+[NbConvertApp] Writing 4072 bytes to roadrunnerBasics.rst
+[NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/steadystate_scan.ipynb to rst
+[NbConvertApp] Executing notebook with kernel: python2
+[NbConvertApp] Support files will be in steadystate_scan_files/
+[NbConvertApp] Making directory steadystate_scan_files
+[NbConvertApp] Writing 1871 bytes to steadystate_scan.rst
+[NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/tellurium_examples.ipynb to rst
+[NbConvertApp] Executing notebook with kernel: python2
+[NbConvertApp] Support files will be in tellurium_examples_files/
+[NbConvertApp] Making directory tellurium_examples_files
+[NbConvertApp] Making directory tellurium_examples_files
+[NbConvertApp] Making directory tellurium_examples_files
+[NbConvertApp] Making directory tellurium_examples_files
+[NbConvertApp] Making directory tellurium_examples_files
+[NbConvertApp] Making directory tellurium_examples_files
+[NbConvertApp] Making directory tellurium_examples_files
+[NbConvertApp] Making directory tellurium_examples_files
+[NbConvertApp] Making directory tellurium_examples_files
+[NbConvertApp] Making directory tellurium_examples_files
+[NbConvertApp] Making directory tellurium_examples_files
+[NbConvertApp] Making directory tellurium_examples_files
+[NbConvertApp] Making directory tellurium_examples_files
+[NbConvertApp] Making directory tellurium_examples_files
+[NbConvertApp] Making directory tellurium_examples_files
+[NbConvertApp] Making directory tellurium_examples_files
+[NbConvertApp] Writing 13157 bytes to tellurium_examples.rst
+[NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/tellurium_export.ipynb to rst
+[NbConvertApp] Executing notebook with kernel: python2
+[NbConvertApp] Writing 12947 bytes to tellurium_export.rst
+[NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/tellurium_interconversion.ipynb to rst
+[NbConvertApp] Executing notebook with kernel: python2
+[NbConvertApp] Writing 601 bytes to tellurium_interconversion.rst
+[NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/tellurium_model_loading.ipynb to rst
+[NbConvertApp] Executing notebook with kernel: python2
+[NbConvertApp] Support files will be in tellurium_model_loading_files/
+[NbConvertApp] Making directory tellurium_model_loading_files
+[NbConvertApp] Making directory tellurium_model_loading_files
+[NbConvertApp] Writing 1412 bytes to tellurium_model_loading.rst
+[NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/tellurium_plotting.ipynb to rst
+[NbConvertApp] Executing notebook with kernel: python2
+[NbConvertApp] Support files will be in tellurium_plotting_files/
+[NbConvertApp] Making directory tellurium_plotting_files
+[NbConvertApp] Making directory tellurium_plotting_files
+[NbConvertApp] Making directory tellurium_plotting_files
+[NbConvertApp] Making directory tellurium_plotting_files
+[NbConvertApp] Making directory tellurium_plotting_files
+[NbConvertApp] Writing 3524 bytes to tellurium_plotting.rst
+[NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/tellurium_reset.ipynb to rst
+[NbConvertApp] Executing notebook with kernel: python2
+[NbConvertApp] Support files will be in tellurium_reset_files/
+[NbConvertApp] Making directory tellurium_reset_files
+[NbConvertApp] Making directory tellurium_reset_files
+[NbConvertApp] Making directory tellurium_reset_files
+[NbConvertApp] Making directory tellurium_reset_files
+[NbConvertApp] Writing 1578 bytes to tellurium_reset.rst
+[NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/tellurium_stochastic.ipynb to rst
+[NbConvertApp] Executing notebook with kernel: python2
+[NbConvertApp] Support files will be in tellurium_stochastic_files/
+[NbConvertApp] Making directory tellurium_stochastic_files
+[NbConvertApp] Making directory tellurium_stochastic_files
+[NbConvertApp] Making directory tellurium_stochastic_files
+[NbConvertApp] Writing 1608 bytes to tellurium_stochastic.rst
+[NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/tellurium_test.ipynb to rst
+[NbConvertApp] Executing notebook with kernel: python2
+[NbConvertApp] Writing 1899 bytes to tellurium_test.rst
+[NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/tellurium_utility.ipynb to rst
+[NbConvertApp] Executing notebook with kernel: python2
+[NbConvertApp] Support files will be in tellurium_utility_files/
+[NbConvertApp] Making directory tellurium_utility_files
+[NbConvertApp] Writing 7391 bytes to tellurium_utility.rst
+[NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/template.ipynb to rst
+[NbConvertApp] Executing notebook with kernel: python2
+[NbConvertApp] Writing 260 bytes to template.rst
+[NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/tesedmlExample.ipynb to rst
+[NbConvertApp] Executing notebook with kernel: python2
+[NbConvertApp] Writing 4616 bytes to tesedmlExample.rst
+[NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/widgets/widgets_lorenz.ipynb to rst
+[NbConvertApp] Executing notebook with kernel: python2
+[NbConvertApp] Support files will be in widgets_lorenz_files/
+[NbConvertApp] Making directory widgets_lorenz_files
+[NbConvertApp] Making directory widgets_lorenz_files
+[NbConvertApp] Making directory widgets_lorenz_files
+[NbConvertApp] Making directory widgets_lorenz_files
+[NbConvertApp] Writing 22660 bytes to widgets_lorenz.rst
+[NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/widgets/widgets_ontology_search.ipynb to rst
+[NbConvertApp] Executing notebook with kernel: python2
+[NbConvertApp] Writing 509 bytes to widgets_ontology_search.rst
+[NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/widgets/widgets_parameter_slider.ipynb to rst
+[NbConvertApp] Executing notebook with kernel: python2
+[NbConvertApp] Support files will be in widgets_parameter_slider_files/
+[NbConvertApp] Making directory widgets_parameter_slider_files
+[NbConvertApp] Writing 766 bytes to widgets_parameter_slider.rst
+[NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/widgets/widgets_species_search.ipynb to rst
+[NbConvertApp] Executing notebook with kernel: python2
+[NbConvertApp] Writing 544 bytes to widgets_species_search.rst
+DONE
+--------------------------------------
+postprocessing rst
+--------------------------------------
+DONE
+--------------------------------------
+create python code
+--------------------------------------
+[NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/antimonyExample.ipynb to python
+[NbConvertApp] Executing notebook with kernel: python2
+[NbConvertApp] Writing 955 bytes to antimonyExample.py
+[NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/combineExample.ipynb to python
+[NbConvertApp] Executing notebook with kernel: python2
+[NbConvertApp] Writing 1967 bytes to combineExample.py
+[NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/computeSteadyState.ipynb to python
+[NbConvertApp] Executing notebook with kernel: python2
+[NbConvertApp] Writing 824 bytes to computeSteadyState.py
+[NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/introduction.ipynb to python
+[NbConvertApp] Executing notebook with kernel: python2
+[NbConvertApp] Writing 1360 bytes to introduction.py
+[NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/model_consecutiveUniUniReactions.ipynb to python
+[NbConvertApp] Executing notebook with kernel: python2
+[NbConvertApp] Writing 620 bytes to model_consecutiveUniUniReactions.py
+[NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/model_feedback_oscillations.ipynb to python
+[NbConvertApp] Executing notebook with kernel: python2
+[NbConvertApp] Writing 911 bytes to model_feedback_oscillations.py
+[NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/model_generatingDifferentWaveforms.ipynb to python
+[NbConvertApp] Executing notebook with kernel: python2
+[NbConvertApp] Writing 1609 bytes to model_generatingDifferentWaveforms.py
+[NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/model_modelFromBioModels.ipynb to python
+[NbConvertApp] Executing notebook with kernel: python2
+[NbConvertApp] Writing 465 bytes to model_modelFromBioModels.py
+[NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/model_nonUnitStoichiometries.ipynb to python
+[NbConvertApp] Executing notebook with kernel: python2
+[NbConvertApp] Writing 461 bytes to model_nonUnitStoichiometries.py
+[NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/model_normalizedSpecies.ipynb to python
+[NbConvertApp] Executing notebook with kernel: python2
+[NbConvertApp] Writing 2406 bytes to model_normalizedSpecies.py
+[NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/parameter_scan.ipynb to python
+[NbConvertApp] Executing notebook with kernel: python2
+[NbConvertApp] Writing 1277 bytes to parameter_scan.py
+[NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/phrasedmlExample.ipynb to python
+[NbConvertApp] Executing notebook with kernel: python2
+[NbConvertApp] Writing 13659 bytes to phrasedmlExample.py
+[NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/plot2DParameterScan.ipynb to python
+[NbConvertApp] Executing notebook with kernel: python2
+[NbConvertApp] Writing 575 bytes to plot2DParameterScan.py
+[NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/roadrunnerBasics.ipynb to python
+[NbConvertApp] Executing notebook with kernel: python2
+[NbConvertApp] Writing 2244 bytes to roadrunnerBasics.py
+[NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/steadystate_scan.ipynb to python
+[NbConvertApp] Executing notebook with kernel: python2
+[NbConvertApp] Writing 839 bytes to steadystate_scan.py
+[NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/tellurium_examples.ipynb to python
+[NbConvertApp] Executing notebook with kernel: python2
+[NbConvertApp] Writing 10186 bytes to tellurium_examples.py
+[NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/tellurium_export.ipynb to python
+[NbConvertApp] Executing notebook with kernel: python2
+[NbConvertApp] Writing 2777 bytes to tellurium_export.py
+[NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/tellurium_interconversion.ipynb to python
+[NbConvertApp] Executing notebook with kernel: python2
+[NbConvertApp] Writing 545 bytes to tellurium_interconversion.py
+[NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/tellurium_model_loading.ipynb to python
+[NbConvertApp] Executing notebook with kernel: python2
+[NbConvertApp] Writing 1070 bytes to tellurium_model_loading.py
+[NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/tellurium_plotting.ipynb to python
+[NbConvertApp] Executing notebook with kernel: python2
+[NbConvertApp] Writing 2741 bytes to tellurium_plotting.py
+[NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/tellurium_reset.ipynb to python
+[NbConvertApp] Executing notebook with kernel: python2
+[NbConvertApp] Writing 934 bytes to tellurium_reset.py
+[NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/tellurium_stochastic.ipynb to python
+[NbConvertApp] Executing notebook with kernel: python2
+[NbConvertApp] Writing 1244 bytes to tellurium_stochastic.py
+[NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/tellurium_test.ipynb to python
+[NbConvertApp] Executing notebook with kernel: python2
+[NbConvertApp] Writing 682 bytes to tellurium_test.py
+[NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/tellurium_utility.ipynb to python
+[NbConvertApp] Executing notebook with kernel: python2
+[NbConvertApp] Writing 1278 bytes to tellurium_utility.py
+[NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/template.ipynb to python
+[NbConvertApp] Executing notebook with kernel: python2
+[NbConvertApp] Writing 266 bytes to template.py
+[NbConvertApp] Converting notebook /home/mkoenig/git/tellurium/docs/../examples/notebooks/core/tesedmlExample.ipynb to python
+[NbConvertApp] Executing notebook with kernel: python2
+[NbConvertApp] Writing 2075 bytes to tesedmlExample.py
+DONE

@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sedML level="1" version="2" xmlns="http://sed-ml.org/sed-ml/level1/version2">
+  <listOfSimulations>
+		<uniformTimeCourse id="simulation"
+			initialTime="0"
+			outputStartTime="0"
+			outputEndTime="1500"
+			numberOfPoints="1500">
+      <algorithm kisaoID="KISAO:0000019" />
+    </uniformTimeCourse>
+		<!-- 
+		FIXME: need to reference IVOI - can't go here though...
+		-->
+  </listOfSimulations>
+  <listOfModels>
+		<model id="BR"
+			language="urn:sedml:language:cellml"
+			source="http://models.cellml.org/workspace/a1/@@rawfile/7bc23d0526e23d54d45e1fb7deda0f55d7f0f086/models/1977_beeler/experiments/periodic-stimulus.xml" />
+		<model id="BREJ"
+			language="urn:sedml:language:cellml"
+			source="http://models.cellml.org/workspace/a1/@@rawfile/7bc23d0526e23d54d45e1fb7deda0f55d7f0f086/models/1977_beeler/experiments/1980_ebihara_johnson.xml" />
+		<model id="BRDR"
+			language="urn:sedml:language:cellml"
+			source="http://models.cellml.org/workspace/a1/@@rawfile/7bc23d0526e23d54d45e1fb7deda0f55d7f0f086/models/1977_beeler/experiments/1987_drouhard_roberge.xml" />
+  </listOfModels>
+  <listOfTasks>
+    <task id="BRtask" modelReference="BR" simulationReference="simulation" />
+    <task id="BREJtask" modelReference="BREJ" simulationReference="simulation" />
+    <task id="BRDRtask" modelReference="BRDR" simulationReference="simulation" />
+  </listOfTasks>
+  <listOfDataGenerators>
+    <dataGenerator id="BRtime" name="BR time">
+      <listOfVariables>
+        <variable id="BRtime_variable" taskReference="BRtask" target="/cellml:model/cellml:component[@name='time']/cellml:variable[@name='time']" />
+      </listOfVariables>
+      <math xmlns="http://www.w3.org/1998/Math/MathML">
+        <ci> BRtime_variable </ci>
+      </math>
+    </dataGenerator>
+    <dataGenerator id="BRVm" name="BR Vm">
+      <listOfVariables>
+        <variable id="BRVm_variable" taskReference="BRtask" target="/cellml:model/cellml:component[@name='exposed_variables']/cellml:variable[@name='Vm']" />
+      </listOfVariables>
+      <math xmlns="http://www.w3.org/1998/Math/MathML">
+        <ci> BRVm_variable </ci>
+      </math>
+    </dataGenerator>
+    <dataGenerator id="BREJtime" name="BREJ time">
+      <listOfVariables>
+        <variable id="BREJtime_variable" taskReference="BREJtask" target="/cellml:model/cellml:component[@name='time']/cellml:variable[@name='time']" />
+      </listOfVariables>
+      <math xmlns="http://www.w3.org/1998/Math/MathML">
+        <ci> BREJtime_variable </ci>
+      </math>
+    </dataGenerator>
+    <dataGenerator id="BREJVm" name="BREJ Vm">
+      <listOfVariables>
+        <variable id="BREJVm_variable" taskReference="BREJtask" target="/cellml:model/cellml:component[@name='fast_sodium_current']/cellml:variable[@name='V']" />
+      </listOfVariables>
+      <math xmlns="http://www.w3.org/1998/Math/MathML">
+        <ci> BREJVm_variable </ci>
+      </math>
+    </dataGenerator>
+    <dataGenerator id="BRDRtime" name="BRDR time">
+      <listOfVariables>
+        <variable id="BRDRtime_variable" taskReference="BRDRtask" target="/cellml:model/cellml:component[@name='time']/cellml:variable[@name='time']" />
+      </listOfVariables>
+      <math xmlns="http://www.w3.org/1998/Math/MathML">
+        <ci> BRDRtime_variable </ci>
+      </math>
+    </dataGenerator>
+    <dataGenerator id="BRDRVm" name="BRDR Vm">
+      <listOfVariables>
+        <variable id="BRDRVm_variable" taskReference="BRDRtask" target="/cellml:model/cellml:component[@name='fast_sodium_current']/cellml:variable[@name='V']" />
+      </listOfVariables>
+      <math xmlns="http://www.w3.org/1998/Math/MathML">
+        <ci> BRDRVm_variable </ci>
+      </math>
+    </dataGenerator>
+  </listOfDataGenerators>
+  <listOfOutputs>
+    <plot2D id="plot1" name="Action Potentials">
+      <listOfCurves>
+        <curve id="curve_0" logX="false" logY="false" xDataReference="BRtime" yDataReference="BRVm" />
+        <curve id="curve_1" logX="false" logY="false" xDataReference="BREJtime" yDataReference="BREJVm" />
+        <curve id="curve_2" logX="false" logY="false" xDataReference="BRDRtime" yDataReference="BRDRVm" />
+      </listOfCurves>
+    </plot2D>
+  </listOfOutputs>
+</sedML>

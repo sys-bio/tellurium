@@ -1,26 +1,27 @@
+"""
+Export simulation result to latex.
+"""
+from __future__ import print_function, division
 import tellurium as te
-import tellurium.Export as ex
+import tempfile
 
-newModel = '''
+model = '''
        $Xo -> S1; k1*Xo;
        S1 -> S2; k2*S1;
-       S2 -> $X1; k3*S2;
-
-       Xo = 50; S1 = 0; S2 = 0;
+       S2 -> $X1; k3*S2; 
+       
+       Xo = 50; X1=0; S1 = 0; S2 = 0;
        k1 = 0.2; k2 = 0.4; k3 = 2;
 '''
 
-rr = te.loadAntimonyModel(newModel)
-result = rr.simulate(0, 30)
-p = ex.export(rr)
-
-p.color = ['blue', 'green']
-p.legend = ['S1', 'S2']
-p.xlabel = 'Time'
-p.ylabel = 'Concentration'
-p.exportComplete = True
-p.exportClipboard = True
-p.location = 'C:\\Users\\user\\Documents\\LaTeX docs'
-p.filename = 'newModel'
+r = te.loada(model)
+result = r.simulate(0, 30)
+p = te.LatexExport(r,
+                     color=['blue', 'green'],
+                     legend=['S1', 'S2'],
+                     xlabel='Time',
+                     ylabel='Concentration',
+                     exportComplete=True,
+                     saveto=tempfile.mkdtemp(),
+                     fileName='newModel')
 p.saveToFile(result)
-p.getString()

@@ -1,0 +1,872 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sbml xmlns="http://www.sbml.org/sbml/level2/version4" level="2" version="4">
+  <model id="BioModel1_repressor_activator_oscillations" name="BioModel1_repressor_activator_oscillations">
+    <annotation>
+      <vcell:VCellInfo xmlns:vcell="http://sourceforge.net/projects/vcell">
+        <vcell:FreeText>Minimal model of circadian clock, Vilar et al., PNAS (2002)</vcell:FreeText>
+        <vcell:VCMLSpecific>
+          <vcell:BioModel Name="BioModel1" KeyValue="87726348"/>
+          <vcell:SimulationSpec Name="repressor_activator_oscillations" KeyValue="87535773"/>
+        </vcell:VCMLSpecific>
+      </vcell:VCellInfo>
+    </annotation>
+    <listOfUnitDefinitions>
+      <unitDefinition id="substance">
+        <listOfUnits>
+          <unit kind="item" exponent="1" scale="0" multiplier="1"/>
+        </listOfUnits>
+      </unitDefinition>
+      <unitDefinition id="volume">
+        <listOfUnits>
+          <unit kind="metre" exponent="3" scale="0" multiplier="1e-006"/>
+        </listOfUnits>
+      </unitDefinition>
+      <unitDefinition id="area">
+        <listOfUnits>
+          <unit kind="metre" exponent="2" scale="0" multiplier="1e-006"/>
+        </listOfUnits>
+      </unitDefinition>
+      <unitDefinition id="length">
+        <listOfUnits>
+          <unit kind="metre" exponent="1" scale="0" multiplier="1e-006"/>
+        </listOfUnits>
+      </unitDefinition>
+      <unitDefinition id="time">
+        <listOfUnits>
+          <unit kind="second" exponent="1" scale="0" multiplier="1"/>
+        </listOfUnits>
+      </unitDefinition>
+      <unitDefinition id="molecules">
+        <listOfUnits>
+          <unit kind="item" exponent="1" scale="0" multiplier="1"/>
+        </listOfUnits>
+      </unitDefinition>
+      <unitDefinition id="s_1">
+        <listOfUnits>
+          <unit kind="second" exponent="-1" scale="0" multiplier="1"/>
+        </listOfUnits>
+      </unitDefinition>
+      <unitDefinition id="uM3">
+        <listOfUnits>
+          <unit kind="dimensionless" exponent="1" scale="0" multiplier="1e-021"/>
+          <unit kind="item" exponent="-1" scale="0" multiplier="1"/>
+          <unit kind="mole" exponent="1" scale="0" multiplier="1"/>
+        </listOfUnits>
+      </unitDefinition>
+	  <unitDefinition id="uM2">
+        <listOfUnits>
+          <unit kind="dimensionless" exponent="1" scale="0" multiplier="1e-021"/>
+          <unit kind="item" exponent="-1" scale="0" multiplier="1"/>
+          <unit kind="mole" exponent="1" scale="0" multiplier="1"/>
+        </listOfUnits>
+      </unitDefinition>
+      <unitDefinition id="uM_s_1">
+        <listOfUnits>
+          <unit kind="dimensionless" exponent="1" scale="0" multiplier="0.001"/>
+          <unit kind="metre" exponent="-3" scale="0" multiplier="1"/>
+          <unit kind="mole" exponent="1" scale="0" multiplier="1"/>
+          <unit kind="second" exponent="-1" scale="0" multiplier="1"/>
+        </listOfUnits>
+      </unitDefinition>
+      <unitDefinition id="s_1_uM_1">
+        <listOfUnits>
+          <unit kind="dimensionless" exponent="1" scale="0" multiplier="1000"/>
+          <unit kind="metre" exponent="3" scale="0" multiplier="1"/>
+          <unit kind="mole" exponent="-1" scale="0" multiplier="1"/>
+          <unit kind="second" exponent="-1" scale="0" multiplier="1"/>
+        </listOfUnits>
+      </unitDefinition>
+    </listOfUnitDefinitions>
+    <listOfCompartments>
+      <compartment id="cell" name="cell" spatialDimensions="3" size="4.18879020478639" units="uM3" outside="PM" constant="true">
+        <annotation>
+          <vcell:VCellInfo xmlns:vcell="http://sourceforge.net/projects/vcell">
+            <vcell:VCMLSpecific>
+              <vcell:OutsideCompartment Name="PM"/>
+            </vcell:VCMLSpecific>
+          </vcell:VCellInfo>
+        </annotation>
+      </compartment>
+      <compartment id="EC" name="EC" spatialDimensions="3" size="8" units="uM3" constant="true"/>
+      <compartment id="PM" name="PM" spatialDimensions="2" size="12.5663706143592" units="uM2" outside="EC" constant="true">
+        <annotation>
+          <vcell:VCellInfo xmlns:vcell="http://sourceforge.net/projects/vcell">
+            <vcell:VCMLSpecific>
+              <vcell:OutsideCompartment Name="EC"/>
+            </vcell:VCMLSpecific>
+          </vcell:VCellInfo>
+        </annotation>
+      </compartment>
+    </listOfCompartments>
+    <listOfSpecies>
+      <species id="mRNA_R" compartment="cell" initialConcentration="0" substanceUnits="molecules" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false">
+        <annotation>
+          <vcell:VCellInfo xmlns:vcell="http://sourceforge.net/projects/vcell">
+            <vcell:VCMLSpecific>
+              <vcell:Compound Name="mRNA_R"/>
+            </vcell:VCMLSpecific>
+          </vcell:VCellInfo>
+        </annotation>
+      </species>
+      <species id="A" compartment="cell" initialConcentration="0" substanceUnits="molecules" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false">
+        <annotation>
+          <vcell:VCellInfo xmlns:vcell="http://sourceforge.net/projects/vcell">
+            <vcell:VCMLSpecific>
+              <vcell:Compound Name="A"/>
+            </vcell:VCMLSpecific>
+          </vcell:VCellInfo>
+        </annotation>
+      </species>
+      <species id="R" compartment="cell" initialConcentration="0" substanceUnits="molecules" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false">
+        <annotation>
+          <vcell:VCellInfo xmlns:vcell="http://sourceforge.net/projects/vcell">
+            <vcell:VCMLSpecific>
+              <vcell:Compound Name="R"/>
+            </vcell:VCMLSpecific>
+          </vcell:VCellInfo>
+        </annotation>
+      </species>
+      <species id="PrmA" compartment="cell" substanceUnits="molecules" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false">
+        <annotation>
+          <vcell:VCellInfo xmlns:vcell="http://sourceforge.net/projects/vcell">
+            <vcell:VCMLSpecific>
+              <vcell:Compound Name="PrmA"/>
+            </vcell:VCMLSpecific>
+          </vcell:VCellInfo>
+        </annotation>
+      </species>
+      <species id="PrmR" compartment="cell" substanceUnits="molecules" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false">
+        <annotation>
+          <vcell:VCellInfo xmlns:vcell="http://sourceforge.net/projects/vcell">
+            <vcell:VCMLSpecific>
+              <vcell:Compound Name="PrmR"/>
+            </vcell:VCMLSpecific>
+          </vcell:VCellInfo>
+        </annotation>
+      </species>
+      <species id="C" compartment="cell" initialConcentration="0" substanceUnits="molecules" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false">
+        <annotation>
+          <vcell:VCellInfo xmlns:vcell="http://sourceforge.net/projects/vcell">
+            <vcell:VCMLSpecific>
+              <vcell:Compound Name="C"/>
+            </vcell:VCMLSpecific>
+          </vcell:VCellInfo>
+        </annotation>
+      </species>
+      <species id="PrmA_bound" compartment="cell" initialConcentration="0" substanceUnits="molecules" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false">
+        <annotation>
+          <vcell:VCellInfo xmlns:vcell="http://sourceforge.net/projects/vcell">
+            <vcell:VCMLSpecific>
+              <vcell:Compound Name="PrmA_bound"/>
+            </vcell:VCMLSpecific>
+          </vcell:VCellInfo>
+        </annotation>
+      </species>
+      <species id="PrmR_bound" compartment="cell" initialConcentration="0" substanceUnits="molecules" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false">
+        <annotation>
+          <vcell:VCellInfo xmlns:vcell="http://sourceforge.net/projects/vcell">
+            <vcell:VCMLSpecific>
+              <vcell:Compound Name="PrmR_bound"/>
+            </vcell:VCMLSpecific>
+          </vcell:VCellInfo>
+        </annotation>
+      </species>
+      <species id="mRNA_A_" compartment="cell" initialConcentration="0" substanceUnits="molecules" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false">
+        <annotation>
+          <vcell:VCellInfo xmlns:vcell="http://sourceforge.net/projects/vcell">
+            <vcell:VCMLSpecific>
+              <vcell:Compound Name="mRNA_A"/>
+            </vcell:VCMLSpecific>
+          </vcell:VCellInfo>
+        </annotation>
+      </species>
+    </listOfSpecies>
+    <listOfParameters>
+      <parameter id="common_delta_A" value="1" units="s_1" constant="true"/>
+      <parameter id="KMOLE1" value="0.00166112956810631" units="uM3" constant="true"/>
+      <parameter id="delta_A_C_decay" units="s_1" constant="false"/>
+      <parameter id="delta_A_A_decay" units="s_1" constant="false"/>
+      <parameter id="gamma_C_AR_binding" units="s_1_uM_1" constant="false"/>
+      <parameter id="alphaA_A_trnscr" value="50" units="s_1"/>
+      <parameter id="Kf_A_trnscr" units="s_1" constant="false"/>
+      <parameter id="alphaA_prmbound_active_A_trnscr" value="500" units="s_1"/>
+      <parameter id="Kf_active_A_trnscr" units="s_1" constant="false"/>
+      <parameter id="alphaR_R_trnsc" value="0.01" units="s_1"/>
+      <parameter id="Kf_R_trnsc" units="s_1" constant="false"/>
+      <parameter id="alphaR_prmbound_active_R_trnsc" value="50" units="s_1"/>
+      <parameter id="Kf_active_R_trnsc" units="s_1" constant="false"/>
+      <parameter id="gamma_A_PrmA_activation" units="s_1_uM_1" constant="false"/>
+      <parameter id="gamma_R_PrmR_activation" units="s_1_uM_1" constant="false"/>
+      <parameter id="betaR_R_trnsl" value="5" units="s_1"/>
+      <parameter id="Kf_R_trnsl" units="s_1" constant="false"/>
+      <parameter id="betaA_A_trnsl" value="50" units="s_1"/>
+      <parameter id="Kf_A_trnsl" units="s_1" constant="false"/>
+    </listOfParameters>
+    <listOfInitialAssignments>
+      <initialAssignment symbol="PrmA">
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <apply>
+            <times/>
+            <ci> KMOLE1 </ci>
+            <apply>
+              <divide/>
+              <cn> 1 </cn>
+              <ci> cell </ci>
+            </apply>
+          </apply>
+        </math>
+      </initialAssignment>
+      <initialAssignment symbol="PrmR">
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <apply>
+            <times/>
+            <ci> KMOLE1 </ci>
+            <apply>
+              <divide/>
+              <cn> 1 </cn>
+              <ci> cell </ci>
+            </apply>
+          </apply>
+        </math>
+      </initialAssignment>
+    </listOfInitialAssignments>
+    <listOfRules>
+      <assignmentRule variable="delta_A_C_decay">
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <ci> common_delta_A </ci>
+        </math>
+      </assignmentRule>
+      <assignmentRule variable="delta_A_A_decay">
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <ci> common_delta_A </ci>
+        </math>
+      </assignmentRule>
+      <assignmentRule variable="gamma_C_AR_binding">
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <apply>
+            <times/>
+            <cn> 2 </cn>
+            <apply>
+              <divide/>
+              <cn> 1 </cn>
+              <ci> KMOLE1 </ci>
+            </apply>
+          </apply>
+        </math>
+      </assignmentRule>
+      <assignmentRule variable="Kf_A_trnscr">
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <ci> alphaA_A_trnscr </ci>
+        </math>
+      </assignmentRule>
+      <assignmentRule variable="Kf_active_A_trnscr">
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <ci> alphaA_prmbound_active_A_trnscr </ci>
+        </math>
+      </assignmentRule>
+      <assignmentRule variable="Kf_R_trnsc">
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <ci> alphaR_R_trnsc </ci>
+        </math>
+      </assignmentRule>
+      <assignmentRule variable="Kf_active_R_trnsc">
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <ci> alphaR_prmbound_active_R_trnsc </ci>
+        </math>
+      </assignmentRule>
+      <assignmentRule variable="gamma_A_PrmA_activation">
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <apply>
+            <times/>
+            <cn> 1 </cn>
+            <apply>
+              <divide/>
+              <cn> 1 </cn>
+              <ci> KMOLE1 </ci>
+            </apply>
+          </apply>
+        </math>
+      </assignmentRule>
+      <assignmentRule variable="gamma_R_PrmR_activation">
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <apply>
+            <times/>
+            <cn> 1 </cn>
+            <apply>
+              <divide/>
+              <cn> 1 </cn>
+              <ci> KMOLE1 </ci>
+            </apply>
+          </apply>
+        </math>
+      </assignmentRule>
+      <assignmentRule variable="Kf_R_trnsl">
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <ci> betaR_R_trnsl </ci>
+        </math>
+      </assignmentRule>
+      <assignmentRule variable="Kf_A_trnsl">
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <ci> betaA_A_trnsl </ci>
+        </math>
+      </assignmentRule>
+    </listOfRules>
+    <listOfReactions>
+      <reaction id="C_decay" name="C_decay" reversible="true" fast="false">
+        <annotation>
+          <vcell:VCellInfo xmlns:vcell="http://sourceforge.net/projects/vcell">
+            <vcell:VCMLSpecific>
+              <vcell:SimpleReaction Structure="cell"/>
+              <vcell:ReactionRate Name="J"/>
+            </vcell:VCMLSpecific>
+          </vcell:VCellInfo>
+        </annotation>
+        <listOfReactants>
+          <speciesReference species="C" stoichiometry="1"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="R" stoichiometry="1"/>
+        </listOfProducts>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <times/>
+              <apply>
+                <plus/>
+                <apply>
+                  <times/>
+                  <ci> delta_A_C_decay </ci>
+                  <ci> C </ci>
+                </apply>
+                <apply>
+                  <minus/>
+                  <apply>
+                    <times/>
+                    <ci> Kr </ci>
+                    <ci> R </ci>
+                  </apply>
+                </apply>
+              </apply>
+              <ci> cell </ci>
+            </apply>
+          </math>
+          <listOfParameters>
+            <parameter id="Kr" value="0" units="s_1"/>
+          </listOfParameters>
+        </kineticLaw>
+      </reaction>
+      <reaction id="A_decay" name="A_decay" reversible="true" fast="false">
+        <annotation>
+          <vcell:VCellInfo xmlns:vcell="http://sourceforge.net/projects/vcell">
+            <vcell:VCMLSpecific>
+              <vcell:SimpleReaction Structure="cell"/>
+              <vcell:ReactionRate Name="J"/>
+            </vcell:VCMLSpecific>
+          </vcell:VCellInfo>
+        </annotation>
+        <listOfReactants>
+          <speciesReference species="A" stoichiometry="1"/>
+        </listOfReactants>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <times/>
+              <ci> delta_A_A_decay </ci>
+              <ci> A </ci>
+              <ci> cell </ci>
+            </apply>
+          </math>
+          <listOfParameters>
+            <parameter id="Kr" value="0" units="uM_s_1"/>
+          </listOfParameters>
+        </kineticLaw>
+      </reaction>
+      <reaction id="mRNA_A_decay" name="mRNA_A_decay" reversible="true" fast="false">
+        <annotation>
+          <vcell:VCellInfo xmlns:vcell="http://sourceforge.net/projects/vcell">
+            <vcell:VCMLSpecific>
+              <vcell:SimpleReaction Structure="cell"/>
+              <vcell:ReactionRate Name="J"/>
+            </vcell:VCMLSpecific>
+          </vcell:VCellInfo>
+        </annotation>
+        <listOfReactants>
+          <speciesReference species="mRNA_A_" stoichiometry="1"/>
+        </listOfReactants>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <times/>
+              <ci> delta_MA </ci>
+              <ci> mRNA_A_ </ci>
+              <ci> cell </ci>
+            </apply>
+          </math>
+          <listOfParameters>
+            <parameter id="delta_MA" value="10" units="s_1"/>
+            <parameter id="Kr" value="0" units="uM_s_1"/>
+          </listOfParameters>
+        </kineticLaw>
+      </reaction>
+      <reaction id="mRNA_R_decay" name="mRNA_R_decay" reversible="true" fast="false">
+        <annotation>
+          <vcell:VCellInfo xmlns:vcell="http://sourceforge.net/projects/vcell">
+            <vcell:VCMLSpecific>
+              <vcell:SimpleReaction Structure="cell"/>
+              <vcell:ReactionRate Name="J"/>
+            </vcell:VCMLSpecific>
+          </vcell:VCellInfo>
+        </annotation>
+        <listOfReactants>
+          <speciesReference species="mRNA_R" stoichiometry="1"/>
+        </listOfReactants>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <times/>
+              <ci> delta_MR </ci>
+              <ci> mRNA_R </ci>
+              <ci> cell </ci>
+            </apply>
+          </math>
+          <listOfParameters>
+            <parameter id="delta_MR" value="0.5" units="s_1"/>
+            <parameter id="Kr" value="0" units="uM_s_1"/>
+          </listOfParameters>
+        </kineticLaw>
+      </reaction>
+      <reaction id="AR_binding" name="AR_binding" reversible="true" fast="false">
+        <annotation>
+          <vcell:VCellInfo xmlns:vcell="http://sourceforge.net/projects/vcell">
+            <vcell:VCMLSpecific>
+              <vcell:SimpleReaction Structure="cell"/>
+              <vcell:ReactionRate Name="J"/>
+            </vcell:VCMLSpecific>
+          </vcell:VCellInfo>
+        </annotation>
+        <listOfReactants>
+          <speciesReference species="A" stoichiometry="1"/>
+          <speciesReference species="R" stoichiometry="1"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="C" stoichiometry="1"/>
+        </listOfProducts>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <times/>
+              <apply>
+                <plus/>
+                <apply>
+                  <times/>
+                  <ci> R </ci>
+                  <ci> gamma_C_AR_binding </ci>
+                  <ci> A </ci>
+                </apply>
+                <apply>
+                  <minus/>
+                  <apply>
+                    <times/>
+                    <ci> Kr </ci>
+                    <ci> C </ci>
+                  </apply>
+                </apply>
+              </apply>
+              <ci> cell </ci>
+            </apply>
+          </math>
+          <listOfParameters>
+            <parameter id="Kr" value="0" units="s_1"/>
+          </listOfParameters>
+        </kineticLaw>
+      </reaction>
+      <reaction id="R_decay" name="R_decay" reversible="true" fast="false">
+        <annotation>
+          <vcell:VCellInfo xmlns:vcell="http://sourceforge.net/projects/vcell">
+            <vcell:VCMLSpecific>
+              <vcell:SimpleReaction Structure="cell"/>
+              <vcell:ReactionRate Name="J"/>
+            </vcell:VCMLSpecific>
+          </vcell:VCellInfo>
+        </annotation>
+        <listOfReactants>
+          <speciesReference species="R" stoichiometry="1"/>
+        </listOfReactants>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <times/>
+              <ci> delta_R </ci>
+              <ci> R </ci>
+              <ci> cell </ci>
+            </apply>
+          </math>
+          <listOfParameters>
+            <parameter id="delta_R" value="0.2" units="s_1"/>
+            <parameter id="Kr" value="0" units="uM_s_1"/>
+          </listOfParameters>
+        </kineticLaw>
+      </reaction>
+      <reaction id="A_trnscr" name="A_trnscr" reversible="true" fast="false">
+        <annotation>
+          <vcell:VCellInfo xmlns:vcell="http://sourceforge.net/projects/vcell">
+            <vcell:VCMLSpecific>
+              <vcell:SimpleReaction Structure="cell"/>
+              <vcell:ReactionRate Name="J"/>
+            </vcell:VCMLSpecific>
+          </vcell:VCellInfo>
+        </annotation>
+        <listOfReactants>
+          <speciesReference species="PrmA" stoichiometry="1"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="mRNA_A_" stoichiometry="1"/>
+          <speciesReference species="PrmA" stoichiometry="1"/>
+        </listOfProducts>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <times/>
+              <apply>
+                <plus/>
+                <apply>
+                  <times/>
+                  <ci> Kf_A_trnscr </ci>
+                  <ci> PrmA </ci>
+                </apply>
+                <apply>
+                  <minus/>
+                  <apply>
+                    <times/>
+                    <ci> PrmA </ci>
+                    <ci> Kr </ci>
+                    <ci> mRNA_A_ </ci>
+                  </apply>
+                </apply>
+              </apply>
+              <ci> cell </ci>
+            </apply>
+          </math>
+          <listOfParameters>
+            <parameter id="Kr" value="0" units="s_1_uM_1"/>
+          </listOfParameters>
+        </kineticLaw>
+      </reaction>
+      <reaction id="active_A_trnscr" name="active_A_trnscr" reversible="true" fast="false">
+        <annotation>
+          <vcell:VCellInfo xmlns:vcell="http://sourceforge.net/projects/vcell">
+            <vcell:VCMLSpecific>
+              <vcell:SimpleReaction Structure="cell"/>
+              <vcell:ReactionRate Name="J"/>
+            </vcell:VCMLSpecific>
+          </vcell:VCellInfo>
+        </annotation>
+        <listOfReactants>
+          <speciesReference species="PrmA_bound" stoichiometry="1"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="mRNA_A_" stoichiometry="1"/>
+          <speciesReference species="PrmA_bound" stoichiometry="1"/>
+        </listOfProducts>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <times/>
+              <apply>
+                <plus/>
+                <apply>
+                  <times/>
+                  <ci> Kf_active_A_trnscr </ci>
+                  <ci> PrmA_bound </ci>
+                </apply>
+                <apply>
+                  <minus/>
+                  <apply>
+                    <times/>
+                    <ci> PrmA_bound </ci>
+                    <ci> Kr </ci>
+                    <ci> mRNA_A_ </ci>
+                  </apply>
+                </apply>
+              </apply>
+              <ci> cell </ci>
+            </apply>
+          </math>
+          <listOfParameters>
+            <parameter id="Kr" value="0" units="s_1_uM_1"/>
+          </listOfParameters>
+        </kineticLaw>
+      </reaction>
+      <reaction id="R_trnsc" name="R_trnsc" reversible="true" fast="false">
+        <annotation>
+          <vcell:VCellInfo xmlns:vcell="http://sourceforge.net/projects/vcell">
+            <vcell:VCMLSpecific>
+              <vcell:SimpleReaction Structure="cell"/>
+              <vcell:ReactionRate Name="J"/>
+            </vcell:VCMLSpecific>
+          </vcell:VCellInfo>
+        </annotation>
+        <listOfReactants>
+          <speciesReference species="PrmR" stoichiometry="1"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="mRNA_R" stoichiometry="1"/>
+          <speciesReference species="PrmR" stoichiometry="1"/>
+        </listOfProducts>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <times/>
+              <apply>
+                <plus/>
+                <apply>
+                  <times/>
+                  <ci> Kf_R_trnsc </ci>
+                  <ci> PrmR </ci>
+                </apply>
+                <apply>
+                  <minus/>
+                  <apply>
+                    <times/>
+                    <ci> PrmR </ci>
+                    <ci> Kr </ci>
+                    <ci> mRNA_R </ci>
+                  </apply>
+                </apply>
+              </apply>
+              <ci> cell </ci>
+            </apply>
+          </math>
+          <listOfParameters>
+            <parameter id="Kr" value="0" units="s_1_uM_1"/>
+          </listOfParameters>
+        </kineticLaw>
+      </reaction>
+      <reaction id="active_R_trnsc" name="active_R_trnsc" reversible="true" fast="false">
+        <annotation>
+          <vcell:VCellInfo xmlns:vcell="http://sourceforge.net/projects/vcell">
+            <vcell:VCMLSpecific>
+              <vcell:SimpleReaction Structure="cell"/>
+              <vcell:ReactionRate Name="J"/>
+            </vcell:VCMLSpecific>
+          </vcell:VCellInfo>
+        </annotation>
+        <listOfReactants>
+          <speciesReference species="PrmR_bound" stoichiometry="1"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="mRNA_R" stoichiometry="1"/>
+          <speciesReference species="PrmR_bound" stoichiometry="1"/>
+        </listOfProducts>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <times/>
+              <apply>
+                <plus/>
+                <apply>
+                  <times/>
+                  <ci> Kf_active_R_trnsc </ci>
+                  <ci> PrmR_bound </ci>
+                </apply>
+                <apply>
+                  <minus/>
+                  <apply>
+                    <times/>
+                    <ci> PrmR_bound </ci>
+                    <ci> Kr </ci>
+                    <ci> mRNA_R </ci>
+                  </apply>
+                </apply>
+              </apply>
+              <ci> cell </ci>
+            </apply>
+          </math>
+          <listOfParameters>
+            <parameter id="Kr" value="0" units="s_1_uM_1"/>
+          </listOfParameters>
+        </kineticLaw>
+      </reaction>
+      <reaction id="PrmA_activation" name="PrmA_activation" reversible="true" fast="false">
+        <annotation>
+          <vcell:VCellInfo xmlns:vcell="http://sourceforge.net/projects/vcell">
+            <vcell:VCMLSpecific>
+              <vcell:SimpleReaction Structure="cell"/>
+              <vcell:ReactionRate Name="J"/>
+            </vcell:VCMLSpecific>
+          </vcell:VCellInfo>
+        </annotation>
+        <listOfReactants>
+          <speciesReference species="PrmA" stoichiometry="1"/>
+          <speciesReference species="A" stoichiometry="1"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="PrmA_bound" stoichiometry="1"/>
+        </listOfProducts>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <times/>
+              <apply>
+                <plus/>
+                <apply>
+                  <times/>
+                  <ci> A </ci>
+                  <ci> gamma_A_PrmA_activation </ci>
+                  <ci> PrmA </ci>
+                </apply>
+                <apply>
+                  <minus/>
+                  <apply>
+                    <times/>
+                    <ci> theta_A </ci>
+                    <ci> PrmA_bound </ci>
+                  </apply>
+                </apply>
+              </apply>
+              <ci> cell </ci>
+            </apply>
+          </math>
+          <listOfParameters>
+            <parameter id="theta_A" value="50" units="s_1"/>
+          </listOfParameters>
+        </kineticLaw>
+      </reaction>
+      <reaction id="PrmR_activation" name="PrmR_activation" reversible="true" fast="false">
+        <annotation>
+          <vcell:VCellInfo xmlns:vcell="http://sourceforge.net/projects/vcell">
+            <vcell:VCMLSpecific>
+              <vcell:SimpleReaction Structure="cell"/>
+              <vcell:ReactionRate Name="J"/>
+            </vcell:VCMLSpecific>
+          </vcell:VCellInfo>
+        </annotation>
+        <listOfReactants>
+          <speciesReference species="PrmR" stoichiometry="1"/>
+          <speciesReference species="A" stoichiometry="1"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="PrmR_bound" stoichiometry="1"/>
+        </listOfProducts>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <times/>
+              <apply>
+                <plus/>
+                <apply>
+                  <times/>
+                  <ci> A </ci>
+                  <ci> gamma_R_PrmR_activation </ci>
+                  <ci> PrmR </ci>
+                </apply>
+                <apply>
+                  <minus/>
+                  <apply>
+                    <times/>
+                    <ci> theta_R </ci>
+                    <ci> PrmR_bound </ci>
+                  </apply>
+                </apply>
+              </apply>
+              <ci> cell </ci>
+            </apply>
+          </math>
+          <listOfParameters>
+            <parameter id="theta_R" value="100" units="s_1"/>
+          </listOfParameters>
+        </kineticLaw>
+      </reaction>
+      <reaction id="R_trnsl" name="R_trnsl" reversible="true" fast="false">
+        <annotation>
+          <vcell:VCellInfo xmlns:vcell="http://sourceforge.net/projects/vcell">
+            <vcell:VCMLSpecific>
+              <vcell:SimpleReaction Structure="cell"/>
+              <vcell:ReactionRate Name="J"/>
+            </vcell:VCMLSpecific>
+          </vcell:VCellInfo>
+        </annotation>
+        <listOfReactants>
+          <speciesReference species="mRNA_R" stoichiometry="1"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="R" stoichiometry="1"/>
+          <speciesReference species="mRNA_R" stoichiometry="1"/>
+        </listOfProducts>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <times/>
+              <apply>
+                <plus/>
+                <apply>
+                  <times/>
+                  <ci> Kf_R_trnsl </ci>
+                  <ci> mRNA_R </ci>
+                </apply>
+                <apply>
+                  <minus/>
+                  <apply>
+                    <times/>
+                    <ci> mRNA_R </ci>
+                    <ci> Kr </ci>
+                    <ci> R </ci>
+                  </apply>
+                </apply>
+              </apply>
+              <ci> cell </ci>
+            </apply>
+          </math>
+          <listOfParameters>
+            <parameter id="Kr" value="0" units="s_1_uM_1"/>
+          </listOfParameters>
+        </kineticLaw>
+      </reaction>
+      <reaction id="A_trnsl" name="A_trnsl" reversible="true" fast="false">
+        <annotation>
+          <vcell:VCellInfo xmlns:vcell="http://sourceforge.net/projects/vcell">
+            <vcell:VCMLSpecific>
+              <vcell:SimpleReaction Structure="cell"/>
+              <vcell:ReactionRate Name="J"/>
+            </vcell:VCMLSpecific>
+          </vcell:VCellInfo>
+        </annotation>
+        <listOfReactants>
+          <speciesReference species="mRNA_A_" stoichiometry="1"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="A" stoichiometry="1"/>
+          <speciesReference species="mRNA_A_" stoichiometry="1"/>
+        </listOfProducts>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <times/>
+              <apply>
+                <plus/>
+                <apply>
+                  <times/>
+                  <ci> Kf_A_trnsl </ci>
+                  <ci> mRNA_A_ </ci>
+                </apply>
+                <apply>
+                  <minus/>
+                  <apply>
+                    <times/>
+                    <ci> mRNA_A_ </ci>
+                    <ci> Kr </ci>
+                    <ci> A </ci>
+                  </apply>
+                </apply>
+              </apply>
+              <ci> cell </ci>
+            </apply>
+          </math>
+          <listOfParameters>
+            <parameter id="Kr" value="0" units="s_1_uM_1"/>
+          </listOfParameters>
+        </kineticLaw>
+      </reaction>
+    </listOfReactions>
+  </model>
+</sbml>

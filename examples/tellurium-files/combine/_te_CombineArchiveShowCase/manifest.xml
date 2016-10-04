@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<omexManifest xmlns="http://identifiers.org/combine.specifications/omex-manifest">
+  <content location="." format="http://identifiers.org/combine.specifications/omex" />
+  <content location="./manifest.xml" format="http://identifiers.org/combine.specifications/omex-manifest" />
+  <content location="./README.md" format="http://purl.org/NET/mediatypes/text/x-markdown"/>
+  <content location="./model/BIOMD0000000144.xml" format="http://identifiers.org/combine.specifications/sbml.level-2.version-1" />
+  <content location="./model/calzone_2007.ai" format="http://purl.org/NET/mediatypes/application/illustrator" />
+  <content location="./model/calzone_2007.png" format="http://purl.org/NET/mediatypes/image/png" />
+  <content location="./model/calzone_2007.svg" format="http://purl.org/NET/mediatypes/image/svg+xml" />
+  <content location="./model/calzone_thieffry_tyson_novak_2007.cellml" format="http://identifiers.org/combine.specifications/cellml" />
+  <content location="./model/sbgn/Calzone2007.gml" format="http://purl.org/NET/mediatypes/text/plain" />
+  <content location="./model/sbgn/Calzone2007.graphml" format="http://purl.org/NET/mediatypes/application/xml" />
+  <content location="./model/sbgn/Calzone2007.png" format="http://purl.org/NET/mediatypes/image/png" />
+  <content location="./model/sbgn/Calzone2007.pdf" format="http://purl.org/NET/mediatypes/application/pdf" />
+  <content location="./experiment/Calzone2007-simulation-all-figures.xml" format="http://identifiers.org/combine.specifications/sed-ml.level-1.version-1" />
+  <content location="./experiment/Calzone2007-simulation-figure-1B.xml" format="http://identifiers.org/combine.specifications/sed-ml.level-1.version-1" master="true"/>
+  <content location="./documentation/Calzone2007.pdf" format="http://purl.org/NET/mediatypes/application/pdf" />
+  <content location="./documentation/Calzone2007-supplementary-material.pdf" format="http://purl.org/NET/mediatypes/application/pdf" />
+  <content location="./result/Fig1B-top-webtools.png" format="http://purl.org/NET/mediatypes/image/png" />
+  <content location="./result/Fig1B-bottom-webtools.png" format="http://purl.org/NET/mediatypes/image/png" />
+  <content location="./result/Fig1B-top-COPASI.svg" format="http://purl.org/NET/mediatypes/image/svg+xml" />
+  <content location="./result/Fig1B-bottom-COPASI.svg" format="http://purl.org/NET/mediatypes/image/svg+xml" />
+  <content location="./metadata.rdf" format="http://identifiers.org/combine.specifications/omex-metadata" />
+</omexManifest>

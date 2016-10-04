@@ -20,6 +20,9 @@ lib64
 __pycache__
 MANIFEST
 
+# Text editors
+*.swp
+
 # Installer logs
 pip-log.txt
 
@@ -37,3 +40,20 @@ nosetests.xml
 .pydevproject
 
 .ropeproject
+
+# PyCharm
+.idea
+*~
+test/.ipynb_checkpoints/
+
+# Log files
+*.log
+
+# notebook checkpoints
+examples/notebooks/.ipynb_checkpoints/
+examples/notebooks/core/.ipynb_checkpoints/
+examples/notebooks/docstrings/.ipynb_checkpoints/
+examples/notebooks/widgets/.ipynb_checkpoints/
+
+# auto-generated html docs
+docs/_build

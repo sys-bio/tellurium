@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Written by libSedML v1.1.5591.22638 see http://libsedml.sf.net -->
+<sedML level="1" version="1" xmlns="http://sed-ml.org/">
+  <listOfSimulations>
+    <uniformTimeCourse id="sim1" initialTime="0" outputStartTime="0" outputEndTime="250" numberOfPoints="1000">
+      <algorithm kisaoID="KISAO:0000019" />
+    </uniformTimeCourse>
+  </listOfSimulations>
+  <listOfModels>
+    <model id="model1" language="urn:sedml:language:sbml" source="../model/BIOMD0000000144.xml" />
+  </listOfModels>
+  <listOfTasks>
+    <task id="task1" modelReference="model1" simulationReference="sim1" />
+  </listOfTasks>
+  <listOfDataGenerators>
+    <dataGenerator id="time" name="time">
+      <listOfVariables>
+        <variable id="var_time_0" name="time" taskReference="task1" symbol="urn:sedml:symbol:time" />
+      </listOfVariables>
+      <math xmlns="http://www.w3.org/1998/Math/MathML">
+        <ci> var_time_0 </ci>
+      </math>
+    </dataGenerator>
+    <dataGenerator id="MPFc_1" name="MPFc_1">
+      <listOfVariables>
+        <variable id="MPFc" name="MPFc" taskReference="task1" target="/sbml:sbml/sbml:model/sbml:listOfSpecies/sbml:species[@id='MPFc']" />
+      </listOfVariables>
+      <math xmlns="http://www.w3.org/1998/Math/MathML">
+        <ci> MPFc </ci>
+      </math>
+    </dataGenerator>
+    <dataGenerator id="StgPc_1" name="StgPc_1">
+      <listOfVariables>
+        <variable id="StgPc" name="StgPc" taskReference="task1" target="/sbml:sbml/sbml:model/sbml:listOfSpecies/sbml:species[@id='StgPc']" />
+      </listOfVariables>
+      <math xmlns="http://www.w3.org/1998/Math/MathML">
+        <ci> StgPc </ci>
+      </math>
+    </dataGenerator>
+    <dataGenerator id="Wee1c_1" name="Wee1c_1">
+      <listOfVariables>
+        <variable id="Wee1c" name="Wee1c" taskReference="task1" target="/sbml:sbml/sbml:model/sbml:listOfSpecies/sbml:species[@id='Wee1c']" />
+      </listOfVariables>
+      <math xmlns="http://www.w3.org/1998/Math/MathML">
+        <ci> Wee1c </ci>
+      </math>
+    </dataGenerator>
+    <dataGenerator id="MPFn_1" name="MPFn_1">
+      <listOfVariables>
+        <variable id="MPFn" name="MPFn" taskReference="task1" target="/sbml:sbml/sbml:model/sbml:listOfSpecies/sbml:species[@id='MPFn']" />
+      </listOfVariables>
+      <math xmlns="http://www.w3.org/1998/Math/MathML">
+        <ci> MPFn </ci>
+      </math>
+    </dataGenerator>
+    <dataGenerator id="Wee1n_1" name="Wee1n_1">
+      <listOfVariables>
+        <variable id="Wee1n" name="Wee1n" taskReference="task1" target="/sbml:sbml/sbml:model/sbml:listOfSpecies/sbml:species[@id='Wee1n']" />
+      </listOfVariables>
+      <math xmlns="http://www.w3.org/1998/Math/MathML">
+        <ci> Wee1n </ci>
+      </math>
+    </dataGenerator>
+    <dataGenerator id="StgPn_1" name="StgPn_1">
+      <listOfVariables>
+        <variable id="StgPn" name="StgPn" taskReference="task1" target="/sbml:sbml/sbml:model/sbml:listOfSpecies/sbml:species[@id='StgPn']" />
+      </listOfVariables>
+      <math xmlns="http://www.w3.org/1998/Math/MathML">
+        <ci> StgPn </ci>
+      </math>
+    </dataGenerator>
+    <dataGenerator id="CycBT_1" name="CycBT_1">
+      <listOfVariables>
+        <variable id="CycBT" name="CycBT" taskReference="task1" target="/sbml:sbml/sbml:model/sbml:listOfParameters/sbml:parameter[@id='CycBT']" />
+      </listOfVariables>
+      <math xmlns="http://www.w3.org/1998/Math/MathML">
+        <ci> CycBT </ci>
+      </math>
+    </dataGenerator>
+  </listOfDataGenerators>
+  <listOfOutputs>
+    <plot2D id="figure1B1" name="Upper part of Figure1B">
+      <listOfCurves>
+        <curve id="curve_0" logX="false" logY="false" xDataReference="time" yDataReference="Wee1c_1" />
+        <curve id="curve_1" logX="false" logY="false" xDataReference="time" yDataReference="MPFc_1" />
+        <curve id="curve_2" logX="false" logY="false" xDataReference="time" yDataReference="StgPc_1" />
+        <curve id="curve_3" logX="false" logY="false" xDataReference="time" yDataReference="CycBT_1" />
+      </listOfCurves>
+    </plot2D>
+    <plot2D id="figure1B2" name="Lower part of Figure1B">
+      <listOfCurves>
+        <curve id="curve_4" logX="false" logY="false" xDataReference="time" yDataReference="Wee1n_1" />
+        <curve id="curve_5" logX="false" logY="false" xDataReference="time" yDataReference="MPFn_1" />
+        <curve id="curve_6" logX="false" logY="false" xDataReference="time" yDataReference="StgPn_1" />
+      </listOfCurves>
+    </plot2D>
+  </listOfOutputs>
+</sedML>

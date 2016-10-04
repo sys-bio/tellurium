@@ -1,0 +1,30 @@
+# not installable via pip
+roadrunner
+antimony
+phrasedml
+sbml2matlab
+
+# installable via pip
+python-libsbml
+python-libsedml
+ipywidgets
+bioservices
+matplotlib
+numpy
+pygraphviz
+ipython
+jinja2
+pandas
+
+# for testing
+nose
+
+# packed with Tellurium, but not required for tellurium
+#   tePlugins
+#   pySBOL
+#   py-control ?
+#   simplesbml
+
+# the following python standard library models are used (no install necessary)
+#   os, sys, re, zipfile, time, collections, httplib,
+#   tempfile, warnings, StringIO

@@ -1,12 +1,10 @@
 # -*- coding: utf-8 -*-
 """
-Created on Tue Mar 11 14:27:13 2014
-
-@author: mgaldzic
+Consecutive UniUni reactions using first-order mass-action kinetics
 """
-
+from __future__ import print_function
 import tellurium as te
-# Consecutive UniUni reactions using first-order mass-action kinetics
+
 model = '''
   model pathway()
     S1 -> S2; k1*S1
@@ -19,6 +17,6 @@ model = '''
   end
 '''
 
-r = te.loadAntimonyModel (model)
-result = r.simulate (0, 20, 50)
+r = te.loada(model)
+result = r.simulate(0, 20, 50)
 te.plotArray(result)

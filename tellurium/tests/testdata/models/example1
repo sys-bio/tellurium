@@ -1,0 +1,7 @@
+model pathway()
+     S1 -> S2; k1*S1
+
+     # Initialize values
+     S1 = 10; S2 = 0
+     k1 = 1
+end

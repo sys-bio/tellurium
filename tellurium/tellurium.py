@@ -1,1252 +1,951 @@
-##@Module Tellurium
-
-# -*- coding: utf-8 -*-
 """
-Created on Thu Oct 10 14:34:07 2013
-Updated: April 2, 2015
-
-@author: Herbert M Sauro
-
-Support routines for tellurium
-
+The module tellurium provides support routines.
+As part of this module an ExendedRoadRunner class is defined which provides helper methods for
+model export, plotting or the Jarnac compatibility layer.
 """
+from __future__ import print_function, division
 
-# provide emergency fix self install - no longer needed
-#if __name__ == "__main__":
-#    src = __file__
-#    import tellurium as te
-#    
-#    import shutil
-#    import os.path as path
-#    base = path.split(te.__file__)[0]
-#    dst = path.join(base, "tellurium.py")
-#    backup = path.join(base, "tellurium.backup")
-#
-#    print("backing up {} to {}".format(dst, backup))
-#    print("fixing {} with new file {}".format(dst, src))
-#    
-#    shutil.copyfile(dst, backup)
-#    shutil.copyfile(src, dst)
+import os, sys
+import warnings
 
-import matplotlib.pyplot as plt
-import roadrunner
-import roadrunner.testing
 import antimony
-import tellurium
-import numpy
-import os
-import glob
+import matplotlib.pyplot as plt
 
+import roadrunner
+
+try:
+    import libsedml
+    # import libsedml before libsbml to handle
+    # https://github.com/fbergmann/libSEDML/issues/21
+except ImportError as e:
+    libsedml = None
+    roadrunner.Logger.log(roadrunner.Logger.LOG_WARNING, str(e))
+    warnings.warn("'libsedml' could not be imported", ImportWarning, stacklevel=2)
+
+try:
+    import libsbml
+    # try to deactivate the libsbml timestamp if possible
+    # see discussion https://groups.google.com/forum/?utm_medium=email&utm_source=footer#!msg/libsbml-development/Yy78LSwOHzU/9t5PcpD2AAAJ
+    # try:
+    #     libsbml.XMLOutputStream.setWriteTimestamp(False)
+    # except AttributeError:
+    #     warnings.warn("'libsbml' timestamps can not be deactivated in this libsbml version", ImportWarning, stacklevel=2)
+
+except ImportError as e:
+    libsbml = None
+    roadrunner.Logger.log(roadrunner.Logger.LOG_WARNING, str(e))
+    warnings.warn("'libsbml' could not be imported", ImportWarning, stacklevel=2)
+
+try:
+    import phrasedml
+except ImportError as e:
+    phrasedml = None
+    roadrunner.Logger.log(roadrunner.Logger.LOG_WARNING, str(e))
+    warnings.warn("'phrasedml' could not be imported", ImportWarning, stacklevel=2)
 
 try:
     from sbml2matlab import sbml2matlab
 except ImportError as e:
+    sbml2matlab = None
     roadrunner.Logger.log(roadrunner.Logger.LOG_WARNING, str(e))
+    warnings.warn("'sbml2matlab' could not be imported", ImportWarning)
 
-tehold = False # Same as matlab hold
 
-
-# For some reason we can only access the tehold variable via methods
-def setHold (myHold):
-    global tehold    
-    tehold = myHold
-    
-def getHold():
-    global tehold
-    return tehold
-    
 # ---------------------------------------------------------------------
-##\ingroup utility
-#@{
-
-##\brief Returns version information for all Telluirum supported packages
-#
-#Example: print te.getVersionInfo()
-#
-#\return Returns a string representing the version number
+# group: utility
+# ---------------------------------------------------------------------
 def getVersionInfo():
-    print "telluirum Version: ", getTelluriumVersion()
-    print "RoadRunner version:", roadrunner.getVersionStr()
-    print "Antimony version:", antimony.__version__
-    print "No information on sbnw viewer"
-    
+    """ Returns version information for tellurium included packages.
 
-##\brief Returns the version number for Tellurium
-#
-##\brief Set the seed used by the internal random number generator
-#
-#Example: print te.getTelluriumVersion()
-#
-#\return Returns a string representing the version number
-def getTelluriumVersion():
-    import os
-    f = open(os.path.dirname(tellurium.__file__) +'/VERSION.txt', 'r')
-    ver = f.read().rstrip()
-    f.close()
-    return ver
-    
-##\brief Turn off warning messages. Call this to stop roadrunner from printing warning message to the console
-#
-#Example: roadrunner.noticesOff()
-#
-def noticesOff ():
+    :returns: list of tuples (package, version)
     """
-    Switch off the generation of notices to the user
+    versions = [
+        ('tellurium', getTelluriumVersion()),
+        ('roadrunner', roadrunner.__version__),
+        ('antimony', antimony.__version__),
+        ('snbw_viewer', 'No information for sbnw viewer'),
+    ]
+    if libsbml:
+        versions.append(('libsbml', libsbml.getLibSBMLDottedVersion()))
+    if libsedml:
+        versions.append(('libsedml', libsedml.getLibSEDMLVersionString()))
+    if phrasedml:
+        versions.append(('phrasedml', phrasedml.__version__))
+    return versions
+
+
+def printVersionInfo():
+    """ Prints version information for tellurium included packages.
+
+    see also: :func:`getVersionInfo`
+    """
+    versions = getVersionInfo()
+    for v in versions:
+        print(v[0], ':', v[1])
+
+
+def getTelluriumVersion():
+    """ Version number of tellurium.
+
+    :returns: version
+    :rtype: str
+    """
+    try:
+        with open(os.path.join(os.path.dirname(__file__), '..', 'VERSION.txt'), 'r') as f:
+            version = f.read().rstrip()
+    except:
+        with open(os.path.join(os.path.dirname(__file__), 'VERSION.txt'), 'r') as f:
+            version = f.read().rstrip()
+    return version
+
+
+def noticesOff():
+    """Switch off the generation of notices to the user.
+    Call this to stop roadrunner from printing warning message to the console.
+
+    See also :func:`noticesOn`
     """
     roadrunner.Logger.setLevel(roadrunner.Logger.LOG_WARNING)
-    
-##\brief Turn on warning messages. Call this to enable roadrunner to print warning messages to the console
-#
-#Example: roadrunner.noticesOn()
-#
-def noticesOn ():
-    """
-    Switch on notice generation to the user
+
+
+def noticesOn():
+    """ Switch on notice generation to the user.
+
+    See also :func:`noticesOff`
     """
     roadrunner.Logger.setLevel(roadrunner.Logger.LOG_NOTICE)
     
-##@}  
- 
-  
-# ---------------------------------------------------------------------
-##\ingroup filefunctions
-#@{
 
-##\brief Save a string to a file
-#
-#Example: saveToFile ('c:\\myfile.txt', strVariable)
-#
-#\param[in] fileName The current time in the simulation
-#\param[in] str The step size to use in the integration
-#\return Saves a string to a file
-def saveToFile (fileName, str):
-    """Save a string to a file. Takes two arguments, 
-    the file name and the string to save:
-    
-    saveToFile ('c:\\myfile.txt', strVariable)"""
-    outFile = open(fileName, 'w')
-    outFile.write(str)
-    outFile.close()
+def saveToFile(filePath, str):
+    """ Save string to file.
 
-##\brief Reads a text file into a string
-#
-#Example: str = readFromFile ('c:\\myfile.txt')
-#
-#\param[in] fileName The current time in the simulation
-#\return Returns a string representing the contents of the text file
-def readFromFile (fileName):
-    """Load a file and return contents as a string, 
+    see also: :func:`readFromFile`
 
-    str = readFromFile ('c:\\myfile.txt')"""
- 
-    file = open(fileName, 'r')
-    return file.read()
-##@} 
-
-
-# ---------------------------------------------------------------------   
-##\ingroup loadingModels
-#@{
-
-##\brief Load an SBML model into roadRunner
-#
-#Example: rr = loadSBMLModel ('c:\\myfile.txt')
-#
-#\param[in] sbml A filename or a string containing SBML
-#\return Returns a reference to the roadrunner model
-def loadSBMLModel (sbml):
-    rr = roadrunner.RoadRunner (sbml)
-    return rr
-    
-##\brief Reads an Antimony string into roadrunner
-#
-#Example: rr = loadAntimonyModel (modelStr)
-#
-#\param[in] antStr A string containing a Antimony model
-#\return Returns a reference to the roadrunner model
-def loadAntimonyModel (antStr):
-    """Load an Antimony string:
-    
-    r = loadAntModel (antimonyStr)
+    :param filePath: file path to save to
+    :param str: string to save
     """
-    err = antimony.loadAntimonyString (antStr)
- 
-    if (err < 0):
-       raise Exception('Antimony: ' + antimony.getLastError())
-       
-    Id = antimony.getMainModuleName()
-    sbmlStr = antimony.getSBMLString(Id)
-    rr = roadrunner.RoadRunner(sbmlStr)
-    
-    antimony.clearPreviousLoads()
-    
-    return rr
+    with open(filePath, 'w') as f:
+        f.write(str)
 
-##\brief Reads an Antimony string into roadrunner, short-cut to loadAntimonyModel()
-#
-#Example: rr = loada ('S1 -> S2; k1*S1; k1 = 0.1; S2 = 10')
-#
-#\param[in] antStr A string containing a Antimony model
-#\return Returns a reference to the roadrunner model
-def loada (antStr):
-    return loadAntimonyModel (antStr)
-   
-##\brief Reads a CellML string into roadrunner
-#\return Returns a reference to the roadrunner model  
-def loadCellMLModel (cellML):
-    import os
-    """Load a cellml model into roadrunner, can
-    be a file or string
 
-    r = loadCellMLModel ('mymodel.cellml')"""
-    
-    if os.path.isfile (cellML):
-       sbmlstr = cellmlFileToSBML (cellML)
+def readFromFile(filePath):
+    """ Load a file and return contents as a string.
+
+    see also: :func:`saveToFile`
+
+    :param filePath: file path to read from
+    :returns: string representation of the contents of the file
+    """
+    with open(filePath, 'r') as f:
+        string = f.read()
+    return string
+
+
+# ---------------------------------------------------------------------
+# Loading Models Methods
+# ---------------------------------------------------------------------
+def _checkAntimonyReturnCode(code):
+    """ Helper for checking the antimony response code.
+    Raises Exception if error in antimony.
+
+    :param code: antimony response
+    :type code: int
+    """
+    if code < 0:
+        raise Exception('Antimony: {}'.format(antimony.getLastError()))
+
+
+def loada(ant):
+    """Load model from Antimony string.
+
+    See also: :func:`loadAntimonyModel`
+    ::
+        r = te.loada('S1 -> S2; k1*S1; k1 = 0.1; S2 = 10')
+
+    :param ant: Antimony model
+    :type ant: str | file
+    :returns: RoadRunner instance with model loaded
+    :rtype: roadrunner.RoadRunner
+    """
+    return loadAntimonyModel(ant)
+
+
+def loadAntimonyModel(ant):
+    """Load Antimony model with tellurium.
+
+    See also: :func:`loada`
+
+    :param ant: Antimony model
+    :type ant: str | file
+    :returns: RoadRunner instance with model loaded
+    :rtype: roadrunner.RoadRunner
+    """
+    sbml = antimonyToSBML(ant)
+    return roadrunner.RoadRunner(sbml)
+
+
+def loads(ant):
+    """Load SBML model with tellurium
+
+    See also: :func:`loadSBMLModel`
+
+    :param ant: SBML model
+    :type ant: str | file
+    :returns: RoadRunner instance with model loaded
+    :rtype: roadrunner.RoadRunner
+    """
+    return loadSBMLModel(ant)
+
+
+def loadSBMLModel(sbml):
+    """Load SBML model with tellurium
+
+    :param sbml: SBML model
+    :type sbml: str | file
+    :returns: RoadRunner instance with model loaded
+    :rtype: roadrunner.RoadRunner
+    """
+    return roadrunner.RoadRunner(sbml)
+
+
+def loadCellMLModel(cellml):
+    """ Load CellML model with tellurium.
+
+    :param cellml: CellML model
+    :type cellml: str | file
+    :returns: RoadRunner instance with model loaded
+    :rtype: roadrunner.RoadRunner
+    """
+    sbml = cellmlToSBML(cellml)
+    return roadrunner.RoadRunner(sbml)
+
+
+# ---------------------------------------------------------------------
+# Interconversion Methods
+# ---------------------------------------------------------------------
+def antimonyTosbml(ant):
+    warnings.warn("'antimonyTosbml' is deprecated. Use 'antimonyToSBML' instead. Will be removed in tellurium v1.4",
+                  DeprecationWarning, stacklevel=2)
+    return antimonyToSBML(ant)
+
+
+def antimonyToSBML(ant):
+    """ Convert Antimony to SBML string.
+
+    :param ant: Antimony string or file
+    :type ant: str | file
+    :return: SBML
+    :rtype: str
+    """
+    if os.path.isfile(ant):
+        code = antimony.loadAntimonyFile(ant)
     else:
-       sbmlstr = cellmlStrToSBML (cellML)
-    rr = roadrunner.RoadRunner (sbmlstr)
-    return rr
-##@}    
- 
-# ---------------------------------------------------------------------
-##\ingroup interconversion
-#@{
+        code = antimony.loadAntimonyString(ant)
+    _checkAntimonyReturnCode(code)
+    mid = antimony.getMainModuleName()
+    return antimony.getSBMLString(mid)
 
-##\brief Converts an Antimony model into SBML
-#\return Returns the SBML model as a string
-def antimonyTosbml (antStr):
-    """Convert an antimony string into SBML:
 
-    sbmlStr = antimonyTosbml (antimonyStr)
+def antimonyToCellML(ant):
+    """ Convert Antimony to CellML string.
+
+    :param ant: Antimony string or file
+    :type ant: str | file
+    :return: CellML
+    :rtype: str
     """
-    err = antimony.loadAntimonyString (antStr)
+    if os.path.isfile(ant):
+        code = antimony.loadAntimonyFile(ant)
+    else:
+        code = antimony.loadAntimonyString(ant)
+    _checkAntimonyReturnCode(code)
+    mid = antimony.getMainModuleName()
+    return antimony.getCellMLString(mid)
 
-    if (err < 0):
-       raise Exception('Antimony: ' + antimony.getLastError())
 
-    Id = antimony.getMainModuleName()
-    return antimony.getSBMLString(Id)    
- 
-##\brief Converts a SBML model to Antimony
-#\return Returns the Antimony model as a string
-def sbmlToAntimony (str):
-    """Convert a SBML string into Antimony:
+def sbmlToAntimony(sbml):
+    """ Convert SBML to antimony string.
 
-    sbmlStr = sbmlToAntimony (antimonyStr)
+    :param sbml: SBML string or file
+    :type sbml: str | file
+    :return: Antimony
+    :rtype: str
     """
-    err = antimony.loadSBMLString (str)
-
-    if (err < 0):
-       raise Exception('Antimony: ' + antimony.getLastError())
-
+    if os.path.isfile(sbml):
+        code = antimony.loadSBMLFile(sbml)
+    else:
+        code = antimony.loadSBMLString(sbml)
+    _checkAntimonyReturnCode(code)
     return antimony.getAntimonyString(None)
-      
-def cellmlFileToAntimony (CellMLFileName):
-    """Load a cellml file and return the
-    equivalent antimony string:
-    
-    ant = cellMLToAntimony('mymodel.cellml')
-    """
-    if antimony.loadCellMLFile(CellMLFileName) == -1:
-       raise Exception ('Error calling loadCellMLFile')
-    antimony.loadCellMLFile(CellMLFileName)
-    return antimony.getAntimonyString (None)
- 
-    
-def cellmlFileToSBML (CellMLFileName):
-    """Load a cellml file and return the
-    equivalent SBML string:
-    
-    sbmlStr = cellMLToSBML('mymodel.cellml')
-    """
-    
-    if antimony.loadCellMLFile(CellMLFileName) < 0:
-       raise Exception ('Error calling loadCellMLFile'+ antimony.getLastError())
-    return antimony.getSBMLString (None)
 
 
-def cellmlStrToAntimony (CellMLStr):
-    """Convert a cellml string into the
-    equivalent antimony string:
-    
-    ant = cellMLStrToAntimony('mymodel.cellml')
+def sbmlToCellML(sbml):
+    """ Convert SBML to CellML string.
+
+    :param sbml: SBML string or file
+    :type sbml: str | file
+    :return: CellML
+    :rtype: str
     """
-    if antimony.loadCellMLFile(CellMLStr) < 0:
-       raise Exception ('Error calling cellMLStrToAntimony' + antimony.getLastError())
-    return antimony.getAntimonyString (None)
-    
-    
-def cellmlStrToSBML (CellMLStr):
-    """Convert a cellml string into the
-    equivalent SBML string:
-    
-    sbmlStr = cellMLStrToSBML('mymodel.cellml')
+    if os.path.isfile(sbml):
+        code = antimony.loadSBMLFile(sbml)
+    else:
+        code = antimony.loadSBMLString(sbml)
+    _checkAntimonyReturnCode(code)
+    return antimony.getCellMLString(None)
+
+
+def cellmlToAntimony(cellml):
+    """ Convert CellML to antimony string.
+
+    :param cellml: CellML string or file
+    :type cellml: str | file
+    :return: antimony
+    :rtype: str
     """
-    if antimony.loadCellMLFile(CellMLStr) < 0:
-       raise Exception ('Error calling cellMLStrToSBML' + antimony.getLastError())
-    return antimony.getSBMLString (None)
-##@}     
+    if os.path.isfile(cellml):
+        code = antimony.loadCellMLFile(cellml)
+    else:
+        code = antimony.loadCellMLString(cellml)
+    _checkAntimonyReturnCode(code)
+    return antimony.getAntimonyString(None)
+
+
+def cellmlToSBML(cellml):
+    """ Convert CellML to SBML string.
+
+    :param cellml: CellML string or file
+    :type cellml: str | file
+    :return: SBML
+    :rtype: str
+    """
+    if os.path.isfile(cellml):
+        code = antimony.loadCellMLFile(cellml)
+    else:
+        code = antimony.loadCellMLString(cellml)
+    _checkAntimonyReturnCode(code)
+    return antimony.getSBMLString(None)
 
 # ---------------------------------------------------------------------
-##\ingroup math
-#@{
- 
-##\brief Compute the eigenvalues for numpy array
-#
-#Example: mat = rr.getEigenvalues(matrix)
-#
-#\param[in] m numpy array
-#\return Returns a numpy array containing the eigenvalues
-def getEigenvalues (m):
+# Math Utilities
+# ---------------------------------------------------------------------
+def getEigenvalues(m):
+    """ Eigenvalues of matrix.
+
+    Convenience method for computing the eigenvalues of a matrix m
+    Uses numpy eig to compute the eigenvalues.
+
+    :param m: numpy array
+    :returns: numpy array containing eigenvalues
     """
-    Convenience method for computing the eigenvalues for a matrix, m
-    Uses numpy eig to compute the eigenvalues
-    """
-    from numpy import linalg as LA
-    w,v = LA.eig (m)
+    from numpy import linalg
+    w, v = linalg.eig(m)
     return w
-##@} 
 
-    
-# ---------------------------------------------------------------------
-##\ingroup stochastic
-#@{
-
-##\brief Return the current seed used by the internal random number generator
-#
-#Example: myseed = rr.getSeed()
-#
-#\return The seed value
-def getSeed (r):
-    """
-    Return the current seed used by the random generator
-    """
-    intg = r.getIntegrator("gillespie")
-    if intg is None:
-        raise ValueError("model is not loaded")
-    return intg['seed']
-        
-##\brief Set the seed used by the internal random number generator
-#
-#Example: rr.setSeed(12345)
-#
-def setSeed (r, seed):
-    """
-    Set the seed for the random number generator (used by gillespie for example)
-    """
-    intg = r.getIntegrator('gillespie')
-    if intg is None:
-        raise ValueError("model is not loaded")
-
-    # there are some issues converting big Python (greater than 4,294,967,295) integers 
-    # to C integers on 64 bit machines. If its converted to float before, works around the issue. 
-    intg['seed'] = float(seed)
-
-##\brief Run a Gillespie simulation
-#
-#Example: result = rr.gillespie (0, 100)
-#
-def gillespie (r, *args, **kwargs):
-    """
-    Run a Gillespie stochastic simulation.  
-    
-    Examples:
-    
-    rr = te.loada ('S1 -> S2; k1*S1; k1 = 0.1; S1 = 40')
-    
-    # Simulate from time zero to 40 time units
-    result = rr.gillespie (0, 40)
-    
-    # Simulate on a grid with 10 points from start 0 to end time 40
-    result = rr.gillespie (0, 40, 10)
-         
-    # Simulate from time zero to 40 time units using the given selection list
-    # This means that the first column will be time and the second column species S1
-    result = rr.gillespie (0, 40, ['time', 'S1'])
-    
-    # Simulate from time zero to 40 time units, on a grid with 20 points
-    # using the give selection list
-    result = rr.gillespie (0, 40, 20, ['time', 'S1'])  
-    """
-    
-    if r.integrator is None:
-        raise ValueError("model is not loaded")
-    
-    prev = r.integrator.name
-
-    if kwargs is not None:
-        kwargs['integrator'] = 'gillespie'
-    else:
-        kwargs = {'integrator' : 'gillespie'}
-
-    result = r.simulate(*args, **kwargs)
-
-    r.setIntegrator(prev)
-
-    return result
-##@} 
-
-def RoadRunner(args):
-    return roadrunner.RoadRunner(args)
 
 # ---------------------------------------------------------------------
-##\ingroup plotting
-#@{
+# Plotting Utilities
+# ---------------------------------------------------------------------
+def plotArray(result, loc='upper right', show=True, resetColorCycle=True,
+             xlabel=None, ylabel=None, title=None, xlim=None, ylim=None,
+             xscale='linear', yscale="linear", grid=False, labels=None, **kwargs):
+    """ Plot an array.
 
-#\cond
-def plotWithLegend (r, result=None, loc='upper left', show=True):
+    The first column of the array will be the x-axis and remaining columns the y-axis. Returns
+    a handle to the plotting object. Note that you can add
+    plotting options as named key values after the array.
+    For example to add a legend, include the label key value:
+    te.plotArray (m, label='A label') then use pylab.legend()
+    to make sure the legend is shown.
+
+    Use show=False to add multiple curves.
+    ::
+
+        import numpy as np
+        result = np.array([[1,2,3], [7.2,6.5,8.8], [9.8, 6.5, 4.3]])
+        te.plotArray(result)
     """
-    Plot an array and include a legend. The first argument must be a roadrunner variable. 
-    The second argument must be an array containing data to plot. The first column of the array will
-    be the x-axis and remaining columns the y-axis. Returns
-    a handle to the plotting object.
-    
-    plotWithLegend (r)
-    """
-    import matplotlib.pyplot as p
-    
-    if not isinstance (r, roadrunner.RoadRunner):
-        raise Exception ('First argument must be a roadrunner variable')
+    # FIXME: unify r.plot & te.plot (lots of code duplication)
+    # reset color cycle (columns in repeated simulations have same color)
+    if resetColorCycle:
+        plt.gca().set_prop_cycle(None)
 
-    if result is None:
-        result = r.getSimulationData()
+    if 'linewidth' not in kwargs:
+            kwargs['linewidth'] = 2.0
 
-    if result is None:
-        raise Exception("no simulation result")
+    # get the labeles
+    Ncol = result.shape[1]
+    if labels is None:
+        labels = result.dtype.names
 
-    if result.dtype.names is None:
-       columns = result.shape[1]
-       legendItems = r.selections[1:]       
-       if columns-1 != len (legendItems):
-           raise Exception ('Legend list must match result array')
-       for i in range(columns-1):
-           plt.plot (result[:,0], result[:,i+1], linewidth=2.5, label=legendItems[i])           
-    else:
-        # result is structured array
-        if len(result.dtype.names) < 1:
-            raise Exception('no columns to plot')
+    for k in range(1, Ncol):
+        if loc is None or labels is None:
+            # no legend or labels
+            p = plt.plot(result[:, 0], result[:, k], **kwargs)
+        else:
+            p = plt.plot(result[:, 0], result[:, k], label=labels[k-1], **kwargs)
 
-        time = result.dtype.names[0]
+    # labels
+    if xlabel is not None:
+        plt.xlabel(xlabel)
+    if ylabel is not None:
+        plt.ylabel(ylabel)
+    if title is not None:
+        plt.title(title)
+    if xlim is not None:
+        plt.xlim(xlim)
+    if ylim is not None:
+        plt.ylim(ylim)
+    # axis and grids
+    plt.xscale(xscale)
+    plt.yscale(yscale)
+    plt.grid(grid)
 
-        for name in result.dtype.names[1:]:
-            p.plot(result[time], result[name], label=name)
-
-    plt.legend (loc=loc)
-
+    # show legend
+    if loc is not None and labels is not None:
+        plt.legend(loc=loc)
+    # show plot
     if show:
         plt.show()
-    return plt
-
-
-#\endcond
- 
-#\cond  
-def simulateAndPlot (rr, startTime=0, endTime=5, numberOfPoints=500):
-    """
-    Carry out a simulation and plot the results. Returns the result to the caller 
-    
-    Example:
-    
-    simulateAndPlot (rr)
-    
-    simulateAndPlot (rr, 0, 10, 100)
-    """
-    result = rr.simulate (startTime, endTime, numberOfPoints)
-    tellurium.plotWithLegend (rr, result)   
-    return result
-#\endcond
- 
-   
-##\brief Plot a numpy array where the first column is considered the x axis and all remaining columns the y axis.
-#
-#Example: te.plotArray (result)
-#\param[in] result Numpy Array
-#\return Returns the plot object
-def plotArray (result):
-    """
-    Plot an array. The first column of the array will
-    be the x-axis and remaining columns the y-axis. Returns
-    a handle to the plotting object.
-    
-    result = numpy.array([[1,2,3],[7.2,6.5,8.8], [9.8, 6.5, 4.3]])
-    plotArray (result)
-    """
-    global tehold 
-    p = plt.plot (result[:,0],result[:,1:], linewidth=2.5)
-    if tehold == False:    
-       plt.show()
     return p
 
-    
-##\brief Plot results from a simulation carried out by the simulate or gillespie functions. This is a roadrunner method.
-#
-# Plot data generated by a simulation:
-#
-#Example: rr.plot (result)
-#
-# Data is a numpy array where the first column is considered the x axis and all remaining columns the y axis.
-#
-# Plot data currently held by roadrunner that was generated in the last simulation.
-#
-#Example : rr.plot()
-#
-#\param[in] result Data returned from a simulate or gillespie call
-#\return Returns the plot object
-def plot (self, result=None, loc='upper left', show=True):
-    if result is None:
-	   # Call Andy version if no results passed to call
-      return self.plotAS()
-    else:
-      return plotWithLegend(self, result, loc)
-##@} 
- 
-# ---------------------------------------------------------------------
-##\ingroup export
-#@{
+def plotWithLegend(r, result=None, loc='upper left', show=True, **kwargs):
+    warnings.warn("'plotWithLegend' is deprecated. Use 'r.plot' instead. Will be removed in tellurium v1.4",
+                  DeprecationWarning, stacklevel=2)
+    return r.plot(result=result, loc=loc, show=show, **kwargs)
 
-##\brief Returns a Matlab function that represents the current model
-#
-#Example: print rr.getMatlab()
-#\return Returns a string representing the Matlab code
-def getMatlab (self):
-    """
-    Returns Matlab string for current model
-    """
-    return sbml2matlab(self.getCurrentSBML())
-  
-##\brief Convenience method for exporting the current model as a Matlab function to a file
-#
-#Example: rr.exportToMatlab ('c:\\mymodel.m')
-def exportToMatlab (self, fileName):
-    """
-    Save the current model as a Matlab file to the give file name
-    
-    eg
-    rr.exportToMatlab ('mymodel.m')
-    """
-    saveToFile (fileName, self.getMatlab())
-    
-##\brief Returns the Antimony script for the current model
-#
-#Example: print rr.getAntimony()
-#\return Returns a string containing the Antimony script
-def getAntimony (self):
-    """
-    Returns Antimony script as a string for the current model
-    """
-    return sbmlToAntimony (self.getCurrentSBML())
-##@} 
 
 # ---------------------------------------------------------------------
-##\ingroup testmodels
-#@{
+# Test Models
+# ---------------------------------------------------------------------
+def loadTestModel(string):
+    """Loads particular test model into roadrunner.
+    ::
 
-##\brief Loads a particular test model into roadrunner
-#
-#Example: rr = roadrunner.loadTestModel ('feedback.xml') 
-# 
-#\return Returns a reference to roadrunner
-def loadTestModel (str):
-    """
-    Loads the test model into roadrunner
-    """
-    return roadrunner.testing.getRoadRunner(str)
+        rr = te.loadTestModel('feedback.xml')
 
-##\brief Returns the SBML for a particular test model
-#
-#Example: sbmlStr = roadrunner.getTestModel ('feedback.xml') 
-# 
-#\return Returns a string containing the test model in SBML format
-def getTestModel (str):
+    :returns: RoadRunner instance with test model loaded
     """
-    Returns the model as a string from the test directory
+    import roadrunner.testing
+    return roadrunner.testing.getRoadRunner(string)
+
+
+def getTestModel(string):
+    """SBML of given test model as a string.
+    ::
+
+        # load test model as SBML
+        sbml = te.getTestModel('feedback.xml')
+        r = te.loadSBMLModel(sbml)
+        # simulate
+        r.simulate(0, 100, 20)
+
+    :returns: SBML string of test model
     """
-    return roadrunner.testing.getData (str)
-    
-##\brief Returns the list of possible test models
-#
-#Example: print roadrunner.listTestModels() 
-# 
-#\return Returns the list of available test model names
+    import roadrunner.testing
+    return roadrunner.testing.getData(string)
+
+
 def listTestModels():
+    """ List roadrunner SBML test models.
+    ::
+
+        print(te.listTestModels())
+
+    :returns: list of test model paths
+    """
+    import roadrunner.testing
     modelList = []
-    fileList = roadrunner.testing.dir ('*.xml')
+    fileList = roadrunner.testing.dir('*.xml')
     for pathName in fileList:
-        modelList.append (os.path.basename (pathName))
+        modelList.append(os.path.basename(pathName))
     return modelList
-##@} 	
-	
+
+
 # ---------------------------------------------------------------------
-##\ingroup resetmethods
-#@{
-
-##\brief Reset the model back to the state it was when it was first loaded
-#
-#Example: rr.resetToOrigin ()
-def resetToOrigin(self):
-    """ This resets the model back to the state is was when it 
-    was FIRST loaded, this includes all init() and parameters such as k1 etc.
-    """
-    self.reset(roadrunner.SelectionRecord.ALL)
-
-
-##\brief Reset all the state variables to the current initial condition values and the global parameters back to when the model was first loaded.
-#
-#Example: rr.resetAll ()
-def resetAll (self):    
-    """
-    This resets all variables, S1, S2 etc to the CURRENT init(X) values. It also resets all
-    parameter back to the values they had when the model was first loaded 
-    """
-    self.reset(roadrunner.SelectionRecord.TIME | roadrunner.SelectionRecord.RATE | \
-               roadrunner.SelectionRecord.FLOATING | roadrunner.SelectionRecord.GLOBAL_PARAMETER)
-##@} 
-
-# --------------------------------------------------------------------- 
-# Routines to support the Jarnac compatibility layer
+# Extended RoadRunner class
 # ---------------------------------------------------------------------
-##\ingroup jarnac
-#@{
+class ExtendedRoadRunner(roadrunner.RoadRunner):
 
-##\brief Get the stoichiometry matrix for the current model
-#
-# Can be further shortened to rr.sm()
-#
-#Example: mat = rr.getSm()
-def getSm (self):
-    """
-    Returns the full reordered stoichiometry matrix.
+    def __init__(self, *args, **kwargs):
+        super(ExtendedRoadRunner, self).__init__(*args, **kwargs)
 
-    Short-cut sm, eg
-    
-    print rr.sm()
-    """
-    return self.getFullStoichiometryMatrix()
- 
-##\brief Get the names for the reactions in the current model
-#
-# Can be further shortened to rr.rs()
-#
-#Example: reactionNames = rr.getRs()  
-def getRs (self):
-    """
-    Returns the list of reaction Identifiers
+    # ---------------------------------------------------------------------
+    # Model access
+    # ---------------------------------------------------------------------
+    # def getBoundarySpeciesConcentrations(self):
+    #     return self.model.getBoundarySpeciesConcentrations()
+    # getBoundarySpeciesConcentrations.__doc__ = roadrunner.ExecutableModel.getBoundarySpeciesConcentrations.__doc__
 
-    Short-cut rs, eg
-    
-    print rr.rs()
-    """
-    return self.model.getReactionIds()
-    
-##\brief Get the names for the floating species in the current model
-#
-# Can be further shortened to rr.fs()
-#
-#Example: floatingSpeciesNames = rr.getFs()  
-def getFs (self):
-    """  
-    Returns the list of floating species identifiers
+    # These model functions are attached after class creation
+    _model_functions = [
+        'getBoundarySpeciesConcentrations',
+        'getBoundarySpeciesConcentrations',
+        'getBoundarySpeciesIds',
+        'getNumBoundarySpecies',
 
-    Short-cut fs, eg
-    
-    print rr.fs()
-    """
-    return self.model.getFloatingSpeciesIds()
+        'getFloatingSpeciesConcentrations',
+        'getFloatingSpeciesIds',
+        'getNumFloatingSpecies',
 
-##\brief Get the names for the boundary species in the current model
-#
-# Can be further shortened to rr.bs()
-#
-#Example: boundarySpeciesNames = rr.getBs()  
-def getBs (self):
-    """  
-    Returns the list of boundary species identifiers
+        'getGlobalParameterIds',
+        'getGlobalParameterValues',
+        'getNumGlobalParameters',
 
-    Short-cut bs, eg
-    
-    print rr.bs()
-    """
-    return self.model.getBoundarySpeciesIds()
+        'getCompartmentIds',
+        'getCompartmentVolumes',
+        'getNumCompartments',
+
+        'getConservedMoietyValues',
+        'getNumConservedMoieties',
+        'getNumDepFloatingSpecies',
+        'getNumIndFloatingSpecies',
+
+        'getReactionIds',
+        'getReactionRates',
+        'getNumReactions',
+        'getNumEvents',
+        'getNumRateRules'
+     ]
+
+    # ---------------------------------------------------------------------
+    # Jarnac compatibility layer
+    # ---------------------------------------------------------------------
+    def fjac(self):
+        return self.getFullJacobian()
+    fjac.__doc__ = roadrunner.RoadRunner.getFullJacobian.__doc__
+
+    def sm(self):
+        return self.getFullStoichiometryMatrix()
+    sm.__doc__ = roadrunner.RoadRunner.getFullStoichiometryMatrix.__doc__
+
+    def rs(self):
+        return self.model.getReactionIds()
+    rs.__doc__ = roadrunner.ExecutableModel.getReactionIds.__doc__
+
+    def fs(self):
+        return self.model.getFloatingSpeciesIds()
+    fs.__doc__ = roadrunner.ExecutableModel.getFloatingSpeciesIds.__doc__
+
+    def bs(self):
+        return self.model.getBoundarySpeciesIds()
+    bs.__doc__ = roadrunner.ExecutableModel.getBoundarySpeciesIds.__doc__
+
+    def ps(self):
+        return self.model.getGlobalParameterIds()
+    ps.__doc__ = roadrunner.ExecutableModel.getGlobalParameterIds.__doc__
+
+    def vs(self):
+        return self.model.getCompartmentIds()
+    vs.__doc__ = roadrunner.ExecutableModel.getCompartmentIds.__doc__
+
+    def dv(self):
+        return self.model.getStateVectorRate()
+    dv.__doc__ = roadrunner.ExecutableModel.getStateVector.__doc__
+
+    def rv(self):
+        return self.model.getReactionRates()
+    rv.__doc__ = roadrunner.ExecutableModel.getReactionRates.__doc__
+
+    def sv(self):
+        return self.model.getFloatingSpeciesConcentrations()
+    sv.__doc__ = roadrunner.ExecutableModel.getFloatingSpeciesConcentrations.__doc__
+
+    # ---------------------------------------------------------------------
+    # Export Utilities
+    # ---------------------------------------------------------------------
+    def __getSBML(self, current):
+        if current is True:
+            return self.getCurrentSBML()
+        else:
+            return self.getSBML()
+
+    def getAntimony(self, current=False):
+        """ Antimony string of the original model loaded into roadrunner.
+
+        :param current: return current model state
+        :type current: bool
+        :return: Antimony
+        :rtype: str
+        """
+        sbml = self.__getSBML(current)
+        return sbmlToAntimony(sbml)
+
+    def getCurrentAntimony(self):
+        """ Antimony string of the current model state.
+
+        See also: :func:`getAntimony`
+        :return: Antimony
+        :rtype: str
+        """
+        return self.getAntimony(current=True)
+
+    def getCellML(self, current=False):
+        """ CellML string of the original model loaded into roadrunner.
+
+        :param current: return current model state
+        :type current: bool
+        :returns: CellML string
+        :rtype: str
+        """
+        sbml = self.__getSBML(current)
+        return sbmlToCellML(sbml)
+
+    def getCurrentCellML(self):
+        """ CellML string of current model state.
+
+        See also: :func:`getCellML`
+        :returns: CellML string
+        :rtype: str
+        """
+        return self.getCellML(current=True)
+
+    def getMatlab(self, current=False):
+        """ Matlab string of the original model loaded into roadrunner.
+
+        See also: :func:`getCurrentMatlab`
+        :returns: Matlab string
+        :rtype: str
+        """
+        sbml = self.__getSBML(current)
+        if sbml2matlab is not None:
+            return sbml2matlab(sbml)
+        else:
+            warnings.warn("'sbml2matlab' could not be imported, no support for Matlab code generation",
+                          RuntimeWarning, stacklevel=2)
+            return ""
+
+    def getCurrentMatlab(self):
+        """ Matlab string of current model state.
+
+        :param current: return current model state
+        :type current: bool
+        :returns: Matlab string
+        :rtype: str
+        """
+        return self.getMatlab(current=True)
+
+    def exportToSBML(self, filePath, current=True):
+        """ Save current model as SBML file.
+
+        :param current: export current model state
+        :type current: bool
+        :param filePath: file path of SBML file
+        :type filePath: str
+        """
+        saveToFile(filePath, self.__getSBML(current))
+
+    def exportToAntimony(self, filePath, current=True):
+        """ Save current model as Antimony file.
+
+        :param current: export current model state
+        :type current: bool
+        :param filePath: file path of Antimony file
+        :type filePath: str
+        """
+        saveToFile(filePath, self.getAntimony(current))
+
+    def exportToCellML(self, filePath, current=True):
+        """ Save current model as CellML file.
+
+        :param current: export current model state
+        :type current: bool
+        :param filePath: file path of CellML file
+        :type filePath: str
+        """
+        saveToFile(filePath, self.getCellML(current))
+
+    def exportToMatlab(self, filePath, current=True):
+        """ Save current model as Matlab file.
+        To save the original model loaded into roadrunner use
+        current=False.
+
+        :param self: RoadRunner instance
+        :type self: RoadRunner.roadrunner
+        :param filePath: file path of Matlab file
+        :type filePath: str
+        """
+        saveToFile(filePath, self.getMatlab(current))
+
+    # ---------------------------------------------------------------------
+    # Reset Methods
+    # ---------------------------------------------------------------------
+    def resetToOrigin(self):
+        """ Reset model to state when first loaded.
+
+        This resets the model back to the state when it was FIRST loaded,
+        this includes all init() and parameters such as k1 etc.
+
+        identical to:
+            r.reset(roadrunner.SelectionRecord.ALL)
+        """
+        self.reset(roadrunner.SelectionRecord.ALL)
+
+    def resetAll(self):
+        """ Reset all model variables to CURRENT init(X) values.
+
+        This resets all variables, S1, S2 etc to the CURRENT init(X) values. It also resets all
+        parameters back to the values they had when the model was first loaded.
+        """
+        self.reset(roadrunner.SelectionRecord.TIME |
+                   roadrunner.SelectionRecord.RATE |
+                   roadrunner.SelectionRecord.FLOATING |
+                   roadrunner.SelectionRecord.GLOBAL_PARAMETER)
+
+    # ---------------------------------------------------------------------
+    # Routines flattened from model, aves typing and easier finding of methods
+    # ---------------------------------------------------------------------
+    def getRatesOfChange(self):
+        """ Rate of change of all state variables in the model.
+
+        :returns: rate of change of all state variables (eg species) in the model.
+        """
+        if self.conservedMoietyAnalysis:
+            m1 = self.getLinkMatrix()
+            m2 = self.model.getStateVectorRate()
+            return m1.dot(m2)
+        else:
+            return self.model.getStateVectorRate()
+
+    # ---------------------------------------------------------------------
+    # Plotting Utilities
+    # ---------------------------------------------------------------------
+    def draw(self, **kwargs):
+        """ Draws an SBMLDiagram of the current model.
+
+        To set the width of the output plot provide the 'width' argument.
+        Species are drawn as white circles (boundary species
+        shaded in blue), reactions as grey squares.
+        Currently only the drawing of medium-size networks is supported.
+        """
+        if sys.platform == 'win32' and 'Graphviz' not in os.environ['PATH']:
+            warnings.warn("Graphviz is not installed in your machine. 'draw' command cannot produce a diagram",
+                Warning, stacklevel=2)
+        elif sys.platform == 'darwin' and 'graphviz' not in os.environ['PATH']:
+            warnings.warn("Graphviz is not installed in your machine. 'draw' command cannot produce a diagram",
+                Warning, stacklevel=2)
+        else:
+            from visualization.sbmldiagram import SBMLDiagram
+            diagram = SBMLDiagram(self.getSBML())
+            diagram.draw(**kwargs)
+
+    def plot(self, result=None, loc='upper right', show=True,
+             xlabel=None, ylabel=None, title=None, xlim=None, ylim=None,
+             xscale='linear', yscale="linear", grid=False, **kwargs):
+        """ Plot roadrunner simulation data.
+
+        Plot is called with simulation data to plot as the first argument. If no data is provided the data currently
+        held by roadrunner generated in the last simulation is used. The first column is considered the x axis and
+        all remaining columns the y axis.
+        If the result array has no names, than the current r.selections are used for naming. In this case the
+        dimension of the r.selections has to be the same like the number of columns of the result array.
+
+        Curves are plotted in order of selection (columns in result).
+
+        In addition to the listed keywords plot supports all matplotlib.pyplot.plot keyword arguments,
+        like color, alpha, linewidth, linestyle, marker, ...
+        ::
+
+            sbml = te.getTestModel('feedback.xml')
+            r = te.loadSBMLModel(sbml)
+            s = r.simulate(0, 100, 201)
+            r.plot(s, loc="upper right", linewidth=2.0, lineStyle='-', marker='o', markersize=2.0, alpha=0.8,
+                   title="Feedback Oscillation", xlabel="time", ylabel="concentration", xlim=[0,100], ylim=[-1, 4])
+
+        :param result: results data to plot
+        :type result: numpy array
+        :param loc: location of plot legend (standard matplotlib arguments). If loc=None or loc=False no legend is shown.
+        :type loc: str or None
+        :param show: show the plot, use show=False to plot multiple simulations in one plot
+        :type show: bool
+        :param xlabel: x-axis label
+        :type xlabel: str
+        :param ylabel: y-axis label
+        :type ylabel: str
+        :param title: plot title
+        :type title: str
+        :param xlim: limits on x-axis
+        :type xlim: tuple [start, end]
+        :param ylim: limits on y-axis
+        :type ylim: tuple [start, end]
+        :param xscale: 'linear' or 'log' scale for x-axis
+        :type xscale: 'str'
+        :param yscale: 'linear' or 'log' scale for y-axis
+        :type yscale: 'str'
+        :param grid: show grid
+        :type grid: bool
+        :param kwargs: additional matplotlib keywords like marker, lineStyle, color, alpha, ...
+        :return:
+        :rtype:
+        """
+        if result is None:
+            result = self.getSimulationData()
+        if loc is False:
+            loc = None
+
+        if 'linewidth' not in kwargs:
+            kwargs['linewidth'] = 2.0
+
+        # get the names
+        names = result.dtype.names
+        if names is None:
+            names = self.selections
+
+        # check if set_prop_cycle is supported
+        if hasattr(plt.gca(), 'set_prop_cycle'):
+            # reset color cycle (repeated simulations have the same colors)
+            plt.gca().set_prop_cycle(None)
+
+        # make plot
+        Ncol = result.shape[1]
+        if len(names) != Ncol:
+            raise Exception('Legend names must match result array')
+        for k in range(1, Ncol):
+            if loc is None:
+                # no labels if no legend
+                plt.plot(result[:, 0], result[:, k], **kwargs)
+            else:
+                plt.plot(result[:, 0], result[:, k], label=names[k], **kwargs)
+
+            cmap = plt.get_cmap('Blues')
+
+        # labels
+        if xlabel is None:
+            xlabel = names[0]
+        plt.xlabel(xlabel)
+        if ylabel is not None:
+            plt.ylabel(ylabel)
+        if title is not None:
+            plt.title(title)
+        if xlim is not None:
+            plt.xlim(xlim)
+        if ylim is not None:
+            plt.ylim(ylim)
+        # axis and grids
+        plt.xscale(xscale)
+        plt.yscale(yscale)
+        plt.grid(grid)
+
+        # show legend
+        if loc is not None:
+            plt.legend(loc=loc)
+        # show plot
+        if show:
+            plt.show()
+        return plt
+
+    def plotWithLegend(self, result=None, loc='upper left', show=True, **kwargs):
+        warnings.warn("'plotWithLegend' is deprecated. Use 'plot' instead. Will be removed in tellurium v1.4",
+                      DeprecationWarning, stacklevel=2)
+        return self.plot(result=result, loc=loc, show=show, **kwargs)
+
+    def simulateAndPlot(self, start, end, points, **kwargs):
+        """ Run simulation and plot the results.
+
+        :param start: start time of simulation
+        :param end: end time of simulation
+        :param points: number of points in simulation
+        :returns: simulation results
+        """
+        warnings.warn("'simulateAndPlot' is deprecated. Use the 'simulate' followed by 'plot' instead. " +
+                      "Will be removed in tellurium v1.4",
+                      DeprecationWarning, stacklevel=2)
+        result = self.simulate(start, end, points, **kwargs)
+        self.plot(result)
+        return result
+
+    # ---------------------------------------------------------------------
+    # Stochastic Simulation Methods
+    # ---------------------------------------------------------------------
+    def getSeed(self, integratorName="gillespie"):
+        """ Current seed used by the integrator with integratorName.
+        Defaults to the seed of the gillespie integrator.
+
+        :param integratorName: name of the integrator for which the seed should be retured
+        :type integratorName: str
+        :returns: current seed
+        :rtype: float
+        """
+        integrator = self.getIntegratorByName(integratorName)
+        return integrator.getValue('seed')
+
+    def setSeed(self, seed, integratorName="gillespie"):
+        """ Set seed in integrator with integratorName.
+        Defaults to the seed of the gillespie integrator.
+
+        Raises Error if integrator does not have key 'seed'.
+
+        :param seed: seed to set
+        :param integratorName: name of the integrator for which the seed should be retured
+        :type integratorName: str
+        """
+        # there are some issues converting big Python (greater than 4,294,967,295) integers
+        # to C integers on 64 bit machines. If its converted to float before, works around the issue.
+        self.setIntegratorSetting(integratorName=integratorName, settingName="seed", value=float(seed))
+
+    def gillespie(self, *args, **kwargs):
+        """ Run a Gillespie stochastic simulation.
+
+        Sets the integrator to gillespie and performs simulation.
+        ::
+
+            rr = te.loada ('S1 -> S2; k1*S1; k1 = 0.1; S1 = 40')
+            # Simulate from time zero to 40 time units
+            result = rr.gillespie (0, 40)
+            # Simulate on a grid with 10 points from start 0 to end time 40
+            rr.reset()
+            result = rr.gillespie (0, 40, 10)
+            # Simulate from time zero to 40 time units using the given selection list
+            # This means that the first column will be time and the second column species S1
+            rr.reset()
+            result = rr.gillespie (0, 40, selections=['time', 'S1'])
+            # Simulate from time zero to 40 time units, on a grid with 20 points
+            # using the give selection list
+            rr.reset()
+            result = rr.gillespie (0, 40, 20, ['time', 'S1'])
+            rr.plot(result)
+
+        :param seed: seed for gillespie
+        :type seed: int
+        :param args: parameters for simulate
+        :param kwargs: parameters for simulate
+        :returns: simulation results
+        """
+        integratorName = self.integrator.getName()
+        self.setIntegrator('gillespie')
+        s = self.simulate(*args, **kwargs)
+        self.setIntegrator(integratorName)
+        return s
 
 
-##\brief Get the names for the rglobal parameters in the model
-#
-# Can be further shortened to rr.ps()
-#
-#Example: parameterNames = rr.getPs()  
-def getPs (self):
-    """  
-    Returns the list of global parameters in the model
-
-    Short-cut ps, eg
-    
-    print rr.ps()
-    """
-    return self.model.getGlobalParameterIds()
- 
-##\brief Get the names for the compartments in the current model
-#
-# Can be further shortened to rr.vs()
-#
-#Example: compartmentNames = rr.getVs()   
-def getVs (self):
-    """  
-    Returns the list of compartment identifiers
-
-    Short-cut vs, eg
-    
-    print rr.vs()
-    """
-    return self.model.getCompartmentIds()
-    
-  
-##\brief Get all the rates of change in the current model
-#
-# Can be further shortened to rr.dv()
-#
-#Example: rateOfChange = rr.getDv()  
-def getDv (self):
-    """  
-    Returns the list of rates of change
-
-    Short-cut dv, eg
-    
-    print rr.dv()
-    """
-    return self.model.getStateVectorRate()
-    
-##\brief Get all the reaction rates in the current model
-#
-# Can be further shortened to rr.rv()
-#
-#Example: reactionRates = rr.getRv()  
-def getRv (self):
-    """  
-    Returns the list of reaction rates
-    
-    Short-cut rv, eg
-    
-    print rr.rv()
-    """
-    return self.model.getReactionRates()
-
-##\brief Get all the floating species concentrations in the current model
-#
-
-#
-#Example: reactionRates = rr.getSv()  
-def getSv (self):
-    """  
-    Returns the list of flaoting species concentrations
-
-    Short-cut sv, eg
-    
-    print rr.sv()
-    """
-    return self.model.getFloatingSpeciesConcentrations()
-    
-##\brief Returns the full Jacobian for the currnet model at the current state
-#
-
-#
-#Example: jacobian = rr.getfJac()  
-def getfJac (self):
-    """  
-    Returns the full Jacobian for the current model at the current state.
-
-    Short-cut fjac, eg
-    
-    print rr.fjac()
-    """
-    return self.getFullJacobian()
-
-##@} 
-
-# --------------------------------------------------------------------- 
-# Routines flattened from model, aves typing and easier for finding the methods
-# ---------------------------------------------------------------------
-##\ingroup Get Information Routines
-#@{
-def getRatesOfChange (self):
-    """
-    Returns the rate of change of all state variables  (eg species) in the model
-    """
-    if self.conservedMoietyAnalysis:
-       m1 = self.getLinkMatrix()
-       m2 = self.model.getStateVectorRate()
-       return m1.dot (m2) 
-    else:
-      return self.model.getStateVectorRate()
-      
-def getBoundarySpeciesConcentrations (self):
-    return self.model.getBoundarySpeciesConcentrations()
-
-def getBoundarySpeciesIds (self):
-    return self.model.getBoundarySpeciesIds()
-    
-def getNumBoundarySpecies (self):
-    return self.model.getNumBoundarySpecies()
-
-def getFloatingSpeciesConcentrations (self):
-    return self.model.getFloatingSpeciesConcentrations ()
-    
-def getFloatingSpeciesIds (self):
-    return self.model.getFloatingSpeciesIds()
-    
-def getNumFloatingSpecies (self):
-    return self.model.getNumFloatingSpecies()
-    
-def getGlobalParameterIds (self):
-    return self.model.getGlobalParameterIds()
-    
-def getGlobalParameterValues (self):
-    return self.model.getGlobalParameterValues() 
-    
-def getNumGlobalParameters (self):
-    return self.model.getNumGlobalParameters() 
-
-def getCompartmentIds (self):
-    return self.model.getCompartmentIds()
-        
-def getCompartmentVolumes (self):
-    return self.model.getCompartmentVolumes()
-        
-def getNumCompartments (self):
-    return self.model.getNumCompartments()
-
-def getConservedMoietyIds (self):
-    return self.model.getConservedMoietyIds()
-            
-def getConservedMoietyValues (self):
-    return self.model.getConservedMoietyValues()
-            
-def getNumConservedMoieties (self):
-    return self.model.getNumConservedMoieties()
-            
-def getNumDepFloatingSpecies (self):
-    return self.model.getNumDepFloatingSpecies()
-            
-def getNumIndFloatingSpecies (self):
-    return self.model.getNumIndFloatingSpecies()
-
-def getNumReactions (self):
-    return self.model.getNumReactions()
-    
-def getReactionIds (self):
-    return self.model.getReactionIds()
-    
-def getReactionRates (self):
-    return self.model.getReactionRates()
-    
-def getNumEvents (self):
-    return self.model.getNumEvents()
- 
-#def getValue (self, name):
-#    return self.model.getalue (name)
-    
-#def setValue (self, name, value):
-#    self.model.setvalue (name, value)
-    
-def setStartTime (self, startTime):
-    self.model.setTime (startTime)
-    pass
-   
-def setEndTime (self, endTime):
-    self.simulateOptions.end = endTime
-
-def getStartTime (self):
-    return self.simulateOptions.start
-    
-def getEndTime (self):
-    return self.simulateOptions.start + self.simulateOptions.duration
-
-def getNumberOfPoints (self):
-    return self.simulateOptions.steps
-    
-def setNumberOfPoints (self, numberOfPoints):
-    self.simulateOptions.steps = numberOfPoints
-
-def getNumRateRules (self):
-    return self.model.getNumRateRules()
-##@}
-    
 # ---------------------------------------------------------------
 # End of routines
-# Now we assign the routines to the roadrunner instance
 # ---------------------------------------------------------------
-    
-# Helper Routines we attach to roadrunner   
-roadrunner.RoadRunner.getSeed = getSeed
-roadrunner.RoadRunner.setSeed = setSeed
-roadrunner.RoadRunner.gillespie = gillespie
-roadrunner.RoadRunner.getRatesOfChange = getRatesOfChange
-roadrunner.RoadRunner.exportToMatlab = exportToMatlab
-roadrunner.RoadRunner.getMatlab = getMatlab
-roadrunner.RoadRunner.getAntimony = getAntimony
-roadrunner.RoadRunner.plotAS = roadrunner.RoadRunner.plot
-roadrunner.RoadRunner.plot = plot
+def _model_function_factory(key):
+    """ Dynamic creation of model functions.
 
-roadrunner.noticesOff = noticesOff
-roadrunner.noticesOn = noticesOn  
-roadrunner.getTestModel = getTestModel
-roadrunner.loadTestModel = loadTestModel
-roadrunner.listTestModels = listTestModels
+    :param key: function key, i.e. the name of the function
+    :type key: str
+    :return: function object
+    :rtype: function
+    """
+    def f(self):
+        return getattr(self.model, key).__call__()
+    # set the name
+    f.__name__ = key
+    # copy the docstring
+    f.__doc__ = getattr(roadrunner.ExecutableModel, key).__doc__
+    return f
 
-roadrunner.RoadRunner.resetToOrigin = resetToOrigin
-roadrunner.RoadRunner.resetAll = resetAll
-
-# Model flattening routines, saves user from having
-# to type r.model.methodname and from having to 
-# recall where the method is
-
-roadrunner.RoadRunner.getBoundarySpeciesConcentrations = getBoundarySpeciesConcentrations
-roadrunner.RoadRunner.getBoundarySpeciesIds = getBoundarySpeciesIds
-roadrunner.RoadRunner.getNumBoundarySpecies = getNumBoundarySpecies
-
-roadrunner.RoadRunner.getFloatingSpeciesConcentrations = getFloatingSpeciesConcentrations
-roadrunner.RoadRunner.getFloatingSpeciesIds = getFloatingSpeciesIds
-roadrunner.RoadRunner.getNumFloatingSpecies = getNumFloatingSpecies
-
-roadrunner.RoadRunner.getGlobalParameterIds = getGlobalParameterIds
-roadrunner.RoadRunner.getGlobalParameterValues = getGlobalParameterValues
-roadrunner.RoadRunner.getNumGlobalParameters = getNumGlobalParameters
-
-roadrunner.RoadRunner.getCompartmentIds = getCompartmentIds
-roadrunner.RoadRunner.getCompartmentVolumes = getCompartmentVolumes
-roadrunner.RoadRunner.getNumCompartments = getNumCompartments
-
-roadrunner.RoadRunner.getConservedMoietyIds = getConservedMoietyIds
-roadrunner.RoadRunner.getConservedMoietyValues = getConservedMoietyValues
-roadrunner.RoadRunner.getNumConservedMoieties = getNumConservedMoieties
-roadrunner.RoadRunner.getNumConservedMoieties = getNumConservedMoieties
-roadrunner.RoadRunner.getNumConservedMoieties = getNumConservedMoieties
-
-roadrunner.RoadRunner.getNumReactions = getNumReactions
-roadrunner.RoadRunner.getReactionIds = getReactionIds
-roadrunner.RoadRunner.getReactionRates = getReactionRates
-roadrunner.RoadRunner.getNumEvents = getNumEvents
-
-#roadrunner.RoadRunner.getValue = getValue
-#roadrunner.RoadRunner.setValue = setValue
-roadrunner.RoadRunner.setStartTime = setStartTime # Start time
-roadrunner.RoadRunner.setEndTime = setEndTime # Start time
-roadrunner.RoadRunner.getStartTime = getStartTime # End time
-roadrunner.RoadRunner.getEndTime = getEndTime # End time
-roadrunner.RoadRunner.getNumberOfPoints = getNumberOfPoints
-roadrunner.RoadRunner.setNumberOfPoints = setNumberOfPoints
-roadrunner.RoadRunner.getNumRateRules = getNumRateRules
-
-# -------------------------------------------------------
-
-# Jarnac compatibility layer
-roadrunner.RoadRunner.sm = getSm
-roadrunner.RoadRunner.fs = getFs
-roadrunner.RoadRunner.bs = getBs
-roadrunner.RoadRunner.rs = getRs
-roadrunner.RoadRunner.ps = getPs
-roadrunner.RoadRunner.vs = getVs
-roadrunner.RoadRunner.fjac = getfJac;
-
-roadrunner.RoadRunner.dv = getDv
-roadrunner.RoadRunner.rv = getRv
-roadrunner.RoadRunner.sv = getSv
-
-# ---------------------------------------------------------------
-# Next comes general documenation
-# ---------------------------------------------------------------
-
-##\mainpage notitle
-#\section Introduction
-#Tellurium is a cross-platform and open source Python based environment that integrates a variety of useful packages for systems biology modeling. The IDE is based on the spyder2 IDE (https://code.google.com/p/spyderlib/)
-#
-#\par Simple Example:
-#\par
-#@code
-#
-#rr = te.loada ('S1 -> S2; k1*S1; k1 = 0.1; S1 = 10')
-#rr.simulate (0, 10, 100)
-#rr.plot()
-#
-#@endcode
-#
-#\par More Complex Example:
-#\par
-#@code
-#
-#import tellurium at te
-#
-#r = te.loada ('''
-#    # A dollar symbol means fix the species concentration
-#        $S1 -> S2;  k1*S1; 
-#     J2: S2 -> S3;  k2*S2 - k3*S3;
-#         S3 -> $S4; k4*S3;
-#    
-#    k1 = 0.1; S1 = 10
-#''')
-#
-#result = r.simulate (0, 10, 100, ['time', 'S1', 'S3', 'J1'])
-#rr.plot (result)
-#
-#@endcode
-#
-#\par Screen-shot of Tellurium
-#\par 
-#\image html http://i.imgur.com/luH3rs6.png
-#
-##\defgroup utility Utility Methods
-# \brief Various utility methods
-#
-# The most useful methods here are the notices routines. Roadrunner will offen issue warning or informational messages. For
-# repeated simulation such messages will clutter up the outputs. noticesOff and noticesOn can be used to turn on an off the messages.
-#
-#Examples:<br>
-#@code
-#  # Repeat a simulation many times
-#
-#  # Load an SBML file
-#  r = roadrunner.RoadRunner ('mymodel.xml')
-#  # Turn of notices so they don't clutter the output
-#  roadrunner.noticesOff()
-#  for i in range (0:20):
-#      result = r.simulate (0, 10)
-#      r.plot (result)
-#      r.model.k1 = r.model.k1 + 0.2
-#  # Turn the notices back on
-#  roadrunner.noticesOn()
-#@endcode
-
-##\defgroup filefunctions  File Help Functions
-# \brief Save and Read file methods
-#
-# Use these routines to save or read text files to and from disk
-#
-#Examples:<br>
-#@code
-#
-# r = te.loada ('S1 -> S2; k1*S1; k1 = 0.1; S1 = 10')
-# saveToFile ('mymodel.m', r.getMatlab())
-#
-# sbmlstr = readFromFile ('mymodel.xml')
-#@endcode
-
-##\defgroup loadingModels  Loading Models
-# \brief Methods to load models in different formats
-#
-# There are a variety of methods to load models into libRoadrunner. At the most basic level one can load the model directly using
-# libRoadRunner:
-#@code
-#  r = roadrunner.RoadRunner ('mymodel.xml')
-#@endcode
-#
-#Alternatively one can use these methods:
-#@code
-#  # This is the same as roadrunner.RoadRunner() but the method name is more suggestive of what it does
-#  # Like RoadRunner, loadSBML can accept a file name or a SBML string as it argument
-#
-#  r = te.loadSBMLModel ('mymodel.xml')
-#
-#  # To load an Antimony model use:
-#  r = te.loadAntimonyModel (antStr)
-#
-#  # Or alternatively
-#  r = te.loadAntimonyModel ('mymodel.ant')
-#
-#  # The method loada is simply a shortcut to loadAntimonyModel
-#  r = loada ('''
-#      S1 -> S2; k1*S1;
-#      S2 -> S3; k2*S2;
-#      
-#      k1= 0.1; k2 = 0.2; 
-#      S1 = 10; S2 = 0; S3 = 0;
-#  ''')
-#  result = r.simulate (0, 10, 100)
-#  r.plot (result)
-#@endcode
+# Add model functions to ExendedRoadRunner class
+for key in ExtendedRoadRunner._model_functions:
+    setattr(ExtendedRoadRunner, key, _model_function_factory(key))
 
 
-##\defgroup interconversion  Interconversion Methods
-# \brief Methods to interconvert different formats
-#
-# Use these routines interconvert verious standard formats
-#
-#Examples:<br>
-#@code
-#  # Convert an SBML model into Antimony
-#
-#  # Load an SBML file
-#  sbmlStr = te.readFromFile ('mymodel.xml')
-#  # Generate the Antimony format of the SBML model
-#  print te.sbmlToAntimony (sbmlStr)
-#@endcode
-#<br>
-#@code
-#  # Convert an Antimony model into SBML
-#
-#  # Load an Antimony file
-#  antStr = te.readFromFile ('mymodel.ant')
-#  # Generate the SBML format of the Antimony model
-#  print te.antimonyToSBML (antStr)
-#@endcode
+# Now we assign the ExtendedRoadRunner to RoadRunner
+def RoadRunner(*args):
+    # return roadrunner.RoadRunner(*args)
+    return ExtendedRoadRunner(*args)
 
-##\defgroup stochastic  Stochastic Simulation Methods
-# \brief Methods to carry out stochastic simulations
-#
-# Use these routines to carry out Gillespie style stochastic simulations
-#
-#Examples:<br>
-#@code
-#
-#  r = te.loada ('S1 -> S2; k1*S1; k1 = 0.1; S1 = 40')
-#  r.setSeed (87675)
-#  result = r.gillespie (0, 100)
-#  r.plot (result)
-#@endcode
-#
-# Run two simulations and combine the two:
-#
-#@code{.py}
-#  import numpy as np
-#  import tellurium as te
-#
-#  r = te.loadSBMLModel ('mymodel.xml')
-#  seed= r.getSeed()
-#  result1 = r.gillespie (0, 100)
-#  r.model.k1 = r.model.k1*20
-#  result2 = r.gillespie (100, 200)
-#  # Merge the two runs together
-#  rr.plot (np.vstack ((result1, result))
-#@endcode
+roadrunner.RoadRunner = ExtendedRoadRunner
 
-##\defgroup math  Math Utilities
-# \brief Useful math utilities
-#
-# Only one routine is currently available in this group which is a routine to compute the eigenvalues of given a matrix.
-#
-#Examples:<br>
-#@code
-#
-#import numpy as np
-#import tellurium as te
-#
-#m = np.matrix ([[1,2],[5,7]])
-#
-#print te.getEigenvalues (m)
-#[-0.35889894  8.35889894]
-#@endcode
-
-##\defgroup plotting  Plotting Utilities
-# \brief Useful plotting utilities
-#
-# Two useful plotting routines. They assume that the first column in the array is the x-axis and the second and subsequent columns represent curves on the y-axis.
-#
-#Examples:<br>
-#@code
-#
-#  # Load a model and carry out a simulation generating 100 points
-#  r = te.loada ('S1 -> S2; k1*S1; k1 = 0.1; S1 = 10')
-#  result = r.simulate (0, 10, 100)
-#
-#  # No legend will be add to the plot, useful for plotting large 
-#  # numbers of curves where a legend would get in the way
-#  te.plotArray (result)
-#
-#  # To get a legend use the roadrunner plot command
-#  r.plot (result)
-#@endcode
-
-##\defgroup resetmethods  Model Reset Methods
-# \brief Model reset methods
-#
-# Use these routines reset your model back to particular states
-#
-#Examples:<br>
-#@code
-#  r = te.loada ('S1 -> S2; k1*S1; k1 = 0.1; S1 = 10')
-#  result = r.simulate (0, 10, 100)
-#  p.model.S1 = 2.0
-#  result = r.simulate (0, 10, 100)
-#  # Reset the model back to its original state
-#  r.reset()
-#@endcode
-#
-# If you wish to reset a model back to the state it was what it was loaded, use the resetToOrigin method
-#
-#@code
-#  r = te.loada ('S1 -> S2; k1*S1; k1 = 0.1; S1 = 10')
-#  result = r.simulate (0, 10, 100)
-#  # Make lots of different kinds of changes to the model
-#  # Reset the model back to the state it had when it was created
-#  r.resetToOrigin()
-#@endcode
-
-##\defgroup export Matlab Export Utilities
-##\brief Matlab export utilities
-#
-# Use these routines to convert your model into a Matlab function.
-#
-#Examples:<br>
-#@code
-#
-# r = te.loada ('S1 -> S2; k1*S1; k1 = 0.1; S1 = 10')
-# print r.getMatlab()
-# r.exportToMatlab ("mymodel.m")
-#@endcode
-
-##\defgroup jarnac Short-cut methods
-# \brief Useful short-cut methods
-
-##\defgroup testmodels Test Models
-# \brief Methods to acess the builtin test models
-#
-# RoadRunner has built into it a number of predefined models that can be use
-# to easily try out roadrunner if so exmaple you don't have a model at hand.
-#
-#Examples:<br>
-#@code
-#  # To get the number of builtin models use lisTestModels
-#  print roadrunner.listTestModels()
-#  ['feedback.xml', 'test_1.xml']
-#@endcode
-#
-# To load one of the test models use loadTestModel:
-#@code
-# r = roadrunner.loadTestModel ('feedback.xml')
-# result = r.simulate (0, 10, 100)
-# r.plot (result)
-#@endcode
-#
-# If you need to obtain the SBML for the test model, use getTestModel
-#
-#@code
-#  sbmlStr = roadrunner.getTestModel
-#  saveToFile ('model.xml', sbmlStr)
-#@endcode
-#
-#To look at one of the test model in Antimony form:
-#
-#@code
-#  antstr = te.sbmlToAntimony (roadrunner.getTestModel ('feedback.xml'))
-#  print antStr
-#@endcode
-
-# OLD CODE----------------------------------------
-#def augmentRoadrunnerCtor():
-#    """Hides the need to use Antimony directly from user
-#    Overwrite the Roadrunner Constructor to accept Antimony string
-#    
-#    This is done at the begining of the tellurium startup
-#    """
-#    original_init = roadrplt.plot (result[:,0],result[:,1:], linewidth=2.5)unner.RoadRunner.__init__
-#
-#    def new_init(self, *args):
-#        #get sbml and recompose args tuple
-#        if (len(args) > 1 and antimony.loadAntimonyString(args[0]) >= 0):
-#            args = ((antimonyTosbml(args[0]),) + args[1:])
-#        elif (len(args) == 1 and antimony.loadAntimonyString(args[0]) >= 0):
-#            args = (antimonyTosbml(args[0]),)
-#        else:
-#            pass
-#            
-#        original_init(self, *args)
-#
-#    roadrunner.RoadRunner.__init__ = new_init

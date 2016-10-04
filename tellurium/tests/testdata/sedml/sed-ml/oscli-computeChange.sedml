@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Written by libSedML v1.1.4201.27427 see http://libsedml.sf.net -->
+<sedML level="1" version="1" xmlns="http://sed-ml.org/">
+  <listOfSimulations>
+    <uniformTimeCourse id="sim" initialTime="0" outputStartTime="0" outputEndTime="100" numberOfPoints="1000">
+      <algorithm kisaoID="KISAO:0000019" />
+    </uniformTimeCourse>
+  </listOfSimulations>
+  <listOfModels>
+    <model id="model1" language="urn:sedml:language:sbml" source="../models/oscli.xml" />
+    <model id="model2" language="urn:sedml:language:sbml" source="model1">
+      <listOfChanges>
+        <computeChange target="/sbml:sbml/sbml:model/sbml:listOfSpecies/sbml:species[@id=&quot;S1&quot;]/@initialConcentration">
+          <listOfVariables>
+            <variable id="S1" modelReference="model1" target="/sbml:sbml/sbml:model/sbml:listOfSpecies/sbml:species[@id='S1']" />
+          </listOfVariables>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <divide />
+              <ci> S1 </ci>
+              <cn type="integer"> 2 </cn>
+            </apply>
+          </math>
+        </computeChange>
+        <computeChange target="/sbml:sbml/sbml:model/sbml:listOfSpecies/sbml:species[@id=&quot;S2&quot;]/@initialConcentration">
+          <listOfVariables>
+            <variable id="S2" modelReference="model1" target="/sbml:sbml/sbml:model/sbml:listOfSpecies/sbml:species[@id='S2']" />
+          </listOfVariables>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <divide />
+              <ci> S2 </ci>
+              <cn type="integer"> 2 </cn>
+            </apply>
+          </math>
+        </computeChange>
+        <computeChange target="/sbml:sbml/sbml:model/sbml:listOfParameters/sbml:parameter[@id=&quot;J3_k2&quot;]/@value">
+          <listOfVariables>
+            <variable id="J3_k2" modelReference="model1" target="/sbml:sbml/sbml:model/sbml:listOfParameters/sbml:parameter[@id='J3_k2']" />
+          </listOfVariables>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <divide />
+              <ci> J3_k2 </ci>
+              <cn type="integer"> 2 </cn>
+            </apply>
+          </math>
+        </computeChange>
+      </listOfChanges>
+    </model>
+  </listOfModels>
+  <listOfTasks>
+    <task id="task1" modelReference="model1" simulationReference="sim" />
+    <task id="task2" modelReference="model2" simulationReference="sim" />
+  </listOfTasks>
+  <listOfDataGenerators>
+    <dataGenerator id="time1" name="time1">
+      <listOfVariables>
+        <variable id="time" name="time" taskReference="task1" symbol="urn:sedml:symbol:time" />
+      </listOfVariables>
+      <math xmlns="http://www.w3.org/1998/Math/MathML">
+        <ci> time </ci>
+      </math>
+    </dataGenerator>
+    <dataGenerator id="S1_1" name="S1_1">
+      <listOfVariables>
+        <variable id="d1_S1" name="S1" taskReference="task1" target="/sbml:sbml/sbml:model/sbml:listOfSpecies/sbml:species[@id='S1']" />
+      </listOfVariables>
+      <math xmlns="http://www.w3.org/1998/Math/MathML">
+        <ci> d1_S1 </ci>
+      </math>
+    </dataGenerator>
+    <dataGenerator id="S2_1" name="S2_1">
+      <listOfVariables>
+        <variable id="d1_S2" name="S2" taskReference="task1" target="/sbml:sbml/sbml:model/sbml:listOfSpecies/sbml:species[@id='S2']" />
+      </listOfVariables>
+      <math xmlns="http://www.w3.org/1998/Math/MathML">
+        <ci> d1_S2 </ci>
+      </math>
+    </dataGenerator>
+    <dataGenerator id="S1_2" name="S1_2">
+      <listOfVariables>
+        <variable id="d2_S1" name="S1" taskReference="task2" target="/sbml:sbml/sbml:model/sbml:listOfSpecies/sbml:species[@id='S1']" />
+      </listOfVariables>
+      <math xmlns="http://www.w3.org/1998/Math/MathML">
+        <ci> d2_S1 </ci>
+      </math>
+    </dataGenerator>
+    <dataGenerator id="S2_2" name="S2_2">
+      <listOfVariables>
+        <variable id="d2_S2" name="S2" taskReference="task2" target="/sbml:sbml/sbml:model/sbml:listOfSpecies/sbml:species[@id='S2']" />
+      </listOfVariables>
+      <math xmlns="http://www.w3.org/1998/Math/MathML">
+        <ci> d2_S2 </ci>
+      </math>
+    </dataGenerator>
+  </listOfDataGenerators>
+  <listOfOutputs>
+    <report id="report1" name="Time Course (changed + unchanged)">
+      <listOfDataSets>
+        <dataSet id="col_0" dataReference="time1" label="time1" />
+        <dataSet id="col_1" dataReference="S1_1" label="S1_1" />
+        <dataSet id="col_2" dataReference="S1_2" label="S1_2" />
+        <dataSet id="col_3" dataReference="S2_1" label="S2_1" />
+        <dataSet id="col_4" dataReference="S2_2" label="S2_2" />
+      </listOfDataSets>
+    </report>
+    <plot2D id="plot1" name="oscli  (unchanged)">
+      <listOfCurves>
+        <curve id="curve_0" logX="false" logY="false" xDataReference="time1" yDataReference="S1_1" />
+        <curve id="curve_1" logX="false" logY="false" xDataReference="time1" yDataReference="S2_1" />
+      </listOfCurves>
+    </plot2D>
+    <plot2D id="plot2" name="oscli  (initial concentrations halved)">
+      <listOfCurves>
+        <curve id="curve_2" logX="false" logY="false" xDataReference="time1" yDataReference="S1_2" />
+        <curve id="curve_3" logX="false" logY="false" xDataReference="time1" yDataReference="S2_2" />
+      </listOfCurves>
+    </plot2D>
+  </listOfOutputs>
+</sedML>

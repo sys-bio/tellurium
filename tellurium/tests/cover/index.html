@@ -1,0 +1,401 @@
+
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Coverage report</title>
+    <link rel="stylesheet" href="style.css" type="text/css">
+    
+    <script type="text/javascript" src="jquery.min.js"></script>
+    <script type="text/javascript" src="jquery.debounce.min.js"></script>
+    <script type="text/javascript" src="jquery.tablesorter.min.js"></script>
+    <script type="text/javascript" src="jquery.hotkeys.js"></script>
+    <script type="text/javascript" src="coverage_html.js"></script>
+    <script type="text/javascript">
+        jQuery(document).ready(coverage.index_ready);
+    </script>
+</head>
+<body class="indexfile">
+
+<div id="header">
+    <div class="content">
+        <h1>Coverage report:
+            <span class="pc_cov">78%</span>
+        </h1>
+
+        <img id="keyboard_icon" src="keybd_closed.png" alt="Show keyboard shortcuts" />
+
+        <form id="filter_container">
+            <input id="filter" type="text" value="" placeholder="filter..." />
+        </form>
+    </div>
+</div>
+
+<div class="help_panel">
+    <img id="panel_icon" src="keybd_open.png" alt="Hide keyboard shortcuts" />
+    <p class="legend">Hot-keys on this page</p>
+    <div>
+    <p class="keyhelp">
+        <span class="key">n</span>
+        <span class="key">s</span>
+        <span class="key">m</span>
+        <span class="key">x</span>
+        
+        <span class="key">c</span> &nbsp; change column sorting
+    </p>
+    </div>
+</div>
+
+<div id="index">
+    <table class="index">
+        <thead>
+            
+            <tr class="tablehead" title="Click to sort">
+                <th class="name left headerSortDown shortkey_n">Module</th>
+                <th class="shortkey_s">statements</th>
+                <th class="shortkey_m">missing</th>
+                <th class="shortkey_x">excluded</th>
+                
+                <th class="right shortkey_c">coverage</th>
+            </tr>
+        </thead>
+        
+        <tfoot>
+            <tr class="total">
+                <td class="name left">Total</td>
+                <td>3363</td>
+                <td>747</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="2616 3363">78%</td>
+            </tr>
+        </tfoot>
+        <tbody>
+            
+            <tr class="file">
+                <td class="name left"><a href="_home_mkoenig_git_tellurium_tellurium___init___py.html">/home/mkoenig/git/tellurium/tellurium/__init__.py</a></td>
+                <td>37</td>
+                <td>2</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="35 37">95%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_home_mkoenig_git_tellurium_tellurium_analysis___init___py.html">/home/mkoenig/git/tellurium/tellurium/analysis/__init__.py</a></td>
+                <td>0</td>
+                <td>0</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="0 0">100%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_home_mkoenig_git_tellurium_tellurium_analysis_annotations_py.html">/home/mkoenig/git/tellurium/tellurium/analysis/annotations.py</a></td>
+                <td>81</td>
+                <td>81</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="0 81">0%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_home_mkoenig_git_tellurium_tellurium_analysis_parameterscan_py.html">/home/mkoenig/git/tellurium/tellurium/analysis/parameterscan.py</a></td>
+                <td>413</td>
+                <td>119</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="294 413">71%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_home_mkoenig_git_tellurium_tellurium_notebooks___init___py.html">/home/mkoenig/git/tellurium/tellurium/notebooks/__init__.py</a></td>
+                <td>4</td>
+                <td>0</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="4 4">100%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_home_mkoenig_git_tellurium_tellurium_notebooks_notebooktools_py.html">/home/mkoenig/git/tellurium/tellurium/notebooks/notebooktools.py</a></td>
+                <td>58</td>
+                <td>41</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="17 58">29%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_home_mkoenig_git_tellurium_tellurium_notebooks_ontologysearch_py.html">/home/mkoenig/git/tellurium/tellurium/notebooks/ontologysearch.py</a></td>
+                <td>64</td>
+                <td>54</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="10 64">16%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_home_mkoenig_git_tellurium_tellurium_notebooks_parameterslider_py.html">/home/mkoenig/git/tellurium/tellurium/notebooks/parameterslider.py</a></td>
+                <td>41</td>
+                <td>32</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="9 41">22%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_home_mkoenig_git_tellurium_tellurium_notebooks_speciessearch_py.html">/home/mkoenig/git/tellurium/tellurium/notebooks/speciessearch.py</a></td>
+                <td>64</td>
+                <td>54</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="10 64">16%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_home_mkoenig_git_tellurium_tellurium_optimization___init___py.html">/home/mkoenig/git/tellurium/tellurium/optimization/__init__.py</a></td>
+                <td>1</td>
+                <td>0</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="1 1">100%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_home_mkoenig_git_tellurium_tellurium_sedml___init___py.html">/home/mkoenig/git/tellurium/tellurium/sedml/__init__.py</a></td>
+                <td>0</td>
+                <td>0</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="0 0">100%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_home_mkoenig_git_tellurium_tellurium_sedml_mathml_py.html">/home/mkoenig/git/tellurium/tellurium/sedml/mathml.py</a></td>
+                <td>48</td>
+                <td>20</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="28 48">58%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_home_mkoenig_git_tellurium_tellurium_sedml_templates___init___py.html">/home/mkoenig/git/tellurium/tellurium/sedml/templates/__init__.py</a></td>
+                <td>0</td>
+                <td>0</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="0 0">100%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_home_mkoenig_git_tellurium_tellurium_sedml_tephrasedml_py.html">/home/mkoenig/git/tellurium/tellurium/sedml/tephrasedml.py</a></td>
+                <td>118</td>
+                <td>6</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="112 118">95%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_home_mkoenig_git_tellurium_tellurium_sedml_tesedml_py.html">/home/mkoenig/git/tellurium/tellurium/sedml/tesedml.py</a></td>
+                <td>786</td>
+                <td>128</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="658 786">84%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_home_mkoenig_git_tellurium_tellurium_sedml_xpath_py.html">/home/mkoenig/git/tellurium/tellurium/sedml/xpath.py</a></td>
+                <td>15</td>
+                <td>15</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="0 15">0%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_home_mkoenig_git_tellurium_tellurium_tecombine_py.html">/home/mkoenig/git/tellurium/tellurium/tecombine.py</a></td>
+                <td>411</td>
+                <td>118</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="293 411">71%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_home_mkoenig_git_tellurium_tellurium_teio___init___py.html">/home/mkoenig/git/tellurium/tellurium/teio/__init__.py</a></td>
+                <td>0</td>
+                <td>0</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="0 0">100%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_home_mkoenig_git_tellurium_tellurium_teio_latex_py.html">/home/mkoenig/git/tellurium/tellurium/teio/latex.py</a></td>
+                <td>85</td>
+                <td>1</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="84 85">99%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_home_mkoenig_git_tellurium_tellurium_tellurium_py.html">/home/mkoenig/git/tellurium/tellurium/tellurium.py</a></td>
+                <td>311</td>
+                <td>42</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="269 311">86%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_home_mkoenig_git_tellurium_tellurium_temiriam_py.html">/home/mkoenig/git/tellurium/tellurium/temiriam.py</a></td>
+                <td>17</td>
+                <td>4</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="13 17">76%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="__init___py.html">__init__.py</a></td>
+                <td>0</td>
+                <td>0</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="0 0">100%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="test_API_py.html">test_API.py</a></td>
+                <td>21</td>
+                <td>1</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="20 21">95%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="test_analysis_py.html">test_analysis.py</a></td>
+                <td>14</td>
+                <td>1</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="13 14">93%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="test_examples_py.html">test_examples.py</a></td>
+                <td>33</td>
+                <td>1</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="32 33">97%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="test_io_py.html">test_io.py</a></td>
+                <td>37</td>
+                <td>1</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="36 37">97%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="test_runner_py.html">test_runner.py</a></td>
+                <td>28</td>
+                <td>2</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="26 28">93%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="test_tecombine_py.html">test_tecombine.py</a></td>
+                <td>58</td>
+                <td>1</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="57 58">98%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="test_tellurium_py.html">test_tellurium.py</a></td>
+                <td>213</td>
+                <td>4</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="209 213">98%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="test_tephrasedml_py.html">test_tephrasedml.py</a></td>
+                <td>305</td>
+                <td>6</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="299 305">98%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="test_tesedml_py.html">test_tesedml.py</a></td>
+                <td>31</td>
+                <td>1</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="30 31">97%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="testdata___init___py.html">testdata/__init__.py</a></td>
+                <td>4</td>
+                <td>0</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="4 4">100%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_home_mkoenig_git_tellurium_tellurium_visualization___init___py.html">/home/mkoenig/git/tellurium/tellurium/visualization/__init__.py</a></td>
+                <td>1</td>
+                <td>0</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="1 1">100%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="_home_mkoenig_git_tellurium_tellurium_visualization_sbmldiagram_py.html">/home/mkoenig/git/tellurium/tellurium/visualization/sbmldiagram.py</a></td>
+                <td>64</td>
+                <td>12</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="52 64">81%</td>
+            </tr>
+            
+        </tbody>
+    </table>
+
+    <p id="no_rows">
+        No items found using the specified filter.
+    </p>
+</div>
+
+<div id="footer">
+    <div class="content">
+        <p>
+            <a class="nav" href="https://coverage.readthedocs.org">coverage.py v4.0.3</a>,
+            created at 2016-03-09 12:30
+        </p>
+    </div>
+</div>
+
+</body>
+</html>

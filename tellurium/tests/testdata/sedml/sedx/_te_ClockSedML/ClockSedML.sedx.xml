@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sedML xmlns="http://sed-ml.org/" xmlns:math="http://www.w3.org/1998/Math/MathML" version="1" level="1">
+  <listOfSimulations>
+    <uniformTimeCourse id="simulation1" name="Basic time series" initialTime="0.0" outputStartTime="50.0" outputEndTime="1000.0" numberOfPoints="1000">
+      <annotation>
+        <sbsi-editor xmlns="http://www.sedml.sbsi.editor/level1">
+          <location y="357" x="344" />
+          <size height="45" width="80" />
+        </sbsi-editor>
+      </annotation>
+      <algorithm kisaoID="KISAO:0000035" />
+    </uniformTimeCourse>
+  </listOfSimulations>
+  <listOfModels>
+    <model id="model1" name="Circadian Oscillations" language="urn:sedml:language:sbml" source="Clock_BIOMD21.xml">
+      <annotation>
+        <sbsi-editor xmlns="http://www.sedml.sbsi.editor/level1">
+          <location y="279" x="530" />
+          <size height="71" width="188" />
+        </sbsi-editor>
+      </annotation>
+    </model>
+    <model id="model2" name="Circadian Chaos" language="urn:sedml:language:sbml.level-2.version-2" source="model1">
+      <annotation>
+        <sbsi-editor xmlns="http://www.sedml.sbsi.editor/level1">
+          <location y="471" x="141" />
+          <size height="68" width="145" />
+        </sbsi-editor>
+      </annotation>
+      <listOfChanges>
+        <changeAttribute newValue="0.28" target="/sbml:sbml/sbml:model/sbml:listOfParameters/sbml:parameter[@id='V_mT']/@value">
+          <annotation>
+            <sbsi-editor xmlns="http://www.sedml.sbsi.editor/level1">
+              <location y="502" x="401" />
+              <size height="45" width="80" />
+            </sbsi-editor>
+          </annotation>
+        </changeAttribute>
+        <changeAttribute newValue="4.8" target="/sbml:sbml/sbml:model/sbml:listOfParameters/sbml:parameter[@id='V_dT']/@value">
+          <annotation>
+            <sbsi-editor xmlns="http://www.sedml.sbsi.editor/level1">
+              <location y="523" x="15" />
+              <size height="45" width="80" />
+            </sbsi-editor>
+          </annotation>
+        </changeAttribute>
+      </listOfChanges>
+    </model>
+  </listOfModels>
+  <listOfTasks>
+    <task id="task1" name="Baseline" modelReference="model1" simulationReference="simulation1">
+      <annotation>
+        <sbsi-editor xmlns="http://www.sedml.sbsi.editor/level1">
+          <location y="209" x="444" />
+          <size height="45" width="80" />
+        </sbsi-editor>
+      </annotation>
+    </task>
+    <task id="task2" name="Modified parameters" modelReference="model2" simulationReference="simulation1">
+      <annotation>
+        <sbsi-editor xmlns="http://www.sedml.sbsi.editor/level1">
+          <location y="342" x="175" />
+          <size height="45" width="80" />
+        </sbsi-editor>
+      </annotation>
+    </task>
+  </listOfTasks>
+  <listOfDataGenerators>
+    <dataGenerator id="timeDG" name="Time">
+      <annotation>
+        <sbsi-editor xmlns="http://www.sedml.sbsi.editor/level1">
+          <location y="116" x="191" />
+          <size height="45" width="80" />
+        </sbsi-editor>
+      </annotation>
+      <listOfVariables>
+        <variable id="time" name="time" taskReference="task1" symbol="urn:sedml:symbol:time">
+          <annotation>
+            <sbsi-editor xmlns="http://www.sedml.sbsi.editor/level1">
+              <location y="179" x="290" />
+              <size height="45" width="80" />
+            </sbsi-editor>
+          </annotation>
+        </variable>
+      </listOfVariables>
+      <math:math>
+          <math:ci>time</math:ci>
+      </math:math>
+    </dataGenerator>
+    <dataGenerator id="tim1" name="tim mRNA (total)">
+      <annotation>
+        <sbsi-editor xmlns="http://www.sedml.sbsi.editor/level1">
+          <location y="24" x="520" />
+          <size height="45" width="80" />
+        </sbsi-editor>
+      </annotation>
+      <listOfVariables>
+        <variable id="v1" taskReference="task1" target="/sbml:sbml/sbml:model/sbml:listOfSpecies/sbml:species[@id='Mt']">
+          <annotation>
+            <sbsi-editor xmlns="http://www.sedml.sbsi.editor/level1">
+              <location y="129" x="520" />
+              <size height="45" width="80" />
+            </sbsi-editor>
+          </annotation>
+        </variable>
+      </listOfVariables>
+      <math:math>
+        <math:ci>v1</math:ci>
+      </math:math>
+    </dataGenerator>
+    <dataGenerator id="tim2" name="tim mRNA (changed parameters)">
+      <annotation>
+        <sbsi-editor xmlns="http://www.sedml.sbsi.editor/level1">
+          <location y="179" x="-41" />
+          <size height="60" width="231" />
+        </sbsi-editor>
+      </annotation>
+      <listOfVariables>
+        <variable id="v2" taskReference="task2" target="/sbml:sbml/sbml:model/sbml:listOfSpecies/sbml:species[@id='Mt']">
+          <annotation>
+            <sbsi-editor xmlns="http://www.sedml.sbsi.editor/level1">
+              <location y="326" x="15" />
+              <size height="45" width="80" />
+            </sbsi-editor>
+          </annotation>
+        </variable>
+      </listOfVariables>
+      <math:math>
+        <math:ci>v2</math:ci>
+      </math:math>
+    </dataGenerator>
+  </listOfDataGenerators>
+  <listOfOutputs>
+    <plot2D id="plot1" name="tim mRNA with Oscillation and Chaos">
+      <annotation>
+        <sbsi-editor xmlns="http://www.sedml.sbsi.editor/level1">
+          <location y="11" x="134" />
+          <size height="45" width="80" />
+        </sbsi-editor>
+      </annotation>
+      <listOfCurves>
+        <curve id="c1" logX="false" logY="false" xDataReference="timeDG" yDataReference="tim1">
+          <annotation>
+            <sbsi-editor xmlns="http://www.sedml.sbsi.editor/level1">
+              <location y="37" x="271" />
+              <size height="45" width="80" />
+            </sbsi-editor>
+          </annotation>
+        </curve>
+        <curve id="c2" logX="false" logY="false" xDataReference="timeDG" yDataReference="tim2">
+          <annotation>
+            <sbsi-editor xmlns="http://www.sedml.sbsi.editor/level1">
+              <location y="87" x="38" />
+              <size height="45" width="80" />
+            </sbsi-editor>
+          </annotation>
+        </curve>
+      </listOfCurves>
+    </plot2D>
+  </listOfOutputs>
+</sedML>
+

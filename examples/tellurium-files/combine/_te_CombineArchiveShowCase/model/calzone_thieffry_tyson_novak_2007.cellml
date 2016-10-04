@@ -1,0 +1,2144 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!--
+This CellML file was generated on 29/01/2009 at 10:34:23 at a.m. using:
+
+COR (0.9.31.1125)
+Copyright 2002-2009 Dr Alan Garny
+http://COR.physiol.ox.ac.uk/ - COR@physiol.ox.ac.uk
+
+CellML 1.0 was used to generate this model
+http://www.CellML.org/
+--><model xmlns="http://www.cellml.org/cellml/1.0#" xmlns:cmeta="http://www.cellml.org/metadata/1.0#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bqs="http://www.cellml.org/bqs/1.0#" xmlns:cellml="http://www.cellml.org/cellml/1.0#" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:vCard="http://www.w3.org/2001/vcard-rdf/3.0#" cmeta:id="Calzone_Thieffry_Tyson_Novak_2007_version01" name="Calzone_Thieffry_Tyson_Novak_2007_version01">
+	<documentation xmlns="http://cellml.org/tmp-documentation">
+		<article>
+			<articleinfo>
+				<title>Dynamical modeling of syncytial mitotic cycles in <emphasis>Drosophila</emphasis> embryos</title>
+				<author>
+					<firstname>Jeelean</firstname>
+					<surname>Lim</surname>
+					<affiliation>
+						<shortaffil>Bioengineering Institute, University of Auckland</shortaffil>
+					</affiliation>
+				</author>
+			</articleinfo>
+			<section id="sec_status">
+				<title>Model Status</title>
+				<para>
+            This CellML version of the model runs in PCEnv but requires initial conditions and 'switches' in order to reproduce the published results. The set of parameters used to produce figure 3 of the published paper is implemented in this version. The doubling of N and rescaling of other variables at division are not included in this CellML description.</para>
+<para>
+ValidateCellML verifies this model as valid CellML with fully consistent units.
+				</para>
+			</section>
+			<sect1 id="sec_structure">
+				<title>Model Structure</title>
+				<para>
+ABSTRACT: Immediately following fertilization, the fruit fly embryo undergoes 13 rapid, synchronous, syncytial nuclear division cycles driven by maternal genes and proteins. During these mitotic cycles, there are barely detectable oscillations in the total level of B-type cyclins. In this paper, we propose a dynamical model for the molecular events underlying these early nuclear division cycles in Drosophila. The model distinguishes nuclear and cytoplasmic compartments of the embryo and permits exploration of a variety of rules for protein transport between the compartments. Numerical simulations reproduce the main features of wild-type mitotic cycles: patterns of protein accumulation and degradation, lengthening of later cycles, and arrest in interphase 14. The model is consistent with mutations that introduce subtle changes in the number of mitotic cycles before interphase arrest. Bifurcation analysis of the differential equations reveals the dependence of mitotic oscillations on cycle number, and how this dependence is altered by mutations. The model can be used to predict the phenotypes of novel mutations and effective ranges of the unmeasured rate constants and transport coefficients in the proposed mechanism.
+</para>
+				<para>
+The complete original paper reference is cited below:
+</para>
+				<para>
+					Dynamical modeling of syncytial mitotic cycles in Drosophila embryos, Laurence Calzone, Denis Thieffry, John J Tyson, Bela Novak, 2007, 
+						<emphasis>Molecular Systems Biology</emphasis>
+					, 3, 131.    <ulink url="http://www.ncbi.nlm.nih.gov/pubmed/17667953">PubMed ID: 17667953</ulink>
+				</para>
+				
+				<informalfigure float="0" id="fig_reaction_diagram1">
+					<mediaobject>
+						<imageobject>
+							<objectinfo>
+								<title>figure1</title>
+							</objectinfo>
+							<imagedata fileref="calzone_2007.png"/>
+						</imageobject>
+					</mediaobject>
+					<caption>Dynamical model of nuclear division cycles during early embryogenesis of Drosophila.</caption>
+				</informalfigure>
+			</sect1>
+		</article>
+	</documentation>
+	
+   <units name="minute">
+      <unit units="second" multiplier="60"/>
+   </units>
+   <units name="first_order_rate_constant">
+      <unit units="minute" exponent="-1"/>
+   </units>
+   <component name="environment">
+      <variable units="minute" public_interface="out" name="time"/>
+   </component>
+   <component name="MPF_n">
+      <variable units="dimensionless" public_interface="out" name="MPF_n" initial_value="0"/>
+      <variable units="first_order_rate_constant" public_interface="in" name="k_in"/>
+      <variable units="first_order_rate_constant" public_interface="in" name="k_out"/>
+      <variable units="first_order_rate_constant" public_interface="in" name="k_dn_"/>
+      <variable units="first_order_rate_constant" public_interface="in" name="k_dn__"/>
+      <variable units="first_order_rate_constant" public_interface="in" name="k_wee_"/>
+      <variable units="first_order_rate_constant" public_interface="in" name="k_wee__"/>
+      <variable units="first_order_rate_constant" public_interface="in" name="k_stg_"/>
+      <variable units="first_order_rate_constant" public_interface="in" name="k_stg__"/>
+      <variable units="dimensionless" public_interface="in" name="MPF_c"/>
+      <variable units="dimensionless" public_interface="in" name="FZY"/>
+      <variable units="dimensionless" public_interface="in" name="Wee1_n"/>
+      <variable units="dimensionless" public_interface="in" name="StgP_n"/>
+      <variable units="dimensionless" public_interface="in" name="preMPF_n"/>
+      <variable units="minute" public_interface="in" name="time"/>
+      <math xmlns="http://www.w3.org/1998/Math/MathML">
+         <apply>
+            <eq/>
+            <apply>
+               <diff/>
+               <bvar>
+                  <ci>time</ci>
+               </bvar>
+               <ci>MPF_n</ci>
+            </apply>
+            <apply>
+               <plus/>
+               <apply>
+                  <minus/>
+                  <apply>
+                     <minus/>
+                     <apply>
+                        <minus/>
+                        <apply>
+                           <times/>
+                           <ci>k_in</ci>
+                           <ci>MPF_c</ci>
+                        </apply>
+                        <apply>
+                           <times/>
+                           <ci>k_out</ci>
+                           <ci>MPF_n</ci>
+                        </apply>
+                     </apply>
+                     <apply>
+                        <times/>
+                        <apply>
+                           <plus/>
+                           <ci>k_dn_</ci>
+                           <apply>
+                              <times/>
+                              <ci>k_dn__</ci>
+                              <ci>FZY</ci>
+                           </apply>
+                        </apply>
+                        <ci>MPF_n</ci>
+                     </apply>
+                  </apply>
+                  <apply>
+                     <times/>
+                     <apply>
+                        <plus/>
+                        <ci>k_wee_</ci>
+                        <apply>
+                           <times/>
+                           <ci>k_wee__</ci>
+                           <ci>Wee1_n</ci>
+                        </apply>
+                     </apply>
+                     <ci>MPF_n</ci>
+                  </apply>
+               </apply>
+               <apply>
+                  <times/>
+                  <apply>
+                     <plus/>
+                     <ci>k_stg_</ci>
+                     <apply>
+                        <times/>
+                        <ci>k_stg__</ci>
+                        <ci>StgP_n</ci>
+                     </apply>
+                  </apply>
+                  <ci>preMPF_n</ci>
+               </apply>
+            </apply>
+         </apply>
+      </math>
+   </component>
+   <component name="preMPF_n">
+      <variable units="dimensionless" public_interface="out" name="preMPF_n" initial_value="0"/>
+      <variable units="first_order_rate_constant" public_interface="in" name="k_in"/>
+      <variable units="first_order_rate_constant" public_interface="in" name="k_out"/>
+      <variable units="first_order_rate_constant" public_interface="in" name="k_dn_"/>
+      <variable units="first_order_rate_constant" public_interface="in" name="k_dn__"/>
+      <variable units="first_order_rate_constant" public_interface="in" name="k_wee_"/>
+      <variable units="first_order_rate_constant" public_interface="in" name="k_wee__"/>
+      <variable units="first_order_rate_constant" public_interface="in" name="k_stg_"/>
+      <variable units="first_order_rate_constant" public_interface="in" name="k_stg__"/>
+      <variable units="dimensionless" public_interface="in" name="preMPF_c"/>
+      <variable units="dimensionless" public_interface="in" name="FZY"/>
+      <variable units="dimensionless" public_interface="in" name="Wee1_n"/>
+      <variable units="dimensionless" public_interface="in" name="MPF_n"/>
+      <variable units="dimensionless" public_interface="in" name="StgP_n"/>
+      <variable units="minute" public_interface="in" name="time"/>
+      <math xmlns="http://www.w3.org/1998/Math/MathML">
+         <apply>
+            <eq/>
+            <apply>
+               <diff/>
+               <bvar>
+                  <ci>time</ci>
+               </bvar>
+               <ci>preMPF_n</ci>
+            </apply>
+            <apply>
+               <minus/>
+               <apply>
+                  <plus/>
+                  <apply>
+                     <minus/>
+                     <apply>
+                        <minus/>
+                        <apply>
+                           <times/>
+                           <ci>k_in</ci>
+                           <ci>preMPF_c</ci>
+                        </apply>
+                        <apply>
+                           <times/>
+                           <ci>k_out</ci>
+                           <ci>preMPF_n</ci>
+                        </apply>
+                     </apply>
+                     <apply>
+                        <times/>
+                        <apply>
+                           <plus/>
+                           <ci>k_dn_</ci>
+                           <apply>
+                              <times/>
+                              <ci>k_dn__</ci>
+                              <ci>FZY</ci>
+                           </apply>
+                        </apply>
+                        <ci>preMPF_n</ci>
+                     </apply>
+                  </apply>
+                  <apply>
+                     <times/>
+                     <apply>
+                        <plus/>
+                        <ci>k_wee_</ci>
+                        <apply>
+                           <times/>
+                           <ci>k_wee__</ci>
+                           <ci>Wee1_n</ci>
+                        </apply>
+                     </apply>
+                     <ci>MPF_n</ci>
+                  </apply>
+               </apply>
+               <apply>
+                  <times/>
+                  <apply>
+                     <plus/>
+                     <ci>k_stg_</ci>
+                     <apply>
+                        <times/>
+                        <ci>k_stg__</ci>
+                        <ci>StgP_n</ci>
+                     </apply>
+                  </apply>
+                  <ci>preMPF_n</ci>
+               </apply>
+            </apply>
+         </apply>
+      </math>
+   </component>
+   <component name="MPF_c">
+      <variable units="dimensionless" public_interface="out" name="MPF_c" initial_value="1"/>
+      <variable units="first_order_rate_constant" public_interface="in" name="k_sc"/>
+      <variable units="first_order_rate_constant" public_interface="in" name="k_in"/>
+      <variable units="first_order_rate_constant" public_interface="in" name="k_out"/>
+      <variable units="first_order_rate_constant" public_interface="in" name="k_dc_"/>
+      <variable units="first_order_rate_constant" public_interface="in" name="k_stg_"/>
+      <variable units="first_order_rate_constant" public_interface="in" name="k_stg__"/>
+      <variable units="first_order_rate_constant" public_interface="in" name="k_wee_"/>
+      <variable units="first_order_rate_constant" public_interface="in" name="k_wee__"/>
+      <variable units="dimensionless" public_interface="in" name="epsilon"/>
+      <variable units="dimensionless" public_interface="in" name="MPF_n"/>
+      <variable units="dimensionless" public_interface="in" name="N"/>
+      <variable units="dimensionless" public_interface="in" name="StgP_c"/>
+      <variable units="dimensionless" public_interface="in" name="preMPF_c"/>
+      <variable units="dimensionless" public_interface="in" name="Wee1_c"/>
+      <variable units="minute" public_interface="in" name="time"/>
+      <math xmlns="http://www.w3.org/1998/Math/MathML">
+         <apply>
+            <eq/>
+            <apply>
+               <diff/>
+               <bvar>
+                  <ci>time</ci>
+               </bvar>
+               <ci>MPF_c</ci>
+            </apply>
+            <apply>
+               <minus/>
+               <apply>
+                  <plus/>
+                  <apply>
+                     <minus/>
+                     <apply>
+                        <minus/>
+                        <ci>k_sc</ci>
+                        <apply>
+                           <divide/>
+                           <apply>
+                              <times/>
+                              <ci>epsilon</ci>
+                              <ci>N</ci>
+                              <apply>
+                                 <minus/>
+                                 <apply>
+                                    <times/>
+                                    <ci>k_in</ci>
+                                    <ci>MPF_c</ci>
+                                 </apply>
+                                 <apply>
+                                    <times/>
+                                    <ci>k_out</ci>
+                                    <ci>MPF_n</ci>
+                                 </apply>
+                              </apply>
+                           </apply>
+                           <apply>
+                              <minus/>
+                              <cn cellml:units="dimensionless">1</cn>
+                              <apply>
+                                 <times/>
+                                 <ci>N</ci>
+                                 <ci>epsilon</ci>
+                              </apply>
+                           </apply>
+                        </apply>
+                     </apply>
+                     <apply>
+                        <times/>
+                        <ci>k_dc_</ci>
+                        <ci>MPF_c</ci>
+                     </apply>
+                  </apply>
+                  <apply>
+                     <times/>
+                     <apply>
+                        <plus/>
+                        <ci>k_stg_</ci>
+                        <apply>
+                           <times/>
+                           <ci>k_stg__</ci>
+                           <ci>StgP_c</ci>
+                        </apply>
+                     </apply>
+                     <ci>preMPF_c</ci>
+                  </apply>
+               </apply>
+               <apply>
+                  <times/>
+                  <apply>
+                     <plus/>
+                     <ci>k_wee_</ci>
+                     <apply>
+                        <times/>
+                        <ci>k_wee__</ci>
+                        <ci>Wee1_c</ci>
+                     </apply>
+                  </apply>
+                  <ci>MPF_c</ci>
+               </apply>
+            </apply>
+         </apply>
+      </math>
+   </component>
+   <component name="preMPF_c">
+      <variable units="dimensionless" public_interface="out" name="preMPF_c" initial_value="0"/>
+      <variable units="first_order_rate_constant" public_interface="in" name="k_in"/>
+      <variable units="first_order_rate_constant" public_interface="in" name="k_out"/>
+      <variable units="first_order_rate_constant" public_interface="in" name="k_dc_"/>
+      <variable units="first_order_rate_constant" public_interface="in" name="k_stg_"/>
+      <variable units="first_order_rate_constant" public_interface="in" name="k_stg__"/>
+      <variable units="first_order_rate_constant" public_interface="in" name="k_wee_"/>
+      <variable units="first_order_rate_constant" public_interface="in" name="k_wee__"/>
+      <variable units="dimensionless" public_interface="in" name="epsilon"/>
+      <variable units="dimensionless" public_interface="in" name="N"/>
+      <variable units="dimensionless" public_interface="in" name="preMPF_n"/>
+      <variable units="dimensionless" public_interface="in" name="StgP_c"/>
+      <variable units="dimensionless" public_interface="in" name="Wee1_c"/>
+      <variable units="dimensionless" public_interface="in" name="MPF_c"/>
+      <variable units="minute" public_interface="in" name="time"/>
+      <math xmlns="http://www.w3.org/1998/Math/MathML">
+         <apply>
+            <eq/>
+            <apply>
+               <diff/>
+               <bvar>
+                  <ci>time</ci>
+               </bvar>
+               <ci>preMPF_c</ci>
+            </apply>
+            <apply>
+               <plus/>
+               <apply>
+                  <minus/>
+                  <apply>
+                     <minus/>
+                     <apply>
+                        <divide/>
+                        <apply>
+                           <times/>
+                           <apply>
+                              <minus/>
+                              <ci>epsilon</ci>
+                           </apply>
+                           <ci>N</ci>
+                           <apply>
+                              <minus/>
+                              <apply>
+                                 <times/>
+                                 <ci>k_in</ci>
+                                 <ci>preMPF_c</ci>
+                              </apply>
+                              <apply>
+                                 <times/>
+                                 <ci>k_out</ci>
+                                 <ci>preMPF_n</ci>
+                              </apply>
+                           </apply>
+                        </apply>
+                        <apply>
+                           <minus/>
+                           <cn cellml:units="dimensionless">1</cn>
+                           <apply>
+                              <times/>
+                              <ci>N</ci>
+                              <ci>epsilon</ci>
+                           </apply>
+                        </apply>
+                     </apply>
+                     <apply>
+                        <times/>
+                        <ci>k_dc_</ci>
+                        <ci>preMPF_c</ci>
+                     </apply>
+                  </apply>
+                  <apply>
+                     <times/>
+                     <apply>
+                        <plus/>
+                        <ci>k_stg_</ci>
+                        <apply>
+                           <times/>
+                           <ci>k_stg__</ci>
+                           <ci>StgP_c</ci>
+                        </apply>
+                     </apply>
+                     <ci>preMPF_c</ci>
+                  </apply>
+               </apply>
+               <apply>
+                  <times/>
+                  <apply>
+                     <plus/>
+                     <ci>k_wee_</ci>
+                     <apply>
+                        <times/>
+                        <ci>k_wee__</ci>
+                        <ci>Wee1_c</ci>
+                     </apply>
+                  </apply>
+                  <ci>MPF_c</ci>
+               </apply>
+            </apply>
+         </apply>
+      </math>
+   </component>
+   <component name="IE">
+      <variable units="dimensionless" public_interface="out" name="IE" initial_value="0"/>
+      <variable units="dimensionless" public_interface="in" name="j_aie"/>
+      <variable units="dimensionless" public_interface="in" name="j_iie"/>
+      <variable units="first_order_rate_constant" public_interface="in" name="k_aie"/>
+      <variable units="first_order_rate_constant" public_interface="in" name="k_iie"/>
+      <variable units="dimensionless" public_interface="in" name="MPF_n"/>
+      <variable units="minute" public_interface="in" name="time"/>
+      <math xmlns="http://www.w3.org/1998/Math/MathML">
+         <apply>
+            <eq/>
+            <apply>
+               <diff/>
+               <bvar>
+                  <ci>time</ci>
+               </bvar>
+               <ci>IE</ci>
+            </apply>
+            <apply>
+               <minus/>
+               <apply>
+                  <divide/>
+                  <apply>
+                     <times/>
+                     <ci>k_aie</ci>
+                     <apply>
+                        <minus/>
+                        <cn cellml:units="dimensionless">1</cn>
+                        <ci>IE</ci>
+                     </apply>
+                     <ci>MPF_n</ci>
+                  </apply>
+                  <apply>
+                     <minus/>
+                     <apply>
+                        <plus/>
+                        <ci>j_aie</ci>
+                        <cn cellml:units="dimensionless">1</cn>
+                     </apply>
+                     <ci>IE</ci>
+                  </apply>
+               </apply>
+               <apply>
+                  <divide/>
+                  <apply>
+                     <times/>
+                     <ci>k_iie</ci>
+                     <ci>IE</ci>
+                  </apply>
+                  <apply>
+                     <plus/>
+                     <ci>j_iie</ci>
+                     <ci>IE</ci>
+                  </apply>
+               </apply>
+            </apply>
+         </apply>
+      </math>
+   </component>
+   <component name="FZY">
+      <variable units="dimensionless" public_interface="out" name="FZY" initial_value="0"/>
+      <variable units="dimensionless" public_interface="in" name="j_afz"/>
+      <variable units="dimensionless" public_interface="in" name="j_ifz"/>
+      <variable units="first_order_rate_constant" public_interface="in" name="k_afz"/>
+      <variable units="first_order_rate_constant" public_interface="in" name="k_ifz"/>
+      <variable units="dimensionless" public_interface="in" name="IE"/>
+      <variable units="minute" public_interface="in" name="time"/>
+      <math xmlns="http://www.w3.org/1998/Math/MathML">
+         <apply>
+            <eq/>
+            <apply>
+               <diff/>
+               <bvar>
+                  <ci>time</ci>
+               </bvar>
+               <ci>FZY</ci>
+            </apply>
+            <apply>
+               <minus/>
+               <apply>
+                  <divide/>
+                  <apply>
+                     <times/>
+                     <ci>k_afz</ci>
+                     <ci>IE</ci>
+                     <apply>
+                        <minus/>
+                        <cn cellml:units="dimensionless">1</cn>
+                        <ci>FZY</ci>
+                     </apply>
+                  </apply>
+                  <apply>
+                     <minus/>
+                     <apply>
+                        <plus/>
+                        <ci>j_afz</ci>
+                        <cn cellml:units="dimensionless">1</cn>
+                     </apply>
+                     <ci>FZY</ci>
+                  </apply>
+               </apply>
+               <apply>
+                  <divide/>
+                  <apply>
+                     <times/>
+                     <ci>k_ifz</ci>
+                     <ci>FZY</ci>
+                  </apply>
+                  <apply>
+                     <plus/>
+                     <ci>j_ifz</ci>
+                     <ci>FZY</ci>
+                  </apply>
+               </apply>
+            </apply>
+         </apply>
+      </math>
+   </component>
+   <component name="Stg_m">
+      <variable units="dimensionless" public_interface="out" name="Stg_m" initial_value="1"/>
+      <variable units="first_order_rate_constant" public_interface="in" name="k_dm_"/>
+      <variable units="first_order_rate_constant" public_interface="in" name="k_dm__"/>
+      <variable units="dimensionless" public_interface="in" name="j_m"/>
+      <variable units="dimensionless" public_interface="in" name="Xp"/>
+      <variable units="minute" public_interface="in" name="time"/>
+      <math xmlns="http://www.w3.org/1998/Math/MathML">
+         <apply>
+            <eq/>
+            <apply>
+               <diff/>
+               <bvar>
+                  <ci>time</ci>
+               </bvar>
+               <ci>Stg_m</ci>
+            </apply>
+            <apply>
+               <times/>
+               <apply>
+                  <minus/>
+                  <apply>
+                     <plus/>
+                     <apply>
+                        <divide/>
+                        <ci>k_dm_</ci>
+                        <apply>
+                           <plus/>
+                           <ci>j_m</ci>
+                           <ci>Stg_m</ci>
+                        </apply>
+                     </apply>
+                     <apply>
+                        <times/>
+                        <ci>k_dm__</ci>
+                        <ci>Xp</ci>
+                     </apply>
+                  </apply>
+               </apply>
+               <ci>Stg_m</ci>
+            </apply>
+         </apply>
+      </math>
+   </component>
+   <component name="Xm">
+      <variable units="dimensionless" public_interface="out" name="Xm" initial_value="0"/>
+      <variable units="first_order_rate_constant" public_interface="in" name="k_sxm"/>
+      <variable units="dimensionless" public_interface="in" name="N"/>
+      <variable units="minute" public_interface="in" name="time"/>
+      <math xmlns="http://www.w3.org/1998/Math/MathML">
+         <apply>
+            <eq/>
+            <apply>
+               <diff/>
+               <bvar>
+                  <ci>time</ci>
+               </bvar>
+               <ci>Xm</ci>
+            </apply>
+            <apply>
+               <times/>
+               <ci>k_sxm</ci>
+               <ci>N</ci>
+            </apply>
+         </apply>
+      </math>
+   </component>
+   <component name="Xp">
+      <variable units="dimensionless" public_interface="out" name="Xp" initial_value="0"/>
+      <variable units="first_order_rate_constant" public_interface="in" name="k_sxp"/>
+      <variable units="dimensionless" public_interface="in" name="Xm"/>
+      <variable units="minute" public_interface="in" name="time"/>
+      <math xmlns="http://www.w3.org/1998/Math/MathML">
+         <apply>
+            <eq/>
+            <apply>
+               <diff/>
+               <bvar>
+                  <ci>time</ci>
+               </bvar>
+               <ci>Xp</ci>
+            </apply>
+            <apply>
+               <times/>
+               <ci>k_sxp</ci>
+               <ci>Xm</ci>
+            </apply>
+         </apply>
+      </math>
+   </component>
+   <component name="StgP_n">
+      <variable units="dimensionless" public_interface="out" name="StgP_n" initial_value="0"/>
+      <variable units="first_order_rate_constant" public_interface="in" name="k_ins"/>
+      <variable units="first_order_rate_constant" public_interface="in" name="k_outs"/>
+      <variable units="first_order_rate_constant" public_interface="in" name="k_astg_"/>
+      <variable units="first_order_rate_constant" public_interface="in" name="k_astg__"/>
+      <variable units="first_order_rate_constant" public_interface="in" name="k_istg"/>
+      <variable units="first_order_rate_constant" public_interface="in" name="k_dstg"/>
+      <variable units="dimensionless" public_interface="in" name="j_astg"/>
+      <variable units="dimensionless" public_interface="in" name="j_istg"/>
+      <variable units="dimensionless" public_interface="in" name="StgP_c"/>
+      <variable units="dimensionless" public_interface="in" name="MPF_n"/>
+      <variable units="dimensionless" public_interface="in" name="Stg_n"/>
+      <variable units="minute" public_interface="in" name="time"/>
+      <math xmlns="http://www.w3.org/1998/Math/MathML">
+         <apply>
+            <eq/>
+            <apply>
+               <diff/>
+               <bvar>
+                  <ci>time</ci>
+               </bvar>
+               <ci>StgP_n</ci>
+            </apply>
+            <apply>
+               <minus/>
+               <apply>
+                  <minus/>
+                  <apply>
+                     <plus/>
+                     <apply>
+                        <minus/>
+                        <apply>
+                           <times/>
+                           <ci>k_ins</ci>
+                           <ci>StgP_c</ci>
+                        </apply>
+                        <apply>
+                           <times/>
+                           <ci>k_outs</ci>
+                           <ci>StgP_n</ci>
+                        </apply>
+                     </apply>
+                     <apply>
+                        <divide/>
+                        <apply>
+                           <times/>
+                           <apply>
+                              <plus/>
+                              <ci>k_astg_</ci>
+                              <apply>
+                                 <times/>
+                                 <ci>k_astg__</ci>
+                                 <ci>MPF_n</ci>
+                              </apply>
+                           </apply>
+                           <ci>Stg_n</ci>
+                        </apply>
+                        <apply>
+                           <plus/>
+                           <ci>j_astg</ci>
+                           <ci>Stg_n</ci>
+                        </apply>
+                     </apply>
+                  </apply>
+                  <apply>
+                     <divide/>
+                     <apply>
+                        <times/>
+                        <ci>k_istg</ci>
+                        <ci>StgP_n</ci>
+                     </apply>
+                     <apply>
+                        <plus/>
+                        <ci>j_istg</ci>
+                        <ci>StgP_n</ci>
+                     </apply>
+                  </apply>
+               </apply>
+               <apply>
+                  <times/>
+                  <ci>k_dstg</ci>
+                  <ci>StgP_n</ci>
+               </apply>
+            </apply>
+         </apply>
+      </math>
+   </component>
+   <component name="Stg_n">
+      <variable units="dimensionless" public_interface="out" name="Stg_n" initial_value="0"/>
+      <variable units="first_order_rate_constant" public_interface="in" name="k_ins"/>
+      <variable units="first_order_rate_constant" public_interface="in" name="k_outs"/>
+      <variable units="first_order_rate_constant" public_interface="in" name="k_astg_"/>
+      <variable units="first_order_rate_constant" public_interface="in" name="k_astg__"/>
+      <variable units="first_order_rate_constant" public_interface="in" name="k_istg"/>
+      <variable units="first_order_rate_constant" public_interface="in" name="k_dstg"/>
+      <variable units="dimensionless" public_interface="in" name="j_astg"/>
+      <variable units="dimensionless" public_interface="in" name="j_istg"/>
+      <variable units="dimensionless" public_interface="in" name="Stg_c"/>
+      <variable units="dimensionless" public_interface="in" name="MPF_n"/>
+      <variable units="dimensionless" public_interface="in" name="StgP_n"/>
+      <variable units="minute" public_interface="in" name="time"/>
+      <math xmlns="http://www.w3.org/1998/Math/MathML">
+         <apply>
+            <eq/>
+            <apply>
+               <diff/>
+               <bvar>
+                  <ci>time</ci>
+               </bvar>
+               <ci>Stg_n</ci>
+            </apply>
+            <apply>
+               <minus/>
+               <apply>
+                  <plus/>
+                  <apply>
+                     <minus/>
+                     <apply>
+                        <minus/>
+                        <apply>
+                           <times/>
+                           <ci>k_ins</ci>
+                           <ci>Stg_c</ci>
+                        </apply>
+                        <apply>
+                           <times/>
+                           <ci>k_outs</ci>
+                           <ci>Stg_n</ci>
+                        </apply>
+                     </apply>
+                     <apply>
+                        <divide/>
+                        <apply>
+                           <times/>
+                           <apply>
+                              <plus/>
+                              <ci>k_astg_</ci>
+                              <apply>
+                                 <times/>
+                                 <ci>k_astg__</ci>
+                                 <ci>MPF_n</ci>
+                              </apply>
+                           </apply>
+                           <ci>Stg_n</ci>
+                        </apply>
+                        <apply>
+                           <plus/>
+                           <ci>j_astg</ci>
+                           <ci>Stg_n</ci>
+                        </apply>
+                     </apply>
+                  </apply>
+                  <apply>
+                     <divide/>
+                     <apply>
+                        <times/>
+                        <ci>k_istg</ci>
+                        <ci>StgP_n</ci>
+                     </apply>
+                     <apply>
+                        <plus/>
+                        <ci>j_istg</ci>
+                        <ci>StgP_n</ci>
+                     </apply>
+                  </apply>
+               </apply>
+               <apply>
+                  <times/>
+                  <ci>k_dstg</ci>
+                  <ci>Stg_n</ci>
+               </apply>
+            </apply>
+         </apply>
+      </math>
+   </component>
+   <component name="StgP_c">
+      <variable units="dimensionless" public_interface="out" name="StgP_c" initial_value="0"/>
+      <variable units="first_order_rate_constant" public_interface="in" name="k_dstg"/>
+      <variable units="first_order_rate_constant" public_interface="in" name="k_ins"/>
+      <variable units="first_order_rate_constant" public_interface="in" name="k_outs"/>
+      <variable units="first_order_rate_constant" public_interface="in" name="k_astg_"/>
+      <variable units="first_order_rate_constant" public_interface="in" name="k_astg__"/>
+      <variable units="first_order_rate_constant" public_interface="in" name="k_istg"/>
+      <variable units="dimensionless" public_interface="in" name="j_astg"/>
+      <variable units="dimensionless" public_interface="in" name="j_istg"/>
+      <variable units="dimensionless" public_interface="in" name="epsilon"/>
+      <variable units="dimensionless" public_interface="in" name="Stg_c"/>
+      <variable units="dimensionless" public_interface="in" name="N"/>
+      <variable units="dimensionless" public_interface="in" name="StgP_n"/>
+      <variable units="dimensionless" public_interface="in" name="MPF_c"/>
+      <variable units="minute" public_interface="in" name="time"/>
+      <math xmlns="http://www.w3.org/1998/Math/MathML">
+         <apply>
+            <eq/>
+            <apply>
+               <diff/>
+               <bvar>
+                  <ci>time</ci>
+               </bvar>
+               <ci>StgP_c</ci>
+            </apply>
+            <apply>
+               <minus/>
+               <apply>
+                  <plus/>
+                  <apply>
+                     <minus/>
+                     <apply>
+                        <times/>
+                        <apply>
+                           <minus/>
+                           <ci>k_dstg</ci>
+                        </apply>
+                        <ci>StgP_c</ci>
+                     </apply>
+                     <apply>
+                        <divide/>
+                        <apply>
+                           <times/>
+                           <ci>epsilon</ci>
+                           <ci>N</ci>
+                           <apply>
+                              <minus/>
+                              <apply>
+                                 <times/>
+                                 <ci>k_ins</ci>
+                                 <ci>StgP_c</ci>
+                              </apply>
+                              <apply>
+                                 <times/>
+                                 <ci>k_outs</ci>
+                                 <ci>StgP_n</ci>
+                              </apply>
+                           </apply>
+                        </apply>
+                        <apply>
+                           <minus/>
+                           <cn cellml:units="dimensionless">1</cn>
+                           <apply>
+                              <times/>
+                              <ci>N</ci>
+                              <ci>epsilon</ci>
+                           </apply>
+                        </apply>
+                     </apply>
+                  </apply>
+                  <apply>
+                     <divide/>
+                     <apply>
+                        <times/>
+                        <apply>
+                           <plus/>
+                           <ci>k_astg_</ci>
+                           <apply>
+                              <times/>
+                              <ci>k_astg__</ci>
+                              <ci>MPF_c</ci>
+                           </apply>
+                        </apply>
+                        <ci>Stg_c</ci>
+                     </apply>
+                     <apply>
+                        <plus/>
+                        <ci>j_astg</ci>
+                        <ci>Stg_c</ci>
+                     </apply>
+                  </apply>
+               </apply>
+               <apply>
+                  <divide/>
+                  <apply>
+                     <times/>
+                     <ci>k_istg</ci>
+                     <ci>StgP_c</ci>
+                  </apply>
+                  <apply>
+                     <plus/>
+                     <ci>j_istg</ci>
+                     <ci>StgP_c</ci>
+                  </apply>
+               </apply>
+            </apply>
+         </apply>
+      </math>
+   </component>
+   <component name="Stg_c">
+      <variable units="dimensionless" public_interface="out" name="Stg_c" initial_value="1"/>
+      <variable units="dimensionless" public_interface="in" name="j_astg"/>
+      <variable units="dimensionless" public_interface="in" name="j_istg"/>
+      <variable units="first_order_rate_constant" public_interface="in" name="k_sstg"/>
+      <variable units="first_order_rate_constant" public_interface="in" name="k_dstg"/>
+      <variable units="first_order_rate_constant" public_interface="in" name="k_ins"/>
+      <variable units="first_order_rate_constant" public_interface="in" name="k_outs"/>
+      <variable units="first_order_rate_constant" public_interface="in" name="k_astg_"/>
+      <variable units="first_order_rate_constant" public_interface="in" name="k_astg__"/>
+      <variable units="first_order_rate_constant" public_interface="in" name="k_istg"/>
+      <variable units="dimensionless" public_interface="in" name="Stg_m"/>
+      <variable units="dimensionless" public_interface="in" name="epsilon"/>
+      <variable units="dimensionless" public_interface="in" name="N"/>
+      <variable units="dimensionless" public_interface="in" name="Stg_n"/>
+      <variable units="dimensionless" public_interface="in" name="MPF_c"/>
+      <variable units="dimensionless" public_interface="in" name="StgP_c"/>
+      <variable units="minute" public_interface="in" name="time"/>
+      <math xmlns="http://www.w3.org/1998/Math/MathML">
+         <apply>
+            <eq/>
+            <apply>
+               <diff/>
+               <bvar>
+                  <ci>time</ci>
+               </bvar>
+               <ci>Stg_c</ci>
+            </apply>
+            <apply>
+               <plus/>
+               <apply>
+                  <minus/>
+                  <apply>
+                     <minus/>
+                     <apply>
+                        <minus/>
+                        <apply>
+                           <times/>
+                           <ci>k_sstg</ci>
+                           <ci>Stg_m</ci>
+                        </apply>
+                        <apply>
+                           <times/>
+                           <ci>k_dstg</ci>
+                           <ci>Stg_c</ci>
+                        </apply>
+                     </apply>
+                     <apply>
+                        <divide/>
+                        <apply>
+                           <times/>
+                           <ci>epsilon</ci>
+                           <ci>N</ci>
+                           <apply>
+                              <minus/>
+                              <apply>
+                                 <times/>
+                                 <ci>k_ins</ci>
+                                 <ci>Stg_c</ci>
+                              </apply>
+                              <apply>
+                                 <times/>
+                                 <ci>k_outs</ci>
+                                 <ci>Stg_n</ci>
+                              </apply>
+                           </apply>
+                        </apply>
+                        <apply>
+                           <minus/>
+                           <cn cellml:units="dimensionless">1</cn>
+                           <apply>
+                              <times/>
+                              <ci>N</ci>
+                              <ci>epsilon</ci>
+                           </apply>
+                        </apply>
+                     </apply>
+                  </apply>
+                  <apply>
+                     <divide/>
+                     <apply>
+                        <times/>
+                        <apply>
+                           <plus/>
+                           <ci>k_astg_</ci>
+                           <apply>
+                              <times/>
+                              <ci>k_astg__</ci>
+                              <ci>MPF_c</ci>
+                           </apply>
+                        </apply>
+                        <ci>Stg_c</ci>
+                     </apply>
+                     <apply>
+                        <plus/>
+                        <ci>j_astg</ci>
+                        <ci>Stg_c</ci>
+                     </apply>
+                  </apply>
+               </apply>
+               <apply>
+                  <divide/>
+                  <apply>
+                     <times/>
+                     <ci>k_istg</ci>
+                     <ci>StgP_c</ci>
+                  </apply>
+                  <apply>
+                     <plus/>
+                     <ci>j_istg</ci>
+                     <ci>StgP_c</ci>
+                  </apply>
+               </apply>
+            </apply>
+         </apply>
+      </math>
+   </component>
+   <component name="Wee1_n">
+      <variable units="dimensionless" public_interface="out" name="Wee1_n" initial_value="0"/>
+      <variable units="first_order_rate_constant" public_interface="in" name="k_inw"/>
+      <variable units="first_order_rate_constant" public_interface="in" name="k_outw"/>
+      <variable units="first_order_rate_constant" public_interface="in" name="k_awee"/>
+      <variable units="first_order_rate_constant" public_interface="in" name="k_iwee_"/>
+      <variable units="first_order_rate_constant" public_interface="in" name="k_iwee__"/>
+      <variable units="dimensionless" public_interface="in" name="j_awee"/>
+      <variable units="dimensionless" public_interface="in" name="j_iwee"/>
+      <variable units="dimensionless" public_interface="in" name="Wee1_c"/>
+      <variable units="dimensionless" public_interface="in" name="Wee1P_n"/>
+      <variable units="dimensionless" public_interface="in" name="MPF_n"/>
+      <variable units="minute" public_interface="in" name="time"/>
+      <math xmlns="http://www.w3.org/1998/Math/MathML">
+         <apply>
+            <eq/>
+            <apply>
+               <diff/>
+               <bvar>
+                  <ci>time</ci>
+               </bvar>
+               <ci>Wee1_n</ci>
+            </apply>
+            <apply>
+               <minus/>
+               <apply>
+                  <plus/>
+                  <apply>
+                     <minus/>
+                     <apply>
+                        <times/>
+                        <ci>k_inw</ci>
+                        <ci>Wee1_c</ci>
+                     </apply>
+                     <apply>
+                        <times/>
+                        <ci>k_outw</ci>
+                        <ci>Wee1_n</ci>
+                     </apply>
+                  </apply>
+                  <apply>
+                     <divide/>
+                     <apply>
+                        <times/>
+                        <ci>k_awee</ci>
+                        <ci>Wee1P_n</ci>
+                     </apply>
+                     <apply>
+                        <plus/>
+                        <ci>j_awee</ci>
+                        <ci>Wee1P_n</ci>
+                     </apply>
+                  </apply>
+               </apply>
+               <apply>
+                  <divide/>
+                  <apply>
+                     <times/>
+                     <apply>
+                        <plus/>
+                        <ci>k_iwee_</ci>
+                        <apply>
+                           <times/>
+                           <ci>k_iwee__</ci>
+                           <ci>MPF_n</ci>
+                        </apply>
+                     </apply>
+                     <ci>Wee1_n</ci>
+                  </apply>
+                  <apply>
+                     <plus/>
+                     <ci>j_iwee</ci>
+                     <ci>Wee1_n</ci>
+                  </apply>
+               </apply>
+            </apply>
+         </apply>
+      </math>
+   </component>
+   <component name="Wee1_c">
+      <variable units="dimensionless" public_interface="out" name="Wee1_c" initial_value="0"/>
+      <variable units="first_order_rate_constant" public_interface="in" name="k_inw"/>
+      <variable units="first_order_rate_constant" public_interface="in" name="k_outw"/>
+      <variable units="first_order_rate_constant" public_interface="in" name="k_awee"/>
+      <variable units="first_order_rate_constant" public_interface="in" name="k_iwee_"/>
+      <variable units="first_order_rate_constant" public_interface="in" name="k_iwee__"/>
+      <variable units="dimensionless" public_interface="in" name="j_awee"/>
+      <variable units="dimensionless" public_interface="in" name="j_iwee"/>
+      <variable units="dimensionless" public_interface="in" name="Wee1_n"/>
+      <variable units="dimensionless" public_interface="in" name="N"/>
+      <variable units="dimensionless" public_interface="in" name="epsilon"/>
+      <variable units="dimensionless" public_interface="in" name="Wee1P_c"/>
+      <variable units="dimensionless" public_interface="in" name="MPF_c"/>
+      <variable units="minute" public_interface="in" name="time"/>
+      <math xmlns="http://www.w3.org/1998/Math/MathML">
+         <apply>
+            <eq/>
+            <apply>
+               <diff/>
+               <bvar>
+                  <ci>time</ci>
+               </bvar>
+               <ci>Wee1_c</ci>
+            </apply>
+            <apply>
+               <minus/>
+               <apply>
+                  <plus/>
+                  <apply>
+                     <divide/>
+                     <apply>
+                        <times/>
+                        <apply>
+                           <minus/>
+                           <apply>
+                              <minus/>
+                              <apply>
+                                 <times/>
+                                 <ci>k_inw</ci>
+                                 <ci>Wee1_c</ci>
+                              </apply>
+                              <apply>
+                                 <times/>
+                                 <ci>k_outw</ci>
+                                 <ci>Wee1_n</ci>
+                              </apply>
+                           </apply>
+                        </apply>
+                        <ci>N</ci>
+                        <ci>epsilon</ci>
+                     </apply>
+                     <apply>
+                        <minus/>
+                        <cn cellml:units="dimensionless">1</cn>
+                        <apply>
+                           <times/>
+                           <ci>N</ci>
+                           <ci>epsilon</ci>
+                        </apply>
+                     </apply>
+                  </apply>
+                  <apply>
+                     <divide/>
+                     <apply>
+                        <times/>
+                        <ci>k_awee</ci>
+                        <ci>Wee1P_c</ci>
+                     </apply>
+                     <apply>
+                        <plus/>
+                        <ci>j_awee</ci>
+                        <ci>Wee1P_c</ci>
+                     </apply>
+                  </apply>
+               </apply>
+               <apply>
+                  <divide/>
+                  <apply>
+                     <times/>
+                     <apply>
+                        <plus/>
+                        <ci>k_iwee_</ci>
+                        <apply>
+                           <times/>
+                           <ci>k_iwee__</ci>
+                           <ci>MPF_c</ci>
+                        </apply>
+                     </apply>
+                     <ci>Wee1_c</ci>
+                  </apply>
+                  <apply>
+                     <plus/>
+                     <ci>j_iwee</ci>
+                     <ci>Wee1_c</ci>
+                  </apply>
+               </apply>
+            </apply>
+         </apply>
+      </math>
+   </component>
+   <component name="Wee1P_n">
+      <variable units="dimensionless" public_interface="out" name="Wee1P_n" initial_value="0"/>
+      <variable units="first_order_rate_constant" public_interface="in" name="k_inw"/>
+      <variable units="first_order_rate_constant" public_interface="in" name="k_outw"/>
+      <variable units="first_order_rate_constant" public_interface="in" name="k_awee"/>
+      <variable units="first_order_rate_constant" public_interface="in" name="k_iwee_"/>
+      <variable units="first_order_rate_constant" public_interface="in" name="k_iwee__"/>
+      <variable units="dimensionless" public_interface="in" name="j_awee"/>
+      <variable units="dimensionless" public_interface="in" name="j_iwee"/>
+      <variable units="dimensionless" public_interface="in" name="Wee1P_c"/>
+      <variable units="dimensionless" public_interface="in" name="MPF_n"/>
+      <variable units="dimensionless" public_interface="in" name="Wee1_n"/>
+      <variable units="minute" public_interface="in" name="time"/>
+      <math xmlns="http://www.w3.org/1998/Math/MathML">
+         <apply>
+            <eq/>
+            <apply>
+               <diff/>
+               <bvar>
+                  <ci>time</ci>
+               </bvar>
+               <ci>Wee1P_n</ci>
+            </apply>
+            <apply>
+               <plus/>
+               <apply>
+                  <minus/>
+                  <apply>
+                     <minus/>
+                     <apply>
+                        <times/>
+                        <ci>k_inw</ci>
+                        <ci>Wee1P_c</ci>
+                     </apply>
+                     <apply>
+                        <times/>
+                        <ci>k_outw</ci>
+                        <ci>Wee1P_n</ci>
+                     </apply>
+                  </apply>
+                  <apply>
+                     <divide/>
+                     <apply>
+                        <times/>
+                        <ci>k_awee</ci>
+                        <ci>Wee1P_n</ci>
+                     </apply>
+                     <apply>
+                        <plus/>
+                        <ci>j_awee</ci>
+                        <ci>Wee1P_n</ci>
+                     </apply>
+                  </apply>
+               </apply>
+               <apply>
+                  <divide/>
+                  <apply>
+                     <times/>
+                     <apply>
+                        <plus/>
+                        <ci>k_iwee_</ci>
+                        <apply>
+                           <times/>
+                           <ci>k_iwee__</ci>
+                           <ci>MPF_n</ci>
+                        </apply>
+                     </apply>
+                     <ci>Wee1_n</ci>
+                  </apply>
+                  <apply>
+                     <plus/>
+                     <ci>j_iwee</ci>
+                     <ci>Wee1_n</ci>
+                  </apply>
+               </apply>
+            </apply>
+         </apply>
+      </math>
+   </component>
+   <component name="Wee1P_c">
+      <variable units="dimensionless" public_interface="out" name="Wee1P_c"/>
+      <variable units="dimensionless" name="Wee1_T" initial_value="0.8"/>
+      <variable units="dimensionless" public_interface="in" name="epsilon"/>
+      <variable units="dimensionless" public_interface="in" name="Wee1_n"/>
+      <variable units="dimensionless" public_interface="in" name="Wee1P_n"/>
+      <variable units="dimensionless" public_interface="in" name="N"/>
+      <variable units="dimensionless" public_interface="in" name="Wee1_c"/>
+      <math xmlns="http://www.w3.org/1998/Math/MathML">
+         <apply>
+            <eq/>
+            <ci>Wee1P_c</ci>
+            <apply>
+               <minus/>
+               <apply>
+                  <divide/>
+                  <apply>
+                     <minus/>
+                     <ci>Wee1_T</ci>
+                     <apply>
+                        <times/>
+                        <ci>N</ci>
+                        <ci>epsilon</ci>
+                        <apply>
+                           <plus/>
+                           <ci>Wee1_n</ci>
+                           <ci>Wee1P_n</ci>
+                        </apply>
+                     </apply>
+                  </apply>
+                  <apply>
+                     <minus/>
+                     <cn cellml:units="dimensionless">1</cn>
+                     <apply>
+                        <times/>
+                        <ci>N</ci>
+                        <ci>epsilon</ci>
+                     </apply>
+                  </apply>
+               </apply>
+               <ci>Wee1_c</ci>
+            </apply>
+         </apply>
+      </math>
+   </component>
+   <component name="N">
+      <variable units="dimensionless" public_interface="out" name="N" initial_value="1"/>
+      <variable units="minute" public_interface="in" name="time"/>
+      <math xmlns="http://www.w3.org/1998/Math/MathML">
+         <apply>
+            <eq/>
+            <apply>
+               <diff/>
+               <bvar>
+                  <ci>time</ci>
+               </bvar>
+               <ci>N</ci>
+            </apply>
+            <cn cellml:units="first_order_rate_constant">0</cn>
+         </apply>
+      </math>
+   </component>
+   <component name="CycB_T">
+      <variable units="dimensionless" public_interface="out" name="CycB_T"/>
+      <variable units="dimensionless" public_interface="in" name="N"/>
+      <variable units="dimensionless" public_interface="in" name="epsilon"/>
+      <variable units="dimensionless" public_interface="in" name="MPF_c"/>
+      <variable units="dimensionless" public_interface="in" name="preMPF_c"/>
+      <variable units="dimensionless" public_interface="in" name="MPF_n"/>
+      <variable units="dimensionless" public_interface="in" name="preMPF_n"/>
+      <math xmlns="http://www.w3.org/1998/Math/MathML">
+         <apply>
+            <eq/>
+            <ci>CycB_T</ci>
+            <apply>
+               <plus/>
+               <apply>
+                  <times/>
+                  <apply>
+                     <minus/>
+                     <cn cellml:units="dimensionless">1</cn>
+                     <apply>
+                        <times/>
+                        <ci>N</ci>
+                        <ci>epsilon</ci>
+                     </apply>
+                  </apply>
+                  <apply>
+                     <plus/>
+                     <ci>MPF_c</ci>
+                     <ci>preMPF_c</ci>
+                  </apply>
+               </apply>
+               <apply>
+                  <times/>
+                  <ci>N</ci>
+                  <ci>epsilon</ci>
+                  <apply>
+                     <plus/>
+                     <ci>MPF_n</ci>
+                     <ci>preMPF_n</ci>
+                  </apply>
+               </apply>
+            </apply>
+         </apply>
+      </math>
+   </component>
+   <component name="Stg_T">
+      <variable units="dimensionless" public_interface="out" name="Stg_T"/>
+      <variable units="dimensionless" public_interface="in" name="N"/>
+      <variable units="dimensionless" public_interface="in" name="epsilon"/>
+      <variable units="dimensionless" public_interface="in" name="Stg_c"/>
+      <variable units="dimensionless" public_interface="in" name="StgP_c"/>
+      <variable units="dimensionless" public_interface="in" name="Stg_n"/>
+      <variable units="dimensionless" public_interface="in" name="StgP_n"/>
+      <math xmlns="http://www.w3.org/1998/Math/MathML">
+         <apply>
+            <eq/>
+            <ci>Stg_T</ci>
+            <apply>
+               <plus/>
+               <apply>
+                  <times/>
+                  <apply>
+                     <minus/>
+                     <cn cellml:units="dimensionless">1</cn>
+                     <apply>
+                        <times/>
+                        <ci>N</ci>
+                        <ci>epsilon</ci>
+                     </apply>
+                  </apply>
+                  <apply>
+                     <plus/>
+                     <ci>Stg_c</ci>
+                     <ci>StgP_c</ci>
+                  </apply>
+               </apply>
+               <apply>
+                  <times/>
+                  <ci>N</ci>
+                  <ci>epsilon</ci>
+                  <apply>
+                     <plus/>
+                     <ci>Stg_n</ci>
+                     <ci>StgP_n</ci>
+                  </apply>
+               </apply>
+            </apply>
+         </apply>
+      </math>
+   </component>
+   <component name="StgP_T">
+      <variable units="dimensionless" public_interface="out" name="StgP_T"/>
+      <variable units="dimensionless" public_interface="in" name="N"/>
+      <variable units="dimensionless" public_interface="in" name="epsilon"/>
+      <variable units="dimensionless" public_interface="in" name="StgP_c"/>
+      <variable units="dimensionless" public_interface="in" name="StgP_n"/>
+      <math xmlns="http://www.w3.org/1998/Math/MathML">
+         <apply>
+            <eq/>
+            <ci>StgP_T</ci>
+            <apply>
+               <plus/>
+               <apply>
+                  <times/>
+                  <apply>
+                     <minus/>
+                     <cn cellml:units="dimensionless">1</cn>
+                     <apply>
+                        <times/>
+                        <ci>N</ci>
+                        <ci>epsilon</ci>
+                     </apply>
+                  </apply>
+                  <ci>StgP_c</ci>
+               </apply>
+               <apply>
+                  <times/>
+                  <ci>N</ci>
+                  <ci>epsilon</ci>
+                  <ci>StgP_n</ci>
+               </apply>
+            </apply>
+         </apply>
+      </math>
+   </component>
+   <component name="parameters">
+      <variable units="first_order_rate_constant" public_interface="out" name="k_sc" initial_value="0.01"/>
+      <variable units="first_order_rate_constant" public_interface="out" name="k_dc_" initial_value="0.01"/>
+      <variable units="first_order_rate_constant" public_interface="out" name="k_dn_" initial_value="0.01"/>
+      <variable units="first_order_rate_constant" public_interface="out" name="k_dn__" initial_value="1.5"/>
+      <variable units="first_order_rate_constant" public_interface="out" name="k_afz" initial_value="1"/>
+      <variable units="first_order_rate_constant" public_interface="out" name="k_ifz" initial_value="0.2"/>
+      <variable units="first_order_rate_constant" public_interface="out" name="k_aie" initial_value="1"/>
+      <variable units="first_order_rate_constant" public_interface="out" name="k_iie" initial_value="0.4"/>
+      <variable units="first_order_rate_constant" public_interface="out" name="k_wee_" initial_value="0.005"/>
+      <variable units="first_order_rate_constant" public_interface="out" name="k_wee__" initial_value="1"/>
+      <variable units="first_order_rate_constant" public_interface="out" name="k_awee" initial_value="0.3"/>
+      <variable units="first_order_rate_constant" public_interface="out" name="k_iwee_" initial_value="0.01"/>
+      <variable units="first_order_rate_constant" public_interface="out" name="k_iwee__" initial_value="1"/>
+      <variable units="first_order_rate_constant" public_interface="out" name="k_stg_" initial_value="0.2"/>
+      <variable units="first_order_rate_constant" public_interface="out" name="k_stg__" initial_value="2"/>
+      <variable units="first_order_rate_constant" public_interface="out" name="k_astg_" initial_value="0"/>
+      <variable units="first_order_rate_constant" public_interface="out" name="k_astg__" initial_value="1"/>
+      <variable units="first_order_rate_constant" public_interface="out" name="k_istg" initial_value="0.3"/>
+      <variable units="first_order_rate_constant" public_interface="out" name="k_sstg" initial_value="0.02"/>
+      <variable units="first_order_rate_constant" public_interface="out" name="k_dstg" initial_value="0.015"/>
+      <variable units="first_order_rate_constant" public_interface="out" name="k_dm_" initial_value="0.002"/>
+      <variable units="first_order_rate_constant" public_interface="out" name="k_dm__" initial_value="0.2"/>
+      <variable units="first_order_rate_constant" public_interface="out" name="k_sxm" initial_value="0.0005"/>
+      <variable units="first_order_rate_constant" public_interface="out" name="k_sxp" initial_value="0.001"/>
+      <variable units="first_order_rate_constant" public_interface="out" name="k_ez" initial_value="0.5"/>
+      <variable units="first_order_rate_constant" public_interface="out" name="k_outs" initial_value="0.02"/>
+      <variable units="first_order_rate_constant" public_interface="out" name="k_outw" initial_value="0.01"/>
+      <variable units="first_order_rate_constant" public_interface="out" name="k_ins" initial_value="0.08"/>
+      <variable units="first_order_rate_constant" public_interface="out" name="k_inw" initial_value="0.04"/>
+      <variable units="first_order_rate_constant" public_interface="out" name="k_in" initial_value="0.15"/>
+      <variable units="first_order_rate_constant" public_interface="out" name="k_out" initial_value="0"/>
+      <variable units="dimensionless" public_interface="out" name="j_afz" initial_value="0.01"/>
+      <variable units="dimensionless" public_interface="out" name="j_ifz" initial_value="0.01"/>
+      <variable units="dimensionless" public_interface="out" name="j_aie" initial_value="0.01"/>
+      <variable units="dimensionless" public_interface="out" name="j_iie" initial_value="0.01"/>
+      <variable units="dimensionless" public_interface="out" name="j_awee" initial_value="0.05"/>
+      <variable units="dimensionless" public_interface="out" name="j_iwee" initial_value="0.05"/>
+      <variable units="dimensionless" public_interface="out" name="j_astg" initial_value="0.05"/>
+      <variable units="dimensionless" public_interface="out" name="j_istg" initial_value="0.05"/>
+      <variable units="dimensionless" public_interface="out" name="j_m" initial_value="0.05"/>
+      <variable units="dimensionless" public_interface="out" name="epsilon" initial_value="0.00007"/>
+   </component>
+   <connection>
+      <map_components component_2="environment" component_1="MPF_n"/>
+      <map_variables variable_2="time" variable_1="time"/>
+   </connection>
+   <connection>
+      <map_components component_2="environment" component_1="preMPF_n"/>
+      <map_variables variable_2="time" variable_1="time"/>
+   </connection>
+   <connection>
+      <map_components component_2="environment" component_1="MPF_c"/>
+      <map_variables variable_2="time" variable_1="time"/>
+   </connection>
+   <connection>
+      <map_components component_2="environment" component_1="preMPF_c"/>
+      <map_variables variable_2="time" variable_1="time"/>
+   </connection>
+   <connection>
+      <map_components component_2="environment" component_1="IE"/>
+      <map_variables variable_2="time" variable_1="time"/>
+   </connection>
+   <connection>
+      <map_components component_2="environment" component_1="FZY"/>
+      <map_variables variable_2="time" variable_1="time"/>
+   </connection>
+   <connection>
+      <map_components component_2="environment" component_1="Stg_m"/>
+      <map_variables variable_2="time" variable_1="time"/>
+   </connection>
+   <connection>
+      <map_components component_2="environment" component_1="Xm"/>
+      <map_variables variable_2="time" variable_1="time"/>
+   </connection>
+   <connection>
+      <map_components component_2="environment" component_1="Xp"/>
+      <map_variables variable_2="time" variable_1="time"/>
+   </connection>
+   <connection>
+      <map_components component_2="environment" component_1="StgP_n"/>
+      <map_variables variable_2="time" variable_1="time"/>
+   </connection>
+   <connection>
+      <map_components component_2="environment" component_1="Stg_n"/>
+      <map_variables variable_2="time" variable_1="time"/>
+   </connection>
+   <connection>
+      <map_components component_2="environment" component_1="StgP_c"/>
+      <map_variables variable_2="time" variable_1="time"/>
+   </connection>
+   <connection>
+      <map_components component_2="environment" component_1="Stg_c"/>
+      <map_variables variable_2="time" variable_1="time"/>
+   </connection>
+   <connection>
+      <map_components component_2="environment" component_1="Wee1_n"/>
+      <map_variables variable_2="time" variable_1="time"/>
+   </connection>
+   <connection>
+      <map_components component_2="environment" component_1="Wee1_c"/>
+      <map_variables variable_2="time" variable_1="time"/>
+   </connection>
+   <connection>
+      <map_components component_2="environment" component_1="Wee1P_n"/>
+      <map_variables variable_2="time" variable_1="time"/>
+   </connection>
+   <connection>
+      <map_components component_2="environment" component_1="N"/>
+      <map_variables variable_2="time" variable_1="time"/>
+   </connection>
+   <connection>
+      <map_components component_2="parameters" component_1="MPF_n"/>
+      <map_variables variable_2="k_in" variable_1="k_in"/>
+      <map_variables variable_2="k_out" variable_1="k_out"/>
+      <map_variables variable_2="k_dn_" variable_1="k_dn_"/>
+      <map_variables variable_2="k_dn__" variable_1="k_dn__"/>
+      <map_variables variable_2="k_wee_" variable_1="k_wee_"/>
+      <map_variables variable_2="k_wee__" variable_1="k_wee__"/>
+      <map_variables variable_2="k_stg_" variable_1="k_stg_"/>
+      <map_variables variable_2="k_stg__" variable_1="k_stg__"/>
+   </connection>
+   <connection>
+      <map_components component_2="MPF_c" component_1="MPF_n"/>
+      <map_variables variable_2="MPF_c" variable_1="MPF_c"/>
+      <map_variables variable_2="MPF_n" variable_1="MPF_n"/>
+   </connection>
+   <connection>
+      <map_components component_2="FZY" component_1="MPF_n"/>
+      <map_variables variable_2="FZY" variable_1="FZY"/>
+   </connection>
+   <connection>
+      <map_components component_2="Wee1_n" component_1="MPF_n"/>
+      <map_variables variable_2="Wee1_n" variable_1="Wee1_n"/>
+      <map_variables variable_2="MPF_n" variable_1="MPF_n"/>
+   </connection>
+   <connection>
+      <map_components component_2="StgP_n" component_1="MPF_n"/>
+      <map_variables variable_2="StgP_n" variable_1="StgP_n"/>
+      <map_variables variable_2="MPF_n" variable_1="MPF_n"/>
+   </connection>
+   <connection>
+      <map_components component_2="preMPF_n" component_1="MPF_n"/>
+      <map_variables variable_2="preMPF_n" variable_1="preMPF_n"/>
+      <map_variables variable_2="MPF_n" variable_1="MPF_n"/>
+   </connection>
+   <connection>
+      <map_components component_2="parameters" component_1="preMPF_n"/>
+      <map_variables variable_2="k_in" variable_1="k_in"/>
+      <map_variables variable_2="k_out" variable_1="k_out"/>
+      <map_variables variable_2="k_dn_" variable_1="k_dn_"/>
+      <map_variables variable_2="k_dn__" variable_1="k_dn__"/>
+      <map_variables variable_2="k_wee_" variable_1="k_wee_"/>
+      <map_variables variable_2="k_wee__" variable_1="k_wee__"/>
+      <map_variables variable_2="k_wee_" variable_1="k_stg_"/>
+      <map_variables variable_2="k_stg__" variable_1="k_stg__"/>
+   </connection>
+   <connection>
+      <map_components component_2="preMPF_c" component_1="preMPF_n"/>
+      <map_variables variable_2="preMPF_c" variable_1="preMPF_c"/>
+      <map_variables variable_2="preMPF_n" variable_1="preMPF_n"/>
+   </connection>
+   <connection>
+      <map_components component_2="FZY" component_1="preMPF_n"/>
+      <map_variables variable_2="FZY" variable_1="FZY"/>
+   </connection>
+   <connection>
+      <map_components component_2="Wee1_n" component_1="preMPF_n"/>
+      <map_variables variable_2="Wee1_n" variable_1="Wee1_n"/>
+   </connection>
+   <connection>
+      <map_components component_2="StgP_n" component_1="preMPF_n"/>
+      <map_variables variable_2="StgP_n" variable_1="StgP_n"/>
+   </connection>
+   <connection>
+      <map_components component_2="parameters" component_1="MPF_c"/>
+      <map_variables variable_2="k_sc" variable_1="k_sc"/>
+      <map_variables variable_2="k_in" variable_1="k_in"/>
+      <map_variables variable_2="k_out" variable_1="k_out"/>
+      <map_variables variable_2="k_dc_" variable_1="k_dc_"/>
+      <map_variables variable_2="k_stg_" variable_1="k_stg_"/>
+      <map_variables variable_2="k_stg__" variable_1="k_stg__"/>
+      <map_variables variable_2="k_wee_" variable_1="k_wee_"/>
+      <map_variables variable_2="k_wee__" variable_1="k_wee__"/>
+      <map_variables variable_2="epsilon" variable_1="epsilon"/>
+   </connection>
+   <connection>
+      <map_components component_2="N" component_1="MPF_c"/>
+      <map_variables variable_2="N" variable_1="N"/>
+   </connection>
+   <connection>
+      <map_components component_2="StgP_c" component_1="MPF_c"/>
+      <map_variables variable_2="StgP_c" variable_1="StgP_c"/>
+      <map_variables variable_2="MPF_c" variable_1="MPF_c"/>
+   </connection>
+   <connection>
+      <map_components component_2="preMPF_c" component_1="MPF_c"/>
+      <map_variables variable_2="preMPF_c" variable_1="preMPF_c"/>
+      <map_variables variable_2="MPF_c" variable_1="MPF_c"/>
+   </connection>
+   <connection>
+      <map_components component_2="Wee1_c" component_1="MPF_c"/>
+      <map_variables variable_2="Wee1_c" variable_1="Wee1_c"/>
+      <map_variables variable_2="MPF_c" variable_1="MPF_c"/>
+   </connection>
+   <connection>
+      <map_components component_2="parameters" component_1="preMPF_c"/>
+      <map_variables variable_2="k_in" variable_1="k_in"/>
+      <map_variables variable_2="k_out" variable_1="k_out"/>
+      <map_variables variable_2="k_dc_" variable_1="k_dc_"/>
+      <map_variables variable_2="k_stg_" variable_1="k_stg_"/>
+      <map_variables variable_2="k_stg__" variable_1="k_stg__"/>
+      <map_variables variable_2="k_wee_" variable_1="k_wee_"/>
+      <map_variables variable_2="k_wee__" variable_1="k_wee__"/>
+      <map_variables variable_2="epsilon" variable_1="epsilon"/>
+   </connection>
+   <connection>
+      <map_components component_2="N" component_1="preMPF_c"/>
+      <map_variables variable_2="N" variable_1="N"/>
+   </connection>
+   <connection>
+      <map_components component_2="StgP_c" component_1="preMPF_c"/>
+      <map_variables variable_2="StgP_c" variable_1="StgP_c"/>
+   </connection>
+   <connection>
+      <map_components component_2="Wee1_c" component_1="preMPF_c"/>
+      <map_variables variable_2="Wee1_c" variable_1="Wee1_c"/>
+   </connection>
+   <connection>
+      <map_components component_2="parameters" component_1="IE"/>
+      <map_variables variable_2="j_aie" variable_1="j_aie"/>
+      <map_variables variable_2="j_iie" variable_1="j_iie"/>
+      <map_variables variable_2="k_aie" variable_1="k_aie"/>
+      <map_variables variable_2="k_iie" variable_1="k_iie"/>
+   </connection>
+   <connection>
+      <map_components component_2="MPF_n" component_1="IE"/>
+      <map_variables variable_2="MPF_n" variable_1="MPF_n"/>
+   </connection>
+   <connection>
+      <map_components component_2="parameters" component_1="FZY"/>
+      <map_variables variable_2="j_afz" variable_1="j_afz"/>
+      <map_variables variable_2="j_ifz" variable_1="j_ifz"/>
+      <map_variables variable_2="k_afz" variable_1="k_afz"/>
+      <map_variables variable_2="k_ifz" variable_1="k_ifz"/>
+   </connection>
+   <connection>
+      <map_components component_2="IE" component_1="FZY"/>
+      <map_variables variable_2="IE" variable_1="IE"/>
+   </connection>
+   <connection>
+      <map_components component_2="parameters" component_1="Stg_m"/>
+      <map_variables variable_2="k_dm_" variable_1="k_dm_"/>
+      <map_variables variable_2="k_dm__" variable_1="k_dm__"/>
+      <map_variables variable_2="j_m" variable_1="j_m"/>
+   </connection>
+   <connection>
+      <map_components component_2="Xp" component_1="Stg_m"/>
+      <map_variables variable_2="Xp" variable_1="Xp"/>
+   </connection>
+   <connection>
+      <map_components component_2="parameters" component_1="Xm"/>
+      <map_variables variable_2="k_sxm" variable_1="k_sxm"/>
+   </connection>
+   <connection>
+      <map_components component_2="N" component_1="Xm"/>
+      <map_variables variable_2="N" variable_1="N"/>
+   </connection>
+   <connection>
+      <map_components component_2="parameters" component_1="Xp"/>
+      <map_variables variable_2="k_sxp" variable_1="k_sxp"/>
+   </connection>
+   <connection>
+      <map_components component_2="Xm" component_1="Xp"/>
+      <map_variables variable_2="Xm" variable_1="Xm"/>
+   </connection>
+   <connection>
+      <map_components component_2="parameters" component_1="StgP_n"/>
+      <map_variables variable_2="k_ins" variable_1="k_ins"/>
+      <map_variables variable_2="k_outs" variable_1="k_outs"/>
+      <map_variables variable_2="k_astg_" variable_1="k_astg_"/>
+      <map_variables variable_2="k_astg__" variable_1="k_astg__"/>
+      <map_variables variable_2="k_istg" variable_1="k_istg"/>
+      <map_variables variable_2="k_dstg" variable_1="k_dstg"/>
+      <map_variables variable_2="j_astg" variable_1="j_astg"/>
+      <map_variables variable_2="j_istg" variable_1="j_istg"/>
+   </connection>
+   <connection>
+      <map_components component_2="StgP_c" component_1="StgP_n"/>
+      <map_variables variable_2="StgP_c" variable_1="StgP_c"/>
+      <map_variables variable_2="StgP_n" variable_1="StgP_n"/>
+   </connection>
+   <connection>
+      <map_components component_2="Stg_n" component_1="StgP_n"/>
+      <map_variables variable_2="Stg_n" variable_1="Stg_n"/>
+      <map_variables variable_2="StgP_n" variable_1="StgP_n"/>
+   </connection>
+   <connection>
+      <map_components component_2="parameters" component_1="Stg_n"/>
+      <map_variables variable_2="k_ins" variable_1="k_ins"/>
+      <map_variables variable_2="k_outs" variable_1="k_outs"/>
+      <map_variables variable_2="k_astg_" variable_1="k_astg_"/>
+      <map_variables variable_2="k_astg__" variable_1="k_astg__"/>
+      <map_variables variable_2="k_istg" variable_1="k_istg"/>
+      <map_variables variable_2="k_dstg" variable_1="k_dstg"/>
+      <map_variables variable_2="j_astg" variable_1="j_astg"/>
+      <map_variables variable_2="j_istg" variable_1="j_istg"/>
+   </connection>
+   <connection>
+      <map_components component_2="Stg_c" component_1="Stg_n"/>
+      <map_variables variable_2="Stg_c" variable_1="Stg_c"/>
+      <map_variables variable_2="Stg_n" variable_1="Stg_n"/>
+   </connection>
+   <connection>
+      <map_components component_2="MPF_n" component_1="Stg_n"/>
+      <map_variables variable_2="MPF_n" variable_1="MPF_n"/>
+   </connection>
+   <connection>
+      <map_components component_2="parameters" component_1="StgP_c"/>
+      <map_variables variable_2="k_dstg" variable_1="k_dstg"/>
+      <map_variables variable_2="k_ins" variable_1="k_ins"/>
+      <map_variables variable_2="k_outs" variable_1="k_outs"/>
+      <map_variables variable_2="k_astg_" variable_1="k_astg_"/>
+      <map_variables variable_2="k_astg__" variable_1="k_astg__"/>
+      <map_variables variable_2="k_istg" variable_1="k_istg"/>
+      <map_variables variable_2="j_astg" variable_1="j_astg"/>
+      <map_variables variable_2="j_istg" variable_1="j_istg"/>
+      <map_variables variable_2="epsilon" variable_1="epsilon"/>
+   </connection>
+   <connection>
+      <map_components component_2="Stg_c" component_1="StgP_c"/>
+      <map_variables variable_2="Stg_c" variable_1="Stg_c"/>
+      <map_variables variable_2="StgP_c" variable_1="StgP_c"/>
+   </connection>
+   <connection>
+      <map_components component_2="N" component_1="StgP_c"/>
+      <map_variables variable_2="N" variable_1="N"/>
+   </connection>
+   <connection>
+      <map_components component_2="parameters" component_1="Stg_c"/>
+      <map_variables variable_2="j_astg" variable_1="j_astg"/>
+      <map_variables variable_2="j_istg" variable_1="j_istg"/>
+      <map_variables variable_2="k_sstg" variable_1="k_sstg"/>
+      <map_variables variable_2="k_dstg" variable_1="k_dstg"/>
+      <map_variables variable_2="k_ins" variable_1="k_ins"/>
+      <map_variables variable_2="k_outs" variable_1="k_outs"/>
+      <map_variables variable_2="k_astg_" variable_1="k_astg_"/>
+      <map_variables variable_2="k_astg__" variable_1="k_astg__"/>
+      <map_variables variable_2="k_istg" variable_1="k_istg"/>
+      <map_variables variable_2="epsilon" variable_1="epsilon"/>
+   </connection>
+   <connection>
+      <map_components component_2="Stg_m" component_1="Stg_c"/>
+      <map_variables variable_2="Stg_m" variable_1="Stg_m"/>
+   </connection>
+   <connection>
+      <map_components component_2="N" component_1="Stg_c"/>
+      <map_variables variable_2="N" variable_1="N"/>
+   </connection>
+   <connection>
+      <map_components component_2="MPF_c" component_1="Stg_c"/>
+      <map_variables variable_2="MPF_c" variable_1="MPF_c"/>
+   </connection>
+   <connection>
+      <map_components component_2="parameters" component_1="Wee1_n"/>
+      <map_variables variable_2="k_inw" variable_1="k_inw"/>
+      <map_variables variable_2="k_outw" variable_1="k_outw"/>
+      <map_variables variable_2="k_awee" variable_1="k_awee"/>
+      <map_variables variable_2="k_iwee_" variable_1="k_iwee_"/>
+      <map_variables variable_2="k_iwee__" variable_1="k_iwee__"/>
+      <map_variables variable_2="j_awee" variable_1="j_awee"/>
+      <map_variables variable_2="j_iwee" variable_1="j_iwee"/>
+   </connection>
+   <connection>
+      <map_components component_2="Wee1_c" component_1="Wee1_n"/>
+      <map_variables variable_2="Wee1_c" variable_1="Wee1_c"/>
+      <map_variables variable_2="Wee1_n" variable_1="Wee1_n"/>
+   </connection>
+   <connection>
+      <map_components component_2="Wee1P_n" component_1="Wee1_n"/>
+      <map_variables variable_2="Wee1P_n" variable_1="Wee1P_n"/>
+      <map_variables variable_2="Wee1_n" variable_1="Wee1_n"/>
+   </connection>
+   <connection>
+      <map_components component_2="parameters" component_1="Wee1_c"/>
+      <map_variables variable_2="k_inw" variable_1="k_inw"/>
+      <map_variables variable_2="k_outw" variable_1="k_outw"/>
+      <map_variables variable_2="k_awee" variable_1="k_awee"/>
+      <map_variables variable_2="k_iwee_" variable_1="k_iwee_"/>
+      <map_variables variable_2="k_iwee__" variable_1="k_iwee__"/>
+      <map_variables variable_2="j_awee" variable_1="j_awee"/>
+      <map_variables variable_2="j_iwee" variable_1="j_iwee"/>
+      <map_variables variable_2="epsilon" variable_1="epsilon"/>
+   </connection>
+   <connection>
+      <map_components component_2="N" component_1="Wee1_c"/>
+      <map_variables variable_2="N" variable_1="N"/>
+   </connection>
+   <connection>
+      <map_components component_2="Wee1P_c" component_1="Wee1_c"/>
+      <map_variables variable_2="Wee1P_c" variable_1="Wee1P_c"/>
+      <map_variables variable_2="Wee1_c" variable_1="Wee1_c"/>
+   </connection>
+   <connection>
+      <map_components component_2="parameters" component_1="Wee1P_n"/>
+      <map_variables variable_2="k_inw" variable_1="k_inw"/>
+      <map_variables variable_2="k_outw" variable_1="k_outw"/>
+      <map_variables variable_2="k_awee" variable_1="k_awee"/>
+      <map_variables variable_2="k_iwee_" variable_1="k_iwee_"/>
+      <map_variables variable_2="k_iwee__" variable_1="k_iwee__"/>
+      <map_variables variable_2="j_awee" variable_1="j_awee"/>
+      <map_variables variable_2="j_iwee" variable_1="j_iwee"/>
+   </connection>
+   <connection>
+      <map_components component_2="Wee1P_c" component_1="Wee1P_n"/>
+      <map_variables variable_2="Wee1P_c" variable_1="Wee1P_c"/>
+      <map_variables variable_2="Wee1P_n" variable_1="Wee1P_n"/>
+   </connection>
+   <connection>
+      <map_components component_2="MPF_n" component_1="Wee1P_n"/>
+      <map_variables variable_2="MPF_n" variable_1="MPF_n"/>
+   </connection>
+   <connection>
+      <map_components component_2="parameters" component_1="Wee1P_c"/>
+      <map_variables variable_2="epsilon" variable_1="epsilon"/>
+   </connection>
+   <connection>
+      <map_components component_2="Wee1_n" component_1="Wee1P_c"/>
+      <map_variables variable_2="Wee1_n" variable_1="Wee1_n"/>
+   </connection>
+   <connection>
+      <map_components component_2="N" component_1="Wee1P_c"/>
+      <map_variables variable_2="N" variable_1="N"/>
+   </connection>
+   <connection>
+      <map_components component_2="parameters" component_1="CycB_T"/>
+      <map_variables variable_2="epsilon" variable_1="epsilon"/>
+   </connection>
+   <connection>
+      <map_components component_2="N" component_1="CycB_T"/>
+      <map_variables variable_2="N" variable_1="N"/>
+   </connection>
+   <connection>
+      <map_components component_2="MPF_c" component_1="CycB_T"/>
+      <map_variables variable_2="MPF_c" variable_1="MPF_c"/>
+   </connection>
+   <connection>
+      <map_components component_2="preMPF_c" component_1="CycB_T"/>
+      <map_variables variable_2="preMPF_c" variable_1="preMPF_c"/>
+   </connection>
+   <connection>
+      <map_components component_2="MPF_n" component_1="CycB_T"/>
+      <map_variables variable_2="MPF_n" variable_1="MPF_n"/>
+   </connection>
+   <connection>
+      <map_components component_2="preMPF_n" component_1="CycB_T"/>
+      <map_variables variable_2="preMPF_n" variable_1="preMPF_n"/>
+   </connection>
+   <connection>
+      <map_components component_2="parameters" component_1="Stg_T"/>
+      <map_variables variable_2="epsilon" variable_1="epsilon"/>
+   </connection>
+   <connection>
+      <map_components component_2="N" component_1="Stg_T"/>
+      <map_variables variable_2="N" variable_1="N"/>
+   </connection>
+   <connection>
+      <map_components component_2="Stg_c" component_1="Stg_T"/>
+      <map_variables variable_2="Stg_c" variable_1="Stg_c"/>
+   </connection>
+   <connection>
+      <map_components component_2="StgP_c" component_1="Stg_T"/>
+      <map_variables variable_2="StgP_c" variable_1="StgP_c"/>
+   </connection>
+   <connection>
+      <map_components component_2="Stg_n" component_1="Stg_T"/>
+      <map_variables variable_2="Stg_n" variable_1="Stg_n"/>
+   </connection>
+   <connection>
+      <map_components component_2="StgP_n" component_1="Stg_T"/>
+      <map_variables variable_2="StgP_n" variable_1="StgP_n"/>
+   </connection>
+   <connection>
+      <map_components component_2="parameters" component_1="StgP_T"/>
+      <map_variables variable_2="epsilon" variable_1="epsilon"/>
+   </connection>
+   <connection>
+      <map_components component_2="N" component_1="StgP_T"/>
+      <map_variables variable_2="N" variable_1="N"/>
+   </connection>
+   <connection>
+      <map_components component_2="StgP_c" component_1="StgP_T"/>
+      <map_variables variable_2="StgP_c" variable_1="StgP_c"/>
+   </connection>
+   <connection>
+      <map_components component_2="StgP_n" component_1="StgP_T"/>
+      <map_variables variable_2="StgP_n" variable_1="StgP_n"/>
+   </connection>
+
+<rdf:RDF>
+  <rdf:Seq rdf:about="rdf:#ef816eaa-badb-4992-bea2-2397f4482731">
+    <rdf:li rdf:resource="rdf:#619db277-b11f-4a61-89fa-0cf06e711764"/>
+    <rdf:li rdf:resource="rdf:#f43d04b1-c927-4740-a73e-ab9826ba4e41"/>
+    <rdf:li rdf:resource="rdf:#93280558-9db3-4eca-b70c-22fb48ea1b3b"/>
+    <rdf:li rdf:resource="rdf:#c518d53d-f390-4d0b-8eaf-81fd73f7929d"/>
+  </rdf:Seq>
+  <rdf:Description rdf:about="rdf:#734e811f-bf2a-4e80-857c-d8a18bc5ef6e">
+    <vCard:Given>Denis </vCard:Given>
+    <vCard:Family>Thieffry</vCard:Family>
+  </rdf:Description>
+  <rdf:Description rdf:about="">
+    <dc:publisher/>
+    <cmeta:comment rdf:resource="rdf:#95a9ccaa-d38d-444d-bddf-318f9ed89179"/>
+    <dcterms:created rdf:resource="rdf:#120187cf-f087-45f2-b240-3b435ec679b7"/>
+    <dc:creator rdf:resource="rdf:#537583be-70fe-47f1-ab96-9fcd6ac18e30"/>
+    <cmeta:modification rdf:resource="rdf:#a13c1afd-19d1-441d-935e-b99a8eaab0b0"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="rdf:#3a4638d2-827c-494e-a068-b11db40c547a">
+    <vCard:Given>James</vCard:Given>
+    <vCard:Family>Lawson</vCard:Family>
+    <vCard:Other>Richard</vCard:Other>
+  </rdf:Description>
+  <rdf:Description rdf:about="rdf:#5f54cadd-342c-4fb4-90d5-7777655a9cf2">
+    <dc:creator rdf:resource="rdf:#80a1879f-e8d6-437e-9117-58b480e9a66b"/>
+    <rdf:value>This is the CellML description of Calzone et al's 2007 dynamical modeling of syncytial mitotic cycles in Drosophila embryos</rdf:value>
+  </rdf:Description>
+  <rdf:Description rdf:about="rdf:#c518d53d-f390-4d0b-8eaf-81fd73f7929d">
+    <rdf:type rdf:resource="http://www.cellml.org/bqs/1.0#Person"/>
+    <vCard:N rdf:resource="rdf:#2b4b0175-c4c7-44b3-abbf-2a4515b9a857"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="rdf:#6ba14714-0715-4dff-9a86-ad65d52f5df1">
+    <vCard:Given>John </vCard:Given>
+    <vCard:Family>Tyson</vCard:Family>
+    <vCard:Other>J</vCard:Other>
+  </rdf:Description>
+  <rdf:Description rdf:about="rdf:#8bf1258d-b6be-45d5-a467-5578fd2e3221">
+    <dc:title>Molecular Systems Biology</dc:title>
+  </rdf:Description>
+  <rdf:Description rdf:about="rdf:#a13c1afd-19d1-441d-935e-b99a8eaab0b0">
+    <dcterms:modified rdf:resource="rdf:#f745367f-5668-4a94-b2db-8bb30c666b8b"/>
+    <rdf:value>updated curation status</rdf:value>
+    <cmeta:modifier rdf:resource="rdf:#9c3ff8f8-65d1-4e0b-9eae-8297dafd8f79"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="rdf:#f3f8b160-5b54-4478-b716-26c8a84aa72a">
+    <vCard:Orgname>University of Auckland</vCard:Orgname>
+    <vCard:Orgunit>Auckland Bioengineering Institute</vCard:Orgunit>
+  </rdf:Description>
+  <rdf:Description rdf:about="rdf:#0f60875b-cb94-4b49-ad71-834d4d37be92">
+    <dc:creator rdf:resource="rdf:#ef816eaa-badb-4992-bea2-2397f4482731"/>
+    <dc:title>Dynamical modeling of syncytial mitotic cycles in Drosophila embryos</dc:title>
+    <bqs:volume>3</bqs:volume>
+    <bqs:first_page>131</bqs:first_page>
+    <bqs:Journal rdf:resource="rdf:#8bf1258d-b6be-45d5-a467-5578fd2e3221"/>
+    <dcterms:issued rdf:resource="rdf:#c9cab806-0966-4553-9132-4034b0f398c3"/>
+    <bqs:last_page/>
+  </rdf:Description>
+  <rdf:Description rdf:about="rdf:#2b4b0175-c4c7-44b3-abbf-2a4515b9a857">
+    <vCard:Given>Bela</vCard:Given>
+    <vCard:Family>Novak</vCard:Family>
+  </rdf:Description>
+  <rdf:Description rdf:about="#Calzone_Thieffry_Tyson_Novak_2007_version01">
+    <bqs:reference rdf:resource="rdf:#3f20cde4-6b77-453e-9994-5e28f3029d83"/>
+<bqs:reference rdf:parseType="Resource">
+  <dc:subject rdf:parseType="Resource">
+    <bqs:subject_type>keyword</bqs:subject_type>
+    <rdf:value>
+      <rdf:Bag>
+        <rdf:li>cell cycle</rdf:li>
+      </rdf:Bag>
+    </rdf:value>
+  </dc:subject>
+</bqs:reference>
+    <cmeta:comment rdf:resource="rdf:#5f54cadd-342c-4fb4-90d5-7777655a9cf2"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="rdf:#537583be-70fe-47f1-ab96-9fcd6ac18e30">
+    <vCard:ORG rdf:resource="rdf:#f3f8b160-5b54-4478-b716-26c8a84aa72a"/>
+    <vCard:EMAIL rdf:resource="rdf:#dacf7d49-f54c-40ae-b71b-fe8119faf400"/>
+    <vCard:N rdf:resource="rdf:#6006cf1f-cf06-433f-a975-1fb85a32aca9"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="rdf:#120187cf-f087-45f2-b240-3b435ec679b7">
+    <dcterms:W3CDTF>2009-02-19T00:00:00+00:00</dcterms:W3CDTF>
+  </rdf:Description>
+  <rdf:Description rdf:about="rdf:#0cbacec2-2e93-405d-8715-9235a20ba542">
+    <vCard:FN>Jeelean Lim</vCard:FN>
+  </rdf:Description>
+  <rdf:Description rdf:about="rdf:#6006cf1f-cf06-433f-a975-1fb85a32aca9">
+    <vCard:Given>Jeelean</vCard:Given>
+    <vCard:Family>Lim</vCard:Family>
+    <vCard:Other/>
+  </rdf:Description>
+  <rdf:Description rdf:about="rdf:#93280558-9db3-4eca-b70c-22fb48ea1b3b">
+    <rdf:type rdf:resource="http://www.cellml.org/bqs/1.0#Person"/>
+    <vCard:N rdf:resource="rdf:#6ba14714-0715-4dff-9a86-ad65d52f5df1"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="rdf:#80a1879f-e8d6-437e-9117-58b480e9a66b">
+    <vCard:FN>Jeelean Lim</vCard:FN>
+  </rdf:Description>
+  <rdf:Description rdf:about="rdf:#dacf7d49-f54c-40ae-b71b-fe8119faf400">
+    <rdf:type rdf:resource="http://imc.org/vCard/3.0#internet"/>
+    <rdf:value>jlim063@aucklanduni.ac.nz</rdf:value>
+  </rdf:Description>
+  <rdf:Description rdf:about="rdf:#619db277-b11f-4a61-89fa-0cf06e711764">
+    <rdf:type rdf:resource="http://www.cellml.org/bqs/1.0#Person"/>
+    <vCard:N rdf:resource="rdf:#72a7cb22-8634-4ef4-b1f0-0346fdc6f059"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="rdf:#9c3ff8f8-65d1-4e0b-9eae-8297dafd8f79">
+    <vCard:N rdf:resource="rdf:#3a4638d2-827c-494e-a068-b11db40c547a"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="rdf:#c9cab806-0966-4553-9132-4034b0f398c3">
+    <dcterms:W3CDTF>2007-07-31 00:00</dcterms:W3CDTF>
+  </rdf:Description>
+  <rdf:Description rdf:about="rdf:#3f20cde4-6b77-453e-9994-5e28f3029d83">
+    <bqs:Pubmed_id>17667953</bqs:Pubmed_id>
+    <bqs:JournalArticle rdf:resource="rdf:#0f60875b-cb94-4b49-ad71-834d4d37be92"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="rdf:#f745367f-5668-4a94-b2db-8bb30c666b8b">
+    <dcterms:W3CDTF>2009-05-29T12:18:42+12:00</dcterms:W3CDTF>
+  </rdf:Description>
+  <rdf:Description rdf:about="rdf:#95a9ccaa-d38d-444d-bddf-318f9ed89179">
+    <dc:creator rdf:resource="rdf:#0cbacec2-2e93-405d-8715-9235a20ba542"/>
+    <rdf:value>This CellML version of the model runs in PCEnv but requires initial conditions and 'switches' in order to reproduce the published results. The set of parameters used to produce figure 3 of the published paper is implemented in this version. The doubling of N and rescaling of other variables at division are not included in this CellML description. Units have been checked and are consistent.</rdf:value>
+  </rdf:Description>
+  <rdf:Description rdf:about="rdf:#f43d04b1-c927-4740-a73e-ab9826ba4e41">
+    <rdf:type rdf:resource="http://www.cellml.org/bqs/1.0#Person"/>
+    <vCard:N rdf:resource="rdf:#734e811f-bf2a-4e80-857c-d8a18bc5ef6e"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="rdf:#72a7cb22-8634-4ef4-b1f0-0346fdc6f059">
+    <vCard:Given>Laurence </vCard:Given>
+    <vCard:Family>Calzone</vCard:Family>
+  </rdf:Description>
+</rdf:RDF>
+</model>

@@ -1,16 +1,14 @@
 # -*- coding: utf-8 -*-
 """
-Created on Tue Mar 11 15:15:16 2014
-
-@author: mgaldzic
+Generating different waveforms
 """
-
+from __future__ import print_function, division
 import tellurium as te
 from roadrunner import Config
-#We do not want CONSERVED MOIETIES set to true in this case
+
+# We do not want CONSERVED MOIETIES set to true in this case
 Config.setValue(Config.LOADSBMLOPTIONS_CONSERVED_MOIETIES, False) 
 
-# Generating different waveforms
 model = '''
   model waveforms()
      # All waves have the following amplitude and period
@@ -42,12 +40,10 @@ model = '''
   end
 '''
 
-r = te.loadAntimonyModel(model)
+r = te.loada(model)
+r.timeCourseSelections = ['time', 'SineWave', 'SquareWave', 'SawTooth', 'TriangleWave', 'Ramp']
+result = r.simulate(0, 90, 500)
+r.plotWithLegend(result)
 
-r.selections = ['time', 'SineWave', 'SquareWave', 'SawTooth', 'TriangleWave', 'Ramp']
-result = r.simulate (0, 90, 500)
-
-te.plotWithLegend (r, result)
-
-#reset to default config
+# reset to default config
 Config.setValue(Config.LOADSBMLOPTIONS_CONSERVED_MOIETIES, False) 

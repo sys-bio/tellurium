@@ -35,7 +35,6 @@ __has_sbml2matlab = True
 __has_roadrunner = True
 __has_teplugins = True
 __has_tellurium = True
-
 #==============================================================================
 # Pollute the namespace but also provide MATLAB-like experience
 #==============================================================================
@@ -64,7 +63,6 @@ except ImportError:
     __has_matplotlib = False
 
 #TELLURIUM IMPORTS
-
 try:
     import sbml2matlab
 except ImportError:
@@ -76,7 +74,7 @@ except ImportError:
     __has_roadrunner = False
 
 try:
-    import libantimony
+    import antimony
 except ImportError:
     __has_libantimony = False
 
@@ -89,7 +87,7 @@ try:
     import tellurium as te
 except ImportError:
     __has_tellurium = False
-
+    
 #==============================================================================
 # Print what modules have been imported
 #==============================================================================
@@ -97,11 +95,11 @@ __imports = ""
 if __has_roadrunner:
     __imports += "Imported RoadRunner %s" % roadrunner.__version__.split(';')[0]
 if __has_libantimony:
-    __imports += ", libAntimony %s" % libantimony.LIBANTIMONY_VERSION_STRING
+    __imports += ", antimony %s" % antimony.__version__
 if __has_sbml2matlab:
     __imports += ", sbml2matlab %s" % sbml2matlab.__version__
 if __has_teplugins:
-    __imports += ", TePlugins %s" % teplugins.getVersion()
+    __imports += ", TePlugins %s" % teplugins.__version__
 if __has_numpy:
     __imports += ", NumPy %s" % np.__version__
 if __has_scipy:
@@ -109,26 +107,26 @@ if __has_scipy:
 if __has_matplotlib:
     __imports += ", Matplotlib %s" % mpl.__version__
 if __has_tellurium:
-    __imports += ", and Tellurium %s as 'te'" % te.__version__
+    __imports += ', and Tellurium %s as "te"' % te.getTelluriumVersion()
 
 exec_print("")
 if __imports:
-    print __imports
-
+    exec_print(__imports)
+	
 #Not imported/ missing
 __notimports = []
 if not __has_roadrunner:
     __notimports.append("roadrunner")
 if not __has_libantimony:
-    __notimports.append("libantimony")
+    __notimports.append("antimony")
 if not __has_sbml2matlab:
     __notimports.append("sbml2matlab")
 if not __has_teplugins:
     __notimports.append("teplugins")
 if not __has_numpy:
     __notimports.append("numpy")
-#if not __has_scipy:
-    #__notimports.append("scipy")
+if not __has_scipy:
+    __notimports.append("scipy")
 if not __has_matplotlib:
     __notimports.append("matplotlib")
 if not __has_tellurium:
@@ -140,6 +138,7 @@ if __notimports:
         print Fore.RED + Style.BRIGHT + "'import %s' failed" % fail
 
     print(Style.RESET_ALL)
+	
 
 import os
 if os.environ.get('QT_API') != 'pyside':
@@ -194,9 +193,11 @@ computing and visualization. It tries to import the following modules:
 
     infos += """
 Within Spyder, this interpreter also provides:
-    * special commands (e.g. %ls, %pwd, %clear)
-    * system commands, i.e. all commands starting with '!' are subprocessed
-      (e.g. !dir on Windows or !ls on Linux, and so on)
+    * special commands (e.g. %ls, %cd, %pwd, %clear)
+      - %ls:      List files in the current directory
+      - %cd dir:  Change to directory dir
+      - %pwd:     Show current directory
+      - %clear x: Remove variable x from namespace
 """
     try:
         # Python 2
@@ -218,7 +219,5 @@ exec_print('Type "scientific" for more details.')
 #==============================================================================
 # Delete temp vars
 #==============================================================================
-del setscientific, __has_numpy, __has_scipy, __has_matplotlib, __imports
+del setscientific, __has_numpy, __has_scipy, __has_matplotlib, __imports, exec_print
 del __has_libantimony, __has_sbml2matlab, __has_roadrunner, __has_teplugins, __has_tellurium, __notimports
-
-

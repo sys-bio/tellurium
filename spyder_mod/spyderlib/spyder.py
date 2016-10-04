@@ -8,9 +8,11 @@
 Spyder, the Scientific PYthon Development EnviRonment
 =====================================================
 
-Developped and maintained by Pierre Raybaut
+Developped and maintained by the Spyder Development
+Team
 
-Copyright © 2009-2012 Pierre Raybaut
+Copyright © 2009 - 2015 Pierre Raybaut
+Copyright © 2010 - 2015 The Spyder Development Team
 Licensed under the terms of the MIT License
 (see spyderlib/__init__.py for details)
 """
@@ -39,7 +41,7 @@ ORIGINAL_SYS_EXIT = sys.exit
 
 
 #==============================================================================
-# Test if IPython v0.13+ is installed to eventually switch to PyQt API #2
+# Test if IPython is installed to eventually switch to PyQt API #2
 #==============================================================================
 from spyderlib.baseconfig import _
 from spyderlib.ipythonconfig import IPYTHON_QT_INSTALLED, SUPPORTED_IPYTHON
@@ -47,6 +49,8 @@ from spyderlib import dependencies
 
 dependencies.add("IPython", _("IPython Console integration"),
                  required_version=SUPPORTED_IPYTHON)
+dependencies.add("zmq", _("IPython Console integration"),
+                 required_version='>=2.1.11')
 
 if IPYTHON_QT_INSTALLED:
     # Importing IPython will eventually set the QT_API environment variable
@@ -78,9 +82,11 @@ requirements.check_qt()
 #==============================================================================
 set_attached_console_visible = None
 is_attached_console_visible = None
+set_windows_appusermodelid = None
 if os.name == 'nt':
     from spyderlib.utils.windows import (set_attached_console_visible,
-                                         is_attached_console_visible)
+                                         is_attached_console_visible,
+                                         set_windows_appusermodelid)
 
 
 #==============================================================================
@@ -100,7 +106,8 @@ from spyderlib.qt.QtGui import (QApplication, QMainWindow, QSplashScreen,
                                 QPixmap, QMessageBox, QMenu, QColor, QShortcut,
                                 QKeySequence, QDockWidget, QAction,
                                 QDesktopServices)
-from spyderlib.qt.QtCore import SIGNAL, QPoint, Qt, QSize, QByteArray, QUrl
+from spyderlib.qt.QtCore import (SIGNAL, QPoint, Qt, QSize, QByteArray, QUrl,
+                                 QCoreApplication)
 from spyderlib.qt.compat import (from_qvariant, getopenfilename,
                                  getsavefilename)
 # Avoid a "Cannot mix incompatible Qt library" error on Windows platforms 
@@ -111,19 +118,24 @@ from spyderlib.qt import QtSvg  # analysis:ignore
 
 
 #==============================================================================
-# Initial splash screen to reduce perceived startup time. 
-# It blends with the one of MainWindow (i.e. self.splash) and it's hidden
-# just before that one.
+# Create our QApplication instance here because it's needed to render the
+# splash screen created below
+#==============================================================================
+from spyderlib.utils.qthelpers import qapplication
+MAIN_APP = qapplication()
+
+
+#==============================================================================
+# Create splash screen out of MainWindow to reduce perceived startup time. 
 #==============================================================================
 from spyderlib.baseconfig import _, get_image_path
-SPLASH_APP = QApplication([''])
 SPLASH = QSplashScreen(QPixmap(get_image_path('Tellurium_splash.png'), 'png'))
 SPLASH_FONT = SPLASH.font()
 SPLASH_FONT.setPixelSize(10)
 SPLASH.setFont(SPLASH_FONT)
 SPLASH.show()
 SPLASH.showMessage(_("Initializing..."), Qt.AlignBottom | Qt.AlignCenter | 
-                   Qt.AlignAbsolute, QColor(Qt.white))
+                   Qt.AlignAbsolute, QColor(Qt.black))
 QApplication.processEvents()
 
 
@@ -133,7 +145,8 @@ QApplication.processEvents()
 from spyderlib import __version__, __project_url__, __forum_url__, get_versions
 from spyderlib.baseconfig import (get_conf_path, get_module_data_path,
                                   get_module_source_path, STDERR, DEBUG, DEV,
-                                  debug_print, TEST, SUBFOLDER)
+                                  debug_print, TEST, SUBFOLDER, MAC_APP_NAME,
+                                  running_in_mac_app)
 from spyderlib.config import CONF, EDIT_EXT, IMPORT_EXT, OPEN_FILES_PORT
 from spyderlib.cli_options import get_options
 from spyderlib.userconfig import NoDefault
@@ -162,8 +175,8 @@ from spyderlib.utils.qthelpers import (create_action, add_actions, get_icon,
                                        create_module_bookmark_actions,
                                        create_bookmark_action,
                                        create_program_action, DialogManager,
-                                       keybinding, qapplication,
-                                       create_python_script_action, file_uri)
+                                       keybinding, create_python_script_action,
+                                       file_uri)
 from spyderlib.guiconfig import get_shortcut, remove_deprecated_shortcuts
 from spyderlib.otherplugins import get_spyderplugins_mods
 
@@ -234,46 +247,6 @@ def get_focus_widget_properties():
 
 
 #==============================================================================
-# Qt Stylesheet for MainWindow
-#==============================================================================
-#TODO: Improve the stylesheet below for separator handles to be visible
-#      (in Qt, these handles are by default not visible on Windows!)
-STYLESHEET="""
-QSplitter::handle {
-    margin-left: 4px;
-    margin-right: 4px;
-}
-
-QSplitter::handle:horizontal {
-    width: 1px;
-    border-width: 0px;
-    background-color: lightgray;
-}
-
-QSplitter::handle:vertical {
-    border-top: 2px ridge lightgray;
-    border-bottom: 2px;
-}
-
-QMainWindow::separator:vertical {
-    margin-left: 1px;
-    margin-top: 25px;
-    margin-bottom: 25px;
-    border-left: 2px groove lightgray;
-    border-right: 1px;
-}
-
-QMainWindow::separator:horizontal {
-    margin-top: 1px;
-    margin-left: 5px;
-    margin-right: 5px;
-    border-top: 2px groove lightgray;
-    border-bottom: 2px;
-}
-"""
-
-
-#==============================================================================
 # Main Window
 #==============================================================================
 class MainWindow(QMainWindow):
@@ -293,7 +266,7 @@ class MainWindow(QMainWindow):
           _("PyQt4 API Reference")),
          ('xy', "http://code.google.com/p/pythonxy/",
           _("Python(x,y)")),
-         ('winpython', "http://code.google.com/p/winpython/",
+         ('winpython', "https://winpython.github.io/",
           _("WinPython"))
                 )
     
@@ -312,8 +285,12 @@ class MainWindow(QMainWindow):
         self.new_instance = options.new_instance
         
         self.debug_print("Start of MainWindow constructor")
-        
-#        self.setStyleSheet(STYLESHEET)
+
+        # Use a custom Qt stylesheet
+        if sys.platform == 'darwin':
+            spy_path = get_module_source_path('spyderlib')
+            mac_style = open(osp.join(spy_path, 'mac_stylesheet.qss')).read()
+            self.setStyleSheet(mac_style)
 
         # Shortcut management data
         self.shortcut_data = []
@@ -445,6 +422,9 @@ class MainWindow(QMainWindow):
         icon_name = 'spyder_light.svg' if self.light else 'spyder.svg'
         # Resampling SVG icon only on non-Windows platforms (see Issue 1314):
         self.setWindowIcon(get_icon(icon_name, resample=os.name != 'nt'))
+        if set_windows_appusermodelid != None:
+            res = set_windows_appusermodelid()
+            debug_print("appusermodelid: " + str(res))
         
         # Showing splash screen
         self.splash = SPLASH
@@ -763,13 +743,14 @@ class MainWindow(QMainWindow):
             self.debug_print("  ..plugin: internal console")
             from spyderlib.plugins.console import Console
             self.console = Console(self, namespace, exitfunc=self.closing,
-                                   profile=self.profile,
-                                   multithreaded=self.multithreaded,
-                                   message="DON'T USE THIS CONSOLE TO RUN CODE!\n\n"
-                                           "It's used to report application errors\n"
-                                           "and to inspect Spyder internals with\n"
-                                           "the following commands:\n"
-                                           "  spy.app, spy.window, dir(spy)")
+                              profile=self.profile,
+                              multithreaded=self.multithreaded,
+                              message=_("Spyder Internal Console\n\n"
+                                        "This console is used to report application\n"
+                                        "internal errors and to inspect Spyder\n"
+                                        "internals with the following commands:\n"
+                                        "  spy.app, spy.window, dir(spy)\n\n"
+                                        "Please don't use it to run your code\n\n"))
             self.console.register_plugin()
             
             # Working directory plugin
@@ -919,8 +900,11 @@ class MainWindow(QMainWindow):
             doc_action = create_bookmark_action(self, spyder_doc,
                                _("Spyder documentation"), shortcut="F1",
                                icon=get_std_icon('DialogHelpButton'))
-            self.help_menu_actions = [doc_action, report_action,
-                                      dep_action, support_action, None]
+            tut_action = create_action(self, _("Spyder tutorial"),
+                                       triggered=self.inspector.show_tutorial)
+            self.help_menu_actions = [doc_action, tut_action, None,
+                                      report_action, dep_action, support_action,
+                                      None]
             # Python documentation
             if get_python_doc_path() is not None:
                 pydoc_act = create_action(self, _("Python documentation"),
@@ -1004,8 +988,10 @@ class MainWindow(QMainWindow):
             add_actions(web_resources, webres_actions)
             self.help_menu_actions.append(web_resources)
             # Qt assistant link
-            qta_act = create_program_action(self, _("Qt documentation"),
-                                            "assistant")
+            qta_exe = "assistant-qt4" if sys.platform.startswith('linux') else \
+                      "assistant"
+            qta_act = create_program_action(self, _("Qt documentation"), 
+                                            qta_exe)
             if qta_act:
                 self.help_menu_actions += [qta_act, None]
             # About Spyder
@@ -1068,11 +1054,9 @@ class MainWindow(QMainWindow):
             
             # Adding external tools action to "Tools" menu
             if self.external_tools_menu_actions:
-                external_tools_act = create_action(self, _("External Tools"),
-                                                   icon="ext_tools.png")
+                external_tools_act = create_action(self, _("External Tools"))
                 external_tools_act.setMenu(self.external_tools_menu)
                 self.tools_menu_actions += [None, external_tools_act]
-                self.main_toolbar_actions.append(external_tools_act)
             
             # Filling out menu/toolbar entries:
             add_actions(self.file_menu, self.file_menu_actions)
@@ -1120,7 +1104,7 @@ class MainWindow(QMainWindow):
             if isinstance(child, QMenu):
                 self.connect(child, SIGNAL("aboutToShow()"),
                              self.update_edit_menu)
-        
+
         self.debug_print("*** End of MainWindow setup ***")
         self.is_starting_up = False
         
@@ -1151,11 +1135,11 @@ class MainWindow(QMainWindow):
         # In MacOS X 10.7 our app is not displayed after initialized (I don't
         # know why because this doesn't happen when started from the terminal),
         # so we need to resort to this hack to make it appear.
-        if sys.platform == 'darwin' and 'Spyder.app' in __file__:
+        if running_in_mac_app():
             import subprocess
-            idx = __file__.index('Spyder.app')
+            idx = __file__.index(MAC_APP_NAME)
             app_path = __file__[:idx]
-            subprocess.call(['open', app_path + 'Spyder.app'])
+            subprocess.call(['open', app_path + MAC_APP_NAME])
 
         # Server to maintain just one Spyder instance and open files in it if
         # the user tries to start other instances with
@@ -1181,9 +1165,10 @@ class MainWindow(QMainWindow):
         self.extconsole.setMinimumHeight(0)
         
         if not self.light:
-            # Hide Internal Console so that people doesn't use it instead of
+            # Hide Internal Console so that people don't use it instead of
             # the External or IPython ones
             if self.console.dockwidget.isVisible() and DEV is None:
+                self.console.toggle_view_action.setChecked(False)
                 self.console.dockwidget.hide()
         
             # Show the Object Inspector and Consoles by default
@@ -1553,7 +1538,7 @@ class MainWindow(QMainWindow):
             self.debug_print(message)
         self.splash.show()
         self.splash.showMessage(message, Qt.AlignBottom | Qt.AlignCenter | 
-                                Qt.AlignAbsolute, QColor(Qt.white))
+                                Qt.AlignAbsolute, QColor(Qt.black))
         QApplication.processEvents()
     
     def remove_tmpdir(self):
@@ -1581,9 +1566,10 @@ class MainWindow(QMainWindow):
     
     def hideEvent(self, event):
         """Reimplement Qt method"""
-        for plugin in self.widgetlist:
-            if plugin.isAncestorOf(self.last_focused_widget):
-                plugin.visibility_changed(True)
+        if not self.light:
+            for plugin in self.widgetlist:
+                if plugin.isAncestorOf(self.last_focused_widget):
+                    plugin.visibility_changed(True)
         QMainWindow.hideEvent(self, event)
     
     def change_last_focused_widget(self, old, now):
@@ -1600,13 +1586,13 @@ class MainWindow(QMainWindow):
             return True
         prefix = ('lightwindow' if self.light else 'window') + '/'
         self.save_current_window_settings(prefix)
+        if CONF.get('main', 'single_instance'):
+            self.open_files_server.close()
         for widget in self.widgetlist:
             if not widget.closing_plugin(cancelable):
                 return False
         self.dialog_manager.close_all()
         self.already_closed = True
-        if CONF.get('main', 'single_instance'):
-            self.open_files_server.close()
         return True
         
     def add_dockwidget(self, child):
@@ -1707,37 +1693,35 @@ class MainWindow(QMainWindow):
         # Show Mercurial revision for development version
         revlink = ''
         if versions['revision']:
-            revlink = " (<a href='http://code.google.com/p/spyderlib/source/"\
-                      "detail?r=%s'>%s</a>)" % (
-                         versions['revision'].split(':')[0].strip('+'),
-                         versions['revision'])
+            rev = versions['revision']
+            revlink = " (<a href='https://github.com/spyder-ide/spyder/"\
+                      "commit/%s'>Commit: %s</a>)" % (rev, rev)
         QMessageBox.about(self,
             _("About %s") % "Spyder",
             """<b>Spyder %s</b> %s
             <br>The Scientific PYthon Development EnviRonment
-            <p>Copyright &copy; 2009-2012 Pierre Raybaut
+            <p>Copyright &copy; 2009 - 2015 Pierre Raybaut
+            <br>Copyright &copy; 2010 - 2015 The Spyder Development Team
             <br>Licensed under the terms of the MIT License
             <p>Created by Pierre Raybaut
-            <br>Developed and maintained by the 
-            <a href="%s/people/list">Spyder Development Team</a>
+            <br>Developed and maintained by the
+            <a href="%s/blob/master/AUTHORS">Spyder Development Team</a>
             <br>Many thanks to all the Spyder beta-testers and regular users.
-            <p>Most of the icons come from the Crystal Project 
-            (&copy; 2006-2007 Everaldo Coelho). Other icons by 
-            <a href="http://p.yusukekamiyamane.com/"> Yusuke Kamiyamane</a> 
-            (All rights reserved) and by 
+            <p>Most of the icons come from the Crystal Project
+            (&copy; 2006-2007 Everaldo Coelho). Other icons by
+            <a href="http://p.yusukekamiyamane.com/"> Yusuke Kamiyamane</a>
+            (all rights reserved) and by
             <a href="http://www.oxygen-icons.org/">
             The Oxygen icon theme</a>.
-            <p>Spyder's community:
-            <ul><li>Bug reports and feature requests: 
-            <a href="%s">Google Code</a>
-            </li><li>Discussions around the project: 
-            <a href="%s">Google Group</a>
-            </li></ul>
-            <p>This project is part of a larger effort to promote and 
-            facilitate the use of Python for scientific and engineering 
-            software development. The popular Python distributions 
-            <a href="http://code.google.com/p/pythonxy/">Python(x,y)</a> and 
-            <a href="http://winpython.sourceforge.net/">WinPython</a> 
+            <p>For bug reports and feature requests, please go
+            to our <a href="%s">Github website</a>. For discussions around the
+            project, please go to our <a href="%s">Google Group</a>
+            <p>This project is part of a larger effort to promote and
+            facilitate the use of Python for scientific and engineering
+            software development. The popular Python distributions
+            <a href="http://continuum.io/downloads">Anaconda</a>,
+            <a href="https://winpython.github.io/">WinPython</a> and
+            <a href="http://code.google.com/p/pythonxy/">Python(x,y)</a>
             also contribute to this plan.
             <p>Python %s %dbits, Qt %s, %s %s on %s"""
             % (versions['spyder'], revlink, __project_url__,
@@ -1759,30 +1743,37 @@ class MainWindow(QMainWindow):
         else:
             from urllib import quote     # analysis:ignore
         versions = get_versions()
-        # Get Mercurial revision for development version
-        revlink = ''
+        # Get git revision for development version
+        revision = ''
         if versions['revision']:
-            full, short = versions['revision'].split(':')
-            full = full.strip('+')
-            if full:
-                revlink = " (%s:r%s)" % (short, full)
+            revision = versions['revision']
         issue_template = """\
-Spyder Version:  %s%s
-Python Version:  %s
-Qt Version    :  %s, %s %s on %s
+## Description
+
+**What steps will reproduce the problem?**
+
+1. 
+2. 
+3. 
+
+**What is the expected output? What do you see instead?**
+
+
+**Please provide any additional information below**
+
+
+## Version and main components
+
+* Spyder Version: %s %s
+* Python Version: %s
+* Qt Versions:  %s, %s %s on %s
+
+## Optional dependencies
+```
 %s
-
-What steps will reproduce the problem?
-1.
-2.
-3.
-
-What is the expected output? What do you see instead?
-
-
-Please provide any additional information below.
+```
 """ % (versions['spyder'],
-       revlink,
+       revision,
        versions['python'],
        versions['qt'],
        versions['qt_api'],
@@ -1790,8 +1781,8 @@ Please provide any additional information below.
        versions['system'],
        dependencies.status())
        
-        url = QUrl("http://code.google.com/p/spyderlib/issues/entry")
-        url.addEncodedQueryItem("comment", quote(issue_template))
+        url = QUrl("https://github.com/spyder-ide/spyder/issues/new")
+        url.addEncodedQueryItem("body", quote(issue_template))
         QDesktopServices.openUrl(url)
     
     def google_group(self):
@@ -1882,13 +1873,14 @@ Please provide any additional information below.
                 args=to_text_string(args), interact=interact,
                 debug=debug, python=python,
                 python_args=to_text_string(python_args) )
-        
+
     def execute_in_external_console(self, lines, focus_to_editor):
-        """Execute lines in external or IPython console 
-        and eventually set focus to editor"""
+        """
+        Execute lines in external or IPython console and eventually set focus
+        to the editor
+        """
         console = self.extconsole
-        if self.ipyconsole is None\
-           or self.last_console_plugin_focus_was_python:
+        if self.ipyconsole is None or self.last_console_plugin_focus_was_python:
             console = self.extconsole
         else:
             console = self.ipyconsole
@@ -1896,7 +1888,10 @@ Please provide any additional information below.
         console.raise_()
         console.execute_python_code(lines)
         if focus_to_editor:
-           self.editor.visibility_changed(True)
+            self.editor.visibility_changed(True)
+
+    def new_file(self, text):
+        self.editor.new(text=text)
         
     def open_file(self, fname, external=False):
         """
@@ -1908,9 +1903,10 @@ Please provide any additional information below.
         ext = osp.splitext(fname)[1]
         if ext in EDIT_EXT:
             self.editor.load(fname)
-        elif self.variableexplorer is not None and ext in IMPORT_EXT\
-             and ext in ('.spydata', '.mat', '.npy', '.h5'):
+        elif self.variableexplorer is not None and ext in IMPORT_EXT:
             self.variableexplorer.import_data(fname)
+        elif encoding.is_text_file(fname):
+            self.editor.load(fname)
         elif not external:
             fname = file_uri(fname)
             programs.start_file(fname)
@@ -2104,6 +2100,7 @@ Please provide any additional information below.
                 # See Issue 1275 for details on why errno EINTR is
                 # silently ignored here.
                 eintr = errno.WSAEINTR if os.name == 'nt' else errno.EINTR
+                # To avoid a traceback after closing on Windows
                 if e.args[0] == eintr:
                     continue
                 raise
@@ -2119,6 +2116,9 @@ Please provide any additional information below.
 #==============================================================================
 def initialize():
     """Initialize Qt, patching sys.exit and eventually setting up ETS"""
+    # This doesn't create our QApplication, just holds a reference to
+    # MAIN_APP, created above to show our splash screen as early as
+    # possible
     app = qapplication()
     
     #----Monkey patching PyQt4.QtGui.QApplication
@@ -2191,7 +2191,13 @@ def initialize():
 
 
 class Spy(object):
-    """Inspect Spyder internals"""
+    """
+    Inspect Spyder internals
+    
+    Attributes:
+        app       Reference to main QApplication object
+        window    Reference to spyder.MainWindow widget
+    """
     def __init__(self, app, window):
         self.app = app
         self.window = window
@@ -2205,7 +2211,6 @@ class Spy(object):
 def run_spyder(app, options, args):
     """
     Create and show Spyder's main window
-    Patch matplotlib for figure integration
     Start QApplication event loop
     """
     #TODO: insert here
@@ -2233,8 +2238,12 @@ def run_spyder(app, options, args):
         for a in args:
             main.open_external_file(a)
 
+    # Don't show icons in menus for Mac
+    if sys.platform == 'darwin':
+        QCoreApplication.setAttribute(Qt.AA_DontShowIconsInMenus, True)
+
     # Open external files with our Mac app
-    if sys.platform == "darwin" and 'Spyder.app' in __file__:
+    if running_in_mac_app():
         main.connect(app, SIGNAL('open_external_file(QString)'),
                      lambda fname: main.open_external_file(fname))
     

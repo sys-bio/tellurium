@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Written by libSedML v1.1.4180.29212 see http://libsedml.sf.net -->
+<sedML level="1" version="1" xmlns="http://sed-ml.org/">
+  <listOfSimulations>
+    <oneStep id="oneStep" step="0.1">
+      <algorithm kisaoID="KISAO:0000019" />
+    </oneStep>
+  </listOfSimulations>
+  <listOfModels>
+    <model id="model1" language="urn:sedml:language:sbml" source="../models/BorisEJB.xml" />
+  </listOfModels>
+  <listOfTasks>
+    <task id="task1" modelReference="model1" simulationReference="oneStep" />
+  </listOfTasks>
+  <listOfDataGenerators>
+    <dataGenerator id="time1" name="time">
+      <listOfVariables>
+        <variable id="time" taskReference="task1" symbol="urn:sedml:symbol:time" />
+      </listOfVariables>
+      <math xmlns="http://www.w3.org/1998/Math/MathML">
+        <ci> time </ci>
+      </math>
+    </dataGenerator>
+    <dataGenerator id="MAPK1" name="MAPK">
+      <listOfVariables>
+        <variable id="MAPK" name="MAPK" taskReference="task1" target="/sbml:sbml/sbml:model/sbml:listOfSpecies/sbml:species[@id='MAPK']" />
+      </listOfVariables>
+      <math xmlns="http://www.w3.org/1998/Math/MathML">
+        <ci> MAPK </ci>
+      </math>
+    </dataGenerator>
+    <dataGenerator id="MAPK_P1" name="MAPK_P">
+      <listOfVariables>
+        <variable id="MAPK_P" name="MAPK_P" taskReference="task1" target="/sbml:sbml/sbml:model/sbml:listOfSpecies/sbml:species[@id='MAPK_P']" />
+      </listOfVariables>
+      <math xmlns="http://www.w3.org/1998/Math/MathML">
+        <ci> MAPK_P </ci>
+      </math>
+    </dataGenerator>
+    <dataGenerator id="MAPK_PP1" name="MAPK_PP">
+      <listOfVariables>
+        <variable id="MAPK_PP" name="MAPK_PP" taskReference="task1" target="/sbml:sbml/sbml:model/sbml:listOfSpecies/sbml:species[@id='MAPK_PP']" />
+      </listOfVariables>
+      <math xmlns="http://www.w3.org/1998/Math/MathML">
+        <ci> MAPK_PP </ci>
+      </math>
+    </dataGenerator>
+    <dataGenerator id="MKK1" name="MKK">
+      <listOfVariables>
+        <variable id="MKK" name="MKK" taskReference="task1" target="/sbml:sbml/sbml:model/sbml:listOfSpecies/sbml:species[@id='MKK']" />
+      </listOfVariables>
+      <math xmlns="http://www.w3.org/1998/Math/MathML">
+        <ci> MKK </ci>
+      </math>
+    </dataGenerator>
+    <dataGenerator id="MKK_P1" name="MKK_P">
+      <listOfVariables>
+        <variable id="MKK_P" name="MKK_P" taskReference="task1" target="/sbml:sbml/sbml:model/sbml:listOfSpecies/sbml:species[@id='MKK_P']" />
+      </listOfVariables>
+      <math xmlns="http://www.w3.org/1998/Math/MathML">
+        <ci> MKK_P </ci>
+      </math>
+    </dataGenerator>
+    <dataGenerator id="MKKK1" name="MKKK">
+      <listOfVariables>
+        <variable id="MKKK" name="MKKK" taskReference="task1" target="/sbml:sbml/sbml:model/sbml:listOfSpecies/sbml:species[@id='MKKK']" />
+      </listOfVariables>
+      <math xmlns="http://www.w3.org/1998/Math/MathML">
+        <ci> MKKK </ci>
+      </math>
+    </dataGenerator>
+    <dataGenerator id="MKKK_P1" name="MKKK_P">
+      <listOfVariables>
+        <variable id="MKKK_P" name="MKKK_P" taskReference="task1" target="/sbml:sbml/sbml:model/sbml:listOfSpecies/sbml:species[@id='MKKK_P']" />
+      </listOfVariables>
+      <math xmlns="http://www.w3.org/1998/Math/MathML">
+        <ci> MKKK_P </ci>
+      </math>
+    </dataGenerator>
+  </listOfDataGenerators>
+  <listOfOutputs>
+    <plot2D id="plot1" name="MAPK feedback (Kholodenko, 2000)">
+      <listOfCurves>
+        <curve id="curve_0" logX="false" logY="false" xDataReference="time1" yDataReference="MAPK1" />
+        <curve id="curve_1" logX="false" logY="false" xDataReference="time1" yDataReference="MAPK_P1" />
+        <curve id="curve_2" logX="false" logY="false" xDataReference="time1" yDataReference="MAPK_PP1" />
+        <curve id="curve_3" logX="false" logY="false" xDataReference="time1" yDataReference="MKK1" />
+        <curve id="curve_4" logX="false" logY="false" xDataReference="time1" yDataReference="MKKK1" />
+        <curve id="curve_5" logX="false" logY="false" xDataReference="time1" yDataReference="MKK_P1" />
+        <curve id="curve_6" logX="false" logY="false" xDataReference="time1" yDataReference="MKKK_P1" />
+      </listOfCurves>
+    </plot2D>
+  </listOfOutputs>
+</sedML>
