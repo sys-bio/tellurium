@@ -96,7 +96,7 @@ class SBMLDiagram(object):
                 label = s.name
             else:
                 label = s.id
-            g.add_node(s.id, label=label, **species)
+            g.add_node(s.id, label=label, width=0.15*len(label), **species)
             n = g.get_node(s.id)
 
             # boundary species
@@ -109,7 +109,7 @@ class SBMLDiagram(object):
                 label = r.name
             else:
                 label = r.id
-            g.add_node(r.id, label=label, **reactions)
+            g.add_node(r.id, label=label, width=0.15*len(label), **reactions)
             n = g.get_node(r.id)
             n.attr['fillcolor'] = '#D1D1D1'
             n.attr['shape'] = 'square'

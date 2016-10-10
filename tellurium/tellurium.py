@@ -5,7 +5,7 @@ model export, plotting or the Jarnac compatibility layer.
 """
 from __future__ import print_function, division
 
-import os
+import os, sys
 import warnings
 
 import antimony
@@ -718,7 +718,10 @@ class ExtendedRoadRunner(roadrunner.RoadRunner):
         shaded in blue), reactions as grey squares.
         Currently only the drawing of medium-size networks is supported.
         """
-        if os.name == 'nt' and 'Graphviz' not in os.environ['PATH']:
+        if sys.platform == 'win32' and 'Graphviz' not in os.environ['PATH']:
+            warnings.warn("Graphviz is not installed in your machine. 'draw' command cannot produce a diagram",
+                Warning, stacklevel=2)
+        elif sys.platform == 'darwin' and 'graphviz' not in os.environ['PATH']:
             warnings.warn("Graphviz is not installed in your machine. 'draw' command cannot produce a diagram",
                 Warning, stacklevel=2)
         else:

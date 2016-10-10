@@ -15,23 +15,52 @@ Tellurium is a python environment based on the [Spyder2 IDE](https://github.com/
 
 The Tellurium project is funded from the NIH/NIGMS (GM081070).
 
-## Install
+## Python support
 
-Tellurium is availlable as a self-contained installer or as an installable collection of packages via the Anaconda package manager.
+**Python 2** is the highest supported Python version at the time of writing, due to the fact that not all packages included in Tellurium are Python 3 compatible.
 
-#### Conventional installers:
+## Installation Instructions
 
-* [Download Tellurium for Windows](https://sourceforge.net/projects/pytellurium/files/Tellurium-1.3/1.3.4/Tellurium-1.3.4-Python-2.7-win32-portable-setup.exe/download)
-* [Download Tellurium for Mac OS X 10.10 or later](https://github.com/sys-bio/tellurium/releases/download/1.3.5-rc1/Tellurium-1.3.5-Spyder-2.3.8-OSX.dmg)
+Tellurium is availlable via two distributions:
 
-#### Anaconda package (Linux/OSX) instructions:
+1. As a Windows setup file / Apple disk image which includes the Spyder IDE and all Tellurium packages
+2. As a Python meta-package which can be installed via the Anaconda package manager
 
-Binaries for Tellurium are available via the Anaconda package manager, which is the most straight-forward installation option for users who do not wish to be locked-in to the full Spyder IDE. Tellurium requires the libsbml Python package to be installed. This package is available on Anaconda via the SBMLTeam channel. The following instructions can be used to install Tellurium and libsbml on both Linux and OS X:
+Option 1. does not modify or conflict with any previous Python installation. Option 2. allows you to use Tellurium from within a pre-existing Anaconda installation, including via a notebook. If you are a new user, it is recommended that you try option 1. first.
+
+### Option 1: IDE installer
+
+#### Windows
+
+1. [Download Tellurium for Windows](https://sourceforge.net/projects/pytellurium/files/Tellurium-1.3/1.3.5/Tellurium-1.3.5-Python-2.7-win32-portable-setup.exe/download)
+2. Double-click the installer to start the installation
+3. Follow the instructions
+
+NOTE: Installation requires administrative rights. It is recommended to accept the default settings.
+
+#### Mac OSX
+
+1. [Download Tellurium for Mac OS X 10.10 or later](https://sourceforge.net/projects/pytellurium/files/Tellurium-1.3/1.3.5/Tellurium-1.3.5-Spyder-2.3.8-OSX.dmg/download)
+2. Double-click the .dmg file to open a new window
+3. Double-click the Spyder icon
+
+NOTE: On some older hardware we have noticed that the .dmg sometimes fails. If this happens, we recommend using the Anaconda package manager (see below).
+
+### Option 2: Anaconda package (Linux/OSX only):
+
+Binaries for Tellurium are available via the [Anaconda](https://www.continuum.io/downloads) package manager for **Python 2.7**. Neither the IDE plugins for Spyder nor SBOL functionality is available when using this method. To install Tellurium and the necessary packages on both Linux and OS X, type the following into a terminal:
 
 ```
 conda install -c sys-bio tellurium
+conda install jinja2 ipython
 conda install -c SBMLTeam python-libsbml 
 ```
+
+Detailed instructions for using the `conda` package manager are available [here.](http://conda.pydata.org/docs/using/pkgs.html) 
+
+## System Requirements
+
+The [Spyder IDE](https://github.com/sys-bio/tellurium#installation-instructions) installers are tested with Windows 7+ and Mac OS X 10.9+. Some older Macs cannot run Spyder, regardless of whether the operating system is up-to-date. Anaconda packages are tested on RHEL 6.6, Debian 8, Ubuntu 14.04, and Mac OS X 10.10.
 
 ## Usage
 

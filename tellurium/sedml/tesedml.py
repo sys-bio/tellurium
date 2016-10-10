@@ -432,6 +432,8 @@ class SEDMLCodeFactory(object):
             elif isHttp():
                 lines.append("{} = te.loadSBMLModel('{}')".format(mid, source))
             else:
+                if not source.endswith('.xml'):
+                    source = source + '.xml'
                 lines.append("{} = te.loadSBMLModel(os.path.join(workingDir, '{}'))".format(mid, source))
         # read CellML
         elif 'cellml' in language:
