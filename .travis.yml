@@ -1,0 +1,13 @@
+language: generic
+sudo: required
+
+branches:
+    only:
+        - master
+        - develop
+
+services:
+    - docker
+
+script:
+    - make build
