@@ -1,13 +1,13 @@
-
 # tellurium
 [![Documentation Status](https://readthedocs.org/projects/tellurium/badge/?version=latest)](http://tellurium.readthedocs.org/en/latest/?badge=latest)
 
+<img src="./docs/images/tellurium_logo.png" height="50" />
 Copyright 2014-2016
 Kiri Choi, J Kyle Medley, Matthias König, Kaylene Stocking, Caroline Cannistra, Michal Galdzicki, and Herbert Sauro
 
 ![Parameter scan demo](http://tellurium.readthedocs.org/en/latest/_images/parameter_scan_2_0.png)
 
-*Parmeter scan example courtesy of Matthias König*
+*Parmeter scan example*
 
 ## Introduction
 
