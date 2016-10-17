@@ -14,6 +14,3 @@ RUN nosetests
 
 # test the installation
 RUN python setup.py install
-
-# RUN pip install codecov && codecov
-# RUN bash <(curl -s https://codecov.io/bash)

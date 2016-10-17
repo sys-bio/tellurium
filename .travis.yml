@@ -5,9 +5,19 @@ branches:
     only:
         - master
         - develop
+        - mkoenig
 
 services:
     - docker
 
+install:
+    - docker build -t tellurium .
+
+before_script:
+    # test dependencies
+    - sudo pip install coverage
+    - sudo pip install coveralls
+
 script:
-    - make build
+    - nosetests
+
