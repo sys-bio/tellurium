@@ -62,7 +62,13 @@ import tempfile
 import shutil
 workingDir = tempfile.mkdtemp(suffix="_sedml")
 
-te.executeSEDML(sedmlStr, workingDir=workingDir)
+# te.executeSEDML(sedmlStr, workingDir=workingDir)
+from tellurium.sedml.tesedml import SEDMLCodeFactory
+factory = SEDMLCodeFactory(sedmlStr, workingDir=workingDir)
+print('Hallo world')
+
+# factory.executePython()
+
 shutil.rmtree(workingDir)
 
 

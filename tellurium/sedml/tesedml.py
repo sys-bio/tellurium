@@ -1571,6 +1571,7 @@ class SEDMLTools(object):
         if not isinstance(inputStr, basestring):
             raise IOError("SED-ML input is not instance of basestring:", inputStr)
 
+        print("read SEDML-File")
         # SEDML-String
         if not os.path.exists(inputStr):
             try:
