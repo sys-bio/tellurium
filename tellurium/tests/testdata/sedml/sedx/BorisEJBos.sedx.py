@@ -1,5 +1,5 @@
 """
-    tellurium 1.3.1
+    tellurium 1.3.5
 
     auto-generated code
     sedmlDoc: L1V1  
@@ -8,6 +8,7 @@
 """
 from __future__ import print_function, division
 import tellurium as te
+from roadrunner import Config
 from tellurium.sedml.mathml import *
 import numpy as np
 import matplotlib.pyplot as plt
@@ -15,8 +16,9 @@ import mpl_toolkits.mplot3d
 import libsedml
 import pandas
 import os.path
+Config.LOADSBMLOPTIONS_RECOMPILE = True
 
-workingDir = '/home/mkoenig/git/tellurium/tellurium/tests/testdata/sedml/sedx/_te_BorisEJBos'
+workingDir = r'/home/mkoenig/git/tellurium/tellurium/tests/testdata/sedml/sedx/_te_BorisEJBos'
 
 # --------------------------------------------------------
 # Models
@@ -95,39 +97,39 @@ __gs = gridspec.GridSpec(1, 2, width_ratios=[3, 1])
 plt.subplot(__gs[0])
 for k in range(time1.shape[1]):
     if k == 0:
-        plt.plot(time1[:,k], MAPK1[:,k], '-o', color='r', linewidth=1.5, markersize=3.0, alpha=0.8, label='MAPK')
+        plt.plot(time1[:,k], MAPK1[:,k], marker = '.', color='r', linewidth=1.5, markersize=3.0, alpha=0.8, label='MAPK')
     else:
-        plt.plot(time1[:,k], MAPK1[:,k], '-o', color='r', linewidth=1.5, markersize=3.0, alpha=0.8)
+        plt.plot(time1[:,k], MAPK1[:,k], marker = '.', color='r', linewidth=1.5, markersize=3.0, alpha=0.8)
 for k in range(time1.shape[1]):
     if k == 0:
-        plt.plot(time1[:,k], MAPK_P1[:,k], '-o', color='b', linewidth=1.5, markersize=3.0, alpha=0.8, label='MAPK_P')
+        plt.plot(time1[:,k], MAPK_P1[:,k], marker = '.', color='b', linewidth=1.5, markersize=3.0, alpha=0.8, label='MAPK_P')
     else:
-        plt.plot(time1[:,k], MAPK_P1[:,k], '-o', color='b', linewidth=1.5, markersize=3.0, alpha=0.8)
+        plt.plot(time1[:,k], MAPK_P1[:,k], marker = '.', color='b', linewidth=1.5, markersize=3.0, alpha=0.8)
 for k in range(time1.shape[1]):
     if k == 0:
-        plt.plot(time1[:,k], MAPK_PP1[:,k], '-o', color='g', linewidth=1.5, markersize=3.0, alpha=0.8, label='MAPK_PP')
+        plt.plot(time1[:,k], MAPK_PP1[:,k], marker = '.', color='g', linewidth=1.5, markersize=3.0, alpha=0.8, label='MAPK_PP')
     else:
-        plt.plot(time1[:,k], MAPK_PP1[:,k], '-o', color='g', linewidth=1.5, markersize=3.0, alpha=0.8)
+        plt.plot(time1[:,k], MAPK_PP1[:,k], marker = '.', color='g', linewidth=1.5, markersize=3.0, alpha=0.8)
 for k in range(time1.shape[1]):
     if k == 0:
-        plt.plot(time1[:,k], MKK1[:,k], '-o', color='m', linewidth=1.5, markersize=3.0, alpha=0.8, label='MKK')
+        plt.plot(time1[:,k], MKK1[:,k], marker = '.', color='m', linewidth=1.5, markersize=3.0, alpha=0.8, label='MKK')
     else:
-        plt.plot(time1[:,k], MKK1[:,k], '-o', color='m', linewidth=1.5, markersize=3.0, alpha=0.8)
+        plt.plot(time1[:,k], MKK1[:,k], marker = '.', color='m', linewidth=1.5, markersize=3.0, alpha=0.8)
 for k in range(time1.shape[1]):
     if k == 0:
-        plt.plot(time1[:,k], MKKK1[:,k], '-o', color='c', linewidth=1.5, markersize=3.0, alpha=0.8, label='MKKK')
+        plt.plot(time1[:,k], MKKK1[:,k], marker = '.', color='c', linewidth=1.5, markersize=3.0, alpha=0.8, label='MKKK')
     else:
-        plt.plot(time1[:,k], MKKK1[:,k], '-o', color='c', linewidth=1.5, markersize=3.0, alpha=0.8)
+        plt.plot(time1[:,k], MKKK1[:,k], marker = '.', color='c', linewidth=1.5, markersize=3.0, alpha=0.8)
 for k in range(time1.shape[1]):
     if k == 0:
-        plt.plot(time1[:,k], MKK_P1[:,k], '-o', color='y', linewidth=1.5, markersize=3.0, alpha=0.8, label='MKK_P')
+        plt.plot(time1[:,k], MKK_P1[:,k], marker = '.', color='y', linewidth=1.5, markersize=3.0, alpha=0.8, label='MKK_P')
     else:
-        plt.plot(time1[:,k], MKK_P1[:,k], '-o', color='y', linewidth=1.5, markersize=3.0, alpha=0.8)
+        plt.plot(time1[:,k], MKK_P1[:,k], marker = '.', color='y', linewidth=1.5, markersize=3.0, alpha=0.8)
 for k in range(time1.shape[1]):
     if k == 0:
-        plt.plot(time1[:,k], MKKK_P1[:,k], '-o', color='k', linewidth=1.5, markersize=3.0, alpha=0.8, label='MKKK_P')
+        plt.plot(time1[:,k], MKKK_P1[:,k], marker = '.', color='k', linewidth=1.5, markersize=3.0, alpha=0.8, label='MKKK_P')
     else:
-        plt.plot(time1[:,k], MKKK_P1[:,k], '-o', color='k', linewidth=1.5, markersize=3.0, alpha=0.8)
+        plt.plot(time1[:,k], MKKK_P1[:,k], marker = '.', color='k', linewidth=1.5, markersize=3.0, alpha=0.8)
 plt.title('MAPK feedback (Kholodenko, 2000)', fontweight='bold')
 plt.xlabel('time', fontweight='bold')
 __lg = plt.legend(bbox_to_anchor=(1.05, 1), loc=2, borderaxespad=0.)

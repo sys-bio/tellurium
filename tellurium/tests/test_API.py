@@ -3,6 +3,8 @@ Here the supported API is tested.
 """
 from __future__ import print_function, division
 import unittest
+import antimony
+CELLML_SUPPORT = hasattr(antimony, "loadCellMLString")
 
 import tellurium as te
 r = te.loada('''
@@ -31,14 +33,9 @@ api_calls = [
     'te.loadAntimonyModel',
     'te.loads',
     'te.loadSBMLModel',
-    'te.loadCellMLModel',
     #   conversion methods
     'te.antimonyToSBML',
-    'te.antimonyToCellML',
     'te.sbmlToAntimony',
-    'te.sbmlToCellML',
-    'te.cellmlToAntimony',
-    'te.cellmlToSBML',
     #   experiment
     'te.experiment',
     #   math
@@ -106,6 +103,16 @@ api_calls = [
     'r.getNumEvents',
     'r.getNumRateRules',
 ]
+if CELLML_SUPPORT:
+    api_calls.extend([
+        'te.loadCellMLModel',
+        'te.cellmlToAntimony',
+        'te.cellmlToSBML',
+        'te.antimonyToCellML',
+        'te.sbmlToCellML',
+    ])
+
+
 # ----------------------------------------------------------------
 
 

@@ -1,5 +1,5 @@
 """
-    tellurium 1.3.1
+    tellurium 1.3.5
 
     auto-generated code
     sedmlDoc: L1V1  
@@ -8,6 +8,7 @@
 """
 from __future__ import print_function, division
 import tellurium as te
+from roadrunner import Config
 from tellurium.sedml.mathml import *
 import numpy as np
 import matplotlib.pyplot as plt
@@ -15,8 +16,9 @@ import mpl_toolkits.mplot3d
 import libsedml
 import pandas
 import os.path
+Config.LOADSBMLOPTIONS_RECOMPILE = True
 
-workingDir = '/home/mkoenig/git/tellurium/tellurium/tests/testdata/sedml/sedx/_te_lorenz'
+workingDir = r'/home/mkoenig/git/tellurium/tellurium/tests/testdata/sedml/sedx/_te_lorenz'
 
 # --------------------------------------------------------
 # Models
@@ -72,19 +74,19 @@ __gs = gridspec.GridSpec(1, 2, width_ratios=[3, 1])
 plt.subplot(__gs[0])
 for k in range(time1.shape[1]):
     if k == 0:
-        plt.plot(time1[:,k], X1[:,k], '-o', color='r', linewidth=1.5, markersize=3.0, alpha=0.8, label='X')
+        plt.plot(time1[:,k], X1[:,k], marker = '.', color='r', linewidth=1.5, markersize=3.0, alpha=0.8, label='X')
     else:
-        plt.plot(time1[:,k], X1[:,k], '-o', color='r', linewidth=1.5, markersize=3.0, alpha=0.8)
+        plt.plot(time1[:,k], X1[:,k], marker = '.', color='r', linewidth=1.5, markersize=3.0, alpha=0.8)
 for k in range(time1.shape[1]):
     if k == 0:
-        plt.plot(time1[:,k], Y1[:,k], '-o', color='b', linewidth=1.5, markersize=3.0, alpha=0.8, label='Y')
+        plt.plot(time1[:,k], Y1[:,k], marker = '.', color='b', linewidth=1.5, markersize=3.0, alpha=0.8, label='Y')
     else:
-        plt.plot(time1[:,k], Y1[:,k], '-o', color='b', linewidth=1.5, markersize=3.0, alpha=0.8)
+        plt.plot(time1[:,k], Y1[:,k], marker = '.', color='b', linewidth=1.5, markersize=3.0, alpha=0.8)
 for k in range(time1.shape[1]):
     if k == 0:
-        plt.plot(time1[:,k], Z1[:,k], '-o', color='g', linewidth=1.5, markersize=3.0, alpha=0.8, label='Z')
+        plt.plot(time1[:,k], Z1[:,k], marker = '.', color='g', linewidth=1.5, markersize=3.0, alpha=0.8, label='Z')
     else:
-        plt.plot(time1[:,k], Z1[:,k], '-o', color='g', linewidth=1.5, markersize=3.0, alpha=0.8)
+        plt.plot(time1[:,k], Z1[:,k], marker = '.', color='g', linewidth=1.5, markersize=3.0, alpha=0.8)
 plt.title('The Lorenz Attractor (time series)', fontweight='bold')
 plt.xlabel('time', fontweight='bold')
 __lg = plt.legend(bbox_to_anchor=(1.05, 1), loc=2, borderaxespad=0.)
@@ -101,9 +103,9 @@ __gs = gridspec.GridSpec(1, 2, width_ratios=[3, 1])
 plt.subplot(__gs[0])
 for k in range(X1.shape[1]):
     if k == 0:
-        plt.plot(X1[:,k], Y1[:,k], '-o', color='r', linewidth=1.5, markersize=3.0, alpha=0.8, label='Y')
+        plt.plot(X1[:,k], Y1[:,k], marker = '.', color='r', linewidth=1.5, markersize=3.0, alpha=0.8, label='Y')
     else:
-        plt.plot(X1[:,k], Y1[:,k], '-o', color='r', linewidth=1.5, markersize=3.0, alpha=0.8)
+        plt.plot(X1[:,k], Y1[:,k], marker = '.', color='r', linewidth=1.5, markersize=3.0, alpha=0.8)
 plt.title('The Lorenz Attractor (phase plot x vs y)', fontweight='bold')
 plt.xlabel('X', fontweight='bold')
 plt.ylabel('Y', fontweight='bold')
@@ -121,9 +123,9 @@ __gs = gridspec.GridSpec(1, 2, width_ratios=[3, 1])
 plt.subplot(__gs[0])
 for k in range(X1.shape[1]):
     if k == 0:
-        plt.plot(X1[:,k], Z1[:,k], '-o', color='r', linewidth=1.5, markersize=3.0, alpha=0.8, label='Z')
+        plt.plot(X1[:,k], Z1[:,k], marker = '.', color='r', linewidth=1.5, markersize=3.0, alpha=0.8, label='Z')
     else:
-        plt.plot(X1[:,k], Z1[:,k], '-o', color='r', linewidth=1.5, markersize=3.0, alpha=0.8)
+        plt.plot(X1[:,k], Z1[:,k], marker = '.', color='r', linewidth=1.5, markersize=3.0, alpha=0.8)
 plt.title('The Lorenz Attractor (phase plot x vs z)', fontweight='bold')
 plt.xlabel('X', fontweight='bold')
 plt.ylabel('Z', fontweight='bold')
@@ -141,9 +143,9 @@ __gs = gridspec.GridSpec(1, 2, width_ratios=[3, 1])
 plt.subplot(__gs[0])
 for k in range(Y1.shape[1]):
     if k == 0:
-        plt.plot(Y1[:,k], Z1[:,k], '-o', color='r', linewidth=1.5, markersize=3.0, alpha=0.8, label='Z')
+        plt.plot(Y1[:,k], Z1[:,k], marker = '.', color='r', linewidth=1.5, markersize=3.0, alpha=0.8, label='Z')
     else:
-        plt.plot(Y1[:,k], Z1[:,k], '-o', color='r', linewidth=1.5, markersize=3.0, alpha=0.8)
+        plt.plot(Y1[:,k], Z1[:,k], marker = '.', color='r', linewidth=1.5, markersize=3.0, alpha=0.8)
 plt.title('The Lorenz Attractor (phase plot y vs z)', fontweight='bold')
 plt.xlabel('Y', fontweight='bold')
 plt.ylabel('Z', fontweight='bold')

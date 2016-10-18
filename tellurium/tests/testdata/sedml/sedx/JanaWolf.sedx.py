@@ -1,5 +1,5 @@
 """
-    tellurium 1.3.1
+    tellurium 1.3.5
 
     auto-generated code
     sedmlDoc: L1V1  
@@ -8,6 +8,7 @@
 """
 from __future__ import print_function, division
 import tellurium as te
+from roadrunner import Config
 from tellurium.sedml.mathml import *
 import numpy as np
 import matplotlib.pyplot as plt
@@ -15,8 +16,9 @@ import mpl_toolkits.mplot3d
 import libsedml
 import pandas
 import os.path
+Config.LOADSBMLOPTIONS_RECOMPILE = True
 
-workingDir = '/home/mkoenig/git/tellurium/tellurium/tests/testdata/sedml/sedx/_te_JanaWolf'
+workingDir = r'/home/mkoenig/git/tellurium/tellurium/tests/testdata/sedml/sedx/_te_JanaWolf'
 
 # --------------------------------------------------------
 # Models
@@ -119,59 +121,59 @@ __gs = gridspec.GridSpec(1, 2, width_ratios=[3, 1])
 plt.subplot(__gs[0])
 for k in range(time1.shape[1]):
     if k == 0:
-        plt.plot(time1[:,k], Glucose1[:,k], '-o', color='r', linewidth=1.5, markersize=3.0, alpha=0.8, label='Glucose')
+        plt.plot(time1[:,k], Glucose1[:,k], marker = '.', color='r', linewidth=1.5, markersize=3.0, alpha=0.8, label='Glucose')
     else:
-        plt.plot(time1[:,k], Glucose1[:,k], '-o', color='r', linewidth=1.5, markersize=3.0, alpha=0.8)
+        plt.plot(time1[:,k], Glucose1[:,k], marker = '.', color='r', linewidth=1.5, markersize=3.0, alpha=0.8)
 for k in range(time1.shape[1]):
     if k == 0:
-        plt.plot(time1[:,k], fructose_1_6_bisphosphate1[:,k], '-o', color='b', linewidth=1.5, markersize=3.0, alpha=0.8, label='fructose_1_6_bisphosphate')
+        plt.plot(time1[:,k], fructose_1_6_bisphosphate1[:,k], marker = '.', color='b', linewidth=1.5, markersize=3.0, alpha=0.8, label='fructose_1_6_bisphosphate')
     else:
-        plt.plot(time1[:,k], fructose_1_6_bisphosphate1[:,k], '-o', color='b', linewidth=1.5, markersize=3.0, alpha=0.8)
+        plt.plot(time1[:,k], fructose_1_6_bisphosphate1[:,k], marker = '.', color='b', linewidth=1.5, markersize=3.0, alpha=0.8)
 for k in range(time1.shape[1]):
     if k == 0:
-        plt.plot(time1[:,k], glyceraldehyde_3_phosphate1[:,k], '-o', color='g', linewidth=1.5, markersize=3.0, alpha=0.8, label='glyceraldehyde_3_phosphate')
+        plt.plot(time1[:,k], glyceraldehyde_3_phosphate1[:,k], marker = '.', color='g', linewidth=1.5, markersize=3.0, alpha=0.8, label='glyceraldehyde_3_phosphate')
     else:
-        plt.plot(time1[:,k], glyceraldehyde_3_phosphate1[:,k], '-o', color='g', linewidth=1.5, markersize=3.0, alpha=0.8)
+        plt.plot(time1[:,k], glyceraldehyde_3_phosphate1[:,k], marker = '.', color='g', linewidth=1.5, markersize=3.0, alpha=0.8)
 for k in range(time1.shape[1]):
     if k == 0:
-        plt.plot(time1[:,k], glycerate_3_phosphate1[:,k], '-o', color='m', linewidth=1.5, markersize=3.0, alpha=0.8, label='glycerate_3_phosphate')
+        plt.plot(time1[:,k], glycerate_3_phosphate1[:,k], marker = '.', color='m', linewidth=1.5, markersize=3.0, alpha=0.8, label='glycerate_3_phosphate')
     else:
-        plt.plot(time1[:,k], glycerate_3_phosphate1[:,k], '-o', color='m', linewidth=1.5, markersize=3.0, alpha=0.8)
+        plt.plot(time1[:,k], glycerate_3_phosphate1[:,k], marker = '.', color='m', linewidth=1.5, markersize=3.0, alpha=0.8)
 for k in range(time1.shape[1]):
     if k == 0:
-        plt.plot(time1[:,k], pyruvate1[:,k], '-o', color='c', linewidth=1.5, markersize=3.0, alpha=0.8, label='pyruvate')
+        plt.plot(time1[:,k], pyruvate1[:,k], marker = '.', color='c', linewidth=1.5, markersize=3.0, alpha=0.8, label='pyruvate')
     else:
-        plt.plot(time1[:,k], pyruvate1[:,k], '-o', color='c', linewidth=1.5, markersize=3.0, alpha=0.8)
+        plt.plot(time1[:,k], pyruvate1[:,k], marker = '.', color='c', linewidth=1.5, markersize=3.0, alpha=0.8)
 for k in range(time1.shape[1]):
     if k == 0:
-        plt.plot(time1[:,k], Acetyladehyde1[:,k], '-o', color='y', linewidth=1.5, markersize=3.0, alpha=0.8, label='Acetyladehyde')
+        plt.plot(time1[:,k], Acetyladehyde1[:,k], marker = '.', color='y', linewidth=1.5, markersize=3.0, alpha=0.8, label='Acetyladehyde')
     else:
-        plt.plot(time1[:,k], Acetyladehyde1[:,k], '-o', color='y', linewidth=1.5, markersize=3.0, alpha=0.8)
+        plt.plot(time1[:,k], Acetyladehyde1[:,k], marker = '.', color='y', linewidth=1.5, markersize=3.0, alpha=0.8)
 for k in range(time1.shape[1]):
     if k == 0:
-        plt.plot(time1[:,k], External_acetaldehyde1[:,k], '-o', color='k', linewidth=1.5, markersize=3.0, alpha=0.8, label='External_acetaldehyde')
+        plt.plot(time1[:,k], External_acetaldehyde1[:,k], marker = '.', color='k', linewidth=1.5, markersize=3.0, alpha=0.8, label='External_acetaldehyde')
     else:
-        plt.plot(time1[:,k], External_acetaldehyde1[:,k], '-o', color='k', linewidth=1.5, markersize=3.0, alpha=0.8)
+        plt.plot(time1[:,k], External_acetaldehyde1[:,k], marker = '.', color='k', linewidth=1.5, markersize=3.0, alpha=0.8)
 for k in range(time1.shape[1]):
     if k == 0:
-        plt.plot(time1[:,k], ATP1[:,k], '-o', color='r', linewidth=1.5, markersize=3.0, alpha=0.8, label='ATP')
+        plt.plot(time1[:,k], ATP1[:,k], marker = '.', color='r', linewidth=1.5, markersize=3.0, alpha=0.8, label='ATP')
     else:
-        plt.plot(time1[:,k], ATP1[:,k], '-o', color='r', linewidth=1.5, markersize=3.0, alpha=0.8)
+        plt.plot(time1[:,k], ATP1[:,k], marker = '.', color='r', linewidth=1.5, markersize=3.0, alpha=0.8)
 for k in range(time1.shape[1]):
     if k == 0:
-        plt.plot(time1[:,k], ADP1[:,k], '-o', color='b', linewidth=1.5, markersize=3.0, alpha=0.8, label='ADP')
+        plt.plot(time1[:,k], ADP1[:,k], marker = '.', color='b', linewidth=1.5, markersize=3.0, alpha=0.8, label='ADP')
     else:
-        plt.plot(time1[:,k], ADP1[:,k], '-o', color='b', linewidth=1.5, markersize=3.0, alpha=0.8)
+        plt.plot(time1[:,k], ADP1[:,k], marker = '.', color='b', linewidth=1.5, markersize=3.0, alpha=0.8)
 for k in range(time1.shape[1]):
     if k == 0:
-        plt.plot(time1[:,k], NAD1[:,k], '-o', color='g', linewidth=1.5, markersize=3.0, alpha=0.8, label='NAD')
+        plt.plot(time1[:,k], NAD1[:,k], marker = '.', color='g', linewidth=1.5, markersize=3.0, alpha=0.8, label='NAD')
     else:
-        plt.plot(time1[:,k], NAD1[:,k], '-o', color='g', linewidth=1.5, markersize=3.0, alpha=0.8)
+        plt.plot(time1[:,k], NAD1[:,k], marker = '.', color='g', linewidth=1.5, markersize=3.0, alpha=0.8)
 for k in range(time1.shape[1]):
     if k == 0:
-        plt.plot(time1[:,k], NADH1[:,k], '-o', color='m', linewidth=1.5, markersize=3.0, alpha=0.8, label='NADH')
+        plt.plot(time1[:,k], NADH1[:,k], marker = '.', color='m', linewidth=1.5, markersize=3.0, alpha=0.8, label='NADH')
     else:
-        plt.plot(time1[:,k], NADH1[:,k], '-o', color='m', linewidth=1.5, markersize=3.0, alpha=0.8)
+        plt.plot(time1[:,k], NADH1[:,k], marker = '.', color='m', linewidth=1.5, markersize=3.0, alpha=0.8)
 plt.title('JanaWolf Glycolysis', fontweight='bold')
 plt.xlabel('time', fontweight='bold')
 __lg = plt.legend(bbox_to_anchor=(1.05, 1), loc=2, borderaxespad=0.)

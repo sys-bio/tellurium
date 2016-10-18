@@ -1,5 +1,5 @@
 """
-    tellurium 1.3.1
+    tellurium 1.3.5
 
     auto-generated code
     sedmlDoc: L1V1  
@@ -8,6 +8,7 @@
 """
 from __future__ import print_function, division
 import tellurium as te
+from roadrunner import Config
 from tellurium.sedml.mathml import *
 import numpy as np
 import matplotlib.pyplot as plt
@@ -15,8 +16,9 @@ import mpl_toolkits.mplot3d
 import libsedml
 import pandas
 import os.path
+Config.LOADSBMLOPTIONS_RECOMPILE = True
 
-workingDir = '/home/mkoenig/git/tellurium/tellurium/tests/testdata/sedml/sed-ml'
+workingDir = r'/home/mkoenig/git/tellurium/tellurium/tests/testdata/sedml/sed-ml'
 
 # --------------------------------------------------------
 # Models
@@ -115,54 +117,54 @@ __gs = gridspec.GridSpec(1, 2, width_ratios=[3, 1])
 plt.subplot(__gs[0])
 for k in range(time.shape[1]):
     if k == 0:
-        plt.plot(time[:,k], P0_1[:,k], '-o', color='r', linewidth=1.5, markersize=3.0, alpha=0.8, label='P0_1')
+        plt.plot(time[:,k], P0_1[:,k], marker = '.', color='r', linewidth=1.5, markersize=3.0, alpha=0.8, label='P0_1')
     else:
-        plt.plot(time[:,k], P0_1[:,k], '-o', color='r', linewidth=1.5, markersize=3.0, alpha=0.8)
+        plt.plot(time[:,k], P0_1[:,k], marker = '.', color='r', linewidth=1.5, markersize=3.0, alpha=0.8)
 for k in range(time.shape[1]):
     if k == 0:
-        plt.plot(time[:,k], T0_1[:,k], '-o', color='b', linewidth=1.5, markersize=3.0, alpha=0.8, label='T0_1')
+        plt.plot(time[:,k], T0_1[:,k], marker = '.', color='b', linewidth=1.5, markersize=3.0, alpha=0.8, label='T0_1')
     else:
-        plt.plot(time[:,k], T0_1[:,k], '-o', color='b', linewidth=1.5, markersize=3.0, alpha=0.8)
+        plt.plot(time[:,k], T0_1[:,k], marker = '.', color='b', linewidth=1.5, markersize=3.0, alpha=0.8)
 for k in range(time.shape[1]):
     if k == 0:
-        plt.plot(time[:,k], P1_1[:,k], '-o', color='g', linewidth=1.5, markersize=3.0, alpha=0.8, label='P1_1')
+        plt.plot(time[:,k], P1_1[:,k], marker = '.', color='g', linewidth=1.5, markersize=3.0, alpha=0.8, label='P1_1')
     else:
-        plt.plot(time[:,k], P1_1[:,k], '-o', color='g', linewidth=1.5, markersize=3.0, alpha=0.8)
+        plt.plot(time[:,k], P1_1[:,k], marker = '.', color='g', linewidth=1.5, markersize=3.0, alpha=0.8)
 for k in range(time.shape[1]):
     if k == 0:
-        plt.plot(time[:,k], T1_1[:,k], '-o', color='m', linewidth=1.5, markersize=3.0, alpha=0.8, label='T1_1')
+        plt.plot(time[:,k], T1_1[:,k], marker = '.', color='m', linewidth=1.5, markersize=3.0, alpha=0.8, label='T1_1')
     else:
-        plt.plot(time[:,k], T1_1[:,k], '-o', color='m', linewidth=1.5, markersize=3.0, alpha=0.8)
+        plt.plot(time[:,k], T1_1[:,k], marker = '.', color='m', linewidth=1.5, markersize=3.0, alpha=0.8)
 for k in range(time.shape[1]):
     if k == 0:
-        plt.plot(time[:,k], P2_1[:,k], '-o', color='c', linewidth=1.5, markersize=3.0, alpha=0.8, label='P2_1')
+        plt.plot(time[:,k], P2_1[:,k], marker = '.', color='c', linewidth=1.5, markersize=3.0, alpha=0.8, label='P2_1')
     else:
-        plt.plot(time[:,k], P2_1[:,k], '-o', color='c', linewidth=1.5, markersize=3.0, alpha=0.8)
+        plt.plot(time[:,k], P2_1[:,k], marker = '.', color='c', linewidth=1.5, markersize=3.0, alpha=0.8)
 for k in range(time.shape[1]):
     if k == 0:
-        plt.plot(time[:,k], T2_1[:,k], '-o', color='y', linewidth=1.5, markersize=3.0, alpha=0.8, label='T2_1')
+        plt.plot(time[:,k], T2_1[:,k], marker = '.', color='y', linewidth=1.5, markersize=3.0, alpha=0.8, label='T2_1')
     else:
-        plt.plot(time[:,k], T2_1[:,k], '-o', color='y', linewidth=1.5, markersize=3.0, alpha=0.8)
+        plt.plot(time[:,k], T2_1[:,k], marker = '.', color='y', linewidth=1.5, markersize=3.0, alpha=0.8)
 for k in range(time.shape[1]):
     if k == 0:
-        plt.plot(time[:,k], CC_1[:,k], '-o', color='k', linewidth=1.5, markersize=3.0, alpha=0.8, label='CC_1')
+        plt.plot(time[:,k], CC_1[:,k], marker = '.', color='k', linewidth=1.5, markersize=3.0, alpha=0.8, label='CC_1')
     else:
-        plt.plot(time[:,k], CC_1[:,k], '-o', color='k', linewidth=1.5, markersize=3.0, alpha=0.8)
+        plt.plot(time[:,k], CC_1[:,k], marker = '.', color='k', linewidth=1.5, markersize=3.0, alpha=0.8)
 for k in range(time.shape[1]):
     if k == 0:
-        plt.plot(time[:,k], Cn_1[:,k], '-o', color='r', linewidth=1.5, markersize=3.0, alpha=0.8, label='Cn_1')
+        plt.plot(time[:,k], Cn_1[:,k], marker = '.', color='r', linewidth=1.5, markersize=3.0, alpha=0.8, label='Cn_1')
     else:
-        plt.plot(time[:,k], Cn_1[:,k], '-o', color='r', linewidth=1.5, markersize=3.0, alpha=0.8)
+        plt.plot(time[:,k], Cn_1[:,k], marker = '.', color='r', linewidth=1.5, markersize=3.0, alpha=0.8)
 for k in range(time.shape[1]):
     if k == 0:
-        plt.plot(time[:,k], Mp_1[:,k], '-o', color='b', linewidth=1.5, markersize=3.0, alpha=0.8, label='Mp_1')
+        plt.plot(time[:,k], Mp_1[:,k], marker = '.', color='b', linewidth=1.5, markersize=3.0, alpha=0.8, label='Mp_1')
     else:
-        plt.plot(time[:,k], Mp_1[:,k], '-o', color='b', linewidth=1.5, markersize=3.0, alpha=0.8)
+        plt.plot(time[:,k], Mp_1[:,k], marker = '.', color='b', linewidth=1.5, markersize=3.0, alpha=0.8)
 for k in range(time.shape[1]):
     if k == 0:
-        plt.plot(time[:,k], Mt_1[:,k], '-o', color='g', linewidth=1.5, markersize=3.0, alpha=0.8, label='Mt_1')
+        plt.plot(time[:,k], Mt_1[:,k], marker = '.', color='g', linewidth=1.5, markersize=3.0, alpha=0.8, label='Mt_1')
     else:
-        plt.plot(time[:,k], Mt_1[:,k], '-o', color='g', linewidth=1.5, markersize=3.0, alpha=0.8)
+        plt.plot(time[:,k], Mt_1[:,k], marker = '.', color='g', linewidth=1.5, markersize=3.0, alpha=0.8)
 plt.title('plot1', fontweight='bold')
 plt.xlabel('time', fontweight='bold')
 __lg = plt.legend(bbox_to_anchor=(1.05, 1), loc=2, borderaxespad=0.)

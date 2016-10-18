@@ -1,5 +1,5 @@
 """
-    tellurium 1.3.1
+    tellurium 1.3.5
 
     auto-generated code
     sedmlDoc: L1V1  
@@ -8,6 +8,7 @@
 """
 from __future__ import print_function, division
 import tellurium as te
+from roadrunner import Config
 from tellurium.sedml.mathml import *
 import numpy as np
 import matplotlib.pyplot as plt
@@ -15,8 +16,9 @@ import mpl_toolkits.mplot3d
 import libsedml
 import pandas
 import os.path
+Config.LOADSBMLOPTIONS_RECOMPILE = True
 
-workingDir = '/home/mkoenig/git/tellurium/tellurium/tests/testdata/sedml/sedx/_te_BIOMD0000000139'
+workingDir = r'/home/mkoenig/git/tellurium/tellurium/tests/testdata/sedml/sedx/_te_BIOMD0000000139'
 
 # --------------------------------------------------------
 # Models
@@ -61,9 +63,9 @@ __gs = gridspec.GridSpec(1, 2, width_ratios=[3, 1])
 plt.subplot(__gs[0])
 for k in range(time.shape[1]):
     if k == 0:
-        plt.plot(time[:,k], Total_NFkBn[:,k], '-o', color='r', linewidth=1.5, markersize=3.0, alpha=0.8, label='Total_NFkBn')
+        plt.plot(time[:,k], Total_NFkBn[:,k], marker = '.', color='r', linewidth=1.5, markersize=3.0, alpha=0.8, label='Total_NFkBn')
     else:
-        plt.plot(time[:,k], Total_NFkBn[:,k], '-o', color='r', linewidth=1.5, markersize=3.0, alpha=0.8)
+        plt.plot(time[:,k], Total_NFkBn[:,k], marker = '.', color='r', linewidth=1.5, markersize=3.0, alpha=0.8)
 plt.title('BM139 Total_NFkBn', fontweight='bold')
 plt.xlabel('time', fontweight='bold')
 plt.ylabel('Total_NFkBn', fontweight='bold')

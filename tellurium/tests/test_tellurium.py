@@ -10,6 +10,9 @@ import tellurium as te
 import os
 import numpy as np
 import matplotlib
+import antimony
+CELLML_SUPPORT = hasattr(antimony, "loadCellMLString")
+
 test_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'testdata')
 
 
@@ -163,15 +166,17 @@ class TelluriumTestCase(unittest.TestCase):
         r = te.loadSBMLModel(self.sbml_str)
         self.assertIsNotNone(r)
 
-    @unittest.expectedFailure
-    def test_loadCellMLModel_file(self):
-        r = te.loadCellMLModel(self.cellml_file)
-        self.assertIsNotNone(r, 'CellML conversion broken')
+    if CELLML_SUPPORT:
+        @unittest.expectedFailure
+        def test_loadCellMLModel_file(self):
+            r = te.loadCellMLModel(self.cellml_file)
+            self.assertIsNotNone(r, 'CellML conversion broken')
 
-    @unittest.expectedFailure
-    def test_loadCellMLModel_str(self):
-        r = te.loadCellMLModel(self.cellml_str)
-        self.assertIsNotNone(r, 'CellML conversion broken')
+    if CELLML_SUPPORT:
+        @unittest.expectedFailure
+        def test_loadCellMLModel_str(self):
+            r = te.loadCellMLModel(self.cellml_str)
+            self.assertIsNotNone(r, 'CellML conversion broken')
 
     # ---------------------------------------------------------------------
     # Interconversion Methods
@@ -184,13 +189,15 @@ class TelluriumTestCase(unittest.TestCase):
         sbml = te.antimonyToSBML(self.ant_str)
         self.assertIsNotNone(sbml)
 
-    def test_antimonyToCellML_file(self):
-        cellml = te.antimonyToCellML(self.ant_file)
-        self.assertIsNotNone(cellml)
+    if CELLML_SUPPORT:
+        def test_antimonyToCellML_file(self):
+            cellml = te.antimonyToCellML(self.ant_file)
+            self.assertIsNotNone(cellml)
 
-    def test_antimonyToCellML_str(self):
-        cellml = te.antimonyToCellML(self.ant_str)
-        self.assertIsNotNone(cellml)
+    if CELLML_SUPPORT:
+        def test_antimonyToCellML_str(self):
+            cellml = te.antimonyToCellML(self.ant_str)
+            self.assertIsNotNone(cellml)
 
     def test_sbmlToAntimony_file(self):
         ant = te.sbmlToAntimony(self.sbml_file)
@@ -200,29 +207,35 @@ class TelluriumTestCase(unittest.TestCase):
         ant = te.sbmlToAntimony(self.sbml_str)
         self.assertIsNotNone(ant)
 
-    def test_sbmlToCellML_file(self):
-        cellml = te.sbmlToCellML(self.sbml_file)
-        self.assertIsNotNone(cellml)
+    if CELLML_SUPPORT:
+        def test_sbmlToCellML_file(self):
+            cellml = te.sbmlToCellML(self.sbml_file)
+            self.assertIsNotNone(cellml)
 
-    def test_sbmlToCellML_str(self):
-        cellml = te.sbmlToCellML(self.sbml_str)
-        self.assertIsNotNone(cellml)
+    if CELLML_SUPPORT:
+        def test_sbmlToCellML_str(self):
+            cellml = te.sbmlToCellML(self.sbml_str)
+            self.assertIsNotNone(cellml)
 
-    def test_cellmlToAntimony_file(self):
-        ant = te.cellmlToAntimony(self.cellml_file)
-        self.assertIsNotNone(ant)
+    if CELLML_SUPPORT:
+        def test_cellmlToAntimony_file(self):
+            ant = te.cellmlToAntimony(self.cellml_file)
+            self.assertIsNotNone(ant)
 
-    def test_cellmlToAntimony_str(self):
-        ant = te.cellmlToAntimony(self.cellml_str)
-        self.assertIsNotNone(ant)
+    if CELLML_SUPPORT:
+        def test_cellmlToAntimony_str(self):
+            ant = te.cellmlToAntimony(self.cellml_str)
+            self.assertIsNotNone(ant)
 
-    def test_cellmlToSBML_file(self):
-        sbml = te.cellmlToSBML(self.cellml_file)
-        self.assertIsNotNone(sbml)
+    if CELLML_SUPPORT:
+        def test_cellmlToSBML_file(self):
+            sbml = te.cellmlToSBML(self.cellml_file)
+            self.assertIsNotNone(sbml)
 
-    def test_cellmlToSBML_str(self):
-        sbml = te.cellmlToSBML(self.cellml_str)
-        self.assertIsNotNone(sbml)
+    if CELLML_SUPPORT:
+        def test_cellmlToSBML_str(self):
+            sbml = te.cellmlToSBML(self.cellml_str)
+            self.assertIsNotNone(sbml)
 
     # ---------------------------------------------------------------------
     # Jarnac compatibility layer

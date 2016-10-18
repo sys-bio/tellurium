@@ -1,5 +1,5 @@
 """
-    tellurium 1.3.1
+    tellurium 1.3.5
 
     auto-generated code
     sedmlDoc: L1V1  
@@ -8,6 +8,7 @@
 """
 from __future__ import print_function, division
 import tellurium as te
+from roadrunner import Config
 from tellurium.sedml.mathml import *
 import numpy as np
 import matplotlib.pyplot as plt
@@ -15,8 +16,9 @@ import mpl_toolkits.mplot3d
 import libsedml
 import pandas
 import os.path
+Config.LOADSBMLOPTIONS_RECOMPILE = True
 
-workingDir = '/home/mkoenig/git/tellurium/tellurium/tests/testdata/sedml/sed-ml'
+workingDir = r'/home/mkoenig/git/tellurium/tellurium/tests/testdata/sedml/sed-ml'
 
 # --------------------------------------------------------
 # Models
@@ -27,9 +29,9 @@ model1 = te.loadSBMLModel(os.path.join(workingDir, '../models/oscli.xml'))
 model2 = te.loadSBMLModel(os.path.join(workingDir, '../models/oscli.xml'))
 __var__J3_k2 = model2['J3_k2']
 model2['J3_k2'] = __var__J3_k2 / 2
-__var__S2 = model2['[S2]']
+__var__S2 = model2['init([S2])']
 model2['init([S2])'] = __var__S2 / 2
-__var__S1 = model2['[S1]']
+__var__S1 = model2['init([S1])']
 model2['init([S1])'] = __var__S1 / 2
 
 # --------------------------------------------------------
@@ -93,7 +95,7 @@ for k in range(time1.shape[1]):
     print('-'*80)
     __df__k = pandas.DataFrame(np.column_stack([time1[:,k], S1_1[:,k], S1_2[:,k], S2_1[:,k], S2_2[:,k]]), 
     columns=['time1', 'S1_1', 'S1_2', 'S2_1', 'S2_2'])
-    print(__df__k.head(10))
+    print(__df__k.head(5))
     __dfs__report1.append(__df__k)
     __df__k.to_csv(os.path.join(workingDir, 'report1_{}.csv'.format(k)), sep='	', index=False)
 
@@ -104,14 +106,14 @@ __gs = gridspec.GridSpec(1, 2, width_ratios=[3, 1])
 plt.subplot(__gs[0])
 for k in range(time1.shape[1]):
     if k == 0:
-        plt.plot(time1[:,k], S1_1[:,k], '-o', color='r', linewidth=1.5, markersize=3.0, alpha=0.8, label='S1_1')
+        plt.plot(time1[:,k], S1_1[:,k], marker = '.', color='r', linewidth=1.5, markersize=3.0, alpha=0.8, label='S1_1')
     else:
-        plt.plot(time1[:,k], S1_1[:,k], '-o', color='r', linewidth=1.5, markersize=3.0, alpha=0.8)
+        plt.plot(time1[:,k], S1_1[:,k], marker = '.', color='r', linewidth=1.5, markersize=3.0, alpha=0.8)
 for k in range(time1.shape[1]):
     if k == 0:
-        plt.plot(time1[:,k], S2_1[:,k], '-o', color='b', linewidth=1.5, markersize=3.0, alpha=0.8, label='S2_1')
+        plt.plot(time1[:,k], S2_1[:,k], marker = '.', color='b', linewidth=1.5, markersize=3.0, alpha=0.8, label='S2_1')
     else:
-        plt.plot(time1[:,k], S2_1[:,k], '-o', color='b', linewidth=1.5, markersize=3.0, alpha=0.8)
+        plt.plot(time1[:,k], S2_1[:,k], marker = '.', color='b', linewidth=1.5, markersize=3.0, alpha=0.8)
 plt.title('oscli  (unchanged)', fontweight='bold')
 plt.xlabel('time1', fontweight='bold')
 __lg = plt.legend(bbox_to_anchor=(1.05, 1), loc=2, borderaxespad=0.)
@@ -128,14 +130,14 @@ __gs = gridspec.GridSpec(1, 2, width_ratios=[3, 1])
 plt.subplot(__gs[0])
 for k in range(time1.shape[1]):
     if k == 0:
-        plt.plot(time1[:,k], S1_2[:,k], '-o', color='r', linewidth=1.5, markersize=3.0, alpha=0.8, label='S1_2')
+        plt.plot(time1[:,k], S1_2[:,k], marker = '.', color='r', linewidth=1.5, markersize=3.0, alpha=0.8, label='S1_2')
     else:
-        plt.plot(time1[:,k], S1_2[:,k], '-o', color='r', linewidth=1.5, markersize=3.0, alpha=0.8)
+        plt.plot(time1[:,k], S1_2[:,k], marker = '.', color='r', linewidth=1.5, markersize=3.0, alpha=0.8)
 for k in range(time1.shape[1]):
     if k == 0:
-        plt.plot(time1[:,k], S2_2[:,k], '-o', color='b', linewidth=1.5, markersize=3.0, alpha=0.8, label='S2_2')
+        plt.plot(time1[:,k], S2_2[:,k], marker = '.', color='b', linewidth=1.5, markersize=3.0, alpha=0.8, label='S2_2')
     else:
-        plt.plot(time1[:,k], S2_2[:,k], '-o', color='b', linewidth=1.5, markersize=3.0, alpha=0.8)
+        plt.plot(time1[:,k], S2_2[:,k], marker = '.', color='b', linewidth=1.5, markersize=3.0, alpha=0.8)
 plt.title('oscli  (initial concentrations halved)', fontweight='bold')
 plt.xlabel('time1', fontweight='bold')
 __lg = plt.legend(bbox_to_anchor=(1.05, 1), loc=2, borderaxespad=0.)
