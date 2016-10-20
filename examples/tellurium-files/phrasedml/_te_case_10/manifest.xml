@@ -2,6 +2,6 @@
 <omexManifest xmlns="http://identifiers.org/combine.specifications/omex-manifest">
     <content location="./manifest.xml" format="http://identifiers.org/combine.specifications/omex-manifest"/>
     <content location="./case_10.xml" format="http://identifiers.org/combine.specifications/sbml"/>
-    <content location="./experiment1.xml" format="http://identifiers.org/combine.specifications/sed-ml"/>
+    <content location="./experiment1.xml" format="http://identifiers.org/combine.specifications/sed-ml" master="true"/>
     <content location="./README.md" format="http://purl.org/NET/mediatypes/text/x-markdown"/>
 </omexManifest>
