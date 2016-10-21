@@ -300,7 +300,7 @@ class TelluriumTestCase(unittest.TestCase):
     # ---------------------------------------------------------------------
     def test_seed(self):
         r = te.loada('''
-        S1 -> S2; k1*S1; k1 = 0.1; S1 = 40
+        S1 -> S2; k1*S1; k1 = 0.1; S1 = 40; S2 = 0;
         ''')
 
         # Simulate from time zero to 40 time units
