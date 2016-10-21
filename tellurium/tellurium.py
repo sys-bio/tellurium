@@ -11,7 +11,6 @@ import warnings
 import matplotlib.pyplot as plt
 import roadrunner
 import antimony
-CELLML_SUPPORT = hasattr(antimony, "loadCellMLString")
 
 try:
     import libsedml
@@ -161,6 +160,7 @@ def loada(ant):
 
     See also: :func:`loadAntimonyModel`
     ::
+
         r = te.loada('S1 -> S2; k1*S1; k1 = 0.1; S2 = 10')
 
     :param ant: Antimony model
@@ -208,17 +208,17 @@ def loadSBMLModel(sbml):
     """
     return roadrunner.RoadRunner(sbml)
 
-if CELLML_SUPPORT:
-    def loadCellMLModel(cellml):
-        """ Load CellML model with tellurium.
 
-        :param cellml: CellML model
-        :type cellml: str | file
-        :returns: RoadRunner instance with model loaded
-        :rtype: roadrunner.RoadRunner
-        """
-        sbml = cellmlToSBML(cellml)
-        return roadrunner.RoadRunner(sbml)
+def loadCellMLModel(cellml):
+    """ Load CellML model with tellurium.
+
+    :param cellml: CellML model
+    :type cellml: str | file
+    :returns: RoadRunner instance with model loaded
+    :rtype: roadrunner.RoadRunner
+    """
+    sbml = cellmlToSBML(cellml)
+    return roadrunner.RoadRunner(sbml)
 
 
 # ---------------------------------------------------------------------
@@ -247,22 +247,22 @@ def antimonyToSBML(ant):
     return antimony.getSBMLString(mid)
 
 
-if CELLML_SUPPORT:
-    def antimonyToCellML(ant):
-        """ Convert Antimony to CellML string.
 
-        :param ant: Antimony string or file
-        :type ant: str | file
-        :return: CellML
-        :rtype: str
-        """
-        if os.path.isfile(ant):
-            code = antimony.loadAntimonyFile(ant)
-        else:
-            code = antimony.loadAntimonyString(ant)
-        _checkAntimonyReturnCode(code)
-        mid = antimony.getMainModuleName()
-        return antimony.getCellMLString(mid)
+def antimonyToCellML(ant):
+    """ Convert Antimony to CellML string.
+
+    :param ant: Antimony string or file
+    :type ant: str | file
+    :return: CellML
+    :rtype: str
+    """
+    if os.path.isfile(ant):
+        code = antimony.loadAntimonyFile(ant)
+    else:
+        code = antimony.loadAntimonyString(ant)
+    _checkAntimonyReturnCode(code)
+    mid = antimony.getMainModuleName()
+    return antimony.getCellMLString(mid)
 
 
 def sbmlToAntimony(sbml):
@@ -280,54 +280,52 @@ def sbmlToAntimony(sbml):
     _checkAntimonyReturnCode(code)
     return antimony.getAntimonyString(None)
 
-if CELLML_SUPPORT:
-    def sbmlToCellML(sbml):
-        """ Convert SBML to CellML string.
 
-        :param sbml: SBML string or file
-        :type sbml: str | file
-        :return: CellML
-        :rtype: str
-        """
-        if os.path.isfile(sbml):
-            code = antimony.loadSBMLFile(sbml)
-        else:
-            code = antimony.loadSBMLString(sbml)
-        _checkAntimonyReturnCode(code)
-        return antimony.getCellMLString(None)
+def sbmlToCellML(sbml):
+    """ Convert SBML to CellML string.
 
-if CELLML_SUPPORT:
-    def cellmlToAntimony(cellml):
-        """ Convert CellML to antimony string.
+    :param sbml: SBML string or file
+    :type sbml: str | file
+    :return: CellML
+    :rtype: str
+    """
+    if os.path.isfile(sbml):
+        code = antimony.loadSBMLFile(sbml)
+    else:
+        code = antimony.loadSBMLString(sbml)
+    _checkAntimonyReturnCode(code)
+    return antimony.getCellMLString(None)
 
-        :param cellml: CellML string or file
-        :type cellml: str | file
-        :return: antimony
-        :rtype: str
-        """
-        if os.path.isfile(cellml):
-            code = antimony.loadCellMLFile(cellml)
-        else:
-            code = antimony.loadCellMLString(cellml)
-        _checkAntimonyReturnCode(code)
-        return antimony.getAntimonyString(None)
+def cellmlToAntimony(cellml):
+    """ Convert CellML to antimony string.
+
+    :param cellml: CellML string or file
+    :type cellml: str | file
+    :return: antimony
+    :rtype: str
+    """
+    if os.path.isfile(cellml):
+        code = antimony.loadCellMLFile(cellml)
+    else:
+        code = antimony.loadCellMLString(cellml)
+    _checkAntimonyReturnCode(code)
+    return antimony.getAntimonyString(None)
 
 
-if CELLML_SUPPORT:
-    def cellmlToSBML(cellml):
-        """ Convert CellML to SBML string.
+def cellmlToSBML(cellml):
+    """ Convert CellML to SBML string.
 
-        :param cellml: CellML string or file
-        :type cellml: str | file
-        :return: SBML
-        :rtype: str
-        """
-        if os.path.isfile(cellml):
-            code = antimony.loadCellMLFile(cellml)
-        else:
-            code = antimony.loadCellMLString(cellml)
-        _checkAntimonyReturnCode(code)
-        return antimony.getSBMLString(None)
+    :param cellml: CellML string or file
+    :type cellml: str | file
+    :return: SBML
+    :rtype: str
+    """
+    if os.path.isfile(cellml):
+        code = antimony.loadCellMLFile(cellml)
+    else:
+        code = antimony.loadCellMLString(cellml)
+    _checkAntimonyReturnCode(code)
+    return antimony.getSBMLString(None)
 
 # ---------------------------------------------------------------------
 # Math Utilities

@@ -44,6 +44,7 @@ from tecombine import combine
 
 import optimization
 import visualization
+import tests
 
 try:
     import temiriam

@@ -49,15 +49,15 @@ Description Text
 .. parsed-literal::
 
     --------------------------------------------------------------------------------
-    tellurium : 1.3.1
-    roadrunner : 1.4.3; Compiler: gcc 4.8.4, C++ version: 199711; JIT Compiler: LLVM-3.4; Date: Mar  9 2016, 08:43:27; LibSBML Version: 5.12.0
+    tellurium : 1.3.5
+    roadrunner : 1.4.8; Compiler: gcc 5.4.0, C++ version: 199711; JIT Compiler: LLVM-3.5; Date: Oct 21 2016, 09:52:28; LibSBML Version: 5.13.0
     antimony : v2.9.0
     snbw_viewer : No information for sbnw viewer
-    libsbml : 5.12.1
-    libsedml : 401
-    phrasedml : v1.0.1
+    libsbml : 5.14.1
+    libsedml : 402
+    phrasedml : v1.0.3
     --------------------------------------------------------------------------------
-    // Created by libAntimony v2.9
+    // Created by libAntimony v2.9.0
     model *example()
     
       // Events:
@@ -212,11 +212,11 @@ Description Text
       [ 0.0013729,  0],
       [        10,  0],
       [        10, 10],
-      [   10.0015, 10],
+      [   10.0011, 10],
       [        20, 10],
       [        20,  0],
-      [   20.0015,  0],
-      [   35.1952,  0],
+      [   20.0008,  0],
+      [   28.1642,  0],
       [        40,  0]]
     
 
@@ -235,11 +235,11 @@ Description Text
       [ 0.0013729,  0],
       [        10,  0],
       [        10, 10],
-      [   10.0015, 10],
+      [   10.0011, 10],
       [        20, 10],
       [        20,  0],
-      [   20.0015,  0],
-      [   35.1952,  0],
+      [   20.0008,  0],
+      [   28.1642,  0],
       [        40,  0]]
 
 

@@ -14,3 +14,10 @@ RUN nosetests
 
 # test the installation
 RUN python setup.py install
+
+# make the documentation (for current branch, add version and branch name)
+# RUN pip install sphinx sphinx-autobuild sphinx_rtd_theme mock
+# RUN ./make_docs.sh
+# RUN nosetests
+
+# Upload to ReadTheDocs

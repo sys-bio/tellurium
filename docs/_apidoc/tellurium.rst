@@ -7,8 +7,10 @@ Subpackages
 .. toctree::
 
     tellurium.analysis
+    tellurium.interpolation
     tellurium.notebooks
     tellurium.optimization
+    tellurium.oven
     tellurium.sedml
     tellurium.teio
     tellurium.tests

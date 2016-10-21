@@ -13,7 +13,7 @@ Test models
 
 .. parsed-literal::
 
-    ['linearPathwayOpen.xml', 'test_1.xml', 'EcoliCore.xml', 'feedback.xml', 'linearPathwayClosed.xml']
+    ['EcoliCore.xml', 'test_1.xml', 'feedback.xml', 'linearPathwayClosed.xml', 'linearPathwayOpen.xml']
 
 
 Load test model
@@ -36,7 +36,7 @@ Load test model
 
 .. parsed-literal::
 
-    // Created by libAntimony v2.9
+    // Created by libAntimony v2.9.0
     model *feedback()
     
       // Compartments and Species:

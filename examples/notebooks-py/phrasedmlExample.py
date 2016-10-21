@@ -18,7 +18,6 @@ import phrasedml
 # Get SBML from URN and set for phrasedml
 urn = "urn:miriam:biomodels.db:BIOMD0000000012"
 sbmlStr = te.temiriam.getSBMLFromBiomodelsURN(urn=urn)
-
 phrasedml.setReferencedSBML(urn, sbmlStr)
 
 # <SBML species>
@@ -61,15 +60,8 @@ if sedmlStr == None:
 import tempfile
 import shutil
 workingDir = tempfile.mkdtemp(suffix="_sedml")
-
-# te.executeSEDML(sedmlStr, workingDir=workingDir)
-from tellurium.sedml.tesedml import SEDMLCodeFactory
-factory = SEDMLCodeFactory(sedmlStr, workingDir=workingDir)
-
-# factory.executePython()
-
+te.executeSEDML(sedmlStr, workingDir=workingDir)
 shutil.rmtree(workingDir)
-
 
 
 # ### Execute Combine Archive

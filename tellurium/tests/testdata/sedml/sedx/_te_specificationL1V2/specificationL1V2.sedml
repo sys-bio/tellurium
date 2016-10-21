@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created by phraSED-ML version v1.0.3 with libSBML version 5.13.0. -->
+<!-- Created by phraSED-ML version v1.0.3 with libSBML version 5.14.1. -->
 <sedML xmlns="http://sed-ml.org/sed-ml/level1/version2" level="1" version="2">
   <listOfSimulations>
     <uniformTimeCourse id="sim1" initialTime="0" outputStartTime="0" outputEndTime="1000" numberOfPoints="1000">
@@ -93,7 +93,7 @@
           <divide/>
           <ci> task1_____PX </ci>
           <apply>
-            <ci> max </ci>
+            <max/>
             <ci> task1_____PX </ci>
           </apply>
         </apply>
@@ -108,7 +108,7 @@
           <divide/>
           <ci> task1_____PZ </ci>
           <apply>
-            <ci> max </ci>
+            <max/>
             <ci> task1_____PZ </ci>
           </apply>
         </apply>
@@ -123,7 +123,7 @@
           <divide/>
           <ci> task1_____PY </ci>
           <apply>
-            <ci> max </ci>
+            <max/>
             <ci> task1_____PY </ci>
           </apply>
         </apply>
