@@ -142,7 +142,7 @@ class experiment(object):
 
         # Export archive
         expId = self.getId()
-        expArchive = os.path.join(workingDir, "{}.sedx".format(expId))
+        expArchive = os.path.join(workingDir, "{}.omex".format(expId))
         self.exportAsCombine(expArchive)
 
         # Create python code from archive
@@ -176,6 +176,7 @@ class experiment(object):
         :param exportPath: full path of the combine zip file to create
         :type exportPath: str
         """
+
         # Create empty archive
         m = tecombine.CombineArchive()
 

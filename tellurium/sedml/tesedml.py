@@ -284,6 +284,7 @@ KISAOS_ALGORITHMPARAMETERS = {
 }
 ######################################################################################################################
 
+
 class SEDMLCodeFactory(object):
     """ Code Factory generating executable code."""
 
@@ -292,6 +293,7 @@ class SEDMLCodeFactory(object):
 
     def __init__(self, inputStr, workingDir=None):
         """ Create CodeFactory for given input.
+
         :param inputStr:
         :type inputStr:
         :return:
@@ -310,7 +312,8 @@ class SEDMLCodeFactory(object):
         self.model_changes = model_changes
 
     def __str__(self):
-        """ Print Input
+        """ Print.
+
         :return:
         :rtype:
         """

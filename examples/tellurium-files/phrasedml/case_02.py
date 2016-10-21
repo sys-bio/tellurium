@@ -7,8 +7,8 @@ The model is reset after every repeat.
 """
 
 from __future__ import print_function
-import tellurium as te
 import os
+from tellurium.sedml.case_template import run_case
 
 antimonyStr = """
 model case_02
@@ -30,17 +30,5 @@ phrasedmlStr = """
     report task1.k1 vs task1.S1
 """
 
-# phrasedml experiment
-exp = te.experiment(antimonyStr, phrasedmlStr)
+run_case(os.path.realpath(__file__), antimonyStr, phrasedmlStr)
 
-# write python code
-realPath = os.path.realpath(__file__)
-workingDir = os.path.dirname(realPath)
-with open(realPath + 'code.py', 'w') as f:
-    f.write(exp._toPython(phrasedmlStr, workingDir=workingDir))
-
-# execute python
-exp.execute(phrasedmlStr, workingDir=workingDir)
-
-# remove sedx (not hashable due to timestamp)
-os.remove(os.path.join(workingDir, 'case_02.sedx'))

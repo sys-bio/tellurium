@@ -4,8 +4,8 @@ Single UniformTimeCourse.
 CVODE uniformTimecourse simulation with plot of concentrations vs. time.
 """
 from __future__ import print_function
-import tellurium as te
 import os
+from tellurium.sedml.case_template import run_case
 
 antimonyStr = """
 model case_01
@@ -23,17 +23,5 @@ phrasedmlStr = """
     report task0.time vs task0.S1
 """
 
-# phrasedml experiment
-exp = te.experiment(antimonyStr, phrasedmlStr)
+run_case(os.path.realpath(__file__), antimonyStr, phrasedmlStr)
 
-# write python code
-realPath = os.path.realpath(__file__)
-workingDir = os.path.dirname(realPath)
-with open(realPath + 'code.py', 'w') as f:
-    f.write(exp._toPython(phrasedmlStr, workingDir=workingDir))
-
-# execute python
-exp.execute(phrasedmlStr, workingDir=workingDir)
-
-# remove sedx (not hashable due to timestamp)
-os.remove(os.path.join(workingDir, 'case_01.sedx'))

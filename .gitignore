@@ -57,3 +57,7 @@ examples/notebooks/widgets/.ipynb_checkpoints/
 
 # auto-generated html docs
 docs/_build
+
+# test omex files
+examples/tellurium-files/phrasedml/results/*.omex
+examples/tellurium-files/phrasedml/results/
