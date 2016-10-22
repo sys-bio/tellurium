@@ -1,0 +1,617 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:vCard="http://www.w3.org/2006/vcard/ns#">
+	<rdf:Description rdf:about=".">
+		<dcterms:description>archive created using masymos2CAT by cloning the repository http://models.cellml.org/workspace/calzone_thieffry_tyson_novak_2007 (Tue Apr 07 14:18:50 CEST 2015) -- see https://sems.uni-rostock.de</dcterms:description>
+		<dcterms:creator>
+			<rdf:Bag>
+				<rdf:li rdf:parseType="Resource">
+					<vCard:n rdf:parseType="Resource">
+						<vCard:family-name>Scharm</vCard:family-name>
+						<vCard:given-name>Martin</vCard:given-name>
+					</vCard:n>
+					<vCard:email>martin.scharm@uni-rostock.de</vCard:email>
+					<vCard:org rdf:parseType="Resource">
+						<vCard:organization-name>University of Rostock</vCard:organization-name>
+					</vCard:org>
+				</rdf:li>
+			</rdf:Bag>
+		</dcterms:creator>
+		<dcterms:created rdf:parseType="Resource">
+			<dcterms:W3CDTF>2015-05-27T16:09:10Z</dcterms:W3CDTF>
+		</dcterms:created>
+		<dcterms:modified rdf:parseType="Resource">
+			<dcterms:W3CDTF>2015-05-27T16:09:10Z</dcterms:W3CDTF>
+		</dcterms:modified>
+		<dcterms:modified rdf:parseType="Resource">
+			<dcterms:W3CDTF>2015-05-27T16:09:28Z</dcterms:W3CDTF>
+		</dcterms:modified>
+		<dcterms:modified rdf:parseType="Resource">
+			<dcterms:W3CDTF>2015-05-27T16:09:32Z</dcterms:W3CDTF>
+		</dcterms:modified>
+		<dcterms:modified rdf:parseType="Resource">
+			<dcterms:W3CDTF>2015-05-27T16:09:34Z</dcterms:W3CDTF>
+		</dcterms:modified>
+		<dcterms:modified rdf:parseType="Resource">
+			<dcterms:W3CDTF>2015-05-27T16:09:36Z</dcterms:W3CDTF>
+		</dcterms:modified>
+		<dcterms:modified rdf:parseType="Resource">
+			<dcterms:W3CDTF>2015-06-03T10:30:45Z</dcterms:W3CDTF>
+		</dcterms:modified>
+		<dcterms:modified rdf:parseType="Resource">
+			<dcterms:W3CDTF>2015-06-11T11:43:31Z</dcterms:W3CDTF>
+		</dcterms:modified>
+		<dcterms:modified rdf:parseType="Resource">
+			<dcterms:W3CDTF>2015-06-11T13:10:05Z</dcterms:W3CDTF>
+		</dcterms:modified>
+		<dcterms:modified rdf:parseType="Resource">
+			<dcterms:W3CDTF>2015-06-11T13:16:25Z</dcterms:W3CDTF>
+		</dcterms:modified>
+		<dcterms:created rdf:parseType="Resource">
+			<dcterms:W3CDTF>2015-06-11T13:31:54Z</dcterms:W3CDTF>
+		</dcterms:created>
+		<dcterms:modified rdf:parseType="Resource">
+			<dcterms:W3CDTF>2015-06-11T16:43:21Z</dcterms:W3CDTF>
+		</dcterms:modified>
+		<dcterms:modified rdf:parseType="Resource">
+			<dcterms:W3CDTF>2015-06-11T16:47:16Z</dcterms:W3CDTF>
+		</dcterms:modified>
+		<dcterms:modified rdf:parseType="Resource">
+			<dcterms:W3CDTF>2015-06-11T18:12:06Z</dcterms:W3CDTF>
+		</dcterms:modified>
+	</rdf:Description>
+	<rdf:Description rdf:about="/README.md">
+		<dcterms:description>README describing the archive</dcterms:description>
+		<dcterms:creator>
+			<rdf:Bag>
+				<rdf:li rdf:parseType="Resource">
+					<vCard:n rdf:parseType="Resource">
+						<vCard:family-name>Scharm</vCard:family-name>
+						<vCard:given-name>Martin</vCard:given-name>
+					</vCard:n>
+					<vCard:email>martin.scharm@uni-rostock.de</vCard:email>
+					<vCard:org rdf:parseType="Resource">
+						<vCard:organization-name>University of Rostock</vCard:organization-name>
+					</vCard:org>
+				</rdf:li>
+			</rdf:Bag>
+		</dcterms:creator>
+		<dcterms:created rdf:parseType="Resource">
+			<dcterms:W3CDTF>2015-06-03T17:21:10Z</dcterms:W3CDTF>
+		</dcterms:created>
+		<dcterms:modified rdf:parseType="Resource">
+			<dcterms:W3CDTF>2015-06-03T17:21:10Z</dcterms:W3CDTF>
+		</dcterms:modified>
+		<dcterms:modified rdf:parseType="Resource">
+			<dcterms:W3CDTF>2015-06-10T19:25:12Z</dcterms:W3CDTF>
+		</dcterms:modified>
+	</rdf:Description>
+	<rdf:Description rdf:about="/model/calzone_2007.svg">
+		<dcterms:description>Figure visualising the model described in /documentation/Calzone2007.pdf . This picture was downloaded from the CellML model repository May 27th, 2015.</dcterms:description>
+		<dcterms:creator>
+			<rdf:Bag>
+				<rdf:li rdf:parseType="Resource">
+					<vCard:n rdf:parseType="Resource">
+						<vCard:given-name>Hanne</vCard:given-name>
+					</vCard:n>
+					<vCard:email>Hanne@hanne-nielsens-macbook.local</vCard:email>
+				</rdf:li>
+			</rdf:Bag>
+		</dcterms:creator>
+		<dcterms:created rdf:parseType="Resource">
+			<dcterms:W3CDTF>2009-10-27T00:37:35Z</dcterms:W3CDTF>
+		</dcterms:created>
+		<dcterms:modified rdf:parseType="Resource">
+			<dcterms:W3CDTF>2009-10-27T00:37:35Z</dcterms:W3CDTF>
+		</dcterms:modified>
+	</rdf:Description>
+	<rdf:Description rdf:about="/model/calzone_thieffry_tyson_novak_2007.cellml">
+		<dcterms:description>Model encoded in CellML as described in /documentation/Calzone2007.pdf . This model was downloaded from the CellML model repository May 27th, 2015.</dcterms:description>
+		<dcterms:creator>
+			<rdf:Bag>
+				<rdf:li rdf:parseType="Resource">
+					<vCard:n rdf:parseType="Resource">
+						<vCard:given-name>pmr2.import</vCard:given-name>
+					</vCard:n>
+					<vCard:email>nobody@models.cellml.org</vCard:email>
+				</rdf:li>
+			</rdf:Bag>
+		</dcterms:creator>
+		<dcterms:created rdf:parseType="Resource">
+			<dcterms:W3CDTF>2009-02-18T11:19:58Z</dcterms:W3CDTF>
+		</dcterms:created>
+		<dcterms:modified rdf:parseType="Resource">
+			<dcterms:W3CDTF>2009-06-17T02:42:54Z</dcterms:W3CDTF>
+		</dcterms:modified>
+		<dcterms:modified rdf:parseType="Resource">
+			<dcterms:W3CDTF>2009-02-18T11:19:58Z</dcterms:W3CDTF>
+		</dcterms:modified>
+	</rdf:Description>
+	<rdf:Description rdf:about="/model/calzone_2007.png">
+		<dcterms:description>Figure visualising the model described in /documentation/Calzone2007.pdf . This picture was downloaded from the CellML model repository May 27th, 2015.</dcterms:description>
+		<dcterms:creator>
+			<rdf:Bag>
+				<rdf:li rdf:parseType="Resource">
+					<vCard:n rdf:parseType="Resource">
+						<vCard:family-name>Lloyd</vCard:family-name>
+						<vCard:given-name>Catherine</vCard:given-name>
+					</vCard:n>
+					<vCard:email>c.lloyd@auckland.ac.nz</vCard:email>
+				</rdf:li>
+			</rdf:Bag>
+		</dcterms:creator>
+		<dcterms:created rdf:parseType="Resource">
+			<dcterms:W3CDTF>2009-10-22T03:46:48Z</dcterms:W3CDTF>
+		</dcterms:created>
+		<dcterms:modified rdf:parseType="Resource">
+			<dcterms:W3CDTF>2009-10-22T03:46:48Z</dcterms:W3CDTF>
+		</dcterms:modified>
+	</rdf:Description>
+	<rdf:Description rdf:about="/model/calzone_2007.ai">
+		<dcterms:description>Figure visualising the model described in /documentation/Calzone2007.pdf . This picture was downloaded from the CellML model repository May 27th, 2015.</dcterms:description>
+		<dcterms:creator>
+			<rdf:Bag>
+				<rdf:li rdf:parseType="Resource">
+					<vCard:n rdf:parseType="Resource">
+						<vCard:given-name>Hanne</vCard:given-name>
+					</vCard:n>
+					<vCard:email>Hanne@hanne-nielsens-macbook.local</vCard:email>
+				</rdf:li>
+			</rdf:Bag>
+		</dcterms:creator>
+		<dcterms:created rdf:parseType="Resource">
+			<dcterms:W3CDTF>2009-10-27T00:37:35Z</dcterms:W3CDTF>
+		</dcterms:created>
+		<dcterms:modified rdf:parseType="Resource">
+			<dcterms:W3CDTF>2009-10-27T00:37:35Z</dcterms:W3CDTF>
+		</dcterms:modified>
+	</rdf:Description>
+	<rdf:Description rdf:about="/documentation/Calzone2007.pdf">
+		<dcterms:description>Article published in Mol Syst Biol. 2007; 3: 131. DOI:  10.1038/msb4100171, downloaded June 11th, 2015 . It describes the models /model/calzone_thieffry_tyson_novak_2007.cellml and /model/BIOMD0000000144.xml .</dcterms:description>
+		<dcterms:creator>
+			<rdf:Bag>
+				<rdf:li rdf:parseType="Resource">
+					<vCard:n rdf:parseType="Resource">
+						<vCard:family-name>Calzone</vCard:family-name>
+						<vCard:given-name>Laurence</vCard:given-name>
+					</vCard:n>
+					<vCard:org rdf:parseType="Resource">
+						<vCard:organization-name>Molecular Network Dynamics Research Group of Hungarian Academy of Sciences and Budapest University of Technology and Economics, Budapest</vCard:organization-name>
+					</vCard:org>
+				</rdf:li>
+			</rdf:Bag>
+		</dcterms:creator>
+		<dcterms:creator>
+			<rdf:Bag>
+				<rdf:li rdf:parseType="Resource">
+					<vCard:n rdf:parseType="Resource">
+						<vCard:family-name>Thieffry</vCard:family-name>
+						<vCard:given-name>Denis</vCard:given-name>
+					</vCard:n>
+					<vCard:org rdf:parseType="Resource">
+						<vCard:organization-name>Université de la Méditerranée, Campus Scientifique de Luminy, Case 928, Marseille, France</vCard:organization-name>
+					</vCard:org>
+				</rdf:li>
+			</rdf:Bag>
+		</dcterms:creator>
+		<dcterms:creator>
+			<rdf:Bag>
+				<rdf:li rdf:parseType="Resource">
+					<vCard:n rdf:parseType="Resource">
+						<vCard:family-name>Tyson</vCard:family-name>
+						<vCard:given-name>John J</vCard:given-name>
+					</vCard:n>
+					<vCard:org rdf:parseType="Resource">
+						<vCard:organization-name>Department of Biological Sciences, Virginia Polytechnic Institute and State University, Blacksburg, VA, USA</vCard:organization-name>
+					</vCard:org>
+				</rdf:li>
+			</rdf:Bag>
+		</dcterms:creator>
+		<dcterms:creator>
+			<rdf:Bag>
+				<rdf:li rdf:parseType="Resource">
+					<vCard:n rdf:parseType="Resource">
+						<vCard:family-name>Novak</vCard:family-name>
+						<vCard:given-name>Bela</vCard:given-name>
+					</vCard:n>
+					<vCard:email>bela.novak@bioch.ox.ac.uk</vCard:email>
+					<vCard:org rdf:parseType="Resource">
+						<vCard:organization-name>Molecular Network Dynamics Research Group of Hungarian Academy of Sciences and Budapest University of Technology and Economics, Budapest</vCard:organization-name>
+					</vCard:org>
+				</rdf:li>
+			</rdf:Bag>
+		</dcterms:creator>
+		<dcterms:created rdf:parseType="Resource">
+			<dcterms:W3CDTF>2007-01-08T00:00:00Z</dcterms:W3CDTF>
+		</dcterms:created>
+		<dcterms:modified rdf:parseType="Resource">
+			<dcterms:W3CDTF>2007-01-08T00:00:00Z</dcterms:W3CDTF>
+		</dcterms:modified>
+		<dcterms:modified rdf:parseType="Resource">
+			<dcterms:W3CDTF>2007-06-22T00:00:00Z</dcterms:W3CDTF>
+		</dcterms:modified>
+		<dcterms:modified rdf:parseType="Resource">
+			<dcterms:W3CDTF>2007-07-24T08:58:57Z</dcterms:W3CDTF>
+		</dcterms:modified>
+		<dcterms:modified rdf:parseType="Resource">
+			<dcterms:W3CDTF>2014-03-26T11:22:15Z</dcterms:W3CDTF>
+		</dcterms:modified>
+	</rdf:Description>
+	<rdf:Description rdf:about="/documentation/Calzone2007-supplementary-material.pdf">
+		<dcterms:description>Supplementary material published along with article /documentation/Calzone2007.pdf, downloaded June 11th, 2015. It shows some supplementary figures.</dcterms:description>
+		<dcterms:creator>
+			<rdf:Bag>
+				<rdf:li rdf:parseType="Resource">
+					<vCard:n rdf:parseType="Resource">
+						<vCard:family-name>Calzone</vCard:family-name>
+						<vCard:given-name>Laurence</vCard:given-name>
+								<vCard:email>laurence.calzone@curie.fr</vCard:email>
+					</vCard:n>
+					<vCard:org rdf:parseType="Resource">
+						<vCard:organization-name>Molecular Network Dynamics Research Group of Hungarian Academy of Sciences and Budapest University of Technology and Economics, Budapest</vCard:organization-name>
+					</vCard:org>
+				</rdf:li>
+			</rdf:Bag>
+		</dcterms:creator>
+		<dcterms:creator>
+			<rdf:Bag>
+				<rdf:li rdf:parseType="Resource">
+					<vCard:n rdf:parseType="Resource">
+						<vCard:family-name>Thieffry</vCard:family-name>
+						<vCard:given-name>Denis</vCard:given-name>
+					</vCard:n>
+					<vCard:org rdf:parseType="Resource">
+						<vCard:organization-name>Université de la Méditerranée, Campus Scientifique de Luminy, Case 928, Marseille, France</vCard:organization-name>
+					</vCard:org>
+				</rdf:li>
+			</rdf:Bag>
+		</dcterms:creator>
+		<dcterms:creator>
+			<rdf:Bag>
+				<rdf:li rdf:parseType="Resource">
+					<vCard:n rdf:parseType="Resource">
+						<vCard:family-name>Tyson</vCard:family-name>
+						<vCard:given-name>John J</vCard:given-name>
+					</vCard:n>
+					<vCard:org rdf:parseType="Resource">
+						<vCard:organization-name>Department of Biological Sciences, Virginia Polytechnic Institute and State University, Blacksburg, VA, USA</vCard:organization-name>
+					</vCard:org>
+				</rdf:li>
+			</rdf:Bag>
+		</dcterms:creator>
+		<dcterms:creator>
+			<rdf:Bag>
+				<rdf:li rdf:parseType="Resource">
+					<vCard:n rdf:parseType="Resource">
+						<vCard:family-name>Novak</vCard:family-name>
+						<vCard:given-name>Bela</vCard:given-name>
+					</vCard:n>
+					<vCard:email>bela.novak@bioch.ox.ac.uk</vCard:email>
+					<vCard:org rdf:parseType="Resource">
+						<vCard:organization-name>Molecular Network Dynamics Research Group of Hungarian Academy of Sciences and Budapest University of Technology and Economics, Budapest</vCard:organization-name>
+					</vCard:org>
+				</rdf:li>
+			</rdf:Bag>
+		</dcterms:creator>
+		<dcterms:created rdf:parseType="Resource">
+			<dcterms:W3CDTF>2007-06-01T09:56:45Z</dcterms:W3CDTF>
+		</dcterms:created>
+		<dcterms:modified rdf:parseType="Resource">
+			<dcterms:W3CDTF>2007-06-01T09:56:45Z</dcterms:W3CDTF>
+		</dcterms:modified>
+		<dcterms:modified rdf:parseType="Resource">
+			<dcterms:W3CDTF>2007-06-01T11:55:19Z</dcterms:W3CDTF>
+		</dcterms:modified>
+	</rdf:Description>
+	<rdf:Description rdf:about="/model/BIOMD0000000144.xml">
+		<dcterms:description>Model encoded in SBML as described in /documentation/Calzone2007.pdf . This model was downloaded from the BioModels Database Jun 11th, 2015. Modification times were taken from the model code and enriched by comparing all releases of the BioModels Database.</dcterms:description>
+		<dcterms:creator>
+			<rdf:Bag>
+				<rdf:li rdf:parseType="Resource">
+					<vCard:n rdf:parseType="Resource">
+						<vCard:family-name>He</vCard:family-name>
+						<vCard:given-name>Enuo</vCard:given-name>
+					</vCard:n>
+					<vCard:email>enuo@caltech.edu</vCard:email>
+					<vCard:org rdf:parseType="Resource">
+						<vCard:organization-name>BNMC</vCard:organization-name>
+					</vCard:org>
+				</rdf:li>
+				<rdf:li rdf:parseType="Resource">
+					<vCard:n rdf:parseType="Resource">
+						<vCard:family-name>Le Novère</vCard:family-name>
+						<vCard:given-name>Nicolas</vCard:given-name>
+					</vCard:n>
+					<vCard:email>lenov@ebi.ac.uk</vCard:email>
+					<vCard:org rdf:parseType="Resource">
+						<vCard:organization-name>EMBL-EBI</vCard:organization-name>
+					</vCard:org>
+				</rdf:li>
+				<rdf:li rdf:parseType="Resource">
+					<vCard:n rdf:parseType="Resource">
+						<vCard:family-name>Calzone</vCard:family-name>
+						<vCard:given-name>Laurence</vCard:given-name>
+					</vCard:n>
+					<vCard:email>laurence.calzone@curie.fr</vCard:email>
+					<vCard:org rdf:parseType="Resource">
+						<vCard:organization-name>Institut Curie</vCard:organization-name>
+					</vCard:org>
+				</rdf:li>
+			</rdf:Bag>
+		</dcterms:creator>
+		<dcterms:created rdf:parseType="Resource">
+			<dcterms:W3CDTF>2007-06-08T08:29:58Z</dcterms:W3CDTF>
+		</dcterms:created>
+		<dcterms:modified rdf:parseType="Resource">
+			<dcterms:W3CDTF>2008-03-28T00:00:00Z</dcterms:W3CDTF>
+		</dcterms:modified>
+		<dcterms:modified rdf:parseType="Resource">
+			<dcterms:W3CDTF>2008-08-21T00:00:00Z</dcterms:W3CDTF>
+		</dcterms:modified>
+		<dcterms:modified rdf:parseType="Resource">
+			<dcterms:W3CDTF>2008-12-03T00:00:00Z</dcterms:W3CDTF>
+		</dcterms:modified>
+		<dcterms:modified rdf:parseType="Resource">
+			<dcterms:W3CDTF>2009-03-25T00:00:00Z</dcterms:W3CDTF>
+		</dcterms:modified>
+		<dcterms:modified rdf:parseType="Resource">
+			<dcterms:W3CDTF>2009-09-02T00:00:00Z</dcterms:W3CDTF>
+		</dcterms:modified>
+		<dcterms:modified rdf:parseType="Resource">
+			<dcterms:W3CDTF>2010-01-26T00:00:00Z</dcterms:W3CDTF>
+		</dcterms:modified>
+		<dcterms:modified rdf:parseType="Resource">
+			<dcterms:W3CDTF>2010-09-30T00:00:00Z</dcterms:W3CDTF>
+		</dcterms:modified>
+		<dcterms:modified rdf:parseType="Resource">
+			<dcterms:W3CDTF>2011-04-15T00:00:00Z</dcterms:W3CDTF>
+		</dcterms:modified>
+		<dcterms:modified rdf:parseType="Resource">
+			<dcterms:W3CDTF>2012-02-08T00:00:00Z</dcterms:W3CDTF>
+		</dcterms:modified>
+		<dcterms:modified rdf:parseType="Resource">
+			<dcterms:W3CDTF>2012-05-20T00:00:00Z</dcterms:W3CDTF>
+		</dcterms:modified>
+		<dcterms:modified rdf:parseType="Resource">
+			<dcterms:W3CDTF>2012-07-05T16:48:32Z</dcterms:W3CDTF>
+		</dcterms:modified>
+		<dcterms:modified rdf:parseType="Resource">
+			<dcterms:W3CDTF>2012-08-11T00:00:00Z</dcterms:W3CDTF>
+		</dcterms:modified>
+		<dcterms:modified rdf:parseType="Resource">
+			<dcterms:W3CDTF>2012-12-12T00:00:00Z</dcterms:W3CDTF>
+		</dcterms:modified>
+	</rdf:Description>
+	<rdf:Description rdf:about="/experiment/Calzone2007-simulation-all-figures.xml">
+		<dcterms:description>Simulation description created using the SED-ML Web Tools at http://sysbioapps.dyndns.org/SED-ML%20Web%20Tools .</dcterms:description>
+		<dcterms:creator>
+			<rdf:Bag>
+				<rdf:li rdf:parseType="Resource">
+					<vCard:n rdf:parseType="Resource">
+						<vCard:family-name>Scharm</vCard:family-name>
+						<vCard:given-name>Martin</vCard:given-name>
+					</vCard:n>
+					<vCard:email>martin.scharm@uni-rostock.de</vCard:email>
+					<vCard:org rdf:parseType="Resource">
+						<vCard:organization-name>University of Rostock</vCard:organization-name>
+					</vCard:org>
+				</rdf:li>
+			</rdf:Bag>
+		</dcterms:creator>
+		<dcterms:created rdf:parseType="Resource">
+			<dcterms:W3CDTF>2015-06-03T10:30:45Z</dcterms:W3CDTF>
+		</dcterms:created>
+		<dcterms:modified rdf:parseType="Resource">
+			<dcterms:W3CDTF>2015-06-03T10:30:45Z</dcterms:W3CDTF>
+		</dcterms:modified>
+	</rdf:Description>
+	<rdf:Description rdf:about="/experiment/Calzone2007-simulation-figure-1B.xml">
+		<dcterms:description>Simulation description adapted from /experiment/Calzone2007-simulation-all-figures.xml . This SED-ML script reproduces Figure 1B of the article /documentation/Calzone2007.pdf .</dcterms:description>
+		<dcterms:creator>
+			<rdf:Bag>
+				<rdf:li rdf:parseType="Resource">
+					<vCard:n rdf:parseType="Resource">
+						<vCard:family-name>Scharm</vCard:family-name>
+						<vCard:given-name>Martin</vCard:given-name>
+					</vCard:n>
+					<vCard:email>martin.scharm@uni-rostock.de</vCard:email>
+					<vCard:org rdf:parseType="Resource">
+						<vCard:organization-name>University of Rostock</vCard:organization-name>
+					</vCard:org>
+				</rdf:li>
+			</rdf:Bag>
+		</dcterms:creator>
+		<dcterms:created rdf:parseType="Resource">
+			<dcterms:W3CDTF>2015-06-11T12:58:55Z</dcterms:W3CDTF>
+		</dcterms:created>
+		<dcterms:modified rdf:parseType="Resource">
+			<dcterms:W3CDTF>2015-06-11T12:58:55Z</dcterms:W3CDTF>
+		</dcterms:modified>
+		<dcterms:modified rdf:parseType="Resource">
+			<dcterms:W3CDTF>2015-06-11T13:16:25Z</dcterms:W3CDTF>
+		</dcterms:modified>
+	</rdf:Description>
+	<rdf:Description rdf:about="/result/Fig1B-top-webtools.png">
+		<dcterms:description>Simulation result obtained by executing the SED-ML script /experiment/Calzone2007-simulation-figure-1B.xml using the SED-ML Web Tools.</dcterms:description>
+		<dcterms:creator>
+			<rdf:Bag>
+				<rdf:li rdf:parseType="Resource">
+					<vCard:n rdf:parseType="Resource">
+						<vCard:family-name>Scharm</vCard:family-name>
+						<vCard:given-name>Martin</vCard:given-name>
+					</vCard:n>
+					<vCard:email>martin.scharm@uni-rostock.de</vCard:email>
+					<vCard:org rdf:parseType="Resource">
+						<vCard:organization-name>University of Rostock</vCard:organization-name>
+					</vCard:org>
+				</rdf:li>
+			</rdf:Bag>
+		</dcterms:creator>
+		<dcterms:created rdf:parseType="Resource">
+			<dcterms:W3CDTF>2015-06-11T13:09:56Z</dcterms:W3CDTF>
+		</dcterms:created>
+		<dcterms:modified rdf:parseType="Resource">
+			<dcterms:W3CDTF>2015-06-11T13:09:56Z</dcterms:W3CDTF>
+		</dcterms:modified>
+	</rdf:Description>
+	<rdf:Description rdf:about="/result/Fig1B-bottom-webtools.png">
+		<dcterms:description>Simulation result obtained by executing the SED-ML script /experiment/Calzone2007-simulation-figure-1B.xml using the SED-ML Web Tools.</dcterms:description>
+		<dcterms:creator>
+			<rdf:Bag>
+				<rdf:li rdf:parseType="Resource">
+					<vCard:n rdf:parseType="Resource">
+						<vCard:family-name>Scharm</vCard:family-name>
+						<vCard:given-name>Martin</vCard:given-name>
+					</vCard:n>
+					<vCard:email>martin.scharm@uni-rostock.de</vCard:email>
+					<vCard:org rdf:parseType="Resource">
+						<vCard:organization-name>University of Rostock</vCard:organization-name>
+					</vCard:org>
+				</rdf:li>
+			</rdf:Bag>
+		</dcterms:creator>
+		<dcterms:created rdf:parseType="Resource">
+			<dcterms:W3CDTF>2015-06-11T13:10:05Z</dcterms:W3CDTF>
+		</dcterms:created>
+		<dcterms:modified rdf:parseType="Resource">
+			<dcterms:W3CDTF>2015-06-11T13:10:05Z</dcterms:W3CDTF>
+		</dcterms:modified>
+	</rdf:Description>
+	<rdf:Description rdf:about="/result/Fig1B-top-COPASI.svg">
+		<dcterms:description>Simulation result obtained by executing the SED-ML script /experiment/Calzone2007-simulation-figure-1B.xml using COPASI's time course analysis. (COPASI 4.15 (Build 95))</dcterms:description>
+		<dcterms:creator>
+			<rdf:Bag>
+				<rdf:li rdf:parseType="Resource">
+					<vCard:n rdf:parseType="Resource">
+						<vCard:family-name>Scharm</vCard:family-name>
+						<vCard:given-name>Martin</vCard:given-name>
+					</vCard:n>
+					<vCard:email>martin.scharm@uni-rostock.de</vCard:email>
+					<vCard:org rdf:parseType="Resource">
+						<vCard:organization-name>University of Rostock</vCard:organization-name>
+					</vCard:org>
+				</rdf:li>
+			</rdf:Bag>
+		</dcterms:creator>
+		<dcterms:created rdf:parseType="Resource">
+			<dcterms:W3CDTF>2015-06-11T13:32:12Z</dcterms:W3CDTF>
+		</dcterms:created>
+		<dcterms:modified rdf:parseType="Resource">
+			<dcterms:W3CDTF>2015-06-11T13:32:12Z</dcterms:W3CDTF>
+		</dcterms:modified>
+	</rdf:Description>
+	<rdf:Description rdf:about="/result/Fig1B-bottom-COPASI.svg">
+		<dcterms:description>Simulation result obtained by executing the SED-ML script /experiment/Calzone2007-simulation-figure-1B.xml using COPASI's time course analysis. (COPASI 4.15 (Build 95))</dcterms:description>
+		<dcterms:creator>
+			<rdf:Bag>
+				<rdf:li rdf:parseType="Resource">
+					<vCard:n rdf:parseType="Resource">
+						<vCard:family-name>Scharm</vCard:family-name>
+						<vCard:given-name>Martin</vCard:given-name>
+					</vCard:n>
+					<vCard:email>martin.scharm@uni-rostock.de</vCard:email>
+					<vCard:org rdf:parseType="Resource">
+						<vCard:organization-name>University of Rostock</vCard:organization-name>
+					</vCard:org>
+				</rdf:li>
+			</rdf:Bag>
+		</dcterms:creator>
+		<dcterms:created rdf:parseType="Resource">
+			<dcterms:W3CDTF>2015-06-11T13:31:54Z</dcterms:W3CDTF>
+		</dcterms:created>
+		<dcterms:modified rdf:parseType="Resource">
+			<dcterms:W3CDTF>2015-06-11T13:31:54Z</dcterms:W3CDTF>
+		</dcterms:modified>
+	</rdf:Description>
+	<rdf:Description rdf:about="/model/sbgn/Calzone2007.gml">
+		<dcterms:description>Figure visualising the model as encoded in /model/BIOMD0000000144.xml , created using SBGN-ED (VANTED V2.1.0).</dcterms:description>
+		<dcterms:creator>
+			<rdf:Bag>
+				<rdf:li rdf:parseType="Resource">
+					<vCard:n rdf:parseType="Resource">
+						<vCard:family-name>Scharm</vCard:family-name>
+						<vCard:given-name>Martin</vCard:given-name>
+					</vCard:n>
+					<vCard:email>martin.scharm@uni-rostock.de</vCard:email>
+					<vCard:org rdf:parseType="Resource">
+						<vCard:organization-name>University of Rostock</vCard:organization-name>
+					</vCard:org>
+				</rdf:li>
+			</rdf:Bag>
+		</dcterms:creator>
+		<dcterms:created rdf:parseType="Resource">
+			<dcterms:W3CDTF>2015-06-11T15:48:43Z</dcterms:W3CDTF>
+		</dcterms:created>
+		<dcterms:modified rdf:parseType="Resource">
+			<dcterms:W3CDTF>2015-06-11T15:48:43Z</dcterms:W3CDTF>
+		</dcterms:modified>
+	</rdf:Description>
+	<rdf:Description rdf:about="/model/sbgn/Calzone2007.graphml">
+		<dcterms:description>Figure visualising the model as encoded in /model/BIOMD0000000144.xml , created using SBGN-ED (VANTED V2.1.0).</dcterms:description>
+		<dcterms:creator>
+			<rdf:Bag>
+				<rdf:li rdf:parseType="Resource">
+					<vCard:n rdf:parseType="Resource">
+						<vCard:family-name>Scharm</vCard:family-name>
+						<vCard:given-name>Martin</vCard:given-name>
+					</vCard:n>
+					<vCard:email>martin.scharm@uni-rostock.de</vCard:email>
+					<vCard:org rdf:parseType="Resource">
+						<vCard:organization-name>University of Rostock</vCard:organization-name>
+					</vCard:org>
+				</rdf:li>
+			</rdf:Bag>
+		</dcterms:creator>
+		<dcterms:created rdf:parseType="Resource">
+			<dcterms:W3CDTF>2015-06-11T15:52:29Z</dcterms:W3CDTF>
+		</dcterms:created>
+		<dcterms:modified rdf:parseType="Resource">
+			<dcterms:W3CDTF>2015-06-11T15:52:29Z</dcterms:W3CDTF>
+		</dcterms:modified>
+	</rdf:Description>
+	<rdf:Description rdf:about="/model/sbgn/Calzone2007.pdf">
+		<dcterms:description>Figure visualising the model as encoded in /model/BIOMD0000000144.xml , created using SBGN-ED (VANTED V2.1.0).</dcterms:description>
+		<dcterms:creator>
+			<rdf:Bag>
+				<rdf:li rdf:parseType="Resource">
+					<vCard:n rdf:parseType="Resource">
+						<vCard:family-name>Scharm</vCard:family-name>
+						<vCard:given-name>Martin</vCard:given-name>
+					</vCard:n>
+					<vCard:email>martin.scharm@uni-rostock.de</vCard:email>
+					<vCard:org rdf:parseType="Resource">
+						<vCard:organization-name>University of Rostock</vCard:organization-name>
+					</vCard:org>
+				</rdf:li>
+			</rdf:Bag>
+		</dcterms:creator>
+		<dcterms:created rdf:parseType="Resource">
+			<dcterms:W3CDTF>2015-06-11T15:54:28Z</dcterms:W3CDTF>
+		</dcterms:created>
+		<dcterms:modified rdf:parseType="Resource">
+			<dcterms:W3CDTF>2015-06-11T15:54:28Z</dcterms:W3CDTF>
+		</dcterms:modified>
+	</rdf:Description>
+	<rdf:Description rdf:about="/model/sbgn/Calzone2007.png">
+		<dcterms:description>Figure visualising the model as encoded in /model/BIOMD0000000144.xml , created using SBGN-ED (VANTED V2.1.0).</dcterms:description>
+		<dcterms:creator>
+			<rdf:Bag>
+				<rdf:li rdf:parseType="Resource">
+					<vCard:n rdf:parseType="Resource">
+						<vCard:family-name>Scharm</vCard:family-name>
+						<vCard:given-name>Martin</vCard:given-name>
+					</vCard:n>
+					<vCard:email>martin.scharm@uni-rostock.de</vCard:email>
+					<vCard:org rdf:parseType="Resource">
+						<vCard:organization-name>University of Rostock</vCard:organization-name>
+					</vCard:org>
+				</rdf:li>
+			</rdf:Bag>
+		</dcterms:creator>
+		<dcterms:created rdf:parseType="Resource">
+			<dcterms:W3CDTF>2015-06-11T15:55:16Z</dcterms:W3CDTF>
+		</dcterms:created>
+		<dcterms:modified rdf:parseType="Resource">
+			<dcterms:W3CDTF>2015-06-11T15:55:16Z</dcterms:W3CDTF>
+		</dcterms:modified>
+	</rdf:Description>
+</rdf:RDF>
