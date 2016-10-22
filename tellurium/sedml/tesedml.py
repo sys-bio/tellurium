@@ -128,6 +128,7 @@ def sedmlToPython(inputStr):
     :return: contents
     :rtype:
     """
+    # FIXME: allow working directories (! the model & input files must be changed)
     factory = SEDMLCodeFactory(inputStr)
     return factory.toPython()
 

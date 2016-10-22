@@ -1,70 +1,22 @@
 """
 Testing tesedml.
-
-Generating executable python code from the SEDML files.
 """
 from __future__ import print_function
 
-import os
 import unittest
-
 import matplotlib
 import tellurium.sedml.tesedml as tesedml
-from tellurium.tests.testdata import sedmlDir
 
 
 class TesedmlTestCase(unittest.TestCase):
-
-    def tearDown(self):
-        matplotlib.pyplot.switch_backend(self.backend)
 
     def setUp(self):
         # switch the backend of matplotlib, so plots can be tested
         self.backend = matplotlib.rcParams['backend']
         matplotlib.pyplot.switch_backend("Agg")
 
-    def single_check(self, f_sedml):
-        """ Test if python code can be generated from the
-        SED-ML file.
-
-        :param f_sedml:
-        :type f_sedml:
-        :return:
-        :rtype:
-        """
-        python_str = tesedml.sedmlToPython(f_sedml)
-        self.assertIsNotNone(python_str)
-        # create the python code file
-        dir = os.path.dirname(f_sedml)
-        basename = os.path.basename(f_sedml)
-        dir_results = os.path.join(dir, 'results')
-        if not os.path.exists(dir_results):
-            os.mkdir(dir_results)
-
-        file_py = os.path.join(dir_results, basename + '.py')
-        with open(file_py, 'w') as f_py:
-            f_py.write(python_str)
-
-
-    # TODO: run single_check for all sedml files !
-
-    def test_app2sim(self):
-        """Test app2sim SED-ML example."""
-        self.single_check(os.path.join(sedmlDir, 'app2sim.sedml'))
-
-    def test_asedml3repeat(self):
-        """Test asedml3repeat SED-ML example."""
-        self.single_check(os.path.join(sedmlDir, 'asedml3repeat.sedml'))
-
-    def test_asedmlComplex(self):
-        """Test asedmlComplex SED-ML example."""
-        self.single_check(os.path.join(sedmlDir, 'asedmlComplex.sedml'))
-
-    def test_constant_maybe(self):
-        """Test constant_maybe SED-ML example."""
-        self.single_check(os.path.join(sedmlDir, 'BioModel1_repressor_activator_oscillations.sedml'))
-
-
+    def tearDown(self):
+        matplotlib.pyplot.switch_backend(self.backend)
 
     def test_via_sedml_string(self):
         """Test SED-ML from string."""
