@@ -24,11 +24,29 @@ class TesedmlTestCase(unittest.TestCase):
         matplotlib.pyplot.switch_backend("Agg")
 
     def single_check(self, f_sedml):
+        """ Test if python code can be generated from the
+        SED-ML file.
+
+        :param f_sedml:
+        :type f_sedml:
+        :return:
+        :rtype:
+        """
         python_str = tesedml.sedmlToPython(f_sedml)
         self.assertIsNotNone(python_str)
         # create the python code file
-        with open(f_sedml+'.py', 'w') as f_py:
+        dir = os.path.dirname(f_sedml)
+        basename = os.path.basename(f_sedml)
+        dir_results = os.path.join(dir, 'results')
+        if not os.path.exists(dir_results):
+            os.mkdir(dir_results)
+
+        file_py = os.path.join(dir_results, basename + '.py')
+        with open(file_py, 'w') as f_py:
             f_py.write(python_str)
+
+
+    # TODO: run single_check for all sedml files !
 
     def test_app2sim(self):
         """Test app2sim SED-ML example."""
@@ -45,6 +63,8 @@ class TesedmlTestCase(unittest.TestCase):
     def test_constant_maybe(self):
         """Test constant_maybe SED-ML example."""
         self.single_check(os.path.join(sedmlDir, 'BioModel1_repressor_activator_oscillations.sedml'))
+
+
 
     def test_via_sedml_string(self):
         """Test SED-ML from string."""
