@@ -19,6 +19,8 @@ def run_case(call_file, antimonyStr, phrasedmlStr, py_code=True):
 
     # output dir relative to call file
     workingDir = os.path.join(os.path.dirname(call_file), './results')
+    if not os.path.exists(workingDir):
+        os.makedirs(workingDir)
 
     # write python code
 

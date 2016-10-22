@@ -14,6 +14,6 @@ import tellurium as te
 
 omexDir = os.path.dirname(os.path.realpath(__file__))
 omexPath = os.path.join(omexDir, "CombineArchiveShowCase.omex")
-workingDir = os.path.join(omexDir, "_te_CombineArchiveShowCase")
+workingDir = os.path.join(omexDir, "./results/_te_CombineArchiveShowCase")
 
 te.executeOMEX(omexPath, workingDir=workingDir)
