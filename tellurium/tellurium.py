@@ -50,7 +50,6 @@ except ImportError as e:
     warnings.warn("'sbml2matlab' could not be imported", ImportWarning)
 
 
-
 # ---------------------------------------------------------------------
 # group: utility
 # ---------------------------------------------------------------------
