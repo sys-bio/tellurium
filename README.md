@@ -86,7 +86,7 @@ http://tellurium.readthedocs.org/en/latest/
 
 ### Python support
 
-**Python 2** is the highest supported Python version at the time of writing, due to the fact that not all packages included in Tellurium are Python 3 compatible.
+Due to the fact that not all packages included in Tellurium are Python 3-compatible, Tellurium requires **Python 2**.
 
 ## Legal
 
