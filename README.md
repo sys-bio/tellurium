@@ -15,10 +15,6 @@ Tellurium is a python environment based on the [Spyder2 IDE](https://github.com/
 
 The Tellurium project is funded from the NIH/NIGMS (GM081070).
 
-## Python support
-
-**Python 2** is the highest supported Python version at the time of writing, due to the fact that not all packages included in Tellurium are Python 3 compatible.
-
 ## Installation Instructions
 
 Tellurium is availlable via two distributions:
@@ -85,6 +81,12 @@ te.plotArray(result)
 ## API documentation 
 
 http://tellurium.readthedocs.org/en/latest/
+
+## Known Issues
+
+### Python support
+
+**Python 2** is the highest supported Python version at the time of writing, due to the fact that not all packages included in Tellurium are Python 3 compatible.
 
 ## Legal
 
