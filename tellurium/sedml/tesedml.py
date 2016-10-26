@@ -151,6 +151,8 @@ def executeSEDML(inputStr, workingDir=None):
 def executeOMEX(omexPath, workingDir=None):
     """ Run all SED-ML simulations in given OMEX COMBINE archive.
 
+    TODO: Necessary to get results back.
+
     :param omexPath: OMEX Combine archive
     :type omexPath: path
     :param workingDir: directory to extract archive to
@@ -176,9 +178,12 @@ def executeOMEX(omexPath, workingDir=None):
         if len(sedmlFiles) == 0:
             raise IOError("No SEDML files found in COMBINE archive: {}".format(omexPath))
 
+        dgs = {}
         for sedmlFile in sedmlFiles:
             factory = SEDMLCodeFactory(sedmlFile, workingDir=os.path.dirname(sedmlFile))
-            factory.executePython()
+            sedml_dgs = factory.executePython()
+            dgs[sedmlFile] = sedml_dgs
+        return dgs
     else:
         raise IOError("File is not an OMEX Combine Archive in zip format: {}".format(omexPath))
 
@@ -396,6 +401,14 @@ class SEDMLCodeFactory(object):
         try:
             # This calls exec. Be very sure that nothing bad happens here.
             exec execStr
+
+            # return dictionary of data generators
+            dg_data = {}
+            for dg in self.doc.getListOfDataGenerators():
+                dg_id = dg.getId()
+                dg_data[dg_id] = locals()[dg_id]
+            return dg_data
+
         except Exception as e:
             # something went wrong in the conversion to python
             # show detailed information about the factory
