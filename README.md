@@ -36,7 +36,7 @@ NOTE: Installation requires administrative rights. It is recommended to accept t
 
 #### Mac OSX
 
-1. [Download Tellurium for Mac OS X 10.10 or later](https://github.com/sys-bio/tellurium/releases/download/1.3.5-rc2/Tellurium-1.3.5-Spyder-2.3.8-OSX.dmg)
+1. [Download Tellurium for Mac OS X 10.10 or later](https://sourceforge.net/projects/pytellurium/files/Tellurium-1.3/1.3.5/Tellurium-1.3.5-Spyder-2.3.8-OSX.dmg/download)
 2. Double-click the .dmg file to open a new window
 3. Double-click the Spyder icon
 
