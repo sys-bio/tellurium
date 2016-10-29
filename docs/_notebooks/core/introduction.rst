@@ -44,11 +44,11 @@ Stochastic simulation of a linear chain.
     # run repeated simulation
     Ncol = len(r.selections)
     Nsim = 30
-    points = 101
+    points = 301
     s_sum = np.zeros(shape=[points, Ncol])
     for k in range(Nsim):
         r.resetToOrigin()
-        s = r.simulate(0, 50, points)
+        s = r.simulate(0, 100, points)
         s_sum += s
         # no legend, do not show
         r.plot(s, show=False, loc=None, alpha=0.4, linewidth=1.0)
@@ -56,7 +56,7 @@ Stochastic simulation of a linear chain.
     # add mean curve, legend, show everything and set labels, titels, ...
     s_mean = s_sum/Nsim
     r.plot(s_mean, loc='upper right', show=True, linewidth=3.0,
-           title="Stochastic simulation", xlabel="time", ylabel="concentration", grid=True);
+           title="Stochastic simulation", xlabel="time", ylabel="concentration", grid=True)
 
 
 
