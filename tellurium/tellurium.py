@@ -360,19 +360,20 @@ def plotArray(result, loc='upper right', show=True, resetColorCycle=True,
              xscale='linear', yscale="linear", grid=False, labels=None, **kwargs):
     """ Plot an array.
 
-    The first column of the array will be the x-axis and remaining columns the y-axis. Returns
-    a handle to the plotting object. Note that you can add
-    plotting options as named key values after the array.
-    For example to add a legend, include the label key value:
-    te.plotArray (m, label='A label') then use pylab.legend()
-    to make sure the legend is shown.
+    The first column of the array must be the x-axis and remaining columns the y-axis. Returns
+    a handle to the plotting object. Note that you can add plotting options as named key values after
+    the array. To add a legend, include the label legend values:
+    
+    te.plotArray (m, labels=['Label 1, 'Label 2', etc]) 
+    
+    Make sure you include as many labels as there are curves to plot!
 
-    Use show=False to add multiple curves.
+    Use show=False to add multiple curves. Use color='red' to use the same color for every curve.
     ::
 
         import numpy as np
         result = np.array([[1,2,3], [7.2,6.5,8.8], [9.8, 6.5, 4.3]])
-        te.plotArray(result)
+        te.plotArray(result, title="My graph', xlim=((0, 5)))
     """
     # FIXME: unify r.plot & te.plot (lots of code duplication)
     # reset color cycle (columns in repeated simulations have same color)
