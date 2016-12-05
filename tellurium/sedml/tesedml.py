@@ -1351,7 +1351,7 @@ class SEDMLCodeFactory(object):
         :return:
         :rtype:
         """
-        PlotSettings = namedtuple('PlotSettings', 'colors, figsize, dpi, facecolor, edgecolor, linewidth, markersize, alpha')
+        PlotSettings = namedtuple('PlotSettings', 'colors, figsize, dpi, facecolor, edgecolor, linewidth, marker, markersize, alpha')
 
         # all lines of same cuve have same color
         settings = PlotSettings(
@@ -1361,6 +1361,7 @@ class SEDMLCodeFactory(object):
             facecolor='w',
             edgecolor='k',
             linewidth=1.5,
+            marker='',
             markersize=3.0,
             alpha=0.8
         )
@@ -1420,9 +1421,9 @@ class SEDMLCodeFactory(object):
 
             lines.append("for k in range({}.shape[1]):".format(xId))
             lines.append("    if k == 0:")
-            lines.append("        plt.plot({}[:,k], {}[:,k], marker = '.', color='{}', linewidth={}, markersize={}, alpha={}, label='{}')".format(xId, yId, color, settings.linewidth, settings.markersize, settings.alpha, yLabel))
+            lines.append("        plt.plot({}[:,k], {}[:,k], marker = '{}', color='{}', linewidth={}, markersize={}, alpha={}, label='{}')".format(xId, yId, settings.marker, color, settings.linewidth, settings.markersize, settings.alpha, yLabel))
             lines.append("    else:")
-            lines.append("        plt.plot({}[:,k], {}[:,k], marker = '.', color='{}', linewidth={}, markersize={}, alpha={})".format(xId, yId, color, settings.linewidth, settings.markersize, settings.alpha))
+            lines.append("        plt.plot({}[:,k], {}[:,k], marker = '{}', color='{}', linewidth={}, markersize={}, alpha={})".format(xId, yId, settings.marker, color, settings.linewidth, settings.markersize, settings.alpha))
 
             if logX is True:
                 lines.append("plt.xscale('log')")
@@ -1509,9 +1510,9 @@ class SEDMLCodeFactory(object):
 
             lines.append("for k in range({}.shape[1]):".format(xId))
             lines.append("    if k == 0:")
-            lines.append("        ax.plot({}[:,k], {}[:,k], {}[:,k], marker = '.', color='{}', linewidth=1.5, markersize=4.0, alpha=0.8, label='{}')".format(xId, yId, zId, color, zLabel))
+            lines.append("        ax.plot({}[:,k], {}[:,k], {}[:,k], marker = '{}', color='{}', linewidth={}, markersize={}, alpha={}, label='{}')".format(xId, yId, zId, settings.marker, color, settings.linewidth, settings.markersize, settings.alpha, zLabel))
             lines.append("    else:")
-            lines.append("        ax.plot({}[:,k], {}[:,k], {}[:,k], marker = '.', color='{}', linewidth=1.5, markersize=4.0, alpha=0.8)".format(xId, yId, zId, color))
+            lines.append("        ax.plot({}[:,k], {}[:,k], {}[:,k], marker = '{}', color='{}', linewidth={}, markersize={}, alpha={})".format(xId, yId, zId, settings.marker, color, settings.linewidth, settings.markersize, settings.alpha))
 
         lines.append("ax.set_title('{}', fontweight='bold')".format(title))
         if oneXLabel:
