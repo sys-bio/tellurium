@@ -44,7 +44,6 @@ nosetests.xml
 # PyCharm
 .idea
 *~
-test/.ipynb_checkpoints/
 
 # Log files
 *.log
@@ -57,3 +56,11 @@ examples/notebooks/widgets/.ipynb_checkpoints/
 
 # auto-generated html docs
 docs/_build
+
+# remove test result files from repo
+# (these can be viewed locally after running tests)
+examples/tellurium-files/phrasedml/results/*.omex
+examples/tellurium-files/phrasedml/results/
+examples/tellurium-files/omex/results/
+tellurium/tests/testdata/sedml/sed-ml/results/
+

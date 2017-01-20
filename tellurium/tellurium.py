@@ -5,10 +5,9 @@ model export, plotting or the Jarnac compatibility layer.
 """
 from __future__ import print_function, division
 
-import os, sys
+import os
+import sys
 import warnings
-
-import antimony
 import matplotlib.pyplot as plt
 
 # check availability of property cycler (matplotlib 1.5ish)
@@ -21,6 +20,7 @@ if True: # create dummy scope
         warnings.warn("Your copy of matplotlib does not support color cycle control. Falling back to 'Picasso' mode. Please update to matplotlib 1.5 or later if you don't like modern art.")
 
 import roadrunner
+import antimony
 
 try:
     import libsedml
@@ -169,6 +169,7 @@ def loada(ant):
 
     See also: :func:`loadAntimonyModel`
     ::
+
         r = te.loada('S1 -> S2; k1*S1; k1 = 0.1; S2 = 10')
 
     :param ant: Antimony model
@@ -255,6 +256,7 @@ def antimonyToSBML(ant):
     return antimony.getSBMLString(mid)
 
 
+
 def antimonyToCellML(ant):
     """ Convert Antimony to CellML string.
 
@@ -302,7 +304,6 @@ def sbmlToCellML(sbml):
         code = antimony.loadSBMLString(sbml)
     _checkAntimonyReturnCode(code)
     return antimony.getCellMLString(None)
-
 
 def cellmlToAntimony(cellml):
     """ Convert CellML to antimony string.

@@ -13,15 +13,18 @@ from tellurium import readFromFile
 from tellurium import loada
 from tellurium import loadAntimonyModel
 from tellurium import loads
+
 from tellurium import loadSBMLModel
-from tellurium import loadCellMLModel
-    
 from tellurium import antimonyToSBML
-from tellurium import antimonyToCellML
 from tellurium import sbmlToAntimony
-from tellurium import sbmlToCellML
-from tellurium import cellmlToAntimony
-from tellurium import cellmlToSBML
+
+if hasattr(tellurium, 'loadCellMLModel'):
+    from tellurium import loadCellMLModel
+    from tellurium import antimonyToCellML
+    from tellurium import sbmlToCellML
+    from tellurium import cellmlToAntimony
+    from tellurium import cellmlToSBML
+
 from tellurium import getEigenvalues
 from tellurium import plotArray
 from tellurium import plotWithLegend
@@ -41,6 +44,7 @@ from tecombine import combine
 
 import optimization
 import visualization
+import tests
 
 try:
     import temiriam

@@ -1,5 +1,6 @@
 # Ipython Notebooks
-Example notebooks for tellurium. The examples require the Jupyter notebook server (http://jupyter.readthedocs.org/en/latest/install.html).
+Example notebooks for tellurium. The examples require the Jupyter notebook server 
+(http://jupyter.readthedocs.org/en/latest/install.html).
 
 To get the examples clone the repository via
 ```

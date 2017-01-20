@@ -22,7 +22,7 @@ stoichiometries.
 
 .. parsed-literal::
 
-    // Created by libAntimony v2.9
+    // Created by libAntimony v2.9.0
     model *pathway()
     
       // Compartments and Species:

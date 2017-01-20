@@ -7,24 +7,18 @@ import unittest
 
 import os
 import imp
+from helpers import filesInDirectory
 
 # ----------------------------------------------------------------
 # List of python files to test
 # ----------------------------------------------------------------
-def _pyFilesInFolder(dir):
-    from os import walk
-    files = []
-    for (dirpath, dirnames, filenames) in walk(dir):
-        files.extend([os.path.join(dirpath, name) for name in filenames])
-    return [f for f in files if f.endswith('.py')]
-
 
 examples_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '..', 'examples')
 notebookdir = os.path.join(examples_dir, 'notebooks-py')
 tedir = os.path.join(examples_dir, 'tellurium-files')
 py_files = []
-py_files.extend(_pyFilesInFolder(notebookdir))
-py_files.extend(_pyFilesInFolder(tedir))
+py_files.extend(filesInDirectory(notebookdir, suffix='.sedml'))
+py_files.extend(filesInDirectory(tedir, suffix='.sedml'))
 
 # ----------------------------------------------------------------
 # Test class

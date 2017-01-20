@@ -51,6 +51,8 @@ means the suitable file extension)
 
 """
 # TODO: handle real world archives from other tools
+# TODO: metaData
+# TODO: list of Entries, entry.getFormat(), entry.getLocation()
 
 from __future__ import print_function, division
 

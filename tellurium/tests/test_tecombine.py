@@ -109,9 +109,7 @@ class tecombineTestCase(unittest.TestCase):
     def clearTest(self):
         shutil.rmtree(self.tmpdir)
 
-
     def writingAndReadingExecution(self):
-
         antimonyStr = '''
         model myModel
           S1 -> S2; k1*S1;

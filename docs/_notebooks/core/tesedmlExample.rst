@@ -53,7 +53,7 @@ Creating SED-ML file
 .. parsed-literal::
 
     <?xml version="1.0" encoding="UTF-8"?>
-    <!-- Created by phraSED-ML version v1.0.1 on 2016-03-09 12:24 with libSBML version 5.12.1. -->
+    <!-- Created by phraSED-ML version v1.0.3 with libSBML version 5.14.1. -->
     <sedML xmlns="http://sed-ml.org/sed-ml/level1/version2" level="1" version="2">
       <listOfSimulations>
         <uniformTimeCourse id="sim1" initialTime="0" outputStartTime="0" outputEndTime="5" numberOfPoints="100">
@@ -77,7 +77,7 @@ Creating SED-ML file
         </dataGenerator>
         <dataGenerator id="plot_0_0_1" name="S1">
           <listOfVariables>
-            <variable id="S1" target="/sbml:sbml/sbml:model/descendant::*[@id='S1']" taskReference="task1" modelReference="model1"/>
+            <variable id="S1" target="/sbml:sbml/sbml:model/sbml:listOfSpecies/sbml:species[@id='S1']" taskReference="task1" modelReference="model1"/>
           </listOfVariables>
           <math xmlns="http://www.w3.org/1998/Math/MathML">
             <ci> S1 </ci>
@@ -85,7 +85,7 @@ Creating SED-ML file
         </dataGenerator>
         <dataGenerator id="plot_0_1_1" name="S2">
           <listOfVariables>
-            <variable id="S2" target="/sbml:sbml/sbml:model/descendant::*[@id='S2']" taskReference="task1" modelReference="model1"/>
+            <variable id="S2" target="/sbml:sbml/sbml:model/sbml:listOfSpecies/sbml:species[@id='S2']" taskReference="task1" modelReference="model1"/>
           </listOfVariables>
           <math xmlns="http://www.w3.org/1998/Math/MathML">
             <ci> S2 </ci>
@@ -95,8 +95,8 @@ Creating SED-ML file
       <listOfOutputs>
         <plot2D id="plot_0" name="Figure 1">
           <listOfCurves>
-            <curve logX="false" logY="false" xDataReference="plot_0_0_0" yDataReference="plot_0_0_1"/>
-            <curve logX="false" logY="false" xDataReference="plot_0_0_0" yDataReference="plot_0_1_1"/>
+            <curve id="plot_0__plot_0_0_0__plot_0_0_1" logX="false" logY="false" xDataReference="plot_0_0_0" yDataReference="plot_0_0_1"/>
+            <curve id="plot_0__plot_0_0_0__plot_0_1_1" logX="false" logY="false" xDataReference="plot_0_0_0" yDataReference="plot_0_1_1"/>
           </listOfCurves>
         </plot2D>
       </listOfOutputs>
@@ -133,6 +133,6 @@ Creating SED-ML file
 
 .. parsed-literal::
 
-    /tmp/myModelvPFhVi.xml
-    /tmp/tmpEffHZV.sedml
+    /tmp/myModelohTA4i.xml
+    /tmp/tmpo4oZMQ.sedml
 

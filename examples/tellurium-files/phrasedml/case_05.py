@@ -1,9 +1,10 @@
 """
 DataGenerator via formula
 """
+
 from __future__ import print_function
-import tellurium as te
 import os
+from tellurium.sedml.case_template import run_case
 
 antimonyStr = '''
 model case_05()
@@ -23,17 +24,4 @@ phrasedmlStr = '''
   report task1.S1/max(task1.S1) vs task1.S2/max(task1.S2)
 '''
 
-# phrasedml experiment
-exp = te.experiment(antimonyStr, phrasedmlStr)
-
-# write python code
-realPath = os.path.realpath(__file__)
-workingDir = os.path.dirname(realPath)
-with open(realPath + 'code.py', 'w') as f:
-    f.write(exp._toPython(phrasedmlStr, workingDir=workingDir))
-
-# execute python
-exp.execute(phrasedmlStr, workingDir=workingDir)
-
-# remove sedx (not hashable due to timestamp)
-os.remove(os.path.join(workingDir, 'case_05.sedx'))
+run_case(os.path.realpath(__file__), antimonyStr, phrasedmlStr)
