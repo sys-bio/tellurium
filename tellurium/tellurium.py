@@ -123,7 +123,7 @@ def noticesOn():
     See also :func:`noticesOff`
     """
     roadrunner.Logger.setLevel(roadrunner.Logger.LOG_NOTICE)
-    
+
 
 def saveToFile(filePath, str):
     """ Save string to file.
@@ -364,9 +364,9 @@ def plotArray(result, loc='upper right', show=True, resetColorCycle=True,
     The first column of the array must be the x-axis and remaining columns the y-axis. Returns
     a handle to the plotting object. Note that you can add plotting options as named key values after
     the array. To add a legend, include the label legend values:
-    
-    te.plotArray (m, labels=['Label 1, 'Label 2', etc]) 
-    
+
+    te.plotArray (m, labels=['Label 1, 'Label 2', etc])
+
     Make sure you include as many labels as there are curves to plot!
 
     Use show=False to add multiple curves. Use color='red' to use the same color for every curve.
@@ -740,6 +740,7 @@ class ExtendedRoadRunner(roadrunner.RoadRunner):
     def plot(self, result=None, loc='upper right', show=True,
              xlabel=None, ylabel=None, title=None, xlim=None, ylim=None,
              xscale='linear', yscale="linear", grid=False, **kwargs):
+        warnings.warn("RoadRunner.plot is deprecated. Please use te.plot(data) instead.", DeprecationWarning)
         """ Plot roadrunner simulation data.
 
         Plot is called with simulation data to plot as the first argument. If no data is provided the data currently
@@ -956,4 +957,3 @@ def RoadRunner(*args):
     return ExtendedRoadRunner(*args)
 
 roadrunner.RoadRunner = ExtendedRoadRunner
-
