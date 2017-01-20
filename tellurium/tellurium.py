@@ -10,15 +10,15 @@ import sys
 import warnings
 
 # check availability of property cycler (matplotlib 1.5ish)
-if True: # create dummy scope
-    import matplotlib
-    import matplotlib.pyplot as plt
-
-    print(dir(matplotlib))
-    fig = matplotlib.figure.Figure()
-    ax = fig.add_axes()
-    if not hasattr(ax, 'set_prop_cycle'):
-        warnings.warn("Your copy of matplotlib does not support color cycle control. Falling back to 'Picasso' mode. Please update to matplotlib 1.5 or later if you don't like modern art.")
+# if True: # create dummy scope
+#     import matplotlib
+#     import matplotlib.pyplot as plt
+#
+#     print(dir(matplotlib))
+#     fig = matplotlib.figure.Figure()
+#     ax = fig.add_axes()
+#     if not hasattr(ax, 'set_prop_cycle'):
+#         warnings.warn("Your copy of matplotlib does not support color cycle control. Falling back to 'Picasso' mode. Please update to matplotlib 1.5 or later if you don't like modern art.")
 
 import roadrunner
 import antimony
@@ -61,11 +61,10 @@ except ImportError as e:
     warnings.warn("'sbml2matlab' could not be imported", ImportWarning)
 
 
-
-
 # ---------------------------------------------------------------------
-# group: utility
+# Group: Utility
 # ---------------------------------------------------------------------
+
 def getVersionInfo():
     """ Returns version information for tellurium included packages.
 
@@ -154,8 +153,23 @@ def readFromFile(filePath):
 
 
 # ---------------------------------------------------------------------
-# Loading Models Methods
+# Group: Loading Models
 # ---------------------------------------------------------------------
+
+__te_models = {}
+def __set_model(model_name, rr):
+    __te_models[model_name] = rr
+
+def model(model_name):
+    """Get a model which has already been loaded.
+
+    :param model_name: the name of the model
+    :type model_name: str
+    """
+    if not model_name in __te_models:
+        raise KeyError('No such model has been loaded: {}'.format(model_name))
+    return __te_models[model_name]
+
 def _checkAntimonyReturnCode(code):
     """ Helper for checking the antimony response code.
     Raises Exception if error in antimony.
