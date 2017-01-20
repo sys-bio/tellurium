@@ -86,10 +86,20 @@ import zipfile
 from collections import namedtuple
 import re
 import numpy as np
-from jinja2 import Environment, FileSystemLoader
+try:
+    from jinja2 import Environment, FileSystemLoader
+except:
+    warnings.warn("'jinja2' could not be imported; SEDML not supported", ImportWarning)
 from mathml import evaluableMathML
 
-import libsedml
+try:
+    import libsedml
+    # import libsedml before libsbml to handle
+    # https://github.com/fbergmann/libSEDML/issues/21
+except ImportError as e:
+    libsedml = None
+    roadrunner.Logger.log(roadrunner.Logger.LOG_WARNING, str(e))
+    warnings.warn("'libsedml' could not be imported", ImportWarning, stacklevel=2)
 
 import tellurium as te
 from tellurium.tecombine import CombineArchive
@@ -798,7 +808,7 @@ class SEDMLCodeFactory(object):
                 value = "'{}'".format(pkey.value)
             else:
                 value = pkey.value
-                
+
             if value == str('inf') or pkey.value == float('inf'):
                 value = "float('inf')"
             else:
