@@ -8,12 +8,13 @@ from __future__ import print_function, division
 import os
 import sys
 import warnings
-import matplotlib.pyplot as plt
 
 # check availability of property cycler (matplotlib 1.5ish)
 if True: # create dummy scope
     import matplotlib
+    import matplotlib.pyplot as plt
 
+    print(dir(matplotlib))
     fig = matplotlib.figure.Figure()
     ax = fig.add_axes()
     if not hasattr(ax, 'set_prop_cycle'):
@@ -58,6 +59,8 @@ except ImportError as e:
     sbml2matlab = None
     roadrunner.Logger.log(roadrunner.Logger.LOG_WARNING, str(e))
     warnings.warn("'sbml2matlab' could not be imported", ImportWarning)
+
+
 
 
 # ---------------------------------------------------------------------
