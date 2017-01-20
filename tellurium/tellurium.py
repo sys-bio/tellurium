@@ -161,7 +161,7 @@ def __set_model(model_name, rr):
     __te_models[model_name] = rr
 
 def model(model_name):
-    """Get a model which has already been loaded.
+    """Retrieve a model which has already been loaded.
 
     :param model_name: the name of the model
     :type model_name: str
