@@ -20,8 +20,10 @@ import warnings
 #     if not hasattr(ax, 'set_prop_cycle'):
 #         warnings.warn("Your copy of matplotlib does not support color cycle control. Falling back to 'Picasso' mode. Please update to matplotlib 1.5 or later if you don't like modern art.")
 
+import matplotlib.pyplot as plt
+
 import roadrunner
-import antimony
+#import antimony
 
 try:
     import libsedml
