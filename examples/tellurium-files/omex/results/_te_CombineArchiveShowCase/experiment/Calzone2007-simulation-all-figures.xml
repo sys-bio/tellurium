@@ -1,0 +1,956 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Written by libSedML v1.1.5591.23669 see http://libsedml.sf.net -->
+<sedML level="1" version="1" xmlns="http://sed-ml.org/">
+  <listOfSimulations>
+    <uniformTimeCourse id="sim1" initialTime="0" outputStartTime="0" outputEndTime="250" numberOfPoints="1000">
+      <algorithm kisaoID="KISAO:0000019" />
+    </uniformTimeCourse>
+  </listOfSimulations>
+  <listOfModels>
+    <model id="model1" language="urn:sedml:language:sbml" source="../model/BIOMD0000000144.xml" />
+  </listOfModels>
+  <listOfTasks>
+    <task id="task1" modelReference="model1" simulationReference="sim1" />
+  </listOfTasks>
+  <listOfDataGenerators>
+    <dataGenerator id="time" name="time">
+      <listOfVariables>
+        <variable id="var_time_0" name="time" taskReference="task1" symbol="urn:sedml:symbol:time" />
+      </listOfVariables>
+      <math xmlns="http://www.w3.org/1998/Math/MathML">
+        <ci> var_time_0 </ci>
+      </math>
+    </dataGenerator>
+    <dataGenerator id="MPFc_1" name="MPFc_1">
+      <listOfVariables>
+        <variable id="MPFc" name="MPFc" taskReference="task1" target="/sbml:sbml/sbml:model/sbml:listOfSpecies/sbml:species[@id='MPFc']" />
+      </listOfVariables>
+      <math xmlns="http://www.w3.org/1998/Math/MathML">
+        <ci> MPFc </ci>
+      </math>
+    </dataGenerator>
+    <dataGenerator id="preMPFc_1" name="preMPFc_1">
+      <listOfVariables>
+        <variable id="preMPFc" name="preMPFc" taskReference="task1" target="/sbml:sbml/sbml:model/sbml:listOfSpecies/sbml:species[@id='preMPFc']" />
+      </listOfVariables>
+      <math xmlns="http://www.w3.org/1998/Math/MathML">
+        <ci> preMPFc </ci>
+      </math>
+    </dataGenerator>
+    <dataGenerator id="StgPc_1" name="StgPc_1">
+      <listOfVariables>
+        <variable id="StgPc" name="StgPc" taskReference="task1" target="/sbml:sbml/sbml:model/sbml:listOfSpecies/sbml:species[@id='StgPc']" />
+      </listOfVariables>
+      <math xmlns="http://www.w3.org/1998/Math/MathML">
+        <ci> StgPc </ci>
+      </math>
+    </dataGenerator>
+    <dataGenerator id="Wee1c_1" name="Wee1c_1">
+      <listOfVariables>
+        <variable id="Wee1c" name="Wee1c" taskReference="task1" target="/sbml:sbml/sbml:model/sbml:listOfSpecies/sbml:species[@id='Wee1c']" />
+      </listOfVariables>
+      <math xmlns="http://www.w3.org/1998/Math/MathML">
+        <ci> Wee1c </ci>
+      </math>
+    </dataGenerator>
+    <dataGenerator id="Wee1Pc_1" name="Wee1Pc_1">
+      <listOfVariables>
+        <variable id="Wee1Pc" name="Wee1Pc" taskReference="task1" target="/sbml:sbml/sbml:model/sbml:listOfSpecies/sbml:species[@id='Wee1Pc']" />
+      </listOfVariables>
+      <math xmlns="http://www.w3.org/1998/Math/MathML">
+        <ci> Wee1Pc </ci>
+      </math>
+    </dataGenerator>
+    <dataGenerator id="Stgm_1" name="Stgm_1">
+      <listOfVariables>
+        <variable id="Stgm" name="Stgm" taskReference="task1" target="/sbml:sbml/sbml:model/sbml:listOfSpecies/sbml:species[@id='Stgm']" />
+      </listOfVariables>
+      <math xmlns="http://www.w3.org/1998/Math/MathML">
+        <ci> Stgm </ci>
+      </math>
+    </dataGenerator>
+    <dataGenerator id="Xp_1" name="Xp_1">
+      <listOfVariables>
+        <variable id="Xp" name="Xp" taskReference="task1" target="/sbml:sbml/sbml:model/sbml:listOfSpecies/sbml:species[@id='Xp']" />
+      </listOfVariables>
+      <math xmlns="http://www.w3.org/1998/Math/MathML">
+        <ci> Xp </ci>
+      </math>
+    </dataGenerator>
+    <dataGenerator id="Stgc_1" name="Stgc_1">
+      <listOfVariables>
+        <variable id="Stgc" name="Stgc" taskReference="task1" target="/sbml:sbml/sbml:model/sbml:listOfSpecies/sbml:species[@id='Stgc']" />
+      </listOfVariables>
+      <math xmlns="http://www.w3.org/1998/Math/MathML">
+        <ci> Stgc </ci>
+      </math>
+    </dataGenerator>
+    <dataGenerator id="Xm_1" name="Xm_1">
+      <listOfVariables>
+        <variable id="Xm" name="Xm" taskReference="task1" target="/sbml:sbml/sbml:model/sbml:listOfSpecies/sbml:species[@id='Xm']" />
+      </listOfVariables>
+      <math xmlns="http://www.w3.org/1998/Math/MathML">
+        <ci> Xm </ci>
+      </math>
+    </dataGenerator>
+    <dataGenerator id="MPFn_1" name="MPFn_1">
+      <listOfVariables>
+        <variable id="MPFn" name="MPFn" taskReference="task1" target="/sbml:sbml/sbml:model/sbml:listOfSpecies/sbml:species[@id='MPFn']" />
+      </listOfVariables>
+      <math xmlns="http://www.w3.org/1998/Math/MathML">
+        <ci> MPFn </ci>
+      </math>
+    </dataGenerator>
+    <dataGenerator id="preMPFn_1" name="preMPFn_1">
+      <listOfVariables>
+        <variable id="preMPFn" name="preMPFn" taskReference="task1" target="/sbml:sbml/sbml:model/sbml:listOfSpecies/sbml:species[@id='preMPFn']" />
+      </listOfVariables>
+      <math xmlns="http://www.w3.org/1998/Math/MathML">
+        <ci> preMPFn </ci>
+      </math>
+    </dataGenerator>
+    <dataGenerator id="Wee1Pn_1" name="Wee1Pn_1">
+      <listOfVariables>
+        <variable id="Wee1Pn" name="Wee1Pn" taskReference="task1" target="/sbml:sbml/sbml:model/sbml:listOfSpecies/sbml:species[@id='Wee1Pn']" />
+      </listOfVariables>
+      <math xmlns="http://www.w3.org/1998/Math/MathML">
+        <ci> Wee1Pn </ci>
+      </math>
+    </dataGenerator>
+    <dataGenerator id="Wee1n_1" name="Wee1n_1">
+      <listOfVariables>
+        <variable id="Wee1n" name="Wee1n" taskReference="task1" target="/sbml:sbml/sbml:model/sbml:listOfSpecies/sbml:species[@id='Wee1n']" />
+      </listOfVariables>
+      <math xmlns="http://www.w3.org/1998/Math/MathML">
+        <ci> Wee1n </ci>
+      </math>
+    </dataGenerator>
+    <dataGenerator id="StgPn_1" name="StgPn_1">
+      <listOfVariables>
+        <variable id="StgPn" name="StgPn" taskReference="task1" target="/sbml:sbml/sbml:model/sbml:listOfSpecies/sbml:species[@id='StgPn']" />
+      </listOfVariables>
+      <math xmlns="http://www.w3.org/1998/Math/MathML">
+        <ci> StgPn </ci>
+      </math>
+    </dataGenerator>
+    <dataGenerator id="Stgn_1" name="Stgn_1">
+      <listOfVariables>
+        <variable id="Stgn" name="Stgn" taskReference="task1" target="/sbml:sbml/sbml:model/sbml:listOfSpecies/sbml:species[@id='Stgn']" />
+      </listOfVariables>
+      <math xmlns="http://www.w3.org/1998/Math/MathML">
+        <ci> Stgn </ci>
+      </math>
+    </dataGenerator>
+    <dataGenerator id="FZYa_1" name="FZYa_1">
+      <listOfVariables>
+        <variable id="FZYa" name="FZYa" taskReference="task1" target="/sbml:sbml/sbml:model/sbml:listOfSpecies/sbml:species[@id='FZYa']" />
+      </listOfVariables>
+      <math xmlns="http://www.w3.org/1998/Math/MathML">
+        <ci> FZYa </ci>
+      </math>
+    </dataGenerator>
+    <dataGenerator id="IEa_1_1" name="IEa_1_1">
+      <listOfVariables>
+        <variable id="IEa_1" name="IEa_1" taskReference="task1" target="/sbml:sbml/sbml:model/sbml:listOfSpecies/sbml:species[@id='IEa_1']" />
+      </listOfVariables>
+      <math xmlns="http://www.w3.org/1998/Math/MathML">
+        <ci> IEa_1 </ci>
+      </math>
+    </dataGenerator>
+    <dataGenerator id="N_1" name="N_1">
+      <listOfVariables>
+        <variable id="N" name="N" taskReference="task1" target="/sbml:sbml/sbml:model/sbml:listOfSpecies/sbml:species[@id='N']" />
+      </listOfVariables>
+      <math xmlns="http://www.w3.org/1998/Math/MathML">
+        <ci> N </ci>
+      </math>
+    </dataGenerator>
+    <dataGenerator id="nuclei_1" name="nuclei_1">
+      <listOfVariables>
+        <variable id="nuclei" name="nuclei" taskReference="task1" target="/sbml:sbml/sbml:model/sbml:listOfCompartments/sbml:compartment[@id='nuclei']" />
+      </listOfVariables>
+      <math xmlns="http://www.w3.org/1998/Math/MathML">
+        <ci> nuclei </ci>
+      </math>
+    </dataGenerator>
+    <dataGenerator id="cytoplasm_1" name="cytoplasm_1">
+      <listOfVariables>
+        <variable id="cytoplasm" name="cytoplasm" taskReference="task1" target="/sbml:sbml/sbml:model/sbml:listOfCompartments/sbml:compartment[@id='cytoplasm']" />
+      </listOfVariables>
+      <math xmlns="http://www.w3.org/1998/Math/MathML">
+        <ci> cytoplasm </ci>
+      </math>
+    </dataGenerator>
+    <dataGenerator id="ksc_1" name="ksc_1">
+      <listOfVariables>
+        <variable id="ksc" name="ksc" taskReference="task1" target="/sbml:sbml/sbml:model/sbml:listOfParameters/sbml:parameter[@id='ksc']" />
+      </listOfVariables>
+      <math xmlns="http://www.w3.org/1998/Math/MathML">
+        <ci> ksc </ci>
+      </math>
+    </dataGenerator>
+    <dataGenerator id="kdc_1" name="kdc_1">
+      <listOfVariables>
+        <variable id="kdc" name="kdc" taskReference="task1" target="/sbml:sbml/sbml:model/sbml:listOfParameters/sbml:parameter[@id='kdc']" />
+      </listOfVariables>
+      <math xmlns="http://www.w3.org/1998/Math/MathML">
+        <ci> kdc </ci>
+      </math>
+    </dataGenerator>
+    <dataGenerator id="kdnp_1" name="kdnp_1">
+      <listOfVariables>
+        <variable id="kdnp" name="kdnp" taskReference="task1" target="/sbml:sbml/sbml:model/sbml:listOfParameters/sbml:parameter[@id='kdnp']" />
+      </listOfVariables>
+      <math xmlns="http://www.w3.org/1998/Math/MathML">
+        <ci> kdnp </ci>
+      </math>
+    </dataGenerator>
+    <dataGenerator id="kdn_1" name="kdn_1">
+      <listOfVariables>
+        <variable id="kdn" name="kdn" taskReference="task1" target="/sbml:sbml/sbml:model/sbml:listOfParameters/sbml:parameter[@id='kdn']" />
+      </listOfVariables>
+      <math xmlns="http://www.w3.org/1998/Math/MathML">
+        <ci> kdn </ci>
+      </math>
+    </dataGenerator>
+    <dataGenerator id="kaie_1" name="kaie_1">
+      <listOfVariables>
+        <variable id="kaie" name="kaie" taskReference="task1" target="/sbml:sbml/sbml:model/sbml:listOfParameters/sbml:parameter[@id='kaie']" />
+      </listOfVariables>
+      <math xmlns="http://www.w3.org/1998/Math/MathML">
+        <ci> kaie </ci>
+      </math>
+    </dataGenerator>
+    <dataGenerator id="kiie_1" name="kiie_1">
+      <listOfVariables>
+        <variable id="kiie" name="kiie" taskReference="task1" target="/sbml:sbml/sbml:model/sbml:listOfParameters/sbml:parameter[@id='kiie']" />
+      </listOfVariables>
+      <math xmlns="http://www.w3.org/1998/Math/MathML">
+        <ci> kiie </ci>
+      </math>
+    </dataGenerator>
+    <dataGenerator id="kafzy_1" name="kafzy_1">
+      <listOfVariables>
+        <variable id="kafzy" name="kafzy" taskReference="task1" target="/sbml:sbml/sbml:model/sbml:listOfParameters/sbml:parameter[@id='kafzy']" />
+      </listOfVariables>
+      <math xmlns="http://www.w3.org/1998/Math/MathML">
+        <ci> kafzy </ci>
+      </math>
+    </dataGenerator>
+    <dataGenerator id="kifzy_1" name="kifzy_1">
+      <listOfVariables>
+        <variable id="kifzy" name="kifzy" taskReference="task1" target="/sbml:sbml/sbml:model/sbml:listOfParameters/sbml:parameter[@id='kifzy']" />
+      </listOfVariables>
+      <math xmlns="http://www.w3.org/1998/Math/MathML">
+        <ci> kifzy </ci>
+      </math>
+    </dataGenerator>
+    <dataGenerator id="kweep_1" name="kweep_1">
+      <listOfVariables>
+        <variable id="kweep" name="kweep" taskReference="task1" target="/sbml:sbml/sbml:model/sbml:listOfParameters/sbml:parameter[@id='kweep']" />
+      </listOfVariables>
+      <math xmlns="http://www.w3.org/1998/Math/MathML">
+        <ci> kweep </ci>
+      </math>
+    </dataGenerator>
+    <dataGenerator id="kwee_1" name="kwee_1">
+      <listOfVariables>
+        <variable id="kwee" name="kwee" taskReference="task1" target="/sbml:sbml/sbml:model/sbml:listOfParameters/sbml:parameter[@id='kwee']" />
+      </listOfVariables>
+      <math xmlns="http://www.w3.org/1998/Math/MathML">
+        <ci> kwee </ci>
+      </math>
+    </dataGenerator>
+    <dataGenerator id="kstgp_1" name="kstgp_1">
+      <listOfVariables>
+        <variable id="kstgp" name="kstgp" taskReference="task1" target="/sbml:sbml/sbml:model/sbml:listOfParameters/sbml:parameter[@id='kstgp']" />
+      </listOfVariables>
+      <math xmlns="http://www.w3.org/1998/Math/MathML">
+        <ci> kstgp </ci>
+      </math>
+    </dataGenerator>
+    <dataGenerator id="kstg_1" name="kstg_1">
+      <listOfVariables>
+        <variable id="kstg" name="kstg" taskReference="task1" target="/sbml:sbml/sbml:model/sbml:listOfParameters/sbml:parameter[@id='kstg']" />
+      </listOfVariables>
+      <math xmlns="http://www.w3.org/1998/Math/MathML">
+        <ci> kstg </ci>
+      </math>
+    </dataGenerator>
+    <dataGenerator id="ksstg_1" name="ksstg_1">
+      <listOfVariables>
+        <variable id="ksstg" name="ksstg" taskReference="task1" target="/sbml:sbml/sbml:model/sbml:listOfParameters/sbml:parameter[@id='ksstg']" />
+      </listOfVariables>
+      <math xmlns="http://www.w3.org/1998/Math/MathML">
+        <ci> ksstg </ci>
+      </math>
+    </dataGenerator>
+    <dataGenerator id="kdstg_1" name="kdstg_1">
+      <listOfVariables>
+        <variable id="kdstg" name="kdstg" taskReference="task1" target="/sbml:sbml/sbml:model/sbml:listOfParameters/sbml:parameter[@id='kdstg']" />
+      </listOfVariables>
+      <math xmlns="http://www.w3.org/1998/Math/MathML">
+        <ci> kdstg </ci>
+      </math>
+    </dataGenerator>
+    <dataGenerator id="kastgp_1" name="kastgp_1">
+      <listOfVariables>
+        <variable id="kastgp" name="kastgp" taskReference="task1" target="/sbml:sbml/sbml:model/sbml:listOfParameters/sbml:parameter[@id='kastgp']" />
+      </listOfVariables>
+      <math xmlns="http://www.w3.org/1998/Math/MathML">
+        <ci> kastgp </ci>
+      </math>
+    </dataGenerator>
+    <dataGenerator id="kastg_1" name="kastg_1">
+      <listOfVariables>
+        <variable id="kastg" name="kastg" taskReference="task1" target="/sbml:sbml/sbml:model/sbml:listOfParameters/sbml:parameter[@id='kastg']" />
+      </listOfVariables>
+      <math xmlns="http://www.w3.org/1998/Math/MathML">
+        <ci> kastg </ci>
+      </math>
+    </dataGenerator>
+    <dataGenerator id="kistg_1" name="kistg_1">
+      <listOfVariables>
+        <variable id="kistg" name="kistg" taskReference="task1" target="/sbml:sbml/sbml:model/sbml:listOfParameters/sbml:parameter[@id='kistg']" />
+      </listOfVariables>
+      <math xmlns="http://www.w3.org/1998/Math/MathML">
+        <ci> kistg </ci>
+      </math>
+    </dataGenerator>
+    <dataGenerator id="kawee_1" name="kawee_1">
+      <listOfVariables>
+        <variable id="kawee" name="kawee" taskReference="task1" target="/sbml:sbml/sbml:model/sbml:listOfParameters/sbml:parameter[@id='kawee']" />
+      </listOfVariables>
+      <math xmlns="http://www.w3.org/1998/Math/MathML">
+        <ci> kawee </ci>
+      </math>
+    </dataGenerator>
+    <dataGenerator id="kiweep_1" name="kiweep_1">
+      <listOfVariables>
+        <variable id="kiweep" name="kiweep" taskReference="task1" target="/sbml:sbml/sbml:model/sbml:listOfParameters/sbml:parameter[@id='kiweep']" />
+      </listOfVariables>
+      <math xmlns="http://www.w3.org/1998/Math/MathML">
+        <ci> kiweep </ci>
+      </math>
+    </dataGenerator>
+    <dataGenerator id="kiwee_1" name="kiwee_1">
+      <listOfVariables>
+        <variable id="kiwee" name="kiwee" taskReference="task1" target="/sbml:sbml/sbml:model/sbml:listOfParameters/sbml:parameter[@id='kiwee']" />
+      </listOfVariables>
+      <math xmlns="http://www.w3.org/1998/Math/MathML">
+        <ci> kiwee </ci>
+      </math>
+    </dataGenerator>
+    <dataGenerator id="kt_1" name="kt_1">
+      <listOfVariables>
+        <variable id="kt" name="kt" taskReference="task1" target="/sbml:sbml/sbml:model/sbml:listOfParameters/sbml:parameter[@id='kt']" />
+      </listOfVariables>
+      <math xmlns="http://www.w3.org/1998/Math/MathML">
+        <ci> kt </ci>
+      </math>
+    </dataGenerator>
+    <dataGenerator id="Jaie_1" name="Jaie_1">
+      <listOfVariables>
+        <variable id="Jaie" name="Jaie" taskReference="task1" target="/sbml:sbml/sbml:model/sbml:listOfParameters/sbml:parameter[@id='Jaie']" />
+      </listOfVariables>
+      <math xmlns="http://www.w3.org/1998/Math/MathML">
+        <ci> Jaie </ci>
+      </math>
+    </dataGenerator>
+    <dataGenerator id="Jiie_1" name="Jiie_1">
+      <listOfVariables>
+        <variable id="Jiie" name="Jiie" taskReference="task1" target="/sbml:sbml/sbml:model/sbml:listOfParameters/sbml:parameter[@id='Jiie']" />
+      </listOfVariables>
+      <math xmlns="http://www.w3.org/1998/Math/MathML">
+        <ci> Jiie </ci>
+      </math>
+    </dataGenerator>
+    <dataGenerator id="Jafzy_1" name="Jafzy_1">
+      <listOfVariables>
+        <variable id="Jafzy" name="Jafzy" taskReference="task1" target="/sbml:sbml/sbml:model/sbml:listOfParameters/sbml:parameter[@id='Jafzy']" />
+      </listOfVariables>
+      <math xmlns="http://www.w3.org/1998/Math/MathML">
+        <ci> Jafzy </ci>
+      </math>
+    </dataGenerator>
+    <dataGenerator id="Jifzy_1" name="Jifzy_1">
+      <listOfVariables>
+        <variable id="Jifzy" name="Jifzy" taskReference="task1" target="/sbml:sbml/sbml:model/sbml:listOfParameters/sbml:parameter[@id='Jifzy']" />
+      </listOfVariables>
+      <math xmlns="http://www.w3.org/1998/Math/MathML">
+        <ci> Jifzy </ci>
+      </math>
+    </dataGenerator>
+    <dataGenerator id="Jastg_1" name="Jastg_1">
+      <listOfVariables>
+        <variable id="Jastg" name="Jastg" taskReference="task1" target="/sbml:sbml/sbml:model/sbml:listOfParameters/sbml:parameter[@id='Jastg']" />
+      </listOfVariables>
+      <math xmlns="http://www.w3.org/1998/Math/MathML">
+        <ci> Jastg </ci>
+      </math>
+    </dataGenerator>
+    <dataGenerator id="Jistg_1" name="Jistg_1">
+      <listOfVariables>
+        <variable id="Jistg" name="Jistg" taskReference="task1" target="/sbml:sbml/sbml:model/sbml:listOfParameters/sbml:parameter[@id='Jistg']" />
+      </listOfVariables>
+      <math xmlns="http://www.w3.org/1998/Math/MathML">
+        <ci> Jistg </ci>
+      </math>
+    </dataGenerator>
+    <dataGenerator id="Jawee_1" name="Jawee_1">
+      <listOfVariables>
+        <variable id="Jawee" name="Jawee" taskReference="task1" target="/sbml:sbml/sbml:model/sbml:listOfParameters/sbml:parameter[@id='Jawee']" />
+      </listOfVariables>
+      <math xmlns="http://www.w3.org/1998/Math/MathML">
+        <ci> Jawee </ci>
+      </math>
+    </dataGenerator>
+    <dataGenerator id="Jiwee_1" name="Jiwee_1">
+      <listOfVariables>
+        <variable id="Jiwee" name="Jiwee" taskReference="task1" target="/sbml:sbml/sbml:model/sbml:listOfParameters/sbml:parameter[@id='Jiwee']" />
+      </listOfVariables>
+      <math xmlns="http://www.w3.org/1998/Math/MathML">
+        <ci> Jiwee </ci>
+      </math>
+    </dataGenerator>
+    <dataGenerator id="Jm_1" name="Jm_1">
+      <listOfVariables>
+        <variable id="Jm" name="Jm" taskReference="task1" target="/sbml:sbml/sbml:model/sbml:listOfParameters/sbml:parameter[@id='Jm']" />
+      </listOfVariables>
+      <math xmlns="http://www.w3.org/1998/Math/MathML">
+        <ci> Jm </ci>
+      </math>
+    </dataGenerator>
+    <dataGenerator id="kdmp_1" name="kdmp_1">
+      <listOfVariables>
+        <variable id="kdmp" name="kdmp" taskReference="task1" target="/sbml:sbml/sbml:model/sbml:listOfParameters/sbml:parameter[@id='kdmp']" />
+      </listOfVariables>
+      <math xmlns="http://www.w3.org/1998/Math/MathML">
+        <ci> kdmp </ci>
+      </math>
+    </dataGenerator>
+    <dataGenerator id="kdm_1" name="kdm_1">
+      <listOfVariables>
+        <variable id="kdm" name="kdm" taskReference="task1" target="/sbml:sbml/sbml:model/sbml:listOfParameters/sbml:parameter[@id='kdm']" />
+      </listOfVariables>
+      <math xmlns="http://www.w3.org/1998/Math/MathML">
+        <ci> kdm </ci>
+      </math>
+    </dataGenerator>
+    <dataGenerator id="koutw_1_1" name="koutw_1_1">
+      <listOfVariables>
+        <variable id="koutw_1" name="koutw_1" taskReference="task1" target="/sbml:sbml/sbml:model/sbml:listOfParameters/sbml:parameter[@id='koutw_1']" />
+      </listOfVariables>
+      <math xmlns="http://www.w3.org/1998/Math/MathML">
+        <ci> koutw_1 </ci>
+      </math>
+    </dataGenerator>
+    <dataGenerator id="kinw_1_1" name="kinw_1_1">
+      <listOfVariables>
+        <variable id="kinw_1" name="kinw_1" taskReference="task1" target="/sbml:sbml/sbml:model/sbml:listOfParameters/sbml:parameter[@id='kinw_1']" />
+      </listOfVariables>
+      <math xmlns="http://www.w3.org/1998/Math/MathML">
+        <ci> kinw_1 </ci>
+      </math>
+    </dataGenerator>
+    <dataGenerator id="kouts_1_1" name="kouts_1_1">
+      <listOfVariables>
+        <variable id="kouts_1" name="kouts_1" taskReference="task1" target="/sbml:sbml/sbml:model/sbml:listOfParameters/sbml:parameter[@id='kouts_1']" />
+      </listOfVariables>
+      <math xmlns="http://www.w3.org/1998/Math/MathML">
+        <ci> kouts_1 </ci>
+      </math>
+    </dataGenerator>
+    <dataGenerator id="kins_1_1" name="kins_1_1">
+      <listOfVariables>
+        <variable id="kins_1" name="kins_1" taskReference="task1" target="/sbml:sbml/sbml:model/sbml:listOfParameters/sbml:parameter[@id='kins_1']" />
+      </listOfVariables>
+      <math xmlns="http://www.w3.org/1998/Math/MathML">
+        <ci> kins_1 </ci>
+      </math>
+    </dataGenerator>
+    <dataGenerator id="kez_1_1" name="kez_1_1">
+      <listOfVariables>
+        <variable id="kez_1" name="kez_1" taskReference="task1" target="/sbml:sbml/sbml:model/sbml:listOfParameters/sbml:parameter[@id='kez_1']" />
+      </listOfVariables>
+      <math xmlns="http://www.w3.org/1998/Math/MathML">
+        <ci> kez_1 </ci>
+      </math>
+    </dataGenerator>
+    <dataGenerator id="factor_1_1" name="factor_1_1">
+      <listOfVariables>
+        <variable id="factor_1" name="factor_1" taskReference="task1" target="/sbml:sbml/sbml:model/sbml:listOfParameters/sbml:parameter[@id='factor_1']" />
+      </listOfVariables>
+      <math xmlns="http://www.w3.org/1998/Math/MathML">
+        <ci> factor_1 </ci>
+      </math>
+    </dataGenerator>
+    <dataGenerator id="E_1_1" name="E_1_1">
+      <listOfVariables>
+        <variable id="E_1" name="E_1" taskReference="task1" target="/sbml:sbml/sbml:model/sbml:listOfParameters/sbml:parameter[@id='E_1']" />
+      </listOfVariables>
+      <math xmlns="http://www.w3.org/1998/Math/MathML">
+        <ci> E_1 </ci>
+      </math>
+    </dataGenerator>
+    <dataGenerator id="ksxp_1_1" name="ksxp_1_1">
+      <listOfVariables>
+        <variable id="ksxp_1" name="ksxp_1" taskReference="task1" target="/sbml:sbml/sbml:model/sbml:listOfParameters/sbml:parameter[@id='ksxp_1']" />
+      </listOfVariables>
+      <math xmlns="http://www.w3.org/1998/Math/MathML">
+        <ci> ksxp_1 </ci>
+      </math>
+    </dataGenerator>
+    <dataGenerator id="ksxm_1_1" name="ksxm_1_1">
+      <listOfVariables>
+        <variable id="ksxm_1" name="ksxm_1" taskReference="task1" target="/sbml:sbml/sbml:model/sbml:listOfParameters/sbml:parameter[@id='ksxm_1']" />
+      </listOfVariables>
+      <math xmlns="http://www.w3.org/1998/Math/MathML">
+        <ci> ksxm_1 </ci>
+      </math>
+    </dataGenerator>
+    <dataGenerator id="kout_1_1" name="kout_1_1">
+      <listOfVariables>
+        <variable id="kout_1" name="kout_1" taskReference="task1" target="/sbml:sbml/sbml:model/sbml:listOfParameters/sbml:parameter[@id='kout_1']" />
+      </listOfVariables>
+      <math xmlns="http://www.w3.org/1998/Math/MathML">
+        <ci> kout_1 </ci>
+      </math>
+    </dataGenerator>
+    <dataGenerator id="CycBT_1" name="CycBT_1">
+      <listOfVariables>
+        <variable id="CycBT" name="CycBT" taskReference="task1" target="/sbml:sbml/sbml:model/sbml:listOfParameters/sbml:parameter[@id='CycBT']" />
+      </listOfVariables>
+      <math xmlns="http://www.w3.org/1998/Math/MathML">
+        <ci> CycBT </ci>
+      </math>
+    </dataGenerator>
+    <dataGenerator id="StringT_1" name="StringT_1">
+      <listOfVariables>
+        <variable id="StringT" name="StringT" taskReference="task1" target="/sbml:sbml/sbml:model/sbml:listOfParameters/sbml:parameter[@id='StringT']" />
+      </listOfVariables>
+      <math xmlns="http://www.w3.org/1998/Math/MathML">
+        <ci> StringT </ci>
+      </math>
+    </dataGenerator>
+    <dataGenerator id="Wee1T_1" name="Wee1T_1">
+      <listOfVariables>
+        <variable id="Wee1T" name="Wee1T" taskReference="task1" target="/sbml:sbml/sbml:model/sbml:listOfParameters/sbml:parameter[@id='Wee1T']" />
+      </listOfVariables>
+      <math xmlns="http://www.w3.org/1998/Math/MathML">
+        <ci> Wee1T </ci>
+      </math>
+    </dataGenerator>
+    <dataGenerator id="StgPT_1" name="StgPT_1">
+      <listOfVariables>
+        <variable id="StgPT" name="StgPT" taskReference="task1" target="/sbml:sbml/sbml:model/sbml:listOfParameters/sbml:parameter[@id='StgPT']" />
+      </listOfVariables>
+      <math xmlns="http://www.w3.org/1998/Math/MathML">
+        <ci> StgPT </ci>
+      </math>
+    </dataGenerator>
+  </listOfDataGenerators>
+  <listOfOutputs>
+    <report id="report1">
+      <listOfDataSets>
+        <dataSet id="col_0" dataReference="time" label="time" />
+        <dataSet id="col_1" dataReference="MPFc_1" label="MPFc_1" />
+        <dataSet id="col_2" dataReference="preMPFc_1" label="preMPFc_1" />
+        <dataSet id="col_3" dataReference="StgPc_1" label="StgPc_1" />
+        <dataSet id="col_4" dataReference="Wee1c_1" label="Wee1c_1" />
+        <dataSet id="col_5" dataReference="Wee1Pc_1" label="Wee1Pc_1" />
+        <dataSet id="col_6" dataReference="Stgm_1" label="Stgm_1" />
+        <dataSet id="col_7" dataReference="Xp_1" label="Xp_1" />
+        <dataSet id="col_8" dataReference="Stgc_1" label="Stgc_1" />
+        <dataSet id="col_9" dataReference="Xm_1" label="Xm_1" />
+        <dataSet id="col_10" dataReference="MPFn_1" label="MPFn_1" />
+        <dataSet id="col_11" dataReference="preMPFn_1" label="preMPFn_1" />
+        <dataSet id="col_12" dataReference="Wee1Pn_1" label="Wee1Pn_1" />
+        <dataSet id="col_13" dataReference="Wee1n_1" label="Wee1n_1" />
+        <dataSet id="col_14" dataReference="StgPn_1" label="StgPn_1" />
+        <dataSet id="col_15" dataReference="Stgn_1" label="Stgn_1" />
+        <dataSet id="col_16" dataReference="FZYa_1" label="FZYa_1" />
+        <dataSet id="col_17" dataReference="IEa_1_1" label="IEa_1_1" />
+        <dataSet id="col_18" dataReference="N_1" label="N_1" />
+        <dataSet id="col_19" dataReference="nuclei_1" label="nuclei_1" />
+        <dataSet id="col_20" dataReference="cytoplasm_1" label="cytoplasm_1" />
+        <dataSet id="col_21" dataReference="ksc_1" label="ksc_1" />
+        <dataSet id="col_22" dataReference="kdc_1" label="kdc_1" />
+        <dataSet id="col_23" dataReference="kdnp_1" label="kdnp_1" />
+        <dataSet id="col_24" dataReference="kdn_1" label="kdn_1" />
+        <dataSet id="col_25" dataReference="kaie_1" label="kaie_1" />
+        <dataSet id="col_26" dataReference="kiie_1" label="kiie_1" />
+        <dataSet id="col_27" dataReference="kafzy_1" label="kafzy_1" />
+        <dataSet id="col_28" dataReference="kifzy_1" label="kifzy_1" />
+        <dataSet id="col_29" dataReference="kweep_1" label="kweep_1" />
+        <dataSet id="col_30" dataReference="kwee_1" label="kwee_1" />
+        <dataSet id="col_31" dataReference="kstgp_1" label="kstgp_1" />
+        <dataSet id="col_32" dataReference="kstg_1" label="kstg_1" />
+        <dataSet id="col_33" dataReference="ksstg_1" label="ksstg_1" />
+        <dataSet id="col_34" dataReference="kdstg_1" label="kdstg_1" />
+        <dataSet id="col_35" dataReference="kastgp_1" label="kastgp_1" />
+        <dataSet id="col_36" dataReference="kastg_1" label="kastg_1" />
+        <dataSet id="col_37" dataReference="kistg_1" label="kistg_1" />
+        <dataSet id="col_38" dataReference="kawee_1" label="kawee_1" />
+        <dataSet id="col_39" dataReference="kiweep_1" label="kiweep_1" />
+        <dataSet id="col_40" dataReference="kiwee_1" label="kiwee_1" />
+        <dataSet id="col_41" dataReference="kt_1" label="kt_1" />
+        <dataSet id="col_42" dataReference="Jaie_1" label="Jaie_1" />
+        <dataSet id="col_43" dataReference="Jiie_1" label="Jiie_1" />
+        <dataSet id="col_44" dataReference="Jafzy_1" label="Jafzy_1" />
+        <dataSet id="col_45" dataReference="Jifzy_1" label="Jifzy_1" />
+        <dataSet id="col_46" dataReference="Jastg_1" label="Jastg_1" />
+        <dataSet id="col_47" dataReference="Jistg_1" label="Jistg_1" />
+        <dataSet id="col_48" dataReference="Jawee_1" label="Jawee_1" />
+        <dataSet id="col_49" dataReference="Jiwee_1" label="Jiwee_1" />
+        <dataSet id="col_50" dataReference="Jm_1" label="Jm_1" />
+        <dataSet id="col_51" dataReference="kdmp_1" label="kdmp_1" />
+        <dataSet id="col_52" dataReference="kdm_1" label="kdm_1" />
+        <dataSet id="col_53" dataReference="koutw_1_1" label="koutw_1_1" />
+        <dataSet id="col_54" dataReference="kinw_1_1" label="kinw_1_1" />
+        <dataSet id="col_55" dataReference="kouts_1_1" label="kouts_1_1" />
+        <dataSet id="col_56" dataReference="kins_1_1" label="kins_1_1" />
+        <dataSet id="col_57" dataReference="kez_1_1" label="kez_1_1" />
+        <dataSet id="col_58" dataReference="factor_1_1" label="factor_1_1" />
+        <dataSet id="col_59" dataReference="E_1_1" label="E_1_1" />
+        <dataSet id="col_60" dataReference="ksxp_1_1" label="ksxp_1_1" />
+        <dataSet id="col_61" dataReference="ksxm_1_1" label="ksxm_1_1" />
+        <dataSet id="col_62" dataReference="kout_1_1" label="kout_1_1" />
+        <dataSet id="col_63" dataReference="CycBT_1" label="CycBT_1" />
+        <dataSet id="col_64" dataReference="StringT_1" label="StringT_1" />
+        <dataSet id="col_65" dataReference="Wee1T_1" label="Wee1T_1" />
+        <dataSet id="col_66" dataReference="StgPT_1" label="StgPT_1" />
+      </listOfDataSets>
+    </report>
+    <plot2D id="plot1">
+      <listOfCurves>
+        <curve id="curve_7" logX="false" logY="false" xDataReference="time" yDataReference="MPFc_1" />
+      </listOfCurves>
+    </plot2D>
+    <plot2D id="plot2">
+      <listOfCurves>
+        <curve id="curve_8" logX="false" logY="false" xDataReference="time" yDataReference="preMPFc_1" />
+      </listOfCurves>
+    </plot2D>
+    <plot2D id="plot3">
+      <listOfCurves>
+        <curve id="curve_9" logX="false" logY="false" xDataReference="time" yDataReference="StgPc_1" />
+      </listOfCurves>
+    </plot2D>
+    <plot2D id="plot4">
+      <listOfCurves>
+        <curve id="curve_10" logX="false" logY="false" xDataReference="time" yDataReference="Wee1c_1" />
+      </listOfCurves>
+    </plot2D>
+    <plot2D id="plot5">
+      <listOfCurves>
+        <curve id="curve_11" logX="false" logY="false" xDataReference="time" yDataReference="Wee1Pc_1" />
+      </listOfCurves>
+    </plot2D>
+    <plot2D id="plot6">
+      <listOfCurves>
+        <curve id="curve_12" logX="false" logY="false" xDataReference="time" yDataReference="Stgm_1" />
+      </listOfCurves>
+    </plot2D>
+    <plot2D id="plot7">
+      <listOfCurves>
+        <curve id="curve_13" logX="false" logY="false" xDataReference="time" yDataReference="Xp_1" />
+      </listOfCurves>
+    </plot2D>
+    <plot2D id="plot8">
+      <listOfCurves>
+        <curve id="curve_14" logX="false" logY="false" xDataReference="time" yDataReference="Stgc_1" />
+      </listOfCurves>
+    </plot2D>
+    <plot2D id="plot9">
+      <listOfCurves>
+        <curve id="curve_15" logX="false" logY="false" xDataReference="time" yDataReference="Xm_1" />
+      </listOfCurves>
+    </plot2D>
+    <plot2D id="plot10">
+      <listOfCurves>
+        <curve id="curve_16" logX="false" logY="false" xDataReference="time" yDataReference="MPFn_1" />
+      </listOfCurves>
+    </plot2D>
+    <plot2D id="plot11">
+      <listOfCurves>
+        <curve id="curve_17" logX="false" logY="false" xDataReference="time" yDataReference="preMPFn_1" />
+      </listOfCurves>
+    </plot2D>
+    <plot2D id="plot12">
+      <listOfCurves>
+        <curve id="curve_18" logX="false" logY="false" xDataReference="time" yDataReference="Wee1Pn_1" />
+      </listOfCurves>
+    </plot2D>
+    <plot2D id="plot13">
+      <listOfCurves>
+        <curve id="curve_19" logX="false" logY="false" xDataReference="time" yDataReference="Wee1n_1" />
+      </listOfCurves>
+    </plot2D>
+    <plot2D id="plot14">
+      <listOfCurves>
+        <curve id="curve_20" logX="false" logY="false" xDataReference="time" yDataReference="StgPn_1" />
+      </listOfCurves>
+    </plot2D>
+    <plot2D id="plot15">
+      <listOfCurves>
+        <curve id="curve_21" logX="false" logY="false" xDataReference="time" yDataReference="Stgn_1" />
+      </listOfCurves>
+    </plot2D>
+    <plot2D id="plot16">
+      <listOfCurves>
+        <curve id="curve_22" logX="false" logY="false" xDataReference="time" yDataReference="FZYa_1" />
+      </listOfCurves>
+    </plot2D>
+    <plot2D id="plot17">
+      <listOfCurves>
+        <curve id="curve_23" logX="false" logY="false" xDataReference="time" yDataReference="IEa_1_1" />
+      </listOfCurves>
+    </plot2D>
+    <plot2D id="plot18">
+      <listOfCurves>
+        <curve id="curve_24" logX="false" logY="false" xDataReference="time" yDataReference="N_1" />
+      </listOfCurves>
+    </plot2D>
+    <plot2D id="plot19">
+      <listOfCurves>
+        <curve id="curve_25" logX="false" logY="false" xDataReference="time" yDataReference="nuclei_1" />
+      </listOfCurves>
+    </plot2D>
+    <plot2D id="plot20">
+      <listOfCurves>
+        <curve id="curve_26" logX="false" logY="false" xDataReference="time" yDataReference="cytoplasm_1" />
+      </listOfCurves>
+    </plot2D>
+    <plot2D id="plot21">
+      <listOfCurves>
+        <curve id="curve_27" logX="false" logY="false" xDataReference="time" yDataReference="ksc_1" />
+      </listOfCurves>
+    </plot2D>
+    <plot2D id="plot22">
+      <listOfCurves>
+        <curve id="curve_28" logX="false" logY="false" xDataReference="time" yDataReference="kdc_1" />
+      </listOfCurves>
+    </plot2D>
+    <plot2D id="plot23">
+      <listOfCurves>
+        <curve id="curve_29" logX="false" logY="false" xDataReference="time" yDataReference="kdnp_1" />
+      </listOfCurves>
+    </plot2D>
+    <plot2D id="plot24">
+      <listOfCurves>
+        <curve id="curve_30" logX="false" logY="false" xDataReference="time" yDataReference="kdn_1" />
+      </listOfCurves>
+    </plot2D>
+    <plot2D id="plot25">
+      <listOfCurves>
+        <curve id="curve_31" logX="false" logY="false" xDataReference="time" yDataReference="kaie_1" />
+      </listOfCurves>
+    </plot2D>
+    <plot2D id="plot26">
+      <listOfCurves>
+        <curve id="curve_32" logX="false" logY="false" xDataReference="time" yDataReference="kiie_1" />
+      </listOfCurves>
+    </plot2D>
+    <plot2D id="plot27">
+      <listOfCurves>
+        <curve id="curve_33" logX="false" logY="false" xDataReference="time" yDataReference="kafzy_1" />
+      </listOfCurves>
+    </plot2D>
+    <plot2D id="plot28">
+      <listOfCurves>
+        <curve id="curve_34" logX="false" logY="false" xDataReference="time" yDataReference="kifzy_1" />
+      </listOfCurves>
+    </plot2D>
+    <plot2D id="plot29">
+      <listOfCurves>
+        <curve id="curve_35" logX="false" logY="false" xDataReference="time" yDataReference="kweep_1" />
+      </listOfCurves>
+    </plot2D>
+    <plot2D id="plot30">
+      <listOfCurves>
+        <curve id="curve_36" logX="false" logY="false" xDataReference="time" yDataReference="kwee_1" />
+      </listOfCurves>
+    </plot2D>
+    <plot2D id="plot31">
+      <listOfCurves>
+        <curve id="curve_37" logX="false" logY="false" xDataReference="time" yDataReference="kstgp_1" />
+      </listOfCurves>
+    </plot2D>
+    <plot2D id="plot32">
+      <listOfCurves>
+        <curve id="curve_38" logX="false" logY="false" xDataReference="time" yDataReference="kstg_1" />
+      </listOfCurves>
+    </plot2D>
+    <plot2D id="plot33">
+      <listOfCurves>
+        <curve id="curve_39" logX="false" logY="false" xDataReference="time" yDataReference="ksstg_1" />
+      </listOfCurves>
+    </plot2D>
+    <plot2D id="plot34">
+      <listOfCurves>
+        <curve id="curve_40" logX="false" logY="false" xDataReference="time" yDataReference="kdstg_1" />
+      </listOfCurves>
+    </plot2D>
+    <plot2D id="plot35">
+      <listOfCurves>
+        <curve id="curve_41" logX="false" logY="false" xDataReference="time" yDataReference="kastgp_1" />
+      </listOfCurves>
+    </plot2D>
+    <plot2D id="plot36">
+      <listOfCurves>
+        <curve id="curve_42" logX="false" logY="false" xDataReference="time" yDataReference="kastg_1" />
+      </listOfCurves>
+    </plot2D>
+    <plot2D id="plot37">
+      <listOfCurves>
+        <curve id="curve_43" logX="false" logY="false" xDataReference="time" yDataReference="kistg_1" />
+      </listOfCurves>
+    </plot2D>
+    <plot2D id="plot38">
+      <listOfCurves>
+        <curve id="curve_44" logX="false" logY="false" xDataReference="time" yDataReference="kawee_1" />
+      </listOfCurves>
+    </plot2D>
+    <plot2D id="plot39">
+      <listOfCurves>
+        <curve id="curve_45" logX="false" logY="false" xDataReference="time" yDataReference="kiweep_1" />
+      </listOfCurves>
+    </plot2D>
+    <plot2D id="plot40">
+      <listOfCurves>
+        <curve id="curve_46" logX="false" logY="false" xDataReference="time" yDataReference="kiwee_1" />
+      </listOfCurves>
+    </plot2D>
+    <plot2D id="plot41">
+      <listOfCurves>
+        <curve id="curve_47" logX="false" logY="false" xDataReference="time" yDataReference="kt_1" />
+      </listOfCurves>
+    </plot2D>
+    <plot2D id="plot42">
+      <listOfCurves>
+        <curve id="curve_48" logX="false" logY="false" xDataReference="time" yDataReference="Jaie_1" />
+      </listOfCurves>
+    </plot2D>
+    <plot2D id="plot43">
+      <listOfCurves>
+        <curve id="curve_49" logX="false" logY="false" xDataReference="time" yDataReference="Jiie_1" />
+      </listOfCurves>
+    </plot2D>
+    <plot2D id="plot44">
+      <listOfCurves>
+        <curve id="curve_50" logX="false" logY="false" xDataReference="time" yDataReference="Jafzy_1" />
+      </listOfCurves>
+    </plot2D>
+    <plot2D id="plot45">
+      <listOfCurves>
+        <curve id="curve_51" logX="false" logY="false" xDataReference="time" yDataReference="Jifzy_1" />
+      </listOfCurves>
+    </plot2D>
+    <plot2D id="plot46">
+      <listOfCurves>
+        <curve id="curve_52" logX="false" logY="false" xDataReference="time" yDataReference="Jastg_1" />
+      </listOfCurves>
+    </plot2D>
+    <plot2D id="plot47">
+      <listOfCurves>
+        <curve id="curve_53" logX="false" logY="false" xDataReference="time" yDataReference="Jistg_1" />
+      </listOfCurves>
+    </plot2D>
+    <plot2D id="plot48">
+      <listOfCurves>
+        <curve id="curve_54" logX="false" logY="false" xDataReference="time" yDataReference="Jawee_1" />
+      </listOfCurves>
+    </plot2D>
+    <plot2D id="plot49">
+      <listOfCurves>
+        <curve id="curve_55" logX="false" logY="false" xDataReference="time" yDataReference="Jiwee_1" />
+      </listOfCurves>
+    </plot2D>
+    <plot2D id="plot50">
+      <listOfCurves>
+        <curve id="curve_56" logX="false" logY="false" xDataReference="time" yDataReference="Jm_1" />
+      </listOfCurves>
+    </plot2D>
+    <plot2D id="plot51">
+      <listOfCurves>
+        <curve id="curve_57" logX="false" logY="false" xDataReference="time" yDataReference="kdmp_1" />
+      </listOfCurves>
+    </plot2D>
+    <plot2D id="plot52">
+      <listOfCurves>
+        <curve id="curve_58" logX="false" logY="false" xDataReference="time" yDataReference="kdm_1" />
+      </listOfCurves>
+    </plot2D>
+    <plot2D id="plot53">
+      <listOfCurves>
+        <curve id="curve_59" logX="false" logY="false" xDataReference="time" yDataReference="koutw_1_1" />
+      </listOfCurves>
+    </plot2D>
+    <plot2D id="plot54">
+      <listOfCurves>
+        <curve id="curve_60" logX="false" logY="false" xDataReference="time" yDataReference="kinw_1_1" />
+      </listOfCurves>
+    </plot2D>
+    <plot2D id="plot55">
+      <listOfCurves>
+        <curve id="curve_61" logX="false" logY="false" xDataReference="time" yDataReference="kouts_1_1" />
+      </listOfCurves>
+    </plot2D>
+    <plot2D id="plot56">
+      <listOfCurves>
+        <curve id="curve_62" logX="false" logY="false" xDataReference="time" yDataReference="kins_1_1" />
+      </listOfCurves>
+    </plot2D>
+    <plot2D id="plot57">
+      <listOfCurves>
+        <curve id="curve_63" logX="false" logY="false" xDataReference="time" yDataReference="kez_1_1" />
+      </listOfCurves>
+    </plot2D>
+    <plot2D id="plot58">
+      <listOfCurves>
+        <curve id="curve_64" logX="false" logY="false" xDataReference="time" yDataReference="factor_1_1" />
+      </listOfCurves>
+    </plot2D>
+    <plot2D id="plot59">
+      <listOfCurves>
+        <curve id="curve_65" logX="false" logY="false" xDataReference="time" yDataReference="E_1_1" />
+      </listOfCurves>
+    </plot2D>
+    <plot2D id="plot60">
+      <listOfCurves>
+        <curve id="curve_66" logX="false" logY="false" xDataReference="time" yDataReference="ksxp_1_1" />
+      </listOfCurves>
+    </plot2D>
+    <plot2D id="plot61">
+      <listOfCurves>
+        <curve id="curve_67" logX="false" logY="false" xDataReference="time" yDataReference="ksxm_1_1" />
+      </listOfCurves>
+    </plot2D>
+    <plot2D id="plot62">
+      <listOfCurves>
+        <curve id="curve_68" logX="false" logY="false" xDataReference="time" yDataReference="kout_1_1" />
+      </listOfCurves>
+    </plot2D>
+    <plot2D id="plot63">
+      <listOfCurves>
+        <curve id="curve_69" logX="false" logY="false" xDataReference="time" yDataReference="CycBT_1" />
+      </listOfCurves>
+    </plot2D>
+    <plot2D id="plot64">
+      <listOfCurves>
+        <curve id="curve_70" logX="false" logY="false" xDataReference="time" yDataReference="StringT_1" />
+      </listOfCurves>
+    </plot2D>
+    <plot2D id="plot65">
+      <listOfCurves>
+        <curve id="curve_71" logX="false" logY="false" xDataReference="time" yDataReference="Wee1T_1" />
+      </listOfCurves>
+    </plot2D>
+    <plot2D id="plot66">
+      <listOfCurves>
+        <curve id="curve_72" logX="false" logY="false" xDataReference="time" yDataReference="StgPT_1" />
+      </listOfCurves>
+    </plot2D>
+  </listOfOutputs>
+</sedML>

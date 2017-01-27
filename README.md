@@ -15,10 +15,6 @@ Tellurium is a python environment based on the [Spyder2 IDE](https://github.com/
 
 The Tellurium project is funded from the NIH/NIGMS (GM081070).
 
-## Python support
-
-**Python 2** is the highest supported Python version at the time of writing, due to the fact that not all packages included in Tellurium are Python 3 compatible.
-
 ## Installation Instructions
 
 Tellurium is availlable via two distributions:
@@ -40,7 +36,7 @@ NOTE: Installation requires administrative rights. It is recommended to accept t
 
 #### Mac OSX
 
-1. [Download Tellurium for Mac OS X 10.10 or later](https://sourceforge.net/projects/pytellurium/files/Tellurium-1.3/1.3.5/Tellurium-1.3.5-Spyder-2.3.8-OSX.dmg/download)
+1. [Download Tellurium for Mac OS X 10.10 or later](https://github.com/sys-bio/tellurium/releases/download/1.3.5-rc3/Tellurium-1.3.5-Spyder-2.3.8-OSX.dmg)
 2. Double-click the .dmg file to open a new window
 3. Double-click the Spyder icon
 
@@ -85,6 +81,12 @@ te.plotArray(result)
 ## API documentation 
 
 http://tellurium.readthedocs.org/en/latest/
+
+## Known Issues
+
+### Python support
+
+Due to the fact that not all packages included in Tellurium are Python 3-compatible, Tellurium requires **Python 2**.
 
 ## Legal
 
