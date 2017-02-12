@@ -15,8 +15,7 @@ import matplotlib.pyplot as plt
 if True: # create dummy scope
     import matplotlib
 
-    fig = matplotlib.figure.Figure()
-    ax = fig.add_axes()
+    ax = matplotlib.axes.Axes
     if not hasattr(ax, 'set_prop_cycle'):
         warnings.warn("Your copy of matplotlib does not support color cycle control. Falling back to 'Picasso' mode. Please update to matplotlib 1.5 or later if you don't like modern art.")
 
