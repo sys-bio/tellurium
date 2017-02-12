@@ -53,6 +53,13 @@ except ImportError as e:
     warnings.warn("'phrasedml' could not be imported", ImportWarning, stacklevel=2)
 
 try:
+    import sbol
+except ImportError as e:
+    sbol = None
+    roadrunner.Logger.log(roadrunner.Logger.LOG_WARNING, str(e))
+    warnings.warn("'pySBOL' could not be imported", ImportWarning, stacklevel=2)
+
+try:
     from sbml2matlab import sbml2matlab
 except ImportError as e:
     sbml2matlab = None
@@ -80,6 +87,8 @@ def getVersionInfo():
         versions.append(('libsedml', libsedml.getLibSEDMLVersionString()))
     if phrasedml:
         versions.append(('phrasedml', phrasedml.__version__))
+    if sbol:
+        versions.append(('pySBOL', sbol.__version__))        
     return versions
 
 
