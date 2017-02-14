@@ -15,8 +15,7 @@ import matplotlib.pyplot as plt
 if True: # create dummy scope
     import matplotlib
 
-    fig = matplotlib.figure.Figure()
-    ax = fig.add_axes()
+    ax = matplotlib.axes.Axes
     if not hasattr(ax, 'set_prop_cycle'):
         warnings.warn("Your copy of matplotlib does not support color cycle control. Falling back to 'Picasso' mode. Please update to matplotlib 1.5 or later if you don't like modern art.")
 
@@ -53,6 +52,13 @@ except ImportError as e:
     warnings.warn("'phrasedml' could not be imported", ImportWarning, stacklevel=2)
 
 try:
+    import sbol
+except ImportError as e:
+    sbol = None
+    roadrunner.Logger.log(roadrunner.Logger.LOG_WARNING, str(e))
+    warnings.warn("'pySBOL' could not be imported", ImportWarning, stacklevel=2)
+
+try:
     from sbml2matlab import sbml2matlab
 except ImportError as e:
     sbml2matlab = None
@@ -80,6 +86,8 @@ def getVersionInfo():
         versions.append(('libsedml', libsedml.getLibSEDMLVersionString()))
     if phrasedml:
         versions.append(('phrasedml', phrasedml.__version__))
+    if sbol:
+        versions.append(('pySBOL', sbol.__version__))        
     return versions
 
 
