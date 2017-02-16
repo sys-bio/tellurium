@@ -17,7 +17,7 @@ Contents:
    Examples <notebooks.rst>
    tellurium_methods.rst
    
-   API (tellurium) <_apidoc/tellurium.rst>
+   API
 
 
 Indices and tables
