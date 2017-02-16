@@ -132,7 +132,9 @@ def noticesOn():
     """
     roadrunner.Logger.setLevel(roadrunner.Logger.LOG_NOTICE)
     
-
+# ---------------------------------------------------------------------
+# Simple File Read and Store Utilities
+# ---------------------------------------------------------------------
 def saveToFile(filePath, str):
     """ Save string to file.
 
