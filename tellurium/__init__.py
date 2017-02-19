@@ -32,6 +32,9 @@ from .tellurium import loadTestModel
 from .tellurium import getTestModel
 from .tellurium import listTestModels
 
+from .tellurium import __set_model
+from .tellurium import model
+
 # helper classes
 from .teio.latex import LatexExport
 #from .analysis.parameterscan import ParameterScan, SteadyStateScan
@@ -54,6 +57,6 @@ try:
     import temiriam
 except ImportError:
     pass
-import notebooks
+#import notebooks
 
 __version__ = getTelluriumVersion()

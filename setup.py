@@ -16,8 +16,9 @@ except IOError:
 
 setup(name='tellurium',
       version=version,
-      description='Tellurium',
-      url='https://github.com/sys-bio/tellurium',
+      author='J. Kyle Medley, Kiri Choi, Matthias König, Lucian Smith, Herbert M. Sauro',
+      description='Tellurium: An biological modeling environment for Python',
+      url='http://tellurium.analogmachine.org/',
       packages=[
           'tellurium',
           'tellurium.analysis',
