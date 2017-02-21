@@ -161,17 +161,17 @@ def readFromFile(filePath):
 
 
 def runTool (toolFileName):
-    # """
-	# Call an external application called toolFileName
-	# NOte that .exe extension may be omitted for windows applications.
+     """
+     Call an external application called toolFileName
+     Note that .exe extension may be omitted for windows applications.
 	
-	# Include any arguments in arguments parameter.
+     Include any arguments in arguments parameter.
 	
-	# Example:
-	# returnString = te.runTool (['myplugin', 'arg1', 'arg2'])
-	#
-	# If the external tool writes to stdout, this will be captured by this call.
-	# """
+     Example:
+        returnString = te.runTool (['myplugin', 'arg1', 'arg2'])
+
+     If the external tool writes to stdout, this will be captured by this call.
+     """
     try:
       if (os.name == 'nt') and (not toolFileName[0].endswith ('.exe')):
          toolFileName[0] = toolFileName[0] + '.exe'
