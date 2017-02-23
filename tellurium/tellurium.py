@@ -146,7 +146,6 @@ def saveToFile(filePath, str):
     with open(filePath, 'w') as f:
         f.write(str)
 
-
 def readFromFile(filePath):
     """ Load a file and return contents as a string.
 
@@ -162,17 +161,19 @@ def readFromFile(filePath):
 
 
 def runTool (toolFileName):
-    # """
-	# Call an external application called toolFileName
-	# NOte that .exe extension may be omitted for windows applications.
+    """	Call an external application called toolFileName.
+	Note that .exe extension may be omitted for windows applications.
 	
-	# Include any arguments in arguments parameter.
+	Include any arguments in arguments parameter.
 	
-	# Example:
-	# returnString = te.runTool (['myplugin', 'arg1', 'arg2'])
-	#
-	# If the external tool writes to stdout, this will be captured by this call.
-	# """
+	Example:
+	returnString = te.runTool (['myplugin', 'arg1', 'arg2'])
+	
+    If the external tool writes to stdout, this will be captured and returned.
+	
+	:param arguments to external tool
+	:return String return by external tool, if any.
+	"""
     try:
       p = os.path.dirname(sys.executable)
       root, waste = os.path.split (p)
