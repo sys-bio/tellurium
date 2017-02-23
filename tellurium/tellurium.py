@@ -178,7 +178,7 @@ def runTool (toolFileName):
       p = os.path.dirname(sys.executable)
       root, waste = os.path.split (p)
       #if (os.name == 'nt') and (not toolFileName[0].endswith ('.exe')):
-      toolFileName[0] = root + '\\telluirumTools\\' + toolFileName[0] + '\\' + toolFileName[0] + '.exe'
+      toolFileName[0] = root + '\\telluriumTools\\' + toolFileName[0] + '\\' + toolFileName[0] + '.exe'
  
       return subprocess.check_output(toolFileName)
     except subprocess.CalledProcessError as e:
