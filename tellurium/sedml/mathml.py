@@ -9,10 +9,7 @@ In build in python are
 """
 from __future__ import print_function, division
 from math import *
-try:
-    import libsbml
-except ImportError:
-    pass
+import tesbml as libsbml
 import operator
 
 def product(*args):
@@ -103,7 +100,7 @@ def evaluableMathML(astnode, variables={}, array=False):
 
     """
     # replace variables with provided values
-    for key, value in variables.iteritems():
+    for key, value in variables.items():
         astnode.replaceArgument(key, libsbml.parseFormula(str(value)))
 
     # get formula

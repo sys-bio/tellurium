@@ -86,14 +86,15 @@ import zipfile
 from collections import namedtuple
 import re
 import numpy as np
+import roadrunner
 try:
     from jinja2 import Environment, FileSystemLoader
 except:
     warnings.warn("'jinja2' could not be imported; SEDML not supported", ImportWarning)
-from mathml import evaluableMathML
+from .mathml import evaluableMathML
 
 try:
-    import libsedml
+    import tesedml as libsedml
     # import libsedml before libsbml to handle
     # https://github.com/fbergmann/libSEDML/issues/21
 except ImportError as e:
@@ -389,15 +390,7 @@ class SEDMLCodeFactory(object):
             'model_sources': self.model_sources,
             'model_changes': self.model_changes,
         }
-        try:
-            pysedml = template.render(c)
-        except Exception as e:
-            # something went wrong in the conversion to python
-            # show detailed information about the factory
-            # and the libsedml document
-            # msg = e.message + '\n' + self.__str__() + '\n' + libsedml.writeSedMLToString(self.doc) + '\n'
-            msg = e.message
-            raise type(e), type(e)(msg), sys.exc_info()[2]
+        pysedml = template.render(c)
 
         return pysedml
 
@@ -410,7 +403,7 @@ class SEDMLCodeFactory(object):
         execStr = self.toPython()
         try:
             # This calls exec. Be very sure that nothing bad happens here.
-            exec execStr
+            exec(execStr)
 
             # return dictionary of data generators
             dg_data = {}
@@ -423,13 +416,13 @@ class SEDMLCodeFactory(object):
             # something went wrong in the conversion to python
             # show detailed information about the factory
             # and the libsedml document
-            raise type(e), type(e)('-'*80 + '\n'
+            raise RuntimeError('Error executing Python script\n' + '-'*80 + '\n'
                                    + self.__str__() + '\n'
                                    + '*'*80 + '\n'
                                    + execStr + '\n'
                                    + '*'*80 + '\n'
-                                   + e.message + '\n'
-                                   ), sys.exc_info()[2]
+                                   + str(e) + '\n'
+                                   )
 
     def modelToPython(self, model):
         """ Python code for SedModel.
@@ -1596,8 +1589,6 @@ class SEDMLTools(object):
         :return: dictionary of SedDocument, inputType and working directory.
         :rtype: {doc, inputType, workingDir}
         """
-        if not isinstance(inputStr, basestring):
-            raise IOError("SED-ML input is not instance of basestring:", inputStr)
 
         print("read SEDML-File")
         # SEDML-String
