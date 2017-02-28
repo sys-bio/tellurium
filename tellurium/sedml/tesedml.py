@@ -1590,7 +1590,6 @@ class SEDMLTools(object):
         :rtype: {doc, inputType, workingDir}
         """
 
-        print("read SEDML-File")
         # SEDML-String
         if not os.path.exists(inputStr):
             try:
