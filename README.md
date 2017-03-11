@@ -28,7 +28,7 @@ Option 1. does not modify or conflict with any previous Python installation. Opt
 
 #### Windows
 
-1. [Download Tellurium for Windows](https://sourceforge.net/projects/pytellurium/files/Tellurium-1.3/1.3.5/Tellurium-1.3.5-Python-2.7-win32-portable-setup.exe/download)
+1. [Download Tellurium for Windows](https://sourceforge.net/projects/pytellurium/files/Tellurium-1.3/1.3.6/Tellurium-1.3.6-Python-2.7-win32-portable-setup.exe/download)
 2. Double-click the installer to start the installation
 3. Follow the instructions
 
