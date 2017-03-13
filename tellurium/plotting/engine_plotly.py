@@ -10,26 +10,39 @@ plotly.offline.iplot({
 })
 
 class PlotlyFigure(PlottingFigure):
-    def __init__(self, layout=PlottingLayout()):
+    def __init__(self, title=None, layout=PlottingLayout()):
+        self.title = title
         self.xy_datasets = []
 
-    def addXYDataset(self, x_arr, y_arr):
+    def addXYDataset(self, x_arr, y_arr, name=None):
         """ Adds an X/Y dataset to the plot.
 
         :param x_arr: A numpy array describing the X datapoints. Should have the same size as y_arr.
         :param y_arr: A numpy array describing the Y datapoints. Should have the same size as x_arr.
         """
-        self.xy_datasets.append((x_arr, y_arr))
+        dataset = {'x': x_arr, 'y': y_arr}
+        if name is not None:
+            dataset['name'] = name
+        self.xy_datasets.append(dataset)
 
     def makeLayout(self):
-        return Layout(title="Figure")
+        kwargs = {}
+        if self.title is not None:
+            kwargs['title'] = self.title
+        return Layout(**kwargs)
 
     def plot(self):
+        """ Plot the figure. Call this last."""
         traces = []
         for dataset in self.xy_datasets:
+            kwargs = {}
+            if 'name' in dataset:
+                kwargs['name'] = dataset['name']
             traces.append(Scatter(
-                x = dataset[0],
-                y = dataset[1],
+                x = dataset['x'],
+                y = dataset['y'],
+                mode = 'lines',
+                **kwargs
             ))
 
         data = Data(traces)
@@ -39,11 +52,11 @@ class PlotlyFigure(PlottingFigure):
         })
 
 class PlotlyPlottingEngine(PlottingEngine):
-    def newFigure(self, layout=PlottingLayout()):
+    def newFigure(self, title=None, layout=PlottingLayout()):
         """ Returns a figure object."""
-        return PlotlyFigure(layout)
+        return PlotlyFigure(title=title, layout=layout)
 
-    def figureFromTimecourse(self, m):
+    def figureFromTimecourse(self, m, title=None):
         """ Generate a new figure from a timecourse simulation.
 
         :param m: An array returned by RoadRunner.simulate.
@@ -53,14 +66,14 @@ class PlotlyPlottingEngine(PlottingEngine):
             raise RuntimeError('Cannot plot timecourse - first column is not time')
 
         for k in range(1,m.shape[1]):
-            fig.addXYDataset(m[:,0], m[:,k])
+            fig.addXYDataset(m[:,0], m[:,k], name=m.colnames[k])
 
         return fig
 
-    def plotTimecourse(self, m):
+    def plotTimecourse(self, m, title=None):
         """ Plots a timecourse from a simulation.
 
         :param m: An array returned by RoadRunner.simulate.
         """
-        fig = self.figureFromTimecourse(m)
+        fig = self.figureFromTimecourse(m, title=title)
         fig.plot()

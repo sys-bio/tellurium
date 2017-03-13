@@ -20,6 +20,8 @@ import warnings
 #     if not hasattr(ax, 'set_prop_cycle'):
 #         warnings.warn("Your copy of matplotlib does not support color cycle control. Falling back to 'Picasso' mode. Please update to matplotlib 1.5 or later if you don't like modern art.")
 
+__default_plotting_engine = 'matplotlib'
+
 # determine if we're running in IPython
 __in_ipython = True
 __plotly_enabled = False
@@ -31,8 +33,9 @@ try:
         import plotly
         plotly.offline.init_notebook_mode(connected=True)
         __plotly_enabled = True
+        __default_plotting_engine = 'plotly'
     except:
-        warnings.warn("Plotly")
+        warnings.warn("Plotly could not be initialized. Unable to use Plotly for plotting.")
 except:
     __in_ipython = False
 
@@ -40,7 +43,13 @@ def inIPython():
     """ Returns true if tellurium is being using in
     an IPython environment, false otherwise.
     """
+    global __in_ipython
     return __in_ipython
+
+def getDefaultPlottingEngine():
+    """ Get the default plotting engine. Can be 'matplotlib' or 'plotly'."""
+    global __default_plotting_engine
+    return __default_plotting_engine
 
 import matplotlib
 matplotlib.use('Agg')
@@ -832,8 +841,15 @@ class ExtendedRoadRunner(roadrunner.RoadRunner):
         :return:
         :rtype:
         """
+
         if result is None:
             result = self.getSimulationData()
+
+        # Use Tellurium plotting interface
+        makePlottingEngine(getDefaultPlottingEngine()).plotTimecourse(result)
+        return
+
+        # Old code:
         if loc is False:
             loc = None
 
