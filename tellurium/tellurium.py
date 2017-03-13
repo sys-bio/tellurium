@@ -20,15 +20,39 @@ import warnings
 #     if not hasattr(ax, 'set_prop_cycle'):
 #         warnings.warn("Your copy of matplotlib does not support color cycle control. Falling back to 'Picasso' mode. Please update to matplotlib 1.5 or later if you don't like modern art.")
 
+# determine if we're running in IPython
+__in_ipython = True
+__plotly_enabled = False
+try:
+    get_ipython()
+
+    # init plotly notebook mode
+    try:
+        import plotly
+        plotly.offline.init_notebook_mode(connected=True)
+        __plotly_enabled = True
+    except:
+        warnings.warn("Plotly")
+except:
+    __in_ipython = False
+
+def inIPython():
+    """ Returns true if tellurium is being using in
+    an IPython environment, false otherwise.
+    """
+    return __in_ipython
+
 import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
+
+from .plotting import makePlottingEngine
 
 import roadrunner
 import antimony
 
 try:
-    import libsedml
+    import tesedml as libsedml
     # import libsedml before libsbml to handle
     # https://github.com/fbergmann/libSEDML/issues/21
 except ImportError as e:
@@ -37,7 +61,7 @@ except ImportError as e:
     warnings.warn("'libsedml' could not be imported", ImportWarning, stacklevel=2)
 
 try:
-    import libsbml
+    import tesbml as libsbml
     # try to deactivate the libsbml timestamp if possible
     # see discussion https://groups.google.com/forum/?utm_medium=email&utm_source=footer#!msg/libsbml-development/Yy78LSwOHzU/9t5PcpD2AAAJ
     # try:

@@ -26,6 +26,8 @@ if hasattr(tellurium, 'loadCellMLModel'):
     from .tellurium import cellmlToSBML
 
 from .tellurium import getEigenvalues
+
+from .tellurium import makePlottingEngine
 from .tellurium import plotArray
 from .tellurium import plotWithLegend
 from .tellurium import loadTestModel
