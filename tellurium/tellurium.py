@@ -51,6 +51,14 @@ def getDefaultPlottingEngine():
     global __default_plotting_engine
     return __default_plotting_engine
 
+def setDefaultPlottingEngine(value):
+    """ Set the default plotting engine. Overrides current value.
+
+    :param value: A string describing which plotting engine to use. Valid values are 'matplotlib' and 'pyplot'.
+    """
+    global __default_plotting_engine
+    __default_plotting_engine = value
+
 import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
