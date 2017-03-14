@@ -22,18 +22,22 @@ import warnings
 
 __default_plotting_engine = 'matplotlib'
 
+import matplotlib
+matplotlib.use('Agg')
+
 # determine if we're running in IPython
 __in_ipython = True
 __plotly_enabled = False
 try:
     get_ipython()
+    matplotlib.use('NbAgg')
 
     # init plotly notebook mode
     try:
         import plotly
         plotly.offline.init_notebook_mode(connected=True)
         __plotly_enabled = True
-        __default_plotting_engine = 'plotly'
+        # __default_plotting_engine = 'plotly'
     except:
         warnings.warn("Plotly could not be initialized. Unable to use Plotly for plotting.")
 except:
@@ -59,8 +63,6 @@ def setDefaultPlottingEngine(value):
     global __default_plotting_engine
     __default_plotting_engine = value
 
-import matplotlib
-matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 
 from .plotting import getPlottingEngine as __getPlottingEngine
