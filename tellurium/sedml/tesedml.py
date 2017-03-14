@@ -1408,10 +1408,11 @@ class SEDMLCodeFactory(object):
         if output.isSetName():
             title = output.getName()
 
-        lines.append("plt.figure(num=None, figsize={}, dpi={}, facecolor='{}', edgecolor='{}')".format(settings.figsize, settings.dpi, settings.facecolor, settings.edgecolor))
-        lines.append("from matplotlib import gridspec")
-        lines.append("__gs = gridspec.GridSpec(1, 2, width_ratios=[3, 1])")
-        lines.append("plt.subplot(__gs[0])")
+        lines.append("fig = te.getPlottingEngine().newFigure(title='{}')".format(title))
+        # lines.append("plt.figure(num=None, figsize={}, dpi={}, facecolor='{}', edgecolor='{}')".format(settings.figsize, settings.dpi, settings.facecolor, settings.edgecolor))
+        # lines.append("from matplotlib import gridspec")
+        # lines.append("__gs = gridspec.GridSpec(1, 2, width_ratios=[3, 1])")
+        # lines.append("plt.subplot(__gs[0])")
 
         oneXLabel = True
         allXLabel = None
@@ -1441,26 +1442,29 @@ class SEDMLCodeFactory(object):
 
             lines.append("for k in range({}.shape[1]):".format(xId))
             lines.append("    if k == 0:")
-            lines.append("        plt.plot({}[:,k], {}[:,k], marker = '{}', color='{}', linewidth={}, markersize={}, alpha={}, label='{}')".format(xId, yId, settings.marker, color, settings.linewidth, settings.markersize, settings.alpha, yLabel))
+            lines.append("        fig.addXYDataset({}[:,k], {}[:,k], name='{}')".format(xId, yId, yLabel))
+            # lines.append("        plt.plot({}[:,k], {}[:,k], marker = '{}', color='{}', linewidth={}, markersize={}, alpha={}, label='{}')".format(xId, yId, settings.marker, color, settings.linewidth, settings.markersize, settings.alpha, yLabel))
             lines.append("    else:")
-            lines.append("        plt.plot({}[:,k], {}[:,k], marker = '{}', color='{}', linewidth={}, markersize={}, alpha={})".format(xId, yId, settings.marker, color, settings.linewidth, settings.markersize, settings.alpha))
+            lines.append("        fig.addXYDataset({}[:,k], {}[:,k])".format(xId, yId))
+            # lines.append("        plt.plot({}[:,k], {}[:,k], marker = '{}', color='{}', linewidth={}, markersize={}, alpha={})".format(xId, yId, settings.marker, color, settings.linewidth, settings.markersize, settings.alpha))
 
-            if logX is True:
-                lines.append("plt.xscale('log')")
-            if logY is True:
-                lines.append("plt.yscale('log')")
-        lines.append("plt.title('{}', fontweight='bold')".format(title))
-        if oneXLabel:
-            lines.append("plt.xlabel('{}', fontweight='bold')".format(xLabel))
-        if len(output.getListOfCurves()) == 1:
-            lines.append("plt.ylabel('{}', fontweight='bold')".format(yLabel))
-
-        lines.append("__lg = plt.legend(bbox_to_anchor=(1.05, 1), loc=2, borderaxespad=0.)")
-        lines.append("__lg.draw_frame(False)")
-        lines.append("plt.setp(__lg.get_texts(), fontsize='small')")
-        lines.append("plt.setp(__lg.get_texts(), fontweight='bold')")
-        lines.append("plt.savefig(os.path.join(workingDir, '{}.png'), dpi=100)".format(output.getId()))
-        lines.append("plt.show()".format(title))
+            # if logX is True:
+            #     lines.append("plt.xscale('log')")
+            # if logY is True:
+            #     lines.append("plt.yscale('log')")
+        # lines.append("plt.title('{}', fontweight='bold')".format(title))
+        # if oneXLabel:
+        #     lines.append("plt.xlabel('{}', fontweight='bold')".format(xLabel))
+        # if len(output.getListOfCurves()) == 1:
+        #     lines.append("plt.ylabel('{}', fontweight='bold')".format(yLabel))
+        #
+        # lines.append("__lg = plt.legend(bbox_to_anchor=(1.05, 1), loc=2, borderaxespad=0.)")
+        # lines.append("__lg.draw_frame(False)")
+        # lines.append("plt.setp(__lg.get_texts(), fontsize='small')")
+        # lines.append("plt.setp(__lg.get_texts(), fontweight='bold')")
+        # lines.append("plt.savefig(os.path.join(workingDir, '{}.png'), dpi=100)".format(output.getId()))
+        # lines.append("plt.show()".format())
+        lines.append("fig.plot()".format())
 
         return lines
 

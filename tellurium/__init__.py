@@ -1,7 +1,8 @@
 # ----------------------------------------------------------------
 # TELLURIUM API
 # ----------------------------------------------------------------
-# make explicit imports to avoid namespace pollution
+
+# General
 from .tellurium import getVersionInfo
 from .tellurium import printVersionInfo
 from .tellurium import getTelluriumVersion
@@ -9,6 +10,10 @@ from .tellurium import noticesOff
 from .tellurium import noticesOn
 from .tellurium import saveToFile
 from .tellurium import readFromFile
+
+# Model import
+from .tellurium import __set_model
+from .tellurium import model
 
 from .tellurium import loada
 from .tellurium import loadAntimonyModel
@@ -18,6 +23,7 @@ from .tellurium import loadSBMLModel
 from .tellurium import antimonyToSBML
 from .tellurium import sbmlToAntimony
 
+# CellML functions
 if hasattr(tellurium, 'loadCellMLModel'):
     from .tellurium import loadCellMLModel
     from .tellurium import antimonyToCellML
@@ -27,15 +33,16 @@ if hasattr(tellurium, 'loadCellMLModel'):
 
 from .tellurium import getEigenvalues
 
-from .tellurium import makePlottingEngine
+# Plotting
+from .tellurium import (getPlottingEngine,
+    getDefaultPlottingEngine, setDefaultPlottingEngine)
 from .tellurium import plotArray
 from .tellurium import plotWithLegend
+
+# Test models
 from .tellurium import loadTestModel
 from .tellurium import getTestModel
 from .tellurium import listTestModels
-
-from .tellurium import __set_model
-from .tellurium import model
 
 # helper classes
 from .teio.latex import LatexExport

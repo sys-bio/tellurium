@@ -63,7 +63,11 @@ import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 
-from .plotting import makePlottingEngine
+from .plotting import getPlottingEngine as __getPlottingEngine
+def getPlottingEngine(engine=getDefaultPlottingEngine()):
+    return __getPlottingEngine(engine)
+
+getPlottingEngine.__doc__ = __getPlottingEngine.__doc__
 
 import roadrunner
 import antimony
@@ -854,7 +858,7 @@ class ExtendedRoadRunner(roadrunner.RoadRunner):
             result = self.getSimulationData()
 
         # Use Tellurium plotting interface
-        makePlottingEngine(getDefaultPlottingEngine()).plotTimecourse(result)
+        getPlottingEngine(getDefaultPlottingEngine()).plotTimecourse(result)
         return
 
         # Old code:

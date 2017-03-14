@@ -10,7 +10,7 @@ try:
 except ImportError:
     pass
 
-def makePlottingEngine(engine):
+def getPlottingEngine(engine):
     """ Creates a plotting engine based on passed argument.
 
     :param engine: A string specifying which engine to create. Valid values are 'matplotlib' and 'plotly'.

@@ -1,1 +1,1 @@
-from .factory import makePlottingEngine
+from .factory import getPlottingEngine
