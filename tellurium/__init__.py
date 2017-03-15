@@ -34,8 +34,10 @@ from .tellurium import (
     )
 
 # Legacy import, use antimonyConverter
-from .tellurium import antimonyToSBML
-from .tellurium import sbmlToAntimony
+from .tellurium import (
+    antimonyToSBML,
+    sbmlToAntimony,
+    )
 
 # CellML converters
 if hasattr(tellurium, 'loadCellMLModel'):
@@ -46,8 +48,6 @@ if hasattr(tellurium, 'loadCellMLModel'):
         cellmlToAntimony,
         cellmlToSBML,
         )
-
-from .tellurium import getEigenvalues
 
 # Plotting
 from .tellurium import (
@@ -68,28 +68,30 @@ from .tellurium import (
     listTestModels,
     )
 
-# helper classes
+# Helper classes
 from .teio.latex import LatexExport
 from .analysis.parameterscan import ParameterScan, SteadyStateScan
 
 # sedml & combine support
 from .sedml.tesedml import sedmlToPython, executeSEDML, executeOMEX
-# from .sedml.tephrasedml import experiment
-#from .tecombine import combine
 
-# try:
-#     import tellurium.optimization
-#     import tellurium.visualization
-#     import tellurium.tests
-# except ImportError:
-#     import optimization
-#     import visualization
-#     import tests
+# Do not use
+# from .sedml.tephrasedml import experiment
+# from .tecombine import combine
+
+# Misc
+from .tellurium import getEigenvalues
+
+# import .optimization  # nothing here
+# import .visualization # display with graphviz
+# import .tests         # needs to be refactored for Python 3
 
 try:
     import temiriam
 except ImportError:
     pass
-#import notebooks
+
+# Needs to be checked for compatibility with latest Jupyter and Python 3
+# import notebooks
 
 __version__ = getTelluriumVersion()
