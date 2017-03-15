@@ -69,9 +69,14 @@ from .tellurium import (
     listTestModels,
     )
 
-# Helper classes
+# Latex
 from .teio.latex import LatexExport
-from .analysis.parameterscan import ParameterScan, SteadyStateScan
+
+# Parameter scanning
+from .analysis.parameterscan import (
+    ParameterScan,
+    SteadyStateScan,
+    )
 
 # sedml & combine support
 from .sedml.tesedml import sedmlToPython, executeSEDML, executeOMEX
