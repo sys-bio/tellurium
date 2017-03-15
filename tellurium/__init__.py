@@ -22,15 +22,16 @@ from .teconverters import (
 
 # Model import
 from .tellurium import (
-    __set_model, # associates model name with roadrunner instance
-    model,       # retrieve a roadrunner instance previously set with __set_model
-    )
-
-from .tellurium import (
     loada,             # load antimony
     loadAntimonyModel, # same as loada
     loads,             # load sbml
     loadSBMLModel,     # same as loads
+    )
+
+# Keeps a dictionary of loaded models
+from .tellurium import (
+    __set_model, # associates model name with roadrunner instance
+    model,       # retrieve a roadrunner instance previously set with __set_model
     )
 
 # Legacy import, use antimonyConverter
