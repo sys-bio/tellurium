@@ -3,46 +3,70 @@
 # ----------------------------------------------------------------
 
 # General
-from .tellurium import getVersionInfo
-from .tellurium import printVersionInfo
-from .tellurium import getTelluriumVersion
-from .tellurium import noticesOff
-from .tellurium import noticesOn
-from .tellurium import saveToFile
-from .tellurium import readFromFile
+from .tellurium import (
+    getVersionInfo,
+    printVersionInfo,
+    getTelluriumVersion,
+    noticesOff,
+    noticesOn,
+    saveToFile,
+    readFromFile,
+    )
+
+# Converters
+from .teconverters import (
+    antimonyConverter,
+    partitionInlineOMEXString, # partition an inline omex string into phrasedml and antimony parts
+    inlineOmex,
+    )
 
 # Model import
-from .tellurium import __set_model
-from .tellurium import model
+from .tellurium import (
+    __set_model, # associates model name with roadrunner instance
+    model,       # retrieve a roadrunner instance previously set with __set_model
+    )
 
-from .tellurium import loada
-from .tellurium import loadAntimonyModel
-from .tellurium import loads
+from .tellurium import (
+    loada,             # load antimony
+    loadAntimonyModel, # same as loada
+    loads,             # load sbml
+    loadSBMLModel,     # same as loads
+    )
 
-from .tellurium import loadSBMLModel
+# Legacy import, use antimonyConverter
 from .tellurium import antimonyToSBML
 from .tellurium import sbmlToAntimony
 
-# CellML functions
+# CellML converters
 if hasattr(tellurium, 'loadCellMLModel'):
-    from .tellurium import loadCellMLModel
-    from .tellurium import antimonyToCellML
-    from .tellurium import sbmlToCellML
-    from .tellurium import cellmlToAntimony
-    from .tellurium import cellmlToSBML
+    from .tellurium import (
+        loadCellMLModel,
+        antimonyToCellML,
+        sbmlToCellML,
+        cellmlToAntimony,
+        cellmlToSBML,
+        )
 
 from .tellurium import getEigenvalues
 
 # Plotting
-from .tellurium import (getPlottingEngine,
-    getDefaultPlottingEngine, setDefaultPlottingEngine)
-from .tellurium import plotArray
-from .tellurium import plotWithLegend
+from .tellurium import (
+    getPlottingEngine,
+    getDefaultPlottingEngine,
+    setDefaultPlottingEngine,
+    )
+# Legacy plotting
+from .tellurium import (
+    plotArray,
+    plotWithLegend,
+    )
 
 # Test models
-from .tellurium import loadTestModel
-from .tellurium import getTestModel
-from .tellurium import listTestModels
+from .tellurium import (
+    loadTestModel,
+    getTestModel,
+    listTestModels,
+    )
 
 # helper classes
 from .teio.latex import LatexExport
