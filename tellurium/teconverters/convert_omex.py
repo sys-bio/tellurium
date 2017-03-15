@@ -5,8 +5,136 @@ import os, re
 from tecombine import CombineArchive
 from .convert_phrasedml import phrasedmlImporter
 from .convert_antimony import antimonyConverter
+import shutil
+import os
 
-class omexImporter:
+class OmexAsset:
+    def getLocation(self):
+        return self.location
+
+    def getFileName(self):
+        return os.path.split(self.getLocation())[-1]
+
+    def getContent(self):
+        return self.content
+
+    def getMaster(self):
+        return self.master
+
+class SbmlAsset(OmexAsset):
+    def __init__(self, location, content, master=False):
+        self.location = location
+        self.content = content
+        self.master = master
+
+    def getModuleName(self):
+        return os.path.splitext(self.getFileName())[0]
+
+class SedmlAsset(OmexAsset):
+    def __init__(self, location, content, master=False):
+        self.location = location
+        self.content = content
+        self.master = master
+
+class Omex:
+    ''' Wrapper for Combine archives. '''
+
+    def __init__(self,
+        about       = 'Format for storing dynamical models and simulations.', # about the archive itself
+        description = 'No description.',
+        creator     = None):
+
+        self.about        = about
+        self.description  = description
+        self.creator      = creator
+
+        self.sbml_assets  = []
+        self.sedml_assets = []
+
+    def addSbmlAsset(self, asset):
+        self.sbml_assets.append(asset)
+
+    def addSedmlAsset(self, asset):
+        self.sedml_assets.append(asset)
+
+    def getSbmlAssets(self):
+        return self.sbml_assets
+
+    def getSedmlAssets(self):
+        return self.sedml_assets
+
+    def writeFiles(self, dir):
+        filenames = []
+        for t in self.getSedmlAssets():
+            fname = os.path.join(dir,t.getLocation())
+            filenames.append(fname)
+            with open(fname, 'w') as f:
+                f.write(t.getContent())
+
+        for t in self.getSbmlAssets():
+            fname = os.path.join(dir,t.getLocation())
+            filenames.append(fname)
+            with open(fname, 'w') as f:
+                f.write(t.getContent())
+        return filenames
+
+    def executeOmex(self):
+        '''Executes this Omex instance.'''
+        workingDir = tempfile.mkdtemp(suffix="_sedml")
+        self.writeFiles(workingDir)
+        from tellurium import executeSEDML
+        for sedml_asset in self.getSedmlAssets():
+            if sedml_asset.getMaster():
+                executeSEDML(os.path.join(workingDir, sedml_asset.getLocation()),
+                    workingDir=workingDir)
+        # shutil.rmtree(workingDir)
+
+    def exportToCombine(self, outfile):
+        '''Exports this Omex instance to a Combine archive.
+
+        :param outfile: A path to the output file'''
+        archive = libcombine.CombineArchive()
+        description = libcombine.OmexDescription()
+        description.setAbout(self.about)
+        description.setDescription(self.description)
+        description.setCreated(libcombine.OmexDescription.getCurrentDateAndTime())
+
+        # TODO: pass in creator
+        if self.creator is not None:
+            creator = libcombine.VCard()
+            creator.setFamilyName(self.creator['last'])
+            creator.setGivenName(self.creator['first'])
+            creator.setEmail(self.creator['email'])
+            creator.setOrganization(self.creator['organization'])
+            description.addCreator(creator)
+
+        archive.addMetadata('.', description)
+
+        # Write out to temporary files
+        # TODO: can add content via strings now
+        workingDir = tempfile.mkdtemp(suffix="_sedml")
+        files = [] # Keep a list of files to remove
+
+        for t in self.getSedmlAssets():
+            with open(os.path.join(workingDir,t.getLocation()),'w') as f:
+                filepath = f.name
+                files.append(filepath)
+                f.write(t.getContent())
+                archive.addFile(filepath, t.getLocation(), libcombine.KnownFormats.lookupFormat("sedml"), t.getMaster())
+
+        for t in self.getSbmlAssets():
+            with open(os.path.join(workingDir,t.getLocation()),'w') as f:
+                filepath = f.name
+                files.append(filepath)
+                f.write(t.getContent())
+                archive.addFile(filepath, t.getLocation(), libcombine.KnownFormats.lookupFormat("sbml"), t.getMaster())
+
+        archive.writeToFile(outfile)
+
+        for f in files:
+            os.remove(f)
+
+class inlineOmexImporter:
     # Set to false to disable "Converted from ...xml" comments
     __write_block_delimiter_comments = True
 
@@ -19,7 +147,7 @@ class omexImporter:
         omex = CombineArchive()
         if not omex.initializeFromArchive(path):
             raise IOError('Could not read COMBINE archive.')
-        return omexImporter(omex)
+        return inlineOmexImporter(omex)
 
     def __init__(self, omex):
         """ Initialize from a CombineArchive instance
@@ -28,7 +156,7 @@ class omexImporter:
         :param omex: A CombineArchive instance
         """
         self.omex = omex
-        self.write_block_delimiter_comments = omexImporter.__write_block_delimiter_comments
+        self.write_block_delimiter_comments = inlineOmexImporter.__write_block_delimiter_comments
 
         self.n_master_sedml = 0
         self.sedml_entries = []

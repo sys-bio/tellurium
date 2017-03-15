@@ -78,8 +78,16 @@ from .analysis.parameterscan import (
     SteadyStateScan,
     )
 
-# sedml & combine support
-from .sedml.tesedml import sedmlToPython, executeSEDML, executeOMEX
+# sedml support
+from .sedml.tesedml import sedmlToPython, executeSEDML
+
+# Combine archive support
+from .tellurium import (
+    executeCombineArchive,
+    exportInlineOmex,
+    executeInlineOmex,
+    executeInlineOmexFromFile,
+)
 
 # Do not use
 # from .sedml.tephrasedml import experiment

@@ -110,6 +110,7 @@ except ImportError as e:
     roadrunner.Logger.log(roadrunner.Logger.LOG_WARNING, str(e))
     warnings.warn("'sbml2matlab' could not be imported", ImportWarning)
 
+from . import teconverters
 
 # ---------------------------------------------------------------------
 # Group: Utility
@@ -402,6 +403,42 @@ def cellmlToSBML(cellml):
         code = antimony.loadCellMLString(cellml)
     _checkAntimonyReturnCode(code)
     return antimony.getSBMLString(None)
+
+def exportInlineOmex(inline_omex, export_location):
+    """ Execute inline phrasedml and antimony.
+
+    :param inline_omex: String containing inline phrasedml and antimony.
+    :param export_location: Filepath of Combine archive to export
+    """
+    sb,pml = teconverters.partitionInlineOMEXString(inline_omex)
+    pml = '\n'.join(pml)
+    omex = teconverters.inlineOmex({'main.xml':pml},'main.xml',sb)
+    omex.exportToCombine(export_location)
+
+def executeInlineOmex(inline_omex):
+    """ Execute inline phrasedml and antimony.
+
+    :param inline_omex: String containing inline phrasedml and antimony.
+    """
+    sb,pml = teconverters.partitionInlineOMEXString(inline_omex)
+    pml = '\n'.join(pml)
+    print('Sb:')
+    print(sb)
+    print('phrasedml:')
+    print(pml)
+    omex = teconverters.inlineOmex({'main.xml':pml},'main.xml',sb)
+    omex.executeOmex()
+
+def executeInlineOmexFromFile(filepath):
+    with open(filepath) as f:
+        executeInlineOmex(f.read())
+
+def executeCombineArchive(location):
+    """ Read and execute a combine archive.
+
+    :param location: Filesystem path to the archive.
+    """
+    executeInlineOmex(inlineOmexImporter.fromFile(file_path).toInlineOmex())
 
 # ---------------------------------------------------------------------
 # Math Utilities
