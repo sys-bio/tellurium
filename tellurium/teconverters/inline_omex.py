@@ -7,12 +7,11 @@ import tempfile
 import shutil
 import os
 import tellurium as te
-from .inline_extractor import partitionInlineOMEXString
-from ... import executeSEDML
 
 class inlineOmex:
     @classmethod
     def fromString(cls, omex_str):
+        from .extractor import partitionInlineOMEXString
         sb,pml = partitionInlineOMEXString(omex_str)
         pml = '\n'.join(pml)
         return cls({'main.xml':pml},'main.xml',sb)
@@ -67,6 +66,7 @@ class inlineOmex:
         '''Executes this Omex instance.'''
         workingDir = tempfile.mkdtemp(suffix="_sedml")
         self.writeFiles(workingDir)
+        from tellurium import executeSEDML
         executeSEDML(self.sedmldict[self.master], workingDir=workingDir)
         # shutil.rmtree(workingDir)
 
