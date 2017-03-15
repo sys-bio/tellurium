@@ -30,7 +30,6 @@ __in_ipython = True
 __plotly_enabled = False
 try:
     get_ipython()
-    matplotlib.use('NbAgg')
 
     # init plotly notebook mode
     try:

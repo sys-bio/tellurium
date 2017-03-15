@@ -10,14 +10,16 @@ class MatplotlibFigure(PlottingFigure):
     def plot(self):
         """ Plot the figure. Call this last."""
         __gs = gridspec.GridSpec(1, 2, width_ratios=[3, 1])
-        fig = plt.figure(num=None, figsize=(9,5), dpi=80, facecolor='w', edgecolor='k')
+        fig = plt.figure(num=None, figsize=(9,5), facecolor='w', edgecolor='k')
         ax = fig.add_subplot(__gs[0])
         for dataset in self.xy_datasets:
             ax.plot(dataset['x'], dataset['y'], marker='')
-        # fig.show()
+        # title
+        if self.title:
+            fig.suptitle(self.title, fontweight='bold')
 
 class MatplotlibPlottingEngine(PlottingEngine):
-    def newFigure(self, title=None, layout=PlottingLayout()):
+    def newFigure(self, title=None, logX=False, logY=False, layout=PlottingLayout()):
         """ Returns a figure object."""
         return MatplotlibFigure(title=title, layout=layout)
 

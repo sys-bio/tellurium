@@ -2,13 +2,6 @@ from .engine import PlottingEngine, PlottingFigure, PlottingLayout
 import plotly
 from plotly.graph_objs import Scatter, Layout, Data
 
-plotly.offline.init_notebook_mode(connected=True)
-
-plotly.offline.iplot({
-    "data": [Scatter(x=[1, 2, 3, 4], y=[4, 3, 2, 1], mode = 'lines')],
-    "layout": Layout(title="hello world")
-})
-
 class PlotlyFigure(PlottingFigure):
     def __init__(self, title=None, layout=PlottingLayout()):
         self.initialize(title=title, layout=layout)
@@ -40,7 +33,7 @@ class PlotlyFigure(PlottingFigure):
         })
 
 class PlotlyPlottingEngine(PlottingEngine):
-    def newFigure(self, title=None, layout=PlottingLayout()):
+    def newFigure(self, title=None, logX=False, logY=False, layout=PlottingLayout()):
         """ Returns a figure object."""
         return PlotlyFigure(title=title, layout=layout)
 

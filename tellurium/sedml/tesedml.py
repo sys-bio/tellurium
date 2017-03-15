@@ -1724,7 +1724,6 @@ if __name__ == "__main__":
     import os
     from tellurium.tests.testdata import sedmlDir, sedxDir
     import matplotlib
-    matplotlib.pyplot.switch_backend("Agg")
 
     def testInput(sedmlInput):
         """ Test function run on inputStr. """
