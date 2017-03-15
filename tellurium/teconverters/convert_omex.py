@@ -7,6 +7,7 @@ from .convert_phrasedml import phrasedmlImporter
 from .convert_antimony import antimonyConverter
 import shutil
 import os
+import tempfile
 
 class OmexAsset:
     def getLocation(self):
