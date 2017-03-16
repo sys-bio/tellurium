@@ -2,7 +2,6 @@ from __future__ import print_function, division
 from .inline_omex import inlineOmex
 import re
 
-# TODO: move to teomex
 def saveInlineOMEX(omex_str, out_path):
     '''Saves an inline omex string to a file. Invokes partitionInlineOMEXString.
 
