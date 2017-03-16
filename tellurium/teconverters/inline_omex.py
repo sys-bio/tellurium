@@ -39,7 +39,7 @@ class inlineOmex:
             sedml = phrasedml.getLastSEDML()
             if sedml is None:
                 raise RuntimeError('Unable to convert PhraSEDML to SED-ML: {}'.format(phrasedml.getLastError()))
-            self.omex.addSedmlAsset(SedmlAsset(t, sedml))
+            self.omex.addSedmlAsset(SedmlAsset(t, sedml, master=t==self.master))
 
     def executeOmex(self):
         self.omex.executeOmex()

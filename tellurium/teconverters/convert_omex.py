@@ -31,11 +31,17 @@ class SbmlAsset(OmexAsset):
     def getModuleName(self):
         return os.path.splitext(self.getFileName())[0]
 
+    def __repr__(self):
+        return 'SbmlAsset(location={}, master={})'.format(self.getLocation(), self.getMaster())
+
 class SedmlAsset(OmexAsset):
     def __init__(self, location, content, master=False):
         self.location = location
         self.content = content
         self.master = master
+
+    def __repr__(self):
+        return 'SedmlAsset(location={}, master={})'.format(self.getLocation(), self.getMaster())
 
 class Omex:
     ''' Wrapper for Combine archives. '''
@@ -70,7 +76,7 @@ class Omex:
             fname = os.path.join(dir,t.getLocation())
             filenames.append(fname)
             with open(fname, 'w') as f:
-                f.write(t.getContent())
+                f.write(t.getContent().replace('<max/>', '<csymbol definitionURL="http://sed-ml.org/#max" encoding="text">max</csymbol>'))
 
         for t in self.getSbmlAssets():
             fname = os.path.join(dir,t.getLocation())
