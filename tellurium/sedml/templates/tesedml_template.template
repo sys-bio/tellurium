@@ -8,7 +8,6 @@
     workingDir: {{ factory.workingDir }}
     inputType: {{ factory.inputType }}
 """
-from __future__ import print_function, division
 import tellurium as te
 from roadrunner import Config
 from tellurium.sedml.mathml import *

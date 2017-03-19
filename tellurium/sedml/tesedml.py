@@ -78,7 +78,7 @@ The Output Class
 
 from __future__ import print_function, division
 
-import sys
+import sys, os
 import os.path
 import warnings
 import datetime
@@ -155,12 +155,15 @@ def executeSEDML(inputStr, workingDir=None):
     :rtype:
     """
     # execute the sedml
+    print('execute sedml')
     factory = SEDMLCodeFactory(inputStr, workingDir=workingDir)
     factory.executePython()
 
 
 def executeOMEX(omexPath, workingDir=None):
-    """ Run all SED-ML simulations in given OMEX COMBINE archive.
+    """ LEGACY. Does not use libCombine.
+
+    Run all SED-ML simulations in given OMEX COMBINE archive.
 
     TODO: Necessary to get results back.
 
@@ -224,6 +227,10 @@ KISAOS_RK45 = [  # 'rk45'
     'KISAO:0000086',  # RKF45 embedded Runge-Kutta-Fehlberg 5(4) method
 ]
 
+KISAOS_LSODA = [  # 'lsoda'
+    'KISAO:0000088',  # roadrunner doesn't have an lsoda solver so use cvode
+]
+
 KISAOS_GILLESPIE = [  # 'gillespie'
     'KISAO:0000241',  # Gillespie-like method
     'KISAO:0000029',
@@ -281,7 +288,7 @@ KISAOS_NLEQ = [  # 'nleq'
 
 # allowed algorithms for simulation type
 KISAOS_STEADYSTATE = KISAOS_NLEQ
-KISAOS_UNIFORMTIMECOURSE = KISAOS_CVODE + KISAOS_RK4 + KISAOS_RK45 + KISAOS_GILLESPIE
+KISAOS_UNIFORMTIMECOURSE = KISAOS_CVODE + KISAOS_RK4 + KISAOS_RK45 + KISAOS_GILLESPIE + KISAOS_LSODA
 KISAOS_ONESTEP = KISAOS_UNIFORMTIMECOURSE
 
 # supported algorithm parameters
@@ -400,10 +407,13 @@ class SEDMLCodeFactory(object):
         The python code is created during the function call.
         See :func:`createpython`
         """
+        print('executePython')
         execStr = self.toPython()
+        import tempfile
+        filename = os.path.join(tempfile.gettempdir(), 'te-generated-sedml.py')
         try:
             # This calls exec. Be very sure that nothing bad happens here.
-            exec(execStr)
+            exec(compile(execStr, filename, 'exec'))
 
             # return dictionary of data generators
             dg_data = {}
@@ -412,17 +422,23 @@ class SEDMLCodeFactory(object):
                 dg_data[dg_id] = locals()[dg_id]
             return dg_data
 
-        except Exception as e:
+        # this doesn't help
+        except:
+            # leak this tempfile just so we can see a full stack trace. freaking python.
+            with open(filename, 'w') as f:
+                f.write(execStr)
+            raise
             # something went wrong in the conversion to python
             # show detailed information about the factory
             # and the libsedml document
-            raise RuntimeError('Error executing Python script\n' + '-'*80 + '\n'
-                                   + self.__str__() + '\n'
-                                   + '*'*80 + '\n'
-                                   + execStr + '\n'
-                                   + '*'*80 + '\n'
-                                   + str(e) + '\n'
-                                   )
+            # print('Error executing Python script\n' + '-'*80 + '\n'
+            #                        + self.__str__() + '\n'
+            #                        + '*'*80 + '\n'
+            #                        + execStr + '\n'
+            #                        + '*'*80 + '\n'
+            #                        + str(e) + '\n'
+            #                        )
+            # raise
 
     def modelToPython(self, model):
         """ Python code for SedModel.
@@ -1116,6 +1132,9 @@ class SEDMLCodeFactory(object):
             return 'rk4'
         if kid in KISAOS_RK45:
             return 'rk45'
+        if kid in KISAOS_LSODA:
+            warnings.warn('Tellurium does not support LSODA. Using CVODE instead.')
+            return 'cvode' # just use cvode
         return None
 
     @staticmethod
@@ -1652,6 +1671,7 @@ class SEDMLTools(object):
                 if extension not in [".sedml", '.xml']:
                     raise IOError("SEDML file should have [.sedml|.xml] extension:", inputStr)
                 inputType = cls.INPUT_TYPE_FILE_SEDML
+                print('sedml single file {}'.format(inputStr))
                 doc = libsedml.readSedMLFromFile(inputStr)
                 cls.checkSEDMLDocument(doc)
                 # working directory is where the sedml file is

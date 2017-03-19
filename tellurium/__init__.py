@@ -22,10 +22,10 @@ from .teconverters import (
 
 # Model import
 from .tellurium import (
-    loada,             # load antimony
-    loadAntimonyModel, # same as loada
-    loads,             # load sbml
-    loadSBMLModel,     # same as loads
+    loadAntimonyModel,     # load antimony from string
+    loada,                 # same as loadAntimonyModel
+    loadSBMLModel,         # load sbml from string
+    loads,                 # same as loadSBMLModel
     )
 
 # Keeps a dictionary of loaded models

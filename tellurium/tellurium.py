@@ -64,7 +64,14 @@ def setDefaultPlottingEngine(value):
 
 import matplotlib.pyplot as plt
 
-from .plotting import getPlottingEngine as __getPlottingEngine
+# make this the default style for matplotlib
+# plt.style.use('fivethirtyeight')
+
+try:
+    from .plotting import getPlottingEngine as __getPlottingEngine
+except:
+    from plotting import getPlottingEngine as __getPlottingEngine
+
 def getPlottingEngine(engine=getDefaultPlottingEngine()):
     return __getPlottingEngine(engine)
 
@@ -110,7 +117,10 @@ except ImportError as e:
     roadrunner.Logger.log(roadrunner.Logger.LOG_WARNING, str(e))
     warnings.warn("'sbml2matlab' could not be imported", ImportWarning)
 
-from . import teconverters
+try:
+    from . import teconverters
+except:
+    import teconverters
 
 # ---------------------------------------------------------------------
 # Group: Utility
@@ -276,7 +286,7 @@ def loads(ant):
 
 
 def loadSBMLModel(sbml):
-    """Load SBML model with tellurium
+    """ Load SBML model from a string or file.
 
     :param sbml: SBML model
     :type sbml: str | file
@@ -430,6 +440,10 @@ def executeInlineOmex(inline_omex):
     omex.executeOmex()
 
 def executeInlineOmexFromFile(filepath):
+    """ Execute inline phrasedml and antimony.
+
+    :param filepath: Path to file containing inline phrasedml and antimony.
+    """
     with open(filepath) as f:
         executeInlineOmex(f.read())
 
