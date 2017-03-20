@@ -155,7 +155,6 @@ def executeSEDML(inputStr, workingDir=None):
     :rtype:
     """
     # execute the sedml
-    print('execute sedml')
     factory = SEDMLCodeFactory(inputStr, workingDir=workingDir)
     factory.executePython()
 
@@ -407,12 +406,11 @@ class SEDMLCodeFactory(object):
         The python code is created during the function call.
         See :func:`createpython`
         """
-        print('executePython')
         execStr = self.toPython()
         import tempfile
         filename = os.path.join(tempfile.gettempdir(), 'te-generated-sedml.py')
         try:
-            # This calls exec. Be very sure that nothing bad happens here.
+            # Use of exec carries the usual security warnings
             exec(compile(execStr, filename, 'exec'))
 
             # return dictionary of data generators
@@ -422,23 +420,11 @@ class SEDMLCodeFactory(object):
                 dg_data[dg_id] = locals()[dg_id]
             return dg_data
 
-        # this doesn't help
         except:
             # leak this tempfile just so we can see a full stack trace. freaking python.
             with open(filename, 'w') as f:
                 f.write(execStr)
             raise
-            # something went wrong in the conversion to python
-            # show detailed information about the factory
-            # and the libsedml document
-            # print('Error executing Python script\n' + '-'*80 + '\n'
-            #                        + self.__str__() + '\n'
-            #                        + '*'*80 + '\n'
-            #                        + execStr + '\n'
-            #                        + '*'*80 + '\n'
-            #                        + str(e) + '\n'
-            #                        )
-            # raise
 
     def modelToPython(self, model):
         """ Python code for SedModel.
@@ -666,7 +652,6 @@ class SEDMLCodeFactory(object):
     @staticmethod
     def taskTreeToPython(doc, tree):
         """ Python code generation from task tree. """
-        # print(tree)
 
         # TODO: implement the merge of subtasks & and collection of simulations
 
@@ -677,8 +662,6 @@ class SEDMLCodeFactory(object):
 
         # iterate over the tree
         for kn, node in enumerate(treeNodes):
-            # print("* [{}] <{} ({})>".format(node.depth, node.task.getId(), node.task.getElementName()))
-            # print(nodeStack)
             taskType = node.task.getTypeCode()
 
             # Create information for task
@@ -726,10 +709,6 @@ class SEDMLCodeFactory(object):
             # The next node is further up in the tree, or there is no next node
             # and still nodes on the stack
             if (nextNode is None) or (nextNode.depth < node.depth):
-                # if (nextNode is None):
-                #     print('last node')
-                # else:
-                #     print('nextNode higher')
 
                 # necessary to pop nodes from the stack and close the code
                 test = True
@@ -747,14 +726,12 @@ class SEDMLCodeFactory(object):
                             "    "*node.depth + "{}.extend({})".format(peek.task.getId(), node.task.getId()),
                         ])
                         node = nodeStack.pop()
-                        # print("pop:", peek.info())
 
                     else:
                         test = False
             else:
                 # we are going done or next subtask -> put node on stack
                 nodeStack.push(node)
-                # print("push:", node.info())
 
         return "\n".join(lines)
 
@@ -1658,7 +1635,6 @@ class SEDMLTools(object):
                     warnings.warn("More than one sedml file in archive, only processing first one.")
 
                 sedmlFile = sedmlFiles[0]
-                print(sedmlFile)
                 doc = libsedml.readSedMLFromFile(sedmlFile)
                 # we have to work relative to the SED-ML file
                 workingDir = os.path.dirname(sedmlFile)
@@ -1671,7 +1647,6 @@ class SEDMLTools(object):
                 if extension not in [".sedml", '.xml']:
                     raise IOError("SEDML file should have [.sedml|.xml] extension:", inputStr)
                 inputType = cls.INPUT_TYPE_FILE_SEDML
-                print('sedml single file {}'.format(inputStr))
                 doc = libsedml.readSedMLFromFile(inputStr)
                 cls.checkSEDMLDocument(doc)
                 # working directory is where the sedml file is

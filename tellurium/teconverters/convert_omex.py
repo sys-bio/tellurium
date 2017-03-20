@@ -87,12 +87,10 @@ class Omex:
 
     def executeOmex(self):
         '''Executes this Omex instance.'''
-        print('Omex.executeOmex')
         workingDir = tempfile.mkdtemp(suffix="_sedml")
         self.writeFiles(workingDir)
         from tellurium import executeSEDML
         for sedml_asset in self.getSedmlAssets():
-            print('sed asset {}'.format(sedml_asset))
             if sedml_asset.getMaster():
                 executeSEDML(os.path.join(workingDir, sedml_asset.getLocation()),
                     workingDir=workingDir)

@@ -432,10 +432,6 @@ def executeInlineOmex(inline_omex):
     """
     sb,pml = teconverters.partitionInlineOMEXString(inline_omex)
     pml = '\n'.join(pml)
-    print('Sb:')
-    print(sb)
-    print('phrasedml:')
-    print(pml)
     omex = teconverters.inlineOmex({'main.xml':pml},'main.xml',sb)
     omex.executeOmex()
 
