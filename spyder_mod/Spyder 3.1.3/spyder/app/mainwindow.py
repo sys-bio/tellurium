@@ -1563,7 +1563,11 @@ class MainWindow(QMainWindow):
         for widget in widgets:
             widget.toggle_view(True)
             action = widget.toggle_view_action
-            action.setChecked(widget.dockwidget.isVisible())
+            try:
+                action.setChecked(widget.dockwidget.isVisible())
+            except AttributeError:
+                pass
+                
 
         # Set the widgets horizontally
         for i in range(len(widgets) - 1):
