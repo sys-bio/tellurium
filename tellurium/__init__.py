@@ -83,7 +83,7 @@ from .sedml.tesedml import sedmlToPython, executeSEDML
 
 # Combine archive support
 from .tellurium import (
-    executeCombineArchive,
+    convertAndExecuteCombineArchive,
     exportInlineOmex,
     executeInlineOmex,
     executeInlineOmexFromFile,
