@@ -443,12 +443,13 @@ def executeInlineOmexFromFile(filepath):
     with open(filepath) as f:
         executeInlineOmex(f.read())
 
-def executeCombineArchive(location):
+def convertAndExecuteCombineArchive(location):
     """ Read and execute a combine archive.
 
     :param location: Filesystem path to the archive.
     """
-    executeInlineOmex(inlineOmexImporter.fromFile(file_path).toInlineOmex())
+    from .teconverters import inlineOmexImporter
+    executeInlineOmex(inlineOmexImporter.fromFile(location).toInlineOmex())
 
 # ---------------------------------------------------------------------
 # Math Utilities
