@@ -76,7 +76,7 @@ class Omex:
             fname = os.path.join(dir,t.getLocation())
             filenames.append(fname)
             with open(fname, 'w') as f:
-                f.write(t.getContent().replace('<max/>', '<csymbol definitionURL="http://sed-ml.org/#max" encoding="text">max</csymbol>'))
+                f.write(t.getContent())
 
         for t in self.getSbmlAssets():
             fname = os.path.join(dir,t.getLocation())
@@ -151,6 +151,9 @@ class inlineOmexImporter:
 
         :param path: The path to the omex file
         """
+        if not os.path.isfile(path):
+            raise IOError('No such file: {}'.format(path))
+
         omex = CombineArchive()
         if not omex.initializeFromArchive(path):
             raise IOError('Could not read COMBINE archive.')
