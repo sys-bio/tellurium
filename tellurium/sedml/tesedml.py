@@ -1692,9 +1692,8 @@ class SEDMLTools(object):
         # recursive search for original model and store the
         # changes which have to be applied in the list of changes
         def findSource(mid, changes):
-
             # mid is node above
-            if mid in model_sources:
+            if mid in model_sources and not model_sources[mid] == mid:
                 # add changes for node
                 for c in model_changes[mid]:
                     changes.append(c)
