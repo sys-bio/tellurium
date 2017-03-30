@@ -1,6 +1,7 @@
 from __future__ import print_function, division
 from .inline_omex import inlineOmex
 import re
+import argparse
 
 def saveInlineOMEX(omex_str, out_path):
     '''Saves an inline omex string to a file. Invokes partitionInlineOMEXString.
@@ -13,6 +14,12 @@ def saveInlineOMEX(omex_str, out_path):
     omex = inlineOmex.fromString(omex_str)
     omex.exportToCombine(out_path)
 
+def parseMagicArgs(args):
+    parser = argparse.ArgumentParser()
+    parser.add_argument('location')
+    parser.add_argument('--master', type=bool)
+    return parser.parse_args(args)
+
 def partitionInlineOMEXString(instr):
     '''Given mixed Antimony/PhraSEDML, separates out the constituent parts.
     Assumes that Antimony and PhraSEDML are not mixed on the same line.
@@ -23,7 +30,7 @@ def partitionInlineOMEXString(instr):
     class S_PML:
         # recognizes Antimony start
         sb_start = re.compile(r'^\s*\*?\s*model\s*[^()\s]+\s*(\([^)]*\))?\s*$')
-        force_sb_start = re.compile(r'^\s(%crn|%sb)\s*$')
+        force_sb_start = re.compile(r'^\s*(%crn|%sb|%antimony|%model).*$')
 
         def __init__(self, force=False, initl_content=''):
             self.pml = initl_content
@@ -31,7 +38,8 @@ def partitionInlineOMEXString(instr):
 
         def __call__(self, line):
             if self.force_sb_start.match(line) != None:
-                return S_SB(True, line), self.pml, None
+                args = parseMagicArgs(line.split()[1:])
+                return S_SB(True), self.pml, None
             if not self.force and self.sb_start.match(line) != None:
                 return S_SB(self.force, line), self.pml, None
             else:
@@ -42,7 +50,7 @@ def partitionInlineOMEXString(instr):
 
     class S_SB:
         sb_end = re.compile(r'^\s*end\s*$')
-        force_pml_start = re.compile(r'^\s(%tasks)\s*$')
+        force_pml_start = re.compile(r'^\s*(%tasks|%phrasedml)\s+.*$')
 
         def __init__(self, force=False, initl_content=''):
             self.sb = initl_content
@@ -50,6 +58,7 @@ def partitionInlineOMEXString(instr):
 
         def __call__(self, line):
             if self.force_pml_start.match(line) != None:
+                args = parseMagicArgs(line.split()[1:])
                 return S_PML(True), None, self.sb
             if not self.force and self.sb_end.match(line) != None:
                 self.sb += line + '\n'

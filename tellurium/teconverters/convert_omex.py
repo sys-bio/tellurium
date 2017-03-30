@@ -225,8 +225,8 @@ class inlineOmexImporter:
         :param type: Can be 'sbml' or 'sedml'
         """
         header_map = {
-            'sbml':  '%antimony',
-            'sedml': '%phrasedml',
+            'sbml':  '%model',
+            'sedml': '%tasks',
         }
         name_map = {
             'sbml':  'Antimony',
