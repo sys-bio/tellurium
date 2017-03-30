@@ -202,6 +202,12 @@ class inlineOmexImporter:
                         self.headerless = False
             elif self.sbml_fmt_expr.match(entry.getFormat()) != None:
                 self.sbml_entries.append(entry)
+                # check whether the model id matches the file name - if it doesn't, we need headers
+                module_name = antimonyConverter().sbmlToAntimony(self.omex.extractEntryToString(entry.getLocation()))[0]
+                file_name_normalized = os.path.splitext(os.path.split(entry.getLocation())[-1])[0]
+                if module_name != file_name_normalized:
+                    self.headerless = False
+
 
     def getEntries(self):
         for k in range (self.omex.getNumEntries()):
