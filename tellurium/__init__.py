@@ -16,7 +16,6 @@ from .tellurium import (
 # Converters
 from .teconverters import (
     antimonyConverter,
-    partitionInlineOMEXString, # partition an inline omex string into phrasedml and antimony parts
     inlineOmex,
     )
 

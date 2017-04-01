@@ -430,10 +430,7 @@ def executeInlineOmex(inline_omex):
 
     :param inline_omex: String containing inline phrasedml and antimony.
     """
-    sb,pml = teconverters.partitionInlineOMEXString(inline_omex)
-    pml = '\n'.join(pml)
-    omex = teconverters.inlineOmex({'main.xml':pml},'main.xml',sb)
-    omex.executeOmex()
+    omex = teconverters.inlineOmex.fromString(inline_omex).executeOmex()
 
 def executeInlineOmexFromFile(filepath):
     """ Execute inline phrasedml and antimony.
