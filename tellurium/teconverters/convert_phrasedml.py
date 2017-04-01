@@ -55,10 +55,10 @@ class phrasedmlImporter:
 
     def toPhrasedml(self):
         # assign sbml resources
-        print('toPhrasedml sbml resources:')
+        # print('toPhrasedml sbml resources:')
         phrasedml.clearReferencedSBML()
         for sbml_resource in self.sbml_map:
-            print('  {} -> {}'.format(sbml_resource, self.sbml_map[sbml_resource][:30]))
+            # print('  {} -> {}'.format(sbml_resource, self.sbml_map[sbml_resource][:30]))
             phrasedml.setReferencedSBML(sbml_resource, self.sbml_map[sbml_resource])
         # convert to phrasedml
         if self.sedml_str:

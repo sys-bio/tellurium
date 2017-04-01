@@ -86,6 +86,8 @@ class inlineOmex:
                     new_src['location'] = args.location
                     if args.master is not None:
                         new_src['master'] = args.master
+                    else:
+                        new_src['master'] = False
                 sources.append(new_src)
 
         for l in omex_str.splitlines():
@@ -93,6 +95,10 @@ class inlineOmex:
             args = s.args
             add_source(pml, 'phrasedml')
             add_source(sb,  'antimony')
+
+        pml, sb = s.dump()
+        add_source(pml, 'phrasedml')
+        add_source(sb,  'antimony')
 
         # merge phrasedml when no location specified
         if s.force == False:
@@ -106,11 +112,8 @@ class inlineOmex:
                     'source': phrasedml_combined,
                     'type': 'phrasedml',
                     'location': 'main.xml',
+                    'master': True,
                 })
-
-        pml, sb = s.dump()
-        add_source(pml, 'phrasedml')
-        add_source(sb,  'antimony')
 
         return inlineOmex(sources)
 
@@ -127,12 +130,14 @@ class inlineOmex:
         # Convert antimony to sbml
         for t,loc,master in ((x['source'], x['location'] if 'location' in x else None, x['master'] if 'master' in x else None)
             for x in sources if x['type'] == 'antimony'):
+
             modulename, sbmlstr = antimonyConverter().antimonyToSBML(t)
             self.omex.addSbmlAsset(SbmlAsset(modulename+'.xml', sbmlstr, master=master))
 
         # Convert phrasedml to sedml
         for t,loc,master in ((x['source'], x['location'] if 'location' in x else None, x['master'] if 'master' in x else None)
             for x in sources if x['type'] == 'phrasedml'):
+
             for sbml_asset in self.omex.getSbmlAssets():
                 phrasedml.setReferencedSBML(sbml_asset.getModuleName(), sbml_asset.getContent())
             phrasedml.convertString(t)
