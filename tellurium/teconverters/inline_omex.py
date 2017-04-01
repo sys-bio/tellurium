@@ -43,14 +43,15 @@ class inlineOmex:
 
             def __call__(self, line):
                 if self.force_sb_start.match(line) != None:
-                    return S_SB(True, args = parseMagicArgs(line.split()[1:])), self.pml if self.force else None, None
+                    args = parseMagicArgs(line.split()[1:])
+                    return S_SB(True, args=args), self.pml if self.force else None, None, self.args if self.force else None
                 if not self.force and self.sb_start.match(line) != None:
-                    return S_SB(self.force, line), self.pml, None
+                    return S_SB(self.force, line), self.pml, None, self.args
                 else:
                     self.pml += line + '\n'
-                    return self, None, None
+                    return self, None, None, None
 
-            def dump(self): return self.pml, None
+            def dump(self): return self.pml, None, self.args
 
         class S_SB:
             sb_end = re.compile(r'^\s*end\s*$')
@@ -63,20 +64,21 @@ class inlineOmex:
 
             def __call__(self, line):
                 if self.force_pml_start.match(line) != None:
-                    return S_PML(True, args = parseMagicArgs(line.split()[1:])), None, self.sb if self.force else None
+                    args = parseMagicArgs(line.split()[1:])
+                    return S_PML(True, args=args), None, self.sb if self.force else None, self.args if self.force else None
                 if not self.force and self.sb_end.match(line) != None:
                     self.sb += line + '\n'
-                    return S_PML(self.force), None, self.sb
+                    return S_PML(self.force), None, self.sb, self.args
                 else:
                     self.sb += line + '\n'
-                    return self, None, None
+                    return self, None, None, None
 
-            def dump(self): return None, self.sb
+            def dump(self): return None, self.sb, self.args
 
         s = S_PML()
 
         sources = []
-        def add_source(src, type):
+        def add_source(src, type, args):
             if src:
                 new_src = {
                     'source': src,
@@ -91,14 +93,13 @@ class inlineOmex:
                 sources.append(new_src)
 
         for l in omex_str.splitlines():
-            s, pml, sb = s(l)
-            args = s.args
-            add_source(pml, 'phrasedml')
-            add_source(sb,  'antimony')
+            s, pml, sb, args = s(l)
+            add_source(pml, 'phrasedml', args)
+            add_source(sb,  'antimony',  args)
 
-        pml, sb = s.dump()
-        add_source(pml, 'phrasedml')
-        add_source(sb,  'antimony')
+        pml, sb, args = s.dump()
+        add_source(pml, 'phrasedml', args)
+        add_source(sb,  'antimony',  args)
 
         # merge phrasedml when no location specified
         if s.force == False:
@@ -132,7 +133,8 @@ class inlineOmex:
             for x in sources if x['type'] == 'antimony'):
 
             modulename, sbmlstr = antimonyConverter().antimonyToSBML(t)
-            self.omex.addSbmlAsset(SbmlAsset(modulename+'.xml', sbmlstr, master=master))
+            outpath = loc if loc is not None else modulename+'.xml'
+            self.omex.addSbmlAsset(SbmlAsset(outpath, sbmlstr, master=master))
 
         # Convert phrasedml to sedml
         for t,loc,master in ((x['source'], x['location'] if 'location' in x else None, x['master'] if 'master' in x else None)
@@ -145,7 +147,8 @@ class inlineOmex:
             sedml = phrasedml.getLastSEDML()
             if sedml is None:
                 raise RuntimeError('Unable to convert PhraSEDML to SED-ML: {}'.format(phrasedml.getLastError()))
-            self.omex.addSedmlAsset(SedmlAsset(loc if loc is not None else 'main.xml', sedml, master=master))
+            outpath = loc if loc is not None else 'main.xml'
+            self.omex.addSedmlAsset(SedmlAsset(outpath, sedml, master=master))
 
     def executeOmex(self):
         self.omex.executeOmex()
