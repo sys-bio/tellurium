@@ -101,8 +101,9 @@ class Omex:
         from tellurium import executeSEDML
         for sedml_asset in self.getSedmlAssets():
             if sedml_asset.getMaster():
-                executeSEDML(os.path.join(workingDir, sedml_asset.getLocation()),
-                    workingDir=workingDir)
+                sedml_path = os.path.join(workingDir, sedml_asset.getLocation())
+                executeSEDML(sedml_path,
+                    workingDir=os.path.dirname(sedml_path))
         # shutil.rmtree(workingDir)
 
     def exportToCombine(self, outfile):
