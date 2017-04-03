@@ -71,17 +71,23 @@ class Omex:
         return self.sedml_assets
 
     def writeFiles(self, dir):
-        print('writeFiles')
+        print('writeFiles -> {}'.format(dir))
         filenames = []
         for t in self.getSedmlAssets():
-            fname = os.path.join(dir,t.getLocation())
+            fname = os.path.join(dir,os.path.normpath(t.getLocation()))
+            dname = os.path.dirname(fname)
+            if not os.path.exists(dname):
+                os.makedirs(dname)
             print('writing {}'.format(fname))
             filenames.append(fname)
             with open(fname, 'w') as f:
                 f.write(t.getContent())
 
         for t in self.getSbmlAssets():
-            fname = os.path.join(dir,t.getLocation())
+            fname = os.path.join(dir,os.path.normpath(t.getLocation()))
+            dname = os.path.dirname(fname)
+            if not os.path.exists(dname):
+                os.makedirs(dname)
             print('writing {}'.format(fname))
             filenames.append(fname)
             with open(fname, 'w') as f:
