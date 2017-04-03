@@ -42,7 +42,7 @@ class MatplotlibPlottingEngine(PlottingEngine):
         """ Returns a figure object."""
         return MatplotlibFigure(title=title, layout=layout)
 
-    def figureFromTimecourse(self, m, title=None, selections=None):
+    def figureFromTimecourse(self, m, title=None, ordinates=None):
         """ Generate a new figure from a timecourse simulation.
 
         :param m: An array returned by RoadRunner.simulate.
@@ -51,15 +51,15 @@ class MatplotlibPlottingEngine(PlottingEngine):
         if m.colnames[0] != 'time':
             raise RuntimeError('Cannot plot timecourse - first column is not time')
 
-        for k in filter(lambda k: self.filterWithSelections(m.colnames[k], selections), range(1,m.shape[1])):
+        for k in filter(lambda k: self.filterWithSelections(m.colnames[k], ordinates), range(1,m.shape[1])):
             fig.addXYDataset(m[:,0], m[:,k], name=m.colnames[k])
 
         return fig
 
-    def plotTimecourse(self, m, title=None, selections=None):
+    def plotTimecourse(self, m, title=None, ordinates=None):
         """ Plots a timecourse from a simulation.
 
         :param m: An array returned by RoadRunner.simulate.
         """
-        fig = self.figureFromTimecourse(m, title=title, selections=selections)
+        fig = self.figureFromTimecourse(m, title=title, ordinates=ordinates)
         fig.plot()

@@ -851,7 +851,7 @@ class ExtendedRoadRunner(roadrunner.RoadRunner):
 
     def plot(self, result=None, loc='upper right', show=True,
              xlabel=None, ylabel=None, title=None, xlim=None, ylim=None,
-             xscale='linear', yscale="linear", grid=False, selections=None, **kwargs):
+             xscale='linear', yscale="linear", grid=False, ordinates=None, **kwargs):
         warnings.warn("RoadRunner.plot is deprecated. Please use te.plot(data) instead.", DeprecationWarning)
         """ Plot roadrunner simulation data.
 
@@ -904,7 +904,7 @@ class ExtendedRoadRunner(roadrunner.RoadRunner):
             result = self.getSimulationData()
 
         # Use Tellurium plotting interface
-        getPlottingEngine(getDefaultPlottingEngine()).plotTimecourse(result, selections=selections)
+        getPlottingEngine(getDefaultPlottingEngine()).plotTimecourse(result, ordinates=ordinates)
         return
 
         # Old code:

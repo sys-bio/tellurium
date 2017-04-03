@@ -27,8 +27,8 @@ class PlottingEngine:
         raise NotImplementedError('Abstract method')
 
     def filterWithSelections(self, name, selections):
-        augmented_sel = selections + list('[{}]'.format(name) for name in selections if not name.startswith('['))
         if selections is not None:
+            augmented_sel = selections + list('[{}]'.format(name) for name in selections if not name.startswith('['))
             return name in augmented_sel #or '[{}]'.format(name) in selections
         else:
             return True
