@@ -851,7 +851,7 @@ class ExtendedRoadRunner(roadrunner.RoadRunner):
 
     def plot(self, result=None, loc='upper right', show=True,
              xlabel=None, ylabel=None, title=None, xlim=None, ylim=None,
-             xscale='linear', yscale="linear", grid=False, **kwargs):
+             xscale='linear', yscale="linear", grid=False, selections=None, **kwargs):
         warnings.warn("RoadRunner.plot is deprecated. Please use te.plot(data) instead.", DeprecationWarning)
         """ Plot roadrunner simulation data.
 
@@ -904,63 +904,63 @@ class ExtendedRoadRunner(roadrunner.RoadRunner):
             result = self.getSimulationData()
 
         # Use Tellurium plotting interface
-        getPlottingEngine(getDefaultPlottingEngine()).plotTimecourse(result)
+        getPlottingEngine(getDefaultPlottingEngine()).plotTimecourse(result, selections=selections)
         return
 
         # Old code:
-        if loc is False:
-            loc = None
-
-        if 'linewidth' not in kwargs:
-            kwargs['linewidth'] = 2.0
-
-        # get the names
-        names = result.dtype.names
-        if names is None:
-            names = self.selections
-
-        # check if set_prop_cycle is supported
-        if hasattr(plt.gca(), 'set_prop_cycle'):
-            # reset color cycle (repeated simulations have the same colors)
-            plt.gca().set_prop_cycle(None)
-
-        # make plot
-        Ncol = result.shape[1]
-        if len(names) != Ncol:
-            raise Exception('Legend names must match result array')
-        for k in range(1, Ncol):
-            if loc is None:
-                # no labels if no legend
-                plt.plot(result[:, 0], result[:, k], **kwargs)
-            else:
-                plt.plot(result[:, 0], result[:, k], label=names[k], **kwargs)
-
-            cmap = plt.get_cmap('Blues')
-
-        # labels
-        if xlabel is None:
-            xlabel = names[0]
-        plt.xlabel(xlabel)
-        if ylabel is not None:
-            plt.ylabel(ylabel)
-        if title is not None:
-            plt.title(title)
-        if xlim is not None:
-            plt.xlim(xlim)
-        if ylim is not None:
-            plt.ylim(ylim)
-        # axis and grids
-        plt.xscale(xscale)
-        plt.yscale(yscale)
-        plt.grid(grid)
-
-        # show legend
-        if loc is not None:
-            plt.legend(loc=loc)
-        # show plot
-        if show:
-            plt.show()
-        return plt
+        # if loc is False:
+        #     loc = None
+        #
+        # if 'linewidth' not in kwargs:
+        #     kwargs['linewidth'] = 2.0
+        #
+        # # get the names
+        # names = result.dtype.names
+        # if names is None:
+        #     names = self.selections
+        #
+        # # check if set_prop_cycle is supported
+        # if hasattr(plt.gca(), 'set_prop_cycle'):
+        #     # reset color cycle (repeated simulations have the same colors)
+        #     plt.gca().set_prop_cycle(None)
+        #
+        # # make plot
+        # Ncol = result.shape[1]
+        # if len(names) != Ncol:
+        #     raise Exception('Legend names must match result array')
+        # for k in range(1, Ncol):
+        #     if loc is None:
+        #         # no labels if no legend
+        #         plt.plot(result[:, 0], result[:, k], **kwargs)
+        #     else:
+        #         plt.plot(result[:, 0], result[:, k], label=names[k], **kwargs)
+        #
+        #     cmap = plt.get_cmap('Blues')
+        #
+        # # labels
+        # if xlabel is None:
+        #     xlabel = names[0]
+        # plt.xlabel(xlabel)
+        # if ylabel is not None:
+        #     plt.ylabel(ylabel)
+        # if title is not None:
+        #     plt.title(title)
+        # if xlim is not None:
+        #     plt.xlim(xlim)
+        # if ylim is not None:
+        #     plt.ylim(ylim)
+        # # axis and grids
+        # plt.xscale(xscale)
+        # plt.yscale(yscale)
+        # plt.grid(grid)
+        #
+        # # show legend
+        # if loc is not None:
+        #     plt.legend(loc=loc)
+        # # show plot
+        # if show:
+        #     plt.show()
+        # return plt
 
     def plotWithLegend(self, result=None, loc='upper left', show=True, **kwargs):
         warnings.warn("'plotWithLegend' is deprecated. Use 'plot' instead. Will be removed in tellurium v1.4",
