@@ -133,18 +133,28 @@ class Omex:
         files = [] # Keep a list of files to remove
 
         for t in self.getSedmlAssets():
-            with open(os.path.join(workingDir,t.getLocation()),'w') as f:
-                filepath = f.name
-                files.append(filepath)
+            fname = os.path.join(workingDir,os.path.normpath(t.getLocation()))
+            dname = os.path.dirname(fname)
+            if not os.path.exists(dname):
+                os.makedirs(dname)
+            with open(fname,'w') as f:
+                files.append(fname)
                 f.write(t.getContent())
-                archive.addFile(filepath, t.getLocation(), KnownFormats.lookupFormat("sedml"), t.getMaster())
+                archive.addFile(fname, t.getLocation(), KnownFormats.lookupFormat("sedml"), t.getMaster())
 
         for t in self.getSbmlAssets():
-            with open(os.path.join(workingDir,t.getLocation()),'w') as f:
-                filepath = f.name
-                files.append(filepath)
+            fname = os.path.join(workingDir,os.path.normpath(t.getLocation()))
+            dname = os.path.dirname(fname)
+            if not os.path.exists(dname):
+                os.makedirs(dname)
+            with open(fname,'w') as f:
+                files.append(fname)
                 f.write(t.getContent())
-                archive.addFile(filepath, t.getLocation(), KnownFormats.lookupFormat("sbml"), t.getMaster())
+                def printout(s):
+                    with open('/tmp/nterout', 'a') as myfile:
+                        myfile.write(s+'\n')
+                printout('addFile {}, {}, {}, {}'.format(fname, t.getLocation(), KnownFormats.lookupFormat("sbml"), t.getMaster() if t.getMaster() is not None else False))
+                archive.addFile(fname, t.getLocation(), KnownFormats.lookupFormat("sbml"), t.getMaster() if t.getMaster() is not None else False)
 
         archive.writeToFile(outfile)
 
