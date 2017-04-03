@@ -134,7 +134,6 @@ class inlineOmex:
 
             modulename, sbmlstr = antimonyConverter().antimonyToSBML(t)
             outpath = loc if loc is not None else modulename+'.xml'
-            print('{} -> {}'.format(modulename, outpath))
             self.omex.addSbmlAsset(SbmlAsset(outpath, sbmlstr, master=master))
 
         # Convert phrasedml to sedml
@@ -145,12 +144,10 @@ class inlineOmex:
                 if sbml_asset.location:
                     if loc:
                         path = os.path.relpath(sbml_asset.location, os.path.dirname(loc))
-                        print('relpath = {}'.format(path))
                     else:
                         path = sbml_asset.location
                 else:
                     path = sbml_asset.getModuleName()
-                print('ref sbml {} -> '.format(path))
                 phrasedml.setReferencedSBML(path, sbml_asset.getContent())
             phrasedml.convertString(t)
             phrasedml.addDotXMLToModelSources()
@@ -158,7 +155,6 @@ class inlineOmex:
             if sedml is None:
                 raise RuntimeError('Unable to convert PhraSEDML to SED-ML: {}'.format(phrasedml.getLastError()))
             outpath = loc if loc is not None else 'main.xml'
-            print(' -> {}'.format(outpath))
             self.omex.addSedmlAsset(SedmlAsset(outpath, sedml, master=master))
 
     def executeOmex(self):

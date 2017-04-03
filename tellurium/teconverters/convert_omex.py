@@ -71,14 +71,12 @@ class Omex:
         return self.sedml_assets
 
     def writeFiles(self, dir):
-        print('writeFiles -> {}'.format(dir))
         filenames = []
         for t in self.getSedmlAssets():
             fname = os.path.join(dir,os.path.normpath(t.getLocation()))
             dname = os.path.dirname(fname)
             if not os.path.exists(dname):
                 os.makedirs(dname)
-            print('writing {}'.format(fname))
             filenames.append(fname)
             with open(fname, 'w') as f:
                 f.write(t.getContent())
@@ -88,7 +86,6 @@ class Omex:
             dname = os.path.dirname(fname)
             if not os.path.exists(dname):
                 os.makedirs(dname)
-            print('writing {}'.format(fname))
             filenames.append(fname)
             with open(fname, 'w') as f:
                 f.write(t.getContent())
@@ -150,10 +147,6 @@ class Omex:
             with open(fname,'w') as f:
                 files.append(fname)
                 f.write(t.getContent())
-                def printout(s):
-                    with open('/tmp/nterout', 'a') as myfile:
-                        myfile.write(s+'\n')
-                printout('addFile {}, {}, {}, {}'.format(fname, t.getLocation(), KnownFormats.lookupFormat("sbml"), t.getMaster() if t.getMaster() is not None else False))
                 archive.addFile(fname, t.getLocation(), KnownFormats.lookupFormat("sbml"), t.getMaster() if t.getMaster() is not None else False)
 
         archive.writeToFile(outfile)
