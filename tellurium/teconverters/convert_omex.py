@@ -2,7 +2,7 @@ from __future__ import print_function, division
 
 import os, re
 
-from tecombine import CombineArchive
+from tecombine import CombineArchive, OmexDescription, VCard, KnownFormats
 from .convert_phrasedml import phrasedmlImporter
 from .convert_antimony import antimonyConverter
 import shutil
@@ -71,15 +71,18 @@ class Omex:
         return self.sedml_assets
 
     def writeFiles(self, dir):
+        print('writeFiles')
         filenames = []
         for t in self.getSedmlAssets():
             fname = os.path.join(dir,t.getLocation())
+            print('writing {}'.format(fname))
             filenames.append(fname)
             with open(fname, 'w') as f:
                 f.write(t.getContent())
 
         for t in self.getSbmlAssets():
             fname = os.path.join(dir,t.getLocation())
+            print('writing {}'.format(fname))
             filenames.append(fname)
             with open(fname, 'w') as f:
                 f.write(t.getContent())
@@ -100,15 +103,15 @@ class Omex:
         '''Exports this Omex instance to a Combine archive.
 
         :param outfile: A path to the output file'''
-        archive = libcombine.CombineArchive()
-        description = libcombine.OmexDescription()
+        archive = CombineArchive()
+        description = OmexDescription()
         description.setAbout(self.about)
         description.setDescription(self.description)
-        description.setCreated(libcombine.OmexDescription.getCurrentDateAndTime())
+        description.setCreated(OmexDescription.getCurrentDateAndTime())
 
         # TODO: pass in creator
         if self.creator is not None:
-            creator = libcombine.VCard()
+            creator = VCard()
             creator.setFamilyName(self.creator['last'])
             creator.setGivenName(self.creator['first'])
             creator.setEmail(self.creator['email'])
@@ -127,14 +130,14 @@ class Omex:
                 filepath = f.name
                 files.append(filepath)
                 f.write(t.getContent())
-                archive.addFile(filepath, t.getLocation(), libcombine.KnownFormats.lookupFormat("sedml"), t.getMaster())
+                archive.addFile(filepath, t.getLocation(), KnownFormats.lookupFormat("sedml"), t.getMaster())
 
         for t in self.getSbmlAssets():
             with open(os.path.join(workingDir,t.getLocation()),'w') as f:
                 filepath = f.name
                 files.append(filepath)
                 f.write(t.getContent())
-                archive.addFile(filepath, t.getLocation(), libcombine.KnownFormats.lookupFormat("sbml"), t.getMaster())
+                archive.addFile(filepath, t.getLocation(), KnownFormats.lookupFormat("sbml"), t.getMaster())
 
         archive.writeToFile(outfile)
 
@@ -147,7 +150,7 @@ class inlineOmexImporter:
 
     @classmethod
     def fromFile(cls, path):
-        """ Initialize from a file location.
+        """ Initialize from a combine archive.
 
         :param path: The path to the omex file
         """
