@@ -2,7 +2,7 @@ from __future__ import print_function, division
 
 import tecombine as libcombine
 import phrasedml
-import re
+import re, os
 import argparse
 
 def saveInlineOMEX(omex_str, out_path):
@@ -134,6 +134,7 @@ class inlineOmex:
 
             modulename, sbmlstr = antimonyConverter().antimonyToSBML(t)
             outpath = loc if loc is not None else modulename+'.xml'
+            print('{} -> {}'.format(modulename, outpath))
             self.omex.addSbmlAsset(SbmlAsset(outpath, sbmlstr, master=master))
 
         # Convert phrasedml to sedml
@@ -141,14 +142,27 @@ class inlineOmex:
             for x in sources if x['type'] == 'phrasedml'):
 
             for sbml_asset in self.omex.getSbmlAssets():
-                phrasedml.setReferencedSBML(sbml_asset.getModuleName(), sbml_asset.getContent())
+                if sbml_asset.location:
+                    if loc:
+                        path = os.path.relpath(sbml_asset.location, os.path.dirname(loc))
+                        print('relpath = {}'.format(path))
+                    else:
+                        path = sbml_asset.location
+                else:
+                    path = sbml_asset.getModuleName()
+                print('ref sbml {} -> '.format(path))
+                phrasedml.setReferencedSBML(path, sbml_asset.getContent())
             phrasedml.convertString(t)
             phrasedml.addDotXMLToModelSources()
             sedml = phrasedml.getLastSEDML()
             if sedml is None:
                 raise RuntimeError('Unable to convert PhraSEDML to SED-ML: {}'.format(phrasedml.getLastError()))
             outpath = loc if loc is not None else 'main.xml'
+            print(' -> {}'.format(outpath))
             self.omex.addSedmlAsset(SedmlAsset(outpath, sedml, master=master))
 
     def executeOmex(self):
         self.omex.executeOmex()
+
+    def exportToCombine(self, outpath):
+        self.omex.exportToCombine(outpath)
