@@ -5,6 +5,8 @@ import phrasedml
 import re, os
 import argparse
 
+from pprint import pprint
+
 def saveInlineOMEX(omex_str, out_path):
     '''Saves an inline omex string to a file.
 
@@ -35,6 +37,7 @@ class inlineOmex:
             # recognizes Antimony start
             sb_start = re.compile(r'^\s*\*?\s*model\s*[^()\s]+\s*(\([^)]*\))?\s*$')
             force_sb_start = re.compile(r'^\s*(%crn|%sb|%antimony|%model).*$')
+            force_pml_start = re.compile(r'^\s*(%tasks|%phrasedml)\s+.*$')
 
             def __init__(self, force=False, initl_content='', args=None):
                 self.pml = initl_content
@@ -45,6 +48,9 @@ class inlineOmex:
                 if self.force_sb_start.match(line) != None:
                     args = parseMagicArgs(line.split()[1:])
                     return S_SB(True, args=args), self.pml if self.force else None, None, self.args if self.force else None
+                if self.force_pml_start.match(line) != None:
+                    args = parseMagicArgs(line.split()[1:])
+                    return S_PML(True, args=args), self.pml if self.force else None, None, self.args if self.force else None
                 if not self.force and self.sb_start.match(line) != None:
                     return S_SB(self.force, line), self.pml, None, self.args
                 else:
@@ -55,6 +61,7 @@ class inlineOmex:
 
         class S_SB:
             sb_end = re.compile(r'^\s*end\s*$')
+            force_sb_start = re.compile(r'^\s*(%crn|%sb|%antimony|%model).*$')
             force_pml_start = re.compile(r'^\s*(%tasks|%phrasedml)\s+.*$')
 
             def __init__(self, force=False, initl_content='', args=None):
@@ -66,6 +73,9 @@ class inlineOmex:
                 if self.force_pml_start.match(line) != None:
                     args = parseMagicArgs(line.split()[1:])
                     return S_PML(True, args=args), None, self.sb if self.force else None, self.args if self.force else None
+                if self.force_sb_start.match(line) != None:
+                    args = parseMagicArgs(line.split()[1:])
+                    return S_SB(True, args=args), None, self.sb if self.force else None, self.args if self.force else None
                 if not self.force and self.sb_end.match(line) != None:
                     self.sb += line + '\n'
                     return S_PML(self.force), None, self.sb, self.args
