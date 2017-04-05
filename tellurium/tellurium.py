@@ -3,7 +3,7 @@ The module tellurium provides support routines.
 As part of this module an ExendedRoadRunner class is defined which provides helper methods for
 model export, plotting or the Jarnac compatibility layer.
 """
-from __future__ import print_function, division
+from __future__ import print_function, division, absolute_import
 
 import os
 import sys
@@ -67,10 +67,7 @@ import matplotlib.pyplot as plt
 # make this the default style for matplotlib
 # plt.style.use('fivethirtyeight')
 
-try:
-    from .plotting import getPlottingEngine as __getPlottingEngine
-except:
-    from plotting import getPlottingEngine as __getPlottingEngine
+from .plotting import getPlottingEngine as __getPlottingEngine
 
 def getPlottingEngine(engine=getDefaultPlottingEngine()):
     return __getPlottingEngine(engine)

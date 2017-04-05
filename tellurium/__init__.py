@@ -1,3 +1,5 @@
+from __future__ import print_function, division, absolute_import
+
 # ----------------------------------------------------------------
 # TELLURIUM API
 # ----------------------------------------------------------------
@@ -75,6 +77,11 @@ from .teio.latex import LatexExport
 from .analysis.parameterscan import (
     ParameterScan,
     SteadyStateScan,
+    )
+
+# Bifurcations
+from .analysis.bifurcation import (
+    plotBifurcation,
     )
 
 # sedml support
