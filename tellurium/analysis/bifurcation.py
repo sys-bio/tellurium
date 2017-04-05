@@ -7,7 +7,7 @@ import os.path
 
 from rrplugins import Plugin
 
-def plotBifurcation(model, parameter, lowerBound, upperBound, maxPoints=5000, scanPositive=True):
+def bifurcation(model, parameter, lowerBound, upperBound, maxPoints=5000, scanPositive=True):
     '''Plot a bifurcation diagram.
 
     :param model:        A path to an SBML or Antimony file, or raw SBML or Antimony string.
@@ -60,4 +60,18 @@ def plotBifurcation(model, parameter, lowerBound, upperBound, maxPoints=5000, sc
     pts     = auto.BifurcationPoints
     lbls    = auto.BifurcationLabels
     biData  = auto.BifurcationData
+    return pts, lbls, biData
+
+def plotBifurcation(model, parameter, lowerBound, upperBound, maxPoints=5000, scanPositive=True):
+    '''Plot a bifurcation diagram.
+
+    :param model:        A path to an SBML or Antimony file, or raw SBML or Antimony string.
+    :param parameter:    The principal continuation parameter.
+    :param lowerBound:   The lower bound of the continuation.
+    :param upperBound:   The upper bound of the continuation.
+    :param maxPoints:    The maximum number of points.
+    :param scanPositive: Scan from lower to upper bound (direction is reversed if false).
+    '''
+
+    pts, lbls, biData = bifurcation(model, parameter, lowerBound, upperBound, maxPoints, scanPositive)
     biData.plotBifurcationDiagram(pts, lbls)
