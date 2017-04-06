@@ -782,6 +782,10 @@ class SEDMLCodeFactory(object):
         else:
             lines.append("{}.setIntegrator('{}')".format(mid, integratorName))
 
+        # use fixed step by default for stochastic sims
+        if integratorName == 'gillespie':
+            lines.append("{}.integrator.setValue('{}', {})".format(mid, 'variable_step_size', False))
+
         if kisao == "KISAO:0000288":  # BDF
             lines.append("{}.integrator.setValue('{}', {})".format(mid, 'stiff', True))
         elif kisao == "KISAO:0000280":  # Adams-Moulton
