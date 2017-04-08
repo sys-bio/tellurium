@@ -34,4 +34,5 @@ setup(name='tellurium',
           "tellurium": ["*.txt"],
           "tellurium.sedml": ["templates/*.template"],
       },
+      install_requires=['pandas>=0.19.2', 'matplotlib>=2.0.0', 'appdirs>=1.4.3']
       )
