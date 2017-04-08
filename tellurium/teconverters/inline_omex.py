@@ -1,4 +1,4 @@
-from __future__ import print_function, division
+from __future__ import print_function, division, absolute_import
 
 import tecombine as libcombine
 import phrasedml
@@ -133,10 +133,13 @@ class inlineOmex:
 
         :param sources: Sources returned from partitionInlineOMEXString'''
 
-        from .convert_omex import Omex, SbmlAsset, SedmlAsset
+        from .convert_omex import Omex, SbmlAsset, SedmlAsset, readCreator
         from .convert_antimony import antimonyConverter
 
-        self.omex = Omex()
+        self.omex = Omex(
+            description = 'Created with Tellurium (tellurium.analogmachine.org/).',
+            creator = readCreator()
+        )
 
         # Convert antimony to sbml
         for t,loc,master in ((x['source'], x['location'] if 'location' in x else None, x['master'] if 'master' in x else None)
