@@ -36,7 +36,7 @@ try:
         import plotly
         plotly.offline.init_notebook_mode(connected=True)
         __plotly_enabled = True
-        # __default_plotting_engine = 'plotly'
+        __default_plotting_engine = 'plotly'
     except:
         warnings.warn("Plotly could not be initialized. Unable to use Plotly for plotting.")
 except:

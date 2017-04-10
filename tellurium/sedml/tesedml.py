@@ -407,6 +407,7 @@ class SEDMLCodeFactory(object):
         See :func:`createpython`
         """
         execStr = self.toPython()
+        print('execStr:\n{}'.format(execStr))
         import tempfile
         filename = os.path.join(tempfile.gettempdir(), 'te-generated-sedml.py')
         try:
@@ -1408,7 +1409,15 @@ class SEDMLCodeFactory(object):
         if output.isSetName():
             title = output.getName()
 
-        lines.append("fig = te.getPlottingEngine().newFigure(title='{}')".format(title))
+        lines.append("stacked=False")
+        for kc, curve in enumerate(output.getListOfCurves()):
+            xId = curve.getXDataReference()
+            lines.append("if {}.shape[1] > 1:".format(xId))
+            lines.append("    stacked=True")
+        lines.append("if not stacked:")
+        lines.append("    fig = te.getPlottingEngine().newFigure(title='{}')".format(title))
+        lines.append("else:")
+        lines.append("    fig = te.getPlottingEngine().newStackedFigure(title='{}')".format(title))
         # lines.append("plt.figure(num=None, figsize={}, dpi={}, facecolor='{}', edgecolor='{}')".format(settings.figsize, settings.dpi, settings.facecolor, settings.edgecolor))
         # lines.append("from matplotlib import gridspec")
         # lines.append("__gs = gridspec.GridSpec(1, 2, width_ratios=[3, 1])")
@@ -1440,12 +1449,20 @@ class SEDMLCodeFactory(object):
             elif xLabel != allXLabel:
                 oneXLabel = False
 
-            lines.append("for k in range({}.shape[1]):".format(xId))
-            lines.append("    if k == 0:")
-            lines.append("        fig.addXYDataset({}[:,k], {}[:,k], name='{}')".format(xId, yId, yLabel))
+            lines.append("if {}.shape[1] > 1:".format(xId))
+            lines.append("    for k in range({}.shape[1]):".format(xId))
+            lines.append("        if k == 0:")
+            lines.append("            fig.addXYDataset({}[:,k], {}[:,k], name='{}')".format(xId, yId, yLabel))
+            lines.append("        else:")
+            lines.append("            fig.addXYDataset({}[:,k], {}[:,k])".format(xId, yId))
+
+            lines.append("else:".format(xId))
+            lines.append("    for k in range({}.shape[1]):".format(xId))
+            lines.append("        if k == 0:")
+            lines.append("            fig.addXYDataset({}[:,k], {}[:,k], name='{}')".format(xId, yId, yLabel))
             # lines.append("        plt.plot({}[:,k], {}[:,k], marker = '{}', color='{}', linewidth={}, markersize={}, alpha={}, label='{}')".format(xId, yId, settings.marker, color, settings.linewidth, settings.markersize, settings.alpha, yLabel))
-            lines.append("    else:")
-            lines.append("        fig.addXYDataset({}[:,k], {}[:,k])".format(xId, yId))
+            lines.append("        else:")
+            lines.append("            fig.addXYDataset({}[:,k], {}[:,k])".format(xId, yId))
             # lines.append("        plt.plot({}[:,k], {}[:,k], marker = '{}', color='{}', linewidth={}, markersize={}, alpha={})".format(xId, yId, settings.marker, color, settings.linewidth, settings.markersize, settings.alpha))
 
             # if logX is True:

@@ -3,9 +3,11 @@ class PlottingLayout:
     pass
 
 class PlottingFigure:
-    def initialize(self, title=None, layout=PlottingLayout()):
+    def initialize(self, title=None, layout=PlottingLayout(), logx=False, logy=False):
         self.title = title
         self.xy_datasets = []
+        self.logx = logx
+        self.logy = logy
 
     def addXYDataset(self, x_arr, y_arr, name=None):
         """ Adds an X/Y dataset to the plot.
