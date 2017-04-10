@@ -42,7 +42,7 @@ from .tellurium import (
     )
 
 # CellML converters
-if hasattr(tellurium, 'loadCellMLModel'):
+try:
     from .tellurium import (
         loadCellMLModel,
         antimonyToCellML,
@@ -50,6 +50,9 @@ if hasattr(tellurium, 'loadCellMLModel'):
         cellmlToAntimony,
         cellmlToSBML,
         )
+except ImportError:
+    # CellML not available
+    pass
 
 # Plotting
 from .tellurium import (
