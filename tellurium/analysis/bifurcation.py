@@ -6,6 +6,7 @@ from __future__ import print_function, division, absolute_import
 import os.path
 
 from rrplugins import Plugin
+from roadrunner import RoadRunner
 
 def bifurcation(model, parameter, lowerBound, upperBound, maxPoints=5000, scanPositive=True):
     '''Plot a bifurcation diagram.
@@ -18,7 +19,9 @@ def bifurcation(model, parameter, lowerBound, upperBound, maxPoints=5000, scanPo
     :param scanPositive: Scan from lower to upper bound (direction is reversed if false).
     '''
 
-    if os.path.exists(model) and os.path.isfile(model):
+    if isinstance(model, RoadRunner):
+        sbml = model.getSBML()
+    elif os.path.exists(model) and os.path.isfile(model):
         # it's a file path
         if os.path.splitext(model)[1] == '.sb':
             # it's an Antimony file
@@ -46,7 +49,7 @@ def bifurcation(model, parameter, lowerBound, upperBound, maxPoints=5000, scanPo
 
     # Set parameters
     auto.setProperty('ScanDirection', 'Positive' if scanPositive else 'Negative')
-    auto.setProperty('PrincipalContinuationParameter', 'A')
+    auto.setProperty('PrincipalContinuationParameter', parameter)
     auto.setProperty('PCPLowerBound', lowerBound)
     auto.setProperty('PCPUpperBound', upperBound)
 
