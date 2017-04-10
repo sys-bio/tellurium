@@ -125,8 +125,8 @@ class Omex:
         # TODO: pass in creator
         if self.creator is not None:
             creator = VCard()
-            creator.setFamilyName(self.creator['last'])
-            creator.setGivenName(self.creator['first'])
+            creator.setFamilyName(self.creator['last_name'])
+            creator.setGivenName(self.creator['first_name'])
             creator.setEmail(self.creator['email'])
             creator.setOrganization(self.creator['organization'])
             description.addCreator(creator)
