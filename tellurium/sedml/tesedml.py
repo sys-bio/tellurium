@@ -1411,7 +1411,7 @@ class SEDMLCodeFactory(object):
         lines.append("stacked=False")
         for kc, curve in enumerate(output.getListOfCurves()):
             xId = curve.getXDataReference()
-            lines.append("if {}.shape[1] > 1 and te.getDefaultPlottingEngine == 'plotly':".format(xId))
+            lines.append("if {}.shape[1] > 1 and te.getDefaultPlottingEngine() == 'plotly':".format(xId))
             lines.append("    stacked=True")
         lines.append("if not stacked:")
         lines.append("    fig = te.getPlottingEngine().newFigure(title='{}')".format(title))
