@@ -61,10 +61,6 @@ class PlotlyStackedFigure(PlotlyFigure):
             else:
                 kwargs['showlegend'] = False
             zvals = np.full(np.size(dataset['x']), self.zindex)
-            print('yvals')
-            print(dataset['y'])
-            print('zvals')
-            print(zvals)
             traces.append(Scatter3d(
                 x = dataset['x'],
                 z = dataset['y'],

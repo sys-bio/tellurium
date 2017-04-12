@@ -407,7 +407,6 @@ class SEDMLCodeFactory(object):
         See :func:`createpython`
         """
         execStr = self.toPython()
-        print('execStr:\n{}'.format(execStr))
         import tempfile
         filename = os.path.join(tempfile.gettempdir(), 'te-generated-sedml.py')
         try:
