@@ -11,6 +11,14 @@ import warnings
 import antimony
 import matplotlib.pyplot as plt
 
+# check availability of property cycler (matplotlib 1.5ish)
+if True: # create dummy scope
+    import matplotlib
+
+    ax = matplotlib.axes.Axes
+    if not hasattr(ax, 'set_prop_cycle'):
+        warnings.warn("Your copy of matplotlib does not support color cycle control. Falling back to 'Picasso' mode. Please update to matplotlib 1.5 or later if you don't like modern art.")
+
 import roadrunner
 
 try:
@@ -44,6 +52,13 @@ except ImportError as e:
     warnings.warn("'phrasedml' could not be imported", ImportWarning, stacklevel=2)
 
 try:
+    import sbol
+except ImportError as e:
+    sbol = None
+    roadrunner.Logger.log(roadrunner.Logger.LOG_WARNING, str(e))
+    warnings.warn("'pySBOL' could not be imported", ImportWarning, stacklevel=2)
+
+try:
     from sbml2matlab import sbml2matlab
 except ImportError as e:
     sbml2matlab = None
@@ -71,6 +86,8 @@ def getVersionInfo():
         versions.append(('libsedml', libsedml.getLibSEDMLVersionString()))
     if phrasedml:
         versions.append(('phrasedml', phrasedml.__version__))
+    if sbol:
+        versions.append(('pySBOL', sbol.__version__))        
     return versions
 
 
@@ -115,7 +132,9 @@ def noticesOn():
     """
     roadrunner.Logger.setLevel(roadrunner.Logger.LOG_NOTICE)
     
-
+# ---------------------------------------------------------------------
+# Simple File Read and Store Utilities
+# ---------------------------------------------------------------------
 def saveToFile(filePath, str):
     """ Save string to file.
 
@@ -126,7 +145,6 @@ def saveToFile(filePath, str):
     """
     with open(filePath, 'w') as f:
         f.write(str)
-
 
 def readFromFile(filePath):
     """ Load a file and return contents as a string.
@@ -141,6 +159,32 @@ def readFromFile(filePath):
     return string
 
 
+
+def runTool (toolFileName):
+    """	Call an external application called toolFileName.
+	Note that .exe extension may be omitted for windows applications.
+	
+	Include any arguments in arguments parameter.
+	
+	Example:
+	returnString = te.runTool (['myplugin', 'arg1', 'arg2'])
+	
+    If the external tool writes to stdout, this will be captured and returned.
+	
+	:param arguments to external tool
+	:return String return by external tool, if any.
+	"""
+    try:
+      p = os.path.dirname(sys.executable)
+      root, waste = os.path.split (p)
+      #if (os.name == 'nt') and (not toolFileName[0].endswith ('.exe')):
+      toolFileName[0] = root + '\\telluriumTools\\' + toolFileName[0] + '\\' + toolFileName[0] + '.exe'
+ 
+      return subprocess.check_output(toolFileName)
+    except subprocess.CalledProcessError as e:
+       raise Exception ('Tool failed to run correctly or could not be found')
+	
+    
 # ---------------------------------------------------------------------
 # Loading Models Methods
 # ---------------------------------------------------------------------
@@ -351,19 +395,20 @@ def plotArray(result, loc='upper right', show=True, resetColorCycle=True,
              xscale='linear', yscale="linear", grid=False, labels=None, **kwargs):
     """ Plot an array.
 
-    The first column of the array will be the x-axis and remaining columns the y-axis. Returns
-    a handle to the plotting object. Note that you can add
-    plotting options as named key values after the array.
-    For example to add a legend, include the label key value:
-    te.plotArray (m, label='A label') then use pylab.legend()
-    to make sure the legend is shown.
+    The first column of the array must be the x-axis and remaining columns the y-axis. Returns
+    a handle to the plotting object. Note that you can add plotting options as named key values after
+    the array. To add a legend, include the label legend values:
+    
+    te.plotArray (m, labels=['Label 1, 'Label 2', etc]) 
+    
+    Make sure you include as many labels as there are curves to plot!
 
-    Use show=False to add multiple curves.
+    Use show=False to add multiple curves. Use color='red' to use the same color for every curve.
     ::
 
         import numpy as np
         result = np.array([[1,2,3], [7.2,6.5,8.8], [9.8, 6.5, 4.3]])
-        te.plotArray(result)
+        te.plotArray(result, title="My graph', xlim=((0, 5)))
     """
     # FIXME: unify r.plot & te.plot (lots of code duplication)
     # reset color cycle (columns in repeated simulations have same color)
@@ -718,10 +763,7 @@ class ExtendedRoadRunner(roadrunner.RoadRunner):
         shaded in blue), reactions as grey squares.
         Currently only the drawing of medium-size networks is supported.
         """
-        if sys.platform == 'win32' and 'Graphviz' not in os.environ['PATH']:
-            warnings.warn("Graphviz is not installed in your machine. 'draw' command cannot produce a diagram",
-                Warning, stacklevel=2)
-        elif sys.platform == 'darwin' and 'graphviz' not in os.environ['PATH']:
+        if any([ os.access( os.path.join( p, 'dot' ), os.X_OK ) for p in os.environ['PATH'].split( os.pathsep )]):
             warnings.warn("Graphviz is not installed in your machine. 'draw' command cannot produce a diagram",
                 Warning, stacklevel=2)
         else:

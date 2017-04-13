@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created by phraSED-ML version v1.0.3 with libSBML version 5.14.1. -->
+<sedML xmlns="http://sed-ml.org/sed-ml/level1/version2" level="1" version="2">
+  <listOfSimulations>
+    <uniformTimeCourse id="sim1" initialTime="0" outputStartTime="0" outputEndTime="10" numberOfPoints="100">
+      <algorithm kisaoID="KISAO:0000019"/>
+    </uniformTimeCourse>
+    <uniformTimeCourse id="sim2" initialTime="0" outputStartTime="0" outputEndTime="3" numberOfPoints="10">
+      <algorithm kisaoID="KISAO:0000019"/>
+    </uniformTimeCourse>
+  </listOfSimulations>
+  <listOfModels>
+    <model id="mod1" language="urn:sedml:language:sbml.level-3.version-1" source="case_10.xml"/>
+    <model id="mod2" language="urn:sedml:language:sbml.level-3.version-1" source="case_10.xml"/>
+  </listOfModels>
+  <listOfTasks>
+    <task id="task1" modelReference="mod1" simulationReference="sim1"/>
+    <task id="task2" modelReference="mod2" simulationReference="sim2"/>
+    <repeatedTask id="repeat1" range="X" resetModel="false">
+      <listOfRanges>
+        <uniformRange id="X" start="0" end="10" numberOfPoints="9" type="linear"/>
+      </listOfRanges>
+      <listOfChanges>
+        <setValue range="X" modelReference="mod1" target="/sbml:sbml/sbml:model/sbml:listOfSpecies/sbml:species[@id='S1']">
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <ci> X </ci>
+          </math>
+        </setValue>
+        <setValue range="X" modelReference="mod2" target="/sbml:sbml/sbml:model/sbml:listOfSpecies/sbml:species[@id='S1']">
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <plus/>
+              <ci> X </ci>
+              <cn type="integer"> 3 </cn>
+            </apply>
+          </math>
+        </setValue>
+      </listOfChanges>
+      <listOfSubTasks>
+        <subTask order="0" task="task1"/>
+        <subTask order="1" task="task2"/>
+      </listOfSubTasks>
+    </repeatedTask>
+  </listOfTasks>
+  <listOfDataGenerators>
+    <dataGenerator id="plot_0_0_0" name="repeat1.mod1.time">
+      <listOfVariables>
+        <variable id="repeat1_____mod1_____time" symbol="urn:sedml:symbol:time" taskReference="repeat1"/>
+      </listOfVariables>
+      <math xmlns="http://www.w3.org/1998/Math/MathML">
+        <ci> repeat1_____mod1_____time </ci>
+      </math>
+    </dataGenerator>
+    <dataGenerator id="plot_0_0_1" name="repeat1.mod1.S1">
+      <listOfVariables>
+        <variable id="repeat1_____mod1_____S1" target="/sbml:sbml/sbml:model/sbml:listOfSpecies/sbml:species[@id='S1']" taskReference="repeat1" modelReference="mod1"/>
+      </listOfVariables>
+      <math xmlns="http://www.w3.org/1998/Math/MathML">
+        <ci> repeat1_____mod1_____S1 </ci>
+      </math>
+    </dataGenerator>
+    <dataGenerator id="plot_0_1_1" name="repeat1.mod1.S2">
+      <listOfVariables>
+        <variable id="repeat1_____mod1_____S2" target="/sbml:sbml/sbml:model/sbml:listOfSpecies/sbml:species[@id='S2']" taskReference="repeat1" modelReference="mod1"/>
+      </listOfVariables>
+      <math xmlns="http://www.w3.org/1998/Math/MathML">
+        <ci> repeat1_____mod1_____S2 </ci>
+      </math>
+    </dataGenerator>
+    <dataGenerator id="plot_0_2_0" name="repeat1.mod2.time">
+      <listOfVariables>
+        <variable id="repeat1_____mod2_____time" symbol="urn:sedml:symbol:time" taskReference="repeat1"/>
+      </listOfVariables>
+      <math xmlns="http://www.w3.org/1998/Math/MathML">
+        <ci> repeat1_____mod2_____time </ci>
+      </math>
+    </dataGenerator>
+    <dataGenerator id="plot_0_2_1" name="repeat1.mod2.S1">
+      <listOfVariables>
+        <variable id="repeat1_____mod2_____S1" target="/sbml:sbml/sbml:model/sbml:listOfSpecies/sbml:species[@id='S1']" taskReference="repeat1" modelReference="mod2"/>
+      </listOfVariables>
+      <math xmlns="http://www.w3.org/1998/Math/MathML">
+        <ci> repeat1_____mod2_____S1 </ci>
+      </math>
+    </dataGenerator>
+    <dataGenerator id="plot_0_3_1" name="repeat1.mod2.S2">
+      <listOfVariables>
+        <variable id="repeat1_____mod2_____S2" target="/sbml:sbml/sbml:model/sbml:listOfSpecies/sbml:species[@id='S2']" taskReference="repeat1" modelReference="mod2"/>
+      </listOfVariables>
+      <math xmlns="http://www.w3.org/1998/Math/MathML">
+        <ci> repeat1_____mod2_____S2 </ci>
+      </math>
+    </dataGenerator>
+  </listOfDataGenerators>
+  <listOfOutputs>
+    <plot2D id="plot_0">
+      <listOfCurves>
+        <curve id="plot_0__plot_0_0_0__plot_0_0_1" logX="false" logY="false" xDataReference="plot_0_0_0" yDataReference="plot_0_0_1"/>
+        <curve id="plot_0__plot_0_0_0__plot_0_1_1" logX="false" logY="false" xDataReference="plot_0_0_0" yDataReference="plot_0_1_1"/>
+        <curve id="plot_0__plot_0_2_0__plot_0_2_1" logX="false" logY="false" xDataReference="plot_0_2_0" yDataReference="plot_0_2_1"/>
+        <curve id="plot_0__plot_0_2_0__plot_0_3_1" logX="false" logY="false" xDataReference="plot_0_2_0" yDataReference="plot_0_3_1"/>
+      </listOfCurves>
+    </plot2D>
+  </listOfOutputs>
+</sedML>

@@ -1,23 +1,19 @@
-
 # tellurium
+<img title="tellurium logo" src="./docs/images/tellurium_logo.png" height="50" />
 [![Documentation Status](https://readthedocs.org/projects/tellurium/badge/?version=latest)](http://tellurium.readthedocs.org/en/latest/?badge=latest)
 
-Copyright 2014-2016
+Copyright 2014-2017
 Kiri Choi, J Kyle Medley, Matthias König, Kaylene Stocking, Caroline Cannistra, Michal Galdzicki, and Herbert Sauro
 
 ![Parameter scan demo](http://tellurium.readthedocs.org/en/latest/_images/parameter_scan_2_0.png)
 
-*Parmeter scan example courtesy of Matthias König*
+*Parmeter scan example*
 
 ## Introduction
 
 Tellurium is a python environment based on the [Spyder2 IDE](https://github.com/spyder-ide/spyder) for building, simulating, and analysing models of biochemical networks, including gene regulatory networks, metabolic networks, and signaling pathways. It combines state-of-the-art scientific Python libraries, such as [NumPy](http://www.numpy.org/) and [SciPy](http://www.scipy.org/), and includes special-purpose systems biology Python tools. Out of the box, Tellurium includes [libRoadRunner](https://github.com/sys-bio/roadrunner), [Antimony](http://antimony.sourceforge.net/), [PhraSED-ML](http://phrasedml.sf.net/), [libSBML](http://sbml.org/Software/libSBML) (via its [Python bindings](http://sbml.org/Software/libSBML/5.12.0/docs/formatted/python-api/)), and [libSED-ML](https://github.com/fbergmann/libSEDML).
 
 The Tellurium project is funded from the NIH/NIGMS (GM081070).
-
-## Python support
-
-**Python 2** is the highest supported Python version at the time of writing, due to the fact that not all packages included in Tellurium are Python 3 compatible.
 
 ## Installation Instructions
 
@@ -32,7 +28,7 @@ Option 1. does not modify or conflict with any previous Python installation. Opt
 
 #### Windows
 
-1. [Download Tellurium for Windows](https://sourceforge.net/projects/pytellurium/files/Tellurium-1.3/1.3.5/Tellurium-1.3.5-Python-2.7-win32-portable-setup.exe/download)
+1. [Download Tellurium for Windows](https://sourceforge.net/projects/pytellurium/files/Tellurium-1.3/1.3.6/Tellurium-1.3.6-Python-2.7-win32-portable-setup.exe/download)
 2. Double-click the installer to start the installation
 3. Follow the instructions
 
@@ -40,7 +36,7 @@ NOTE: Installation requires administrative rights. It is recommended to accept t
 
 #### Mac OSX
 
-1. [Download Tellurium for Mac OS X 10.10 or later](https://sourceforge.net/projects/pytellurium/files/Tellurium-1.3/1.3.5/Tellurium-1.3.5-Spyder-2.3.8-OSX.dmg/download)
+1. [Download Tellurium for Mac OS X 10.10 or later](https://github.com/sys-bio/tellurium/releases/download/1.3.5-rc3/Tellurium-1.3.5-Spyder-2.3.8-OSX.dmg)
 2. Double-click the .dmg file to open a new window
 3. Double-click the Spyder icon
 
@@ -85,6 +81,12 @@ te.plotArray(result)
 ## API documentation 
 
 http://tellurium.readthedocs.org/en/latest/
+
+## Known Issues
+
+### Python support
+
+Due to the fact that not all packages included in Tellurium are Python 3-compatible, Tellurium requires **Python 2**.
 
 ## Legal
 

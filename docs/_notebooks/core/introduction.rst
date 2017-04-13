@@ -40,6 +40,7 @@ Stochastic simulation of a linear chain.
     r.setIntegrator('gillespie')
     r.setSeed(1234)
     r.selections = ['time'] + r.getBoundarySpeciesIds() + r.getFloatingSpeciesIds()
+    r.variable_step_size = False
     
     # run repeated simulation
     Ncol = len(r.selections)

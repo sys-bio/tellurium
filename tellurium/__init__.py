@@ -9,6 +9,7 @@ from tellurium import noticesOff
 from tellurium import noticesOn
 from tellurium import saveToFile
 from tellurium import readFromFile
+from tellurium import runTool
     
 from tellurium import loada
 from tellurium import loadAntimonyModel
