@@ -12,6 +12,7 @@ from tellurium import readFromFile
 from tellurium import runTool
 from tellurium import rank
 from tellurium import nullspace
+from tellurium import rref
 
 from tellurium import loada
 from tellurium import loadAntimonyModel
