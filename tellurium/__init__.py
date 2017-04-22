@@ -98,6 +98,13 @@ from .tellurium import (
     executeInlineOmexFromFile,
 )
 
+# Package utilities
+from .package_utils import (
+    searchPackage,
+    installPackage,
+    uninstallPackage,
+)
+
 # Do not use
 # from .sedml.tephrasedml import experiment
 # from .tecombine import combine
