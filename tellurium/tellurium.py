@@ -76,13 +76,16 @@ import matplotlib.pyplot as plt
 from .plotting import getPlottingEngineFactory as __getPlottingEngineFactory
 
 def getPlottingEngineFactory(engine=getDefaultPlottingEngine()):
-    return __getPlottingEngineFactory(engine)
+    global __save_plots_to_pdf
+    factory = __getPlottingEngineFactory(engine)
+    factory.save_plots_to_pdf = __save_plots_to_pdf
+    return factory
 
 __plotting_engines = {}
 def getPlottingEngine(engine=getDefaultPlottingEngine()):
     global __plotting_engines
     if not engine in __plotting_engines:
-        __plotting_engines[engine] = __getPlottingEngineFactory(engine)()
+        __plotting_engines[engine] = getPlottingEngineFactory(engine)()
     return __plotting_engines[engine]
 
 getPlottingEngineFactory.__doc__ = __getPlottingEngineFactory.__doc__

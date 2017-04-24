@@ -2,12 +2,14 @@ from .engine import PlottingEngine, PlottingFigure, PlottingLayout
 
 import matplotlib.pyplot as plt
 from matplotlib import gridspec
+from tempfile import mkstemp
 
 class MatplotlibFigure(PlottingFigure):
-    def __init__(self, title=None, layout=PlottingLayout, use_legend=True, figsize=(9,5)):
+    def __init__(self, title=None, layout=PlottingLayout, use_legend=True, figsize=(9,5), save_to_pdf=False):
         self.initialize(title=title, layout=layout)
         self.use_legend = use_legend
         self.figsize = figsize
+        self.save_to_pdf = save_to_pdf
 
     def plot(self):
         """ Plot the figure. Call this last."""
@@ -29,7 +31,11 @@ class MatplotlibFigure(PlottingFigure):
         if self.use_legend and have_labels:
             legend = plt.legend(bbox_to_anchor=(1.0, 0.5), loc='center left', borderaxespad=5.)
             legend.draw_frame(False)
-        plt.savefig('/Users/phantom/plot.pdf', format='pdf')
+
+        if self.save_to_pdf:
+            (dummy,filename) = mkstemp(suffix='.pdf')
+            plt.savefig(filename, format='pdf')
+            print('saved plot to {}'.format(filename))
 
         return fig
 
@@ -38,9 +44,12 @@ class MatplotlibFigure(PlottingFigure):
         fig.savefig(filename, format=format)
 
 class MatplotlibPlottingEngine(PlottingEngine):
+    def __init__(self, save_to_pdf=False):
+        self.save_to_pdf = save_to_pdf
+
     def newFigure(self, title=None, logX=False, logY=False, layout=PlottingLayout()):
         """ Returns a figure object."""
-        return MatplotlibFigure(title=title, layout=layout)
+        return MatplotlibFigure(title=title, layout=layout, save_to_pdf=self.save_to_pdf)
 
     def figureFromTimecourse(self, m, title=None, ordinates=None):
         """ Generate a new figure from a timecourse simulation.

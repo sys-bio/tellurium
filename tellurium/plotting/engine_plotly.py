@@ -4,7 +4,7 @@ from plotly.graph_objs import Scatter, Scatter3d, Layout, Data
 import numpy as np
 
 class PlotlyFigure(PlottingFigure):
-    def __init__(self, title=None, layout=PlottingLayout(), logx=False, logy=False):
+    def __init__(self, title=None, layout=PlottingLayout(), logx=False, logy=False, save_to_pdf=False):
         self.initialize(title=title, layout=layout, logx=logx, logy=logy)
 
     def makeLayout(self):
@@ -78,6 +78,9 @@ class PlotlyStackedFigure(PlotlyFigure):
         })
 
 class PlotlyPlottingEngine(PlottingEngine):
+    def __init__(self, save_to_pdf=False):
+        pass
+
     def newFigure(self, title=None, logX=False, logY=False, layout=PlottingLayout()):
         """ Returns a figure object."""
         return PlotlyFigure(title=title, layout=layout)

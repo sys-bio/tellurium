@@ -59,6 +59,7 @@ from .tellurium import (
     getPlottingEngine,
     getDefaultPlottingEngine,
     setDefaultPlottingEngine,
+    setSavePlotsToPDF,
     )
 # Legacy plotting
 from .tellurium import (

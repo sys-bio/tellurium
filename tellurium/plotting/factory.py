@@ -31,7 +31,7 @@ class PlottingEngineFactory:
             'plotly',
         ]
         try:
-            return self.engines[self.engine]()
+            return self.engines[self.engine](save_to_pdf=self.save_plots_to_pdf)
         except KeyError:
             if not self.engine in possible_keys:
                 raise RuntimeError('No such plotting engine "{}". Possible values are {}.'.format(self.engine, ', '.join(possible_keys)))
