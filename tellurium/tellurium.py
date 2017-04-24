@@ -62,17 +62,30 @@ def setDefaultPlottingEngine(value):
     global __default_plotting_engine
     __default_plotting_engine = value
 
+__save_plots_to_pdf = False
+def setSavePlotsToPDF(value):
+    """Sets whether plots should be saved to PDF"""
+    global __save_plots_to_pdf
+    __save_plots_to_pdf = value
+
 import matplotlib.pyplot as plt
 
 # make this the default style for matplotlib
 # plt.style.use('fivethirtyeight')
 
-from .plotting import getPlottingEngine as __getPlottingEngine
+from .plotting import getPlottingEngineFactory as __getPlottingEngineFactory
 
+def getPlottingEngineFactory(engine=getDefaultPlottingEngine()):
+    return __getPlottingEngineFactory(engine)
+
+__plotting_engines = {}
 def getPlottingEngine(engine=getDefaultPlottingEngine()):
-    return __getPlottingEngine(engine)
+    global __plotting_engines
+    if not engine in __plotting_engines:
+        __plotting_engines[engine] = __getPlottingEngineFactory(engine)()
+    return __plotting_engines[engine]
 
-getPlottingEngine.__doc__ = __getPlottingEngine.__doc__
+getPlottingEngineFactory.__doc__ = __getPlottingEngineFactory.__doc__
 
 import roadrunner
 import antimony
@@ -901,7 +914,7 @@ class ExtendedRoadRunner(roadrunner.RoadRunner):
             result = self.getSimulationData()
 
         # Use Tellurium plotting interface
-        getPlottingEngine(getDefaultPlottingEngine()).plotTimecourse(result, ordinates=ordinates)
+        getPlottingEngine().plotTimecourse(result, ordinates=ordinates)
         return
 
         # Old code:
