@@ -9,7 +9,7 @@ class PlottingFigure:
         self.logx = logx
         self.logy = logy
 
-    def addXYDataset(self, x_arr, y_arr, name=None):
+    def addXYDataset(self, x_arr, y_arr, color=None, name=None):
         """ Adds an X/Y dataset to the plot.
 
         :param x_arr: A numpy array describing the X datapoints. Should have the same size as y_arr.
@@ -18,6 +18,8 @@ class PlottingFigure:
         dataset = {'x': x_arr, 'y': y_arr}
         if name is not None:
             dataset['name'] = name
+        if color is not None:
+            dataset['color'] = color
         self.xy_datasets.append(dataset)
 
 class PlottingEngine:

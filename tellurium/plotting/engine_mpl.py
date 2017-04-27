@@ -23,6 +23,8 @@ class MatplotlibFigure(PlottingFigure):
             if 'name' in dataset:
                 kwargs['label'] = dataset['name']
                 have_labels = True
+            if 'color' in dataset:
+                kwargs['color'] = dataset['color']
             plt.plot(dataset['x'], dataset['y'], marker='', **kwargs)
         # title
         if self.title:

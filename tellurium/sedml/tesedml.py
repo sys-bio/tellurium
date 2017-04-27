@@ -1375,7 +1375,7 @@ class SEDMLCodeFactory(object):
 
         # all lines of same cuve have same color
         settings = PlotSettings(
-            colors=[u'r', u'b', u'g', u'm', u'c', u'y', u'k'],
+            colors=[u'C0', u'C1', u'C2', u'C3', u'C4', u'C5', u'C6'],
             figsize=(9, 5),
             dpi=80,
             facecolor='w',
@@ -1451,17 +1451,17 @@ class SEDMLCodeFactory(object):
             lines.append("if {}.shape[1] > 1:".format(xId))
             lines.append("    for k in range({}.shape[1]):".format(xId))
             lines.append("        if k == 0:")
-            lines.append("            fig.addXYDataset({}[:,k], {}[:,k], name='{}')".format(xId, yId, yLabel))
+            lines.append("            fig.addXYDataset({}[:,k], {}[:,k], color='{}', name='{}')".format(xId, yId, color, yLabel))
             lines.append("        else:")
-            lines.append("            fig.addXYDataset({}[:,k], {}[:,k])".format(xId, yId))
+            lines.append("            fig.addXYDataset({}[:,k], {}[:,k], color='{}')".format(xId, yId, color))
 
             lines.append("else:".format(xId))
             lines.append("    for k in range({}.shape[1]):".format(xId))
             lines.append("        if k == 0:")
-            lines.append("            fig.addXYDataset({}[:,k], {}[:,k], name='{}')".format(xId, yId, yLabel))
+            lines.append("            fig.addXYDataset({}[:,k], {}[:,k], color='{}', name='{}')".format(xId, yId, color, yLabel))
             # lines.append("        plt.plot({}[:,k], {}[:,k], marker = '{}', color='{}', linewidth={}, markersize={}, alpha={}, label='{}')".format(xId, yId, settings.marker, color, settings.linewidth, settings.markersize, settings.alpha, yLabel))
             lines.append("        else:")
-            lines.append("            fig.addXYDataset({}[:,k], {}[:,k])".format(xId, yId))
+            lines.append("            fig.addXYDataset({}[:,k], {}[:,k], color='{}')".format(xId, yId, color))
             # lines.append("        plt.plot({}[:,k], {}[:,k], marker = '{}', color='{}', linewidth={}, markersize={}, alpha={})".format(xId, yId, settings.marker, color, settings.linewidth, settings.markersize, settings.alpha))
 
             # if logX is True:
