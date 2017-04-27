@@ -1047,13 +1047,13 @@ def nullspace(A, atol=1e-13, rtol=0):
 # We import sympy here because it is slow to load and would slow down the initial
 # start up of tellurium
 def rref (A):
-	   """Compute the reduced row echelon for the matrix A. Returns 
-        returns a tuple of two elements. The first is the reduced row 
-        echelon form, and the second is a list of indices of the pivot columns.
+    """Compute the reduced row echelon for the matrix A. Returns 
+    returns a tuple of two elements. The first is the reduced row 
+    echelon form, and the second is a list of indices of the pivot columns.
     """
-	import sympy
-	m = sympy.Matrix (A)
-	return m.rref()
+    import sympy
+    m = sympy.Matrix (A)
+    return m.rref()
 
 # ---------------------------------------------------------------
 # End of routines
