@@ -102,6 +102,10 @@ class Omex:
 
     def executeOmex(self):
         '''Executes this Omex instance.'''
+
+        import phrasedml
+        phrasedml.clearReferencedSBML()
+
         workingDir = tempfile.mkdtemp(suffix="_sedml")
         self.writeFiles(workingDir)
         from tellurium import executeSEDML
@@ -116,6 +120,10 @@ class Omex:
         '''Exports this Omex instance to a Combine archive.
 
         :param outfile: A path to the output file'''
+
+        import phrasedml
+        phrasedml.clearReferencedSBML()
+
         archive = CombineArchive()
         description = OmexDescription()
         description.setAbout(self.about)
@@ -322,7 +330,7 @@ class inlineOmexImporter:
                 phrasedml_output = phrasedmlImporter.fromContent(
                     self.omex.extractEntryToString(entry.getLocation()).replace('BIOMD0000000012,xml','BIOMD0000000012.xml'),
                     self.makeSBMLResourceMap()
-                    ).toPhrasedml().rstrip()
+                    ).toPhrasedml().rstrip().replace('compartment', 'compartment_')
             except:
                 raise RuntimeError('Could not read embedded SED-ML file {}.'.format(entry.getLocation()))
             output += (self.makeHeader(entry, 'sedml') +

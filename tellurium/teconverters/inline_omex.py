@@ -136,6 +136,9 @@ class inlineOmex:
         from .convert_omex import Omex, SbmlAsset, SedmlAsset, readCreator
         from .convert_antimony import antimonyConverter
 
+        import phrasedml
+        phrasedml.clearReferencedSBML()
+
         self.omex = Omex(
             description = 'Created with Tellurium (tellurium.analogmachine.org/).',
             creator = readCreator()
