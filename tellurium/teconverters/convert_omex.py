@@ -2,7 +2,7 @@ from __future__ import print_function, division, absolute_import
 
 import os, re
 
-from tecombine import CombineArchive, OmexDescription, VCard, KnownFormats
+from ..tecombine import CombineArchive, OmexDescription, VCard, KnownFormats
 from .convert_phrasedml import phrasedmlImporter
 from .convert_antimony import antimonyConverter
 import shutil, os, tempfile, appdirs, getpass, json

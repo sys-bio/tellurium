@@ -130,10 +130,7 @@ except ImportError as e:
     roadrunner.Logger.log(roadrunner.Logger.LOG_WARNING, str(e))
     warnings.warn("'sbml2matlab' could not be imported", ImportWarning)
 
-try:
-    from . import teconverters
-except:
-    import teconverters
+from . import teconverters
 
 # ---------------------------------------------------------------------
 # Group: Utility
