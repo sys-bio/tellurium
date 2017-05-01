@@ -16,10 +16,10 @@ from .tellurium import (
     )
 
 # Converters
-from .teconverters import (
-    antimonyConverter,
-    inlineOmex,
-    )
+# from .teconverters import (
+#    antimonyConverter,
+#    inlineOmex,
+#    )
 
 # Model import
 from .tellurium import (
@@ -84,12 +84,12 @@ from .analysis.parameterscan import (
     )
 
 # Bifurcations
-from .analysis.bifurcation import (
-    plotBifurcation,
-    )
+#from .analysis.bifurcation import (
+#    plotBifurcation,
+#    )
 
 # sedml support
-from .sedml.tesedml import sedmlToPython, executeSEDML
+#from .sedml.tesedml import sedmlToPython, executeSEDML
 
 # Combine archive support
 from .tellurium import (
