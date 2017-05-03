@@ -450,6 +450,15 @@ def executeInlineOmexFromFile(filepath):
     with open(filepath) as f:
         executeInlineOmex(f.read())
 
+def convertCombineArchive(location):
+    """ Read a Combine archive and convert its contents to an
+    inline Omex.
+
+    :param location: Filesystem path to the archive.
+    """
+    from .teconverters import inlineOmexImporter
+    return inlineOmexImporter.fromFile(file_path).toInlineOmex()
+
 def convertAndExecuteCombineArchive(location):
     """ Read and execute a combine archive.
 
