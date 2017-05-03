@@ -430,10 +430,8 @@ def exportInlineOmex(inline_omex, export_location):
     :param inline_omex: String containing inline phrasedml and antimony.
     :param export_location: Filepath of Combine archive to export
     """
-    sb,pml = teconverters.partitionInlineOMEXString(inline_omex)
-    pml = '\n'.join(pml)
-    omex = teconverters.inlineOmex({'main.xml':pml},'main.xml',sb)
-    omex.exportToCombine(export_location)
+    from .teconverters import saveInlineOMEX
+    saveInlineOMEX(inline_omex, export_location)
 
 def executeInlineOmex(inline_omex):
     """ Execute inline phrasedml and antimony.
@@ -457,7 +455,7 @@ def convertCombineArchive(location):
     :param location: Filesystem path to the archive.
     """
     from .teconverters import inlineOmexImporter
-    return inlineOmexImporter.fromFile(file_path).toInlineOmex()
+    return inlineOmexImporter.fromFile(location).toInlineOmex()
 
 def convertAndExecuteCombineArchive(location):
     """ Read and execute a combine archive.
