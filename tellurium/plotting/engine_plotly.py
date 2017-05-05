@@ -46,7 +46,6 @@ class PlotlyFigure(PlottingFigure):
     def plot(self):
         """ Plot the figure. Call this last."""
         traces = []
-        print(pprint.PrettyPrinter().pprint(list(self.getDatasets())))
         for dataset in self.getDatasets():
             kwargs = {}
             if 'name' in dataset and dataset['name'] is not None:
