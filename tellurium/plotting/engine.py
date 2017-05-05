@@ -1,15 +1,17 @@
+from collections import defaultdict
 
 class PlottingLayout:
     pass
 
-class PlottingFigure:
+class PlottingFigure(object):
     def initialize(self, title=None, layout=PlottingLayout(), logx=False, logy=False):
         self.title = title
         self.xy_datasets = []
+        self.tagged_data = defaultdict(list)
         self.logx = logx
         self.logy = logy
 
-    def addXYDataset(self, x_arr, y_arr, color=None, name=None):
+    def addXYDataset(self, x_arr, y_arr, color=None, tag=None, name=None):
         """ Adds an X/Y dataset to the plot.
 
         :param x_arr: A numpy array describing the X datapoints. Should have the same size as y_arr.
@@ -20,9 +22,12 @@ class PlottingFigure:
             dataset['name'] = name
         if color is not None:
             dataset['color'] = color
+        if tag is not None:
+            dataset['tag'] = tag
+            self.tagged_data[tag].append(dataset)
         self.xy_datasets.append(dataset)
 
-class PlottingEngine:
+class PlottingEngine(object):
     def plotTimecourse(self, m):
         """ Plots a timecourse from a simulation.
 

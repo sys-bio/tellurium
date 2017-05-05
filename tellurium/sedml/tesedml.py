@@ -1409,10 +1409,10 @@ class SEDMLCodeFactory(object):
             title = output.getName()
 
         lines.append("stacked=False")
-        for kc, curve in enumerate(output.getListOfCurves()):
-            xId = curve.getXDataReference()
-            lines.append("if {}.shape[1] > 1 and te.getDefaultPlottingEngine() == 'plotly':".format(xId))
-            lines.append("    stacked=True")
+        # for kc, curve in enumerate(output.getListOfCurves()):
+        #     xId = curve.getXDataReference()
+        #     lines.append("if {}.shape[1] > 1 and te.getDefaultPlottingEngine() == 'plotly':".format(xId))
+        #     lines.append("    stacked=True")
         lines.append("if not stacked:")
         lines.append("    fig = te.getPlottingEngine().newFigure(title='{}')".format(title))
         lines.append("else:")
@@ -1432,6 +1432,7 @@ class SEDMLCodeFactory(object):
             dgx = doc.getDataGenerator(xId)
             dgy = doc.getDataGenerator(yId)
             color = settings.colors[kc % len(settings.colors)]
+            tag = 'tag{}'.format(kc)
 
             yLabel = yId
             if curve.isSetName():
@@ -1451,17 +1452,17 @@ class SEDMLCodeFactory(object):
             lines.append("if {}.shape[1] > 1:".format(xId))
             lines.append("    for k in range({}.shape[1]):".format(xId))
             lines.append("        if k == 0:")
-            lines.append("            fig.addXYDataset({}[:,k], {}[:,k], color='{}', name='{}')".format(xId, yId, color, yLabel))
+            lines.append("            fig.addXYDataset({}[:,k], {}[:,k], color='{}', tag='{}', name='{}')".format(xId, yId, color, tag, yLabel))
             lines.append("        else:")
-            lines.append("            fig.addXYDataset({}[:,k], {}[:,k], color='{}')".format(xId, yId, color))
+            lines.append("            fig.addXYDataset({}[:,k], {}[:,k], color='{}', tag='{}')".format(xId, yId, color, tag))
 
             lines.append("else:".format(xId))
             lines.append("    for k in range({}.shape[1]):".format(xId))
             lines.append("        if k == 0:")
-            lines.append("            fig.addXYDataset({}[:,k], {}[:,k], color='{}', name='{}')".format(xId, yId, color, yLabel))
+            lines.append("            fig.addXYDataset({}[:,k], {}[:,k], color='{}', tag='{}', name='{}')".format(xId, yId, color, tag, yLabel))
             # lines.append("        plt.plot({}[:,k], {}[:,k], marker = '{}', color='{}', linewidth={}, markersize={}, alpha={}, label='{}')".format(xId, yId, settings.marker, color, settings.linewidth, settings.markersize, settings.alpha, yLabel))
             lines.append("        else:")
-            lines.append("            fig.addXYDataset({}[:,k], {}[:,k], color='{}')".format(xId, yId, color))
+            lines.append("            fig.addXYDataset({}[:,k], {}[:,k], color='{}', tag='{}')".format(xId, yId, color, tag))
             # lines.append("        plt.plot({}[:,k], {}[:,k], marker = '{}', color='{}', linewidth={}, markersize={}, alpha={})".format(xId, yId, settings.marker, color, settings.linewidth, settings.markersize, settings.alpha))
 
             # if logX is True:
