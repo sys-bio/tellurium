@@ -8,6 +8,7 @@ In build in python are
 
 """
 from __future__ import print_function, division
+from builtins import range
 from math import *
 import tesbml as libsbml
 import operator
@@ -36,7 +37,7 @@ def xor(*args):
 
 def piecewise(*args):
     Nargs = len(args)
-    for k in xrange(0, Nargs-1, 2):
+    for k in range(0, Nargs-1, 2):
         if args[k+1]:
             return args[k]
     else:
