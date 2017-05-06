@@ -78,11 +78,8 @@ The Output Class
 
 from __future__ import print_function, division
 
-import sys, os
-import os.path
-import warnings
-import datetime
-import zipfile
+import sys, os, os.path, warnings
+import datetime, zipfile
 from collections import namedtuple
 import re
 import numpy as np
@@ -1294,7 +1291,9 @@ class SEDMLCodeFactory(object):
 
             # Series of curves
             if resetModel is True:
-                lines.append("__var__{} = np.transpose(np.array([sim['{}'] for sim in {}]))".format(varId, sid, taskId))
+                # If each entry in the task consists of a single point (e.g. steady state scan)
+                # , concatenate the points. Otherwise, plot as separate curves.
+                lines.append("__var__{} = np.concatenate([process_trace(sim['{}']) for sim in {}])".format(varId, sid, taskId))
             else:
                 # One curve via time adjusted concatenate
                 if isTime is True:
@@ -1733,6 +1732,14 @@ class SEDMLTools(object):
 
         return model_sources, all_changes
 
+def process_trace(trace):
+    """ If each entry in the task consists of a single point
+    (e.g. steady state scan), concatenate the points.
+    Otherwise, plot as separate curves."""
+    if trace.size > 1:
+        return np.concatenate([np.atleast_1d(trace), np.atleast_1d(np.nan)])
+    else:
+        return np.atleast_1d(trace)
 
 ##################################################################################################
 if __name__ == "__main__":
