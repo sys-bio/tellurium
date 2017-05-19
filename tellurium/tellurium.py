@@ -463,7 +463,8 @@ def convertAndExecuteCombineArchive(location):
     :param location: Filesystem path to the archive.
     """
     from .teconverters import inlineOmexImporter
-    executeInlineOmex(inlineOmexImporter.fromFile(location).toInlineOmex())
+    inlineomex = inlineOmexImporter.fromFile(location).toInlineOmex()
+    executeInlineOmex(inlineomex)
 
 # ---------------------------------------------------------------------
 # Math Utilities
