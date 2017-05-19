@@ -20,30 +20,29 @@ import pandas
 import os.path
 Config.LOADSBMLOPTIONS_RECOMPILE = True
 
-def main():
-    workingDir = r'{{ factory.workingDir }}'
+workingDir = r'{{ factory.workingDir }}'
 
-    {{ helpers.heading(doc.getListOfModels(), 'Model') | indent(4,False) }}
-    {% for model in doc.getListOfModels() %}
-    # Model <{{ model.getId() }}>
-    {{ modelToPython(model) | indent(4,False) }}
-    {% endfor %}
+{{ helpers.heading(doc.getListOfModels(), 'Model') }}
+{% for model in doc.getListOfModels() %}
+# Model <{{ model.getId() }}>
+{{ modelToPython(model) }}
+{% endfor %}
 
-    {{ helpers.heading(doc.getListOfTasks(), 'Task') | indent(4,False) }}
-    {% for task in doc.getListOfTasks() %}
-    # Task <{{ task.getId() }}>
-    {{ taskToPython(factory.doc, task) | indent(4,False) }}
+{{ helpers.heading(doc.getListOfTasks(), 'Task') }}
+{% for task in doc.getListOfTasks() %}
+# Task <{{ task.getId() }}>
+{{ taskToPython(factory.doc, task) }}
 
-    {% endfor %}
-    {{ helpers.heading(doc.getListOfDataGenerators(), 'DataGenerator') | indent(4,False) }}
-    {% for dg in doc.getListOfDataGenerators() %}
-    # DataGenerator <{{ dg.getId() }}>
-    {{ dataGeneratorToPython(factory.doc, dg) | indent(4,False) }}
+{% endfor %}
+{{ helpers.heading(doc.getListOfDataGenerators(), 'DataGenerator') }}
+{% for dg in doc.getListOfDataGenerators() %}
+# DataGenerator <{{ dg.getId() }}>
+{{ dataGeneratorToPython(factory.doc, dg) }}
 
-    {% endfor %}
-    {{ helpers.heading(doc.getListOfOutputs(), 'Output') | indent(4,False) }}
-    {% for out in doc.getListOfOutputs() %}
-    # Output <{{ out.getId() }}>
-    {{ outputToPython(factory.doc, out) | indent(4,False) }}
+{% endfor %}
+{{ helpers.heading(doc.getListOfOutputs(), 'Output') }}
+{% for out in doc.getListOfOutputs() %}
+# Output <{{ out.getId() }}>
+{{ outputToPython(factory.doc, out) }}
 
-    {% endfor %}
+{% endfor %}
