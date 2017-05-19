@@ -408,13 +408,14 @@ class SEDMLCodeFactory(object):
         filename = os.path.join(tempfile.gettempdir(), 'te-generated-sedml.py')
         try:
             # Use of exec carries the usual security warnings
-            exec(compile(execStr, filename, 'exec'))
+            symbols = {}
+            exec(compile(execStr, filename, 'exec'), symbols)
 
             # return dictionary of data generators
             dg_data = {}
             for dg in self.doc.getListOfDataGenerators():
                 dg_id = dg.getId()
-                dg_data[dg_id] = locals()[dg_id]
+                dg_data[dg_id] = symbols[dg_id]
             return dg_data
 
         except:
@@ -807,7 +808,9 @@ class SEDMLCodeFactory(object):
                 lines.append("{}.integrator.setValue('{}', {})".format(mid, pkey.key, value))
 
         if simType is libsedml.SEDML_SIMULATION_STEADYSTATE:
-            lines.append("{}.conservedMoietyAnalysis = True".format(mid))
+            lines.append("if {model}.conservedMoietyAnalysis == False: {model}.conservedMoietyAnalysis = True".format(model=mid))
+        else:
+            lines.append("if {model}.conservedMoietyAnalysis == True: {model}.conservedMoietyAnalysis = False".format(model=mid))
 
         # get parents
         parents = []
@@ -898,7 +901,8 @@ class SEDMLCodeFactory(object):
             lines.append("{}.steadyStateSelections = {}".format(mid, list(selections)))
             lines.append("{}.simulate()".format(mid))  # for stability of the steady state solver
             lines.append("{} = {}.steadyStateNamedArray()".format(resultVariable, mid))
-            lines.append("{}.conservedMoietyAnalysis = False".format(mid))
+            # no need to turn this off because it will be checked before the next simulation
+            # lines.append("{}.conservedMoietyAnalysis = False".format(mid))
 
         # -------------------------------------------------------------------------
         # <OTHER>
