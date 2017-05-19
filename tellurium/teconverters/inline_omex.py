@@ -166,7 +166,7 @@ class inlineOmex:
                     path = sbml_asset.getModuleName()
                 phrasedml.setReferencedSBML(path, sbml_asset.getContent())
             phrasedml.convertString(t)
-            phrasedml.addDotXMLToModelSources()
+            phrasedml.addDotXMLToModelSources(True)
             sedml = phrasedml.getLastSEDML()
             if sedml is None:
                 raise RuntimeError('Unable to convert PhraSEDML to SED-ML: {}'.format(phrasedml.getLastError()))
