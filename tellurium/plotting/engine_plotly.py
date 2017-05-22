@@ -3,8 +3,8 @@ import plotly, numpy as np
 from plotly.graph_objs import Scatter, Scatter3d, Layout, Data
 
 class PlotlyFigure(PlottingFigure):
-    def __init__(self, title=None, layout=PlottingLayout(), logx=False, logy=False, save_to_pdf=False):
-        self.initialize(title=title, layout=layout, logx=logx, logy=logy)
+    def __init__(self, title=None, layout=PlottingLayout(), logx=False, logy=False, save_to_pdf=False, xtitle=None, ytitle=None):
+        self.initialize(title=title, layout=layout, logx=logx, xtitle=xtitle, logy=logy, ytitle=ytitle)
 
     def makeLayout(self):
         kwargs = {}
@@ -15,11 +15,19 @@ class PlotlyFigure(PlottingFigure):
                 type: 'log',
                 autorange: True,
             }
+        if self.xtitle:
+            if not 'xaxis' in kwargs:
+                kwargs['xaxis'] = {}
+            kwargs['xaxis']['title'] = self.xtitle
         if self.logy:
             kwargs['yaxis'] = {
                 type: 'log',
                 autorange: True,
             }
+        if self.ytitle:
+            if not 'yaxis' in kwargs:
+                kwargs['yaxis'] = {}
+            kwargs['yaxis']['title'] = self.ytitle
         return Layout(**kwargs)
 
     def plot(self):

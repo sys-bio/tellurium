@@ -20,7 +20,7 @@ class PlottingLayout:
     pass
 
 class PlottingFigure(object):
-    def initialize(self, title=None, layout=PlottingLayout(), logx=False, logy=False, selections=None):
+    def initialize(self, title=None, layout=PlottingLayout(), logx=False, xtitle=None, logy=False, ytitle=None, selections=None):
         """ Initialize the figure.
 
         :param title: The title of the plot.
@@ -32,6 +32,8 @@ class PlottingFigure(object):
         self.title = title
         self.xy_datasets = []
         self.tagged_data = defaultdict(list)
+        self.xtitle = xtitle
+        self.ytitle = ytitle
         self.logx = logx
         self.logy = logy
         self.selections=selections
@@ -107,15 +109,17 @@ class PlottingEngine(object):
 
         return fig
 
-    def plotTimecourse(self, m, title=None, ordinates=None, tag=None):
+    def plotTimecourse(self, m, title=None, ordinates=None, tag=None, xtitle=None, logy=False, ytitle=None):
         """ Plots a timecourse from a simulation.
 
         :param m: An array returned by RoadRunner.simulate.
         """
         fig = self.figureFromTimecourse(m, title=title, ordinates=ordinates, tag=tag)
+        if xtitle:
+            fig.xtitle = xtitle
         fig.plot()
 
-    def accumulateTimecourse(self, m, title=None, ordinates=None, tag=None):
+    def accumulateTimecourse(self, m, title=None, ordinates=None, tag=None, xtitle=None, logy=False, ytitle=None):
         """ Accumulates the traces instead of plotting (like matplotlib with show=False).
         Call show() to show the plot.
 
@@ -129,6 +133,9 @@ class PlottingEngine(object):
 
         for k in range(1,m.shape[1]):
             self.fig.addXYDataset(m[:,0], m[:,k], name=m.colnames[k], tag=tag)
+
+        if xtitle:
+            self.fig.xtitle = xtitle
 
     def show(self, reset=True):
         """ Shows the traces accummulated from accumulateTimecourse.

@@ -331,9 +331,9 @@ class ExtendedRoadRunner(roadrunner.RoadRunner):
 
         # if show is true, show the plot immediately
         if show:
-            getPlottingEngine().plotTimecourse(result, ordinates=ordinates, tag=tag)
+            getPlottingEngine().plotTimecourse(result, ordinates=ordinates, tag=tag, xtitle=xlabel)
         else: # otherwise, accumulate the traces
-            getPlottingEngine().accumulateTimecourse(result, ordinates=ordinates, tag=tag)
+            getPlottingEngine().accumulateTimecourse(result, ordinates=ordinates, tag=tag, xtitle=xlabel)
 
         # Old code:
         # if loc is False:
