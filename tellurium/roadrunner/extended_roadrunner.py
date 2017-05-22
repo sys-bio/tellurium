@@ -274,7 +274,7 @@ class ExtendedRoadRunner(roadrunner.RoadRunner):
 
     def plot(self, result=None, show=True,
              xlabel=None, ylabel=None, title=None, xlim=None, ylim=None,
-             xscale='linear', yscale='linear', grid=False, ordinates=None, tag=None, **kwargs):
+             xscale='linear', yscale='linear', grid=False, ordinates=None, tag=None, alpha=None):
         """ Plot roadrunner simulation data.
 
         Plot is called with simulation data to plot as the first argument. If no data is provided the data currently
@@ -331,9 +331,9 @@ class ExtendedRoadRunner(roadrunner.RoadRunner):
 
         # if show is true, show the plot immediately
         if show:
-            getPlottingEngine().plotTimecourse(result, ordinates=ordinates, tag=tag, xtitle=xlabel)
+            getPlottingEngine().plotTimecourse(result, ordinates=ordinates, tag=tag, xtitle=xlabel, alpha=alpha)
         else: # otherwise, accumulate the traces
-            getPlottingEngine().accumulateTimecourse(result, ordinates=ordinates, tag=tag, xtitle=xlabel)
+            getPlottingEngine().accumulateTimecourse(result, ordinates=ordinates, tag=tag, xtitle=xlabel, alpha=alpha)
 
         # Old code:
         # if loc is False:

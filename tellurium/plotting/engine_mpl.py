@@ -25,6 +25,8 @@ class MatplotlibFigure(PlottingFigure):
                 have_labels = True
             if 'color' in dataset:
                 kwargs['color'] = dataset['color']
+            if 'alpha' in dataset and dataset['alpha'] is not None:
+                kwargs['alpha'] = dataset['alpha']
             plt.plot(dataset['x'], dataset['y'], marker='', **kwargs)
         # title
         if self.title:

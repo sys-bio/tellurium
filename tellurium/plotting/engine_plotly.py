@@ -39,6 +39,8 @@ class PlotlyFigure(PlottingFigure):
                 kwargs['name'] = dataset['name']
             else:
                 kwargs['showlegend'] = False
+            if 'alpha' in dataset and dataset['alpha'] is not None:
+                kwargs['opacity'] = dataset['alpha']
             traces.append(Scatter(
                 x = dataset['x'],
                 y = dataset['y'],

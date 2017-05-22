@@ -38,7 +38,7 @@ class PlottingFigure(object):
         self.logy = logy
         self.selections=selections
 
-    def addXYDataset(self, x_arr, y_arr, color=None, tag=None, name=None, filter=True):
+    def addXYDataset(self, x_arr, y_arr, color=None, tag=None, name=None, filter=True, alpha=None):
         """ Adds an X/Y dataset to the plot.
 
         :param x_arr: A numpy array describing the X datapoints. Should have the same size as y_arr.
@@ -61,6 +61,8 @@ class PlottingFigure(object):
         if tag is not None:
             dataset['tag'] = tag
             self.tagged_data[tag].append(dataset)
+        if alpha is not None:
+            dataset['alpha'] = alpha
         self.xy_datasets.append(dataset)
 
     def getMergedTaggedDatasets(self):
@@ -109,17 +111,17 @@ class PlottingEngine(object):
 
         return fig
 
-    def plotTimecourse(self, m, title=None, ordinates=None, tag=None, xtitle=None, logy=False, ytitle=None):
+    def plotTimecourse(self, m, title=None, ordinates=None, tag=None, xtitle=None, logy=False, ytitle=None, alpha=None):
         """ Plots a timecourse from a simulation.
 
         :param m: An array returned by RoadRunner.simulate.
         """
-        fig = self.figureFromTimecourse(m, title=title, ordinates=ordinates, tag=tag)
+        fig = self.figureFromTimecourse(m, title=title, ordinates=ordinates, tag=tag, alpha=alpha)
         if xtitle:
             fig.xtitle = xtitle
         fig.plot()
 
-    def accumulateTimecourse(self, m, title=None, ordinates=None, tag=None, xtitle=None, logy=False, ytitle=None):
+    def accumulateTimecourse(self, m, title=None, ordinates=None, tag=None, xtitle=None, logy=False, ytitle=None, alpha=None):
         """ Accumulates the traces instead of plotting (like matplotlib with show=False).
         Call show() to show the plot.
 
@@ -133,7 +135,7 @@ class PlottingEngine(object):
 
         for k in range(1,m.shape[1]):
             t = tag if tag else m.colnames[k]
-            self.fig.addXYDataset(m[:,0], m[:,k], name=m.colnames[k], tag=t)
+            self.fig.addXYDataset(m[:,0], m[:,k], name=m.colnames[k], tag=t, alpha=alpha)
 
         if xtitle:
             self.fig.xtitle = xtitle
