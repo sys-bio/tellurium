@@ -1,4 +1,6 @@
 from collections import defaultdict
+import itertools, numpy as np
+from functools import reduce
 
 def filterWithSelections(self, name, selections):
     """ This function is intended to be used as an argument to the filter built-in.
@@ -58,6 +60,26 @@ class PlottingFigure(object):
             dataset['tag'] = tag
             self.tagged_data[tag].append(dataset)
         self.xy_datasets.append(dataset)
+
+    def getMergedTaggedDatasets(self):
+        for datasets_for_tag in self.tagged_data.values():
+            x = reduce(lambda u,v: np.concatenate((u,[np.nan],v)), (dataset['x'] for dataset in datasets_for_tag))
+            y = reduce(lambda u,v: np.concatenate((u,[np.nan],v)), (dataset['y'] for dataset in datasets_for_tag))
+            # merge all datasets
+            result_dataset = datasets_for_tag[0] if datasets_for_tag else None
+            for dataset in datasets_for_tag:
+                result_dataset.update(dataset)
+            # use the concatenated values for x and y
+            result_dataset['x'] = x
+            result_dataset['y'] = y
+            if result_dataset is not None:
+                yield result_dataset
+
+    def getDatasets(self):
+        """ Get an iterable of all datasets."""
+        return itertools.chain(
+            self.getMergedTaggedDatasets(),
+            (dataset for dataset in self.xy_datasets if not 'tag' in dataset))
 
 
 class PlottingEngine(object):
