@@ -71,15 +71,43 @@ class PlottingEngine(object):
         """
         raise NotImplementedError('Abstract method')
 
-    def plotTimecourse(self, m, title=None, ordinates=None):
+    def figureFromTimecourse(self, m, title=None, ordinates=None):
+        """ Generate a new figure from a timecourse simulation.
+
+        :param m: An array returned by RoadRunner.simulate.
+        """
+        fig = self.newFigure()
+        if m.colnames[0] != 'time':
+            raise RuntimeError('Cannot plot timecourse - first column is not time')
+
+        for k in range(1,m.shape[1]):
+            fig.addXYDataset(m[:,0], m[:,k], name=m.colnames[k])
+
+        return fig
+
+    def figureFromTimecourse(self, m, title=None, ordinates=None):
+        """ Generate a new figure from a timecourse simulation.
+
+        :param m: An array returned by RoadRunner.simulate.
+        """
+        fig = self.newFigure()
+        if m.colnames[0] != 'time':
+            raise RuntimeError('Cannot plot timecourse - first column is not time')
+
+        for k in range(1,m.shape[1]):
+            fig.addXYDataset(m[:,0], m[:,k], name=m.colnames[k])
+
+        return fig
+
+    def plotTimecourse(self, m, title=None, ordinates=None, tag=None):
         """ Plots a timecourse from a simulation.
 
         :param m: An array returned by RoadRunner.simulate.
         """
-        fig = self.figureFromTimecourse(m, title=title, ordinates=ordinates)
+        fig = self.figureFromTimecourse(m, title=title, ordinates=ordinates, tag=tag)
         fig.plot()
 
-    def accumulateTimecourse(self, m, title=None, ordinates=None):
+    def accumulateTimecourse(self, m, title=None, ordinates=None, tag=None):
         """ Accumulates the traces instead of plotting (like matplotlib with show=False).
         Call show() to show the plot.
 
@@ -92,7 +120,7 @@ class PlottingEngine(object):
             raise RuntimeError('Cannot plot timecourse - first column is not time')
 
         for k in range(1,m.shape[1]):
-            self.fig.addXYDataset(m[:,0], m[:,k], name=m.colnames[k])
+            self.fig.addXYDataset(m[:,0], m[:,k], name=m.colnames[k], tag=tag)
 
     def show(self, reset=True):
         """ Shows the traces accummulated from accumulateTimecourse.
