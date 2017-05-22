@@ -274,7 +274,7 @@ class ExtendedRoadRunner(roadrunner.RoadRunner):
 
     def plot(self, result=None, show=True,
              xlabel=None, ylabel=None, title=None, xlim=None, ylim=None,
-             xscale='linear', yscale='linear', grid=False, ordinates=None, **kwargs):
+             xscale='linear', yscale='linear', grid=False, ordinates=None, tag=None, **kwargs):
         """ Plot roadrunner simulation data.
 
         Plot is called with simulation data to plot as the first argument. If no data is provided the data currently
@@ -315,6 +315,10 @@ class ExtendedRoadRunner(roadrunner.RoadRunner):
         :type yscale: 'str'
         :param grid: show grid
         :type grid: bool
+        :param ordinates: If supplied, only these selections will be plotted (see RoadRunner selections)
+        :type ordinates: list
+        :param tag: If supplied, all traces with the same tag will be plotted with the same color/style
+        :type tag: str
         :param kwargs: additional matplotlib keywords like marker, lineStyle, color, alpha, ...
         :return:
         :rtype:
@@ -327,9 +331,9 @@ class ExtendedRoadRunner(roadrunner.RoadRunner):
 
         # if show is true, show the plot immediately
         if show:
-            getPlottingEngine().plotTimecourse(result, ordinates=ordinates)
+            getPlottingEngine().plotTimecourse(result, ordinates=ordinates, tag=tag)
         else: # otherwise, accumulate the traces
-            getPlottingEngine().accumulateTimecourse(result, ordinates=ordinates)
+            getPlottingEngine().accumulateTimecourse(result, ordinates=ordinates, tag=tag)
 
         # Old code:
         # if loc is False:

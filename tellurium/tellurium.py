@@ -9,6 +9,7 @@ import os
 import sys
 import warnings
 
+# NOTE: not needed since we now require matplotlib >= 2.0.0
 # check availability of property cycler (matplotlib 1.5ish)
 # if True: # create dummy scope
 #     import matplotlib

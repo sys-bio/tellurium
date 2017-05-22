@@ -108,17 +108,3 @@ class PlotlyPlottingEngine(PlottingEngine):
     def newStackedFigure(self, title=None, logX=False, logY=False, layout=PlottingLayout()):
         """ Returns a figure object."""
         return PlotlyStackedFigure(title=title, layout=layout)
-
-    def figureFromTimecourse(self, m, title=None, ordinates=None):
-        """ Generate a new figure from a timecourse simulation.
-
-        :param m: An array returned by RoadRunner.simulate.
-        """
-        fig = self.newFigure()
-        if m.colnames[0] != 'time':
-            raise RuntimeError('Cannot plot timecourse - first column is not time')
-
-        for k in range(1,m.shape[1]):
-            fig.addXYDataset(m[:,0], m[:,k], name=m.colnames[k])
-
-        return fig
