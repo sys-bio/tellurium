@@ -1,4 +1,4 @@
-from .engine import PlottingEngine, PlottingFigure, PlottingLayout
+from .engine import PlottingEngine, PlottingFigure, PlottingLayout, filterWithSelections
 
 import matplotlib.pyplot as plt
 from matplotlib import gridspec
@@ -47,6 +47,7 @@ class MatplotlibFigure(PlottingFigure):
 
 class MatplotlibPlottingEngine(PlottingEngine):
     def __init__(self, save_to_pdf=False):
+        PlottingEngine.__init__(self)
         self.save_to_pdf = save_to_pdf
 
     def newFigure(self, title=None, logX=False, logY=False, layout=PlottingLayout()):
@@ -62,15 +63,7 @@ class MatplotlibPlottingEngine(PlottingEngine):
         if m.colnames[0] != 'time':
             raise RuntimeError('Cannot plot timecourse - first column is not time')
 
-        for k in filter(lambda k: self.filterWithSelections(m.colnames[k], ordinates), range(1,m.shape[1])):
+        for k in filter(lambda k: filterWithSelections(m.colnames[k], ordinates), range(1,m.shape[1])):
             fig.addXYDataset(m[:,0], m[:,k], name=m.colnames[k])
 
         return fig
-
-    def plotTimecourse(self, m, title=None, ordinates=None):
-        """ Plots a timecourse from a simulation.
-
-        :param m: An array returned by RoadRunner.simulate.
-        """
-        fig = self.figureFromTimecourse(m, title=title, ordinates=ordinates)
-        fig.plot()
