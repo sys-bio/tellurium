@@ -21,6 +21,10 @@ from .tellurium import (
 #    inlineOmex,
 #    )
 
+#Other 
+from .tellurium import (
+    distributed_parameter_scanning,sample_plot,plotImage )
+
 # Model import
 from .tellurium import (
     loadAntimonyModel,     # load antimony from string
