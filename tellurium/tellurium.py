@@ -8,6 +8,10 @@ from __future__ import print_function, division, absolute_import
 import os
 import sys
 import warnings
+import matplotlib
+
+matplotlib.use('Agg')
+import matplotlib.pyplot as plt
 
 # check availability of property cycler (matplotlib 1.5ish)
 # if True: # create dummy scope
@@ -251,6 +255,52 @@ def _checkAntimonyReturnCode(code):
     if code < 0:
         raise Exception('Antimony: {}'.format(antimony.getLastError()))
 
+def colorCycle(color,polyNumber):
+    """ Adjusts contents of self.color as needed for plotting methods."""
+    if len(color) < polyNumber:
+        for i in range(polyNumber - len(color)):
+            color.append(color[i])
+    else:
+        for i in range(len(color) - polyNumber):
+            del color[-(i+1)]
+    return color
+
+def sample_plot(result):
+    color = ['#0F0F3D', '#141452', '#1A1A66', '#1F1F7A', '#24248F', '#2929A3',
+             '#2E2EB8', '#3333CC', '#4747D1', '#5C5CD6']
+    if len(color) != result.shape[1]:
+        color = colorCycle(color,10)
+    for i in range(result.shape[1] - 1):
+        plt.plot(result[:, 0], result[:, i + 1], color=color[i],
+                 linewidth=2.5, label="SomeLabel")
+    plt.xlabel('time')
+    plt.ylabel('concentration')
+    plt.suptitle("Sample Plot")
+    plt.legend()
+    plt.show()
+
+def plotImage(img):
+    imgplot = plt.imshow(img)
+    plt.show()
+    plt.close()
+
+
+def distributed_parameter_scanning(sc,list_of_models, function_name,antimony="antimony"):
+    def spark_work(model_with_parameters):
+        import tellurium as te
+        if(antimony == "antimony"):
+            model_roadrunner = te.loada(model_with_parameters[0])
+        else:
+            model_roadrunner = te.loadSBMLModel(model_with_parameters[0])
+        parameter_scan_initilisation = te.ParameterScan(model_roadrunner,**model_with_parameters[1])
+        simulator = getattr(parameter_scan_initilisation, function_name)
+        return(simulator())
+        
+    return(sc.parallelize(list_of_models,len(list_of_models)).map(spark_work).collect())
+
+
+def working():
+    print("YES!!!")
 
 def loada(ant):
     """Load model from Antimony string.
