@@ -82,6 +82,9 @@ from .analysis.parameterscan import (
     ParameterScan,
     SteadyStateScan,
     )
+from .tellurium import (
+    distributed_parameter_scanning,sample_plot,plotImage
+    )
 
 # Bifurcations
 from .analysis.bifurcation import (

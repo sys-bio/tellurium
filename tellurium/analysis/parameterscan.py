@@ -4,12 +4,13 @@ Utility classes for parameter scans.
 from __future__ import print_function, division
 import numpy as np
 import matplotlib
-
+matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 from matplotlib.collections import PolyCollection
 from mpl_toolkits.mplot3d import Axes3D
 from matplotlib.ticker import LinearLocator, FormatStrFormatter
-
+import matplotlib.image as mpimg
+import uuid
 
 class ParameterScan (object):
     """ ParameterScan """
@@ -63,6 +64,9 @@ class ParameterScan (object):
         self.sameColor = sameColor
         self.legend = legend
 
+
+
+
     def _sim(self):
         """ Runs a simulation and returns the result for a plotting function.
         Not intended to be called by user.
@@ -83,12 +87,13 @@ class ParameterScan (object):
             result = self.rr.simulate(self.startTime, self.endTime, self.numberOfPoints, self.selection)
         return result
 
-    def plotArray(self):
-        """ Plots result of simulation with options for linewdith and line color.
-
-        p.plotArray()
-        """
+    def collect_plotArray_result(self):
         result = self._sim()
+        return(np.array(result))
+
+    def plotArrayFunction(self,result):
+
+
         if self.color is None:
             for species in self.rr.timeCourseSelections[1:]:
                 plt.plot(result[:, 0], result[species],
@@ -97,8 +102,8 @@ class ParameterScan (object):
             if len(self.color) != result.shape[1]:
                 self.color = self.colorCycle()
             for i in range(result.shape[1] - 1):
-                plt.plot(result[:, 0], result[:, i+1], color=self.color[i],
-                         linewidth=self.width, label=self.rr.timeCourseSelections[i+1])
+                plt.plot(result[:, 0], result[:, i + 1], color=self.color[i],
+                         linewidth=self.width, label=self.rr.timeCourseSelections[i + 1])
 
         if self.xlabel == 'toSet':
             plt.xlabel('time')
@@ -112,7 +117,22 @@ class ParameterScan (object):
             plt.suptitle(self.title)
         if self.legend:
             plt.legend()
-        plt.show()
+        #plt.show()
+        FILENAME = str(uuid.uuid4())+".png"
+        plt.savefig(FILENAME)
+        plt.close()
+        imag = mpimg.imread(FILENAME)
+        return(imag)
+
+    def plotArray(self):
+        """ Plots result of simulation with options for linewdith and line color.
+
+        p.plotArray()
+        """
+        result = self._sim()
+        return(self.plotArrayFunction(result))
+
+
 
     def _graduatedSim(self):
         """ Runs successive simulations with incremental changes in one species, and returns
@@ -164,12 +184,11 @@ class ParameterScan (object):
 
         return m
 
-    def plotGraduatedArray(self):
-        """Plots array with either default multiple colors or user sepcified colors using
-        results from graduatedSim().
-
-        p.plotGraduatedArray()"""
+    def collect_plotGraduatedArray_result(self):
         result = self._graduatedSim()
+        return(np.array(result))
+
+    def plotGraduatedArrayFunction(self,result):
         interval = ((self.endValue - self.startValue) / (self.polyNumber - 1))
         numSp = len(self.selection) - 1
         if self.color is None and self.sameColor is True:
@@ -180,7 +199,7 @@ class ParameterScan (object):
                         lbl = "{0}, {1} = {2}".format(species, self.value, round((self.startValue + (interval * i)), 2))
                     else:
                         lbl = "{0} = {1}".format(self.value, round((self.startValue + (interval * i)), 2))
-                    plt.plot(result[:,0], result[:, numSp*i+count], linewidth=self.width, color='b', label = lbl)
+                    plt.plot(result[:, 0], result[:, numSp * i + count], linewidth=self.width, color='b', label=lbl)
                 count += 1
 
         elif self.color is None:
@@ -191,7 +210,7 @@ class ParameterScan (object):
                         lbl = "{0}, {1} = {2}".format(species, self.value, round((self.startValue + (interval * i)), 2))
                     else:
                         lbl = "{0} = {1}".format(self.value, round((self.startValue + (interval * i)), 2))
-                    plt.plot(result[:, 0], result[:, numSp*i+count], linewidth=self.width, label=lbl)
+                    plt.plot(result[:, 0], result[:, numSp * i + count], linewidth=self.width, label=lbl)
                 count += 1
 
         else:
@@ -204,7 +223,7 @@ class ParameterScan (object):
                         lbl = "{0}, {1} = {2}".format(species, self.value, round((self.startValue + (interval * i)), 2))
                     else:
                         lbl = "{0} = {1}".format(self.value, round((self.startValue + (interval * i)), 2))
-                    plt.plot(result[:, 0], result[:, numSp*i+count], color=self.color[i],
+                    plt.plot(result[:, 0], result[:, numSp * i + count], color=self.color[i],
                              linewidth=self.width, label=lbl)
                 count += 1
 
@@ -220,14 +239,22 @@ class ParameterScan (object):
             plt.ylabel(self.ylabel)
         if self.legend:
             plt.legend()
-        plt.show()
+        #plt.show()
+        FILENAME = str(uuid.uuid4()) + ".png"
+        plt.savefig(FILENAME)
+        plt.close()
+        imag = mpimg.imread(FILENAME)
+        return(imag)
 
-    def plotPolyArray(self):
-        """Plots results as individual graphs parallel to each other in 3D space using results
-        from graduatedSim().
+    def plotGraduatedArray(self):
+        """Plots array with either default multiple colors or user sepcified colors using
+        results from graduatedSim().
 
-        p.plotPolyArray()"""
+        p.plotGraduatedArray()"""
         result = self._graduatedSim()
+        return(self.plotGraduatedArrayFunction(result))
+
+    def plotPolyArrayFunction(self,result):
         interval = ((self.endValue - self.startValue) / (self.polyNumber - 1))
         self.rr.reset()
         fig = plt.figure()
@@ -246,15 +273,15 @@ class ParameterScan (object):
         zresult = np.vstack((firstPoint, zresult))
         zs = []
         result = []
-        for i in range(int(columnNumber)-1):
+        for i in range(int(columnNumber) - 1):
             zs.append(i)
-            result.append(list(zip(zresult[:,0], zresult[:,(i+1)])))
+            result.append(zip(zresult[:, 0], zresult[:, (i + 1)]))
         if self.color is None:
             poly = PolyCollection(result)
         else:
             if len(self.color) != self.polyNumber:
                 self.color = self.colorCycle()
-            poly = PolyCollection(result, facecolors = self.color, closed = False)
+            poly = PolyCollection(result, facecolors=self.color, closed=False)
 
         poly.set_alpha(self.alpha)
         ax.add_collection3d(poly, zs=zs, zdir='y')
@@ -273,12 +300,30 @@ class ParameterScan (object):
             ax.set_zlabel(self.value)
         elif self.zlabel:
             ax.set_zlabel(self.zlabel)
-#        ax.set_xlabel('Time') if self.xlabel is None else ax.set_xlabel(self.xlabel)
-#        ax.set_ylabel('Trial Number') if self.ylabel is None else ax.set_ylabel(self.ylabel)
-#        ax.set_zlabel(self.value) if self.zlabel is None else ax.set_zlabel(self.zlabel)
+            #        ax.set_xlabel('Time') if self.xlabel is None else ax.set_xlabel(self.xlabel)
+            #        ax.set_ylabel('Trial Number') if self.ylabel is None else ax.set_ylabel(self.ylabel)
+            #        ax.set_zlabel(self.value) if self.zlabel is None else ax.set_zlabel(self.zlabel)
         if self.title is not None:
             ax.set_title(self.title)
-        plt.show()
+        #plt.show()
+        FILENAME = str(uuid.uuid4()) + ".png"
+        plt.savefig(FILENAME)
+        plt.close()
+        imag = mpimg.imread(FILENAME)
+        return(imag)
+
+    def collect_plotPolyArray_result(self):
+        result = self._graduatedSim()
+        return(np.array(result))
+
+    def plotPolyArray(self):
+        """Plots results as individual graphs parallel to each other in 3D space using results
+        from graduatedSim().
+
+        p.plotPolyArray()"""
+        result = self._graduatedSim()
+        return(self.plotPolyArrayFunction(result))
+
 
     def plotSurface(self):
         """ Plots results of simulation as a colored surface. Takes three variables, two
@@ -368,7 +413,11 @@ class ParameterScan (object):
             if self.colorbar:
                 fig.colorbar(surf, shrink=0.5, aspect=4)
 
-            plt.show()
+            FILENAME = str(uuid.uuid4()) + ".png"
+            plt.savefig(FILENAME)
+            plt.close()
+            imag = mpimg.imread(FILENAME)
+            return(imag)
 
         except Exception as e:
             print('error: {0}'.format(e.message))
