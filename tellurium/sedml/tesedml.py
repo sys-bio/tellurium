@@ -719,9 +719,22 @@ class SEDMLCodeFactory(object):
                     peek = nodeStack.peek()
                     if (nextNode is None) or (peek.depth > nextNode.depth):
                         # TODO: reset evaluation has to be defined here
+                        # determine if it's steady state
+                        # if taskType == libsedml.SEDML_TASK_REPEATEDTASK:
+                        # print('task {}'.format(node.task.getId()))
+                        # print('  peek {}'.format(peek.task.getId()))
+                        if node.task.getTypeCode() == libsedml.SEDML_TASK_REPEATEDTASK:
+                        # if peek.task.getTypeCode() == libsedml.SEDML_TASK_REPEATEDTASK:
+                            # sid = task.getSimulationReference()
+                            # simulation = doc.getSimulation(sid)
+                            # simType = simulation.getTypeCode()
+                            # if simType is libsedml.SEDML_SIMULATION_STEADYSTATE:
+                            terminator = 'terminate_trace({})'.format(node.task.getId())
+                        else:
+                            terminator = '{}'.format(node.task.getId())
                         lines.extend([
                             "",
-                            "    "*node.depth + "{}.extend({})".format(peek.task.getId(), node.task.getId()),
+                            "    "*node.depth + "{}.extend({})".format(peek.task.getId(), terminator),
                         ])
                         node = nodeStack.pop()
 
@@ -1307,7 +1320,7 @@ class SEDMLCodeFactory(object):
                     lines.append("__var__{} = np.concatenate(np.transpose(__var__{}))".format(varId, varId))
                 else:
                     lines.append("__var__{} = np.transpose(np.array([sim['{}'] for sim in {}]))".format(varId, sid, taskId))
-                    lines.append("__var__{} = np.concatenate(np.transpose(__var__{}))".format(varId, varId))
+                    lines.append("__var__{} = np.concatenate(process_trace(np.transpose(__var__{})))".format(varId, varId))
             lines.append("if len(__var__{}.shape) == 1:".format(varId))
             lines.append("     __var__{}.shape += (1,)".format(varId))
 
@@ -1740,10 +1753,34 @@ def process_trace(trace):
     """ If each entry in the task consists of a single point
     (e.g. steady state scan), concatenate the points.
     Otherwise, plot as separate curves."""
+    # print('trace.size = {}'.format(trace.size))
+    # print('len(trace.shape) = {}'.format(len(trace.shape)))
     if trace.size > 1:
-        return np.concatenate([np.atleast_1d(trace), np.atleast_1d(np.nan)])
+        if len(trace.shape) == 1:
+            return np.concatenate((np.atleast_1d(trace), np.atleast_1d(np.nan)))
+        else:
+            result = np.vstack((np.atleast_1d(trace), np.atleast_1d(np.nan)))
+            # print('vstack')
+            # print(result)
+            return np.vstack((np.atleast_1d(trace), np.atleast_1d(np.nan)))
     else:
         return np.atleast_1d(trace)
+
+def terminate_trace(trace):
+    """ If each entry in the task consists of a single point
+    (e.g. steady state scan), concatenate the points.
+    Otherwise, plot as separate curves."""
+    if isinstance(trace,list):
+        if len(trace) > 0 and not isinstance(trace[-1], list) and not isinstance(trace[-1], dict):
+            # if len(trace) > 2 and isinstance(trace[-1], dict):
+            # e = np.array(trace[-1], copy=True)
+            e = {}
+            for name in trace[-1].colnames:
+                e[name] = np.atleast_1d(np.nan)
+            # print('e:')
+            # print(e)
+            return trace + [e]
+    return trace
 
 ##################################################################################################
 if __name__ == "__main__":

@@ -270,7 +270,7 @@ class inlineOmexImporter:
 
         header = ''
         if not self.headerless:
-            header += '{} {}'.format(header_start, entry.getLocation())
+            header += '{} {}'.format(header_start, self.fixExt(entry.getLocation()))
             if entry.isSetMaster() and entry.getMaster():
                 header += ' --master=True'
             header += '\n'
@@ -300,6 +300,11 @@ class inlineOmexImporter:
 
     def normalizePath(self, path):
         return os.path.normpath(path)
+
+    def fixExt(self, path):
+        """ Ensures all extensions are .xml."""
+        p = os.path.splitext(path)[0]
+        return ''.join([p,'.xml'])
 
     def formatPhrasedmlResource(self, path):
         """ Normalizes and also strips xml extension."""

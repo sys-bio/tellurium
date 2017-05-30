@@ -8,6 +8,36 @@ from tesedml import SedReader
 class phrasedmlImporter:
     @classmethod
     def fromContent(cls, sedml_str, sbml_map={}):
+        # test for JWS quirks
+        if 'xmlns="http://sed-ml.org/sed-ml/level1/version3"' in sedml_str:
+            # import xml.etree.ElementTree as ElementTree
+            # root = ElementTree.fromstring(sedml_str)
+            # for p in root.findall('{http://sed-ml.org/sed-ml/level1/version3}plot2D'):
+            #     if not 'logX' in p.attrib or not 'logY' in p.attrib:
+            #         logX = False
+            #         logY = False
+            #         for l in p.findall('{http://sed-ml.org/sed-ml/level1/version3}listOfCurves'):
+            #             for c in l.findall('{http://sed-ml.org/sed-ml/level1/version3}curve'):
+            #                 if 'logX' in c.attrib and c.attrib['logX'].lower() == 'true':
+            #                     logX = True
+            #                 if 'logY' in c.attrib and c.attrib['logY'].lower() == 'true':
+            #                     logY = True
+            #         p.set('logX', logX)
+            #         p.set('logY', logY)
+            # sedml_str = (ElementTree.tostring(root, encoding='utf8', method='xml')).decode('utf8')
+            while True:
+                p = sedml_str.find('plot2D')
+                if p < 0:
+                    break
+                b = sedml_str.find('>', p)
+                if b < 0:
+                    break
+                l = sedml_str.find('logX', p)
+                if l < 0 or b < l:
+                    sedml_str = sedml_str[:p] + 'plot2D logX="false" logY="false" ' + sedml_str[p+len('plot2D'):]
+                else:
+                    break
+            print(sedml_str)
         importer = phrasedmlImporter(sbml_map)
         importer.sedml_str = sedml_str
         # test for errors
