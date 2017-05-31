@@ -115,9 +115,9 @@ def evaluableMathML(astnode, variables={}, array=False):
         formula = formula.replace("||", 'or')
     else:
         # np.array
-        formula = formula.replace("max", 'np.max')
-        formula = formula.replace("min", 'np.min')
-        formula = formula.replace("sum", 'np.sum')
+        formula = formula.replace("max", 'np.nanmax')
+        formula = formula.replace("min", 'np.nanmin')
+        formula = formula.replace("sum", 'np.nansum')
         formula = formula.replace("product", 'np.prod')
 
     return formula
