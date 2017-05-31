@@ -1320,7 +1320,7 @@ class SEDMLCodeFactory(object):
                     lines.append("__var__{} = np.concatenate(np.transpose(__var__{}))".format(varId, varId))
                 else:
                     lines.append("__var__{} = np.transpose(np.array([sim['{}'] for sim in {}]))".format(varId, sid, taskId))
-                    lines.append("__var__{} = np.concatenate(process_trace(np.transpose(__var__{})))".format(varId, varId))
+                    lines.append("__var__{} = np.concatenate(np.transpose(__var__{}))".format(varId, varId))
             lines.append("if len(__var__{}.shape) == 1:".format(varId))
             lines.append("     __var__{}.shape += (1,)".format(varId))
 
@@ -1758,11 +1758,12 @@ def process_trace(trace):
     if trace.size > 1:
         if len(trace.shape) == 1:
             return np.concatenate((np.atleast_1d(trace), np.atleast_1d(np.nan)))
-        else:
-            result = np.vstack((np.atleast_1d(trace), np.atleast_1d(np.nan)))
+        elif len(trace.shape) == 2:
+            # print(trace.shape)
+            result = np.vstack((np.atleast_1d(trace), np.full((1,trace.shape[-1]),np.nan)))
             # print('vstack')
             # print(result)
-            return np.vstack((np.atleast_1d(trace), np.atleast_1d(np.nan)))
+            return result
     else:
         return np.atleast_1d(trace)
 
