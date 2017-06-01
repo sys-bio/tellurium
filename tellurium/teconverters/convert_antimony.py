@@ -45,6 +45,26 @@ class antimonyConverter:
         sb_source = sb.getAntimonyString(module)
         return (module, sb_source)
 
+    def cellmlFileToAntimony(self, sbml_path):
+        """ Converts a CellML file to Antimony source.
+
+        :param sbml_path: The path to the CellML file
+        :returns: A 2-tuple (module_name, antimony_source)
+        """
+
+        import antimony as sb
+        # try to load the Antimony code`
+        code = sb.loadCellMLFile(sbml_path)
+
+        # if errors, bail
+        if self.checkAntimonyReturnCode(code):
+            errors = sb.getLastError()
+            raise RuntimeError('Errors encountered when trying to load model:\n{}'.format(errors))
+
+        module = sb.getMainModuleName()
+        sb_source = sb.getAntimonyString(module)
+        return (module, sb_source)
+
     def antimonyToSBML(self, sb_str):
         """ Converts an Antimony string to raw SBML.
 
