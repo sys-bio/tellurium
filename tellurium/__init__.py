@@ -23,7 +23,7 @@ from .tellurium import (
 
 #Other 
 from .tellurium import (
-    distributed_parameter_scanning,sample_plot,plotImage )
+    distributed_parameter_scanning,sample_plot,plotImage,distributed_stochastic_simulation,plot_distributed_stochastic ,plot_stochastic_result)
 
 # Model import
 from .tellurium import (
@@ -86,6 +86,8 @@ from .analysis.parameterscan import (
     ParameterScan,
     SteadyStateScan,
     )
+
+from .analysis.stochasticmodel import StochasticSimulationModel
 
 # Bifurcations
 #from .analysis.bifurcation import (

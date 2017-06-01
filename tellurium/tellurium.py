@@ -4,12 +4,12 @@ As part of this module an ExendedRoadRunner class is defined which provides help
 model export, plotting or the Jarnac compatibility layer.
 """
 from __future__ import print_function, division, absolute_import
-
+import random
 import os
 import sys
 import warnings
 import matplotlib
-
+import numpy as np
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 
@@ -283,6 +283,63 @@ def plotImage(img):
     imgplot = plt.imshow(img)
     plt.show()
     plt.close()
+
+def custom_plot(x, y, min_y,max_y, label_name , **kwargs):
+    ax = kwargs.pop('ax', plt.gca())
+    base_line, = ax.plot(x, y, label=label_name,**kwargs)
+    ax.fill_between(x, min_y, max_y, facecolor=base_line.get_color(), alpha=0.3)
+    # Now add the legend with some customizations.
+    
+
+def plot_stochastic_result(result):
+    plt.close()
+    if(len(result) < 1):
+        return
+    col_names = result[0][0]
+    sim_result = np.array([item[1] for item in result])
+    mean_result = sim_result.mean(0)
+    min_result = sim_result.min(0)
+    max_result = sim_result.max(0)
+    
+    for col in range(1,len(col_names)):
+        X = mean_result[:,0]
+        Y = mean_result[:,col]
+        
+        min_y = min_result[:,col]
+        max_y = max_result[:,col]
+        custom_plot(X,Y,min_y,max_y,col_names[col])
+        
+    #plt.legend(bbox_to_anchor=(1.05, 1), loc=2, borderaxespad=0.)
+    plt.legend()
+    plt.show()
+
+def distributed_stochastic_simulation(sc,stochastic_model_object, num_simulations, model_type="antimony"):
+    def stochastic_work(model_object):
+        import tellurium as te
+        if model_type == "antimony":
+            model_roadrunner = te.loada(model_object.model)
+        else:
+            model_roadrunner = te.loadSBMLModel(model_object.model)
+        model_roadrunner.integrator = model_object.integrator
+        # seed the randint method with the current time
+        random.seed()
+        # it is now safe to use random.randint
+        model_roadrunner.setSeed(random.randint(1000, 99999))
+        model_roadrunner.integrator.variable_step_size = model_object.variable_step_size
+        model_roadrunner.reset()
+        simulated_data = model_roadrunner.simulate(model_object.from_time, model_object.to_time, model_object.step_points)
+        return([simulated_data.colnames,np.array(simulated_data)])
+
+    return(sc.parallelize([stochastic_model_object]*num_simulations,num_simulations).map(stochastic_work).collect())
+
+
+def plot_distributed_stochastic(plot_data):
+    fig = getPlottingEngine().newFigure(title='Stochastic Result')
+    for each_data in plot_data:
+        for i_column in range(1,len(each_data[0])):
+            name = each_data[0][i_column]
+            fig.addXYDataset([i_data[0] for i_data in each_data[1]],[i_data[i_column] for i_data in each_data[1]],  name=name)
+    fig.plot()
 
 
 def distributed_parameter_scanning(sc,list_of_models, function_name,antimony="antimony"):
@@ -1136,3 +1193,4 @@ def RoadRunner(*args):
     return ExtendedRoadRunner(*args)
 
 roadrunner.RoadRunner = ExtendedRoadRunner
+
