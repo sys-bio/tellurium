@@ -21,6 +21,10 @@ from .tellurium import (
 #    inlineOmex,
 #    )
 
+#Other 
+from .tellurium import (
+    distributed_parameter_scanning,sample_plot,plotImage,distributed_stochastic_simulation,plot_distributed_stochastic ,plot_stochastic_result)
+
 # Model import
 from .tellurium import (
     loadAntimonyModel,     # load antimony from string
@@ -82,6 +86,8 @@ from .analysis.parameterscan import (
     ParameterScan,
     SteadyStateScan,
     )
+
+from .analysis.stochasticmodel import StochasticSimulationModel
 
 # Bifurcations
 #from .analysis.bifurcation import (
