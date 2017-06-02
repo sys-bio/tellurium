@@ -324,6 +324,25 @@ class inlineOmexImporter:
         """
         output = ''
 
+        # try to read the author information
+        desc = self.omex.getMetadataForLocation('')
+        if desc and desc.getNumCreators() > 0:
+            # just get first one
+            vcard = desc.getCreator(0)
+            output += '// Author information:\n'
+            first_name = vcard.getGivenName()
+            last_name = vcard.getFamilyName()
+            name = ' '.join(first_name, last_name)
+            email = vcard.getEmail()
+            org = vcard.getOrganization()
+
+            if name:
+                output += '// - Name: {}\n'.format(name)
+            if email:
+                output += '// - Email: {}\n'.format(email)
+            if org:
+                output += '// - Organization: {}\n'.format(org)
+
         # convert sbml entries to antimony
         for entry in self.sbml_entries:
             output += (self.makeHeader(entry, 'sbml') +
