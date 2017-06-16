@@ -82,8 +82,15 @@ from .analysis.parameterscan import (
     ParameterScan,
     SteadyStateScan,
     )
+
+# Distributed computing
+from .analysis.stochasticmodel import StochasticSimulationModel
+
 from .tellurium import (
-    distributed_parameter_scanning,sample_plot,plotImage
+    # distrib. parameter scan
+    distributed_parameter_scanning, sample_plot, plotImage,
+    # distrib. stochastic sims & fitting
+    distributed_stochastic_simulation, plot_distributed_stochastic, plot_stochastic_result
     )
 
 # Bifurcations
