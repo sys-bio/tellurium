@@ -107,6 +107,7 @@ from .tellurium import (
 from .package_utils import (
     searchPackage,
     installPackage,
+    upgradePackage,
     uninstallPackage,
 )
 
