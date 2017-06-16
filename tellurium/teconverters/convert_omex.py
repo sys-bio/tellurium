@@ -311,10 +311,14 @@ class inlineOmexImporter:
         return self.normalizePath(path)
         # return os.path.splitext(self.normalizePath(path))[0]
 
-    def makeSBMLResourceMap(self):
+    def makeSBMLResourceMap(self, relative_to=None):
         result = {}
         for entry in self.sbml_entries:
-            result[self.formatPhrasedmlResource(entry.getLocation())] = self.omex.extractEntryToString(entry.getLocation())
+            if relative_to is None:
+                relpath = entry.getLocation()
+            else:
+                relpath = os.path.relpath(entry.getLocation(), relative_to)
+            result[self.formatPhrasedmlResource(relpath)] = self.omex.extractEntryToString(entry.getLocation())
         return result
 
     def toInlineOmex(self):
@@ -353,7 +357,7 @@ class inlineOmexImporter:
             try:
                 phrasedml_output = phrasedmlImporter.fromContent(
                     self.omex.extractEntryToString(entry.getLocation()).replace('BIOMD0000000012,xml','BIOMD0000000012.xml'),
-                    self.makeSBMLResourceMap()
+                    self.makeSBMLResourceMap(os.path.dirname(entry.getLocation()))
                     ).toPhrasedml().rstrip().replace('compartment', 'compartment_')
             except:
                 raise RuntimeError('Could not read embedded SED-ML file {}.'.format(entry.getLocation()))
