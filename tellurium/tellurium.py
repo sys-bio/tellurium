@@ -24,6 +24,7 @@ import warnings
 
 __default_plotting_engine = 'matplotlib'
 
+import antimony
 import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
@@ -95,7 +96,6 @@ def getPlottingEngine(engine=getDefaultPlottingEngine()):
 getPlottingEngineFactory.__doc__ = __getPlottingEngineFactory.__doc__
 
 import roadrunner
-import antimony
 
 try:
     import tesedml as libsedml
