@@ -408,13 +408,14 @@ class SEDMLCodeFactory(object):
         filename = os.path.join(tempfile.gettempdir(), 'te-generated-sedml.py')
         try:
             # Use of exec carries the usual security warnings
-            exec(compile(execStr, filename, 'exec'))
+            symbols = {}
+            exec(compile(execStr, filename, 'exec'), symbols)
 
             # return dictionary of data generators
             dg_data = {}
             for dg in self.doc.getListOfDataGenerators():
                 dg_id = dg.getId()
-                dg_data[dg_id] = locals()[dg_id]
+                dg_data[dg_id] = symbols[dg_id]
             return dg_data
 
         except:
@@ -718,9 +719,22 @@ class SEDMLCodeFactory(object):
                     peek = nodeStack.peek()
                     if (nextNode is None) or (peek.depth > nextNode.depth):
                         # TODO: reset evaluation has to be defined here
+                        # determine if it's steady state
+                        # if taskType == libsedml.SEDML_TASK_REPEATEDTASK:
+                        # print('task {}'.format(node.task.getId()))
+                        # print('  peek {}'.format(peek.task.getId()))
+                        if node.task.getTypeCode() == libsedml.SEDML_TASK_REPEATEDTASK:
+                        # if peek.task.getTypeCode() == libsedml.SEDML_TASK_REPEATEDTASK:
+                            # sid = task.getSimulationReference()
+                            # simulation = doc.getSimulation(sid)
+                            # simType = simulation.getTypeCode()
+                            # if simType is libsedml.SEDML_SIMULATION_STEADYSTATE:
+                            terminator = 'terminate_trace({})'.format(node.task.getId())
+                        else:
+                            terminator = '{}'.format(node.task.getId())
                         lines.extend([
                             "",
-                            "    "*node.depth + "{}.extend({})".format(peek.task.getId(), node.task.getId()),
+                            "    "*node.depth + "{}.extend({})".format(peek.task.getId(), terminator),
                         ])
                         node = nodeStack.pop()
 
@@ -807,7 +821,9 @@ class SEDMLCodeFactory(object):
                 lines.append("{}.integrator.setValue('{}', {})".format(mid, pkey.key, value))
 
         if simType is libsedml.SEDML_SIMULATION_STEADYSTATE:
-            lines.append("{}.conservedMoietyAnalysis = True".format(mid))
+            lines.append("if {model}.conservedMoietyAnalysis == False: {model}.conservedMoietyAnalysis = True".format(model=mid))
+        else:
+            lines.append("if {model}.conservedMoietyAnalysis == True: {model}.conservedMoietyAnalysis = False".format(model=mid))
 
         # get parents
         parents = []
@@ -898,7 +914,8 @@ class SEDMLCodeFactory(object):
             lines.append("{}.steadyStateSelections = {}".format(mid, list(selections)))
             lines.append("{}.simulate()".format(mid))  # for stability of the steady state solver
             lines.append("{} = {}.steadyStateNamedArray()".format(resultVariable, mid))
-            lines.append("{}.conservedMoietyAnalysis = False".format(mid))
+            # no need to turn this off because it will be checked before the next simulation
+            # lines.append("{}.conservedMoietyAnalysis = False".format(mid))
 
         # -------------------------------------------------------------------------
         # <OTHER>
@@ -1736,10 +1753,35 @@ def process_trace(trace):
     """ If each entry in the task consists of a single point
     (e.g. steady state scan), concatenate the points.
     Otherwise, plot as separate curves."""
+    # print('trace.size = {}'.format(trace.size))
+    # print('len(trace.shape) = {}'.format(len(trace.shape)))
     if trace.size > 1:
-        return np.concatenate([np.atleast_1d(trace), np.atleast_1d(np.nan)])
+        if len(trace.shape) == 1:
+            return np.concatenate((np.atleast_1d(trace), np.atleast_1d(np.nan)))
+        elif len(trace.shape) == 2:
+            # print(trace.shape)
+            result = np.vstack((np.atleast_1d(trace), np.full((1,trace.shape[-1]),np.nan)))
+            # print('vstack')
+            # print(result)
+            return result
     else:
         return np.atleast_1d(trace)
+
+def terminate_trace(trace):
+    """ If each entry in the task consists of a single point
+    (e.g. steady state scan), concatenate the points.
+    Otherwise, plot as separate curves."""
+    if isinstance(trace,list):
+        if len(trace) > 0 and not isinstance(trace[-1], list) and not isinstance(trace[-1], dict):
+            # if len(trace) > 2 and isinstance(trace[-1], dict):
+            # e = np.array(trace[-1], copy=True)
+            e = {}
+            for name in trace[-1].colnames:
+                e[name] = np.atleast_1d(np.nan)
+            # print('e:')
+            # print(e)
+            return trace + [e]
+    return trace
 
 ##################################################################################################
 if __name__ == "__main__":

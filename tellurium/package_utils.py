@@ -11,5 +11,8 @@ def searchPackage(name):
 def installPackage(name):
     pip.main(['install', name])
 
+def upgradePackage(name):
+    pip.main(['install', '--upgrade', name])
+
 def uninstallPackage(name):
     pip.main(['uninstall', '-y', name])

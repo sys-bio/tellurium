@@ -270,7 +270,7 @@ class inlineOmexImporter:
 
         header = ''
         if not self.headerless:
-            header += '{} {}'.format(header_start, entry.getLocation())
+            header += '{} {}'.format(header_start, self.fixExt(entry.getLocation()))
             if entry.isSetMaster() and entry.getMaster():
                 header += ' --master=True'
             header += '\n'
@@ -301,15 +301,24 @@ class inlineOmexImporter:
     def normalizePath(self, path):
         return os.path.normpath(path)
 
+    def fixExt(self, path):
+        """ Ensures all extensions are .xml."""
+        p = os.path.splitext(path)[0]
+        return ''.join([p,'.xml'])
+
     def formatPhrasedmlResource(self, path):
         """ Normalizes and also strips xml extension."""
         return self.normalizePath(path)
         # return os.path.splitext(self.normalizePath(path))[0]
 
-    def makeSBMLResourceMap(self):
+    def makeSBMLResourceMap(self, relative_to=None):
         result = {}
         for entry in self.sbml_entries:
-            result[self.formatPhrasedmlResource(entry.getLocation())] = self.omex.extractEntryToString(entry.getLocation())
+            if relative_to is None:
+                relpath = entry.getLocation()
+            else:
+                relpath = os.path.relpath(entry.getLocation(), relative_to)
+            result[self.formatPhrasedmlResource(relpath)] = self.omex.extractEntryToString(entry.getLocation())
         return result
 
     def toInlineOmex(self):
@@ -318,6 +327,25 @@ class inlineOmexImporter:
         :returns: A string with the inline phrasedml / antimony source
         """
         output = ''
+
+        # try to read the author information
+        desc = self.omex.getMetadataForLocation('')
+        if desc and desc.getNumCreators() > 0:
+            # just get first one
+            vcard = desc.getCreator(0)
+            output += '// Author information:\n'
+            first_name = vcard.getGivenName()
+            last_name = vcard.getFamilyName()
+            name = ' '.join(first_name, last_name)
+            email = vcard.getEmail()
+            org = vcard.getOrganization()
+
+            if name:
+                output += '// - Name: {}\n'.format(name)
+            if email:
+                output += '// - Email: {}\n'.format(email)
+            if org:
+                output += '// - Organization: {}\n'.format(org)
 
         # convert sbml entries to antimony
         for entry in self.sbml_entries:
@@ -329,7 +357,7 @@ class inlineOmexImporter:
             try:
                 phrasedml_output = phrasedmlImporter.fromContent(
                     self.omex.extractEntryToString(entry.getLocation()).replace('BIOMD0000000012,xml','BIOMD0000000012.xml'),
-                    self.makeSBMLResourceMap()
+                    self.makeSBMLResourceMap(os.path.dirname(entry.getLocation()))
                     ).toPhrasedml().rstrip().replace('compartment', 'compartment_')
             except:
                 raise RuntimeError('Could not read embedded SED-ML file {}.'.format(entry.getLocation()))

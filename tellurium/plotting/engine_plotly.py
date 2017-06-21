@@ -1,11 +1,10 @@
-from .engine import PlottingEngine, PlottingFigure, PlottingLayout
-import plotly, itertools, numpy as np
+from .engine import PlottingEngine, PlottingFigure, PlottingLayout, filterWithSelections
+import plotly, numpy as np
 from plotly.graph_objs import Scatter, Scatter3d, Layout, Data
-from functools import reduce
 
 class PlotlyFigure(PlottingFigure):
-    def __init__(self, title=None, layout=PlottingLayout(), logx=False, logy=False, save_to_pdf=False):
-        self.initialize(title=title, layout=layout, logx=logx, logy=logy)
+    def __init__(self, title=None, layout=PlottingLayout(), logx=False, logy=False, save_to_pdf=False, xtitle=None, ytitle=None):
+        self.initialize(title=title, layout=layout, logx=logx, xtitle=xtitle, logy=logy, ytitle=ytitle)
 
     def makeLayout(self):
         kwargs = {}
@@ -16,32 +15,20 @@ class PlotlyFigure(PlottingFigure):
                 type: 'log',
                 autorange: True,
             }
+        if self.xtitle:
+            if not 'xaxis' in kwargs:
+                kwargs['xaxis'] = {}
+            kwargs['xaxis']['title'] = self.xtitle
         if self.logy:
             kwargs['yaxis'] = {
                 type: 'log',
                 autorange: True,
             }
+        if self.ytitle:
+            if not 'yaxis' in kwargs:
+                kwargs['yaxis'] = {}
+            kwargs['yaxis']['title'] = self.ytitle
         return Layout(**kwargs)
-
-    def getMergedTaggedDatasets(self):
-        for datasets_for_tag in self.tagged_data.values():
-            x = reduce(lambda u,v: np.concatenate((u,[np.nan],v)), (dataset['x'] for dataset in datasets_for_tag))
-            y = reduce(lambda u,v: np.concatenate((u,[np.nan],v)), (dataset['y'] for dataset in datasets_for_tag))
-            # merge all datasets
-            result_dataset = datasets_for_tag[0] if datasets_for_tag else None
-            for dataset in datasets_for_tag:
-                result_dataset.update(dataset)
-            # use the concatenated values for x and y
-            result_dataset['x'] = x
-            result_dataset['y'] = y
-            if result_dataset is not None:
-                yield result_dataset
-
-    def getDatasets(self):
-        """ Get an iterable of all datasets."""
-        return itertools.chain(
-            self.getMergedTaggedDatasets(),
-            (dataset for dataset in self.xy_datasets if not 'tag' in dataset))
 
     def plot(self):
         """ Plot the figure. Call this last."""
@@ -52,6 +39,8 @@ class PlotlyFigure(PlottingFigure):
                 kwargs['name'] = dataset['name']
             else:
                 kwargs['showlegend'] = False
+            if 'alpha' in dataset and dataset['alpha'] is not None:
+                kwargs['opacity'] = dataset['alpha']
             traces.append(Scatter(
                 x = dataset['x'],
                 y = dataset['y'],
@@ -99,7 +88,7 @@ class PlotlyStackedFigure(PlotlyFigure):
 
 class PlotlyPlottingEngine(PlottingEngine):
     def __init__(self, save_to_pdf=False):
-        pass
+        PlottingEngine.__init__(self)
 
     def newFigure(self, title=None, logX=False, logY=False, layout=PlottingLayout()):
         """ Returns a figure object."""
@@ -108,25 +97,3 @@ class PlotlyPlottingEngine(PlottingEngine):
     def newStackedFigure(self, title=None, logX=False, logY=False, layout=PlottingLayout()):
         """ Returns a figure object."""
         return PlotlyStackedFigure(title=title, layout=layout)
-
-    def figureFromTimecourse(self, m, title=None, ordinates=None):
-        """ Generate a new figure from a timecourse simulation.
-
-        :param m: An array returned by RoadRunner.simulate.
-        """
-        fig = self.newFigure()
-        if m.colnames[0] != 'time':
-            raise RuntimeError('Cannot plot timecourse - first column is not time')
-
-        for k in filter(lambda k: self.filterWithSelections(m.colnames[k], ordinates), range(1,m.shape[1])):
-            fig.addXYDataset(m[:,0], m[:,k], name=m.colnames[k])
-
-        return fig
-
-    def plotTimecourse(self, m, title=None, ordinates=None):
-        """ Plots a timecourse from a simulation.
-
-        :param m: An array returned by RoadRunner.simulate.
-        """
-        fig = self.figureFromTimecourse(m, title=title, ordinates=ordinates)
-        fig.plot()
