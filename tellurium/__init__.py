@@ -85,6 +85,7 @@ from .analysis.parameterscan import (
 
 # Distributed computing
 from .analysis.stochasticmodel import StochasticSimulationModel
+from .analysis.parameterestimation import ParameterEstimation
 
 from .tellurium import (
     # distrib. parameter scan
