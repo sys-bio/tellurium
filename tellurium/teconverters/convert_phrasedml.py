@@ -1,9 +1,16 @@
 from __future__ import print_function, division, absolute_import
 
-import os, re
+import os
+import re
 
 import phrasedml
-from tesedml import SedReader
+try:
+    import tesedml as libsedml
+except ImportError:
+    import libsedml
+
+from libsedml import SedReader
+
 
 class phrasedmlImporter:
     @classmethod

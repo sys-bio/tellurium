@@ -30,7 +30,11 @@ import warnings
 import tellurium as te
 import tellurium.tecombine as tecombine
 import phrasedml
-import tesedml
+try:
+    import tesedml as sedml
+except:
+    import libsedml as sedml
+
 
 
 class experiment(object):
@@ -108,7 +112,7 @@ class experiment(object):
 
         # This calls exec. Nothing bad should ever happen here !
         execStr = self._toPython(selPhrasedml, workingDir=workingDir)
-        exec execStr
+        exec(execStr)
 
         # remove temporary workingDir
         if isTmpDir:
@@ -203,7 +207,7 @@ class experiment(object):
                 # execute in temporary directory
                 workingDir = tempfile.mkdtemp(suffix="_sedml")
                 execStr = self._toPython(phrasedmlStr, workingDir=workingDir)
-                exec execStr
+                exec(execStr)
 
                 # Add output files to archive
                 files = [f for f in os.listdir(workingDir)]

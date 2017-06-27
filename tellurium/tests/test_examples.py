@@ -2,12 +2,12 @@
 Unittests for examples.
 All examples are executed to check against latest code base.
 """
-from __future__ import print_function, division
+from __future__ import print_function, absolute_import, division
 import unittest
 
 import os
 import imp
-from helpers import filesInDirectory
+from tellurium.tests.helpers import filesInDirectory
 
 # ----------------------------------------------------------------
 # List of python files to test

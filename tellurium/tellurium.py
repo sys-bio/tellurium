@@ -1,4 +1,6 @@
 """
+Main tellurium entry point.
+
 The module tellurium provides support routines.
 As part of this module an ExendedRoadRunner class is defined which provides helper methods for
 model export, plotting or the Jarnac compatibility layer.
@@ -29,6 +31,10 @@ import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import numpy as np
+
+##############################################
+# Ipython helpers
+##############################################
 
 # determine if we're running in IPython
 __in_ipython = True
@@ -73,6 +79,10 @@ def setSavePlotsToPDF(value):
     global __save_plots_to_pdf
     __save_plots_to_pdf = value
 
+##############################################
+# Plotting helpers
+##############################################
+
 import matplotlib.pyplot as plt
 
 # make this the default style for matplotlib
@@ -95,6 +105,10 @@ def getPlottingEngine(engine=getDefaultPlottingEngine()):
 
 getPlottingEngineFactory.__doc__ = __getPlottingEngineFactory.__doc__
 
+
+##############################################
+# Remaining imports
+##############################################
 import roadrunner
 
 try:
@@ -102,19 +116,18 @@ try:
     # import libsedml before libsbml to handle
     # https://github.com/fbergmann/libSEDML/issues/21
 except ImportError as e:
-    libsedml = None
-    roadrunner.Logger.log(roadrunner.Logger.LOG_WARNING, str(e))
-    warnings.warn("'libsedml' could not be imported", ImportWarning, stacklevel=2)
+    try:
+        import libsedml
+    except ImportError:
+        libsedml = None
+        roadrunner.Logger.log(roadrunner.Logger.LOG_WARNING, str(e))
+        warnings.warn("'libsedml' could not be imported", ImportWarning, stacklevel=2)
 
 try:
-    import tesbml as libsbml
-    # try to deactivate the libsbml timestamp if possible
-    # see discussion https://groups.google.com/forum/?utm_medium=email&utm_source=footer#!msg/libsbml-development/Yy78LSwOHzU/9t5PcpD2AAAJ
-    # try:
-    #     libsbml.XMLOutputStream.setWriteTimestamp(False)
-    # except AttributeError:
-    #     warnings.warn("'libsbml' timestamps can not be deactivated in this libsbml version", ImportWarning, stacklevel=2)
-
+    try:
+        import tesbml as libsbml
+    except ImportError:
+        import libsbml
 except ImportError as e:
     libsbml = None
     roadrunner.Logger.log(roadrunner.Logger.LOG_WARNING, str(e))
@@ -135,6 +148,7 @@ except ImportError as e:
     warnings.warn("'sbml2matlab' could not be imported", ImportWarning)
 
 from . import teconverters
+
 
 # ---------------------------------------------------------------------
 # Group: Utility
