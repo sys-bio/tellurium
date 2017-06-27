@@ -96,13 +96,18 @@ except:
 from .mathml import evaluableMathML
 
 try:
-    import tesedml as libsedml
-    # import libsedml before libsbml to handle
-    # https://github.com/fbergmann/libSEDML/issues/21
+    try:
+        import tesedml as libsedml
+        # import libsedml before libsbml to handle
+        # https://github.com/fbergmann/libSEDML/issues/21
+    except ImportError:
+        import libsedml
+
 except ImportError as e:
     libsedml = None
     roadrunner.Logger.log(roadrunner.Logger.LOG_WARNING, str(e))
     warnings.warn("'libsedml' could not be imported", ImportWarning, stacklevel=2)
+
 
 import tellurium as te
 from tellurium.tecombine import CombineArchive

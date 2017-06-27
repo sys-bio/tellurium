@@ -54,6 +54,7 @@ except ImportError:
     # CellML not available
     pass
 
+
 # Plotting
 from .tellurium import (
     getPlottingEngine,
@@ -76,6 +77,7 @@ from .tellurium import (
 
 # Latex
 from .teio.latex import LatexExport
+
 
 # Parameter scanning
 from .analysis.parameterscan import (
@@ -109,6 +111,7 @@ from .tellurium import (
     executeInlineOmex,
     executeInlineOmexFromFile,
 )
+
 
 # Package utilities
 from .package_utils import (
