@@ -1,30 +1,30 @@
 # not installable via pip
-roadrunner
-antimony
-phrasedml
-sbml2matlab
+
+# https://pypi.python.org/pypi/antimony
+# antimony>=2.9.0
+
+# https://pypi.python.org/pypi/phrasedml
+# phrasedml>=1.0.3
+
+# sbml2matlab
+# combine
+
 
 # installable via pip
-python-libsbml
-python-libsedml
+libroadrunner>=1.4.18
+python-libsbml>=5.15.0
+python-libsedml>=0.4.1
+
 ipywidgets
 bioservices
 matplotlib
 numpy
-pygraphviz
 ipython
 jinja2
 pandas
+plotly
 
-# for testing
-nose
+pytest
 
-# packed with Tellurium, but not required for tellurium
-#   tePlugins
-#   pySBOL
-#   py-control ?
-#   simplesbml
 
-# the following python standard library models are used (no install necessary)
-#   os, sys, re, zipfile, time, collections, httplib,
-#   tempfile, warnings, StringIO
+# pygraphviz
