@@ -12,6 +12,7 @@ from matplotlib.ticker import LinearLocator, FormatStrFormatter
 import matplotlib.image as mpimg
 import uuid
 
+
 class ParameterScan (object):
     """ ParameterScan """
     def __init__(self, rr,

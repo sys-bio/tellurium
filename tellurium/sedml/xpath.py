@@ -1,4 +1,8 @@
-from __future__ import print_function
+"""
+Some example code to work with xpath expressions.
+"""
+
+from __future__ import absolute_import, print_function
 import sympy
 import libsedml
 import libsbml

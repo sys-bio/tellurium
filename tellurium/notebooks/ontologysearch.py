@@ -8,6 +8,7 @@ import ipywidgets as w
 from IPython.display import display, clear_output
 import bioservices
 
+
 class OntologySearch(object):
     """ ipywidget form for searching in ontologies. """
     def __init__(self):

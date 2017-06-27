@@ -1,3 +1,7 @@
+"""
+Extending the RoadRunner object with additional fields.
+"""
+
 from __future__ import print_function, division, absolute_import
 import roadrunner
 

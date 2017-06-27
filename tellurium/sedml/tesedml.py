@@ -76,14 +76,19 @@ The Output Class
 # TODO: better handling of model.reset for task tree
 # FIXME: rk4 integration not working on linux (https://github.com/sys-bio/roadrunner/issues/307)
 
-from __future__ import print_function, division
+from __future__ import print_function, division, absolute_import
 
-import sys, os, os.path, warnings
-import datetime, zipfile
+import sys
+import os
+import os.path
+import warnings
+import datetime
+import zipfile
 from collections import namedtuple
 import re
 import numpy as np
 import roadrunner
+
 try:
     from jinja2 import Environment, FileSystemLoader
 except:

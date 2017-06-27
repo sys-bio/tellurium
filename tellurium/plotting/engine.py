@@ -1,6 +1,10 @@
+
+from __future__ import absolute_import, print_function
 from collections import defaultdict
-import itertools, numpy as np
+import itertools
+import numpy as np
 from functools import reduce
+
 
 def filterWithSelections(self, name, selections):
     """ This function is intended to be used as an argument to the filter built-in.

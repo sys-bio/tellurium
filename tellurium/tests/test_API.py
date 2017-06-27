@@ -3,8 +3,9 @@ Here the supported API is tested.
 """
 from __future__ import print_function, division
 import unittest
-import antimony
-CELLML_SUPPORT = hasattr(antimony, "loadCellMLString")
+
+# import antimony
+# CELLML_SUPPORT = hasattr(antimony, "loadCellMLString")
 
 import tellurium as te
 r = te.loada('''

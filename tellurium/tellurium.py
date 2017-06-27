@@ -7,9 +7,9 @@ model export, plotting or the Jarnac compatibility layer.
 """
 from __future__ import print_function, division, absolute_import
 
-import random
-import os
 import sys
+import os
+import random
 import warnings
 
 # NOTE: not needed since we now require matplotlib >= 2.0.0
