@@ -1764,7 +1764,7 @@ def process_trace(trace):
     """ If each entry in the task consists of a single point
     (e.g. steady state scan), concatenate the points.
     Otherwise, plot as separate curves."""
-    print('trace.size = {}'.format(trace.size))
+    # print('trace.size = {}'.format(trace.size))
     # print('len(trace.shape) = {}'.format(len(trace.shape)))
     if trace.size > 1:
         if len(trace.shape) == 1:
