@@ -5,17 +5,35 @@ from scipy.optimize import differential_evolution
 import random
 
 class ParameterEstimation(object):
-
-    def __init__(self, stochastic_simulation_model,bounds, data=None, func="differential_evolution"):
+    """Parameter Estimation"""
+    def __init__(self, stochastic_simulation_model,bounds, data=None):
         if(data is not None):
             self.data = data
 
         self.model = stochastic_simulation_model
         self.bounds = bounds
-        self.func = func
+        
 
 
-    def setDataFromCSV(self,FILENAME, delimiter=",", headers=True):
+    def setDataFromFile(self,FILENAME, delimiter=",", headers=True):
+        """Allows the user to set the data from a File
+        This data is to be compared with the simulated data in the process of parameter estimation
+        
+        Args:
+            FILENAME: A Complete/relative readable Filename with proper permissions
+            delimiter: An Optional variable with comma (",") as default value. 
+                A delimiter with which the File is delimited by.
+                It can be Comma (",") , Tab ("\t") or anyother thing
+            headers: Another optional variable, with Boolean True as default value
+                If headers are not available in the File, it can be set to False
+
+        Returns:
+            None but sets class Variable data with the data provided
+        
+        .. sectionauthor:: Shaik Asifullah <s.asifullah7@gmail.com>
+        
+        
+        """
         with open(FILENAME,'r') as dest_f:
             data_iter = csv.reader(dest_f,
                                    delimiter = ",",
@@ -25,27 +43,75 @@ class ParameterEstimation(object):
             self.data = self.data[1:]
 
         self.data = np.asarray(self.data, dtype = float)
+        
 
-    def run(self):
-        self._kinetic_rate_names = self.bounds.keys()
-        self._kinetic_rate_bounds = self.bounds.values()
+    def run(self,func=None):
+        """Allows the user to set the data from a File
+        This data is to be compared with the simulated data in the process of parameter estimation
+        
+        Args:
+            func: An Optional Variable with default value (None) which by default run differential evolution
+                which is from scipy function. Users can provide reference to their defined function as argument.
+            
+
+        Returns:
+            The Value of the parameter(s) which are estimated by the function provided.
+        
+        .. sectionauthor:: Shaik Asifullah <s.asifullah7@gmail.com>
+        
+        
+        """
+        
+        self._parameter_names = self.bounds.keys()
+        self._parameter_bounds = self.bounds.values()
         self._model_roadrunner = te.loada(self.model.model)
         x_data = self.data[:,0]
         y_data = self.data[:,1:]
         arguments = (x_data,y_data)
 
-        if(self.func.lower() == "differential_evolution"):
-            result = differential_evolution(self._SSE, self._kinetic_rate_bounds, args=arguments)
-            print(result.x)
+        if(func is not None):
+            result = differential_evolution(self._SSE, self._parameter_bounds, args=arguments)
+            return(result.x)
         else:
-            print "Function Not Defined"
+            result = func(self._SSE,self._parameter_bounds,args=arguments)
+            return(result.x)
 
     def _set_theta_values(self, theta):
-        for theta_i,each_theta in enumerate(self._kinetic_rate_names):
+        """ Sets the Theta Value in the range of bounds provided to the Function.
+            Not intended to be called by user.
+            
+        Args:
+            theta: The Theta Value that is set for the function defined/provided
+            
+
+        Returns:
+            None but it sets the parameter(s) to the stochastic model provided
+        
+        .. sectionauthor:: Shaik Asifullah <s.asifullah7@gmail.com>
+        
+        
+        """
+        for theta_i,each_theta in enumerate(self._parameter_names):
             setattr(self._model_roadrunner, each_theta, theta[theta_i])
 
 
     def _SSE(self,parameters, *data):
+        """ Runs a simuation of SumOfSquares that get parameters and data and compute the metric.
+            Not intended to be called by user.
+            
+        Args:
+            parameters: The tuple of theta values  whose output is compared against the data provided
+            data: The data provided by the user through FileName or manually 
+                  which is used to compare against the simulations
+            
+
+        Returns:
+            Sum of Squared Error
+        
+        .. sectionauthor:: Shaik Asifullah <s.asifullah7@gmail.com>
+        
+            
+        """
         theta = parameters
 
         x, y = data
