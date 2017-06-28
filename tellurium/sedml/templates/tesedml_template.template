@@ -23,6 +23,10 @@ import pandas
 import os.path
 Config.LOADSBMLOPTIONS_RECOMPILE = True
 
+print('locals', locals())
+print('globals', globals())
+print(process_trace)
+
 workingDir = r'{{ factory.workingDir }}'
 
 {{ helpers.heading(doc.getListOfModels(), 'Model') }}

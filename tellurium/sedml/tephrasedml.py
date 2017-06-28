@@ -114,7 +114,9 @@ class experiment(object):
 
         # This calls exec. Nothing bad should ever happen here !
         execStr = self._toPython(selPhrasedml, workingDir=workingDir)
+        print("-"*80)
         print(execStr)
+        print("-" * 80)
         exec(execStr)
 
         # remove temporary workingDir
