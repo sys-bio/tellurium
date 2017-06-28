@@ -94,7 +94,7 @@ class PlottingEngine(object):
     def __init__(self):
         self.fig = None
 
-    def plotTimecourse(self, m):
+    def plotTimecourse(self, m, **kwargs):
         """ Plots a timecourse from a simulation.
 
         :param m: An array returned by RoadRunner.simulate.
@@ -115,7 +115,7 @@ class PlottingEngine(object):
 
         return fig
 
-    def plotTimecourse(self, m, title=None, ordinates=None, tag=None, xtitle=None, logy=False, ytitle=None, alpha=None):
+    def plotTimecourse(self, m, title=None, ordinates=None, tag=None, xtitle=None, logy=False, ytitle=None, alpha=None, **kwargs):
         """ Plots a timecourse from a simulation.
 
         :param m: An array returned by RoadRunner.simulate.
@@ -125,7 +125,7 @@ class PlottingEngine(object):
             fig.xtitle = xtitle
         fig.plot()
 
-    def accumulateTimecourse(self, m, title=None, ordinates=None, tag=None, xtitle=None, logy=False, ytitle=None, alpha=None):
+    def accumulateTimecourse(self, m, title=None, ordinates=None, tag=None, xtitle=None, logy=False, ytitle=None, alpha=None, **kwargs):
         """ Accumulates the traces instead of plotting (like matplotlib with show=False).
         Call show() to show the plot.
 
@@ -139,7 +139,7 @@ class PlottingEngine(object):
 
         for k in range(1,m.shape[1]):
             t = tag if tag else m.colnames[k]
-            self.fig.addXYDataset(m[:,0], m[:,k], name=m.colnames[k], tag=t, alpha=alpha)
+            self.fig.addXYDataset(m[:,0], m[:, k], name=m.colnames[k], tag=t, alpha=alpha)
 
         if xtitle:
             self.fig.xtitle = xtitle

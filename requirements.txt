@@ -1,32 +1,28 @@
 # not installable via pip
 
 # https://pypi.python.org/pypi/antimony
-# antimony>=2.9.0
-
+# antimony>=2.9.1
 # https://pypi.python.org/pypi/phrasedml
-# phrasedml>=1.0.3
+# phrasedml>=1.0.5
 
 # sbml2matlab
 # combine
-
 
 # installable via pip
 libroadrunner>=1.4.18
 python-libsbml>=5.15.0
 python-libsedml>=0.4.1
 rrplugins>=1.1.8
-
 numpy
 matplotlib>= 2.0.0
-
-pandas
+pandas>=0.19.2
+appdirs>=1.4.3
 ipywidgets
 bioservices
-
-
 ipython
 jinja2
 plotly
+
 pytest
 
 

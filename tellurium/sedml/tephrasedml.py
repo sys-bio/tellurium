@@ -32,10 +32,11 @@ import tellurium as te
 import tellurium.tecombine as tecombine
 import phrasedml
 try:
-    import tesedml as sedml
-except:
-    import libsedml as sedml
+    import tesedml as libsedml
+except ImportError:
+    import libsedml
 
+from tellurium.sedml import tesedml
 
 
 class experiment(object):
@@ -113,6 +114,7 @@ class experiment(object):
 
         # This calls exec. Nothing bad should ever happen here !
         execStr = self._toPython(selPhrasedml, workingDir=workingDir)
+        print(execStr)
         exec(execStr)
 
         # remove temporary workingDir

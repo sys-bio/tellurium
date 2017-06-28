@@ -1,10 +1,16 @@
-from __future__ import print_function, absolute_import
+"""
+Plotly implementation of the plotting engine.
+"""
 
+from __future__ import print_function, absolute_import
 from .engine import PlottingEngine, PlottingFigure, PlottingLayout, filterWithSelections
-import plotly, numpy as np
+import numpy as np
+import plotly
 from plotly.graph_objs import Scatter, Scatter3d, Layout, Data
 
+
 class PlotlyFigure(PlottingFigure):
+    """ PlotlyFigure. """
     def __init__(self, title=None, layout=PlottingLayout(), logx=False, logy=False, save_to_pdf=False, xtitle=None, ytitle=None):
         self.initialize(title=title, layout=layout, logx=logx, xtitle=xtitle, logy=logy, ytitle=ytitle)
 
@@ -56,6 +62,7 @@ class PlotlyFigure(PlottingFigure):
             'layout': self.makeLayout()
         })
 
+
 class PlotlyStackedFigure(PlotlyFigure):
     def __init__(self, title=None, layout=PlottingLayout(), logx=False, logy=False):
         self.initialize(title=title, layout=layout, logx=logx, logy=logy)
@@ -87,6 +94,7 @@ class PlotlyStackedFigure(PlotlyFigure):
             'data': data,
             'layout': self.makeLayout()
         })
+
 
 class PlotlyPlottingEngine(PlottingEngine):
     def __init__(self, save_to_pdf=False):

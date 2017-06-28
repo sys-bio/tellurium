@@ -1759,6 +1759,7 @@ class SEDMLTools(object):
 
         return model_sources, all_changes
 
+
 def process_trace(trace):
     """ If each entry in the task consists of a single point
     (e.g. steady state scan), concatenate the points.
@@ -1777,11 +1778,12 @@ def process_trace(trace):
     else:
         return np.atleast_1d(trace)
 
+
 def terminate_trace(trace):
     """ If each entry in the task consists of a single point
     (e.g. steady state scan), concatenate the points.
     Otherwise, plot as separate curves."""
-    if isinstance(trace,list):
+    if isinstance(trace, list):
         if len(trace) > 0 and not isinstance(trace[-1], list) and not isinstance(trace[-1], dict):
             # if len(trace) > 2 and isinstance(trace[-1], dict):
             # e = np.array(trace[-1], copy=True)
