@@ -489,7 +489,7 @@ def sbmlToAntimony(sbml):
     if os.path.isfile(sbml):
         code = antimony.loadSBMLFile(sbml)
     else:
-        code = antimony.loadSBMLString(sbml)
+        code = antimony.loadSBMLString(str(sbml))
     _checkAntimonyReturnCode(code)
     return antimony.getAntimonyString(None)
 

@@ -4,15 +4,16 @@ Testing tecombine.
 # TODO: implement additional tests/real tests of content.
 
 from __future__ import print_function
+from tellurium.sedml.tephrasedml import experiment
+from tellurium.tecombine import combine
 
 import os
 import shutil
 import tempfile
 import unittest
+import pytest
 
-import tellurium as te
-
-
+@pytest.mark.skip(reason="combine module is depreciated")
 class tecombineTestCase(unittest.TestCase):
     """ Testcases for tecombine. """
 
@@ -44,13 +45,13 @@ class tecombineTestCase(unittest.TestCase):
           task1 = run sim1 on model1
           plot "Figure 1" time vs S1, S2
         '''
-        exp = te.experiment(self.antimony, self.phrasedml)
+        exp = experiment(self.antimony, self.phrasedml)
 
         self.tmpdir = tempfile.mkdtemp()
         self.tmparchive = os.path.join(self.tmpdir, 'test.zip')
 
         exp.exportAsCombine(self.tmparchive)
-        self.com = te.combine(self.tmparchive)
+        self.com = combine(self.tmparchive)
         
     def test_addantimony(self):
         """ Test addAntimony. """

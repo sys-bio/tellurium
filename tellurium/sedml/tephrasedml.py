@@ -26,6 +26,7 @@ import shutil
 import tempfile
 import re
 import warnings
+from six import string_types, iteritems
 
 import tellurium as te
 import tellurium.tecombine as tecombine
@@ -58,14 +59,14 @@ class experiment(object):
         """
         # backwards compatibility & simplified syntax
         # for one phrasedml and antimony string
-        if isinstance(antimonyList, basestring):
+        if isinstance(antimonyList, string_types):
             antimonyList = [antimonyList]
-        if isinstance(phrasedmlList, basestring):
+        if isinstance(phrasedmlList, string_types):
             phrasedmlList = [phrasedmlList]
 
         modelispath = []
         for aStr in antimonyList:
-            if not isinstance(aStr, basestring):
+            if not isinstance(aStr, string_types):
                 raise IOError("invalid Antimony string/model path")
             if os.path.exists(aStr):
                 modelispath.append(True)
@@ -280,7 +281,7 @@ class experiment(object):
             modelNames.append(name)
 
         sources = self._modelsFromPhrasedml(phrasedmlStr)
-        for source, name in sources.iteritems():
+        for source, name in iteritems(sources):
             # not a antimony model
             if name not in modelNames:
                 continue

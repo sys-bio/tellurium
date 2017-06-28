@@ -715,7 +715,7 @@ class OpenCombine(object):
             else:
                 raise Exception("Unsupported file type")
             man.insert(-1, value)
-        man = "\n".join(man)
+        man = "\n".join([str(item) for item in man])
         self.removeFile(r'manifest.xml')
 
         zf = ZipFile(self.combinePath, 'a')

@@ -3,7 +3,9 @@ Extending the RoadRunner object with additional fields.
 """
 
 from __future__ import print_function, division, absolute_import
+import os
 import roadrunner
+import warnings
 
 # ---------------------------------------------------------------------
 # Extended RoadRunner class
@@ -401,7 +403,7 @@ class ExtendedRoadRunner(roadrunner.RoadRunner):
     def plotWithLegend(self, result=None, loc='upper left', show=True, **kwargs):
         warnings.warn("'plotWithLegend' is deprecated. Use 'plot' instead. Will be removed in tellurium v1.4",
                       DeprecationWarning, stacklevel=2)
-        return self.plot(result=result, loc=loc, show=show, **kwargs)
+        return self.plot(result=result, show=show, **kwargs)
 
     def simulateAndPlot(self, start, end, points, **kwargs):
         """ Run simulation and plot the results.
