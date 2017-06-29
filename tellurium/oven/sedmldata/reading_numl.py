@@ -12,6 +12,8 @@ print('Version:', libsedml.getLibSEDMLDottedVersion())
 SOURCE_CSV = "./oscli.csv"
 SOURCE_NUML = "./oscli.numl"
 
+import libnuml
+
 
 def parse_dimension_description(dd):
     """ Parses the dimension information from the dimension description.
@@ -55,12 +57,14 @@ def load_numl_data(source):
     """
     # FIXME: handle urn/url sources
 
-    doc_numl = libsedml.readNUMLFromFile('./oscil.numl')
+    doc_numl = libnuml.readNUMLFromFile('./oscil.numl')
     print(doc_numl)
 
     # reads all the resultComponents from the numl file
     results = []
     print(doc_numl.getNumResultComponents())
+    print(libnuml)
+
     for res_comp in doc_numl.getResultComponents():
         print(type(res_comp))
         dd = res_comp.getDimensionDescription()

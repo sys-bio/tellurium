@@ -23,6 +23,9 @@ SOURCE_CSV = "./oscli.csv"
 SOURCE_NUML = "./oscli.numl"
 
 
+#####################################
+# NUML PARSING
+#####################################
 def parse_dimension_description(dd):
     """ Parses the dimension information from the dimension description.
 
@@ -44,6 +47,7 @@ def parse_dimension_description(dd):
     dim_info = None
     # FIXME: implement
     return dim_info
+
 
 def load_numl_data(source):
     """ Helper function for loading data files from given source.
@@ -89,6 +93,12 @@ def load_numl_data(source):
     df = None
     return df
 
+# load data from sources
+# FIXME: implement, see
+# df_numl = load_numl_data(SOURCE_NUML)
+# print(df_numl)
+
+
 
 def load_csv_data(source):
     """ Helper function for loading data file from given source.
@@ -105,9 +115,6 @@ def load_csv_data(source):
     return df
 
 
-# load data from sources
-df_numl = load_numl_data(SOURCE_NUML)
-print(df_numl)
 
 
 
