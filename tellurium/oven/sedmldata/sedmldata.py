@@ -11,7 +11,6 @@ from __future__ import absolute_import, print_function
 import warnings
 import numpy as np
 import pandas as pd
-import libnuml
 
 try:
     import libsedml
@@ -19,15 +18,80 @@ except ImportError:
     import tesedml as libsedml
 print('Version:', libsedml.getLibSEDMLDottedVersion())
 
+import libnuml
 
 SOURCE_CSV = "./oscli.csv"
 SOURCE_NUML = "./oscli.numl"
+SOURCE_NUML_1D = "./OneDimensionalNuMLData.xml"
+SOURCE_NUML_2D = "./TwoDimensionalNuMLData.xml"
 
 
 #####################################
 # NUML PARSING
 #####################################
+
+def parse_description(d, info=None):
+    """ Parses the recursive DimensionDescription, TupleDescription,
+    AtomicDescription.
+
+    :param d:
+    :param info:
+    :return:
+    """
+    if info is None:
+        info = []
+
+    if d.isContentCompositeDescription():
+        assert(isinstance(d, libnuml.CompositeDescription))
+        content = {
+            'id': d.getId(),
+            'name': d.getName(),
+            'indexType': d.getIndexType(),
+        }
+        info.append(content)
+        print('* CompositeDescription *', content)
+
+        info = parse_description(d.get(0), info)
+
+    elif d.isContentTupleDescription():
+
+        tuple_des = d.getTupleDescription()
+        assert (isinstance(tuple_des, libnuml.TupleDescription))
+
+        Natomic = tuple_des.size()
+        valueTypes = []
+        for k in range(Natomic):
+            atomic = tuple_des.getAtomicDescription(k)
+            assert(isinstance(atomic, libnuml.AtomicDescription))
+            valueTypes.append(atomic.getValueType())
+
+        info.append(valueTypes)
+        print('* TupleDescription * ', valueTypes)
+
+    elif d.isContentAtomicDescription():
+        atomic = d.getAtomicDescription()
+        assert(isinstance(atomic, libnuml.AtomicDescription))
+
+        valueTypes = [atomic.getValueType()]
+        info.append(valueTypes)
+        print('* AtomicDescription *', valueTypes)
+
+    return info
+
+
+def parse_value(d, info=None):
+    """ Parses the recursive CompositeValue, Tuple, AtomicValue.
+
+    :param d:
+    :param info:
+    :return:
+    """
+    # TODO: implement
+    pass
+
+
 def parse_dimension_description(dd):
+    # type: (libnuml.DimensionDescription) -> None
     """ Parses the dimension information from the dimension description.
 
           <dimensionDescription>
@@ -42,11 +106,11 @@ def parse_dimension_description(dd):
     :param dd:
     :return:
     """
-    cd_top = dd.getCompositeDescription()
-    print('cd_top', cd_top)
+    print("DimensionDescription:", dd)
+    assert(isinstance(dd, libnuml.DimensionDescription))
+    cd_top = dd.get(0)
+    dim_info = parse_description(cd_top)
 
-    dim_info = None
-    # FIXME: implement
     return dim_info
 
 
@@ -84,30 +148,32 @@ def load_numl_data(source):
 
     print('NumResultComponents:', Nrc)
     for k in range(Nrc):
+        print('-'*80)
+        # parse the ResultComponent
         res_comp = rcs.get(k)
-        print(type(res_comp))
         dd = res_comp.getDimensionDescription()
-        print(dd)
-        dimension_info = parse_dimension_description(dd)
 
-        for cvalue in dd.getComponentValues():
-            print(cvalue)
+        # dimension info
+        dimension_info = parse_dimension_description(dd)
+        print("dimension_info", dimension_info)
+
+        # data
+        # for cvalue in dd.getComponentValues():
+        #    print(cvalue)
 
 
     # TODO: figure out the dimensionality, and create np.array
     # if 2D return a DataFrame (Does this work with the slicing?)
-
-    columns = None
-    data = None
-
     df = None
     return df
 
 # load data from sources
 # FIXME: implement, see
-df_numl = load_numl_data(SOURCE_NUML)
+df_numl = load_numl_data(SOURCE_NUML_1D)
+# df_numl = load_numl_data(SOURCE_NUML)
 print(df_numl)
 
+exit()
 
 
 def load_csv_data(source):
