@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<numl version="1" level="1" xmlns="http://www.numl.org/numl/level1/version1">   
+<numl version="1" level="1" xmlns="http://www.numl.org/numl/level1/version1">
+ <resultComponents>
         <resultComponent>
           <dimensionDescription>
             <compositeDescription indexType="double" name="time">
@@ -1611,4 +1612,5 @@
             </compositeValue>
           </dimension>
         </resultComponent>
+        </resultComponents>
 </numl>

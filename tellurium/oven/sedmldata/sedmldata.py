@@ -11,6 +11,7 @@ from __future__ import absolute_import, print_function
 import warnings
 import numpy as np
 import pandas as pd
+import libnuml
 
 try:
     import libsedml
@@ -41,7 +42,7 @@ def parse_dimension_description(dd):
     :param dd:
     :return:
     """
-    cd_top = dd.getComposiiteDescription()
+    cd_top = dd.getCompositeDescription()
     print('cd_top', cd_top)
 
     dim_info = None
@@ -68,13 +69,22 @@ def load_numl_data(source):
     """
     # FIXME: handle urn/url sources
 
-    doc_numl = libsedml.readNUMLFromFile('./oscil.numl')
+    doc_numl = libnuml.readNUMLFromFile(source)
+
+    print('source:', source)
     print(doc_numl)
 
     # reads all the resultComponents from the numl file
     results = []
 
-    for res_comp in doc_numl.getResultComponents():
+    Nrc = doc_numl.getNumResultComponents()
+    rcs = doc_numl.getResultComponents()
+    libnuml.ResultComponents
+
+
+    print('NumResultComponents:', Nrc)
+    for k in range(Nrc):
+        res_comp = rcs.get(k)
         print(type(res_comp))
         dd = res_comp.getDimensionDescription()
         print(dd)
@@ -95,8 +105,8 @@ def load_numl_data(source):
 
 # load data from sources
 # FIXME: implement, see
-# df_numl = load_numl_data(SOURCE_NUML)
-# print(df_numl)
+df_numl = load_numl_data(SOURCE_NUML)
+print(df_numl)
 
 
 
