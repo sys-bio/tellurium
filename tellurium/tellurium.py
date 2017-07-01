@@ -354,6 +354,72 @@ def distributed_parameter_scanning(sc,list_of_models, function_name,antimony="an
 
     return(sc.parallelize(list_of_models,len(list_of_models)).map(spark_work).collect())
 
+def distributed_sensitivity_analysis(sc,senitivity_analysis_model):
+    def spark_sensitivity_analysis(model_with_parameters):
+        import tellurium as te
+
+        sa_model = model_with_parameters[0]
+        parameters = model_with_parameters[1]
+
+        if(sa_model.sbml):
+            model_roadrunner = te.loadAntimonyModel(te.sbmlToAntimony(sa_model.model))
+        else:
+            model_roadrunner = te.loadAntimonyModel(sa_model.model)
+
+        model_roadrunner.conservedMoietyAnalysis = sa_model.conservedMoietyAnalysis
+
+        #Performing PreSimulation
+        if(sa_model.preprocessingFunc is None):
+            pre_simulator = getattr(model_roadrunner, "simulate")
+        else:
+            pre_simulator = getattr(model_roadrunner, sa_model.preprocessingFunc)
+
+        pre_simulator(*sa_model.args)
+        ANALYSIS = ""
+        #Setting the Parameter Variables
+        for i_param,param_names in enumerate(sa_model.bounds.keys()):
+            ANALYSIS += ("\nSetting Value of {0} as {1}".format(param_names,parameters[i_param]))
+            setattr(model_roadrunner, param_names, parameters[i_param])
+
+
+        fig1a_local = model_roadrunner.getCC('PP_K', 'r1b_k2')
+        ANALYSIS += ('\nFigure 1A: local value = {}'.format(fig1a_local))
+
+
+        fig1b_local = model_roadrunner.getCC('PP_K', 'r8a_a8')
+        ANALYSIS += ('\nFigure 1B: local value = {}'.format(fig1b_local))
+
+
+        fig1c_local = model_roadrunner.getCC('PP_K', 'r10a_a10')
+        ANALYSIS += ('\nFigure 1C: local value = {}'.format(fig1c_local))
+        return(ANALYSIS)
+
+
+    if(senitivity_analysis_model.bounds is  None):
+        print("Bounds are Undefined.")
+        return
+
+    params = []
+    for bound_values in senitivity_analysis_model.bounds.values():
+        if(len(bound_values) > 2):
+            params.append(np.linspace(bound_values[0], bound_values[1], bound_values[2]))
+        elif(len(bound_values == 2)):
+            params.append(np.linspace(bound_values[0], bound_values[1], 3))
+        else:
+            print("Improper Boundaries Defined")
+            return;
+    samples = perform_sampling(np.meshgrid(*params))
+    samples = zip([senitivity_analysis_model]*len(samples),samples)
+    return(sc.parallelize(samples,len(samples)).map(spark_sensitivity_analysis).collect())
+
+def perform_sampling(mesh):
+    samples = []
+    mesh = [items.flatten() for items in mesh]
+    for i in range(len(mesh[0])):
+        samples.append([items[i] for items in mesh])
+    return(samples)
+
+
 def loada(ant):
     """Load model from Antimony string.
 
