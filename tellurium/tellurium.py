@@ -376,23 +376,31 @@ def distributed_sensitivity_analysis(sc,senitivity_analysis_model):
 
         pre_simulator(*sa_model.args)
         ANALYSIS = ""
+
+        _analysis = [None,None]
+
         #Setting the Parameter Variables
+        _analysis[0] = {}
         for i_param,param_names in enumerate(sa_model.bounds.keys()):
-            ANALYSIS += ("\nSetting Value of {0} as {1}".format(param_names,parameters[i_param]))
+
+            _analysis[0][param_names] = parameters[i_param]
             setattr(model_roadrunner, param_names, parameters[i_param])
 
-
+        _analysis[1] = {}
         fig1a_local = model_roadrunner.getCC('PP_K', 'r1b_k2')
-        ANALYSIS += ('\nFigure 1A: local value = {}'.format(fig1a_local))
+        _analysis[1]['r1b_k2'] = fig1a_local
+        #ANALYSIS += ('\nFigure 1A: local value = {}'.format(fig1a_local))
 
 
         fig1b_local = model_roadrunner.getCC('PP_K', 'r8a_a8')
-        ANALYSIS += ('\nFigure 1B: local value = {}'.format(fig1b_local))
+        _analysis[1]['r8a_a8'] = fig1b_local
+        #ANALYSIS += ('\nFigure 1B: local value = {}'.format(fig1b_local))
 
 
         fig1c_local = model_roadrunner.getCC('PP_K', 'r10a_a10')
-        ANALYSIS += ('\nFigure 1C: local value = {}'.format(fig1c_local))
-        return(ANALYSIS)
+        _analysis[1]['r10a_a10'] = fig1c_local
+        #ANALYSIS += ('\nFigure 1C: local value = {}'.format(fig1c_local))
+        return _analysis
 
 
     if(senitivity_analysis_model.bounds is  None):
