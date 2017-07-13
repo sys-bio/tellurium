@@ -428,9 +428,7 @@ def distributed_sensitivity_analysis(sc,senitivity_analysis_model):
 
     samples = perform_sampling(np.meshgrid(*params))
     samples = zip([senitivity_analysis_model]*len(samples),samples)
-    #return(sc.parallelize(samples,len(samples)).map(spark_sensitivity_analysis).collect())
-    #[{'r10a_a10': 900.0, 'r1b_k2': 100.0, 'r8a_a8': 900.0}, {'r10a_a10': -1.0083675163725245, 'r1b_k2': 0.007986056440057948, 'r8_a8': -0.025007553955685758}]
-    sc.parallelize(samples,len(samples)).map(spark_sensitivity_analysis).map(lambda x: ())
+    return(sc.parallelize(samples,len(samples)).map(spark_sensitivity_analysis).collect())
 
 
 def perform_sampling(mesh):
