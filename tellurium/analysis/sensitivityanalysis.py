@@ -3,9 +3,11 @@ class SensitivityAnalysis(object):
         self._model = model
         self._sbml = sbml
         self._conservedMoietyAnalysis = conservedMoietyAnalysis
-        self._preprocessingFunc = None
+        self._presimulation = None
+        self._simulation = None
         self._bounds = None
         self._args = None
+        self._allowLog = False
 
 
     @property
@@ -46,16 +48,28 @@ class SensitivityAnalysis(object):
 
 
     @property
-    def preprocessingFunc(self):
-        return self._preprocessingFunc
+    def simulation(self):
+        return self._simulation
 
-    @preprocessingFunc.setter
-    def preprocessingFunc(self, value):
-        self._preprocessingFunc = value
+    @simulation.setter
+    def simulation(self, value):
+        self._simulation = value
 
-    @preprocessingFunc.deleter
-    def preprocessingFunc(self):
-        del self._preprocessingFunc
+    @simulation.deleter
+    def simulation(self):
+        del self._simulation
+
+    @property
+    def presimulation(self):
+        return self._presimulation
+
+    @presimulation.setter
+    def presimulation(self, value):
+        self._presimulation = value
+
+    @presimulation.deleter
+    def presimulation(self):
+        del self._presimulation
 
 
     @property
@@ -82,8 +96,21 @@ class SensitivityAnalysis(object):
     def args(self):
         del self._args
 
+    @property
+    def allowLog(self):
+        return self._allowLog
 
-    def setPreProcessingFunction(self,func,*args):
-        self._preprocessingFunc = func
+    @allowLog.setter
+    def allowLog(self, value):
+        self._allowLog = value
+
+    @allowLog.deleter
+    def allowLog(self):
+        del self._allowLog
+
+
+    def setsimulationtion(self,func,*args):
+        self._simulation = func
         self._args = args
+
 
