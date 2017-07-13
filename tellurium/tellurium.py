@@ -368,14 +368,25 @@ def distributed_sensitivity_analysis(sc,senitivity_analysis_model):
 
         model_roadrunner.conservedMoietyAnalysis = sa_model.conservedMoietyAnalysis
 
-        #Performing PreSimulation
-        if(sa_model.preprocessingFunc is None):
-            pre_simulator = getattr(model_roadrunner, "simulate")
+        if(sa_model.simulation is None):
+            sa_model.simulation = te.Simulator()
+        """
         else:
-            pre_simulator = getattr(model_roadrunner, sa_model.preprocessingFunc)
+            try:
+                if(not issubclass(sa_model.simulation, te.Simulator)):
+                    print("Invalid object provided to simulation variable in Sensitivity Analysis Class")
+                    return
+            except:
+                return
 
-        pre_simulator(*sa_model.args)
-        ANALYSIS = ""
+        sa_model.simulation = sa_model.simulation()"""
+
+        #Running PreSimulation
+        model_roadrunner = sa_model.pre_simulation(model_roadrunner)
+
+        #Running Analysis
+        computations = {}
+        model_roadrunner = sa_model.simulation(model_roadrunner,computations)
 
         _analysis = [None,None]
 
@@ -386,20 +397,8 @@ def distributed_sensitivity_analysis(sc,senitivity_analysis_model):
             _analysis[0][param_names] = parameters[i_param]
             setattr(model_roadrunner, param_names, parameters[i_param])
 
-        _analysis[1] = {}
-        fig1a_local = model_roadrunner.getCC('PP_K', 'r1b_k2')
-        _analysis[1]['r1b_k2'] = fig1a_local
-        #ANALYSIS += ('\nFigure 1A: local value = {}'.format(fig1a_local))
+        _analysis[1] = computations
 
-
-        fig1b_local = model_roadrunner.getCC('PP_K', 'r8a_a8')
-        _analysis[1]['r8a_a8'] = fig1b_local
-        #ANALYSIS += ('\nFigure 1B: local value = {}'.format(fig1b_local))
-
-
-        fig1c_local = model_roadrunner.getCC('PP_K', 'r10a_a10')
-        _analysis[1]['r10a_a10'] = fig1c_local
-        #ANALYSIS += ('\nFigure 1C: local value = {}'.format(fig1c_local))
         return _analysis
 
 
@@ -408,17 +407,31 @@ def distributed_sensitivity_analysis(sc,senitivity_analysis_model):
         return
 
     params = []
-    for bound_values in senitivity_analysis_model.bounds.values():
-        if(len(bound_values) > 2):
-            params.append(np.linspace(bound_values[0], bound_values[1], bound_values[2]))
-        elif(len(bound_values == 2)):
-            params.append(np.linspace(bound_values[0], bound_values[1], 3))
-        else:
-            print("Improper Boundaries Defined")
-            return;
+    if(senitivity_analysis_model.allowLog):
+        for bound_values in senitivity_analysis_model.bounds.values():
+            if(len(bound_values) > 2):
+                params.append(np.logspace(bound_values[0], bound_values[1], bound_values[2]))
+            elif(len(bound_values == 2)):
+                params.append(np.logspace(bound_values[0], bound_values[1], 3))
+            else:
+                print("Improper Boundaries Defined")
+                return;
+    else:
+        for bound_values in senitivity_analysis_model.bounds.values():
+            if(len(bound_values) > 2):
+                params.append(np.linspace(bound_values[0], bound_values[1], bound_values[2]))
+            elif(len(bound_values == 2)):
+                params.append(np.linspace(bound_values[0], bound_values[1], 3))
+            else:
+                print("Improper Boundaries Defined")
+                return;
+
     samples = perform_sampling(np.meshgrid(*params))
     samples = zip([senitivity_analysis_model]*len(samples),samples)
-    return(sc.parallelize(samples,len(samples)).map(spark_sensitivity_analysis).collect())
+    #return(sc.parallelize(samples,len(samples)).map(spark_sensitivity_analysis).collect())
+    #[{'r10a_a10': 900.0, 'r1b_k2': 100.0, 'r8a_a8': 900.0}, {'r10a_a10': -1.0083675163725245, 'r1b_k2': 0.007986056440057948, 'r8_a8': -0.025007553955685758}]
+    sc.parallelize(samples,len(samples)).map(spark_sensitivity_analysis).map(lambda x: ())
+
 
 def perform_sampling(mesh):
     samples = []
@@ -812,3 +825,4 @@ def RoadRunner(*args):
     return ExtendedRoadRunner(*args)
 
 roadrunner.RoadRunner = ExtendedRoadRunner
+
