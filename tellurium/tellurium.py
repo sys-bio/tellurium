@@ -368,21 +368,9 @@ def distributed_sensitivity_analysis(sc,senitivity_analysis_model):
 
         model_roadrunner.conservedMoietyAnalysis = sa_model.conservedMoietyAnalysis
 
-        if(sa_model.simulation is None):
-            sa_model.simulation = te.Simulator()
-        """
-        else:
-            try:
-                if(not issubclass(sa_model.simulation, te.Simulator)):
-                    print("Invalid object provided to simulation variable in Sensitivity Analysis Class")
-                    return
-            except:
-                return
-
-        sa_model.simulation = sa_model.simulation()"""
 
         #Running PreSimulation
-        model_roadrunner = sa_model.pre_simulation(model_roadrunner)
+        model_roadrunner = sa_model.presimulation(model_roadrunner)
 
         #Running Analysis
         computations = {}
