@@ -3,7 +3,7 @@ class SensitivityAnalysis(object):
         self._model = model
         self._sbml = sbml
         self._conservedMoietyAnalysis = conservedMoietyAnalysis
-        self._presimulation = None
+        self._filename = None
         self._simulation = None
         self._bounds = None
         self._args = None
@@ -59,17 +59,18 @@ class SensitivityAnalysis(object):
     def simulation(self):
         del self._simulation
 
+
     @property
-    def presimulation(self):
-        return self._presimulation
+    def filename(self):
+        return self._filename
 
-    @presimulation.setter
-    def presimulation(self, value):
-        self._presimulation = value
+    @filename.setter
+    def filename(self, value):
+        self._filename = value
 
-    @presimulation.deleter
-    def presimulation(self):
-        del self._presimulation
+    @filename.deleter
+    def filename(self):
+        del self._filename
 
 
     @property
@@ -108,9 +109,5 @@ class SensitivityAnalysis(object):
     def allowLog(self):
         del self._allowLog
 
-
-    def setsimulationtion(self,func,*args):
-        self._simulation = func
-        self._args = args
 
 

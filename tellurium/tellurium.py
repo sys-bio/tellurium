@@ -9,6 +9,7 @@ import random
 import os
 import sys
 import warnings
+import importlib
 
 # NOTE: not needed since we now require matplotlib >= 2.0.0
 # check availability of property cycler (matplotlib 1.5ish)
@@ -359,7 +360,12 @@ def distributed_sensitivity_analysis(sc,senitivity_analysis_model):
         import tellurium as te
 
         sa_model = model_with_parameters[0]
+
         parameters = model_with_parameters[1]
+        class_name = importlib.import_module(sa_model.filename)
+
+        user_defined_simulator = getattr(class_name, dir(class_name)[0])
+        sa_model.simulation = user_defined_simulator()
 
         if(sa_model.sbml):
             model_roadrunner = te.loadAntimonyModel(te.sbmlToAntimony(sa_model.model))
@@ -370,11 +376,11 @@ def distributed_sensitivity_analysis(sc,senitivity_analysis_model):
 
 
         #Running PreSimulation
-        model_roadrunner = sa_model.presimulation(model_roadrunner)
+        model_roadrunner = sa_model.simulation.presimulator(model_roadrunner)
 
         #Running Analysis
         computations = {}
-        model_roadrunner = sa_model.simulation(model_roadrunner,computations)
+        model_roadrunner = sa_model.simulation.simulator(model_roadrunner,computations)
 
         _analysis = [None,None]
 
@@ -393,6 +399,11 @@ def distributed_sensitivity_analysis(sc,senitivity_analysis_model):
     if(senitivity_analysis_model.bounds is  None):
         print("Bounds are Undefined.")
         return
+
+    #Get the Filename
+    sc.addPyFile(senitivity_analysis_model.filename)
+    senitivity_analysis_model.filename = os.path.basename(senitivity_analysis_model.filename).split(".")[0]
+
 
     params = []
     if(senitivity_analysis_model.allowLog):
@@ -811,4 +822,5 @@ def RoadRunner(*args):
     return ExtendedRoadRunner(*args)
 
 roadrunner.RoadRunner = ExtendedRoadRunner
+
 
