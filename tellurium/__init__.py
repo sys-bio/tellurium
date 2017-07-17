@@ -86,12 +86,13 @@ from .analysis.parameterscan import (
 # Distributed computing
 from .analysis.stochasticmodel import StochasticSimulationModel
 from .analysis.parameterestimation import ParameterEstimation
+from .analysis.sensitivityanalysis import SensitivityAnalysis
 
 from .tellurium import (
     # distrib. parameter scan
     distributed_parameter_scanning, sample_plot, plotImage,
     # distrib. stochastic sims & fitting
-    distributed_stochastic_simulation, plot_distributed_stochastic, plot_stochastic_result
+    distributed_stochastic_simulation, plot_distributed_stochastic, plot_stochastic_result, distributed_sensitivity_analysis
     )
 
 # Bifurcations

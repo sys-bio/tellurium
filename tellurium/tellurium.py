@@ -9,6 +9,7 @@ import random
 import os
 import sys
 import warnings
+import importlib
 
 # NOTE: not needed since we now require matplotlib >= 2.0.0
 # check availability of property cycler (matplotlib 1.5ish)
@@ -353,6 +354,89 @@ def distributed_parameter_scanning(sc,list_of_models, function_name,antimony="an
         return(simulator())
 
     return(sc.parallelize(list_of_models,len(list_of_models)).map(spark_work).collect())
+
+def distributed_sensitivity_analysis(sc,senitivity_analysis_model):
+    def spark_sensitivity_analysis(model_with_parameters):
+        import tellurium as te
+
+        sa_model = model_with_parameters[0]
+
+        parameters = model_with_parameters[1]
+        class_name = importlib.import_module(sa_model.filename)
+
+        user_defined_simulator = getattr(class_name, dir(class_name)[0])
+        sa_model.simulation = user_defined_simulator()
+
+        if(sa_model.sbml):
+            model_roadrunner = te.loadAntimonyModel(te.sbmlToAntimony(sa_model.model))
+        else:
+            model_roadrunner = te.loadAntimonyModel(sa_model.model)
+
+        model_roadrunner.conservedMoietyAnalysis = sa_model.conservedMoietyAnalysis
+
+
+        #Running PreSimulation
+        model_roadrunner = sa_model.simulation.presimulator(model_roadrunner)
+
+        #Running Analysis
+        computations = {}
+        model_roadrunner = sa_model.simulation.simulator(model_roadrunner,computations)
+
+        _analysis = [None,None]
+
+        #Setting the Parameter Variables
+        _analysis[0] = {}
+        for i_param,param_names in enumerate(sa_model.bounds.keys()):
+
+            _analysis[0][param_names] = parameters[i_param]
+            setattr(model_roadrunner, param_names, parameters[i_param])
+
+        _analysis[1] = computations
+
+        return _analysis
+
+
+    if(senitivity_analysis_model.bounds is  None):
+        print("Bounds are Undefined.")
+        return
+
+    #Get the Filename
+    sc.addPyFile(senitivity_analysis_model.filename)
+    senitivity_analysis_model.filename = os.path.basename(senitivity_analysis_model.filename).split(".")[0]
+
+
+    params = []
+    if(senitivity_analysis_model.allowLog):
+        for bound_values in senitivity_analysis_model.bounds.values():
+            if(len(bound_values) > 2):
+                params.append(np.logspace(bound_values[0], bound_values[1], bound_values[2]))
+            elif(len(bound_values == 2)):
+                params.append(np.logspace(bound_values[0], bound_values[1], 3))
+            else:
+                print("Improper Boundaries Defined")
+                return;
+    else:
+        for bound_values in senitivity_analysis_model.bounds.values():
+            if(len(bound_values) > 2):
+                params.append(np.linspace(bound_values[0], bound_values[1], bound_values[2]))
+            elif(len(bound_values == 2)):
+                params.append(np.linspace(bound_values[0], bound_values[1], 3))
+            else:
+                print("Improper Boundaries Defined")
+                return;
+
+    samples = perform_sampling(np.meshgrid(*params))
+    samples = zip([senitivity_analysis_model]*len(samples),samples)
+    return(sc.parallelize(samples,len(samples)).map(spark_sensitivity_analysis).collect())
+
+
+def perform_sampling(mesh):
+    samples = []
+    mesh = [items.flatten() for items in mesh]
+    for i in range(len(mesh[0])):
+        samples.append([items[i] for items in mesh])
+    return(samples)
+
 
 def loada(ant):
     """Load model from Antimony string.
@@ -738,3 +822,5 @@ def RoadRunner(*args):
     return ExtendedRoadRunner(*args)
 
 roadrunner.RoadRunner = ExtendedRoadRunner
+
+
