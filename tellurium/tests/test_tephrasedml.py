@@ -566,24 +566,24 @@ class tePhrasedMLTestCase(unittest.TestCase):
         p = """
             model0 = model "m1"
             sim0 = simulate uniform(0, 10, 100)
-            sim0.algorithm.minimum_time_step = 1E-5
+            sim0.algorithm.minimum_time_step = 1E-6
             task0 = run sim0 on model0
             plot task0.time vs task0.S1
         """
         exp = te.experiment(self.a1, p)
-        self.checkKisaoAlgorithmParameter(exp, 'KISAO:0000485', 'minimum_time_step', 1E-5)
+        self.checkKisaoAlgorithmParameter(exp, 'KISAO:0000485', 'minimum_time_step', 1E-6)
         exp.execute()
 
     def test_kisao_minimum_time_step_2(self):
         p = """
             model0 = model "m1"
             sim0 = simulate uniform(0, 10, 100)
-            sim0.algorithm.485 = 1E-5
+            sim0.algorithm.485 = 1E-6
             task0 = run sim0 on model0
             plot task0.time vs task0.S1
         """
         exp = te.experiment(self.a1, p)
-        self.checkKisaoAlgorithmParameter(exp, 'KISAO:0000485', 'minimum_time_step', 1E-5)
+        self.checkKisaoAlgorithmParameter(exp, 'KISAO:0000485', 'minimum_time_step', 1E-6)
         exp.execute()
 
     def test_kisao_initial_time_step_1(self):

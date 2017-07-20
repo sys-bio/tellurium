@@ -9,7 +9,11 @@ from tellurium import noticesOff
 from tellurium import noticesOn
 from tellurium import saveToFile
 from tellurium import readFromFile
-    
+from tellurium import runTool
+from tellurium import rank
+from tellurium import nullspace
+from tellurium import rref
+
 from tellurium import loada
 from tellurium import loadAntimonyModel
 from tellurium import loads
