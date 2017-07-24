@@ -24,6 +24,7 @@ SOURCE_CSV = "./oscli.csv"
 SOURCE_NUML = "./oscli.numl"
 SOURCE_NUML_1D = "./OneDimensionalNuMLData.xml"
 SOURCE_NUML_2D = "./TwoDimensionalNuMLData.xml"
+SOURCE_NUML_2DRC = "./TwoDimensionTwoRCNuMLData.xml"
 
 
 #####################################
@@ -49,7 +50,7 @@ def parse_description(d, info=None):
             'indexType': d.getIndexType(),
         }
         info.append(content)
-        print('* CompositeDescription *', content)
+        print('\t* CompositeDescription *', content)
 
         info = parse_description(d.get(0), info)
 
@@ -66,7 +67,7 @@ def parse_description(d, info=None):
             valueTypes.append(atomic.getValueType())
 
         info.append(valueTypes)
-        print('* TupleDescription * ', valueTypes)
+        print('\t* TupleDescription * ', valueTypes)
 
     elif d.isContentAtomicDescription():
         atomic = d.getAtomicDescription()
@@ -79,39 +80,53 @@ def parse_description(d, info=None):
     return info
 
 
-def parse_value(d, info=None):
+def parse_value(d, data=None):
     """ Parses the recursive CompositeValue, Tuple, AtomicValue.
 
     :param d:
-    :param info:
+    :param data:
     :return:
     """
-    # TODO: implement
-    pass
+    if data is None:
+        data = []
+
+    print(type(d), d)
 
 
-def parse_dimension_description(dd):
-    # type: (libnuml.DimensionDescription) -> None
-    """ Parses the dimension information from the dimension description.
 
-          <dimensionDescription>
-            <compositeDescription indexType="double" name="time">
-              <compositeDescription indexType="string" name="SpeciesIds">
-                <atomicDescription valueType="double" name="Concentrations" />
-              </compositeDescription>
-            </compositeDescription>
-          </dimensionDescription>
-          <dimension>
+    if d.isCompositeValue():
+        assert(isinstance(d, libnuml.CompositeValue))
+        content = {
+            'indexValue': d.getIndexValue(),
+        }
+        data.append(content)
+        print('\t* CompositeValue *', content)
 
-    :param dd:
-    :return:
-    """
-    print("DimensionDescription:", dd)
-    assert(isinstance(dd, libnuml.DimensionDescription))
-    cd_top = dd.get(0)
-    dim_info = parse_description(cd_top)
+        info = parse_value(d.get(0), data)
 
-    return dim_info
+    elif d.isConentTuple():
+
+        tuple = d.getTuple()
+        assert (isinstance(tuple, libnuml.Tuple))
+
+        Natomic = tuple.size()
+        values = []
+        for k in range(Natomic):
+            atomic = tuple.getAtomicValue(k)
+            assert(isinstance(atomic, libnuml.Atomic))
+            values.append(atomic.getDoubleValue())
+        data.append(values)
+        print('\t* TupleDescription * ', values)
+
+    elif d.isContentAtomicValue():
+        atomic = d.getAtomicValue()
+        assert(isinstance(atomic, libnuml.AtomicValue))
+
+        values = [atomic.getDoubleValue()]
+        data.append(values)
+        print('* AtomicValue *', values)
+
+    return data
 
 
 def load_numl_data(source):
@@ -132,46 +147,49 @@ def load_numl_data(source):
     :return: data matrix
     """
     # FIXME: handle urn/url sources
-
     doc_numl = libnuml.readNUMLFromFile(source)
-
-    print('source:', source)
-    print(doc_numl)
+    print('source:', source, doc_numl)
 
     # reads all the resultComponents from the numl file
     results = []
 
     Nrc = doc_numl.getNumResultComponents()
     rcs = doc_numl.getResultComponents()
-    libnuml.ResultComponents
-
-
     print('NumResultComponents:', Nrc)
     for k in range(Nrc):
         print('-'*80)
-        # parse the ResultComponent
+        # parse ResultComponent
         res_comp = rcs.get(k)
-        dd = res_comp.getDimensionDescription()
 
         # dimension info
-        dimension_info = parse_dimension_description(dd)
-        print("dimension_info", dimension_info)
+        dim_description = res_comp.getDimensionDescription()
+        print("DimensionDescription:", dim_description)
+        assert (isinstance(dim_description, libnuml.DimensionDescription))
+        info = parse_description(dim_description.get(0))
+        print("info:", info)
 
         # data
-        # for cvalue in dd.getComponentValues():
-        #    print(cvalue)
+        dim = res_comp.getDimension()
+        print("Dimension:", dim)
+        assert (isinstance(dim, libnuml.Dimension))
+        data = parse_value(dim.get(0))
+        print("data", data)
 
+        res = {'info': info, 'data': data}
+        results.append(res)
 
-    # TODO: figure out the dimensionality, and create np.array
-    # if 2D return a DataFrame (Does this work with the slicing?)
-    df = None
-    return df
+    return results
 
 # load data from sources
 # FIXME: implement, see
-df_numl = load_numl_data(SOURCE_NUML_1D)
-# df_numl = load_numl_data(SOURCE_NUML)
-print(df_numl)
+for source in [SOURCE_NUML, SOURCE_NUML_1D, SOURCE_NUML_2D, SOURCE_NUML_2DRC]:
+    print('#' * 80)
+    print(source)
+    print('#' * 80)
+
+    df_numl = load_numl_data(source)
+    print(df_numl)
+    print()
 
 exit()
 

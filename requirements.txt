@@ -12,6 +12,7 @@
 libroadrunner>=1.4.18
 python-libsbml>=5.15.0
 # python-libsedml>=0.4.1
+python-libnuml
 rrplugins>=1.1.8
 numpy
 matplotlib>= 2.0.0
