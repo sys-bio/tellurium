@@ -1,3 +1,5 @@
+from __future__ import print_function, division, absolute_import
+
 from .engine import PlottingEngine, PlottingFigure, PlottingLayout, filterWithSelections
 import plotly, numpy as np
 from plotly.graph_objs import Scatter, Scatter3d, Layout, Data
