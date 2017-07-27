@@ -32,7 +32,7 @@ class PlotlyFigure(PlottingFigure):
             kwargs['yaxis']['title'] = self.ytitle
         return Layout(**kwargs)
 
-    def plot(self):
+    def render(self):
         """ Plot the figure. Call this last."""
         traces = []
         for dataset in self.getDatasets():
@@ -61,7 +61,7 @@ class PlotlyStackedFigure(PlotlyFigure):
         self.initialize(title=title, layout=layout, logx=logx, logy=logy)
         self.zindex = 0
 
-    def plot(self):
+    def render(self):
         """ Plot the figure. Call this last."""
         traces = []
         for dataset in self.xy_datasets:

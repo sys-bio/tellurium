@@ -13,7 +13,7 @@ class MatplotlibFigure(PlottingFigure):
         self.figsize = figsize
         self.save_to_pdf = save_to_pdf
 
-    def plot(self):
+    def render(self):
         """ Plot the figure. Call this last."""
         fig = plt.figure(num=None, figsize=self.figsize, dpi=80, facecolor='w', edgecolor='k')
         __gs = gridspec.GridSpec(1, 2, width_ratios=[3, 1])

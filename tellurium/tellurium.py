@@ -79,7 +79,7 @@ import matplotlib.pyplot as plt
 # make this the default style for matplotlib
 # plt.style.use('fivethirtyeight')
 
-from .plotting import getPlottingEngineFactory as __getPlottingEngineFactory
+from .plotting import getPlottingEngineFactory as __getPlottingEngineFactory, plot
 
 def getPlottingEngineFactory(engine=getDefaultPlottingEngine()):
     global __save_plots_to_pdf
@@ -822,5 +822,3 @@ def RoadRunner(*args):
     return ExtendedRoadRunner(*args)
 
 roadrunner.RoadRunner = ExtendedRoadRunner
-
-
