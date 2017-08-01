@@ -355,7 +355,7 @@ def distributed_parameter_scanning(sc,list_of_models, function_name,antimony="an
 
     return(sc.parallelize(list_of_models,len(list_of_models)).map(spark_work).collect())
 
-def distributed_sensitivity_analysis(sc,senitivity_analysis_model):
+def distributed_sensitivity_analysis(sc,senitivity_analysis_model,calculation=None):
     def spark_sensitivity_analysis(model_with_parameters):
         import tellurium as te
 
@@ -427,7 +427,35 @@ def distributed_sensitivity_analysis(sc,senitivity_analysis_model):
 
     samples = perform_sampling(np.meshgrid(*params))
     samples = zip([senitivity_analysis_model]*len(samples),samples)
-    return(sc.parallelize(samples,len(samples)).map(spark_sensitivity_analysis).collect())
+    if(calculation is "avg"):
+        group_rdd = sc.parallelize(samples,len(samples)).map(spark_sensitivity_analysis).\
+            flatMap(lambda x: x[1].items()).groupByKey()
+
+        KEYS = group_rdd.map(lambda x: (x[0])).collect()
+        VALUES = group_rdd.map(lambda x: np.array(list(x[1])))
+        values_array = np.array(VALUES.collect())
+        MEANS = (np.average(values_array, axis=1))
+        STD =  (np.std(values_array, axis=1))
+
+        stats = {}
+        for key_i,each_key in enumerate(KEYS):
+            stats[each_key] = {}
+            stats[each_key]["mean"] = MEANS[key_i]
+            stats[each_key]["stdev"] = STD[key_i]
+        return stats
+
+    elif(type(calculation) is dict):
+        bins = sc.broadcast(calculation)
+        group_rdd = sc.parallelize(samples,len(samples)).map(spark_sensitivity_analysis)\
+            .flatMap(lambda x: x[1].items()).map(
+            lambda x: (x[0], [int(items[0] <= x[1] <= items[1]) for items in bins.value[x[0]]])).reduceByKey(
+            lambda first, second: [x + y for x, y in zip(first, second)])
+
+        return group_rdd.collect()
+
+    else:
+        return(sc.parallelize(samples,len(samples)).map(spark_sensitivity_analysis).collect())
+
 
 
 def perform_sampling(mesh):
@@ -822,3 +850,6 @@ def RoadRunner(*args):
     return ExtendedRoadRunner(*args)
 
 roadrunner.RoadRunner = ExtendedRoadRunner
+
+
+
