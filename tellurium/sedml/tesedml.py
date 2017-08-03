@@ -1497,7 +1497,7 @@ class SEDMLCodeFactory(object):
         # lines.append("plt.setp(__lg.get_texts(), fontweight='bold')")
         # lines.append("plt.savefig(os.path.join(workingDir, '{}.png'), dpi=100)".format(output.getId()))
         # lines.append("plt.show()".format())
-        lines.append("fig.plot()".format())
+        lines.append("fig.render()".format())
 
         return lines
 
