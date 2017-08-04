@@ -1619,7 +1619,7 @@ class Editor(SpyderPluginWidget):
                        'Tellurium oscillation', '"""',
                        '', 'import tellurium as te', 'import roadrunner',
                        'import antimony', '',
-                       "antStr = '''", 'model feedback()', '  // Reactions:',
+                       "r = te.loada ('''", 'model feedback()', '  // Reactions:',
   '  J0: $X0 -> S1; (VM1 * (X0 - S1/Keq1))/(1 + X0 + S1 +   S4^h);',
   '  J1: S1 -> S2; (10 * S1 - 2 * S2) / (1 + S1 + S2);',
   '  J2: S2 -> S3; (10 * S2 - 2 * S3) / (1 + S2 + S3);',
@@ -1628,8 +1628,7 @@ class Editor(SpyderPluginWidget):
   '  // Species initializations:', '  S1 = 0; S2 = 0; S3 = 0;',
   '  S4 = 0; X0 = 10; X1 = 0;','', '  // Variable initialization:',
   '  VM1 = 10; Keq1 = 10; h = 10; V4 = 2.5; KS4 = 0.5;',
-"end'''", '', 'rr = te.loadAntimonyModel(antStr)', 
-'result = rr.simulate(0, 40, 500)', 'rr.plot(result)', '']
+"end''')", '', 'result = r.simulate(0, 40, 500)', 'r.plot(result)', '']
             text = os.linesep.join([encoding.to_unicode(qstr)
                                     for qstr in default])
             encoding.write(to_text_string(text), self.TEMPFILE_PATH, 'utf-8')
