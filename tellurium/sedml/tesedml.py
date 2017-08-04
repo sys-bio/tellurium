@@ -892,6 +892,9 @@ class SEDMLCodeFactory(object):
             outputEndTime = simulation.getOutputEndTime()
             numberOfPoints = simulation.getNumberOfPoints()
 
+            # reset before simulation (see https://github.com/sys-bio/tellurium/issues/193)
+            lines.append("{}.reset()".format(mid))
+
             # throw some points away
             if abs(outputStartTime - initialTime) > 1E-6:
                 lines.append("{}.simulate(start={}, end={}, points=2)".format(
