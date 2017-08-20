@@ -853,14 +853,15 @@ roadrunner.RoadRunner = ExtendedRoadRunner
 
 def VersionDict():
     '''Return dict of version strings.'''
-    import tesbml, tesedml
+    import tesbml, tesedml, tecombine
     return {
         'tellurium': getTelluriumVersion(),
         'roadrunner': roadrunner.getVersionStr(roadrunner.VERSIONSTR_BASIC),
         'antimony': antimony.__version__,
         'phrasedml': phrasedml.__version__,
         'tesbml': libsbml.getLibSBMLDottedVersion(),
-        'tesedml': tesedml.__version__
+        'tesedml': tesedml.__version__,
+        'tecombine': tecombine.__version__
         }
 
 def DumpJSONInfo():
