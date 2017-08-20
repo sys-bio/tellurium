@@ -139,8 +139,9 @@ class inlineOmex:
         import phrasedml
         phrasedml.clearReferencedSBML()
 
+        from .. import JSONDump
         self.omex = Omex(
-            description = 'Created with Tellurium (tellurium.analogmachine.org/).',
+            description = JSONDump(),
             creator = readCreator()
         )
 

@@ -56,11 +56,10 @@ class Omex:
     ''' Wrapper for Combine archives. '''
 
     def __init__(self,
-        about       = 'Format for storing dynamical models and simulations.', # about the archive itself
-        description = 'No description.',
+        description = '',
         creator     = None):
 
-        self.about        = about
+        self.about        = '.'
         self.description  = description
         self.creator      = creator
 

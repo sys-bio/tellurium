@@ -10,6 +10,7 @@ import os
 import sys
 import warnings
 import importlib
+import json
 
 # NOTE: not needed since we now require matplotlib >= 2.0.0
 # check availability of property cycler (matplotlib 1.5ish)
@@ -150,7 +151,6 @@ def getVersionInfo():
         ('tellurium', getTelluriumVersion()),
         ('roadrunner', roadrunner.__version__),
         ('antimony', antimony.__version__),
-        ('snbw_viewer', 'No information for sbnw viewer'),
     ]
     if libsbml:
         versions.append(('libsbml', libsbml.getLibSBMLDottedVersion()))
@@ -851,5 +851,22 @@ def RoadRunner(*args):
 
 roadrunner.RoadRunner = ExtendedRoadRunner
 
+def VersionDict():
+    '''Return dict of version strings.'''
+    import tesbml, tesedml
+    return {
+        'tellurium': getTelluriumVersion(),
+        'roadrunner': roadrunner.getVersionStr(roadrunner.VERSIONSTR_BASIC),
+        'antimony': antimony.__version__,
+        'phrasedml': phrasedml.__version__,
+        'tesbml': libsbml.getLibSBMLDottedVersion(),
+        'tesedml': tesedml.__version__
+        }
 
+def JSONDump():
+    '''Tellurium dist info. Goes into COMBINE archive.'''
+    return json.dumps({
+        'authoring_tool': 'tellurium',
+        'info': 'Created with Tellurium (tellurium.analogmachine.org).',
+        'version_info': VersionDict()})
 
