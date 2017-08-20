@@ -871,3 +871,11 @@ def DumpJSONInfo():
         'info': 'Created with Tellurium (tellurium.analogmachine.org).',
         'version_info': VersionDict()})
 
+def getAppDir():
+    import os
+    from sys import platform
+    if platform == "linux" or platform == "linux2":
+        return os.path.join(os.path.expanduser('~'), '.config', 'Tellurium')
+    else:
+        import appdirs
+        return appdirs.user_data_dir('Tellurium', 'Tellurium')

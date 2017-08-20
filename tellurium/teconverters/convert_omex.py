@@ -5,14 +5,12 @@ import os, re
 from tecombine import CombineArchive, OmexDescription, VCard, KnownFormats
 from .convert_phrasedml import phrasedmlImporter
 from .convert_antimony import antimonyConverter
-import shutil, os, tempfile, appdirs, getpass, json
+import shutil, os, tempfile, getpass, json
 
 def readCreator(file=None):
+    from .. import getAppDir
     if file == None:
-        file = os.path.join(
-            appdirs.user_data_dir('Tellurium', 'Tellurium'),
-            'telocal', getpass.getuser() + '.vcard'
-            )
+        file = os.path.join(getAppDir(), 'telocal', getpass.getuser() + '.vcard')
         if not os.path.exists(file) or not os.path.isfile(file):
             return None
     with open(file) as f:

@@ -121,8 +121,10 @@ from .package_utils import (
     uninstallPackage,
 )
 
+# Dist config
 from .tellurium import (
     DumpJSONInfo,
+    getAppDir,
     )
 
 # Do not use
