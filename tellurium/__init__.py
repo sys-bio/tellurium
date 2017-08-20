@@ -121,6 +121,10 @@ from .package_utils import (
     uninstallPackage,
 )
 
+from .tellurium import (
+    DumpJSONInfo,
+    )
+
 # Do not use
 # from .sedml.tephrasedml import experiment
 # from .tecombine import combine

@@ -863,7 +863,7 @@ def VersionDict():
         'tesedml': tesedml.__version__
         }
 
-def JSONDump():
+def DumpJSONInfo():
     '''Tellurium dist info. Goes into COMBINE archive.'''
     return json.dumps({
         'authoring_tool': 'tellurium',

@@ -139,9 +139,9 @@ class inlineOmex:
         import phrasedml
         phrasedml.clearReferencedSBML()
 
-        from .. import JSONDump
+        from .. import DumpJSONInfo
         self.omex = Omex(
-            description = JSONDump(),
+            description = DumpJSONInfo(),
             creator = readCreator()
         )
 
