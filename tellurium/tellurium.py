@@ -249,18 +249,18 @@ def runTool (toolFileName):
 	Example:
 	returnString = te.runTool (['myplugin', 'arg1', 'arg2'])
 	
-    If the external tool writes to stdout, this will be captured and returned.
+        If the external tool writes to stdout, this will be captured and returned.
 	
 	:param arguments to external tool
 	:return String return by external tool, if any.
 	"""
     try:
-      p = os.path.dirname(sys.executable)
-      root, waste = os.path.split (p)
-      #if (os.name == 'nt') and (not toolFileName[0].endswith ('.exe')):
-      toolFileName[0] = root + '\\telluriumTools\\' + toolFileName[0] + '\\' + toolFileName[0] + '.exe'
+        p = os.path.dirname(sys.executable)
+        root, waste = os.path.split (p)
+        #if (os.name == 'nt') and (not toolFileName[0].endswith ('.exe')):
+        toolFileName[0] = root + '\\telluriumTools\\' + toolFileName[0] + '\\' + toolFileName[0] + '.exe'
  
-      return subprocess.check_output(toolFileName)
+        return subprocess.check_output(toolFileName)
     except subprocess.CalledProcessError as e:
        raise Exception ('Tool failed to run correctly or could not be found')
 	

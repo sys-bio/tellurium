@@ -3,10 +3,6 @@ from __future__ import print_function, division, absolute_import
 # ----------------------------------------------------------------
 # TELLURIUM API
 # ----------------------------------------------------------------
-from tellurium import runTool
-from tellurium import rank
-from tellurium import nullspace
-from tellurium import rref
 
 # General
 from .tellurium import (
@@ -149,6 +145,14 @@ from .tellurium import (
 
 # Misc
 from .tellurium import getEigenvalues
+
+
+from .tellurium import (
+    runTool,
+    rank,
+    nullspace,
+    rref,
+    )
 
 # import .optimization  # nothing here
 # import .visualization # display with graphviz
