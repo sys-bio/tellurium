@@ -5,7 +5,6 @@ def getSupportedTestCases(begin=None, end=None):
     Compatibility taken from roadrunner.
     """
     supported_cases = [
-        "00000",
         "00001",
         "00002",
         "00003",
