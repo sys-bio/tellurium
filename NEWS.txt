@@ -2,6 +2,27 @@ tellurium
 
 Log of changes
 
+1.3.6
+
+*	Updated roadrunner to 1.4.15 
+*	Updated antimony to 2.9.0
+*	Updated tellurium to 1.3.6
+*	Updated libsbml to 5.14.0 
+*	Updated libsedml to 0.4.2 
+*	Updated pySBOL to 2.1.1
+*	Updated numpy to 1.12.0 
+*	Updated scipy to 0.18.1 
+*	Updated matplotlib to 2.0.0 
+*	Updated matplotlib2tikz to 0.6.2 
+*	Updated seaborn to 0.7.1 
+*	Updated bioservices to 1.4.16 
+*	Updated bokeh to 0.12.4 
+*	Updated cobra to 0.5.11 
+*	Updated statsmodels to 0.8.0 
+*	Updated pandas to 0.19.2 
+
+
+
 1.3.5
 
 *	New Package: pysbol2

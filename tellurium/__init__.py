@@ -3,6 +3,10 @@ from __future__ import print_function, division, absolute_import
 # ----------------------------------------------------------------
 # TELLURIUM API
 # ----------------------------------------------------------------
+from tellurium import runTool
+from tellurium import rank
+from tellurium import nullspace
+from tellurium import rref
 
 # General
 from .tellurium import (

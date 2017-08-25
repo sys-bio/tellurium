@@ -3,7 +3,7 @@
 [![Documentation Status](https://readthedocs.org/projects/tellurium/badge/?version=latest)](http://tellurium.readthedocs.org/en/latest/?badge=latest)
 [![Build Status](https://travis-ci.org/sys-bio/tellurium.svg?branch=mkoenig)](https://travis-ci.org/sys-bio/tellurium)
 
-Copyright 2014-2016
+Copyright 2014-2017
 Kiri Choi, J Kyle Medley, Matthias König, Kaylene Stocking, Caroline Cannistra, Michal Galdzicki, and Herbert Sauro
 
 ![Parameter scan demo](http://tellurium.readthedocs.org/en/latest/_images/parameter_scan_2_0.png)
@@ -37,7 +37,7 @@ Option 1. does not modify or conflict with any previous Python installation. Opt
 
 #### Windows
 
-1. [Download Tellurium for Windows](https://sourceforge.net/projects/pytellurium/files/Tellurium-1.3/1.3.5/Tellurium-1.3.5-Python-2.7-win32-portable-setup.exe/download)
+1. [Download Tellurium for Windows](https://sourceforge.net/projects/pytellurium/files/Tellurium-1.3/1.3.6/Tellurium-1.3.6-Python-2.7-win32-portable-setup.exe/download)
 2. Double-click the installer to start the installation
 3. Follow the instructions
 
