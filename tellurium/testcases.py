@@ -58,9 +58,9 @@ def getSupportedTestCases(begin=None, end=None):
         "00051",
         "00052",
         "00053",
-        "00054",
-        "00055",
-        "00056",
+        #"00054", # PML error
+        #"00055", # PML error
+        #"00056", # PML error
         "00057",
         "00058",
         "00059",
@@ -72,7 +72,7 @@ def getSupportedTestCases(begin=None, end=None):
         "00065",
         "00066",
         "00067",
-        "00068",
+        #"00068", # PML error
         "00069",
         "00070",
         "00071",
@@ -1202,4 +1202,4 @@ def getSupportedTestCases(begin=None, end=None):
         #"01195",
         #"01196"
         ]
-    return [case for case in supported_cases if (begin is None or int(case) >= begin) and (end is None or int(case) < end)]
+    return [case for case in supported_cases if (begin is None or int(case) >= begin) and (end is None or int(case) <= end)]
