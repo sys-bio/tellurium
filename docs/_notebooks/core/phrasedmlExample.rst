@@ -69,19 +69,28 @@ Section).
 
     INFO:root:Initialising BioModels service (WSDL)
     INFO:root:Initialising BioModels service (WSDL)
+
+
+.. parsed-literal::
+
+    read SEDML-File
+
+
+.. parsed-literal::
+
     INFO:root:Initialising BioModels service (WSDL)
 
 
 
-.. image:: _notebooks/core/phrasedmlExample_files/phrasedmlExample_2_1.png
-
-
-
-.. image:: _notebooks/core/phrasedmlExample_files/phrasedmlExample_2_2.png
-
-
-
 .. image:: _notebooks/core/phrasedmlExample_files/phrasedmlExample_2_3.png
+
+
+
+.. image:: _notebooks/core/phrasedmlExample_files/phrasedmlExample_2_4.png
+
+
+
+.. image:: _notebooks/core/phrasedmlExample_files/phrasedmlExample_2_5.png
 
 
 Execute Combine Archive
@@ -102,14 +111,16 @@ Executing the SED-ML from a combine archive.
 .. parsed-literal::
 
     /home/mkoenig/git/tellurium/tellurium/tests/testdata/sedml/sedx/BIOMD0000000003.sedx
+    read SEDML-File
+    /home/mkoenig/git/tellurium/tellurium/tests/testdata/sedml/sedx/_te_BIOMD0000000003/BIOMD0000000003.sedx.xml
 
 
 .. parsed-literal::
 
-    /home/mkoenig/git/tellurium/tellurium/tecombine.py:562: UserWarning: Combine archive directory already exists:/home/mkoenig/git/tellurium/tellurium/tests/testdata/sedml/sedx/_te_BIOMD0000000003
+    /home/mkoenig/git/tellurium/tellurium/tecombine.py:269: UserWarning: Combine archive directory already exists:/home/mkoenig/git/tellurium/tellurium/tests/testdata/sedml/sedx/_te_BIOMD0000000003
       warnings.warn("Combine archive directory already exists:{}".format(directory))
-    /home/mkoenig/git/tellurium/tellurium/tecombine.py:610: UserWarning: No 'manifest.xml' in archive, using all '*.sedml' files.
-      warnings.warn("No 'manifest.xml' in archive, using all '*.sedml' files.")
+    /home/mkoenig/git/tellurium/tellurium/tecombine.py:324: UserWarning: No 'manifest.xml' in archive, trying to resolve manually
+      warnings.warn("No 'manifest.xml' in archive, trying to resolve manually")
 
 
 
@@ -149,21 +160,30 @@ export in Combine Archive format.
     exp.printPython(phrasedml)
 
 
+.. parsed-literal::
 
-.. image:: _notebooks/core/phrasedmlExample_files/phrasedmlExample_6_0.png
+    read SEDML-File
+    /tmp/tmpYLnX7S_sedml/_te_myModel/experiment1.xml
+
+
+
+.. image:: _notebooks/core/phrasedmlExample_files/phrasedmlExample_6_1.png
 
 
 .. parsed-literal::
 
+    read SEDML-File
+    /tmp/tmpBYa3mu_sedml/_te_myModel/experiment1.xml
     """
-        tellurium 1.3.1
+        tellurium 1.3.5
     
         auto-generated code
         sedmlDoc: L1V2  
-        workingDir: /tmp/tmpoUPSlI_sedml/_te_myModel
+        workingDir: /tmp/tmpBYa3mu_sedml/_te_myModel
         inputType: COMBINE_FILE
     """
     import tellurium as te
+    from roadrunner import Config
     from tellurium.sedml.mathml import *
     import numpy as np
     import matplotlib.pyplot as plt
@@ -171,8 +191,9 @@ export in Combine Archive format.
     import libsedml
     import pandas
     import os.path
+    Config.LOADSBMLOPTIONS_RECOMPILE = True
     
-    workingDir = '/tmp/tmpoUPSlI_sedml/_te_myModel'
+    workingDir = r'/tmp/tmpBYa3mu_sedml/_te_myModel'
     
     # --------------------------------------------------------
     # Models
@@ -187,7 +208,7 @@ export in Combine Archive format.
     # Task: <task1>
     task1 = [None]
     model1.setIntegrator('cvode')
-    model1.timeCourseSelections = ['S2', 'S1', 'time']
+    model1.timeCourseSelections = ['[S1]', '[S2]', 'time']
     task1[0] = model1.simulate(start=0.0, end=5.0, steps=100)
     
     # --------------------------------------------------------
@@ -200,13 +221,13 @@ export in Combine Archive format.
     plot_0_0_0 = __var__time
     
     # DataGenerator <plot_0_0_1>
-    __var__S1 = np.transpose(np.array([sim['S1'] for sim in task1]))
+    __var__S1 = np.transpose(np.array([sim['[S1]'] for sim in task1]))
     if len(__var__S1.shape) == 1:
          __var__S1.shape += (1,)
     plot_0_0_1 = __var__S1
     
     # DataGenerator <plot_0_1_1>
-    __var__S2 = np.transpose(np.array([sim['S2'] for sim in task1]))
+    __var__S2 = np.transpose(np.array([sim['[S2]'] for sim in task1]))
     if len(__var__S2.shape) == 1:
          __var__S2.shape += (1,)
     plot_0_1_1 = __var__S2
@@ -221,14 +242,14 @@ export in Combine Archive format.
     plt.subplot(__gs[0])
     for k in range(plot_0_0_0.shape[1]):
         if k == 0:
-            plt.plot(plot_0_0_0[:,k], plot_0_0_1[:,k], '-o', color='r', linewidth=1.5, markersize=3.0, alpha=0.8, label='S1')
+            plt.plot(plot_0_0_0[:,k], plot_0_0_1[:,k], marker = '.', color='r', linewidth=1.5, markersize=3.0, alpha=0.8, label='S1')
         else:
-            plt.plot(plot_0_0_0[:,k], plot_0_0_1[:,k], '-o', color='r', linewidth=1.5, markersize=3.0, alpha=0.8)
+            plt.plot(plot_0_0_0[:,k], plot_0_0_1[:,k], marker = '.', color='r', linewidth=1.5, markersize=3.0, alpha=0.8)
     for k in range(plot_0_0_0.shape[1]):
         if k == 0:
-            plt.plot(plot_0_0_0[:,k], plot_0_1_1[:,k], '-o', color='b', linewidth=1.5, markersize=3.0, alpha=0.8, label='S2')
+            plt.plot(plot_0_0_0[:,k], plot_0_1_1[:,k], marker = '.', color='b', linewidth=1.5, markersize=3.0, alpha=0.8, label='S2')
         else:
-            plt.plot(plot_0_0_0[:,k], plot_0_1_1[:,k], '-o', color='b', linewidth=1.5, markersize=3.0, alpha=0.8)
+            plt.plot(plot_0_0_0[:,k], plot_0_1_1[:,k], marker = '.', color='b', linewidth=1.5, markersize=3.0, alpha=0.8)
     plt.title('Figure 1', fontweight='bold')
     plt.xlabel('time', fontweight='bold')
     __lg = plt.legend(bbox_to_anchor=(1.05, 1), loc=2, borderaxespad=0.)
@@ -303,8 +324,14 @@ Running a one step simulation.
     exp.execute(phrasedmlStr)
 
 
+.. parsed-literal::
 
-.. image:: _notebooks/core/phrasedmlExample_files/phrasedmlExample_8_0.png
+    read SEDML-File
+    /tmp/tmpthBOoO_sedml/_te_oneStep/experiment1.xml
+
+
+
+.. image:: _notebooks/core/phrasedmlExample_files/phrasedmlExample_8_1.png
 
 
 .. parsed-literal::
@@ -313,11 +340,11 @@ Running a one step simulation.
     report_1, Repeat: 0
     --------------------------------------------------------------------------------
        task1.time  task1.S1  task1.S2  task1.J0_v0
-    0         0.0  0.000000  1.000000            8
-    1         0.1  0.745532  0.652365            8
-    2         0.1  0.745532  0.652365            8
-    3         0.2  1.417837  0.498244            8
-    4         0.2  1.417837  0.498244            8
+    0         0.0  0.000000  1.000000          8.0
+    1         0.1  0.745532  0.652365          8.0
+    2         0.1  0.745532  0.652365          8.0
+    3         0.2  1.417837  0.498244          8.0
+    4         0.2  1.417837  0.498244          8.0
 
 
 parameterScan1D
@@ -381,8 +408,14 @@ One dimensional parameter scan.
     exp.execute(phrasedmlStr)
 
 
+.. parsed-literal::
 
-.. image:: _notebooks/core/phrasedmlExample_files/phrasedmlExample_10_0.png
+    read SEDML-File
+    /tmp/tmpQjBFMT_sedml/_te_parameterScan1D/experiment1.xml
+
+
+
+.. image:: _notebooks/core/phrasedmlExample_files/phrasedmlExample_10_1.png
 
 
 parameterScan2D
@@ -475,12 +508,18 @@ parameterScan2D
     exp.execute(phrasedmlStr)
 
 
+.. parsed-literal::
 
-.. image:: _notebooks/core/phrasedmlExample_files/phrasedmlExample_12_0.png
+    read SEDML-File
+    /tmp/tmpR9P24o_sedml/_te_parameterScan2D/experiment1.xml
 
 
 
 .. image:: _notebooks/core/phrasedmlExample_files/phrasedmlExample_12_1.png
+
+
+
+.. image:: _notebooks/core/phrasedmlExample_files/phrasedmlExample_12_2.png
 
 
 repeatedStochastic
@@ -580,12 +619,18 @@ Repeated stochastic simulation with setting seed.
     exp.execute(phrasedmlStr)
 
 
+.. parsed-literal::
 
-.. image:: _notebooks/core/phrasedmlExample_files/phrasedmlExample_14_0.png
+    read SEDML-File
+    /tmp/tmpeCLZt4_sedml/_te_repeatedStochastic/experiment1.xml
 
 
 
 .. image:: _notebooks/core/phrasedmlExample_files/phrasedmlExample_14_1.png
+
+
+
+.. image:: _notebooks/core/phrasedmlExample_files/phrasedmlExample_14_2.png
 
 
 Case 02
@@ -623,12 +668,18 @@ model is reset after every repeat.
     exp.execute(phrasedmlStr)
 
 
+.. parsed-literal::
 
-.. image:: _notebooks/core/phrasedmlExample_files/phrasedmlExample_16_0.png
+    read SEDML-File
+    /tmp/tmprOO9Kg_sedml/_te_case_02/experiment1.xml
 
 
 
 .. image:: _notebooks/core/phrasedmlExample_files/phrasedmlExample_16_1.png
+
+
+
+.. image:: _notebooks/core/phrasedmlExample_files/phrasedmlExample_16_2.png
 
 
 outputPlot3D
@@ -722,6 +773,12 @@ Oscillations of MAPK pathway.
 
 
 
+.. parsed-literal::
 
-.. image:: _notebooks/core/phrasedmlExample_files/phrasedmlExample_18_0.png
+    read SEDML-File
+    /tmp/tmpPNvk6t_sedml/_te_case_09/experiment1.xml
+
+
+
+.. image:: _notebooks/core/phrasedmlExample_files/phrasedmlExample_18_1.png
 

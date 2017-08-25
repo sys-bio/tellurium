@@ -3,8 +3,8 @@
 phrasedml repeated stochastic test
 """
 from __future__ import print_function
-import tellurium as te
 import os
+from tellurium.sedml.case_template import run_case
 
 antimonyStr = '''
 // Created by libAntimony v2.9
@@ -85,17 +85,4 @@ plot "Repeats with SEED" repeat1.time vs repeat1.MAPK, repeat1.MAPK_P, repeat1.M
 plot "Repeats without SEED" repeat2.time vs repeat2.MAPK, repeat2.MAPK_P, repeat2.MAPK_PP, repeat2.MKK, repeat2.MKK_P, repeat2.MKKK, repeat2.MKKK_P
 '''
 
-# phrasedml experiment
-exp = te.experiment(antimonyStr, phrasedmlStr)
-
-# write python code
-realPath = os.path.realpath(__file__)
-workingDir = os.path.dirname(realPath)
-with open(realPath + 'code.py', 'w') as f:
-    f.write(exp._toPython(phrasedmlStr, workingDir=workingDir))
-
-# execute python
-exp.execute(phrasedmlStr, workingDir=workingDir)
-
-# remove sedx (not hashable due to timestamp)
-os.remove(os.path.join(workingDir, 'repeatedStochastic.sedx'))
+run_case(os.path.realpath(__file__), antimonyStr, phrasedmlStr)

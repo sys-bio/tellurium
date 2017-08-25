@@ -1,0 +1,269 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ * Filename    : sbml-mathml.xsd
+ * Description : Schema for the MathML subset used by SBML L2.
+ * Author(s)   : Andrew Finney, Michael Hucka
+ * Organization: SBML Team <sbml-team@caltech.edu>
+ * Revision    : $Id: sbml-mathml.xsd 7734 2008-07-24 23:08:08Z mhucka $
+ * $HeadURL: https://sbml.svn.sourceforge.net/svnroot/sbml/trunk/specifications/sbml-mathml/sbml-mathml.xsd $
+ *
+ * Copyright 2003-2006 California Institute of Technology, the Japan Science
+ * and Technology Corporation, and the University of Hertfordshire.
+ *
+ * This software is licensed according to the terms described in the file
+ * named "LICENSE.txt" included with this distribution and available
+ * online at http://sbml.org/xml-schemas/LICENSE.txt
+ *
+ * Summary:
+ * 
+ * This is a reduced version of the XML Schema for MathML 2.0.  It 
+ * corresponds to the subset of MathML 2.0 used in SBML Level 2, and
+ * should be used by validating XML parsers instead of the actual
+ * MathML XML Schema when validating SBML files.  To accomplish that,
+ * changed the value of the attribute 'schemaLocation' in the SBML
+ * XML Schema file (sbml.xsd) to refer to a copy of this Schema file
+ * on your computer's local hard disk.
+-->
+<xs:schema   xmlns="http://www.w3.org/1998/Math/MathML" 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+    targetNamespace="http://www.w3.org/1998/Math/MathML" 
+    elementFormDefault="qualified" 
+    attributeFormDefault="unqualified">
+  <xs:attributeGroup name="MathAttributes">
+    <xs:attribute name="class" type="xs:NMTOKENS" use="optional"/>
+    <xs:attribute name="style" type="xs:string" use="optional"/>
+    <xs:attribute name="id" type="xs:ID" use="optional"/>
+  </xs:attributeGroup>
+  <xs:complexType name="MathBase">
+    <xs:attributeGroup ref="MathAttributes"/>
+  </xs:complexType>
+  <xs:attributeGroup name="CnAttributes">
+    <xs:attribute name="type">
+      <xs:simpleType>
+        <xs:restriction base="xs:NMTOKEN">
+          <xs:enumeration value="e-notation"/>
+          <xs:enumeration value="integer"/>
+          <xs:enumeration value="rational"/>
+          <xs:enumeration value="real"/>
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:attribute>
+    <xs:attributeGroup ref="MathAttributes"/>
+  </xs:attributeGroup>
+  <xs:complexType name="SepType"/>
+  <xs:complexType name="Cn" mixed="true">
+    <xs:choice minOccurs="0">
+      <xs:element name="sep" type="SepType"/>
+    </xs:choice>
+    <xs:attributeGroup ref="CnAttributes"/>
+  </xs:complexType>
+  <xs:complexType name="Ci">
+    <xs:simpleContent>
+      <xs:extension base="xs:string">
+        <xs:attributeGroup ref="MathAttributes"/>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:simpleType name="CsymbolURI">
+    <xs:restriction base="xs:string">
+       <xs:enumeration value="http://sed-ml.org/#max"/>
+        <xs:enumeration value="http://sed-ml.org/#min"/>
+         <xs:enumeration value="http://sed-ml.org/#sum"/>
+          <xs:enumeration value="http://sed-ml.org/#product"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:complexType name="Csymbol">
+    <xs:simpleContent>
+      <xs:extension base="xs:string">
+        <xs:attribute name="encoding" use="required" fixed="text"/>
+        <xs:attribute name="definitionURL" type="CsymbolURI" use="required"/>
+        <xs:attributeGroup ref="MathAttributes"/>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="NodeContainer">
+    <xs:complexContent>
+      <xs:extension base="MathBase">
+        <xs:group ref="Node"/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="Apply">
+    <xs:complexContent>
+      <xs:extension base="MathBase">
+        <xs:sequence>
+          <xs:choice>
+            <xs:element name="ci" type="Ci"/>
+            <xs:element name="csymbol" type="Csymbol"/>
+            <xs:element name="eq" type="MathBase"/>
+            <xs:element name="neq" type="MathBase"/>
+            <xs:element name="gt" type="MathBase"/>
+            <xs:element name="lt" type="MathBase"/>
+            <xs:element name="geq" type="MathBase"/>
+            <xs:element name="leq" type="MathBase"/>
+            <xs:element name="plus" type="MathBase"/>
+            <xs:element name="minus" type="MathBase"/>
+            <xs:element name="times" type="MathBase"/>
+            <xs:element name="divide" type="MathBase"/>
+            <xs:element name="power" type="MathBase"/>
+            <xs:sequence>
+              <xs:element name="root" type="MathBase"/>
+              <xs:element name="degree" type="NodeContainer" minOccurs="0"/>
+            </xs:sequence>
+            <xs:element name="abs" type="MathBase"/>
+            <xs:element name="exp" type="MathBase"/>
+            <xs:element name="ln" type="MathBase"/>
+            <xs:sequence>
+              <xs:element name="log" type="MathBase"/>
+              <xs:element name="logbase" type="NodeContainer" minOccurs="0"/>
+            </xs:sequence>
+            <xs:element name="floor" type="MathBase"/>
+            <xs:element name="ceiling" type="MathBase"/>
+            <xs:element name="factorial" type="MathBase"/>
+            <xs:element name="and" type="MathBase"/>
+            <xs:element name="or" type="MathBase"/>
+            <xs:element name="xor" type="MathBase"/>
+            <xs:element name="not" type="MathBase"/>
+            <xs:element name="sin" type="MathBase"/>
+            <xs:element name="cos" type="MathBase"/>
+            <xs:element name="tan" type="MathBase"/>
+            <xs:element name="sec" type="MathBase"/>
+            <xs:element name="csc" type="MathBase"/>
+            <xs:element name="cot" type="MathBase"/>
+            <xs:element name="sinh" type="MathBase"/>
+            <xs:element name="cosh" type="MathBase"/>
+            <xs:element name="tanh" type="MathBase"/>
+            <xs:element name="sech" type="MathBase"/>
+            <xs:element name="csch" type="MathBase"/>
+            <xs:element name="coth" type="MathBase"/>
+            <xs:element name="arcsin" type="MathBase"/>
+            <xs:element name="arccos" type="MathBase"/>
+            <xs:element name="arctan" type="MathBase"/>
+            <xs:element name="arcsec" type="MathBase"/>
+            <xs:element name="arccsc" type="MathBase"/>
+            <xs:element name="arccot" type="MathBase"/>
+            <xs:element name="arcsinh" type="MathBase"/>
+            <xs:element name="arccosh" type="MathBase"/>
+            <xs:element name="arctanh" type="MathBase"/>
+            <xs:element name="arcsech" type="MathBase"/>
+            <xs:element name="arccsch" type="MathBase"/>
+            <xs:element name="arccoth" type="MathBase"/>
+          </xs:choice>
+          <xs:group ref="Node" maxOccurs="unbounded"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="Piece">
+    <xs:complexContent>
+      <xs:extension base="MathBase">
+        <xs:group ref="Node" minOccurs="2" maxOccurs="2"/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="Otherwise">
+    <xs:complexContent>
+      <xs:extension base="MathBase">
+        <xs:group ref="Node"/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="Piecewise">
+    <xs:complexContent>
+      <xs:extension base="MathBase">
+        <xs:sequence>
+          <xs:element name="piece" type="Piece" minOccurs="0" maxOccurs="unbounded"/>
+          <xs:element name="otherwise" type="Otherwise" minOccurs="0" maxOccurs="1"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:attributeGroup name="AnnotationAttributes">
+    <xs:attributeGroup ref="MathAttributes"/>
+    <xs:attribute name="encoding" type="xs:string" use="required"/>
+  </xs:attributeGroup>
+  <xs:complexType name="Annotation">
+    <xs:simpleContent>
+      <xs:extension base="xs:string">
+        <xs:attributeGroup ref="AnnotationAttributes"/>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="Annotation-xml">
+    <xs:sequence maxOccurs="unbounded">
+      <xs:any processContents="skip"/>
+    </xs:sequence>
+    <xs:attributeGroup ref="AnnotationAttributes"/>
+  </xs:complexType>
+  <xs:complexType name="Semantics">
+    <xs:complexContent>
+      <xs:extension base="MathBase">
+        <xs:sequence>
+          <xs:group ref="Node"/>
+          <xs:sequence maxOccurs="unbounded">
+            <xs:choice>
+              <xs:element name="annotation" type="Annotation"/>
+              <xs:element name="annotation-xml" type="Annotation-xml"/>
+            </xs:choice>
+          </xs:sequence>
+        </xs:sequence>
+        <xs:attribute name="definitionURL" type="xs:anyURI" use="optional"/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:group name="Node">
+    <xs:choice>
+      <xs:element name="apply" type="Apply"/>
+      <xs:element name="cn" type="Cn"/>
+      <xs:element name="ci" type="Ci"/>
+      <xs:element name="csymbol" type="Csymbol"/>
+      <xs:element name="true" type="MathBase"/>
+      <xs:element name="false" type="MathBase"/>
+      <xs:element name="notanumber" type="MathBase"/>
+      <xs:element name="pi" type="MathBase"/>
+      <xs:element name="infinity" type="MathBase"/>
+      <xs:element name="exponentiale" type="MathBase"/>
+      <xs:element name="semantics" type="Semantics"/>
+      <xs:element name="piecewise" type="Piecewise"/>
+    </xs:choice>
+  </xs:group>
+  <xs:complexType name="Bvar">
+    <xs:complexContent>
+      <xs:extension base="MathBase">
+        <xs:sequence>
+          <xs:element name="ci" type="Ci"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="Lambda">
+    <xs:complexContent>
+      <xs:extension base="MathBase">
+        <xs:sequence>
+          <xs:element name="bvar" type="Bvar" 
+              minOccurs="0" maxOccurs="unbounded"/>
+          <xs:group ref="Node"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="Math">
+    <xs:complexContent>
+      <xs:extension base="MathBase">
+        <xs:choice>
+          <xs:group ref="Node"/>
+          <xs:element name="lambda" type="Lambda"/>
+        </xs:choice>
+      </xs:extension>
+    </xs:complexContent>
+    <!-- Most <math> elements in SBML can have a variety of constructs, but in
+    the definitions of user-defined functions, <math> elements must contain a
+    single <lambda>.  The way this is handled in this schema is through the use
+    of a group element that permits either a lambda or a more general MathML 
+    content tree.  The latter is expressed in this schema using a complex type
+    called "Node".  It is called a node because it is a node of a tree 
+    structure. -->
+  </xs:complexType>
+  <xs:element name="math" type="Math"/>
+</xs:schema>

@@ -1,13 +1,14 @@
-'''
+"""
 Simple time course on MAPK cascade model
 
 This is a sample file that demonstrates the use of 
 Antimony and phraSEDML to simulate MAPK cascade model.
 This script requires Tellurium (http://tellurium.analogmachine.org/) to run.
-'''
+"""
 
-import tellurium as te
-import roadrunner
+from __future__ import print_function
+import os
+from tellurium.sedml.case_template import run_case
 
 antimonyStr = '''
 // Created by libAntimony v2.9
@@ -82,5 +83,4 @@ task1 = run sim1 on model1
 plot task1.time vs task1.MAPK, task1.MAPK_P, task1.MAPK_PP
 '''
 
-exp = te.experiment(antimonyStr, phrasedmlStr)
-exp.execute(phrasedmlStr)
+run_case(os.path.realpath(__file__), antimonyStr, phrasedmlStr)
