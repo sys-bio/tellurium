@@ -1380,6 +1380,9 @@ class SEDMLCodeFactory(object):
         lines.append("    __df__k = pandas.DataFrame(np.column_stack(" + str(columns).replace("'", "") + "), \n    columns=" + str(headers) + ")")
         lines.append("    print(__df__k.head(5))")
         lines.append("    __dfs__{}.append(__df__k)".format(output.getId()))
+        # save as variable in Tellurium
+        lines.append("    te.setLastReport(__df__k)".format(output.getId()))
+        # save to csv
         lines.append("    __df__k.to_csv(os.path.join(workingDir, '{}_{{}}.csv'.format(k)), sep='\t', index=False)".format(output.getId()))
         return lines
 

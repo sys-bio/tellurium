@@ -108,6 +108,7 @@ from .sedml.tesedml import sedmlToPython, executeSEDML
 from .tellurium import (
     convertCombineArchive,
     convertAndExecuteCombineArchive,
+    extractFileFromCombineArchive,
     exportInlineOmex,
     executeInlineOmex,
     executeInlineOmexFromFile,
@@ -125,6 +126,17 @@ from .package_utils import (
 from .tellurium import (
     DumpJSONInfo,
     getAppDir,
+    )
+
+# SBML test cases
+from .tellurium import (
+    getSupportedTestCases,
+    )
+
+# SED-ML reports
+from .tellurium import (
+    setLastReport,
+    getLastReport,
     )
 
 # Do not use
