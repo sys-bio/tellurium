@@ -11,8 +11,6 @@ from .tellurium import (
     getTelluriumVersion,
     noticesOff,
     noticesOn,
-    saveToFile,
-    readFromFile,
     )
 
 # Converters
@@ -146,9 +144,11 @@ from .tellurium import (
 # Misc
 from .tellurium import getEigenvalues
 
-
-from .tellurium import (
+# Utilities
+from .utils import (
     runTool,
+    saveToFile,
+    readFromFile,
     rank,
     nullspace,
     rref,
