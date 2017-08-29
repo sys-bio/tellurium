@@ -1,5 +1,7 @@
 from __future__ import print_function, division, absolute_import
 
+from .antimony_sbo import antimonySBOConverter
+
 class antimonyConverter:
     def checkAntimonyReturnCode(self, code):
         """Negative return code (usu. -1) from Antimony signifies error"""
@@ -23,6 +25,7 @@ class antimonyConverter:
 
         module = sb.getMainModuleName()
         sb_source = sb.getAntimonyString(module)
+        sb_source = self.tryAddSBOTerms(sb_source, sbml_str=sbml)
         return (module, sb_source)
 
     def sbmlFileToAntimony(self, sbml_path):
@@ -43,6 +46,7 @@ class antimonyConverter:
 
         module = sb.getMainModuleName()
         sb_source = sb.getAntimonyString(module)
+        sb_source = self.tryAddSBOTerms(sb_source, sbml_file=sbml_path)
         return (module, sb_source)
 
     def cellmlFileToAntimony(self, sbml_path):
@@ -84,3 +88,20 @@ class antimonyConverter:
         module = sb.getMainModuleName()
         sbml = sb.getSBMLString(module)
         return (module, sbml)
+
+    def tryAddSBOTerms(self, antimony_str, sbml_file=None, sbml_str=None):
+        """ Attempt to add SBO terms to the Antimony model.
+        You must supply one of either sbml_file or sbml_str, not both.
+        This method will return the original Antimony string if SBO terms cannot
+        be added.
+        """
+        if not sbml_file and not sbml_str:
+            raise RuntimeError('You must supply sbml_file or sbml_str')
+        # try:
+        if sbml_file:
+            converter = antimonySBOConverter.fromSBMLFile(sbml_file)
+        elif sbml_str:
+            converter = antimonySBOConverter.fromSBMLString(sbml_str)
+        return converter.convert(antimony_str)
+        # except RuntimeError:
+        #     return antimony_str

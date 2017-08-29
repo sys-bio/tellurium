@@ -4,6 +4,7 @@ import tecombine as libcombine
 import phrasedml
 import re, os
 import argparse
+from .antimony_regex import getModelStartRegex, getModelEndRegex
 
 from pprint import pprint
 
@@ -35,7 +36,7 @@ class inlineOmex:
         '''
         class S_PML:
             # recognizes Antimony start
-            sb_start = re.compile(r'^\s*\*?\s*model\s*[^()\s]+\s*(\([^)]*\))?\s*$')
+            sb_start = re.compile(getModelStartRegex())
             force_sb_start = re.compile(r'^\s*(%crn|%sb|%antimony|%model).*$')
             force_pml_start = re.compile(r'^\s*(%tasks|%phrasedml)\s+.*$')
 
@@ -60,7 +61,7 @@ class inlineOmex:
             def dump(self): return self.pml, None, self.args
 
         class S_SB:
-            sb_end = re.compile(r'^\s*end\s*$')
+            sb_end = re.compile(getModelEndRegex())
             force_sb_start = re.compile(r'^\s*(%crn|%sb|%antimony|%model).*$')
             force_pml_start = re.compile(r'^\s*(%tasks|%phrasedml)\s+.*$')
 
