@@ -62,18 +62,39 @@ class antimonySBOConverter:
             sbo_terms = self.getAllSBOTerms()
             print(sbo_terms)
             lines[model_end_index:model_end_index] = ['', lead_space + '// SBO terms:'] + \
-                ['\n' + lead_space + term for term in sbo_terms] + ['']
+                [lead_space + term for term in sbo_terms] + ['']
         return '\n'.join(lines)
 
     def getAllSBOTerms(self):
         """ Get a list of all SBO terms base on the SBML passed to the constructor. """
         comps = self.getCompartmentSBOTerms()
-        return comps
+        species = self.getSpeciesSBOTerms()
+        params = self.getParameterSBOTerms()
+        rxns = self.getReactionSBOTerms()
+        return comps + species + params + rxns
 
     def getCompartmentSBOTerms(self):
-        return ['// Compartments:'] + \
+        return ['// - Compartment SBO Terms:'] + \
             [self.createSBOTermStringForElt(e)
             for e in (self.model.getCompartment(k) for k in range(self.model.getNumCompartments())) \
+            if self.hasSBOTerm(e)]
+
+    def getSpeciesSBOTerms(self):
+        return ['// - Species SBO Terms:'] + \
+            [self.createSBOTermStringForElt(e)
+            for e in (self.model.getSpecies(k) for k in range(self.model.getNumSpecies())) \
+            if self.hasSBOTerm(e)]
+
+    def getParameterSBOTerms(self):
+        return ['// - Parameter SBO Terms:'] + \
+            [self.createSBOTermStringForElt(e)
+            for e in (self.model.getParameter(k) for k in range(self.model.getNumParameters())) \
+            if self.hasSBOTerm(e)]
+
+    def getReactionSBOTerms(self):
+        return ['// - Reaction SBO Terms:'] + \
+            [self.createSBOTermStringForElt(e)
+            for e in (self.model.getReaction(k) for k in range(self.model.getNumReactions())) \
             if self.hasSBOTerm(e)]
 
     def hasSBOTerm(self, elt):
@@ -84,7 +105,7 @@ class antimonySBOConverter:
 
     def createSBOTermStringForElt(self, elt):
         if elt.isSetSBOTerm():
-            return elt.getId() + '.sboTerm = ' + 'SBO:{:07d}'.format(self.getSBOTermForElt(elt))
+            return elt.getId() + '.sboTerm = ' + 'SBO:{:07d};'.format(self.getSBOTermForElt(elt))
         else:
             return None
 

@@ -7,7 +7,7 @@ class antimonyConverter:
         """Negative return code (usu. -1) from Antimony signifies error"""
         return (code < 0)
 
-    def sbmlToAntimony(self, sbml):
+    def sbmlToAntimony(self, sbml, addSBO=False):
         """ Converts a raw SBML string to Antimony source.
 
         :param sbml: The raw SBML string
@@ -25,10 +25,11 @@ class antimonyConverter:
 
         module = sb.getMainModuleName()
         sb_source = sb.getAntimonyString(module)
-        sb_source = self.tryAddSBOTerms(sb_source, sbml_str=sbml)
+        if addSBO:
+            sb_source = self.tryAddSBOTerms(sb_source, sbml_str=sbml)
         return (module, sb_source)
 
-    def sbmlFileToAntimony(self, sbml_path):
+    def sbmlFileToAntimony(self, sbml_path, addSBO=False):
         """ Converts a SBML file to Antimony source.
 
         :param sbml_path: The path to the SBML file
@@ -46,7 +47,8 @@ class antimonyConverter:
 
         module = sb.getMainModuleName()
         sb_source = sb.getAntimonyString(module)
-        sb_source = self.tryAddSBOTerms(sb_source, sbml_file=sbml_path)
+        if addSBO:
+            sb_source = self.tryAddSBOTerms(sb_source, sbml_file=sbml_path)
         return (module, sb_source)
 
     def cellmlFileToAntimony(self, sbml_path):
