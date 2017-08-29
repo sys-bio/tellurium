@@ -29,8 +29,8 @@ The Tellurium project is funded from the NIH/NIGMS (GM081070).
 Tellurium can be installed via a front-end which includes all of its constituent packages, or via `pip`:
 
 1. A notebook viewer available as a self-contained app for Windows, Mac and Linux
-2. An IDE based on Spyder, which has a similar fell to MATLAB
-3. As a Python meta-package which can be installed via the Anaconda package manager
+2. As a Python meta-package which can be installed via the Anaconda package manager
+3. An IDE based on Spyder, which has a similar feel to MATLAB
 
 We recommend option 1. unless you are a developer and plan on integrating Tellurium with your current system.
 
