@@ -1,55 +1,169 @@
+from __future__ import print_function, division, absolute_import
+
 # ----------------------------------------------------------------
 # TELLURIUM API
 # ----------------------------------------------------------------
-# make explicit imports to avoid namespace pollution
-from tellurium import getVersionInfo
-from tellurium import printVersionInfo
-from tellurium import getTelluriumVersion
-from tellurium import noticesOff
-from tellurium import noticesOn
-from tellurium import saveToFile
-from tellurium import readFromFile
-from tellurium import runTool
-from tellurium import rank
-from tellurium import nullspace
-from tellurium import rref
 
-from tellurium import loada
-from tellurium import loadAntimonyModel
-from tellurium import loads
-from tellurium import loadSBMLModel
-from tellurium import loadCellMLModel
-    
-from tellurium import antimonyToSBML
-from tellurium import antimonyToCellML
-from tellurium import sbmlToAntimony
-from tellurium import sbmlToCellML
-from tellurium import cellmlToAntimony
-from tellurium import cellmlToSBML
-from tellurium import getEigenvalues
-from tellurium import plotArray
-from tellurium import plotWithLegend
-from tellurium import loadTestModel
-from tellurium import getTestModel
-from tellurium import listTestModels
+# General
+from .tellurium import (
+    getVersionInfo,
+    printVersionInfo,
+    getTelluriumVersion,
+    noticesOff,
+    noticesOn,
+    )
 
-# helper classes
-from teio.latex import LatexExport
-from analysis.parameterscan import ParameterScan, SteadyStateScan
+# Converters
+from .teconverters import (
+    antimonyConverter,
+    inlineOmex,
+    )
 
-# sedml & combine support
-from sedml.tesedml import sedmlToPython, executeSEDML, executeOMEX
-from sedml.tephrasedml import experiment
-from tecombine import combine
+# Model import
+from .tellurium import (
+    loadAntimonyModel,     # load antimony from string
+    loada,                 # same as loadAntimonyModel
+    loadSBMLModel,         # load sbml from string
+    loads,                 # same as loadSBMLModel
+    )
 
+# Keeps a dictionary of loaded models
+from .tellurium import (
+    __set_model, # associates model name with roadrunner instance
+    model,       # retrieve a roadrunner instance previously set with __set_model
+    )
 
-import optimization
-import visualization
+# Legacy import, use antimonyConverter
+from .tellurium import (
+    antimonyToSBML,
+    sbmlToAntimony,
+    )
+
+# CellML converters
+try:
+    from .tellurium import (
+        loadCellMLModel,
+        antimonyToCellML,
+        sbmlToCellML,
+        cellmlToAntimony,
+        cellmlToSBML,
+        )
+except ImportError:
+    # CellML not available
+    pass
+
+# Plotting
+from .tellurium import (
+    plot,
+    getPlottingEngine,
+    getDefaultPlottingEngine,
+    setDefaultPlottingEngine,
+    setSavePlotsToPDF,
+    )
+# Legacy plotting
+from .tellurium import (
+    plotArray,
+    plotWithLegend,
+    )
+
+# Test models
+from .tellurium import (
+    loadTestModel,
+    getTestModel,
+    listTestModels,
+    )
+
+# Latex
+from .teio.latex import LatexExport
+
+# Parameter scanning
+from .analysis.parameterscan import (
+    ParameterScan,
+    SteadyStateScan,
+    )
+
+# Distributed computing
+from .analysis.stochasticmodel import StochasticSimulationModel
+from .analysis.parameterestimation import ParameterEstimation
+from .analysis.sensitivityanalysis import SensitivityAnalysis
+
+from .tellurium import (
+    # distrib. parameter scan
+    distributed_parameter_scanning, sample_plot, plotImage,
+    # distrib. stochastic sims & fitting
+    distributed_stochastic_simulation, plot_distributed_stochastic, plot_stochastic_result, distributed_sensitivity_analysis
+    )
+
+# Bifurcations
+from .analysis.bifurcation import (
+    plotBifurcation,
+    )
+
+# sedml support
+from .sedml.tesedml import sedmlToPython, executeSEDML
+
+# Combine archive support
+from .tellurium import (
+    convertCombineArchive,
+    convertAndExecuteCombineArchive,
+    extractFileFromCombineArchive,
+    exportInlineOmex,
+    executeInlineOmex,
+    executeInlineOmexFromFile,
+)
+
+# Package utilities
+from .package_utils import (
+    searchPackage,
+    installPackage,
+    upgradePackage,
+    uninstallPackage,
+)
+
+# Dist config
+from .tellurium import (
+    DumpJSONInfo,
+    getAppDir,
+    )
+
+# SBML test cases
+from .tellurium import (
+    getSupportedTestCases,
+    )
+
+# SED-ML reports
+from .tellurium import (
+    setLastReport,
+    getLastReport,
+    )
+
+# Do not use
+# from .sedml.tephrasedml import experiment
+# from .tecombine import combine
+
+# Misc
+from .tellurium import getEigenvalues
+
+# Utilities
+from .utils import (
+    runTool,
+    saveToFile,
+    readFromFile,
+    rank,
+    nullspace,
+    rref,
+    )
+
+# import .optimization  # nothing here
+# import .visualization # display with graphviz
+# import .tests         # needs to be refactored for Python 3
 
 try:
     import temiriam
 except ImportError:
     pass
-import notebooks
+
+# Needs to be checked for compatibility with latest Jupyter and Python 3
+# import notebooks
 
 __version__ = getTelluriumVersion()

@@ -8,11 +8,9 @@ In build in python are
 
 """
 from __future__ import print_function, division
+from builtins import range
 from math import *
-try:
-    import libsbml
-except ImportError:
-    pass
+import tesbml as libsbml
 import operator
 
 def product(*args):
@@ -39,7 +37,7 @@ def xor(*args):
 
 def piecewise(*args):
     Nargs = len(args)
-    for k in xrange(0, Nargs-1, 2):
+    for k in range(0, Nargs-1, 2):
         if args[k+1]:
             return args[k]
     else:
@@ -103,7 +101,7 @@ def evaluableMathML(astnode, variables={}, array=False):
 
     """
     # replace variables with provided values
-    for key, value in variables.iteritems():
+    for key, value in variables.items():
         astnode.replaceArgument(key, libsbml.parseFormula(str(value)))
 
     # get formula
@@ -117,9 +115,9 @@ def evaluableMathML(astnode, variables={}, array=False):
         formula = formula.replace("||", 'or')
     else:
         # np.array
-        formula = formula.replace("max", 'np.max')
-        formula = formula.replace("min", 'np.min')
-        formula = formula.replace("sum", 'np.sum')
+        formula = formula.replace("max", 'np.nanmax')
+        formula = formula.replace("min", 'np.nanmin')
+        formula = formula.replace("sum", 'np.nansum')
         formula = formula.replace("product", 'np.prod')
 
     return formula

@@ -1,30 +1,68 @@
 # tellurium
 <img title="tellurium logo" src="./docs/images/tellurium_logo.png" height="50" />
 [![Documentation Status](https://readthedocs.org/projects/tellurium/badge/?version=latest)](http://tellurium.readthedocs.org/en/latest/?badge=latest)
+[![Build Status](https://travis-ci.org/sys-bio/tellurium.svg?branch=mkoenig)](https://travis-ci.org/sys-bio/tellurium)
 
 Copyright 2014-2017
 Kiri Choi, J Kyle Medley, Matthias König, Kaylene Stocking, Caroline Cannistra, Michal Galdzicki, and Herbert Sauro
 
 ![Parameter scan demo](http://tellurium.readthedocs.org/en/latest/_images/parameter_scan_2_0.png)
 
-*Parmeter scan example*
+*Parameter scan example*
 
 ## Introduction
 
-Tellurium is a python environment based on the [Spyder2 IDE](https://github.com/spyder-ide/spyder) for building, simulating, and analysing models of biochemical networks, including gene regulatory networks, metabolic networks, and signaling pathways. It combines state-of-the-art scientific Python libraries, such as [NumPy](http://www.numpy.org/) and [SciPy](http://www.scipy.org/), and includes special-purpose systems biology Python tools. Out of the box, Tellurium includes [libRoadRunner](https://github.com/sys-bio/roadrunner), [Antimony](http://antimony.sourceforge.net/), [PhraSED-ML](http://phrasedml.sf.net/), [libSBML](http://sbml.org/Software/libSBML) (via its [Python bindings](http://sbml.org/Software/libSBML/5.12.0/docs/formatted/python-api/)), and [libSED-ML](https://github.com/fbergmann/libSEDML).
+Tellurium is a python environment based on the [Spyder2 IDE](https://github.com/spyder-ide/spyder) 
+for building, simulating, and analysing models of biochemical networks, 
+including gene regulatory networks, metabolic networks, and signaling pathways. 
+It combines state-of-the-art scientific Python libraries, such 
+as [NumPy](http://www.numpy.org/) and [SciPy](http://www.scipy.org/), 
+and includes special-purpose systems biology Python tools. Out of the box, 
+Tellurium includes [libRoadRunner](https://github.com/sys-bio/roadrunner), 
+[Antimony](http://antimony.sourceforge.net/), [PhraSED-ML](http://phrasedml.sf.net/), 
+[libSBML](http://sbml.org/Software/libSBML) (via its [Python bindings](http://sbml.org/Software/libSBML/5.12.0/docs/formatted/python-api/)), and [libSED-ML](https://github.com/fbergmann/libSEDML).
 
 The Tellurium project is funded from the NIH/NIGMS (GM081070).
 
 ## Installation Instructions
 
-Tellurium is availlable via two distributions:
+Tellurium can be installed via a front-end which includes all of its constituent packages, or via `pip`:
 
-1. As a Windows setup file / Apple disk image which includes the Spyder IDE and all Tellurium packages
+1. A notebook viewer available as a self-contained app for Windows, Mac and Linux
 2. As a Python meta-package which can be installed via the Anaconda package manager
+3. An IDE based on Spyder, which has a similar feel to MATLAB
 
-Option 1. does not modify or conflict with any previous Python installation. Option 2. allows you to use Tellurium from within a pre-existing Anaconda installation, including via a notebook. If you are a new user, it is recommended that you try option 1. first.
+We recommend option 1. unless you are a developer and plan on integrating Tellurium with your current system.
 
-### Option 1: IDE installer
+### Option 1: Notebook front-end
+
+#### Windows
+
+1. [Download Tellurium notebook for Windows](https://github.com/sys-bio/tellurium/releases/download/2.0.0-alpha4/Tellurium.Setup.2.0.0.exe)
+2. Double-click the installer to start the installation
+3. Follow the instructions
+
+#### Mac OSX
+
+1. [Download Tellurium notebook for Mac OS X 10.10 or later](https://github.com/sys-bio/tellurium/releases/download/2.0.0-alpha4/Tellurium-2.0.0.dmg)
+2. Double-click the .dmg file to open a new window
+3. Drag the Tellurium icon to your Applications
+4. You can now launch Tellurium from e.g. Spotlight or your Applications folder directly
+
+
+#### Linux (RedHat)
+
+#### Linux (Debian)
+
+1. [Download the Debian package for Tellurium notebook](https://github.com/sys-bio/tellurium/releases/download/2.0.0-alpha9/Tellurium_2.0.0_amd64.deb)
+2. Install the package using `dpkg -i Tellurium_2.0.0_amd64.deb`
+3. You should be able to launch Tellurium from your activities pane. If not, log out and in again or run `tellurium` from the terminal.
+
+### Option 2: Anaconda package (Linux/OSX only):
+
+Binaries for Tellurium are available via the [Anaconda](https://www.continuum.io/downloads) package manager for **Python 2.7**. Neither the IDE plugins for Spyder nor SBOL functionality is available when using this method. To install Tellurium and the necessary packages on both Linux and OS X, type the following into a terminal:
+
+### Option 3: IDE front-end
 
 #### Windows
 
@@ -41,10 +79,6 @@ NOTE: Installation requires administrative rights. It is recommended to accept t
 3. Double-click the Spyder icon
 
 NOTE: On some older hardware we have noticed that the .dmg sometimes fails. If this happens, we recommend using the Anaconda package manager (see below).
-
-### Option 2: Anaconda package (Linux/OSX only):
-
-Binaries for Tellurium are available via the [Anaconda](https://www.continuum.io/downloads) package manager for **Python 2.7**. Neither the IDE plugins for Spyder nor SBOL functionality is available when using this method. To install Tellurium and the necessary packages on both Linux and OS X, type the following into a terminal:
 
 ```
 conda install -c sys-bio tellurium

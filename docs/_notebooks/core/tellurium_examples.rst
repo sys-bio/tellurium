@@ -54,12 +54,19 @@ Activator system
     r.plot(result);
 
 
+.. parsed-literal::
 
-.. image:: _notebooks/core/tellurium_examples_files/tellurium_examples_1_0.png
+    /usr/local/lib/python2.7/dist-packages/pygraphviz/agraph.py:1338: RuntimeWarning: Warning: node 'S', graph '%3' size too small for label
+    
+      warnings.warn(b"".join(errors), RuntimeWarning)
 
 
 
 .. image:: _notebooks/core/tellurium_examples_files/tellurium_examples_1_1.png
+
+
+
+.. image:: _notebooks/core/tellurium_examples_files/tellurium_examples_1_2.png
 
 
 .. code:: python

@@ -41,7 +41,7 @@ for i in xrange(0, 20):
     result = r.simulate (0, 10)
     r.reset()
     r.plot(result, loc=None, show=False, 
-           linewidth=2.0, lineStyle='-', color='black', alpha=0.8)
+           linewidth=2.0, linestyle='-', color='black', alpha=0.8)
     r.k1 = r.k1 + 0.2
 # Turn the notices back on
 te.noticesOn()
