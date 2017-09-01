@@ -3,10 +3,13 @@ Installation and Front-ends
 ======================
 
 .. |billy| image:: ./images/windows.png
+   :scale: 50%
 
 .. |jobsey| image:: ./images/macos.png
+   :scale: 50%
 
 .. |benguin| image:: ./images/linux.png
+   :scale: 50%
 
 ---------------------
 Front-end Options
