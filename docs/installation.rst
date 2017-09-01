@@ -22,6 +22,7 @@ Tellurium's notebook front-end mixes code and narrative in a flowing, visual sty
 
 * Front-end: **Tellurium Notebook**
 * Supported platforms: |billy| |jobsey| |benguin|
+* Python version: 3.6
 * **Download:** `here <https://github.com/sys-bio/tellurium#option-1-notebook-front-end>`_
 
 .. figure:: ./images/notebook_screenshot.png
@@ -34,7 +35,13 @@ Tellurium's notebook front-end mixes code and narrative in a flowing, visual sty
 Front-end 2: Tellurium IDE
 ==========================
 
-User who are more familiar with MATLAB may prefer Tellurium's IDE interface, which is based on popular programming tools (Visual Studio, etc.). This front-end is based on the `Spyder project <https://pythonhosted.org/spyder/>`_.
+User who are more familiar with MATLAB may prefer Tellurium's IDE interface, which is based on popular programming tools (Visual Studio, etc.). This front-end is based on the `Spyder project <https://pythonhosted.org/spyder/>`_. Due to stability issues, we recommend Mac users use the Tellurium notebook front-end instead.
+
+
+* Front-end: **Tellurium IDE**
+* Supported platforms: |billy| |jobsey| (no Mac updates)
+* Python version: 2.7
+* **Download:** `here <https://github.com/sys-bio/tellurium#option-1-notebook-front-end>`_
 
 .. figure:: ./images/tellurium_screenshot2.png
     :align: center
