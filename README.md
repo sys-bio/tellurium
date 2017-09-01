@@ -88,10 +88,6 @@ pip install tellurium
 
 Detailed instructions for using the `conda` package manager are available [here.](http://conda.pydata.org/docs/using/pkgs.html) 
 
-## System Requirements
-
-The [Spyder IDE](https://github.com/sys-bio/tellurium#installation-instructions) installers are tested with Windows 7+ and Mac OS X 10.9+. Some older Macs cannot run Spyder, regardless of whether the operating system is up-to-date. Anaconda packages are tested on RHEL 6.6, Debian 8, Ubuntu 14.04, and Mac OS X 10.10.
-
 ## Usage
 
 ```{python}
@@ -116,9 +112,12 @@ te.plotArray(result)
 
 http://tellurium.readthedocs.org/en/latest/
 
-## Known Issues
 
-### Supported Python Versions
+## System Requirements
+
+The Tellurium notebook supports Windows 10, Mac OS X 10.10+, Debian 8+, and Fedora 22+. The [Spyder IDE](https://github.com/sys-bio/tellurium#installation-instructions) installers are tested with Windows 7+ and Mac OS X 10.9+. Some older Macs cannot run Spyder, regardless of whether the operating system is up-to-date. Pip packages are tested on Fedora 22, Debian 8, Ubuntu 14.04, and Mac OS X 10.10.
+
+## Supported Python Versions
 
 The Tellurium PyPI packages support 64-bit Python versions 2.7, 3.4, 3.5, and 3.6 for Windows, Mac, and Linux. The notebook viewer comes with Python 3.6 (64-bit) and the IDE comes with Python 2.7 (32-bit).
 
