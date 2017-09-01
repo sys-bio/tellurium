@@ -56,7 +56,12 @@ User who are more familiar with MATLAB may prefer Tellurium's IDE interface, whi
 PyPI Packages
 =============
 
-Tellurium can be installed using the command line tool ``pip``:
+Tellurium can be installed using the command line tool ``pip``.
+
+
+* No front-end
+* Supported platforms: |billy| |jobsey| |benguin|
+* Python version: 2.7, 3.4, 3.5, 3.6
 
 .. code-block:: bash
 
