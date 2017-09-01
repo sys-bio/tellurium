@@ -108,9 +108,10 @@ te.plotArray(result)
 
 ![Tellurium front page demo](https://raw.githubusercontent.com/wiki/sys-bio/tellurium/img/tellurium-front-page-image.png)
 
-## API documentation 
+## Documentation 
 
-http://tellurium.readthedocs.org/en/latest/
+* General: http://tellurium.readthedocs.org/en/latest/
+* API: http://tellurium.readthedocs.io/en/latest/_apidoc/tellurium.html
 
 
 ## System Requirements
