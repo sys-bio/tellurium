@@ -28,9 +28,9 @@ The Tellurium project is funded from the NIH/NIGMS (GM081070).
 
 Tellurium can be installed via a front-end which includes all of its constituent packages, or via `pip`:
 
-1. [Notebook front-end](https://github.com/sys-bio/tellurium#front-end-1-tellurium-notebook)
-2. [IDE front-end](https://github.com/sys-bio/tellurium#front-end-2-tellurium-ide)
-3. [pip](https://github.com/sys-bio/tellurium#pip-installation-no-front-end)
+1. [Notebook front-end](#front-end-1-tellurium-notebook)
+2. [IDE front-end](#front-end-2-tellurium-ide)
+3. [pip](#pip-installation-no-front-end)
 
 We recommend option 1. unless you are a developer and plan on integrating Tellurium with your current system.
 
