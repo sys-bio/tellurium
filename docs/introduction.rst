@@ -4,7 +4,7 @@ Tellurium is a cross-platform and open source Python based environment that inte
 
 Additional information is available on `<http://tellurium.analogmachine.org/>`_.
 
-.. figure:: ./images/tellurium_screenshot2.png
+.. figure:: ./images/notebook_screenshot.png
     :align: center
     :alt: Tellurium screenshot
     :figclass: align-center
