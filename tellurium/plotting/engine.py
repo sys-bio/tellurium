@@ -91,12 +91,12 @@ class PlottingFigure(object):
         """ Plot x & y data.
         """
         if xtitle:
-            fig.xtitle = xtitle
+            self.xtitle = xtitle
+        if ytitle:
+            self.ytitle = ytitle
         kws = {'tag': tag, 'alpha': alpha}
-        if hasattr(y,'colnames'):
+        if colnames is None and hasattr(y,'colnames'):
             colnames = y.colnames
-        else:
-            colnames = None
 
         if len(y.shape) > 1:
             # it's a 2d array
@@ -144,15 +144,20 @@ class PlottingEngine(object):
 
         return fig
 
-    def plot(self, x, y, hold=False, **kwargs):
+    def plot(self, x, y, show=True, **kwargs):
         """ Plot x & y data.
 
         :param x: x data.
         :param y: y data (can be multiple columns).
         """
-        fig = self.figureFromXY(x, y, **kwargs)
-        if not hold:
+        if self.fig:
+            fig = self.fig
+            fig.plot(x, y, **kwargs)
+        else:
+            fig = self.figureFromXY(x, y, **kwargs)
+        if show:
             fig.render()
+            self.fig = None
         return fig
 
     def plotTimecourse(self, m, title=None, ordinates=None, tag=None, xtitle=None, logy=False, ytitle=None, alpha=None):
@@ -190,7 +195,7 @@ class PlottingEngine(object):
         :param reset: Reset the traces so the next plot will start out empty?
         """
         if self.fig:
-            self.fig.plot()
+            self.fig.render()
         fig = self.fig
         if reset:
             self.fig = None
