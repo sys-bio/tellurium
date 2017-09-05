@@ -4,6 +4,7 @@ Installation and Front-ends
 
 .. |billy| image:: ./images/windows.png
    :scale: 50%
+   :target: https://github.com/sys-bio/tellurium#windows
 
 .. |jobsey| image:: ./images/macos.png
    :scale: 50%
