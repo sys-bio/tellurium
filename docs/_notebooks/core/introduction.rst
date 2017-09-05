@@ -58,26 +58,25 @@ model.
     Nsim = 30
     points = 101
     s_sum = np.zeros(shape=[points, Ncol])
-    #s_sum = r.simulate(0, 50, points, selections=selections)
     for k in range(Nsim):
         r.resetToOrigin()
         s = r.simulate(0, 50, points, selections=selections)
         s_sum += s
         # no legend, do not show
         r.plot(s, alpha=0.5, show=False)
-    #r.show()
     # add mean curve, legend, show everything and set labels, titels, ...
-    te.plot(s[:,0], s_sum[:,1:]/Nsim, colnames=selections, title="Stochastic simulation", xtitle="time", ytitle="concentration")
+    te.plot(s[:,0], s_sum[:,1:]/Nsim, colnames=[x + ' (mean)' for x in selections[1:]], title="Stochastic simulation", xtitle="time", ytitle="concentration")
 
 
 
 
 .. parsed-literal::
 
-    <tellurium.plotting.engine_mpl.MatplotlibFigure at 0x7f16fbd0d908>
+    <tellurium.plotting.engine_mpl.MatplotlibFigure at 0x7f16b4052518>
 
 
 
 
 .. image:: _notebooks/core/introduction_files/introduction_4_1.png
+
 
