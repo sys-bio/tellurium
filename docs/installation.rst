@@ -43,13 +43,17 @@ Front-end 2: Tellurium IDE
 
 User who are more familiar with MATLAB may prefer Tellurium's IDE interface, which is based on popular programming tools (Visual Studio, etc.). This front-end is based on the `Spyder project <https://pythonhosted.org/spyder/>`_. Due to stability issues, we recommend Mac users use the Tellurium notebook front-end instead.
 
-.. |billy| image:: ./images/windows.png
+.. |billy2| image:: ./images/windows.png
    :scale: 50%
    :target: https://github.com/sys-bio/tellurium#windows-1
 
+.. |jobsey2| image:: ./images/macos.png
+   :scale: 50%
+   :target: https://github.com/sys-bio/tellurium#mac-osx-1
+
 
 * Front-end: **Tellurium IDE**
-* Supported platforms: |billy| |jobsey| (no Mac updates)
+* Supported platforms: |billy2| |jobsey2| (no Mac updates)
 * Python version: 2.7
 * **Download:** `here <https://github.com/sys-bio/tellurium#option-1-notebook-front-end>`_
 
