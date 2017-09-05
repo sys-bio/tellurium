@@ -19,7 +19,7 @@ use the ``loada`` function to load it into the simulator.
 
 
 
-.. image:: introduction_files/introduction_2_0.png
+.. image:: _notebooks/core/introduction_files/introduction_2_0.png
 
 
 More Complex Example
@@ -79,5 +79,5 @@ model.
 
 
 
-.. image:: introduction_files/introduction_4_1.png
+.. image:: _notebooks/core/introduction_files/introduction_4_1.png
 
