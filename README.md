@@ -64,7 +64,7 @@ We recommend option 1. unless you are a developer and plan on integrating Tellur
 
 #### Windows
 
-1. [Download Tellurium IDE for Windows](https://sourceforge.net/projects/pytellurium/files/Tellurium-1.3/1.3.6/Tellurium-1.3.6-Python-2.7-win32-portable-setup.exe/download)
+1. [Download Tellurium IDE for Windows](https://sourceforge.net/projects/pytellurium/files/Tellurium-2.0/2.0.0beta/Tellurium-2.0.0beta-Python-2.7-win64-portable-setup-beta.exe/download)
 2. Double-click the installer to start the installation
 3. Follow the instructions
 
