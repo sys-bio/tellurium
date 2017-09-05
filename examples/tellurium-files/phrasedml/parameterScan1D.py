@@ -2,9 +2,10 @@
 """
 phrasedml 1D parameter scan.
 """
+
 from __future__ import print_function
-import tellurium as te
 import os
+from tellurium.sedml.case_template import run_case
 
 antimonyStr = '''
 // Created by libAntimony v2.9
@@ -53,17 +54,4 @@ task1 = repeat task0 for J0_v0 in [8, 4, 0.4], reset=true
 plot task1.time vs task1.S1, task1.S2
 '''
 
-# phrasedml experiment
-exp = te.experiment(antimonyStr, phrasedmlStr)
-
-# write python code
-realPath = os.path.realpath(__file__)
-workingDir = os.path.dirname(realPath)
-with open(realPath + 'code.py', 'w') as f:
-    f.write(exp._toPython(phrasedmlStr, workingDir=workingDir))
-
-# execute python
-exp.execute(phrasedmlStr, workingDir=workingDir)
-
-# remove sedx (not hashable due to timestamp)
-os.remove(os.path.join(workingDir, 'parameterScan1D.sedx'))
+run_case(os.path.realpath(__file__), antimonyStr, phrasedmlStr)

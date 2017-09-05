@@ -78,18 +78,26 @@ The Output Class
 
 from __future__ import print_function, division
 
-import sys
-import os.path
-import warnings
-import datetime
-import zipfile
+import sys, os, os.path, warnings
+import datetime, zipfile
 from collections import namedtuple
 import re
 import numpy as np
-from jinja2 import Environment, FileSystemLoader
-from mathml import evaluableMathML
+import roadrunner
+try:
+    from jinja2 import Environment, FileSystemLoader
+except:
+    warnings.warn("'jinja2' could not be imported; SEDML not supported", ImportWarning)
+from .mathml import evaluableMathML
 
-import libsedml
+try:
+    import tesedml as libsedml
+    # import libsedml before libsbml to handle
+    # https://github.com/fbergmann/libSEDML/issues/21
+except ImportError as e:
+    libsedml = None
+    roadrunner.Logger.log(roadrunner.Logger.LOG_WARNING, str(e))
+    warnings.warn("'libsedml' could not be imported", ImportWarning, stacklevel=2)
 
 import tellurium as te
 from tellurium.tecombine import CombineArchive
@@ -128,6 +136,7 @@ def sedmlToPython(inputStr):
     :return: contents
     :rtype:
     """
+    # FIXME: allow working directories (! the model & input files must be changed)
     factory = SEDMLCodeFactory(inputStr)
     return factory.toPython()
 
@@ -148,7 +157,11 @@ def executeSEDML(inputStr, workingDir=None):
 
 
 def executeOMEX(omexPath, workingDir=None):
-    """ Run all SED-ML simulations in given OMEX COMBINE archive.
+    """ LEGACY. Does not use libCombine.
+
+    Run all SED-ML simulations in given OMEX COMBINE archive.
+
+    TODO: Necessary to get results back.
 
     :param omexPath: OMEX Combine archive
     :type omexPath: path
@@ -175,9 +188,12 @@ def executeOMEX(omexPath, workingDir=None):
         if len(sedmlFiles) == 0:
             raise IOError("No SEDML files found in COMBINE archive: {}".format(omexPath))
 
+        dgs = {}
         for sedmlFile in sedmlFiles:
             factory = SEDMLCodeFactory(sedmlFile, workingDir=os.path.dirname(sedmlFile))
-            factory.executePython()
+            sedml_dgs = factory.executePython()
+            dgs[sedmlFile] = sedml_dgs
+        return dgs
     else:
         raise IOError("File is not an OMEX Combine Archive in zip format: {}".format(omexPath))
 
@@ -205,6 +221,10 @@ KISAOS_RK4 = [  # 'rk4'
 
 KISAOS_RK45 = [  # 'rk45'
     'KISAO:0000086',  # RKF45 embedded Runge-Kutta-Fehlberg 5(4) method
+]
+
+KISAOS_LSODA = [  # 'lsoda'
+    'KISAO:0000088',  # roadrunner doesn't have an lsoda solver so use cvode
 ]
 
 KISAOS_GILLESPIE = [  # 'gillespie'
@@ -264,7 +284,7 @@ KISAOS_NLEQ = [  # 'nleq'
 
 # allowed algorithms for simulation type
 KISAOS_STEADYSTATE = KISAOS_NLEQ
-KISAOS_UNIFORMTIMECOURSE = KISAOS_CVODE + KISAOS_RK4 + KISAOS_RK45 + KISAOS_GILLESPIE
+KISAOS_UNIFORMTIMECOURSE = KISAOS_CVODE + KISAOS_RK4 + KISAOS_RK45 + KISAOS_GILLESPIE + KISAOS_LSODA
 KISAOS_ONESTEP = KISAOS_UNIFORMTIMECOURSE
 
 # supported algorithm parameters
@@ -284,6 +304,7 @@ KISAOS_ALGORITHMPARAMETERS = {
 }
 ######################################################################################################################
 
+
 class SEDMLCodeFactory(object):
     """ Code Factory generating executable code."""
 
@@ -292,6 +313,7 @@ class SEDMLCodeFactory(object):
 
     def __init__(self, inputStr, workingDir=None):
         """ Create CodeFactory for given input.
+
         :param inputStr:
         :type inputStr:
         :return:
@@ -310,7 +332,8 @@ class SEDMLCodeFactory(object):
         self.model_changes = model_changes
 
     def __str__(self):
-        """ Print Input
+        """ Print.
+
         :return:
         :rtype:
         """
@@ -370,15 +393,7 @@ class SEDMLCodeFactory(object):
             'model_sources': self.model_sources,
             'model_changes': self.model_changes,
         }
-        try:
-            pysedml = template.render(c)
-        except Exception as e:
-            # something went wrong in the conversion to python
-            # show detailed information about the factory
-            # and the libsedml document
-            # msg = e.message + '\n' + self.__str__() + '\n' + libsedml.writeSedMLToString(self.doc) + '\n'
-            msg = e.message
-            raise type(e), type(e)(msg), sys.exc_info()[2]
+        pysedml = template.render(c)
 
         return pysedml
 
@@ -389,20 +404,25 @@ class SEDMLCodeFactory(object):
         See :func:`createpython`
         """
         execStr = self.toPython()
+        import tempfile
+        filename = os.path.join(tempfile.gettempdir(), 'te-generated-sedml.py')
         try:
-            # This calls exec. Be very sure that nothing bad happens here.
-            exec execStr
-        except Exception as e:
-            # something went wrong in the conversion to python
-            # show detailed information about the factory
-            # and the libsedml document
-            raise type(e), type(e)('-'*80 + '\n'
-                                   + self.__str__() + '\n'
-                                   + '*'*80 + '\n'
-                                   + execStr + '\n'
-                                   + '*'*80 + '\n'
-                                   + e.message + '\n'
-                                   ), sys.exc_info()[2]
+            # Use of exec carries the usual security warnings
+            symbols = {}
+            exec(compile(execStr, filename, 'exec'), symbols)
+
+            # return dictionary of data generators
+            dg_data = {}
+            for dg in self.doc.getListOfDataGenerators():
+                dg_id = dg.getId()
+                dg_data[dg_id] = symbols[dg_id]
+            return dg_data
+
+        except:
+            # leak this tempfile just so we can see a full stack trace. freaking python.
+            with open(filename, 'w') as f:
+                f.write(execStr)
+            raise
 
     def modelToPython(self, model):
         """ Python code for SedModel.
@@ -630,7 +650,6 @@ class SEDMLCodeFactory(object):
     @staticmethod
     def taskTreeToPython(doc, tree):
         """ Python code generation from task tree. """
-        # print(tree)
 
         # TODO: implement the merge of subtasks & and collection of simulations
 
@@ -641,8 +660,6 @@ class SEDMLCodeFactory(object):
 
         # iterate over the tree
         for kn, node in enumerate(treeNodes):
-            # print("* [{}] <{} ({})>".format(node.depth, node.task.getId(), node.task.getElementName()))
-            # print(nodeStack)
             taskType = node.task.getTypeCode()
 
             # Create information for task
@@ -690,10 +707,6 @@ class SEDMLCodeFactory(object):
             # The next node is further up in the tree, or there is no next node
             # and still nodes on the stack
             if (nextNode is None) or (nextNode.depth < node.depth):
-                # if (nextNode is None):
-                #     print('last node')
-                # else:
-                #     print('nextNode higher')
 
                 # necessary to pop nodes from the stack and close the code
                 test = True
@@ -706,19 +719,30 @@ class SEDMLCodeFactory(object):
                     peek = nodeStack.peek()
                     if (nextNode is None) or (peek.depth > nextNode.depth):
                         # TODO: reset evaluation has to be defined here
+                        # determine if it's steady state
+                        # if taskType == libsedml.SEDML_TASK_REPEATEDTASK:
+                        # print('task {}'.format(node.task.getId()))
+                        # print('  peek {}'.format(peek.task.getId()))
+                        if node.task.getTypeCode() == libsedml.SEDML_TASK_REPEATEDTASK:
+                        # if peek.task.getTypeCode() == libsedml.SEDML_TASK_REPEATEDTASK:
+                            # sid = task.getSimulationReference()
+                            # simulation = doc.getSimulation(sid)
+                            # simType = simulation.getTypeCode()
+                            # if simType is libsedml.SEDML_SIMULATION_STEADYSTATE:
+                            terminator = 'terminate_trace({})'.format(node.task.getId())
+                        else:
+                            terminator = '{}'.format(node.task.getId())
                         lines.extend([
                             "",
-                            "    "*node.depth + "{}.extend({})".format(peek.task.getId(), node.task.getId()),
+                            "    "*node.depth + "{}.extend({})".format(peek.task.getId(), terminator),
                         ])
                         node = nodeStack.pop()
-                        # print("pop:", peek.info())
 
                     else:
                         test = False
             else:
                 # we are going done or next subtask -> put node on stack
                 nodeStack.push(node)
-                # print("push:", node.info())
 
         return "\n".join(lines)
 
@@ -769,6 +793,10 @@ class SEDMLCodeFactory(object):
         else:
             lines.append("{}.setIntegrator('{}')".format(mid, integratorName))
 
+        # use fixed step by default for stochastic sims
+        if integratorName == 'gillespie':
+            lines.append("{}.integrator.setValue('{}', {})".format(mid, 'variable_step_size', False))
+
         if kisao == "KISAO:0000288":  # BDF
             lines.append("{}.integrator.setValue('{}', {})".format(mid, 'stiff', True))
         elif kisao == "KISAO:0000280":  # Adams-Moulton
@@ -781,7 +809,7 @@ class SEDMLCodeFactory(object):
                 value = "'{}'".format(pkey.value)
             else:
                 value = pkey.value
-                
+
             if value == str('inf') or pkey.value == float('inf'):
                 value = "float('inf')"
             else:
@@ -793,7 +821,9 @@ class SEDMLCodeFactory(object):
                 lines.append("{}.integrator.setValue('{}', {})".format(mid, pkey.key, value))
 
         if simType is libsedml.SEDML_SIMULATION_STEADYSTATE:
-            lines.append("{}.conservedMoietyAnalysis = True".format(mid))
+            lines.append("if {model}.conservedMoietyAnalysis == False: {model}.conservedMoietyAnalysis = True".format(model=mid))
+        else:
+            lines.append("if {model}.conservedMoietyAnalysis == True: {model}.conservedMoietyAnalysis = False".format(model=mid))
 
         # get parents
         parents = []
@@ -862,6 +892,9 @@ class SEDMLCodeFactory(object):
             outputEndTime = simulation.getOutputEndTime()
             numberOfPoints = simulation.getNumberOfPoints()
 
+            # reset before simulation (see https://github.com/sys-bio/tellurium/issues/193)
+            lines.append("{}.reset()".format(mid))
+
             # throw some points away
             if abs(outputStartTime - initialTime) > 1E-6:
                 lines.append("{}.simulate(start={}, end={}, points=2)".format(
@@ -884,7 +917,8 @@ class SEDMLCodeFactory(object):
             lines.append("{}.steadyStateSelections = {}".format(mid, list(selections)))
             lines.append("{}.simulate()".format(mid))  # for stability of the steady state solver
             lines.append("{} = {}.steadyStateNamedArray()".format(resultVariable, mid))
-            lines.append("{}.conservedMoietyAnalysis = False".format(mid))
+            # no need to turn this off because it will be checked before the next simulation
+            # lines.append("{}.conservedMoietyAnalysis = False".format(mid))
 
         # -------------------------------------------------------------------------
         # <OTHER>
@@ -1096,6 +1130,9 @@ class SEDMLCodeFactory(object):
             return 'rk4'
         if kid in KISAOS_RK45:
             return 'rk45'
+        if kid in KISAOS_LSODA:
+            warnings.warn('Tellurium does not support LSODA. Using CVODE instead.')
+            return 'cvode' # just use cvode
         return None
 
     @staticmethod
@@ -1274,7 +1311,9 @@ class SEDMLCodeFactory(object):
 
             # Series of curves
             if resetModel is True:
-                lines.append("__var__{} = np.transpose(np.array([sim['{}'] for sim in {}]))".format(varId, sid, taskId))
+                # If each entry in the task consists of a single point (e.g. steady state scan)
+                # , concatenate the points. Otherwise, plot as separate curves.
+                lines.append("__var__{} = np.concatenate([process_trace(sim['{}']) for sim in {}])".format(varId, sid, taskId))
             else:
                 # One curve via time adjusted concatenate
                 if isTime is True:
@@ -1341,6 +1380,9 @@ class SEDMLCodeFactory(object):
         lines.append("    __df__k = pandas.DataFrame(np.column_stack(" + str(columns).replace("'", "") + "), \n    columns=" + str(headers) + ")")
         lines.append("    print(__df__k.head(5))")
         lines.append("    __dfs__{}.append(__df__k)".format(output.getId()))
+        # save as variable in Tellurium
+        lines.append("    te.setLastReport(__df__k)".format(output.getId()))
+        # save to csv
         lines.append("    __df__k.to_csv(os.path.join(workingDir, '{}_{{}}.csv'.format(k)), sep='\t', index=False)".format(output.getId()))
         return lines
 
@@ -1355,7 +1397,7 @@ class SEDMLCodeFactory(object):
 
         # all lines of same cuve have same color
         settings = PlotSettings(
-            colors=[u'r', u'b', u'g', u'm', u'c', u'y', u'k'],
+            colors=[u'C0', u'C1', u'C2', u'C3', u'C4', u'C5', u'C6'],
             figsize=(9, 5),
             dpi=80,
             facecolor='w',
@@ -1388,10 +1430,19 @@ class SEDMLCodeFactory(object):
         if output.isSetName():
             title = output.getName()
 
-        lines.append("plt.figure(num=None, figsize={}, dpi={}, facecolor='{}', edgecolor='{}')".format(settings.figsize, settings.dpi, settings.facecolor, settings.edgecolor))
-        lines.append("from matplotlib import gridspec")
-        lines.append("__gs = gridspec.GridSpec(1, 2, width_ratios=[3, 1])")
-        lines.append("plt.subplot(__gs[0])")
+        lines.append("stacked=False")
+        # for kc, curve in enumerate(output.getListOfCurves()):
+        #     xId = curve.getXDataReference()
+        #     lines.append("if {}.shape[1] > 1 and te.getDefaultPlottingEngine() == 'plotly':".format(xId))
+        #     lines.append("    stacked=True")
+        lines.append("if not stacked:")
+        lines.append("    fig = te.getPlottingEngine().newFigure(title='{}')".format(title))
+        lines.append("else:")
+        lines.append("    fig = te.getPlottingEngine().newStackedFigure(title='{}')".format(title))
+        # lines.append("plt.figure(num=None, figsize={}, dpi={}, facecolor='{}', edgecolor='{}')".format(settings.figsize, settings.dpi, settings.facecolor, settings.edgecolor))
+        # lines.append("from matplotlib import gridspec")
+        # lines.append("__gs = gridspec.GridSpec(1, 2, width_ratios=[3, 1])")
+        # lines.append("plt.subplot(__gs[0])")
 
         oneXLabel = True
         allXLabel = None
@@ -1403,6 +1454,7 @@ class SEDMLCodeFactory(object):
             dgx = doc.getDataGenerator(xId)
             dgy = doc.getDataGenerator(yId)
             color = settings.colors[kc % len(settings.colors)]
+            tag = 'tag{}'.format(kc)
 
             yLabel = yId
             if curve.isSetName():
@@ -1419,28 +1471,39 @@ class SEDMLCodeFactory(object):
             elif xLabel != allXLabel:
                 oneXLabel = False
 
-            lines.append("for k in range({}.shape[1]):".format(xId))
-            lines.append("    if k == 0:")
-            lines.append("        plt.plot({}[:,k], {}[:,k], marker = '{}', color='{}', linewidth={}, markersize={}, alpha={}, label='{}')".format(xId, yId, settings.marker, color, settings.linewidth, settings.markersize, settings.alpha, yLabel))
-            lines.append("    else:")
-            lines.append("        plt.plot({}[:,k], {}[:,k], marker = '{}', color='{}', linewidth={}, markersize={}, alpha={})".format(xId, yId, settings.marker, color, settings.linewidth, settings.markersize, settings.alpha))
+            lines.append("if {}.shape[1] > 1:".format(xId))
+            lines.append("    for k in range({}.shape[1]):".format(xId))
+            lines.append("        if k == 0:")
+            lines.append("            fig.addXYDataset({}[:,k], {}[:,k], color='{}', tag='{}', name='{}')".format(xId, yId, color, tag, yLabel))
+            lines.append("        else:")
+            lines.append("            fig.addXYDataset({}[:,k], {}[:,k], color='{}', tag='{}')".format(xId, yId, color, tag))
 
-            if logX is True:
-                lines.append("plt.xscale('log')")
-            if logY is True:
-                lines.append("plt.yscale('log')")
-        lines.append("plt.title('{}', fontweight='bold')".format(title))
-        if oneXLabel:
-            lines.append("plt.xlabel('{}', fontweight='bold')".format(xLabel))
-        if len(output.getListOfCurves()) == 1:
-            lines.append("plt.ylabel('{}', fontweight='bold')".format(yLabel))
+            lines.append("else:".format(xId))
+            lines.append("    for k in range({}.shape[1]):".format(xId))
+            lines.append("        if k == 0:")
+            lines.append("            fig.addXYDataset({}[:,k], {}[:,k], color='{}', tag='{}', name='{}')".format(xId, yId, color, tag, yLabel))
+            # lines.append("        plt.plot({}[:,k], {}[:,k], marker = '{}', color='{}', linewidth={}, markersize={}, alpha={}, label='{}')".format(xId, yId, settings.marker, color, settings.linewidth, settings.markersize, settings.alpha, yLabel))
+            lines.append("        else:")
+            lines.append("            fig.addXYDataset({}[:,k], {}[:,k], color='{}', tag='{}')".format(xId, yId, color, tag))
+            # lines.append("        plt.plot({}[:,k], {}[:,k], marker = '{}', color='{}', linewidth={}, markersize={}, alpha={})".format(xId, yId, settings.marker, color, settings.linewidth, settings.markersize, settings.alpha))
 
-        lines.append("__lg = plt.legend(bbox_to_anchor=(1.05, 1), loc=2, borderaxespad=0.)")
-        lines.append("__lg.draw_frame(False)")
-        lines.append("plt.setp(__lg.get_texts(), fontsize='small')")
-        lines.append("plt.setp(__lg.get_texts(), fontweight='bold')")
-        lines.append("plt.savefig(os.path.join(workingDir, '{}.png'), dpi=100)".format(output.getId()))
-        lines.append("plt.show()".format(title))
+            # if logX is True:
+            #     lines.append("plt.xscale('log')")
+            # if logY is True:
+            #     lines.append("plt.yscale('log')")
+        # lines.append("plt.title('{}', fontweight='bold')".format(title))
+        # if oneXLabel:
+        #     lines.append("plt.xlabel('{}', fontweight='bold')".format(xLabel))
+        # if len(output.getListOfCurves()) == 1:
+        #     lines.append("plt.ylabel('{}', fontweight='bold')".format(yLabel))
+        #
+        # lines.append("__lg = plt.legend(bbox_to_anchor=(1.05, 1), loc=2, borderaxespad=0.)")
+        # lines.append("__lg.draw_frame(False)")
+        # lines.append("plt.setp(__lg.get_texts(), fontsize='small')")
+        # lines.append("plt.setp(__lg.get_texts(), fontweight='bold')")
+        # lines.append("plt.savefig(os.path.join(workingDir, '{}.png'), dpi=100)".format(output.getId()))
+        # lines.append("plt.show()".format())
+        lines.append("fig.render()".format())
 
         return lines
 
@@ -1569,8 +1632,6 @@ class SEDMLTools(object):
         :return: dictionary of SedDocument, inputType and working directory.
         :rtype: {doc, inputType, workingDir}
         """
-        if not isinstance(inputStr, basestring):
-            raise IOError("SED-ML input is not instance of basestring:", inputStr)
 
         # SEDML-String
         if not os.path.exists(inputStr):
@@ -1617,7 +1678,6 @@ class SEDMLTools(object):
                     warnings.warn("More than one sedml file in archive, only processing first one.")
 
                 sedmlFile = sedmlFiles[0]
-                print(sedmlFile)
                 doc = libsedml.readSedMLFromFile(sedmlFile)
                 # we have to work relative to the SED-ML file
                 workingDir = os.path.dirname(sedmlFile)
@@ -1675,9 +1735,8 @@ class SEDMLTools(object):
         # recursive search for original model and store the
         # changes which have to be applied in the list of changes
         def findSource(mid, changes):
-
             # mid is node above
-            if mid in model_sources:
+            if mid in model_sources and not model_sources[mid] == mid:
                 # add changes for node
                 for c in model_changes[mid]:
                     changes.append(c)
@@ -1696,13 +1755,45 @@ class SEDMLTools(object):
 
         return model_sources, all_changes
 
+def process_trace(trace):
+    """ If each entry in the task consists of a single point
+    (e.g. steady state scan), concatenate the points.
+    Otherwise, plot as separate curves."""
+    # print('trace.size = {}'.format(trace.size))
+    # print('len(trace.shape) = {}'.format(len(trace.shape)))
+    if trace.size > 1:
+        if len(trace.shape) == 1:
+            return np.concatenate((np.atleast_1d(trace), np.atleast_1d(np.nan)))
+        elif len(trace.shape) == 2:
+            # print(trace.shape)
+            result = np.vstack((np.atleast_1d(trace), np.full((1,trace.shape[-1]),np.nan)))
+            # print('vstack')
+            # print(result)
+            return result
+    else:
+        return np.atleast_1d(trace)
+
+def terminate_trace(trace):
+    """ If each entry in the task consists of a single point
+    (e.g. steady state scan), concatenate the points.
+    Otherwise, plot as separate curves."""
+    if isinstance(trace,list):
+        if len(trace) > 0 and not isinstance(trace[-1], list) and not isinstance(trace[-1], dict):
+            # if len(trace) > 2 and isinstance(trace[-1], dict):
+            # e = np.array(trace[-1], copy=True)
+            e = {}
+            for name in trace[-1].colnames:
+                e[name] = np.atleast_1d(np.nan)
+            # print('e:')
+            # print(e)
+            return trace + [e]
+    return trace
 
 ##################################################################################################
 if __name__ == "__main__":
     import os
     from tellurium.tests.testdata import sedmlDir, sedxDir
     import matplotlib
-    matplotlib.pyplot.switch_backend("Agg")
 
     def testInput(sedmlInput):
         """ Test function run on inputStr. """

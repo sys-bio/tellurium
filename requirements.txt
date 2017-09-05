@@ -1,12 +1,12 @@
-# not installable via pip
-roadrunner
+# installable via pip
+libroadrunner
+rrplugins
+tesbml
+tesedml
+tecombine
 antimony
 phrasedml
 sbml2matlab
-
-# installable via pip
-python-libsbml
-python-libsedml
 ipywidgets
 bioservices
 matplotlib

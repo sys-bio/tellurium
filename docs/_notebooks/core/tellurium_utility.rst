@@ -18,15 +18,15 @@ Version information
 
 .. parsed-literal::
 
-    1.3.1
+    1.3.5
     --------------------------------------------------------------------------------
-    tellurium : 1.3.1
-    roadrunner : 1.4.3; Compiler: gcc 4.8.4, C++ version: 199711; JIT Compiler: LLVM-3.4; Date: Mar  9 2016, 08:43:27; LibSBML Version: 5.12.0
+    tellurium : 1.3.5
+    roadrunner : 1.4.8; Compiler: gcc 5.4.0, C++ version: 199711; JIT Compiler: LLVM-3.5; Date: Oct 21 2016, 09:52:28; LibSBML Version: 5.13.0
     antimony : v2.9.0
     snbw_viewer : No information for sbnw viewer
-    libsbml : 5.12.1
-    libsedml : 401
-    phrasedml : v1.0.1
+    libsbml : 5.14.1
+    libsedml : 402
+    phrasedml : v1.0.3
     --------------------------------------------------------------------------------
 
 
@@ -52,7 +52,7 @@ Repeat simulation without notification
         result = r.simulate (0, 10)
         r.reset()
         r.plot(result, loc=None, show=False, 
-               linewidth=2.0, lineStyle='-', color='black', alpha=0.8)
+               linewidth=2.0, linestyle='-', color='black', alpha=0.8)
         r.k1 = r.k1 + 0.2
     # Turn the notices back on
     te.noticesOn()
@@ -86,7 +86,7 @@ File helpers for reading and writing
 
 .. parsed-literal::
 
-    /tmp/tmp_w2sxM.xml
+    /tmp/tmpLpICyl.xml
     %  How to use:
     %
     %  __main takes 3 inputs and returns 3 outputs.

@@ -1,0 +1,639 @@
+<xs:schema targetNamespace="http://sed-ml.org/sed-ml/level1/version2" xmlns="http://sed-ml.org/sed-ml/level1/version2"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:math="http://www.w3.org/1998/Math/MathML"
+	elementFormDefault="qualified">
+	<xs:import namespace="http://www.w3.org/1998/Math/MathML" schemaLocation="sedml-mathml.xsd" />
+
+
+	<xs:simpleType name="SId">
+		<xs:annotation>
+			<xs:documentation>
+				The type SId is used throughout SED-ML as the
+				type of the 'id' attributes on SED-ML elements.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:pattern value="(_|[a-z]|[A-Z])(_|[a-z]|[A-Z]|[0-9])*" />
+		</xs:restriction>
+	</xs:simpleType>
+
+	<!-- Attribute group for elements with ID & name attributes -->
+	<xs:attributeGroup name="idGroup">
+		<xs:attribute name="id" use="required" type="SId"></xs:attribute>
+		<xs:attribute name="name" use="optional" type="xs:string"></xs:attribute>
+	</xs:attributeGroup>
+
+
+
+	<!-- SED Base class -->
+	<xs:complexType name="SEDBase">
+		<xs:annotation>
+			<xs:documentation xml:lang="en">
+				The SEDBase type is the
+				base type of all main types in SED-ML. It
+				serves as a container for
+				the annotation of any part of the
+				experiment description.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element ref="notes" minOccurs="0" />
+			<xs:element ref="annotation" minOccurs="0" />
+		</xs:sequence>
+		<!--
+			This must be a variable-type identifier, i.e., (Letter | '_')
+			(NCNameChar)* that is unique in the document.
+		-->
+		<xs:attribute name="metaid" type="xs:ID" use="optional"></xs:attribute>
+	</xs:complexType>
+	<xs:element name="sedML">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="SEDBase">
+					<xs:sequence>
+						<xs:element ref="listOfSimulations" minOccurs="0" />
+						<xs:element ref="listOfModels" minOccurs="0" />
+						<xs:element ref="listOfTasks" minOccurs="0" />
+						<xs:element ref="listOfDataGenerators" minOccurs="0" />
+						<xs:element ref="listOfOutputs" minOccurs="0" />
+					</xs:sequence>
+					<xs:attribute name="level" type="xs:decimal" use="required" fixed="1" />
+					<xs:attribute name="version" type="xs:decimal" use="required" fixed="2" />
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<!-- notes and annotations -->
+	<xs:element name="notes">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:any namespace="http://www.w3.org/1999/xhtml"
+					processContents="skip" minOccurs="0" maxOccurs="unbounded" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="annotation">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:any processContents="skip" minOccurs="0" maxOccurs="unbounded" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<!-- KiSAO ID type -->
+	<xs:simpleType name="KisaoType">
+		<xs:restriction base="xs:string">
+			<xs:pattern value="KISAO:[0-9]{7}" />
+		</xs:restriction>
+	</xs:simpleType>
+
+	<!-- global element declarations -->
+	<xs:element name="variable">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="SEDBase">
+					<!-- at least one of taskReference or modelReference must be set -->
+					<xs:attribute name="taskReference" type="SId" use="optional" />
+					<xs:attribute name="modelReference" type="SId" use="optional" />
+
+					<!-- either target or symbol have to be used in the variable definition	-->
+					<xs:attribute name="target" type="xs:token" use="optional" />
+					<xs:attribute name="symbol" type="xs:string" use="optional" />
+					<xs:attributeGroup ref="idGroup" />
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="parameter">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="SEDBase">
+					<xs:attributeGroup ref="idGroup" />
+					<xs:attribute name="value" type="xs:double" use="required" />
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+
+	<!-- The model(s) to simulate/analyse -->
+	<xs:element name="model">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="SEDBase">
+					<xs:sequence>
+						<xs:element ref="listOfChanges" minOccurs="0" />
+					</xs:sequence>
+					<xs:attribute name="language" type="xs:anyURI" use="optional"
+						default="urn:sedml:language:xml" />
+					<xs:attribute name="source" type="xs:anyURI" use="required" />
+					<xs:attributeGroup ref="idGroup" />
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	
+	<!-- Model pre-processing changes -->
+	<xs:element name="newXML">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:any processContents="skip" minOccurs="1" maxOccurs="unbounded" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="changeAttribute">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="SEDBase">
+					<xs:attribute name="target" use="required" type="xs:token" />
+					<xs:attribute name="newValue" type="xs:string" use="required" />
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="changeXML">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="SEDBase">
+					<xs:sequence>
+						<xs:element ref="newXML" />
+					</xs:sequence>
+					<xs:attribute name="target" use="required" type="xs:token" />
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="addXML">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="SEDBase">
+					<xs:sequence>
+						<xs:element ref="newXML" />
+					</xs:sequence>
+					<xs:attribute name="target" use="required" type="xs:token" />
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="removeXML">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="SEDBase">
+					<xs:attribute name="target" use="required" type="xs:token" />
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:complexType name="ComputeChange">
+		<xs:complexContent>
+			<xs:extension base="SEDBase">
+				<xs:sequence>
+					<xs:element ref="listOfVariables" minOccurs="0" />
+					<xs:element ref="listOfParameters" minOccurs="0" />
+					<xs:element ref="math:math" />
+				</xs:sequence>
+				<xs:attribute name="target" use="required" type="xs:token" />
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="computeChange" type="ComputeChange"/>
+	
+
+	<!-- The simulation/analysis algorithms to use -->
+	<xs:element name="algorithm">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="SEDBase">
+					<xs:sequence>
+						<xs:element ref="listOfAlgorithmParameters" minOccurs="0"/>
+					</xs:sequence>
+					<xs:attribute name="kisaoID" type="KisaoType" use="required" />
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="algorithmParameter">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="SEDBase">
+					<xs:attribute name="kisaoID" type="KisaoType" use="required"/>
+					<xs:attribute name="value" type="xs:string" use="required"/>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:complexType name="Simulation">
+		<xs:complexContent>
+			<xs:extension base="SEDBase">
+				<xs:sequence>
+					<xs:element ref="algorithm" />
+				</xs:sequence>
+				<xs:attributeGroup ref="idGroup" />
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="uniformTimeCourse">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="Simulation">
+					<xs:attribute name="outputStartTime" type="xs:double" use="required" />
+					<xs:attribute name="outputEndTime" type="xs:double" use="required" />
+					<xs:attribute name="numberOfPoints" type="xs:integer" use="required" />
+					<xs:attribute name="initialTime" type="xs:double" use="required" />
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="oneStep">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="Simulation">
+					<xs:attribute name="step" type="xs:double" use="required"/>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="steadyState">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="Simulation">
+					<!-- There is actually no difference from the base type here -->
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	
+	<!-- The various task elements inherit from AbstractTask -->
+	<xs:complexType name="AbstractTask">
+		<xs:complexContent>
+			<xs:extension base="SEDBase">
+				<xs:attributeGroup ref="idGroup" />
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="task">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="AbstractTask">
+					<xs:attribute name="simulationReference" type="SId"	use="required" />
+					<xs:attribute name="modelReference" type="SId" use="required" />
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="repeatedTask">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="AbstractTask">
+					<xs:sequence>
+						<xs:element ref="listOfRanges"/>
+						<xs:element name="listOfChanges" type="repeatedTaskListOfChanges"
+							minOccurs="0"/>
+						<xs:element ref="listOfSubTasks"/>
+					</xs:sequence>
+					<xs:attribute name="range" type="SId" use="required"/>
+					<xs:attribute name="resetModel" type="SId" use="required"/>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<!-- Child elements of repeatedTask -->
+	<xs:complexType name="Range">
+		<xs:complexContent>
+			<xs:extension base="SEDBase">
+				<xs:attributeGroup ref="idGroup"/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:simpleType name="LogOrLinear">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="log"/>
+			<xs:enumeration value="linear"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:element name="uniformRange">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="Range">
+					<xs:attribute name="start" type="xs:double"/>
+					<xs:attribute name="end" type="xs:double"/>
+					<xs:attribute name="numberOfPoints" type="xs:integer"/>
+					<xs:attribute name="type" type="LogOrLinear"/>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="vectorRange">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="Range">
+					<xs:sequence>
+						<xs:element name="value" type="xs:double" maxOccurs="unbounded"/>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="functionalRange">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="Range">
+					<xs:sequence>
+						<xs:element ref="listOfVariables" minOccurs="0" />
+						<xs:element ref="listOfParameters" minOccurs="0" />
+						<xs:element ref="math:math" />
+					</xs:sequence>
+					<xs:attribute name="range" type="SId" use="optional"/>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="setValue">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="ComputeChange">
+					<xs:attribute name="modelReference" type="SId" use="required"/>
+					<xs:attribute name="range" type="SId" use="optional"/>
+					<xs:attribute name="symbol" type="xs:string" use="optional"/>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="subTask">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="SEDBase">
+					<xs:attribute name="task" type="SId" use="required"/>
+					<xs:attribute name="order" type="xs:integer" use="optional"/>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	
+	<!-- Post-processing using a data generator -->
+	<xs:element name="dataGenerator">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="SEDBase">
+					<xs:sequence>
+						<xs:element ref="listOfVariables" minOccurs="0" />
+						<xs:element ref="listOfParameters" minOccurs="0" />
+						<xs:element ref="math:math" />
+					</xs:sequence>
+					<xs:attributeGroup ref="idGroup" />
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	
+	<!-- Simulation experiment outputs -->
+	<xs:element name="plot2D">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="SEDBase">
+					<xs:sequence>
+						<xs:element ref="listOfCurves" minOccurs="0" />
+					</xs:sequence>
+					<xs:attributeGroup ref="idGroup" />
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="plot3D">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="SEDBase">
+					<xs:sequence>
+						<xs:element ref="listOfSurfaces" minOccurs="0" />
+					</xs:sequence>
+					<xs:attributeGroup ref="idGroup" />
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="report">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="SEDBase">
+					<xs:sequence>
+						<xs:element ref="listOfDataSets" minOccurs="0" />
+					</xs:sequence>
+					<xs:attributeGroup ref="idGroup" />
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="curve">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="SEDBase">
+					<xs:attributeGroup ref="idGroup" />
+					<xs:attribute name="yDataReference" type="SId" use="required" />
+					<xs:attribute name="xDataReference" type="SId" use="required" />
+					
+					<xs:attribute name="logY" use="required" type="xs:boolean" />
+					<xs:attribute name="logX" use="required" type="xs:boolean" />
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="surface">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="SEDBase">
+					<xs:attributeGroup ref="idGroup" />
+					<xs:attribute name="yDataReference" type="SId" use="required" />
+					<xs:attribute name="xDataReference" type="SId" use="required" />
+					<xs:attribute name="zDataReference" type="SId" use="required" />
+					<xs:attribute name="logY" use="required" type="xs:boolean" />
+					<xs:attribute name="logX" use="required" type="xs:boolean" />
+					<xs:attribute name="logZ" use="required" type="xs:boolean" />
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="dataSet">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="SEDBase">
+					<xs:attribute name="dataReference" type="SId" use="required" />
+					<xs:attribute name="label" use="required" type="xs:string" />
+					<xs:attributeGroup ref="idGroup" />
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	
+	<!-- listOf elements -->
+	<xs:element name="listOfVariables">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="SEDBase">
+					<xs:sequence>
+						<xs:element ref="variable" minOccurs="0" maxOccurs="unbounded" />
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="listOfParameters">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="SEDBase">
+					<xs:sequence>
+						<xs:element ref="parameter" minOccurs="0" maxOccurs="unbounded" />
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="listOfAlgorithmParameters">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="SEDBase">
+					<xs:sequence>
+						<xs:element ref="algorithmParameter" minOccurs="0" maxOccurs="unbounded" />
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="listOfTasks">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="SEDBase">
+					<xs:choice minOccurs="0" maxOccurs="unbounded">
+						<xs:element ref="task" />
+						<xs:element ref="repeatedTask" />
+					</xs:choice>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="listOfSimulations">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="SEDBase">
+					<xs:choice minOccurs="0" maxOccurs="unbounded">
+						<xs:element ref="uniformTimeCourse"/>
+						<xs:element ref="oneStep"/>
+						<xs:element ref="steadyState"/>
+					</xs:choice>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="listOfOutputs">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="SEDBase">
+					<xs:choice minOccurs="0" maxOccurs="unbounded">
+						<xs:element ref="plot2D" />
+						<xs:element ref="plot3D" />
+						<xs:element ref="report" />
+					</xs:choice>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="listOfModels">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="SEDBase">
+					<xs:sequence>
+						<xs:element ref="model" minOccurs="0" maxOccurs="unbounded" />
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="listOfDataGenerators">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="SEDBase">
+					<xs:sequence>
+						<xs:element ref="dataGenerator" minOccurs="0" maxOccurs="unbounded" />
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="listOfCurves">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="SEDBase">
+					<xs:sequence>
+						<xs:element ref="curve" maxOccurs="unbounded" />
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="listOfSurfaces">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="SEDBase">
+					<xs:sequence>
+						<xs:element ref="surface" maxOccurs="unbounded" />
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="listOfDataSets">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="SEDBase">
+					<xs:sequence>
+						<xs:element ref="dataSet" maxOccurs="unbounded" />
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="listOfChanges">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="SEDBase">
+					<xs:choice minOccurs="0" maxOccurs="unbounded">
+						<xs:element ref="changeAttribute" />
+						<xs:element ref="changeXML" />
+						<xs:element ref="addXML" />
+						<xs:element ref="removeXML" />
+						<xs:element ref="computeChange" />
+					</xs:choice>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="listOfRanges">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="SEDBase">
+					<xs:choice maxOccurs="unbounded">
+						<xs:element ref="uniformRange" />
+						<xs:element ref="vectorRange" />
+						<xs:element ref="functionalRange" />
+					</xs:choice>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:complexType name="repeatedTaskListOfChanges">
+		<xs:complexContent>
+			<xs:extension base="SEDBase">
+				<xs:sequence>
+					<xs:element ref="setValue" minOccurs="0" maxOccurs="unbounded" />
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="listOfSubTasks">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="SEDBase">
+					<xs:sequence>
+						<xs:element ref="subTask" maxOccurs="unbounded" />
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

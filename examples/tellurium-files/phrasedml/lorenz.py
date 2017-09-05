@@ -1,12 +1,12 @@
-'''
-Lorenz attractor
+"""
+Lorenz attractor.
 
 This is a sample file that demonstrates the use of 
 Antimony and phraSEDML to simulate Lorenz attractor.
-This script requires Tellurium (http://tellurium.analogmachine.org/) to run.
-'''
-
-import tellurium as te
+"""
+from __future__ import print_function
+import os
+from tellurium.sedml.case_template import run_case
 
 antimonyStr = '''
 model lorenz
@@ -25,5 +25,4 @@ task1 = run sim1 on model1
 plot task1.z vs task1.x
 '''
 
-exp = te.experiment(antimonyStr, phrasedmlStr)
-exp.execute(phrasedmlStr)
+run_case(os.path.realpath(__file__), antimonyStr, phrasedmlStr)
