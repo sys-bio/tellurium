@@ -69,9 +69,18 @@ PyPI Packages
 
 Tellurium can be installed using the command line tool ``pip``.
 
+.. |billy3| image:: ./images/windows.png
+   :scale: 50%
+
+.. |jobsey3| image:: ./images/macos.png
+   :scale: 50%
+
+.. |benguin3| image:: ./images/linux.png
+   :scale: 50%
+
 
 * No front-end
-* Supported platforms: |billy| |jobsey| |benguin|
+* Supported platforms: |billy3| |jobsey3| |benguin3|
 * Python version: 2.7, 3.4, 3.5, 3.6
 
 .. code-block:: bash
