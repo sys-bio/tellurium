@@ -12,9 +12,9 @@ Contents:
 .. toctree::
    :maxdepth: 2
 
-   introduction.rst
    installation.rst
-   Examples <notebooks.rst>
+   introduction.rst
+   notebooks.rst
    tellurium_methods.rst
    API
 
