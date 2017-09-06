@@ -406,3 +406,161 @@ The initial concentrations of species are defined in exactly the same way as for
   S1 = 2;
   E = 3;
   ES = S1 + E;
+
+Order for any of the above (and in general in Antimony) does not matter at all: you may use a symbol before defining it, or define it before using it. As long as you do not use the same symbol in an incompatible context (such as using the same name as a reaction and a species), your resulting model will still be valid. Antimony files written by libAntimony will adhere to a standard format of defining symbols, but this is not required.
+
+Modules
+-------
+
+Antimony input files may define several different models, and may use previously-defined models as parts of newly-defined models. Each different model is known as a ‘module‘, and is minimally defined by putting the keyword ‘model‘ (or ‘module‘, if you like) and the name you want to give the module at the beginning of the model definitions you wish to encapsulate, and putting the keyword ‘end‘ at the end:
+
+::
+  model example
+    S + E -> ES;
+  end
+
+After this module is defined, it can be used as a part of another model (this is the one time that order matters in Antimony). To import a module into another module, simply use the name of the module, followed by parentheses:
+
+::
+  model example
+    S + E -> ES;
+  end
+
+  model example2
+    example();
+  end
+
+This is usually not very helpful in and of itself-you’ll likely want to give the submodule a name so you can refer to the things inside it. To do this, prepend a name followed by a colon:
+
+::
+  model example2
+    A: example();
+  end
+
+Now, you can modify or define elements in the submodule by referring to symbols in the submodule by name, prepended with the name you’ve given the module, followed by a ‘.‘:
+
+::
+  model example2
+    A: example();
+    A.S = 3;
+  end
+
+This results in a model with a single reaction ``A.S + A.E -> A.ES`` and a single initial condition ``A.S = 3``.
+
+You may also import multiple copies of modules, and modules that themselves contain submodules:
+
+::
+  model example3
+    A: example();
+    B: example();
+    C: example2();
+  end
+
+This would result in a model with three reactions and a single initial condition.
+
+::
+  A.S + A.E -> A.ES
+  B.S + B.E -> B.ES
+  C.A.S + C.A.E -> C.A.ES
+  C.A.S = 3;
+
+You can also use the species defined in submodules in new reactions:
+
+::
+  model example4
+    A: example();
+    A.S -> ; kdeg*A.S;
+  end
+
+When combining multiple submodules, you can also ‘attach’ them to each other by declaring that a species in one submodule is the same species as is found in a different submodule by using the ‘is‘ keyword (“A.S is B.S”). For example, let’s say that we have a species which is known to bind reversibly to two different species. You could set this up as the following:
+
+::
+  model side_reaction
+    J0: S + E -> SE; k1*k2*S*E - k2*ES;
+    S = 5;
+    E = 3;
+    SE = E+S;
+    k1 = 1.2;
+    k2 = 0.4;
+  end
+
+  model full_reaction
+    A: side_reaction();
+    B: side_reaction();
+    A.S is B.S;
+  end
+
+If you wanted, you could give the identical species a new name to more easily use it in the ‘full_reaction‘ module:
+
+::
+  model full_reaction
+    var species S;
+    A: side_reaction();
+    B: side_reaction()
+    A.S is S;
+    B.S is S;
+  end
+
+In this system, ‘S‘ is involved in two reversible reactions with exactly the same reaction kinetics and initial concentrations. Let’s now say the reaction rate of the second side-reaction takes the same form, but that the kinetics are twice as fast, and the starting conditions are different:
+
+::
+  model full_reaction
+    var species S;
+    A: side_reaction();
+    A.S is S;
+    B: side_reaction();
+    B.S is S;
+    B.k1 = 2.4;
+    B.k2 = 0.8;
+    B.E = 10;
+  end
+
+Note that since we defined the initial concentration of ‘SE‘ as ‘S + E‘, B.SE will now have a different initial concentration, since B.E has been changed.
+
+Finally, we add a third side reaction, one in which S binds irreversibly, and where the complex it forms degrades. We’ll need a new reaction rate, and a whole new reaction as well:
+
+::
+  model full_reaction
+    var species S;
+    A: side_reaction();
+    A.S is S;
+    B: side_reaction();
+    B.S is S;
+    B.k1 = 2.4;
+    B.k2 = 0.8;
+    B.E = 10;
+    C: side_reaction();
+    C.S is S;
+    C.J0 = C.k1*C.k2*S*C.E
+    J3: C.SE -> ; C.SE*k3;
+    k3 = 0.02;
+  end
+
+Note that defining the reaction rate of C.J0 used the symbol ‘S‘; exactly the same result would be obtained if we had used ‘C.S‘ or even ‘A.S‘ or ‘B.S‘. Antimony knows that those symbols all refer to the same species, and will give them all the same name in subsequent output.
+
+For convenience and style, modules may define an interface where some symbols in the module are more easily renamed. To do this, first enclose a list of the symbols to export in parentheses after the name of the model when defining it:
+
+::
+  model side_reaction(S, k1)
+    J0: S + E -> SE; k1*k2*S*E - k2*ES;
+    S = 5;
+    E = 3;
+    SE = E+S;
+    k1 = 1.2;
+    k2 = 0.4;
+  end
+
+Then when you use that module as a submodule, you can provide a list of new symbols in parentheses:
+
+::
+  A: side_reaction(spec2, k2);
+
+is equivalent to writing:
+
+::
+  A.S is spec2;
+  A.k1 is k2;
+
+One thing to be aware of when using this method: Since wrapping definitions in a defined model is optional, all ‘bare’ declarations are defined to be in a default module with the name ‘__main‘. If there are no unwrapped definitions, ‘__main‘ will still exist, but will be empty.
+
+As a final note: use of the ‘is‘ keyword is not restricted to elements inside submodules. As a result, if you wish to change the name of an element (if, for example, you want the reactions to look simpler in Antimony, but wish to have a more descriptive name in the exported SBML), you may use ‘is‘ as well:
