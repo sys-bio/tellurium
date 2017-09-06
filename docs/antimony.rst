@@ -34,7 +34,7 @@ Creating a model in Antimony is designed to be very straightforward and simple. 
 
 The most common way to use Antimony is to create a reaction network, where processes are defined wherein some elements are consumed and other elements are created. Using the language of SBML, the processes are called ‘reactions’ and the elements are called ‘species’, but any set of processes and elements may be modeled in this way. The syntax for defining a reaction in Antimony is to list the species being consumed, separated by a ‘+‘, followed by an arrow (‘->‘), followed by another list of species being created, followed by a semicolon. If this reaction has a defined mathematical rate at which this happens, that rate can be listed next:
 
-.. code-block:: none
+.. code-block::
   S1 -> S2; k1*S1
 
 The above model defines a reaction where ‘S1‘ is converted to ‘S2‘ at a rate of ‘k1*S1‘.
@@ -350,3 +350,59 @@ You may use units when defining formulas using the same syntax as above: any num
   y = 3.3 foo;          # 'y' is given units of 'foo' and an initial
                         #   value of '3.3'.
   z has foo;            # 'z' is given units of 'foo'.
+
+Language Reference
+==================
+
+Species and Reactions
+---------------------
+
+The simplest Antimony file may simply have a list of reactions containing species, along with some initializations. Reactions are written as two lists of species, separated by a ‘->‘, and followed by a semicolon:
+
+.. code-block:: none
+  S1 + E -> ES;
+
+Optionally, you may provide a reaction rate for the reaction by including a mathematical expression after the semicolon, followed by another semicolon:
+
+.. code-block:: none
+    S1 + E -> ES; k1*k2*S1*E - k2*ES;
+
+You may also give the reaction a name by prepending the name followed by a colon:
+
+.. code-block:: none
+  J0: S1 + E -> ES; k1*k2*S1*E - k2*ES;
+
+The same effect can be achieved by setting the reaction rate separately, by assigning the reaction rate to the reaction name with an ``=``:
+
+.. code-block:: none
+  J0: S1 + E -> ES;
+  J0 = k1*k2*S1*E - k2*ES;
+
+You may even define them in the opposite order-they are all ways of saying the same thing.
+
+If you want, you can define a reaction to be irreversible by using ``=>`` instead of ``->``:
+
+.. code-block:: none
+  J0: S1 + E => ES;
+
+However, if you additionally provide a reaction rate, that rate is not checked to ensure that it is compatible with an irreversible reaction.
+
+At this point, Antimony will make several assumptions about your model. It will assume (and require) that all symbols that appear in the reaction itself are species. Any symbol that appears elsewhere that is not used or defined as a species is ‘undefined‘; ‘undefined‘ symbols may later be declared or used as species or as ‘formulas‘, Antimony’s term for constants and packaged equations like SBML’s assignment rules. In the above example, k1 and k2 are (thus far) undefined symbols, which may be assigned straightforwardly:
+
+.. code-block:: none
+  J0: S1 + E -> ES; k1*k2*S1*E - k2*ES;
+  k1 = 3;
+  k2 = 1.4;
+
+More complicated expressions are also allowed, as are the creation of symbols which exist only to simplify or clarify other expressions:
+
+.. code-block:: none
+  pH = 7;
+  k3 = -log10(pH);
+
+The initial concentrations of species are defined in exactly the same way as formulas, and may be just as complex (or simple):
+
+.. code-block:: none
+  S1 = 2;
+  E = 3;
+  ES = S1 + E;
