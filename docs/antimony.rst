@@ -28,7 +28,7 @@ In the 2.0 version of Antimony, it became possible to export models as CellML. T
 Contents
 ========
 
-.. contents:: Table of Contents
+.. contents::
 
 Introduction & Basics
 =====================
