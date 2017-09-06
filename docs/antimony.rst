@@ -381,8 +381,9 @@ You may use units when defining formulas using the same syntax as above: any num
                         #   value of '3.3'.
   z has foo;            # 'z' is given units of 'foo'.
 
+------------------
 Language Reference
-==================
+------------------
 
 Species and Reactions
 ---------------------
