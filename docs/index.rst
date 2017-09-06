@@ -15,6 +15,7 @@ Contents:
    installation.rst
    introduction.rst
    notebooks.rst
+   antimony.rst
    tellurium_methods.rst
    API
 
