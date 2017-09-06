@@ -657,3 +657,416 @@ Individual components of submodels may also be given conversion factors, when th
   A1.y is x / cf;
 
 When flattened, all of these conversion factors will be incorporated into the mathematics.
+
+Submodel deletions
+------------------
+
+Sometimes, an element of a submodel has to be removed entirely for the model to make sense as a whole. A degradation reaction might need to be removed, for example, or a now-superfluous species. To delete an element of a submodel, use the ``delete`` keyword:
+
+::
+
+  delete A1.S1;
+
+In this case, ``S1`` will be removed from submodel ``A1``, as will any reactions ``S1`` participated in, plus any mathematical formulas that had ``S1`` in them.
+
+Similarly, sometimes it is necessary to clear assignments and rules to a variable. To accomplish this, simply declare a new assignment or rule for the variable, but leave it blank:
+
+::
+
+  A1.S1  = ;
+  A1.S2 := ;
+  A1.S3' = ;
+
+This will remove the appropriate initial assignment, assignment rule, or rate rule (respectively) from the submodel.
+
+Constant and variable symbols
+-----------------------------
+
+Some models have ‘boundary species’ in their reactions, or species whose concentrations do not change as a result of participating in a reaction. To declare that a species is a boundary species, use the ‘const‘ keyword:
+
+::
+
+  const S1;
+
+While you’re declaring it, you may want to be more specific by using the ‘species‘ keyword:
+
+::
+
+  const species S1;
+
+If a symbol appears as a participant in a reaction, Antimony will recognize that it is a species automatically, so the use of the keyword ‘species‘ is not required. If, however, you have a species which never appears in a reaction, you will need to use the ‘species‘ keyword.
+
+If you have several species that are all constant, you may declare this all in one line:
+
+::
+
+  const species S1, S2, S3;
+
+While species are variable by default, you may also declare them so explicitly with the ‘var‘ keyword:
+
+::
+
+  var species S4, S5, S6;
+
+Alternatively, you may declare a species to be a boundary species by prepending a ‘$‘ in front of it:
+
+::
+
+  S1 + $E -> ES;
+
+This would set the level of ‘E‘ to be constant. You can use this symbol in declaration lists as well:
+
+::
+
+  species S1, $S2, $S3, S4, S5, $S6;
+
+This declares six species, three of which are variable (by default) and three of which are constant.
+
+Likewise, formulas are constant by default. They may be initialized with an equals sign, with either a simple or a complex formula:
+
+::
+
+  k1 = 5;
+  k2 = 2*S1;
+
+You may also explicitly declare whether they are constant or variable:
+
+::
+
+  const k1;
+  var k2;
+
+and be more specific and declare that both are formulas:
+
+::
+
+  const formula k1;
+  var formula k2;
+
+Variables defined with an equals sign are assigned those values at the start of the simulation. In SBML terms, they use the ‘Initial Assignment’ values. If the formula is to vary during the course of the simulation, use the Assignment Rule (or Rate Rule) syntax, described later.
+
+You can also mix-and-match your declarations however best suits what you want to convey:
+
+::
+
+  species S1, S2, S3, S4;
+  formula k1, k2, k3, k4;
+  const   S1, S4, k1, k3;
+  var     S2, S3, k2, k4;
+
+Antimony is a pure model definition language, meaning that all statements in the language serve to build a static model of a dynamic biological system. Unlike Jarnac, sequential programming techniques such as re-using a variable for a new purpose will not work:
+
+::
+
+  pH = 7;
+  k1 = -log10(pH);
+  pH = 8.2;
+  k2 = -log10(pH);
+
+In a sequential programming language, the above would result in different values being stored in k1 and k2. (This is how Jarnac works, for those familiar with that language/simulation environment.) In a pure model definition language like Antimony, ‘pH‘, ‘k1‘, ‘k2‘, and even the formula ‘-log10(pH)‘ are static symbols that are being defined by Antimony statements, and not processed in any way. A simulator that requests the mathematical expression for k1 will receive the string ‘-log10(pH)‘; the same string it will receive for k2. A request for the mathematical expression for pH will receive the string “8.2”, since that’s the last definition found in the file. As such, k1 and k2 will end up being identical.
+
+As a side note, we considered having libAntimony store a warning when presented with an input file such as the example above with a later definition overwriting an earlier definition. However, there was no way with our current interface to let the user know that a warning had been saved, and it seemed like there could be a number of cases where the user might legitimately want to override an earlier definition (such as when using submodules, as we’ll get to in a bit). So for now, the above is valid Antimony input that just so happens to produce exactly the same output as:
+
+::
+
+  pH = 8.2;
+  k1 = -log10(pH);
+  k2 = -log10(pH);
+
+Compartments
+------------
+
+A compartment is a demarcated region of space that contains species and has a particular volume. In Antimony, you may ignore compartments altogether, and all species are assumed to be members of a default compartment with the imaginative name ‘default_compartment‘ with a constant volume of 1. You may define other compartments by using the ‘compartment‘ keyword:
+
+::
+
+  compartment comp1;
+
+Compartments may also be variable or constant, and defined as such with ‘var‘ and ‘const‘:
+
+::
+
+  const compartment comp1;
+  var compartment comp2;
+
+The volume of a compartment may be set with an ‘=‘ in the same manner as species and reaction rates:
+
+::
+
+  comp1 = 5;
+  comp2 = 3*comp1;
+
+To declare that something is in a compartment, the ‘in‘ keyword is used, either during declaration:
+
+::
+
+  compartment comp1 in comp2;
+  const species S1 in comp2;
+  S2 in comp2;
+
+or during assignment for reactions:
+
+::
+
+  J0 in comp1: x -> y; k1*x;
+  y -> z; k2*y in comp2;
+
+or submodules:
+
+::
+
+  M0 in comp2: submod();
+  submod2(y) in comp3;
+
+or other variables:
+
+::
+
+  S1 in comp2 = 5;
+
+Here are Antimony’s rules for determining which compartment something is in:
+
+* If the symbol has been declared to be in a compartment, it is in that compartment.
+* If not, if the symbol is in a DNA strand (see the next section) which has been declared to be in a compartment, it is in that compartment. If the symbol is in multiple DNA strands with conflicting compartments, it is in the compartment of the last declared DNA strand that has a declared compartment in the model.
+* If not, if the symbol is a member of a reaction with a declared compartment, it is in that compartment. If the symbol is a member of multiple reactions with conflicting compartments, it is in the compartment of the last declared reaction that has a declared compartment.
+* If not, if the symbol is a member of a submodule with a declared compartment, it is in that compartment. If the symbol is a member of multiple submodules with conflicting compartments, it is in the compartment of the last declared submodule that has a declared compartment.
+* If not, the symbol is in the compartment ‘default_compartment‘, and is treated as having no declared compartment for the purposes of determining the compartments of other symbols.
+
+Note that declaring that one compartment is ‘in‘ a second compartment does not change the compartment of the symbols in the first compartment:
+
+::
+
+  compartment c1, c2;
+  species s1 in c1, s2 in c1;
+  c1 in c2;
+
+yields:
+
+::
+
+  symbol compartment
+  s1 c1
+  s2 c1
+  c1 c2
+  c2 default_compartment
+
+Compartments may not be circular: ``c1 in c2; c2 in c3; c3 in c1`` is illegal.
+
+Events
+------
+
+Events are discontinuities in model simulations that change the definitions of one or more symbols at the moment when certain conditions apply. The condition is expressed as a boolean formula, and the definition changes are expressed as assignments, using the keyword ‘at‘ and the following syntax:
+
+::
+
+  at: variable1=formula1, variable2=formula2 [etc];
+
+such as:
+
+::
+
+  at (x>5): y=3, x=r+2;
+
+You may also give the event a name by prepending it with a colon:
+
+::
+
+  E1: at(x>=5): y=3, x=r+2;
+
+(you may also claim an event is ‘in‘ a compartment just like everything else (‘E1 in comp1:‘). This declaration will never change the compartment of anything else.)
+
+In addition, there are a number of concepts in SBML events that can now be encoded in Antimony. If event assignments are to occur after a delay, this can be encoded by using the ‘after‘ keyword:
+
+::
+
+  E1: at 2 after (x>5): y=3, x=r+2;
+
+This means to wait two time units after x transitions from less than five to more than five, then change y to 3 and x to r+2. The delay may also itself be a formula:
+
+::
+
+  E1: at 2*z/y after (x>5): y=3, x=r+2;
+
+For delayed events (and to a certain extent with simultaneous events, discussed below), one needs to know what values to use when performing event assignments: the values from the time the event was triggered, or the values from the time the event assignments are being executed? By default (in Antimony, as in SBML Level 2) the first holds true: event assignments are to use values from the moment the event is triggered. To change this, the keyword ‘fromTrigger‘ is used:
+
+::
+
+  E1: at 2*z/y after (x>5), fromTrigger=false: y=3, x=r+2;
+
+You may also declare ‘fromTrigger=true‘ to explicitly declare what is the default.
+
+New complications can arise when event assignments from multiple events are to execute at the same time: which event assignments are to be executed first? By default, there is no defined answer to this question: as long as both sets of assignments are executed, either may be executed first. However, if the model depends on a particular order of execution, events may be given priorities, using the priority keyword:
+
+::
+
+  E1: at ((x>5) && (z>4)), priority=1: y=3, x=r+2;
+  E2: at ((x>5) && (q>7)), priority=0: y=5: x=r+6;
+
+In situations where z>4, q>7, and x>5, and then x increases, both E1 and E2 will trigger at the same time. Since both modify the same values, it makes a difference in which order they are executed-in this case, whichever happens last takes precedence. By giving the events priorities (higher priorities execute first) the result of this situation is deterministic: E2 will execute last, and y will equal 5 and not 3.
+
+Another question is whether, if at the beginning of the simulation the trigger condition is ‘true‘, it should be considered to have just transitioned to being true or not. The default is no, meaning that no event may trigger at time 0. You may override this default by using the ‘t0‘ keyword:
+
+::
+
+  E1: at (x>5)), t0=false: y=3, x=r+2;
+
+In this situation, the value at t0 is considered to be false, meaning it can immediately transition to true if x is greater than 5, triggering the event. You may explicitly state the default by using ‘t0 = true‘.
+
+Finally, a different class of events is often modeled in some situations where the trigger condition must persist in being true from the entire time between when the event is triggered to when it is executed. By default, this is not the case for Antimony events, and, once triggered, all events will execute. To change the class of your event, use the keyword ‘persistent‘:
+
+::
+
+  E1: at 3 after (x>5)), persistent=true: y=3, x=r+2;
+
+For this model, x must be greater than 5 for three seconds before executing its event assignments: if x dips below 5 during that time, the event will not fire. To explicitly declare the default situation, use ‘persistent=false‘.
+
+The ability to change the default priority, t0, and persistent characteristics of events was introduced in SBML Level 3, so if you translate your model to SBML Level 2, it will lose the ability to define functionality other than the default. For more details about the interpretation of these event classifications, see the SBML Level 3 specification.
+
+Assignment Rules
+----------------
+
+In some models, species and/or variables change in a manner not described by a reaction. When a variable receives a new value at every point in the model, this can be expressed in an assignment rule, which in Antimony is formulated with a ‘:=‘ as:
+
+::
+
+   Ptot := P1 + P2 + PE;
+
+In this example, ‘Ptot‘ will continually be updated to reflect the total amount of ‘P‘ present in the model.
+
+Each symbol (species or formula) may have only one assignment rule associated with it. If an Antimony file defines more than one rule, only the last will be saved.
+
+When species are used as the target of an assignment rule, they are defined to be ‘boundary species’ and thus ‘const‘. Antimony doesn’t have a separate syntax for boundary species whose concentrations never change vs. boundary species whose concentrations change due to assignment rules (or rate rules, below). SBML distinguishes between boundary species that may change and boundary species that may not, but in Antimony, all boundary species may change as the result of being in an Assignment Rule or Rate Rule.
+
+Signals
+-------
+
+Signals can be generated by combining assignment rules with events.
+
+Step Input
+~~~~~~~~~~
+
+The simplest signal is  input step. The following code implements a step that occurs at time = 20 with a magnitude of f. A trigger is used to set a trigger variable alpha which is used to initate the step input in an assignment expression.
+
+.. code-block:: python
+
+    import tellurium as te
+    import roadrunner
+
+    r = te.loada("""
+    $Xo -> S1; k1*Xo;
+    S1 -> $X1; k2*S1;
+
+    k1 = 0.2; k2 = 0.45;
+
+    alpha = 0; f = 2
+    Xo := alpha*f
+    at time > 20:
+        alpha = 1
+    """)
+
+    m = r.simulate (0, 100, 300, ['time', 'Xo', 'S1'])
+    r.plot()
+
+Ramp
+~~~~
+
+The following code starts a ramp at 20 time units by setting the p1 variable to one. This variable is used to acticate a ramp function.
+
+.. code-block:: python
+
+    import tellurium as te
+    import roadrunner
+
+    r = te.loada("""
+    $Xo -> S1; k1*Xo;
+    S1 -> $X1; k2*S1;
+
+    k1 = 0.2; k2 = 0.45;
+
+    p1 = 0;
+    Xo := p1*(time - 20)
+    at time > 20:
+        p1 = 1
+    """)
+
+    m = r.simulate (0, 100, 200, ['time', 'Xo', 'S1'])
+    r.plot()
+
+Ramp then Stop
+~~~~~~~~~~~~~~
+
+The following code starts a ramp at 20 time units by setting the p1 variable to one and then stopping the ramp 20 time units later. At 20 time units later a new term is switched on which subtract the ramp slope that results in a horizontal line.
+
+.. code-block:: python
+
+    import tellurium as te
+    import roadrunner
+
+    r = te.loada("""
+    $Xo -> S1; k1*Xo;
+    S1 -> $X1; k2*S1;
+
+    k1 = 0.2; k2 = 0.45;
+
+    p1 = 0; p2 = 0
+    Xo := p1*(time - 20) - p2*(time - 40)
+    at time > 20:
+        p1 = 1
+    at time > 40:
+        p2 = 1
+    """)
+
+    m = r.simulate (0, 100, 200, ['time', 'Xo', 'S1'])
+    r.plot()
+
+Pulse
+~~~~~
+
+The following code starts a pulse at 20 time units by setting the p1 variable to one and then stops the pulse 20 time units later by setting p2 equal to zero.
+
+.. code-block:: python
+
+    import tellurium as te
+    import roadrunner
+
+    r = te.loada("""
+    $Xo -> S1; k1*Xo;
+    S1 -> $X1; k2*S1;
+
+    k1 = 0.2; k2 = 0.45;
+
+    p1 = 0; p2 = 1
+    Xo := p1*p2
+    at time > 20:
+        p1 = 1
+    at time > 40:
+        p2 = 0
+    """)
+
+    m = r.simulate (0, 100, 200, ['time', 'Xo', 'S1'])
+    r.plot()
+
+Sinusoidal Input
+~~~~~~~~~~~~~~~~
+
+The following code starts a sinusoidal input at 20 time units by setting the p1 variable to one.
+
+.. code-block:: python
+
+    import tellurium as te
+    import roadrunner
+
+    r = te.loada("""
+    $Xo -> S1; k1*Xo;
+    S1 -> $X1; k2*S1;
+
+    k1 = 0.2; k2 = 0.45;
+
+    p1 = 0;
+    Xo := p1*(sin (time) + 1)
+    at time > 20:
+        p1 = 1
+    """)
+
+    m = r.simulate (0, 100, 200, ['time', 'Xo', 'S1'])
+    r.plot()
