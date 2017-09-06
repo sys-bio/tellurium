@@ -566,3 +566,45 @@ is equivalent to writing:
 One thing to be aware of when using this method: Since wrapping definitions in a defined model is optional, all ‘bare’ declarations are defined to be in a default module with the name ‘__main‘. If there are no unwrapped definitions, ‘__main‘ will still exist, but will be empty.
 
 As a final note: use of the ‘is‘ keyword is not restricted to elements inside submodules. As a result, if you wish to change the name of an element (if, for example, you want the reactions to look simpler in Antimony, but wish to have a more descriptive name in the exported SBML), you may use ‘is‘ as well:
+
+::
+  A -> B;
+  A is ABA;
+  B is ABA8OH;
+
+is equivalent to writing:
+
+::
+  ABA -> ABA8OH;
+
+Module conversion factors
+-------------------------
+
+Occasionally, the unit system of a submodel will not match the unit system of the containing model, for one or more model elements. In this case, you can use conversion factor constructs to bring the submodule in line with the containing model.
+
+If time is different in the submodel (affecting reactions, rate rules, delay, and ‘time‘), use the ‘timeconv‘ keyword when declaring the submodel:
+
+::
+  A1: submodel(), timeconv=60;
+
+This construct means that one unit of time in the submodel multiplied by the time conversion factor should equal one unit of time in the parent model.
+
+Reaction extent may also be different in the submodel when compared to the parent model, and may be converted with the ‘extentconv‘ keyword:
+
+::
+  A1: submodel(), extentconv=1000;
+
+This construct means that one unit of reaction extent in the submodel multiplied by the extent conversion factor should equal one unit of reaction extent in the parent model.
+
+Both time and extent conversion factors may be numbers (as above) or they may be references to constant parameters. They may also both be used at once:
+
+::
+  A1: submodel(), timeconv=tconv, extentconv=xconv;
+
+Individual components of submodels may also be given conversion factors, when the ‘is‘ keyword is used. The following two constructs are equivalent ways of applying conversion factor ‘cf‘ to the synchronized variables ‘x‘ and ‘A1.y‘:
+
+::
+  A1.y * cf is x;
+  A1.y is x / cf;
+
+When flattened, all of these conversion factors will be incorporated into the mathematics.
