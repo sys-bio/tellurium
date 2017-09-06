@@ -27,6 +27,12 @@ In the 2.1 version of Antimony, the ‘import‘ handling became much more robus
 In the 2.0 version of Antimony, it became possible to export models as CellML. This requires the use of the CellML API, which is now available as an SDK. Hierarchical models are exported using CellML’s hierarchy, translated to accommodate their ‘black box’ requirements.
 
 ---------------------
+Contents
+---------------------
+
+.. contents:: :local:
+
+---------------------
 Introduction: Basics
 ---------------------
 
