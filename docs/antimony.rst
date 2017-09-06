@@ -12,9 +12,8 @@ Antimony is the main method of building models in Tellurium. Its main features i
 * Package and re-use models as modules with defined or implied interfaces.
 * Create ‘DNA strand’ elements, which can pass reaction rates to downstream elements, and inherit and modify reaction rates from upstream elements.
 
----------------------
 Change Log
----------------------
+==========
 
 In the 2.5 release of Antimony, translation of Antimony concepts to and from the Hierarchical Model Composition package was developed further to be much more robust, and a new test system was added to ensure that Antimony’s ‘flattening’ routine (which exports plain SBML) matches libSBML’s flattening routine.
 
@@ -26,16 +25,14 @@ In the 2.1 version of Antimony, the ‘import‘ handling became much more robus
 
 In the 2.0 version of Antimony, it became possible to export models as CellML. This requires the use of the CellML API, which is now available as an SDK. Hierarchical models are exported using CellML’s hierarchy, translated to accommodate their ‘black box’ requirements.
 
----------------------
 Contents
----------------------
+========
 
 .. contents:: Table of Contents
    :local:
 
----------------------
 Introduction: Basics
----------------------
+====================
 
 .. highlight:: none
 
@@ -381,9 +378,9 @@ You may use units when defining formulas using the same syntax as above: any num
                         #   value of '3.3'.
   z has foo;            # 'z' is given units of 'foo'.
 
-------------------
+
 Language Reference
-------------------
+==================
 
 Species and Reactions
 ---------------------
