@@ -1,6 +1,7 @@
-Introduction
-============
-Tellurium is a cross-platform and open source Python based environment for dynamical modeling.
+Quick Start
+===========
+
+To get started using Tellurium, download one of the `front-ends <front-ends>`_.
 
 The `Tellurium source code <https://github.com/sys-bio/tellurium>`_ is licensed under the Apache License 2.0. Other packages used by Tellurium are licensed under various licenses including the LGPL, Apache 2, MIT, and the BSD 3-clause license.
 
