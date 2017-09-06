@@ -29,7 +29,6 @@ Contents
 ========
 
 .. contents:: Table of Contents
-   :local:
 
 Introduction: Basics
 ====================
