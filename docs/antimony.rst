@@ -30,8 +30,8 @@ Contents
 
 .. contents:: Table of Contents
 
-Introduction: Basics
-====================
+Introduction & Basics
+=====================
 
 .. highlight:: none
 
