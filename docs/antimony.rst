@@ -40,13 +40,13 @@ Introduction: Basics
 
 Creating a model in Antimony is designed to be very straightforward and simple. Model elements are created and defined in text, with a simple syntax.
 
-The most common way to use Antimony is to create a reaction network, where processes are defined wherein some elements are consumed and other elements are created. Using the language of SBML, the processes are called ‘reactions’ and the elements are called ‘species’, but any set of processes and elements may be modeled in this way. The syntax for defining a reaction in Antimony is to list the species being consumed, separated by a ‘+‘, followed by an arrow (‘->‘), followed by another list of species being created, followed by a semicolon. If this reaction has a defined mathematical rate at which this happens, that rate can be listed next:
+The most common way to use Antimony is to create a reaction network, where processes are defined wherein some elements are consumed and other elements are created. Using the language of SBML, the processes are called ‘reactions’ and the elements are called ‘species’, but any set of processes and elements may be modeled in this way. The syntax for defining a reaction in Antimony is to list the species being consumed, separated by a ``+``, followed by an arrow ``->``, followed by another list of species being created, followed by a semicolon. If this reaction has a defined mathematical rate at which this happens, that rate can be listed next:
 
 ::
 
     S1 -> S2; k1*S1
 
-The above model defines a reaction where ‘S1‘ is converted to ‘S2‘ at a rate of ‘k1*S1‘.
+The above model defines a reaction where ``S1`` is converted to ``S2`` at a rate of ‘k1*S1‘.
 
 This model cannot be simulated, however, because a simulator would not know what the conditions are to start the simulation. These values can be set by using an equals sign:
 cillator:
@@ -362,7 +362,7 @@ While units do not affect the mathematics of SBML or Antimony models, you can de
   unit substance = 1e-6 mole;
   unit hour = 3600 seconds;
 
-Adding an ‘s’ to the end of a unit name to make it plural is fine when defining a unit: ‘3600 second‘ is the same as ‘3600 seconds‘. Compound units may be created by using formulas with ‘*‘, ‘/‘, and ‘^‘. However, you must use base units when doing so (‘base units’ defined as those listed in Table 2 of the SBML Level 3 Version 1 specification, which mostly are SI and SI-derived units).
+Adding an ‘s’ to the end of a unit name to make it plural is fine when defining a unit: ``3600 second`` is the same as ``3600 seconds``. Compound units may be created by using formulas with ``*``, ``/``, and ``^``. However, you must use base units when doing so (‘base units’ defined as those listed in Table 2 of the `SBML Level 3 Version 1 specification <http://sbml.org/Documents/Specifications#SBML_Level_3_Version_1_Core>`_, which mostly are SI and SI-derived units).
 
 ::
 
@@ -386,7 +386,7 @@ Language Reference
 Species and Reactions
 ---------------------
 
-The simplest Antimony file may simply have a list of reactions containing species, along with some initializations. Reactions are written as two lists of species, separated by a ‘->‘, and followed by a semicolon:
+The simplest Antimony file may simply have a list of reactions containing species, along with some initializations. Reactions are written as two lists of species, separated by a ``->``, and followed by a semicolon:
 
 ::
 
@@ -477,7 +477,7 @@ This is usually not very helpful in and of itself-you’ll likely want to give t
     A: example();
   end
 
-Now, you can modify or define elements in the submodule by referring to symbols in the submodule by name, prepended with the name you’ve given the module, followed by a ‘.‘:
+Now, you can modify or define elements in the submodule by referring to symbols in the submodule by name, prepended with the name you’ve given the module, followed by a ``.``:
 
 ::
 
@@ -516,7 +516,7 @@ You can also use the species defined in submodules in new reactions:
     A.S -> ; kdeg*A.S;
   end
 
-When combining multiple submodules, you can also ‘attach’ them to each other by declaring that a species in one submodule is the same species as is found in a different submodule by using the ‘is‘ keyword (“A.S is B.S”). For example, let’s say that we have a species which is known to bind reversibly to two different species. You could set this up as the following:
+When combining multiple submodules, you can also ‘attach’ them to each other by declaring that a species in one submodule is the same species as is found in a different submodule by using the ``is`` keyword ``A.S is B.S``. For example, let’s say that we have a species which is known to bind reversibly to two different species. You could set this up as the following:
 
 ::
 
@@ -535,7 +535,7 @@ When combining multiple submodules, you can also ‘attach’ them to each other
     A.S is B.S;
   end
 
-If you wanted, you could give the identical species a new name to more easily use it in the ‘full_reaction‘ module:
+If you wanted, you could give the identical species a new name to more easily use it in the ``full_reaction`` module:
 
 ::
 
@@ -547,7 +547,7 @@ If you wanted, you could give the identical species a new name to more easily us
     B.S is S;
   end
 
-In this system, ‘S‘ is involved in two reversible reactions with exactly the same reaction kinetics and initial concentrations. Let’s now say the reaction rate of the second side-reaction takes the same form, but that the kinetics are twice as fast, and the starting conditions are different:
+In this system, ``S`` is involved in two reversible reactions with exactly the same reaction kinetics and initial concentrations. Let’s now say the reaction rate of the second side-reaction takes the same form, but that the kinetics are twice as fast, and the starting conditions are different:
 
 ::
 
@@ -562,7 +562,7 @@ In this system, ‘S‘ is involved in two reversible reactions with exactly the
     B.E = 10;
   end
 
-Note that since we defined the initial concentration of ‘SE‘ as ‘S + E‘, B.SE will now have a different initial concentration, since B.E has been changed.
+Note that since we defined the initial concentration of ``SE`` as ``S + E``, ``B.SE`` will now have a different initial concentration, since ``B.E`` has been changed.
 
 Finally, we add a third side reaction, one in which S binds irreversibly, and where the complex it forms degrades. We’ll need a new reaction rate, and a whole new reaction as well:
 
@@ -584,7 +584,7 @@ Finally, we add a third side reaction, one in which S binds irreversibly, and wh
     k3 = 0.02;
   end
 
-Note that defining the reaction rate of C.J0 used the symbol ‘S‘; exactly the same result would be obtained if we had used ‘C.S‘ or even ‘A.S‘ or ‘B.S‘. Antimony knows that those symbols all refer to the same species, and will give them all the same name in subsequent output.
+Note that defining the reaction rate of ``C.J0`` used the symbol ``S``; exactly the same result would be obtained if we had used ``C.S`` or even ``A.S`` or ``B.S``. Antimony knows that those symbols all refer to the same species, and will give them all the same name in subsequent output.
 
 For convenience and style, modules may define an interface where some symbols in the module are more easily renamed. To do this, first enclose a list of the symbols to export in parentheses after the name of the model when defining it:
 
@@ -612,9 +612,9 @@ is equivalent to writing:
   A.S is spec2;
   A.k1 is k2;
 
-One thing to be aware of when using this method: Since wrapping definitions in a defined model is optional, all ‘bare’ declarations are defined to be in a default module with the name ‘__main‘. If there are no unwrapped definitions, ‘__main‘ will still exist, but will be empty.
+One thing to be aware of when using this method: Since wrapping definitions in a defined model is optional, all ‘bare’ declarations are defined to be in a default module with the name ``__main``. If there are no unwrapped definitions, ``__main`` will still exist, but will be empty.
 
-As a final note: use of the ‘is‘ keyword is not restricted to elements inside submodules. As a result, if you wish to change the name of an element (if, for example, you want the reactions to look simpler in Antimony, but wish to have a more descriptive name in the exported SBML), you may use ‘is‘ as well:
+As a final note: use of the ``is`` keyword is not restricted to elements inside submodules. As a result, if you wish to change the name of an element (if, for example, you want the reactions to look simpler in Antimony, but wish to have a more descriptive name in the exported SBML), you may use ``is`` as well:
 
 ::
 
@@ -633,7 +633,7 @@ Module conversion factors
 
 Occasionally, the unit system of a submodel will not match the unit system of the containing model, for one or more model elements. In this case, you can use conversion factor constructs to bring the submodule in line with the containing model.
 
-If time is different in the submodel (affecting reactions, rate rules, delay, and ‘time‘), use the ‘timeconv‘ keyword when declaring the submodel:
+If time is different in the submodel (affecting reactions, rate rules, delay, and ‘time‘), use the ``timeconv`` keyword when declaring the submodel:
 
 ::
 
@@ -641,7 +641,7 @@ If time is different in the submodel (affecting reactions, rate rules, delay, an
 
 This construct means that one unit of time in the submodel multiplied by the time conversion factor should equal one unit of time in the parent model.
 
-Reaction extent may also be different in the submodel when compared to the parent model, and may be converted with the ‘extentconv‘ keyword:
+Reaction extent may also be different in the submodel when compared to the parent model, and may be converted with the ``extentconv`` keyword:
 
 ::
 
@@ -655,7 +655,7 @@ Both time and extent conversion factors may be numbers (as above) or they may be
 
   A1: submodel(), timeconv=tconv, extentconv=xconv;
 
-Individual components of submodels may also be given conversion factors, when the ‘is‘ keyword is used. The following two constructs are equivalent ways of applying conversion factor ‘cf‘ to the synchronized variables ‘x‘ and ‘A1.y‘:
+Individual components of submodels may also be given conversion factors, when the ``is`` keyword is used. The following two constructs are equivalent ways of applying conversion factor ``cf`` to the synchronized variables ``x`` and ``A1.y``:
 
 ::
 
