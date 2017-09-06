@@ -37,6 +37,7 @@ Creating a model in Antimony is designed to be very straightforward and simple. 
 The most common way to use Antimony is to create a reaction network, where processes are defined wherein some elements are consumed and other elements are created. Using the language of SBML, the processes are called ‘reactions’ and the elements are called ‘species’, but any set of processes and elements may be modeled in this way. The syntax for defining a reaction in Antimony is to list the species being consumed, separated by a ‘+‘, followed by an arrow (‘->‘), followed by another list of species being created, followed by a semicolon. If this reaction has a defined mathematical rate at which this happens, that rate can be listed next:
 
 ::
+
     S1 -> S2; k1*S1
 
 The above model defines a reaction where ‘S1‘ is converted to ‘S2‘ at a rate of ‘k1*S1‘.
@@ -45,6 +46,7 @@ This model cannot be simulated, however, because a simulator would not know what
 cillator:
 
 .. code-block:: none
+
     S1 -> S2; k1*S1
     S1 = 10
     S2 = 0
@@ -55,6 +57,7 @@ The above, then, is a complete model that can be simulated by any software that 
 If you want to give your model a name, you can do that by wrapping it with the text: ``model [name] [reactions, etc.] end``:
 
 ::
+
   # Simple UniUni reaction with first-order mass-action kinetics
   model example1
     S1 -> S2; k1*S1
