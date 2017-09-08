@@ -5,7 +5,7 @@
 # develop install via
 # pip install -e .
 ###################################
-from setuptools import setup  # allows 'python setup.py develop'
+from setuptools import setup
 import os
 try:
     with open(os.path.join(os.path.dirname(__file__), 'VERSION.txt'), 'r') as f:
@@ -46,7 +46,6 @@ setup(name='tellurium',
           'python-libsedml>=0.4.1',
           'python-libnuml>=1.0.1',
           'python-libcombine>=0.2.1',
-          
           'phrasedml>=1.0.6',
           'antimony>=2.9.3',
           'rrplugins>=1.1.8',
