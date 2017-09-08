@@ -1,10 +1,22 @@
-Quick Start
 ===========
-Tellurium is a cross-platform and open source Python based environment for dynamical modeling.
+Walkthrough
+===========
 
-The `Tellurium source code <https://github.com/sys-bio/tellurium>`_ is licensed under the Apache License 2.0. Other packages used by Tellurium are licensed under various licenses including the LGPL, Apache 2, MIT, and the BSD 3-clause license.
+Notebook Walkthrough
+====================
 
-The Tellurium project is funded by generous support from **NIH/NIGMS** grant GM081070. The content is solely the responsibility of the authors and does not necessarily represent the views of the National Institutes of Health.
+If you have not already done so, download and install the `Tellurium notebook front-end <https://github.com/sys-bio/tellurium#front-end-1-tellurium-notebook>`_ for your platform (Windows, Mac, and Linux supported).
 
-.. include:: _notebooks/core/introduction.rst
+IDE Walkthrough
+====================
 
+If you have not already done so, download and install the `Tellurium IDE front-end <https://github.com/sys-bio/tellurium#front-end-2-tellurium-ide>`_ for your platform (only for Windows, legacy versions support Mac).
+
+* `More documentation for Spyder <http://pythonhosted.org/spyder/>`_
+
+Other Resources
+===============
+
+* `Suggest a new feature for Tellurium with UserVoice. <http://sysbio.uservoice.com/>`_
+* `Herbert Sauro's modeling textbook <http://tellurium.analogmachine.org/new-modeling-text-book/>`_, which uses Tellurium
+* `YouTube video tutorials <https://www.youtube.com/channel/UCpNSURm4YWe7sF0561mcvkg>`_ (made prior to Tellurium notebook).

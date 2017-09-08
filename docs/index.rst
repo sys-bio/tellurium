@@ -15,7 +15,7 @@ Contents:
    preliminaries.rst
    installation.rst
    quickstart.rst
-   introduction.rst
+   walkthrough.rst
    notebooks.rst
    antimony.rst
    tellurium_methods.rst
