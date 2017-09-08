@@ -32,7 +32,7 @@ Tellurium can be installed via a front-end which includes all of its constituent
 2. [IDE front-end](#front-end-2-tellurium-ide)
 3. [pip](#pip-installation-no-front-end)
 
-THe IDE front-end provides a MATLAB like experience with editor and console. The Notebook front-end provides a notebook interface which provides an alternative and arguably more modern work experience. The choice of one or the other is a personal choice. 
+The IDE front-end provides a MATLAB like experience with editor and console. The Notebook front-end provides a notebook interface which provides an alternative and arguably more modern work experience. Picking one or the other is a personal choice. 
 
 ### Front-end 1: Tellurium Notebook
 
