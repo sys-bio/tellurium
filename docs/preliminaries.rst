@@ -21,9 +21,12 @@ License
 
 The `Tellurium source code <https://github.com/sys-bio/tellurium>`_ is licensed under the Apache License 2.0. Other packages used by Tellurium are licensed under various licenses including the LGPL, Apache 2, MIT, and the BSD 3-clause license.
 
-Funding & Acknowledgments
-=========================
+Funding
+=======
 
 The Tellurium project is funded by generous support from **NIH/NIGMS** grant GM081070. The content is solely the responsibility of the authors and does not necessarily represent the views of the National Institutes of Health.
+
+Acknowledgments
+===============
 
 Tellurium relies on many great open-source projects, including the `Spyder IDE <https://github.com/spyder-ide/spyder>`_, `nteract <https://github.com/nteract/nteract>`_, `Python <https://www.python.org/>`_, `numpy <http://www.numpy.org/>`_, `Jupyter <http://jupyter.org/>`_, CVODE, NLEQ, AUTO2000, `LAPACK <http://www.netlib.org/lapack/>`_, `LLVM <https://llvm.org/>`_, and `the POCO libraries <https://pocoproject.org/>`_. Tellurium also relies on open source contributions from Frank Bergmann (libStruct, `libSEDML <https://github.com/fbergmann/libSEDML>`_), Mike Hucka,  Sarah Keating (`libSBML <https://sourceforge.net/projects/sbml>`_), and Pierre Raybaut.
