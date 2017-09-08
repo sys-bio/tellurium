@@ -13,6 +13,8 @@ Further Reading
 * Tellurium notebook is based on the `nteract app <https://blog.nteract.io/nteract-revolutionizing-the-notebook-experience-d106ca5d2c38>`_.
 * `Jupyter. <http://jupyter.org/>`_
 
+------------
+
 IDE Walkthrough
 ====================
 
@@ -22,6 +24,8 @@ Further Reading
 ---------------
 
 * `Official Spyder documentation <http://pythonhosted.org/spyder/>`_
+
+------------
 
 Additional Resources for Tellurium
 ==================================
