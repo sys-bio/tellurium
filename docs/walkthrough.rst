@@ -18,7 +18,7 @@ Further Reading
 IDE Walkthrough
 ====================
 
-If you have not already done so, download and install the `Tellurium IDE front-end <https://github.com/sys-bio/tellurium#front-end-2-tellurium-ide>`_ for your platform (only for Windows, legacy versions support Mac).
+If you have not already done so, download and install the `Tellurium IDE front-end <https://github.com/sys-bio/tellurium#front-end-2-tellurium-ide>`_ for your platform (only for Windows, legacy versions supported Mac).
 
 Further Reading
 ---------------
