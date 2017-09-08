@@ -13,8 +13,8 @@ Contents:
    :maxdepth: 2
 
    preliminaries.rst
-   quickstart.rst
    installation.rst
+   quickstart.rst
    introduction.rst
    notebooks.rst
    antimony.rst
