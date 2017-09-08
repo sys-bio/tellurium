@@ -17,7 +17,7 @@ Installation and Front-ends
    :target: https://github.com/sys-bio/tellurium#linux-redhat
 
 ---------------------
-Front-end Options
+Installation Options
 ---------------------
 
 Tellurium has several front-ends, and can also be installed as a collection of pip packages. We recommend a front-end for end-users who wish to use Tellurium for biological modeling, and the pip packages for developers of other software which uses or incorporates Tellurium.
