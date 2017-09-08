@@ -1392,3 +1392,8 @@ For reference, here are some of the differences you will see when converting mod
 * Any SBML version 2 level 1 function with the MathML csymbol ‘time‘ in it will become a local variable with the name ‘time_ref‘ in Antimony. This ‘time_ref‘ is added to the function’s interface (as the last in the list of symbols), and any uses of the function are modified to use ‘time‘ in the call. In other words, a function “function(x, y): x+y*time” becomes “function(x, y, time_ref): x + y*time_ref”, and formulas that use “function(A, B)” become “function(A, B, time)”
 * A variety of Antimony keywords, if found in SBML models as IDs, are renamed to add an appended ‘_‘. So the ID ``compartment`` becomes ``compartment_``, ``model`` becomes ``model_``, etc.
 
+Further Reading
+---------------
+
+* Lucian Smith's `example models <http://antimony.sourceforge.net/antimony-examples.html>`_ show how to use the `comp package <http://sbml.org/Documents/Specifications/SBML_Level_3/Packages/comp>`_.
+* `Antimony's manual <http://antimony.sourceforge.net/Tutorial.pdf>`_ in PDF format.
