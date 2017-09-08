@@ -1,3 +1,5 @@
+.. _front-ends::
+
 ======================
 Installation and Front-ends
 ======================

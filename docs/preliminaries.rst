@@ -1,0 +1,23 @@
+=============
+Preliminaries
+=============
+
+Source Code Repositories
+========================
+
+Tellurium is a collection of Python packages developed inside and outside our group, including simulators, libraries for reading and writing standards like SBML and SED-ML, and various utilities (e.g. `sbml2matlab <https://github.com/stanleygu/sbml2matlab>`_). Tellurium itself is a Python module that provides integration between these various subpackages and its source code is `hosted on GitHub <https://github.com/sys-bio/tellurium>`_. Some of Tellurium's constituent packages and repositories are given below:
+
+* `libroadrunner <https://github.com/sys-bio/roadrunner>`_: SBML ODE / stochastic simulator.
+* `libsbml <https://sourceforge.net/projects/sbml>`_: A library for reading/writing `SBML <http://sbml.org/Main_Page>`_ (Tellurium uses ``tesbml``, which is our own build of libsbml).
+* `antimony <http://antimony.sourceforge.net/>`_: A human-readable representation of SBML.
+* `libsedml <https://github.com/fbergmann/libSEDML>`_: A library for reading/writing SED-ML (Tellurium uses ``tesedml``, which is our own build of libsedml).
+* `phrasedml <http://phrasedml.sourceforge.net/>`_: A human-readable representation of SED-ML.
+* `libcombine <https://github.com/sbmlteam/libCombine>`_: A library for reading/writing COMBINE archives.
+* `sbml2matlab <https://github.com/stanleygu/sbml2matlab>`_: A utility for converting SBML models to MATLAB ODE simulations.
+
+The `Tellurium source code <https://github.com/sys-bio/tellurium>`_ is licensed under the Apache License 2.0. Other packages used by Tellurium are licensed under various licenses including the LGPL, Apache 2, MIT, and the BSD 3-clause license.
+
+The Tellurium project is funded by generous support from **NIH/NIGMS** grant GM081070. The content is solely the responsibility of the authors and does not necessarily represent the views of the National Institutes of Health.
+
+.. include:: _notebooks/core/introduction.rst
+

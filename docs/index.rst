@@ -12,6 +12,7 @@ Contents:
 .. toctree::
    :maxdepth: 2
 
+   preliminaries.rst
    installation.rst
    introduction.rst
    notebooks.rst
