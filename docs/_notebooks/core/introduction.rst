@@ -10,7 +10,7 @@ called Antimony. The Antimony code for this example contains a single
 reaction with associated kinetics. After creating the Antimony string,
 use the ``loada`` function to load it into the simulator.
 
-.. code:: ipython3
+.. code:: python
 
     import tellurium as te
     r = te.loada('S1 -> S2; k1*S1; k1 = 0.1; S1 = 10')
@@ -30,7 +30,7 @@ select Tellurium's stochastic solver. The underlying simulation engine
 used by Tellurium implements a Gibson direct method for simulating this
 model.
 
-.. code:: ipython3
+.. code:: python
 
     import tellurium as te
     import numpy as np
