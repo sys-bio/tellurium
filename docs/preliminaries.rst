@@ -15,9 +15,14 @@ Tellurium is a collection of Python packages developed inside and outside our gr
 * `libcombine <https://github.com/sbmlteam/libCombine>`_: A library for reading/writing COMBINE archives.
 * `sbml2matlab <https://github.com/stanleygu/sbml2matlab>`_: A utility for converting SBML models to MATLAB ODE simulations.
 
+License
+=======
+
 The `Tellurium source code <https://github.com/sys-bio/tellurium>`_ is licensed under the Apache License 2.0. Other packages used by Tellurium are licensed under various licenses including the LGPL, Apache 2, MIT, and the BSD 3-clause license.
+
+Funding & Acknowledgments
+=========================
 
 The Tellurium project is funded by generous support from **NIH/NIGMS** grant GM081070. The content is solely the responsibility of the authors and does not necessarily represent the views of the National Institutes of Health.
 
-.. include:: _notebooks/core/introduction.rst
-
+Tellurium relies on many great open-source projects, including the `Spyder IDE <https://github.com/spyder-ide/spyder>`_, `nteract <https://github.com/nteract/nteract>`_, `Python <https://www.python.org/>`_, `numpy <http://www.numpy.org/>`_, and `Jupyter <http://jupyter.org/>`_.
