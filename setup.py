@@ -44,10 +44,11 @@ setup(name='tellurium',
           'libroadrunner>=1.4.18',
           'python-libsbml>=5.15.0',
           'python-libsedml>=0.4.1',
-          'python-libnuml',
+          'python-libnuml>=1.0.1',
+          'python-libcombine>=0.2.1',
+          
           'phrasedml>=1.0.6',
           'antimony>=2.9.3',
-          'tecombine>=0.2.1',
           'rrplugins>=1.1.8',
           'sbml2matlab>=0.9.1',
 
