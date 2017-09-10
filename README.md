@@ -45,7 +45,9 @@ We recommend first-time users choose one of the front-ends, while developers loo
 2. Double-click the installer to start the installation
 3. Follow the instructions
 
-#### Mac OSX
+<img align="left" width="32px" id="mac-osx" src="https://raw.githubusercontent.com/wiki/sys-bio/tellurium/img/macos.png">
+<h3>Mac OS X</h3>
+<br style="clear:both"/>
 
 1. [Download Tellurium notebook for Mac OS X 10.10 or later](https://github.com/sys-bio/tellurium/releases/download/2.0.0-alpha4/Tellurium-2.0.0.dmg)
 2. Double-click the .dmg file to open a new window
@@ -53,11 +55,15 @@ We recommend first-time users choose one of the front-ends, while developers loo
 4. You can now launch Tellurium from e.g. Spotlight or your Applications folder directly
 
 
-#### Linux (RedHat)
+<img align="left" width="32px" id="redhat" src="https://raw.githubusercontent.com/wiki/sys-bio/tellurium/img/redhat.png">
+<h3>Linux (RedHat)</h3>
+<br style="clear:both"/>
 
 1. TODO: Upload rpm
 
-#### Linux (Debian)
+<img align="left" width="32px" id="debian" src="https://raw.githubusercontent.com/wiki/sys-bio/tellurium/img/debian.png">
+<h3>Linux (Debian)</h3>
+<br style="clear:both"/>
 
 1. [Download the Debian package for Tellurium notebook](https://github.com/sys-bio/tellurium/releases/download/2.0.0-alpha9/Tellurium_2.0.0_amd64.deb)
 2. Install the package using `dpkg -i Tellurium_2.0.0_amd64.deb`
