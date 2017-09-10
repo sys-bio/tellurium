@@ -2,6 +2,9 @@
 Unit Tests
 ======================
 
+Tellurium Test Suite
+====================
+
 Tellurium features a unit test suite.
 
 .. code-block:: python
@@ -15,7 +18,7 @@ If the output is true, Tellurium passed all tests and is working without any err
 libRoadRunner Test Suite
 ========================
 
-libRoadRunner also comes with its own test suite, which is part of the Tellurium test suite. To run it, execute the following.
+`libRoadRunner <http://libroadrunner.org/>`_ also comes with its own test suite, which is run as part of the Tellurium test suite. To run the libRoadRunner test suite, execute the following.
 
 .. code-block:: python
 
