@@ -16,6 +16,7 @@ Contents:
    installation.rst
    Examples <notebooks.rst>
    tellurium_methods.rst
+   paramscan.rst
    testing.rst
    latex.rst
    API
