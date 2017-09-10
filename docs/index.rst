@@ -14,6 +14,7 @@ Contents:
 
    introduction.rst
    installation.rst
+   walkthrough.rst
    Examples <notebooks.rst>
    tellurium_methods.rst
    paramscan.rst
