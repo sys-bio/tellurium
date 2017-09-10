@@ -17,6 +17,7 @@ Contents:
    Examples <notebooks.rst>
    tellurium_methods.rst
    testing.rst
+   latex.rst
    API
 
 
