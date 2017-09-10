@@ -14,7 +14,7 @@ Installation and Front-ends
 
 .. |benguin| image:: ./images/linux.png
    :scale: 50%
-   :target: https://github.com/sys-bio/tellurium#linux-redhat
+   :target: https://github.com/sys-bio/tellurium#redhat
 
 ---------------------
 Installation Options
