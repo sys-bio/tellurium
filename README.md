@@ -65,7 +65,7 @@ We recommend first-time users choose one of the front-ends, while developers loo
 <h3>Linux (Debian)</h3>
 <br style="clear:both"/>
 
-1. [Download the Debian package for Tellurium notebook](https://github.com/sys-bio/tellurium/releases/download/2.0.0-alpha9/Tellurium_2.0.0_amd64.deb)
+1. [Download Tellurium notebook for Debian](https://github.com/sys-bio/tellurium/releases/download/2.0.0-alpha9/Tellurium_2.0.0_amd64.deb)
 2. Install the package using `dpkg -i Tellurium_2.0.0_amd64.deb`
 3. You should be able to launch Tellurium from your activities pane. If not, log out and in again or run `tellurium` from the terminal.
 
