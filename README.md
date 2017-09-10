@@ -36,7 +36,10 @@ We recommend first-time users choose one of the front-ends, while developers loo
 
 ### Front-end 1: Tellurium Notebook
 
-#### Windows
+
+<img align="left" width="32px" id="windows" src="https://raw.githubusercontent.com/wiki/sys-bio/tellurium/img/windows.png">
+<h3>Windows</h3>
+<br style="clear:both"/>
 
 1. [Download Tellurium notebook for Windows](https://github.com/sys-bio/tellurium/releases/download/2.0.0-alpha4/Tellurium.Setup.2.0.0.exe)
 2. Double-click the installer to start the installation
