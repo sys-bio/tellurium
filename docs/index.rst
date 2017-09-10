@@ -12,13 +12,11 @@ Contents:
 .. toctree::
    :maxdepth: 2
 
-   preliminaries.rst
+   introduction.rst
    installation.rst
-   quickstart.rst
-   walkthrough.rst
-   notebooks.rst
-   antimony.rst
+   Examples <notebooks.rst>
    tellurium_methods.rst
+   testing.rst
    API
 
 
