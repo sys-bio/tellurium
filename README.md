@@ -32,7 +32,7 @@ Tellurium can be installed via a front-end which includes all of its constituent
 2. [IDE front-end](#front-end-2-tellurium-ide)
 3. [pip](#pip-installation-no-front-end)
 
-We recommend first-time users choose one of the front-ends, while developers looking to integrate Tellurium use the pip package. The IDE front-end provides a MATLAB like experience with editor and console. The notebook front-end provides a notebook interface similar to [Jupyter](http://jupyter.org/), and features notebook cells for inline OMEX, a human-readable representation of COMBINE archives.
+We recommend first-time users choose one of the front-ends, while developers looking to integrate Tellurium use the pip package. The IDE front-end provides a MATLAB like experience with a code editor and Python console. The notebook front-end provides a notebook interface similar to [Jupyter](http://jupyter.org/), and features notebook cells for inline OMEX, a human-readable representation of COMBINE archives.
 
 ### Front-end 1: Tellurium Notebook
 
