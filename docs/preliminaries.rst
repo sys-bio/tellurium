@@ -20,7 +20,7 @@ Tellurium is a collection of Python packages developed inside and outside our gr
 License
 =======
 
-The `Tellurium source code <https://github.com/sys-bio/tellurium>`_ is licensed under the Apache License 2.0. Other packages used by Tellurium are licensed under various licenses including the LGPL, Apache 2, MIT, and the BSD 3-clause license.
+The `Tellurium source code <https://github.com/sys-bio/tellurium>`_ is licensed under the Apache License 2.0. Tellurium uses third-party dependencies which may be licensed under different terms. Consult the documentation for the respective third-party packages for more details.
 
 Funding
 =======
