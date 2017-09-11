@@ -26,9 +26,15 @@ import json
 
 __default_plotting_engine = 'matplotlib'
 
+if any('SPYDER' in name for name in os.environ):
+    SPYDER = True
+else:
+    SPYDER = False
+
 import antimony
 import matplotlib
-matplotlib.use('Agg')
+if not SPYDER:
+    matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import numpy as np
 from numpy.linalg import svd
@@ -36,19 +42,20 @@ from numpy.linalg import svd
 # determine if we're running in IPython
 __in_ipython = True
 __plotly_enabled = False
-try:
-    get_ipython()
-
-    # init plotly notebook mode
+if not SPYDER:
     try:
-        import plotly
-        plotly.offline.init_notebook_mode(connected=True)
-        __plotly_enabled = True
-        __default_plotting_engine = 'plotly'
+        get_ipython()
+
+        # init plotly notebook mode
+        try:
+            import plotly
+            plotly.offline.init_notebook_mode(connected=True)
+            __plotly_enabled = True
+            __default_plotting_engine = 'plotly'
+        except:
+            warnings.warn("Plotly could not be initialized. Unable to use Plotly for plotting.")
     except:
-        warnings.warn("Plotly could not be initialized. Unable to use Plotly for plotting.")
-except:
-    __in_ipython = False
+        __in_ipython = False
 
 def inIPython():
     """ Returns true if tellurium is being using in
