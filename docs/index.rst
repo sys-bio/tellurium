@@ -16,6 +16,7 @@ Contents:
    installation.rst
    walkthrough.rst
    Examples <notebooks.rst>
+   antimony.rst
    tellurium_methods.rst
 ..    paramscan.rst
 ..    testing.rst
