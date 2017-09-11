@@ -13,7 +13,7 @@ Contents:
    :maxdepth: 2
 
    preliminaries.rst
-   introduction.rst
+   quickstart.rst
    installation.rst
    walkthrough.rst
    Examples <notebooks.rst>
