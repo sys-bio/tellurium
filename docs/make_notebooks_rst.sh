@@ -28,7 +28,7 @@ cd ${NBOUTDIR}
 # In the process the notebooks are completely executed
 jupyter nbconvert --to=rst --allow-errors --output-dir=${NBOUTDIR} --execute $NBDIR/*.ipynb
 jupyter nbconvert --to=rst --allow-errors --output-dir=${NBOUTDIR} --execute $WIDGETDIR/*.ipynb
-echo "DONE"
+echo "DONE converting notebooks"
 
 echo "--------------------------------------"
 echo "postprocessing rst"
@@ -45,7 +45,7 @@ sed -i -- 's/.. image:: /.. image:: _notebooks\/core\//g' ./*.rst
 echo "Changing ipython3 -> python code blocks"
 # readthedocs cannot handle ipython3 code blocks
 sed -i -- 's/.. code:: ipython3/.. code:: python/g' ./*.rst
-echo "DONE"
+echo "DONE postprocessing"
 
 echo "--------------------------------------"
 echo "create python code"
