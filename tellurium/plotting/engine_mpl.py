@@ -2,22 +2,32 @@ from __future__ import print_function, division, absolute_import
 
 from .engine import PlottingEngine, PlottingFigure, PlottingLayout, filterWithSelections
 
+import os
 import matplotlib.pyplot as plt
 from matplotlib import gridspec
 from tempfile import mkstemp
 
+if any('SPYDER' in name for name in os.environ):
+    SPYDER = True
+else:        
+    SPYDER = False
+    
 class MatplotlibFigure(PlottingFigure):
     def __init__(self, title=None, layout=PlottingLayout, use_legend=True, figsize=(9,5), save_to_pdf=False):
         self.initialize(title=title, layout=layout)
         self.use_legend = use_legend
-        self.figsize = figsize
+        if not SPYDER:
+            self.figsize = figsize
         self.save_to_pdf = save_to_pdf
 
     def render(self):
         """ Plot the figure. Call this last."""
-        fig = plt.figure(num=None, figsize=self.figsize, dpi=80, facecolor='w', edgecolor='k')
-        __gs = gridspec.GridSpec(1, 2, width_ratios=[3, 1])
-        plt.subplot(__gs[0])
+        if SPYDER:
+            fig = plt.figure(num=None, facecolor='w', edgecolor='k')
+        else:        
+            fig = plt.figure(num=None, figsize=self.figsize, dpi=80, facecolor='w', edgecolor='k')
+            __gs = gridspec.GridSpec(1, 2, width_ratios=[3, 1])
+            plt.subplot(__gs[0])
 
         have_labels = False
         for dataset in self.getDatasets():
@@ -35,13 +45,19 @@ class MatplotlibFigure(PlottingFigure):
             plt.title(self.title, fontweight='bold')
         # legend
         if self.use_legend and have_labels:
-            legend = plt.legend(bbox_to_anchor=(1.0, 0.5), loc='center left', borderaxespad=5.)
+            if SPYDER:
+                legend = plt.legend()
+            else:
+                legend = plt.legend(bbox_to_anchor=(1.0, 0.5), loc='center left', borderaxespad=5.)
             legend.draw_frame(False)
 
         if self.save_to_pdf:
             (dummy,filename) = mkstemp(suffix='.pdf')
             plt.savefig(filename, format='pdf')
             print('saved plot to {}'.format(filename))
+        
+        if SPYDER:
+            plt.show()
 
         return fig
 
