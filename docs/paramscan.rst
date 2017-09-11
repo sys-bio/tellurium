@@ -38,8 +38,10 @@ To use teParameterScan you will need to import it. The easiest way to do this is
 
 After you load the model, you can use it to create an object of ParameterScan. This allows you to set many different parameters and easily change them.
 
-Methods
-=======
+Class Methods
+=============
+
+These are the methods of the ``ParameterScan`` class.
 
 ``plotArray()``
 
@@ -72,4 +74,98 @@ This method creates a color list (i.e. sets ‘color’) spanning the range of a
 Example
 =======
 
-TODO: use notebook
+Let’s say that we want to examine how the value of a rate constant (parameter) affects how the concentration of a species changes over time. There are several ways this can be done, but the simplest is to use plotGraduatedArray. Here is an example script:
+
+.. code-block:: python
+
+    import tellurium as te
+    from tellurium import ParameterScan as ps
+
+    r = te.loada('''
+        $Xo -> S1; vo;
+        S1 -> S2; k1*S1 - k2*S2;
+        S2 -> $X1; k3*S2;
+
+        vo = 1
+        k1 = 2; k2 = 0; k3 = 3;
+    ''')
+
+    p = ps.ParameterScan(r)
+
+    p.endTime = 6
+    p.numberOfPoints = 100
+    p.polyNumber = 5
+    p.startValue = 1
+    p.endValue = 5
+    p.value = 'k1'
+    p.selection = ['S1']
+
+    p.plotGraduatedArray()
+
+    Another way is to use createColormap() and plotSurface() to create a 3D graph of the same model as above. After loading the model, we can use this code:
+
+    p.endTime = 6
+    p.colormap = p.createColormap([.12,.56,1], [.86,.08,.23])
+    p.dependent = ['S1']
+    p.independent = ['time', 'k1']
+    p.startValue = 1
+    p.endValue = 5
+    p.numberOfPoints = 100
+
+    p.plotSurface()
+
+Properties
+==========
+
+These are the properties of the ``ParameterScan`` class.
+
+``alpha``: Sets opaqueness of polygons in plotPolyArray(). Should be a number from 0-1. Set to 0.7 by default.
+
+``color``: Sets color for use in all plotting functions except plotSurface() and plotMultiArray(). Should be a list of at least one string. All legal HTML color names are accepted. Additionally, for plotArray() and plotGraduatedArray(), this parameter can determine the appearance of the line as according to PyPlot definitions. For example, setting color to [‘ro’] would produce a graph of red circles. For examples on types of lines in PyPlot, go to http://matplotlib.org/api/pyplot_api.html#matplotlib.pyplot.plot. If there are more graphs than provided color selections, subsequent graphs will start back from the beginning of the list.
+
+``colorbar``: True shows a color legend for plotSurface(), False does not. Set to True by default.
+
+``colormap``: The name of the colormap you want to use for plotSurface(). Legal names can be found at http://matplotlib.org/examples/color/colormaps_reference.html and should be strings. Alternatively, you can create a custom colormap using the createColorMap method.
+
+``dependent``: The dependent variable for plotSurface(). Should be a string of a valid species.
+
+``endTime``: When the simulation ends. Default is 20.
+
+``endValue``: For plotGraduatedArray(), assigns the final value of the independent variable other than time. For plotPolyArray() and plotSurface() assigns the final value of the parameter being varied. Should be a string of a valid parameter.
+
+``independent``: The independent variable for plotSurface(). Should be a list of two strings: one for time, and one for a parameter.
+
+``integrator``: The integrator used to calculate results for all plotting methods. Set to ‘cvode’ by default, but another option is ‘gillespie.’
+
+``legend``: A bool that determines whether a legend is displayed for plotArray(), plotGraduatedArray(), and plotMultiArray(). Default is True.
+
+``numberOfPoints``: Number of points in simulation results. Default is 50. Should be an integer.
+
+``polyNumber``: The number of graphs for plotGraduatedArray() and plotPolyArray(). Default is 10.
+
+``rr``: A pointer to a loaded RoadRunner model. ParameterScan() takes it as its only argument.
+
+``selection``: The species to be shown in the graph in plotArray() and plotMultiArray(). Should be a list of at least one string.
+
+``sameColor``: Set this to True to force plotGraduatedArray() to be all in one color. Default color is blue, but another color can be chosen via the “color” parameter. Set to False by default.
+
+``startTime``: When the simulation begins. Default is 0.
+
+``startValue``: For plotGraduatedArray(), assigns the beginning value of the independent variable other than time. For plotPolyArray() and plotSurface() assigns the beginning value of the parameter being varied. Default is whatever the value is in the loaded model, or if not specified there, 0.
+
+``title``: Default is no title. If set to a string, it will display above any of the plotting methods.
+
+``value``: The item to be varied between graphs in plotGraduatedArray() and plotPolyArray(). Should be a string of a valid species or parameter.
+
+``width``: Sets line width in plotArray(), plotGraduatedArray(), and plotMultiArray(). Won’t have any effect on special line types (see color). Default is 2.5.
+
+``xlabel``: Sets a title for the x-axis. Should be a string. Not setting it results in an appropriate default; to create a graph with no title for the x-axis, set it to None.
+
+``ylabel``: Sets a title for the y-axis. Should be a string. Not setting it results in an appropriate default; to create a graph with no title for the x-axis, set it to None.
+
+``zlabel``: Sets a title for the z-axis. Should be a string. Not setting it results in an appropriate default; to create a graph with no title for the x-axis, set it to None.
+
+SteadyStateScan
+=====================
+
+This class is part of teParameterScan but provides some added functionality. It allows the user to plot graphs of the steady state values of one or more species as dependent on the changing value of an equilibrium constant on the x-axis. To use it, use the same import statement as before: ‘from tellurium import ParameterScan as ps’. Then, you can use SteadyStateScan on a loaded model by using ‘ss = ps.SteadyStateScan(rr)’. Right now, the only working method is plotArray(), which needs the parameters of value, startValue, endValue, numberOfPoints, and selection. The parameter ‘value’ refers to the equilibrium constant, and should be the string of the chosen constant. The start and end value parameters are numbers that determine the domain of the x-axis. The ‘numberOfPoints’ parameter refers to the number of data points (i.e. a larger value gives a smoother graph) and ‘selection’ is a list of strings of one or more species that you would like in the graph.
