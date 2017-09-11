@@ -1,3 +1,5 @@
+.. _front-ends::
+
 ======================
 Installation and Front-ends
 ======================
@@ -12,10 +14,10 @@ Installation and Front-ends
 
 .. |benguin| image:: ./images/linux.png
    :scale: 50%
-   :target: https://github.com/sys-bio/tellurium#linux-redhat
+   :target: https://github.com/sys-bio/tellurium#redhat
 
 ---------------------
-Front-end Options
+Installation Options
 ---------------------
 
 Tellurium has several front-ends, and can also be installed as a collection of pip packages. We recommend a front-end for end-users who wish to use Tellurium for biological modeling, and the pip packages for developers of other software which uses or incorporates Tellurium.
@@ -54,7 +56,7 @@ User who are more familiar with MATLAB may prefer Tellurium's IDE interface, whi
 
 * Front-end: **Tellurium IDE**
 * Supported platforms: |billy2| |jobsey2| (no Mac updates)
-* Python version: 2.7, 32-bit (Win) 64-bit (Mac)
+* Python version: 2.7, 64-bit
 * **Download:** `here <https://github.com/sys-bio/tellurium#front-end-2-tellurium-ide>`_
 
 .. figure:: ./images/tellurium_screenshot2.png

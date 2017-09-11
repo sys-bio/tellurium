@@ -14,9 +14,18 @@ Contents:
 
    introduction.rst
    installation.rst
+   walkthrough.rst
    Examples <notebooks.rst>
+   antimony.rst
    tellurium_methods.rst
+..    paramscan.rst
+..    testing.rst
+..    latex.rst
    API
+
+
+.. older docs
+    http://svn.code.sf.net/p/libroadrunnerdocs/code/tellurium/html/index.html
 
 
 Indices and tables

@@ -1,7 +1,7 @@
 # tellurium
 <img title="tellurium logo" src="./docs/images/tellurium_logo.png" height="50" />
-[![Documentation Status](https://readthedocs.org/projects/tellurium/badge/?version=latest)](http://tellurium.readthedocs.org/en/latest/?badge=latest)
-[![Build Status](https://travis-ci.org/sys-bio/tellurium.svg?branch=mkoenig)](https://travis-ci.org/sys-bio/tellurium)
+
+![Documentation Status](https://readthedocs.org/projects/tellurium/badge/?version=latest) ![Build Status](https://travis-ci.org/sys-bio/tellurium.svg?branch=master)
 
 Copyright 2014-2017
 Kiri Choi, J Kyle Medley, Matthias König, Kaylene Stocking, Caroline Cannistra, Michal Galdzicki, and Herbert Sauro
@@ -32,17 +32,22 @@ Tellurium can be installed via a front-end which includes all of its constituent
 2. [IDE front-end](#front-end-2-tellurium-ide)
 3. [pip](#pip-installation-no-front-end)
 
-We recommend option 1. unless you are a developer and plan on integrating Tellurium with your current system.
+We recommend first-time users choose one of the front-ends, while developers looking to integrate Tellurium use the pip package. The IDE front-end provides a MATLAB like experience with a code editor and Python console. The notebook front-end provides a notebook interface similar to [Jupyter](http://jupyter.org/), and features notebook cells for inline OMEX, a human-readable representation of COMBINE archives.
 
 ### Front-end 1: Tellurium Notebook
 
-#### Windows
+
+<img align="left" width="32px" id="windows" src="https://raw.githubusercontent.com/wiki/sys-bio/tellurium/img/windows.png">
+<h3>Windows</h3>
+<br style="clear:both"/>
 
 1. [Download Tellurium notebook for Windows](https://github.com/sys-bio/tellurium/releases/download/2.0.0-alpha4/Tellurium.Setup.2.0.0.exe)
 2. Double-click the installer to start the installation
 3. Follow the instructions
 
-#### Mac OSX
+<img align="left" width="32px" id="mac-osx" src="https://raw.githubusercontent.com/wiki/sys-bio/tellurium/img/macos.png">
+<h3>Mac OS X</h3>
+<br style="clear:both"/>
 
 1. [Download Tellurium notebook for Mac OS X 10.10 or later](https://github.com/sys-bio/tellurium/releases/download/2.0.0-alpha4/Tellurium-2.0.0.dmg)
 2. Double-click the .dmg file to open a new window
@@ -50,13 +55,17 @@ We recommend option 1. unless you are a developer and plan on integrating Tellur
 4. You can now launch Tellurium from e.g. Spotlight or your Applications folder directly
 
 
-#### Linux (RedHat)
+<img align="left" width="32px" id="redhat" src="https://raw.githubusercontent.com/wiki/sys-bio/tellurium/img/redhat.png">
+<h3>Linux (RedHat)</h3>
+<br style="clear:both"/>
 
 1. TODO: Upload rpm
 
-#### Linux (Debian)
+<img align="left" width="32px" id="debian" src="https://raw.githubusercontent.com/wiki/sys-bio/tellurium/img/debian.png">
+<h3>Linux (Debian)</h3>
+<br style="clear:both"/>
 
-1. [Download the Debian package for Tellurium notebook](https://github.com/sys-bio/tellurium/releases/download/2.0.0-alpha9/Tellurium_2.0.0_amd64.deb)
+1. [Download Tellurium notebook for Debian](https://github.com/sys-bio/tellurium/releases/download/2.0.0-alpha9/Tellurium_2.0.0_amd64.deb)
 2. Install the package using `dpkg -i Tellurium_2.0.0_amd64.deb`
 3. You should be able to launch Tellurium from your activities pane. If not, log out and in again or run `tellurium` from the terminal.
 
@@ -64,7 +73,7 @@ We recommend option 1. unless you are a developer and plan on integrating Tellur
 
 #### Windows
 
-1. [Download Tellurium IDE for Windows](https://sourceforge.net/projects/pytellurium/files/Tellurium-1.3/1.3.6/Tellurium-1.3.6-Python-2.7-win32-portable-setup.exe/download)
+1. [Download Tellurium IDE for Windows](https://sourceforge.net/projects/pytellurium/files/Tellurium-2.0/2.0.0beta/Tellurium-2.0.0beta-Python-2.7-win64-portable-setup-beta.exe/download)
 2. Double-click the installer to start the installation
 3. Follow the instructions
 
