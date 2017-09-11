@@ -90,15 +90,19 @@ import matplotlib.pyplot as plt
 
 from .plotting import getPlottingEngineFactory as __getPlottingEngineFactory, plot
 
-def getPlottingEngineFactory(engine=getDefaultPlottingEngine()):
+def getPlottingEngineFactory(engine=None):
     global __save_plots_to_pdf
+    if engine is None:
+        engine = getDefaultPlottingEngine()
     factory = __getPlottingEngineFactory(engine)
     factory.save_plots_to_pdf = __save_plots_to_pdf
     return factory
 
 __plotting_engines = {}
-def getPlottingEngine(engine=getDefaultPlottingEngine()):
+def getPlottingEngine(engine=None):
     global __plotting_engines
+    if engine is None:
+        engine = getDefaultPlottingEngine()
     if not engine in __plotting_engines:
         __plotting_engines[engine] = getPlottingEngineFactory(engine)()
     return __plotting_engines[engine]
