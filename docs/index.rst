@@ -17,9 +17,9 @@ Contents:
    walkthrough.rst
    Examples <notebooks.rst>
    tellurium_methods.rst
-   paramscan.rst
-   testing.rst
-   latex.rst
+..    paramscan.rst
+..    testing.rst
+..    latex.rst
    API
 
 
