@@ -13,10 +13,10 @@ Contents:
    :maxdepth: 2
 
    preliminaries.rst
-   quickstart.rst
    installation.rst
+   quickstart.rst
    walkthrough.rst
-   Examples <notebooks.rst>
+   notebooks.rst
    antimony.rst
    tellurium_methods.rst
 ..    paramscan.rst
