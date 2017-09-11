@@ -23,6 +23,10 @@ Contents:
    API
 
 
+.. older docs
+    http://svn.code.sf.net/p/libroadrunnerdocs/code/tellurium/html/index.html
+
+
 Indices and tables
 ==================
 
