@@ -12,6 +12,7 @@ Contents:
 .. toctree::
    :maxdepth: 2
 
+   preliminaries.rst
    introduction.rst
    installation.rst
    walkthrough.rst
