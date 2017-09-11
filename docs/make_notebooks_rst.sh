@@ -40,7 +40,11 @@ sed -i '/from __future__ import print_function/d' ./*.rst
 
 # change the image locations
 # .. image:: consecutiveUniUniReactions_files/consecutiveUniUniReactions_2_0.png
+echo "Changing image paths..."
 sed -i -- 's/.. image:: /.. image:: _notebooks\/core\//g' ./*.rst
+echo "Changing ipython3 -> python code blocks"
+# readthedocs cannot handle ipython3 code blocks
+sed -i -- 's/.. code:: ipython3/.. code:: python/g' ./*.rst
 echo "DONE"
 
 echo "--------------------------------------"
