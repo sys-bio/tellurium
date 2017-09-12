@@ -45,22 +45,26 @@ echo "Changing image paths..."
 sed -i -- 's/.. image:: /.. image:: _notebooks\/core\//g' ./*.rst
 echo "Changing ipython3 -> python code blocks"
 # readthedocs cannot handle ipython3 code blocks
-sed -i -- 's/.. code:: ipython3/.. code:: python/g' ./*.rst
+# readthedocs also cannot handle the code:: directive, need code-block instead
+sed -i -- 's/.. code:: ipython3/.. code-block:: python/g' ./*.rst
 echo "DONE postprocessing"
 
-echo "--------------------------------------"
-echo "create python code"
-echo "--------------------------------------"
-# clean output dir
-PYOUTDIR=$DIR/../examples/notebooks-py
-rm -rf $PYOUTDIR
-mkdir -p $PYOUTDIR
+# skip this part for now, doesn't seem to work
+if false; then
+    echo "--------------------------------------"
+    echo "create python code"
+    echo "--------------------------------------"
+    # clean output dir
+    PYOUTDIR=$DIR/../examples/notebooks-py
+    rm -rf $PYOUTDIR
+    mkdir -p $PYOUTDIR
 
-# create python files
-cd $PYOUTDIR
-# jupyter nbconvert --to=python --allow-errors --execute $NBDIR/*.ipynb
-# jupyter nbconvert --to=python --allow-errors --execute --output-dir=${PYOUTDIR} $NBDIR/*.ipynb
+    # create python files
+    cd $PYOUTDIR
+    # jupyter nbconvert --to=python --allow-errors --execute $NBDIR/*.ipynb
+    jupyter nbconvert --to=python --allow-errors --execute --output-dir=${PYOUTDIR} $NBDIR/*.ipynb
 
-# replace the magic & add warning
-# sed -i -- "s/get_ipython().magic(u'matplotlib inline')/\#\!\!\! DO NOT CHANGE \!\!\! THIS FILE WAS CREATED AUTOMATICALLY FROM NOTEBOOKS \!\!\! CHANGES WILL BE OVERWRITTEN \!\!\! CHANGE CORRESPONDING NOTEBOOK FILE \!\!\!/g" ./*.py
-echo "DONE"
+    # replace the magic & add warning
+    sed -i -- "s/get_ipython().magic(u'matplotlib inline')/\#\!\!\! DO NOT CHANGE \!\!\! THIS FILE WAS CREATED AUTOMATICALLY FROM NOTEBOOKS \!\!\! CHANGES WILL BE OVERWRITTEN \!\!\! CHANGE CORRESPONDING NOTEBOOK FILE \!\!\!/g" ./*.py
+    echo "DONE converting to Python scripts"
+fi
