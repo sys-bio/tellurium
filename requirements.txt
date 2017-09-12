@@ -23,4 +23,7 @@ bioservices
 ipython
 jinja2
 plotly
+
+# testing dependencies
 pytest
+nose

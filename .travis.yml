@@ -1,23 +1,16 @@
-language: generic
+#######################################
+# Travis CI script
+#######################################
+language: python
 sudo: required
-
-branches:
-    only:
-        - master
-        - develop
-        - mkoenig
-
-services:
-    - docker
+cache: pip
+python:
+  - "2.7"
+  - "3.5"
+  - "3.6"
 
 install:
-    - docker build -t tellurium .
-
-before_script:
-    # test dependencies
-    - sudo pip install coverage
-    - sudo pip install coveralls
+    - pip install -r requirements.txt
 
 script:
     - nosetests
-

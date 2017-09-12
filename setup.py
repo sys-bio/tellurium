@@ -60,5 +60,6 @@ setup(name='tellurium',
           'jinja2',
           'plotly',
           'pytest',
+          'nose',
           ]
       )
