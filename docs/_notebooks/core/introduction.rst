@@ -1,5 +1,4 @@
 
-Back to the main `Index <../index.ipynb>`__
 
 Simple Example
 --------------
@@ -10,7 +9,7 @@ called Antimony. The Antimony code for this example contains a single
 reaction with associated kinetics. After creating the Antimony string,
 use the ``loada`` function to load it into the simulator.
 
-.. code:: python
+.. code-block:: python
 
     import tellurium as te
     r = te.loada('S1 -> S2; k1*S1; k1 = 0.1; S1 = 10')
@@ -19,7 +18,13 @@ use the ``loada`` function to load it into the simulator.
 
 
 
-.. image:: _notebooks/core/introduction_files/introduction_2_0.png
+.. raw:: html
+
+    <script>requirejs.config({paths: { 'plotly': ['https://cdn.plot.ly/plotly-latest.min']},});if(!window.Plotly) {{require(['plotly'],function(plotly) {window.Plotly=plotly;});}}</script>
+
+
+
+.. image:: _notebooks/core/introduction_files/introduction_2_1.png
 
 
 More Complex Example
@@ -30,7 +35,7 @@ select Tellurium's stochastic solver. The underlying simulation engine
 used by Tellurium implements a Gibson direct method for simulating this
 model.
 
-.. code:: python
+.. code-block:: python
 
     import tellurium as te
     import numpy as np
