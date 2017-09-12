@@ -35,7 +35,7 @@ for f in $NBDIR/*.ipynb; do
     echo "Converting $b -> log $logfile"
     jupyter nbconvert --to=rst --allow-errors --output-dir=${NBOUTDIR} --execute $f >$logfile 2>&1
     if [ ! $? -eq 0 ]; then
-        echo "  Failed: $l"
+        echo "  Failed: $b"
         nfailed=$((nfailed+=1))
     else
         nsucceeded=$((nsucceeded+=1))
@@ -58,7 +58,7 @@ sed -i '/te.setDefaultPlottingEngine("matplotlib")/d' ./*.rst
 # .. image:: consecutiveUniUniReactions_files/consecutiveUniUniReactions_2_0.png
 echo "Changing image paths..."
 sed -i -- 's/.. image:: /.. image:: _notebooks\/core\//g' ./*.rst
-echo "Changing ipython3 -> python code blocks"
+echo "Patching code directives"
 # readthedocs cannot handle ipython3 code blocks
 # readthedocs also cannot handle the code:: directive, need code-block instead
 sed -i -- 's/.. code:: ipython3/.. code-block:: python/g' ./*.rst
