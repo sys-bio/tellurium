@@ -1,7 +1,15 @@
+"""
+Helpers to work with SBO terms in antimony.
+"""
+
 from __future__ import print_function, division, absolute_import
 
 import re
-from tesbml import SBMLReader
+try:
+    import tesbml as libsbml
+except ImportError:
+    import libsbml
+
 from .antimony_regex import getModelStartRegex, getModelEndRegex
 
 class antimonySBOConverter:
@@ -118,13 +126,13 @@ class antimonySBOConverter:
     @classmethod
     def fromSBMLFile(cls, sbml_file):
         """ Construct from SBML file. """
-        reader = SBMLReader()
+        reader = libsbml.SBMLReader()
         doc = reader.readSBMLFromFile(sbml_file)
         return antimonySBOConverter(doc)
 
     @classmethod
     def fromSBMLString(cls, sbml_str):
         """ Construct from SBML string. """
-        reader = SBMLReader()
+        reader = libsbml.SBMLReader()
         doc = reader.readSBMLFromString(sbml_str)
         return antimonySBOConverter(doc)
