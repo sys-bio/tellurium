@@ -27,7 +27,7 @@ cd ${NBOUTDIR}
 # jupyter nbconvert --to=rst --allow-errors --execute $NBDIR/*.ipynb
 # In the process the notebooks are completely executed
 jupyter nbconvert --to=rst --allow-errors --output-dir=${NBOUTDIR} --execute $NBDIR/*.ipynb
-jupyter nbconvert --to=rst --allow-errors --output-dir=${NBOUTDIR} --execute $WIDGETDIR/*.ipynb
+#jupyter nbconvert --to=rst --allow-errors --output-dir=${NBOUTDIR} --execute $WIDGETDIR/*.ipynb
 echo "DONE converting notebooks"
 
 echo "--------------------------------------"
@@ -37,6 +37,7 @@ echo "--------------------------------------"
 sed -i '/%matplotlib inline/d' ./*.rst
 sed -i '/Back to the main `Index <..\/index.ipynb>`__/d' ./*.rst
 sed -i '/from __future__ import print_function/d' ./*.rst
+sed -i '/te.setDefaultPlottingEngine("matplotlib")/d' ./*.rst
 
 # change the image locations
 # .. image:: consecutiveUniUniReactions_files/consecutiveUniUniReactions_2_0.png
@@ -58,8 +59,8 @@ mkdir -p $PYOUTDIR
 # create python files
 cd $PYOUTDIR
 # jupyter nbconvert --to=python --allow-errors --execute $NBDIR/*.ipynb
-jupyter nbconvert --to=python --execute --output-dir=${PYOUTDIR} $NBDIR/*.ipynb
+# jupyter nbconvert --to=python --allow-errors --execute --output-dir=${PYOUTDIR} $NBDIR/*.ipynb
 
 # replace the magic & add warning
-sed -i -- "s/get_ipython().magic(u'matplotlib inline')/\#\!\!\! DO NOT CHANGE \!\!\! THIS FILE WAS CREATED AUTOMATICALLY FROM NOTEBOOKS \!\!\! CHANGES WILL BE OVERWRITTEN \!\!\! CHANGE CORRESPONDING NOTEBOOK FILE \!\!\!/g" ./*.py
+# sed -i -- "s/get_ipython().magic(u'matplotlib inline')/\#\!\!\! DO NOT CHANGE \!\!\! THIS FILE WAS CREATED AUTOMATICALLY FROM NOTEBOOKS \!\!\! CHANGES WILL BE OVERWRITTEN \!\!\! CHANGE CORRESPONDING NOTEBOOK FILE \!\!\!/g" ./*.py
 echo "DONE"
