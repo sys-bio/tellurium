@@ -165,7 +165,7 @@ class PlottingEngine(object):
             self.fig = None
         return fig
 
-    def plotTimecourse(self, m, title=None, ordinates=None, tag=None, xtitle=None, logy=False, ytitle=None, alpha=None):
+    def plotTimecourse(self, m, title=None, ordinates=None, tag=None, xtitle=None, logy=False, ytitle=None, alpha=None, **kwargs):
 
         """ Plots a timecourse from a simulation.
 

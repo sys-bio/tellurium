@@ -374,7 +374,7 @@ class TelluriumTestCase(unittest.TestCase):
         # plot with label, title, axis and legend
         r.plot(s, xlabel="x", ylabel="y", xlim=[0, 10], ylim=[0, 10], grid=True)
         # plot with additional plot settings from matplotlib
-        r.plot(s, alpha=0.1, linestyle="-", marker="o")
+        r.plot(s, alpha=0.1, color="blue", linestyle="-", marker="o")
 
     # ---------------------------------------------------------------------
     # Testing
@@ -384,7 +384,7 @@ class TelluriumTestCase(unittest.TestCase):
         models = te.listTestModels()
         self.assertTrue('feedback.xml' in models)
 
-    @pytest.mark.skip(reason="bug in roadrunner loading test models")
+    @pytest.mark.skip(reason="bug in roadrunner loading test models, https://github.com/sys-bio/roadrunner/issues/400")
     def test_loadTestModel(self):
         r = te.loadTestModel('feedback.xml')
         self.assertIsNotNone(r)
