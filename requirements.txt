@@ -26,4 +26,3 @@ plotly
 
 # testing dependencies
 pytest
-nose
