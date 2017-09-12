@@ -91,8 +91,32 @@ simulation.
     libsedml : 402
     phrasedml : 1.0.7
     --------------------------------------------------------------------------------
+
+
+
+.. image:: _notebooks/core/antimonyExample_files/antimonyExample_2_2.png
+
+
+
+.. image:: _notebooks/core/antimonyExample_files/antimonyExample_2_3.png
+
+
+
+.. image:: _notebooks/core/antimonyExample_files/antimonyExample_2_4.png
+
+
+.. parsed-literal::
+
     Comparing Antimony at time 0 & 40 (expect no differences)
     
+
+
+
+.. image:: _notebooks/core/antimonyExample_files/antimonyExample_2_6.png
+
+
+.. parsed-literal::
+
     Comparing Antimony at time 0 & 15
     --- before.sb
     
@@ -108,22 +132,6 @@ simulation.
      
        // Other declarations:
        var p1;
-
-
-
-.. image:: _notebooks/core/antimonyExample_files/antimonyExample_2_2.png
-
-
-
-.. image:: _notebooks/core/antimonyExample_files/antimonyExample_2_3.png
-
-
-
-.. image:: _notebooks/core/antimonyExample_files/antimonyExample_2_4.png
-
-
-
-.. image:: _notebooks/core/antimonyExample_files/antimonyExample_2_5.png
 
 
 .. code-block:: python

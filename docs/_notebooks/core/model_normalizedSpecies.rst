@@ -22,7 +22,7 @@ equations could be typed directly in ``COPASI``.
 The created model is exported as ``SBML`` which than can be used in
 ``COPASI``.
 
-.. code:: python
+.. code-block:: python
 
     import tellurium as te
     r = te.loada("""
@@ -70,6 +70,13 @@ The created model is exported as ``SBML`` which than can be used in
     file_path = os.path.join(temp_dir, 'normalizedSpecies.xml')
     r.exportToSBML(file_path)
 
+
+
+.. raw:: html
+
+    <script>requirejs.config({paths: { 'plotly': ['https://cdn.plot.ly/plotly-latest.min']},});if(!window.Plotly) {{require(['plotly'],function(plotly) {window.Plotly=plotly;});}}</script>
+
+
 Model simulation
 ^^^^^^^^^^^^^^^^
 
@@ -79,7 +86,7 @@ normalized in ``[0,1]`` - the normalized values have same dynamics like
 ``SA`` and ``SF`` - the normalized values can be used to calculates some
 dependent function, here ``F``
 
-.. code:: python
+.. code-block:: python
 
     r.reset()
     # select the variables of interest in output
@@ -93,5 +100,4 @@ dependent function, here ``F``
 
 
 .. image:: _notebooks/core/model_normalizedSpecies_files/model_normalizedSpecies_3_0.png
-
 
