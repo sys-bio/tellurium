@@ -75,16 +75,6 @@ simulation.
     print('\n'.join(list(difflib.unified_diff(ant_str_before.splitlines(), ant_str_after2.splitlines(), fromfile="before.sb", tofile="after.sb"))))
 
 
-.. parsed-literal::
-
-    /home/poltergeist/.config/Tellurium/telocal/python-3.6.1/lib/python3.6/site-packages/matplotlib/__init__.py:1405: UserWarning: 
-    This call to matplotlib.use() has no effect because the backend has already
-    been chosen; matplotlib.use() must be called *before* pylab, matplotlib.pyplot,
-    or matplotlib.backends is imported for the first time.
-    
-      warnings.warn(_use_error_msg)
-
-
 
 .. raw:: html
 
@@ -121,6 +111,10 @@ simulation.
 
 
 
+.. image:: _notebooks/core/antimonyExample_files/antimonyExample_2_2.png
+
+
+
 .. image:: _notebooks/core/antimonyExample_files/antimonyExample_2_3.png
 
 
@@ -130,10 +124,6 @@ simulation.
 
 
 .. image:: _notebooks/core/antimonyExample_files/antimonyExample_2_5.png
-
-
-
-.. image:: _notebooks/core/antimonyExample_files/antimonyExample_2_6.png
 
 
 .. code-block:: python
