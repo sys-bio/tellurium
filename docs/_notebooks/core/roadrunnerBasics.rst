@@ -3,11 +3,15 @@
 Model Loading
 ~~~~~~~~~~~~~
 
-To load models use the load functions
+To load models use any the following functions. Each function takes a
+model with the corresponding format and converts it to a
+```RoadRunner`` <http://sys-bio.github.io/roadrunner/python_docs/index.html>`__
+simulator instance.
 
--  ``te.loadAntimony`` (``te.loada``): load Antimony model
--  ``te.loadSBML``: load SBML model
--  ``te.loadCellML``: load CellML model
+-  ``te.loadAntimony`` (``te.loada``): Load an Antimony model.
+-  ``te.loadSBML``: Load an SBML model.
+-  ``te.loadCellML``: Load a CellML model (this passes the model through
+   Antimony and converts it to SBML, may be lossy).
 
 .. code-block:: python
 
