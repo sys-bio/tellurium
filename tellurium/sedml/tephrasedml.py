@@ -26,11 +26,17 @@ import shutil
 import tempfile
 import re
 import warnings
+from six import string_types, iteritems
 
 import tellurium as te
 import tellurium.tecombine as tecombine
 import phrasedml
-import tesedml
+try:
+    import tesedml as libsedml
+except ImportError:
+    import libsedml
+
+from tellurium.sedml import tesedml
 
 
 class experiment(object):
@@ -54,14 +60,14 @@ class experiment(object):
         """
         # backwards compatibility & simplified syntax
         # for one phrasedml and antimony string
-        if isinstance(antimonyList, basestring):
+        if isinstance(antimonyList, string_types):
             antimonyList = [antimonyList]
-        if isinstance(phrasedmlList, basestring):
+        if isinstance(phrasedmlList, string_types):
             phrasedmlList = [phrasedmlList]
 
         modelispath = []
         for aStr in antimonyList:
-            if not isinstance(aStr, basestring):
+            if not isinstance(aStr, string_types):
                 raise IOError("invalid Antimony string/model path")
             if os.path.exists(aStr):
                 modelispath.append(True)
@@ -108,7 +114,7 @@ class experiment(object):
 
         # This calls exec. Nothing bad should ever happen here !
         execStr = self._toPython(selPhrasedml, workingDir=workingDir)
-        exec execStr
+        exec(execStr)
 
         # remove temporary workingDir
         if isTmpDir:
@@ -203,7 +209,7 @@ class experiment(object):
                 # execute in temporary directory
                 workingDir = tempfile.mkdtemp(suffix="_sedml")
                 execStr = self._toPython(phrasedmlStr, workingDir=workingDir)
-                exec execStr
+                exec(execStr)
 
                 # Add output files to archive
                 files = [f for f in os.listdir(workingDir)]
@@ -276,7 +282,7 @@ class experiment(object):
             modelNames.append(name)
 
         sources = self._modelsFromPhrasedml(phrasedmlStr)
-        for source, name in sources.iteritems():
+        for source, name in iteritems(sources):
             # not a antimony model
             if name not in modelNames:
                 continue

@@ -2,7 +2,7 @@
 Test all the SED-ML files if
 code can be generated
 """
-from __future__ import print_function
+from __future__ import print_function, absolute_import
 import unittest
 
 import os
@@ -10,7 +10,7 @@ import matplotlib
 import tellurium.sedml.tesedml as tesedml
 from tellurium.tests.testdata import sedmlDir
 
-from helpers import filesInDirectory
+from tellurium.tests.helpers import filesInDirectory
 
 # ----------------------------------------------------------------
 # List of SED-ML files to test

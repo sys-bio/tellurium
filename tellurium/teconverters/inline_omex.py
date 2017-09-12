@@ -1,6 +1,11 @@
 from __future__ import print_function, division, absolute_import
 
-import tecombine as libcombine
+try:
+    import tecombine as libcombine
+except ImportError:
+    import libcombine
+
+
 import phrasedml
 import re, os
 import argparse

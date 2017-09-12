@@ -1,4 +1,5 @@
 """
 visualization imports
 """
-from sbmldiagram import SBMLDiagram
+from __future__ import absolute_import
+from .sbmldiagram import SBMLDiagram

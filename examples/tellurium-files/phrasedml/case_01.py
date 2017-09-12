@@ -22,6 +22,4 @@ phrasedmlStr = """
     plot "UniformTimecourse" task0.time vs task0.S1
     report task0.time vs task0.S1
 """
-
 run_case(os.path.realpath(__file__), antimonyStr, phrasedmlStr)
-

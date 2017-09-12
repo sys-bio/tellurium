@@ -1,9 +1,14 @@
 from __future__ import print_function, division, absolute_import
 
-import os, re
+import os
+import re
 
 import phrasedml
-from tesedml import SedReader
+try:
+    import tesedml as libsedml
+except ImportError:
+    import libsedml
+
 
 class phrasedmlImporter:
     @classmethod
@@ -44,7 +49,7 @@ class phrasedmlImporter:
         result = importer.toPhrasedml()
         if result is None:
             # get errors from libsedml
-            doc = SedReader().readSedMLFromString(sedml_str)
+            doc = libsedml.SedReader().readSedMLFromString(sedml_str)
             if doc.getNumErrors():
                 max_len = 100
                 message = doc.getError(doc.getNumErrors()-1).getMessage()

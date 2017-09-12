@@ -1,30 +1,29 @@
-# installable via pip
-libroadrunner
-rrplugins
-tesbml
-tesedml
-tecombine
-antimony
-phrasedml
-sbml2matlab
+numpy>=1.13.1
+scipy>=0.19.1
+matplotlib>=2.0.2
+pandas>=0.20.3
+
+libroadrunner>=1.4.18
+python-libsbml>=5.15.0
+python-libsedml>=0.4.1
+python-libcombine>=0.2.1
+
+# tecombine
+# tesbml
+# tesedml
+
+python-libnuml>=1.0.1
+phrasedml>=1.0.6
+antimony>=2.9.3
+rrplugins>=1.1.8
+sbml2matlab>=0.9.1
+
+appdirs>=1.4.3
 ipywidgets
 bioservices
-matplotlib
-numpy
-pygraphviz
 ipython
 jinja2
-pandas
+plotly
 
-# for testing
-nose
-
-# packed with Tellurium, but not required for tellurium
-#   tePlugins
-#   pySBOL
-#   py-control ?
-#   simplesbml
-
-# the following python standard library models are used (no install necessary)
-#   os, sys, re, zipfile, time, collections, httplib,
-#   tempfile, warnings, StringIO
+# testing dependencies
+pytest

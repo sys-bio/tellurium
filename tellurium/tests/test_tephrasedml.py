@@ -1,18 +1,24 @@
 """
 Testing tephrasedml.
 """
-from __future__ import print_function
+from __future__ import absolute_import, print_function
 
 import tempfile
 import unittest
+import pytest
+
 import matplotlib
 import os
 import shutil
-
-import tellurium.sedml.tephrasedml as tephrasedml
 import tellurium as te
-import libsedml
+try:
+    import tesedml as libsedml
+except ImportError:
+    import libsedml
 import phrasedml
+
+from tellurium.sedml.tephrasedml import experiment
+import tellurium.sedml.tephrasedml as tephrasedml
 from tellurium.sedml.tesedml import SEDMLCodeFactory
 
 
@@ -78,13 +84,13 @@ class tePhrasedMLTestCase(unittest.TestCase):
 
     def test_experiment(self):
         """Test experiment."""
-        exp = te.experiment(self.antimony, self.phrasedml)
+        exp = experiment(self.antimony, self.phrasedml)
         pstr = exp._toPython(self.phrasedml)
         self.assertIsNotNone(pstr)
 
     def test_exportAsCombine(self):
         """ Test exportAsCombine. """
-        exp = te.experiment(self.antimony, self.phrasedml)
+        exp = experiment(self.antimony, self.phrasedml)
         tmpdir = tempfile.mkdtemp()
         tmparchive = os.path.join(tmpdir, 'test.zip')
         exp.exportAsCombine(tmparchive)
@@ -109,7 +115,7 @@ class tePhrasedMLTestCase(unittest.TestCase):
             task0 = run sim0 on model0
             plot task0.time vs task0.S1
         """
-        exp = te.experiment(antimonyStr, phrasedmlStr)
+        exp = experiment(antimonyStr, phrasedmlStr)
         exp.execute(phrasedmlStr)
 
     def test_1Model2PhrasedML(self):
@@ -128,7 +134,7 @@ class tePhrasedMLTestCase(unittest.TestCase):
             task1 = run sim1 on model2
             plot task1.time vs task1.S1, task1.S2
         """
-        exp = te.experiment(self.a1, [p1, p2])
+        exp = experiment(self.a1, [p1, p2])
         # execute first
         exp.execute(p1)
         # execute second
@@ -148,7 +154,7 @@ class tePhrasedMLTestCase(unittest.TestCase):
             plot "Timecourse test1" task1.time vs task1.S1, task1.S2
             plot "Timecourse test2" task2.time vs task2.X1, task2.X2
         """
-        exp = te.experiment([self.a1, self.a2], p1)
+        exp = experiment([self.a1, self.a2], p1)
         exp.execute(p1)
 
     def test_2Model2PhrasedML(self):
@@ -169,7 +175,7 @@ class tePhrasedMLTestCase(unittest.TestCase):
             task2 = run sim1 on model2
             plot task1.time vs task1.S1, task1.S2, task2.time vs task2.X1, task2.X2
         """
-        exp = te.experiment([self.a1, self.a2], [p1, p2])
+        exp = experiment([self.a1, self.a2], [p1, p2])
         # execute first
         exp.execute(p1)
         # execute second
@@ -218,7 +224,7 @@ class tePhrasedMLTestCase(unittest.TestCase):
             task0 = run sim0 on model0
             plot task0.time vs task0.S1
         """
-        exp = te.experiment(self.a1, p)
+        exp = experiment(self.a1, p)
         self.checkKisaoIntegrator(exp, 'KISAO:0000019', 'cvode')
         exp.execute()
 
@@ -230,7 +236,7 @@ class tePhrasedMLTestCase(unittest.TestCase):
             task0 = run sim0 on model0
             plot task0.time vs task0.S1
         """
-        exp = te.experiment(self.a1, p)
+        exp = experiment(self.a1, p)
         self.checkKisaoIntegrator(exp, 'KISAO:0000019', 'cvode')
         exp.execute()
 
@@ -242,7 +248,7 @@ class tePhrasedMLTestCase(unittest.TestCase):
             task0 = run sim0 on model0
             plot task0.time vs task0.S1
         """
-        exp = te.experiment(self.a1, p)
+        exp = experiment(self.a1, p)
         self.checkKisaoIntegrator(exp, 'KISAO:0000019', 'cvode')
         exp.execute()
 
@@ -254,7 +260,7 @@ class tePhrasedMLTestCase(unittest.TestCase):
             task0 = run sim0 on model0
             plot task0.time vs task0.S1
         """
-        exp = te.experiment(self.a1, p)
+        exp = experiment(self.a1, p)
         self.checkKisaoIntegrator(exp, 'KISAO:0000019', 'cvode')
         exp.execute()
 
@@ -266,7 +272,7 @@ class tePhrasedMLTestCase(unittest.TestCase):
             task0 = run sim0 on model0
             plot task0.time vs task0.S1
         """
-        exp = te.experiment(self.a1, p)
+        exp = experiment(self.a1, p)
         self.checkKisaoIntegrator(exp, 'KISAO:0000241', 'gillespie')
         exp.execute()
 
@@ -278,7 +284,7 @@ class tePhrasedMLTestCase(unittest.TestCase):
             task0 = run sim0 on model0
             plot task0.time vs task0.S1
         """
-        exp = te.experiment(self.a1, p)
+        exp = experiment(self.a1, p)
         self.checkKisaoIntegrator(exp, 'KISAO:0000241', 'gillespie')
         exp.execute()
 
@@ -290,7 +296,7 @@ class tePhrasedMLTestCase(unittest.TestCase):
             task0 = run sim0 on model0
             plot task0.time vs task0.S1
         """
-        exp = te.experiment(self.a1, p)
+        exp = experiment(self.a1, p)
         self.checkKisaoIntegrator(exp, 'KISAO:0000241', 'gillespie')
         exp.execute()
 
@@ -302,7 +308,7 @@ class tePhrasedMLTestCase(unittest.TestCase):
             task0 = run sim0 on model0
             plot task0.time vs task0.S1
         """
-        exp = te.experiment(self.a1, p)
+        exp = experiment(self.a1, p)
         self.checkKisaoIntegrator(exp, 'KISAO:0000032', 'rk4')
         exp.execute()
 
@@ -314,7 +320,7 @@ class tePhrasedMLTestCase(unittest.TestCase):
             task0 = run sim0 on model0
             plot task0.time vs task0.S1
         """
-        exp = te.experiment(self.a1, p)
+        exp = experiment(self.a1, p)
         self.checkKisaoIntegrator(exp, 'KISAO:0000032', 'rk4')
         exp.execute()
 
@@ -327,7 +333,7 @@ class tePhrasedMLTestCase(unittest.TestCase):
             task0 = run sim0 on model0
             plot task0.time vs task0.S1
         """
-        exp = te.experiment(self.a1, p)
+        exp = experiment(self.a1, p)
         self.checkKisaoIntegrator(exp, 'KISAO:0000288', 'cvode')
         exp.execute()
         pycode = exp._toPython(p)
@@ -342,7 +348,7 @@ class tePhrasedMLTestCase(unittest.TestCase):
             task0 = run sim0 on model0
             plot task0.time vs task0.S1
         """
-        exp = te.experiment(self.a1, p)
+        exp = experiment(self.a1, p)
         self.checkKisaoIntegrator(exp, 'KISAO:0000280', 'cvode')
         exp.execute()
         pycode = exp._toPython(p)
@@ -350,8 +356,7 @@ class tePhrasedMLTestCase(unittest.TestCase):
         self.assertTrue("integrator.setValue('stiff', False)" in pycode)
 
 
-    # Fails due to : https://github.com/sys-bio/roadrunner/issues/307
-    '''
+    @pytest.mark.skip(reason="bug in roadrunner")
     def test_kisao_rk45_1(self):
         p = """
             model0 = model "m1"
@@ -360,10 +365,11 @@ class tePhrasedMLTestCase(unittest.TestCase):
             task0 = run sim0 on model0
             plot task0.time vs task0.S1
         """
-        exp = te.experiment(self.a1, p)
+        exp = experiment(self.a1, p)
         self.checkKisaoIntegrator(exp, 'KISAO:0000435', 'rk45')
         exp.execute()
 
+    @pytest.mark.skip(reason="bug in roadrunner")
     def test_kisao_rk45_2(self):
         p = """
             model0 = model "m1"
@@ -372,10 +378,10 @@ class tePhrasedMLTestCase(unittest.TestCase):
             task0 = run sim0 on model0
             plot task0.time vs task0.S1
         """
-        exp = te.experiment(self.a1, p)
+        exp = experiment(self.a1, p)
         self.checkKisaoIntegrator(exp, 'KISAO:0000435', 'rk45')
         exp.execute()
-    '''
+
 
     def checkKisaoAlgorithmParameter(self, exp, kisao, name, value):
         """ Helper function for checking kisao parameter. """
@@ -425,7 +431,7 @@ class tePhrasedMLTestCase(unittest.TestCase):
             task0 = run sim0 on model0
             plot task0.time vs task0.S1
         """
-        exp = te.experiment(self.a1, p)
+        exp = experiment(self.a1, p)
         self.checkKisaoAlgorithmParameter(exp, 'KISAO:0000209', 'relative_tolerance', 1E-8)
         exp.execute()
 
@@ -437,7 +443,7 @@ class tePhrasedMLTestCase(unittest.TestCase):
             task0 = run sim0 on model0
             plot task0.time vs task0.S1
         """
-        exp = te.experiment(self.a1, p)
+        exp = experiment(self.a1, p)
         self.checkKisaoAlgorithmParameter(exp, 'KISAO:0000209', 'relative_tolerance', 1E-8)
         exp.execute()
 
@@ -449,7 +455,7 @@ class tePhrasedMLTestCase(unittest.TestCase):
             task0 = run sim0 on model0
             plot task0.time vs task0.S1
         """
-        exp = te.experiment(self.a1, p)
+        exp = experiment(self.a1, p)
         self.checkKisaoAlgorithmParameter(exp, 'KISAO:0000211', 'absolute_tolerance', 1E-8)
         exp.execute()
 
@@ -461,7 +467,7 @@ class tePhrasedMLTestCase(unittest.TestCase):
             task0 = run sim0 on model0
             plot task0.time vs task0.S1
         """
-        exp = te.experiment(self.a1, p)
+        exp = experiment(self.a1, p)
         self.checkKisaoAlgorithmParameter(exp, 'KISAO:0000211', 'absolute_tolerance', 1E-8)
         exp.execute()
 
@@ -473,7 +479,7 @@ class tePhrasedMLTestCase(unittest.TestCase):
             task0 = run sim0 on model0
             plot task0.time vs task0.S1
         """
-        exp = te.experiment(self.a1, p)
+        exp = experiment(self.a1, p)
         self.checkKisaoAlgorithmParameter(exp, 'KISAO:0000220', 'maximum_bdf_order', 4)
         exp.execute()
 
@@ -485,7 +491,7 @@ class tePhrasedMLTestCase(unittest.TestCase):
             task0 = run sim0 on model0
             plot task0.time vs task0.S1
         """
-        exp = te.experiment(self.a1, p)
+        exp = experiment(self.a1, p)
         self.checkKisaoAlgorithmParameter(exp, 'KISAO:0000220', 'maximum_bdf_order', 4)
         exp.execute()
 
@@ -497,7 +503,7 @@ class tePhrasedMLTestCase(unittest.TestCase):
             task0 = run sim0 on model0
             plot task0.time vs task0.S1
         """
-        exp = te.experiment(self.a1, p)
+        exp = experiment(self.a1, p)
         self.checkKisaoAlgorithmParameter(exp, 'KISAO:0000219', 'maximum_adams_order', 5)
         exp.execute()
 
@@ -509,7 +515,7 @@ class tePhrasedMLTestCase(unittest.TestCase):
             task0 = run sim0 on model0
             plot task0.time vs task0.S1
         """
-        exp = te.experiment(self.a1, p)
+        exp = experiment(self.a1, p)
         self.checkKisaoAlgorithmParameter(exp, 'KISAO:0000219', 'maximum_adams_order', 5)
         exp.execute()
 
@@ -521,7 +527,7 @@ class tePhrasedMLTestCase(unittest.TestCase):
             task0 = run sim0 on model0
             plot task0.time vs task0.S1
         """
-        exp = te.experiment(self.a1, p)
+        exp = experiment(self.a1, p)
         self.checkKisaoAlgorithmParameter(exp, 'KISAO:0000415', 'maximum_num_steps', 10000)
         exp.execute()
 
@@ -533,7 +539,7 @@ class tePhrasedMLTestCase(unittest.TestCase):
             task0 = run sim0 on model0
             plot task0.time vs task0.S1
         """
-        exp = te.experiment(self.a1, p)
+        exp = experiment(self.a1, p)
         self.checkKisaoAlgorithmParameter(exp, 'KISAO:0000415', 'maximum_num_steps', 10000)
         exp.execute()
 
@@ -546,7 +552,7 @@ class tePhrasedMLTestCase(unittest.TestCase):
             task0 = run sim0 on model0
             plot task0.time vs task0.S1
         """
-        exp = te.experiment(self.a1, p)
+        exp = experiment(self.a1, p)
         self.checkKisaoAlgorithmParameter(exp, 'KISAO:0000467', 'maximum_time_step', 1.0)
         exp.execute()
 
@@ -558,10 +564,11 @@ class tePhrasedMLTestCase(unittest.TestCase):
             task0 = run sim0 on model0
             plot task0.time vs task0.S1
         """
-        exp = te.experiment(self.a1, p)
+        exp = experiment(self.a1, p)
         self.checkKisaoAlgorithmParameter(exp, 'KISAO:0000467', 'maximum_time_step', 1.0)
         exp.execute()
 
+    @pytest.mark.skip(reason="bug in roadrunner")
     def test_kisao_minimum_time_step_1(self):
         p = """
             model0 = model "m1"
@@ -574,6 +581,7 @@ class tePhrasedMLTestCase(unittest.TestCase):
         self.checkKisaoAlgorithmParameter(exp, 'KISAO:0000485', 'minimum_time_step', 1E-6)
         exp.execute()
 
+    @pytest.mark.skip(reason="bug in roadrunner")
     def test_kisao_minimum_time_step_2(self):
         p = """
             model0 = model "m1"
@@ -594,7 +602,7 @@ class tePhrasedMLTestCase(unittest.TestCase):
             task0 = run sim0 on model0
             plot task0.time vs task0.S1
         """
-        exp = te.experiment(self.a1, p)
+        exp = experiment(self.a1, p)
         self.checkKisaoAlgorithmParameter(exp, 'KISAO:0000332', 'initial_time_step', 0.01)
         exp.execute()
 
@@ -606,7 +614,7 @@ class tePhrasedMLTestCase(unittest.TestCase):
             task0 = run sim0 on model0
             plot task0.time vs task0.S1
         """
-        exp = te.experiment(self.a1, p)
+        exp = experiment(self.a1, p)
         self.checkKisaoAlgorithmParameter(exp, 'KISAO:0000332', 'initial_time_step', 0.01)
         exp.execute()
 
@@ -618,7 +626,7 @@ class tePhrasedMLTestCase(unittest.TestCase):
             task0 = run sim0 on model0
             plot task0.time vs task0.S1
         """
-        exp = te.experiment(self.a1, p)
+        exp = experiment(self.a1, p)
         self.checkKisaoAlgorithmParameter(exp, 'KISAO:0000107', 'variable_step_size', True)
         exp.execute()
 
@@ -630,7 +638,7 @@ class tePhrasedMLTestCase(unittest.TestCase):
             task0 = run sim0 on model0
             plot task0.time vs task0.S1
         """
-        exp = te.experiment(self.a1, p)
+        exp = experiment(self.a1, p)
         self.checkKisaoAlgorithmParameter(exp, 'KISAO:0000107', 'variable_step_size', True)
         exp.execute()
 
@@ -643,7 +651,7 @@ class tePhrasedMLTestCase(unittest.TestCase):
             task0 = run sim0 on model0
             plot task0.time vs task0.S1
         """
-        exp = te.experiment(self.a1, p)
+        exp = experiment(self.a1, p)
         self.checkKisaoAlgorithmParameter(exp, 'KISAO:0000486', 'maximum_iterations', 10)
         exp.execute()
 
@@ -655,7 +663,7 @@ class tePhrasedMLTestCase(unittest.TestCase):
             task0 = run sim0 on model0
             plot task0.time vs task0.S1
         """
-        exp = te.experiment(self.a1, p)
+        exp = experiment(self.a1, p)
         self.checkKisaoAlgorithmParameter(exp, 'KISAO:0000486', 'maximum_iterations', 10)
         exp.execute()
 
@@ -667,7 +675,7 @@ class tePhrasedMLTestCase(unittest.TestCase):
             task0 = run sim0 on model0
             plot task0.time vs task0.S1
         """
-        exp = te.experiment(self.a1, p)
+        exp = experiment(self.a1, p)
         self.checkKisaoAlgorithmParameter(exp, 'KISAO:0000487', 'minimum_damping', 1.0)
         exp.execute()
 
@@ -679,7 +687,7 @@ class tePhrasedMLTestCase(unittest.TestCase):
             task0 = run sim0 on model0
             plot task0.time vs task0.S1
         """
-        exp = te.experiment(self.a1, p)
+        exp = experiment(self.a1, p)
         self.checkKisaoAlgorithmParameter(exp, 'KISAO:0000487', 'minimum_damping', 1.0)
         print(exp._toPython(p))
         exp.execute()
@@ -692,7 +700,7 @@ class tePhrasedMLTestCase(unittest.TestCase):
             task0 = run sim0 on model0
             plot task0.time vs task0.S1
         """
-        exp = te.experiment(self.a1, p)
+        exp = experiment(self.a1, p)
         self.checkKisaoAlgorithmParameter(exp, 'KISAO:0000488', 'seed', 1234)
         exp.execute()
 
@@ -704,7 +712,7 @@ class tePhrasedMLTestCase(unittest.TestCase):
             task0 = run sim0 on model0
             plot task0.time vs task0.S1
         """
-        exp = te.experiment(self.a1, p)
+        exp = experiment(self.a1, p)
         self.checkKisaoAlgorithmParameter(exp, 'KISAO:0000488', 'seed', 1234)
         exp.execute()
 

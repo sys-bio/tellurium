@@ -7,10 +7,18 @@ In build in python are
     and, or, not
 
 """
-from __future__ import print_function, division
-from builtins import range
+from __future__ import absolute_import, print_function, division
+
+try:
+    from builtins import range
+except ImportError:
+    pass  # not available in py2.7
+
 from math import *
-import tesbml as libsbml
+try:
+    import tesbml as libsbml
+except:
+    import libsbml
 import operator
 
 def product(*args):

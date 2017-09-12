@@ -3,6 +3,7 @@ Template functions to run the example cases.
 """
 from __future__ import print_function
 import tellurium as te
+from tellurium.sedml.tephrasedml import experiment
 import os
 
 
@@ -15,7 +16,7 @@ def run_case(call_file, antimonyStr, phrasedmlStr, py_code=True):
     :return:
     """
     # phrasedml experiment
-    exp = te.experiment(antimonyStr, phrasedmlStr)
+    exp = experiment(antimonyStr, phrasedmlStr)
 
     # output dir relative to call file
     workingDir = os.path.join(os.path.dirname(call_file), './results')

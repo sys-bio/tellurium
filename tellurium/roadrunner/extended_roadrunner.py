@@ -1,5 +1,11 @@
+"""
+Extending the RoadRunner object with additional fields.
+"""
+
 from __future__ import print_function, division, absolute_import
+import os
 import roadrunner
+import warnings
 
 # ---------------------------------------------------------------------
 # Extended RoadRunner class
@@ -269,17 +275,13 @@ class ExtendedRoadRunner(roadrunner.RoadRunner):
             warnings.warn("Graphviz is not installed in your machine. 'draw' command cannot produce a diagram",
                 Warning, stacklevel=2)
         else:
-            if any('SPYDER' in name for name in os.environ):
-                from tellurium.visualization.sbmldiagram import SBMLDiagram
-            else:
-                from visualization.sbmldiagram import SBMLDiagram
-            
+            from tellurium.visualization.sbmldiagram import SBMLDiagram
             diagram = SBMLDiagram(self.getSBML())
             diagram.draw(**kwargs)
 
     def plot(self, result=None, show=True,
              xlabel=None, ylabel=None, title=None, xlim=None, ylim=None,
-             xscale='linear', yscale='linear', grid=False, ordinates=None, tag=None, alpha=None):
+             xscale='linear', yscale='linear', grid=False, ordinates=None, tag=None, alpha=None, **kwargs):
         """ Plot roadrunner simulation data.
 
         Plot is called with simulation data to plot as the first argument. If no data is provided the data currently
@@ -334,11 +336,12 @@ class ExtendedRoadRunner(roadrunner.RoadRunner):
 
         from .. import getPlottingEngine
 
-        # if show is true, show the plot immediately
         if show:
-            getPlottingEngine().plotTimecourse(result, ordinates=ordinates, tag=tag, xtitle=xlabel, alpha=alpha)
-        else: # otherwise, accumulate the traces
-            getPlottingEngine().accumulateTimecourse(result, ordinates=ordinates, tag=tag, xtitle=xlabel, alpha=alpha)
+            # if show is true, show the plot immediately
+            getPlottingEngine().plotTimecourse(result, ordinates=ordinates, tag=tag, xtitle=xlabel, alpha=alpha, **kwargs)
+        else:
+            # otherwise, accumulate the traces
+            getPlottingEngine().accumulateTimecourse(result, ordinates=ordinates, tag=tag, xtitle=xlabel, alpha=alpha, **kwargs)
 
         # Old code:
         # if loc is False:
@@ -402,7 +405,7 @@ class ExtendedRoadRunner(roadrunner.RoadRunner):
     def plotWithLegend(self, result=None, loc='upper left', show=True, **kwargs):
         warnings.warn("'plotWithLegend' is deprecated. Use 'plot' instead. Will be removed in tellurium v1.4",
                       DeprecationWarning, stacklevel=2)
-        return self.plot(result=result, loc=loc, show=show, **kwargs)
+        return self.plot(result=result, show=show, **kwargs)
 
     def simulateAndPlot(self, start, end, points, **kwargs):
         """ Run simulation and plot the results.

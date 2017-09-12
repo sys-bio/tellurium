@@ -5,7 +5,7 @@
 # develop install via
 # pip install -e .
 ###################################
-from setuptools import setup  # allows 'python setup.py develop'
+from setuptools import setup
 import os
 try:
     with open(os.path.join(os.path.dirname(__file__), 'VERSION.txt'), 'r') as f:
@@ -38,8 +38,30 @@ setup(name='tellurium',
           "tellurium.sedml": ["templates/*.template"],
       },
       install_requires=[
-          'libroadrunner>=1.4.16', 'antimony>=2.9.1', 'phrasedml>=1.0.5',
-          'tesbml>=5.15.0', 'tesedml>=0.4.2', 'tecombine>=0.2.0',
-          'pandas>=0.19.2', 'matplotlib>=2.0.0', 'appdirs>=1.4.3',
+          'numpy>=1.13.1',
+          'scipy>=0.19.1',
+          'matplotlib>=2.0.2',
+          'pandas>=0.20.3',
+          'libroadrunner>=1.4.18',
+          'python-libsbml>=5.15.0',
+          'python-libsedml>=0.4.1',
+          # 'tesbml',
+          # 'tesedml',
+          'python-libnuml>=1.0.1',
+          'python-libcombine>=0.2.1',
+          'phrasedml>=1.0.6',
+          'antimony>=2.9.3',
+
+          'rrplugins>=1.1.8',
+          'sbml2matlab>=0.9.1',
+
+          'appdirs>=1.4.3',
+          'ipywidgets',
+          'bioservices',
+          'ipython',
+          'jinja2',
+          'plotly',
+          'pytest',
+          'nose',
           ]
       )

@@ -2,7 +2,11 @@ from __future__ import print_function, division, absolute_import
 
 import os, re
 
-from tecombine import CombineArchive, OmexDescription, VCard, KnownFormats
+try:
+    from tecombine import CombineArchive, OmexDescription, VCard, KnownFormats
+except ImportError:
+    from libcombine import CombineArchive, OmexDescription, VCard, KnownFormats
+
 from .convert_phrasedml import phrasedmlImporter
 from .convert_antimony import antimonyConverter
 import shutil, os, tempfile, getpass, json

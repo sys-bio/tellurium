@@ -64,7 +64,10 @@ import re
 
 import tellurium as te
 import roadrunner
-import tesedml as libsedml
+try:
+    import tesedml as libsedml
+except ImportError:
+    import libsedml
 from xml.etree import ElementTree as et
 
 
@@ -712,7 +715,7 @@ class OpenCombine(object):
             else:
                 raise Exception("Unsupported file type")
             man.insert(-1, value)
-        man = "\n".join(man)
+        man = "\n".join([str(item) for item in man])
         self.removeFile(r'manifest.xml')
 
         zf = ZipFile(self.combinePath, 'a')

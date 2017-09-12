@@ -76,14 +76,19 @@ The Output Class
 # TODO: better handling of model.reset for task tree
 # FIXME: rk4 integration not working on linux (https://github.com/sys-bio/roadrunner/issues/307)
 
-from __future__ import print_function, division
+from __future__ import print_function, division, absolute_import
 
-import sys, os, os.path, warnings
-import datetime, zipfile
+import sys
+import os
+import os.path
+import warnings
+import datetime
+import zipfile
 from collections import namedtuple
 import re
 import numpy as np
 import roadrunner
+
 try:
     from jinja2 import Environment, FileSystemLoader
 except:
@@ -91,19 +96,24 @@ except:
 from .mathml import evaluableMathML
 
 try:
-    import tesedml as libsedml
-    # import libsedml before libsbml to handle
-    # https://github.com/fbergmann/libSEDML/issues/21
+    try:
+        import tesedml as libsedml
+        # import libsedml before libsbml to handle
+        # https://github.com/fbergmann/libSEDML/issues/21
+    except ImportError:
+        import libsedml
+
 except ImportError as e:
     libsedml = None
     roadrunner.Logger.log(roadrunner.Logger.LOG_WARNING, str(e))
     warnings.warn("'libsedml' could not be imported", ImportWarning, stacklevel=2)
 
+
 import tellurium as te
 from tellurium.tecombine import CombineArchive
 
 try:
-    # requrired imports within generated code
+    # required imports within generated code
     import pandas
     import matplotlib.pyplot as plt
     import mpl_toolkits.mplot3d
@@ -112,21 +122,6 @@ except ImportError:
 
 
 ######################################################################################################################
-
-def sedml_to_python(input):
-    """ Convert sedml file to python code.
-
-    Deprecated: use sedmlToPython()
-
-    :param inputstring:
-    :type inputstring:
-    :return:
-    :rtype:
-    """
-    warnings.warn('Use sedmlToPython instead, will be removed in v1.4',
-                  DeprecationWarning, stacklevel=2)
-    return sedmlToPython(input)
-
 
 def sedmlToPython(inputStr):
     """ Convert sedml file to python code.
@@ -169,7 +164,11 @@ def executeOMEX(omexPath, workingDir=None):
     :type workingDir: directory path
 
     """
+    warnings.warn("'executeOMEX' is deprecated. Use the 'executeSEDML' instead.",
+                  DeprecationWarning, stacklevel=2)
     filename, extension = os.path.splitext(os.path.basename(omexPath))
+
+
 
     # Archive
     if zipfile.is_zipfile(omexPath):
@@ -195,7 +194,10 @@ def executeOMEX(omexPath, workingDir=None):
             dgs[sedmlFile] = sedml_dgs
         return dgs
     else:
-        raise IOError("File is not an OMEX Combine Archive in zip format: {}".format(omexPath))
+        if not os.path.exists(omexPath):
+            raise FileNotFoundError("File does not exist: {}".format(omexPath))
+        else:
+            raise IOError("File is not an OMEX Combine Archive in zip format: {}".format(omexPath))
 
 
 
@@ -437,6 +439,9 @@ class SEDMLCodeFactory(object):
         language = model.getLanguage()
         source = self.model_sources[mid]
 
+        if len(language):
+            warnings.warn("No model language specified, defaulting to SBML for: {}".format(source))
+
         def isUrn():
             return source.startswith('urn') or source.startswith('URN')
 
@@ -444,7 +449,7 @@ class SEDMLCodeFactory(object):
             return source.startswith('http') or source.startswith('HTTP')
 
         # read SBML
-        if 'sbml' in language:
+        if 'sbml' in language or len(language) == 0:
             if isUrn():
                 lines.append("import tellurium.temiriam as temiriam")
                 lines.append("__{}_sbml = temiriam.getSBMLFromBiomodelsURN('{}')".format(mid, source))
@@ -452,8 +457,6 @@ class SEDMLCodeFactory(object):
             elif isHttp():
                 lines.append("{} = te.loadSBMLModel('{}')".format(mid, source))
             else:
-                if not source.endswith('.xml'):
-                    source = source + '.xml'
                 lines.append("{} = te.loadSBMLModel(os.path.join(workingDir, '{}'))".format(mid, source))
         # read CellML
         elif 'cellml' in language:
@@ -463,7 +466,7 @@ class SEDMLCodeFactory(object):
                 lines.append("{} = te.loadCellMLModel(os.path.join(workingDir, '{}'))".format(mid, self.model_sources[mid]))
         # other
         else:
-            warnings.warn("Unsupported model language:".format(language))
+            warnings.warn("Unsupported model language: '{}'".format(language))
 
         # apply model changes
         for change in self.model_changes[mid]:
@@ -1755,6 +1758,7 @@ class SEDMLTools(object):
 
         return model_sources, all_changes
 
+
 def process_trace(trace):
     """ If each entry in the task consists of a single point
     (e.g. steady state scan), concatenate the points.
@@ -1773,11 +1777,12 @@ def process_trace(trace):
     else:
         return np.atleast_1d(trace)
 
+
 def terminate_trace(trace):
     """ If each entry in the task consists of a single point
     (e.g. steady state scan), concatenate the points.
     Otherwise, plot as separate curves."""
-    if isinstance(trace,list):
+    if isinstance(trace, list):
         if len(trace) > 0 and not isinstance(trace[-1], list) and not isinstance(trace[-1], dict):
             # if len(trace) > 2 and isinstance(trace[-1], dict):
             # e = np.array(trace[-1], copy=True)

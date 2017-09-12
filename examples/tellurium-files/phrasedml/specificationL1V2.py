@@ -5,11 +5,12 @@ Use Biomodels in phrasedml.
 from __future__ import print_function
 import tellurium as te
 from tellurium.sedml import tesedml
+from tellurium import temiriam
 import phrasedml
 
 # Get SBML from URN and set for phrasedml
 urn = "urn:miriam:biomodels.db:BIOMD0000000012"
-sbmlStr = te.temiriam.getSBMLFromBiomodelsURN(urn=urn)
+sbmlStr = temiriam.getSBMLFromBiomodelsURN(urn=urn)
 phrasedml.setReferencedSBML(urn, sbmlStr)
 
 # <SBML species>

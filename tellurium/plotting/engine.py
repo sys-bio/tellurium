@@ -1,8 +1,11 @@
 from __future__ import print_function, division, absolute_import
 
+
 from collections import defaultdict
-import itertools, numpy as np
+import itertools
+import numpy as np
 from functools import reduce
+
 
 def filterWithSelections(self, name, selections):
     """ This function is intended to be used as an argument to the filter built-in.
@@ -122,6 +125,7 @@ class PlottingEngine(object):
     def __init__(self):
         self.fig = None
 
+
     def figureFromXY(self, x, y, **kwargs):
         """ Generate a new figure from x/y data.
 
@@ -144,6 +148,7 @@ class PlottingEngine(object):
 
         return fig
 
+
     def plot(self, x, y, show=True, **kwargs):
         """ Plot x & y data.
 
@@ -160,7 +165,8 @@ class PlottingEngine(object):
             self.fig = None
         return fig
 
-    def plotTimecourse(self, m, title=None, ordinates=None, tag=None, xtitle=None, logy=False, ytitle=None, alpha=None):
+    def plotTimecourse(self, m, title=None, ordinates=None, tag=None, xtitle=None, logy=False, ytitle=None, alpha=None, **kwargs):
+
         """ Plots a timecourse from a simulation.
 
         :param m: An array returned by RoadRunner.simulate.
@@ -170,7 +176,7 @@ class PlottingEngine(object):
             fig.xtitle = xtitle
         fig.render()
 
-    def accumulateTimecourse(self, m, title=None, ordinates=None, tag=None, xtitle=None, logy=False, ytitle=None, alpha=None):
+    def accumulateTimecourse(self, m, title=None, ordinates=None, tag=None, xtitle=None, logy=False, ytitle=None, alpha=None, **kwargs):
         """ Accumulates the traces instead of plotting (like matplotlib with show=False).
         Call show() to show the plot.
 
@@ -184,7 +190,7 @@ class PlottingEngine(object):
 
         for k in range(1,m.shape[1]):
             t = tag if tag else m.colnames[k]
-            self.fig.addXYDataset(m[:,0], m[:,k], name=m.colnames[k], tag=t, alpha=alpha)
+            self.fig.addXYDataset(m[:,0], m[:, k], name=m.colnames[k], tag=t, alpha=alpha)
 
         if xtitle:
             self.fig.xtitle = xtitle
