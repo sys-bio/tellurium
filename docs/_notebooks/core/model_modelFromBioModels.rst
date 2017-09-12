@@ -33,18 +33,6 @@ URL to directly load ``BIOMD0000000010``.
     <script>requirejs.config({paths: { 'plotly': ['https://cdn.plot.ly/plotly-latest.min']},});if(!window.Plotly) {{require(['plotly'],function(plotly) {window.Plotly=plotly;});}}</script>
 
 
-.. parsed-literal::
 
-    /home/poltergeist/.config/Tellurium/telocal/python-3.6.1/lib/python3.6/site-packages/matplotlib/__init__.py:1405: UserWarning:
-    
-    
-    This call to matplotlib.use() has no effect because the backend has already
-    been chosen; matplotlib.use() must be called *before* pylab, matplotlib.pyplot,
-    or matplotlib.backends is imported for the first time.
-    
-    
-
-
-
-.. image:: _notebooks/core/model_modelFromBioModels_files/model_modelFromBioModels_2_3.png
+.. image:: _notebooks/core/model_modelFromBioModels_files/model_modelFromBioModels_2_2.png
 

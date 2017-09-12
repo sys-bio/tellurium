@@ -93,18 +93,6 @@ simulation.
 
 .. parsed-literal::
 
-    /home/poltergeist/.config/Tellurium/telocal/python-3.6.1/lib/python3.6/site-packages/matplotlib/__init__.py:1405: UserWarning:
-    
-    
-    This call to matplotlib.use() has no effect because the backend has already
-    been chosen; matplotlib.use() must be called *before* pylab, matplotlib.pyplot,
-    or matplotlib.backends is imported for the first time.
-    
-    
-
-
-.. parsed-literal::
-
     --------------------------------------------------------------------------------
     tellurium : 2.0.0
     roadrunner : 1.4.21; Compiler: gcc 4.8.2, C++ version: 199711; JIT Compiler: LLVM-3.3; Date: Jul  5 2017, 18:38:02; LibSBML Version: 5.14.0
@@ -133,6 +121,10 @@ simulation.
 
 
 
+.. image:: _notebooks/core/antimonyExample_files/antimonyExample_2_3.png
+
+
+
 .. image:: _notebooks/core/antimonyExample_files/antimonyExample_2_4.png
 
 
@@ -142,10 +134,6 @@ simulation.
 
 
 .. image:: _notebooks/core/antimonyExample_files/antimonyExample_2_6.png
-
-
-
-.. image:: _notebooks/core/antimonyExample_files/antimonyExample_2_7.png
 
 
 .. code-block:: python
