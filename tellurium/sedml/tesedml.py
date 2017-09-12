@@ -164,6 +164,8 @@ def executeOMEX(omexPath, workingDir=None):
     :type workingDir: directory path
 
     """
+    warnings.warn("'executeOMEX' is deprecated. Use the 'executeSEDML' instead.",
+                  DeprecationWarning, stacklevel=2)
     filename, extension = os.path.splitext(os.path.basename(omexPath))
 
     # Archive
