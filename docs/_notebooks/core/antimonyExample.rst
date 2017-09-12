@@ -1,9 +1,18 @@
 
 
-Antimony model building
-~~~~~~~~~~~~~~~~~~~~~~~
+Simulating Models
+~~~~~~~~~~~~~~~~~
 
-Description Text
+Antimony models can be converted into a ``RoadRunner`` instance, which
+can be used to simulate the model. The function ``loada`` converts
+Antimony into a simulator instance. This example shows how to get the
+Antimony / SBML representation of the current state of the model. After
+running a simulation, the concentraions of the state variables will
+change. You can retrieve the Antimony representation of the current
+state of the model using ``getCurrentAntimony`` on the ``RoadRunner``
+instance. This example shows the change in the Antimony / SBML
+representation. The example also shows how to use variable stepping in a
+simulation.
 
 .. code:: python
 
@@ -21,204 +30,122 @@ Description Text
     end
     ''')
     
-    # look at model
-    ant_str = r.getCurrentAntimony()
-    sbml_str = r.getCurrentSBML()
-    print(ant_str)
-    print(sbml_str)
-    # r.exportToSBML('/home/mkoenig/Desktop/test.xml')
+    # convert current state of model back to Antimony / SBML
+    ant_str_before = r.getCurrentAntimony()
+    sbml_str_before = r.getCurrentSBML()
+    # r.exportToSBML('/path/to/test.xml')
     
     # set selections
     r.selections=['time', 'p1']
     r.integrator.setValue("variable_step_size", False)
+    r.resetAll()
     s1 = r.simulate(0, 40, 40)
     r.plot()
-    print(s1)
     # hitting the trigger point directly works
+    r.resetAll()
     s2 = r.simulate(0, 40, 21)
     r.plot()
-    print(s2)
     
     # variable step size also does not work
     r.integrator.setValue("variable_step_size", True)
+    r.resetAll()
     s3 = r.simulate(0, 40)
     r.plot()
-    print(s3)
+    
+    
+    # convert current state of model back to Antimony / SBML
+    ant_str_after = r.getCurrentAntimony()
+    sbml_str_after = r.getCurrentSBML()
+    
+    import difflib
+    print("Comparing Antimony at time 0 & 40 (expect no differences)")
+    print('\n'.join(list(difflib.unified_diff(ant_str_before.splitlines(), ant_str_after.splitlines(), fromfile="before.sb", tofile="after.sb"))))
+    
+    # now simulate up to time 15
+    r.resetAll()
+    s4 = r.simulate(0, 15)
+    r.plot()
+    
+    
+    # convert current state of model back to Antimony / SBML
+    ant_str_after2 = r.getCurrentAntimony()
+    sbml_str_after2 = r.getCurrentSBML()
+    
+    print("Comparing Antimony at time 0 & 15")
+    print('\n'.join(list(difflib.unified_diff(ant_str_before.splitlines(), ant_str_after2.splitlines(), fromfile="before.sb", tofile="after.sb"))))
+
+
+.. parsed-literal::
+
+    /home/poltergeist/.config/Tellurium/telocal/python-3.6.1/lib/python3.6/site-packages/matplotlib/__init__.py:1405: UserWarning: 
+    This call to matplotlib.use() has no effect because the backend has already
+    been chosen; matplotlib.use() must be called *before* pylab, matplotlib.pyplot,
+    or matplotlib.backends is imported for the first time.
+    
+      warnings.warn(_use_error_msg)
+
+
+
+.. raw:: html
+
+    <script>requirejs.config({paths: { 'plotly': ['https://cdn.plot.ly/plotly-latest.min']},});if(!window.Plotly) {{require(['plotly'],function(plotly) {window.Plotly=plotly;});}}</script>
+
+
+.. parsed-literal::
+
+    /home/poltergeist/.config/Tellurium/telocal/python-3.6.1/lib/python3.6/site-packages/matplotlib/__init__.py:1405: UserWarning:
+    
+    
+    This call to matplotlib.use() has no effect because the backend has already
+    been chosen; matplotlib.use() must be called *before* pylab, matplotlib.pyplot,
+    or matplotlib.backends is imported for the first time.
+    
+    
 
 
 .. parsed-literal::
 
     --------------------------------------------------------------------------------
-    tellurium : 1.3.5
-    roadrunner : 1.4.8; Compiler: gcc 5.4.0, C++ version: 199711; JIT Compiler: LLVM-3.5; Date: Oct 21 2016, 09:52:28; LibSBML Version: 5.13.0
-    antimony : v2.9.0
-    snbw_viewer : No information for sbnw viewer
-    libsbml : 5.14.1
+    tellurium : 2.0.0
+    roadrunner : 1.4.21; Compiler: gcc 4.8.2, C++ version: 199711; JIT Compiler: LLVM-3.3; Date: Jul  5 2017, 18:38:02; LibSBML Version: 5.14.0
+    antimony : 2.9.3
+    libsbml : 5.15.0
     libsedml : 402
-    phrasedml : v1.0.3
+    phrasedml : 1.0.7
     --------------------------------------------------------------------------------
-    // Created by libAntimony v2.9.0
-    model *example()
+    Comparing Antimony at time 0 & 40 (expect no differences)
     
-      // Events:
-      _E0: at time >= 10: p1 = 10;
-      _E1: at time >= 20: p1 = 0;
+    Comparing Antimony at time 0 & 15
+    --- before.sb
     
-      // Variable initializations:
-      p1 = 0;
+    +++ after.sb
     
-      // Other declarations:
-      var p1;
-    end
+    @@ -6,7 +6,7 @@
     
-    <?xml version="1.0" encoding="UTF-8"?>
-    <sbml xmlns="http://www.sbml.org/sbml/level3/version1/core" level="3" version="1">
-      <model id="example" name="example">
-        <listOfParameters>
-          <parameter id="p1" value="0" constant="false"/>
-        </listOfParameters>
-        <listOfEvents>
-          <event id="_E0" useValuesFromTriggerTime="true">
-            <trigger initialValue="true" persistent="true">
-              <math xmlns="http://www.w3.org/1998/Math/MathML">
-                <apply>
-                  <geq/>
-                  <csymbol encoding="text" definitionURL="http://www.sbml.org/sbml/symbols/time"> time </csymbol>
-                  <cn type="integer"> 10 </cn>
-                </apply>
-              </math>
-            </trigger>
-            <listOfEventAssignments>
-              <eventAssignment variable="p1">
-                <math xmlns="http://www.w3.org/1998/Math/MathML">
-                  <cn type="integer"> 10 </cn>
-                </math>
-              </eventAssignment>
-            </listOfEventAssignments>
-          </event>
-          <event id="_E1" useValuesFromTriggerTime="true">
-            <trigger initialValue="true" persistent="true">
-              <math xmlns="http://www.w3.org/1998/Math/MathML">
-                <apply>
-                  <geq/>
-                  <csymbol encoding="text" definitionURL="http://www.sbml.org/sbml/symbols/time"> time </csymbol>
-                  <cn type="integer"> 20 </cn>
-                </apply>
-              </math>
-            </trigger>
-            <listOfEventAssignments>
-              <eventAssignment variable="p1">
-                <math xmlns="http://www.w3.org/1998/Math/MathML">
-                  <cn type="integer"> 0 </cn>
-                </math>
-              </eventAssignment>
-            </listOfEventAssignments>
-          </event>
-        </listOfEvents>
-      </model>
-    </sbml>
-    
+       _E1: at time >= 20: p1 = 0;
+     
+       // Variable initializations:
+    -  p1 = 0;
+    +  p1 = 10;
+     
+       // Other declarations:
+       var p1;
 
 
 
-.. image:: _notebooks/core/antimonyExample_files/antimonyExample_2_1.png
-
-
-.. parsed-literal::
-
-           time, p1
-     [[       0,  0],
-      [ 1.02564,  0],
-      [ 2.05128,  0],
-      [ 3.07692,  0],
-      [ 4.10256,  0],
-      [ 5.12821,  0],
-      [ 6.15385,  0],
-      [ 7.17949,  0],
-      [ 8.20513,  0],
-      [ 9.23077,  0],
-      [ 10.2564, 10],
-      [ 11.2821, 10],
-      [ 12.3077, 10],
-      [ 13.3333, 10],
-      [  14.359, 10],
-      [ 15.3846, 10],
-      [ 16.4103, 10],
-      [ 17.4359, 10],
-      [ 18.4615, 10],
-      [ 19.4872, 10],
-      [ 20.5128,  0],
-      [ 21.5385,  0],
-      [ 22.5641,  0],
-      [ 23.5897,  0],
-      [ 24.6154,  0],
-      [  25.641,  0],
-      [ 26.6667,  0],
-      [ 27.6923,  0],
-      [ 28.7179,  0],
-      [ 29.7436,  0],
-      [ 30.7692,  0],
-      [ 31.7949,  0],
-      [ 32.8205,  0],
-      [ 33.8462,  0],
-      [ 34.8718,  0],
-      [ 35.8974,  0],
-      [ 36.9231,  0],
-      [ 37.9487,  0],
-      [ 38.9744,  0],
-      [      40,  0]]
-    
-
-
-
-.. image:: _notebooks/core/antimonyExample_files/antimonyExample_2_3.png
-
-
-.. parsed-literal::
-
-        time, p1
-     [[    0,  0],
-      [    2,  0],
-      [    4,  0],
-      [    6,  0],
-      [    8,  0],
-      [   10, 10],
-      [   12, 10],
-      [   14, 10],
-      [   16, 10],
-      [   18, 10],
-      [   20,  0],
-      [   22,  0],
-      [   24,  0],
-      [   26,  0],
-      [   28,  0],
-      [   30,  0],
-      [   32,  0],
-      [   34,  0],
-      [   36,  0],
-      [   38,  0],
-      [   40,  0]]
-    
+.. image:: _notebooks/core/antimonyExample_files/antimonyExample_2_4.png
 
 
 
 .. image:: _notebooks/core/antimonyExample_files/antimonyExample_2_5.png
 
 
-.. parsed-literal::
 
-             time, p1
-     [[         0,  0],
-      [ 0.0013729,  0],
-      [        10,  0],
-      [        10, 10],
-      [   10.0011, 10],
-      [        20, 10],
-      [        20,  0],
-      [   20.0008,  0],
-      [   28.1642,  0],
-      [        40,  0]]
-    
+.. image:: _notebooks/core/antimonyExample_files/antimonyExample_2_6.png
+
+
+
+.. image:: _notebooks/core/antimonyExample_files/antimonyExample_2_7.png
 
 
 .. code:: python
@@ -230,17 +157,15 @@ Description Text
 
 .. parsed-literal::
 
-             time, p1
-     [[         0,  0],
-      [ 0.0013729,  0],
-      [        10,  0],
-      [        10, 10],
-      [   10.0011, 10],
-      [        20, 10],
-      [        20,  0],
-      [   20.0008,  0],
-      [   28.1642,  0],
-      [        40,  0]]
+               time, p1
+     [[           0,  0],
+      [ 0.000514839,  0],
+      [      5.1489,  0],
+      [          10,  0],
+      [          10, 10],
+      [     10.0002, 10],
+      [     12.2588, 10],
+      [          15, 10]]
 
 
 
