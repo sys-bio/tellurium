@@ -1,15 +1,25 @@
 # python virtual environment
 ## How to setup the VirtualEnvironment for development on linux?
 
-Install the requirements available via pip
+Install stable version from pip
 ```
-git clone https://github.com/sys-bio/tellurium
-cd tellurium
 mkvirtualenv tellurium
-(tellurium) pip install -r requirements.txt
+(tellurium) pip install tellurium
 ```
 
-Install tellurium in the virtualenv
+Install latest development version, or feature branch
 ```
+# clone repository
+git clone https://github.com/sys-bio/tellurium
+cd tellurium
+
+# make virtual environment
+mkvirtualenv tellurium
+(tellurium) pip install -r requirements.txt
+
+# checkout branch 
+(tellurium) git checkout master
+
+# install tellurium
 (tellurium) pip install -e .
 ```
