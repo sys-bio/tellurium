@@ -26,9 +26,24 @@ cd ${NBOUTDIR}
 # if errors should abort, remove the --allow-errors option
 # jupyter nbconvert --to=rst --allow-errors --execute $NBDIR/*.ipynb
 # In the process the notebooks are completely executed
-jupyter nbconvert --to=rst --allow-errors --output-dir=${NBOUTDIR} --execute $NBDIR/*.ipynb
+nsucceeded=0
+nfailed=0
+for f in $NBDIR/*.ipynb; do
+    b=$(basename $f)
+    l=$b.log
+    logfile=/tmp/$l
+    echo "Converting $b -> log $logfile"
+    jupyter nbconvert --to=rst --allow-errors --output-dir=${NBOUTDIR} --execute $f >$logfile 2>&1
+    if [ ! $? -eq 0 ]; then
+        echo "  Failed: $l"
+        nfailed=$((nfailed+=1))
+    else
+        nsucceeded=$((nsucceeded+=1))
+    fi
+done
 #jupyter nbconvert --to=rst --allow-errors --output-dir=${NBOUTDIR} --execute $WIDGETDIR/*.ipynb
 echo "DONE converting notebooks"
+echo -e "  Succeeded: $nsucceeded, Failed: $nfailed\n\n"
 
 echo "--------------------------------------"
 echo "postprocessing rst"
