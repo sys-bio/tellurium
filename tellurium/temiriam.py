@@ -27,7 +27,7 @@ def getSBMLFromBiomodelsURN(urn):
         import bioservices
         biomodels = bioservices.BioModels()
         sbml = biomodels.getModelSBMLById(mid)
-        sbml = sbml.encode('utf8')
+        # sbml = sbml.encode('utf8')
     except ImportError:
         # if there are issues with bioservice import, do a workaround
         # see https://github.com/sys-bio/tellurium/issues/125
@@ -44,7 +44,8 @@ def getSBMLFromBiomodelsURN(urn):
 
 if __name__ == "__main__":
     print("Get SBML from URN")
-    urn = 'urn:miriam:biomodels.db:BIOMD0000000003'
+    # urn = 'urn:miriam:biomodels.db:BIOMD0000000003'
+    urn = 'urn:miriam:biomodels.db:BIOMD0000000139'
     sbml = getSBMLFromBiomodelsURN(urn)
     print(sbml)
 

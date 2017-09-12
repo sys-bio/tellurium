@@ -13,7 +13,8 @@ import os.path
 from tellurium.sedml.tesedml import executeOMEX, executeSEDML
 
 omexDir = os.path.dirname(os.path.realpath(__file__))
-omexPath = os.path.join(omexDir, "sedx_files/BIOMD0000000003.sedx")
-workingDir = os.path.join(omexDir, "./results/_te_BIOMD0000000003")
+omexPath = os.path.join(omexDir, "sedx_files/BIOMD0000000139.sedx")
+workingDir = os.path.join(omexDir, "./results/_te_BIOMD0000000139")
 
 executeOMEX(omexPath, workingDir=workingDir)
+# executeSEDML(omexPath, workingDir=workingDir)
