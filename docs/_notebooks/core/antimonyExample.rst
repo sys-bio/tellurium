@@ -14,7 +14,7 @@ instance. This example shows the change in the Antimony / SBML
 representation. The example also shows how to use variable stepping in a
 simulation.
 
-.. code:: python
+.. code-block:: python
 
     import tellurium as te
     
@@ -148,7 +148,7 @@ simulation.
 .. image:: _notebooks/core/antimonyExample_files/antimonyExample_2_7.png
 
 
-.. code:: python
+.. code-block:: python
 
     r.getSimulationData()
 
