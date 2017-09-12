@@ -13,8 +13,15 @@ import os.path
 from tellurium.sedml.tesedml import executeOMEX, executeSEDML
 
 omexDir = os.path.dirname(os.path.realpath(__file__))
-omexPath = os.path.join(omexDir, "sedx_files/miao2008_fig1_5sYsL1R.sedx")
-workingDir = os.path.join(omexDir, "./results/_te_miao2008_fig1_5sYsL1R")
+
+# L1V3 non-conform data
+# omexPath = os.path.join(omexDir, "sedx_files/kouril3_experiment-user_EqhV27r.sedx")
+# workingDir = os.path.join(omexDir, "./results/_te_kouril3_experiment-user_EqhV27r")
+
+omexPath = os.path.join(omexDir, "sedx_files/chan2004_fig3_ojaH5KH.sedx")
+workingDir = os.path.join(omexDir, "./results/_te_chan2004_fig3_ojaH5KH.sedx")
+
+
 
 executeOMEX(omexPath, workingDir=workingDir)
 # executeSEDML(omexPath, workingDir=workingDir)
