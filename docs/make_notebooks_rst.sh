@@ -33,7 +33,8 @@ for f in $NBDIR/*.ipynb; do
     l=$b.log
     logfile=/tmp/$l
     echo "Converting $b -> log $logfile"
-    jupyter nbconvert --to=rst --allow-errors --output-dir=${NBOUTDIR} --execute $f >$logfile 2>&1
+    echo "jupyter nbconvert --to=rst --allow-errors --output-dir=${NBOUTDIR} --execute $f >$logfile 2>&1" >$logfile
+    jupyter nbconvert --to=rst --allow-errors --output-dir=${NBOUTDIR} --execute $f >>$logfile 2>&1
     if [ ! $? -eq 0 ]; then
         echo "  Failed: $b"
         nfailed=$((nfailed+=1))
