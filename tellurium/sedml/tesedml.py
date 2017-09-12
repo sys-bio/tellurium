@@ -168,6 +168,8 @@ def executeOMEX(omexPath, workingDir=None):
                   DeprecationWarning, stacklevel=2)
     filename, extension = os.path.splitext(os.path.basename(omexPath))
 
+
+
     # Archive
     if zipfile.is_zipfile(omexPath):
 
@@ -192,7 +194,10 @@ def executeOMEX(omexPath, workingDir=None):
             dgs[sedmlFile] = sedml_dgs
         return dgs
     else:
-        raise IOError("File is not an OMEX Combine Archive in zip format: {}".format(omexPath))
+        if not os.path.exists(omexPath):
+            raise FileNotFoundError("File does not exist: {}".format(omexPath))
+        else:
+            raise IOError("File is not an OMEX Combine Archive in zip format: {}".format(omexPath))
 
 
 
@@ -434,6 +439,9 @@ class SEDMLCodeFactory(object):
         language = model.getLanguage()
         source = self.model_sources[mid]
 
+        if len(language):
+            warnings.warn("No model language specified, defaulting to SBML for: {}".format(source))
+
         def isUrn():
             return source.startswith('urn') or source.startswith('URN')
 
@@ -441,7 +449,7 @@ class SEDMLCodeFactory(object):
             return source.startswith('http') or source.startswith('HTTP')
 
         # read SBML
-        if 'sbml' in language:
+        if 'sbml' in language or len(language) == 0:
             if isUrn():
                 lines.append("import tellurium.temiriam as temiriam")
                 lines.append("__{}_sbml = temiriam.getSBMLFromBiomodelsURN('{}')".format(mid, source))
@@ -458,7 +466,7 @@ class SEDMLCodeFactory(object):
                 lines.append("{} = te.loadCellMLModel(os.path.join(workingDir, '{}'))".format(mid, self.model_sources[mid]))
         # other
         else:
-            warnings.warn("Unsupported model language:".format(language))
+            warnings.warn("Unsupported model language: '{}'".format(language))
 
         # apply model changes
         for change in self.model_changes[mid]:
