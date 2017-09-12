@@ -9,14 +9,12 @@ except ImportError:
 
 from .convert_phrasedml import phrasedmlImporter
 from .convert_antimony import antimonyConverter
-import shutil, os, tempfile, appdirs, getpass, json
+import shutil, os, tempfile, getpass, json
 
 def readCreator(file=None):
+    from .. import getAppDir
     if file == None:
-        file = os.path.join(
-            appdirs.user_data_dir('Tellurium', 'Tellurium'),
-            'telocal', getpass.getuser() + '.vcard'
-            )
+        file = os.path.join(getAppDir(), 'telocal', getpass.getuser() + '.vcard')
         if not os.path.exists(file) or not os.path.isfile(file):
             return None
     with open(file) as f:
@@ -60,11 +58,10 @@ class Omex:
     ''' Wrapper for Combine archives. '''
 
     def __init__(self,
-        about       = 'Format for storing dynamical models and simulations.', # about the archive itself
-        description = 'No description.',
+        description = '',
         creator     = None):
 
-        self.about        = about
+        self.about        = '.'
         self.description  = description
         self.creator      = creator
 
@@ -333,14 +330,14 @@ class inlineOmexImporter:
         output = ''
 
         # try to read the author information
-        desc = self.omex.getMetadataForLocation('')
+        desc = self.omex.getMetadataForLocation('.')
         if desc and desc.getNumCreators() > 0:
             # just get first one
             vcard = desc.getCreator(0)
             output += '// Author information:\n'
             first_name = vcard.getGivenName()
             last_name = vcard.getFamilyName()
-            name = ' '.join(first_name, last_name)
+            name = ' '.join([first_name, last_name])
             email = vcard.getEmail()
             org = vcard.getOrganization()
 
@@ -358,13 +355,26 @@ class inlineOmexImporter:
                 + self.makeFooter(entry, 'sbml'))
         # convert sedml entries to phrasedml
         for entry in self.sedml_entries:
+            sedml_str = self.omex.extractEntryToString(entry.getLocation()).replace('BIOMD0000000012,xml','BIOMD0000000012.xml')
             try:
                 phrasedml_output = phrasedmlImporter.fromContent(
-                    self.omex.extractEntryToString(entry.getLocation()).replace('BIOMD0000000012,xml','BIOMD0000000012.xml'),
+                    sedml_str,
                     self.makeSBMLResourceMap(os.path.dirname(entry.getLocation()))
                     ).toPhrasedml().rstrip().replace('compartment', 'compartment_')
             except:
-                raise RuntimeError('Could not read embedded SED-ML file {}.'.format(entry.getLocation()))
+                errmsg = 'Could not read embedded SED-ML file {}.'.format(entry.getLocation())
+                try:
+                    import tesedml
+                    s = tesedml.readSedMLFromString(sedml_str)
+                    if s.getNumErrors() > 0:
+                        import tempfile
+                        with tempfile.NamedTemporaryFile(suffix='.log', delete=False) as f:
+                            for k in range(s.getNumErrors()):
+                                f.write('Error {}:\n{}'.format(k+1, s.getError(k).getMessage()).encode('utf-8'))
+                            errmsg += ' Error log written to {}'.format(f.name)
+                except:
+                    pass
+                raise RuntimeError(errmsg)
             output += (self.makeHeader(entry, 'sedml') +
                 phrasedml_output + '\n'
                 + self.makeFooter(entry, 'sedml'))

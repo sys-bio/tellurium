@@ -2,9 +2,13 @@
 Utility classes for parameter scans.
 """
 from __future__ import print_function, division
+import os
 import numpy as np
 import matplotlib
-matplotlib.use('Agg')
+if any('SPYDER' in name for name in os.environ):
+    pass
+else:        
+    matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 from matplotlib.collections import PolyCollection
 from mpl_toolkits.mplot3d import Axes3D

@@ -5,7 +5,7 @@ from __future__ import print_function, division
 import roadrunner
 import warnings
 import tempfile
-import libsbml
+import tesbml as libsbml
 from IPython.display import Image, display
 import os
 

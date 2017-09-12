@@ -11,8 +11,6 @@ from .tellurium import (
     getTelluriumVersion,
     noticesOff,
     noticesOn,
-    saveToFile,
-    readFromFile,
     )
 
 # Converters
@@ -57,6 +55,7 @@ except ImportError:
 
 # Plotting
 from .tellurium import (
+    plot,
     getPlottingEngine,
     getDefaultPlottingEngine,
     setDefaultPlottingEngine,
@@ -87,12 +86,14 @@ from .analysis.parameterscan import (
 
 # Distributed computing
 from .analysis.stochasticmodel import StochasticSimulationModel
+from .analysis.parameterestimation import ParameterEstimation
+from .analysis.sensitivityanalysis import SensitivityAnalysis
 
 from .tellurium import (
     # distrib. parameter scan
     distributed_parameter_scanning, sample_plot, plotImage,
     # distrib. stochastic sims & fitting
-    distributed_stochastic_simulation, plot_distributed_stochastic, plot_stochastic_result
+    distributed_stochastic_simulation, plot_distributed_stochastic, plot_stochastic_result, distributed_sensitivity_analysis
     )
 
 # Bifurcations
@@ -107,6 +108,7 @@ from .sedml.tesedml import sedmlToPython, executeSEDML
 from .tellurium import (
     convertCombineArchive,
     convertAndExecuteCombineArchive,
+    extractFileFromCombineArchive,
     exportInlineOmex,
     executeInlineOmex,
     executeInlineOmexFromFile,
@@ -121,12 +123,39 @@ from .package_utils import (
     uninstallPackage,
 )
 
+# Dist config
+from .tellurium import (
+    DumpJSONInfo,
+    getAppDir,
+    )
+
+# SBML test cases
+from .tellurium import (
+    getSupportedTestCases,
+    )
+
+# SED-ML reports
+from .tellurium import (
+    setLastReport,
+    getLastReport,
+    )
+
 # Do not use
 # from .sedml.tephrasedml import experiment
 # from .tecombine import combine
 
 # Misc
 from .tellurium import getEigenvalues
+
+# Utilities
+from .utils import (
+    runTool,
+    saveToFile,
+    readFromFile,
+    rank,
+    nullspace,
+    rref,
+    )
 
 # import .optimization  # nothing here
 # import .visualization # display with graphviz

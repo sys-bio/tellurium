@@ -1,5 +1,6 @@
+from __future__ import print_function, division, absolute_import
 
-from __future__ import absolute_import, print_function
+
 from collections import defaultdict
 import itertools
 import numpy as np
@@ -89,17 +90,49 @@ class PlottingFigure(object):
             self.getMergedTaggedDatasets(),
             (dataset for dataset in self.xy_datasets if not 'tag' in dataset))
 
+    def plot(self, x, y, colnames=None, title=None, tag=None, xtitle=None, logy=False, ytitle=None, alpha=None):
+        """ Plot x & y data.
+        """
+        if xtitle:
+            self.xtitle = xtitle
+        if ytitle:
+            self.ytitle = ytitle
+        kws = {'tag': tag, 'alpha': alpha}
+        if colnames is None and hasattr(y,'colnames'):
+            colnames = y.colnames
+
+        if len(y.shape) > 1:
+            # it's a 2d array
+            for k in range(0,y.shape[1]):
+                if len(x) != len(y[:,k]):
+                    raise RuntimeError('x data has length {} but y data has length {}'.format(len(x), len(y)))
+                if colnames is not None:
+                    kws['name'] = colnames[k]
+                self.addXYDataset(x, y[:,k], **kws)
+        elif len(y.shape) == 1:
+            # it's a 1d array
+            if len(x) != len(y):
+                raise RuntimeError('x data has length {} but y data has length {}'.format(len(x), len(y)))
+            if colnames is not None:
+                kws['name'] = colnames[0]
+            self.addXYDataset(x, y, **kws)
+        else:
+            raise RuntimeError('Could not plot y data with {} dimensions'.format(len(y.shape)))
+        return self
+
 
 class PlottingEngine(object):
     def __init__(self):
         self.fig = None
 
-    def plotTimecourse(self, m, **kwargs):
-        """ Plots a timecourse from a simulation.
 
-        :param m: An array returned by RoadRunner.simulate.
+    def figureFromXY(self, x, y, **kwargs):
+        """ Generate a new figure from x/y data.
+
+        :param x: A column representing x data.
+        :param y: Y data (may be multiple columns).
         """
-        raise NotImplementedError('Abstract method')
+        return self.newFigure().plot(x,y,**kwargs)
 
     def figureFromTimecourse(self, m, title=None, ordinates=None, tag=None, alpha=None):
         """ Generate a new figure from a timecourse simulation.
@@ -115,7 +148,25 @@ class PlottingEngine(object):
 
         return fig
 
-    def plotTimecourse(self, m, title=None, ordinates=None, tag=None, xtitle=None, logy=False, ytitle=None, alpha=None, **kwargs):
+
+    def plot(self, x, y, show=True, **kwargs):
+        """ Plot x & y data.
+
+        :param x: x data.
+        :param y: y data (can be multiple columns).
+        """
+        if self.fig:
+            fig = self.fig
+            fig.plot(x, y, **kwargs)
+        else:
+            fig = self.figureFromXY(x, y, **kwargs)
+        if show:
+            fig.render()
+            self.fig = None
+        return fig
+
+    def plotTimecourse(self, m, title=None, ordinates=None, tag=None, xtitle=None, logy=False, ytitle=None, alpha=None):
+
         """ Plots a timecourse from a simulation.
 
         :param m: An array returned by RoadRunner.simulate.
@@ -123,7 +174,7 @@ class PlottingEngine(object):
         fig = self.figureFromTimecourse(m, title=title, ordinates=ordinates, tag=tag, alpha=alpha)
         if xtitle:
             fig.xtitle = xtitle
-        fig.plot()
+        fig.render()
 
     def accumulateTimecourse(self, m, title=None, ordinates=None, tag=None, xtitle=None, logy=False, ytitle=None, alpha=None, **kwargs):
         """ Accumulates the traces instead of plotting (like matplotlib with show=False).
@@ -150,7 +201,7 @@ class PlottingEngine(object):
         :param reset: Reset the traces so the next plot will start out empty?
         """
         if self.fig:
-            self.fig.plot()
+            self.fig.render()
         fig = self.fig
         if reset:
             self.fig = None

@@ -270,11 +270,16 @@ class ExtendedRoadRunner(roadrunner.RoadRunner):
         shaded in blue), reactions as grey squares.
         Currently only the drawing of medium-size networks is supported.
         """
+        import os
         if any([ os.access( os.path.join( p, 'dot' ), os.X_OK ) for p in os.environ['PATH'].split( os.pathsep )]):
             warnings.warn("Graphviz is not installed in your machine. 'draw' command cannot produce a diagram",
                 Warning, stacklevel=2)
         else:
-            from visualization.sbmldiagram import SBMLDiagram
+            if any('SPYDER' in name for name in os.environ):
+                from tellurium.visualization.sbmldiagram import SBMLDiagram
+            else:
+                from visualization.sbmldiagram import SBMLDiagram
+            
             diagram = SBMLDiagram(self.getSBML())
             diagram.draw(**kwargs)
 
@@ -488,8 +493,14 @@ class ExtendedRoadRunner(roadrunner.RoadRunner):
         :param kwargs: parameters for simulate
         :returns: simulation results
         """
+        
         integratorName = self.integrator.getName()
         self.setIntegrator('gillespie')
+        if (len(args) > 2):
+            self.integrator.variable_step_size = False
+        elif (kwargs.has_key('points') or kwargs.has_key('steps')):
+            self.integrator.variable_step_size = False
         s = self.simulate(*args, **kwargs)
+        self.integrator.variable_step_size = True
         self.setIntegrator(integratorName)
         return s

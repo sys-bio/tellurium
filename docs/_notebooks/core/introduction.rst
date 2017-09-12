@@ -1,7 +1,14 @@
 
+Back to the main `Index <../index.ipynb>`__
 
 Simple Example
-~~~~~~~~~~~~~~
+--------------
+
+This shows how to set up a simple model in Tellurium and solve it as an
+ODE. Tellurium uses a human-readable representation of SBML models
+called Antimony. The Antimony code for this example contains a single
+reaction with associated kinetics. After creating the Antimony string,
+use the ``loada`` function to load it into the simulator.
 
 .. code:: python
 
@@ -16,9 +23,12 @@ Simple Example
 
 
 More Complex Example
-~~~~~~~~~~~~~~~~~~~~
+--------------------
 
-Stochastic simulation of a linear chain.
+Tellurium can also handle stochastic models. This example shows how to
+select Tellurium's stochastic solver. The underlying simulation engine
+used by Tellurium implements a Gibson direct method for simulating this
+model.
 
 .. code:: python
 
@@ -36,11 +46,12 @@ Stochastic simulation of a linear chain.
         S1 = 100;
     ''')
     
-    # set integrator, seed and selections for output
-    r.setIntegrator('gillespie')
-    r.setSeed(1234)
-    r.selections = ['time'] + r.getBoundarySpeciesIds() + r.getFloatingSpeciesIds()
-    r.variable_step_size = False
+    # use a stochastic solver
+    r.integrator = 'gillespie'
+    r.integrator.seed = 1234
+    # selections specifies the output variables in a simulation
+    selections = ['time'] + r.getBoundarySpeciesIds() + r.getFloatingSpeciesIds()
+    r.integrator.variable_step_size = False
     
     # run repeated simulation
     Ncol = len(r.selections)
@@ -49,18 +60,15 @@ Stochastic simulation of a linear chain.
     s_sum = np.zeros(shape=[points, Ncol])
     for k in range(Nsim):
         r.resetToOrigin()
-        s = r.simulate(0, 50, points)
+        s = r.simulate(0, 50, points, selections=selections)
         s_sum += s
         # no legend, do not show
-        r.plot(s, show=False, loc=None, alpha=0.4, linewidth=1.0)
-        
+        r.plot(s, alpha=0.5, show=False)
+    
     # add mean curve, legend, show everything and set labels, titels, ...
-    s_mean = s_sum/Nsim
-    r.plot(s_mean, loc='upper right', show=True, linewidth=3.0,
-           title="Stochastic simulation", xlabel="time", ylabel="concentration", grid=True);
+    fig = te.plot(s[:,0], s_sum[:,1:]/Nsim, colnames=[x + ' (mean)' for x in selections[1:]], title="Stochastic simulation", xtitle="time", ytitle="concentration")
 
 
 
 .. image:: _notebooks/core/introduction_files/introduction_4_0.png
-
 

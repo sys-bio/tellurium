@@ -11,6 +11,8 @@ import sys
 import os
 import random
 import warnings
+import importlib
+import json
 
 # NOTE: not needed since we now require matplotlib >= 2.0.0
 # check availability of property cycler (matplotlib 1.5ish)
@@ -26,11 +28,18 @@ import warnings
 
 __default_plotting_engine = 'matplotlib'
 
+if any('SPYDER' in name for name in os.environ):
+    SPYDER = True
+else:
+    SPYDER = False
+
 import antimony
 import matplotlib
-matplotlib.use('Agg')
+if not SPYDER:
+    matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import numpy as np
+from numpy.linalg import svd
 
 ##############################################
 # Ipython helpers
@@ -39,19 +48,20 @@ import numpy as np
 # determine if we're running in IPython
 __in_ipython = True
 __plotly_enabled = False
-try:
-    get_ipython()
-
-    # init plotly notebook mode
+if not SPYDER:
     try:
-        import plotly
-        plotly.offline.init_notebook_mode(connected=True)
-        __plotly_enabled = True
-        __default_plotting_engine = 'plotly'
+        get_ipython()
+
+        # init plotly notebook mode
+        try:
+            import plotly
+            plotly.offline.init_notebook_mode(connected=True)
+            __plotly_enabled = True
+            __default_plotting_engine = 'plotly'
+        except:
+            warnings.warn("Plotly could not be initialized. Unable to use Plotly for plotting.")
     except:
-        warnings.warn("Plotly could not be initialized. Unable to use Plotly for plotting.")
-except:
-    __in_ipython = False
+        __in_ipython = False
 
 def inIPython():
     """ Returns true if tellurium is being using in
@@ -88,17 +98,21 @@ import matplotlib.pyplot as plt
 # make this the default style for matplotlib
 # plt.style.use('fivethirtyeight')
 
-from .plotting import getPlottingEngineFactory as __getPlottingEngineFactory
+from .plotting import getPlottingEngineFactory as __getPlottingEngineFactory, plot
 
-def getPlottingEngineFactory(engine=getDefaultPlottingEngine()):
+def getPlottingEngineFactory(engine=None):
     global __save_plots_to_pdf
+    if engine is None:
+        engine = getDefaultPlottingEngine()
     factory = __getPlottingEngineFactory(engine)
     factory.save_plots_to_pdf = __save_plots_to_pdf
     return factory
 
 __plotting_engines = {}
-def getPlottingEngine(engine=getDefaultPlottingEngine()):
+def getPlottingEngine(engine=None):
     global __plotting_engines
+    if engine is None:
+        engine = getDefaultPlottingEngine()
     if not engine in __plotting_engines:
         __plotting_engines[engine] = getPlottingEngineFactory(engine)()
     return __plotting_engines[engine]
@@ -141,6 +155,13 @@ except ImportError as e:
     warnings.warn("'phrasedml' could not be imported", ImportWarning, stacklevel=2)
 
 try:
+    import sbol
+except ImportError as e:
+    sbol = None
+    roadrunner.Logger.log(roadrunner.Logger.LOG_WARNING, str(e))
+    warnings.warn("'pySBOL' could not be imported", ImportWarning, stacklevel=2)
+
+try:
     from sbml2matlab import sbml2matlab
 except ImportError as e:
     sbml2matlab = None
@@ -163,7 +184,6 @@ def getVersionInfo():
         ('tellurium', getTelluriumVersion()),
         ('roadrunner', roadrunner.__version__),
         ('antimony', antimony.__version__),
-        ('snbw_viewer', 'No information for sbnw viewer'),
     ]
     if libsbml:
         versions.append(('libsbml', libsbml.getLibSBMLDottedVersion()))
@@ -171,6 +191,8 @@ def getVersionInfo():
         versions.append(('libsedml', libsedml.getLibSEDMLVersionString()))
     if phrasedml:
         versions.append(('phrasedml', phrasedml.__version__))
+    if sbol:
+        versions.append(('pySBOL', sbol.__version__))        
     return versions
 
 
@@ -214,33 +236,8 @@ def noticesOn():
     See also :func:`noticesOff`
     """
     roadrunner.Logger.setLevel(roadrunner.Logger.LOG_NOTICE)
-
-
-def saveToFile(filePath, str):
-    """ Save string to file.
-
-    see also: :func:`readFromFile`
-
-    :param filePath: file path to save to
-    :param str: string to save
-    """
-    with open(filePath, 'w') as f:
-        f.write(str)
-
-
-def readFromFile(filePath):
-    """ Load a file and return contents as a string.
-
-    see also: :func:`saveToFile`
-
-    :param filePath: file path to read from
-    :returns: string representation of the contents of the file
-    """
-    with open(filePath, 'r') as f:
-        string = f.read()
-    return string
-
-
+	
+    
 # ---------------------------------------------------------------------
 # Group: Loading Models
 # ---------------------------------------------------------------------
@@ -367,6 +364,117 @@ def distributed_parameter_scanning(sc,list_of_models, function_name,antimony="an
         return(simulator())
 
     return(sc.parallelize(list_of_models,len(list_of_models)).map(spark_work).collect())
+
+def distributed_sensitivity_analysis(sc,senitivity_analysis_model,calculation=None):
+    def spark_sensitivity_analysis(model_with_parameters):
+        import tellurium as te
+
+        sa_model = model_with_parameters[0]
+
+        parameters = model_with_parameters[1]
+        class_name = importlib.import_module(sa_model.filename)
+
+        user_defined_simulator = getattr(class_name, dir(class_name)[0])
+        sa_model.simulation = user_defined_simulator()
+
+        if(sa_model.sbml):
+            model_roadrunner = te.loadAntimonyModel(te.sbmlToAntimony(sa_model.model))
+        else:
+            model_roadrunner = te.loadAntimonyModel(sa_model.model)
+
+        model_roadrunner.conservedMoietyAnalysis = sa_model.conservedMoietyAnalysis
+
+
+        #Running PreSimulation
+        model_roadrunner = sa_model.simulation.presimulator(model_roadrunner)
+
+        #Running Analysis
+        computations = {}
+        model_roadrunner = sa_model.simulation.simulator(model_roadrunner,computations)
+
+        _analysis = [None,None]
+
+        #Setting the Parameter Variables
+        _analysis[0] = {}
+        for i_param,param_names in enumerate(sa_model.bounds.keys()):
+
+            _analysis[0][param_names] = parameters[i_param]
+            setattr(model_roadrunner, param_names, parameters[i_param])
+
+        _analysis[1] = computations
+
+        return _analysis
+
+
+    if(senitivity_analysis_model.bounds is  None):
+        print("Bounds are Undefined.")
+        return
+
+    #Get the Filename
+    sc.addPyFile(senitivity_analysis_model.filename)
+    senitivity_analysis_model.filename = os.path.basename(senitivity_analysis_model.filename).split(".")[0]
+
+
+    params = []
+    if(senitivity_analysis_model.allowLog):
+        for bound_values in senitivity_analysis_model.bounds.values():
+            if(len(bound_values) > 2):
+                params.append(np.logspace(bound_values[0], bound_values[1], bound_values[2]))
+            elif(len(bound_values == 2)):
+                params.append(np.logspace(bound_values[0], bound_values[1], 3))
+            else:
+                print("Improper Boundaries Defined")
+                return;
+    else:
+        for bound_values in senitivity_analysis_model.bounds.values():
+            if(len(bound_values) > 2):
+                params.append(np.linspace(bound_values[0], bound_values[1], bound_values[2]))
+            elif(len(bound_values == 2)):
+                params.append(np.linspace(bound_values[0], bound_values[1], 3))
+            else:
+                print("Improper Boundaries Defined")
+                return;
+
+    samples = perform_sampling(np.meshgrid(*params))
+    samples = zip([senitivity_analysis_model]*len(samples),samples)
+    if(calculation is "avg"):
+        group_rdd = sc.parallelize(samples,len(samples)).map(spark_sensitivity_analysis).\
+            flatMap(lambda x: x[1].items()).groupByKey()
+
+        KEYS = group_rdd.map(lambda x: (x[0])).collect()
+        VALUES = group_rdd.map(lambda x: np.array(list(x[1])))
+        values_array = np.array(VALUES.collect())
+        MEANS = (np.average(values_array, axis=1))
+        STD =  (np.std(values_array, axis=1))
+
+        stats = {}
+        for key_i,each_key in enumerate(KEYS):
+            stats[each_key] = {}
+            stats[each_key]["mean"] = MEANS[key_i]
+            stats[each_key]["stdev"] = STD[key_i]
+        return stats
+
+    elif(type(calculation) is dict):
+        bins = sc.broadcast(calculation)
+        group_rdd = sc.parallelize(samples,len(samples)).map(spark_sensitivity_analysis)\
+            .flatMap(lambda x: x[1].items()).map(
+            lambda x: (x[0], [int(items[0] <= x[1] <= items[1]) for items in bins.value[x[0]]])).reduceByKey(
+            lambda first, second: [x + y for x, y in zip(first, second)])
+
+        return group_rdd.collect()
+
+    else:
+        return(sc.parallelize(samples,len(samples)).map(spark_sensitivity_analysis).collect())
+
+
+
+def perform_sampling(mesh):
+    samples = []
+    mesh = [items.flatten() for items in mesh]
+    for i in range(len(mesh[0])):
+        samples.append([items[i] for items in mesh])
+    return(samples)
+
 
 def loada(ant):
     """Load model from Antimony string.
@@ -582,6 +690,19 @@ def convertAndExecuteCombineArchive(location):
     inlineomex = inlineOmexImporter.fromFile(location).toInlineOmex()
     executeInlineOmex(inlineomex)
 
+def extractFileFromCombineArchive(archive_path, entry_location):
+    """ Extract a single file from a COMBINE archive and return it as a string.
+    """
+    import tecombine
+    archive = tecombine.CombineArchive()
+    if not archive.initializeFromArchive(archive_path):
+        raise RuntimeError('Failed to initialize archive')
+    try:
+        entry = archive.getEntryByLocation(entry_location)
+    except:
+        raise RuntimeError('Could not find entry {}'.format(entry_location))
+    return archive.extractEntryToString(entry_location)
+
 # ---------------------------------------------------------------------
 # Math Utilities
 # ---------------------------------------------------------------------
@@ -718,7 +839,6 @@ def listTestModels():
         modelList.append(os.path.basename(pathName))
     return modelList
 
-
 # ---------------------------------------------------------------
 # Extended roadrunner
 # ---------------------------------------------------------------
@@ -752,3 +872,45 @@ def RoadRunner(*args):
     return ExtendedRoadRunner(*args)
 
 roadrunner.RoadRunner = ExtendedRoadRunner
+
+def VersionDict():
+    '''Return dict of version strings.'''
+    import tesbml, tesedml, tecombine
+    return {
+        'tellurium': getTelluriumVersion(),
+        'roadrunner': roadrunner.getVersionStr(roadrunner.VERSIONSTR_BASIC),
+        'antimony': antimony.__version__,
+        'phrasedml': phrasedml.__version__,
+        'tesbml': libsbml.getLibSBMLDottedVersion(),
+        'tesedml': tesedml.__version__,
+        'tecombine': tecombine.__version__
+        }
+
+def DumpJSONInfo():
+    '''Tellurium dist info. Goes into COMBINE archive.'''
+    return json.dumps({
+        'authoring_tool': 'tellurium',
+        'info': 'Created with Tellurium (tellurium.analogmachine.org).',
+        'version_info': VersionDict()})
+
+def getAppDir():
+    import os
+    from sys import platform
+    if platform == "linux" or platform == "linux2":
+        return os.path.join(os.path.expanduser('~'), '.config', 'Tellurium')
+    else:
+        import appdirs
+        return appdirs.user_data_dir('Tellurium', 'Tellurium')
+
+_last_report = None
+def setLastReport(report):
+    '''Used by SED-ML to save the last report created (for validation).'''
+    global _last_report
+    _last_report = report
+
+def getLastReport():
+    '''Get the last report generated by SED-ML.'''
+    global _last_report
+    return _last_report
+
+from .testcases import getSupportedTestCases

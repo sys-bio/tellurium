@@ -12,12 +12,21 @@ Contents:
 .. toctree::
    :maxdepth: 2
 
-   introduction.rst
+   preliminaries.rst
    installation.rst
-   Examples <notebooks.rst>
+   quickstart.rst
+   walkthrough.rst
+   notebooks.rst
+   antimony.rst
    tellurium_methods.rst
-   
-   API (tellurium) <_apidoc/tellurium.rst>
+..    paramscan.rst
+..    testing.rst
+..    latex.rst
+   API
+
+
+.. older docs
+    http://svn.code.sf.net/p/libroadrunnerdocs/code/tellurium/html/index.html
 
 
 Indices and tables

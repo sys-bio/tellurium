@@ -902,6 +902,9 @@ class SEDMLCodeFactory(object):
             outputEndTime = simulation.getOutputEndTime()
             numberOfPoints = simulation.getNumberOfPoints()
 
+            # reset before simulation (see https://github.com/sys-bio/tellurium/issues/193)
+            lines.append("{}.reset()".format(mid))
+
             # throw some points away
             if abs(outputStartTime - initialTime) > 1E-6:
                 lines.append("{}.simulate(start={}, end={}, points=2)".format(
@@ -1387,6 +1390,9 @@ class SEDMLCodeFactory(object):
         lines.append("    __df__k = pandas.DataFrame(np.column_stack(" + str(columns).replace("'", "") + "), \n    columns=" + str(headers) + ")")
         lines.append("    print(__df__k.head(5))")
         lines.append("    __dfs__{}.append(__df__k)".format(output.getId()))
+        # save as variable in Tellurium
+        lines.append("    te.setLastReport(__df__k)".format(output.getId()))
+        # save to csv
         lines.append("    __df__k.to_csv(os.path.join(workingDir, '{}_{{}}.csv'.format(k)), sep='\t', index=False)".format(output.getId()))
         return lines
 
@@ -1507,7 +1513,7 @@ class SEDMLCodeFactory(object):
         # lines.append("plt.setp(__lg.get_texts(), fontweight='bold')")
         # lines.append("plt.savefig(os.path.join(workingDir, '{}.png'), dpi=100)".format(output.getId()))
         # lines.append("plt.show()".format())
-        lines.append("fig.plot()".format())
+        lines.append("fig.render()".format())
 
         return lines
 

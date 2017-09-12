@@ -77,7 +77,7 @@ master_doc = 'index'
 
 # General information about the project.
 project = u'tellurium'
-copyright = u'2016, sys-bio'
+copyright = u'2017, sys-bio'
 author = u'sys-bio'
 
 # The version info for the project you're documenting, acts as replacement for
