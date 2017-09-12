@@ -38,9 +38,10 @@ setup(name='tellurium',
           "tellurium.sedml": ["templates/*.template"],
       },
       install_requires=[
-          'numpy',
-          'matplotlib>=2.0.0',
-          'pandas>=0.19.2',
+          'numpy>=1.13.1',
+          'scipy>=0.19.1',
+          'matplotlib>=2.0.2',
+          'pandas>=0.20.3',
 
           'libroadrunner>=1.4.18',
           'python-libsbml>=5.15.0',
