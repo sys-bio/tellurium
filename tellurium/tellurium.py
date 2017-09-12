@@ -14,18 +14,6 @@ import warnings
 import importlib
 import json
 
-# NOTE: not needed since we now require matplotlib >= 2.0.0
-# check availability of property cycler (matplotlib 1.5ish)
-# if True: # create dummy scope
-#     import matplotlib
-#     import matplotlib.pyplot as plt
-#
-#     print(dir(matplotlib))
-#     fig = matplotlib.figure.Figure()
-#     ax = fig.add_axes()
-#     if not hasattr(ax, 'set_prop_cycle'):
-#         warnings.warn("Your copy of matplotlib does not support color cycle control. Falling back to 'Picasso' mode. Please update to matplotlib 1.5 or later if you don't like modern art.")
-
 __default_plotting_engine = 'matplotlib'
 
 if any('SPYDER' in name for name in os.environ):

@@ -9,8 +9,6 @@ try:
 except ImportError:
     import libsedml
 
-from libsedml import SedReader
-
 
 class phrasedmlImporter:
     @classmethod
@@ -51,7 +49,7 @@ class phrasedmlImporter:
         result = importer.toPhrasedml()
         if result is None:
             # get errors from libsedml
-            doc = SedReader().readSedMLFromString(sedml_str)
+            doc = libsedml.SedReader().readSedMLFromString(sedml_str)
             if doc.getNumErrors():
                 max_len = 100
                 message = doc.getError(doc.getNumErrors()-1).getMessage()

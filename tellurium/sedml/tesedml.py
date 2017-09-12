@@ -113,7 +113,7 @@ import tellurium as te
 from tellurium.tecombine import CombineArchive
 
 try:
-    # requrired imports within generated code
+    # required imports within generated code
     import pandas
     import matplotlib.pyplot as plt
     import mpl_toolkits.mplot3d
@@ -122,21 +122,6 @@ except ImportError:
 
 
 ######################################################################################################################
-
-def sedml_to_python(input):
-    """ Convert sedml file to python code.
-
-    Deprecated: use sedmlToPython()
-
-    :param inputstring:
-    :type inputstring:
-    :return:
-    :rtype:
-    """
-    warnings.warn('Use sedmlToPython instead, will be removed in v1.4',
-                  DeprecationWarning, stacklevel=2)
-    return sedmlToPython(input)
-
 
 def sedmlToPython(inputStr):
     """ Convert sedml file to python code.

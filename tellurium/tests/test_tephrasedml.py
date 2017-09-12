@@ -4,19 +4,21 @@ Testing tephrasedml.
 from __future__ import absolute_import, print_function
 
 import tempfile
-import pytest
 import unittest
+import pytest
 
 import matplotlib
 import os
 import shutil
-from tellurium.sedml.tephrasedml import experiment
-
-
-import tellurium.sedml.tephrasedml as tephrasedml
 import tellurium as te
-import libsedml
+try:
+    import tesedml as libsedml
+except ImportError:
+    import libsedml
 import phrasedml
+
+from tellurium.sedml.tephrasedml import experiment
+import tellurium.sedml.tephrasedml as tephrasedml
 from tellurium.sedml.tesedml import SEDMLCodeFactory
 
 
