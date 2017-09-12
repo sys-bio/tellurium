@@ -5,7 +5,7 @@ Model Loading
 
 To load models use any the following functions. Each function takes a
 model with the corresponding format and converts it to a
-```RoadRunner`` <http://sys-bio.github.io/roadrunner/python_docs/index.html>`__
+`RoadRunner <http://sys-bio.github.io/roadrunner/python_docs/index.html>`__
 simulator instance.
 
 -  ``te.loadAntimony`` (``te.loada``): Load an Antimony model.
@@ -33,16 +33,6 @@ simulator instance.
     """
     # load models
     r = te.loada(model)
-
-
-.. parsed-literal::
-
-    /home/poltergeist/.config/Tellurium/telocal/python-3.6.1/lib/python3.6/site-packages/matplotlib/__init__.py:1405: UserWarning: 
-    This call to matplotlib.use() has no effect because the backend has already
-    been chosen; matplotlib.use() must be called *before* pylab, matplotlib.pyplot,
-    or matplotlib.backends is imported for the first time.
-    
-      warnings.warn(_use_error_msg)
 
 
 
