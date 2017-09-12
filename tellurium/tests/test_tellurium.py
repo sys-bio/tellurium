@@ -344,7 +344,11 @@ class TelluriumTestCase(unittest.TestCase):
             S1 -> S2; k1*S1;
             k1 = 0.1; S1 = 40; S2 = 0.0;
         """)
-        r.draw()
+        try:
+            import pygraphviz
+            r.draw()
+        except ImportError:
+            pass
 
     def test_plot(self):
         """ Regression tests for plotting.
@@ -370,7 +374,7 @@ class TelluriumTestCase(unittest.TestCase):
         # plot with label, title, axis and legend
         r.plot(s, xlabel="x", ylabel="y", xlim=[0, 10], ylim=[0, 10], grid=True)
         # plot with additional plot settings from matplotlib
-        r.plot(s, color="blue", alpha=0.1, linestyle="-", marker="o")
+        r.plot(s, alpha=0.1, linestyle="-", marker="o")
 
     # ---------------------------------------------------------------------
     # Testing
@@ -387,6 +391,7 @@ class TelluriumTestCase(unittest.TestCase):
 
     def test_getTestModel(self):
         sbml = te.getTestModel('feedback.xml')
+        self.assertIsNotNone(sbml)
 
     # ---------------------------------------------------------------------
     # Roadrunner tests

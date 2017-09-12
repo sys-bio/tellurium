@@ -5,7 +5,12 @@ from __future__ import print_function, division
 import roadrunner
 import warnings
 import tempfile
-import tesbml as libsbml
+try:
+    import tesbml as libsbml
+except ImportError:
+    import libsbml
+from six import string_types
+
 from IPython.display import Image, display
 import os
 
@@ -40,7 +45,7 @@ class SBMLDiagram(object):
         :type modifiers:
         """
         # load model
-        if isinstance(sbml, basestring):
+        if isinstance(sbml, string_types):
             self.doc = libsbml.readSBMLFromString(sbml)
             self.model = self.doc.getModel()
         elif isinstance(sbml, libsbml.SBMLDocument):

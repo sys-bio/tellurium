@@ -275,11 +275,7 @@ class ExtendedRoadRunner(roadrunner.RoadRunner):
             warnings.warn("Graphviz is not installed in your machine. 'draw' command cannot produce a diagram",
                 Warning, stacklevel=2)
         else:
-            if any('SPYDER' in name for name in os.environ):
-                from tellurium.visualization.sbmldiagram import SBMLDiagram
-            else:
-                from visualization.sbmldiagram import SBMLDiagram
-            
+            from tellurium.visualization.sbmldiagram import SBMLDiagram
             diagram = SBMLDiagram(self.getSBML())
             diagram.draw(**kwargs)
 
