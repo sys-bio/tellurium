@@ -81,12 +81,16 @@ Settings for the ``gillespie`` integrator:
     # enable variable stepping
     r.integrator.variable_step_size = True
     # adjust the tolerances (can set directly or via setValue)
-    r.integrator.absolute_tolerance = 1e-6 # set directly via property
-    r.integrator.setValue('relative_tolerance', 1e-3) # set via a call to setValue
+    r.integrator.absolute_tolerance = 1e-3 # set directly via property
+    r.integrator.setValue('relative_tolerance', 1e-1) # set via a call to setValue
     
-    # run a simulation
-    r.simulate(0, 10, 100)
+    # run a simulation, stop after reaching or passing time 10
+    results = r.simulate(0, 10)
     r.plot()
+    
+    # print the time values from the simulation
+    print('Time values:')
+    print(results[:,0])
 
 
 .. parsed-literal::
@@ -113,6 +117,18 @@ Settings for the ``gillespie`` integrator:
 .. image:: _notebooks/core/roadrunnerBasics_files/roadrunnerBasics_4_1.png
 
 
+.. parsed-literal::
+
+    Time values:
+    [  0.00000000e+00   3.43225906e-07   3.43260229e-03   3.77551929e-02
+       7.20777836e-02   1.60810095e-01   4.37546265e-01   7.14282434e-01
+       1.23145372e+00   1.74862501e+00   2.26579629e+00   2.78296758e+00
+       3.30013887e+00   3.81731015e+00   4.33448144e+00   4.85165273e+00
+       5.36882401e+00   5.88599530e+00   6.40316659e+00   6.92033787e+00
+       7.43750916e+00   7.95468045e+00   8.47185173e+00   9.25832855e+00
+       1.00000000e+01]
+
+
 .. code-block:: python
 
     # set integrator to Gillespie solver
@@ -136,8 +152,8 @@ Settings for the ``gillespie`` integrator:
     < roadrunner.Integrator() >
       name: cvode
       settings:
-          relative_tolerance: 0.001
-          absolute_tolerance: 0.000001
+          relative_tolerance: 0.1
+          absolute_tolerance: 0.001
                        stiff: true
            maximum_bdf_order: 5
          maximum_adams_order: 12
@@ -181,21 +197,21 @@ arguments:
 
 .. parsed-literal::
 
-        time,        [S1],    [S2]
-     [[    0,          10,       0],
-      [    2,     1.35716, 8.64284],
-      [    4,    0.182759, 9.81724],
-      [    6,   0.0247971,  9.9752],
-      [    8,  0.00338114, 9.99662],
-      [   10, 0.000460568, 9.99954]]
+        time,       [S1],    [S2]
+     [[    0,         10,       0],
+      [    2,    1.23775, 8.76225],
+      [    4,   0.253289, 9.74671],
+      [    6,  0.0444091, 9.95559],
+      [    8, 0.00950381,  9.9905],
+      [   10, 0.00207671, 9.99792]]
     
-        time,        [S1],    [S2]
-     [[    0,          10,       0],
-      [    2,     1.35716, 8.64284],
-      [    4,    0.182759, 9.81724],
-      [    6,   0.0247971,  9.9752],
-      [    8,  0.00338114, 9.99662],
-      [   10, 0.000460568, 9.99954]]
+        time,       [S1],    [S2]
+     [[    0,         10,       0],
+      [    2,    1.23775, 8.76225],
+      [    4,   0.253289, 9.74671],
+      [    6,  0.0444091, 9.95559],
+      [    8, 0.00950381,  9.9905],
+      [   10, 0.00207671, 9.99792]]
     
 
 
@@ -218,21 +234,21 @@ in the output array. By default, it includes all SBML species and the
 
 .. parsed-literal::
 
-        time,          J1
-     [[    0, 0.000460568],
-      [    2, 5.95825e-05],
-      [    4, 7.43537e-06],
-      [    6, 1.21182e-06],
-      [    8, 3.84777e-07],
-      [   10, 6.63059e-08]]
+        time,           J1
+     [[    0,   0.00207671],
+      [    2,  0.000295112],
+      [    4, -0.000234598],
+      [    6, -0.000203385],
+      [    8,   -9.474e-05],
+      [   10, -3.43429e-05]]
     
-                 S1, S2
-     [[ 6.63059e-08, 10],
-      [ 2.77435e-08, 10],
-      [ 1.01251e-08, 10],
-      [ 6.84866e-09, 10],
-      [ 4.72989e-09, 10],
-      [ 2.61112e-09, 10]]
+                  S1, S2
+     [[ -3.43429e-05, 10],
+      [ -1.57669e-05, 10],
+      [ -8.76907e-06, 10],
+      [ -3.36199e-06, 10],
+      [ -2.80745e-06, 10],
+      [ -2.25291e-06, 10]]
     
 
 
@@ -259,8 +275,8 @@ parameters to their initial values when the model was loaded.
 
 .. parsed-literal::
 
-    r.S1 == 2.6111239010134025e-09
-    r.S2 == 9.999999997388876
+    r.S1 == -2.252909326764279e-06
+    r.S2 == 10.000002252909333
     reset
     r.S1 == 10.0
     r.S2 == 0.0
