@@ -327,6 +327,8 @@ class CombineArchive(object):
         else:
             # no manifest, use all files in folder
             warnings.warn("No 'manifest.xml' in archive, trying to resolve manually")
+
+            # TODO: this must recursively look in folder, not very robust right now
             for fname in os.listdir(directory):
                 if filetype == "sed-ml":
                     if fname.endswith(".sedml") or fname.endswith(".sedx.xml"):
