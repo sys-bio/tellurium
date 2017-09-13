@@ -4,7 +4,6 @@ Provides trivial wrappers around pip.
 from __future__ import print_function, division, absolute_import
 import pip
 
-
 def searchPackage(name):
     """ Search pip package.
 

@@ -1766,11 +1766,15 @@ def process_trace(trace):
     # print('trace.size = {}'.format(trace.size))
     # print('len(trace.shape) = {}'.format(len(trace.shape)))
     if trace.size > 1:
+        # FIXME: this adds a nan at the end of the data. This is a bug.
         if len(trace.shape) == 1:
-            return np.concatenate((np.atleast_1d(trace), np.atleast_1d(np.nan)))
+            # return np.concatenate((np.atleast_1d(trace), np.atleast_1d(np.nan)))
+            return np.atleast_1d(trace)
         elif len(trace.shape) == 2:
             # print(trace.shape)
-            result = np.vstack((np.atleast_1d(trace), np.full((1,trace.shape[-1]),np.nan)))
+            # FIXME: this adds a nan at the end of the data. This is a bug.
+            # result = np.vstack((np.atleast_1d(trace), np.full((1,trace.shape[-1]),np.nan)))
+            result = np.vstack((np.atleast_1d(trace), np.full((1, trace.shape[-1]))))
             # print('vstack')
             # print(result)
             return result

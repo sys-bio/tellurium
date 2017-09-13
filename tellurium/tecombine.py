@@ -56,7 +56,8 @@ means the suitable file extension)
 
 from __future__ import print_function, division
 
-import os, shutil
+import os
+import shutil
 import warnings
 from zipfile import ZipFile
 import phrasedml
