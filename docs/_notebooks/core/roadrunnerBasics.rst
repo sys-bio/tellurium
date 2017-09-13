@@ -3,15 +3,20 @@
 Model Loading
 ~~~~~~~~~~~~~
 
-To load models use the load functions
+To load models use any the following functions. Each function takes a
+model with the corresponding format and converts it to a
+`RoadRunner <http://sys-bio.github.io/roadrunner/python_docs/index.html>`__
+simulator instance.
 
--  ``te.loadAntimony`` (``te.loada``): load Antimony model
--  ``te.loadSBML``: load SBML model
--  ``te.loadCellML``: load CellML model
+-  ``te.loadAntimony`` (``te.loada``): Load an Antimony model.
+-  ``te.loadSBML``: Load an SBML model.
+-  ``te.loadCellML``: Load a CellML model (this passes the model through
+   Antimony and converts it to SBML, may be lossy).
 
-.. code:: python
+.. code-block:: python
 
     import tellurium as te
+    te.setDefaultPlottingEngine('matplotlib')
     
     model = """
     model test
@@ -30,25 +35,108 @@ To load models use the load functions
     # load models
     r = te.loada(model)
 
+
+
+.. raw:: html
+
+    <script>requirejs.config({paths: { 'plotly': ['https://cdn.plot.ly/plotly-latest.min']},});if(!window.Plotly) {{require(['plotly'],function(plotly) {window.Plotly=plotly;});}}</script>
+
+
 Integrator and Integrator Settings
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-To set the integrator use ``r.setIntegrator(integrator)``.
+To set the integrator use ``r.setIntegrator(<integrator-name>)`` or
+``r.integrator = <integrator-name>``. RoadRunner supports ``'cvode'``,
+``'gillespie'``, and ``'rk4'`` for the integrator name. CVODE uses
+adaptive stepping internally, regardless of whether the output is
+gridded or not. The size of these internal steps is controlled by the
+tolerances, both absolute and relative.
 
-To set integrator settings use ``r.integrator.setValue(key, value)``.
-For instance
+To set integrator settings use ``r.integrator.<setting-name> = <value>``
+or ``r.integrator.setValue(<setting-name>, <value>)``. Here are some
+important settings for the ``cvode`` integrator:
 
--  ``variable_step_size``
--  ``stiff``
--  ``absolute_tolerance``
--  ``relative_tolerance``
--  ``seed``
+-  ``variable_step_size``: Adaptive step-size integration
+   (``True``/``False``).
+-  ``stiff``: Stiff solver for CVODE only (``True``/``False``). Enabled
+   by default.
+-  ``absolute_tolerance``: Absolute numerical tolerance for integrator
+   internal stepping.
+-  ``relative_tolerance``: Relative numerical tolerance for integrator
+   internal stepping.
 
-.. code:: python
+Settings for the ``gillespie`` integrator:
 
-    # set integrator
-    r.setIntegrator('rk4')
+-  ``seed``: The RNG seed for the Gillespie method. You can set this
+   before running a simulation, or leave it alone for a different seed
+   each time. Simulations initialized with the same seed will have the
+   same results.
+
+.. code-block:: python
+
+    # what is the current integrator?
+    print('The current integrator is:')
+    print(r.integrator)
+    
+    # enable variable stepping
+    r.integrator.variable_step_size = True
+    # adjust the tolerances (can set directly or via setValue)
+    r.integrator.absolute_tolerance = 1e-3 # set directly via property
+    r.integrator.setValue('relative_tolerance', 1e-1) # set via a call to setValue
+    
+    # run a simulation, stop after reaching or passing time 10
+    results = r.simulate(0, 10)
+    r.plot()
+    
+    # print the time values from the simulation
+    print('Time values:')
+    print(results[:,0])
+
+
+.. parsed-literal::
+
+    The current integrator is:
+    < roadrunner.Integrator() >
+      name: cvode
+      settings:
+          relative_tolerance: 0.000001
+          absolute_tolerance: 0.000000000001
+                       stiff: true
+           maximum_bdf_order: 5
+         maximum_adams_order: 12
+           maximum_num_steps: 20000
+           maximum_time_step: 0
+           minimum_time_step: 0
+           initial_time_step: 0
+              multiple_steps: false
+          variable_step_size: false
+    
+
+
+
+.. image:: _notebooks/core/roadrunnerBasics_files/roadrunnerBasics_4_1.png
+
+
+.. parsed-literal::
+
+    Time values:
+    [  0.00000000e+00   3.43225906e-07   3.43260229e-03   3.77551929e-02
+       7.20777836e-02   1.60810095e-01   4.37546265e-01   7.14282434e-01
+       1.23145372e+00   1.74862501e+00   2.26579629e+00   2.78296758e+00
+       3.30013887e+00   3.81731015e+00   4.33448144e+00   4.85165273e+00
+       5.36882401e+00   5.88599530e+00   6.40316659e+00   6.92033787e+00
+       7.43750916e+00   7.95468045e+00   8.47185173e+00   9.25832855e+00
+       1.00000000e+01]
+
+
+.. code-block:: python
+
+    # set integrator to Gillespie solver
     r.setIntegrator('gillespie')
+    # identical ways to set integrator
+    r.setIntegrator('rk4')
+    r.integrator = 'rk4'
+    # set back to cvode (the default)
     r.setIntegrator('cvode')
     
     # set integrator settings
@@ -64,8 +152,8 @@ For instance
     < roadrunner.Integrator() >
       name: cvode
       settings:
-          relative_tolerance: 0.00001
-          absolute_tolerance: 0.0000000001
+          relative_tolerance: 0.1
+          absolute_tolerance: 0.001
                        stiff: true
            maximum_bdf_order: 5
          maximum_adams_order: 12
@@ -81,53 +169,61 @@ For instance
 Simulation options
 ~~~~~~~~~~~~~~~~~~
 
-The simulation options
+The ``RoadRunner.simulate`` method is responsible for running
+simulations using the current integrator. It accepts the following
+arguments:
 
--  ``start``: start time
--  ``end``: end time
--  ``points``: number of points in solution
--  ``steps``: number of steps in solution
+-  ``start``: Start time.
+-  ``end``: End time.
+-  ``points``: Number of points in solution (exclusive with steps, do
+   not pass both). If the output is gridded, the points will be evenly
+   spaced in time. If not, the simulation will stop when it reaches the
+   ``end`` time or the number of points, whichever happens first.
+-  ``steps``: Number of steps in solution (exclusive with points, do not
+   pass both).
 
-are set as arguments in ``r.simulate``
-
-.. code:: python
+.. code-block:: python
 
     # simulate from 0 to 6 with 6 points in the result
     r.reset()
+    # pass args explicitly via keywords
     res1 = r.simulate(start=0, end=10, points=6)
     print(res1)
     r.reset()
+    # use positional args to pass start, end, num. points
     res2 = r.simulate(0, 10, 6)
     print(res2)
 
 
 .. parsed-literal::
 
-        time,        [S1],    [S2]
-     [[    0,          10,       0],
-      [    2,     1.35329, 8.64671],
-      [    4,    0.183132, 9.81687],
-      [    6,    0.024782, 9.97522],
-      [    8,  0.00335358, 9.99665],
-      [   10, 0.000453818, 9.99955]]
+        time,       [S1],    [S2]
+     [[    0,         10,       0],
+      [    2,    1.23775, 8.76225],
+      [    4,   0.253289, 9.74671],
+      [    6,  0.0444091, 9.95559],
+      [    8, 0.00950381,  9.9905],
+      [   10, 0.00207671, 9.99792]]
     
-        time,        [S1],    [S2]
-     [[    0,          10,       0],
-      [    2,     1.35329, 8.64671],
-      [    4,    0.183132, 9.81687],
-      [    6,    0.024782, 9.97522],
-      [    8,  0.00335358, 9.99665],
-      [   10, 0.000453818, 9.99955]]
+        time,       [S1],    [S2]
+     [[    0,         10,       0],
+      [    2,    1.23775, 8.76225],
+      [    4,   0.253289, 9.74671],
+      [    6,  0.0444091, 9.95559],
+      [    8, 0.00950381,  9.9905],
+      [   10, 0.00207671, 9.99792]]
     
 
 
 Selections
 ~~~~~~~~~~
 
-Selections can be either given as argument to ``r.simulate`` or set via
-``r.selections``.
+The selections list can be used to set which state variables will appear
+in the output array. By default, it includes all SBML species and the
+``time`` variable. Selections can be either given as argument to
+``r.simulate`` or set via ``r.selections``.
 
-.. code:: python
+.. code-block:: python
 
     # set selections directly
     r.selections = ['time', 'J1']
@@ -138,31 +234,33 @@ Selections can be either given as argument to ``r.simulate`` or set via
 
 .. parsed-literal::
 
-        time,          J1
-     [[    0, 0.000453818],
-      [    2, 6.14191e-05],
-      [    4, 8.31285e-06],
-      [    6, 1.12523e-06],
-      [    8, 1.52689e-07],
-      [   10, 2.07032e-08]]
+        time,           J1
+     [[    0,   0.00207671],
+      [    2,  0.000295112],
+      [    4, -0.000234598],
+      [    6, -0.000203385],
+      [    8,   -9.474e-05],
+      [   10, -3.43429e-05]]
     
                   S1, S2
-     [[  2.07032e-08, 10],
-      [  2.71764e-09, 10],
-      [  4.08585e-10, 10],
-      [  6.85818e-11, 10],
-      [  1.47247e-11, 10],
-      [ -3.51877e-12, 10]]
+     [[ -3.43429e-05, 10],
+      [ -1.57669e-05, 10],
+      [ -8.76907e-06, 10],
+      [ -3.36199e-06, 10],
+      [ -2.80745e-06, 10],
+      [ -2.25291e-06, 10]]
     
 
 
 Reset model variables
 ~~~~~~~~~~~~~~~~~~~~~
 
-To reset variables use the ``r.reset()`` and
-``r.reset(SelectionRecord.*)`` functions.
+To reset the model's state variables use the ``r.reset()`` and
+``r.reset(SelectionRecord.*)`` functions. If you have made modifications
+to parameter values, use the ``r.resetAll()`` function to reset
+parameters to their initial values when the model was loaded.
 
-.. code:: python
+.. code-block:: python
 
     # show the current values
     for s in ['S1', 'S2']:
@@ -177,10 +275,9 @@ To reset variables use the ``r.reset()`` and
 
 .. parsed-literal::
 
-    r.S1 == -3.5187697416e-12
-    r.S2 == 10.0
+    r.S1 == -2.252909326764279e-06
+    r.S2 == 10.000002252909333
     reset
     r.S1 == 10.0
     r.S2 == 0.0
-
 

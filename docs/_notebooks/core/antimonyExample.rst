@@ -14,7 +14,7 @@ instance. This example shows the change in the Antimony / SBML
 representation. The example also shows how to use variable stepping in a
 simulation.
 
-.. code:: python
+.. code-block:: python
 
     import tellurium as te
     
@@ -75,32 +75,10 @@ simulation.
     print('\n'.join(list(difflib.unified_diff(ant_str_before.splitlines(), ant_str_after2.splitlines(), fromfile="before.sb", tofile="after.sb"))))
 
 
-.. parsed-literal::
-
-    /home/poltergeist/.config/Tellurium/telocal/python-3.6.1/lib/python3.6/site-packages/matplotlib/__init__.py:1405: UserWarning: 
-    This call to matplotlib.use() has no effect because the backend has already
-    been chosen; matplotlib.use() must be called *before* pylab, matplotlib.pyplot,
-    or matplotlib.backends is imported for the first time.
-    
-      warnings.warn(_use_error_msg)
-
-
 
 .. raw:: html
 
     <script>requirejs.config({paths: { 'plotly': ['https://cdn.plot.ly/plotly-latest.min']},});if(!window.Plotly) {{require(['plotly'],function(plotly) {window.Plotly=plotly;});}}</script>
-
-
-.. parsed-literal::
-
-    /home/poltergeist/.config/Tellurium/telocal/python-3.6.1/lib/python3.6/site-packages/matplotlib/__init__.py:1405: UserWarning:
-    
-    
-    This call to matplotlib.use() has no effect because the backend has already
-    been chosen; matplotlib.use() must be called *before* pylab, matplotlib.pyplot,
-    or matplotlib.backends is imported for the first time.
-    
-    
 
 
 .. parsed-literal::
@@ -113,8 +91,32 @@ simulation.
     libsedml : 402
     phrasedml : 1.0.7
     --------------------------------------------------------------------------------
+
+
+
+.. image:: _notebooks/core/antimonyExample_files/antimonyExample_2_2.png
+
+
+
+.. image:: _notebooks/core/antimonyExample_files/antimonyExample_2_3.png
+
+
+
+.. image:: _notebooks/core/antimonyExample_files/antimonyExample_2_4.png
+
+
+.. parsed-literal::
+
     Comparing Antimony at time 0 & 40 (expect no differences)
     
+
+
+
+.. image:: _notebooks/core/antimonyExample_files/antimonyExample_2_6.png
+
+
+.. parsed-literal::
+
     Comparing Antimony at time 0 & 15
     --- before.sb
     
@@ -132,23 +134,7 @@ simulation.
        var p1;
 
 
-
-.. image:: _notebooks/core/antimonyExample_files/antimonyExample_2_4.png
-
-
-
-.. image:: _notebooks/core/antimonyExample_files/antimonyExample_2_5.png
-
-
-
-.. image:: _notebooks/core/antimonyExample_files/antimonyExample_2_6.png
-
-
-
-.. image:: _notebooks/core/antimonyExample_files/antimonyExample_2_7.png
-
-
-.. code:: python
+.. code-block:: python
 
     r.getSimulationData()
 

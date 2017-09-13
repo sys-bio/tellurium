@@ -5,7 +5,7 @@ Generate different wave forms
 
 Example for how to create different wave form functions in tellurium.
 
-.. code:: python
+.. code-block:: python
 
     import tellurium as te
     from roadrunner import Config
@@ -56,6 +56,11 @@ Example for how to create different wave form functions in tellurium.
 
 
 
-.. image:: _notebooks/core/model_generatingDifferentWaveforms_files/model_generatingDifferentWaveforms_2_0.png
+.. raw:: html
 
+    <script>requirejs.config({paths: { 'plotly': ['https://cdn.plot.ly/plotly-latest.min']},});if(!window.Plotly) {{require(['plotly'],function(plotly) {window.Plotly=plotly;});}}</script>
+
+
+
+.. image:: _notebooks/core/model_generatingDifferentWaveforms_files/model_generatingDifferentWaveforms_2_1.png
 

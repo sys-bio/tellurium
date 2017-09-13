@@ -16,6 +16,7 @@ import json
 
 __default_plotting_engine = 'matplotlib'
 
+# enable fixes for Spyder (no Plotly support, no Agg support)
 if any('SPYDER' in name for name in os.environ):
     SPYDER = True
 else:

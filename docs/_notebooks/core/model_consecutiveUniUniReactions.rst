@@ -6,7 +6,7 @@ Consecutive UniUni reactions using first-order mass-action kinetics
 Model creation and simulation of a simple irreversible chain of
 reactions S1 -> S2 -> S3 -> S4.
 
-.. code:: python
+.. code-block:: python
 
     import tellurium as te
     
@@ -27,6 +27,11 @@ reactions S1 -> S2 -> S3 -> S4.
 
 
 
-.. image:: _notebooks/core/model_consecutiveUniUniReactions_files/model_consecutiveUniUniReactions_2_0.png
+.. raw:: html
 
+    <script>requirejs.config({paths: { 'plotly': ['https://cdn.plot.ly/plotly-latest.min']},});if(!window.Plotly) {{require(['plotly'],function(plotly) {window.Plotly=plotly;});}}</script>
+
+
+
+.. image:: _notebooks/core/model_consecutiveUniUniReactions_files/model_consecutiveUniUniReactions_2_1.png
 

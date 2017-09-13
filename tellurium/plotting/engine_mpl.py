@@ -62,8 +62,7 @@ class MatplotlibFigure(PlottingFigure):
             plt.savefig(filename, format='pdf')
             print('saved plot to {}'.format(filename))
         
-        if SPYDER:
-            plt.show()
+        plt.show()
 
         return fig
 
