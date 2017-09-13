@@ -19,10 +19,10 @@ Contents:
    notebooks.rst
    antimony.rst
    tellurium_methods.rst
+   API.rst
 ..    paramscan.rst
 ..    testing.rst
 ..    latex.rst
-   API
 
 
 .. older docs
