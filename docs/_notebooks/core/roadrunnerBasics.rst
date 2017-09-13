@@ -16,6 +16,7 @@ simulator instance.
 .. code-block:: python
 
     import tellurium as te
+    te.setDefaultPlottingEngine('matplotlib')
     
     model = """
     model test
@@ -48,10 +49,12 @@ To set the integrator use ``r.setIntegrator(<integrator-name>)`` or
 ``r.integrator = <integrator-name>``. RoadRunner supports ``'cvode'``,
 ``'gillespie'``, and ``'rk4'`` for the integrator name. CVODE uses
 adaptive stepping internally, regardless of whether the output is
-gridded or not. The size of these
+gridded or not. The size of these internal steps is controlled by the
+tolerances, both absolute and relative.
 
-To set integrator settings use ``r.integrator.setValue(key, value)``.
-Here are some important settings for the ``cvode`` integrator:
+To set integrator settings use ``r.integrator.<setting-name> = <value>``
+or ``r.integrator.setValue(<setting-name>, <value>)``. Here are some
+important settings for the ``cvode`` integrator:
 
 -  ``variable_step_size``: Adaptive step-size integration
    (``True``/``False``).
@@ -62,21 +65,62 @@ Here are some important settings for the ``cvode`` integrator:
 -  ``relative_tolerance``: Relative numerical tolerance for integrator
    internal stepping.
 
-For the ``gillespie`` integrator:
+Settings for the ``gillespie`` integrator:
 
 -  ``seed``: The RNG seed for the Gillespie method. You can set this
    before running a simulation, or leave it alone for a different seed
    each time. Simulations initialized with the same seed will have the
    same results.
 
-You can also use settings as properties, e.g.
-``r.integrator.seed = 1234`` is a shorthand for ``setValue``.
+.. code-block:: python
+
+    # what is the current integrator?
+    print('The current integrator is:')
+    print(r.integrator)
+    
+    # enable variable stepping
+    r.integrator.variable_step_size = True
+    # adjust the tolerances (can set directly or via setValue)
+    r.integrator.absolute_tolerance = 1e-6 # set directly via property
+    r.integrator.setValue('relative_tolerance', 1e-3) # set via a call to setValue
+    
+    # run a simulation
+    r.simulate(0, 10, 100)
+    r.plot()
+
+
+.. parsed-literal::
+
+    The current integrator is:
+    < roadrunner.Integrator() >
+      name: cvode
+      settings:
+          relative_tolerance: 0.000001
+          absolute_tolerance: 0.000000000001
+                       stiff: true
+           maximum_bdf_order: 5
+         maximum_adams_order: 12
+           maximum_num_steps: 20000
+           maximum_time_step: 0
+           minimum_time_step: 0
+           initial_time_step: 0
+              multiple_steps: false
+          variable_step_size: false
+    
+
+
+
+.. image:: _notebooks/core/roadrunnerBasics_files/roadrunnerBasics_4_1.png
+
 
 .. code-block:: python
 
-    # set integrator
-    r.setIntegrator('rk4')
+    # set integrator to Gillespie solver
     r.setIntegrator('gillespie')
+    # identical ways to set integrator
+    r.setIntegrator('rk4')
+    r.integrator = 'rk4'
+    # set back to cvode (the default)
     r.setIntegrator('cvode')
     
     # set integrator settings
@@ -92,8 +136,8 @@ You can also use settings as properties, e.g.
     < roadrunner.Integrator() >
       name: cvode
       settings:
-          relative_tolerance: 0.000001
-          absolute_tolerance: 0.000000000001
+          relative_tolerance: 0.001
+          absolute_tolerance: 0.000001
                        stiff: true
            maximum_bdf_order: 5
          maximum_adams_order: 12
@@ -137,21 +181,21 @@ arguments:
 
 .. parsed-literal::
 
-        time,       [S1],    [S2]
-     [[    0,         10,       0],
-      [    2,    1.35337, 8.64663],
-      [    4,   0.183161, 9.81684],
-      [    6,  0.0247885, 9.97521],
-      [    8, 0.00335481, 9.99665],
-      [   10, 0.00045403, 9.99955]]
+        time,        [S1],    [S2]
+     [[    0,          10,       0],
+      [    2,     1.35716, 8.64284],
+      [    4,    0.182759, 9.81724],
+      [    6,   0.0247971,  9.9752],
+      [    8,  0.00338114, 9.99662],
+      [   10, 0.000460568, 9.99954]]
     
-        time,       [S1],    [S2]
-     [[    0,         10,       0],
-      [    2,    1.35337, 8.64663],
-      [    4,   0.183161, 9.81684],
-      [    6,  0.0247885, 9.97521],
-      [    8, 0.00335481, 9.99665],
-      [   10, 0.00045403, 9.99955]]
+        time,        [S1],    [S2]
+     [[    0,          10,       0],
+      [    2,     1.35716, 8.64284],
+      [    4,    0.182759, 9.81724],
+      [    6,   0.0247971,  9.9752],
+      [    8,  0.00338114, 9.99662],
+      [   10, 0.000460568, 9.99954]]
     
 
 
@@ -175,20 +219,20 @@ in the output array. By default, it includes all SBML species and the
 .. parsed-literal::
 
         time,          J1
-     [[    0,  0.00045403],
-      [    2, 6.14464e-05],
-      [    4, 8.31595e-06],
-      [    6, 1.12545e-06],
-      [    8, 1.52314e-07],
-      [   10, 2.06149e-08]]
+     [[    0, 0.000460568],
+      [    2, 5.95825e-05],
+      [    4, 7.43537e-06],
+      [    6, 1.21182e-06],
+      [    8, 3.84777e-07],
+      [   10, 6.63059e-08]]
     
                  S1, S2
-     [[ 2.06149e-08, 10],
-      [    2.79e-09, 10],
-      [ 3.76786e-10, 10],
-      [ 5.12139e-11, 10],
-      [ 7.13659e-12, 10],
-      [ 2.54938e-12, 10]]
+     [[ 6.63059e-08, 10],
+      [ 2.77435e-08, 10],
+      [ 1.01251e-08, 10],
+      [ 6.84866e-09, 10],
+      [ 4.72989e-09, 10],
+      [ 2.61112e-09, 10]]
     
 
 
@@ -215,8 +259,8 @@ parameters to their initial values when the model was loaded.
 
 .. parsed-literal::
 
-    r.S1 == 2.5493789989501883e-12
-    r.S2 == 9.999999999997451
+    r.S1 == 2.6111239010134025e-09
+    r.S2 == 9.999999997388876
     reset
     r.S1 == 10.0
     r.S2 == 0.0
