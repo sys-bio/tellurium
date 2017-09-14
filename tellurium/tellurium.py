@@ -638,10 +638,10 @@ def cellmlToSBML(cellml):
     return antimony.getSBMLString(None)
 
 def exportInlineOmex(inline_omex, export_location):
-    """ Execute inline phrasedml and antimony.
+    """ Export an inline OMEX string to a COMBINE archive.
 
-    :param inline_omex: String containing inline phrasedml and antimony.
-    :param export_location: Filepath of Combine archive to export
+    :param inline_omex: String containing inline OMEX describing models and simulations.
+    :param export_location: Filepath of Combine archive to create.
     """
     from .teconverters import saveInlineOMEX
     saveInlineOMEX(inline_omex, export_location)
@@ -654,7 +654,7 @@ def executeInlineOmex(inline_omex):
     omex = teconverters.inlineOmex.fromString(inline_omex).executeOmex()
 
 def executeInlineOmexFromFile(filepath):
-    """ Execute inline phrasedml and antimony.
+    """ Execute inline OMEX with simulations described in phrasedml and models described in antimony.
 
     :param filepath: Path to file containing inline phrasedml and antimony.
     """
@@ -662,7 +662,7 @@ def executeInlineOmexFromFile(filepath):
         executeInlineOmex(f.read())
 
 def convertCombineArchive(location):
-    """ Read a Combine archive and convert its contents to an
+    """ Read a COMBINE archive and convert its contents to an
     inline Omex.
 
     :param location: Filesystem path to the archive.
@@ -671,7 +671,7 @@ def convertCombineArchive(location):
     return inlineOmexImporter.fromFile(location).toInlineOmex()
 
 def convertAndExecuteCombineArchive(location):
-    """ Read and execute a combine archive.
+    """ Read and execute a COMBINE archive.
 
     :param location: Filesystem path to the archive.
     """
