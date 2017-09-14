@@ -439,7 +439,7 @@ class SEDMLCodeFactory(object):
         language = model.getLanguage()
         source = self.model_sources[mid]
 
-        if len(language):
+        if not language:
             warnings.warn("No model language specified, defaulting to SBML for: {}".format(source))
 
         def isUrn():
