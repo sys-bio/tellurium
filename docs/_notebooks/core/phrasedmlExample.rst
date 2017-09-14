@@ -1,137 +1,5 @@
 
 
-SED-ML L1V2 specification example
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-This example uses the celebrated `repressilator
-model <https://www.ebi.ac.uk/biomodels-main/BIOMD0000000012>`__ to
-demonstrate how to 1) download a model from the `BioModels
-database <https://www.ebi.ac.uk/biomodels-main/>`__, 2) create a
-PhraSEDML string to simulate the model, 3) convert the PhraSEDML to
-SED-ML, and 4) use Tellurium to execute the resulting SED-ML.
-
-This and other examples here are the `SED-ML reference
-specification <http://sed-ml.sourceforge.net/documents/sed-ml-L1V2.pdf>`__
-(Introduction section).
-
-.. code-block:: python
-
-    import tellurium as te, tellurium.temiriam as temiriam
-    te.setDefaultPlottingEngine('matplotlib')
-    import phrasedml
-    
-    # Get SBML from URN and set for phrasedml
-    urn = "urn:miriam:biomodels.db:BIOMD0000000012"
-    sbml_str = temiriam.getSBMLFromBiomodelsURN(urn=urn)
-    phrasedml.setReferencedSBML('BIOMD0000000012', sbml_str)
-    
-    # <SBML species>
-    #   PX - LacI protein
-    #   PY - TetR protein
-    #   PZ - cI protein
-    #   X - LacI mRNA
-    #   Y - TetR mRNA
-    #   Z - cI mRNA
-    
-    # <SBML parameters>
-    #   ps_a - tps_active: Transcrition from free promotor in transcripts per second and promotor
-    #   ps_0 - tps_repr: Transcrition from fully repressed promotor in transcripts per second and promotor
-    
-    phrasedml_str = """
-        model1 = model "{}"
-        model2 = model model1 with ps_0=1.3E-5, ps_a=0.013
-        sim1 = simulate uniform(0, 1000, 1000)
-        task1 = run sim1 on model1
-        task2 = run sim1 on model2
-    
-        # A simple timecourse simulation
-        plot "Figure 1.1 Timecourse of repressilator" task1.time vs task1.PX, task1.PZ, task1.PY
-    
-        # Applying preprocessing
-        plot "Figure 1.2 Timecourse after pre-processing" task2.time vs task2.PX, task2.PZ, task2.PY
-    
-        # Applying postprocessing
-        plot "Figure 1.3 Timecourse after post-processing" task1.PX/max(task1.PX) vs task1.PZ/max(task1.PZ), \
-                                                           task1.PY/max(task1.PY) vs task1.PX/max(task1.PX), \
-                                                           task1.PZ/max(task1.PZ) vs task1.PY/max(task1.PY)
-    """.format('BIOMD0000000012')
-    
-    # convert to SED-ML
-    sedml_str = phrasedml.convertString(phrasedml_str)
-    if sedml_str == None:
-        raise RuntimeError(phrasedml.getLastError())
-    
-    # Run the SED-ML file with results written in workingDir
-    import tempfile, shutil, os
-    workingDir = tempfile.mkdtemp(suffix="_sedml")
-    # write out SBML
-    with open(os.path.join(workingDir, 'BIOMD0000000012'), 'wb') as f:
-        f.write(sbml_str.encode('utf-8'))
-    te.executeSEDML(sedml_str, workingDir=workingDir)
-    shutil.rmtree(workingDir)
-
-
-
-.. raw:: html
-
-    <script>requirejs.config({paths: { 'plotly': ['https://cdn.plot.ly/plotly-latest.min']},});if(!window.Plotly) {{require(['plotly'],function(plotly) {window.Plotly=plotly;});}}</script>
-
-
-.. parsed-literal::
-
-    INFO:root:Initialising BioModels service (WSDL)
-
-
-
-.. image:: _notebooks/core/phrasedmlExample_files/phrasedmlExample_2_2.png
-
-
-
-.. image:: _notebooks/core/phrasedmlExample_files/phrasedmlExample_2_3.png
-
-
-
-.. image:: _notebooks/core/phrasedmlExample_files/phrasedmlExample_2_4.png
-
-
-Execute SED-ML Archive
-~~~~~~~~~~~~~~~~~~~~~~
-
-Tellurium can read and execute the SED-ML from a SED-ML archive. This is
-**not** the same as a COMBINE archive (see below for COMBINE archive
-examples).
-
-.. code-block:: python
-
-    import tellurium as te
-    from tellurium.tests.testdata import sedxDir
-    import os
-    omexPath = os.path.join(sedxDir, "BIOMD0000000003.sedx")
-    print('Loading SED-ML archive from path: {}'.format(omexPath))
-    print('Using {} as a working directory'.format(os.path.join(os.path.split(omexPath)[0], '_te_BIOMD0000000003')))
-    
-    # execute the SED-ML archive
-    te.executeSEDML(omexPath)
-
-
-.. parsed-literal::
-
-    Loading SED-ML archive from path: /home/poltergeist/devel/src/tellurium/tellurium/tests/testdata/sedml/sedx/BIOMD0000000003.sedx
-    Using /home/poltergeist/devel/src/tellurium/tellurium/tests/testdata/sedml/sedx/_te_BIOMD0000000003 as a working directory
-
-
-.. parsed-literal::
-
-    /home/poltergeist/devel/src/tellurium/tellurium/tecombine.py:329: UserWarning:
-    
-    No 'manifest.xml' in archive, trying to resolve manually
-    
-
-
-
-.. image:: _notebooks/core/phrasedmlExample_files/phrasedmlExample_4_2.png
-
-
 Inline OMEX and COMBINE archives
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -148,7 +16,8 @@ inline OMEX, which contain correct syntax-highlighting for the format.
 
 .. code-block:: python
 
-    import tellurium as te
+    import tellurium as te, tempfile, os
+    te.setDefaultPlottingEngine('matplotlib')
     
     antimony_str = '''
     model myModel
@@ -177,7 +46,13 @@ inline OMEX, which contain correct syntax-highlighting for the format.
 
 
 
-.. image:: _notebooks/core/phrasedmlExample_files/phrasedmlExample_6_0.png
+.. raw:: html
+
+    <script>requirejs.config({paths: { 'plotly': ['https://cdn.plot.ly/plotly-latest.min']},});if(!window.Plotly) {{require(['plotly'],function(plotly) {window.Plotly=plotly;});}}</script>
+
+
+
+.. image:: _notebooks/core/phrasedmlExample_files/phrasedmlExample_2_1.png
 
 
 Forcing Functions
@@ -257,11 +132,11 @@ the second example.
 
 
 
-.. image:: _notebooks/core/phrasedmlExample_files/phrasedmlExample_8_0.png
+.. image:: _notebooks/core/phrasedmlExample_files/phrasedmlExample_4_0.png
 
 
 
-.. image:: _notebooks/core/phrasedmlExample_files/phrasedmlExample_8_1.png
+.. image:: _notebooks/core/phrasedmlExample_files/phrasedmlExample_4_1.png
 
 
 1d Parameter Scan
@@ -332,7 +207,7 @@ simulation ``task0`` on a model for different values of the parameter
 
 
 
-.. image:: _notebooks/core/phrasedmlExample_files/phrasedmlExample_10_0.png
+.. image:: _notebooks/core/phrasedmlExample_files/phrasedmlExample_6_0.png
 
 
 2d Parameter Scan
@@ -431,11 +306,11 @@ sweeps through a uniform range for another parameter ``J4_KK5``.
 
 
 
-.. image:: _notebooks/core/phrasedmlExample_files/phrasedmlExample_12_0.png
+.. image:: _notebooks/core/phrasedmlExample_files/phrasedmlExample_8_0.png
 
 
 
-.. image:: _notebooks/core/phrasedmlExample_files/phrasedmlExample_12_1.png
+.. image:: _notebooks/core/phrasedmlExample_files/phrasedmlExample_8_1.png
 
 
 Stochastic Simulation and RNG Seeding
@@ -542,11 +417,11 @@ different value is used each time, leading to different results.
 
 
 
-.. image:: _notebooks/core/phrasedmlExample_files/phrasedmlExample_14_0.png
+.. image:: _notebooks/core/phrasedmlExample_files/phrasedmlExample_10_0.png
 
 
 
-.. image:: _notebooks/core/phrasedmlExample_files/phrasedmlExample_14_1.png
+.. image:: _notebooks/core/phrasedmlExample_files/phrasedmlExample_10_1.png
 
 
 Resetting Models
@@ -593,11 +468,11 @@ value is not reset.
 
 
 
-.. image:: _notebooks/core/phrasedmlExample_files/phrasedmlExample_16_0.png
+.. image:: _notebooks/core/phrasedmlExample_files/phrasedmlExample_12_0.png
 
 
 
-.. image:: _notebooks/core/phrasedmlExample_files/phrasedmlExample_16_1.png
+.. image:: _notebooks/core/phrasedmlExample_files/phrasedmlExample_12_1.png
 
 
 3d Plotting
@@ -696,5 +571,5 @@ syntax is ``plot <x> vs <y> vs <z>``, where ``<x>``, ``<y>``, and
 
 
 
-.. image:: _notebooks/core/phrasedmlExample_files/phrasedmlExample_18_0.png
+.. image:: _notebooks/core/phrasedmlExample_files/phrasedmlExample_14_0.png
 
