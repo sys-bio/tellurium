@@ -30,9 +30,9 @@ In this section model the creation of example models is shown.
 .. include:: _notebooks/core/model_generatingDifferentWaveforms.rst
 .. include:: _notebooks/core/model_normalizedSpecies.rst
 
---------------------
+---------------------
 COMBINE & Inline OMEX
---------------------
+---------------------
 
 Tellurium exchangeability via the simulation experiment
 description markup language `SED-ML <https://sed-ml.github.io/>`_ and `COMBINE archives <http://co.mbine.org/documents/archive>`_ (.omex files).
@@ -53,6 +53,10 @@ the inline OMEX string. Examples below.
 .. autofunction:: tellurium.executeInlineOmex
 .. autofunction:: tellurium.exportInlineOmex
 .. autofunction:: tellurium.extractFileFromCombineArchive
+
+--------
+SED-ML
+--------
 
 .. include:: _notebooks/core/phrasedmlExample.rst
 .. include:: _notebooks/core/tesedmlExample.rst

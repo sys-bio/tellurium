@@ -52,6 +52,7 @@ be properly converted into a SED-ML file.
 .. code-block:: python
 
     import tellurium as te
+    te.setDefaultPlottingEngine('matplotlib')
     import phrasedml
     
     antimony_str = '''
@@ -152,38 +153,54 @@ be properly converted into a SED-ML file.
 Using libsedml to Read Converted PhraSEDML
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-After converting PhraSEDML to SED-ML, libsedml can be used to read the
-SED-ML document.
+After converting PhraSEDML to SED-ML, you can call ``te.executeSEDML``
+to use Tellurium to execute all simulations in the SED-ML. This example
+also shows how to use
+`libSEDML <https://github.com/fbergmann/libSEDML>`__ (used by Tellurium
+and PhraSEDML internally) for reading SED-ML files.
 
 .. code-block:: python
 
-    import tempfile
-    f_sbml = tempfile.NamedTemporaryFile(prefix="myModel", suffix=".xml")
-    f_sbml.write(sbml_str.encode('utf-8'))
-    f_sbml.flush()
-    print('SBML file written to {}'.format(f_sbml.name))
+    import tempfile, os, shutil
     
-    f_sedml = tempfile.NamedTemporaryFile(suffix=".sedml")
-    f_sedml.write(sedml_str.encode('utf-8'))
-    f_sedml.flush()
-    print('SED-ML file written to {}'.format(f_sedml.name))
+    workingDir = tempfile.mkdtemp(suffix="_sedml")
+    
+    sbml_file = os.path.join(workingDir, 'myModel')
+    sedml_file = os.path.join(workingDir, 'sed_main.xml')
+    
+    with open(sbml_file, 'wb') as f:
+        f.write(sbml_str.encode('utf-8'))
+        f.flush()
+        print('SBML file written to {}'.format(sbml_file))
+    
+    with open(sedml_file, 'wb') as f:
+        f.write(sedml_str.encode('utf-8'))
+        f.flush()
+        print('SED-ML file written to {}'.format(sedml_file))
     
     # For technical reasons, any software which uses libSEDML
     # must provide a custom build - Tellurium uses tesedml
     import tesedml as libsedml
-    sedml_doc = libsedml.readSedML(f_sedml.name)
+    sedml_doc = libsedml.readSedML(sedml_file)
     n_errors = sedml_doc.getErrorLog().getNumFailsWithSeverity(libsedml.LIBSEDML_SEV_ERROR)
     print('Read SED-ML file, number of errors: {}'.format(n_errors))
     if n_errors > 0:
         print(sedml_doc.getErrorLog().toString())
     
-    f_sbml.close()
-    f_sedml.close()
+    # execute SED-ML using Tellurium
+    te.executeSEDML(sedml_str, workingDir=workingDir)
+    
+    # clean up
+    #shutil.rmtree(workingDir)
 
 
 .. parsed-literal::
 
-    SBML file written to /tmp/myModelpeo16chv.xml
-    SED-ML file written to /tmp/tmpmoao7p87.sedml
+    SBML file written to /tmp/tmpukhcq081_sedml/myModel
+    SED-ML file written to /tmp/tmpukhcq081_sedml/sed_main.xml
     Read SED-ML file, number of errors: 0
+
+
+
+.. image:: _notebooks/core/tesedmlExample_files/tesedmlExample_4_1.png
 

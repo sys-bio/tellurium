@@ -122,10 +122,6 @@ examples).
 
 .. parsed-literal::
 
-    /home/poltergeist/devel/src/tellurium/tellurium/tecombine.py:274: UserWarning:
-    
-    Combine archive directory already exists:/home/poltergeist/devel/src/tellurium/tellurium/tests/testdata/sedml/sedx/_te_BIOMD0000000003
-    
     /home/poltergeist/devel/src/tellurium/tellurium/tecombine.py:329: UserWarning:
     
     No 'manifest.xml' in archive, trying to resolve manually
