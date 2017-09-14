@@ -34,8 +34,8 @@ In this section model the creation of example models is shown.
 SED-ML & COMBINE
 --------------------
 
-Tellurium supports the simulation description via the simulation experiment
-description markup language (SED-ML) and COMBINE archives (.omex files).
+Tellurium exchangeability via the simulation experiment
+description markup language `SED-ML <https://sed-ml.github.io/>`_ and `COMBINE archives <http://co.mbine.org/documents/archive>`_ (.omex files).
 These formats are designed to allow modeling software to exchange models and
 simulations. Whereas SBML encodes models, SED-ML encodes simulations, including
 the solver (e.g. deterministic or stochastic), the type of simulation (timecourse or
