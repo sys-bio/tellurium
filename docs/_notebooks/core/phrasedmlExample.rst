@@ -5,7 +5,10 @@ SED-ML L1V2 specification example
 
 This example uses the celebrated `repressilator
 model <https://www.ebi.ac.uk/biomodels-main/BIOMD0000000012>`__ to
-demonstrate the use of phrasedml with URN examples.
+demonstrate how to 1) download a model from the `BioModels
+database <https://www.ebi.ac.uk/biomodels-main/>`__, 2) create a
+PhraSEDML string to simulate the model, 3) convert the PhraSEDML to
+SED-ML, and 4) use Tellurium to execute the resulting SED-ML.
 
 This and other examples here are the `SED-ML reference
 specification <http://sed-ml.sourceforge.net/documents/sed-ml-L1V2.pdf>`__
@@ -19,8 +22,8 @@ specification <http://sed-ml.sourceforge.net/documents/sed-ml-L1V2.pdf>`__
     
     # Get SBML from URN and set for phrasedml
     urn = "urn:miriam:biomodels.db:BIOMD0000000012"
-    sbmlStr = temiriam.getSBMLFromBiomodelsURN(urn=urn)
-    phrasedml.setReferencedSBML('BIOMD0000000012', sbmlStr)
+    sbml_str = temiriam.getSBMLFromBiomodelsURN(urn=urn)
+    phrasedml.setReferencedSBML('BIOMD0000000012', sbml_str)
     
     # <SBML species>
     #   PX - LacI protein
@@ -34,7 +37,7 @@ specification <http://sed-ml.sourceforge.net/documents/sed-ml-L1V2.pdf>`__
     #   ps_a - tps_active: Transcrition from free promotor in transcripts per second and promotor
     #   ps_0 - tps_repr: Transcrition from fully repressed promotor in transcripts per second and promotor
     
-    phrasedmlStr = """
+    phrasedml_str = """
         model1 = model "{}"
         model2 = model model1 with ps_0=1.3E-5, ps_a=0.013
         sim1 = simulate uniform(0, 1000, 1000)
@@ -54,8 +57,8 @@ specification <http://sed-ml.sourceforge.net/documents/sed-ml-L1V2.pdf>`__
     """.format('BIOMD0000000012')
     
     # convert to SED-ML
-    sedmlStr = phrasedml.convertString(phrasedmlStr)
-    if sedmlStr == None:
+    sedml_str = phrasedml.convertString(phrasedml_str)
+    if sedml_str == None:
         raise RuntimeError(phrasedml.getLastError())
     
     # Run the SED-ML file with results written in workingDir
@@ -63,8 +66,8 @@ specification <http://sed-ml.sourceforge.net/documents/sed-ml-L1V2.pdf>`__
     workingDir = tempfile.mkdtemp(suffix="_sedml")
     # write out SBML
     with open(os.path.join(workingDir, 'BIOMD0000000012'), 'wb') as f:
-        f.write(sbmlStr.encode('utf-8'))
-    te.executeSEDML(sedmlStr, workingDir=workingDir)
+        f.write(sbml_str.encode('utf-8'))
+    te.executeSEDML(sedml_str, workingDir=workingDir)
     shutil.rmtree(workingDir)
 
 

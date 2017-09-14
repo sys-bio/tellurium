@@ -31,7 +31,7 @@ In this section model the creation of example models is shown.
 .. include:: _notebooks/core/model_normalizedSpecies.rst
 
 --------------------
-SED-ML & COMBINE
+COMBINE & Inline OMEX
 --------------------
 
 Tellurium exchangeability via the simulation experiment
@@ -56,14 +56,6 @@ the inline OMEX string. Examples below.
 
 .. include:: _notebooks/core/phrasedmlExample.rst
 .. include:: _notebooks/core/tesedmlExample.rst
-
---------------------
-Parameter scan
---------------------
-
-.. include:: _notebooks/core/parameter_scan.rst
-.. include:: _notebooks/core/steadystate_scan.rst
-.. include:: _notebooks/core/computeSteadyState.rst
 
 --------------------
 Misc
