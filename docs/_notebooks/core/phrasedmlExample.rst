@@ -3,13 +3,13 @@
 SED-ML L1V2 specification example
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Repressilator example which demonstrates the use of phrasedml with URN
-examples.
+This example uses the celebrated `repressilator
+model <https://www.ebi.ac.uk/biomodels-main/BIOMD0000000012>`__ to
+demonstrate the use of phrasedml with URN examples.
 
-These examples are the reference examples from the SED-ML specification
-document available from
-http://sed-ml.sourceforge.net/documents/sed-ml-L1V2.pdf (Introduction
-Section).
+This and other examples here are the `SED-ML reference
+specification <http://sed-ml.sourceforge.net/documents/sed-ml-L1V2.pdf>`__
+(Introduction section).
 
 .. code-block:: python
 
@@ -181,10 +181,16 @@ inline OMEX, which contain correct syntax-highlighting for the format.
 .. image:: _notebooks/core/phrasedmlExample_files/phrasedmlExample_6_0.png
 
 
-OneStep
-~~~~~~~
+Forcing Functions
+~~~~~~~~~~~~~~~~~
 
-Running a one step simulation.
+A common task in modeling is to represent the influence of an external,
+time-varying input on the system. In SED-ML, this can be accomplished
+using a repeated task to run a simulation for a short amount of time and
+update the forcing function between simulations. In the example, the
+forcing function is a pulse represented with a ``piecewise`` directive,
+but it can be any arbitrarily complex time-varying function, as shown in
+the second example.
 
 .. code-block:: python
 
@@ -234,8 +240,9 @@ Running a one step simulation.
     stepper = simulate onestep(0.1)
     task0 = run stepper on model1
     task1 = repeat task0 for local.x in uniform(0, 10, 100), J0_v0 = piecewise(8, x<4, 0.1, 4<=x<6, 8)
-    plot "One Step Simulation" task1.time vs task1.S1, task1.S2, task1.J0_v0
-    report task1.time vs task1.S1, task1.S2, task1.J0_v0
+    task2 = repeat task0 for local.index in uniform(0, 10, 1000), local.current = index -> abs(sin(1 / (0.1 * index + 0.1))), model1.J0_v0 = current : current
+    plot "Forcing Function (Pulse)" task1.time vs task1.S1, task1.S2, task1.J0_v0
+    plot "Forcing Function (Custom)" task2.time vs task2.S1, task2.S2, task2.J0_v0
     '''
     
     # create the inline OMEX string
@@ -254,17 +261,8 @@ Running a one step simulation.
 .. image:: _notebooks/core/phrasedmlExample_files/phrasedmlExample_8_0.png
 
 
-.. parsed-literal::
 
-    --------------------------------------------------------------------------------
-    report_1, Repeat: 0
-    --------------------------------------------------------------------------------
-       task1.time  task1.S1  task1.S2  task1.J0_v0
-    0         0.0  0.000000  1.000000          8.0
-    1         0.1  0.745536  0.652363          8.0
-    2         0.1  0.745536  0.652363          8.0
-    3         0.2  1.417842  0.498250          8.0
-    4         0.2  1.417842  0.498250          8.0
+.. image:: _notebooks/core/phrasedmlExample_files/phrasedmlExample_8_1.png
 
 
 1d Parameter Scan
@@ -533,8 +531,8 @@ different value is used each time, leading to different results.
     task2 = run timecourse2 on model1
     repeat1 = repeat task1 for local.x in uniform(0, 10, 10), reset=true
     repeat2 = repeat task2 for local.x in uniform(0, 10, 10), reset=true
-    plot "Repeats with SEED" repeat1.time vs repeat1.MAPK, repeat1.MAPK_P, repeat1.MAPK_PP, repeat1.MKK, repeat1.MKK_P, repeat1.MKKK, repeat1.MKKK_P
-    plot "Repeats without SEED" repeat2.time vs repeat2.MAPK, repeat2.MAPK_P, repeat2.MAPK_PP, repeat2.MKK, repeat2.MKK_P, repeat2.MKKK, repeat2.MKKK_P
+    plot "Repeats with same seed" repeat1.time vs repeat1.MAPK, repeat1.MAPK_P, repeat1.MAPK_PP, repeat1.MKK, repeat1.MKK_P, repeat1.MKKK, repeat1.MKKK_P
+    plot "Repeats without seeding" repeat2.time vs repeat2.MAPK, repeat2.MAPK_P, repeat2.MAPK_PP, repeat2.MKK, repeat2.MKK_P, repeat2.MKKK, repeat2.MKKK_P
     '''
     
     # create the inline OMEX string
