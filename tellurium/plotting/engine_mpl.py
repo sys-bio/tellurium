@@ -45,7 +45,13 @@ class MatplotlibFigure(PlottingFigure):
                 kwargs['color'] = dataset['color']
             if 'alpha' in dataset and dataset['alpha'] is not None:
                 kwargs['alpha'] = dataset['alpha']
-            plt.plot(dataset['x'], dataset['y'], marker='', **kwargs)
+            scatter = False
+            if 'mode' in dataset and dataset['mode'] is not None and dataset['mode'] == 'markers':
+                scatter = True
+            if not scatter:
+                plt.plot(dataset['x'], dataset['y'], marker='', **kwargs)
+            else:
+                plt.scatter(dataset['x'], dataset['y'], **kwargs)
         # title
         if self.title:
             plt.title(self.title, fontweight='bold')

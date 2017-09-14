@@ -49,10 +49,14 @@ class PlotlyFigure(PlottingFigure):
                 kwargs['showlegend'] = False
             if 'alpha' in dataset and dataset['alpha'] is not None:
                 kwargs['opacity'] = dataset['alpha']
+            # lines/markers (lines by default)
+            if 'mode' in dataset and dataset['mode'] is not None:
+                kwargs['mode'] = dataset['mode']
+            else:
+                kwargs['mode'] = 'lines'
             traces.append(Scatter(
                 x = dataset['x'],
                 y = dataset['y'],
-                mode = 'lines',
                 **kwargs
             ))
 

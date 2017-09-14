@@ -1434,6 +1434,7 @@ class SEDMLCodeFactory(object):
             title = output.getName()
 
         lines.append("stacked=False")
+        # stacking, currently disabled
         # for kc, curve in enumerate(output.getListOfCurves()):
         #     xId = curve.getXDataReference()
         #     lines.append("if {}.shape[1] > 1 and te.getDefaultPlottingEngine() == 'plotly':".format(xId))
@@ -1442,10 +1443,6 @@ class SEDMLCodeFactory(object):
         lines.append("    fig = te.getPlottingEngine().newFigure(title='{}')".format(title))
         lines.append("else:")
         lines.append("    fig = te.getPlottingEngine().newStackedFigure(title='{}')".format(title))
-        # lines.append("plt.figure(num=None, figsize={}, dpi={}, facecolor='{}', edgecolor='{}')".format(settings.figsize, settings.dpi, settings.facecolor, settings.edgecolor))
-        # lines.append("from matplotlib import gridspec")
-        # lines.append("__gs = gridspec.GridSpec(1, 2, width_ratios=[3, 1])")
-        # lines.append("plt.subplot(__gs[0])")
 
         oneXLabel = True
         allXLabel = None
@@ -1474,38 +1471,26 @@ class SEDMLCodeFactory(object):
             elif xLabel != allXLabel:
                 oneXLabel = False
 
-            lines.append("if {}.shape[1] > 1:".format(xId))
-            lines.append("    for k in range({}.shape[1]):".format(xId))
-            lines.append("        if k == 0:")
-            lines.append("            fig.addXYDataset({}[:,k], {}[:,k], color='{}', tag='{}', name='{}')".format(xId, yId, color, tag, yLabel))
-            lines.append("        else:")
-            lines.append("            fig.addXYDataset({}[:,k], {}[:,k], color='{}', tag='{}')".format(xId, yId, color, tag))
+            #lines.append("if {}.shape[1] > 1:".format(xId))
+            lines.append("for k in range({}.shape[1]):".format(xId))
+            lines.append("    if k == 0:")
+            lines.append("        extra_args = {{'name': '{}'}}".format(yLabel))
+            lines.append("    else:")
+            lines.append("        extra_args = {{}}")
+            lines.append("    fig.addXYDataset({}[:,k], {}[:,k], color='{}', tag='{}', **extra_args)".format(xId, yId, color, tag))
+            lines.append("    fix_endpoints({}[:,k], {}[:,k], color='{}', tag='{}', fig=fig)".format(xId, yId, color, tag))
 
-            lines.append("else:".format(xId))
-            lines.append("    for k in range({}.shape[1]):".format(xId))
-            lines.append("        if k == 0:")
-            lines.append("            fig.addXYDataset({}[:,k], {}[:,k], color='{}', tag='{}', name='{}')".format(xId, yId, color, tag, yLabel))
-            # lines.append("        plt.plot({}[:,k], {}[:,k], marker = '{}', color='{}', linewidth={}, markersize={}, alpha={}, label='{}')".format(xId, yId, settings.marker, color, settings.linewidth, settings.markersize, settings.alpha, yLabel))
-            lines.append("        else:")
-            lines.append("            fig.addXYDataset({}[:,k], {}[:,k], color='{}', tag='{}')".format(xId, yId, color, tag))
-            # lines.append("        plt.plot({}[:,k], {}[:,k], marker = '{}', color='{}', linewidth={}, markersize={}, alpha={})".format(xId, yId, settings.marker, color, settings.linewidth, settings.markersize, settings.alpha))
+            #lines.append("else:".format(xId))
+            #lines.append("    for k in range({}.shape[1]):".format(xId))
+            #lines.append("        if k == 0:")
+            #lines.append("            fig.addXYDataset({}[:,k], {}[:,k], color='{}', tag='{}', name='{}')".format(xId, yId, color, tag, yLabel))
+            ## support marker size?
+            ## lines.append("        plt.plot({}[:,k], {}[:,k], marker = '{}', color='{}', linewidth={}, markersize={}, alpha={}, label='{}')".format(xId, yId, settings.marker, color, settings.linewidth, settings.markersize, settings.alpha, yLabel))
+            #lines.append("        else:")
+            #lines.append("            fig.addXYDataset({}[:,k], {}[:,k], color='{}', tag='{}')".format(xId, yId, color, tag))
 
-            # if logX is True:
-            #     lines.append("plt.xscale('log')")
-            # if logY is True:
-            #     lines.append("plt.yscale('log')")
-        # lines.append("plt.title('{}', fontweight='bold')".format(title))
-        # if oneXLabel:
-        #     lines.append("plt.xlabel('{}', fontweight='bold')".format(xLabel))
-        # if len(output.getListOfCurves()) == 1:
-        #     lines.append("plt.ylabel('{}', fontweight='bold')".format(yLabel))
-        #
-        # lines.append("__lg = plt.legend(bbox_to_anchor=(1.05, 1), loc=2, borderaxespad=0.)")
-        # lines.append("__lg.draw_frame(False)")
-        # lines.append("plt.setp(__lg.get_texts(), fontsize='small')")
-        # lines.append("plt.setp(__lg.get_texts(), fontweight='bold')")
-        # lines.append("plt.savefig(os.path.join(workingDir, '{}.png'), dpi=100)".format(output.getId()))
-        # lines.append("plt.show()".format())
+            # TODO: Log X/Y
+        # TODO: X/Y labels from xLabel (if oneXLabel) and yLabel
         lines.append("fig.render()".format())
 
         return lines
@@ -1767,8 +1752,10 @@ def process_trace(trace):
     # print('len(trace.shape) = {}'.format(len(trace.shape)))
     if trace.size > 1:
         if len(trace.shape) == 1:
+            #print('1d trace')
             return np.concatenate((np.atleast_1d(trace), np.atleast_1d(np.nan)))
         elif len(trace.shape) == 2:
+            #print('2d trace')
             # print(trace.shape)
             result = np.vstack((np.atleast_1d(trace), np.full((1,trace.shape[-1]),np.nan)))
             # print('vstack')
@@ -1793,6 +1780,49 @@ def terminate_trace(trace):
             # print(e)
             return trace + [e]
     return trace
+
+
+def fix_endpoints(x, y, color, tag, fig):
+    """ Adds endpoint markers wherever there is a discontinuity in the data."""
+    # expect x and y to be 1d
+    if len(x.shape) > 1:
+        raise RuntimeError('Expected x to be 1d')
+    if len(y.shape) > 1:
+        raise RuntimeError('Expected y to be 1d')
+    x_aug = np.concatenate((np.atleast_1d(np.nan), np.atleast_1d(x), np.atleast_1d(np.nan)))
+    y_aug = np.concatenate((np.atleast_1d(np.nan), np.atleast_1d(y), np.atleast_1d(np.nan)))
+    w = np.argwhere(np.isnan(x_aug))
+
+    endpoints_x = []
+    endpoints_y = []
+
+    for begin,end in ( (int(w[k]+1), int(w[k+1])) for k in range(w.shape[0]-1) ):
+        if begin != end:
+            #print('begin {}, end {}'.format(begin, end))
+            x_values = x_aug[begin:end]
+            x_identical = np.all(x_values == x_values[0])
+            y_values = y_aug[begin:end]
+            y_identical = np.all(y_values == y_values[0])
+            #print('x_values')
+            #print(x_values)
+            #print('x identical? {}'.format(x_identical))
+            #print('y_values')
+            #print(y_values)
+            #print('y identical? {}'.format(y_identical))
+
+            if x_identical and y_identical:
+                # get the coords for the new markers
+                x_begin = x_values[0]
+                x_end   = x_values[-1]
+                y_begin = y_values[0]
+                y_end   = y_values[-1]
+
+                # append to the lists
+                endpoints_x += [x_begin, x_end]
+                endpoints_y += [y_begin, y_end]
+
+        if endpoints_x:
+            fig.addXYDataset(np.array(endpoints_x), np.array(endpoints_y), color=color, tag=tag, mode='markers')
 
 ##################################################################################################
 if __name__ == "__main__":
