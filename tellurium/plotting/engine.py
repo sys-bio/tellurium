@@ -174,11 +174,6 @@ class PlottingEngine(object):
         for k in range(1,m.shape[1]):
             fig.addXYDataset(m[:,0], m[:,k], name=m.colnames[k], tag=tag, alpha=alpha)
 
-        if xlim:
-            fig.setXLim(xlim)
-        if ylim:
-            fig.setYLim(ylim)
-
         return fig
 
 
@@ -200,7 +195,7 @@ class PlottingEngine(object):
             self.fig = fig
         return fig
 
-    def plotTimecourse(self, m, title=None, ordinates=None, tag=None, xtitle=None, logy=False, ytitle=None, alpha=None, xlim=None, ylim=None, **kwargs):
+    def plotTimecourse(self, m, title=None, ordinates=None, tag=None, xtitle=None, logx=False, logy=False, ytitle=None, alpha=None, xlim=None, ylim=None, **kwargs):
 
         """ Plots a timecourse from a simulation.
 
@@ -213,9 +208,17 @@ class PlottingEngine(object):
             fig.xtitle = xtitle
         if ytitle:
             fig.ytitle = ytitle
+        if xlim:
+            fig.setXLim(xlim)
+        if ylim:
+            fig.setYLim(ylim)
+        if logx:
+            fig.logx = logx
+        if logy:
+            fig.logy = logy
         fig.render()
 
-    def accumulateTimecourse(self, m, title=None, ordinates=None, tag=None, xtitle=None, logy=False, ytitle=None, alpha=None, xlim=None, ylim=None, **kwargs):
+    def accumulateTimecourse(self, m, title=None, ordinates=None, tag=None, xtitle=None, logx=False, logy=False, ytitle=None, alpha=None, xlim=None, ylim=None, **kwargs):
         """ Accumulates the traces instead of plotting (like matplotlib with show=False).
         Call show() to show the plot.
 
@@ -241,6 +244,10 @@ class PlottingEngine(object):
             self.fig.setXLim(xlim)
         if ylim:
             self.fig.setYLim(ylim)
+        if logx:
+            self.fig.logx = logx
+        if logy:
+            self.fig.logy = logy
 
     def show(self, reset=True):
         """ Shows the traces accummulated from accumulateTimecourse.

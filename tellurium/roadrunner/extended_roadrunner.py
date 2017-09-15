@@ -288,7 +288,7 @@ class ExtendedRoadRunner(roadrunner.RoadRunner):
         diagram.draw(**kwargs)
 
     def plot(self, result=None, show=True,
-             xtitle=None, ytitle=None, title=None, xlim=None, ylim=None,
+             xtitle=None, ytitle=None, title=None, xlim=None, ylim=None, logx=False, logy=False,
              xscale='linear', yscale='linear', grid=False, ordinates=None, tag=None, alpha=None, **kwargs):
         """ Plot roadrunner simulation data.
 
@@ -356,6 +356,10 @@ class ExtendedRoadRunner(roadrunner.RoadRunner):
             kwargs['xlim'] = xlim
         if ylim:
             kwargs['ylim'] = ylim
+        if logx:
+            kwargs['logx'] = logx
+        if logy:
+            kwargs['logy'] = logy
         if alpha:
             kwargs['alpha'] = alpha
         if tag:

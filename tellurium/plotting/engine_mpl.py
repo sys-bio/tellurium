@@ -67,6 +67,12 @@ class MatplotlibFigure(PlottingFigure):
         # ylim
         if self.ylim:
             plt.ylim(self.ylim)
+        # logx
+        if self.logx:
+            plt.xscale('log')
+        # logy
+        if self.logy:
+            plt.yscale('log')
         # legend
         if self.use_legend and have_labels:
             if SPYDER:
