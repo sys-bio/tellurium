@@ -1,143 +1,25 @@
 
 
-SED-ML L1V2 specification example
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Inline OMEX and COMBINE archives
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Repressilator example which demonstrates the use of phrasedml with URN
-examples.
+Tellurium provides a way to easily edit the contents of COMBINE archives
+in a human-readable format called inline OMEX. To create a COMBINE
+archive, simply create a string containing all models (in Antimony
+format) and all simulations (in PhraSEDML format). Tellurium will
+transparently convert the Antimony to SBML and PhraSEDML to SED-ML, then
+execute the resulting SED-ML. The following example will work in either
+Jupyter or the `Tellurium notebook
+viewer <http://tellurium.readthedocs.io/en/latest/installation.html#front-end-1-tellurium-notebook>`__.
+The Tellurium notebook viewer allows you to create specialized cells for
+inline OMEX, which contain correct syntax-highlighting for the format.
 
-The examples are the reference examples from the SED-ML specification
-document available from
-http://sed-ml.sourceforge.net/documents/sed-ml-L1V2.pdf (Introduction
-Section).
+.. code-block:: python
 
-.. code:: python
-
-    import tellurium as te
-    import phrasedml
+    import tellurium as te, tempfile, os
+    te.setDefaultPlottingEngine('matplotlib')
     
-    # Get SBML from URN and set for phrasedml
-    urn = "urn:miriam:biomodels.db:BIOMD0000000012"
-    sbmlStr = te.temiriam.getSBMLFromBiomodelsURN(urn=urn)
-    phrasedml.setReferencedSBML(urn, sbmlStr)
-    
-    # <SBML species>
-    #   PX - LacI protein
-    #   PY - TetR protein
-    #   PZ - cI protein
-    #   X - LacI mRNA
-    #   Y - TetR mRNA
-    #   Z - cI mRNA
-    
-    # <SBML parameters>
-    #   ps_a - tps_active: Transcrition from free promotor in transcripts per second and promotor
-    #   ps_0 - tps_repr: Transcrition from fully repressed promotor in transcripts per second and promotor
-    
-    phrasedmlStr = """
-        model1 = model "{}"
-        model2 = model model1 with ps_0=1.3E-5, ps_a=0.013
-        sim1 = simulate uniform(0, 1000, 1000)
-        task1 = run sim1 on model1
-        task2 = run sim1 on model2
-    
-        # A simple timecourse simulation
-        plot "Figure 1.1 Timecourse of repressilator" task1.time vs task1.PX, task1.PZ, task1.PY
-    
-        # Applying preprocessing
-        plot "Figure 1.2 Timecourse after pre-processing" task2.time vs task2.PX, task2.PZ, task2.PY
-    
-        # Applying postprocessing
-        plot "Figure 1.3 Timecourse after post-processing" task1.PX/max(task1.PX) vs task1.PZ/max(task1.PZ), \
-                                                           task1.PY/max(task1.PY) vs task1.PX/max(task1.PX), \
-                                                           task1.PZ/max(task1.PZ) vs task1.PY/max(task1.PY)
-    """.format(urn)
-    
-    # convert to SED-ML
-    sedmlStr = phrasedml.convertString(phrasedmlStr)
-    if sedmlStr == None:
-        print(phrasedml.getLastError())
-    
-    # Run the SED-ML file with results written in workingDir
-    import tempfile
-    import shutil
-    workingDir = tempfile.mkdtemp(suffix="_sedml")
-    te.executeSEDML(sedmlStr, workingDir=workingDir)
-    shutil.rmtree(workingDir)
-
-
-.. parsed-literal::
-
-    INFO:root:Initialising BioModels service (WSDL)
-    INFO:root:Initialising BioModels service (WSDL)
-
-
-.. parsed-literal::
-
-    read SEDML-File
-
-
-.. parsed-literal::
-
-    INFO:root:Initialising BioModels service (WSDL)
-
-
-
-.. image:: _notebooks/core/phrasedmlExample_files/phrasedmlExample_2_3.png
-
-
-
-.. image:: _notebooks/core/phrasedmlExample_files/phrasedmlExample_2_4.png
-
-
-
-.. image:: _notebooks/core/phrasedmlExample_files/phrasedmlExample_2_5.png
-
-
-Execute Combine Archive
-~~~~~~~~~~~~~~~~~~~~~~~
-
-Executing the SED-ML from a combine archive.
-
-.. code:: python
-
-    import tellurium as te
-    from tellurium.tests.testdata import sedxDir
-    import os
-    omexPath = os.path.join(sedxDir, "BIOMD0000000003.sedx")
-    print(omexPath)
-    te.executeSEDML(omexPath)
-
-
-.. parsed-literal::
-
-    /home/mkoenig/git/tellurium/tellurium/tests/testdata/sedml/sedx/BIOMD0000000003.sedx
-    read SEDML-File
-    /home/mkoenig/git/tellurium/tellurium/tests/testdata/sedml/sedx/_te_BIOMD0000000003/BIOMD0000000003.sedx.xml
-
-
-.. parsed-literal::
-
-    /home/mkoenig/git/tellurium/tellurium/tecombine.py:269: UserWarning: Combine archive directory already exists:/home/mkoenig/git/tellurium/tellurium/tests/testdata/sedml/sedx/_te_BIOMD0000000003
-      warnings.warn("Combine archive directory already exists:{}".format(directory))
-    /home/mkoenig/git/tellurium/tellurium/tecombine.py:324: UserWarning: No 'manifest.xml' in archive, trying to resolve manually
-      warnings.warn("No 'manifest.xml' in archive, trying to resolve manually")
-
-
-
-.. image:: _notebooks/core/phrasedmlExample_files/phrasedmlExample_4_2.png
-
-
-phrasedml experiment
-~~~~~~~~~~~~~~~~~~~~
-
-Tellurium provides support for simulation descriptions in SED-ML the
-export in Combine Archive format.
-
-.. code:: python
-
-    import tellurium as te
-    
-    antimony = '''
+    antimony_str = '''
     model myModel
       S1 -> S2; k1*S1
       S1 = 10; S2 = 0
@@ -145,133 +27,50 @@ export in Combine Archive format.
     end
     '''
     
-    phrasedml = '''
+    phrasedml_str = '''
       model1 = model "myModel"
       sim1 = simulate uniform(0, 5, 100)
       task1 = run sim1 on model1
       plot "Figure 1" time vs S1, S2
     '''
     
-    # create an experiment
-    exp = te.experiment(antimony, phrasedml)
-    # execute it
-    exp.execute(phrasedml)
-    # print python code
-    exp.printPython(phrasedml)
-
-
-.. parsed-literal::
-
-    read SEDML-File
-    /tmp/tmpYLnX7S_sedml/_te_myModel/experiment1.xml
-
-
-
-.. image:: _notebooks/core/phrasedmlExample_files/phrasedmlExample_6_1.png
-
-
-.. parsed-literal::
-
-    read SEDML-File
-    /tmp/tmpBYa3mu_sedml/_te_myModel/experiment1.xml
-    """
-        tellurium 1.3.5
+    # create an inline OMEX (inline representation of a COMBINE archive)
+    # from the antimony and phrasedml strings
+    inline_omex = '\n'.join([antimony_str, phrasedml_str])
     
-        auto-generated code
-        sedmlDoc: L1V2  
-        workingDir: /tmp/tmpBYa3mu_sedml/_te_myModel
-        inputType: COMBINE_FILE
-    """
-    import tellurium as te
-    from roadrunner import Config
-    from tellurium.sedml.mathml import *
-    import numpy as np
-    import matplotlib.pyplot as plt
-    import mpl_toolkits.mplot3d
-    import libsedml
-    import pandas
-    import os.path
-    Config.LOADSBMLOPTIONS_RECOMPILE = True
-    
-    workingDir = r'/tmp/tmpBYa3mu_sedml/_te_myModel'
-    
-    # --------------------------------------------------------
-    # Models
-    # --------------------------------------------------------
-    # Model <model1>
-    model1 = te.loadSBMLModel(os.path.join(workingDir, 'myModel.xml'))
-    
-    # --------------------------------------------------------
-    # Tasks
-    # --------------------------------------------------------
-    # Task <task1>
-    # Task: <task1>
-    task1 = [None]
-    model1.setIntegrator('cvode')
-    model1.timeCourseSelections = ['[S1]', '[S2]', 'time']
-    task1[0] = model1.simulate(start=0.0, end=5.0, steps=100)
-    
-    # --------------------------------------------------------
-    # DataGenerators
-    # --------------------------------------------------------
-    # DataGenerator <plot_0_0_0>
-    __var__time = np.transpose(np.array([sim['time'] for sim in task1]))
-    if len(__var__time.shape) == 1:
-         __var__time.shape += (1,)
-    plot_0_0_0 = __var__time
-    
-    # DataGenerator <plot_0_0_1>
-    __var__S1 = np.transpose(np.array([sim['[S1]'] for sim in task1]))
-    if len(__var__S1.shape) == 1:
-         __var__S1.shape += (1,)
-    plot_0_0_1 = __var__S1
-    
-    # DataGenerator <plot_0_1_1>
-    __var__S2 = np.transpose(np.array([sim['[S2]'] for sim in task1]))
-    if len(__var__S2.shape) == 1:
-         __var__S2.shape += (1,)
-    plot_0_1_1 = __var__S2
-    
-    # --------------------------------------------------------
-    # Outputs
-    # --------------------------------------------------------
-    # Output <plot_0>
-    plt.figure(num=None, figsize=(9, 5), dpi=80, facecolor='w', edgecolor='k')
-    from matplotlib import gridspec
-    __gs = gridspec.GridSpec(1, 2, width_ratios=[3, 1])
-    plt.subplot(__gs[0])
-    for k in range(plot_0_0_0.shape[1]):
-        if k == 0:
-            plt.plot(plot_0_0_0[:,k], plot_0_0_1[:,k], marker = '.', color='r', linewidth=1.5, markersize=3.0, alpha=0.8, label='S1')
-        else:
-            plt.plot(plot_0_0_0[:,k], plot_0_0_1[:,k], marker = '.', color='r', linewidth=1.5, markersize=3.0, alpha=0.8)
-    for k in range(plot_0_0_0.shape[1]):
-        if k == 0:
-            plt.plot(plot_0_0_0[:,k], plot_0_1_1[:,k], marker = '.', color='b', linewidth=1.5, markersize=3.0, alpha=0.8, label='S2')
-        else:
-            plt.plot(plot_0_0_0[:,k], plot_0_1_1[:,k], marker = '.', color='b', linewidth=1.5, markersize=3.0, alpha=0.8)
-    plt.title('Figure 1', fontweight='bold')
-    plt.xlabel('time', fontweight='bold')
-    __lg = plt.legend(bbox_to_anchor=(1.05, 1), loc=2, borderaxespad=0.)
-    __lg.draw_frame(False)
-    plt.setp(__lg.get_texts(), fontsize='small')
-    plt.setp(__lg.get_texts(), fontweight='bold')
-    plt.savefig(os.path.join(workingDir, 'plot_0.png'), dpi=100)
-    plt.show()
-    
-    
+    # execute the inline OMEX
+    te.executeInlineOmex(inline_omex)
+    # export to a COMBINE archive
+    workingDir = tempfile.mkdtemp(suffix="_omex")
+    te.exportInlineOmex(inline_omex, os.path.join(workingDir, 'archive.omex'))
 
 
-OneStep
-~~~~~~~
 
-Running a one step simulation.
+.. raw:: html
 
-.. code:: python
+    <script>requirejs.config({paths: { 'plotly': ['https://cdn.plot.ly/plotly-latest.min']},});if(!window.Plotly) {{require(['plotly'],function(plotly) {window.Plotly=plotly;});}}</script>
+
+
+
+.. image:: _notebooks/core/phrasedmlExample_files/phrasedmlExample_2_1.png
+
+
+Forcing Functions
+~~~~~~~~~~~~~~~~~
+
+A common task in modeling is to represent the influence of an external,
+time-varying input on the system. In SED-ML, this can be accomplished
+using a repeated task to run a simulation for a short amount of time and
+update the forcing function between simulations. In the example, the
+forcing function is a pulse represented with a ``piecewise`` directive,
+but it can be any arbitrarily complex time-varying function, as shown in
+the second example.
+
+.. code-block:: python
 
     import tellurium as te
     
-    antimonyStr = '''
+    antimony_str = '''
     // Created by libAntimony v2.9
     model *oneStep()
     
@@ -310,53 +109,50 @@ Running a one step simulation.
     end
     '''
     
-    phrasedmlStr = '''
+    phrasedml_str = '''
     model1 = model "oneStep"
     stepper = simulate onestep(0.1)
     task0 = run stepper on model1
     task1 = repeat task0 for local.x in uniform(0, 10, 100), J0_v0 = piecewise(8, x<4, 0.1, 4<=x<6, 8)
-    plot "One Step Simulation" task1.time vs task1.S1, task1.S2, task1.J0_v0
-    report task1.time vs task1.S1, task1.S2, task1.J0_v0
+    task2 = repeat task0 for local.index in uniform(0, 10, 1000), local.current = index -> abs(sin(1 / (0.1 * index + 0.1))), model1.J0_v0 = current : current
+    plot "Forcing Function (Pulse)" task1.time vs task1.S1, task1.S2, task1.J0_v0
+    plot "Forcing Function (Custom)" task2.time vs task2.S1, task2.S2, task2.J0_v0
     '''
     
-    # phrasedml experiment
-    exp = te.experiment(antimonyStr, phrasedmlStr)
-    exp.execute(phrasedmlStr)
+    # create the inline OMEX string
+    inline_omex = '\n'.join([antimony_str, phrasedml_str])
+    
+    # export to a COMBINE archive
+    workingDir = tempfile.mkdtemp(suffix="_omex")
+    archive_name = os.path.join(workingDir, 'archive.omex')
+    te.exportInlineOmex(inline_omex, archive_name)
+    # convert the COMBINE archive back into an 
+    # inline OMEX (transparently) and execute it
+    te.convertAndExecuteCombineArchive(archive_name)
 
 
-.. parsed-literal::
 
-    read SEDML-File
-    /tmp/tmpthBOoO_sedml/_te_oneStep/experiment1.xml
+.. image:: _notebooks/core/phrasedmlExample_files/phrasedmlExample_4_0.png
 
 
 
-.. image:: _notebooks/core/phrasedmlExample_files/phrasedmlExample_8_1.png
+.. image:: _notebooks/core/phrasedmlExample_files/phrasedmlExample_4_1.png
 
 
-.. parsed-literal::
+1d Parameter Scan
+~~~~~~~~~~~~~~~~~
 
-    --------------------------------------------------------------------------------
-    report_1, Repeat: 0
-    --------------------------------------------------------------------------------
-       task1.time  task1.S1  task1.S2  task1.J0_v0
-    0         0.0  0.000000  1.000000          8.0
-    1         0.1  0.745532  0.652365          8.0
-    2         0.1  0.745532  0.652365          8.0
-    3         0.2  1.417837  0.498244          8.0
-    4         0.2  1.417837  0.498244          8.0
+This example shows how to perform a one-dimensional parameter scan using
+Antimony/PhraSEDML and convert the study to a COMBINE archive. The
+example uses a PhraSEDML repeated task ``task1`` to run a timecourse
+simulation ``task0`` on a model for different values of the parameter
+``J0_v0``.
 
-
-parameterScan1D
-~~~~~~~~~~~~~~~
-
-One dimensional parameter scan.
-
-.. code:: python
+.. code-block:: python
 
     import tellurium as te
     
-    antimonyStr = '''
+    antimony_str = '''
     // Created by libAntimony v2.9
     model *parameterScan1D()
     
@@ -395,7 +191,7 @@ One dimensional parameter scan.
     end
     '''
     
-    phrasedmlStr = '''
+    phrasedml_str = '''
     model1 = model "parameterScan1D"
     timecourse1 = simulate uniform(0, 20, 1000)
     task0 = run timecourse1 on model1
@@ -403,31 +199,30 @@ One dimensional parameter scan.
     plot task1.time vs task1.S1, task1.S2
     '''
     
-    # phrasedml experiment
-    exp = te.experiment(antimonyStr, phrasedmlStr)
-    exp.execute(phrasedmlStr)
-
-
-.. parsed-literal::
-
-    read SEDML-File
-    /tmp/tmpQjBFMT_sedml/_te_parameterScan1D/experiment1.xml
+    # create the inline OMEX string
+    inline_omex = '\n'.join([antimony_str, phrasedml_str])
+    
+    # execute the inline OMEX
+    te.executeInlineOmex(inline_omex)
 
 
 
-.. image:: _notebooks/core/phrasedmlExample_files/phrasedmlExample_10_1.png
+.. image:: _notebooks/core/phrasedmlExample_files/phrasedmlExample_6_0.png
 
 
-parameterScan2D
-~~~~~~~~~~~~~~~
+2d Parameter Scan
+~~~~~~~~~~~~~~~~~
 
-2D parameter scan
+There are multiple was to specify the set of values that should be swept
+over. This example uses two repeated tasks instead of one. It sweeps
+through a discrete set of values for the parameter ``J1_KK2``, and then
+sweeps through a uniform range for another parameter ``J4_KK5``.
 
-.. code:: python
+.. code-block:: python
 
     import tellurium as te
     
-    antimonyStr = '''
+    antimony_str = '''
     // Created by libAntimony v2.9
     model *parameterScan2D()
     
@@ -493,7 +288,7 @@ parameterScan2D
     end
     '''
     
-    phrasedmlStr = '''
+    phrasedml_str = '''
       model_3 = model "parameterScan2D"
       sim_repeat = simulate uniform(0,3000,100)
       task_1 = run sim_repeat on model_3
@@ -503,31 +298,31 @@ parameterScan2D
       plot repeatedtask_2.time vs repeatedtask_2.MKK, repeatedtask_2.MKK_P
     '''
     
-    # phrasedml experiment
-    exp = te.experiment(antimonyStr, phrasedmlStr)
-    exp.execute(phrasedmlStr)
-
-
-.. parsed-literal::
-
-    read SEDML-File
-    /tmp/tmpR9P24o_sedml/_te_parameterScan2D/experiment1.xml
+    # create the inline OMEX string
+    inline_omex = '\n'.join([antimony_str, phrasedml_str])
+    
+    # execute the inline OMEX
+    te.executeInlineOmex(inline_omex)
 
 
 
-.. image:: _notebooks/core/phrasedmlExample_files/phrasedmlExample_12_1.png
+.. image:: _notebooks/core/phrasedmlExample_files/phrasedmlExample_8_0.png
 
 
 
-.. image:: _notebooks/core/phrasedmlExample_files/phrasedmlExample_12_2.png
+.. image:: _notebooks/core/phrasedmlExample_files/phrasedmlExample_8_1.png
 
 
-repeatedStochastic
-~~~~~~~~~~~~~~~~~~
+Stochastic Simulation and RNG Seeding
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Repeated stochastic simulation with setting seed.
+It is possible to programatically set the RNG seed of a stochastic
+simulation in PhraSEDML using the
+``<simulation-name>.algorithm.seed = <value>`` directive. Simulations
+run with the same seed are identical. If the seed is not specified, a
+different value is used each time, leading to different results.
 
-.. code:: python
+.. code-block:: python
 
     # -*- coding: utf-8 -*-
     """
@@ -535,7 +330,7 @@ Repeated stochastic simulation with setting seed.
     """
     import tellurium as te
     
-    antimonyStr = '''
+    antimony_str = '''
     // Created by libAntimony v2.9
     model *repeatedStochastic()
     
@@ -601,7 +396,7 @@ Repeated stochastic simulation with setting seed.
     end
     '''
     
-    phrasedmlStr = '''
+    phrasedml_str = '''
     model1 = model "repeatedStochastic"
     timecourse1 = simulate uniform_stochastic(0, 4000, 1000)
     timecourse1.algorithm.seed = 1003
@@ -610,41 +405,41 @@ Repeated stochastic simulation with setting seed.
     task2 = run timecourse2 on model1
     repeat1 = repeat task1 for local.x in uniform(0, 10, 10), reset=true
     repeat2 = repeat task2 for local.x in uniform(0, 10, 10), reset=true
-    plot "Repeats with SEED" repeat1.time vs repeat1.MAPK, repeat1.MAPK_P, repeat1.MAPK_PP, repeat1.MKK, repeat1.MKK_P, repeat1.MKKK, repeat1.MKKK_P
-    plot "Repeates without SEED" repeat2.time vs repeat2.MAPK, repeat2.MAPK_P, repeat2.MAPK_PP, repeat2.MKK, repeat2.MKK_P, repeat2.MKKK, repeat2.MKKK_P
+    plot "Repeats with same seed" repeat1.time vs repeat1.MAPK, repeat1.MAPK_P, repeat1.MAPK_PP, repeat1.MKK, repeat1.MKK_P, repeat1.MKKK, repeat1.MKKK_P
+    plot "Repeats without seeding" repeat2.time vs repeat2.MAPK, repeat2.MAPK_P, repeat2.MAPK_PP, repeat2.MKK, repeat2.MKK_P, repeat2.MKKK, repeat2.MKKK_P
     '''
     
-    # phrasedml experiment
-    exp = te.experiment(antimonyStr, phrasedmlStr)
-    exp.execute(phrasedmlStr)
-
-
-.. parsed-literal::
-
-    read SEDML-File
-    /tmp/tmpeCLZt4_sedml/_te_repeatedStochastic/experiment1.xml
+    # create the inline OMEX string
+    inline_omex = '\n'.join([antimony_str, phrasedml_str])
+    
+    # execute the inline OMEX
+    te.executeInlineOmex(inline_omex)
 
 
 
-.. image:: _notebooks/core/phrasedmlExample_files/phrasedmlExample_14_1.png
+.. image:: _notebooks/core/phrasedmlExample_files/phrasedmlExample_10_0.png
 
 
 
-.. image:: _notebooks/core/phrasedmlExample_files/phrasedmlExample_14_2.png
+.. image:: _notebooks/core/phrasedmlExample_files/phrasedmlExample_10_1.png
 
 
-Case 02
-~~~~~~~
+Resetting Models
+~~~~~~~~~~~~~~~~
 
-Perform repeated simulation after change of initial concentration to
-model. Within every repeat the value of a parameter k1 is changed. The
-model is reset after every repeat.
+This example is another parameter scan which shows the effect of
+resetting the model or not after each simulation. When using the
+repeated task directive in PhraSEDML, you can pass the ``reset=true``
+argument to reset the model to its initial conditions after each
+repeated simulation. Leaving this argument off causes the model to
+retain its current state between simulations. In this case, the time
+value is not reset.
 
-.. code:: python
+.. code-block:: python
 
     import tellurium as te
     
-    antimonyStr = """
+    antimony_str = """
     model case_02
         J0: S1 -> S2; k1*S1;
         S1 = 10.0; S2=0.0;
@@ -652,46 +447,46 @@ model is reset after every repeat.
     end
     """
     
-    phrasedmlStr = """
+    phrasedml_str = """
         model0 = model "case_02"
         model1 = model model0 with S1=5.0
         sim0 = simulate uniform(0, 6, 100)
         task0 = run sim0 on model1
+        # reset the model after each simulation
         task1 = repeat task0 for k1 in uniform(0.0, 5.0, 5), reset = true
-        plot "Repeated task with reset" task1.time vs task1.S1, task1.S2
-        plot "Repeated task varying k1" task1.k1 vs task1.S1
-        # report task1.time vs task1.S1, task1.S2
+        # show the effect of not resetting for comparison
+        task2 = repeat task0 for k1 in uniform(0.0, 5.0, 5)
+        plot "Repeated task with reset"    task1.time vs task1.S1, task1.S2
+        plot "Repeated task without reset" task2.time vs task2.S1, task2.S2
     """
     
-    # phrasedml experiment
-    exp = te.experiment(antimonyStr, phrasedmlStr)
-    exp.execute(phrasedmlStr)
-
-
-.. parsed-literal::
-
-    read SEDML-File
-    /tmp/tmprOO9Kg_sedml/_te_case_02/experiment1.xml
+    # create the inline OMEX string
+    inline_omex = '\n'.join([antimony_str, phrasedml_str])
+    
+    # execute the inline OMEX
+    te.executeInlineOmex(inline_omex)
 
 
 
-.. image:: _notebooks/core/phrasedmlExample_files/phrasedmlExample_16_1.png
+.. image:: _notebooks/core/phrasedmlExample_files/phrasedmlExample_12_0.png
 
 
 
-.. image:: _notebooks/core/phrasedmlExample_files/phrasedmlExample_16_2.png
+.. image:: _notebooks/core/phrasedmlExample_files/phrasedmlExample_12_1.png
 
 
-outputPlot3D
-~~~~~~~~~~~~
+3d Plotting
+~~~~~~~~~~~
 
-Oscillations of MAPK pathway.
+This example shows how to use PhraSEDML to perform 3d plotting. The
+syntax is ``plot <x> vs <y> vs <z>``, where ``<x>``, ``<y>``, and
+``<z>`` are references to model state variables used in specific tasks.
 
-.. code:: python
+.. code-block:: python
 
     import tellurium as te
     
-    antimonyStr = '''
+    antimony_str = '''
     // Created by libAntimony v2.9
     model *case_09()
     
@@ -757,7 +552,7 @@ Oscillations of MAPK pathway.
     end
     '''
     
-    phrasedmlStr = '''
+    phrasedml_str = '''
       mod1 = model "case_09"
       # sim1 = simulate uniform_stochastic(0, 4000, 1000)
       sim1 = simulate uniform(0, 4000, 1000)
@@ -767,18 +562,14 @@ Oscillations of MAPK pathway.
       # report repeat1.MAPK vs repeat1.time vs repeat1.MAPK_P, repeat1.MAPK vs repeat1.time vs repeat1.MAPK_PP, repeat1.MAPK vs repeat1.time vs repeat1.MKK
     '''
     
-    # phrasedml experiment
-    exp = te.experiment(antimonyStr, phrasedmlStr)
-    exp.execute(phrasedmlStr)
+    # create the inline OMEX string
+    inline_omex = '\n'.join([antimony_str, phrasedml_str])
+    
+    # execute the inline OMEX
+    te.executeInlineOmex(inline_omex)
 
 
 
-.. parsed-literal::
 
-    read SEDML-File
-    /tmp/tmpPNvk6t_sedml/_te_case_09/experiment1.xml
-
-
-
-.. image:: _notebooks/core/phrasedmlExample_files/phrasedmlExample_18_1.png
+.. image:: _notebooks/core/phrasedmlExample_files/phrasedmlExample_14_0.png
 

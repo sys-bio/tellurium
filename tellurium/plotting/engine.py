@@ -43,7 +43,7 @@ class PlottingFigure(object):
         self.logy = logy
         self.selections=selections
 
-    def addXYDataset(self, x_arr, y_arr, color=None, tag=None, name=None, filter=True, alpha=None):
+    def addXYDataset(self, x_arr, y_arr, color=None, tag=None, name=None, filter=True, alpha=None, mode=None):
         """ Adds an X/Y dataset to the plot.
 
         :param x_arr: A numpy array describing the X datapoints. Should have the same size as y_arr.
@@ -52,6 +52,8 @@ class PlottingFigure(object):
         :param tag: A tag so that all traces of the same type are plotted consistently (for e.g. multiple stochastic traces).
         :param name: The name of the trace.
         :param filter: Apply the self.selections filter?
+        :param alpha: Floating point representing the opacity.
+        :param mode: Either 'lines' or 'markers' (defaults to 'lines').
         """
         if filter and name is not None and self.selections is not None:
             # if this name is filtered out, return
@@ -68,6 +70,8 @@ class PlottingFigure(object):
             self.tagged_data[tag].append(dataset)
         if alpha is not None:
             dataset['alpha'] = alpha
+        if mode is not None:
+            dataset['mode'] = mode
         self.xy_datasets.append(dataset)
 
     def getMergedTaggedDatasets(self):
