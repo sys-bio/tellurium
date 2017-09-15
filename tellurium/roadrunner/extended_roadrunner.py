@@ -155,7 +155,7 @@ class ExtendedRoadRunner(roadrunner.RoadRunner):
         :rtype: str
         """
         try:
-            import sbml2matlab
+            from sbml2matlab import sbml2matlab
             sbml = self.__getSBML(current)
             return sbml2matlab(sbml)
         except ImportError:
