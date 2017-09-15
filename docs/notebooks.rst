@@ -62,9 +62,12 @@ the inline OMEX string. Examples below.
 
 .. include:: _notebooks/core/phrasedmlExample.rst
 
---------------------
-Misc
---------------------
-Some used cases for tellurium
+---------------------
+Modeling Case Studies
+---------------------
+
+This series of case studies shows some slight more advanced
+examples which correspond to common motifs in biological networks (negative feedback loops, etc.).
+To draw the network diagrams seen here, you will need `graphviz <http://www.graphviz.org/>`_ installed.
 
 .. include:: _notebooks/core/tellurium_examples.rst
