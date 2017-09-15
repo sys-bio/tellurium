@@ -222,14 +222,18 @@ class PlottingEngine(object):
 
         for k in range(1,m.shape[1]):
             t = tag if tag else m.colnames[k]
-            self.fig.addXYDataset(m[:,0], m[:, k], name=m.colnames[k], tag=t, alpha=alpha, xlim=xlim, ylim=ylim)
+            self.fig.addXYDataset(m[:,0], m[:, k], name=m.colnames[k], tag=t, alpha=alpha)
 
         if title:
-            fig.title = title
+            self.fig.title = title
         if xtitle:
             self.fig.xtitle = xtitle
         if ytitle:
             self.fig.ytitle = ytitle
+        if xlim:
+            self.fig.setXLim(xlim)
+        if ylim:
+            self.fig.setYLim(ylim)
 
     def show(self, reset=True):
         """ Shows the traces accummulated from accumulateTimecourse.
