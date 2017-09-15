@@ -161,12 +161,12 @@ and PhraSEDML internally) for reading SED-ML files.
     with open(sbml_file, 'wb') as f:
         f.write(sbml_str.encode('utf-8'))
         f.flush()
-        print('SBML file written to {}'.format(sbml_file))
+        print('SBML written to temporary file')
     
     with open(sedml_file, 'wb') as f:
         f.write(sedml_str.encode('utf-8'))
         f.flush()
-        print('SED-ML file written to {}'.format(sedml_file))
+        print('SED-ML written to temporary file')
     
     # For technical reasons, any software which uses libSEDML
     # must provide a custom build - Tellurium uses tesedml
@@ -186,8 +186,8 @@ and PhraSEDML internally) for reading SED-ML files.
 
 .. parsed-literal::
 
-    SBML file written to /tmp/tmp8baq390b_sedml/myModel
-    SED-ML file written to /tmp/tmp8baq390b_sedml/sed_main.xml
+    SBML written to temporary file
+    SED-ML written to temporary file
     Read SED-ML file, number of errors: 0
 
 

@@ -8,9 +8,10 @@ Antimony files can be read with ``te.loada`` or
 ``te.loadCellMLModel`` is used. All the functions accept either model
 strings or respective model files.
 
-.. code:: python
+.. code-block:: python
 
     import tellurium as te
+    te.setDefaultPlottingEngine('matplotlib')
     
     # Load an antimony model
     ant_model = '''
@@ -21,7 +22,7 @@ strings or respective model files.
         S1 = 10; S2 = 0; S3 = 0;
     '''
     # At the most basic level one can load the SBML model directly using libRoadRunner
-    print('---  load roadrunner ---')
+    print('---  load using roadrunner ---')
     import roadrunner
     # convert to SBML model
     sbml_model = te.antimonyToSBML(ant_model)
@@ -30,7 +31,7 @@ strings or respective model files.
     r.plot(result)
     
     # The method loada is simply a shortcut to loadAntimonyModel
-    print('---  load tellurium ---')
+    print('---  load using tellurium ---')
     r = te.loada(ant_model)
     result = r.simulate (0, 10, 100)
     r.plot(result)
@@ -39,21 +40,26 @@ strings or respective model files.
     r = te.loadAntimonyModel(ant_model)
 
 
-.. parsed-literal::
 
-    ---  load roadrunner ---
+.. raw:: html
 
-
-
-.. image:: _notebooks/core/tellurium_model_loading_files/tellurium_model_loading_2_1.png
+    <script>requirejs.config({paths: { 'plotly': ['https://cdn.plot.ly/plotly-latest.min']},});if(!window.Plotly) {{require(['plotly'],function(plotly) {window.Plotly=plotly;});}}</script>
 
 
 .. parsed-literal::
 
-    ---  load tellurium ---
+    ---  load using roadrunner ---
 
 
 
-.. image:: _notebooks/core/tellurium_model_loading_files/tellurium_model_loading_2_3.png
+.. image:: _notebooks/core/tellurium_model_loading_files/tellurium_model_loading_2_2.png
 
+
+.. parsed-literal::
+
+    ---  load using tellurium ---
+
+
+
+.. image:: _notebooks/core/tellurium_model_loading_files/tellurium_model_loading_2_4.png
 

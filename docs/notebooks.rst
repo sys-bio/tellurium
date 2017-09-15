@@ -9,7 +9,7 @@ To run the examples, clone the git repository:
 
     git clone https://github.com/sys-bio/tellurium.git
 
-and use the `Tellurium notebook viewer <http://tellurium.readthedocs.io/en/latest/installation.html#front-end-1-tellurium-notebook>`_ or `Jupyter <http://jupyter.readthedocs.org/en/latest/install.html>`_ to open any notebook in the ``tellurium/examples/notebooks`` directory.
+and use the `Tellurium notebook viewer <http://tellurium.readthedocs.io/en/latest/installation.html#front-end-1-tellurium-notebook>`_ or `Jupyter <http://jupyter.readthedocs.org/en/latest/install.html>`_ to open any notebook in the ``tellurium/examples/notebooks/core`` directory.
 
 --------------------
 Basics

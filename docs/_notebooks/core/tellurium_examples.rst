@@ -394,18 +394,11 @@ merged array on to one plot.
     
     # use plotArray to plot merged data
     te.plotArray(m)
+    pass
 
 
 
 .. image:: _notebooks/core/tellurium_examples_files/tellurium_examples_20_0.png
-
-
-
-
-.. parsed-literal::
-
-    [<matplotlib.lines.Line2D at 0x7f732bcae4a8>]
-
 
 
 Merge multiple simulations
@@ -521,18 +514,11 @@ coefficient.
         result = numpy.hstack([result, m])
         
     te.plotArray(result, labels=['h={}'.format(int(h)) for h in h_values])
+    pass
 
 
 
 .. image:: _notebooks/core/tellurium_examples_files/tellurium_examples_26_0.png
-
-
-
-
-.. parsed-literal::
-
-    [<matplotlib.lines.Line2D at 0x7f732bc69eb8>]
-
 
 
 Compare simulations
