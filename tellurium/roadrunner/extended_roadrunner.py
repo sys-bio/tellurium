@@ -273,16 +273,19 @@ class ExtendedRoadRunner(roadrunner.RoadRunner):
         import shutil
         # PATH variable may not be present - cannot use os.environ['PATH']
         # but can use shutil.which for Python 3.3+
-        if hasattr(shutil, 'which') and shutil.which('dot') is None:
-            warnings.warn("Graphviz is not installed in your machine or could not be found. 'draw' command cannot produce a diagram.",
-                Warning, stacklevel=2)
+        if hasattr(shutil, 'which'):
+            if shutil.which('dot') is None:
+                warnings.warn("Graphviz is not installed in your machine or could not be found. 'draw' command cannot produce a diagram.",
+                    Warning, stacklevel=2)
+                return
         elif not 'PATH' in os.environ or any([ os.access( os.path.join( p, 'dot' ), os.X_OK ) for p in os.environ['PATH'].split( os.pathsep )]):
             warnings.warn("Graphviz is not installed in your machine or could not be found. 'draw' command cannot produce a diagram.",
                 Warning, stacklevel=2)
-        else:
-            from tellurium import SBMLDiagram
-            diagram = SBMLDiagram(self.getSBML())
-            diagram.draw(**kwargs)
+            return
+
+        from tellurium import SBMLDiagram
+        diagram = SBMLDiagram(self.getSBML())
+        diagram.draw(**kwargs)
 
     def plot(self, result=None, show=True,
              xtitle=None, ytitle=None, title=None, xlim=None, ylim=None,
