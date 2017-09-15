@@ -96,14 +96,15 @@ class PlottingFigure(object):
             self.getMergedTaggedDatasets(),
             (dataset for dataset in self.xy_datasets if not 'tag' in dataset))
 
-    def plot(self, x, y, colnames=None, title=None, tag=None, xtitle=None, logy=False, ytitle=None, alpha=None, name=None, names=None):
+    # TODO: don't need name/names and tag/tags redundancy
+    def plot(self, x, y, colnames=None, title=None, xtitle=None, logy=False, ytitle=None, alpha=None, name=None, names=None, tag=None, tags=None):
         """ Plot x & y data.
         """
         if xtitle:
             self.xtitle = xtitle
         if ytitle:
             self.ytitle = ytitle
-        kws = {'tag': tag, 'alpha': alpha}
+        kws = {'alpha': alpha}
         if colnames is None and hasattr(y,'colnames'):
             colnames = y.colnames
 
@@ -115,6 +116,8 @@ class PlottingFigure(object):
                     raise RuntimeError('x data has length {} but y data has length {}'.format(len(x), len(y)))
                 if names is not None:
                     kws['name'] = names[k]
+                if tags is not None:
+                    kws['tag'] = tags[k]
                 if colnames is not None:
                     kws['name'] = colnames[k]
                 self.addXYDataset(x, y[:,k], **kws)
@@ -124,6 +127,8 @@ class PlottingFigure(object):
                 raise RuntimeError('x data has length {} but y data has length {}'.format(len(x), len(y)))
             if name is not None:
                 kws['name'] = name
+            if tag is not None:
+                kws['tag'] = name
             elif colnames is not None:
                 kws['name'] = colnames[0]
             self.addXYDataset(x, y, **kws)
@@ -191,6 +196,8 @@ class PlottingEngine(object):
         if show:
             fig.render()
             self.fig = None
+        else:
+            self.fig = fig
         return fig
 
     def plotTimecourse(self, m, title=None, ordinates=None, tag=None, xtitle=None, logy=False, ytitle=None, alpha=None, xlim=None, ylim=None, **kwargs):

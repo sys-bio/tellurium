@@ -56,6 +56,7 @@ except ImportError:
 # Plotting
 from .tellurium import (
     plot,
+    show,
     getPlottingEngine,
     getDefaultPlottingEngine,
     setDefaultPlottingEngine,
