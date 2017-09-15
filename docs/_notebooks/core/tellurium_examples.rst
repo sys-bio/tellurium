@@ -25,9 +25,10 @@ examples, but the network diagrams will not be generated.
 Troubleshooting Graphviz Installation
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-pygraphviz has `known problems <>`__ during installation on some
-platforms. On 64-bit Fedora Linux, we have been able to use the
-following command to install pygraphviz:
+pygraphviz has `known
+problems <https://github.com/pygraphviz/pygraphviz/issues/72>`__ during
+installation on some platforms. On 64-bit Fedora Linux, we have been
+able to use the following command to install pygraphviz:
 
 .. code:: bash
 
@@ -108,14 +109,19 @@ Activator system
 
 .. parsed-literal::
 
-    /home/poltergeist/.config/Tellurium/telocal/python-3.6.1/lib/python3.6/site-packages/ipykernel/__main__.py:47: Warning:
+    /home/poltergeist/.config/Tellurium/telocal/python-3.6.1/lib/python3.6/site-packages/pygraphviz/agraph.py:1338: RuntimeWarning:
     
-    Graphviz is not installed in your machine or could not be found. 'draw' command cannot produce a diagram.
+    Warning: node 'S', graph '%3' size too small for label
+    
     
 
 
 
 .. image:: _notebooks/core/tellurium_examples_files/tellurium_examples_4_2.png
+
+
+
+.. image:: _notebooks/core/tellurium_examples_files/tellurium_examples_4_3.png
 
 
 Feedback oscillations
@@ -323,12 +329,8 @@ Stoichiometric matrix
     
 
 
-.. parsed-literal::
 
-    /home/poltergeist/.config/Tellurium/telocal/python-3.6.1/lib/python3.6/site-packages/ipykernel/__main__.py:16: Warning:
-    
-    Graphviz is not installed in your machine or could not be found. 'draw' command cannot produce a diagram.
-    
+.. image:: _notebooks/core/tellurium_examples_files/tellurium_examples_16_1.png
 
 
 Lorenz attractor
@@ -398,7 +400,7 @@ merged array on to one plot.
 
 .. parsed-literal::
 
-    [<matplotlib.lines.Line2D at 0x7f11663e2390>]
+    [<matplotlib.lines.Line2D at 0x7f2078741668>]
 
 
 
@@ -525,7 +527,7 @@ coefficient.
 
 .. parsed-literal::
 
-    [<matplotlib.lines.Line2D at 0x7f11664a4320>]
+    [<matplotlib.lines.Line2D at 0x7f207887df98>]
 
 
 

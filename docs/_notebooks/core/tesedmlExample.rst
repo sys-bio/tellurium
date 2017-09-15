@@ -186,8 +186,8 @@ and PhraSEDML internally) for reading SED-ML files.
 
 .. parsed-literal::
 
-    SBML file written to /tmp/tmpeb65dt5q_sedml/myModel
-    SED-ML file written to /tmp/tmpeb65dt5q_sedml/sed_main.xml
+    SBML file written to /tmp/tmp8w3l2nxe_sedml/myModel
+    SED-ML file written to /tmp/tmp8w3l2nxe_sedml/sed_main.xml
     Read SED-ML file, number of errors: 0
 
 
