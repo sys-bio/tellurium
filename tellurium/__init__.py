@@ -158,7 +158,12 @@ from .utils import (
     )
 
 # import .optimization  # nothing here
-# import .visualization # display with graphviz
+
+# display with graphviz
+from .visualization import (
+    SBMLDiagram,
+    )
+
 # import .tests         # needs to be refactored for Python 3
 
 try:

@@ -270,17 +270,19 @@ class ExtendedRoadRunner(roadrunner.RoadRunner):
         shaded in blue), reactions as grey squares.
         Currently only the drawing of medium-size networks is supported.
         """
-        import os
-        if any([ os.access( os.path.join( p, 'dot' ), os.X_OK ) for p in os.environ['PATH'].split( os.pathsep )]):
+        import shutil
+        # PATH variable may not be present - cannot use os.environ['PATH']
+        # but can use shutil.which for Python 3.3+
+        if hasattr(shutil, 'which') and shutil.which('dot') is None:
             warnings.warn("Graphviz is not installed in your machine. 'draw' command cannot produce a diagram",
                 Warning, stacklevel=2)
         else:
-            from tellurium.visualization.sbmldiagram import SBMLDiagram
+            from tellurium import SBMLDiagram
             diagram = SBMLDiagram(self.getSBML())
             diagram.draw(**kwargs)
 
     def plot(self, result=None, show=True,
-             xlabel=None, ylabel=None, title=None, xlim=None, ylim=None,
+             xtitle=None, ytitle=None, title=None, xlim=None, ylim=None,
              xscale='linear', yscale='linear', grid=False, ordinates=None, tag=None, alpha=None, **kwargs):
         """ Plot roadrunner simulation data.
 
@@ -336,12 +338,29 @@ class ExtendedRoadRunner(roadrunner.RoadRunner):
 
         from .. import getPlottingEngine
 
+        if ordinates:
+            kwargs['ordinates'] = ordinates
+        if title:
+            kwargs['title'] = title
+        if xtitle:
+            kwargs['xtitle'] = xtitle
+        if ytitle:
+            kwargs['ytitle'] = ytitle
+        if xlim:
+            kwargs['xlim'] = xlim
+        if ylim:
+            kwargs['ylim'] = ylim
+        if alpha:
+            kwargs['alpha'] = alpha
+        if tag:
+            kwargs['tag'] = tag
+
         if show:
             # if show is true, show the plot immediately
-            getPlottingEngine().plotTimecourse(result, ordinates=ordinates, tag=tag, xtitle=xlabel, alpha=alpha, **kwargs)
+            getPlottingEngine().plotTimecourse       (result, **kwargs)
         else:
             # otherwise, accumulate the traces
-            getPlottingEngine().accumulateTimecourse(result, ordinates=ordinates, tag=tag, xtitle=xlabel, alpha=alpha, **kwargs)
+            getPlottingEngine().accumulateTimecourse (result, **kwargs)
 
         # Old code:
         # if loc is False:

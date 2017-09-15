@@ -42,6 +42,8 @@ class PlottingFigure(object):
         self.logx = logx
         self.logy = logy
         self.selections=selections
+        self.xlim = None
+        self.ylim = None
 
     def addXYDataset(self, x_arr, y_arr, color=None, tag=None, name=None, filter=True, alpha=None, mode=None):
         """ Adds an X/Y dataset to the plot.
@@ -94,7 +96,7 @@ class PlottingFigure(object):
             self.getMergedTaggedDatasets(),
             (dataset for dataset in self.xy_datasets if not 'tag' in dataset))
 
-    def plot(self, x, y, colnames=None, title=None, tag=None, xtitle=None, logy=False, ytitle=None, alpha=None):
+    def plot(self, x, y, colnames=None, title=None, tag=None, xtitle=None, logy=False, ytitle=None, alpha=None, name=None, names=None):
         """ Plot x & y data.
         """
         if xtitle:
@@ -105,11 +107,14 @@ class PlottingFigure(object):
         if colnames is None and hasattr(y,'colnames'):
             colnames = y.colnames
 
+        # TODOL if y is 2d array with 1 column, convert to 1d array
         if len(y.shape) > 1:
             # it's a 2d array
             for k in range(0,y.shape[1]):
                 if len(x) != len(y[:,k]):
                     raise RuntimeError('x data has length {} but y data has length {}'.format(len(x), len(y)))
+                if names is not None:
+                    kws['name'] = names[k]
                 if colnames is not None:
                     kws['name'] = colnames[k]
                 self.addXYDataset(x, y[:,k], **kws)
@@ -117,12 +122,26 @@ class PlottingFigure(object):
             # it's a 1d array
             if len(x) != len(y):
                 raise RuntimeError('x data has length {} but y data has length {}'.format(len(x), len(y)))
-            if colnames is not None:
+            if name is not None:
+                kws['name'] = name
+            elif colnames is not None:
                 kws['name'] = colnames[0]
             self.addXYDataset(x, y, **kws)
         else:
             raise RuntimeError('Could not plot y data with {} dimensions'.format(len(y.shape)))
         return self
+
+    def setXLim(self, xlim):
+        """Set the min/max x limits of the figure.
+        :param xlim: tuple of min/max values
+        """
+        self.xlim = xlim
+
+    def setYLim(self, ylim):
+        """Set the min/max y limits of the figure.
+        :param ylim: tuple of min/max values
+        """
+        self.ylim = ylim
 
 
 class PlottingEngine(object):
@@ -138,7 +157,7 @@ class PlottingEngine(object):
         """
         return self.newFigure().plot(x,y,**kwargs)
 
-    def figureFromTimecourse(self, m, title=None, ordinates=None, tag=None, alpha=None):
+    def figureFromTimecourse(self, m, ordinates=None, tag=None, alpha=None, title=None, xlim=None, ylim=None):
         """ Generate a new figure from a timecourse simulation.
 
         :param m: An array returned by RoadRunner.simulate.
@@ -149,6 +168,11 @@ class PlottingEngine(object):
 
         for k in range(1,m.shape[1]):
             fig.addXYDataset(m[:,0], m[:,k], name=m.colnames[k], tag=tag, alpha=alpha)
+
+        if xlim:
+            fig.setXLim(xlim)
+        if ylim:
+            fig.setYLim(ylim)
 
         return fig
 
@@ -169,18 +193,22 @@ class PlottingEngine(object):
             self.fig = None
         return fig
 
-    def plotTimecourse(self, m, title=None, ordinates=None, tag=None, xtitle=None, logy=False, ytitle=None, alpha=None, **kwargs):
+    def plotTimecourse(self, m, title=None, ordinates=None, tag=None, xtitle=None, logy=False, ytitle=None, alpha=None, xlim=None, ylim=None, **kwargs):
 
         """ Plots a timecourse from a simulation.
 
         :param m: An array returned by RoadRunner.simulate.
         """
-        fig = self.figureFromTimecourse(m, title=title, ordinates=ordinates, tag=tag, alpha=alpha)
+        fig = self.figureFromTimecourse(m, title=title, ordinates=ordinates, tag=tag, alpha=alpha, xlim=xlim, ylim=ylim)
+        if title:
+            fig.title = title
         if xtitle:
             fig.xtitle = xtitle
+        if ytitle:
+            fig.ytitle = ytitle
         fig.render()
 
-    def accumulateTimecourse(self, m, title=None, ordinates=None, tag=None, xtitle=None, logy=False, ytitle=None, alpha=None, **kwargs):
+    def accumulateTimecourse(self, m, title=None, ordinates=None, tag=None, xtitle=None, logy=False, ytitle=None, alpha=None, xlim=None, ylim=None, **kwargs):
         """ Accumulates the traces instead of plotting (like matplotlib with show=False).
         Call show() to show the plot.
 
@@ -194,10 +222,14 @@ class PlottingEngine(object):
 
         for k in range(1,m.shape[1]):
             t = tag if tag else m.colnames[k]
-            self.fig.addXYDataset(m[:,0], m[:, k], name=m.colnames[k], tag=t, alpha=alpha)
+            self.fig.addXYDataset(m[:,0], m[:, k], name=m.colnames[k], tag=t, alpha=alpha, xlim=xlim, ylim=ylim)
 
+        if title:
+            fig.title = title
         if xtitle:
             self.fig.xtitle = xtitle
+        if ytitle:
+            self.fig.ytitle = ytitle
 
     def show(self, reset=True):
         """ Shows the traces accummulated from accumulateTimecourse.

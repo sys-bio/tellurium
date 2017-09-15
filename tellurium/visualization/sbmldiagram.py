@@ -1,7 +1,8 @@
 """
 This module creates an SBMLDiagram for the given SBML model using graphviz.
 """
-from __future__ import print_function, division
+
+from __future__ import print_function, division, absolute_import
 import roadrunner
 import warnings
 import tempfile
@@ -11,15 +12,11 @@ except ImportError:
     import libsbml
 from six import string_types
 
-from IPython.display import Image, display
-import os
-
 try:
-    import pygraphviz as pgv
-except ImportError as e:
-    pgv = None
-    roadrunner.Logger.log(roadrunner.Logger.LOG_WARNING, str(e))
-    warnings.warn("'pygraphviz' could not be imported", ImportWarning, stacklevel=2)
+    from IPython.display import Image, display
+except ImportError:
+    pass
+import os
 
 
 class SBMLDiagram(object):
@@ -84,6 +81,13 @@ class SBMLDiagram(object):
         :rtype:
         """
 
+        try:
+            import pygraphviz as pgv
+        except ImportError as e:
+            pgv = None
+            roadrunner.Logger.log(roadrunner.Logger.LOG_WARNING, str(e))
+            warnings.warn("'pygraphviz' could not be imported, cannot draw network diagrams", ImportWarning, stacklevel=2)
+
         g = pgv.AGraph(strict=False, directed=True)
 
         # set some default node attributes
@@ -96,37 +100,37 @@ class SBMLDiagram(object):
         # g.node_attr['width'] = '40'
 
         # species nodes
-        for s in model.species:
-            if s.name:
-                label = s.name
+        for s in (model.getSpecies(k) for k in range(model.getNumSpecies())):
+            if s.getName():
+                label = s.getName()
             else:
-                label = s.id
-            g.add_node(s.id, label=label, width=0.15*len(label), **species)
-            n = g.get_node(s.id)
+                label = s.getId()
+            g.add_node(s.getId(), label=label, width=0.15*len(label), **species)
+            n = g.get_node(s.getId())
 
             # boundary species
-            if s.boundary_condition is True:
+            if s.isSetBoundaryCondition() and s.getBoundaryCondition() == True:
                 n.attr['fillcolor'] = '#717FF0'
 
-        for r in model.reactions:
+        for r in (model.getReaction(k) for k in range(model.getNumReactions())):
             # reaction nodes
-            if r.name:
-                label = r.name
+            if r.getName():
+                label = r.getName()
             else:
-                label = r.id
-            g.add_node(r.id, label=label, width=0.15*len(label), **reactions)
-            n = g.get_node(r.id)
+                label = r.getId()
+            g.add_node(r.getId(), label=label, width=0.15*len(label), **reactions)
+            n = g.get_node(r.getId())
             n.attr['fillcolor'] = '#D1D1D1'
             n.attr['shape'] = 'square'
             # n.attr['height'] = int(int(g.node_attr['height'])/2.0)
             # n.attr['width'] = int(int(g.node_attr['width'])/2.0)
 
             # edges
-            for s in r.reactants:
+            for s in (r.getReactant(k) for k in range(r.getNumReactants())):
                 g.add_edge(s.getSpecies(), r.getId(), **reactants)
-            for s in r.products:
+            for s in (r.getProduct(k) for k in range(r.getNumProducts())):
                 g.add_edge(r.getId(), s.getSpecies(), **products)
-            for s in r.modifiers:
+            for s in (r.getModifier(k) for k in range(r.getNumModifiers())):
                 g.add_edge(s.getSpecies(), r.getId(), **modifiers)
         return g
 
