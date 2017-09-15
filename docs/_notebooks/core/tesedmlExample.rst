@@ -80,16 +80,6 @@ be properly converted into a SED-ML file.
     print(sedml_str)
 
 
-.. parsed-literal::
-
-    /home/poltergeist/.config/Tellurium/telocal/python-3.6.1/lib/python3.6/site-packages/matplotlib/__init__.py:1405: UserWarning: 
-    This call to matplotlib.use() has no effect because the backend has already
-    been chosen; matplotlib.use() must be called *before* pylab, matplotlib.pyplot,
-    or matplotlib.backends is imported for the first time.
-    
-      warnings.warn(_use_error_msg)
-
-
 
 .. raw:: html
 
@@ -196,8 +186,8 @@ and PhraSEDML internally) for reading SED-ML files.
 
 .. parsed-literal::
 
-    SBML file written to /tmp/tmpmkte_x1u_sedml/myModel
-    SED-ML file written to /tmp/tmpmkte_x1u_sedml/sed_main.xml
+    SBML file written to /tmp/tmpeb65dt5q_sedml/myModel
+    SED-ML file written to /tmp/tmpeb65dt5q_sedml/sed_main.xml
     Read SED-ML file, number of errors: 0
 
 
@@ -321,10 +311,6 @@ examples).
 
 .. parsed-literal::
 
-    /home/poltergeist/devel/src/tellurium/tellurium/tecombine.py:274: UserWarning:
-    
-    Combine archive directory already exists:/home/poltergeist/devel/src/tellurium/tellurium/tests/testdata/sedml/sedx/_te_BIOMD0000000003
-    
     /home/poltergeist/devel/src/tellurium/tellurium/tecombine.py:329: UserWarning:
     
     No 'manifest.xml' in archive, trying to resolve manually
