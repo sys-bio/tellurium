@@ -8,6 +8,10 @@ documentation for instructions on installing it on your platform. If you
 cannot install Graphviz and pygraphviz, you can still run the following
 examples, but the network diagrams will not be generated.
 
+Also, due to limitations in pygraphviz, these examples can only be run
+in the Jupyter notebook, not the `Tellurium notebook
+app <http://tellurium.readthedocs.io/en/latest/installation.html#front-end-1-tellurium-notebook>`__.
+
 .. code-block:: python
 
     # install pygraphviz (requires compilation)
@@ -400,7 +404,7 @@ merged array on to one plot.
 
 .. parsed-literal::
 
-    [<matplotlib.lines.Line2D at 0x7f2078741668>]
+    [<matplotlib.lines.Line2D at 0x7f732bcae4a8>]
 
 
 
@@ -527,7 +531,7 @@ coefficient.
 
 .. parsed-literal::
 
-    [<matplotlib.lines.Line2D at 0x7f207887df98>]
+    [<matplotlib.lines.Line2D at 0x7f732bc69eb8>]
 
 
 
