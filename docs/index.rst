@@ -12,7 +12,6 @@ Contents:
 .. toctree::
    :maxdepth: 2
 
-   preliminaries.rst
    installation.rst
    quickstart.rst
    walkthrough.rst
@@ -20,6 +19,7 @@ Contents:
    antimony.rst
    tellurium_methods.rst
    API.rst
+   appendix.rst
 ..    paramscan.rst
 ..    testing.rst
 ..    latex.rst

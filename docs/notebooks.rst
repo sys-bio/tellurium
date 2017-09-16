@@ -5,6 +5,7 @@ Usage Examples
 All tellurium examples are available as interactive `Tellurium <http://tellurium.readthedocs.io/en/latest/installation.html#front-end-1-tellurium-notebook>`_ or `Jupyter <http://jupyter.readthedocs.org/en/latest/install.html>`_ notebooks.
 
 To run the examples, clone the git repository:
+
 .. code-block:: bash
 
     git clone https://github.com/sys-bio/tellurium.git

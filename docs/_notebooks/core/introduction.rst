@@ -7,14 +7,21 @@ This shows how to set up a simple model in Tellurium and solve it as an
 ODE. Tellurium uses a human-readable representation of SBML models
 called Antimony. The Antimony code for this example contains a single
 reaction with associated kinetics. After creating the Antimony string,
-use the ``loada`` function to load it into the simulator.
+use the ``loada`` function to load it into the
+`RoadRunner <http://sys-bio.github.io/roadrunner/python_docs/index.html>`__
+simulator. A
+`RoadRunner <http://sys-bio.github.io/roadrunner/python_docs/index.html>`__
+instance has a method
+`simulate <http://sys-bio.github.io/roadrunner/python_docs/using_roadrunner.html#running-simulations>`__
+that can be used to run timecourse simulations of a model, as shown
+below.
 
 .. code-block:: python
 
     import tellurium as te
     r = te.loada('S1 -> S2; k1*S1; k1 = 0.1; S1 = 10')
     r.simulate(0, 50, 100)
-    r.plot();
+    r.plot()
 
 
 
@@ -67,11 +74,12 @@ model.
         r.resetToOrigin()
         s = r.simulate(0, 50, points, selections=selections)
         s_sum += s
-        # no legend, do not show
+        # use show=False to add traces to the current plot
+        # instead of starting a new one, equivalent to MATLAB hold on
         r.plot(s, alpha=0.5, show=False)
     
     # add mean curve, legend, show everything and set labels, titels, ...
-    fig = te.plot(s[:,0], s_sum[:,1:]/Nsim, colnames=[x + ' (mean)' for x in selections[1:]], title="Stochastic simulation", xtitle="time", ytitle="concentration")
+    fig = te.plot(s[:,0], s_sum[:,1:]/Nsim, names=[x + ' (mean)' for x in selections[1:]], title="Stochastic simulation", xtitle="time", ytitle="concentration")
 
 
 
