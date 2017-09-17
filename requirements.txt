@@ -21,9 +21,9 @@ sbml2matlab>=0.9.1
 appdirs>=1.4.3
 # ipywidgets
 # bioservices
-# ipython
-# jinja2
+ipython
+jinja2
 # plotly
 
 # testing dependencies
-# pytest
+pytest
