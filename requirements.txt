@@ -15,7 +15,7 @@ tecombine>=0.2.2
 # python-libnuml>=1.0.1
 phrasedml>=1.0.6
 antimony>=2.9.4
-rrplugins>=1.1.8
+rrplugins>=1.1.9
 sbml2matlab>=0.9.1
 
 appdirs>=1.4.3
