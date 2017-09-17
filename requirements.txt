@@ -1,7 +1,7 @@
 numpy>=1.13.1
-# scipy>=0.19.1
+scipy>=0.19.1
 matplotlib>=2.0.2
-# pandas>=0.20.3
+pandas>=0.20.3
 
 libroadrunner>=1.4.18
 tesbml>=5.15.0
