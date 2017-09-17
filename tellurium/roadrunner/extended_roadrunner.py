@@ -222,6 +222,7 @@ class ExtendedRoadRunner(roadrunner.RoadRunner):
     # ---------------------------------------------------------------------
     # Reset Methods
     # ---------------------------------------------------------------------
+    # FIXME: Remove in next release
     def resetToOrigin(self):
         """ Reset model to state when first loaded.
 
