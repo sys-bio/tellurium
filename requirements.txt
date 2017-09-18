@@ -1,29 +1,33 @@
-numpy>=1.13.1
+# general
+numpy>=1.13.0
 scipy>=0.19.1
 matplotlib>=2.0.2
-pandas>=0.20.3
+pandas>=0.20.2
 
+# SBW-derived
 libroadrunner>=1.4.18
-tesbml>=5.15.0
-tesedml>=0.4.1
-tecombine>=0.2.2
-
-# tecombine
-# tesbml
-# tesedml
-
-# python-libnuml>=1.0.1
 phrasedml>=1.0.6
 antimony>=2.9.4
 rrplugins>=1.1.10
 sbml2matlab>=0.9.1
 
+# standards
+tesbml>=5.15.0
+# python-libnuml>=1.0.1
+tesedml>=0.4.2
+tecombine>=0.2.2
+
 appdirs>=1.4.3
 # ipywidgets
-# bioservices
-ipython
-jinja2
-# plotly
+bioservices>=1.4.17
+jinja2>=2.9.6
+plotly>=2.0.12
+
+# Jupyter / IPython
+jupyter-client>=5.1.0
+jupyter-core>=4.3.0
+ipython>=6.1.0
+ipykernel>=4.6.1
 
 # testing dependencies
 pytest
