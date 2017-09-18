@@ -339,7 +339,6 @@ class CombineArchive(object):
         return paths
 
 
-
 ###########################################################################################
 # working with existing combine archives
 
