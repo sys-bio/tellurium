@@ -1,6 +1,13 @@
+"""
+Class for working with omex files.
+"""
 from __future__ import print_function, division, absolute_import
-
-import os, re
+import os
+import re
+import shutil
+import tempfile
+import json
+import getpass
 
 try:
     from tecombine import CombineArchive, OmexDescription, VCard, KnownFormats
@@ -9,18 +16,19 @@ except ImportError:
 
 from .convert_phrasedml import phrasedmlImporter
 from .convert_antimony import antimonyConverter
-import shutil, os, tempfile, getpass, json
+
 
 def readCreator(file=None):
     from .. import getAppDir
-    if file == None:
+    if file is None:
         file = os.path.join(getAppDir(), 'telocal', getpass.getuser() + '.vcard')
         if not os.path.exists(file) or not os.path.isfile(file):
             return None
     with open(file) as f:
         return json.load(f)
 
-class OmexAsset:
+
+class OmexAsset(object):
     def getLocation(self):
         return self.location
 
@@ -32,6 +40,7 @@ class OmexAsset:
 
     def getMaster(self):
         return self.master
+
 
 class SbmlAsset(OmexAsset):
     def __init__(self, location, content, master=False):
@@ -45,6 +54,7 @@ class SbmlAsset(OmexAsset):
     def __repr__(self):
         return 'SbmlAsset(location={}, master={})'.format(self.getLocation(), self.getMaster())
 
+
 class SedmlAsset(OmexAsset):
     def __init__(self, location, content, master=False):
         self.location = location
@@ -54,18 +64,18 @@ class SedmlAsset(OmexAsset):
     def __repr__(self):
         return 'SedmlAsset(location={}, master={})'.format(self.getLocation(), self.getMaster())
 
-class Omex:
-    ''' Wrapper for Combine archives. '''
 
+class Omex(object):
+    """ Wrapper for Combine archives. """
     def __init__(self,
-        description = '',
-        creator     = None):
+                 description='',
+                 creator=None):
 
-        self.about        = '.'
-        self.description  = description
-        self.creator      = creator
+        self.about = '.'
+        self.description = description
+        self.creator = creator
 
-        self.sbml_assets  = []
+        self.sbml_assets = []
         self.sedml_assets = []
 
     def addSbmlAsset(self, asset):
@@ -83,7 +93,7 @@ class Omex:
     def writeFiles(self, dir):
         filenames = []
         for t in self.getSedmlAssets():
-            fname = os.path.join(dir,os.path.normpath(t.getLocation()))
+            fname = os.path.join(dir, os.path.normpath(t.getLocation()))
             dname = os.path.dirname(fname)
             if not os.path.exists(dname):
                 os.makedirs(dname)
@@ -92,7 +102,7 @@ class Omex:
                 f.write(t.getContent())
 
         for t in self.getSbmlAssets():
-            fname = os.path.join(dir,os.path.normpath(t.getLocation()))
+            fname = os.path.join(dir, os.path.normpath(t.getLocation()))
             dname = os.path.dirname(fname)
             if not os.path.exists(dname):
                 os.makedirs(dname)
@@ -102,8 +112,10 @@ class Omex:
         return filenames
 
     def executeOmex(self):
-        '''Executes this Omex instance.'''
+        """ Executes this Omex instance.
 
+        :return:
+        """
         import phrasedml
         phrasedml.clearReferencedSBML()
 
@@ -114,14 +126,13 @@ class Omex:
             if sedml_asset.getMaster():
                 sedml_path = os.path.join(workingDir, sedml_asset.getLocation())
                 executeSEDML(sedml_path,
-                    workingDir=os.path.dirname(sedml_path))
-        # shutil.rmtree(workingDir)
+                             workingDir=os.path.dirname(sedml_path))
+                # shutil.rmtree(workingDir)
 
     def exportToCombine(self, outfile):
-        '''Exports this Omex instance to a Combine archive.
+        """ Export Omex instance as combine archive.
 
-        :param outfile: A path to the output file'''
-
+        :param outfile: A path to the output file"""
         import phrasedml
         phrasedml.clearReferencedSBML()
 
@@ -145,32 +156,34 @@ class Omex:
         # Write out to temporary files
         # TODO: can add content via strings now
         workingDir = tempfile.mkdtemp(suffix="_sedml")
-        files = [] # Keep a list of files to remove
+        files = []  # Keep a list of files to remove
 
         for t in self.getSedmlAssets():
-            fname = os.path.join(workingDir,os.path.normpath(t.getLocation()))
+            fname = os.path.join(workingDir, os.path.normpath(t.getLocation()))
             dname = os.path.dirname(fname)
             if not os.path.exists(dname):
                 os.makedirs(dname)
-            with open(fname,'w') as f:
+            with open(fname, 'w') as f:
                 files.append(fname)
                 f.write(t.getContent())
                 archive.addFile(fname, t.getLocation(), KnownFormats.lookupFormat("sedml"), t.getMaster())
 
         for t in self.getSbmlAssets():
-            fname = os.path.join(workingDir,os.path.normpath(t.getLocation()))
+            fname = os.path.join(workingDir, os.path.normpath(t.getLocation()))
             dname = os.path.dirname(fname)
             if not os.path.exists(dname):
                 os.makedirs(dname)
-            with open(fname,'w') as f:
+            with open(fname, 'w') as f:
                 files.append(fname)
                 f.write(t.getContent())
-                archive.addFile(fname, t.getLocation(), KnownFormats.lookupFormat("sbml"), t.getMaster() if t.getMaster() is not None else False)
+                archive.addFile(fname, t.getLocation(), KnownFormats.lookupFormat("sbml"),
+                                t.getMaster() if t.getMaster() is not None else False)
 
         archive.writeToFile(outfile)
 
         for f in files:
             os.remove(f)
+
 
 class inlineOmexImporter:
     # Set to false to disable "Converted from ...xml" comments
@@ -239,15 +252,14 @@ class inlineOmexImporter:
                 if module_name != file_name_normalized:
                     self.headerless = False
 
-
     def getEntries(self):
-        for k in range (self.omex.getNumEntries()):
+        for k in range(self.omex.getNumEntries()):
             yield self.omex.getEntry(k)
 
     def isInRootDir(self, path):
         """ Returns true if path specififies a root location like ./file.ext."""
         d = os.path.split(path)[0]
-        return d == '' or d =='.'
+        return d == '' or d == '.'
 
     def makeHeader(self, entry, type):
         """ Makes a header for an entry.
@@ -256,11 +268,11 @@ class inlineOmexImporter:
         :param type: Can be 'sbml' or 'sedml'
         """
         header_map = {
-            'sbml':  '%model',
+            'sbml': '%model',
             'sedml': '%tasks',
         }
         name_map = {
-            'sbml':  'Antimony',
+            'sbml': 'Antimony',
             'sedml': 'PhraSEDML',
         }
         try:
@@ -276,7 +288,8 @@ class inlineOmexImporter:
                 header += ' --master=True'
             header += '\n'
         if self.write_block_delimiter_comments:
-            header += '// -- Begin {} block converted from {}\n'.format(block_source_name, os.path.basename(entry.getLocation()))
+            header += '// -- Begin {} block converted from {}\n'.format(block_source_name,
+                                                                        os.path.basename(entry.getLocation()))
         return header
 
     def makeFooter(self, entry, type):
@@ -286,7 +299,7 @@ class inlineOmexImporter:
         :param type: Can be 'sbml' or 'sedml'
         """
         name_map = {
-            'sbml':  'Antimony',
+            'sbml': 'Antimony',
             'sedml': 'PhraSEDML',
         }
         try:
@@ -305,7 +318,7 @@ class inlineOmexImporter:
     def fixExt(self, path):
         """ Ensures all extensions are .xml."""
         p = os.path.splitext(path)[0]
-        return ''.join([p,'.xml'])
+        return ''.join([p, '.xml'])
 
     def formatPhrasedmlResource(self, path):
         """ Normalizes and also strips xml extension."""
@@ -351,16 +364,18 @@ class inlineOmexImporter:
         # convert sbml entries to antimony
         for entry in self.sbml_entries:
             output += (self.makeHeader(entry, 'sbml') +
-                antimonyConverter().sbmlToAntimony(self.omex.extractEntryToString(entry.getLocation()))[1].rstrip() + '\n'
-                + self.makeFooter(entry, 'sbml'))
+                       antimonyConverter().sbmlToAntimony(self.omex.extractEntryToString(entry.getLocation()))[
+                           1].rstrip() + '\n'
+                       + self.makeFooter(entry, 'sbml'))
         # convert sedml entries to phrasedml
         for entry in self.sedml_entries:
-            sedml_str = self.omex.extractEntryToString(entry.getLocation()).replace('BIOMD0000000012,xml','BIOMD0000000012.xml')
+            sedml_str = self.omex.extractEntryToString(entry.getLocation()).replace('BIOMD0000000012,xml',
+                                                                                    'BIOMD0000000012.xml')
             try:
                 phrasedml_output = phrasedmlImporter.fromContent(
                     sedml_str,
                     self.makeSBMLResourceMap(os.path.dirname(entry.getLocation()))
-                    ).toPhrasedml().rstrip().replace('compartment', 'compartment_')
+                ).toPhrasedml().rstrip().replace('compartment', 'compartment_')
             except:
                 errmsg = 'Could not read embedded SED-ML file {}.'.format(entry.getLocation())
                 try:
@@ -370,13 +385,13 @@ class inlineOmexImporter:
                         import tempfile
                         with tempfile.NamedTemporaryFile(suffix='.log', delete=False) as f:
                             for k in range(s.getNumErrors()):
-                                f.write('Error {}:\n{}'.format(k+1, s.getError(k).getMessage()).encode('utf-8'))
+                                f.write('Error {}:\n{}'.format(k + 1, s.getError(k).getMessage()).encode('utf-8'))
                             errmsg += ' Error log written to {}'.format(f.name)
                 except:
                     pass
                 raise RuntimeError(errmsg)
             output += (self.makeHeader(entry, 'sedml') +
-                phrasedml_output + '\n'
-                + self.makeFooter(entry, 'sedml'))
+                       phrasedml_output + '\n'
+                       + self.makeFooter(entry, 'sedml'))
 
         return output.rstrip()
