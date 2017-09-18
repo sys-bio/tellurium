@@ -583,7 +583,12 @@ def sbmlToAntimony(sbml):
     :return: Antimony
     :rtype: str
     """
-    if os.path.isfile(sbml):
+    isfile = False
+    try:
+        isfile = os.path.isfile(sbml)
+    except:
+        pass
+    if isfile:
         code = antimony.loadSBMLFile(sbml)
     else:
         code = antimony.loadSBMLString(str(sbml))
