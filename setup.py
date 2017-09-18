@@ -62,7 +62,7 @@ setup(name='tellurium',
           # Jupyter / IPython
           'jupyter-client>=5.1.0',
           'jupyter-core>=4.3.0',
-          'ipython>=5.5.0',
+          'ipython',
           'ipykernel>=4.6.1',
           # testing dependencies
           'pytest',
