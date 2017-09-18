@@ -33,7 +33,12 @@ def getSBMLFromBiomodelsURN(urn):
     sbml = r1.read()
     conn.close()
 
-    return str(sbml)
+    # bytes array in py3
+    try:
+        sbml_str = sbml.decode("utf-8")
+    except:
+        sbml_str = str(sbml)
+    return sbml_str
 
 
 if __name__ == "__main__":
@@ -43,6 +48,6 @@ if __name__ == "__main__":
     sbml = getSBMLFromBiomodelsURN(urn)
     print(sbml)
 
-    # import roadrunner
-    # r = roadrunner.RoadRunner(sbml)
-    # print(r)
+    import roadrunner
+    r = roadrunner.RoadRunner(sbml)
+    print(r)
