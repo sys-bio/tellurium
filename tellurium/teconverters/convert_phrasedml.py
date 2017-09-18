@@ -2,7 +2,6 @@ from __future__ import print_function, division, absolute_import
 
 import os
 import re
-
 import phrasedml
 try:
     import tesedml as libsedml
@@ -10,9 +9,19 @@ except ImportError:
     import libsedml
 
 
-class phrasedmlImporter:
+class phrasedmlImporter(object):
+
+    def __init__(self, sbml_map={}):
+        """ Constructor. """
+        self.sedml_str = None
+        self.sedml_path = None
+        self.sbml_map = sbml_map
+
+
     @classmethod
     def fromContent(cls, sedml_str, sbml_map={}):
+
+        # FIXME: bad hack for https://github.com/fbergmann/libSEDML/issues/47
         # test for JWS quirks
         if 'xmlns="http://sed-ml.org/sed-ml/level1/version3"' in sedml_str:
             # import xml.etree.ElementTree as ElementTree
@@ -43,6 +52,8 @@ class phrasedmlImporter:
                 else:
                     break
             print(sedml_str)
+
+
         importer = phrasedmlImporter(sbml_map)
         importer.sedml_str = sedml_str
         # test for errors
@@ -59,10 +70,6 @@ class phrasedmlImporter:
                 raise RuntimeError('Unable to read SED-ML.')
         return importer
 
-    def __init__(self, sbml_map={}):
-        self.sedml_str = None
-        self.sedml_path = None
-        self.sbml_map = sbml_map
 
     def isInRootDir(self, file):
         d = os.path.split(file)[0]

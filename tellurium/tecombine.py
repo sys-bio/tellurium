@@ -56,7 +56,8 @@ means the suitable file extension)
 
 from __future__ import print_function, division
 
-import os, shutil
+import os
+import shutil
 import warnings
 from zipfile import ZipFile
 import phrasedml
@@ -327,6 +328,8 @@ class CombineArchive(object):
         else:
             # no manifest, use all files in folder
             warnings.warn("No 'manifest.xml' in archive, trying to resolve manually")
+
+            # TODO: this must recursively look in folder, not very robust right now
             for fname in os.listdir(directory):
                 if filetype == "sed-ml":
                     if fname.endswith(".sedml") or fname.endswith(".sedx.xml"):
@@ -334,7 +337,6 @@ class CombineArchive(object):
 
         paths = [os.path.normpath(p) for p in paths]
         return paths
-
 
 
 ###########################################################################################

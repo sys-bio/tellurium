@@ -1602,10 +1602,13 @@ class SEDMLTools(object):
         """
         if doc.getErrorLog().getNumFailsWithSeverity(libsedml.LIBSEDML_SEV_ERROR) > 0:
             print(libsedml.writeSedMLToString(doc))
-            raise IOError(doc.getErrorLog().toString())
+            warnings.warn(doc.getErrorLog().toString())
+            # FIXME: workaround for https://github.com/fbergmann/libSEDML/issues/47
+            # raise IOError(doc.getErrorLog().toString())
         if doc.getErrorLog().getNumFailsWithSeverity(libsedml.LIBSEDML_SEV_FATAL) > 0:
             print(libsedml.writeSedMLToString(doc))
-            raise IOError(doc.getErrorLog().toString())
+            # raise IOError(doc.getErrorLog().toString())
+            warnings.warn(doc.getErrorLog().toString())
         if doc.getErrorLog().getNumFailsWithSeverity(libsedml.LIBSEDML_SEV_WARNING) > 0:
             warnings.warn(doc.getErrorLog().toString())
         if doc.getErrorLog().getNumFailsWithSeverity(libsedml.LIBSEDML_SEV_SCHEMA_ERROR) > 0:
@@ -1751,13 +1754,17 @@ def process_trace(trace):
     # print('trace.size = {}'.format(trace.size))
     # print('len(trace.shape) = {}'.format(len(trace.shape)))
     if trace.size > 1:
+        # FIXME: this adds a nan at the end of the data. This is a bug.
         if len(trace.shape) == 1:
-            #print('1d trace')
             return np.concatenate((np.atleast_1d(trace), np.atleast_1d(np.nan)))
+            # return np.atleast_1d(trace)
+
         elif len(trace.shape) == 2:
             #print('2d trace')
             # print(trace.shape)
+            # FIXME: this adds a nan at the end of the data. This is a bug.
             result = np.vstack((np.atleast_1d(trace), np.full((1,trace.shape[-1]),np.nan)))
+            # result = np.vstack((np.atleast_1d(trace), np.full((1, trace.shape[-1]))))
             # print('vstack')
             # print(result)
             return result

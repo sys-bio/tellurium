@@ -1,28 +1,32 @@
+"""
+Working with inline omex.
+This is used in the notebook to provide functionality to the cells.
+"""
 from __future__ import print_function, division, absolute_import
+import re
+import os
+import argparse
 
 try:
     import tecombine as libcombine
 except ImportError:
     import libcombine
 
-
 import phrasedml
-import re, os
-import argparse
 from .antimony_regex import getModelStartRegex, getModelEndRegex
 
-from pprint import pprint
 
 def saveInlineOMEX(omex_str, out_path):
-    '''Saves an inline omex string to a file.
+    """Saves an inline omex string to a file.
 
     :param omex_str: The inline omex string
     :type  omex_str: str
     :param out_path: Path to the output file
     :type  out_path: str
-    '''
+    """
     omex = inlineOmex.fromString(omex_str)
     omex.exportToCombine(out_path)
+
 
 def parseMagicArgs(line):
     parser = argparse.ArgumentParser()
@@ -30,15 +34,64 @@ def parseMagicArgs(line):
     parser.add_argument('--master', type=bool)
     return parser.parse_args(line)
 
-class inlineOmex:
+
+class inlineOmex(object):
+
+    def __init__(self, sources):
+        """ Converts a dictionary of PhraSEDML files and list of Antimony files into sedml/sbml.
+
+        :param sources: Sources returned from partitionInlineOMEXString
+        """
+        from .convert_omex import Omex, SbmlAsset, SedmlAsset, readCreator
+        from .convert_antimony import antimonyConverter
+
+        phrasedml.clearReferencedSBML()
+
+        from .. import DumpJSONInfo
+        self.omex = Omex(
+            description=DumpJSONInfo(),
+            creator=readCreator()
+        )
+
+        # Convert antimony to sbml
+        for t, loc, master in (
+        (x['source'], x['location'] if 'location' in x else None, x['master'] if 'master' in x else None)
+        for x in sources if x['type'] == 'antimony'):
+            modulename, sbmlstr = antimonyConverter().antimonyToSBML(t)
+            outpath = loc if loc is not None else modulename + '.xml'
+            self.omex.addSbmlAsset(SbmlAsset(outpath, sbmlstr, master=master))
+
+        # Convert phrasedml to sedml
+        for t, loc, master in (
+        (x['source'], x['location'] if 'location' in x else None, x['master'] if 'master' in x else None)
+        for x in sources if x['type'] == 'phrasedml'):
+
+            for sbml_asset in self.omex.getSbmlAssets():
+                if sbml_asset.location:
+                    if loc:
+                        path = os.path.relpath(sbml_asset.location, os.path.dirname(loc))
+                    else:
+                        path = sbml_asset.location
+                else:
+                    path = sbml_asset.getModuleName()
+                phrasedml.setReferencedSBML(path, sbml_asset.getContent())
+            phrasedml.convertString(t)
+            phrasedml.addDotXMLToModelSources(False)
+            sedml = phrasedml.getLastSEDML()
+            if sedml is None:
+                raise RuntimeError('Unable to convert PhraSEDML to SED-ML: {}'.format(phrasedml.getLastError()))
+            outpath = loc if loc is not None else 'main.xml'
+            self.omex.addSedmlAsset(SedmlAsset(outpath, sedml, master=master))
+
+
     @classmethod
     def fromString(cls, omex_str):
-        '''Given mixed Antimony/PhraSEDML, separates out the constituent parts.
+        """Given mixed Antimony/PhraSEDML, separates out the constituent parts.
         Assumes that Antimony and PhraSEDML are not mixed on the same line.
 
         :param instr: The input string containing mixed Antimony/PhraSEDML
         :returns: 2-tuple containing a list of Antimony parts and a list of PhraSEDML parts as strings
-        '''
+        """
         class S_PML:
             # recognizes Antimony start
             sb_start = re.compile(getModelStartRegex())
@@ -134,54 +187,12 @@ class inlineOmex:
 
         return inlineOmex(sources)
 
-    def __init__(self, sources):
-        '''Converts a dictionary of PhraSEDML files and list of Antimony files into sedml/sbml.
-
-        :param sources: Sources returned from partitionInlineOMEXString'''
-
-        from .convert_omex import Omex, SbmlAsset, SedmlAsset, readCreator
-        from .convert_antimony import antimonyConverter
-
-        import phrasedml
-        phrasedml.clearReferencedSBML()
-
-        from .. import DumpJSONInfo
-        self.omex = Omex(
-            description = DumpJSONInfo(),
-            creator = readCreator()
-        )
-
-        # Convert antimony to sbml
-        for t,loc,master in ((x['source'], x['location'] if 'location' in x else None, x['master'] if 'master' in x else None)
-            for x in sources if x['type'] == 'antimony'):
-
-            modulename, sbmlstr = antimonyConverter().antimonyToSBML(t)
-            outpath = loc if loc is not None else modulename+'.xml'
-            self.omex.addSbmlAsset(SbmlAsset(outpath, sbmlstr, master=master))
-
-        # Convert phrasedml to sedml
-        for t,loc,master in ((x['source'], x['location'] if 'location' in x else None, x['master'] if 'master' in x else None)
-            for x in sources if x['type'] == 'phrasedml'):
-
-            for sbml_asset in self.omex.getSbmlAssets():
-                if sbml_asset.location:
-                    if loc:
-                        path = os.path.relpath(sbml_asset.location, os.path.dirname(loc))
-                    else:
-                        path = sbml_asset.location
-                else:
-                    path = sbml_asset.getModuleName()
-                phrasedml.setReferencedSBML(path, sbml_asset.getContent())
-            phrasedml.convertString(t)
-            phrasedml.addDotXMLToModelSources(False)
-            sedml = phrasedml.getLastSEDML()
-            if sedml is None:
-                raise RuntimeError('Unable to convert PhraSEDML to SED-ML: {}'.format(phrasedml.getLastError()))
-            outpath = loc if loc is not None else 'main.xml'
-            self.omex.addSedmlAsset(SedmlAsset(outpath, sedml, master=master))
 
     def executeOmex(self):
+        """ Executes the archive. """
         self.omex.executeOmex()
 
+
     def exportToCombine(self, outpath):
+        """ Exports the archive to file. """
         self.omex.exportToCombine(outpath)

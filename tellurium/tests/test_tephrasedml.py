@@ -68,55 +68,33 @@ class tePhrasedMLTestCase(unittest.TestCase):
 
     def test_execute(self):
         """Test execute."""
-        exp = tephrasedml.experiment(self.antimony, self.phrasedml)
-        exp.execute(self.phrasedml)
-
-    def test_createpython(self):
-        """Test createpython."""
-        exp = tephrasedml.experiment(self.antimony, self.phrasedml)
-        pstr = exp._toPython(self.phrasedml)
-        self.assertIsNotNone(pstr)
-
-    def test_printpython(self):
-        """Test printpython."""
-        exp = tephrasedml.experiment(self.antimony, self.phrasedml)
-        exp.printPython(self.phrasedml)
-
-    def test_experiment(self):
-        """Test experiment."""
-        exp = experiment(self.antimony, self.phrasedml)
-        pstr = exp._toPython(self.phrasedml)
-        self.assertIsNotNone(pstr)
+        inline_omex = '\n'.join([self.antimony, self.phrasedml])
+        te.executeInlineOmex(inline_omex)
 
     def test_exportAsCombine(self):
         """ Test exportAsCombine. """
-        exp = experiment(self.antimony, self.phrasedml)
+        inline_omex = '\n'.join([self.antimony, self.phrasedml])
         tmpdir = tempfile.mkdtemp()
-        tmparchive = os.path.join(tmpdir, 'test.zip')
-        exp.exportAsCombine(tmparchive)
-        # try to re
-        import zipfile
-        zip = zipfile.ZipFile(tmparchive)
-        zip.close()
+        te.exportInlineOmex(inline_omex, os.path.join(tmpdir, 'archive.omex'))
         shutil.rmtree(tmpdir)
 
     def test_1Model1PhrasedML(self):
         """ Minimal example which should work. """
-        antimonyStr = """
+        antimony_str = """
         model test
             J0: S1 -> S2; k1*S1;
             S1 = 10.0; S2=0.0;
             k1 = 0.1;
         end
         """
-        phrasedmlStr = """
+        phrasedml_str = """
             model0 = model "test"
             sim0 = simulate uniform(0, 10, 100)
             task0 = run sim0 on model0
             plot task0.time vs task0.S1
         """
-        exp = experiment(antimonyStr, phrasedmlStr)
-        exp.execute(phrasedmlStr)
+        inline_omex = '\n'.join([antimony_str, phrasedml_str])
+        te.executeInlineOmex(inline_omex)
 
     def test_1Model2PhrasedML(self):
         """ Test multiple models and multiple phrasedml files. """
@@ -134,13 +112,14 @@ class tePhrasedMLTestCase(unittest.TestCase):
             task1 = run sim1 on model2
             plot task1.time vs task1.S1, task1.S2
         """
-        exp = experiment(self.a1, [p1, p2])
-        # execute first
-        exp.execute(p1)
-        # execute second
-        exp.execute(p2)
-        # execute all
-        exp.execute()
+        inline_omex = '\n'.join([self.a1, p1])
+        te.executeInlineOmex(inline_omex)
+
+        inline_omex = '\n'.join([self.a1, p2])
+        te.executeInlineOmex(inline_omex)
+
+        inline_omex = '\n'.join([self.a1, p1, p2])
+        te.executeInlineOmex(inline_omex)
 
     def test_2Model1PhrasedML(self):
         """ Test multiple models and multiple phrasedml files. """
@@ -154,8 +133,8 @@ class tePhrasedMLTestCase(unittest.TestCase):
             plot "Timecourse test1" task1.time vs task1.S1, task1.S2
             plot "Timecourse test2" task2.time vs task2.X1, task2.X2
         """
-        exp = experiment([self.a1, self.a2], p1)
-        exp.execute(p1)
+        inline_omex = '\n'.join([self.a1, self.a2, p1])
+        te.executeInlineOmex(inline_omex)
 
     def test_2Model2PhrasedML(self):
         """ Test multiple models and multiple phrasedml files. """
@@ -175,23 +154,8 @@ class tePhrasedMLTestCase(unittest.TestCase):
             task2 = run sim1 on model2
             plot task1.time vs task1.S1, task1.S2, task2.time vs task2.X1, task2.X2
         """
-        exp = experiment([self.a1, self.a2], [p1, p2])
-        # execute first
-        exp.execute(p1)
-        # execute second
-        exp.execute(p2)
-        # execute all
-        exp.execute()
-
-    def test_ModelAsURN(self):
-        """ Provide model via urn. """
-        # TODO: implement
-        pass
-
-    def test_ModelAsPath(self):
-        """ Provide model as path. """
-        # TODO: implement
-        pass
+        inline_omex = '\n'.join([self.a1, self.a2, p1, p2])
+        te.executeInlineOmex(inline_omex)
 
     ###################################################################################
     # Testing Kisao Terms
@@ -715,6 +679,7 @@ class tePhrasedMLTestCase(unittest.TestCase):
         exp = experiment(self.a1, p)
         self.checkKisaoAlgorithmParameter(exp, 'KISAO:0000488', 'seed', 1234)
         exp.execute()
+
 
 if __name__ == '__main__':
     unittest.main()

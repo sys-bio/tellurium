@@ -5,6 +5,7 @@
 # develop install via
 # pip install -e .
 ###################################
+
 from setuptools import setup
 import os
 try:
@@ -51,12 +52,12 @@ setup(name='tellurium',
           'sbml2matlab>=0.9.1',
           # standards
           'tesbml>=5.15.0',
-          #'python-libnuml>=1.0.1',
+          'python-libnuml>=1.0.1',
           'tesedml>=0.4.2',
           'tecombine>=0.2.2',
           'appdirs>=1.4.3',
           # 'ipywidgets',
-          'bioservices>=1.4.17',
+          # 'bioservices>=1.4.17',
           'jinja2>=2.9.6',
           'plotly>=2.0.12',
           # Jupyter / IPython

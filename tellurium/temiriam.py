@@ -1,45 +1,44 @@
 # -*- coding: utf-8 -*-
 """
 Helper functions for MIRIAM and identifiers.org.
-
-resolve the locations of:
-urn:miriam:biomodels.db:BIOMD0000000003.xml
-
 """
-from __future__ import absolute_import, print_function, division
+from __future__ import absolute_import, print_function
 import re
 
 
 def getSBMLFromBiomodelsURN(urn):
-    """
-    Get the SBML from a given BioModels URN.
+    """ Get SBML string from given BioModels URN.
+
     Searches for a BioModels identifier in the given urn and retrieves the SBML from biomodels.
+    For example:
+        urn:miriam:biomodels.db:BIOMD0000000003.xml
+
     :param urn:
-    :type urn:
-    :return: SBML string fro given model urn
-    :rtype: str
+    :return: SBML string for given model urn
     """
     pattern = "((BIOMD|MODEL)\d{10})|(BMID\d{12})"
     match = re.search(pattern, urn)
     mid = match.group(0)
-    try:
-        # read SBML via bioservices
-        import bioservices
-        biomodels = bioservices.BioModels()
-        sbml = biomodels.getModelSBMLById(mid)
-        # sbml = sbml.encode('utf8')
-    except ImportError:
-        # if there are issues with bioservice import, do a workaround
-        # see https://github.com/sys-bio/tellurium/issues/125
-        import httplib
-        conn = httplib.HTTPConnection("www.ebi.ac.uk")
-        conn.request("GET", "/biomodels-main/download?mid=" + mid)
-        r1 = conn.getresponse()
-        # print(r1.status, r1.reason)
-        sbml = r1.read()
-        conn.close()
 
-    return str(sbml)
+    # py2 / py3
+    try:
+        import httplib
+    except ImportError:
+        import http.client as httplib
+
+    conn = httplib.HTTPConnection("www.ebi.ac.uk", timeout=20)
+    conn.request("GET", "/biomodels-main/download?mid=" + mid)
+    r1 = conn.getresponse()
+    # print(r1.status, r1.reason)
+    sbml = r1.read()
+    conn.close()
+
+    # bytes array in py3
+    try:
+        sbml_str = sbml.decode("utf-8")
+    except:
+        sbml_str = str(sbml)
+    return sbml_str
 
 
 if __name__ == "__main__":
