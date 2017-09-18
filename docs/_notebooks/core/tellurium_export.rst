@@ -3,9 +3,17 @@
 SBML
 ^^^^
 
-.. code:: python
+Given a
+`RoadRunner <http://sys-bio.github.io/roadrunner/python_docs/index.html>`__
+instance, you can get an SBML representation of the current state of the
+model using ``getCurrentSBML``. You can also get the initial SBML from
+when the model was loaded using ``getSBML``. Finally, ``exportToSBML``
+can be used to export the current model state to a file.
+
+.. code-block:: python
 
     import tellurium as te
+    te.setDefaultPlottingEngine('matplotlib')
     import tempfile
     
     # load model
@@ -28,10 +36,16 @@ SBML
     print(str_sbml)
 
 
+
+.. raw:: html
+
+    <script>requirejs.config({paths: { 'plotly': ['https://cdn.plot.ly/plotly-latest.min']},});if(!window.Plotly) {{require(['plotly'],function(plotly) {window.Plotly=plotly;});}}</script>
+
+
 .. parsed-literal::
 
     <?xml version="1.0" encoding="UTF-8"?>
-    <!-- Created by libAntimony version v2.9.0 with libSBML version 5.14.1. -->
+    <!-- Created by libAntimony version v2.9.3 with libSBML version 5.15.0. -->
     <sbml xmlns="http://www.sbml.org/sbml/level3/version1/core" level="3" version="1">
       <model id="__main" name="__main">
         <listOfCompartments>
@@ -71,7 +85,11 @@ SBML
 Antimony
 ^^^^^^^^
 
-.. code:: python
+Similar to the SBML functions above, you can also use the functions
+``getCurrentAntimony`` and ``exportToAntimony`` to get or export the
+current Antimony representation.
+
+.. code-block:: python
 
     import tellurium as te
     import tempfile
@@ -98,7 +116,7 @@ Antimony
 
 .. parsed-literal::
 
-    // Created by libAntimony v2.9.0
+    // Created by libAntimony v2.9.3
     // Compartments and Species:
     species S1, S2;
     
@@ -120,7 +138,11 @@ Antimony
 CellML
 ^^^^^^
 
-.. code:: python
+Tellurium also has functions for exporting the current model state to
+CellML. These functionalities rely on using Antimony to perform the
+conversion.
+
+.. code-block:: python
 
     import tellurium as te
     import tempfile
@@ -174,9 +196,12 @@ CellML
     <bvar>
     <ci>time</ci>
     </bvar>
-    <ci>S2</ci>
+    <ci>S1</ci>
     </apply>
+    <apply>
+    <minus/>
     <ci>_J0</ci>
+    </apply>
     </apply>
     </math>
     <math xmlns="http://www.w3.org/1998/Math/MathML">
@@ -187,12 +212,9 @@ CellML
     <bvar>
     <ci>time</ci>
     </bvar>
-    <ci>S1</ci>
+    <ci>S2</ci>
     </apply>
-    <apply>
-    <minus/>
     <ci>_J0</ci>
-    </apply>
     </apply>
     </math>
     </component>
@@ -206,7 +228,9 @@ CellML
 Matlab
 ^^^^^^
 
-.. code:: python
+To export the current model state to MATLAB, use ``getCurrentMatlab``.
+
+.. code-block:: python
 
     import tellurium as te
     import tempfile
@@ -450,7 +474,16 @@ Matlab
     
 
 
-.. code:: python
+Using Antimony Directly
+^^^^^^^^^^^^^^^^^^^^^^^
+
+The above examples rely on Antimony as in intermediary between formats.
+You can use this functionality directly using e.g.
+``antimony.getCellMLString``. A comprehensive set of functions can be
+found in the `Antimony API
+documentation <http://antimony.sourceforge.net/antimony__api_8h.html>`__.
+
+.. code-block:: python
 
     import antimony
     antimony.loadAntimonyString('''S1 -> S2; k1*S1; k1 = 0.1; S1 = 10''')
@@ -514,5 +547,4 @@ Matlab
     <component_ref component="__main"/>
     </group>
     </model>
-
 

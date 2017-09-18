@@ -46,6 +46,7 @@ Use these routines interconvert verious standard formats
 ----------------------------------------
 Export Utilities
 ----------------------------------------
+
 Use these routines to convert the current model state into other formats, like
 Matlab, CellML, Antimony and SBML.
 
@@ -57,6 +58,7 @@ Matlab, CellML, Antimony and SBML.
 ----------------------------------------
 Stochastic Simulation
 ----------------------------------------
+
 Use these routines to carry out Gillespie style stochastic simulations.
 
 .. autoclass:: tellurium.tellurium.ExtendedRoadRunner
@@ -67,6 +69,7 @@ Use these routines to carry out Gillespie style stochastic simulations.
 ----------------------------------------
 Math
 ----------------------------------------
+
 Only one routine is currently available in this group which is a routine to compute the eigenvalues of given a matrix.
 
 .. autofunction:: tellurium.getEigenvalues
@@ -74,6 +77,7 @@ Only one routine is currently available in this group which is a routine to comp
 ----------------------------------------
 Plotting
 ----------------------------------------
+
 Two useful plotting routines. They assume that the first column in the array is the x-axis and the second and subsequent columns represent curves on the y-axis.
 
 .. autofunction:: tellurium.plotArray
@@ -85,6 +89,7 @@ Two useful plotting routines. They assume that the first column in the array is 
 ----------------------------------------
 Model Reset
 ----------------------------------------
+
 Use these routines reset your model back to particular states
 
 .. autoclass:: tellurium.tellurium.ExtendedRoadRunner
@@ -95,6 +100,7 @@ Use these routines reset your model back to particular states
 ----------------------------------------
 jarnac Short-cuts
 ----------------------------------------
+
 Routines to support the Jarnac compatibility layer
 
 .. autoclass:: tellurium.tellurium.ExtendedRoadRunner
@@ -103,6 +109,7 @@ Routines to support the Jarnac compatibility layer
 ----------------------------------------
 Test Models
 ----------------------------------------
+
 RoadRunner has built into it a number of predefined models that can be use
 to easily try and test tellurium.
 

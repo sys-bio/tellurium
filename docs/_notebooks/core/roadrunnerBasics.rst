@@ -42,6 +42,29 @@ simulator instance.
     <script>requirejs.config({paths: { 'plotly': ['https://cdn.plot.ly/plotly-latest.min']},});if(!window.Plotly) {{require(['plotly'],function(plotly) {window.Plotly=plotly;});}}</script>
 
 
+Running Simulations
+~~~~~~~~~~~~~~~~~~~
+
+Simulating a model in roadrunner is as simple as calling the
+``simulate`` function on the RoadRunner instance ``r``. The simulate
+acceps three positional arguments: start time, end time, and number of
+points. The simulate function also accepts the keyword arguments
+``selections``, which is a list of variables to include in the output,
+and ``steps``, which is the number of integration time steps and can be
+specified instead of number of points.
+
+.. code-block:: python
+
+    # simulate from 0 to 50 with 100 steps
+    r.simulate(0, 50, 100)
+    # plot the simulation
+    r.plot()
+
+
+
+.. image:: _notebooks/core/roadrunnerBasics_files/roadrunnerBasics_4_0.png
+
+
 Integrator and Integrator Settings
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -85,6 +108,7 @@ Settings for the ``gillespie`` integrator:
     r.integrator.setValue('relative_tolerance', 1e-1) # set via a call to setValue
     
     # run a simulation, stop after reaching or passing time 10
+    r.reset()
     results = r.simulate(0, 10)
     r.plot()
     
@@ -114,7 +138,7 @@ Settings for the ``gillespie`` integrator:
 
 
 
-.. image:: _notebooks/core/roadrunnerBasics_files/roadrunnerBasics_4_1.png
+.. image:: _notebooks/core/roadrunnerBasics_files/roadrunnerBasics_6_1.png
 
 
 .. parsed-literal::
@@ -221,34 +245,38 @@ Selections
 The selections list can be used to set which state variables will appear
 in the output array. By default, it includes all SBML species and the
 ``time`` variable. Selections can be either given as argument to
-``r.simulate`` or set via ``r.selections``.
+``r.simulate``.
 
 .. code-block:: python
 
-    # set selections directly
-    r.selections = ['time', 'J1']
-    print(r.simulate(0,10,6))
-    # provide arguments to simulate
+    print('Floating species in model:')
+    print(r.getFloatingSpeciesIds())
+    # provide selections to simulate
     print(r.simulate(0,10,6, selections=r.getFloatingSpeciesIds()))
+    r.resetAll()
+    # try different selections
+    print(r.simulate(0,10,6, selections=['time','J1']))
 
 
 .. parsed-literal::
 
-        time,           J1
-     [[    0,   0.00207671],
-      [    2,  0.000295112],
-      [    4, -0.000234598],
-      [    6, -0.000203385],
-      [    8,   -9.474e-05],
-      [   10, -3.43429e-05]]
+    Floating species in model:
+    ['S1', 'S2']
+                  S1,      S2
+     [[   0.00207671, 9.99792],
+      [  0.000295112,  9.9997],
+      [ -0.000234598, 10.0002],
+      [ -0.000203385, 10.0002],
+      [   -9.474e-05, 10.0001],
+      [ -3.43429e-05,      10]]
     
-                  S1, S2
-     [[ -3.43429e-05, 10],
-      [ -1.57669e-05, 10],
-      [ -8.76907e-06, 10],
-      [ -3.36199e-06, 10],
-      [ -2.80745e-06, 10],
-      [ -2.25291e-06, 10]]
+        time,         J1
+     [[    0,         10],
+      [    2,    1.23775],
+      [    4,   0.253289],
+      [    6,  0.0444091],
+      [    8, 0.00950381],
+      [   10, 0.00207671]]
     
 
 
@@ -271,13 +299,23 @@ parameters to their initial values when the model was loaded.
     # S1 and S2 have now again the initial values
     for s in ['S1', 'S2']:
         print('r.{} == {}'.format(s, r[s]))
+    # change a parameter value
+    print('r.k1 before = {}'.format(r.k1))
+    r.k1 = 0.1
+    print('r.k1 after = {}'.format(r.k1))
+    # reset parameters
+    r.resetAll()
+    print('r.k1 after resetAll = {}'.format(r.k1))
 
 
 .. parsed-literal::
 
-    r.S1 == -2.252909326764279e-06
-    r.S2 == 10.000002252909333
+    r.S1 == 0.0020767122285295023
+    r.S2 == 9.997923287771478
     reset
     r.S1 == 10.0
     r.S2 == 0.0
+    r.k1 before = 1.0
+    r.k1 after = 0.1
+    r.k1 after resetAll = 1.0
 

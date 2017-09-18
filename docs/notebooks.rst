@@ -5,11 +5,12 @@ Usage Examples
 All tellurium examples are available as interactive `Tellurium <http://tellurium.readthedocs.io/en/latest/installation.html#front-end-1-tellurium-notebook>`_ or `Jupyter <http://jupyter.readthedocs.org/en/latest/install.html>`_ notebooks.
 
 To run the examples, clone the git repository:
+
 .. code-block:: bash
 
     git clone https://github.com/sys-bio/tellurium.git
 
-and use the `Tellurium notebook viewer <http://tellurium.readthedocs.io/en/latest/installation.html#front-end-1-tellurium-notebook>`_ or `Jupyter <http://jupyter.readthedocs.org/en/latest/install.html>`_ to open any notebook in the ``tellurium/examples/notebooks`` directory.
+and use the `Tellurium notebook viewer <http://tellurium.readthedocs.io/en/latest/installation.html#front-end-1-tellurium-notebook>`_ or `Jupyter <http://jupyter.readthedocs.org/en/latest/install.html>`_ to open any notebook in the ``tellurium/examples/notebooks/core`` directory.
 
 --------------------
 Basics
@@ -62,9 +63,12 @@ the inline OMEX string. Examples below.
 
 .. include:: _notebooks/core/phrasedmlExample.rst
 
---------------------
-Misc
---------------------
-Some used cases for tellurium
+---------------------
+Modeling Case Studies
+---------------------
+
+This series of case studies shows some slight more advanced
+examples which correspond to common motifs in biological networks (negative feedback loops, etc.).
+To draw the network diagrams seen here, you will need `graphviz <http://www.graphviz.org/>`_ installed.
 
 .. include:: _notebooks/core/tellurium_examples.rst

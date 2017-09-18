@@ -80,16 +80,6 @@ be properly converted into a SED-ML file.
     print(sedml_str)
 
 
-.. parsed-literal::
-
-    /home/poltergeist/.config/Tellurium/telocal/python-3.6.1/lib/python3.6/site-packages/matplotlib/__init__.py:1405: UserWarning: 
-    This call to matplotlib.use() has no effect because the backend has already
-    been chosen; matplotlib.use() must be called *before* pylab, matplotlib.pyplot,
-    or matplotlib.backends is imported for the first time.
-    
-      warnings.warn(_use_error_msg)
-
-
 
 .. raw:: html
 
@@ -171,12 +161,12 @@ and PhraSEDML internally) for reading SED-ML files.
     with open(sbml_file, 'wb') as f:
         f.write(sbml_str.encode('utf-8'))
         f.flush()
-        print('SBML file written to {}'.format(sbml_file))
+        print('SBML written to temporary file')
     
     with open(sedml_file, 'wb') as f:
         f.write(sedml_str.encode('utf-8'))
         f.flush()
-        print('SED-ML file written to {}'.format(sedml_file))
+        print('SED-ML written to temporary file')
     
     # For technical reasons, any software which uses libSEDML
     # must provide a custom build - Tellurium uses tesedml
@@ -196,8 +186,8 @@ and PhraSEDML internally) for reading SED-ML files.
 
 .. parsed-literal::
 
-    SBML file written to /tmp/tmpmkte_x1u_sedml/myModel
-    SED-ML file written to /tmp/tmpmkte_x1u_sedml/sed_main.xml
+    SBML written to temporary file
+    SED-ML written to temporary file
     Read SED-ML file, number of errors: 0
 
 
@@ -321,10 +311,6 @@ examples).
 
 .. parsed-literal::
 
-    /home/poltergeist/devel/src/tellurium/tellurium/tecombine.py:274: UserWarning:
-    
-    Combine archive directory already exists:/home/poltergeist/devel/src/tellurium/tellurium/tests/testdata/sedml/sedx/_te_BIOMD0000000003
-    
     /home/poltergeist/devel/src/tellurium/tellurium/tecombine.py:329: UserWarning:
     
     No 'manifest.xml' in archive, trying to resolve manually

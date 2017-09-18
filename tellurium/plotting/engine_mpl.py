@@ -55,6 +55,24 @@ class MatplotlibFigure(PlottingFigure):
         # title
         if self.title:
             plt.title(self.title, fontweight='bold')
+        # xtitle
+        if self.xtitle:
+            plt.xlabel(self.xtitle)
+        # ytitle
+        if self.ytitle:
+            plt.ylabel(self.ytitle)
+        # xlim
+        if self.xlim:
+            plt.xlim(self.xlim)
+        # ylim
+        if self.ylim:
+            plt.ylim(self.ylim)
+        # logx
+        if self.logx:
+            plt.xscale('log')
+        # logy
+        if self.logy:
+            plt.yscale('log')
         # legend
         if self.use_legend and have_labels:
             if SPYDER:

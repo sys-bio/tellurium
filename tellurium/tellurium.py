@@ -87,7 +87,7 @@ import matplotlib.pyplot as plt
 # make this the default style for matplotlib
 # plt.style.use('fivethirtyeight')
 
-from .plotting import getPlottingEngineFactory as __getPlottingEngineFactory, plot
+from .plotting import getPlottingEngineFactory as __getPlottingEngineFactory, plot, show
 
 def getPlottingEngineFactory(engine=None):
     global __save_plots_to_pdf

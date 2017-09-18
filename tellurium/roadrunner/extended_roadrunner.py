@@ -155,7 +155,7 @@ class ExtendedRoadRunner(roadrunner.RoadRunner):
         :rtype: str
         """
         try:
-            import sbml2matlab
+            from sbml2matlab import sbml2matlab
             sbml = self.__getSBML(current)
             return sbml2matlab(sbml)
         except ImportError:
@@ -222,6 +222,7 @@ class ExtendedRoadRunner(roadrunner.RoadRunner):
     # ---------------------------------------------------------------------
     # Reset Methods
     # ---------------------------------------------------------------------
+    # FIXME: Remove in next release
     def resetToOrigin(self):
         """ Reset model to state when first loaded.
 
@@ -270,17 +271,25 @@ class ExtendedRoadRunner(roadrunner.RoadRunner):
         shaded in blue), reactions as grey squares.
         Currently only the drawing of medium-size networks is supported.
         """
-        import os
-        if any([ os.access( os.path.join( p, 'dot' ), os.X_OK ) for p in os.environ['PATH'].split( os.pathsep )]):
-            warnings.warn("Graphviz is not installed in your machine. 'draw' command cannot produce a diagram",
+        import shutil
+        # PATH variable may not be present - cannot use os.environ['PATH']
+        # but can use shutil.which for Python 3.3+
+        if hasattr(shutil, 'which'):
+            if shutil.which('dot') is None:
+                warnings.warn("Graphviz is not installed in your machine or could not be found. 'draw' command cannot produce a diagram.",
+                    Warning, stacklevel=2)
+                return
+        elif not 'PATH' in os.environ or any([ os.access( os.path.join( p, 'dot' ), os.X_OK ) for p in os.environ['PATH'].split( os.pathsep )]):
+            warnings.warn("Graphviz is not installed in your machine or could not be found. 'draw' command cannot produce a diagram.",
                 Warning, stacklevel=2)
-        else:
-            from tellurium.visualization.sbmldiagram import SBMLDiagram
-            diagram = SBMLDiagram(self.getSBML())
-            diagram.draw(**kwargs)
+            return
+
+        from tellurium import SBMLDiagram
+        diagram = SBMLDiagram(self.getSBML())
+        diagram.draw(**kwargs)
 
     def plot(self, result=None, show=True,
-             xlabel=None, ylabel=None, title=None, xlim=None, ylim=None,
+             xtitle=None, ytitle=None, title=None, xlim=None, ylim=None, logx=False, logy=False,
              xscale='linear', yscale='linear', grid=False, ordinates=None, tag=None, alpha=None, **kwargs):
         """ Plot roadrunner simulation data.
 
@@ -336,12 +345,33 @@ class ExtendedRoadRunner(roadrunner.RoadRunner):
 
         from .. import getPlottingEngine
 
+        if ordinates:
+            kwargs['ordinates'] = ordinates
+        if title:
+            kwargs['title'] = title
+        if xtitle:
+            kwargs['xtitle'] = xtitle
+        if ytitle:
+            kwargs['ytitle'] = ytitle
+        if xlim:
+            kwargs['xlim'] = xlim
+        if ylim:
+            kwargs['ylim'] = ylim
+        if logx:
+            kwargs['logx'] = logx
+        if logy:
+            kwargs['logy'] = logy
+        if alpha:
+            kwargs['alpha'] = alpha
+        if tag:
+            kwargs['tag'] = tag
+
         if show:
             # if show is true, show the plot immediately
-            getPlottingEngine().plotTimecourse(result, ordinates=ordinates, tag=tag, xtitle=xlabel, alpha=alpha, **kwargs)
+            getPlottingEngine().plotTimecourse       (result, **kwargs)
         else:
             # otherwise, accumulate the traces
-            getPlottingEngine().accumulateTimecourse(result, ordinates=ordinates, tag=tag, xtitle=xlabel, alpha=alpha, **kwargs)
+            getPlottingEngine().accumulateTimecourse (result, **kwargs)
 
         # Old code:
         # if loc is False:
@@ -494,7 +524,7 @@ class ExtendedRoadRunner(roadrunner.RoadRunner):
         self.setIntegrator('gillespie')
         if (len(args) > 2):
             self.integrator.variable_step_size = False
-        elif (kwargs.has_key('points') or kwargs.has_key('steps')):
+        elif ('points' in kwargs or 'steps' in kwargs):
             self.integrator.variable_step_size = False
         s = self.simulate(*args, **kwargs)
         self.integrator.variable_step_size = True

@@ -3,9 +3,16 @@
 Reset model values
 ^^^^^^^^^^^^^^^^^^
 
-.. code:: python
+The ``reset`` function of a
+`RoadRunner <http://sys-bio.github.io/roadrunner/python_docs/index.html>`__
+instance reset the system variables (usu. species concentrations) to
+their respective initial values. ``resetAll`` also resets parameters.
+``resetToOrigin`` completely resets the model.
+
+.. code-block:: python
 
     import tellurium as te
+    te.setDefaultPlottingEngine('matplotlib')
     
     r = te.loada ('S1 -> S2; k1*S1; k1 = 0.1; S1 = 10')
     r.integrator.setValue('variable_step_size', True)
@@ -36,13 +43,19 @@ Reset model values
     r.plot(sim4);
 
 
+
+.. raw:: html
+
+    <script>requirejs.config({paths: { 'plotly': ['https://cdn.plot.ly/plotly-latest.min']},});if(!window.Plotly) {{require(['plotly'],function(plotly) {window.Plotly=plotly;});}}</script>
+
+
 .. parsed-literal::
 
     *** sim1 ***
 
 
 
-.. image:: _notebooks/core/tellurium_reset_files/tellurium_reset_2_1.png
+.. image:: _notebooks/core/tellurium_reset_files/tellurium_reset_2_2.png
 
 
 .. parsed-literal::
@@ -52,7 +65,7 @@ Reset model values
 
 
 
-.. image:: _notebooks/core/tellurium_reset_files/tellurium_reset_2_3.png
+.. image:: _notebooks/core/tellurium_reset_files/tellurium_reset_2_4.png
 
 
 .. parsed-literal::
@@ -62,7 +75,7 @@ Reset model values
 
 
 
-.. image:: _notebooks/core/tellurium_reset_files/tellurium_reset_2_5.png
+.. image:: _notebooks/core/tellurium_reset_files/tellurium_reset_2_6.png
 
 
 .. parsed-literal::
@@ -72,6 +85,5 @@ Reset model values
 
 
 
-.. image:: _notebooks/core/tellurium_reset_files/tellurium_reset_2_7.png
-
+.. image:: _notebooks/core/tellurium_reset_files/tellurium_reset_2_8.png
 
