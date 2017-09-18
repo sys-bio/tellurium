@@ -22,6 +22,13 @@ License
 
 The `Tellurium source code <https://github.com/sys-bio/tellurium>`_ is licensed under the Apache License 2.0. Tellurium uses third-party dependencies which may be licensed under different terms. Consult the documentation for the respective third-party packages for more details.
 
+Contact
+=======
+
+* For questions about Tellurium, please visit our `tellurium-discuss Google group <https://groups.google.com/forum/?utm_medium=email&utm_source=footer#!forum/tellurium-discuss>`_.
+
+* For new feature requests, see `Tellurium on UserVoice. <http://sysbio.uservoice.com/>`_.
+
 Funding
 =======
 
