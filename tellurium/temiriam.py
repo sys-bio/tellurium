@@ -1,23 +1,20 @@
 # -*- coding: utf-8 -*-
 """
 Helper functions for MIRIAM and identifiers.org.
-
-resolve the locations of:
-urn:miriam:biomodels.db:BIOMD0000000003.xml
-
 """
 from __future__ import absolute_import, print_function
 import re
 
 
 def getSBMLFromBiomodelsURN(urn):
-    """
-    Get the SBML from a given BioModels URN.
+    """ Get SBML string from given BioModels URN.
+
     Searches for a BioModels identifier in the given urn and retrieves the SBML from biomodels.
+    For example:
+        urn:miriam:biomodels.db:BIOMD0000000003.xml
+
     :param urn:
-    :type urn:
-    :return: SBML string fro given model urn
-    :rtype: str
+    :return: SBML string for given model urn
     """
     pattern = "((BIOMD|MODEL)\d{10})|(BMID\d{12})"
     match = re.search(pattern, urn)
@@ -29,7 +26,7 @@ def getSBMLFromBiomodelsURN(urn):
     except ImportError:
         import http.client as httplib
 
-    conn = httplib.HTTPConnection("www.ebi.ac.uk")
+    conn = httplib.HTTPConnection("www.ebi.ac.uk", timeout=20)
     conn.request("GET", "/biomodels-main/download?mid=" + mid)
     r1 = conn.getresponse()
     # print(r1.status, r1.reason)
