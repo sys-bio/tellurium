@@ -2,9 +2,24 @@
 Tellurium Methods
 ===================
 
+-------------------
+Installing Packages
+-------------------
+
+Tellurium provides utility methods for installing Python packages from `PyPI <https://pypi.python.org/pypi>`_. These methods simply delegate to ``pip``, and are usually
+more reliable than running ``!pip install xyz``.
+
+.. autofunction:: tellurium.installPackage
+.. autofunction:: tellurium.upgradePackage
+.. autofunction:: tellurium.removePackage
+.. autofunction:: tellurium.searchPackage
+
+.. include:: _notebooks/core/methods_installing_packages.rst
+
 ----------------
 Utility Methods
 ----------------
+
 The most useful methods here are the notices routines. Roadrunner will offen issue warning or informational messages. For repeated simulation such messages will clutter up the outputs. noticesOff and noticesOn can be used to turn on an off the messages.
 
 .. autofunction:: tellurium.getVersionInfo

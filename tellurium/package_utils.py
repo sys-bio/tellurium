@@ -5,7 +5,7 @@ from __future__ import print_function, division, absolute_import
 import pip
 
 def searchPackage(name):
-    """ Search pip package.
+    """ Search pip package for package name.
 
     :param name: package name
     :return:
@@ -16,6 +16,10 @@ def searchPackage(name):
 
 def installPackage(name):
     """ Install pip package.
+    This has the advantage you don't have to
+    manually track down the currently running
+    Python interpreter and switch to the command line
+    (useful e.g. in the Tellurium notebook viewer).
 
     :param name: package name
     :return:
