@@ -1,8 +1,8 @@
 from __future__ import print_function, division, absolute_import
 
-from .antimony_sbo import antimonySBOConverter
+from .antimony_sbo import antimonySBOConverter, antimonySBOParser
 
-class antimonyConverter:
+class antimonyConverter(object):
     def checkAntimonyReturnCode(self, code):
         """Negative return code (usu. -1) from Antimony signifies error"""
         return (code < 0)
@@ -71,7 +71,7 @@ class antimonyConverter:
         sb_source = sb.getAntimonyString(module)
         return (module, sb_source)
 
-    def antimonyToSBML(self, sb_str):
+    def antimonyToSBML(self, sb_str, SBO=False):
         """ Converts an Antimony string to raw SBML.
 
         :param sb_str: The raw Antimony string
@@ -79,13 +79,21 @@ class antimonyConverter:
         """
 
         import antimony as sb
+
+        if not SBO:
+            parser = antimonySBOParser(sb_str)
+            # try:
+            sb_str = parser.elideSBOTerms()
+            # except:
+                # pass
+
         # try to load the Antimony code`
         code = sb.loadAntimonyString(sb_str)
 
         # if errors, bail
         if self.checkAntimonyReturnCode(code):
             errors = sb.getLastError()
-            raise RuntimeError('Errors encountered when trying to load model:\n{}'.format(errors))
+            raise RuntimeError('Errors encountered when trying to load model into Antimony:\n{}'.format(errors))
 
         module = sb.getMainModuleName()
         sbml = sb.getSBMLString(module)
