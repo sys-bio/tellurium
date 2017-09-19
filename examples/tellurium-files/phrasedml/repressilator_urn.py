@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Use Biomodels in phrasedml.
+Use Biomodels via urn in phrasedml.
 
 Example is the introduction example for the SED-ML specification.
 Model is repressilator.

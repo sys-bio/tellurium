@@ -14,9 +14,10 @@ print('phrasedml version:', phrasedml.__version__)
 
 # Get SBML from URN and set for phrasedml
 urn = "urn:miriam:biomodels.db:BIOMD0000000012"
+model_id = urn.split(':')[-1]
 sbml_str = temiriam.getSBMLFromBiomodelsURN(urn=urn)
-return_code = phrasedml.setReferencedSBML(urn, sbml_str)
-print('valid SBML', return_code)
+antimony_str = te.sbmlToAntimony(sbml_str)
+print(antimony_str)
 
 # <SBML species>
 #   PX - LacI protein
@@ -38,29 +39,22 @@ phrasedml_str = """
     task2 = run sim1 on model2
 
     # A simple timecourse simulation
-    plot "Figure 1.1 Timecourse of repressilator" task1.time vs task1.PX, task1.PZ, task1.PY
+    plot "Timecourse of repressilator" task1.time vs task1.PX, task1.PZ, task1.PY
 
     # Applying preprocessing
-    plot "Figure 1.2 Timecourse after pre-processing" task2.time vs task2.PX, task2.PZ, task2.PY
+    plot "Timecourse after pre-processing" task2.time vs task2.PX, task2.PZ, task2.PY
 
     # Applying postprocessing
-    plot "Figure 1.3 Timecourse after post-processing" task1.PX/max(task1.PX) vs task1.PZ/max(task1.PZ), \
+    plot "Timecourse after post-processing" task1.PX/max(task1.PX) vs task1.PZ/max(task1.PZ), \
                                                        task1.PY/max(task1.PY) vs task1.PX/max(task1.PX), \
                                                        task1.PZ/max(task1.PZ) vs task1.PY/max(task1.PY)
-""".format(urn)
+""".format(model_id)
 
-# convert to SED-ML (this worked before, but does not anymore)
-
-sedml_str = phrasedml.convertString(phrasedml_str)
-if sedml_str is None:
-    print(phrasedml.getLastError())
-else:
-    print(sedml_str)
 
 # execution: not possible to execute the phrasedml as inline_omex
-inline_omex = phrasedml_str
+inline_omex = '\n'.join([antimony_str, phrasedml_str])
 te.executeInlineOmex(inline_omex)
-te.exportInlineOmex(inline_omex, os.path.join('.', 'repressilator.omex'))
+te.exportInlineOmex(inline_omex, os.path.join('./omex/', 'repressilator.omex'))
 
 
 '''
