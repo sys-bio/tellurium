@@ -1,5 +1,9 @@
 from __future__ import print_function, division, absolute_import
-import os, sys
+import os
+import sys
+import warnings
+import functools
+
 
 # ---------------------------------------------------------------------
 # Simple File Read and Store Utilities
@@ -15,6 +19,7 @@ def saveToFile(filePath, str):
     with open(filePath, 'w') as f:
         f.write(str)
 
+
 def readFromFile(filePath):
     """ Load a file and return contents as a string.
 
@@ -26,6 +31,26 @@ def readFromFile(filePath):
     with open(filePath, 'r') as f:
         string = f.read()
     return string
+
+
+# ---------------------------------------------------------------------
+# Deprecated warning
+# ---------------------------------------------------------------------
+def deprecated(func):
+    """This is a decorator which can be used to mark functions
+        as deprecated. It will result in a warning being emitted
+        when the function is used.
+    """
+    @functools.wraps(func)
+    def new_func(*args, **kwargs):
+        warnings.warn_explicit(
+            "Call to deprecated function {}.".format(func.__name__),
+            category=DeprecationWarning,
+            filename=func.func_code.co_filename,
+            lineno=func.func_code.co_firstlineno + 1
+        )
+        return func(*args, **kwargs)
+    return new_func
 
 
 

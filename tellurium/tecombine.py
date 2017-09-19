@@ -79,6 +79,7 @@ def combine(combinePath):
     :type combinePath: str
     :returns: OpenCombine instance
     """
+    warnings.warn('Use inline_omex instead.', DeprecationWarning)
     return OpenCombine(combinePath)
 
 
@@ -116,6 +117,7 @@ class Asset(object):
     }
 
     def __init__(self, raw=None, location=None, filetype=None, master=False):
+        warnings.warn('Use inline_omex instead.', DeprecationWarning)
         self.raw = raw
         self.location = location
         self.master = master
@@ -129,6 +131,7 @@ class Asset(object):
 
     @classmethod
     def formatFromFiletype(cls, filetype):
+        warnings.warn('Use inline_omex instead.', DeprecationWarning)
         if filetype not in cls.FORMATS:
             raise IOError("Unsupported filetype for CombineArchive. Supported are: {}".format(cls.FORMATS.keys()))
         return cls.FORMATS[filetype]
@@ -145,6 +148,7 @@ class Asset(object):
         :return:
         :rtype:
         """
+        warnings.warn('Use inline_omex instead.', DeprecationWarning)
         return cls(raw=raw, location=location, filetype=filetype, master=master)
 
     @classmethod
@@ -156,6 +160,7 @@ class Asset(object):
         :return:
         :rtype:
         """
+        warnings.warn('Use inline_omex instead.', DeprecationWarning)
         location = os.path.basename(filename)
         with open(filename) as f:
             raw = f.read()
@@ -171,12 +176,14 @@ class Asset(object):
         :return:
         :rtype:
         """
+        warnings.warn('Use inline_omex instead.', DeprecationWarning)
         r = te.loada(antimonyStr)
         raw = r.getSBML()
         return cls.fromRaw(raw=raw, location=location, filetype='sbml', master=master)
 
     @classmethod
     def fromPhrasedML(cls, phrasedmlStr, location, master=None):
+        warnings.warn('Use inline_omex instead.', DeprecationWarning)
         sedmlStr = phrasedml.convertString(phrasedmlStr)
         # necessary to add xml extensions to antimony models
         phrasedml.addDotXMLToModelSources()
@@ -195,46 +202,58 @@ class CombineArchive(object):
     The archive is written to file via the write function.
     """
     def __init__(self):
+        warnings.warn('Use inline_omex instead.', DeprecationWarning)
         self.assets = []
 
     def checkfile(self, filename):
         """ Check that file exists. """
+        warnings.warn('Use inline_omex instead.', DeprecationWarning)
         if not os.path.exists(filename) or not os.path.isfile(filename):
             raise RuntimeError('No such file: {}'.format(filename))
 
     def addAsset(self, asset):
+        warnings.warn('Use inline_omex instead.', DeprecationWarning)
         self.assets.append(asset)
 
     def addSBMLStr(self, sbmlStr, location, master=None):
+        warnings.warn('Use inline_omex instead.', DeprecationWarning)
         self.addAsset(Asset.fromRaw(sbmlStr, location, filetype='sbml', master=master))
 
     def addAntimonyStr(self, antimonyStr, location, master=None):
+        warnings.warn('Use inline_omex instead.', DeprecationWarning)
         self.addAsset(Asset.fromAntimony(antimonyStr, location, master=master))
 
     def addSEDMLStr(self, sedmlStr, location, master=None):
+        warnings.warn('Use inline_omex instead.', DeprecationWarning)
         self.addAsset(Asset.fromRaw(sedmlStr, location, filetype='sed-ml', master=master))
 
     def addPhraSEDMLStr(self, phrasedmlStr, location, master=None):
+        warnings.warn('Use inline_omex instead.', DeprecationWarning)
         self.addAsset(Asset.fromPhrasedML(phrasedmlStr, location, master=master))
 
     def addSBMLFile(self, filename, master=None):
+        warnings.warn('Use inline_omex instead.', DeprecationWarning)
         self.checkfile(filename)
         self.addAsset(Asset.fromFile(filename, filetype='sbml', master=master))
 
     def addSEDMLFile(self, filename, master=None):
+        warnings.warn('Use inline_omex instead.', DeprecationWarning)
         self.checkfile(filename)
         self.addAsset(Asset.fromFile(filename, filetype='sed-ml', master=master))
 
     def addFile(self, filename, filetype, master=None):
+        warnings.warn('Use inline_omex instead.', DeprecationWarning)
         self.addAsset(Asset.fromFile(filename=filename, filetype=filetype, master=master))
 
     def addStr(self, textStr, location, filetype):
+        warnings.warn('Use inline_omex instead.', DeprecationWarning)
         self.addAsset(Asset.fromRaw(raw=textStr, location=location, filetype=filetype))
 
     def write(self, outfile):
         """ Write the combine archive to the outfile.
         Writes all assets and creates the manifest.xml.
         """
+        warnings.warn('Use inline_omex instead.', DeprecationWarning)
         manifestStr = self._createManifestString()
 
         with ZipFile(outfile, 'w') as zf:
@@ -245,6 +264,7 @@ class CombineArchive(object):
             zf.writestr('manifest.xml', manifestStr)
 
     def _createManifestString(self):
+        warnings.warn('Use inline_omex instead.', DeprecationWarning)
         lines = ['<?xml version="1.0" encoding="utf-8"?>',
                  '<omexManifest xmlns="http://identifiers.org/combine.specifications/omex-manifest">',
                  '    <content location="./manifest.xml" format="http://identifiers.org/combine.specifications/omex-manifest"/>']
@@ -269,6 +289,7 @@ class CombineArchive(object):
         :param directory: path to directory where to extract to
         :type directory:
         """
+        warnings.warn('Use inline_omex instead.', DeprecationWarning)
         if not os.path.isdir(directory):
             os.makedirs(directory)
         else:
@@ -289,6 +310,7 @@ class CombineArchive(object):
         :return:
         :rtype:
         """
+        warnings.warn('Use inline_omex instead.', DeprecationWarning)
         from collections import namedtuple
         Content = namedtuple('Content', 'location format master')
         contents = []
@@ -313,6 +335,7 @@ class CombineArchive(object):
         :return: list of paths
         :rtype: list
         """
+        warnings.warn('Use inline_omex instead.', DeprecationWarning)
         paths = []
         manifest = os.path.join(directory, "manifest.xml")
         if os.path.exists(manifest):
@@ -346,6 +369,7 @@ class OpenCombine(object):
     """ Main class for handling COMBINE Archives. """
 
     def __init__(self, combinePath):
+        warnings.warn('Use inline_omex instead.', DeprecationWarning)
         # open existing
         if os.path.exists(combinePath):
             self.combinePath = combinePath
@@ -360,6 +384,7 @@ class OpenCombine(object):
         """ Adds SBML file into COMBINE archive.
         :param sbmlPath: path to SBML file or full SBML file string
         """
+        warnings.warn('Use inline_omex instead.', DeprecationWarning)
         modelname = self.getModelName(sbmlPath)
         contents = self.listContents()
         zf = ZipFile(self.combinePath, 'a')
@@ -390,6 +415,7 @@ class OpenCombine(object):
         self.updateManifest(modelname, 'sbml')
 
     def getModelName(self, sbmlfile):
+        warnings.warn('Use inline_omex instead.', DeprecationWarning)
         r = roadrunner.RoadRunner(sbmlfile)
         return r.getModel().getModelName()
 
@@ -398,6 +424,7 @@ class OpenCombine(object):
         """ Adds SBML file as Antimony into COMBINE archive.
         :param antimonyStr: antimony string
         """
+        warnings.warn('Use inline_omex instead.', DeprecationWarning)
         sbmlStr = te.antimonyToSBML(antimonyStr)
         self.addSBML(sbmlStr, filename)
 
@@ -408,6 +435,7 @@ class OpenCombine(object):
         :param sedmlPath: path to SEDML file
         :param arcname: (optional) desired name of SEDML file
         """
+        warnings.warn('Use inline_omex instead.', DeprecationWarning)
         contents = self.listContents()
         sedmlBase = os.path.basename(sedmlPath)
         try:
@@ -450,6 +478,7 @@ class OpenCombine(object):
         :param antimonyStr: antimony string to be referenced
         :param arcname: (optional) desired name of SEDML file
         """
+        warnings.warn('Use inline_omex instead.', DeprecationWarning)
         # FIXME: This does not work for multiple referenced models !.
         reModel = r"""(\w*) = model ('|")(.*)('|")"""
         phrasedmllines = phrasedmlStr.splitlines()
@@ -477,6 +506,7 @@ class OpenCombine(object):
 
         :param filePath: path to the file
         """
+        warnings.warn('Use inline_omex instead.', DeprecationWarning)
         acceptedFormats = ('png','jpg','jpeg','pdf','txt','csv','dat')
         contents = self.listContents()
         fileBase = os.path.basename(filePath)
@@ -511,7 +541,7 @@ class OpenCombine(object):
         :return: SBML string
         :rtype: str
         """
-
+        warnings.warn('Use inline_omex instead.', DeprecationWarning)
         zf = ZipFile(self.combinePath, 'r')
         sbmlStr = zf.read(sbmlfile)
         zf.close()
@@ -525,6 +555,7 @@ class OpenCombine(object):
         :return: antimony string
         :rtype: str
         """
+        warnings.warn('Use inline_omex instead.', DeprecationWarning)
         zf = ZipFile(self.combinePath, 'r')
         sbmlStr = zf.read(sbmlfile)
         zf.close()
@@ -552,6 +583,7 @@ class OpenCombine(object):
         :return: phraSEDML string
         :rtype: str
         """
+        warnings.warn('Use inline_omex instead.', DeprecationWarning)
         zf = ZipFile(self.combinePath, 'r')
         sedmlStr = zf.read(sedmlfile)
         zf.close()
@@ -563,6 +595,7 @@ class OpenCombine(object):
         """ returns simplified content list
 
         """
+        warnings.warn('Use inline_omex instead.', DeprecationWarning)
         zf = ZipFile(self.combinePath, 'r')
         temp = zf.namelist()
         zf.close()
@@ -574,6 +607,7 @@ class OpenCombine(object):
         :return: contentList of dictionaries with keys: filename, type
         :rtype: [{}]
         """
+        warnings.warn('Use inline_omex instead.', DeprecationWarning)
         contents = []
         man = self.readManifest()
         xml = et.ElementTree(et.fromstring(man))
@@ -633,6 +667,7 @@ class OpenCombine(object):
         return contents
 
     def removeFile(self, fileName):
+        warnings.warn('Use inline_omex instead.', DeprecationWarning)
         """ remove specified file from COMBINE archive
 
         :param fileName: name of the file to be removed
@@ -663,6 +698,7 @@ class OpenCombine(object):
         :param targetFile: SBML or SEDML file to be updated
         :param change: antimony or phrasedml string
         """
+        warnings.warn('Use inline_omex instead.', DeprecationWarning)
         contentList = self.listDetailedContents()
 
         try:
@@ -682,6 +718,7 @@ class OpenCombine(object):
             raise Exception('Unsupported file type')
 
     def readManifest(self):
+        warnings.warn('Use inline_omex instead.', DeprecationWarning)
         zf = ZipFile(self.combinePath, 'r')
         try:
             man = zf.read(r'manifest.xml')
@@ -691,6 +728,7 @@ class OpenCombine(object):
         return man
 
     def updateManifest(self, fileName, fileType, delete=False):
+        warnings.warn('Use inline_omex instead.', DeprecationWarning)
         man = self.readManifest()
         man = man.splitlines()
 
