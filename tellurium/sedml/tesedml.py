@@ -782,6 +782,7 @@ class SEDMLCodeFactory(object):
 
         # is supported algorithm
         if not SEDMLCodeFactory.isSupportedAlgorithmForSimulationType(kisao=kisao, simType=simType):
+            warnings.warn("Algorithm {} unsupported for simulation {} type {} in task {}".format(kisao, simulation.getId(), simType, task.getId()))
             lines.append("# Unsupported Algorithm {} for SimulationType {}".format(kisao, simulation.getElementName()))
             return lines
 
