@@ -147,8 +147,7 @@ try:
     import sbol
 except ImportError as e:
     sbol = None
-    roadrunner.Logger.log(roadrunner.Logger.LOG_WARNING, str(e))
-    warnings.warn("'pySBOL' could not be imported", ImportWarning, stacklevel=2)
+    warnings.warn("'pySBOL' could not be imported, cannot import/export SBOL files", ImportWarning, stacklevel=2)
 
 try:
     from sbml2matlab import sbml2matlab
@@ -181,7 +180,7 @@ def getVersionInfo():
     if phrasedml:
         versions.append(('phrasedml', phrasedml.__version__))
     if sbol:
-        versions.append(('pySBOL', sbol.__version__))        
+        versions.append(('pySBOL', sbol.__version__))
     return versions
 
 
@@ -225,8 +224,8 @@ def noticesOn():
     See also :func:`noticesOff`
     """
     roadrunner.Logger.setLevel(roadrunner.Logger.LOG_NOTICE)
-	
-    
+
+
 # ---------------------------------------------------------------------
 # Group: Loading Models
 # ---------------------------------------------------------------------
