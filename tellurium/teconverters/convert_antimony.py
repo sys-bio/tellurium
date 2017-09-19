@@ -81,11 +81,11 @@ class antimonyConverter(object):
         import antimony as sb
 
         if not SBO:
-            parser = antimonySBOParser(sb_str)
-            # try:
-            sb_str = parser.elideSBOTerms()
-            # except:
-                # pass
+            sbo_parser = antimonySBOParser(sb_str)
+            try:
+                sb_str = sbo_parser.elideSBOTerms()
+            except:
+                pass
 
         # try to load the Antimony code`
         code = sb.loadAntimonyString(sb_str)
@@ -97,6 +97,8 @@ class antimonyConverter(object):
 
         module = sb.getMainModuleName()
         sbml = sb.getSBMLString(module)
+        if not SBO:
+            sbml = sbo_parser.addSBOsToSBML(sbml)
         return (module, sbml)
 
     def tryAddSBOTerms(self, antimony_str, sbml_file=None, sbml_str=None):

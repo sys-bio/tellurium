@@ -187,7 +187,7 @@ class antimonySBOParser(object):
                 elt_id = sbo_match.group(1)
                 sbo = int(sbo_match.group(3))
                 self.sbo_map[elt_id] = sbo
-                print('Match SBO term {}->{}'.format(elt_id,sbo))
+                # print('Match SBO term {}->{}'.format(elt_id,sbo))
             else:
                 out_lines.append(line)
         if n_model_starts != n_model_ends:
@@ -199,41 +199,22 @@ class antimonySBOParser(object):
 
         return '\n'.join(out_lines)
 
-    def convert(self, sbml_str):
-        model_start = re.compile(getModelStartRegex())
-        n_model_starts = 0
+    def addSBOsToSBML(self, sbml_str):
+        """Add SBO terms to an SBML string. Must have called
+        elideSBOTerms first to populate self.sbo_map."""
 
-        model_end = re.compile(getModelEndRegex())
-        n_model_ends = 0
-        model_end_index = None
+        reader = libsbml.SBMLReader()
+        doc = reader.readSBMLFromString(sbml_str)
+        if doc.getNumErrors() > 0:
+            raise RuntimeError('Errors reading SBML')
 
-        sbo_term = re.compile(getSBORegex())
+        for elt_id,sbo in self.sbo_map.items():
+            elt = doc.getElementBySId(elt_id)
+            if elt is not None:
+                # print('set {} -> {}'.format(elt.getId(), sbo))
+                elt.setSBOTerm(sbo)
 
-        n_leading_spaces = 0
+        writer = libsbml.SBMLWriter()
+        out_sbml = writer.writeSBMLToString(doc)
 
-        lines = antimony_str.splitlines()
-
-
-        for n,line in enumerate(lines):
-            sbo_match = sbo_term.match(line)
-
-            if model_start.match(line) != None:
-                n_model_starts += 1
-            elif model_end.match(line) != None:
-                if n_model_ends > 0:
-                    raise RuntimeError('Multiple embedded models (e.g. comp) not supported for SBO converter')
-                n_model_ends += 1
-                model_end_index = n
-            elif sbo_match:
-                print('Match SBO term {}'.format(sbo_match.group(1)))
-            else:
-                # calculate leading whitespace
-                ws = len(line) - len(line.lstrip(' '))
-                if ws > n_leading_spaces and n_leading_spaces == 0:
-                    n_leading_spaces = ws
-        if n_model_starts != n_model_ends:
-            raise RuntimeError('Antimony model begin/end blocks unbalanced - missing begin/end marker?')
-        if n_model_starts > 1:
-            raise RuntimeError('Multiple embedded models (e.g. comp) not supported for SBO converter')
-        if n_model_ends > 1:
-            raise RuntimeError('Multiple embedded models (e.g. comp) not supported for SBO converter')
+        return out_sbml
