@@ -1,17 +1,23 @@
 # -*- coding: utf-8 -*-
 """
 Use Biomodels in phrasedml.
+
+Example is the introduction example for the SED-ML specification.
+Model is repressilator.
 """
 from __future__ import print_function
+import os
 import tellurium as te
-from tellurium.sedml import tesedml
 from tellurium import temiriam
 import phrasedml
+print('phrasedml version:', phrasedml.__version__)
 
 # Get SBML from URN and set for phrasedml
 urn = "urn:miriam:biomodels.db:BIOMD0000000012"
-sbmlStr = temiriam.getSBMLFromBiomodelsURN(urn=urn)
-phrasedml.setReferencedSBML(urn, sbmlStr)
+model_id = urn.split(':')[-1]
+sbml_str = temiriam.getSBMLFromBiomodelsURN(urn=urn)
+antimony_str = te.sbmlToAntimony(sbml_str)
+print(antimony_str)
 
 # <SBML species>
 #   PX - LacI protein
@@ -22,10 +28,10 @@ phrasedml.setReferencedSBML(urn, sbmlStr)
 #   Z - cI mRNA
 
 # <SBML parameters>
-#   ps_a - tps_active: Transcrition from free promotor in transcripts per second and promotor
-#   ps_0 - tps_repr: Transcrition from fully repressed promotor in transcripts per second and promotor
+#   ps_a - tps_active: Transcription from free promotor in transcripts per second and promotor
+#   ps_0 - tps_repr: Transcription from fully repressed promotor in transcripts per second and promotor
 
-phrasedmlStr = """
+phrasedml_str = """
     model1 = model "{}"
     model2 = model model1 with ps_0=1.3E-5, ps_a=0.013
     sim1 = simulate uniform(0, 1000, 1000)
@@ -33,22 +39,25 @@ phrasedmlStr = """
     task2 = run sim1 on model2
 
     # A simple timecourse simulation
-    plot "Figure 1.1 Timecourse of repressilator" task1.time vs task1.PX, task1.PZ, task1.PY
+    plot "Timecourse of repressilator" task1.time vs task1.PX, task1.PZ, task1.PY
 
     # Applying preprocessing
-    plot "Figure 1.2 Timecourse after pre-processing" task2.time vs task2.PX, task2.PZ, task2.PY
+    plot "Timecourse after pre-processing" task2.time vs task2.PX, task2.PZ, task2.PY
 
     # Applying postprocessing
-    plot "Figure 1.3 Timecourse after post-processing" task1.PX/max(task1.PX) vs task1.PZ/max(task1.PZ), \
+    plot "Timecourse after post-processing" task1.PX/max(task1.PX) vs task1.PZ/max(task1.PZ), \
                                                        task1.PY/max(task1.PY) vs task1.PX/max(task1.PX), \
                                                        task1.PZ/max(task1.PZ) vs task1.PY/max(task1.PY)
-""".format(urn)
+""".format(model_id)
 
-# [1] convert to SED-ML & run
-# convert to SED-ML
-sedmlStr = phrasedml.convertString(phrasedmlStr)
-if sedmlStr == None:
-    print(phrasedml.getLastError())
+
+# execution: not possible to execute the phrasedml as inline_omex
+inline_omex = '\n'.join([antimony_str, phrasedml_str])
+te.executeInlineOmex(inline_omex)
+te.exportInlineOmex(inline_omex, os.path.join('./omex/', 'repressilator.omex'))
+
+
+'''
 
 # Run the SED-ML file with results written in workingDir
 import tempfile
@@ -64,11 +73,18 @@ from tellurium.tecombine import CombineArchive
 combine = CombineArchive()
 combine.addSEDMLStr(sedmlStr, 'specificationL1V2.sedml')
 from tellurium.tests.testdata import sedxDir
-combinePath = os.path.join(sedxDir, 'specificationL1V2.sedx')
+combinePath = os.path.join(sedxDir, 'specificationL1V2.omex')
 combine.write(combinePath)
 
 # Run Combine archive
 te.executeSEDML(combinePath)
 
 # remove sedx (not hashable due to timestamp)
-os.remove(combinePath)
+# os.remove(combinePath)
+
+
+inline_omex = phrasedml_str
+te.executeInlineOmex(inline_omex)
+te.exportInlineOmex(inline_omex, os.path.join(tmpdir, 'archive.omex'))
+        shutil.rmtree(tmpdir)
+'''

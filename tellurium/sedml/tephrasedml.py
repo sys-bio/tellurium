@@ -26,6 +26,8 @@ import tempfile
 import re
 import warnings
 from six import string_types, iteritems
+from tellurium.utils import deprecated
+
 
 import tellurium as te
 import tellurium.tecombine as tecombine
@@ -57,6 +59,7 @@ class experiment(object):
         :param phrasedmlList: list of phrasedml string
         :type phrasedmlList: list
         """
+        warnings.warn('Use inline_omex instead.', DeprecationWarning)
         # backwards compatibility & simplified syntax
         # for one phrasedml and antimony string
         if isinstance(antimonyList, string_types):
@@ -78,6 +81,7 @@ class experiment(object):
         self.phrasedmlList = phrasedmlList
 
     def getId(self):
+        warnings.warn('Use inline_omex instead.', DeprecationWarning)
         return self._experimentId()
 
     def _experimentId(self):
@@ -88,6 +92,7 @@ class experiment(object):
         :return: id of the experiment
         :rtype: str
         """
+        warnings.warn('Use inline_omex instead.', DeprecationWarning)
         sources = self._modelsFromPhrasedml(self.phrasedmlList[0])
         names = sorted(sources.keys())
         return "_".join(names)
@@ -105,6 +110,7 @@ class experiment(object):
         :param workingDir: working directory for execution
         :type workingDir: str
         """
+        warnings.warn('Use inline_omex instead.', DeprecationWarning)
         # create temporary working directory if no workingDir provided
         isTmpDir = False
         if workingDir is None:
@@ -128,6 +134,7 @@ class experiment(object):
         :returns: python string to execute
         :rtype: str
         """
+        warnings.warn('Use inline_omex instead.', DeprecationWarning)
         if phrasedmlStr is None:
             phrasedmlStr = self._getDefaultPhrasedml()
 
@@ -166,11 +173,13 @@ class experiment(object):
         :param phrasedmlStr: Name of PhraSEDML string defined in the code
         :type phrasedmlStr: str
         """
+        warnings.warn('Use inline_omex instead.', DeprecationWarning)
         execStr = self.getPython(phrasedmlStr)
         print(execStr)
 
     def getPython(self, phrasedmlStr=None):
         """ Gets the created python string. """
+        warnings.warn('Use inline_omex instead.', DeprecationWarning)
         return self._toPython(phrasedmlStr)
 
     def exportAsCombine(self, outputPath, execute=False):
@@ -181,7 +190,7 @@ class experiment(object):
         :param exportPath: full path of the combine zip file to create
         :type exportPath: str
         """
-
+        warnings.warn('Use inline_omex instead.', DeprecationWarning)
         # Create empty archive
         m = tecombine.CombineArchive()
 
@@ -243,11 +252,13 @@ class experiment(object):
         :param exportPath: full path of the combine zip file to create
         :type exportPath: str
         """
+        warnings.warn('Use inline_omex instead.', DeprecationWarning)
         self.exportAsCombine(outputPath=outputPath, execute=True)
 
 
     def _getDefaultPhrasedml(self):
         """ Handling the case when no phrasedml string is supplied. """
+        warnings.warn('Use inline_omex instead.', DeprecationWarning)
         if len(self.phrasedmlList) > 0:
             selPhrasedml = self.phrasedmlList[0]
             warnings.warn("No phrasedml string selected, defaulting to first phrasedml.")
@@ -267,6 +278,7 @@ class experiment(object):
         :return:
         :rtype:
         """
+        warnings.warn('Use inline_omex instead.', DeprecationWarning)
         sedmlstr = phrasedml.convertString(phrasedmlStr)
         if sedmlstr is None:
             raise Exception(phrasedml.getLastError())
@@ -274,6 +286,7 @@ class experiment(object):
 
     def _setReferencedSBML(self, phrasedmlStr):
         """ Set phrasedml referenced SBML for given phrasedml String. """
+        warnings.warn('Use inline_omex instead.', DeprecationWarning)
         modelNames = []
         for aStr in self.antimonyList:
             r = te.loada(aStr)
@@ -292,6 +305,7 @@ class experiment(object):
 
     @staticmethod
     def _modelsFromPhrasedml(phrasedmlStr):
+        warnings.warn('Use inline_omex instead.', DeprecationWarning)
         """ Find model sources and names in phrasedml file. """
         sources = {}
 
@@ -310,6 +324,7 @@ class experiment(object):
         return sources
 
     def _phrasedmlFileName(self, k):
+        warnings.warn('Use inline_omex instead.', DeprecationWarning)
         """ Name of SEDML-File in Combine Archive for k-th phrasedml."""
         return 'experiment{}.xml'.format(k+1)
 
@@ -319,6 +334,7 @@ class experiment(object):
         :return: readme information
         :rtype: str
         """
+        warnings.warn('Use inline_omex instead.', DeprecationWarning)
         readme = """
         # Tellurium {} experiment
         This COMBINE archive stores an tellurium experiment.
