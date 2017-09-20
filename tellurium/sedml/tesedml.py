@@ -129,7 +129,6 @@ except ImportError:
 ######################################################################################################################
 # Interface functions
 ######################################################################################################################
-# TODO: implement execution with storing the information in the file
 
 def sedmlToPython(inputStr):
     """ Convert sedml file to python code.
