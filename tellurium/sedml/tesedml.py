@@ -26,6 +26,9 @@ The Model Class
     of the model representation that is addressable by XPath expressions, e.g. substituting
     a piece of XML by an updated one.
 
+TODO: DATA CLASS
+
+
 The Simulation Class
     The Simulation class defines the simulation settings and the steps taken during simulation.
     These include the particular type of simulation and the algorithm used for the execution of
@@ -154,6 +157,7 @@ def executeSEDML(inputStr, workingDir=None):
     # execute the sedml
     factory = SEDMLCodeFactory(inputStr, workingDir=workingDir)
     factory.executePython()
+
 
 
 # TODO: necessary to port this
@@ -1756,10 +1760,22 @@ class SEDMLTools(object):
         return model_sources, all_changes
 
 
+'''
+The following functions all manipulate the DataGenenerators which 
+breaks many things !!! 
+These should be used as preprocessing before plotting, but NOT CHANGE
+values or length of DataGenerator variables.
+
+MK: cannot fix this until I did not understand how the plots are generated
+for plotly.
+'''
+
+
 def process_trace(trace):
     """ If each entry in the task consists of a single point
     (e.g. steady state scan), concatenate the points.
     Otherwise, plot as separate curves."""
+    warnings.warn("don't use this", DeprecationWarning)
     # print('trace.size = {}'.format(trace.size))
     # print('len(trace.shape) = {}'.format(len(trace.shape)))
     if trace.size > 1:
@@ -1783,6 +1799,7 @@ def terminate_trace(trace):
     """ If each entry in the task consists of a single point
     (e.g. steady state scan), concatenate the points.
     Otherwise, plot as separate curves."""
+    warnings.warn("don't use this", DeprecationWarning)
 
 
     if isinstance(trace, list):
@@ -1801,6 +1818,7 @@ def terminate_trace(trace):
 
 def fix_endpoints(x, y, color, tag, fig):
     """ Adds endpoint markers wherever there is a discontinuity in the data."""
+    warnings.warn("don't use this", DeprecationWarning)
     # expect x and y to be 1d
     if len(x.shape) > 1:
         raise RuntimeError('Expected x to be 1d')

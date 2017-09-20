@@ -2,12 +2,10 @@
 """
 phrasedml 1D parameter scan.
 """
-
-from __future__ import print_function
 import os
-from tellurium.sedml.case_template import run_case
+from tellurium.sedml.utils import run_case
 
-antimonyStr = '''
+a_str = '''
 // Created by libAntimony v2.9
 model *parameterScan1D()
 
@@ -45,8 +43,7 @@ J3_k2 = 5;
 const compartment_, J0_v0, J1_k3, J2_k1, J2_k_1, J2_c, J2_q, J3_k2;
 end
 '''
-
-phrasedmlStr = '''
+p_str = '''
 model1 = model "parameterScan1D"
 timecourse1 = simulate uniform(0, 20, 1000)
 task0 = run timecourse1 on model1
@@ -54,4 +51,4 @@ task1 = repeat task0 for J0_v0 in [8, 4, 0.4], reset=true
 plot task1.time vs task1.S1, task1.S2
 '''
 
-run_case(os.path.realpath(__file__), antimonyStr, phrasedmlStr)
+run_case(os.path.realpath(__file__), a_str, p_str)

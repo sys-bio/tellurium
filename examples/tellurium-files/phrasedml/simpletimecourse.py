@@ -5,12 +5,10 @@ This is a sample file that demonstrates the use of
 Antimony and phraSEDML to simulate MAPK cascade model.
 This script requires Tellurium (http://tellurium.analogmachine.org/) to run.
 """
-
-from __future__ import print_function
 import os
-from tellurium.sedml.case_template import run_case
+from tellurium.sedml.utils import run_case
 
-antimonyStr = '''
+a_str = '''
 // Created by libAntimony v2.9
 model MAPKcascade()
 
@@ -75,12 +73,11 @@ model MAPKcascade()
   const J7_KK8, J8_V9, J8_KK9, J9_V10, J9_KK10;
 end
 '''
-
-phrasedmlStr = '''
+p_str = '''
 model1 = model "MAPKcascade"
 sim1 = simulate uniform(0,4000,1000)
 task1 = run sim1 on model1
 plot task1.time vs task1.MAPK, task1.MAPK_P, task1.MAPK_PP
 '''
 
-run_case(os.path.realpath(__file__), antimonyStr, phrasedmlStr)
+run_case(os.path.realpath(__file__), a_str, p_str)

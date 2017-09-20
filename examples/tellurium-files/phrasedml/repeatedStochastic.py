@@ -2,11 +2,10 @@
 """
 phrasedml repeated stochastic test
 """
-from __future__ import print_function
 import os
-from tellurium.sedml.case_template import run_case
+from tellurium.sedml.utils import run_case
 
-antimonyStr = '''
+a_str = '''
 // Created by libAntimony v2.9
 model *repeatedStochastic()
 
@@ -72,7 +71,7 @@ const J7_KK8, J8_V9, J8_KK9, J9_V10, J9_KK10;
 end
 '''
 
-phrasedmlStr = '''
+p_str = '''
 model1 = model "repeatedStochastic"
 timecourse1 = simulate uniform_stochastic(0, 4000, 1000)
 timecourse1.algorithm.seed = 1003
@@ -85,4 +84,4 @@ plot "Repeats with SEED" repeat1.time vs repeat1.MAPK, repeat1.MAPK_P, repeat1.M
 plot "Repeats without SEED" repeat2.time vs repeat2.MAPK, repeat2.MAPK_P, repeat2.MAPK_PP, repeat2.MKK, repeat2.MKK_P, repeat2.MKKK, repeat2.MKKK_P
 '''
 
-run_case(os.path.realpath(__file__), antimonyStr, phrasedmlStr)
+run_case(os.path.realpath(__file__), a_str, p_str)
