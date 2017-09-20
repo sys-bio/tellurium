@@ -26,6 +26,9 @@ The Model Class
     of the model representation that is addressable by XPath expressions, e.g. substituting
     a piece of XML by an updated one.
 
+TODO: DATA CLASS
+
+
 The Simulation Class
     The Simulation class defines the simulation settings and the steps taken during simulation.
     These include the particular type of simulation and the algorithm used for the execution of
@@ -94,8 +97,6 @@ Please let changes to this file be reviewed and make sure that all SED-ML relate
 """
 from __future__ import print_function, division, absolute_import
 
-import sys
-import os
 import traceback
 import os.path
 import warnings
@@ -114,7 +115,7 @@ except ImportError:
     import libsedml
 
 import tellurium as te
-from tellurium.tecombine import CombineArchive
+
 
 try:
     # required imports in generated python code
@@ -158,6 +159,10 @@ def executeSEDML(inputStr, workingDir=None):
     factory.executePython()
 
 
+
+# TODO: necessary to port this
+'''
+from tellurium.tecombine import CombineArchive
 def executeOMEX(omexPath, workingDir=None):
     """ LEGACY. Does not use libCombine.
 
@@ -203,7 +208,7 @@ def executeOMEX(omexPath, workingDir=None):
             raise FileNotFoundError("File does not exist: {}".format(omexPath))
         else:
             raise IOError("File is not an OMEX Combine Archive in zip format: {}".format(omexPath))
-
+'''
 
 
 ######################################################################################################################
@@ -814,20 +819,22 @@ class SEDMLCodeFactory(object):
         # integrator/solver settings (AlgorithmParameters)
         for par in algorithm.getListOfAlgorithmParameters():
             pkey = SEDMLCodeFactory.algorithmParameterToParameterKey(par)
-            if pkey.dtype is str:
-                value = "'{}'".format(pkey.value)
-            else:
-                value = pkey.value
+            # only set supported algorithm paramters
+            if pkey:
+                if pkey.dtype is str:
+                    value = "'{}'".format(pkey.value)
+                else:
+                    value = pkey.value
 
-            if value == str('inf') or pkey.value == float('inf'):
-                value = "float('inf')"
-            else:
-                pass
+                if value == str('inf') or pkey.value == float('inf'):
+                    value = "float('inf')"
+                else:
+                    pass
 
-            if simType is libsedml.SEDML_SIMULATION_STEADYSTATE:
-                lines.append("{}.steadyStateSolver.setValue('{}', {})".format(mid, pkey.key, value))
-            else:
-                lines.append("{}.integrator.setValue('{}', {})".format(mid, pkey.key, value))
+                if simType is libsedml.SEDML_SIMULATION_STEADYSTATE:
+                    lines.append("{}.steadyStateSolver.setValue('{}', {})".format(mid, pkey.key, value))
+                else:
+                    lines.append("{}.integrator.setValue('{}', {})".format(mid, pkey.key, value))
 
         if simType is libsedml.SEDML_SIMULATION_STEADYSTATE:
             lines.append("if {model}.conservedMoietyAnalysis == False: {model}.conservedMoietyAnalysis = True".format(model=mid))
@@ -1753,10 +1760,22 @@ class SEDMLTools(object):
         return model_sources, all_changes
 
 
+'''
+The following functions all manipulate the DataGenenerators which 
+breaks many things !!! 
+These should be used as preprocessing before plotting, but NOT CHANGE
+values or length of DataGenerator variables.
+
+MK: cannot fix this until I did not understand how the plots are generated
+for plotly.
+'''
+
+
 def process_trace(trace):
     """ If each entry in the task consists of a single point
     (e.g. steady state scan), concatenate the points.
     Otherwise, plot as separate curves."""
+    warnings.warn("don't use this", DeprecationWarning)
     # print('trace.size = {}'.format(trace.size))
     # print('len(trace.shape) = {}'.format(len(trace.shape)))
     if trace.size > 1:
@@ -1780,6 +1799,7 @@ def terminate_trace(trace):
     """ If each entry in the task consists of a single point
     (e.g. steady state scan), concatenate the points.
     Otherwise, plot as separate curves."""
+    warnings.warn("don't use this", DeprecationWarning)
 
 
     if isinstance(trace, list):
@@ -1798,6 +1818,7 @@ def terminate_trace(trace):
 
 def fix_endpoints(x, y, color, tag, fig):
     """ Adds endpoint markers wherever there is a discontinuity in the data."""
+    warnings.warn("don't use this", DeprecationWarning)
     # expect x and y to be 1d
     if len(x.shape) > 1:
         raise RuntimeError('Expected x to be 1d')
@@ -1837,6 +1858,7 @@ def fix_endpoints(x, y, color, tag, fig):
 
         if endpoints_x:
             fig.addXYDataset(np.array(endpoints_x), np.array(endpoints_y), color=color, tag=tag, mode='markers')
+
 
 ##################################################################################################
 if __name__ == "__main__":

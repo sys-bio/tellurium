@@ -110,6 +110,7 @@ features or changes that you can implement yourself.
     (tellurium)$ pip install -e .
 
 9. When you are done making changes, check that your changes pass the tests with tox for your local Python version::
+
      (tellurium)$ tox -e py27
      (tellurium)$ tox -e py34
      (tellurium)$ tox -e py35

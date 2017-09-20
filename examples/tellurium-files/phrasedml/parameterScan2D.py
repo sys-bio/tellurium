@@ -2,12 +2,10 @@
 """
 phrasedml 2D parameter scan
 """
-
-from __future__ import print_function
 import os
-from tellurium.sedml.case_template import run_case
+from tellurium.sedml.utils import run_case
 
-antimonyStr = '''
+a_str = '''
 // Created by libAntimony v2.9
 model *parameterScan2D()
 
@@ -73,7 +71,7 @@ model *parameterScan2D()
 end
 '''
 
-phrasedmlStr = '''
+p_str = '''
   model_3 = model "parameterScan2D"
   sim_repeat = simulate uniform(0,3000,100)
   task_1 = run sim_repeat on model_3
@@ -83,4 +81,4 @@ phrasedmlStr = '''
   plot repeatedtask_2.time vs repeatedtask_2.MKK, repeatedtask_2.MKK_P
 '''
 
-run_case(os.path.realpath(__file__), antimonyStr, phrasedmlStr)
+run_case(os.path.realpath(__file__), a_str, p_str)

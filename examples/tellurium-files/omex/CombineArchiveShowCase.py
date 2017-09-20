@@ -4,7 +4,9 @@ Example Running the Combine Showcase Archive.
 https://github.com/SemsProject/CombineArchiveShowCase
 """
 
+# TODO: FIXME: import omex from test data
 
+# TODO: create results dir
 
 # redirect backend, so plots only in files and not shown
 import matplotlib.pyplot

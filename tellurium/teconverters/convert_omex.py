@@ -10,9 +10,11 @@ import json
 import getpass
 
 try:
-    from tecombine import CombineArchive, OmexDescription, VCard, KnownFormats
+    import tecombine as libcombine
 except ImportError:
-    from libcombine import CombineArchive, OmexDescription, VCard, KnownFormats
+    import libcombine
+
+# import CombineArchive, OmexDescription, VCard, KnownFormats
 
 from .convert_phrasedml import phrasedmlImporter
 from .convert_antimony import antimonyConverter
@@ -39,7 +41,10 @@ class OmexAsset(object):
         return self.content
 
     def getMaster(self):
-        return self.master
+        master = False
+        if self.master is not None:
+            master = self.master
+        return master
 
 
 class SbmlAsset(OmexAsset):
@@ -136,15 +141,15 @@ class Omex(object):
         import phrasedml
         phrasedml.clearReferencedSBML()
 
-        archive = CombineArchive()
-        description = OmexDescription()
+        archive = libcombine.CombineArchive()
+        description = libcombine.OmexDescription()
         description.setAbout(self.about)
         description.setDescription(self.description)
-        description.setCreated(OmexDescription.getCurrentDateAndTime())
+        description.setCreated(libcombine.OmexDescription.getCurrentDateAndTime())
 
         # TODO: pass in creator
         if self.creator is not None:
-            creator = VCard()
+            creator = libcombine.VCard()
             creator.setFamilyName(self.creator['last_name'])
             creator.setGivenName(self.creator['first_name'])
             creator.setEmail(self.creator['email'])
@@ -158,31 +163,34 @@ class Omex(object):
         workingDir = tempfile.mkdtemp(suffix="_sedml")
         files = []  # Keep a list of files to remove
 
-        for t in self.getSedmlAssets():
-            fname = os.path.join(workingDir, os.path.normpath(t.getLocation()))
+        def addAssetToArchive(asset, format):
+            """ Helper to add asset of given format. """
+            fname = os.path.join(workingDir, os.path.normpath(asset.getLocation()))
             dname = os.path.dirname(fname)
             if not os.path.exists(dname):
                 os.makedirs(dname)
             with open(fname, 'w') as f:
                 files.append(fname)
                 f.write(t.getContent())
-                archive.addFile(fname, t.getLocation(), KnownFormats.lookupFormat("sedml"), t.getMaster())
+                archive.addFile(fname,
+                                asset.getLocation(),
+                                libcombine.KnownFormats.lookupFormat(format),
+                                asset.getMaster())
 
-        for t in self.getSbmlAssets():
-            fname = os.path.join(workingDir, os.path.normpath(t.getLocation()))
-            dname = os.path.dirname(fname)
-            if not os.path.exists(dname):
-                os.makedirs(dname)
-            with open(fname, 'w') as f:
-                files.append(fname)
-                f.write(t.getContent())
-                archive.addFile(fname, t.getLocation(), KnownFormats.lookupFormat("sbml"),
-                                t.getMaster() if t.getMaster() is not None else False)
+        try:
+            for t in self.getSedmlAssets():
+                addAssetToArchive(t, 'sedml')
 
-        archive.writeToFile(outfile)
+            for t in self.getSbmlAssets():
+                addAssetToArchive(t, 'sbml')
 
-        for f in files:
-            os.remove(f)
+            archive.writeToFile(outfile)
+        finally:
+            # put this in finally to make sure files are removed even under Exception
+            for f in files:
+                os.remove(f)
+
+
 
 
 class inlineOmexImporter:
@@ -198,7 +206,7 @@ class inlineOmexImporter:
         if not os.path.isfile(path):
             raise IOError('No such file: {}'.format(path))
 
-        omex = CombineArchive()
+        omex = libcombine.CombineArchive()
         if not omex.initializeFromArchive(path):
             raise IOError('Could not read COMBINE archive.')
         return inlineOmexImporter(omex)

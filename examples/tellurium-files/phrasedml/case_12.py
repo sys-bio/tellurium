@@ -2,11 +2,10 @@
 Using outputStartTime to set of output.
 Two parallel repeated tasks.
 """
-from __future__ import print_function
 import os
-from tellurium.sedml.case_template import run_case
+from tellurium.sedml.utils import run_case
 
-antimonyStr = '''
+a_str = '''
 model case_12()
   J0: S1 -> S2; k1*S1-k2*S2
   S1 = 10.0; S2 = 0.0;
@@ -14,7 +13,7 @@ model case_12()
 end
 '''
 
-phrasedmlStr = '''
+p_str = '''
   mod1 = model "case_12"
   sim1 = simulate uniform(0, 2, 10, 49)
   sim2 = simulate uniform(0, 15, 49)
@@ -26,4 +25,4 @@ phrasedmlStr = '''
   report repeat2.time vs repeat2.S1, repeat2.S2, repeat1.time vs repeat1.S1, repeat1.S2
 '''
 
-run_case(os.path.realpath(__file__), antimonyStr, phrasedmlStr)
+run_case(os.path.realpath(__file__), a_str, p_str)

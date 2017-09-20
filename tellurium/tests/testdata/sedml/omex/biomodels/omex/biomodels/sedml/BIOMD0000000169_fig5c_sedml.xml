@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Written by libSedML v1.1.4848.38309 see http://libsedml.sf.net -->
+<sedML level="1" version="1" xmlns="http://sed-ml.org/">
+  <listOfSimulations>
+    <uniformTimeCourse id="sim1" initialTime="0" outputStartTime="0" outputEndTime="500" numberOfPoints="1000">
+      <algorithm kisaoID="KISAO:0000019" />
+    </uniformTimeCourse>
+  </listOfSimulations>
+  <listOfModels>
+    <model id="model1" language="urn:sedml:language:sbml" source="urn:miriam:biomodels.db:BIOMD0000000169" />
+  </listOfModels>
+  <listOfTasks>
+    <task id="task1" modelReference="model1" simulationReference="sim1" />
+  </listOfTasks>
+  <listOfDataGenerators>
+    <dataGenerator id="time" name="time">
+      <listOfVariables>
+        <variable id="var_time_0" name="time" taskReference="task1" symbol="urn:sedml:symbol:time" />
+      </listOfVariables>
+      <math xmlns="http://www.w3.org/1998/Math/MathML">
+        <ci> var_time_0 </ci>
+      </math>
+    </dataGenerator>
+    <dataGenerator id="Y3_1_1" name="Y3_1_1">
+      <listOfVariables>
+        <variable id="Y3_1" name="Y3_1" taskReference="task1" target="/sbml:sbml/sbml:model/sbml:listOfSpecies/sbml:species[@id='Y3_1']" />
+      </listOfVariables>
+      <math xmlns="http://www.w3.org/1998/Math/MathML">
+        <ci> Y3_1 </ci>
+      </math>
+    </dataGenerator>
+    <dataGenerator id="Y4_1_1" name="Y4_1_1">
+      <listOfVariables>
+        <variable id="Y4_1" name="Y4_1" taskReference="task1" target="/sbml:sbml/sbml:model/sbml:listOfSpecies/sbml:species[@id='Y4_1']" />
+      </listOfVariables>
+      <math xmlns="http://www.w3.org/1998/Math/MathML">
+        <ci> Y4_1 </ci>
+      </math>
+    </dataGenerator>
+    <dataGenerator id="Y11_1_1" name="Y11_1_1">
+      <listOfVariables>
+        <variable id="Y11_1" name="Y11_1" taskReference="task1" target="/sbml:sbml/sbml:model/sbml:listOfSpecies/sbml:species[@id='Y11_1']" />
+      </listOfVariables>
+      <math xmlns="http://www.w3.org/1998/Math/MathML">
+        <ci> Y11_1 </ci>
+      </math>
+    </dataGenerator>
+    <dataGenerator id="Y2_1_1" name="Y2_1_1">
+      <listOfVariables>
+        <variable id="Y2_1" name="Y2_1" taskReference="task1" target="/sbml:sbml/sbml:model/sbml:listOfSpecies/sbml:species[@id='Y2_1']" />
+      </listOfVariables>
+      <math xmlns="http://www.w3.org/1998/Math/MathML">
+        <ci> Y2_1 </ci>
+      </math>
+    </dataGenerator>
+    <dataGenerator id="Y1_1_1" name="Y1_1_1">
+      <listOfVariables>
+        <variable id="Y1_1" name="Y1_1" taskReference="task1" target="/sbml:sbml/sbml:model/sbml:listOfSpecies/sbml:species[@id='Y1_1']" />
+      </listOfVariables>
+      <math xmlns="http://www.w3.org/1998/Math/MathML">
+        <ci> Y1_1 </ci>
+      </math>
+    </dataGenerator>
+    <dataGenerator id="Y5_1_1" name="Y5_1_1">
+      <listOfVariables>
+        <variable id="Y5_1" name="Y5_1" taskReference="task1" target="/sbml:sbml/sbml:model/sbml:listOfSpecies/sbml:species[@id='Y5_1']" />
+      </listOfVariables>
+      <math xmlns="http://www.w3.org/1998/Math/MathML">
+        <ci> Y5_1 </ci>
+      </math>
+    </dataGenerator>
+    <dataGenerator id="Y6_1_1" name="Y6_1_1">
+      <listOfVariables>
+        <variable id="Y6_1" name="Y6_1" taskReference="task1" target="/sbml:sbml/sbml:model/sbml:listOfSpecies/sbml:species[@id='Y6_1']" />
+      </listOfVariables>
+      <math xmlns="http://www.w3.org/1998/Math/MathML">
+        <ci> Y6_1 </ci>
+      </math>
+    </dataGenerator>
+    <dataGenerator id="Y7_1_1" name="Y7_1_1">
+      <listOfVariables>
+        <variable id="Y7_1" name="Y7_1" taskReference="task1" target="/sbml:sbml/sbml:model/sbml:listOfSpecies/sbml:species[@id='Y7_1']" />
+      </listOfVariables>
+      <math xmlns="http://www.w3.org/1998/Math/MathML">
+        <ci> Y7_1 </ci>
+      </math>
+    </dataGenerator>
+    <dataGenerator id="Y8_1_1" name="Y8_1_1">
+      <listOfVariables>
+        <variable id="Y8_1" name="Y8_1" taskReference="task1" target="/sbml:sbml/sbml:model/sbml:listOfSpecies/sbml:species[@id='Y8_1']" />
+      </listOfVariables>
+      <math xmlns="http://www.w3.org/1998/Math/MathML">
+        <ci> Y8_1 </ci>
+      </math>
+    </dataGenerator>
+    <dataGenerator id="Y10_1_1" name="Y10_1_1">
+      <listOfVariables>
+        <variable id="Y10_1" name="Y10_1" taskReference="task1" target="/sbml:sbml/sbml:model/sbml:listOfSpecies/sbml:species[@id='Y10_1']" />
+      </listOfVariables>
+      <math xmlns="http://www.w3.org/1998/Math/MathML">
+        <ci> Y10_1 </ci>
+      </math>
+    </dataGenerator>
+    <dataGenerator id="Y9_1_1" name="Y9_1_1">
+      <listOfVariables>
+        <variable id="Y9_1" name="Y9_1" taskReference="task1" target="/sbml:sbml/sbml:model/sbml:listOfSpecies/sbml:species[@id='Y9_1']" />
+      </listOfVariables>
+      <math xmlns="http://www.w3.org/1998/Math/MathML">
+        <ci> Y9_1 </ci>
+      </math>
+    </dataGenerator>
+  </listOfDataGenerators>
+  <listOfOutputs>
+    <plot2D id="plot1">
+      <listOfCurves>
+        <curve id="curve_0" logX="false" logY="false" xDataReference="time" yDataReference="Y4_1_1" />
+        <curve id="curve_1" logX="false" logY="false" xDataReference="time" yDataReference="Y1_1_1" />
+        <curve id="curve_2" logX="false" logY="false" xDataReference="time" yDataReference="Y7_1_1" />
+      </listOfCurves>
+    </plot2D>
+  </listOfOutputs>
+</sedML>

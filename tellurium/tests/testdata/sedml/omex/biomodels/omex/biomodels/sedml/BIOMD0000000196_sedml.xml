@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Written by libSedML v1.1.4848.38309 see http://libsedml.sf.net -->
+<sedML level="1" version="1" xmlns="http://sed-ml.org/">
+  <listOfSimulations>
+    <uniformTimeCourse id="sim1" initialTime="0" outputStartTime="600" outputEndTime="1200" numberOfPoints="1000">
+      <algorithm kisaoID="KISAO:0000019" />
+    </uniformTimeCourse>
+  </listOfSimulations>
+  <listOfModels>
+    <model id="model1" language="urn:sedml:language:sbml" source="urn:miriam:biomodels.db:BIOMD0000000196" />
+  </listOfModels>
+  <listOfTasks>
+    <task id="task1" modelReference="model1" simulationReference="sim1" />
+  </listOfTasks>
+  <listOfDataGenerators>
+    <dataGenerator id="time" name="time">
+      <listOfVariables>
+        <variable id="var_time_0" name="time" taskReference="task1" symbol="urn:sedml:symbol:time" />
+      </listOfVariables>
+      <math xmlns="http://www.w3.org/1998/Math/MathML">
+        <ci> var_time_0 </ci>
+      </math>
+    </dataGenerator>
+    <dataGenerator id="x1_1" name="x1_1">
+      <listOfVariables>
+        <variable id="x1" name="x1" taskReference="task1" target="/sbml:sbml/sbml:model/sbml:listOfSpecies/sbml:species[@id='x1']" />
+      </listOfVariables>
+      <math xmlns="http://www.w3.org/1998/Math/MathML">
+        <ci> x1 </ci>
+      </math>
+    </dataGenerator>
+    <dataGenerator id="x3_1" name="x3_1">
+      <listOfVariables>
+        <variable id="x3" name="x3" taskReference="task1" target="/sbml:sbml/sbml:model/sbml:listOfSpecies/sbml:species[@id='x3']" />
+      </listOfVariables>
+      <math xmlns="http://www.w3.org/1998/Math/MathML">
+        <ci> x3 </ci>
+      </math>
+    </dataGenerator>
+    <dataGenerator id="x5_1" name="x5_1">
+      <listOfVariables>
+        <variable id="x5" name="x5" taskReference="task1" target="/sbml:sbml/sbml:model/sbml:listOfSpecies/sbml:species[@id='x5']" />
+      </listOfVariables>
+      <math xmlns="http://www.w3.org/1998/Math/MathML">
+        <ci> x5 </ci>
+      </math>
+    </dataGenerator>
+    <dataGenerator id="x6_1" name="x6_1">
+      <listOfVariables>
+        <variable id="x6" name="x6" taskReference="task1" target="/sbml:sbml/sbml:model/sbml:listOfSpecies/sbml:species[@id='x6']" />
+      </listOfVariables>
+      <math xmlns="http://www.w3.org/1998/Math/MathML">
+        <ci> x6 </ci>
+      </math>
+    </dataGenerator>
+    <dataGenerator id="m_1" name="m_1">
+      <listOfVariables>
+        <variable id="m" name="m" taskReference="task1" target="/sbml:sbml/sbml:model/sbml:listOfSpecies/sbml:species[@id='m']" />
+      </listOfVariables>
+      <math xmlns="http://www.w3.org/1998/Math/MathML">
+        <ci> m </ci>
+      </math>
+    </dataGenerator>
+    <dataGenerator id="y4_1" name="y4_1">
+      <listOfVariables>
+        <variable id="y4" name="y4" taskReference="task1" target="/sbml:sbml/sbml:model/sbml:listOfSpecies/sbml:species[@id='y4']" />
+      </listOfVariables>
+      <math xmlns="http://www.w3.org/1998/Math/MathML">
+        <ci> y4 </ci>
+      </math>
+    </dataGenerator>
+    <dataGenerator id="Pre_MPF_1" name="Pre_MPF_1">
+      <listOfVariables>
+        <variable id="Pre_MPF" name="Pre_MPF" taskReference="task1" target="/sbml:sbml/sbml:model/sbml:listOfSpecies/sbml:species[@id='Pre_MPF']" />
+      </listOfVariables>
+      <math xmlns="http://www.w3.org/1998/Math/MathML">
+        <ci> Pre_MPF </ci>
+      </math>
+    </dataGenerator>
+  </listOfDataGenerators>
+  <listOfOutputs>
+    <plot2D id="plot1">
+      <listOfCurves>
+        <curve id="curve_0" logX="false" logY="false" xDataReference="time" yDataReference="m_1" />
+      </listOfCurves>
+    </plot2D>
+    <plot2D id="plot1">
+      <listOfCurves>
+        <curve id="curve_1" logX="false" logY="false" xDataReference="time" yDataReference="x1_1" />
+        <curve id="curve_2" logX="false" logY="false" xDataReference="time" yDataReference="x3_1" />
+      </listOfCurves>
+    </plot2D>
+  </listOfOutputs>
+</sedML>

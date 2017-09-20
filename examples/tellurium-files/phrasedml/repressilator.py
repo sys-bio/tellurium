@@ -5,6 +5,9 @@ Use Biomodels in phrasedml.
 Example is the introduction example for the SED-ML specification.
 Model is repressilator.
 """
+
+# FIXME: https://github.com/sys-bio/tellurium/issues/224
+
 from __future__ import print_function
 import os
 import tellurium as te
