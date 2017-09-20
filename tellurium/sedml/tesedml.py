@@ -1762,15 +1762,15 @@ def process_trace(trace):
     if trace.size > 1:
         # FIXME: this adds a nan at the end of the data. This is a bug.
         if len(trace.shape) == 1:
-            # return np.concatenate((np.atleast_1d(trace), np.atleast_1d(np.nan)))
-            return np.atleast_1d(trace)
+            return np.concatenate((np.atleast_1d(trace), np.atleast_1d(np.nan)))
+            # return np.atleast_1d(trace)
 
         elif len(trace.shape) == 2:
             #print('2d trace')
             # print(trace.shape)
             # FIXME: this adds a nan at the end of the data. This is a bug.
-            # result = np.vstack((np.atleast_1d(trace), np.full((1,trace.shape[-1]),np.nan)))
-            result = np.vstack((np.atleast_1d(trace), np.full((1, trace.shape[-1]))))
+            result = np.vstack((np.atleast_1d(trace), np.full((1,trace.shape[-1]),np.nan)))
+            # result = np.vstack((np.atleast_1d(trace), np.full((1, trace.shape[-1]))))
             return result
     else:
         return np.atleast_1d(trace)
@@ -1781,7 +1781,7 @@ def terminate_trace(trace):
     (e.g. steady state scan), concatenate the points.
     Otherwise, plot as separate curves."""
 
-    '''
+
     if isinstance(trace, list):
         if len(trace) > 0 and not isinstance(trace[-1], list) and not isinstance(trace[-1], dict):
             # if len(trace) > 2 and isinstance(trace[-1], dict):
@@ -1792,7 +1792,7 @@ def terminate_trace(trace):
             # print('e:')
             # print(e)
             return trace + [e]
-    '''
+
     return trace
 
 
