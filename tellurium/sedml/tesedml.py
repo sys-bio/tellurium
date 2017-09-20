@@ -814,20 +814,22 @@ class SEDMLCodeFactory(object):
         # integrator/solver settings (AlgorithmParameters)
         for par in algorithm.getListOfAlgorithmParameters():
             pkey = SEDMLCodeFactory.algorithmParameterToParameterKey(par)
-            if pkey.dtype is str:
-                value = "'{}'".format(pkey.value)
-            else:
-                value = pkey.value
+            # only set supported algorithm paramters
+            if pkey:
+                if pkey.dtype is str:
+                    value = "'{}'".format(pkey.value)
+                else:
+                    value = pkey.value
 
-            if value == str('inf') or pkey.value == float('inf'):
-                value = "float('inf')"
-            else:
-                pass
+                if value == str('inf') or pkey.value == float('inf'):
+                    value = "float('inf')"
+                else:
+                    pass
 
-            if simType is libsedml.SEDML_SIMULATION_STEADYSTATE:
-                lines.append("{}.steadyStateSolver.setValue('{}', {})".format(mid, pkey.key, value))
-            else:
-                lines.append("{}.integrator.setValue('{}', {})".format(mid, pkey.key, value))
+                if simType is libsedml.SEDML_SIMULATION_STEADYSTATE:
+                    lines.append("{}.steadyStateSolver.setValue('{}', {})".format(mid, pkey.key, value))
+                else:
+                    lines.append("{}.integrator.setValue('{}', {})".format(mid, pkey.key, value))
 
         if simType is libsedml.SEDML_SIMULATION_STEADYSTATE:
             lines.append("if {model}.conservedMoietyAnalysis == False: {model}.conservedMoietyAnalysis = True".format(model=mid))
