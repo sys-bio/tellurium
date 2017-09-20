@@ -19,6 +19,7 @@ Contents:
    antimony.rst
    tellurium_methods.rst
    API.rst
+   `FAQ <https://github.com/sys-bio/tellurium/wiki/FAQ>`_
    appendix.rst
 ..    paramscan.rst
 ..    testing.rst
