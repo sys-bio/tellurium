@@ -12,22 +12,8 @@ python:
 install:
     - pip install -r requirements.txt
 script:
-    - nosetests
+    - pytest tellurium
 
-#sudo: required
-#env:
-#  matrix:
-#    - DOCKER_IMAGE=ubuntu:16.04  # python2.7, python:3.5, python3.6
-#
-#services:
-#  - docker
-#
-#language: python
-#
-#
-#before_install:
-#  - echo $DOCKER_IMAGE
-#  - docker build -t sys-bio/tellurium .
 
 
 
