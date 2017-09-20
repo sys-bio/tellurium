@@ -7,3 +7,7 @@ def getModelStartRegex():
 def getModelEndRegex():
     """ Return the regex string for Antimony model end. Matches whole line. """
     return r'^\s*end\s*$'
+
+def getSBORegex():
+    """ Return the regex string for Antimony model end. Matches whole line. """
+    return r'^\s*([^.]+)\.sboTerm\s*=\s*(SBO:)?([0-9]+)\s*(;)?\s*$'

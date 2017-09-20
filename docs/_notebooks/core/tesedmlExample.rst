@@ -266,9 +266,8 @@ specification <http://sed-ml.sourceforge.net/documents/sed-ml-L1V2.pdf>`__
     shutil.rmtree(workingDir)
 
 
-.. parsed-literal::
 
-    INFO:root:Initialising BioModels service (WSDL)
+.. image:: _notebooks/core/tesedmlExample_files/tesedmlExample_6_0.png
 
 
 
@@ -277,10 +276,6 @@ specification <http://sed-ml.sourceforge.net/documents/sed-ml-L1V2.pdf>`__
 
 
 .. image:: _notebooks/core/tesedmlExample_files/tesedmlExample_6_2.png
-
-
-
-.. image:: _notebooks/core/tesedmlExample_files/tesedmlExample_6_3.png
 
 
 Execute SED-ML Archive
@@ -311,7 +306,7 @@ examples).
 
 .. parsed-literal::
 
-    /home/poltergeist/devel/src/tellurium/tellurium/tecombine.py:329: UserWarning:
+    /home/poltergeist/devel/src/tellurium/tellurium/tecombine.py:330: UserWarning:
     
     No 'manifest.xml' in archive, trying to resolve manually
     

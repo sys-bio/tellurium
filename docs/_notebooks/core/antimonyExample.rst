@@ -84,7 +84,7 @@ simulation.
 .. parsed-literal::
 
     --------------------------------------------------------------------------------
-    tellurium : 2.0.0
+    tellurium : 2.0.1
     roadrunner : 1.4.21; Compiler: gcc 4.8.2, C++ version: 199711; JIT Compiler: LLVM-3.3; Date: Jul  5 2017, 18:38:02; LibSBML Version: 5.14.0
     antimony : 2.9.3
     libsbml : 5.15.0
