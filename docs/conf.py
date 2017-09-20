@@ -24,12 +24,12 @@ class Mock(MagicMock):
     def __getattr__(cls, name):
             return Mock()
 
-MOCK_MODULES = ['roadrunner', 
+MOCK_MODULES = ['roadrunner',
 				'roadrunner.testing',
-				'antimony', 
-				'libsbml', 
-				'libsedml', 
-				'phrasedml', 
+				'antimony',
+				'libsbml',
+				'libsedml',
+				'phrasedml',
 				'sbml2matlab',
 				'sedml2py',
 				'pygraphviz'
@@ -300,7 +300,7 @@ man_pages = [
 #  dir menu entry, description, category)
 texinfo_documents = [
     (master_doc, 'tellurium', u'tellurium Documentation',
-     author, 'tellurium', 'One line description of project.',
+     author, 'tellurium', 'Integrated dynamical modeling environment..',
      'Miscellaneous'),
 ]
 
