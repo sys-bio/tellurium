@@ -2,25 +2,12 @@
 """
 Tellurium SED-ML support.
 
-This module implements SED-ML L1V2 support for tellurium.
-In the current implementation all SED-ML constructs with exception of
-    XML transformation changes of the model
-        - Change.RemoveXML
-        - Change.AddXML
-        - Change.ChangeXML
-are supported.
+This module implements SED-ML support for tellurium.
 
-SBML models are fully supported, whereas for CellML models only basic support
-is implemented (when additional support is requested it be implemented).
-CellML models are transformed to SBML models which results in different XPath expressions,
-so that targets, selections cannot be easily resolved in the CellMl-SBML.
-
-Supported input for SED-ML are either SED-ML files ('.sedml' extension),
-SED-ML XML strings or archives ('.sedx'|'.omex' extension).
-Executable python code is generated from the SED-ML which allows the
-execution of the defined simulation experiment.
-
-SED-ML is build of five main classes
+----------------
+Overview SED-ML
+----------------
+SED-ML is build of main classes
     the Model Class,
     the Simulation Class,
     the Task Class,
@@ -66,62 +53,83 @@ The Output Class
     plotted in the output. To do so, an output type is defined, e.g. 2D-plot, 3D-plot or data table,
     and the according axes or columns are all assigned to one of the formerly specified instances
     of the DataGenerator class.
+
+For information about SED-ML please refer to http://www.sed-ml.org/
+and the SED-ML specification.
+
+------------------------------------
+SED-ML in tellurium: Implementation
+------------------------------------
+SED-ML support in tellurium is based on Combine Archives.
+The SED-ML files in the Archive can be executed and stored with results.
+
+
+----------------------------------------
+SED-ML in tellurium: Supported Features
+----------------------------------------
+Tellurium supports SED-ML L1V3 with SBML as model format.
+
+SBML models are fully supported, whereas for CellML models only basic support
+is implemented (when additional support is requested it be implemented).
+CellML models are transformed to SBML models which results in different XPath expressions,
+so that targets, selections cannot be easily resolved in the CellMl-SBML.
+
+Supported input for SED-ML are either SED-ML files ('.sedml' extension),
+SED-ML XML strings or combine archives ('.sedx'|'.omex' extension).
+Executable python code is generated from the SED-ML which allows the
+execution of the defined simulation experiment.
+
+    In the current implementation all SED-ML constructs with exception of
+    XML transformation changes of the model
+        - Change.RemoveXML
+        - Change.AddXML
+        - Change.ChangeXML
+    are supported.
+
+-------
+Notice
+-------
+The main maintainer for SED-ML support is Matthias König.
+Please let changes to this file be reviewed and make sure that all SED-ML related tests are working.
 """
-
-# TODO: implement full resolving of xpath expressions (target, selection) (see xpath.py for example)
-# TODO: handle OMEX correctly & execute OMEX with saving results
-
-# TODO: implement XML changes
-# TODO: implement full concatenation of subtasks
-# TODO: better handling of model.reset for task tree
-# FIXME: rk4 integration not working on linux (https://github.com/sys-bio/roadrunner/issues/307)
-
 from __future__ import print_function, division, absolute_import
 
 import sys
 import os
+import traceback
 import os.path
 import warnings
 import datetime
 import zipfile
-from collections import namedtuple
 import re
 import numpy as np
-import roadrunner
+from collections import namedtuple
+import jinja2
 
-try:
-    from jinja2 import Environment, FileSystemLoader
-except:
-    warnings.warn("'jinja2' could not be imported; SEDML not supported", ImportWarning)
 from .mathml import evaluableMathML
 
 try:
-    try:
-        import tesedml as libsedml
-        # import libsedml before libsbml to handle
-        # https://github.com/fbergmann/libSEDML/issues/21
-    except ImportError:
-        import libsedml
-
-except ImportError as e:
-    libsedml = None
-    roadrunner.Logger.log(roadrunner.Logger.LOG_WARNING, str(e))
-    warnings.warn("'libsedml' could not be imported", ImportWarning, stacklevel=2)
-
+    import tesedml as libsedml
+except ImportError:
+    import libsedml
 
 import tellurium as te
 from tellurium.tecombine import CombineArchive
 
 try:
-    # required imports within generated code
+    # required imports in generated python code
     import pandas
     import matplotlib.pyplot as plt
     import mpl_toolkits.mplot3d
 except ImportError:
-    warnings.warn("Dependencies for SEDML code execution not fullfilled.")
+    warnings.warn("Dependencies for SEDML code execution not fulfilled.")
+    print(traceback.format_exc())
 
 
 ######################################################################################################################
+# Interface functions
+######################################################################################################################
+# TODO: implement execution with storing the information in the file
 
 def sedmlToPython(inputStr):
     """ Convert sedml file to python code.
@@ -137,7 +145,7 @@ def sedmlToPython(inputStr):
 
 
 def executeSEDML(inputStr, workingDir=None):
-    """ Run a SED-ML file or archive.
+    """ Run a SED-ML file or combine archive with results.
 
     If a workingDir is provided the files and results are written in the workingDir.
 
@@ -167,8 +175,6 @@ def executeOMEX(omexPath, workingDir=None):
     warnings.warn("'executeOMEX' is deprecated. Use the 'executeSEDML' instead.",
                   DeprecationWarning, stacklevel=2)
     filename, extension = os.path.splitext(os.path.basename(omexPath))
-
-
 
     # Archive
     if zipfile.is_zipfile(omexPath):
@@ -368,7 +374,7 @@ class SEDMLCodeFactory(object):
         :rtype: str
         """
         # template environment
-        env = Environment(loader=FileSystemLoader(self.TEMPLATE_DIR),
+        env = jinja2.Environment(loader=jinja2.FileSystemLoader(self.TEMPLATE_DIR),
                           extensions=['jinja2.ext.autoescape'],
                           trim_blocks=True,
                           lstrip_blocks=True)
@@ -1775,6 +1781,8 @@ def terminate_trace(trace):
     """ If each entry in the task consists of a single point
     (e.g. steady state scan), concatenate the points.
     Otherwise, plot as separate curves."""
+
+    '''
     if isinstance(trace, list):
         if len(trace) > 0 and not isinstance(trace[-1], list) and not isinstance(trace[-1], dict):
             # if len(trace) > 2 and isinstance(trace[-1], dict):
@@ -1785,6 +1793,7 @@ def terminate_trace(trace):
             # print('e:')
             # print(e)
             return trace + [e]
+    '''
     return trace
 
 
