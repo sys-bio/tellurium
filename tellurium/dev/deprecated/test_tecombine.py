@@ -1,8 +1,6 @@
 """
 Testing tecombine.
 """
-# TODO: implement additional tests/real tests of content.
-
 from __future__ import print_function
 from tellurium.sedml.tephrasedml import experiment
 

@@ -94,8 +94,6 @@ Please let changes to this file be reviewed and make sure that all SED-ML relate
 """
 from __future__ import print_function, division, absolute_import
 
-import sys
-import os
 import traceback
 import os.path
 import warnings
@@ -114,7 +112,7 @@ except ImportError:
     import libsedml
 
 import tellurium as te
-from tellurium.tecombine import CombineArchive
+
 
 try:
     # required imports in generated python code
@@ -158,6 +156,9 @@ def executeSEDML(inputStr, workingDir=None):
     factory.executePython()
 
 
+# TODO: necessary to port this
+'''
+from tellurium.tecombine import CombineArchive
 def executeOMEX(omexPath, workingDir=None):
     """ LEGACY. Does not use libCombine.
 
@@ -203,7 +204,7 @@ def executeOMEX(omexPath, workingDir=None):
             raise FileNotFoundError("File does not exist: {}".format(omexPath))
         else:
             raise IOError("File is not an OMEX Combine Archive in zip format: {}".format(omexPath))
-
+'''
 
 
 ######################################################################################################################
@@ -1839,6 +1840,7 @@ def fix_endpoints(x, y, color, tag, fig):
 
         if endpoints_x:
             fig.addXYDataset(np.array(endpoints_x), np.array(endpoints_y), color=color, tag=tag, mode='markers')
+
 
 ##################################################################################################
 if __name__ == "__main__":

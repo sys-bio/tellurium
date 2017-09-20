@@ -37,8 +37,6 @@ api_calls = [
     #   conversion methods
     'te.antimonyToSBML',
     'te.sbmlToAntimony',
-    #   experiment
-    # 'te.experiment',
     #   math
     'te.getEigenvalues',
     #   plotting

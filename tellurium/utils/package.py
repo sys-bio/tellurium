@@ -1,8 +1,11 @@
 """
-Provides trivial wrappers around pip.
+Provides trivial wrappers around pip and functionality
+working with packages.
 """
-from __future__ import print_function, division, absolute_import
+
+from __future__ import print_function, absolute_import
 import pip
+
 
 def searchPackage(name):
     """ Search pip package for package name.

@@ -5,6 +5,11 @@ The module tellurium provides support routines.
 As part of this module an ExendedRoadRunner class is defined which provides helper methods for
 model export, plotting or the Jarnac compatibility layer.
 """
+
+##############################################
+# Core imports
+##############################################
+
 from __future__ import print_function, division, absolute_import
 
 import sys
@@ -13,22 +18,20 @@ import random
 import warnings
 import importlib
 import json
+import numpy as np
+import antimony
+import matplotlib
 
 __default_plotting_engine = 'matplotlib'
 
 # enable fixes for Spyder (no Plotly support, no Agg support)
+SPYDER = False
 if any('SPYDER' in name for name in os.environ):
     SPYDER = True
-else:
-    SPYDER = False
 
-import antimony
-import matplotlib
 if not SPYDER:
     matplotlib.use('Agg')
-import matplotlib.pyplot as plt
-import numpy as np
-from numpy.linalg import svd
+
 
 ##############################################
 # Ipython helpers
@@ -52,17 +55,26 @@ if not SPYDER:
     except:
         __in_ipython = False
 
+
 def inIPython():
-    """ Returns true if tellurium is being using in
+    """ Checks if tellurium is used in IPython.
+
+    Returns true if tellurium is being using in
     an IPython environment, false otherwise.
+    :return: boolean
     """
     global __in_ipython
     return __in_ipython
 
+
 def getDefaultPlottingEngine():
-    """ Get the default plotting engine. Can be 'matplotlib' or 'plotly'."""
+    """ Get the default plotting engine.
+    Options are 'matplotlib' or 'plotly'.
+    :return:
+    """
     global __default_plotting_engine
     return __default_plotting_engine
+
 
 def setDefaultPlottingEngine(value):
     """ Set the default plotting engine. Overrides current value.
@@ -72,22 +84,26 @@ def setDefaultPlottingEngine(value):
     global __default_plotting_engine
     __default_plotting_engine = value
 
-__save_plots_to_pdf = False
+
+__save_plots_to_pdf = False  # flag which decides if plotted to pdf
+
+
 def setSavePlotsToPDF(value):
-    """Sets whether plots should be saved to PDF"""
+    """ Sets whether plots should be saved to PDF. """
     global __save_plots_to_pdf
     __save_plots_to_pdf = value
+
 
 ##############################################
 # Plotting helpers
 ##############################################
-
 import matplotlib.pyplot as plt
 
 # make this the default style for matplotlib
 # plt.style.use('fivethirtyeight')
 
 from .plotting import getPlottingEngineFactory as __getPlottingEngineFactory, plot, show
+
 
 def getPlottingEngineFactory(engine=None):
     global __save_plots_to_pdf
@@ -97,7 +113,10 @@ def getPlottingEngineFactory(engine=None):
     factory.save_plots_to_pdf = __save_plots_to_pdf
     return factory
 
+
 __plotting_engines = {}
+
+
 def getPlottingEngine(engine=None):
     global __plotting_engines
     if engine is None:
@@ -105,6 +124,7 @@ def getPlottingEngine(engine=None):
     if not engine in __plotting_engines:
         __plotting_engines[engine] = getPlottingEngineFactory(engine)()
     return __plotting_engines[engine]
+
 
 getPlottingEngineFactory.__doc__ = __getPlottingEngineFactory.__doc__
 
@@ -116,8 +136,6 @@ import roadrunner
 
 try:
     import tesedml as libsedml
-    # import libsedml before libsbml to handle
-    # https://github.com/fbergmann/libSEDML/issues/21
 except ImportError as e:
     try:
         import libsedml
@@ -689,6 +707,8 @@ def convertAndExecuteCombineArchive(location):
 def extractFileFromCombineArchive(archive_path, entry_location):
     """ Extract a single file from a COMBINE archive and return it as a string.
     """
+    warnings.warn('Use libcombine instead.', DeprecationWarning)
+    # TODO: port this function
     import tecombine
     archive = tecombine.CombineArchive()
     if not archive.initializeFromArchive(archive_path):
