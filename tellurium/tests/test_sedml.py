@@ -1,6 +1,10 @@
 """
-Test all the SED-ML files if
-code can be generated
+Test all the SED-ML files if code can be generated,
+
+    test_phrasedml.py : phrasedml based tests.
+    test_kisao.py : SED-ML kisao support
+    test_omex.py : SED-ML tests based on Combine Archives
+    test_tesedml.py : tests for the `tesedml.py` module
 """
 from __future__ import print_function, absolute_import
 import unittest

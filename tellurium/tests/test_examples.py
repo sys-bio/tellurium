@@ -16,19 +16,25 @@ from tellurium.tests.helpers import filesInDirectory
 examples_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '..', 'examples')
 notebookdir = os.path.join(examples_dir, 'notebooks-py')
 tedir = os.path.join(examples_dir, 'tellurium-files')
+
 py_files = []
 py_files.extend(filesInDirectory(notebookdir, suffix='.sedml'))
 py_files.extend(filesInDirectory(tedir, suffix='.sedml'))
+print(py_files)
+
 
 # ----------------------------------------------------------------
 # Test class
 # ----------------------------------------------------------------
+
+@unittest.skip
 class PythonExampleTestCase(unittest.TestCase):
 
     def setUp(self):
         # switch the backend of matplotlib, so plots can be tested
         import matplotlib
         matplotlib.pyplot.switch_backend("Agg")
+
 
 # ----------------------------------------------------------------
 # Dynamic generation of tests from python files
@@ -40,6 +46,7 @@ def ftest_generator(filePath):
             print(filePath)
             imp.load_source(os.path.basename(filePath)[:-3], filePath)
     return test
+
 
 for k, f in enumerate(py_files):
     test_name = 'test_{:03d}_{}'.format(k, os.path.basename(f)[:-3])
