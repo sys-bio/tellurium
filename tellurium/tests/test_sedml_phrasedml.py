@@ -6,7 +6,7 @@ Testing phrasedml.
     test_sedml_omex.py : SED-ML tests based on Combine Archives
     test_sedml_sedml.py : sed-ml tests
 """
-from __future__ import absolute_import, print_function
+from __future__ import absolute_import, print_function, division
 
 import tempfile
 import unittest
@@ -26,9 +26,6 @@ from tellurium.sedml.utils import run_case
 
 class PhrasedmlTestCase(unittest.TestCase):
     """ Testing execution and archives based on phrasedml input. """
-
-    def tearDown(self):
-        matplotlib.pyplot.switch_backend(self.backend)
 
     def setUp(self):
         # switch the backend of matplotlib, so plots can be tested
@@ -67,7 +64,8 @@ class PhrasedmlTestCase(unittest.TestCase):
         """
 
     def tearDown(self):
-        self.tep = None
+        matplotlib.pyplot.switch_backend(self.backend)
+        matplotlib.pyplot.close('all')
 
     def test_execute(self):
         """Test execute."""

@@ -13,6 +13,7 @@ import unittest
 import tempfile
 import shutil
 from tellurium.sedml import tesedml
+import matplotlib
 from . import helpers
 
 # -------------------------------------------------------------
@@ -75,10 +76,14 @@ class OmexSedmlTestCase(unittest.TestCase):
     def setUp(self):
         # Create a temporary directory
         self.test_dir = tempfile.mkdtemp()
+        self.backend = matplotlib.rcParams['backend']
+        matplotlib.pyplot.switch_backend("Agg")
 
     def tearDown(self):
         # Remove the directory after the test
         shutil.rmtree(self.test_dir)
+        matplotlib.pyplot.switch_backend(self.backend)
+        matplotlib.pyplot.close('all')
 
     def test_omex_executeCombineArchive(self):
         tesedml.executeCombineArchive(omexPath=OMEX_SHOWCASE, workingDir=self.test_dir)
@@ -91,10 +96,14 @@ class OmexTestCase(unittest.TestCase):
     def setUp(self):
         # Create a temporary directory
         self.test_dir = tempfile.mkdtemp()
+        self.backend = matplotlib.rcParams['backend']
+        matplotlib.pyplot.switch_backend("Agg")
 
     def tearDown(self):
         # Remove the directory after the test
         shutil.rmtree(self.test_dir)
+        matplotlib.pyplot.switch_backend(self.backend)
+        matplotlib.pyplot.close('all')
 
 
 def ftest_generator(filePath):
