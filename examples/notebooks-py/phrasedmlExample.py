@@ -70,9 +70,9 @@ shutil.rmtree(workingDir)
 # In[2]:
 
 import tellurium as te
-from tellurium.tests.testdata import omexDir
+from tellurium.tests.testdata import OMEX_TEST_DIR
 import os
-omexPath = os.path.join(omexDir, "BIOMD0000000003.sedx")
+omexPath = os.path.join(OMEX_TEST_DIR, "BIOMD0000000003.sedx")
 print(omexPath)
 te.executeSEDML(omexPath)
 

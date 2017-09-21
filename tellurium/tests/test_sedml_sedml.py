@@ -12,14 +12,14 @@ import unittest
 import os
 import matplotlib
 import tellurium.sedml.tesedml as tesedml
-from tellurium.tests.testdata import sedmlDir
+from tellurium.tests.testdata import SEDML_TEST_DIR
 
 from tellurium.tests.helpers import filesInDirectory
 
 # ----------------------------------------------------------------
 # List of SED-ML files to test
 # ----------------------------------------------------------------
-sedml_files = filesInDirectory(sedmlDir, suffix='.sedml')
+sedml_files = filesInDirectory(SEDML_TEST_DIR, suffix='.sedml')
 
 
 # ----------------------------------------------------------------
@@ -65,19 +65,19 @@ class SEDMLTestCase(unittest.TestCase):
 
     def test_app2sim(self):
         """Test app2sim SED-ML example."""
-        self.single_check(os.path.join(sedmlDir, 'app2sim.sedml'))
+        self.single_check(os.path.join(SEDML_TEST_DIR, 'app2sim.sedml'))
 
     def test_asedml3repeat(self):
         """Test asedml3repeat SED-ML example."""
-        self.single_check(os.path.join(sedmlDir, 'asedml3repeat.sedml'))
+        self.single_check(os.path.join(SEDML_TEST_DIR, 'asedml3repeat.sedml'))
 
     def test_asedmlComplex(self):
         """Test asedmlComplex SED-ML example."""
-        self.single_check(os.path.join(sedmlDir, 'asedmlComplex.sedml'))
+        self.single_check(os.path.join(SEDML_TEST_DIR, 'asedmlComplex.sedml'))
 
     def test_constant_maybe(self):
         """Test constant_maybe SED-ML example."""
-        self.single_check(os.path.join(sedmlDir, 'BioModel1_repressor_activator_oscillations.sedml'))
+        self.single_check(os.path.join(SEDML_TEST_DIR, 'BioModel1_repressor_activator_oscillations.sedml'))
 
     def test_via_sedml_string(self):
         """Test SED-ML from string."""
@@ -135,22 +135,7 @@ class SEDMLTestCase(unittest.TestCase):
         self.assertIsNotNone(python_str)
 
 
-# ----------------------------------------------------------------
-# Dynamic generation of tests from python files
-# # ----------------------------------------------------------------
-# def ftest_generator(filePath):
-#     def test(self=None):
-#         """ Test failes if Exception in execution of f. """
-#         if self is not None:
-#             print(filePath)
-#             imp.load_source(os.path.basename(filePath)[:-3], filePath)
-#     return test
-#
-# for k, f in enumerate(py_files):
-#     test_name = 'test_{:03d}_{}'.format(k, os.path.basename(f)[:-3])
-#     test_name = test_name.replace('.', '_')
-#     test = ftest_generator(f)
-#     setattr(PythonExampleTestCase, test_name, test)
+
 
 if __name__ == "__main__":
     unittest.main()

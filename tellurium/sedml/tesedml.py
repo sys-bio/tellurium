@@ -1856,7 +1856,7 @@ def fix_endpoints(x, y, color, tag, fig):
 ##################################################################################################
 if __name__ == "__main__":
     import os
-    from tellurium.tests.testdata import sedmlDir, omexDir
+    from tellurium.tests.testdata import SEDML_TEST_DIR, OMEX_TEST_DIR
     import matplotlib
 
     def testInput(sedmlInput):
@@ -1878,11 +1878,11 @@ if __name__ == "__main__":
     # testInput(os.path.join(sedmlDir, "sedMLBIOM21.sedml"))
 
     # Check sed-ml files
-    for fname in sorted(os.listdir(sedmlDir)):
+    for fname in sorted(os.listdir(SEDML_TEST_DIR)):
         if fname.endswith(".sedml"):
-            testInput(os.path.join(sedmlDir, fname))
+            testInput(os.path.join(SEDML_TEST_DIR, fname))
 
     # Check sedx archives
-    for fname in sorted(os.listdir(omexDir)):
+    for fname in sorted(os.listdir(OMEX_TEST_DIR)):
         if fname.endswith(".sedx"):
-            testInput(os.path.join(omexDir, fname))
+            testInput(os.path.join(OMEX_TEST_DIR, fname))
