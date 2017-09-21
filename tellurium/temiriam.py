@@ -2,7 +2,7 @@
 """
 Helper functions for MIRIAM and identifiers.org.
 """
-from __future__ import absolute_import, print_function
+from __future__ import absolute_import, print_function, unicode_literals
 import re
 
 
@@ -35,19 +35,8 @@ def getSBMLFromBiomodelsURN(urn):
 
     # bytes array in py3
     try:
-        sbml_str = sbml.decode("utf-8")
+        sbml_str = str(sbml.decode("utf-8"))
     except:
         sbml_str = str(sbml)
+
     return sbml_str
-
-
-if __name__ == "__main__":
-    print("Get SBML from URN")
-    # urn = 'urn:miriam:biomodels.db:BIOMD0000000003'
-    urn = 'urn:miriam:biomodels.db:BIOMD0000000139'
-    sbml = getSBMLFromBiomodelsURN(urn)
-    print(sbml)
-
-    import roadrunner
-    r = roadrunner.RoadRunner(sbml)
-    print(r)

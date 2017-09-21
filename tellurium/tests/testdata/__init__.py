@@ -1,7 +1,14 @@
+"""
+Definition of test files and directories which can be used in the tests.
+"""
+
+from __future__ import absolute_import
 import os
 
-testDir = os.path.dirname(os.path.realpath(__file__))
-sedmlDir = os.path.join(testDir, 'sedml', 'sed-ml')
-sedxDir = os.path.join(testDir, 'sedml', 'sedx')
+TEST_DIR = os.path.dirname(os.path.realpath(__file__))
+SEDML_TEST_DIR = os.path.join(TEST_DIR, 'sedml', 'sed-ml')
+OMEX_TEST_DIR = os.path.join(TEST_DIR, 'sedml', 'omex')
 
-FEEDBACK_SBML = os.path.join(testDir, 'models/feedback.xml')
+
+OMEX_SHOWCASE = os.path.join(OMEX_TEST_DIR, "CombineArchiveShowCase.omex")
+FEEDBACK_SBML = os.path.join(TEST_DIR, 'models/feedback.xml')
