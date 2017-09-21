@@ -1,10 +1,10 @@
 """
 Testing the support of KISAO terms for SED-ML simulations.
 
-    test_phrasedml.py : phrasedml based tests.
-    test_kisao.py : SED-ML kisao support
-    test_omex.py : SED-ML tests based on Combine Archives
-    test_tesedml.py : tests for the `tesedml.py` module
+    test_sedml_phrasedml.py : phrasedml based tests.
+    test_sedml_kisao.py : SED-ML kisao support
+    test_sedml_omex.py : SED-ML tests based on Combine Archives
+    test_sedml_sedml.py : sed-ml tests
 """
 from __future__ import absolute_import, print_function
 

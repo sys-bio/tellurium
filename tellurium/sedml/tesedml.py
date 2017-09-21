@@ -107,6 +107,7 @@ import numpy as np
 from collections import namedtuple
 import jinja2
 
+from tellurium.utils import omex
 from .mathml import evaluableMathML
 
 try:
@@ -159,28 +160,20 @@ def executeSEDML(inputStr, workingDir=None):
     factory.executePython()
 
 
+def executeCombineArchive(omexPath, workingDir=None):
+    """ Run all SED-ML simulations in given COMBINE archive.
 
-# TODO: necessary to port this
-'''
-from tellurium.tecombine import CombineArchive
-def executeOMEX(omexPath, workingDir=None):
-    """ LEGACY. Does not use libCombine.
+    If no workingDir is provided execution is performed in temporary directory
+    which is cleaned afterwards.
 
-    Run all SED-ML simulations in given OMEX COMBINE archive.
-
-    TODO: Necessary to get results back.
 
     :param omexPath: OMEX Combine archive
-    :type omexPath: path
     :param workingDir: directory to extract archive to
-    :type workingDir: directory path
-
+    :return dictionary of sedmlFile:data generators
     """
-    warnings.warn("'executeOMEX' is deprecated. Use the 'executeSEDML' instead.",
-                  DeprecationWarning, stacklevel=2)
     filename, extension = os.path.splitext(os.path.basename(omexPath))
 
-    # Archive
+    # combine archives are zip format
     if zipfile.is_zipfile(omexPath):
 
         # a directory is created in which the files are extracted
@@ -189,26 +182,26 @@ def executeOMEX(omexPath, workingDir=None):
         else:
             extractDir = workingDir
 
-        # extract the archive to working directory
-        CombineArchive.extractArchive(omexPath, extractDir)
-        # get SEDML files from archive
-        sedmlFiles = CombineArchive.filePathsFromExtractedArchive(extractDir, filetype='sed-ml')
-
-        if len(sedmlFiles) == 0:
-            raise IOError("No SEDML files found in COMBINE archive: {}".format(omexPath))
+        # extract
+        omex.extractCombineArchive(omex_path=omexPath, directory=extractDir)
+        sedml_locations = omex.getLocationsByFormat(omexPath=omexPath, formatKey="sed-ml")
+        if len(sedml_locations) == 0:
+            warnings.warn("No SED-ML files in COMBINE archive: {}".format(omexPath))
+        sedml_paths = [os.path.join(extractDir, loc) for loc in sedml_locations]
 
         dgs = {}
-        for sedmlFile in sedmlFiles:
+        for sedmlFile in sedml_paths:
             factory = SEDMLCodeFactory(sedmlFile, workingDir=os.path.dirname(sedmlFile))
             sedml_dgs = factory.executePython()
             dgs[sedmlFile] = sedml_dgs
+
+        # TODO: cleanup of temporary files
         return dgs
     else:
         if not os.path.exists(omexPath):
             raise FileNotFoundError("File does not exist: {}".format(omexPath))
         else:
             raise IOError("File is not an OMEX Combine Archive in zip format: {}".format(omexPath))
-'''
 
 
 ######################################################################################################################
@@ -1863,7 +1856,7 @@ def fix_endpoints(x, y, color, tag, fig):
 ##################################################################################################
 if __name__ == "__main__":
     import os
-    from tellurium.tests.testdata import sedmlDir, sedxDir
+    from tellurium.tests.testdata import sedmlDir, omexDir
     import matplotlib
 
     def testInput(sedmlInput):
@@ -1890,6 +1883,6 @@ if __name__ == "__main__":
             testInput(os.path.join(sedmlDir, fname))
 
     # Check sedx archives
-    for fname in sorted(os.listdir(sedxDir)):
+    for fname in sorted(os.listdir(omexDir)):
         if fname.endswith(".sedx"):
-            testInput(os.path.join(sedxDir, fname))
+            testInput(os.path.join(omexDir, fname))
