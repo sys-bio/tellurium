@@ -97,6 +97,8 @@ Please let changes to this file be reviewed and make sure that all SED-ML relate
 """
 from __future__ import print_function, division, absolute_import
 
+import tempfile
+import shutil
 import traceback
 import os.path
 import warnings
@@ -131,17 +133,14 @@ except ImportError:
 ######################################################################################################################
 # Interface functions
 ######################################################################################################################
-
-def sedmlToPython(inputStr):
+def sedmlToPython(inputStr, workingDir=None):
     """ Convert sedml file to python code.
 
-    :param inputstring: full path name to SedML model or SED-ML string
-    :type inputstring: path
-    :return: contents
-    :rtype:
+    :param inputStr: full path name to SedML model or SED-ML string
+    :type inputStr: path
+    :return: generated python code
     """
-    # FIXME: allow working directories (! the model & input files must be changed)
-    factory = SEDMLCodeFactory(inputStr)
+    factory = SEDMLCodeFactory(inputStr, workingDir=workingDir)
     return factory.toPython()
 
 
@@ -158,6 +157,28 @@ def executeSEDML(inputStr, workingDir=None):
     # execute the sedml
     factory = SEDMLCodeFactory(inputStr, workingDir=workingDir)
     factory.executePython()
+
+
+def combineArchiveToPython(omexPath):
+    """ All python code generated from given combine archive.
+
+    :param omexPath:
+    :return: dictionary of { sedml_location: pycode }
+    """
+    tmp_dir = tempfile.mkdtemp()
+    pycode = {}
+    try:
+        omex.extractCombineArchive(omexPath, directory=tmp_dir, method="zip")
+        locations = omex.getLocationsByFormat(omexPath, "sed-ml")
+        sedml_files = [os.path.join(tmp_dir, loc) for loc in locations]
+
+        for k, sedml_file in enumerate(sedml_files):
+            pystr = sedmlToPython(sedml_file)
+            pycode[locations[k]] = pystr
+
+    finally:
+        shutil.rmtree(tmp_dir)
+    return pycode
 
 
 def executeCombineArchive(omexPath, workingDir=None):
@@ -183,7 +204,7 @@ def executeCombineArchive(omexPath, workingDir=None):
             extractDir = workingDir
 
         # extract
-        omex.extractCombineArchive(omex_path=omexPath, directory=extractDir)
+        omex.extractCombineArchive(omexPath=omexPath, directory=extractDir)
         sedml_locations = omex.getLocationsByFormat(omexPath=omexPath, formatKey="sed-ml")
         if len(sedml_locations) == 0:
             warnings.warn("No SED-ML files in COMBINE archive: {}".format(omexPath))

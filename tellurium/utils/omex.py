@@ -8,16 +8,17 @@ try:
     import libcombine
 except ImportError:
     import tecombine as libcombine
+import pprint
 
 
-def extractCombineArchive(omex_path, directory, method="zip"):
+def extractCombineArchive(omexPath, directory, method="zip"):
     """ Extracts combine archive at given path to directory.
 
     The zip method extracts all entries in the zip, the omex method
     only extracts the entries listed in the manifest.
     In some archives not all content is listed in the manifest.
 
-    :param omex_path:
+    :param omexPath:
     :param directory:
     :param method: method to extract content, either 'zip' or 'omex'
     :return:
@@ -26,14 +27,14 @@ def extractCombineArchive(omex_path, directory, method="zip"):
         raise ValueError("Method is not supported: {}".format(method))
 
     if method is "zip":
-        zip_ref = zipfile.ZipFile(omex_path, 'r')
+        zip_ref = zipfile.ZipFile(omexPath, 'r')
         zip_ref.extractall(directory)
         zip_ref.close()
 
     elif method is "omex":
         omex = libcombine.CombineArchive()
-        if omex.initializeFromArchive(omex_path) is None:
-            raise IOError("Invalid Combine Archive: {}", omex_path)
+        if omex.initializeFromArchive(omexPath) is None:
+            raise IOError("Invalid Combine Archive: {}", omexPath)
 
         for i in range(omex.getNumEntries()):
             entry = omex.getEntry(i)
@@ -77,3 +78,45 @@ def getLocationsByFormat(omexPath, formatKey=None):
     omex.cleanUp()
 
     return locations_master + locations
+
+
+def listContents(omexPath, method="omex"):
+    """ Returns list of contents of the combine archive.
+
+    :param omexPath:
+    :param method: method to extract content, only 'omex' supported
+    :return: list of contents
+    """
+    if method not in ["omex"]:
+        raise ValueError("Method is not supported: {}".format(method))
+
+    contents = []
+    omex = libcombine.CombineArchive()
+    if omex.initializeFromArchive(omexPath) is None:
+        raise IOError("Invalid Combine Archive: {}", omexPath)
+
+    for i in range(omex.getNumEntries()):
+        entry = omex.getEntry(i)
+        location = entry.getLocation()
+        format = entry.getFormat()
+        master = entry.getMaster()
+        info = None
+        try:
+            info = omex.extractEntryToString(location)
+        except:
+            pass
+
+        contents.append([i, location, format, master, info])
+
+    omex.cleanUp()
+
+    return contents
+
+
+def printContents(omexPath):
+    """ Prints contents of archive.
+
+    :param omexPath:
+    :return:
+    """
+    pprint.pprint(listContents(omexPath))

@@ -14,8 +14,6 @@ try:
 except ImportError:
     import libcombine
 
-# import CombineArchive, OmexDescription, VCard, KnownFormats
-
 from .convert_phrasedml import phrasedmlImporter
 from .convert_antimony import antimonyConverter
 

@@ -488,12 +488,12 @@ def loada(ant):
     See also: :func:`loadAntimonyModel`
     ::
 
-        r = te.loada('S1 -> S2; k1*S1; k1 = 0.1; S2 = 10')
+        r = te.loada('S1 -> S2; k1*S1; k1=0.1; S1=10.0; S2 = 0.0')
 
     :param ant: Antimony model
     :type ant: str | file
     :returns: RoadRunner instance with model loaded
-    :rtype: roadrunner.RoadRunner
+    :rtype: roadrunner.ExtendedRoadRunner
     """
     return loadAntimonyModel(ant)
 
@@ -502,11 +502,14 @@ def loadAntimonyModel(ant):
     """Load Antimony model with tellurium.
 
     See also: :func:`loada`
+    ::
+
+        r = te.loadAntimonyModel('S1 -> S2; k1*S1; k1=0.1; S1=10.0; S2 = 0.0')
 
     :param ant: Antimony model
     :type ant: str | file
     :returns: RoadRunner instance with model loaded
-    :rtype: roadrunner.RoadRunner
+    :rtype: roadrunner.ExtendedRoadRunner
     """
     sbml = antimonyToSBML(ant)
     return roadrunner.RoadRunner(sbml)
@@ -520,7 +523,7 @@ def loads(ant):
     :param ant: SBML model
     :type ant: str | file
     :returns: RoadRunner instance with model loaded
-    :rtype: roadrunner.RoadRunner
+    :rtype: roadrunner.ExtendedRoadRunner
     """
     return loadSBMLModel(ant)
 
@@ -531,7 +534,7 @@ def loadSBMLModel(sbml):
     :param sbml: SBML model
     :type sbml: str | file
     :returns: RoadRunner instance with model loaded
-    :rtype: roadrunner.RoadRunner
+    :rtype: roadrunner.ExtendedRoadRunner
     """
     return roadrunner.RoadRunner(sbml)
 
@@ -542,7 +545,7 @@ def loadCellMLModel(cellml):
     :param cellml: CellML model
     :type cellml: str | file
     :returns: RoadRunner instance with model loaded
-    :rtype: roadrunner.RoadRunner
+    :rtype: roadrunner.ExtendedRoadRunner
     """
     sbml = cellmlToSBML(cellml)
     return roadrunner.RoadRunner(sbml)
