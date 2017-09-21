@@ -21,22 +21,22 @@ class UtilsTestCase(unittest.TestCase):
         shutil.rmtree(self.test_dir)
 
     def test_omex_extractCombineArchive1(self):
-        omex.extractCombineArchive(omex_path=OMEX_SHOWCASE, directory=self.test_dir, method="zip")
+        omex.extractCombineArchive(omexPath=OMEX_SHOWCASE, directory=self.test_dir, method="zip")
 
     def test_omex_extractCombineArchive2(self):
-        omex.extractCombineArchive(omex_path=OMEX_SHOWCASE, directory=self.test_dir, method="omex")
+        omex.extractCombineArchive(omexPath=OMEX_SHOWCASE, directory=self.test_dir, method="omex")
 
 
     def test_omex_extractCombineArchive3(self):
         tmp_dir = tempfile.mkdtemp()
-        omex.extractCombineArchive(omex_path=OMEX_SHOWCASE, directory=self.test_dir, method="zip")
+        omex.extractCombineArchive(omexPath=OMEX_SHOWCASE, directory=self.test_dir, method="zip")
         files = [f for f in os.listdir(tmp_dir) if os.path.isfile(os.path.join(tmp_dir, f))]
         self.assertIsNotNone(files)
         shutil.rmtree(tmp_dir)
 
     def test_omex_extractCombineArchive4(self):
         tmp_dir = tempfile.mkdtemp()
-        omex.extractCombineArchive(omex_path=OMEX_SHOWCASE, directory=self.test_dir, method="omex")
+        omex.extractCombineArchive(omexPath=OMEX_SHOWCASE, directory=self.test_dir, method="omex")
         files = [f for f in os.listdir(tmp_dir) if os.path.isfile(os.path.join(tmp_dir, f))]
         self.assertIsNotNone(files)
         shutil.rmtree(tmp_dir)
@@ -60,6 +60,10 @@ class UtilsTestCase(unittest.TestCase):
         self.assertTrue(locations[0].endswith("Calzone2007-simulation-figure-1B.xml"))
         # master=False afterwards
         self.assertTrue(locations[1].endswith("Calzone2007-default-simulation.xml"))
+
+    def test_listContents(self):
+        contents = omex.listContents(omexPath=OMEX_SHOWCASE, method="omex")
+        self.assertTrue(len(contents) == 20)
 
 
 if __name__ == "__main__":

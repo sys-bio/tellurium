@@ -78,6 +78,10 @@ class KisaoSedmlTestCase(unittest.TestCase):
         omex_file = os.path.join(self.test_dir, "test.omex")
         te.exportInlineOmex(inline_omex, omex_file)
         omex.extractCombineArchive(omex_file, directory=self.test_dir, method="zip")
+        contents = omex.listContents(omex_file)
+        import pprint
+        pprint.pprint(contents)
+
 
         locations = omex.getLocationsByFormat(omex_file, "sed-ml")
         sedml_files = [os.path.join(self.test_dir, loc) for loc in locations]
@@ -638,3 +642,7 @@ class KisaoSedmlTestCase(unittest.TestCase):
         exp = experiment(self.a1, p)
         self.checkKisaoAlgorithmParameter(exp, 'KISAO:0000488', 'seed', 1234)
         exp.execute()
+
+
+if __name__ == "__main__":
+    unitest.main()

@@ -180,7 +180,7 @@ def executeCombineArchive(omexPath, workingDir=None):
             extractDir = workingDir
 
         # extract
-        omex.extractCombineArchive(omex_path=omexPath, directory=extractDir)
+        omex.extractCombineArchive(omexPath=omexPath, directory=extractDir)
         sedml_locations = omex.getLocationsByFormat(omexPath=omexPath, formatKey="sed-ml")
         if len(sedml_locations) == 0:
             warnings.warn("No SED-ML files in COMBINE archive: {}".format(omexPath))
