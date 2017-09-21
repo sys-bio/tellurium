@@ -8,30 +8,30 @@ Testing the support of KISAO terms for SED-ML simulations.
 """
 from __future__ import absolute_import, print_function
 
+import os
+import shutil
 import tempfile
 import unittest
 import pytest
 
 import matplotlib
-import os
-import shutil
+
 import tellurium as te
 try:
     import tesedml as libsedml
 except ImportError:
     import libsedml
-import phrasedml
 
-# from tellurium.sedml.tephrasedml import experiment
-# import tellurium.sedml.tephrasedml as tephrasedml
+import phrasedml
+from tellurium.sedml import tesedml
+from tellurium.utils import omex
 
 @unittest.skip
 class KisaoSedmlTestCase(unittest.TestCase):
-    def tearDown(self):
-        matplotlib.pyplot.switch_backend(self.backend)
 
     def setUp(self):
         # switch the backend of matplotlib, so plots can be tested
+        self.test_dir = tempfile.mkdtemp()
         self.backend = matplotlib.rcParams['backend']
         matplotlib.pyplot.switch_backend("Agg")
 
@@ -67,28 +67,83 @@ class KisaoSedmlTestCase(unittest.TestCase):
         """
 
     def tearDown(self):
-        self.tep = None
+        matplotlib.pyplot.switch_backend(self.backend)
+        shutil.rmtree(self.test_dir)
+        matplotlib.pyplot.close('all')
 
 
-    def checkKisaoIntegrator(self, exp, kisao, name):
+    def checkKisaoIntegrator(self, inline_omex, kisao, name):
         """ Helper function for checking kisao integrator. """
+
+        omex_file = os.path.join(self.test_dir, "test.omex")
+        te.exportInlineOmex(inline_omex, omex_file)
+        omex.extractCombineArchive(omex_file, directory=self.test_dir, method="zip")
+
+        locations = omex.getLocationsByFormat(omex_file, "sed-ml")
+        sedml_files = [os.path.join(self.test_dir, loc) for loc in locations]
+
+        sedml_file = sedml_files[0]
+        print('File:', sedml_file)
+
+        # check the SED-ML
+        doc = libsedml.readSedMLFromString(sedml_file)
+        print(doc)
+        test_str = libsedml.writeSedMLToString(doc)
+        print(test_str)
+
+        simulation = doc.getSimulation('sim0')
+        algorithm = simulation.getAlgorithm()
+        self.assertEqual(algorithm.getKisaoID(), kisao)
+
+        # check the generated code
+        pystr = tesedml.sedmlToPython(sedml_file, workingDir=self.test_dir)
+
+        # is integrator/solver set in python code
+        if simulation.getTypeCode() is libsedml.SEDML_SIMULATION_STEADYSTATE:
+            self.assertTrue(".setSteadyStateSolver('{}')".format(name) in pystr)
+        else:
+            self.assertTrue(".setIntegrator('{}')".format(name) in pystr)
+
+
+    def checkKisaoAlgorithmParameter(self, exp, kisao, name, value):
+        """ Helper function for checking kisao parameter. """
         p = exp.phrasedmlList[0]
 
-        # is kisao correct in SedDocument
+        # check that set AlgorithmParameter set correctly in SED-ML
         phrasedml.clearReferencedSBML()
         exp._setReferencedSBML(p)
         sedml = exp._phrasedmlToSEDML(p)
         doc = libsedml.readSedMLFromString(sedml)
         simulation = doc.getSimulation('sim0')
         algorithm = simulation.getAlgorithm()
-        self.assertEqual(algorithm.getKisaoID(), kisao)
+        pdict = {p.getKisaoID(): p for p in algorithm.getListOfAlgorithmParameters()}
 
-        # is integrator/solver set in python code
-        pystr = exp._toPython(p)
-        if simulation.getTypeCode() is libsedml.SEDML_SIMULATION_STEADYSTATE:
-            self.assertTrue(".setSteadyStateSolver('{}')".format(name) in pystr)
+        self.assertTrue(kisao in pdict)
+        pkey = SEDMLCodeFactory.algorithmParameterToParameterKey(pdict[kisao])
+
+        if pkey.dtype == str:
+            self.assertEqual(pkey.value, value)
         else:
-            self.assertTrue(".setIntegrator('{}')".format(name) in pystr)
+            # numerical parameter
+            self.assertAlmostEqual(float(pkey.value), value)
+
+        # check that integrator is set in python code
+        pystr = exp._toPython(p)
+
+        print(simulation.getElementName())
+        print(pystr)
+        if simulation.getTypeCode() is libsedml.SEDML_SIMULATION_STEADYSTATE:
+            if pkey.dtype == str:
+                self.assertTrue(".steadyStateSolver.setValue('{}', '{}')".format(name, value) in pystr)
+            else:
+                # numerical parameter
+                self.assertTrue(".steadyStateSolver.setValue('{}', {})".format(name, value) in pystr)
+        else:
+            if pkey.dtype == str:
+                self.assertTrue(".integrator.setValue('{}', '{}')".format(name, value) in pystr)
+            else:
+                # numerical parameter
+                self.assertTrue(".integrator.setValue('{}', {})".format(name, value) in pystr)
 
 
     def test_kisao_cvode_1(self):
@@ -99,9 +154,11 @@ class KisaoSedmlTestCase(unittest.TestCase):
             task0 = run sim0 on model0
             plot task0.time vs task0.S1
         """
-        exp = experiment(self.a1, p)
-        self.checkKisaoIntegrator(exp, 'KISAO:0000019', 'cvode')
-        exp.execute()
+        inline_omex = '\n'.join([self.a1, p])
+        # check kisao
+        self.checkKisaoIntegrator(inline_omex, 'KISAO:0000019', 'cvode')
+        # check execute
+        te.executeInlineOmex(inline_omex)
 
 
     def test_kisao_cvode_2(self):
@@ -267,48 +324,6 @@ class KisaoSedmlTestCase(unittest.TestCase):
         exp = experiment(self.a1, p)
         self.checkKisaoIntegrator(exp, 'KISAO:0000435', 'rk45')
         exp.execute()
-
-
-    def checkKisaoAlgorithmParameter(self, exp, kisao, name, value):
-        """ Helper function for checking kisao parameter. """
-        p = exp.phrasedmlList[0]
-
-        # check that set AlgorithmParameter set correctly in SED-ML
-        phrasedml.clearReferencedSBML()
-        exp._setReferencedSBML(p)
-        sedml = exp._phrasedmlToSEDML(p)
-        doc = libsedml.readSedMLFromString(sedml)
-        simulation = doc.getSimulation('sim0')
-        algorithm = simulation.getAlgorithm()
-        pdict = {p.getKisaoID(): p for p in algorithm.getListOfAlgorithmParameters()}
-
-        self.assertTrue(kisao in pdict)
-        pkey = SEDMLCodeFactory.algorithmParameterToParameterKey(pdict[kisao])
-
-        if pkey.dtype == str:
-            self.assertEqual(pkey.value, value)
-        else:
-            # numerical parameter
-            self.assertAlmostEqual(float(pkey.value), value)
-
-        # check that integrator is set in python code
-        pystr = exp._toPython(p)
-
-        print(simulation.getElementName())
-        print(pystr)
-        if simulation.getTypeCode() is libsedml.SEDML_SIMULATION_STEADYSTATE:
-            if pkey.dtype == str:
-                self.assertTrue(".steadyStateSolver.setValue('{}', '{}')".format(name, value) in pystr)
-            else:
-                # numerical parameter
-                self.assertTrue(".steadyStateSolver.setValue('{}', {})".format(name, value) in pystr)
-        else:
-            if pkey.dtype == str:
-                self.assertTrue(".integrator.setValue('{}', '{}')".format(name, value) in pystr)
-            else:
-                # numerical parameter
-                self.assertTrue(".integrator.setValue('{}', {})".format(name, value) in pystr)
-
 
     def test_kisao_relative_tolerance_1(self):
         p = """

@@ -131,17 +131,14 @@ except ImportError:
 ######################################################################################################################
 # Interface functions
 ######################################################################################################################
-
-def sedmlToPython(inputStr):
+def sedmlToPython(inputStr, workingDir=None):
     """ Convert sedml file to python code.
 
-    :param inputstring: full path name to SedML model or SED-ML string
-    :type inputstring: path
-    :return: contents
-    :rtype:
+    :param inputStr: full path name to SedML model or SED-ML string
+    :type inputStr: path
+    :return: generated python code
     """
-    # FIXME: allow working directories (! the model & input files must be changed)
-    factory = SEDMLCodeFactory(inputStr)
+    factory = SEDMLCodeFactory(inputStr, workingDir=workingDir)
     return factory.toPython()
 
 
