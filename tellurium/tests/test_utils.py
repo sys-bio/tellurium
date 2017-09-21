@@ -53,6 +53,14 @@ class UtilsTestCase(unittest.TestCase):
         locations = omex.getLocationsByFormat(omexPath=OMEX_SHOWCASE, formatKey="cellml")
         self.assertEqual(len(locations), 1)
 
+    def test_getLocationsByFormat4(self):
+        locations = omex.getLocationsByFormat(omexPath=OMEX_SHOWCASE, formatKey="sed-ml")
+        self.assertEqual(len(locations), 2)
+        # master=True file first
+        self.assertTrue(locations[0].endswith("Calzone2007-simulation-figure-1B.xml"))
+        # master=False afterwards
+        self.assertTrue(locations[1].endswith("Calzone2007-default-simulation.xml"))
+
 
 if __name__ == "__main__":
     unittest.main()

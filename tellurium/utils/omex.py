@@ -48,6 +48,7 @@ def getLocationsByFormat(omexPath, formatKey=None):
     """ Returns locations to files with given format in the archive.
 
     Uses the libcombine KnownFormats for formatKey, e.g., 'sed-ml' or 'sbml'.
+    Files which have a master=True have higher priority and are listed first.
 
     :param omexPath:
     :param formatKey:
@@ -56,7 +57,9 @@ def getLocationsByFormat(omexPath, formatKey=None):
     if not formatKey:
         raise ValueError("Format must be specified.")
 
+    locations_master = []
     locations = []
+
     omex = libcombine.CombineArchive()
     if omex.initializeFromArchive(omexPath) is None:
         raise IOError("Invalid Combine Archive: {}", omexPath)
@@ -64,8 +67,13 @@ def getLocationsByFormat(omexPath, formatKey=None):
     for i in range(omex.getNumEntries()):
         entry = omex.getEntry(i)
         format = entry.getFormat()
+        master = entry.getMaster()
         if libcombine.KnownFormats.isFormat(formatKey, format):
-            locations.append(entry.getLocation())
+            loc = entry.getLocation()
+            if (master is None) or (master is False):
+                locations.append(loc)
+            else:
+                locations_master.append(loc)
     omex.cleanUp()
 
-    return locations
+    return locations_master + locations
