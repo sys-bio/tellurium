@@ -7,6 +7,10 @@ Notebook Walkthrough
 
 If you have not already done so, download and install the `Tellurium notebook front-end <https://github.com/sys-bio/tellurium#front-end-1-tellurium-notebook>`_ for your platform (Windows, Mac, and Linux supported).
 
+* **TODO**: Add how to use Antimony & inline OMEX cells.
+* **TODO**: Show how to search/replace with CM and search word boundaries.
+* **TODO**: Show how to access example notebooks.
+
 Notebook Troubleshooting
 ========================
 
