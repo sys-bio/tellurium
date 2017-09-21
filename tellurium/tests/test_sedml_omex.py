@@ -19,7 +19,7 @@ from . import helpers
 # -------------------------------------------------------------
 # Combine Archive test files
 # -------------------------------------------------------------
-from tellurium.tests.testdata import OMEX_SHOWCASE, OMEX_TEST_DIR
+from tellurium.tests.testdata import OMEX_TEST_DIR
 
 def f_omex_filter(filename):
     return filename.endswith(".omex") or filename.endswith(".sedx")
@@ -68,25 +68,6 @@ OMEX_EXCLUDED = [
 
 ]
 OMEX_EXCLUDED = [os.path.join(OMEX_TEST_DIR, p) for p in OMEX_EXCLUDED ]
-
-# -------------------------------------------------------------
-
-
-class OmexSedmlTestCase(unittest.TestCase):
-    def setUp(self):
-        # Create a temporary directory
-        self.test_dir = tempfile.mkdtemp()
-        self.backend = matplotlib.rcParams['backend']
-        matplotlib.pyplot.switch_backend("Agg")
-
-    def tearDown(self):
-        # Remove the directory after the test
-        shutil.rmtree(self.test_dir)
-        matplotlib.pyplot.switch_backend(self.backend)
-        matplotlib.pyplot.close('all')
-
-    def test_omex_executeCombineArchive(self):
-        tesedml.executeCombineArchive(omexPath=OMEX_SHOWCASE, workingDir=self.test_dir)
 
 
 # ----------------------------------------------------------------

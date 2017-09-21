@@ -97,6 +97,8 @@ Please let changes to this file be reviewed and make sure that all SED-ML relate
 """
 from __future__ import print_function, division, absolute_import
 
+import tempfile
+import shutil
 import traceback
 import os.path
 import warnings
@@ -155,6 +157,28 @@ def executeSEDML(inputStr, workingDir=None):
     # execute the sedml
     factory = SEDMLCodeFactory(inputStr, workingDir=workingDir)
     factory.executePython()
+
+
+def combineArchiveToPython(omexPath):
+    """ All python code generated from given combine archive.
+
+    :param omexPath:
+    :return: dictionary of { sedml_location: pycode }
+    """
+    tmp_dir = tempfile.mkdtemp()
+    pycode = {}
+    try:
+        omex.extractCombineArchive(omexPath, directory=tmp_dir, method="zip")
+        locations = omex.getLocationsByFormat(omexPath, "sed-ml")
+        sedml_files = [os.path.join(tmp_dir, loc) for loc in locations]
+
+        for k, sedml_file in enumerate(sedml_files):
+            pystr = sedmlToPython(sedml_file)
+            pycode[locations[k]] = pystr
+
+    finally:
+        shutil.rmtree(tmp_dir)
+    return pycode
 
 
 def executeCombineArchive(omexPath, workingDir=None):

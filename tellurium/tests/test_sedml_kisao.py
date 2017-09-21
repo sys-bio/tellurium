@@ -13,7 +13,7 @@ import shutil
 import tempfile
 import unittest
 import pytest
-
+import six
 import matplotlib
 
 import tellurium as te
@@ -22,11 +22,10 @@ try:
 except ImportError:
     import libsedml
 
-import phrasedml
 from tellurium.sedml import tesedml
 from tellurium.utils import omex
 
-@unittest.skip
+
 class KisaoSedmlTestCase(unittest.TestCase):
 
     def setUp(self):
@@ -78,52 +77,48 @@ class KisaoSedmlTestCase(unittest.TestCase):
         omex_file = os.path.join(self.test_dir, "test.omex")
         te.exportInlineOmex(inline_omex, omex_file)
         omex.extractCombineArchive(omex_file, directory=self.test_dir, method="zip")
-        contents = omex.listContents(omex_file)
-        import pprint
-        pprint.pprint(contents)
-
 
         locations = omex.getLocationsByFormat(omex_file, "sed-ml")
         sedml_files = [os.path.join(self.test_dir, loc) for loc in locations]
-
         sedml_file = sedml_files[0]
-        print('File:', sedml_file)
-
         # check the SED-ML
-        doc = libsedml.readSedMLFromString(sedml_file)
-        print(doc)
-        test_str = libsedml.writeSedMLToString(doc)
-        print(test_str)
+        doc = libsedml.readSedMLFromFile(sedml_file)
+        # test_str = libsedml.writeSedMLToString(doc)
+        # print(test_str)
 
         simulation = doc.getSimulation('sim0')
         algorithm = simulation.getAlgorithm()
-        self.assertEqual(algorithm.getKisaoID(), kisao)
+        assert algorithm.getKisaoID() == kisao
 
         # check the generated code
         pystr = tesedml.sedmlToPython(sedml_file, workingDir=self.test_dir)
 
         # is integrator/solver set in python code
         if simulation.getTypeCode() is libsedml.SEDML_SIMULATION_STEADYSTATE:
-            self.assertTrue(".setSteadyStateSolver('{}')".format(name) in pystr)
+            assert ".setSteadyStateSolver('{}')".format(name) in pystr
         else:
-            self.assertTrue(".setIntegrator('{}')".format(name) in pystr)
+            assert ".setIntegrator('{}')".format(name) in pystr
 
 
-    def checkKisaoAlgorithmParameter(self, exp, kisao, name, value):
+    def checkKisaoAlgorithmParameter(self, inline_omex, kisao, name, value):
         """ Helper function for checking kisao parameter. """
-        p = exp.phrasedmlList[0]
 
         # check that set AlgorithmParameter set correctly in SED-ML
-        phrasedml.clearReferencedSBML()
-        exp._setReferencedSBML(p)
-        sedml = exp._phrasedmlToSEDML(p)
-        doc = libsedml.readSedMLFromString(sedml)
+        omex_file = os.path.join(self.test_dir, "test.omex")
+        te.exportInlineOmex(inline_omex, omex_file)
+        omex.extractCombineArchive(omex_file, directory=self.test_dir, method="zip")
+
+        locations = omex.getLocationsByFormat(omex_file, "sed-ml")
+        sedml_files = [os.path.join(self.test_dir, loc) for loc in locations]
+        sedml_file = sedml_files[0]
+
+        doc = libsedml.readSedMLFromFile(sedml_file)
         simulation = doc.getSimulation('sim0')
         algorithm = simulation.getAlgorithm()
         pdict = {p.getKisaoID(): p for p in algorithm.getListOfAlgorithmParameters()}
 
         self.assertTrue(kisao in pdict)
-        pkey = SEDMLCodeFactory.algorithmParameterToParameterKey(pdict[kisao])
+        pkey = tesedml.SEDMLCodeFactory.algorithmParameterToParameterKey(pdict[kisao])
 
         if pkey.dtype == str:
             self.assertEqual(pkey.value, value)
@@ -132,7 +127,7 @@ class KisaoSedmlTestCase(unittest.TestCase):
             self.assertAlmostEqual(float(pkey.value), value)
 
         # check that integrator is set in python code
-        pystr = exp._toPython(p)
+        pystr = tesedml.sedmlToPython(sedml_file, workingDir=self.test_dir)
 
         print(simulation.getElementName())
         print(pystr)
@@ -149,7 +144,6 @@ class KisaoSedmlTestCase(unittest.TestCase):
                 # numerical parameter
                 self.assertTrue(".integrator.setValue('{}', {})".format(name, value) in pystr)
 
-
     def test_kisao_cvode_1(self):
         p = """
             model0 = model "m1"
@@ -159,11 +153,8 @@ class KisaoSedmlTestCase(unittest.TestCase):
             plot task0.time vs task0.S1
         """
         inline_omex = '\n'.join([self.a1, p])
-        # check kisao
         self.checkKisaoIntegrator(inline_omex, 'KISAO:0000019', 'cvode')
-        # check execute
         te.executeInlineOmex(inline_omex)
-
 
     def test_kisao_cvode_2(self):
         p = """
@@ -173,10 +164,9 @@ class KisaoSedmlTestCase(unittest.TestCase):
             task0 = run sim0 on model0
             plot task0.time vs task0.S1
         """
-        exp = experiment(self.a1, p)
-        self.checkKisaoIntegrator(exp, 'KISAO:0000019', 'cvode')
-        exp.execute()
-
+        inline_omex = '\n'.join([self.a1, p])
+        self.checkKisaoIntegrator(inline_omex, 'KISAO:0000019', 'cvode')
+        te.executeInlineOmex(inline_omex)
 
     def test_kisao_cvode_3(self):
         """ Default of uniform is cvode. """
@@ -186,10 +176,9 @@ class KisaoSedmlTestCase(unittest.TestCase):
             task0 = run sim0 on model0
             plot task0.time vs task0.S1
         """
-        exp = experiment(self.a1, p)
-        self.checkKisaoIntegrator(exp, 'KISAO:0000019', 'cvode')
-        exp.execute()
-
+        inline_omex = '\n'.join([self.a1, p])
+        self.checkKisaoIntegrator(inline_omex, 'KISAO:0000019', 'cvode')
+        te.executeInlineOmex(inline_omex)
 
     def test_kisao_cvode_4(self):
         """ Default of onestep is cvode. """
@@ -199,10 +188,9 @@ class KisaoSedmlTestCase(unittest.TestCase):
             task0 = run sim0 on model0
             plot task0.time vs task0.S1
         """
-        exp = experiment(self.a1, p)
-        self.checkKisaoIntegrator(exp, 'KISAO:0000019', 'cvode')
-        exp.execute()
-
+        inline_omex = '\n'.join([self.a1, p])
+        self.checkKisaoIntegrator(inline_omex, 'KISAO:0000019', 'cvode')
+        te.executeInlineOmex(inline_omex)
 
     def test_kisao_gillespie_1(self):
         p = """
@@ -212,10 +200,9 @@ class KisaoSedmlTestCase(unittest.TestCase):
             task0 = run sim0 on model0
             plot task0.time vs task0.S1
         """
-        exp = experiment(self.a1, p)
-        self.checkKisaoIntegrator(exp, 'KISAO:0000241', 'gillespie')
-        exp.execute()
-
+        inline_omex = '\n'.join([self.a1, p])
+        self.checkKisaoIntegrator(inline_omex, 'KISAO:0000241', 'gillespie')
+        te.executeInlineOmex(inline_omex)
 
     def test_kisao_gillespie_2(self):
         p = """
@@ -225,10 +212,9 @@ class KisaoSedmlTestCase(unittest.TestCase):
             task0 = run sim0 on model0
             plot task0.time vs task0.S1
         """
-        exp = experiment(self.a1, p)
-        self.checkKisaoIntegrator(exp, 'KISAO:0000241', 'gillespie')
-        exp.execute()
-
+        inline_omex = '\n'.join([self.a1, p])
+        self.checkKisaoIntegrator(inline_omex, 'KISAO:0000241', 'gillespie')
+        te.executeInlineOmex(inline_omex)
 
     def test_kisao_gillespie_3(self):
         """ Default of uniform_stochastic is gillespie."""
@@ -238,10 +224,9 @@ class KisaoSedmlTestCase(unittest.TestCase):
             task0 = run sim0 on model0
             plot task0.time vs task0.S1
         """
-        exp = experiment(self.a1, p)
-        self.checkKisaoIntegrator(exp, 'KISAO:0000241', 'gillespie')
-        exp.execute()
-
+        inline_omex = '\n'.join([self.a1, p])
+        self.checkKisaoIntegrator(inline_omex, 'KISAO:0000241', 'gillespie')
+        te.executeInlineOmex(inline_omex)
 
     def test_kisao_rk4_1(self):
         p = """
@@ -251,10 +236,9 @@ class KisaoSedmlTestCase(unittest.TestCase):
             task0 = run sim0 on model0
             plot task0.time vs task0.S1
         """
-        exp = experiment(self.a1, p)
-        self.checkKisaoIntegrator(exp, 'KISAO:0000032', 'rk4')
-        exp.execute()
-
+        inline_omex = '\n'.join([self.a1, p])
+        self.checkKisaoIntegrator(inline_omex, 'KISAO:0000032', 'rk4')
+        te.executeInlineOmex(inline_omex)
 
     def test_kisao_rk4_2(self):
         p = """
@@ -264,12 +248,11 @@ class KisaoSedmlTestCase(unittest.TestCase):
             task0 = run sim0 on model0
             plot task0.time vs task0.S1
         """
-        exp = experiment(self.a1, p)
-        self.checkKisaoIntegrator(exp, 'KISAO:0000032', 'rk4')
-        exp.execute()
+        inline_omex = '\n'.join([self.a1, p])
+        self.checkKisaoIntegrator(inline_omex, 'KISAO:0000032', 'rk4')
+        te.executeInlineOmex(inline_omex)
 
 
-    # TODO: write tests
     def test_kisao_bdf(self):
         p = """
             model0 = model "m1"
@@ -278,10 +261,14 @@ class KisaoSedmlTestCase(unittest.TestCase):
             task0 = run sim0 on model0
             plot task0.time vs task0.S1
         """
-        exp = experiment(self.a1, p)
-        self.checkKisaoIntegrator(exp, 'KISAO:0000288', 'cvode')
-        exp.execute()
-        pycode = exp._toPython(p)
+        inline_omex = '\n'.join([self.a1, p])
+        self.checkKisaoIntegrator(inline_omex, 'KISAO:0000288', 'cvode')
+        te.executeInlineOmex(inline_omex)
+
+        omex_file = os.path.join(self.test_dir, "test.omex")
+        te.exportInlineOmex(inline_omex, omex_file)
+        pycode_dict = tesedml.combineArchiveToPython(omex_file)
+        pycode = six.next(six.itervalues(pycode_dict))
         print(pycode)
         self.assertTrue("integrator.setValue('stiff', True)" in pycode)
 
@@ -294,10 +281,14 @@ class KisaoSedmlTestCase(unittest.TestCase):
             task0 = run sim0 on model0
             plot task0.time vs task0.S1
         """
-        exp = experiment(self.a1, p)
-        self.checkKisaoIntegrator(exp, 'KISAO:0000280', 'cvode')
-        exp.execute()
-        pycode = exp._toPython(p)
+        inline_omex = '\n'.join([self.a1, p])
+        self.checkKisaoIntegrator(inline_omex, 'KISAO:0000280', 'cvode')
+        te.executeInlineOmex(inline_omex)
+
+        omex_file = os.path.join(self.test_dir, "test.omex")
+        te.exportInlineOmex(inline_omex, omex_file)
+        pycode_dict = tesedml.combineArchiveToPython(omex_file)
+        pycode = six.next(six.itervalues(pycode_dict))
         print(pycode)
         self.assertTrue("integrator.setValue('stiff', False)" in pycode)
 
@@ -311,9 +302,9 @@ class KisaoSedmlTestCase(unittest.TestCase):
             task0 = run sim0 on model0
             plot task0.time vs task0.S1
         """
-        exp = experiment(self.a1, p)
-        self.checkKisaoIntegrator(exp, 'KISAO:0000435', 'rk45')
-        exp.execute()
+        inline_omex = '\n'.join([self.a1, p])
+        self.checkKisaoIntegrator(inline_omex, 'KISAO:0000435', 'rk45')
+        te.executeInlineOmex(inline_omex)
 
 
     @pytest.mark.skip(reason="bug in roadrunner")
@@ -325,9 +316,9 @@ class KisaoSedmlTestCase(unittest.TestCase):
             task0 = run sim0 on model0
             plot task0.time vs task0.S1
         """
-        exp = experiment(self.a1, p)
-        self.checkKisaoIntegrator(exp, 'KISAO:0000435', 'rk45')
-        exp.execute()
+        inline_omex = '\n'.join([self.a1, p])
+        self.checkKisaoIntegrator(inline_omex, 'KISAO:0000435', 'rk45')
+        te.executeInlineOmex(inline_omex)
 
     def test_kisao_relative_tolerance_1(self):
         p = """
@@ -337,10 +328,9 @@ class KisaoSedmlTestCase(unittest.TestCase):
             task0 = run sim0 on model0
             plot task0.time vs task0.S1
         """
-        exp = experiment(self.a1, p)
-        self.checkKisaoAlgorithmParameter(exp, 'KISAO:0000209', 'relative_tolerance', 1E-8)
-        exp.execute()
-
+        inline_omex = '\n'.join([self.a1, p])
+        self.checkKisaoAlgorithmParameter(inline_omex, 'KISAO:0000209', 'relative_tolerance', 1E-8)
+        te.executeInlineOmex(inline_omex)
 
     def test_kisao_relative_tolerance_2(self):
         p = """
@@ -350,10 +340,9 @@ class KisaoSedmlTestCase(unittest.TestCase):
             task0 = run sim0 on model0
             plot task0.time vs task0.S1
         """
-        exp = experiment(self.a1, p)
-        self.checkKisaoAlgorithmParameter(exp, 'KISAO:0000209', 'relative_tolerance', 1E-8)
-        exp.execute()
-
+        inline_omex = '\n'.join([self.a1, p])
+        self.checkKisaoAlgorithmParameter(inline_omex, 'KISAO:0000209', 'relative_tolerance', 1E-8)
+        te.executeInlineOmex(inline_omex)
 
     def test_kisao_absolute_tolerance_1(self):
         p = """
@@ -363,10 +352,9 @@ class KisaoSedmlTestCase(unittest.TestCase):
             task0 = run sim0 on model0
             plot task0.time vs task0.S1
         """
-        exp = experiment(self.a1, p)
-        self.checkKisaoAlgorithmParameter(exp, 'KISAO:0000211', 'absolute_tolerance', 1E-8)
-        exp.execute()
-
+        inline_omex = '\n'.join([self.a1, p])
+        self.checkKisaoAlgorithmParameter(inline_omex, 'KISAO:0000211', 'absolute_tolerance', 1E-8)
+        te.executeInlineOmex(inline_omex)
 
     def test_kisao_absolute_tolerance_2(self):
         p = """
@@ -376,10 +364,9 @@ class KisaoSedmlTestCase(unittest.TestCase):
             task0 = run sim0 on model0
             plot task0.time vs task0.S1
         """
-        exp = experiment(self.a1, p)
-        self.checkKisaoAlgorithmParameter(exp, 'KISAO:0000211', 'absolute_tolerance', 1E-8)
-        exp.execute()
-
+        inline_omex = '\n'.join([self.a1, p])
+        self.checkKisaoAlgorithmParameter(inline_omex, 'KISAO:0000211', 'absolute_tolerance', 1E-8)
+        te.executeInlineOmex(inline_omex)
 
     def test_kisao_maximum_bdf_order_1(self):
         p = """
@@ -389,10 +376,9 @@ class KisaoSedmlTestCase(unittest.TestCase):
             task0 = run sim0 on model0
             plot task0.time vs task0.S1
         """
-        exp = experiment(self.a1, p)
-        self.checkKisaoAlgorithmParameter(exp, 'KISAO:0000220', 'maximum_bdf_order', 4)
-        exp.execute()
-
+        inline_omex = '\n'.join([self.a1, p])
+        self.checkKisaoAlgorithmParameter(inline_omex, 'KISAO:0000220', 'maximum_bdf_order', 4)
+        te.executeInlineOmex(inline_omex)
 
     def test_kisao_maximum_bdf_order_2(self):
         p = """
@@ -402,10 +388,9 @@ class KisaoSedmlTestCase(unittest.TestCase):
             task0 = run sim0 on model0
             plot task0.time vs task0.S1
         """
-        exp = experiment(self.a1, p)
-        self.checkKisaoAlgorithmParameter(exp, 'KISAO:0000220', 'maximum_bdf_order', 4)
-        exp.execute()
-
+        inline_omex = '\n'.join([self.a1, p])
+        self.checkKisaoAlgorithmParameter(inline_omex, 'KISAO:0000220', 'maximum_bdf_order', 4)
+        te.executeInlineOmex(inline_omex)
 
     def test_kisao_maximum_adams_order_1(self):
         p = """
@@ -415,10 +400,9 @@ class KisaoSedmlTestCase(unittest.TestCase):
             task0 = run sim0 on model0
             plot task0.time vs task0.S1
         """
-        exp = experiment(self.a1, p)
-        self.checkKisaoAlgorithmParameter(exp, 'KISAO:0000219', 'maximum_adams_order', 5)
-        exp.execute()
-
+        inline_omex = '\n'.join([self.a1, p])
+        self.checkKisaoAlgorithmParameter(inline_omex, 'KISAO:0000219', 'maximum_adams_order', 5)
+        te.executeInlineOmex(inline_omex)
 
     def test_kisao_maximum_adams_order_2(self):
         p = """
@@ -428,10 +412,9 @@ class KisaoSedmlTestCase(unittest.TestCase):
             task0 = run sim0 on model0
             plot task0.time vs task0.S1
         """
-        exp = experiment(self.a1, p)
-        self.checkKisaoAlgorithmParameter(exp, 'KISAO:0000219', 'maximum_adams_order', 5)
-        exp.execute()
-
+        inline_omex = '\n'.join([self.a1, p])
+        self.checkKisaoAlgorithmParameter(inline_omex, 'KISAO:0000219', 'maximum_adams_order', 5)
+        te.executeInlineOmex(inline_omex)
 
     def test_kisao_maximum_num_steps_1(self):
         p = """
@@ -441,10 +424,9 @@ class KisaoSedmlTestCase(unittest.TestCase):
             task0 = run sim0 on model0
             plot task0.time vs task0.S1
         """
-        exp = experiment(self.a1, p)
-        self.checkKisaoAlgorithmParameter(exp, 'KISAO:0000415', 'maximum_num_steps', 10000)
-        exp.execute()
-
+        inline_omex = '\n'.join([self.a1, p])
+        self.checkKisaoAlgorithmParameter(inline_omex, 'KISAO:0000415', 'maximum_num_steps', 10000)
+        te.executeInlineOmex(inline_omex)
 
     def test_kisao_maximum_num_steps_2(self):
         p = """
@@ -454,10 +436,9 @@ class KisaoSedmlTestCase(unittest.TestCase):
             task0 = run sim0 on model0
             plot task0.time vs task0.S1
         """
-        exp = experiment(self.a1, p)
-        self.checkKisaoAlgorithmParameter(exp, 'KISAO:0000415', 'maximum_num_steps', 10000)
-        exp.execute()
-
+        inline_omex = '\n'.join([self.a1, p])
+        self.checkKisaoAlgorithmParameter(inline_omex, 'KISAO:0000415', 'maximum_num_steps', 10000)
+        te.executeInlineOmex(inline_omex)
 
     def test_kisao_maximum_time_step_1(self):
         p = """
@@ -467,10 +448,9 @@ class KisaoSedmlTestCase(unittest.TestCase):
             task0 = run sim0 on model0
             plot task0.time vs task0.S1
         """
-        exp = experiment(self.a1, p)
-        self.checkKisaoAlgorithmParameter(exp, 'KISAO:0000467', 'maximum_time_step', 1.0)
-        exp.execute()
-
+        inline_omex = '\n'.join([self.a1, p])
+        self.checkKisaoAlgorithmParameter(inline_omex, 'KISAO:0000467', 'maximum_time_step', 1.0)
+        te.executeInlineOmex(inline_omex)
 
     def test_kisao_maximum_time_step_2(self):
         p = """
@@ -480,12 +460,11 @@ class KisaoSedmlTestCase(unittest.TestCase):
             task0 = run sim0 on model0
             plot task0.time vs task0.S1
         """
-        exp = experiment(self.a1, p)
-        self.checkKisaoAlgorithmParameter(exp, 'KISAO:0000467', 'maximum_time_step', 1.0)
-        exp.execute()
+        inline_omex = '\n'.join([self.a1, p])
+        self.checkKisaoAlgorithmParameter(inline_omex, 'KISAO:0000467', 'maximum_time_step', 1.0)
+        te.executeInlineOmex(inline_omex)
 
-
-    @pytest.mark.skip(reason="bug in roadrunner")
+    # @pytest.mark.skip(reason="bug in roadrunner")
     def test_kisao_minimum_time_step_1(self):
         p = """
             model0 = model "m1"
@@ -494,12 +473,11 @@ class KisaoSedmlTestCase(unittest.TestCase):
             task0 = run sim0 on model0
             plot task0.time vs task0.S1
         """
-        exp = te.experiment(self.a1, p)
-        self.checkKisaoAlgorithmParameter(exp, 'KISAO:0000485', 'minimum_time_step', 1E-6)
-        exp.execute()
+        inline_omex = '\n'.join([self.a1, p])
+        self.checkKisaoAlgorithmParameter(inline_omex, 'KISAO:0000485', 'minimum_time_step', 1E-6)
+        te.executeInlineOmex(inline_omex)
 
-
-    @pytest.mark.skip(reason="bug in roadrunner")
+    # @pytest.mark.skip(reason="bug in roadrunner")
     def test_kisao_minimum_time_step_2(self):
         p = """
             model0 = model "m1"
@@ -508,10 +486,9 @@ class KisaoSedmlTestCase(unittest.TestCase):
             task0 = run sim0 on model0
             plot task0.time vs task0.S1
         """
-        exp = te.experiment(self.a1, p)
-        self.checkKisaoAlgorithmParameter(exp, 'KISAO:0000485', 'minimum_time_step', 1E-6)
-        exp.execute()
-
+        inline_omex = '\n'.join([self.a1, p])
+        self.checkKisaoAlgorithmParameter(inline_omex, 'KISAO:0000485', 'minimum_time_step', 1E-6)
+        te.executeInlineOmex(inline_omex)
 
     def test_kisao_initial_time_step_1(self):
         p = """
@@ -521,10 +498,9 @@ class KisaoSedmlTestCase(unittest.TestCase):
             task0 = run sim0 on model0
             plot task0.time vs task0.S1
         """
-        exp = experiment(self.a1, p)
-        self.checkKisaoAlgorithmParameter(exp, 'KISAO:0000332', 'initial_time_step', 0.01)
-        exp.execute()
-
+        inline_omex = '\n'.join([self.a1, p])
+        self.checkKisaoAlgorithmParameter(inline_omex, 'KISAO:0000332', 'initial_time_step', 0.01)
+        te.executeInlineOmex(inline_omex)
 
     def test_kisao_initial_time_step_2(self):
         p = """
@@ -534,10 +510,9 @@ class KisaoSedmlTestCase(unittest.TestCase):
             task0 = run sim0 on model0
             plot task0.time vs task0.S1
         """
-        exp = experiment(self.a1, p)
-        self.checkKisaoAlgorithmParameter(exp, 'KISAO:0000332', 'initial_time_step', 0.01)
-        exp.execute()
-
+        inline_omex = '\n'.join([self.a1, p])
+        self.checkKisaoAlgorithmParameter(inline_omex, 'KISAO:0000332', 'initial_time_step', 0.01)
+        te.executeInlineOmex(inline_omex)
 
     def test_kisao_variable_step_size_1(self):
         p = """
@@ -547,10 +522,9 @@ class KisaoSedmlTestCase(unittest.TestCase):
             task0 = run sim0 on model0
             plot task0.time vs task0.S1
         """
-        exp = experiment(self.a1, p)
-        self.checkKisaoAlgorithmParameter(exp, 'KISAO:0000107', 'variable_step_size', True)
-        exp.execute()
-
+        inline_omex = '\n'.join([self.a1, p])
+        self.checkKisaoAlgorithmParameter(inline_omex, 'KISAO:0000107', 'variable_step_size', True)
+        te.executeInlineOmex(inline_omex)
 
     def test_kisao_variable_step_size_2(self):
         p = """
@@ -560,10 +534,9 @@ class KisaoSedmlTestCase(unittest.TestCase):
             task0 = run sim0 on model0
             plot task0.time vs task0.S1
         """
-        exp = experiment(self.a1, p)
-        self.checkKisaoAlgorithmParameter(exp, 'KISAO:0000107', 'variable_step_size', True)
-        exp.execute()
-
+        inline_omex = '\n'.join([self.a1, p])
+        self.checkKisaoAlgorithmParameter(inline_omex, 'KISAO:0000107', 'variable_step_size', True)
+        te.executeInlineOmex(inline_omex)
 
     def test_kisao_maximum_iterations_1(self):
         p = """
@@ -573,10 +546,9 @@ class KisaoSedmlTestCase(unittest.TestCase):
             task0 = run sim0 on model0
             plot task0.time vs task0.S1
         """
-        exp = experiment(self.a1, p)
-        self.checkKisaoAlgorithmParameter(exp, 'KISAO:0000486', 'maximum_iterations', 10)
-        exp.execute()
-
+        inline_omex = '\n'.join([self.a1, p])
+        self.checkKisaoAlgorithmParameter(inline_omex, 'KISAO:0000486', 'maximum_iterations', 10)
+        te.executeInlineOmex(inline_omex)
 
     def test_kisao_maximum_iterations_2(self):
         p = """
@@ -586,10 +558,9 @@ class KisaoSedmlTestCase(unittest.TestCase):
             task0 = run sim0 on model0
             plot task0.time vs task0.S1
         """
-        exp = experiment(self.a1, p)
-        self.checkKisaoAlgorithmParameter(exp, 'KISAO:0000486', 'maximum_iterations', 10)
-        exp.execute()
-
+        inline_omex = '\n'.join([self.a1, p])
+        self.checkKisaoAlgorithmParameter(inline_omex, 'KISAO:0000486', 'maximum_iterations', 10)
+        te.executeInlineOmex(inline_omex)
 
     def test_kisao_minimum_damping_1(self):
         p = """
@@ -599,10 +570,9 @@ class KisaoSedmlTestCase(unittest.TestCase):
             task0 = run sim0 on model0
             plot task0.time vs task0.S1
         """
-        exp = experiment(self.a1, p)
-        self.checkKisaoAlgorithmParameter(exp, 'KISAO:0000487', 'minimum_damping', 1.0)
-        exp.execute()
-
+        inline_omex = '\n'.join([self.a1, p])
+        self.checkKisaoAlgorithmParameter(inline_omex, 'KISAO:0000487', 'minimum_damping', 1.0)
+        te.executeInlineOmex(inline_omex)
 
     def test_kisao_minimum_damping_2(self):
         p = """
@@ -612,11 +582,9 @@ class KisaoSedmlTestCase(unittest.TestCase):
             task0 = run sim0 on model0
             plot task0.time vs task0.S1
         """
-        exp = experiment(self.a1, p)
-        self.checkKisaoAlgorithmParameter(exp, 'KISAO:0000487', 'minimum_damping', 1.0)
-        print(exp._toPython(p))
-        exp.execute()
-
+        inline_omex = '\n'.join([self.a1, p])
+        self.checkKisaoAlgorithmParameter(inline_omex, 'KISAO:0000487', 'minimum_damping', 1.0)
+        te.executeInlineOmex(inline_omex)
 
     def test_kisao_seed_1(self):
         p = """
@@ -626,10 +594,9 @@ class KisaoSedmlTestCase(unittest.TestCase):
             task0 = run sim0 on model0
             plot task0.time vs task0.S1
         """
-        exp = experiment(self.a1, p)
-        self.checkKisaoAlgorithmParameter(exp, 'KISAO:0000488', 'seed', 1234)
-        exp.execute()
-
+        inline_omex = '\n'.join([self.a1, p])
+        self.checkKisaoAlgorithmParameter(inline_omex, 'KISAO:0000488', 'seed', 1234)
+        te.executeInlineOmex(inline_omex)
 
     def test_kisao_seed_2(self):
         p = """
@@ -639,9 +606,9 @@ class KisaoSedmlTestCase(unittest.TestCase):
             task0 = run sim0 on model0
             plot task0.time vs task0.S1
         """
-        exp = experiment(self.a1, p)
-        self.checkKisaoAlgorithmParameter(exp, 'KISAO:0000488', 'seed', 1234)
-        exp.execute()
+        inline_omex = '\n'.join([self.a1, p])
+        self.checkKisaoAlgorithmParameter(inline_omex, 'KISAO:0000488', 'seed', 1234)
+        te.executeInlineOmex(inline_omex)
 
 
 if __name__ == "__main__":

@@ -8,6 +8,7 @@ try:
     import libcombine
 except ImportError:
     import tecombine as libcombine
+import pprint
 
 
 def extractCombineArchive(omexPath, directory, method="zip"):
@@ -99,8 +100,23 @@ def listContents(omexPath, method="omex"):
         location = entry.getLocation()
         format = entry.getFormat()
         master = entry.getMaster()
-        contents.append([i, location, format, master])
+        info = None
+        try:
+            info = omex.extractEntryToString(location)
+        except:
+            pass
+
+        contents.append([i, location, format, master, info])
 
     omex.cleanUp()
 
     return contents
+
+
+def printContents(omexPath):
+    """ Prints contents of archive.
+
+    :param omexPath:
+    :return:
+    """
+    pprint.pprint(listContents(omexPath))

@@ -65,6 +65,9 @@ class UtilsTestCase(unittest.TestCase):
         contents = omex.listContents(omexPath=OMEX_SHOWCASE, method="omex")
         self.assertTrue(len(contents) == 20)
 
+    def test_printContents(self):
+        omex.printContents(omexPath=OMEX_SHOWCASE)
+
 
 if __name__ == "__main__":
     unittest.main()
