@@ -10,6 +10,7 @@ If you have not already done so, download and install the `Tellurium notebook fr
 * **TODO**: Add how to use Antimony & inline OMEX cells.
 * **TODO**: Show how to search/replace with CM and search word boundaries.
 * **TODO**: Show how to access example notebooks.
+* **TODO**: Demo interactive plotting online with Plotly
 
 Notebook Troubleshooting
 ========================
