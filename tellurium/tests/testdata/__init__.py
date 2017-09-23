@@ -11,4 +11,5 @@ OMEX_TEST_DIR = os.path.join(TEST_DIR, 'sedml', 'omex')
 
 
 OMEX_SHOWCASE = os.path.join(OMEX_TEST_DIR, "CombineArchiveShowCase.omex")
+OMEX_REPRESSILATOR = os.path.join(OMEX_TEST_DIR, "tellurium/repressilator.omex")
 FEEDBACK_SBML = os.path.join(TEST_DIR, 'models/feedback.xml')

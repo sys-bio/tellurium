@@ -80,6 +80,7 @@ try:
         omex.Entry(location=sedml_location, formatKey="sedml", master=True)
     ]
     omex.combineArchiveFromEntries(omexPath=omex_path, entries=entries, workingDir=tmp_dir)
+    shutil.copy(omex_path, "repressilator.omex")
     executeCombineArchive(omex_path, workingDir=tmp_dir)
 
 finally:
