@@ -6,6 +6,8 @@ import tellurium as te
 import os
 
 
+
+
 def run_case(call_file, antimony_str, phrasedml_str, py_code=False, working_dir=None):
     """ Run one of the example phrasedml cases.
 
@@ -32,8 +34,6 @@ def run_case(call_file, antimony_str, phrasedml_str, py_code=False, working_dir=
         print(py_file)
         with open(py_file, 'w') as f:
             f.write(exp._toPython(phrasedml_str, workingDir=working_dir))
-
-    # TODO: create code & results, with archive
 
     # execute python
     te.executeInlineOmex(inline_omex)
