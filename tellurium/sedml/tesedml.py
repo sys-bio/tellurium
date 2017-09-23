@@ -1292,8 +1292,7 @@ class SEDMLCodeFactory(object):
             return Target(getId(xpath), 'other')
         # cannot be parsed
         else:
-            warnings.warn("Unsupported target: {}".format(xpath))
-            return None
+            raise ValueError("Unsupported target in xpath: {}".format(xpath))
 
 
     @staticmethod
