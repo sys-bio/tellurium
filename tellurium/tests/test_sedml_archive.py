@@ -27,6 +27,7 @@ OMEX_EXCLUDED = [
     # data not supported: FIXME: https://github.com/sys-bio/tellurium/issues/225
     'specification/L1V3/L1V3_plotting-data.omex',
     'specification/L1V3/L1V3_reading-data-numl.omex',
+    'specification/L1V3/L1V3_reading-data-numl-simple.omex',
     'specification/L1V3/L1V3_reading-data-csv.omex',
 
     # non-standard data implementation: FIXME: https://github.com/matthiaskoenig/tellurium-web/issues/53
@@ -56,9 +57,12 @@ OMEX_RUN = [os.path.join(OMEX_TEST_DIR, p) for p in OMEX_EXCLUDED ]
 
 
 def test_single_omex(tmpdir):
-    omex_path = os.path.join(OMEX_TEST_DIR, 'specification/L1V3/L1V3_repeated-scan-oscli.omex')
+
+
+    omex_path = os.path.join(OMEX_TEST_DIR, 'specification/L1V3/L1V3_reading-data-numl-minimal.omex')
+    omex_path = os.path.join(OMEX_TEST_DIR, 'specification/L1V3/L1V3_reading-data-csv-minimal.omex')
     contents = omex.listContents(omex_path)
-    print(contents[1])
+    # print(contents[1])
 
 
     # TODO print generated code
