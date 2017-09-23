@@ -361,11 +361,11 @@ class inlineOmexImporter:
             org = vcard.getOrganization()
 
             if name:
-                output += '// - Name: {}\n'.format(name)
+                output += '// - Name: {}\n'.format(name.replace('\n', ' ').replace('\r', ''))
             if email:
-                output += '// - Email: {}\n'.format(email)
+                output += '// - Email: {}\n'.format(email.replace('\n', ' ').replace('\r', ''))
             if org:
-                output += '// - Organization: {}\n'.format(org)
+                output += '// - Organization: {}\n'.format(org.replace('\n', ' ').replace('\r', ''))
 
         # convert sbml entries to antimony
         for entry in self.sbml_entries:
