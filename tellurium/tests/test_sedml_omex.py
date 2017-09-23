@@ -35,11 +35,6 @@ OMEX_TESTCASES = helpers.filesInDirectoryFiltered(OMEX_TEST_DIR, f_filter=f_omex
 #  - unsupported features (like cellml)
 #  - tellurium bugs
 OMEX_EXCLUDED = [
-
-    # unclear error: FIXME: https://github.com/matthiaskoenig/tellurium-web/issues/60
-    'specification/L1V3/L1V3_repeated-scan-oscli.omex',
-    'specification/L1V3/L1V3_oscli-nested-pulse.omex',
-
     # data not supported: FIXME: https://github.com/sys-bio/tellurium/issues/225
     'specification/L1V3/L1V3_plotting-data.omex',
     'specification/L1V3/L1V3_reading-data-numl.omex',

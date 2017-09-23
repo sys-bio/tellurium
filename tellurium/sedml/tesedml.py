@@ -1292,8 +1292,7 @@ class SEDMLCodeFactory(object):
             return Target(getId(xpath), 'other')
         # cannot be parsed
         else:
-            warnings.warn("Unsupported target: {}".format(xpath))
-            return None
+            raise ValueError("Unsupported target in xpath: {}".format(xpath))
 
 
     @staticmethod
@@ -1628,12 +1627,12 @@ class SEDMLTools(object):
         :type doc:
         """
         if doc.getErrorLog().getNumFailsWithSeverity(libsedml.LIBSEDML_SEV_ERROR) > 0:
-            print(libsedml.writeSedMLToString(doc))
+            # print(libsedml.writeSedMLToString(doc))
             warnings.warn(doc.getErrorLog().toString())
             # FIXME: workaround for https://github.com/fbergmann/libSEDML/issues/47
             # raise IOError(doc.getErrorLog().toString())
         if doc.getErrorLog().getNumFailsWithSeverity(libsedml.LIBSEDML_SEV_FATAL) > 0:
-            print(libsedml.writeSedMLToString(doc))
+            # print(libsedml.writeSedMLToString(doc))
             # raise IOError(doc.getErrorLog().toString())
             warnings.warn(doc.getErrorLog().toString())
         if doc.getErrorLog().getNumFailsWithSeverity(libsedml.LIBSEDML_SEV_WARNING) > 0:
