@@ -6,21 +6,21 @@ Example is the introduction example for the SED-ML specification.
 Model is repressilator.
 """
 
-# FIXME: https://github.com/sys-bio/tellurium/issues/224
-
-from __future__ import print_function
+from __future__ import absolute_import, print_function
 import os
-import tellurium as te
+import tempfile
+import shutil
+
 from tellurium import temiriam
+from tellurium.sedml.tesedml import executeCombineArchive, executeSEDML
+from tellurium.utils import omex
 import phrasedml
-print('phrasedml version:', phrasedml.__version__)
 
 # Get SBML from URN and set for phrasedml
 urn = "urn:miriam:biomodels.db:BIOMD0000000012"
-model_id = urn.split(':')[-1]
 sbml_str = temiriam.getSBMLFromBiomodelsURN(urn=urn)
-antimony_str = te.sbmlToAntimony(sbml_str)
-print(antimony_str)
+return_code = phrasedml.setReferencedSBML(urn, sbml_str)
+print('valid SBML', return_code)
 
 # <SBML species>
 #   PX - LacI protein
@@ -51,43 +51,36 @@ phrasedml_str = """
     plot "Timecourse after post-processing" task1.PX/max(task1.PX) vs task1.PZ/max(task1.PZ), \
                                                        task1.PY/max(task1.PY) vs task1.PX/max(task1.PX), \
                                                        task1.PZ/max(task1.PZ) vs task1.PY/max(task1.PY)
-""".format(model_id)
+""".format(urn)
+
+# convert to sedml
+sedml_str = phrasedml.convertString(phrasedml_str)
+if sedml_str is None:
+    print(phrasedml.getLastError())
+    raise IOError("sedml could not be generated")
+
+# run SEDML directly
+try:
+    tmp_dir = tempfile.mkdtemp()
+    executeSEDML(sedml_str, workingDir=tmp_dir)
+finally:
+    shutil.rmtree(tmp_dir)
 
 
-# execution: not possible to execute the phrasedml as inline_omex
-inline_omex = '\n'.join([antimony_str, phrasedml_str])
-te.executeInlineOmex(inline_omex)
-te.exportInlineOmex(inline_omex, os.path.join('./omex/', 'repressilator.omex'))
+# create combine archive and execute
+try:
+    tmp_dir = tempfile.mkdtemp()
+    sedml_location = "repressilator_sedml.xml"
+    sedml_path = os.path.join(tmp_dir, sedml_location)
+    omex_path = os.path.join(tmp_dir, "repressilator.omex")
+    with open(sedml_path, "w") as f:
+        f.write(sedml_str)
 
+    entries = [
+        omex.Entry(location=sedml_location, formatKey="sedml", master=True)
+    ]
+    omex.combineArchiveFromEntries(omexPath=omex_path, entries=entries, workingDir=tmp_dir)
+    executeCombineArchive(omex_path, workingDir=tmp_dir)
 
-'''
-
-# Run the SED-ML file with results written in workingDir
-import tempfile
-import shutil
-workingDir = tempfile.mkdtemp(suffix="_sedml")
-te.executeSEDML(sedmlStr, workingDir=workingDir)
-shutil.rmtree(workingDir)
-
-
-# [2] store as combine archive and run
-import os
-from tellurium.tecombine import CombineArchive
-combine = CombineArchive()
-combine.addSEDMLStr(sedmlStr, 'specificationL1V2.sedml')
-from tellurium.tests.testdata import sedxDir
-combinePath = os.path.join(sedxDir, 'specificationL1V2.omex')
-combine.write(combinePath)
-
-# Run Combine archive
-te.executeSEDML(combinePath)
-
-# remove sedx (not hashable due to timestamp)
-# os.remove(combinePath)
-
-
-inline_omex = phrasedml_str
-te.executeInlineOmex(inline_omex)
-te.exportInlineOmex(inline_omex, os.path.join(tmpdir, 'archive.omex'))
-        shutil.rmtree(tmpdir)
-'''
+finally:
+    shutil.rmtree(tmp_dir)

@@ -1,14 +1,138 @@
 """
 Combine Archive helper functions based on libcombine.
 """
-from __future__ import absolute_import
+from __future__ import absolute_import, print_function
 import os
+import warnings
 import zipfile
 try:
     import libcombine
 except ImportError:
     import tecombine as libcombine
 import pprint
+
+
+class Entry(object):
+    """ Helper class to store content to create an OmexEntry."""
+
+    def __init__(self, location, formatKey, master=False, description=None, creators=None):
+        """ Create entry from information.
+
+        :param location:
+        :param formatKey:
+        :param master:
+        :param description:
+        :param creators:
+        """
+        self.location = location
+        self.formatKey = formatKey
+        self.format = libcombine.KnownFormats.lookupFormat(formatKey=formatKey)
+        self.master = master
+        self.description = description
+        self.creators = creators
+
+    def __str__(self):
+        if self.master:
+            return '<*master* Entry {} | {}>'.format(self.master, self.location, self.format)
+        else:
+            return '<Entry {} | {}>'.format(self.master, self.location, self.format)
+
+
+def combineArchiveFromEntries(omexPath, entries, workingDir):
+    """ Creates combine archive from given entries.
+
+    Overwrites existing combine archive at omexPath.
+
+    :param entries:
+    :param workingDir:
+    :return:
+    """
+    _addEntriesToArchive(omexPath, entries, workingDir=workingDir, add_entries=False)
+    print("*" * 80)
+    print('Archive created:\n\t', omexPath)
+    print("*" * 80)
+
+
+def addEntriesToCombineArchive(omexPath, entries, workingDir):
+    """ Adds entries to
+
+    :param omexPath:
+    :param entries: iteratable of Entry
+    :param workingDir: locations are relative to working dir
+    :return:
+    """
+    _addEntriesToArchive(omexPath, entries, workingDir=workingDir, add_entries=True)
+    print("*" * 80)
+    print('Archive updated:\n\t', omexPath)
+    print("*" * 80)
+
+
+def _addEntriesToArchive(omexPath, entries, workingDir, add_entries):
+    """
+
+    :param archive:
+    :param entries:
+    :param workingDir:
+    :return:
+    """
+    omexPath = os.path.abspath(omexPath)
+    print('omexPath:', omexPath)
+    print('workingDir:', workingDir)
+
+
+    if not os.path.exists(workingDir):
+        raise IOError("Working directory does not exist: {}".format(workingDir))
+
+    if add_entries is False:
+        if os.path.exists(omexPath):
+            # delete the old omex file
+            warnings.warn("Combine archive is overwritten: {}".format(omexPath))
+            os.remove(omexPath)
+
+    archive = libcombine.CombineArchive()
+
+    if add_entries is True:
+        # use existing entries
+        if os.path.exists(omexPath):
+            # init archive from existing content
+            if archive.initializeFromArchive(omexPath) is None:
+                raise IOError("Combine Archive is invalid: ", omexPath)
+
+    # timestamp
+    time_now = libcombine.OmexDescription.getCurrentDateAndTime()
+
+    print('*'*80)
+    for entry in entries:
+        print(entry)
+        location = entry.location
+        path = os.path.join(workingDir, location)
+        if not os.path.exists(path):
+            raise IOError("File does not exist at given location: {}".format(path))
+
+        archive.addFile(path, location, entry.format, entry.master)
+
+        if entry.description or entry.creators:
+            omex_d = libcombine.OmexDescription()
+            omex_d.setAbout(location)
+            omex_d.setCreated(time_now)
+
+            if entry.description:
+                omex_d.setDescription(entry.description)
+
+            if entry.creators:
+                for c in entry.creators:
+                    creator = libcombine.VCard()
+                    creator.setFamilyName(c.familyName)
+                    creator.setGivenName(c.givenName)
+                    creator.setEmail(c.email)
+                    creator.setOrganization(c.organization)
+                    omex_d.addCreator(creator)
+
+            archive.addMetadata(location, omex_d)
+
+
+    archive.writeToFile(omexPath)
+    archive.cleanUp()
 
 
 def extractCombineArchive(omexPath, directory, method="zip"):

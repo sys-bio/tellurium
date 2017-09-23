@@ -46,7 +46,7 @@ setup(name='tellurium',
           'pandas>=0.20.2',
           # SBW-derived
           'libroadrunner>=1.4.18',
-          'phrasedml>=1.0.6',
+          'phrasedml>=1.0.8',
           'antimony>=2.9.3',
           'rrplugins>=1.1.8',
           'sbml2matlab>=0.9.1',
