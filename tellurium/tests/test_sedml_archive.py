@@ -27,12 +27,17 @@ OMEX_EXCLUDED = [
 ]
 
 
-def test_single_omex(tmpdir):
+def test_single_omex():
+
     omex_path = os.path.join(OMEX_TEST_DIR, 'specification/L1V3/L1V3_repeated-scan-oscli.omex')
     contents = omex.listContents(omex_path)
     # print(contents[1])
 
     # TODO print generated code
-    tesedml.executeCombineArchive(omexPath=omex_path, workingDir=tmpdir)
+    tmp_dir = tempfile.mkdtemp()
+    try:
+        tesedml.executeCombineArchive(omexPath=omex_path, workingDir=tmp_dir)
+    finally:
+        shutil.rmtree(tmp_dir)
 
 
