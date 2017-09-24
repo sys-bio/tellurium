@@ -28,9 +28,6 @@ OMEX_EXCLUDED = [
 ]
 
 
-def test_single_omex():
-
-<<<<<<< HEAD
 def test_single_omex(tmpdir):
 
 
@@ -38,12 +35,6 @@ def test_single_omex(tmpdir):
     omex_path = os.path.join(OMEX_TEST_DIR, 'specification/L1V3/L1V3_reading-data-csv-minimal.omex')
     contents = omex.listContents(omex_path)
     # print(contents[1])
-
-=======
-    omex_path = os.path.join(OMEX_TEST_DIR, 'specification/L1V3/L1V3_repeated-scan-oscli.omex')
-    contents = omex.listContents(omex_path)
-    # print(contents[1])
->>>>>>> master
 
     # TODO print generated code
     tmp_dir = tempfile.mkdtemp()
