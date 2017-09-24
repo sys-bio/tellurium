@@ -226,7 +226,9 @@ def listContents(omexPath, method="omex"):
         master = entry.getMaster()
         info = None
         try:
-            info = omex.extractEntryToString(location)
+            for formatKey in ["sed-ml", "sbml", "sbgn", "cellml"]:
+                if libcombine.KnownFormats_isFormat(formatKey, format):
+                    info = omex.extractEntryToString(location)
         except:
             pass
 
