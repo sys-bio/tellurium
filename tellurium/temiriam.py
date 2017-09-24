@@ -40,3 +40,4 @@ def getSBMLFromBiomodelsURN(urn):
         sbml_str = str(sbml)
 
     return sbml_str
+

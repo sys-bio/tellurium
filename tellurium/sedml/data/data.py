@@ -186,19 +186,7 @@ for source in [SOURCE_NUML, SOURCE_NUML_1D, SOURCE_NUML_2D, SOURCE_NUML_2DRC]:
 exit()
 
 
-def load_csv_data(source):
-    """ Helper function for loading data file from given source.
 
-    CSV files must have a header.
-
-    :param source: source information from the SED-ML file
-    :return: data matrix
-    """
-    # FIXME: handle urn/url sources
-    # FIXME: figure out the separator for data reading based on the dimension
-    sep = ","
-    df = pd.read_csv(source, sep=sep)
-    return df
 
 
 df_csv = load_csv_data(SOURCE_CSV)
