@@ -163,7 +163,6 @@ class DataDescriptionParser(object):
         return data_sources
 
 
-
     @classmethod
     def _determine_format(cls, source_path, format=None):
         """
@@ -260,9 +259,9 @@ class DataDescriptionParser(object):
 
         Nrc = doc_numl.getNumResultComponents()
         rcs = doc_numl.getResultComponents()
+
         print('NumResultComponents:', Nrc)
         for k in range(Nrc):
-            print('-'*80)
             # parse ResultComponent
             res_comp = rcs.get(k)
 
@@ -306,7 +305,7 @@ class DataDescriptionParser(object):
             info.append(content)
             print('\t* CompositeDescription *', content)
 
-            info = parse_description(d.get(0), info)
+            info = cls._parse_description(d.get(0), info)
 
         elif d.isContentTupleDescription():
 

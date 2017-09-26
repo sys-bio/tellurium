@@ -49,7 +49,7 @@ def test_load_tsv():
 
 
 def test_load_numl():
-    data = DataDescriptionParser._load_csv(SOURCE_NUML)
+    data = DataDescriptionParser._load_numl(SOURCE_NUML)
     assert data is not None
 
 
