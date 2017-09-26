@@ -12,9 +12,9 @@
 	<resultComponents>
 	<resultComponent id="component1">
 		<dimensionDescription>
-			<compositeDescription name="Species" indexType="string">
+			<compositeDescription id="Species" name="Species" indexType="string">
 				<tupleDescription>
-					<atomicDescription name="Concentration" ontologyTerm="term3" valueType="double" />					
+					<atomicDescription id="Concentration" name="Concentration" ontologyTerm="term3" valueType="double" />
 				</tupleDescription>
 			</compositeDescription>
 		</dimensionDescription>
@@ -41,8 +41,8 @@
 	</resultComponent>
 	<resultComponent id="component2">
 		<dimensionDescription>
-			<compositeDescription name="Reaction" indexType="string">				
-					<atomicDescription name="Flux" ontologyTerm="term5" valueType="double" />				
+			<compositeDescription id="Reaction" name="Reaction" indexType="string">
+					<atomicDescription id="Flux" name="Flux" ontologyTerm="term5" valueType="double" />
 			</compositeDescription>
 		</dimensionDescription>
 		<dimension>
@@ -112,4 +112,4 @@
 		</dimension>
 	</resultComponent>
 	</resultComponents>
-	</numl>
+</numl>

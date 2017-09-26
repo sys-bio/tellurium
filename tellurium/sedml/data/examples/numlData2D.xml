@@ -8,10 +8,10 @@
 	<resultComponents>
 		<resultComponent id="species_conc">
 			<dimensionDescription>
-			<compositeDescription name="Time" ontologyTerm="term3" indexType="float">
-				<compositeDescription name="Metabolite" ontologyTerm="term2" indexType="string">
-					<atomicDescription name="Concentration" ontologyTerm="term1" valueType="double" />
-				</compositeDescription>
+				<compositeDescription id="Time" name="Time" ontologyTerm="term3" indexType="float">
+					<compositeDescription id="Metabolites" name="Metabolites" ontologyTerm="term2" indexType="string">
+						<atomicDescription id="Concentrations" name="Concentrations" ontologyTerm="term1" valueType="double" />
+					</compositeDescription>
 				</compositeDescription>
 			</dimensionDescription>
 			<dimension>	
