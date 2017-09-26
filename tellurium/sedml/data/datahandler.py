@@ -2,6 +2,7 @@
 Reading NUML, CSV and TSV data from DataDescriptions
 """
 from __future__ import print_function, absolute_import
+import os
 import pandas as pd
 from pprint import pprint
 
@@ -11,15 +12,11 @@ try:
 except ImportError:
     import http.client as httplib
 
-import importlib
-
 try:
     import libnuml
-    importlib.reload(libnuml)
 
 except ImportError:
     import tenuml as libnuml
-
 
 
 class DataDescriptionParser(object):
@@ -34,12 +31,13 @@ class DataDescriptionParser(object):
     SUPPORTED_FORMATS = [FORMAT_NUML, FORMAT_CSV, FORMAT_TSV]
 
     @classmethod
-    def parse(cls, dd):
+    def parse(cls, dd, workingDir=None):
         """ Parses single DataDescription.
 
         Returns dictionary of data sources {DataSource.id, slice_data}
 
         :param dd: SED-ML DataDescription
+        :param workingDir: workingDir relative to which the sources are resolved
         :return:
         """
         print("PARSING:", dd)
@@ -47,24 +45,32 @@ class DataDescriptionParser(object):
         did = dd.getId()
         name = dd.getName()
         source = dd.getSource()
+
+        # -------------------------------
+        # Resolve source
+        # -------------------------------
+        # FIXME: this must work for absolute paths and URL paths
+        if workingDir is None:
+            workingDir = '.'
+        source_path = os.path.join(workingDir, source)
+
+        # -------------------------------
+        # Find the format
+        # -------------------------------
         format = None
         if hasattr(dd, "getFormat"):
             format = dd.getFormat()
         else:
-            format = cls.FORMAT_NUML
-            df_csv = cls._load_csv()
-            df_tsv = cls._load_tsv()
+            format = cls.FORMAT_NUML  # defaults to numl
+            df_csv = cls._load_csv(source_path)
+            df_tsv = cls._load_tsv(source_path)
             if df_csv.shape[1] >= df_tsv.shape[1]:
                 format = cls.FORMAT_CSV
             else:
                 format = cls.FORMAT_TSV
 
-
-        # -------------------------------
-        # Find the format
-        # -------------------------------
         if format is None:
-            format = cls.FORMAT_NUML  # defaults to numl
+            format = cls.FORMAT_NUML
 
         # base format
         if format.startswith(cls.FORMAT_NUML):
@@ -93,17 +99,16 @@ class DataDescriptionParser(object):
         print(cd_top, type(cd_top))
         '''
 
-
         # -------------------------------
         # Load complete data
         # -------------------------------
         data = None
         if format == cls.FORMAT_CSV:
-            data = cls._load_csv(source=source)
+            data = cls._load_csv(source=source_path)
         elif format == cls.FORMAT_TSV:
-            data = cls._load_tsv(source=source)
+            data = cls._load_tsv(source=source_path)
         elif format == cls.FORMAT_NUML:
-            data = cls._load_numl(source=source)
+            data = cls._load_numl(source=source_path)
 
         print("-" * 80)
         print("Data")
@@ -134,7 +139,7 @@ class DataDescriptionParser(object):
 
                     sids.append(slice.getValue())
                 # get columns from pandas DataFrame
-                data_sources[dsid] = data[sids]
+                data_sources[dsid] = data[sids].values
 
             # NUML
             elif format == cls.FORMAT_NUML:
@@ -144,7 +149,7 @@ class DataDescriptionParser(object):
         print("-" * 80)
         print("DataSources")
         print("-" * 80)
-        pprint(data_sources)
+        print(data_sources)
         print("-" * 80)
 
         return data_sources
@@ -336,14 +341,3 @@ class DataDescriptionParser(object):
             print('* AtomicValue *', values)
 
         return data
-
-
-if __name__ == "__main__":
-    import os
-    from tellurium.sedml.data.test_data import BASE_DIR, parseDataDescriptions
-    from tellurium.sedml.data.test_data import *
-    os.chdir(BASE_DIR)
-
-    # parseDataDescriptions(SEDML_READ_CSV)
-    parseDataDescriptions(SEDML_READ_NUML)
-

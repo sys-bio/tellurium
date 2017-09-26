@@ -4,6 +4,7 @@ import os
 import pytest
 
 from tellurium.sedml.data.datahandler import DataDescriptionParser
+from tellurium.sedml.tesedml import SEDMLTools
 
 try:
     import libsedml
@@ -75,6 +76,7 @@ def parseDataDescriptions(sedml_path):
     print('parseDataDescriptions:', sedml_path)
     # load sedml document
     doc_sedml = libsedml.readSedMLFromFile(sedml_path)
+    SEDMLTools.checkSEDMLDocument(doc_sedml)
 
     # parse DataDescriptions
     list_dd = doc_sedml.getListOfDataDescriptions()
@@ -84,7 +86,7 @@ def parseDataDescriptions(sedml_path):
     assert len(list_dd) > 0
 
     for dd in list_dd:
-        data_sources = DataDescriptionParser.parse(dd)
+        data_sources = DataDescriptionParser.parse(dd, workingDir=BASE_DIR)
         assert data_sources is not None
         assert type(data_sources) == dict
         assert len(data_sources) > 0
