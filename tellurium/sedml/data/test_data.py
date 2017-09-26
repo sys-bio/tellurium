@@ -80,8 +80,8 @@ def parseDataDescriptions(sedml_path):
 
     # parse DataDescriptions
     list_dd = doc_sedml.getListOfDataDescriptions()
-    print(list_dd)
-    print(len(list_dd))
+    # print(list_dd)
+    # print(len(list_dd))
 
     assert len(list_dd) > 0
 
@@ -90,24 +90,37 @@ def parseDataDescriptions(sedml_path):
         assert data_sources is not None
         assert type(data_sources) == dict
         assert len(data_sources) > 0
+    return data_sources
 
 def test_parse_csv():
-    parseDataDescriptions(SEDML_READ_CSV)
+    data_sources = parseDataDescriptions(SEDML_READ_CSV)
+    assert "dataTime" in data_sources
+    assert "dataS1" in data_sources
+    assert len(data_sources["dataTime"]) == 200
+    assert len(data_sources["dataS1"]) == 200
 
 def test_parse_tsv():
-    parseDataDescriptions(SEDML_READ_TSV)
+    data_sources = parseDataDescriptions(SEDML_READ_TSV)
+    assert "dataTime" in data_sources
+    assert "dataS1" in data_sources
+    assert len(data_sources["dataTime"]) == 200
+    assert len(data_sources["dataS1"]) == 200
 
 def test_parse_numl():
-    parseDataDescriptions(SEDML_READ_NUML)
+    data_sources = parseDataDescriptions(SEDML_READ_NUML)
+    assert "dataTime" in data_sources
+    assert "dataS1" in data_sources
+    assert len(data_sources["dataTime"]) == 200
+    assert len(data_sources["dataS1"]) == 200
 
 def test_parse_numl_1D():
-    parseDataDescriptions(SEDML_READ_NUML_1D)
+    data_sources = parseDataDescriptions(SEDML_READ_NUML_1D)
 
 def test_parse_numl_2D():
-    parseDataDescriptions(SEDML_READ_NUML_2D)
+    data_sources = parseDataDescriptions(SEDML_READ_NUML_2D)
 
 def test_parse_numl_2DRC():
-    parseDataDescriptions(SEDML_READ_NUML_2DRC)
+    data_sources = parseDataDescriptions(SEDML_READ_NUML_2DRC)
 
 
 if __name__ == "__main__":

@@ -5,6 +5,9 @@ from __future__ import print_function, absolute_import
 import os
 import pandas as pd
 from pprint import pprint
+import csv
+
+import tempfile
 
 # py2 / py3
 try:
@@ -40,8 +43,6 @@ class DataDescriptionParser(object):
         :param workingDir: workingDir relative to which the sources are resolved
         :return:
         """
-        print("PARSING:", dd)
-
         did = dd.getId()
         name = dd.getName()
         source = dd.getSource()
@@ -52,7 +53,26 @@ class DataDescriptionParser(object):
         # FIXME: this must work for absolute paths and URL paths
         if workingDir is None:
             workingDir = '.'
-        source_path = os.path.join(workingDir, source)
+
+        tmp_file = None
+        if source.startswith('http') or source.startswith('HTTP'):
+            conn = httplib.HTTPConnection(source)
+            conn.request("GET", "")
+            r1 = conn.getresponse()
+            # print(r1.status, r1.reason)
+            data = r1.read()
+            conn.close()
+            try:
+                file_str = str(data.decode("utf-8"))
+            except:
+                file_str = str(data)
+
+            doc_numl = libnuml.readNUMLFromString(numl_str)
+            tmp_file = tempfile.NamedTemporaryFile("w")
+            tmp_file.write(file_str)
+            source_path = tmp_file.name
+        else:
+            source_path = os.path.join(workingDir, source)
 
         # -------------------------------
         # Find the format
@@ -60,25 +80,7 @@ class DataDescriptionParser(object):
         format = None
         if hasattr(dd, "getFormat"):
             format = dd.getFormat()
-        else:
-            format = cls.FORMAT_NUML  # defaults to numl
-            df_csv = cls._load_csv(source_path)
-            df_tsv = cls._load_tsv(source_path)
-            if df_csv.shape[1] >= df_tsv.shape[1]:
-                format = cls.FORMAT_CSV
-            else:
-                format = cls.FORMAT_TSV
-
-        if format is None:
-            format = cls.FORMAT_NUML
-
-        # base format
-        if format.startswith(cls.FORMAT_NUML):
-            format = cls.FORMAT_NUML
-
-        # check supported formats
-        if format not in cls.SUPPORTED_FORMATS:
-            raise NotImplementedError("Only the following data formats are supported: {}".format(cls.FORMATS))
+        format = cls._determine_format(source_path=source_path, format=format)
 
         print('-' * 80)
         print('DataDescription: :', dd)
@@ -153,7 +155,53 @@ class DataDescriptionParser(object):
             print('{} : {}; shape={}'.format(key, type(value), value.shape))
         print("-" * 80)
 
+        # cleanup
+        if tmp_file is not None:
+            # TODO: implement cleanup of tmp file
+            pass
+
         return data_sources
+
+
+
+    @classmethod
+    def _determine_format(cls, source_path, format=None):
+        """
+
+        :param source_path: path of file
+        :param format: format given in the DataDescription
+        :return:
+        """
+        if format is None:
+            is_xml = False
+            with open(source_path) as unknown_file:
+                start_str = unknown_file.read(1024)
+                start_str = start_str.strip()
+                if start_str.startswith('<'):
+                    is_xml = True
+
+            if is_xml:
+                # xml format is numl
+                format = cls.FORMAT_NUML  # defaults to numl
+            else:
+                # format is either csv or tsv
+                df_csv = cls._load_csv(source_path)
+                df_tsv = cls._load_tsv(source_path)
+                if df_csv.shape[1] >= df_tsv.shape[1]:
+                    format = cls.FORMAT_CSV
+                else:
+                    format = cls.FORMAT_TSV
+
+        # base format
+        if format.startswith(cls.FORMAT_NUML):
+            format = cls.FORMAT_NUML
+
+        # check supported formats
+        if format not in cls.SUPPORTED_FORMATS:
+            raise NotImplementedError("Only the following data formats are supported: {}".format(cls.FORMATS))
+
+        return format
+
 
     @classmethod
     def _load_csv(cls, source):
@@ -202,20 +250,8 @@ class DataDescriptionParser(object):
         :return: data matrix
         """
         # Read the numl document
-        if source.startswith('http') or source.startswith('HTTP'):
-            conn = httplib.HTTPConnection(source)
-            conn.request("GET", "")
-            r1 = conn.getresponse()
-            # print(r1.status, r1.reason)
-            data = r1.read()
-            conn.close()
-            try:
-                numl_str = str(data.decode("utf-8"))
-            except:
-                numl_str = str(data)
-            doc_numl = libnuml.readNUMLFromString(numl_str)
-        else:
-            doc_numl = libnuml.readNUMLFromFile(source)
+        doc_numl = libnuml.readNUMLFromFile(source)
+        # FIXME: show parsing errors
 
         print('source:', source, doc_numl)
 
