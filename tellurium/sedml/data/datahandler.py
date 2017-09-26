@@ -92,14 +92,11 @@ class DataDescriptionParser(object):
         # -------------------------------
         # Parse DimensionDescription
         # -------------------------------
-        # TODO: parse the DimensionDescription
-        '''
         dim_description = dd.getDimensionDescription()
-        print('\n\t*** DimensionDescription:', dim_description)
 
-        cd_top = dim_description.getCompositeDescription()
-        print(cd_top, type(cd_top))
-        '''
+        assert (isinstance(dim_description, libnuml.DimensionDescription))
+        info = cls._parse_description(dim_description.get(0))
+        print("DimensionDescription:", info)
 
         # -------------------------------
         # Load complete data
@@ -200,7 +197,6 @@ class DataDescriptionParser(object):
 
         return format
 
-
     @classmethod
     def _load_csv(cls, path):
         """ Read CSV data from file.
@@ -263,60 +259,54 @@ class DataDescriptionParser(object):
 
     @classmethod
     def _load_numl(cls, path):
-        """ Helper function for loading data files from given source.
+        """ Reading NuML data from file.
 
         This loads the complete numl data.
-        Subsequently subsets of the data can be selected via DataSources from the dataset.
+        For more information see: https://github.com/numl/numl
 
-        For more information see:
-            https://github.com/numl/numl
-
-              <dimensionDescription>
-                <compositeDescription indexType="double" name="time">
-                  <compositeDescription indexType="string" name="SpeciesIds">
-                    <atomicDescription valueType="double" name="Concentrations" />
-                  </compositeDescription>
-                </compositeDescription>
-              </dimensionDescription>
-
-        :param dd: dimensionDescription: outer dimension description
-        :return: data matrix
+        :param path: NuML path
+        :return: data
         """
         doc_numl = DataDescriptionParser.read_numl_document(path)
 
         # reads all the resultComponents from the numl file
-        results = []
+        results = {}
 
         Nrc = doc_numl.getNumResultComponents()
         rcs = doc_numl.getResultComponents()
 
         print('\nNumResultComponents:', Nrc)
         for k in range(Nrc):
-            res_comp = rcs.get(k)  # parse ResultComponent
+            rc = rcs.get(k)  # parse ResultComponent
+            rc_id = rc.getId()
 
             # dimension info
-            dim_description = res_comp.getDimensionDescription()
+            dim_description = rc.getDimensionDescription()
             assert (isinstance(dim_description, libnuml.DimensionDescription))
             info = cls._parse_description(dim_description.get(0))
-            print("DimensionDescription:", info)
-
+            print("DimensionDescription:", info, '\n')
 
             # data
-            dim = res_comp.getDimension()
-
+            dim = rc.getDimension()
             assert (isinstance(dim, libnuml.Dimension))
-
             data = cls._parse_value(dim.get(0))
             print("Dimension:", data)
 
-            res = {'info': info, 'data': data}
-            results.append(res)
+            results[rc_id] = {'info': info, 'data': data}
 
         return results
 
     @classmethod
     def _parse_description(cls, d, info=None):
         """ Parses the recursive DimensionDescription, TupleDescription, AtomicDescription.
+
+          <dimensionDescription>
+            <compositeDescription indexType="double" name="time">
+              <compositeDescription indexType="string" name="SpeciesIds">
+                <atomicDescription valueType="double" name="Concentrations" />
+              </compositeDescription>
+            </compositeDescription>
+          </dimensionDescription>
 
         :param d:
         :param info:
