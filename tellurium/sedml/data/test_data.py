@@ -3,7 +3,12 @@ from __future__ import print_function, absolute_import
 import os
 import pytest
 
-from tellurium.sedml.data import data
+from tellurium.sedml.data.datahandler import DataDescriptionParser
+
+try:
+    import libsedml
+except ImportError:
+    import tesedml as libsedml
 
 
 # ---------------------------------------------------------------------------------
@@ -12,49 +17,89 @@ BASE_DIR = "./examples"
 SOURCE_CSV = os.path.join(BASE_DIR, "oscli.csv")
 SOURCE_TSV = os.path.join(BASE_DIR, "oscli.tsv")
 SOURCE_NUML = os.path.join(BASE_DIR, "./oscli.numl")
-
 SOURCE_NUML_1D = os.path.join(BASE_DIR, "./OneDimensionalNuMLData.xml")
 SOURCE_NUML_2D = os.path.join(BASE_DIR, "./TwoDimensionalNuMLData.xml")
 SOURCE_NUML_2DRC = os.path.join(BASE_DIR, "./TwoDimensionTwoRCNuMLData.xml")
+
+SEDML_READ_CSV = os.path.join(BASE_DIR, "reading-oscli-csv.xml")
+SEDML_READ_TSV = os.path.join(BASE_DIR, "reading-oscli-tsv.xml")
+SEDML_READ_NUML = os.path.join(BASE_DIR, "reading-oscli-numl.xml")
+SEDML_READ_NUML_1D = os.path.join(BASE_DIR, "reading-oscli-numlData1D.xml.xml")
+SEDML_READ_NUML_2D = os.path.join(BASE_DIR, "reading-oscli-numlData2D.xml")
+SEDML_READ_NUML_2DRC = os.path.join(BASE_DIR, "reading-oscli-numlData2DRC.xml")
+
 # ---------------------------------------------------------------------------------
 
-
-def test_csv():
-    data_slices = data.load_data(SOURCE_CSV, format=data.FORMAT_CSV, slices=["time", "S1", "S2"])
-    assert data_slices is not None
-    assert len(data_slices) == 3
-    print(data_slices)
-
-
-def test_tsv():
-    data_slices = data.load_data_slices(SOURCE_TSV, format=data.FORMAT_TSV, slices=["time", "S1", "S2"])
-    assert data_slices is not None
-    assert len(data_slices) == 3
-    print(data_slices)
+# Test data loading functions
+def test_load_csv():
+    data = DataDescriptionParser._load_csv(SOURCE_CSV)
+    assert data is not None
+    assert data.shape[0] == 200
+    assert data.shape[1] == 3
 
 
-def test_numl():
-    data_sources = data.load_data(SOURCE_NUML, format=data.FORMAT_NUML)
-    assert data_sources is not None
-    print(data_sources)
+def test_load_tsv():
+    data = DataDescriptionParser._load_tsv(SOURCE_TSV)
+    assert data is not None
+    assert data.shape[0] == 200
+    assert data.shape[1] == 3
 
 
-'''
-def test_numl_1d():
-    data_sources = data.load_data(SOURCE_NUML_1D, format=data.FORMAT_NUML)
-    assert data_sources is not None
-    print(data_sources)
+def test_load_numl():
+    data = DataDescriptionParser._load_csv(SOURCE_NUML)
+    assert data is not None
 
 
-def test_numl_2d():
-    data_sources = data.load_data(SOURCE_NUML_2D, format=data.FORMAT_NUML)
-    assert data_sources is not None
-    print(data_sources)
+def test_load_numl_1D():
+    data = DataDescriptionParser._load_numl(SOURCE_NUML_1D)
+    assert data is not None
 
 
-def test_numl_2drc():
-    data_sources = data.load_data(SOURCE_NUML_2DRC, format=data.FORMAT_NUML)
-    assert data_sources is not None
-    print(data_sources)
-'''
+def test_load_numl_2D():
+    data = DataDescriptionParser._load_numl(SOURCE_NUML_2D)
+    assert data is not None
 
+
+def test_load_numl_2DRC():
+    data = DataDescriptionParser._load_numl(SOURCE_NUML_2D)
+    assert data is not None
+
+
+def parseDataDescriptions(sedml_path):
+    """ Test helper functions.
+
+    Tries to parse all DataDescriptions in the SED-ML file.
+    """
+    # load sedml document
+    doc_sedml = libsedml.readSedMLFromFile(sedml_path)
+
+    # parse DataDescriptions
+    list_dd = doc_sedml.getListOfDataDescriptions()
+
+    for dd in list_dd:
+        data_sources = DataDescriptionParser.parse(dd)
+        assert data_sources is not None
+        assert type(data_sources) == dict
+        assert len(data_sources) > 0
+
+def test_parse_csv():
+    parseDataDescriptions(SEDML_READ_CSV)
+
+def test_parse_tsv():
+    parseDataDescriptions(SEDML_READ_TSV)
+
+def test_parse_numl():
+    parseDataDescriptions(SEDML_READ_NUML)
+
+def test_parse_numl_1D():
+    parseDataDescriptions(SEDML_READ_NUML_1D)
+
+def test_parse_numl_2D():
+    parseDataDescriptions(SEDML_READ_NUML_2D)
+
+def test_parse_numl_2DRC():
+    parseDataDescriptions(SEDML_READ_NUML_2DRC)
+
+
+if __name__ == "__main__":
+    pass

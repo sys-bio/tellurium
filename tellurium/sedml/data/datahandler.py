@@ -3,6 +3,7 @@ Reading NUML, CSV and TSV data from DataDescriptions
 """
 from __future__ import print_function, absolute_import
 import pandas as pd
+from pprint import pprint
 
 # py2 / py3
 try:
@@ -10,32 +11,28 @@ try:
 except ImportError:
     import http.client as httplib
 
-try:
-    import libsedml
-except ImportError:
-    import tesedml as libsedml
+
 
 try:
     import libnuml
 except ImportError:
     import tenuml as libnuml
 
-# -----------------------------------------------------
-# Format definitions
-# -----------------------------------------------------
-FORMAT_URN = "urn:sedml:format:"
-FORMAT_NUML = "urn:sedml:format:numl"
-FORMAT_CSV = "urn:sedml:format:csv"
-FORMAT_TSV = "urn:sedml:format:tsv"
-FORMATS = [FORMAT_NUML, FORMAT_CSV, FORMAT_TSV]
-# -----------------------------------------------------
 
 
 class DataDescriptionParser(object):
     """ Class for parsing DataDescriptions. """
 
-    @staticmethod
-    def parse(dd):
+    FORMAT_URN = "urn:sedml:format:"
+    FORMAT_NUML = "urn:sedml:format:numl"
+    FORMAT_CSV = "urn:sedml:format:csv"
+    FORMAT_TSV = "urn:sedml:format:tsv"
+
+    # supported formats
+    SUPPORTED_FORMATS = [FORMAT_NUML, FORMAT_CSV, FORMAT_TSV]
+
+    @classmethod
+    def parse(cls, dd):
         """ Parses single DataDescription.
 
         Returns dictionary of data sources {DataSource.id, slice_data}
@@ -70,30 +67,32 @@ class DataDescriptionParser(object):
         # Find the format
         # -------------------------------
         if format is None:
-            # defaults to numl
-            format = FORMAT_NUML
+            format = cls.FORMAT_NUML  # defaults to numl
 
-            # only interested in base format
-        if format.startswith(FORMAT_NUML):
-            format = FORMAT_NUML
+        # base format
+        if format.startswith(cls.FORMAT_NUML):
+            format = cls.FORMAT_NUML
 
-            # check supported formats
-        if format not in FORMATS:
-            raise NotImplementedError("Only the following data formats are supported: {}".format(FORMATS))
+        # check supported formats
+        if format not in cls.SUPPORTED_FORMATS:
+            raise NotImplementedError("Only the following data formats are supported: {}".format(cls.FORMATS))
 
         # -------------------------------
         # Load complete data
         # -------------------------------
         data = None
-        # CSV
-        if format == FORMAT_CSV:
-            data = DataDescriptionParser._load_sv(source, separator=",")
-        # TSV
-        elif format == FORMAT_TSV:
-            data = DataDescriptionParser = DataDescriptionParser._load_sv(source, separator="\t")
-        # NUML
-        elif format == FORMAT_NUML:
-            DataDescriptionParser._load_numl(source=source)
+        if format == cls.FORMAT_CSV:
+            data = cls._load_csv(source=source)
+        elif format == cls.FORMAT_TSV:
+            data = cls._load_tsv(source=source)
+        elif format == cls.FORMAT_NUML:
+            data = cls._load_numl(source=source)
+
+        print("-" * 80)
+        print("Data")
+        print("-" * 80)
+        pprint(data)
+        print("-" * 80)
 
         # -------------------------------
         # Process DataSources
@@ -101,25 +100,48 @@ class DataDescriptionParser(object):
         # TODO: parse DataSources (this gets the subset of data out of the full dataset)
         data_sources = {}
         for k, ds in enumerate(dd.getListOfDataSources()):
+
+            dsid = ds.getId()
+
             print('\n\t*** DataSource:', ds)
             print('\t\tid:', ds.getId())
             print('\t\tname:', ds.getName())
             print('\t\tindexSet:', ds.getIndexSet())
             print('\t\tslices')
-            for slice in ds.getListOfSlices():
-                print('\t\t\treference={}; value={}'.format(slice.getReference(), slice.getValue()))
 
-                # CSV/TSV
-                data_slices = []
-                for sid in slices:
-                    data_slices.append(df[sid])
+            # CSV/TSV
+            if format in [FORMAT_CSV, FORMAT_TSV]:
+                sids = []
+                for slice in ds.getListOfSlices():
+                    print('\t\t\treference={}; value={}'.format(slice.getReference(), slice.getValue()))
 
-                # NUML
+                    sids.append(slice.getValue())
+                # get columns from pandas DataFrame
+                data_sources[dsid] = data[sids]
+
+            # NUML
+            elif format == FORMAT_NUML:
+                # TODO: not implementedt
+                pass
+
+        print("-" * 80)
+        print("DataSources")
+        print("-" * 80)
+        pprint(data_sources)
+        print("-" * 80)
 
         return data_sources
 
-    @staticmethod
-    def _load_sv(source, separator):
+    @classmethod
+    def _load_csv(cls, source):
+        return cls._load_sv(source, separator=",")
+
+    @classmethod
+    def _load_tsv(cls, source):
+        return cls._load_sv(source, separator="\t")
+
+    @classmethod
+    def _load_sv(cls, source, separator):
         """ Helper function for loading data file from given source.
 
         CSV files must have a header. Handles file and online resources.
@@ -135,8 +157,8 @@ class DataDescriptionParser(object):
                          skipinitialspace=True)
         return df
 
-    @staticmethod
-    def _load_numl(source):
+    @classmethod
+    def _load_numl(cls, source):
         """ Helper function for loading data files from given source.
 
         This loads the complete numl data.
@@ -189,14 +211,14 @@ class DataDescriptionParser(object):
             dim_description = res_comp.getDimensionDescription()
             print("DimensionDescription:", dim_description)
             assert (isinstance(dim_description, libnuml.DimensionDescription))
-            info = parse_description(dim_description.get(0))
+            info = cls._parse_description(dim_description.get(0))
             print("info:", info)
 
             # data
             dim = res_comp.getDimension()
             print("Dimension:", dim)
             assert (isinstance(dim, libnuml.Dimension))
-            data = parse_value(dim.get(0))
+            data = cls._parse_value(dim.get(0))
             print("data", data)
 
             res = {'info': info, 'data': data}
@@ -204,8 +226,8 @@ class DataDescriptionParser(object):
 
         return results
 
-    @staticmethod
-    def parse_description(d, info=None):
+    @classmethod
+    def _parse_description(cls, d, info=None):
         """ Parses the recursive DimensionDescription, TupleDescription, AtomicDescription.
 
         :param d:
@@ -252,8 +274,8 @@ class DataDescriptionParser(object):
 
         return info
 
-    @staticmethod
-    def parse_value(d, data=None):
+    @classmethod
+    def _parse_value(cls, d, data=None):
         """ Parses the recursive CompositeValue, Tuple, AtomicValue.
 
         :param d:
@@ -272,7 +294,7 @@ class DataDescriptionParser(object):
             data.append(content)
             print('\t* CompositeValue *', content)
 
-            info = parse_value(d.get(0), data)
+            info = cls._parse_value(d.get(0), data)
 
         elif d.isConentTuple():
 
@@ -317,7 +339,8 @@ def sedml_example(sedml_file):
     list_dd = doc_sedml.getListOfDataDescriptions()
 
     for dd in list_dd:
-        DataDescriptionParser.parse(dd)
+        data_sources = DataDescriptionParser.parse(dd)
+
 
 
 if __name__ == "__main__":
