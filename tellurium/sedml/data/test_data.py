@@ -28,6 +28,8 @@ SEDML_READ_NUML_1D = os.path.join(BASE_DIR, "reading-oscli-numlData1D.xml.xml")
 SEDML_READ_NUML_2D = os.path.join(BASE_DIR, "reading-oscli-numlData2D.xml")
 SEDML_READ_NUML_2DRC = os.path.join(BASE_DIR, "reading-oscli-numlData2DRC.xml")
 
+SEDML_EXPERIMENTAL_DATA = os.path.join(BASE_DIR, "experimental-data.xml")
+
 # ---------------------------------------------------------------------------------
 
 # Test data loading functions
@@ -70,11 +72,16 @@ def parseDataDescriptions(sedml_path):
 
     Tries to parse all DataDescriptions in the SED-ML file.
     """
+    print('parseDataDescriptions:', sedml_path)
     # load sedml document
     doc_sedml = libsedml.readSedMLFromFile(sedml_path)
 
     # parse DataDescriptions
     list_dd = doc_sedml.getListOfDataDescriptions()
+    print(list_dd)
+    print(len(list_dd))
+
+    assert len(list_dd) > 0
 
     for dd in list_dd:
         data_sources = DataDescriptionParser.parse(dd)

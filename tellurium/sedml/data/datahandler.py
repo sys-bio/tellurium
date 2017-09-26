@@ -11,10 +11,12 @@ try:
 except ImportError:
     import http.client as httplib
 
-
+import importlib
 
 try:
     import libnuml
+    importlib.reload(libnuml)
+
 except ImportError:
     import tenuml as libnuml
 
@@ -40,28 +42,23 @@ class DataDescriptionParser(object):
         :param dd: SED-ML DataDescription
         :return:
         """
+        print("PARSING:", dd)
+
         did = dd.getId()
         name = dd.getName()
         source = dd.getSource()
         format = None
         if hasattr(dd, "getFormat"):
             format = dd.getFormat()
+        else:
+            format = cls.FORMAT_NUML
+            df_csv = cls._load_csv()
+            df_tsv = cls._load_tsv()
+            if df_csv.shape[1] >= df_tsv.shape[1]:
+                format = cls.FORMAT_CSV
+            else:
+                format = cls.FORMAT_TSV
 
-        print('-' * 80)
-        print('DataDescription: :', dd)
-        print('\tid:', did)
-        print('\tname:', name)
-        print('\tsource', source)
-
-        # -------------------------------
-        # Parse DimensionDescription
-        # -------------------------------
-        # TODO: parse the DimensionDescription
-        dim_description = dd.getDimensionDescription()
-        print('\n\t*** DimensionDescription:', dim_description)
-
-        cd_top = dim_description.getCompositeDescription()
-        print(cd_top, type(cd_top))
 
         # -------------------------------
         # Find the format
@@ -76,6 +73,26 @@ class DataDescriptionParser(object):
         # check supported formats
         if format not in cls.SUPPORTED_FORMATS:
             raise NotImplementedError("Only the following data formats are supported: {}".format(cls.FORMATS))
+
+        print('-' * 80)
+        print('DataDescription: :', dd)
+        print('\tid:', did)
+        print('\tname:', name)
+        print('\tsource', source)
+        print('\tformat', format)
+
+        # -------------------------------
+        # Parse DimensionDescription
+        # -------------------------------
+        # TODO: parse the DimensionDescription
+        '''
+        dim_description = dd.getDimensionDescription()
+        print('\n\t*** DimensionDescription:', dim_description)
+
+        cd_top = dim_description.getCompositeDescription()
+        print(cd_top, type(cd_top))
+        '''
+
 
         # -------------------------------
         # Load complete data
@@ -110,7 +127,7 @@ class DataDescriptionParser(object):
             print('\t\tslices')
 
             # CSV/TSV
-            if format in [FORMAT_CSV, FORMAT_TSV]:
+            if format in [cls.FORMAT_CSV, cls.FORMAT_TSV]:
                 sids = []
                 for slice in ds.getListOfSlices():
                     print('\t\t\treference={}; value={}'.format(slice.getReference(), slice.getValue()))
@@ -120,8 +137,8 @@ class DataDescriptionParser(object):
                 data_sources[dsid] = data[sids]
 
             # NUML
-            elif format == FORMAT_NUML:
-                # TODO: not implementedt
+            elif format == cls.FORMAT_NUML:
+                # TODO: not implemented
                 pass
 
         print("-" * 80)
@@ -321,28 +338,12 @@ class DataDescriptionParser(object):
         return data
 
 
-def sedml_example(sedml_file):
-    """ Parsing data descriptions from given SEDML file.
-
-    :param sedml_file:
-    :return:
-    """
-    print('*' * 80)
-    print(sedml_file)
-    print('*' * 80)
-
-    # load sedml document
-    doc_sedml = libsedml.readSedMLFromFile(sedml_file)
-    print(doc_sedml)
-
-    # parse DataDescriptions
-    list_dd = doc_sedml.getListOfDataDescriptions()
-
-    for dd in list_dd:
-        data_sources = DataDescriptionParser.parse(dd)
-
-
-
 if __name__ == "__main__":
-    sedml_file = './examples/data_plot_numl.xml'
-    sedml_example(sedml_file)
+    import os
+    from tellurium.sedml.data.test_data import BASE_DIR, parseDataDescriptions
+    from tellurium.sedml.data.test_data import *
+    os.chdir(BASE_DIR)
+
+    # parseDataDescriptions(SEDML_READ_CSV)
+    parseDataDescriptions(SEDML_READ_NUML)
+
