@@ -92,12 +92,14 @@ def parseDataDescriptions(sedml_path):
         assert len(data_sources) > 0
     return data_sources
 
+
 def test_parse_csv():
     data_sources = parseDataDescriptions(SEDML_READ_CSV)
     assert "dataTime" in data_sources
     assert "dataS1" in data_sources
     assert len(data_sources["dataTime"]) == 200
     assert len(data_sources["dataS1"]) == 200
+
 
 def test_parse_tsv():
     data_sources = parseDataDescriptions(SEDML_READ_TSV)
@@ -106,6 +108,7 @@ def test_parse_tsv():
     assert len(data_sources["dataTime"]) == 200
     assert len(data_sources["dataS1"]) == 200
 
+
 def test_parse_numl():
     data_sources = parseDataDescriptions(SEDML_READ_NUML)
     assert "dataTime" in data_sources
@@ -113,11 +116,14 @@ def test_parse_numl():
     assert len(data_sources["dataTime"]) == 200
     assert len(data_sources["dataS1"]) == 200
 
+
 def test_parse_numl_1D():
     data_sources = parseDataDescriptions(SEDML_READ_NUML_1D)
 
+
 def test_parse_numl_2D():
     data_sources = parseDataDescriptions(SEDML_READ_NUML_2D)
+
 
 def test_parse_numl_2DRC():
     data_sources = parseDataDescriptions(SEDML_READ_NUML_2DRC)
@@ -125,3 +131,4 @@ def test_parse_numl_2DRC():
 
 if __name__ == "__main__":
     pass
+

@@ -1688,21 +1688,21 @@ class SEDMLTools(object):
         :param doc:
         :type doc:
         """
+        errorlog = doc.getErrorLog()
+        msg = errorlog.toString()
         if doc.getErrorLog().getNumFailsWithSeverity(libsedml.LIBSEDML_SEV_ERROR) > 0:
-            # print(libsedml.writeSedMLToString(doc))
-            warnings.warn(doc.getErrorLog().toString())
             # FIXME: workaround for https://github.com/fbergmann/libSEDML/issues/47
-            # raise IOError(doc.getErrorLog().toString())
-        if doc.getErrorLog().getNumFailsWithSeverity(libsedml.LIBSEDML_SEV_FATAL) > 0:
-            # print(libsedml.writeSedMLToString(doc))
-            # raise IOError(doc.getErrorLog().toString())
-            warnings.warn(doc.getErrorLog().toString())
-        if doc.getErrorLog().getNumFailsWithSeverity(libsedml.LIBSEDML_SEV_WARNING) > 0:
-            warnings.warn(doc.getErrorLog().toString())
-        if doc.getErrorLog().getNumFailsWithSeverity(libsedml.LIBSEDML_SEV_SCHEMA_ERROR) > 0:
-            warnings.warn(doc.getErrorLog().toString())
-        if doc.getErrorLog().getNumFailsWithSeverity(libsedml.LIBSEDML_SEV_GENERAL_WARNING) > 0:
-            warnings.warn(doc.getErrorLog().toString())
+            warnings.warn(msg)
+            # raise IOError(msg)
+        if errorlog.getNumFailsWithSeverity(libsedml.LIBSEDML_SEV_FATAL) > 0:
+            # raise IOError(msg)
+            warnings.warn(msg)
+        if errorlog.getNumFailsWithSeverity(libsedml.LIBSEDML_SEV_WARNING) > 0:
+            warnings.warn(msg)
+        if errorlog.getNumFailsWithSeverity(libsedml.LIBSEDML_SEV_SCHEMA_ERROR) > 0:
+            warnings.warn(msg)
+        if errorlog.getNumFailsWithSeverity(libsedml.LIBSEDML_SEV_GENERAL_WARNING) > 0:
+            warnings.warn(msg)
 
     @classmethod
     def readSEDMLDocument(cls, inputStr, workingDir):

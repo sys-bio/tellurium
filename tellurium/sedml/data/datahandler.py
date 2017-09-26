@@ -5,7 +5,7 @@ from __future__ import print_function, absolute_import
 import os
 import pandas as pd
 from pprint import pprint
-import csv
+import warnings
 
 import tempfile
 
@@ -106,9 +106,9 @@ class DataDescriptionParser(object):
         # -------------------------------
         data = None
         if format == cls.FORMAT_CSV:
-            data = cls._load_csv(source=source_path)
+            data = cls._load_csv(path=source_path)
         elif format == cls.FORMAT_TSV:
-            data = cls._load_tsv(source=source_path)
+            data = cls._load_tsv(path=source_path)
         elif format == cls.FORMAT_NUML:
             data = cls._load_numl(source=source_path)
 
@@ -203,23 +203,33 @@ class DataDescriptionParser(object):
 
 
     @classmethod
-    def _load_csv(cls, source):
-        return cls._load_sv(source, separator=",")
+    def _load_csv(cls, path):
+        """ Read CSV data from file.
+
+        :param path: path of file
+        :return: returns pandas DataFrame with data
+        """
+        return cls._load_sv(path, separator=",")
 
     @classmethod
-    def _load_tsv(cls, source):
-        return cls._load_sv(source, separator="\t")
+    def _load_tsv(cls, path):
+        """ Read TSV data from file.
+
+                :param path: path of file
+                :return: returns pandas DataFrame with data
+                """
+        return cls._load_sv(path, separator="\t")
 
     @classmethod
-    def _load_sv(cls, source, separator):
+    def _load_sv(cls, path, separator):
         """ Helper function for loading data file from given source.
 
         CSV files must have a header. Handles file and online resources.
 
-        :param source: source information from the SED-ML file
-        :return: dictionary of data sources
+        :param path: path of file.
+        :return: pandas data frame
         """
-        df = pd.read_csv(source, sep=separator,
+        df = pd.read_csv(path, sep=separator,
                          index_col=False,
                          skip_blank_lines=True,
                          quotechar='"',
@@ -227,8 +237,34 @@ class DataDescriptionParser(object):
                          skipinitialspace=True)
         return df
 
+
     @classmethod
-    def _load_numl(cls, source):
+    def read_numl_document(cls, path):
+        """ Helper to read numl document and checking errors
+
+        :param path: path of file
+        :return:
+        """
+        doc_numl = libnuml.readNUMLFromFile(path)  # type: libnuml.NUMLDocument
+
+        # check for errors
+        errorlog = doc_numl.getErrorLog()
+        msg = "NUML ERROR in '{}': {}".format(path, errorlog.toString())
+        if errorlog.getNumFailsWithSeverity(libnuml.LIBNUML_SEV_ERROR) > 0:
+            raise IOError(msg)
+        if errorlog.getNumFailsWithSeverity(libnuml.LIBNUML_SEV_FATAL) > 0:
+            raise IOError(msg)
+        if errorlog.getNumFailsWithSeverity(libnuml.LIBNUML_SEV_WARNING) > 0:
+            warnings.warn(msg)
+        if errorlog.getNumFailsWithSeverity(libnuml.LIBNUML_SEV_SCHEMA_ERROR) > 0:
+            warnings.warn(msg)
+        if errorlog.getNumFailsWithSeverity(libnuml.LIBNUML_SEV_GENERAL_WARNING) > 0:
+            warnings.warn(msg)
+
+        return doc_numl
+
+    @classmethod
+    def _load_numl(cls, path):
         """ Helper function for loading data files from given source.
 
         This loads the complete numl data.
@@ -248,11 +284,7 @@ class DataDescriptionParser(object):
         :param dd: dimensionDescription: outer dimension description
         :return: data matrix
         """
-        # Read the numl document
-        doc_numl = libnuml.readNUMLFromFile(source)
-        # FIXME: show parsing errors
-
-        print('source:', source, doc_numl)
+        doc_numl = DataDescriptionParser.read_numl_document(path)
 
         # reads all the resultComponents from the numl file
         results = []
