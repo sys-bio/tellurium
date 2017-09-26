@@ -3,9 +3,9 @@
  <resultComponents>
         <resultComponent id="oscli_data">
           <dimensionDescription>
-            <compositeDescription indexType="double" name="time">
-              <compositeDescription indexType="string" name="SpeciesIds">
-                <atomicDescription valueType="double" name="Concentrations" />
+            <compositeDescription indexType="double" id="time" name="time">
+              <compositeDescription indexType="string" id="SpeciesIds" name="SpeciesIds">
+                <atomicDescription valueType="double" id="Concentrations" name="Concentrations" />
               </compositeDescription>
             </compositeDescription>
           </dimensionDescription>
