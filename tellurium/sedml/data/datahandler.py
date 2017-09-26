@@ -284,14 +284,32 @@ class DataDescriptionParser(object):
             dim_description = rc.getDimensionDescription()
             assert (isinstance(dim_description, libnuml.DimensionDescription))
             info = cls._parse_description(dim_description.get(0))
-            print("DimensionDescription:", info, '\n')
+            column_ids = []
+            column_types = []
+            for entry in info:
+                for key, value in entry.items():
+                    column_ids.append(key)
+                    column_types.append(value)
+            print("\tDimensionDescription:", info, '\n')
+            print(info)
+            # print(column_ids, column_types)
 
             # data
             dim = rc.getDimension()
             assert (isinstance(dim, libnuml.Dimension))
+
             data = [cls._parse_dimension(dim.get(k)) for k in range(dim.size())]
-            pprint("Dimension:")
-            pprint(data)
+            # create data frame
+            flat_data = []
+            for entry in data:
+                for part in entry:
+                    flat_data.append(part)
+            # pprint("\tDimension:")
+            # pprint(flat_data)
+
+            # FIXME: set datatypes based on numl data types
+            df = pd.DataFrame(flat_data, columns=column_ids)
+            print(df.head())
 
             results[rc_id] = {'info': info, 'data': data}
 
@@ -323,11 +341,15 @@ class DataDescriptionParser(object):
             content = {d.getId(): d.getIndexType()}
             info.append(content)
             # print('\t* CompositeDescription:', content)
-
             if d.isContentCompositeDescription():
                 info = cls._parse_description(d.getCompositeDescription(0), info)
             elif d.isContentAtomicDescription():
                 info = cls._parse_description(d.getAtomicDescription(), info)
+
+        elif type_code == libnuml.NUML_ATOMICDESCRIPTION:
+            content = {d.getId(): d.getValueType()}
+            info.append(content)
+            # print('\t* AtomicDescription:', valueType)
 
         elif type_code == libnuml.NUML_TUPLEDESCRIPTION:
             tuple_des = d.getTupleDescription()
@@ -340,18 +362,13 @@ class DataDescriptionParser(object):
             info.append(valueTypes)
             # print('\t* TupleDescription:', valueTypes)
 
-        elif type_code == libnuml.NUML_ATOMICDESCRIPTION:
-            valueType = d.getValueType()
-            info.append(valueType)
-            # print('\t* AtomicDescription:', valueType)
-
         else:
             raise NotImplementedError
 
         return info
 
     @classmethod
-    def _parse_dimension(cls, d, data=None):
+    def _parse_dimension(cls, d, data=None, entry=None):
         """ Parses the recursive CompositeValue, Tuple, AtomicValue.
 
         :param d:
@@ -360,19 +377,31 @@ class DataDescriptionParser(object):
         """
         if data is None:
             data = []
+        if entry is None:
+            entry = []
 
         type_code = d.getTypeCode()
         # print('typecode:', type_code)
 
         if type_code == libnuml.NUML_COMPOSITEVALUE:
-            content = d.getIndexValue()
-            data.append(content)
-            # print('\t* CompositeValue:', content)
+            indexValue = d.getIndexValue()
+            entry.append(indexValue)
+            # print('\t* CompositeValue:', indexValue)
 
             if d.isContentCompositeValue():
-                data = cls._parse_dimension(d.getCompositeValue(0), data)
+                for k in range(d.size()):
+                    # make copy, so every entry is own entry
+                    data = cls._parse_dimension(d.getCompositeValue(k), data, list(entry))
             elif d.isContentAtomicValue():
-                data = cls._parse_dimension(d.getAtomicValue(), data)
+                data = cls._parse_dimension(d.getAtomicValue(), data, entry)
+
+        elif type_code == libnuml.NUML_ATOMICVALUE:
+            # TODO: check datatype
+            value = d.getDoubleValue()
+            entry.append(value)
+            # entry finished, we are appending
+            data.append(entry)
+            # print('\t* AtomicValue:', value)
 
         elif type_code == libnuml.NUML_TUPLE:
             Natomic = d.size()
@@ -384,11 +413,7 @@ class DataDescriptionParser(object):
             data.append(values)
             # print('\t* TupleDescription:', values)
 
-        elif type_code == libnuml.NUML_ATOMICVALUE:
-            # TODO: check datatype
-            value = d.getDoubleValue()
-            data.append(value)
-            # print('\t* AtomicValue:', value)
+
         else:
             raise NotImplementedError
 
