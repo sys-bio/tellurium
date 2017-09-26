@@ -110,7 +110,7 @@ class DataDescriptionParser(object):
         elif format == cls.FORMAT_TSV:
             data = cls._load_tsv(path=source_path)
         elif format == cls.FORMAT_NUML:
-            data = cls._load_numl(source=source_path)
+            data = cls._load_numl(path=source_path)
 
         print("-" * 80)
         print("Data")
@@ -121,7 +121,6 @@ class DataDescriptionParser(object):
         # -------------------------------
         # Process DataSources
         # -------------------------------
-        # TODO: parse DataSources (this gets the subset of data out of the full dataset)
         data_sources = {}
         for k, ds in enumerate(dd.getListOfDataSources()):
 
@@ -145,8 +144,9 @@ class DataDescriptionParser(object):
 
             # NUML
             elif format == cls.FORMAT_NUML:
-                # TODO: not implemented
-                pass
+                # TODO: parse DataSources (this gets the subset of data out of the full dataset)
+                data_source = None
+                data_sources[dsid] = data_source
 
         print("-" * 80)
         print("DataSources")
@@ -156,12 +156,11 @@ class DataDescriptionParser(object):
         print("-" * 80)
 
         # cleanup
+        # FIXME: handle in finally
         if tmp_file is not None:
-            # TODO: implement cleanup of tmp file
-            pass
+            os.remove(tmp_file)
 
         return data_sources
-
 
     @classmethod
     def _determine_format(cls, source_path, format=None):
@@ -237,7 +236,6 @@ class DataDescriptionParser(object):
                          skipinitialspace=True)
         return df
 
-
     @classmethod
     def read_numl_document(cls, path):
         """ Helper to read numl document and checking errors
@@ -292,24 +290,23 @@ class DataDescriptionParser(object):
         Nrc = doc_numl.getNumResultComponents()
         rcs = doc_numl.getResultComponents()
 
-        print('NumResultComponents:', Nrc)
+        print('\nNumResultComponents:', Nrc)
         for k in range(Nrc):
-            # parse ResultComponent
-            res_comp = rcs.get(k)
+            res_comp = rcs.get(k)  # parse ResultComponent
 
             # dimension info
             dim_description = res_comp.getDimensionDescription()
-            print("DimensionDescription:", dim_description)
             assert (isinstance(dim_description, libnuml.DimensionDescription))
             info = cls._parse_description(dim_description.get(0))
-            print("info:", info)
+            print("DimensionDescription:", info)
+
 
             # data
             dim = res_comp.getDimension()
-            print("Dimension:", dim)
+
             assert (isinstance(dim, libnuml.Dimension))
             data = cls._parse_value(dim.get(0))
-            print("data", data)
+            print("Dimension:", data)
 
             res = {'info': info, 'data': data}
             results.append(res)

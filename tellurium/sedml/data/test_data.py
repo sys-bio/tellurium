@@ -18,16 +18,17 @@ BASE_DIR = "./examples"
 SOURCE_CSV = os.path.join(BASE_DIR, "oscli.csv")
 SOURCE_TSV = os.path.join(BASE_DIR, "oscli.tsv")
 SOURCE_NUML = os.path.join(BASE_DIR, "./oscli.numl")
-SOURCE_NUML_1D = os.path.join(BASE_DIR, "./OneDimensionalNuMLData.xml")
-SOURCE_NUML_2D = os.path.join(BASE_DIR, "./TwoDimensionalNuMLData.xml")
-SOURCE_NUML_2DRC = os.path.join(BASE_DIR, "./TwoDimensionTwoRCNuMLData.xml")
+SOURCE_NUML2 = os.path.join(BASE_DIR, "./oscli2.numl")
+SOURCE_NUML_1D = os.path.join(BASE_DIR, "./numlData1D.xml")
+SOURCE_NUML_2D = os.path.join(BASE_DIR, "./numlData2D.xml")
+SOURCE_NUML_2DRC = os.path.join(BASE_DIR, "./numlData2DRC.xml")
 
 SEDML_READ_CSV = os.path.join(BASE_DIR, "reading-oscli-csv.xml")
 SEDML_READ_TSV = os.path.join(BASE_DIR, "reading-oscli-tsv.xml")
 SEDML_READ_NUML = os.path.join(BASE_DIR, "reading-oscli-numl.xml")
-SEDML_READ_NUML_1D = os.path.join(BASE_DIR, "reading-oscli-numlData1D.xml.xml")
-SEDML_READ_NUML_2D = os.path.join(BASE_DIR, "reading-oscli-numlData2D.xml")
-SEDML_READ_NUML_2DRC = os.path.join(BASE_DIR, "reading-oscli-numlData2DRC.xml")
+SEDML_READ_NUML_1D = os.path.join(BASE_DIR, "reading-numlData1D.xml")
+SEDML_READ_NUML_2D = os.path.join(BASE_DIR, "reading-numlData2D.xml")
+SEDML_READ_NUML_2DRC = os.path.join(BASE_DIR, "reading-numlData2DRC.xml")
 
 SEDML_EXPERIMENTAL_DATA = os.path.join(BASE_DIR, "experimental-data.xml")
 
@@ -75,6 +76,8 @@ def parseDataDescriptions(sedml_path):
     """
     print('parseDataDescriptions:', sedml_path)
     # load sedml document
+    assert os.path.exists(sedml_path)
+
     doc_sedml = libsedml.readSedMLFromFile(sedml_path)
     SEDMLTools.checkSEDMLDocument(doc_sedml)
 

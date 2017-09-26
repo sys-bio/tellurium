@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <sedML level="1" version="3" xmlns="http://sed-ml.org/sed-ml/level1/version3">
   <listOfDataDescriptions>
-    <dataDescription id="data_numl" source="./numlData1D.numl" format="urn:sedml:format:numl">
+    <dataDescription id="data_numl" name="test" source="./numlData1D.xml">
       <dimensionDescription>
         <compositeDescription indexType="double" id="time" name="time" xmlns="http://www.numl.org/numl/level1/version1">
           <compositeDescription indexType="string" id="SpeciesIds" name="SpeciesIds">
