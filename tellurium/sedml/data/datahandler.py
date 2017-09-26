@@ -305,6 +305,7 @@ class DataDescriptionParser(object):
             dim = res_comp.getDimension()
 
             assert (isinstance(dim, libnuml.Dimension))
+
             data = cls._parse_value(dim.get(0))
             print("Dimension:", data)
 
@@ -332,12 +333,10 @@ class DataDescriptionParser(object):
                 'indexType': d.getIndexType(),
             }
             info.append(content)
-            print('\t* CompositeDescription *', content)
-
+            print('\t* CompositeDescription:', content)
             info = cls._parse_description(d.get(0), info)
 
         elif d.isContentTupleDescription():
-
             tuple_des = d.getTupleDescription()
             assert (isinstance(tuple_des, libnuml.TupleDescription))
 
@@ -357,7 +356,7 @@ class DataDescriptionParser(object):
 
             valueTypes = [atomic.getValueType()]
             info.append(valueTypes)
-            print('* AtomicDescription *', valueTypes)
+            print('\t* AtomicDescription *', valueTypes)
 
         return info
 
@@ -372,18 +371,18 @@ class DataDescriptionParser(object):
         if data is None:
             data = []
 
-        print(type(d), d)
-        if d.isCompositeValue():
+        # print(type(d), d)
+        if d.isContentCompositeValue():
             assert(isinstance(d, libnuml.CompositeValue))
             content = {
                 'indexValue': d.getIndexValue(),
             }
             data.append(content)
-            print('\t* CompositeValue *', content)
+            print('\t* CompositeValue:', content)
 
             info = cls._parse_value(d.get(0), data)
 
-        elif d.isConentTuple():
+        elif d.isContentTuple():
 
             tuple = d.getTuple()
             assert (isinstance(tuple, libnuml.Tuple))
@@ -395,7 +394,7 @@ class DataDescriptionParser(object):
                 assert(isinstance(atomic, libnuml.Atomic))
                 values.append(atomic.getDoubleValue())
             data.append(values)
-            print('\t* TupleDescription * ', values)
+            print('\t* TupleDescription:', values)
 
         elif d.isContentAtomicValue():
             atomic = d.getAtomicValue()
@@ -403,6 +402,6 @@ class DataDescriptionParser(object):
 
             values = [atomic.getDoubleValue()]
             data.append(values)
-            print('* AtomicValue *', values)
+            print('\t* AtomicValue:', values)
 
         return data

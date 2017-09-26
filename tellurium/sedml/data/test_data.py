@@ -17,8 +17,7 @@ BASE_DIR = "./examples"
 
 SOURCE_CSV = os.path.join(BASE_DIR, "oscli.csv")
 SOURCE_TSV = os.path.join(BASE_DIR, "oscli.tsv")
-SOURCE_NUML = os.path.join(BASE_DIR, "./oscli.numl")
-SOURCE_NUML2 = os.path.join(BASE_DIR, "./oscli2.numl")
+SOURCE_NUML = os.path.join(BASE_DIR, "./oscli.xml")
 SOURCE_NUML_1D = os.path.join(BASE_DIR, "./numlData1D.xml")
 SOURCE_NUML_2D = os.path.join(BASE_DIR, "./numlData2D.xml")
 SOURCE_NUML_2DRC = os.path.join(BASE_DIR, "./numlData2DRC.xml")
