@@ -116,8 +116,9 @@ class DataDescriptionParser(object):
             print(data.head(10))
         elif format == cls.FORMAT_NUML:
             # multiple result components via id
-            for key, value in data.items():
-                print(value.head(10))
+            for result in data:
+                print(result[0])  # rc id
+                print(result[1].head(10))  # DataFrame
         print("-" * 80)
 
         # -------------------------------
@@ -147,26 +148,22 @@ class DataDescriptionParser(object):
 
             # NUML
             elif format == cls.FORMAT_NUML:
-                print('processing numl')
+
                 # FIXME: Using the first results component, as long as their is no indexing
-                # dictionaries of rc ids and data
-                rc = list(data.values())[0]
-                print(rc)
+                rc_id, rc = data[0]
+                # print(rc)
 
                 # data via indexSet
                 indexSet = ds.getIndexSet()
                 if ds.getIndexSet() and len(ds.getIndexSet()) != 0:
-                    print("indexSet: '{}'".format(indexSet))
                     data_source = rc[indexSet].drop_duplicates()
                     data_sources[dsid] = data_source
                 else:
-                    print("slicing")
                     for slice in ds.getListOfSlices():
-
                         reference = slice.getReference()
                         value = slice.getValue()
-                        # FIXME: select last column
-                        df = rc.loc[rc[reference]==value]
+                        df = rc.loc[rc[reference] == value]
+                        # select last column with values
                         data_sources[dsid] = df.iloc[:, -1]
 
         print("-" * 80)
@@ -294,7 +291,7 @@ class DataDescriptionParser(object):
         doc_numl = DataDescriptionParser.read_numl_document(path)
 
         # reads all the resultComponents from the numl file
-        results = {}
+        results = []
 
         Nrc = doc_numl.getNumResultComponents()
         rcs = doc_numl.getResultComponents()
@@ -335,7 +332,7 @@ class DataDescriptionParser(object):
             df = pd.DataFrame(flat_data, columns=column_ids)
             print(df.head())
 
-            results[rc_id] = df
+            results.append([rc_id, df])
 
         return results
 

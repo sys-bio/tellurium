@@ -13,9 +13,7 @@
 	<resultComponent id="component1">
 		<dimensionDescription>
 			<compositeDescription id="Species" name="Species" indexType="string">
-				<tupleDescription>
 					<atomicDescription id="Concentration" name="Concentration" ontologyTerm="term3" valueType="double" />
-				</tupleDescription>
 			</compositeDescription>
 		</dimensionDescription>
 		<dimension>

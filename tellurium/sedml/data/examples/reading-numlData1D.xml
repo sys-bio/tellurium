@@ -10,12 +10,36 @@
         </compositeDescription>
       </dimensionDescription>
       <listOfDataSources>
-        <dataSource id="dataS1">
+        <dataSource id="data_s_glu">
           <listOfSlices>
-            <slice reference="SpeciesIds" value="S1" />
+            <slice reference="Species" value="s_glu" />
           </listOfSlices>
         </dataSource>
-        <dataSource id="dataTime" indexSet="time" />
+        <dataSource id="data_s_pyr">
+          <listOfSlices>
+            <slice reference="Species" value="s_pyr" />
+          </listOfSlices>
+        </dataSource>
+        <dataSource id="data_s_acetate">
+          <listOfSlices>
+            <slice reference="Species" value="s_acetate" />
+          </listOfSlices>
+        </dataSource>
+        <dataSource id="data_s_acetald">
+          <listOfSlices>
+            <slice reference="Species" value="s_acetald" />
+          </listOfSlices>
+        </dataSource>
+        <dataSource id="data_s_EtOH">
+          <listOfSlices>
+            <slice reference="Species" value="s_EtOH" />
+          </listOfSlices>
+        </dataSource>
+        <dataSource id="data_x">
+          <listOfSlices>
+            <slice reference="Species" value="x" />
+          </listOfSlices>
+        </dataSource>
       </listOfDataSources>
     </dataDescription>
   </listOfDataDescriptions>
