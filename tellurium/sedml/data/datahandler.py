@@ -149,7 +149,8 @@ class DataDescriptionParser(object):
         print("-" * 80)
         print("DataSources")
         print("-" * 80)
-        print(data_sources)
+        for key, value in data_sources.items():
+            print('{} : {}; shape={}'.format(key, type(value), value.shape))
         print("-" * 80)
 
         return data_sources

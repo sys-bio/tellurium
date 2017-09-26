@@ -3,19 +3,23 @@
   <listOfDataDescriptions>
     <dataDescription id="data_tsv" name="Oscli Time Course Data (TSV)" source="./oscli.tsv" format="urn:sedml:format:tsv">
       <dimensionDescription>
-        <compositeDescription indexType="double" id="time" name="time" xmlns="http://www.numl.org/numl/level1/version1">
-          <compositeDescription indexType="string" id="SpeciesIds" name="SpeciesIds">
-            <atomicDescription valueType="double" name="Concentrations" />
+        <compositeDescription indexType="double" id="index" name="index" xmlns="http://www.numl.org/numl/level1/version1">
+          <compositeDescription indexType="string" id="ColumnIds" name="ColumnIds">
+            <atomicDescription valueType="double" name="Values" />
           </compositeDescription>
         </compositeDescription>
       </dimensionDescription>
       <listOfDataSources>
-        <dataSource id="dataS1">
+        <dataSource id="dataTime">
           <listOfSlices>
-            <slice reference="SpeciesIds" value="S1" />
+            <slice reference="ColumnIds" value="time" />
           </listOfSlices>
         </dataSource>
-        <dataSource id="dataTime" indexSet="time" />
+        <dataSource id="dataS1">
+          <listOfSlices>
+            <slice reference="ColumnIds" value="S1" />
+          </listOfSlices>
+        </dataSource>
       </listOfDataSources>
     </dataDescription>
   </listOfDataDescriptions>
