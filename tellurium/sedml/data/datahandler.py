@@ -95,8 +95,8 @@ class DataDescriptionParser(object):
         dim_description = dd.getDimensionDescription()
 
         assert (isinstance(dim_description, libnuml.DimensionDescription))
-        info = cls._parse_description(dim_description.get(0))
-        print("DimensionDescription:", info)
+        # info = cls._parse_description(dim_description.get(0))
+        # print("DimensionDescription:", info)
 
         # -------------------------------
         # Load complete data
@@ -112,7 +112,12 @@ class DataDescriptionParser(object):
         print("-" * 80)
         print("Data")
         print("-" * 80)
-        pprint(data)
+        if format in [cls.FORMAT_CSV, cls.FORMAT_TSV]:
+            print(data.head(10))
+        elif format == cls.FORMAT_NUML:
+            # multiple result components via id
+            for key, value in data.items():
+                print(value.head(10))
         print("-" * 80)
 
         # -------------------------------
@@ -133,17 +138,36 @@ class DataDescriptionParser(object):
             if format in [cls.FORMAT_CSV, cls.FORMAT_TSV]:
                 sids = []
                 for slice in ds.getListOfSlices():
-                    print('\t\t\treference={}; value={}'.format(slice.getReference(), slice.getValue()))
-
+                    # FIXME: this does not handle multiple slices for rows
+                    # print('\t\t\treference={}; value={}'.format(slice.getReference(), slice.getValue()))
                     sids.append(slice.getValue())
-                # get columns from pandas DataFrame
+
+                # slice values are columns from data frame
                 data_sources[dsid] = data[sids].values
 
             # NUML
             elif format == cls.FORMAT_NUML:
-                # TODO: parse DataSources (this gets the subset of data out of the full dataset)
-                data_source = None
-                data_sources[dsid] = data_source
+                print('processing numl')
+                # FIXME: Using the first results component, as long as their is no indexing
+                # dictionaries of rc ids and data
+                rc = list(data.values())[0]
+                print(rc)
+
+                # data via indexSet
+                indexSet = ds.getIndexSet()
+                if ds.getIndexSet() and len(ds.getIndexSet()) != 0:
+                    print("indexSet: '{}'".format(indexSet))
+                    data_source = rc[indexSet].drop_duplicates()
+                    data_sources[dsid] = data_source
+                else:
+                    print("slicing")
+                    for slice in ds.getListOfSlices():
+
+                        reference = slice.getReference()
+                        value = slice.getValue()
+                        # FIXME: select last column
+                        df = rc.loc[rc[reference]==value]
+                        data_sources[dsid] = df.iloc[:, -1]
 
         print("-" * 80)
         print("DataSources")
@@ -311,7 +335,7 @@ class DataDescriptionParser(object):
             df = pd.DataFrame(flat_data, columns=column_ids)
             print(df.head())
 
-            results[rc_id] = {'info': info, 'data': data}
+            results[rc_id] = df
 
         return results
 
