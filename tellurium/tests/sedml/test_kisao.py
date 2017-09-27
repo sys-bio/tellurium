@@ -610,6 +610,3 @@ class KisaoSedmlTestCase(unittest.TestCase):
         self.checkKisaoAlgorithmParameter(inline_omex, 'KISAO:0000488', 'seed', 1234)
         te.executeInlineOmex(inline_omex)
 
-
-if __name__ == "__main__":
-    unitest.main()

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sedML level="1" version="3" xmlns="http://sed-ml.org/sed-ml/level1/version3">
+  <listOfDataDescriptions>
+    <dataDescription id="data_numl" source="./numlData2D.xml">
+        <dimensionDescription>
+            <compositeDescription id="Time" name="Time" ontologyTerm="term3" indexType="float">
+                <compositeDescription id="Metabolites" name="Metabolites" ontologyTerm="term2" indexType="string">
+                    <atomicDescription id="Concentrations" name="Concentrations" ontologyTerm="term1" valueType="double" />
+                </compositeDescription>
+            </compositeDescription>
+        </dimensionDescription>
+      <listOfDataSources>
+        <dataSource id="dataBL">
+          <listOfSlices>
+            <slice reference="Metabolites" value="BL" />
+          </listOfSlices>
+        </dataSource>
+        <dataSource id="dataB">
+          <listOfSlices>
+            <slice reference="Metabolites" value="B" />
+          </listOfSlices>
+        </dataSource>
+        <dataSource id="dataS1">
+          <listOfSlices>
+            <slice reference="Metabolites" value="DLL" />
+          </listOfSlices>
+        </dataSource>
+        <dataSource id="dataTime" indexSet="Time" />
+      </listOfDataSources>
+    </dataDescription>
+  </listOfDataDescriptions>
+</sedML>

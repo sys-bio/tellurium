@@ -1,10 +1,5 @@
 """
 Test that Combine archives can be executed successfully.
-
-    test_sedml_phrasedml.py : phrasedml based tests.
-    test_sedml_kisao.py : SED-ML kisao support
-    test_sedml_omex.py : SED-ML tests based on Combine Archives
-    test_sedml_sedml.py : sed-ml tests
 """
 
 from __future__ import absolute_import, print_function
@@ -14,7 +9,8 @@ import tempfile
 import shutil
 from tellurium.sedml import tesedml
 import matplotlib
-from . import helpers
+from tellurium.tests import helpers
+
 
 # -------------------------------------------------------------
 # Combine Archive test files

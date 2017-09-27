@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sedML level="1" version="3" xmlns="http://sed-ml.org/sed-ml/level1/version3">
+  <listOfDataDescriptions>
+    <dataDescription id="data_numl" name="Oscli Time Course Data (NuML)" source="./oscli.xml">
+         <dimensionDescription>
+            <compositeDescription indexType="double" id="time" name="time">
+              <compositeDescription indexType="string" id="SpeciesIds" name="SpeciesIds">
+                <atomicDescription valueType="double" id="Concentrations" name="Concentrations" />
+              </compositeDescription>
+            </compositeDescription>
+         </dimensionDescription>
+      <listOfDataSources>
+        <dataSource id="dataS1">
+          <listOfSlices>
+            <slice reference="SpeciesIds" value="S1" />
+          </listOfSlices>
+        </dataSource>
+        <dataSource id="dataTime" indexSet="time" />
+      </listOfDataSources>
+    </dataDescription>
+  </listOfDataDescriptions>
+</sedML>

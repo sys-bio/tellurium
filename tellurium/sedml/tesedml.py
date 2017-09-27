@@ -194,6 +194,8 @@ def executeCombineArchive(omexPath, workingDir=None):
     """
     filename, extension = os.path.splitext(os.path.basename(omexPath))
 
+
+    pycode = {}
     # combine archives are zip format
     if zipfile.is_zipfile(omexPath):
 
@@ -213,6 +215,11 @@ def executeCombineArchive(omexPath, workingDir=None):
         dgs = {}
         for sedmlFile in sedml_paths:
             factory = SEDMLCodeFactory(sedmlFile, workingDir=os.path.dirname(sedmlFile))
+
+            code = factory.toPython()
+            print("*" * 80)
+            print(code)
+            print("*" * 80)
             sedml_dgs = factory.executePython()
             dgs[sedmlFile] = sedml_dgs
 
@@ -402,6 +409,7 @@ class SEDMLCodeFactory(object):
         #      env.filters[key] = getattr(sedmlfilters, key)
         template = env.get_template(python_template)
         env.globals['modelToPython'] = self.modelToPython
+        env.globals['dataDescriptionToPython'] = self.dataDescriptionToPython
         env.globals['taskToPython'] = self.taskToPython
         env.globals['dataGeneratorToPython'] = self.dataGeneratorToPython
         env.globals['outputToPython'] = self.outputToPython
@@ -551,6 +559,60 @@ class SEDMLCodeFactory(object):
             warnings.warn("Unsupported change: {}".format(change.getElementName()))
 
         return lines
+
+
+    def dataDescriptionToPython(self, dataDescription):
+        """ Python code for DataDescription.
+
+        :param dataDescription: SedModel instance
+        :type dataDescription: DataDescription
+        :return: python str
+        :rtype: str
+        """
+        lines = []
+        did = dataDescription.getId()
+
+        '''
+        language = model.getLanguage()
+        source = self.model_sources[mid]
+
+        
+        if not language:
+            warnings.warn("No model language specified, defaulting to SBML for: {}".format(source))
+
+        def isUrn():
+            return source.startswith('urn') or source.startswith('URN')
+
+        def isHttp():
+            return source.startswith('http') or source.startswith('HTTP')
+
+        # read SBML
+        if 'sbml' in language or len(language) == 0:
+            if isUrn():
+                lines.append("import tellurium.temiriam as temiriam")
+                lines.append("__{}_sbml = temiriam.getSBMLFromBiomodelsURN('{}')".format(mid, source))
+                lines.append("{} = te.loadSBMLModel(__{}_sbml)".format(mid, mid))
+            elif isHttp():
+                lines.append("{} = te.loadSBMLModel('{}')".format(mid, source))
+            else:
+                lines.append("{} = te.loadSBMLModel(os.path.join(workingDir, '{}'))".format(mid, source))
+        # read CellML
+        elif 'cellml' in language:
+            if isHttp():
+                lines.append("{} = te.loadCellMLModel('{}')".format(mid, source))
+            else:
+                lines.append(
+                    "{} = te.loadCellMLModel(os.path.join(workingDir, '{}'))".format(mid, self.model_sources[mid]))
+        # other
+        else:
+            warnings.warn("Unsupported model language: '{}'".format(language))
+
+        # apply model changes
+        for change in self.model_changes[mid]:
+            lines.extend(SEDMLCodeFactory.modelChangeToPython(model, change))
+        '''
+        return '\n'.join(lines)
+
 
     ################################################################################################
     # Here the main work is done,
@@ -1626,21 +1688,21 @@ class SEDMLTools(object):
         :param doc:
         :type doc:
         """
+        errorlog = doc.getErrorLog()
+        msg = errorlog.toString()
         if doc.getErrorLog().getNumFailsWithSeverity(libsedml.LIBSEDML_SEV_ERROR) > 0:
-            # print(libsedml.writeSedMLToString(doc))
-            warnings.warn(doc.getErrorLog().toString())
             # FIXME: workaround for https://github.com/fbergmann/libSEDML/issues/47
-            # raise IOError(doc.getErrorLog().toString())
-        if doc.getErrorLog().getNumFailsWithSeverity(libsedml.LIBSEDML_SEV_FATAL) > 0:
-            # print(libsedml.writeSedMLToString(doc))
-            # raise IOError(doc.getErrorLog().toString())
-            warnings.warn(doc.getErrorLog().toString())
-        if doc.getErrorLog().getNumFailsWithSeverity(libsedml.LIBSEDML_SEV_WARNING) > 0:
-            warnings.warn(doc.getErrorLog().toString())
-        if doc.getErrorLog().getNumFailsWithSeverity(libsedml.LIBSEDML_SEV_SCHEMA_ERROR) > 0:
-            warnings.warn(doc.getErrorLog().toString())
-        if doc.getErrorLog().getNumFailsWithSeverity(libsedml.LIBSEDML_SEV_GENERAL_WARNING) > 0:
-            warnings.warn(doc.getErrorLog().toString())
+            warnings.warn(msg)
+            # raise IOError(msg)
+        if errorlog.getNumFailsWithSeverity(libsedml.LIBSEDML_SEV_FATAL) > 0:
+            # raise IOError(msg)
+            warnings.warn(msg)
+        if errorlog.getNumFailsWithSeverity(libsedml.LIBSEDML_SEV_WARNING) > 0:
+            warnings.warn(msg)
+        if errorlog.getNumFailsWithSeverity(libsedml.LIBSEDML_SEV_SCHEMA_ERROR) > 0:
+            warnings.warn(msg)
+        if errorlog.getNumFailsWithSeverity(libsedml.LIBSEDML_SEV_GENERAL_WARNING) > 0:
+            warnings.warn(msg)
 
     @classmethod
     def readSEDMLDocument(cls, inputStr, workingDir):
@@ -1681,6 +1743,8 @@ class SEDMLTools(object):
                 else:
                     extractDir = workingDir
 
+
+                # TODO: refactor this
                 # extract the archive to working directory
                 CombineArchive.extractArchive(omexPath, extractDir)
                 # get SEDML files from archive

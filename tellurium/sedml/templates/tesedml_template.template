@@ -31,6 +31,12 @@ workingDir = r'{{ factory.workingDir }}'
 {{ modelToPython(model) }}
 {% endfor %}
 
+{{ helpers.heading(doc.getListOfDataDescriptions(), 'DataDescription') }}
+{% for dataDescription in doc.getListOfDataDescriptions() %}
+# DataDescription <{{ dataDescription.getId() }}>
+{{ dataDescriptionToPython(dataDescription) }}
+{% endfor %}
+
 {{ helpers.heading(doc.getListOfTasks(), 'Task') }}
 {% for task in doc.getListOfTasks() %}
 # Task <{{ task.getId() }}>
