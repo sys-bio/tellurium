@@ -9,10 +9,16 @@ import tempfile
 import json
 import getpass
 
+
+import imp  # reloads because numl is overwriting symbols
 try:
     import tecombine as libcombine
+
 except ImportError:
     import libcombine
+
+
+
 
 from .convert_phrasedml import phrasedmlImporter
 from .convert_antimony import antimonyConverter
@@ -139,11 +145,20 @@ class Omex(object):
         import phrasedml
         phrasedml.clearReferencedSBML()
 
+        import importlib
+        importlib.reload(libcombine)
+
+
         archive = libcombine.CombineArchive()
         description = libcombine.OmexDescription()
         description.setAbout(self.about)
         description.setDescription(self.description)
-        description.setCreated(libcombine.OmexDescription.getCurrentDateAndTime())
+
+        # here Date overwritten be numl
+        import sys
+        print(sys.modules)
+        time_now = libcombine.OmexDescription.getCurrentDateAndTime()
+        description.setCreated(time_now)
 
         # TODO: pass in creator
         if self.creator is not None:

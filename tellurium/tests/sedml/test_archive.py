@@ -8,9 +8,8 @@ import pytest
 import unittest
 import tempfile
 import shutil
+
 from tellurium.sedml import tesedml
-import matplotlib
-from . import helpers
 
 from tellurium.tests.testdata import OMEX_TEST_DIR
 from tellurium.utils import omex
@@ -29,7 +28,6 @@ OMEX_EXCLUDED = [
 
 
 def test_single_omex(tmpdir):
-
 
     # omex_path = os.path.join(OMEX_TEST_DIR, 'specification/L1V3/L1V3_reading-data-numl-minimal.omex')
     omex_path = os.path.join(OMEX_TEST_DIR, 'specification/L1V3/L1V3_reading-data-csv-minimal.omex')

@@ -3,23 +3,15 @@ Reading NUML, CSV and TSV data from DataDescriptions
 """
 from __future__ import print_function, absolute_import
 import os
-import pandas as pd
-from pprint import pprint
 import warnings
-
 import tempfile
+import pandas as pd
 
 # py2 / py3
 try:
     import httplib
 except ImportError:
     import http.client as httplib
-
-try:
-    import libnuml
-
-except ImportError:
-    import tenuml as libnuml
 
 
 class DataDescriptionParser(object):
@@ -67,7 +59,6 @@ class DataDescriptionParser(object):
             except:
                 file_str = str(data)
 
-            doc_numl = libnuml.readNUMLFromString(numl_str)
             tmp_file = tempfile.NamedTemporaryFile("w")
             tmp_file.write(file_str)
             source_path = tmp_file.name
@@ -93,8 +84,7 @@ class DataDescriptionParser(object):
         # Parse DimensionDescription
         # -------------------------------
         dim_description = dd.getDimensionDescription()
-
-        assert (isinstance(dim_description, libnuml.DimensionDescription))
+        # FIXME: parse the description and use for validation/checking data formats
         # info = cls._parse_description(dim_description.get(0))
         # print("DimensionDescription:", info)
 
@@ -260,6 +250,8 @@ class DataDescriptionParser(object):
         :param path: path of file
         :return:
         """
+        # FIXME: hiding libnuml import until tenuml (move to top)
+        import libnuml
         doc_numl = libnuml.readNUMLFromFile(path)  # type: libnuml.NUMLDocument
 
         # check for errors
@@ -288,6 +280,8 @@ class DataDescriptionParser(object):
         :param path: NuML path
         :return: data
         """
+        # FIXME: hiding libnuml import until tenuml (move to top)
+        import libnuml
         doc_numl = DataDescriptionParser.read_numl_document(path)
 
         # reads all the resultComponents from the numl file
@@ -352,6 +346,8 @@ class DataDescriptionParser(object):
         :param info:
         :return:
         """
+        # FIXME: hiding libnuml import until tenuml (move to top)
+        import libnuml
         if info is None:
             info = []
 
@@ -396,6 +392,9 @@ class DataDescriptionParser(object):
         :param data:
         :return:
         """
+        # FIXME: hiding libnuml import until tenuml (move to top)
+        import libnuml
+
         if data is None:
             data = []
         if entry is None:

@@ -1743,6 +1743,8 @@ class SEDMLTools(object):
                 else:
                     extractDir = workingDir
 
+
+                # TODO: refactor this
                 # extract the archive to working directory
                 CombineArchive.extractArchive(omexPath, extractDir)
                 # get SEDML files from archive

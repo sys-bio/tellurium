@@ -891,5 +891,3 @@ class PhrasedmlTestCase(unittest.TestCase):
         '''
         self.run_example(a_str, p_str)
 
-if __name__ == '__main__':
-    unittest.main()

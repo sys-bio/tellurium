@@ -1,12 +1,11 @@
 
 from __future__ import absolute_import, print_function
-import os
+
 import unittest
 import tempfile
 import shutil
 from tellurium.sedml import tesedml
 import matplotlib
-from . import helpers
 
 # -------------------------------------------------------------
 # Combine Archive test files
