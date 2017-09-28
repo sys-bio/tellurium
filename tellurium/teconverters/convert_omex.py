@@ -145,18 +145,10 @@ class Omex(object):
         import phrasedml
         phrasedml.clearReferencedSBML()
 
-        import importlib
-        importlib.reload(libcombine)
-
-
         archive = libcombine.CombineArchive()
         description = libcombine.OmexDescription()
         description.setAbout(self.about)
         description.setDescription(self.description)
-
-        # here Date overwritten be numl
-        import sys
-        print(sys.modules)
         time_now = libcombine.OmexDescription.getCurrentDateAndTime()
         description.setCreated(time_now)
 
