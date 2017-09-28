@@ -1,3 +1,6 @@
+"""
+Testing of SED-ML data support, i.e., DataDescription.
+"""
 from __future__ import print_function, absolute_import
 
 import os
@@ -13,6 +16,7 @@ try:
 except ImportError:
     import tesedml as libsedml
 
+from tellurium.sedml import tesedml
 
 # ---------------------------------------------------------------------------------
 BASE_DIR = os.path.join(TESTDATA_DIR, 'sedml', 'data')
@@ -31,7 +35,10 @@ SEDML_READ_NUML_1D = os.path.join(BASE_DIR, "reading-numlData1D.xml")
 SEDML_READ_NUML_2D = os.path.join(BASE_DIR, "reading-numlData2D.xml")
 SEDML_READ_NUML_2DRC = os.path.join(BASE_DIR, "reading-numlData2DRC.xml")
 
-SEDML_EXPERIMENTAL_DATA = os.path.join(BASE_DIR, "experimental-data.xml")
+OMEX_PLOT_CSV = os.path.join(BASE_DIR, 'omex', "plot_csv.omex")
+OMEX_PLOT_CSV_WITH_MODEL = os.path.join(BASE_DIR, 'omex', "plot_csv_with_model.omex")
+OMEX_PLOT_NUML = os.path.join(BASE_DIR, 'omex', "plot_numl.omex")
+OMEX_PLOT_NUML_WITH_MODEL = os.path.join(BASE_DIR, 'omex', "plot_numl_with_model.omex")
 
 # ---------------------------------------------------------------------------------
 
@@ -138,6 +145,26 @@ def test_parse_numl_2DRC():
     print(data_sources)
     # FIXME: check results
 
+
+def test_omex_plot_csv():
+    dgs = tesedml.executeCombineArchive(OMEX_PLOT_CSV)
+    print(dgs)
+    assert 0
+
+
+def test_omex_plot_csv_with_model():
+    dgs = tesedml.executeCombineArchive(OMEX_PLOT_CSV_WITH_MODEL)
+    assert 0
+
+
+def test_omex_plot_numl():
+    dgs = tesedml.executeCombineArchive(OMEX_PLOT_NUML)
+    assert 0
+
+
+def test_omex_plot_numl_with_model():
+    dgs = tesedml.executeCombineArchive(OMEX_PLOT_NUML_WITH_MODEL)
+    assert 0
 
 
 

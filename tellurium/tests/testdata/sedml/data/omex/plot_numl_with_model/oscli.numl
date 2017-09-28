@@ -1,0 +1,1616 @@
+<?xml version="1.0" encoding="utf-8"?>
+<numl version="1" level="1" xmlns="http://www.numl.org/numl/level1/version1">
+ <resultComponents>
+        <resultComponent id="oscli_data">
+          <dimensionDescription>
+            <compositeDescription indexType="double" id="time" name="time">
+              <compositeDescription indexType="string" id="SpeciesIds" name="SpeciesIds">
+                <atomicDescription valueType="double" id="Concentrations" name="Concentrations" />
+              </compositeDescription>
+            </compositeDescription>
+          </dimensionDescription>
+          <dimension>
+            <compositeValue indexValue="0">
+              <compositeValue indexValue="S1">
+                <atomicValue>0</atomicValue>
+              </compositeValue>
+              <compositeValue indexValue="S2">
+                <atomicValue>1</atomicValue>
+              </compositeValue>
+            </compositeValue>
+            <compositeValue indexValue="0.050251256281407">
+              <compositeValue indexValue="S1">
+                <atomicValue>0.385988202414057</atomicValue>
+              </compositeValue>
+              <compositeValue indexValue="S2">
+                <atomicValue>0.79251888845118</atomicValue>
+              </compositeValue>
+            </compositeValue>
+            <compositeValue indexValue="0.100502512562814">
+              <compositeValue indexValue="S1">
+                <atomicValue>0.749076575547487</atomicValue>
+              </compositeValue>
+              <compositeValue indexValue="S2">
+                <atomicValue>0.651204922616646</atomicValue>
+              </compositeValue>
+            </compositeValue>
+            <compositeValue indexValue="0.150753768844221">
+              <compositeValue indexValue="S1">
+                <atomicValue>1.09472607991962</atomicValue>
+              </compositeValue>
+              <compositeValue indexValue="S2">
+                <atomicValue>0.556663814453799</atomicValue>
+              </compositeValue>
+            </compositeValue>
+            <compositeValue indexValue="0.201005025125628">
+              <compositeValue indexValue="S1">
+                <atomicValue>1.42427610028697</atomicValue>
+              </compositeValue>
+              <compositeValue indexValue="S2">
+                <atomicValue>0.497353624499413</atomicValue>
+              </compositeValue>
+            </compositeValue>
+            <compositeValue indexValue="0.251256281407035">
+              <compositeValue indexValue="S1">
+                <atomicValue>1.73802867188454</atomicValue>
+              </compositeValue>
+              <compositeValue indexValue="S2">
+                <atomicValue>0.465187703659302</atomicValue>
+              </compositeValue>
+            </compositeValue>
+            <compositeValue indexValue="0.301507537688442">
+              <compositeValue indexValue="S1">
+                <atomicValue>2.03603147862388</atomicValue>
+              </compositeValue>
+              <compositeValue indexValue="S2">
+                <atomicValue>0.454095328220978</atomicValue>
+              </compositeValue>
+            </compositeValue>
+            <compositeValue indexValue="0.351758793969849">
+              <compositeValue indexValue="S1">
+                <atomicValue>2.31821730268177</atomicValue>
+              </compositeValue>
+              <compositeValue indexValue="S2">
+                <atomicValue>0.459456147823987</atomicValue>
+              </compositeValue>
+            </compositeValue>
+            <compositeValue indexValue="0.402010050251256">
+              <compositeValue indexValue="S1">
+                <atomicValue>2.58435393950354</atomicValue>
+              </compositeValue>
+              <compositeValue indexValue="S2">
+                <atomicValue>0.477823970730369</atomicValue>
+              </compositeValue>
+            </compositeValue>
+            <compositeValue indexValue="0.452261306532663">
+              <compositeValue indexValue="S1">
+                <atomicValue>2.83394766107945</atomicValue>
+              </compositeValue>
+              <compositeValue indexValue="S2">
+                <atomicValue>0.506751615231212</atomicValue>
+              </compositeValue>
+            </compositeValue>
+            <compositeValue indexValue="0.50251256281407">
+              <compositeValue indexValue="S1">
+                <atomicValue>3.06611642305166</atomicValue>
+              </compositeValue>
+              <compositeValue indexValue="S2">
+                <atomicValue>0.54468164070618</atomicValue>
+              </compositeValue>
+            </compositeValue>
+            <compositeValue indexValue="0.552763819095477">
+              <compositeValue indexValue="S1">
+                <atomicValue>3.27942534008634</atomicValue>
+              </compositeValue>
+              <compositeValue indexValue="S2">
+                <atomicValue>0.590893944900254</atomicValue>
+              </compositeValue>
+            </compositeValue>
+            <compositeValue indexValue="0.603015075376884">
+              <compositeValue indexValue="S1">
+                <atomicValue>3.47162600580518</atomicValue>
+              </compositeValue>
+              <compositeValue indexValue="S2">
+                <atomicValue>0.645555180747911</atomicValue>
+              </compositeValue>
+            </compositeValue>
+            <compositeValue indexValue="0.653266331658292">
+              <compositeValue indexValue="S1">
+                <atomicValue>3.63923813448284</atomicValue>
+              </compositeValue>
+              <compositeValue indexValue="S2">
+                <atomicValue>0.709894371253474</atomicValue>
+              </compositeValue>
+            </compositeValue>
+            <compositeValue indexValue="0.703517587939699">
+              <compositeValue indexValue="S1">
+                <atomicValue>3.77673910662939</atomicValue>
+              </compositeValue>
+              <compositeValue indexValue="S2">
+                <atomicValue>0.786693413725633</atomicValue>
+              </compositeValue>
+            </compositeValue>
+            <compositeValue indexValue="0.753768844221106">
+              <compositeValue indexValue="S1">
+                <atomicValue>3.87494067142854</atomicValue>
+              </compositeValue>
+              <compositeValue indexValue="S2">
+                <atomicValue>0.881400994443866</atomicValue>
+              </compositeValue>
+            </compositeValue>
+            <compositeValue indexValue="0.804020100502513">
+              <compositeValue indexValue="S1">
+                <atomicValue>3.91723607498473</atomicValue>
+              </compositeValue>
+              <compositeValue indexValue="S2">
+                <atomicValue>1.00491888498372</atomicValue>
+              </compositeValue>
+            </compositeValue>
+            <compositeValue indexValue="0.85427135678392">
+              <compositeValue indexValue="S1">
+                <atomicValue>3.86960743927352</atomicValue>
+              </compositeValue>
+              <compositeValue indexValue="S2">
+                <atomicValue>1.18142281729634</atomicValue>
+              </compositeValue>
+            </compositeValue>
+            <compositeValue indexValue="0.904522613065327">
+              <compositeValue indexValue="S1">
+                <atomicValue>3.64720732745956</atomicValue>
+              </compositeValue>
+              <compositeValue indexValue="S2">
+                <atomicValue>1.47576412933501</atomicValue>
+              </compositeValue>
+            </compositeValue>
+            <compositeValue indexValue="0.954773869346734">
+              <compositeValue indexValue="S1">
+                <atomicValue>2.96161132668161</atomicValue>
+              </compositeValue>
+              <compositeValue indexValue="S2">
+                <atomicValue>2.12403573268446</atomicValue>
+              </compositeValue>
+            </compositeValue>
+            <compositeValue indexValue="1.00502512562814">
+              <compositeValue indexValue="S1">
+                <atomicValue>0.923169675645103</atomicValue>
+              </compositeValue>
+              <compositeValue indexValue="S2">
+                <atomicValue>3.83802013787147</atomicValue>
+              </compositeValue>
+            </compositeValue>
+            <compositeValue indexValue="1.05527638190955">
+              <compositeValue indexValue="S1">
+                <atomicValue>0.138834139411831</atomicValue>
+              </compositeValue>
+              <compositeValue indexValue="S2">
+                <atomicValue>3.99315910098261</atomicValue>
+              </compositeValue>
+            </compositeValue>
+            <compositeValue indexValue="1.10552763819095">
+              <compositeValue indexValue="S1">
+                <atomicValue>0.164556488611258</atomicValue>
+              </compositeValue>
+              <compositeValue indexValue="S2">
+                <atomicValue>3.43701255103805</atomicValue>
+              </compositeValue>
+            </compositeValue>
+            <compositeValue indexValue="1.15577889447236">
+              <compositeValue indexValue="S1">
+                <atomicValue>0.235182517614983</atomicValue>
+              </compositeValue>
+              <compositeValue indexValue="S2">
+                <atomicValue>2.96598611514838</atomicValue>
+              </compositeValue>
+            </compositeValue>
+            <compositeValue indexValue="1.20603015075377">
+              <compositeValue indexValue="S1">
+                <atomicValue>0.327500572168019</atomicValue>
+              </compositeValue>
+              <compositeValue indexValue="S2">
+                <atomicValue>2.58047489683794</atomicValue>
+              </compositeValue>
+            </compositeValue>
+            <compositeValue indexValue="1.25628140703518">
+              <compositeValue indexValue="S1">
+                <atomicValue>0.440670101631414</atomicValue>
+              </compositeValue>
+              <compositeValue indexValue="S2">
+                <atomicValue>2.2621801794223</atomicValue>
+              </compositeValue>
+            </compositeValue>
+            <compositeValue indexValue="1.30653266331658">
+              <compositeValue indexValue="S1">
+                <atomicValue>0.574266114335917</atomicValue>
+              </compositeValue>
+              <compositeValue indexValue="S2">
+                <atomicValue>1.99655470054047</atomicValue>
+              </compositeValue>
+            </compositeValue>
+            <compositeValue indexValue="1.35678391959799">
+              <compositeValue indexValue="S1">
+                <atomicValue>0.727098250069008</atomicValue>
+              </compositeValue>
+              <compositeValue indexValue="S2">
+                <atomicValue>1.77296394678468</atomicValue>
+              </compositeValue>
+            </compositeValue>
+            <compositeValue indexValue="1.4070351758794">
+              <compositeValue indexValue="S1">
+                <atomicValue>0.897148393059286</atomicValue>
+              </compositeValue>
+              <compositeValue indexValue="S2">
+                <atomicValue>1.58386920579956</atomicValue>
+              </compositeValue>
+            </compositeValue>
+            <compositeValue indexValue="1.4572864321608">
+              <compositeValue indexValue="S1">
+                <atomicValue>1.08166639572469</atomicValue>
+              </compositeValue>
+              <compositeValue indexValue="S2">
+                <atomicValue>1.42405096378471</atomicValue>
+              </compositeValue>
+            </compositeValue>
+            <compositeValue indexValue="1.50753768844221">
+              <compositeValue indexValue="S1">
+                <atomicValue>1.27733869699228</atomicValue>
+              </compositeValue>
+              <compositeValue indexValue="S2">
+                <atomicValue>1.28994294586553</atomicValue>
+              </compositeValue>
+            </compositeValue>
+            <compositeValue indexValue="1.55778894472362">
+              <compositeValue indexValue="S1">
+                <atomicValue>1.48050966004468</atomicValue>
+              </compositeValue>
+              <compositeValue indexValue="S2">
+                <atomicValue>1.17906960841747</atomicValue>
+              </compositeValue>
+            </compositeValue>
+            <compositeValue indexValue="1.60804020100503">
+              <compositeValue indexValue="S1">
+                <atomicValue>1.68741176855835</atomicValue>
+              </compositeValue>
+              <compositeValue indexValue="S2">
+                <atomicValue>1.08959978584152</atomicValue>
+              </compositeValue>
+            </compositeValue>
+            <compositeValue indexValue="1.65829145728643">
+              <compositeValue indexValue="S1">
+                <atomicValue>1.89435466423305</atomicValue>
+              </compositeValue>
+              <compositeValue indexValue="S2">
+                <atomicValue>1.02003901066638</atomicValue>
+              </compositeValue>
+            </compositeValue>
+            <compositeValue indexValue="1.70854271356784">
+              <compositeValue indexValue="S1">
+                <atomicValue>2.09785432366607</atomicValue>
+              </compositeValue>
+              <compositeValue indexValue="S2">
+                <atomicValue>0.969040511962321</atomicValue>
+              </compositeValue>
+            </compositeValue>
+            <compositeValue indexValue="1.75879396984925">
+              <compositeValue indexValue="S1">
+                <atomicValue>2.29461982307815</atomicValue>
+              </compositeValue>
+              <compositeValue indexValue="S2">
+                <atomicValue>0.935386780872385</atomicValue>
+              </compositeValue>
+            </compositeValue>
+            <compositeValue indexValue="1.80904522613065">
+              <compositeValue indexValue="S1">
+                <atomicValue>2.48146733903233</atomicValue>
+              </compositeValue>
+              <compositeValue indexValue="S2">
+                <atomicValue>0.918038716563757</atomicValue>
+              </compositeValue>
+            </compositeValue>
+            <compositeValue indexValue="1.85929648241206">
+              <compositeValue indexValue="S1">
+                <atomicValue>2.65516514361778</atomicValue>
+              </compositeValue>
+              <compositeValue indexValue="S2">
+                <atomicValue>0.916234682541071</atomicValue>
+              </compositeValue>
+            </compositeValue>
+            <compositeValue indexValue="1.90954773869347">
+              <compositeValue indexValue="S1">
+                <atomicValue>2.81207334995538</atomicValue>
+              </compositeValue>
+              <compositeValue indexValue="S2">
+                <atomicValue>0.929751249156502</atomicValue>
+              </compositeValue>
+            </compositeValue>
+            <compositeValue indexValue="1.95979899497487">
+              <compositeValue indexValue="S1">
+                <atomicValue>2.94772526496208</atomicValue>
+              </compositeValue>
+              <compositeValue indexValue="S2">
+                <atomicValue>0.959154849758356</atomicValue>
+              </compositeValue>
+            </compositeValue>
+            <compositeValue indexValue="2.01005025125628">
+              <compositeValue indexValue="S1">
+                <atomicValue>3.05602042475799</atomicValue>
+              </compositeValue>
+              <compositeValue indexValue="S2">
+                <atomicValue>1.00635047724525</atomicValue>
+              </compositeValue>
+            </compositeValue>
+            <compositeValue indexValue="2.06030150753769">
+              <compositeValue indexValue="S1">
+                <atomicValue>3.12782594579041</atomicValue>
+              </compositeValue>
+              <compositeValue indexValue="S2">
+                <atomicValue>1.07553733179313</atomicValue>
+              </compositeValue>
+            </compositeValue>
+            <compositeValue indexValue="2.1105527638191">
+              <compositeValue indexValue="S1">
+                <atomicValue>3.14812981140454</atomicValue>
+              </compositeValue>
+              <compositeValue indexValue="S2">
+                <atomicValue>1.17525427402339</atomicValue>
+              </compositeValue>
+            </compositeValue>
+            <compositeValue indexValue="2.1608040201005">
+              <compositeValue indexValue="S1">
+                <atomicValue>3.08952049844477</atomicValue>
+              </compositeValue>
+              <compositeValue indexValue="S2">
+                <atomicValue>1.32328951755962</atomicValue>
+              </compositeValue>
+            </compositeValue>
+            <compositeValue indexValue="2.21105527638191">
+              <compositeValue indexValue="S1">
+                <atomicValue>2.89531496972067</atomicValue>
+              </compositeValue>
+              <compositeValue indexValue="S2">
+                <atomicValue>1.55984957141875</atomicValue>
+              </compositeValue>
+            </compositeValue>
+            <compositeValue indexValue="2.26130653266332">
+              <compositeValue indexValue="S1">
+                <atomicValue>2.4336140898268</atomicValue>
+              </compositeValue>
+              <compositeValue indexValue="S2">
+                <atomicValue>1.98401577252847</atomicValue>
+              </compositeValue>
+            </compositeValue>
+            <compositeValue indexValue="2.31155778894472">
+              <compositeValue indexValue="S1">
+                <atomicValue>1.46063474796818</atomicValue>
+              </compositeValue>
+              <compositeValue indexValue="S2">
+                <atomicValue>2.77001436493659</atomicValue>
+              </compositeValue>
+            </compositeValue>
+            <compositeValue indexValue="2.36180904522613">
+              <compositeValue indexValue="S1">
+                <atomicValue>0.469336126157104</atomicValue>
+              </compositeValue>
+              <compositeValue indexValue="S2">
+                <atomicValue>3.37213632337959</atomicValue>
+              </compositeValue>
+            </compositeValue>
+            <compositeValue indexValue="2.41206030150754">
+              <compositeValue indexValue="S1">
+                <atomicValue>0.262109012194988</atomicValue>
+              </compositeValue>
+              <compositeValue indexValue="S2">
+                <atomicValue>3.15274733659317</atomicValue>
+              </compositeValue>
+            </compositeValue>
+            <compositeValue indexValue="2.46231155778894">
+              <compositeValue indexValue="S1">
+                <atomicValue>0.295386699958196</atomicValue>
+              </compositeValue>
+              <compositeValue indexValue="S2">
+                <atomicValue>2.77669683026886</atomicValue>
+              </compositeValue>
+            </compositeValue>
+            <compositeValue indexValue="2.51256281407035">
+              <compositeValue indexValue="S1">
+                <atomicValue>0.383604239791276</atomicValue>
+              </compositeValue>
+              <compositeValue indexValue="S2">
+                <atomicValue>2.43662730594144</atomicValue>
+              </compositeValue>
+            </compositeValue>
+            <compositeValue indexValue="2.56281407035176">
+              <compositeValue indexValue="S1">
+                <atomicValue>0.499985599122985</atomicValue>
+              </compositeValue>
+              <compositeValue indexValue="S2">
+                <atomicValue>2.14738975240643</atomicValue>
+              </compositeValue>
+            </compositeValue>
+            <compositeValue indexValue="2.61306532663317">
+              <compositeValue indexValue="S1">
+                <atomicValue>0.638669377336839</atomicValue>
+              </compositeValue>
+              <compositeValue indexValue="S2">
+                <atomicValue>1.9027560406382</atomicValue>
+              </compositeValue>
+            </compositeValue>
+            <compositeValue indexValue="2.66331658291457">
+              <compositeValue indexValue="S1">
+                <atomicValue>0.796747513318915</atomicValue>
+              </compositeValue>
+              <compositeValue indexValue="S2">
+                <atomicValue>1.69537387354769</atomicValue>
+              </compositeValue>
+            </compositeValue>
+            <compositeValue indexValue="2.71356783919598">
+              <compositeValue indexValue="S1">
+                <atomicValue>0.971424277380514</atomicValue>
+              </compositeValue>
+              <compositeValue indexValue="S2">
+                <atomicValue>1.51944407068372</atomicValue>
+              </compositeValue>
+            </compositeValue>
+            <compositeValue indexValue="2.76381909547739">
+              <compositeValue indexValue="S1">
+                <atomicValue>1.15952537188392</atomicValue>
+              </compositeValue>
+              <compositeValue indexValue="S2">
+                <atomicValue>1.37079383143079</atomicValue>
+              </compositeValue>
+            </compositeValue>
+            <compositeValue indexValue="2.81407035175879">
+              <compositeValue indexValue="S1">
+                <atomicValue>1.35750409381075</atomicValue>
+              </compositeValue>
+              <compositeValue indexValue="S2">
+                <atomicValue>1.24650487813994</atomicValue>
+              </compositeValue>
+            </compositeValue>
+            <compositeValue indexValue="2.8643216080402">
+              <compositeValue indexValue="S1">
+                <atomicValue>1.56160531259629</atomicValue>
+              </compositeValue>
+              <compositeValue indexValue="S2">
+                <atomicValue>1.14448606966544</atomicValue>
+              </compositeValue>
+            </compositeValue>
+            <compositeValue indexValue="2.91457286432161">
+              <compositeValue indexValue="S1">
+                <atomicValue>1.76806226280792</atomicValue>
+              </compositeValue>
+              <compositeValue indexValue="S2">
+                <atomicValue>1.06311958218302</atomicValue>
+              </compositeValue>
+            </compositeValue>
+            <compositeValue indexValue="2.96482412060302">
+              <compositeValue indexValue="S1">
+                <atomicValue>1.97324003850857</atomicValue>
+              </compositeValue>
+              <compositeValue indexValue="S2">
+                <atomicValue>1.00102810817475</atomicValue>
+              </compositeValue>
+            </compositeValue>
+            <compositeValue indexValue="3.01507537688442">
+              <compositeValue indexValue="S1">
+                <atomicValue>2.17372336447901</atomicValue>
+              </compositeValue>
+              <compositeValue indexValue="S2">
+                <atomicValue>0.956943612011158</atomicValue>
+              </compositeValue>
+            </compositeValue>
+            <compositeValue indexValue="3.06532663316583">
+              <compositeValue indexValue="S1">
+                <atomicValue>2.36629543952712</atomicValue>
+              </compositeValue>
+              <compositeValue indexValue="S2">
+                <atomicValue>0.929706729911021</atomicValue>
+              </compositeValue>
+            </compositeValue>
+            <compositeValue indexValue="3.11557788944724">
+              <compositeValue indexValue="S1">
+                <atomicValue>2.54774828167125</atomicValue>
+              </compositeValue>
+              <compositeValue indexValue="S2">
+                <atomicValue>0.91841421893919</atomicValue>
+              </compositeValue>
+            </compositeValue>
+            <compositeValue indexValue="3.16582914572864">
+              <compositeValue indexValue="S1">
+                <atomicValue>2.7147197944907</atomicValue>
+              </compositeValue>
+              <compositeValue indexValue="S2">
+                <atomicValue>0.922501453587716</atomicValue>
+              </compositeValue>
+            </compositeValue>
+            <compositeValue indexValue="3.21608040201005">
+              <compositeValue indexValue="S1">
+                <atomicValue>2.86329962341786</atomicValue>
+              </compositeValue>
+              <compositeValue indexValue="S2">
+                <atomicValue>0.942024049524155</atomicValue>
+              </compositeValue>
+            </compositeValue>
+            <compositeValue indexValue="3.26633165829146">
+              <compositeValue indexValue="S1">
+                <atomicValue>2.98847282274297</atomicValue>
+              </compositeValue>
+              <compositeValue indexValue="S2">
+                <atomicValue>0.978014545464962</atomicValue>
+              </compositeValue>
+            </compositeValue>
+            <compositeValue indexValue="3.31658291457286">
+              <compositeValue indexValue="S1">
+                <atomicValue>3.08314838412127</atomicValue>
+              </compositeValue>
+              <compositeValue indexValue="S2">
+                <atomicValue>1.03313573870842</atomicValue>
+              </compositeValue>
+            </compositeValue>
+            <compositeValue indexValue="3.36683417085427">
+              <compositeValue indexValue="S1">
+                <atomicValue>3.13632495370938</atomicValue>
+              </compositeValue>
+              <compositeValue indexValue="S2">
+                <atomicValue>1.11296350176079</atomicValue>
+              </compositeValue>
+            </compositeValue>
+            <compositeValue indexValue="3.41708542713568">
+              <compositeValue indexValue="S1">
+                <atomicValue>3.12918994835753</atomicValue>
+              </compositeValue>
+              <compositeValue indexValue="S2">
+                <atomicValue>1.22884668621168</atomicValue>
+              </compositeValue>
+            </compositeValue>
+            <compositeValue indexValue="3.46733668341709">
+              <compositeValue indexValue="S1">
+                <atomicValue>3.02578602364581</atomicValue>
+              </compositeValue>
+              <compositeValue indexValue="S2">
+                <atomicValue>1.40503873442659</atomicValue>
+              </compositeValue>
+            </compositeValue>
+            <compositeValue indexValue="3.51758793969849">
+              <compositeValue indexValue="S1">
+                <atomicValue>2.74797719418071</atomicValue>
+              </compositeValue>
+              <compositeValue indexValue="S2">
+                <atomicValue>1.69842799104772</atomicValue>
+              </compositeValue>
+            </compositeValue>
+            <compositeValue indexValue="3.5678391959799">
+              <compositeValue indexValue="S1">
+                <atomicValue>2.11384148892287</atomicValue>
+              </compositeValue>
+              <compositeValue indexValue="S2">
+                <atomicValue>2.24651507005376</atomicValue>
+              </compositeValue>
+            </compositeValue>
+            <compositeValue indexValue="3.61809045226131">
+              <compositeValue indexValue="S1">
+                <atomicValue>0.980093478787278</atomicValue>
+              </compositeValue>
+              <compositeValue indexValue="S2">
+                <atomicValue>3.11040960045605</atomicValue>
+              </compositeValue>
+            </compositeValue>
+            <compositeValue indexValue="3.66834170854271">
+              <compositeValue indexValue="S1">
+                <atomicValue>0.329076596856925</atomicValue>
+              </compositeValue>
+              <compositeValue indexValue="S2">
+                <atomicValue>3.33276018703219</atomicValue>
+              </compositeValue>
+            </compositeValue>
+            <compositeValue indexValue="3.71859296482412">
+              <compositeValue indexValue="S1">
+                <atomicValue>0.265775451918656</atomicValue>
+              </compositeValue>
+              <compositeValue indexValue="S2">
+                <atomicValue>2.99932183734756</atomicValue>
+              </compositeValue>
+            </compositeValue>
+            <compositeValue indexValue="3.76884422110553">
+              <compositeValue indexValue="S1">
+                <atomicValue>0.327386293399364</atomicValue>
+              </compositeValue>
+              <compositeValue indexValue="S2">
+                <atomicValue>2.63292824485375</atomicValue>
+              </compositeValue>
+            </compositeValue>
+            <compositeValue indexValue="3.81909547738693">
+              <compositeValue indexValue="S1">
+                <atomicValue>0.427923114298058</atomicValue>
+              </compositeValue>
+              <compositeValue indexValue="S2">
+                <atomicValue>2.31400715324722</atomicValue>
+              </compositeValue>
+            </compositeValue>
+            <compositeValue indexValue="3.86934673366834">
+              <compositeValue indexValue="S1">
+                <atomicValue>0.553592446857886</atomicValue>
+              </compositeValue>
+              <compositeValue indexValue="S2">
+                <atomicValue>2.04382851612927</atomicValue>
+              </compositeValue>
+            </compositeValue>
+            <compositeValue indexValue="3.91959798994975">
+              <compositeValue indexValue="S1">
+                <atomicValue>0.700339925083402</atomicValue>
+              </compositeValue>
+              <compositeValue indexValue="S2">
+                <atomicValue>1.81509264798336</atomicValue>
+              </compositeValue>
+            </compositeValue>
+            <compositeValue indexValue="3.96984924623116">
+              <compositeValue indexValue="S1">
+                <atomicValue>0.865409476545675</atomicValue>
+              </compositeValue>
+              <compositeValue indexValue="S2">
+                <atomicValue>1.62102570294593</atomicValue>
+              </compositeValue>
+            </compositeValue>
+            <compositeValue indexValue="4.02010050251256">
+              <compositeValue indexValue="S1">
+                <atomicValue>1.045856605033</atomicValue>
+              </compositeValue>
+              <compositeValue indexValue="S2">
+                <atomicValue>1.45653667646815</atomicValue>
+              </compositeValue>
+            </compositeValue>
+            <compositeValue indexValue="4.07035175879397">
+              <compositeValue indexValue="S1">
+                <atomicValue>1.2383411378651</atomicValue>
+              </compositeValue>
+              <compositeValue indexValue="S2">
+                <atomicValue>1.31801472350523</atomicValue>
+              </compositeValue>
+            </compositeValue>
+            <compositeValue indexValue="4.12060301507538">
+              <compositeValue indexValue="S1">
+                <atomicValue>1.43921341271619</atomicValue>
+              </compositeValue>
+              <compositeValue indexValue="S2">
+                <atomicValue>1.20292106944181</atomicValue>
+              </compositeValue>
+            </compositeValue>
+            <compositeValue indexValue="4.17085427135678">
+              <compositeValue indexValue="S1">
+                <atomicValue>1.64468120273509</atomicValue>
+              </compositeValue>
+              <compositeValue indexValue="S2">
+                <atomicValue>1.10940512431851</atomicValue>
+              </compositeValue>
+            </compositeValue>
+            <compositeValue indexValue="4.22110552763819">
+              <compositeValue indexValue="S1">
+                <atomicValue>1.85102418378602</atomicValue>
+              </compositeValue>
+              <compositeValue indexValue="S2">
+                <atomicValue>1.03596041953808</atomicValue>
+              </compositeValue>
+            </compositeValue>
+            <compositeValue indexValue="4.2713567839196">
+              <compositeValue indexValue="S1">
+                <atomicValue>2.05469611801993</atomicValue>
+              </compositeValue>
+              <compositeValue indexValue="S2">
+                <atomicValue>0.981257698375338</atomicValue>
+              </compositeValue>
+            </compositeValue>
+            <compositeValue indexValue="4.32160804020101">
+              <compositeValue indexValue="S1">
+                <atomicValue>2.2523543166822</atomicValue>
+              </compositeValue>
+              <compositeValue indexValue="S2">
+                <atomicValue>0.944087461238616</atomicValue>
+              </compositeValue>
+            </compositeValue>
+            <compositeValue indexValue="4.37185929648241">
+              <compositeValue indexValue="S1">
+                <atomicValue>2.44081176412282</atomicValue>
+              </compositeValue>
+              <compositeValue indexValue="S2">
+                <atomicValue>0.923369519573341</atomicValue>
+              </compositeValue>
+            </compositeValue>
+            <compositeValue indexValue="4.42211055276382">
+              <compositeValue indexValue="S1">
+                <atomicValue>2.61683772232725</atomicValue>
+              </compositeValue>
+              <compositeValue indexValue="S2">
+                <atomicValue>0.918308986034019</atomicValue>
+              </compositeValue>
+            </compositeValue>
+            <compositeValue indexValue="4.47236180904523">
+              <compositeValue indexValue="S1">
+                <atomicValue>2.77689984289414</atomicValue>
+              </compositeValue>
+              <compositeValue indexValue="S2">
+                <atomicValue>0.928559407976266</atomicValue>
+              </compositeValue>
+            </compositeValue>
+            <compositeValue indexValue="4.52261306532663">
+              <compositeValue indexValue="S1">
+                <atomicValue>2.91672328708554</atomicValue>
+              </compositeValue>
+              <compositeValue indexValue="S2">
+                <atomicValue>0.954517822360504</atomicValue>
+              </compositeValue>
+            </compositeValue>
+            <compositeValue indexValue="4.57286432160804">
+              <compositeValue indexValue="S1">
+                <atomicValue>3.03060578305157</atomicValue>
+              </compositeValue>
+              <compositeValue indexValue="S2">
+                <atomicValue>0.997771331373262</atomicValue>
+              </compositeValue>
+            </compositeValue>
+            <compositeValue indexValue="4.62311557788945">
+              <compositeValue indexValue="S1">
+                <atomicValue>3.11018395467498</atomicValue>
+              </compositeValue>
+              <compositeValue indexValue="S2">
+                <atomicValue>1.06194066158227</atomicValue>
+              </compositeValue>
+            </compositeValue>
+            <compositeValue indexValue="4.67336683417085">
+              <compositeValue indexValue="S1">
+                <atomicValue>3.14196124149659</atomicValue>
+              </compositeValue>
+              <compositeValue indexValue="S2">
+                <atomicValue>1.1544422593394</atomicValue>
+              </compositeValue>
+            </compositeValue>
+            <compositeValue indexValue="4.72361809045226">
+              <compositeValue indexValue="S1">
+                <atomicValue>3.10187368124924</atomicValue>
+              </compositeValue>
+              <compositeValue indexValue="S2">
+                <atomicValue>1.29054180992286</atomicValue>
+              </compositeValue>
+            </compositeValue>
+            <compositeValue indexValue="4.77386934673367">
+              <compositeValue indexValue="S1">
+                <atomicValue>2.94152115623985</atomicValue>
+              </compositeValue>
+              <compositeValue indexValue="S2">
+                <atomicValue>1.5040247763022</atomicValue>
+              </compositeValue>
+            </compositeValue>
+            <compositeValue indexValue="4.82412060301508">
+              <compositeValue indexValue="S1">
+                <atomicValue>2.55066503371092</atomicValue>
+              </compositeValue>
+              <compositeValue indexValue="S2">
+                <atomicValue>1.87693574464073</atomicValue>
+              </compositeValue>
+            </compositeValue>
+            <compositeValue indexValue="4.87437185929648">
+              <compositeValue indexValue="S1">
+                <atomicValue>1.69700844868603</atomicValue>
+              </compositeValue>
+              <compositeValue indexValue="S2">
+                <atomicValue>2.58128583968893</atomicValue>
+              </compositeValue>
+            </compositeValue>
+            <compositeValue indexValue="4.92462311557789">
+              <compositeValue indexValue="S1">
+                <atomicValue>0.598954411543036</atomicValue>
+              </compositeValue>
+              <compositeValue indexValue="S2">
+                <atomicValue>3.32599551677302</atomicValue>
+              </compositeValue>
+            </compositeValue>
+            <compositeValue indexValue="4.9748743718593">
+              <compositeValue indexValue="S1">
+                <atomicValue>0.273306132170327</atomicValue>
+              </compositeValue>
+              <compositeValue indexValue="S2">
+                <atomicValue>3.2183447839995</atomicValue>
+              </compositeValue>
+            </compositeValue>
+            <compositeValue indexValue="5.0251256281407">
+              <compositeValue indexValue="S1">
+                <atomicValue>0.283834528373004</atomicValue>
+              </compositeValue>
+              <compositeValue indexValue="S2">
+                <atomicValue>2.8472400793396</atomicValue>
+              </compositeValue>
+            </compositeValue>
+            <compositeValue indexValue="5.07537688442211">
+              <compositeValue indexValue="S1">
+                <atomicValue>0.364468010321538</atomicValue>
+              </compositeValue>
+              <compositeValue indexValue="S2">
+                <atomicValue>2.49811400180973</atomicValue>
+              </compositeValue>
+            </compositeValue>
+            <compositeValue indexValue="5.12562814070352">
+              <compositeValue indexValue="S1">
+                <atomicValue>0.475867810689112</atomicValue>
+              </compositeValue>
+              <compositeValue indexValue="S2">
+                <atomicValue>2.19959890565427</atomicValue>
+              </compositeValue>
+            </compositeValue>
+            <compositeValue indexValue="5.17587939698493">
+              <compositeValue indexValue="S1">
+                <atomicValue>0.610385159316308</atomicValue>
+              </compositeValue>
+              <compositeValue indexValue="S2">
+                <atomicValue>1.94703890486474</atomicValue>
+              </compositeValue>
+            </compositeValue>
+            <compositeValue indexValue="5.22613065326633">
+              <compositeValue indexValue="S1">
+                <atomicValue>0.764848092032711</atomicValue>
+              </compositeValue>
+              <compositeValue indexValue="S2">
+                <atomicValue>1.73300479869238</atomicValue>
+              </compositeValue>
+            </compositeValue>
+            <compositeValue indexValue="5.27638190954774">
+              <compositeValue indexValue="S1">
+                <atomicValue>0.936490134758495</atomicValue>
+              </compositeValue>
+              <compositeValue indexValue="S2">
+                <atomicValue>1.55138697880993</atomicValue>
+              </compositeValue>
+            </compositeValue>
+            <compositeValue indexValue="5.32663316582915">
+              <compositeValue indexValue="S1">
+                <atomicValue>1.12221322950094</atomicValue>
+              </compositeValue>
+              <compositeValue indexValue="S2">
+                <atomicValue>1.39773035840117</atomicValue>
+              </compositeValue>
+            </compositeValue>
+            <compositeValue indexValue="5.37688442211055">
+              <compositeValue indexValue="S1">
+                <atomicValue>1.31852922461169</atomicValue>
+              </compositeValue>
+              <compositeValue indexValue="S2">
+                <atomicValue>1.26891340940004</atomicValue>
+              </compositeValue>
+            </compositeValue>
+            <compositeValue indexValue="5.42713567839196">
+              <compositeValue indexValue="S1">
+                <atomicValue>1.52170650952659</atomicValue>
+              </compositeValue>
+              <compositeValue indexValue="S2">
+                <atomicValue>1.1627199214245</atomicValue>
+              </compositeValue>
+            </compositeValue>
+            <compositeValue indexValue="5.47738693467337">
+              <compositeValue indexValue="S1">
+                <atomicValue>1.72796473685384</atomicValue>
+              </compositeValue>
+              <compositeValue indexValue="S2">
+                <atomicValue>1.07746474537375</atomicValue>
+              </compositeValue>
+            </compositeValue>
+            <compositeValue indexValue="5.52763819095477">
+              <compositeValue indexValue="S1">
+                <atomicValue>1.93364118478101</atomicValue>
+              </compositeValue>
+              <compositeValue indexValue="S2">
+                <atomicValue>1.01173159588011</atomicValue>
+              </compositeValue>
+            </compositeValue>
+            <compositeValue indexValue="5.57788944723618">
+              <compositeValue indexValue="S1">
+                <atomicValue>2.13527670092824</atomicValue>
+              </compositeValue>
+              <compositeValue indexValue="S2">
+                <atomicValue>0.964237942712625</atomicValue>
+              </compositeValue>
+            </compositeValue>
+            <compositeValue indexValue="5.62814070351759">
+              <compositeValue indexValue="S1">
+                <atomicValue>2.32960660270132</atomicValue>
+              </compositeValue>
+              <compositeValue indexValue="S2">
+                <atomicValue>0.933815315493555</atomicValue>
+              </compositeValue>
+            </compositeValue>
+            <compositeValue indexValue="5.678391959799">
+              <compositeValue indexValue="S1">
+                <atomicValue>2.51344891322851</atomicValue>
+              </compositeValue>
+              <compositeValue indexValue="S2">
+                <atomicValue>0.919484797055735</atomicValue>
+              </compositeValue>
+            </compositeValue>
+            <compositeValue indexValue="5.7286432160804">
+              <compositeValue indexValue="S1">
+                <atomicValue>2.68349353604772</atomicValue>
+              </compositeValue>
+              <compositeValue indexValue="S2">
+                <atomicValue>0.920603042098288</atomicValue>
+              </compositeValue>
+            </compositeValue>
+            <compositeValue indexValue="5.77889447236181">
+              <compositeValue indexValue="S1">
+                <atomicValue>2.83597178972821</atomicValue>
+              </compositeValue>
+              <compositeValue indexValue="S2">
+                <atomicValue>0.937082652628499</atomicValue>
+              </compositeValue>
+            </compositeValue>
+            <compositeValue indexValue="5.82914572864322">
+              <compositeValue indexValue="S1">
+                <atomicValue>2.96614101794974</atomicValue>
+              </compositeValue>
+              <compositeValue indexValue="S2">
+                <atomicValue>0.969728781510681</atomicValue>
+              </compositeValue>
+            </compositeValue>
+            <compositeValue indexValue="5.87939698492462">
+              <compositeValue indexValue="S1">
+                <atomicValue>3.06741654915506</atomicValue>
+              </compositeValue>
+              <compositeValue indexValue="S2">
+                <atomicValue>1.02081749150073</atomicValue>
+              </compositeValue>
+            </compositeValue>
+            <compositeValue indexValue="5.92964824120603">
+              <compositeValue indexValue="S1">
+                <atomicValue>3.12977194417489</atomicValue>
+              </compositeValue>
+              <compositeValue indexValue="S2">
+                <atomicValue>1.09520416530717</atomicValue>
+              </compositeValue>
+            </compositeValue>
+            <compositeValue indexValue="5.97989949748744">
+              <compositeValue indexValue="S1">
+                <atomicValue>3.13639191413165</atomicValue>
+              </compositeValue>
+              <compositeValue indexValue="S2">
+                <atomicValue>1.2027560802042</atomicValue>
+              </compositeValue>
+            </compositeValue>
+            <compositeValue indexValue="6.03015075376884">
+              <compositeValue indexValue="S1">
+                <atomicValue>3.055870042142</atomicValue>
+              </compositeValue>
+              <compositeValue indexValue="S2">
+                <atomicValue>1.3642713743893</atomicValue>
+              </compositeValue>
+            </compositeValue>
+            <compositeValue indexValue="6.08040201005025">
+              <compositeValue indexValue="S1">
+                <atomicValue>2.82166651351335</atomicValue>
+              </compositeValue>
+              <compositeValue indexValue="S2">
+                <atomicValue>1.62758863331268</atomicValue>
+              </compositeValue>
+            </compositeValue>
+            <compositeValue indexValue="6.13065326633166">
+              <compositeValue indexValue="S1">
+                <atomicValue>2.27808589966843</atomicValue>
+              </compositeValue>
+              <compositeValue indexValue="S2">
+                <atomicValue>2.11019549219811</atomicValue>
+              </compositeValue>
+            </compositeValue>
+            <compositeValue indexValue="6.18090452261307">
+              <compositeValue indexValue="S1">
+                <atomicValue>1.20945486116056</atomicValue>
+              </compositeValue>
+              <compositeValue indexValue="S2">
+                <atomicValue>2.95070745033752</atomicValue>
+              </compositeValue>
+            </compositeValue>
+            <compositeValue indexValue="6.23115577889447">
+              <compositeValue indexValue="S1">
+                <atomicValue>0.384681579584301</atomicValue>
+              </compositeValue>
+              <compositeValue indexValue="S2">
+                <atomicValue>3.36231354105955</atomicValue>
+              </compositeValue>
+            </compositeValue>
+            <compositeValue indexValue="6.28140703517588">
+              <compositeValue indexValue="S1">
+                <atomicValue>0.262354551836197</atomicValue>
+              </compositeValue>
+              <compositeValue indexValue="S2">
+                <atomicValue>3.07266635968471</atomicValue>
+              </compositeValue>
+            </compositeValue>
+            <compositeValue indexValue="6.33165829145729">
+              <compositeValue indexValue="S1">
+                <atomicValue>0.311573779295273</atomicValue>
+              </compositeValue>
+              <compositeValue indexValue="S2">
+                <atomicValue>2.70068376974354</atomicValue>
+              </compositeValue>
+            </compositeValue>
+            <compositeValue indexValue="6.38190954773869">
+              <compositeValue indexValue="S1">
+                <atomicValue>0.406298048754361</atomicValue>
+              </compositeValue>
+              <compositeValue indexValue="S2">
+                <atomicValue>2.37180564317692</atomicValue>
+              </compositeValue>
+            </compositeValue>
+            <compositeValue indexValue="6.4321608040201">
+              <compositeValue indexValue="S1">
+                <atomicValue>0.527506475358761</atomicValue>
+              </compositeValue>
+              <compositeValue indexValue="S2">
+                <atomicValue>2.09271678479842</atomicValue>
+              </compositeValue>
+            </compositeValue>
+            <compositeValue indexValue="6.48241206030151">
+              <compositeValue indexValue="S1">
+                <atomicValue>0.670388351820436</atomicValue>
+              </compositeValue>
+              <compositeValue indexValue="S2">
+                <atomicValue>1.85652769113854</atomicValue>
+              </compositeValue>
+            </compositeValue>
+            <compositeValue indexValue="6.53266331658291">
+              <compositeValue indexValue="S1">
+                <atomicValue>0.832120709511553</atomicValue>
+              </compositeValue>
+              <compositeValue indexValue="S2">
+                <atomicValue>1.65619580312689</atomicValue>
+              </compositeValue>
+            </compositeValue>
+            <compositeValue indexValue="6.58291457286432">
+              <compositeValue indexValue="S1">
+                <atomicValue>1.00983413590851</atomicValue>
+              </compositeValue>
+              <compositeValue indexValue="S2">
+                <atomicValue>1.48629833319238</atomicValue>
+              </compositeValue>
+            </compositeValue>
+            <compositeValue indexValue="6.63316582914573">
+              <compositeValue indexValue="S1">
+                <atomicValue>1.20026342218622</atomicValue>
+              </compositeValue>
+              <compositeValue indexValue="S2">
+                <atomicValue>1.34296804333559</atomicValue>
+              </compositeValue>
+            </compositeValue>
+            <compositeValue indexValue="6.68341708542714">
+              <compositeValue indexValue="S1">
+                <atomicValue>1.39980264398921</atomicValue>
+              </compositeValue>
+              <compositeValue indexValue="S2">
+                <atomicValue>1.22349658760003</atomicValue>
+              </compositeValue>
+            </compositeValue>
+            <compositeValue indexValue="6.73366834170854">
+              <compositeValue indexValue="S1">
+                <atomicValue>1.60467271345031</atomicValue>
+              </compositeValue>
+              <compositeValue indexValue="S2">
+                <atomicValue>1.12592639592216</atomicValue>
+              </compositeValue>
+            </compositeValue>
+            <compositeValue indexValue="6.78391959798995">
+              <compositeValue indexValue="S1">
+                <atomicValue>1.81111942621446</atomicValue>
+              </compositeValue>
+              <compositeValue indexValue="S2">
+                <atomicValue>1.04870742084041</atomicValue>
+              </compositeValue>
+            </compositeValue>
+            <compositeValue indexValue="6.83417085427136">
+              <compositeValue indexValue="S1">
+                <atomicValue>2.01557029269155</atomicValue>
+              </compositeValue>
+              <compositeValue indexValue="S2">
+                <atomicValue>0.990472495818086</atomicValue>
+              </compositeValue>
+            </compositeValue>
+            <compositeValue indexValue="6.88442211055276">
+              <compositeValue indexValue="S1">
+                <atomicValue>2.21465029299244</atomicValue>
+              </compositeValue>
+              <compositeValue indexValue="S2">
+                <atomicValue>0.949985900650429</atomicValue>
+              </compositeValue>
+            </compositeValue>
+            <compositeValue indexValue="6.93467336683417">
+              <compositeValue indexValue="S1">
+                <atomicValue>2.40513459642833</atomicValue>
+              </compositeValue>
+              <compositeValue indexValue="S2">
+                <atomicValue>0.926153977282291</atomicValue>
+              </compositeValue>
+            </compositeValue>
+            <compositeValue indexValue="6.98492462311558">
+              <compositeValue indexValue="S1">
+                <atomicValue>2.5838271095285</atomicValue>
+              </compositeValue>
+              <compositeValue indexValue="S2">
+                <atomicValue>0.918103919678589</atomicValue>
+              </compositeValue>
+            </compositeValue>
+            <compositeValue indexValue="7.03517587939699">
+              <compositeValue indexValue="S1">
+                <atomicValue>2.74728476434115</atomicValue>
+              </compositeValue>
+              <compositeValue indexValue="S2">
+                <atomicValue>0.925382387130372</atomicValue>
+              </compositeValue>
+            </compositeValue>
+            <compositeValue indexValue="7.08542713567839">
+              <compositeValue indexValue="S1">
+                <atomicValue>2.89141744392855</atomicValue>
+              </compositeValue>
+              <compositeValue indexValue="S2">
+                <atomicValue>0.948216605676689</atomicValue>
+              </compositeValue>
+            </compositeValue>
+            <compositeValue indexValue="7.1356783919598">
+              <compositeValue indexValue="S1">
+                <atomicValue>3.01087493790645</atomicValue>
+              </compositeValue>
+              <compositeValue indexValue="S2">
+                <atomicValue>0.987912592021553</atomicValue>
+              </compositeValue>
+            </compositeValue>
+            <compositeValue indexValue="7.18592964824121">
+              <compositeValue indexValue="S1">
+                <atomicValue>3.09794440588547</atomicValue>
+              </compositeValue>
+              <compositeValue indexValue="S2">
+                <atomicValue>1.04760301881922</atomicValue>
+              </compositeValue>
+            </compositeValue>
+            <compositeValue indexValue="7.23618090452261">
+              <compositeValue indexValue="S1">
+                <atomicValue>3.14042209453073</atomicValue>
+              </compositeValue>
+              <compositeValue indexValue="S2">
+                <atomicValue>1.13375114117551</atomicValue>
+              </compositeValue>
+            </compositeValue>
+            <compositeValue indexValue="7.28643216080402">
+              <compositeValue indexValue="S1">
+                <atomicValue>3.11697740595667</atomicValue>
+              </compositeValue>
+              <compositeValue indexValue="S2">
+                <atomicValue>1.2595792130254</atomicValue>
+              </compositeValue>
+            </compositeValue>
+            <compositeValue indexValue="7.33668341708543">
+              <compositeValue indexValue="S1">
+                <atomicValue>2.98577115348666</atomicValue>
+              </compositeValue>
+              <compositeValue indexValue="S2">
+                <atomicValue>1.45383268621495</atomicValue>
+              </compositeValue>
+            </compositeValue>
+            <compositeValue indexValue="7.38693467336683">
+              <compositeValue indexValue="S1">
+                <atomicValue>2.65352878881978</atomicValue>
+              </compositeValue>
+              <compositeValue indexValue="S2">
+                <atomicValue>1.78525014537109</atomicValue>
+              </compositeValue>
+            </compositeValue>
+            <compositeValue indexValue="7.43718592964824">
+              <compositeValue indexValue="S1">
+                <atomicValue>1.90973019543673</atomicValue>
+              </compositeValue>
+              <compositeValue indexValue="S2">
+                <atomicValue>2.41215689736805</atomicValue>
+              </compositeValue>
+            </compositeValue>
+            <compositeValue indexValue="7.48743718592965">
+              <compositeValue indexValue="S1">
+                <atomicValue>0.762053704761684</atomicValue>
+              </compositeValue>
+              <compositeValue indexValue="S2">
+                <atomicValue>3.24515267621016</atomicValue>
+              </compositeValue>
+            </compositeValue>
+            <compositeValue indexValue="7.53768844221106">
+              <compositeValue indexValue="S1">
+                <atomicValue>0.292398433981011</atomicValue>
+              </compositeValue>
+              <compositeValue indexValue="S2">
+                <atomicValue>3.27958857260265</atomicValue>
+              </compositeValue>
+            </compositeValue>
+            <compositeValue indexValue="7.58793969849246">
+              <compositeValue indexValue="S1">
+                <atomicValue>0.273673961635098</atomicValue>
+              </compositeValue>
+              <compositeValue indexValue="S2">
+                <atomicValue>2.9199022917953</atomicValue>
+              </compositeValue>
+            </compositeValue>
+            <compositeValue indexValue="7.63819095477387">
+              <compositeValue indexValue="S1">
+                <atomicValue>0.34600795444427</atomicValue>
+              </compositeValue>
+              <compositeValue indexValue="S2">
+                <atomicValue>2.56185402101074</atomicValue>
+              </compositeValue>
+            </compositeValue>
+            <compositeValue indexValue="7.68844221105528">
+              <compositeValue indexValue="S1">
+                <atomicValue>0.452346756550612</atomicValue>
+              </compositeValue>
+              <compositeValue indexValue="S2">
+                <atomicValue>2.25362805463011</atomicValue>
+              </compositeValue>
+            </compositeValue>
+            <compositeValue indexValue="7.73869346733668">
+              <compositeValue indexValue="S1">
+                <atomicValue>0.582673251241532</atomicValue>
+              </compositeValue>
+              <compositeValue indexValue="S2">
+                <atomicValue>1.99275899159752</atomicValue>
+              </compositeValue>
+            </compositeValue>
+            <compositeValue indexValue="7.78894472361809">
+              <compositeValue indexValue="S1">
+                <atomicValue>0.733479694942029</atomicValue>
+              </compositeValue>
+              <compositeValue indexValue="S2">
+                <atomicValue>1.77179075146717</atomicValue>
+              </compositeValue>
+            </compositeValue>
+            <compositeValue indexValue="7.8391959798995">
+              <compositeValue indexValue="S1">
+                <atomicValue>0.902023605324445</atomicValue>
+              </compositeValue>
+              <compositeValue indexValue="S2">
+                <atomicValue>1.58428486069997</atomicValue>
+              </compositeValue>
+            </compositeValue>
+            <compositeValue indexValue="7.8894472361809">
+              <compositeValue indexValue="S1">
+                <atomicValue>1.08527931520907</atomicValue>
+              </compositeValue>
+              <compositeValue indexValue="S2">
+                <atomicValue>1.42548880352235</atomicValue>
+              </compositeValue>
+            </compositeValue>
+            <compositeValue indexValue="7.93969849246231">
+              <compositeValue indexValue="S1">
+                <atomicValue>1.27982866688686</atomicValue>
+              </compositeValue>
+              <compositeValue indexValue="S2">
+                <atomicValue>1.29205323361366</atomicValue>
+              </compositeValue>
+            </compositeValue>
+            <compositeValue indexValue="7.98994974874372">
+              <compositeValue indexValue="S1">
+                <atomicValue>1.48197235372306</atomicValue>
+              </compositeValue>
+              <compositeValue indexValue="S2">
+                <atomicValue>1.18161855905433</atomicValue>
+              </compositeValue>
+            </compositeValue>
+            <compositeValue indexValue="8.04020100502513">
+              <compositeValue indexValue="S1">
+                <atomicValue>1.68792507741082</atomicValue>
+              </compositeValue>
+              <compositeValue indexValue="S2">
+                <atomicValue>1.09242129567752</atomicValue>
+              </compositeValue>
+            </compositeValue>
+            <compositeValue indexValue="8.09045226130653">
+              <compositeValue indexValue="S1">
+                <atomicValue>1.8939910484984</atomicValue>
+              </compositeValue>
+              <compositeValue indexValue="S2">
+                <atomicValue>1.02300817735361</atomicValue>
+              </compositeValue>
+            </compositeValue>
+            <compositeValue indexValue="8.14070351758794">
+              <compositeValue indexValue="S1">
+                <atomicValue>2.09666903237658</atomicValue>
+              </compositeValue>
+              <compositeValue indexValue="S2">
+                <atomicValue>0.972077310934572</atomicValue>
+              </compositeValue>
+            </compositeValue>
+            <compositeValue indexValue="8.19095477386935">
+              <compositeValue indexValue="S1">
+                <atomicValue>2.29266364199569</atomicValue>
+              </compositeValue>
+              <compositeValue indexValue="S2">
+                <atomicValue>0.938432009535919</atomicValue>
+              </compositeValue>
+            </compositeValue>
+            <compositeValue indexValue="8.24120603015075">
+              <compositeValue indexValue="S1">
+                <atomicValue>2.47877966168691</atomicValue>
+              </compositeValue>
+              <compositeValue indexValue="S2">
+                <atomicValue>0.921046549122215</atomicValue>
+              </compositeValue>
+            </compositeValue>
+            <compositeValue indexValue="8.29145728643216">
+              <compositeValue indexValue="S1">
+                <atomicValue>2.65177038911496</atomicValue>
+              </compositeValue>
+              <compositeValue indexValue="S2">
+                <atomicValue>0.919200190397706</atomicValue>
+              </compositeValue>
+            </compositeValue>
+            <compositeValue indexValue="8.34170854271357">
+              <compositeValue indexValue="S1">
+                <atomicValue>2.80797825257982</atomicValue>
+              </compositeValue>
+              <compositeValue indexValue="S2">
+                <atomicValue>0.932675922673521</atomicValue>
+              </compositeValue>
+            </compositeValue>
+            <compositeValue indexValue="8.39195979899498">
+              <compositeValue indexValue="S1">
+                <atomicValue>2.9429061033222</atomicValue>
+              </compositeValue>
+              <compositeValue indexValue="S2">
+                <atomicValue>0.962070975354731</atomicValue>
+              </compositeValue>
+            </compositeValue>
+            <compositeValue indexValue="8.44221105527638">
+              <compositeValue indexValue="S1">
+                <atomicValue>3.05041660902237</atomicValue>
+              </compositeValue>
+              <compositeValue indexValue="S2">
+                <atomicValue>1.00931210548971</atomicValue>
+              </compositeValue>
+            </compositeValue>
+            <compositeValue indexValue="8.49246231155779">
+              <compositeValue indexValue="S1">
+                <atomicValue>3.12134250935898</atomicValue>
+              </compositeValue>
+              <compositeValue indexValue="S2">
+                <atomicValue>1.07862132285036</atomicValue>
+              </compositeValue>
+            </compositeValue>
+            <compositeValue indexValue="8.5427135678392">
+              <compositeValue indexValue="S1">
+                <atomicValue>3.14058025513125</atomicValue>
+              </compositeValue>
+              <compositeValue indexValue="S2">
+                <atomicValue>1.17859847976028</atomicValue>
+              </compositeValue>
+            </compositeValue>
+            <compositeValue indexValue="8.5929648241206">
+              <compositeValue indexValue="S1">
+                <atomicValue>3.0805613371817</atomicValue>
+              </compositeValue>
+              <compositeValue indexValue="S2">
+                <atomicValue>1.32714373992707</atomicValue>
+              </compositeValue>
+            </compositeValue>
+            <compositeValue indexValue="8.64321608040201">
+              <compositeValue indexValue="S1">
+                <atomicValue>2.88433224676911</atomicValue>
+              </compositeValue>
+              <compositeValue indexValue="S2">
+                <atomicValue>1.5646503685106</atomicValue>
+              </compositeValue>
+            </compositeValue>
+            <compositeValue indexValue="8.69346733668342">
+              <compositeValue indexValue="S1">
+                <atomicValue>2.41978408974799</atomicValue>
+              </compositeValue>
+              <compositeValue indexValue="S2">
+                <atomicValue>1.990279727394</atomicValue>
+              </compositeValue>
+            </compositeValue>
+            <compositeValue indexValue="8.74371859296483">
+              <compositeValue indexValue="S1">
+                <atomicValue>1.44737493883172</atomicValue>
+              </compositeValue>
+              <compositeValue indexValue="S2">
+                <atomicValue>2.77418260614596</atomicValue>
+              </compositeValue>
+            </compositeValue>
+            <compositeValue indexValue="8.79396984924623">
+              <compositeValue indexValue="S1">
+                <atomicValue>0.468288116875126</atomicValue>
+              </compositeValue>
+              <compositeValue indexValue="S2">
+                <atomicValue>3.36458900502144</atomicValue>
+              </compositeValue>
+            </compositeValue>
+            <compositeValue indexValue="8.84422110552764">
+              <compositeValue indexValue="S1">
+                <atomicValue>0.263881680215978</atomicValue>
+              </compositeValue>
+              <compositeValue indexValue="S2">
+                <atomicValue>3.14451642464778</atomicValue>
+              </compositeValue>
+            </compositeValue>
+            <compositeValue indexValue="8.89447236180905">
+              <compositeValue indexValue="S1">
+                <atomicValue>0.297290617508706</atomicValue>
+              </compositeValue>
+              <compositeValue indexValue="S2">
+                <atomicValue>2.77018280432074</atomicValue>
+              </compositeValue>
+            </compositeValue>
+            <compositeValue indexValue="8.94472361809045">
+              <compositeValue indexValue="S1">
+                <atomicValue>0.385660771353545</atomicValue>
+              </compositeValue>
+              <compositeValue indexValue="S2">
+                <atomicValue>2.43142441210853</atomicValue>
+              </compositeValue>
+            </compositeValue>
+            <compositeValue indexValue="8.99497487437186">
+              <compositeValue indexValue="S1">
+                <atomicValue>0.502259195293878</atomicValue>
+              </compositeValue>
+              <compositeValue indexValue="S2">
+                <atomicValue>2.14315064491641</atomicValue>
+              </compositeValue>
+            </compositeValue>
+            <compositeValue indexValue="9.04522613065327">
+              <compositeValue indexValue="S1">
+                <atomicValue>0.641177228682167</atomicValue>
+              </compositeValue>
+              <compositeValue indexValue="S2">
+                <atomicValue>1.89924104509794</atomicValue>
+              </compositeValue>
+            </compositeValue>
+            <compositeValue indexValue="9.09547738693467">
+              <compositeValue indexValue="S1">
+                <atomicValue>0.799475289332644</atomicValue>
+              </compositeValue>
+              <compositeValue indexValue="S2">
+                <atomicValue>1.69244851986098</atomicValue>
+              </compositeValue>
+            </compositeValue>
+            <compositeValue indexValue="9.14572864321608">
+              <compositeValue indexValue="S1">
+                <atomicValue>0.974337146144543</atomicValue>
+              </compositeValue>
+              <compositeValue indexValue="S2">
+                <atomicValue>1.51700454829201</atomicValue>
+              </compositeValue>
+            </compositeValue>
+            <compositeValue indexValue="9.19597989949749">
+              <compositeValue indexValue="S1">
+                <atomicValue>1.1625789568743</atomicValue>
+              </compositeValue>
+              <compositeValue indexValue="S2">
+                <atomicValue>1.36877498350167</atomicValue>
+              </compositeValue>
+            </compositeValue>
+            <compositeValue indexValue="9.2462311557789">
+              <compositeValue indexValue="S1">
+                <atomicValue>1.36064228485747</atomicValue>
+              </compositeValue>
+              <compositeValue indexValue="S2">
+                <atomicValue>1.24485701454554</atomicValue>
+              </compositeValue>
+            </compositeValue>
+            <compositeValue indexValue="9.2964824120603">
+              <compositeValue indexValue="S1">
+                <atomicValue>1.56477769865973</atomicValue>
+              </compositeValue>
+              <compositeValue indexValue="S2">
+                <atomicValue>1.14317679976091</atomicValue>
+              </compositeValue>
+            </compositeValue>
+            <compositeValue indexValue="9.34673366834171">
+              <compositeValue indexValue="S1">
+                <atomicValue>1.77120723871659</atomicValue>
+              </compositeValue>
+              <compositeValue indexValue="S2">
+                <atomicValue>1.06212169298502</atomicValue>
+              </compositeValue>
+            </compositeValue>
+            <compositeValue indexValue="9.39698492462312">
+              <compositeValue indexValue="S1">
+                <atomicValue>1.97632246406809</atomicValue>
+              </compositeValue>
+              <compositeValue indexValue="S2">
+                <atomicValue>1.00031324308767</atomicValue>
+              </compositeValue>
+            </compositeValue>
+            <compositeValue indexValue="9.44723618090452">
+              <compositeValue indexValue="S1">
+                <atomicValue>2.17668662737747</atomicValue>
+              </compositeValue>
+              <compositeValue indexValue="S2">
+                <atomicValue>0.95648712794713</atomicValue>
+              </compositeValue>
+            </compositeValue>
+            <compositeValue indexValue="9.49748743718593">
+              <compositeValue indexValue="S1">
+                <atomicValue>2.36908498334661</atomicValue>
+              </compositeValue>
+              <compositeValue indexValue="S2">
+                <atomicValue>0.92950911755722</atomicValue>
+              </compositeValue>
+            </compositeValue>
+            <compositeValue indexValue="9.54773869346734">
+              <compositeValue indexValue="S1">
+                <atomicValue>2.55031216074928</atomicValue>
+              </compositeValue>
+              <compositeValue indexValue="S2">
+                <atomicValue>0.918453399829789</atomicValue>
+              </compositeValue>
+            </compositeValue>
+            <compositeValue indexValue="9.59798994974874">
+              <compositeValue indexValue="S1">
+                <atomicValue>2.71701150524437</atomicValue>
+              </compositeValue>
+              <compositeValue indexValue="S2">
+                <atomicValue>0.922774063095903</atomicValue>
+              </compositeValue>
+            </compositeValue>
+            <compositeValue indexValue="9.64824120603015">
+              <compositeValue indexValue="S1">
+                <atomicValue>2.86525033377266</atomicValue>
+              </compositeValue>
+              <compositeValue indexValue="S2">
+                <atomicValue>0.942537158000325</atomicValue>
+              </compositeValue>
+            </compositeValue>
+            <compositeValue indexValue="9.69849246231156">
+              <compositeValue indexValue="S1">
+                <atomicValue>2.98999286068975</atomicValue>
+              </compositeValue>
+              <compositeValue indexValue="S2">
+                <atomicValue>0.978795910793344</atomicValue>
+              </compositeValue>
+            </compositeValue>
+            <compositeValue indexValue="9.74874371859297">
+              <compositeValue indexValue="S1">
+                <atomicValue>3.08409813070439</atomicValue>
+              </compositeValue>
+              <compositeValue indexValue="S2">
+                <atomicValue>1.03424762457789</atomicValue>
+              </compositeValue>
+            </compositeValue>
+            <compositeValue indexValue="9.79899497487437">
+              <compositeValue indexValue="S1">
+                <atomicValue>3.13649263797919</atomicValue>
+              </compositeValue>
+              <compositeValue indexValue="S2">
+                <atomicValue>1.11452482068085</atomicValue>
+              </compositeValue>
+            </compositeValue>
+            <compositeValue indexValue="9.84924623115578">
+              <compositeValue indexValue="S1">
+                <atomicValue>3.1281757672877</atomicValue>
+              </compositeValue>
+              <compositeValue indexValue="S2">
+                <atomicValue>1.23111373113638</atomicValue>
+              </compositeValue>
+            </compositeValue>
+            <compositeValue indexValue="9.89949748743719">
+              <compositeValue indexValue="S1">
+                <atomicValue>3.0228031077892</atomicValue>
+              </compositeValue>
+              <compositeValue indexValue="S2">
+                <atomicValue>1.40856310894731</atomicValue>
+              </compositeValue>
+            </compositeValue>
+            <compositeValue indexValue="9.94974874371859">
+              <compositeValue indexValue="S1">
+                <atomicValue>2.74120192277305</atomicValue>
+              </compositeValue>
+              <compositeValue indexValue="S2">
+                <atomicValue>1.7045720304697</atomicValue>
+              </compositeValue>
+            </compositeValue>
+            <compositeValue indexValue="10">
+              <compositeValue indexValue="S1">
+                <atomicValue>2.09935753259808</atomicValue>
+              </compositeValue>
+              <compositeValue indexValue="S2">
+                <atomicValue>2.25819817845351</atomicValue>
+              </compositeValue>
+            </compositeValue>
+          </dimension>
+        </resultComponent>
+    </resultComponents>
+</numl>

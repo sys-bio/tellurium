@@ -207,9 +207,13 @@ def executeCombineArchive(omexPath, workingDir=None):
 
         # extract
         omex.extractCombineArchive(omexPath=omexPath, directory=extractDir)
+        # get sedml locations by omex
         sedml_locations = omex.getLocationsByFormat(omexPath=omexPath, formatKey="sed-ml")
         if len(sedml_locations) == 0:
-            warnings.warn("No SED-ML files in COMBINE archive: {}".format(omexPath))
+            warnings.warn("No SED-ML files in COMBINE archive via entries, probably not listed in manifest: {}".format(omexPath))
+        # FIXME: lookup via the zip entries. Could be a zip file without manifest
+
+
         sedml_paths = [os.path.join(extractDir, loc) for loc in sedml_locations]
 
         dgs = {}

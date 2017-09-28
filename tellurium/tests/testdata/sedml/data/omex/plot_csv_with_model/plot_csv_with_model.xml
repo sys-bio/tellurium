@@ -1,27 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Written by libSedML v1.1.5219.13144 see http://libsedml.sf.net -->
-<sedML level="1" version="2" xmlns="http://sed-ml.org/sed-ml/level1/version2">
+<sedML level="1" version="3" xmlns="http://sed-ml.org/sed-ml/level1/version3">
     <listOfDataDescriptions>
-        <dataDescription id="Data1" name="oscillator data" source="./oscli.csv">
+        <dataDescription id="datacsv" name="CSV dataset" source="./oscli.csv" format="urn:sedml:format:csv">
             <dimensionDescription>
-                <compositeDescription indexType="double" id="time" name="time" xmlns="http://www.numl.org/numl/
-level1/version1">
-                    <compositeDescription indexType="string" id="SpeciesIds" name="SpeciesIds">
-                        <atomicDescription valueType="double" name="Concentrations"/>
+                <compositeDescription indexType="integer" name="Index">
+                    <compositeDescription indexType="string" name="ColumnIds">
+                        <atomicDescription valueType="double" name="Values"/>
                     </compositeDescription>
                 </compositeDescription>
             </dimensionDescription>
             <listOfDataSources>
-                <dataSource id="dataS1">
+                <dataSource id="dataTime">
                     <listOfSlices>
-                        <slice reference="SpeciesIds" value="S1"/>
+                        <slice reference="ColumnIds" value="time"/>
                     </listOfSlices>
                 </dataSource>
-                <dataSource id="dataTime" indexSet="time"/>
+                <dataSource id="dataS1">
+                    <listOfSlices>
+                        <slice reference="ColumnIds" value="S1"/>
+                    </listOfSlices>
+                </dataSource>
             </listOfDataSources>
         </dataDescription>
     </listOfDataDescriptions>
-
+    <listOfSimulations>
+        <uniformTimeCourse id="sim1" initialTime="0" outputStartTime="0" outputEndTime="10" numberOfPoints="100">
+            <algorithm kisaoID="KISAO:0000019">
+                <listOfAlgorithmParameters>
+                    <algorithmParameter kisaoID="KISAO:0000209" value="1E-06"/>
+                    <algorithmParameter kisaoID="KISAO:0000211" value="1E-12"/>
+                    <algorithmParameter kisaoID="KISAO:0000415" value="10000"/>
+                </listOfAlgorithmParameters>
+            </algorithm>
+        </uniformTimeCourse>
+    </listOfSimulations>
+    <listOfModels>
+        <model id="model1" language="urn:sedml:language:sbml" source="./oscli.xml"/>
+    </listOfModels>
+    <listOfTasks>
+        <task id="task1" modelReference="model1" simulationReference="sim1"/>
+    </listOfTasks>
     <listOfDataGenerators>
         <dataGenerator id="time_1" name="time">
             <listOfVariables>
@@ -66,7 +84,6 @@ level1/version1">
             </math>
         </dataGenerator>
     </listOfDataGenerators>
-
     <listOfOutputs>
         <plot2D id="plot1" name="Time Course (Oscli)">
             <listOfCurves>
