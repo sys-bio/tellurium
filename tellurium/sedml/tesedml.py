@@ -574,47 +574,22 @@ class SEDMLCodeFactory(object):
         :rtype: str
         """
         lines = []
-        did = dataDescription.getId()
 
-        '''
-        language = model.getLanguage()
-        source = self.model_sources[mid]
+        # TODO: load data sources and create variables for all the data sources.
+        from tellurium.sedml.data import DataDescriptionParser
+        data_sources = DataDescriptionParser.parse(dataDescription, self.workingDir)
 
-        
-        if not language:
-            warnings.warn("No model language specified, defaulting to SBML for: {}".format(source))
+        def data_to_string(data):
+            info = np.array2string(data)
+            info = info.replace('\n', ', ').replace('\r', '')
+            print(info)
+            return info
 
-        def isUrn():
-            return source.startswith('urn') or source.startswith('URN')
 
-        def isHttp():
-            return source.startswith('http') or source.startswith('HTTP')
+        for sid, data in data_sources.items():
+            array_str = data_to_string(data)
+            lines.append("{} = np.array({})".format(sid, array_str))
 
-        # read SBML
-        if 'sbml' in language or len(language) == 0:
-            if isUrn():
-                lines.append("import tellurium.temiriam as temiriam")
-                lines.append("__{}_sbml = temiriam.getSBMLFromBiomodelsURN('{}')".format(mid, source))
-                lines.append("{} = te.loadSBMLModel(__{}_sbml)".format(mid, mid))
-            elif isHttp():
-                lines.append("{} = te.loadSBMLModel('{}')".format(mid, source))
-            else:
-                lines.append("{} = te.loadSBMLModel(os.path.join(workingDir, '{}'))".format(mid, source))
-        # read CellML
-        elif 'cellml' in language:
-            if isHttp():
-                lines.append("{} = te.loadCellMLModel('{}')".format(mid, source))
-            else:
-                lines.append(
-                    "{} = te.loadCellMLModel(os.path.join(workingDir, '{}'))".format(mid, self.model_sources[mid]))
-        # other
-        else:
-            warnings.warn("Unsupported model language: '{}'".format(language))
-
-        # apply model changes
-        for change in self.model_changes[mid]:
-            lines.extend(SEDMLCodeFactory.modelChangeToPython(model, change))
-        '''
         return '\n'.join(lines)
 
 
@@ -1363,7 +1338,7 @@ class SEDMLCodeFactory(object):
 
     @staticmethod
     def dataGeneratorToPython(doc, generator):
-        """ Create variable from the data generators and the simulations.
+        """ Create variable from the data generators and the simulation results and data sources.
 
             The data of repeatedTasks is handled differently depending
             on if reset=True or reset=False.
@@ -1389,38 +1364,50 @@ class SEDMLCodeFactory(object):
             varId = var.getId()
             taskId = var.getTaskReference()
             task = doc.getTask(taskId)
-            modelId = task.getModelReference()
 
-            selection = SEDMLCodeFactory.selectionFromVariable(var, modelId)
-            isTime = False
-            if selection.type == "symbol" and selection.id == "time":
-                isTime = True
+            # simulation data
+            if task is not None:
+                modelId = task.getModelReference()
 
-            resetModel = True
-            if task.getTypeCode() == libsedml.SEDML_TASK_REPEATEDTASK:
-                resetModel = task.getResetModel()
+                selection = SEDMLCodeFactory.selectionFromVariable(var, modelId)
+                isTime = False
+                if selection.type == "symbol" and selection.id == "time":
+                    isTime = True
 
-            sid = selection.id
-            if selection.type == "concentration":
-                sid = "[{}]".format(selection.id)
+                resetModel = True
+                if task.getTypeCode() == libsedml.SEDML_TASK_REPEATEDTASK:
+                    resetModel = task.getResetModel()
 
-            # Series of curves
-            if resetModel is True:
-                # If each entry in the task consists of a single point (e.g. steady state scan)
-                # , concatenate the points. Otherwise, plot as separate curves.
-                lines.append("__var__{} = np.concatenate([process_trace(sim['{}']) for sim in {}])".format(varId, sid, taskId))
-            else:
-                # One curve via time adjusted concatenate
-                if isTime is True:
-                    lines.append("__offsets__{} = np.cumsum(np.array([sim['{}'][-1] for sim in {}]))".format(taskId, sid, taskId))
-                    lines.append("__offsets__{} = np.insert(__offsets__{}, 0, 0)".format(taskId, taskId))
-                    lines.append("__var__{} = np.transpose(np.array([sim['{}']+__offsets__{}[k] for k, sim in enumerate({})]))".format(varId, sid, taskId, taskId))
-                    lines.append("__var__{} = np.concatenate(np.transpose(__var__{}))".format(varId, varId))
+                sid = selection.id
+                if selection.type == "concentration":
+                    sid = "[{}]".format(selection.id)
+
+                # Series of curves
+                if resetModel is True:
+                    # If each entry in the task consists of a single point (e.g. steady state scan)
+                    # , concatenate the points. Otherwise, plot as separate curves.
+                    lines.append("__var__{} = np.concatenate([process_trace(sim['{}']) for sim in {}])".format(varId, sid, taskId))
                 else:
-                    lines.append("__var__{} = np.transpose(np.array([sim['{}'] for sim in {}]))".format(varId, sid, taskId))
-                    lines.append("__var__{} = np.concatenate(np.transpose(__var__{}))".format(varId, varId))
-            lines.append("if len(__var__{}.shape) == 1:".format(varId))
-            lines.append("     __var__{}.shape += (1,)".format(varId))
+                    # One curve via time adjusted concatenate
+                    if isTime is True:
+                        lines.append("__offsets__{} = np.cumsum(np.array([sim['{}'][-1] for sim in {}]))".format(taskId, sid, taskId))
+                        lines.append("__offsets__{} = np.insert(__offsets__{}, 0, 0)".format(taskId, taskId))
+                        lines.append("__var__{} = np.transpose(np.array([sim['{}']+__offsets__{}[k] for k, sim in enumerate({})]))".format(varId, sid, taskId, taskId))
+                        lines.append("__var__{} = np.concatenate(np.transpose(__var__{}))".format(varId, varId))
+                    else:
+                        lines.append("__var__{} = np.transpose(np.array([sim['{}'] for sim in {}]))".format(varId, sid, taskId))
+                        lines.append("__var__{} = np.concatenate(np.transpose(__var__{}))".format(varId, varId))
+                lines.append("if len(__var__{}.shape) == 1:".format(varId))
+                lines.append("     __var__{}.shape += (1,)".format(varId))
+
+            # check for data sources
+            else:
+                target = var.getTarget()
+                if target.startswith('#'):
+                    sid = target[1:]
+                    lines.append("__var__{} = {}".format(varId, sid))
+                else:
+                    warnings.warn("Unknown target in variable, no reference to SId: {}".format(target))
 
         # calculate data generator
         value = evaluableMathML(mathml, variables=variables, array=True)

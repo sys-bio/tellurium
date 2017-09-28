@@ -149,7 +149,6 @@ def test_parse_numl_2DRC():
 def test_omex_plot_csv():
     dgs = tesedml.executeCombineArchive(OMEX_PLOT_CSV)
     print(dgs)
-    assert 0
 
 
 def test_omex_plot_csv_with_model():
