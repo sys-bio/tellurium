@@ -748,6 +748,7 @@ class PhrasedmlTestCase(unittest.TestCase):
         '''
         self.run_example(a_str, p_str)
 
+
     def test_repressilator(self):
 
         # Get SBML from URN and set for phrasedml
@@ -787,6 +788,7 @@ class PhrasedmlTestCase(unittest.TestCase):
         """.format(urn)
 
         # convert to sedml
+        print(phrasedml_str)
         sedml_str = phrasedml.convertString(phrasedml_str)
         if sedml_str is None:
             print(phrasedml.getLastError())
