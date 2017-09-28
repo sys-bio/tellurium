@@ -40,7 +40,7 @@ setup(name='tellurium',
       },
       install_requires=[
           # general
-          'numpy>=1.13.0',
+          'numpy>=1.13.2',
           'scipy>=0.19.1',
           'matplotlib>=2.0.2',
           'pandas>=0.20.2',
@@ -52,7 +52,7 @@ setup(name='tellurium',
           'sbml2matlab>=0.9.1',
           # standards
           'tesbml>=5.15.0',
-          'python-libnuml>=1.0.1',
+          'python-libnuml>=1.1.1',
           'tesedml>=0.4.2',
           'tecombine>=0.2.2',
           'appdirs>=1.4.3',
