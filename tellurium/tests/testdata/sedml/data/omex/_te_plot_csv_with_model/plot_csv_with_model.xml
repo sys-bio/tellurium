@@ -1,27 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <sedML level="1" version="3" xmlns="http://sed-ml.org/sed-ml/level1/version3">
     <listOfDataDescriptions>
-        <dataDescription id="Data1" name="oscillator data" source="./oscli.numl">
+        <dataDescription id="datacsv" name="CSV dataset" source="./oscli.csv" format="urn:sedml:format:csv">
             <dimensionDescription>
-                <compositeDescription indexType="double" id="time" name="time" xmlns="http://www.numl.org/numl/
-level1/version1">
-                    <compositeDescription indexType="string" id="SpeciesIds" name="SpeciesIds">
-                        <atomicDescription valueType="double" name="Concentrations"/>
+                <compositeDescription indexType="integer" name="Index">
+                    <compositeDescription indexType="string" name="ColumnIds">
+                        <atomicDescription valueType="double" name="Values"/>
                     </compositeDescription>
                 </compositeDescription>
             </dimensionDescription>
             <listOfDataSources>
-                <dataSource id="dataS1">
+                <dataSource id="dataTime">
                     <listOfSlices>
-                        <slice reference="SpeciesIds" value="S1"/>
+                        <slice reference="ColumnIds" value="time"/>
                     </listOfSlices>
                 </dataSource>
-                <dataSource id="dataTime" indexSet="time"/>
+                <dataSource id="dataS1">
+                    <listOfSlices>
+                        <slice reference="ColumnIds" value="S1"/>
+                    </listOfSlices>
+                </dataSource>
             </listOfDataSources>
         </dataDescription>
     </listOfDataDescriptions>
     <listOfSimulations>
-        <uniformTimeCourse id="sim1" initialTime="0" outputStartTime="0" outputEndTime="10" numberOfPoints="100">
+        <uniformTimeCourse id="sim1" initialTime="0" outputStartTime="0" outputEndTime="10" numberOfPoints="400">
             <algorithm kisaoID="KISAO:0000019">
                 <listOfAlgorithmParameters>
                     <algorithmParameter kisaoID="KISAO:0000209" value="1E-06"/>
@@ -86,10 +89,6 @@ level1/version1">
             <listOfCurves>
                 <curve id="curve1" logX="false" logY="false" xDataReference="time_1" yDataReference="S1_1"/>
                 <curve id="curve2" logX="false" logY="false" xDataReference="time_1" yDataReference="S2_1"/>
-            </listOfCurves>
-        </plot2D>
-        <plot2D id="plot2" name="Data (Oscli)">
-            <listOfCurves>
                 <curve id="curve3" logX="false" logY="false" xDataReference="dgDataTime" yDataReference="dgDataS1"/>
             </listOfCurves>
         </plot2D>

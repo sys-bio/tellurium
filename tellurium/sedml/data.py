@@ -141,7 +141,11 @@ class DataDescriptionParser(object):
 
                 # FIXME: Using the first results component, as long as their is no indexing
                 rc_id, rc = data[0]
+
+                # convert to numeric
+                # FIXME: DataType should be based on the actual type of the index or value
                 # print(rc)
+                rc = rc.convert_objects(convert_numeric=True)
 
                 # data via indexSet
                 indexSet = ds.getIndexSet()

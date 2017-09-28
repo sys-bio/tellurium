@@ -24,7 +24,7 @@
         </dataDescription>
     </listOfDataDescriptions>
     <listOfSimulations>
-        <uniformTimeCourse id="sim1" initialTime="0" outputStartTime="0" outputEndTime="10" numberOfPoints="100">
+        <uniformTimeCourse id="sim1" initialTime="0" outputStartTime="0" outputEndTime="10" numberOfPoints="400">
             <algorithm kisaoID="KISAO:0000019">
                 <listOfAlgorithmParameters>
                     <algorithmParameter kisaoID="KISAO:0000209" value="1E-06"/>
@@ -89,10 +89,6 @@
             <listOfCurves>
                 <curve id="curve1" logX="false" logY="false" xDataReference="time_1" yDataReference="S1_1"/>
                 <curve id="curve2" logX="false" logY="false" xDataReference="time_1" yDataReference="S2_1"/>
-            </listOfCurves>
-        </plot2D>
-        <plot2D id="plot2" name="Data (Oscli)">
-            <listOfCurves>
                 <curve id="curve3" logX="false" logY="false" xDataReference="dgDataTime" yDataReference="dgDataS1"/>
             </listOfCurves>
         </plot2D>

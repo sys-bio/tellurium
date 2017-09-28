@@ -130,40 +130,74 @@ def test_parse_numl():
 
 def test_parse_numl_1D():
     data_sources = parseDataDescriptions(SEDML_READ_NUML_1D)
-    print(data_sources)
-    # FIXME: check results
+    assert data_sources is not None
+    assert len(data_sources) == 6
+    assert 'data_s_glu' in data_sources
+    assert 'data_s_pyr' in data_sources
+    assert 'data_s_acetate' in data_sources
+    assert 'data_s_acetald' in data_sources
+    assert 'data_s_EtOH' in data_sources
+    assert 'data_x' in data_sources
+    assert len(data_sources['data_s_glu']) == 1
 
 
 def test_parse_numl_2D():
     data_sources = parseDataDescriptions(SEDML_READ_NUML_2D)
-    print(data_sources)
-    # FIXME: check results
+    assert data_sources is not None
+    assert len(data_sources) == 4
+    assert 'dataBL' in data_sources
+    assert 'dataB' in data_sources
+    assert 'dataS1' in data_sources
+    assert 'dataTime' in data_sources
+    assert len(data_sources['dataB']) == 6
 
 
 def test_parse_numl_2DRC():
     data_sources = parseDataDescriptions(SEDML_READ_NUML_2DRC)
-    print(data_sources)
-    # FIXME: check results
+    assert data_sources is not None
+    assert len(data_sources) == 4
+    assert 'dataBL' in data_sources
+    assert 'dataB' in data_sources
+    assert 'dataS1' in data_sources
+    assert 'dataTime' in data_sources
+    assert len(data_sources['dataB']) == 6
 
 
-def test_omex_plot_csv():
-    dgs = tesedml.executeCombineArchive(OMEX_PLOT_CSV)
-    print(dgs)
+def test_omex_plot_csv(tmpdir):
+    dgs = tesedml.executeCombineArchive(OMEX_PLOT_CSV, workingDir=tmpdir)
+    dg_dict = list(dgs.values())[0]
+    assert len(dg_dict) == 2
+    assert "dgDataS1" in dg_dict
+    assert "dgDataTime" in dg_dict
+    assert len(dg_dict["dgDataS1"]) == 200
+    assert len(dg_dict["dgDataTime"]) == 200
 
 
-def test_omex_plot_csv_with_model():
-    dgs = tesedml.executeCombineArchive(OMEX_PLOT_CSV_WITH_MODEL)
-    assert 0
+def test_omex_plot_csv_with_model(tmpdir):
+    dgs = tesedml.executeCombineArchive(OMEX_PLOT_CSV_WITH_MODEL, workingDir=tmpdir)
+    dg_dict = list(dgs.values())[0]
+    assert len(dg_dict) == 5
+    assert "dgDataS1" in dg_dict
+    assert "dgDataTime" in dg_dict
+    assert len(dg_dict["dgDataS1"]) == 200
+    assert len(dg_dict["dgDataTime"]) == 200
 
 
-def test_omex_plot_numl():
-    dgs = tesedml.executeCombineArchive(OMEX_PLOT_NUML)
-    assert 0
+def test_omex_plot_numl(tmpdir):
+    dgs = tesedml.executeCombineArchive(OMEX_PLOT_NUML, workingDir=tmpdir)
+    dg_dict = list(dgs.values())[0]
+    assert len(dg_dict) == 2
+    assert "dgDataS1" in dg_dict
+    assert "dgDataTime" in dg_dict
+    assert len(dg_dict["dgDataS1"]) == 200
+    assert len(dg_dict["dgDataTime"]) == 200
 
 
-def test_omex_plot_numl_with_model():
-    dgs = tesedml.executeCombineArchive(OMEX_PLOT_NUML_WITH_MODEL)
-    assert 0
-
-
-
+def test_omex_plot_numl_with_model(tmpdir):
+    dgs = tesedml.executeCombineArchive(OMEX_PLOT_NUML_WITH_MODEL, workingDir=tmpdir)
+    dg_dict = list(dgs.values())[0]
+    assert len(dg_dict) == 5
+    assert "dgDataS1" in dg_dict
+    assert "dgDataTime" in dg_dict
+    assert len(dg_dict["dgDataS1"]) == 200
+    assert len(dg_dict["dgDataTime"]) == 200

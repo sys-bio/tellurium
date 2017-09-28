@@ -575,9 +575,9 @@ class SEDMLCodeFactory(object):
         """
         lines = []
 
-        # TODO: load data sources and create variables for all the data sources.
         from tellurium.sedml.data import DataDescriptionParser
         data_sources = DataDescriptionParser.parse(dataDescription, self.workingDir)
+
 
         def data_to_string(data):
             info = np.array2string(data)
@@ -585,8 +585,12 @@ class SEDMLCodeFactory(object):
             print(info)
             return info
 
-
         for sid, data in data_sources.items():
+            # handle the 1D shapes
+            if len(data.shape) == 1:
+                data = np.reshape(data, (data.shape[0], 1))
+                print(type(data[0,0]))
+
             array_str = data_to_string(data)
             lines.append("{} = np.array({})".format(sid, array_str))
 
