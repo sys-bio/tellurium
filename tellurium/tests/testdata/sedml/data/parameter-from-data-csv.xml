@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sedML level="1" version="3" xmlns="http://sed-ml.org/sed-ml/level1/version3">
+    <listOfDataDescriptions>
+        <dataDescription id="mucsv" name="Van der Pol mu" source="./parameters.csv" format="urn:sedml:format:csv">
+            <dimensionDescription>
+                <compositeDescription indexType="integer" name="Index">
+                    <compositeDescription indexType="string" name="ColumnIds">
+                        <atomicDescription valueType="double" name="Values"/>
+                    </compositeDescription>
+                </compositeDescription>
+            </dimensionDescription>
+            <listOfDataSources>
+                <dataSource id="dataIndex" indexSet="Index"/>
+                <dataSource id="dataMu">
+                    <listOfSlices>
+                        <slice reference="ColumnIds" value="mu"/>
+                    </listOfSlices>
+                </dataSource>
+            </listOfDataSources>
+        </dataDescription>
+    </listOfDataDescriptions>
+     <listOfSimulations>
+        <uniformTimeCourse id="simulation1" initialTime="0" numberOfPoints="1000" outputEndTime="100" outputStartTime="0">
+            <algorithm kisaoID="KISAO:0000019">
+                <listOfAlgorithmParameters>
+                    <algorithmParameter kisaoID="KISAO:0000211" value="1e-07"/>
+                    <algorithmParameter kisaoID="KISAO:0000475" value="BDF"/>
+                    <algorithmParameter kisaoID="KISAO:0000481" value="true"/>
+                    <algorithmParameter kisaoID="KISAO:0000476" value="Newton"/>
+                    <algorithmParameter kisaoID="KISAO:0000477" value="Dense"/>
+                    <algorithmParameter kisaoID="KISAO:0000480" value="0"/>
+                    <algorithmParameter kisaoID="KISAO:0000415" value="500"/>
+                    <algorithmParameter kisaoID="KISAO:0000467" value="0"/>
+                    <algorithmParameter kisaoID="KISAO:0000478" value="Banded"/>
+                    <algorithmParameter kisaoID="KISAO:0000209" value="1e-07"/>
+                    <algorithmParameter kisaoID="KISAO:0000479" value="0"/>
+                </listOfAlgorithmParameters>
+            </algorithm>
+        </uniformTimeCourse>
+    </listOfSimulations>
+    <listOfModels>
+        <model id="model1" language="urn:sedml:language:sbml" source="vanderpol-sbml.xml"/>
+    </listOfModels>
+     <listOfTasks>
+        <repeatedTask id="repeatedTask" range="once" resetModel="true">
+            <listOfRanges>
+                <vectorRange id="once">
+                    <value> 1 </value>
+                </vectorRange>
+            </listOfRanges>
+            <listOfSubTasks>
+                <subTask order="1" task="task1"/>
+            </listOfSubTasks>
+        </repeatedTask>
+        <task id="task1" modelReference="model1" simulationReference="simulation1"/>
+    </listOfTasks>
+
+
+    <listOfDataGenerators>
+        <dataGenerator id="dgDataIndex" name="Index (data)">
+            <listOfVariables>
+                <variable id="varIndex" modelReference="model1" target="#dataIndex"/>
+            </listOfVariables>
+            <math xmlns="http://www.w3.org/1998/Math/MathML">
+                <ci>varIndex</ci>
+            </math>
+        </dataGenerator>
+        <dataGenerator id="dgDataMu" name="Time">
+            <listOfVariables>
+                <variable id="varMu" modelReference="model1" target="#dataMu"/>
+            </listOfVariables>
+            <math xmlns="http://www.w3.org/1998/Math/MathML">
+                <ci>varMu</ci>
+            </math>
+        </dataGenerator>
+
+        <!--
+        <dataGenerator id="xDataGenerator1_1">
+            <listOfVariables>
+                <variable id="xVariable1_1" taskReference="task1" symbol="urn:sedml:symbol:time" />
+            </listOfVariables>
+            <math xmlns="http://www.w3.org/1998/Math/MathML">
+                <ci> xVariable1_1 </ci>
+            </math>
+        </dataGenerator>
+        <dataGenerator id="yDataGenerator1_1">
+            <listOfVariables>
+                <variable id="yVariable1_1" target="/sbml:sbml/sbml:model/sbml:listOfParameters/sbml:species[@id='x']" taskReference="repeatedTask" modelReference="model"/>
+            </listOfVariables>
+            <math xmlns="http://www.w3.org/1998/Math/MathML">
+                <ci> yVariable1_1 </ci>
+            </math>
+        </dataGenerator>
+        <dataGenerator id="xDataGenerator2_1">
+            <listOfVariables>
+                <variable id="xVariable2_1" taskReference="task1" symbol="urn:sedml:symbol:time" />
+            </listOfVariables>
+            <math xmlns="http://www.w3.org/1998/Math/MathML">
+                <ci> xVariable2_1 </ci>
+            </math>
+        </dataGenerator>
+        <dataGenerator id="yDataGenerator2_1">
+            <listOfVariables>
+                <variable id="yVariable2_1" target="/sbml:sbml/sbml:model/sbml:listOfParameters/sbml:species[@id='y']" taskReference="repeatedTask" modelReference="model"/>
+            </listOfVariables>
+            <math xmlns="http://www.w3.org/1998/Math/MathML">
+                <ci> yVariable2_1 </ci>
+            </math>
+        </dataGenerator>
+        <dataGenerator id="xDataGenerator3_1">
+            <listOfVariables>
+                <variable id="xVariable3_1" target="/sbml:sbml/sbml:model/sbml:listOfParameters/sbml:species[@id='x']" taskReference="repeatedTask" modelReference="model"/>
+            </listOfVariables>
+            <math xmlns="http://www.w3.org/1998/Math/MathML">
+                <ci> xVariable3_1 </ci>
+            </math>
+        </dataGenerator>
+        <dataGenerator id="yDataGenerator3_1">
+            <listOfVariables>
+                <variable id="yVariable3_1" target="/sbml:sbml/sbml:model/sbml:listOfParameters/sbml:species[@id='y']" taskReference="repeatedTask" modelReference="model"/>
+            </listOfVariables>
+            <math xmlns="http://www.w3.org/1998/Math/MathML">
+                <ci> yVariable3_1 </ci>
+            </math>
+        </dataGenerator>
+        -->
+    </listOfDataGenerators>
+    <listOfOutputs>
+        <!--
+        <plot2D id="plot1">
+            <listOfCurves>
+                <curve id="curve1_1" logX="false" logY="false" xDataReference="xDataGenerator1_1" yDataReference="yDataGenerator1_1"/>
+                <curve id="curve2_1" logX="false" logY="false" xDataReference="xDataGenerator2_1" yDataReference="yDataGenerator2_1"/>
+            </listOfCurves>
+        </plot2D>
+        <plot2D id="plot2">
+            <listOfCurves>
+                <curve id="curve3_1" logX="false" logY="false" xDataReference="xDataGenerator3_1" yDataReference="yDataGenerator3_1"/>
+            </listOfCurves>
+        </plot2D>
+        -->
+        <plot2D id="plot3" name="Van der Pol mu">
+            <listOfCurves>
+                <curve id="curve3" logX="false" logY="false" xDataReference="dgDataIndex" yDataReference="dgDataMu"/>
+            </listOfCurves>
+        </plot2D>
+    </listOfOutputs>
+
+</sedML>

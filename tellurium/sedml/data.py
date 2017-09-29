@@ -127,14 +127,18 @@ class DataDescriptionParser(object):
 
             # CSV/TSV
             if format in [cls.FORMAT_CSV, cls.FORMAT_TSV]:
-                sids = []
-                for slice in ds.getListOfSlices():
-                    # FIXME: this does not handle multiple slices for rows
-                    # print('\t\t\treference={}; value={}'.format(slice.getReference(), slice.getValue()))
-                    sids.append(slice.getValue())
+                if len(ds.getIndexSet()) > 0:
+                    # if index set we return the index
+                    data_sources[dsid] = pd.Series(data.index.tolist())
+                else:
+                    sids = []
+                    for slice in ds.getListOfSlices():
+                        # FIXME: this does not handle multiple slices for rows
+                        # print('\t\t\treference={}; value={}'.format(slice.getReference(), slice.getValue()))
+                        sids.append(slice.getValue())
 
-                # slice values are columns from data frame
-                data_sources[dsid] = data[sids].values
+                    # slice values are columns from data frame
+                    data_sources[dsid] = data[sids].values
 
             # NUML
             elif format == cls.FORMAT_NUML:
