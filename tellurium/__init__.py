@@ -107,7 +107,7 @@ from .analysis.bifurcation import (
 )
 
 # SED-ML support
-from .sedml.tesedml import sedmlToPython, executeSEDML
+from .sedml.tesedml import sedmlToPython, executeSEDML, executeCombineArchive
 
 # Combine archive support
 from .tellurium import (

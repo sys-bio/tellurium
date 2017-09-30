@@ -209,7 +209,7 @@ def getLocationsByFormat(omexPath, formatKey=None, method="omex"):
     elif method == "zip":
         # extract to tmpfile and guess format
         raise NotImplementedError
-
+        # TODO: fixme
 
 
 

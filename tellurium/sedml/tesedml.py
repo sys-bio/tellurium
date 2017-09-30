@@ -183,16 +183,17 @@ def combineArchiveToPython(omexPath):
     return pycode
 
 
-def executeCombineArchive(omexPath, workingDir=None, createOutputs=True):
+def executeCombineArchive(omexPath, workingDir=None, printPython=True, createOutputs=True):
     """ Run all SED-ML simulations in given COMBINE archive.
 
     If no workingDir is provided execution is performed in temporary directory
     which is cleaned afterwards.
-
+    The executed code can be printed via the 'printPython' flag.
 
     :param omexPath: OMEX Combine archive
     :param workingDir: directory to extract archive to
-    :param createOutputs: boolean flag if outputs should be created.
+    :param printPython: boolean switch to print executed python code
+    :param createOutputs: boolean flag if outputs should be created, i.e. reports and plots
     :return dictionary of sedmlFile:data generators
     """
 
@@ -203,6 +204,8 @@ def executeCombineArchive(omexPath, workingDir=None, createOutputs=True):
             if workingDir is None:
                 extractDir = tmp_dir
             else:
+                if not os.path.exists(workingDir):
+                    raise IOError("workingDir does not exist, make sure to create the directoy: '{}'".format(workingDir))
                 extractDir = workingDir
 
             # extract
@@ -219,9 +222,12 @@ def executeCombineArchive(omexPath, workingDir=None, createOutputs=True):
             results = {}
             sedml_paths = [os.path.join(extractDir, loc) for loc in sedml_locations]
             for sedmlFile in sedml_paths:
-                factory = SEDMLCodeFactory(sedmlFile, workingDir=os.path.dirname(sedmlFile), createOutputs=createOutputs)
-                code = factory.toPython()
-                print(code)
+                factory = SEDMLCodeFactory(sedmlFile,
+                                           workingDir=os.path.dirname(sedmlFile),
+                                           createOutputs=createOutputs)
+                if printPython:
+                    code = factory.toPython()
+                    print(code)
 
                 results[sedmlFile] = factory.executePython()
 
