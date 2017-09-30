@@ -42,11 +42,16 @@
         <model id="model1" language="urn:sedml:language:sbml" source="vanderpol-sbml.xml"/>
     </listOfModels>
      <listOfTasks>
-        <repeatedTask id="repeatedTask" range="once" resetModel="true">
+        <repeatedTask id="repeatedTask" range="current" resetModel="true">
             <listOfRanges>
-                <vectorRange id="once">
-                    <value> 1 </value>
-                </vectorRange>
+                <functionalRange id="current" range="data_range">
+                    <listOfVariables>
+                        <variable id="varMu" name="current parameter value" target="#dataMu"/>
+                    </listOfVariables>
+                    <math xmlns="http://www.w3.org/1998/Math/MathML">
+                        <ci>varMu</ci>
+                    </math>
+                </functionalRange>
             </listOfRanges>
             <listOfSubTasks>
                 <subTask order="1" task="task1"/>
