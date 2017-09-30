@@ -97,6 +97,8 @@ Please let changes to this file be reviewed and make sure that all SED-ML relate
 """
 from __future__ import print_function, division, absolute_import
 
+import sys
+import platform
 import tempfile
 import shutil
 import traceback
@@ -181,7 +183,7 @@ def combineArchiveToPython(omexPath):
     return pycode
 
 
-def executeCombineArchive(omexPath, workingDir=None):
+def executeCombineArchive(omexPath, workingDir=None, createOutputs=True):
     """ Run all SED-ML simulations in given COMBINE archive.
 
     If no workingDir is provided execution is performed in temporary directory
@@ -190,6 +192,7 @@ def executeCombineArchive(omexPath, workingDir=None):
 
     :param omexPath: OMEX Combine archive
     :param workingDir: directory to extract archive to
+    :param createOutputs: boolean flag if outputs should be created.
     :return dictionary of sedmlFile:data generators
     """
     filename, extension = os.path.splitext(os.path.basename(omexPath))
@@ -218,7 +221,7 @@ def executeCombineArchive(omexPath, workingDir=None):
 
         dgs = {}
         for sedmlFile in sedml_paths:
-            factory = SEDMLCodeFactory(sedmlFile, workingDir=os.path.dirname(sedmlFile))
+            factory = SEDMLCodeFactory(sedmlFile, workingDir=os.path.dirname(sedmlFile), createOutputs=createOutputs)
 
             code = factory.toPython()
             print("*" * 80)
@@ -348,16 +351,21 @@ class SEDMLCodeFactory(object):
     # template location
     TEMPLATE_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'templates')
 
-    def __init__(self, inputStr, workingDir=None):
+    def __init__(self, inputStr, workingDir=None, createOutputs=True):
         """ Create CodeFactory for given input.
 
         :param inputStr:
-        :type inputStr:
+        :param workingDir:
+        :param createOutputs: if outputs should be created
+
         :return:
         :rtype:
         """
         self.inputStr = inputStr
         self.workingDir = workingDir
+        self.python = sys.version
+        self.platform = platform.platform()
+        self.createOutputs = createOutputs
         info = SEDMLTools.readSEDMLDocument(inputStr, workingDir)
         self.doc = info['doc']
         self.inputType = info['inputType']

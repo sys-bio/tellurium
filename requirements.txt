@@ -31,3 +31,7 @@ ipykernel>=4.6.1
 
 # testing dependencies
 pytest
+
+
+# Install in notebook
+# python -m ipykernel install --user --name=tellurium
