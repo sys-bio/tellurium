@@ -195,43 +195,39 @@ def executeCombineArchive(omexPath, workingDir=None, createOutputs=True):
     :param createOutputs: boolean flag if outputs should be created.
     :return dictionary of sedmlFile:data generators
     """
-    filename, extension = os.path.splitext(os.path.basename(omexPath))
 
-
-    pycode = {}
     # combine archives are zip format
     if zipfile.is_zipfile(omexPath):
+        try:
+            tmp_dir = tempfile.mkdtemp()
+            if workingDir is None:
+                extractDir = tmp_dir
+            else:
+                extractDir = workingDir
 
-        # a directory is created in which the files are extracted
-        if workingDir is None:
-            extractDir = os.path.join(os.path.dirname(os.path.realpath(omexPath)), '_te_{}'.format(filename))
-        else:
-            extractDir = workingDir
+            # extract
+            omex.extractCombineArchive(omexPath=omexPath, directory=extractDir)
 
-        # extract
-        omex.extractCombineArchive(omexPath=omexPath, directory=extractDir)
-        # get sedml locations by omex
-        sedml_locations = omex.getLocationsByFormat(omexPath=omexPath, formatKey="sed-ml")
-        if len(sedml_locations) == 0:
-            warnings.warn("No SED-ML files in COMBINE archive via entries, probably not listed in manifest: {}".format(omexPath))
-        # FIXME: lookup via the zip entries. Could be a zip file without manifest
+            # get sedml locations by omex
+            sedml_locations = omex.getLocationsByFormat(omexPath=omexPath, formatKey="sed-ml")
+            if len(sedml_locations) == 0:
+                warnings.warn("No SED-ML files in COMBINE archive via entries, probably not listed in manifest: {}".format(omexPath))
 
+            # FIXME: lookup via the zip entries. Could be a zip file without manifest
 
-        sedml_paths = [os.path.join(extractDir, loc) for loc in sedml_locations]
+            # run all sedml files
+            results = {}
+            sedml_paths = [os.path.join(extractDir, loc) for loc in sedml_locations]
+            for sedmlFile in sedml_paths:
+                factory = SEDMLCodeFactory(sedmlFile, workingDir=os.path.dirname(sedmlFile), createOutputs=createOutputs)
+                code = factory.toPython()
+                print(code)
 
-        dgs = {}
-        for sedmlFile in sedml_paths:
-            factory = SEDMLCodeFactory(sedmlFile, workingDir=os.path.dirname(sedmlFile), createOutputs=createOutputs)
+                results[sedmlFile] = factory.executePython()
 
-            code = factory.toPython()
-            print("*" * 80)
-            print(code)
-            print("*" * 80)
-            sedml_dgs = factory.executePython()
-            dgs[sedmlFile] = sedml_dgs
-
-        # TODO: cleanup of temporary files
-        return dgs
+            return results
+        finally:
+            shutil.rmtree(tmp_dir)
     else:
         if not os.path.exists(omexPath):
             raise FileNotFoundError("File does not exist: {}".format(omexPath))
@@ -457,12 +453,18 @@ class SEDMLCodeFactory(object):
             symbols = {}
             exec(compile(execStr, filename, 'exec'), symbols)
 
-            # return dictionary of data generators
+            # return information from execution
+            result = {'execStr': execStr}
+
+            # TODO: additional information
+
+            # read DataGenerator from exec
             dg_data = {}
             for dg in self.doc.getListOfDataGenerators():
                 dg_id = dg.getId()
                 dg_data[dg_id] = symbols[dg_id]
-            return dg_data
+            result['dataGenerators'] = dg_data
+            return result
 
         except:
             # leak this tempfile just so we can see a full stack trace. freaking python.
