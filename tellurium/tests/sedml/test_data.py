@@ -184,8 +184,9 @@ def test_parse_numl_2DRC():
 
 
 def test_omex_plot_csv(tmpdir):
-    dgs = tesedml.executeCombineArchive(OMEX_PLOT_CSV, workingDir=tmpdir)
-    dg_dict = list(dgs.values())[0]
+    results = tesedml.executeCombineArchive(OMEX_PLOT_CSV, workingDir=tmpdir)
+    result = list(results.values())[0]
+    dg_dict = result['dataGenerators']
     assert len(dg_dict) == 2
     assert "dgDataS1" in dg_dict
     assert "dgDataTime" in dg_dict
@@ -194,8 +195,9 @@ def test_omex_plot_csv(tmpdir):
 
 
 def test_omex_plot_csv_with_model(tmpdir):
-    dgs = tesedml.executeCombineArchive(OMEX_PLOT_CSV_WITH_MODEL, workingDir=tmpdir)
-    dg_dict = list(dgs.values())[0]
+    results = tesedml.executeCombineArchive(OMEX_PLOT_CSV_WITH_MODEL, workingDir=tmpdir)
+    result = list(results.values())[0]
+    dg_dict = result['dataGenerators']
     assert len(dg_dict) == 5
     assert "dgDataS1" in dg_dict
     assert "dgDataTime" in dg_dict
@@ -204,8 +206,9 @@ def test_omex_plot_csv_with_model(tmpdir):
 
 
 def test_omex_plot_numl(tmpdir):
-    dgs = tesedml.executeCombineArchive(OMEX_PLOT_NUML, workingDir=tmpdir)
-    dg_dict = list(dgs.values())[0]
+    results = tesedml.executeCombineArchive(OMEX_PLOT_NUML, workingDir=tmpdir)
+    result = list(results.values())[0]
+    dg_dict = result['dataGenerators']
     assert len(dg_dict) == 2
     assert "dgDataS1" in dg_dict
     assert "dgDataTime" in dg_dict
@@ -214,8 +217,9 @@ def test_omex_plot_numl(tmpdir):
 
 
 def test_omex_plot_numl_with_model(tmpdir):
-    dgs = tesedml.executeCombineArchive(OMEX_PLOT_NUML_WITH_MODEL, workingDir=tmpdir)
-    dg_dict = list(dgs.values())[0]
+    results = tesedml.executeCombineArchive(OMEX_PLOT_NUML_WITH_MODEL, workingDir=tmpdir)
+    result = list(results.values())[0]
+    dg_dict = result['dataGenerators']
     assert len(dg_dict) == 5
     assert "dgDataS1" in dg_dict
     assert "dgDataTime" in dg_dict
@@ -223,9 +227,11 @@ def test_omex_plot_numl_with_model(tmpdir):
     assert len(dg_dict["dgDataTime"]) == 200
 
 
+@pytest.mark.skip("Not supported in L1V3, will be part of L1V4")
 def test_omex_csv_parameters(tmpdir):
-    dgs = tesedml.executeCombineArchive(OMEX_CSV_PARAMETERS, workingDir=tmpdir)
-    print(dgs)
+    results = tesedml.executeCombineArchive(OMEX_CSV_PARAMETERS, workingDir=tmpdir)
+    result = list(results.values())[0]
+    dgs = result['dataGenerators']
 
     dg_dict = list(dgs.values())[0]
     assert len(dg_dict) == 2

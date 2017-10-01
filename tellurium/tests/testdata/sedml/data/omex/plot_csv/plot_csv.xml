@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <sedML level="1" version="3" xmlns="http://sed-ml.org/sed-ml/level1/version3">
     <listOfDataDescriptions>
-        <dataDescription id="datacsv" name="Example CSV dataset" source="./oscli.csv">
+        <dataDescription id="datacsv" name="Example CSV dataset" source="./oscli.csv" format="urn:sedml:format:csv">
           <dimensionDescription>
             <compositeDescription indexType="integer" name="Index">
               <compositeDescription indexType="string" name="ColumnIds">

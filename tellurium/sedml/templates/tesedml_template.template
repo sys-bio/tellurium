@@ -4,11 +4,11 @@
                             tellurium {{ version }}
 -+++++++++++++++++-         Python Environment for Modeling and Simulating Biological Systems
  .+++++++++++++++.
-  .+++++++++++++.           Homepage: http://tellurium.analogmachine.org/
+  .+++++++++++++.           Homepage:      http://tellurium.analogmachine.org/
 -//++++++++++++/.   -:/-`   Documentation: https://tellurium.readthedocs.io/en/latest/index.html
-.----:+++++++/.++  .++++/   Forum: https://groups.google.com/forum/#!forum/tellurium-discuss
-      :+++++:  .+:` .--++   Bug reports: https://github.com/sys-bio/tellurium/issues
-       -+++-    ./+:-://.   Repository: https://github.com/sys-bio/tellurium
+.----:+++++++/.++  .++++/   Forum:         https://groups.google.com/forum/#!forum/tellurium-discuss
+      :+++++:  .+:` .--++   Bug reports:   https://github.com/sys-bio/tellurium/issues
+       -+++-    ./+:-://.   Repository:    https://github.com/sys-bio/tellurium
         .+.       `...`
 
 SED-ML simulation experiments: http://www.sed-ml.org/

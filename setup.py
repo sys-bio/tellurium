@@ -51,13 +51,12 @@ setup(name='tellurium',
           'rrplugins>=1.1.8',
           'sbml2matlab>=0.9.1',
           # standards
-          'tesbml>=5.15.0',
-          'python-libnuml>=1.1.1',
+          'tesbml>=5.15.0.1',
+          'tenuml>=1.1.1',
           'tesedml>=0.4.2',
           'tecombine>=0.2.2',
+          # misc
           'appdirs>=1.4.3',
-          # 'ipywidgets',
-          # 'bioservices>=1.4.17',
           'jinja2>=2.9.6',
           'plotly>=2.0.12',
           # Jupyter / IPython
@@ -65,8 +64,7 @@ setup(name='tellurium',
           'jupyter-core>=4.3.0',
           'ipython',
           'ipykernel>=4.6.1',
-          # testing dependencies
+          # testing
           'pytest',
-          'nose',
           ]
       )
