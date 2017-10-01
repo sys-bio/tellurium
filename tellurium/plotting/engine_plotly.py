@@ -12,7 +12,7 @@ from plotly.graph_objs import Scatter, Scatter3d, Layout, Data
 class PlotlyEngine(PlottingEngine):
     """ PlottingEngine using plotly. """
 
-    def __init__(self, save_to_pdf=False):
+    def __init__(self):
         PlottingEngine.__init__(self)
 
     def __str__(self):

@@ -391,9 +391,16 @@ class SEDMLCodeFactory(object):
         self.createOutputs = createOutputs
         self.saveOutputs = saveOutputs
         self.outputDir = outputDir
+        self.plotFormat = "pdf"
+        self.reportFormat = "csv"
+
+        if not plottingEngine:
+            plottingEngine = te.getPlottingEngine()
         self.plottingEngine = plottingEngine
-        if not self.plottingEngine:
-            self.plottingEngine = te.getPlottingEngine()
+
+        if self.outputDir:
+            if not os.path.exists(outputDir):
+                raise IOError("outputDir does not exist: {}".format(outputDir))
 
 
         info = SEDMLTools.readSEDMLDocument(inputStr, workingDir)
@@ -1463,23 +1470,22 @@ class SEDMLCodeFactory(object):
 
         return "\n".join(lines)
 
-    @staticmethod
-    def outputToPython(doc, output):
+
+    def outputToPython(self, doc, output):
         """ Create output """
         lines = []
         typeCode = output.getTypeCode()
         if typeCode == libsedml.SEDML_OUTPUT_REPORT:
-            lines.extend(SEDMLCodeFactory.outputReportToPython(doc, output))
+            lines.extend(SEDMLCodeFactory.outputReportToPython(self, doc, output))
         elif typeCode == libsedml.SEDML_OUTPUT_PLOT2D:
-            lines.extend(SEDMLCodeFactory.outputPlot2DToPython(doc, output))
+            lines.extend(SEDMLCodeFactory.outputPlot2DToPython(self, doc, output))
         elif typeCode == libsedml.SEDML_OUTPUT_PLOT3D:
-            lines.extend(SEDMLCodeFactory.outputPlot3DToPython(doc, output))
+            lines.extend(SEDMLCodeFactory.outputPlot3DToPython(self, doc, output))
         else:
-            lines.append("# Unsupported output type: {}".format(output.getElementName()))
+            warnings.warn("# Unsupported output type '{}' in output {}".format(output.getElementName(), output.getId()))
         return '\n'.join(lines)
 
-    @staticmethod
-    def outputReportToPython(doc, output):
+    def outputReportToPython(self, doc, output):
         """ OutputReport
 
         :param doc:
@@ -1534,8 +1540,7 @@ class SEDMLCodeFactory(object):
         )
         return settings
 
-    @staticmethod
-    def outputPlot2DToPython(doc, output):
+    def outputPlot2DToPython(self, doc, output):
         """ OutputReport
 
         If workingDir is provided the plot is saved in the workingDir.
@@ -1546,6 +1551,7 @@ class SEDMLCodeFactory(object):
         :return: list of python lines
         :rtype: list(str)
         """
+
         # TODO: logX and logY not applied
         lines = []
         settings = SEDMLCodeFactory.outputPlotSettings()
@@ -1563,9 +1569,9 @@ class SEDMLCodeFactory(object):
         #     lines.append("if {}.shape[1] > 1 and te.getDefaultPlottingEngine() == 'plotly':".format(xId))
         #     lines.append("    stacked=True")
         lines.append("if _stacked:")
-        lines.append("    fig = _engine.newStackedFigure(title='{}')".format(title))
+        lines.append("    tefig = _engine.newStackedFigure(title='{}')".format(title))
         lines.append("else:")
-        lines.append("    fig = _engine.newFigure(title='{}')\n".format(title))
+        lines.append("    tefig = _engine.newFigure(title='{}')\n".format(title))
 
         oneXLabel = True
         allXLabel = None
@@ -1598,17 +1604,17 @@ class SEDMLCodeFactory(object):
             lines.append("    extra_args = {}")
             lines.append("    if k == 0:")
             lines.append("        extra_args['name'] = '{}'".format(yLabel))
-            lines.append("    fig.addXYDataset({}[:,k], {}[:,k], color='{}', tag='{}', **extra_args)".format(xId, yId, color, tag))
-            lines.append("    fix_endpoints({}[:,k], {}[:,k], color='{}', tag='{}', fig=fig)".format(xId, yId, color, tag))
-        lines.append("fig.render()\n")
+            lines.append("    tefig.addXYDataset({}[:,k], {}[:,k], color='{}', tag='{}', **extra_args)".format(xId, yId, color, tag))
+            lines.append("    fix_endpoints({}[:,k], {}[:,k], color='{}', tag='{}', fig=tefig)".format(xId, yId, color, tag))
+        lines.append("fig = tefig.render()\n")
 
-        # TODO: save the figures and files
-        lines.append("fig.render()\n")
-
+        if self.saveOutputs and self.createOutputs:
+            # FIXME: only working for matplotlib
+            lines.append("filename = os.path.join('{}', '{}.{}')".format(self.outputDir, output.getId(), self.plotFormat))
+            lines.append("fig.savefig(filename, format='{}', bbox_inches='tight', pad_inches=0)".format(self.plotFormat))
         return lines
 
-    @staticmethod
-    def outputPlot3DToPython(doc, output):
+    def outputPlot3DToPython(self, doc, output):
         """ OutputPlot3D
 
         :param doc:
@@ -1930,7 +1936,7 @@ def fix_endpoints(x, y, color, tag, fig):
     endpoints_x = []
     endpoints_y = []
 
-    for begin,end in ( (int(w[k]+1), int(w[k+1])) for k in range(w.shape[0]-1) ):
+    for begin, end in ( (int(w[k]+1), int(w[k+1])) for k in range(w.shape[0]-1) ):
         if begin != end:
             #print('begin {}, end {}'.format(begin, end))
             x_values = x_aug[begin:end]

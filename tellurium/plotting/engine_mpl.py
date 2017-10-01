@@ -11,16 +11,17 @@ import matplotlib.pyplot as plt
 from matplotlib import gridspec
 from tempfile import mkstemp
 
+# Check if in spyder environment
+SPYDER = False
 if any('SPYDER' in name for name in os.environ):
     SPYDER = True
-else:        
-    SPYDER = False
-    
+
 
 class MatplotlibEngine(PlottingEngine):
-    def __init__(self, save_to_pdf=False):
-        PlottingEngine.__init__(self)
-        self.save_to_pdf = save_to_pdf
+    """ Matplotlib engine."""
+
+    def __init__(self):
+        super(MatplotlibEngine, self).__init__()
 
     def __str__(self):
         return "<MatplotlibEngine>"
@@ -31,7 +32,7 @@ class MatplotlibEngine(PlottingEngine):
         if layout is None:
             layout = PlottingLayout()
 
-        fig = MatplotlibFigure(title=title, layout=layout, save_to_pdf=cls.save_to_pdf)
+        fig = MatplotlibFigure(title=title, layout=layout)
         return fig
 
 
@@ -41,6 +42,8 @@ class MatplotlibFigure(PlottingFigure):
     def __init__(self, title=None, layout=PlottingLayout, use_legend=True, figsize=(9, 5), save_to_pdf=False):
         super(MatplotlibFigure, self).__init__(title=title, layout=layout)
         self.use_legend = use_legend
+
+        # FIXME: ? why this check here?
         if not SPYDER:
             self.figsize = figsize
         self.save_to_pdf = save_to_pdf
@@ -110,5 +113,5 @@ class MatplotlibFigure(PlottingFigure):
         return fig
 
     def save(self, filename, format):
-        fig = self.plot()
+        fig = self.render()
         fig.savefig(filename, format=format)
