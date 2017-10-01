@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sedML level="1" version="3" xmlns="http://sed-ml.org/sed-ml/level1/version3">
+    <listOfDataDescriptions>
+        <dataDescription id="Data1" name="Oscillator data NuML" source="./oscli.numl" format="urn:sedml:format:numl">
+            <dimensionDescription>
+                <compositeDescription indexType="double" id="time" name="time" xmlns="http://www.numl.org/numl/
+level1/version1">
+                    <compositeDescription indexType="string" id="SpeciesIds" name="SpeciesIds">
+                        <atomicDescription valueType="double" name="Concentrations"/>
+                    </compositeDescription>
+                </compositeDescription>
+            </dimensionDescription>
+            <listOfDataSources>
+                <dataSource id="dataS1">
+                    <listOfSlices>
+                        <slice reference="SpeciesIds" value="S1"/>
+                    </listOfSlices>
+                </dataSource>
+                <dataSource id="dataTime" indexSet="time"/>
+            </listOfDataSources>
+        </dataDescription>
+    </listOfDataDescriptions>
+    <listOfDataGenerators>
+        <dataGenerator id="dgDataS1" name="S1 (data)">
+            <listOfVariables>
+                <variable id="varS1" modelReference="model1" target="#dataS1"/>
+            </listOfVariables>
+            <math xmlns="http://www.w3.org/1998/Math/MathML">
+                <ci>varS1</ci>
+            </math>
+        </dataGenerator>
+        <dataGenerator id="dgDataTime" name="Time">
+            <listOfVariables>
+                <variable id="varTime" modelReference="model1" target="#dataTime"/>
+            </listOfVariables>
+            <math xmlns="http://www.w3.org/1998/Math/MathML">
+                <ci>varTime</ci>
+            </math>
+        </dataGenerator>
+    </listOfDataGenerators>
+    <listOfOutputs>
+        <plot2D id="plot1" name="Data NuML">
+            <listOfCurves>
+                <curve id="curve1" logX="false" logY="false" xDataReference="dgDataTime" yDataReference="dgDataS1"/>
+            </listOfCurves>
+        </plot2D>
+    </listOfOutputs>
+</sedML>

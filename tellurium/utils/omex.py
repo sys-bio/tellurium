@@ -150,12 +150,12 @@ def extractCombineArchive(omexPath, directory, method="zip"):
     if method not in ["zip", "omex"]:
         raise ValueError("Method is not supported: {}".format(method))
 
-    if method is "zip":
+    if method == "zip":
         zip_ref = zipfile.ZipFile(omexPath, 'r')
         zip_ref.extractall(directory)
         zip_ref.close()
 
-    elif method is "omex":
+    elif method == "omex":
         omex = libcombine.CombineArchive()
         if omex.initializeFromArchive(omexPath) is None:
             raise IOError("Invalid Combine Archive: {}", omexPath)
@@ -169,7 +169,7 @@ def extractCombineArchive(omexPath, directory, method="zip"):
         omex.cleanUp()
 
 
-def getLocationsByFormat(omexPath, formatKey=None):
+def getLocationsByFormat(omexPath, formatKey=None, method="omex"):
     """ Returns locations to files with given format in the archive.
 
     Uses the libcombine KnownFormats for formatKey, e.g., 'sed-ml' or 'sbml'.
@@ -177,29 +177,41 @@ def getLocationsByFormat(omexPath, formatKey=None):
 
     :param omexPath:
     :param formatKey:
+    :param method:
     :return:
     """
     if not formatKey:
         raise ValueError("Format must be specified.")
 
+    if method not in ["zip", "omex"]:
+        raise ValueError("Method is not supported: {}".format(method))
+
     locations_master = []
     locations = []
 
-    omex = libcombine.CombineArchive()
-    if omex.initializeFromArchive(omexPath) is None:
-        raise IOError("Invalid Combine Archive: {}", omexPath)
+    if method == "omex":
+        omex = libcombine.CombineArchive()
+        if omex.initializeFromArchive(omexPath) is None:
+            raise IOError("Invalid Combine Archive: {}", omexPath)
 
-    for i in range(omex.getNumEntries()):
-        entry = omex.getEntry(i)
-        format = entry.getFormat()
-        master = entry.getMaster()
-        if libcombine.KnownFormats.isFormat(formatKey, format):
-            loc = entry.getLocation()
-            if (master is None) or (master is False):
-                locations.append(loc)
-            else:
-                locations_master.append(loc)
-    omex.cleanUp()
+        for i in range(omex.getNumEntries()):
+            entry = omex.getEntry(i)
+            format = entry.getFormat()
+            master = entry.getMaster()
+            if libcombine.KnownFormats.isFormat(formatKey, format):
+                loc = entry.getLocation()
+                if (master is None) or (master is False):
+                    locations.append(loc)
+                else:
+                    locations_master.append(loc)
+        omex.cleanUp()
+
+    elif method == "zip":
+        # extract to tmpfile and guess format
+        raise NotImplementedError
+        # TODO: fixme
+
+
 
     return locations_master + locations
 

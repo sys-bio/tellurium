@@ -31,10 +31,10 @@ OMEX_TESTCASES = helpers.filesInDirectoryFiltered(OMEX_TEST_DIR, f_filter=f_omex
 #  - unsupported features (like cellml)
 #  - tellurium bugs
 OMEX_EXCLUDED = [
-    # data not supported: FIXME: https://github.com/sys-bio/tellurium/issues/225
-    'specification/L1V3/L1V3_plotting-data.omex',
-    'specification/L1V3/L1V3_reading-data-numl.omex',
-    'specification/L1V3/L1V3_reading-data-csv.omex',
+    # cellml models not supported: https://github.com/matthiaskoenig/tellurium-web/issues/62
+    'specification/L1V3/L1V3_lorenz-cellml.omex',
+    'specification/L1V3/L1V3_vanderpol-cellml.omex',
+    'cellml/lorenz-cellml.omex',
 
     # non-standard data implementation: FIXME: https://github.com/matthiaskoenig/tellurium-web/issues/53
     'jws/omex/adlung2017_fig2g.sedx',
@@ -52,11 +52,6 @@ OMEX_EXCLUDED = [
 
     # negative start time: FIXME: https://github.com/sys-bio/roadrunner/issues/411
     'jws/omex/martins2016_fig4b.sedx',
-
-    # cellml models not supported: https://github.com/matthiaskoenig/tellurium-web/issues/62
-    'specification/L1V3/L1V3_lorenz-cellml.omex',
-    'cellml/lorenz-cellml.omex',
-
 ]
 OMEX_EXCLUDED = [os.path.join(OMEX_TEST_DIR, p) for p in OMEX_EXCLUDED ]
 

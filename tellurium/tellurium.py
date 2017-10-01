@@ -722,6 +722,7 @@ def extractFileFromCombineArchive(archive_path, entry_location):
         raise RuntimeError('Could not find entry {}'.format(entry_location))
     return archive.extractEntryToString(entry_location)
 
+
 # ---------------------------------------------------------------------
 # Math Utilities
 # ---------------------------------------------------------------------

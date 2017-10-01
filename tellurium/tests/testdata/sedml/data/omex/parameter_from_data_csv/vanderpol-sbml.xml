@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created by libAntimony version v2.9.4 with libSBML version 5.15.0. -->
+<sbml xmlns="http://www.sbml.org/sbml/level3/version1/core" level="3" version="1">
+  <model id="vanderpol" name="vanderpol">
+    <listOfUnitDefinitions>
+      <unitDefinition id="dimensionless_litre">
+        <listOfUnits>
+          <unit kind="dimensionless" exponent="1" scale="0" multiplier="1"/>
+          <unit kind="litre" exponent="1" scale="0" multiplier="1"/>
+        </listOfUnits>
+      </unitDefinition>
+    </listOfUnitDefinitions>
+    <listOfCompartments>
+      <compartment sboTerm="SBO:0000410" id="default_compartment" spatialDimensions="3" size="1" constant="true"/>
+    </listOfCompartments>
+    <listOfSpecies>
+      <species id="x" compartment="default_compartment" initialConcentration="-2" substanceUnits="dimensionless_litre" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+      <species id="y" compartment="default_compartment" initialConcentration="0" substanceUnits="dimensionless_litre" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+    </listOfSpecies>
+    <listOfParameters>
+      <parameter id="mu" value="1" units="dimensionless" constant="true"/>
+    </listOfParameters>
+    <listOfReactions>
+      <reaction id="J1" reversible="true" fast="false">
+        <listOfProducts>
+          <speciesReference species="x" stoichiometry="1" constant="true"/>
+        </listOfProducts>
+        <listOfModifiers>
+          <modifierSpeciesReference species="y"/>
+        </listOfModifiers>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <ci> y </ci>
+          </math>
+        </kineticLaw>
+      </reaction>
+      <reaction id="J2" reversible="true" fast="false">
+        <listOfProducts>
+          <speciesReference species="y" stoichiometry="1" constant="true"/>
+        </listOfProducts>
+        <listOfModifiers>
+          <modifierSpeciesReference species="x"/>
+        </listOfModifiers>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML" xmlns:sbml="http://www.sbml.org/sbml/level3/version1/core">
+            <apply>
+              <minus/>
+              <apply>
+                <times/>
+                <ci> mu </ci>
+                <apply>
+                  <minus/>
+                  <cn sbml:units="dimensionless" type="integer"> 1 </cn>
+                  <apply>
+                    <power/>
+                    <ci> x </ci>
+                    <cn sbml:units="dimensionless" type="integer"> 2 </cn>
+                  </apply>
+                </apply>
+                <ci> y </ci>
+              </apply>
+              <ci> x </ci>
+            </apply>
+          </math>
+        </kineticLaw>
+      </reaction>
+    </listOfReactions>
+  </model>
+</sbml>

@@ -3,6 +3,7 @@ Reading NUML, CSV and TSV data from DataDescriptions
 """
 from __future__ import print_function, absolute_import
 import os
+import logging
 import warnings
 import tempfile
 import pandas as pd
@@ -12,6 +13,13 @@ try:
     import httplib
 except ImportError:
     import http.client as httplib
+
+try:
+    import libnuml
+except ImportError:
+    import tenuml as libnuml
+
+log = logging.getLogger('sedml-data')
 
 
 class DataDescriptionParser(object):
@@ -46,6 +54,7 @@ class DataDescriptionParser(object):
         if workingDir is None:
             workingDir = '.'
 
+        # TODO: refactor in general resource module (for resolving anyURI and resource)
         tmp_file = None
         if source.startswith('http') or source.startswith('HTTP'):
             conn = httplib.HTTPConnection(source)
@@ -73,12 +82,13 @@ class DataDescriptionParser(object):
             format = dd.getFormat()
         format = cls._determine_format(source_path=source_path, format=format)
 
-        print('-' * 80)
-        print('DataDescription: :', dd)
-        print('\tid:', did)
-        print('\tname:', name)
-        print('\tsource', source)
-        print('\tformat', format)
+        # log data description
+        log.info('-' * 80)
+        log.info('DataDescription: :', dd)
+        log.info('\tid:', did)
+        log.info('\tname:', name)
+        log.info('\tsource', source)
+        log.info('\tformat', format)
 
         # -------------------------------
         # Parse DimensionDescription
@@ -99,17 +109,18 @@ class DataDescriptionParser(object):
         elif format == cls.FORMAT_NUML:
             data = cls._load_numl(path=source_path)
 
-        print("-" * 80)
-        print("Data")
-        print("-" * 80)
+        # log data
+        log.info("-" * 80)
+        log.info("Data")
+        log.info("-" * 80)
         if format in [cls.FORMAT_CSV, cls.FORMAT_TSV]:
-            print(data.head(10))
+            log.info(data.head(10))
         elif format == cls.FORMAT_NUML:
             # multiple result components via id
             for result in data:
-                print(result[0])  # rc id
-                print(result[1].head(10))  # DataFrame
-        print("-" * 80)
+                log.info(result[0])  # rc id
+                log.info(result[1].head(10))  # DataFrame
+        log.info("-" * 80)
 
         # -------------------------------
         # Process DataSources
@@ -119,29 +130,38 @@ class DataDescriptionParser(object):
 
             dsid = ds.getId()
 
-            print('\n\t*** DataSource:', ds)
-            print('\t\tid:', ds.getId())
-            print('\t\tname:', ds.getName())
-            print('\t\tindexSet:', ds.getIndexSet())
-            print('\t\tslices')
+            # log DataSource
+            log.info('\n\t*** DataSource:', ds)
+            log.info('\t\tid:', ds.getId())
+            log.info('\t\tname:', ds.getName())
+            log.info('\t\tindexSet:', ds.getIndexSet())
+            log.info('\t\tslices')
 
             # CSV/TSV
             if format in [cls.FORMAT_CSV, cls.FORMAT_TSV]:
-                sids = []
-                for slice in ds.getListOfSlices():
-                    # FIXME: this does not handle multiple slices for rows
-                    # print('\t\t\treference={}; value={}'.format(slice.getReference(), slice.getValue()))
-                    sids.append(slice.getValue())
+                if len(ds.getIndexSet()) > 0:
+                    # if index set we return the index
+                    data_sources[dsid] = pd.Series(data.index.tolist())
+                else:
+                    sids = []
+                    for slice in ds.getListOfSlices():
+                        # FIXME: this does not handle multiple slices for rows
+                        # print('\t\t\treference={}; value={}'.format(slice.getReference(), slice.getValue()))
+                        sids.append(slice.getValue())
 
-                # slice values are columns from data frame
-                data_sources[dsid] = data[sids].values
+                    # slice values are columns from data frame
+                    data_sources[dsid] = data[sids].values
 
             # NUML
             elif format == cls.FORMAT_NUML:
 
-                # FIXME: Using the first results component, as long as their is no indexing
+                # Using the first results component only in SED-ML L1V3
                 rc_id, rc = data[0]
+
+                # convert to numeric
+                # FIXME: DataType should be based on the actual type of the index or value
                 # print(rc)
+                rc = rc.convert_objects(convert_numeric=True)
 
                 # data via indexSet
                 indexSet = ds.getIndexSet()
@@ -156,12 +176,13 @@ class DataDescriptionParser(object):
                         # select last column with values
                         data_sources[dsid] = df.iloc[:, -1]
 
-        print("-" * 80)
-        print("DataSources")
-        print("-" * 80)
+        # log data sources
+        log.info("-" * 80)
+        log.info("DataSources")
+        log.info("-" * 80)
         for key, value in data_sources.items():
-            print('{} : {}; shape={}'.format(key, type(value), value.shape))
-        print("-" * 80)
+            log.info('{} : {}; shape={}'.format(key, type(value), value.shape))
+        log.info("-" * 80)
 
         # cleanup
         # FIXME: handle in finally
@@ -250,8 +271,6 @@ class DataDescriptionParser(object):
         :param path: path of file
         :return:
         """
-        # FIXME: hiding libnuml import until tenuml (move to top)
-        import libnuml
         doc_numl = libnuml.readNUMLFromFile(path)  # type: libnuml.NUMLDocument
 
         # check for errors
@@ -280,8 +299,6 @@ class DataDescriptionParser(object):
         :param path: NuML path
         :return: data
         """
-        # FIXME: hiding libnuml import until tenuml (move to top)
-        import libnuml
         doc_numl = DataDescriptionParser.read_numl_document(path)
 
         # reads all the resultComponents from the numl file
@@ -290,7 +307,7 @@ class DataDescriptionParser(object):
         Nrc = doc_numl.getNumResultComponents()
         rcs = doc_numl.getResultComponents()
 
-        print('\nNumResultComponents:', Nrc)
+        log.info('\nNumResultComponents:', Nrc)
         for k in range(Nrc):
             rc = rcs.get(k)  # parse ResultComponent
             rc_id = rc.getId()
@@ -305,9 +322,8 @@ class DataDescriptionParser(object):
                 for key, value in entry.items():
                     column_ids.append(key)
                     column_types.append(value)
-            print("\tDimensionDescription:", info, '\n')
-            print(info)
-            # print(column_ids, column_types)
+            log.info("\tDimensionDescription:", info, '\n')
+            log.info(info)
 
             # data
             dim = rc.getDimension()
@@ -319,12 +335,9 @@ class DataDescriptionParser(object):
             for entry in data:
                 for part in entry:
                     flat_data.append(part)
-            # pprint("\tDimension:")
-            # pprint(flat_data)
 
             # FIXME: set datatypes based on numl data types
             df = pd.DataFrame(flat_data, columns=column_ids)
-            print(df.head())
 
             results.append([rc_id, df])
 
@@ -346,8 +359,6 @@ class DataDescriptionParser(object):
         :param info:
         :return:
         """
-        # FIXME: hiding libnuml import until tenuml (move to top)
-        import libnuml
         if info is None:
             info = []
 
@@ -392,9 +403,6 @@ class DataDescriptionParser(object):
         :param data:
         :return:
         """
-        # FIXME: hiding libnuml import until tenuml (move to top)
-        import libnuml
-
         if data is None:
             data = []
         if entry is None:
@@ -432,7 +440,6 @@ class DataDescriptionParser(object):
 
             data.append(values)
             # print('\t* TupleDescription:', values)
-
 
         else:
             raise NotImplementedError
