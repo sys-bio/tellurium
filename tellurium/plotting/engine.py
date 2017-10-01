@@ -9,6 +9,7 @@ from collections import defaultdict
 import itertools
 import numpy as np
 from functools import reduce
+import abc
 
 
 def filterWithSelections(self, name, selections):
@@ -27,6 +28,11 @@ def filterWithSelections(self, name, selections):
 
 
 class PlottingEngine(object):
+    """ Abstract parent class of all PlottingEngines.
+
+    Helper functions on this class provide methods to create new figures
+    from various datasets.
+    """
 
     def __init__(self):
         self.fig = None
@@ -34,24 +40,34 @@ class PlottingEngine(object):
     def __str__(self):
         return "<PlottingEngine>"
 
-    def figureFromXY(self, x, y, **kwargs):
+    @abc.abstractclassmethod
+    def newFigure(cls, title=None, logX=False, logY=False, layout=None):
+        """ Returns PlottingFigure.
+        Needs to be implemented in base class.
+        """
+
+    @classmethod
+    def figureFromXY(cls, x, y, **kwargs):
         """ Generate a new figure from x/y data.
 
         :param x: A column representing x data.
         :param y: Y data (may be multiple columns).
+        :return: instance of PlottingFigure
         """
-        return self.newFigure().plot(x, y, **kwargs)
+        return cls.newFigure().plot(x, y, **kwargs)
 
-    def figureFromTimecourse(self, m, ordinates=None, tag=None, alpha=None, title=None, xlim=None, ylim=None):
+    @classmethod
+    def figureFromTimecourse(cls, m, ordinates=None, tag=None, alpha=None, title=None, xlim=None, ylim=None, **kwargs):
         """ Generate a new figure from a timecourse simulation.
 
         :param m: An array returned by RoadRunner.simulate.
+        :return: instance of PlottingFigure
         """
-        fig = self.newFigure()
+        fig = cls.newFigure()
         if m.colnames[0] != 'time':
             raise RuntimeError('Cannot plot timecourse - first column is not time')
 
-        for k in range(1,m.shape[1]):
+        for k in range(1, m.shape[1]):
             fig.addXYDataset(m[:,0], m[:,k], name=m.colnames[k], tag=tag, alpha=alpha)
 
         return fig
@@ -61,6 +77,7 @@ class PlottingEngine(object):
 
         :param x: x data.
         :param y: y data (can be multiple columns).
+        :return: instance of PlottingFigure
         """
         if self.fig:
             fig = self.fig
@@ -74,7 +91,8 @@ class PlottingEngine(object):
             self.fig = fig
         return fig
 
-    def plotTimecourse(self, m, title=None, ordinates=None, tag=None, xtitle=None, logx=False, logy=False, ytitle=None, alpha=None, xlim=None, ylim=None, **kwargs):
+    @classmethod
+    def plotTimecourse(cls, m, title=None, ordinates=None, tag=None, xtitle=None, logx=False, logy=False, ytitle=None, alpha=None, xlim=None, ylim=None, **kwargs):
         """ Plots a timecourse from a simulation.
 
         :param m: An array returned by RoadRunner.simulate.
@@ -145,6 +163,19 @@ class PlottingLayout:
 
 
 class PlottingFigure(object):
+    @abc.abstractmethod
+    def render(self):
+        """ Creates the figure. """
+
+    @abc.abstractmethod
+    def save(self, filename, format):
+        """ Save figure.
+
+        :param filename: filename to save to
+        :param format: format to save
+        :return:
+        """
+    # FIXME: why is this not a constructor?
     def initialize(self, title=None, layout=PlottingLayout(), logx=False, xtitle=None, logy=False, ytitle=None, selections=None):
         """ Initialize the figure.
 
@@ -255,6 +286,9 @@ class PlottingFigure(object):
         else:
             raise RuntimeError('Could not plot y data with {} dimensions'.format(len(y.shape)))
         return self
+
+
+    # FIXME: unnecessary methods:
 
     def setXLim(self, xlim):
         """Set the min/max x limits of the figure.

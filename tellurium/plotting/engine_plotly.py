@@ -84,6 +84,10 @@ class PlotlyFigure(PlottingFigure):
             'layout': self.makeLayout()
         })
 
+    def save(self, filename, format):
+        # FIXME: implement
+        raise NotImplementedError
+
 
 class PlotlyStackedFigure(PlotlyFigure):
     """ Stacked figure."""

@@ -25,13 +25,19 @@ class MatplotlibEngine(PlottingEngine):
     def __str__(self):
         return "<MatplotlibEngine>"
 
-    def newFigure(self, title=None, logX=False, logY=False, layout=PlottingLayout()):
+    @classmethod
+    def newFigure(cls, title=None, logX=False, logY=False, layout=None):
         """ Returns a figure object."""
-        return MatplotlibFigure(title=title, layout=layout, save_to_pdf=self.save_to_pdf)
+        if layout is None:
+            layout = PlottingLayout()
+
+        fig = MatplotlibFigure(title=title, layout=layout, save_to_pdf=cls.save_to_pdf)
+        return fig
 
 
 class MatplotlibFigure(PlottingFigure):
     """ MatplotlibFigure. """
+
     def __init__(self, title=None, layout=PlottingLayout, use_legend=True, figsize=(9, 5), save_to_pdf=False):
         self.initialize(title=title, layout=layout)
         self.use_legend = use_legend
