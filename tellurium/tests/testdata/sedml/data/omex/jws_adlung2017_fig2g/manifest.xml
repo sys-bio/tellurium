@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<omexManifest xmlns="http://identifiers.org/combine.specifications/omex-manifest">
+    <content format="http://identifiers.org/combine.specifications/omex" location="."/>
+    <content format="http://identifiers.org/combine.specifications/sbml.level-3.version-1"
+             location="models/adlung1.sbml"/>
+    <content format="http://identifiers.org/combine.specifications/sed-ml.level-1.version-3"
+             location="sedml/adlung2017_fig2g.sedml" master="true"/>
+    <content format="http://identifiers.org/combine.specifications/sbml.level-3.version-1"
+             location="models/adlung2.sbml"/>
+    <content format="http://identifiers.org/combine.specifications/omex-metadata" location="metadata.rdf"/>
+    <content format=""
+             location="models/adlung2.sbml"/>
+    <content format="http://purl.org/NET/mediatypes/text/csv" location="data/Fig2G_BaF3data.csv"/>
+    <content format="http://purl.org/NET/mediatypes/text/csv" location="data/Fig2G_mCFUEdata.csv"/>
+</omexManifest>

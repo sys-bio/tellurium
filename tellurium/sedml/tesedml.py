@@ -290,7 +290,7 @@ def combineArchiveToPython(omexPath):
     return pycode
 
 
-def executeCombineArchive(omexPath, workingDir=None, printPython=True, createOutputs=True):
+def executeCombineArchive(omexPath, workingDir=None, printPython=False, createOutputs=True):
     """ Run all SED-ML simulations in given COMBINE archive.
 
     If no workingDir is provided execution is performed in temporary directory
@@ -1464,7 +1464,6 @@ class SEDMLCodeFactory(object):
         :rtype: list(str)
         """
         lines = []
-
         headers = []
         dgIds = []
         columns = []
@@ -1478,11 +1477,7 @@ class SEDMLCodeFactory(object):
         # create data frames for the repeats
         lines.append("__dfs__{} = []".format(output.getId()))
         lines.append("for k in range({}.shape[1]):".format(dgIds[0]))
-        lines.append("    print('-'*80)")
-        lines.append("    print('{}, Repeat:', k)".format(output.getId()))
-        lines.append("    print('-'*80)")
         lines.append("    __df__k = pandas.DataFrame(np.column_stack(" + str(columns).replace("'", "") + "), \n    columns=" + str(headers) + ")")
-        lines.append("    print(__df__k.head(5))")
         lines.append("    __dfs__{}.append(__df__k)".format(output.getId()))
         # save as variable in Tellurium
         lines.append("    te.setLastReport(__df__k)".format(output.getId()))

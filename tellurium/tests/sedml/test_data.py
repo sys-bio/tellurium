@@ -44,6 +44,9 @@ SOURCE_CSV_PARAMETERS = os.path.join(BASE_DIR, "parameters.csv")
 SEDML_CSV_PARAMETERS = os.path.join(BASE_DIR, "parameter-from-data-csv.xml")
 OMEX_CSV_PARAMETERS = os.path.join(BASE_DIR, 'omex', "parameter_from_data_csv.omex")
 
+OMEX_CSV_JWS_ADLUNG2017_FIG2G = os.path.join(BASE_DIR, 'omex', "jws_adlung2017_fig2g.omex")
+
+
 # ---------------------------------------------------------------------------------
 
 # Test data loading functions
@@ -225,6 +228,12 @@ def test_omex_plot_numl_with_model(tmpdir):
     assert "dgDataTime" in dg_dict
     assert len(dg_dict["dgDataS1"]) == 200
     assert len(dg_dict["dgDataTime"]) == 200
+
+def test_omex_jws_adlung2017_fig2gl(tmpdir):
+    results = tesedml.executeCombineArchive(OMEX_CSV_JWS_ADLUNG2017_FIG2G, workingDir=str(tmpdir))
+    result = list(results.values())[0]
+    dg_dict = result['dataGenerators']
+    assert len(dg_dict) == 40
 
 
 @pytest.mark.skip("Not supported in L1V3, will be part of L1V4")
