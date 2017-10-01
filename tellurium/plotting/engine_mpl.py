@@ -27,20 +27,23 @@ class MatplotlibEngine(PlottingEngine):
         return "<MatplotlibEngine>"
 
     @classmethod
-    def newFigure(cls, title=None, logX=False, logY=False, layout=None):
+    def newFigure(cls, title=None, logX=False, logY=False, layout=None, xtitle=None, ytitle=None):
         """ Returns a figure object."""
         if layout is None:
             layout = PlottingLayout()
 
-        fig = MatplotlibFigure(title=title, layout=layout)
+        fig = MatplotlibFigure(title=title, layout=layout, xtitle=xtitle, ytitle=ytitle, logx=logX, logy=logY)
         return fig
 
 
 class MatplotlibFigure(PlottingFigure):
     """ MatplotlibFigure. """
 
-    def __init__(self, title=None, layout=PlottingLayout, use_legend=True, figsize=(9, 5), save_to_pdf=False):
-        super(MatplotlibFigure, self).__init__(title=title, layout=layout)
+    def __init__(self, title=None, layout=PlottingLayout(), use_legend=True, xtitle=None, ytitle=None,
+                 logx=None, logy=None,
+                 figsize=(9, 5), save_to_pdf=False):
+        super(MatplotlibFigure, self).__init__(title=title, layout=layout,
+                                               xtitle=xtitle, ytitle=ytitle, logx=logx, logy=logy)
         self.use_legend = use_legend
 
         # FIXME: ? why this check here?
@@ -100,7 +103,7 @@ class MatplotlibFigure(PlottingFigure):
             if SPYDER:
                 legend = plt.legend()
             else:
-                legend = plt.legend(bbox_to_anchor=(1.0, 0.5), loc='center left', borderaxespad=5.)
+                legend = plt.legend(bbox_to_anchor=(1.0, 0.5), loc='center left', borderaxespad=1.)
             legend.draw_frame(False)
 
         if self.save_to_pdf:

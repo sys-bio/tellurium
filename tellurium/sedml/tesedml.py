@@ -1556,10 +1556,30 @@ class SEDMLCodeFactory(object):
         lines = []
         settings = SEDMLCodeFactory.outputPlotSettings()
 
+        # figure title
         title = output.getId()
         if output.isSetName():
-            title = output.getName()
-            title += " ({})".format(name)
+            title += " ({})".format(output.getName())
+
+        # xtitle
+        oneXLabel = True
+        allXLabel = None
+        for kc, curve in enumerate(output.getListOfCurves()):
+            xId = curve.getXDataReference()
+            dgx = doc.getDataGenerator(xId)
+            xLabel = xId
+            if dgx.isSetName():
+                xLabel += " ({})".format(dgx.getName())
+
+            # do all curves have the same xLabel
+            if kc == 0:
+                allXLabel = xLabel
+            elif xLabel != allXLabel:
+                oneXLabel = False
+        xtitle = ''
+        if oneXLabel:
+            xtitle = allXLabel
+
 
         lines.append("_stacked = False")
         lines.append("_engine = te.getPlottingEngine()")
@@ -1569,9 +1589,9 @@ class SEDMLCodeFactory(object):
         #     lines.append("if {}.shape[1] > 1 and te.getDefaultPlottingEngine() == 'plotly':".format(xId))
         #     lines.append("    stacked=True")
         lines.append("if _stacked:")
-        lines.append("    tefig = _engine.newStackedFigure(title='{}')".format(title))
+        lines.append("    tefig = _engine.newStackedFigure(title='{}', xtitle='{}')".format(title, xtitle))
         lines.append("else:")
-        lines.append("    tefig = _engine.newFigure(title='{}')\n".format(title))
+        lines.append("    tefig = _engine.newFigure(title='{}', xtitle='{}')\n".format(title, xtitle))
 
         oneXLabel = True
         allXLabel = None
@@ -1594,11 +1614,6 @@ class SEDMLCodeFactory(object):
             if dgx.isSetName():
                 xLabel += " ({})".format(dgx.getName())
 
-            # do all curves have the same xLabel
-            if kc == 0:
-                allXLabel = xLabel
-            elif xLabel != allXLabel:
-                oneXLabel = False
 
             lines.append("for k in range({}.shape[1]):".format(xId))
             lines.append("    extra_args = {}")
