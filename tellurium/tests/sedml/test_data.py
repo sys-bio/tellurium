@@ -184,7 +184,7 @@ def test_parse_numl_2DRC():
 
 
 def test_omex_plot_csv(tmpdir):
-    results = tesedml.executeCombineArchive(OMEX_PLOT_CSV, workingDir=tmpdir)
+    results = tesedml.executeCombineArchive(OMEX_PLOT_CSV, workingDir=str(tmpdir))
     result = list(results.values())[0]
     dg_dict = result['dataGenerators']
     assert len(dg_dict) == 2
@@ -195,7 +195,7 @@ def test_omex_plot_csv(tmpdir):
 
 
 def test_omex_plot_csv_with_model(tmpdir):
-    results = tesedml.executeCombineArchive(OMEX_PLOT_CSV_WITH_MODEL, workingDir=tmpdir)
+    results = tesedml.executeCombineArchive(OMEX_PLOT_CSV_WITH_MODEL, workingDir=str(tmpdir))
     result = list(results.values())[0]
     dg_dict = result['dataGenerators']
     assert len(dg_dict) == 5
@@ -206,7 +206,7 @@ def test_omex_plot_csv_with_model(tmpdir):
 
 
 def test_omex_plot_numl(tmpdir):
-    results = tesedml.executeCombineArchive(OMEX_PLOT_NUML, workingDir=tmpdir)
+    results = tesedml.executeCombineArchive(OMEX_PLOT_NUML, workingDir=str(tmpdir))
     result = list(results.values())[0]
     dg_dict = result['dataGenerators']
     assert len(dg_dict) == 2
@@ -217,7 +217,7 @@ def test_omex_plot_numl(tmpdir):
 
 
 def test_omex_plot_numl_with_model(tmpdir):
-    results = tesedml.executeCombineArchive(OMEX_PLOT_NUML_WITH_MODEL, workingDir=tmpdir)
+    results = tesedml.executeCombineArchive(OMEX_PLOT_NUML_WITH_MODEL, workingDir=str(tmpdir))
     result = list(results.values())[0]
     dg_dict = result['dataGenerators']
     assert len(dg_dict) == 5
@@ -229,7 +229,7 @@ def test_omex_plot_numl_with_model(tmpdir):
 
 @pytest.mark.skip("Not supported in L1V3, will be part of L1V4")
 def test_omex_csv_parameters(tmpdir):
-    results = tesedml.executeCombineArchive(OMEX_CSV_PARAMETERS, workingDir=tmpdir)
+    results = tesedml.executeCombineArchive(OMEX_CSV_PARAMETERS, workingDir=str(tmpdir))
     result = list(results.values())[0]
     dgs = result['dataGenerators']
 
