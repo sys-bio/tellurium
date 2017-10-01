@@ -1546,25 +1546,26 @@ class SEDMLCodeFactory(object):
         :return: list of python lines
         :rtype: list(str)
         """
-        # TODO: handle mix of log and linear axis
-        # TODO: display range information in Legend|TextBox (than it is clear in Figure what was iterated)
+        # TODO: logX and logY not applied
         lines = []
         settings = SEDMLCodeFactory.outputPlotSettings()
 
         title = output.getId()
         if output.isSetName():
             title = output.getName()
+            title += " ({})".format(name)
 
-        lines.append("stacked=False")
+        lines.append("_stacked = False")
+        lines.append("_engine = te.getPlottingEngine()")
         # stacking, currently disabled
         # for kc, curve in enumerate(output.getListOfCurves()):
         #     xId = curve.getXDataReference()
         #     lines.append("if {}.shape[1] > 1 and te.getDefaultPlottingEngine() == 'plotly':".format(xId))
         #     lines.append("    stacked=True")
-        lines.append("if not stacked:")
-        lines.append("    fig = te.getPlottingEngine().newFigure(title='{}')".format(title))
+        lines.append("if _stacked:")
+        lines.append("    fig = _engine.newStackedFigure(title='{}')".format(title))
         lines.append("else:")
-        lines.append("    fig = te.getPlottingEngine().newStackedFigure(title='{}')".format(title))
+        lines.append("    fig = _engine.newFigure(title='{}')\n".format(title))
 
         oneXLabel = True
         allXLabel = None
@@ -1580,12 +1581,12 @@ class SEDMLCodeFactory(object):
 
             yLabel = yId
             if curve.isSetName():
-                yLabel = curve.getName()
+                yLabel += " ({})".format(curve.getName())
             elif dgy.isSetName():
-                yLabel = dgy.getName()
+                yLabel += " ({})".format(dgy.getName())
             xLabel = xId
             if dgx.isSetName():
-                xLabel = dgx.getName()
+                xLabel += " ({})".format(dgx.getName())
 
             # do all curves have the same xLabel
             if kc == 0:
@@ -1593,27 +1594,13 @@ class SEDMLCodeFactory(object):
             elif xLabel != allXLabel:
                 oneXLabel = False
 
-            #lines.append("if {}.shape[1] > 1:".format(xId))
             lines.append("for k in range({}.shape[1]):".format(xId))
+            lines.append("    extra_args = {}")
             lines.append("    if k == 0:")
-            lines.append("        extra_args = {{'name': '{}'}}".format(yLabel))
-            lines.append("    else:")
-            lines.append("        extra_args = {{}}")
+            lines.append("        extra_args['name'] = '{}'".format(yLabel))
             lines.append("    fig.addXYDataset({}[:,k], {}[:,k], color='{}', tag='{}', **extra_args)".format(xId, yId, color, tag))
             lines.append("    fix_endpoints({}[:,k], {}[:,k], color='{}', tag='{}', fig=fig)".format(xId, yId, color, tag))
-
-            #lines.append("else:".format(xId))
-            #lines.append("    for k in range({}.shape[1]):".format(xId))
-            #lines.append("        if k == 0:")
-            #lines.append("            fig.addXYDataset({}[:,k], {}[:,k], color='{}', tag='{}', name='{}')".format(xId, yId, color, tag, yLabel))
-            ## support marker size?
-            ## lines.append("        plt.plot({}[:,k], {}[:,k], marker = '{}', color='{}', linewidth={}, markersize={}, alpha={}, label='{}')".format(xId, yId, settings.marker, color, settings.linewidth, settings.markersize, settings.alpha, yLabel))
-            #lines.append("        else:")
-            #lines.append("            fig.addXYDataset({}[:,k], {}[:,k], color='{}', tag='{}')".format(xId, yId, color, tag))
-
-            # TODO: Log X/Y
-        # TODO: X/Y labels from xLabel (if oneXLabel) and yLabel
-        lines.append("fig.render()".format())
+        lines.append("fig.render()\n")
 
         return lines
 
