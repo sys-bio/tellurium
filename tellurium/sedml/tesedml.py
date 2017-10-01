@@ -1626,7 +1626,7 @@ class SEDMLCodeFactory(object):
         if self.saveOutputs and self.createOutputs:
             # FIXME: only working for matplotlib
             lines.append("filename = os.path.join('{}', '{}.{}')".format(self.outputDir, output.getId(), self.plotFormat))
-            lines.append("fig.savefig(filename, format='{}', bbox_inches='tight', pad_inches=0)".format(self.plotFormat))
+            lines.append("fig.savefig(filename, format='{}', bbox_inches='tight')".format(self.plotFormat))
         return lines
 
     def outputPlot3DToPython(self, doc, output):
