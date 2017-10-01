@@ -9,6 +9,24 @@ import plotly
 from plotly.graph_objs import Scatter, Scatter3d, Layout, Data
 
 
+class PlotlyEngine(PlottingEngine):
+    """ PlottingEngine using plotly. """
+
+    def __init__(self, save_to_pdf=False):
+        PlottingEngine.__init__(self)
+
+    def __str__(self):
+        return "<PlotlyEngine>"
+
+    def newFigure(self, title=None, logX=False, logY=False, layout=PlottingLayout()):
+        """ Returns a figure object."""
+        return PlotlyFigure(title=title, layout=layout)
+
+    def newStackedFigure(self, title=None, logX=False, logY=False, layout=PlottingLayout()):
+        """ Returns a figure object."""
+        return PlotlyStackedFigure(title=title, layout=layout)
+
+
 class PlotlyFigure(PlottingFigure):
     """ PlotlyFigure. """
     def __init__(self, title=None, layout=PlottingLayout(), logx=False, logy=False, save_to_pdf=False, xtitle=None, ytitle=None):
@@ -68,6 +86,7 @@ class PlotlyFigure(PlottingFigure):
 
 
 class PlotlyStackedFigure(PlotlyFigure):
+    """ Stacked figure."""
     def __init__(self, title=None, layout=PlottingLayout(), logx=False, logy=False):
         self.initialize(title=title, layout=layout, logx=logx, logy=logy)
         self.zindex = 0
@@ -98,16 +117,3 @@ class PlotlyStackedFigure(PlotlyFigure):
             'data': data,
             'layout': self.makeLayout()
         })
-
-
-class PlotlyPlottingEngine(PlottingEngine):
-    def __init__(self, save_to_pdf=False):
-        PlottingEngine.__init__(self)
-
-    def newFigure(self, title=None, logX=False, logY=False, layout=PlottingLayout()):
-        """ Returns a figure object."""
-        return PlotlyFigure(title=title, layout=layout)
-
-    def newStackedFigure(self, title=None, logX=False, logY=False, layout=PlottingLayout()):
-        """ Returns a figure object."""
-        return PlotlyStackedFigure(title=title, layout=layout)

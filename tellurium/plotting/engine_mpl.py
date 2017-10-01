@@ -1,10 +1,10 @@
 """
 Matplotlib implementation of the plotting engine.
 """
-from __future__ import print_function, division, absolute_import
+from __future__ import absolute_import, print_function, division
 
 
-from .engine import PlottingEngine, PlottingFigure, PlottingLayout, filterWithSelections
+from .engine import PlottingEngine, PlottingFigure, PlottingLayout
 
 import os
 import matplotlib.pyplot as plt
@@ -17,9 +17,22 @@ else:
     SPYDER = False
     
 
+class MatplotlibEngine(PlottingEngine):
+    def __init__(self, save_to_pdf=False):
+        PlottingEngine.__init__(self)
+        self.save_to_pdf = save_to_pdf
+
+    def __str__(self):
+        return "<MatplotlibEngine>"
+
+    def newFigure(self, title=None, logX=False, logY=False, layout=PlottingLayout()):
+        """ Returns a figure object."""
+        return MatplotlibFigure(title=title, layout=layout, save_to_pdf=self.save_to_pdf)
+
+
 class MatplotlibFigure(PlottingFigure):
     """ MatplotlibFigure. """
-    def __init__(self, title=None, layout=PlottingLayout, use_legend=True, figsize=(9,5), save_to_pdf=False):
+    def __init__(self, title=None, layout=PlottingLayout, use_legend=True, figsize=(9, 5), save_to_pdf=False):
         self.initialize(title=title, layout=layout)
         self.use_legend = use_legend
         if not SPYDER:
@@ -82,7 +95,7 @@ class MatplotlibFigure(PlottingFigure):
             legend.draw_frame(False)
 
         if self.save_to_pdf:
-            (dummy,filename) = mkstemp(suffix='.pdf')
+            (dummy, filename) = mkstemp(suffix='.pdf')
             plt.savefig(filename, format='pdf')
             print('saved plot to {}'.format(filename))
         
@@ -93,13 +106,3 @@ class MatplotlibFigure(PlottingFigure):
     def save(self, filename, format):
         fig = self.plot()
         fig.savefig(filename, format=format)
-
-
-class MatplotlibPlottingEngine(PlottingEngine):
-    def __init__(self, save_to_pdf=False):
-        PlottingEngine.__init__(self)
-        self.save_to_pdf = save_to_pdf
-
-    def newFigure(self, title=None, logX=False, logY=False, layout=PlottingLayout()):
-        """ Returns a figure object."""
-        return MatplotlibFigure(title=title, layout=layout, save_to_pdf=self.save_to_pdf)

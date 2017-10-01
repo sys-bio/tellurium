@@ -22,15 +22,18 @@ import numpy as np
 import antimony
 import matplotlib
 
-__default_plotting_engine = 'matplotlib'
+PLOTTING_ENGINE_MATPLOTLIB = 'matplotlib'
+PLOTTING_ENGINE_PLOTLY = 'plotly'
+
+__default_plotting_engine = PLOTTING_ENGINE_MATPLOTLIB
 
 # enable fixes for Spyder (no Plotly support, no Agg support)
 SPYDER = False
 if any('SPYDER' in name for name in os.environ):
     SPYDER = True
 
-if not SPYDER:
-    matplotlib.use('Agg')
+# if not SPYDER:
+#    matplotlib.use('Agg')
 
 
 ##############################################
@@ -49,9 +52,9 @@ if not SPYDER:
             import plotly
             plotly.offline.init_notebook_mode(connected=True)
             __plotly_enabled = True
-            __default_plotting_engine = 'plotly'
+            __default_plotting_engine = PLOTTING_ENGINE_PLOTLY
         except:
-            warnings.warn("Plotly could not be initialized. Unable to use Plotly for plotting.")
+            warnings.warn("plotly could not be initialized. Unable to use Plotly for plotting.")
     except:
         __in_ipython = False
 
@@ -76,13 +79,16 @@ def getDefaultPlottingEngine():
     return __default_plotting_engine
 
 
-def setDefaultPlottingEngine(value):
+def setDefaultPlottingEngine(engine):
     """ Set the default plotting engine. Overrides current value.
 
-    :param value: A string describing which plotting engine to use. Valid values are 'matplotlib' and 'pyplot'.
+    :param engine: A string describing which plotting engine to use. Valid values are 'matplotlib' and 'pyplot'.
     """
+    if engine not in [PLOTTING_ENGINE_PLOTLY,
+                      PLOTTING_ENGINE_MATPLOTLIB]:
+        raise ValueError('Plotting engine is not supported: {}'.format(engine))
     global __default_plotting_engine
-    __default_plotting_engine = value
+    __default_plotting_engine = engine
 
 
 __save_plots_to_pdf = False  # flag which decides if plotted to pdf

@@ -1,5 +1,9 @@
-from __future__ import print_function, division, absolute_import
+"""
+Defines the main classes for plotting
+which are implemented by the different ploting frameworks, i.e. matplotlib or plotly.
+"""
 
+from __future__ import print_function, division, absolute_import
 
 from collections import defaultdict
 import itertools
@@ -21,8 +25,124 @@ def filterWithSelections(self, name, selections):
     else:
         return True
 
+
+class PlottingEngine(object):
+
+    def __init__(self):
+        self.fig = None
+
+    def __str__(self):
+        return "<PlottingEngine>"
+
+    def figureFromXY(self, x, y, **kwargs):
+        """ Generate a new figure from x/y data.
+
+        :param x: A column representing x data.
+        :param y: Y data (may be multiple columns).
+        """
+        return self.newFigure().plot(x, y, **kwargs)
+
+    def figureFromTimecourse(self, m, ordinates=None, tag=None, alpha=None, title=None, xlim=None, ylim=None):
+        """ Generate a new figure from a timecourse simulation.
+
+        :param m: An array returned by RoadRunner.simulate.
+        """
+        fig = self.newFigure()
+        if m.colnames[0] != 'time':
+            raise RuntimeError('Cannot plot timecourse - first column is not time')
+
+        for k in range(1,m.shape[1]):
+            fig.addXYDataset(m[:,0], m[:,k], name=m.colnames[k], tag=tag, alpha=alpha)
+
+        return fig
+
+    def plot(self, x, y, show=True, **kwargs):
+        """ Plot x & y data.
+
+        :param x: x data.
+        :param y: y data (can be multiple columns).
+        """
+        if self.fig:
+            fig = self.fig
+            fig.plot(x, y, **kwargs)
+        else:
+            fig = self.figureFromXY(x, y, **kwargs)
+        if show:
+            fig.render()
+            self.fig = None
+        else:
+            self.fig = fig
+        return fig
+
+    def plotTimecourse(self, m, title=None, ordinates=None, tag=None, xtitle=None, logx=False, logy=False, ytitle=None, alpha=None, xlim=None, ylim=None, **kwargs):
+        """ Plots a timecourse from a simulation.
+
+        :param m: An array returned by RoadRunner.simulate.
+        """
+        fig = self.figureFromTimecourse(m, title=title, ordinates=ordinates, tag=tag, alpha=alpha, xlim=xlim, ylim=ylim)
+        if title:
+            fig.title = title
+        if xtitle:
+            fig.xtitle = xtitle
+        if ytitle:
+            fig.ytitle = ytitle
+        if xlim:
+            fig.setXLim(xlim)
+        if ylim:
+            fig.setYLim(ylim)
+        if logx:
+            fig.logx = logx
+        if logy:
+            fig.logy = logy
+        fig.render()
+
+    def accumulateTimecourse(self, m, title=None, ordinates=None, tag=None, xtitle=None, logx=False, logy=False, ytitle=None, alpha=None, xlim=None, ylim=None, **kwargs):
+        """ Accumulates the traces instead of plotting (like matplotlib with show=False).
+        Call show() to show the plot.
+
+        :param m: An array returned by RoadRunner.simulate.
+        """
+        if not self.fig:
+            self.fig = self.newFigure()
+
+        if m.colnames[0] != 'time':
+            raise RuntimeError('Cannot plot timecourse - first column is not time')
+
+        for k in range(1,m.shape[1]):
+            t = tag if tag else m.colnames[k]
+            self.fig.addXYDataset(m[:,0], m[:, k], name=m.colnames[k], tag=t, alpha=alpha)
+
+        if title:
+            self.fig.title = title
+        if xtitle:
+            self.fig.xtitle = xtitle
+        if ytitle:
+            self.fig.ytitle = ytitle
+        if xlim:
+            self.fig.setXLim(xlim)
+        if ylim:
+            self.fig.setYLim(ylim)
+        if logx:
+            self.fig.logx = logx
+        if logy:
+            self.fig.logy = logy
+
+    def show(self, reset=True):
+        """ Shows the traces accummulated from accumulateTimecourse.
+
+        :param reset: Reset the traces so the next plot will start out empty?
+        """
+        if self.fig:
+            self.fig.render()
+        fig = self.fig
+        if reset:
+            self.fig = None
+        return self.fig
+
+
 class PlottingLayout:
     pass
+
 
 class PlottingFigure(object):
     def initialize(self, title=None, layout=PlottingLayout(), logx=False, xtitle=None, logy=False, ytitle=None, selections=None):
@@ -147,116 +267,3 @@ class PlottingFigure(object):
         :param ylim: tuple of min/max values
         """
         self.ylim = ylim
-
-
-class PlottingEngine(object):
-    def __init__(self):
-        self.fig = None
-
-
-    def figureFromXY(self, x, y, **kwargs):
-        """ Generate a new figure from x/y data.
-
-        :param x: A column representing x data.
-        :param y: Y data (may be multiple columns).
-        """
-        return self.newFigure().plot(x,y,**kwargs)
-
-    def figureFromTimecourse(self, m, ordinates=None, tag=None, alpha=None, title=None, xlim=None, ylim=None):
-        """ Generate a new figure from a timecourse simulation.
-
-        :param m: An array returned by RoadRunner.simulate.
-        """
-        fig = self.newFigure()
-        if m.colnames[0] != 'time':
-            raise RuntimeError('Cannot plot timecourse - first column is not time')
-
-        for k in range(1,m.shape[1]):
-            fig.addXYDataset(m[:,0], m[:,k], name=m.colnames[k], tag=tag, alpha=alpha)
-
-        return fig
-
-
-    def plot(self, x, y, show=True, **kwargs):
-        """ Plot x & y data.
-
-        :param x: x data.
-        :param y: y data (can be multiple columns).
-        """
-        if self.fig:
-            fig = self.fig
-            fig.plot(x, y, **kwargs)
-        else:
-            fig = self.figureFromXY(x, y, **kwargs)
-        if show:
-            fig.render()
-            self.fig = None
-        else:
-            self.fig = fig
-        return fig
-
-    def plotTimecourse(self, m, title=None, ordinates=None, tag=None, xtitle=None, logx=False, logy=False, ytitle=None, alpha=None, xlim=None, ylim=None, **kwargs):
-
-        """ Plots a timecourse from a simulation.
-
-        :param m: An array returned by RoadRunner.simulate.
-        """
-        fig = self.figureFromTimecourse(m, title=title, ordinates=ordinates, tag=tag, alpha=alpha, xlim=xlim, ylim=ylim)
-        if title:
-            fig.title = title
-        if xtitle:
-            fig.xtitle = xtitle
-        if ytitle:
-            fig.ytitle = ytitle
-        if xlim:
-            fig.setXLim(xlim)
-        if ylim:
-            fig.setYLim(ylim)
-        if logx:
-            fig.logx = logx
-        if logy:
-            fig.logy = logy
-        fig.render()
-
-    def accumulateTimecourse(self, m, title=None, ordinates=None, tag=None, xtitle=None, logx=False, logy=False, ytitle=None, alpha=None, xlim=None, ylim=None, **kwargs):
-        """ Accumulates the traces instead of plotting (like matplotlib with show=False).
-        Call show() to show the plot.
-
-        :param m: An array returned by RoadRunner.simulate.
-        """
-        if not self.fig:
-            self.fig = self.newFigure()
-
-        if m.colnames[0] != 'time':
-            raise RuntimeError('Cannot plot timecourse - first column is not time')
-
-        for k in range(1,m.shape[1]):
-            t = tag if tag else m.colnames[k]
-            self.fig.addXYDataset(m[:,0], m[:, k], name=m.colnames[k], tag=t, alpha=alpha)
-
-        if title:
-            self.fig.title = title
-        if xtitle:
-            self.fig.xtitle = xtitle
-        if ytitle:
-            self.fig.ytitle = ytitle
-        if xlim:
-            self.fig.setXLim(xlim)
-        if ylim:
-            self.fig.setYLim(ylim)
-        if logx:
-            self.fig.logx = logx
-        if logy:
-            self.fig.logy = logy
-
-    def show(self, reset=True):
-        """ Shows the traces accummulated from accumulateTimecourse.
-
-        :param reset: Reset the traces so the next plot will start out empty?
-        """
-        if self.fig:
-            self.fig.render()
-        fig = self.fig
-        if reset:
-            self.fig = None
-        return self.fig

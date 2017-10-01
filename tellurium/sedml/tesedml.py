@@ -290,7 +290,13 @@ def combineArchiveToPython(omexPath):
     return pycode
 
 
-def executeCombineArchive(omexPath, workingDir=None, printPython=False, createOutputs=True):
+def executeCombineArchive(omexPath,
+                          workingDir=None,
+                          printPython=False,
+                          createOutputs=True,
+                          saveOutputs=False,
+                          outputDir=None,
+                          plottingEngine=None):
     """ Run all SED-ML simulations in given COMBINE archive.
 
     If no workingDir is provided execution is performed in temporary directory
@@ -301,6 +307,9 @@ def executeCombineArchive(omexPath, workingDir=None, printPython=False, createOu
     :param workingDir: directory to extract archive to
     :param printPython: boolean switch to print executed python code
     :param createOutputs: boolean flag if outputs should be created, i.e. reports and plots
+    :param saveOutputs: flag if the outputs should be saved to file
+    :param outputDir: directory where the outputs should be written
+    :param plottingEngin: string of which plotting engine to use; uses set plotting engine otherwise
     :return dictionary of sedmlFile:data generators
     """
 
@@ -331,7 +340,11 @@ def executeCombineArchive(omexPath, workingDir=None, printPython=False, createOu
             for sedmlFile in sedml_paths:
                 factory = SEDMLCodeFactory(sedmlFile,
                                            workingDir=os.path.dirname(sedmlFile),
-                                           createOutputs=createOutputs)
+                                           createOutputs=createOutputs,
+                                           saveOutputs=saveOutputs,
+                                           outputDir=outputDir,
+                                           plottingEngine=plottingEngine
+                                           )
                 if printPython:
                     code = factory.toPython()
                     print(code)
@@ -355,7 +368,13 @@ class SEDMLCodeFactory(object):
     # template location
     TEMPLATE_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'templates')
 
-    def __init__(self, inputStr, workingDir=None, createOutputs=True):
+    def __init__(self, inputStr,
+                 workingDir=None,
+                 createOutputs=True,
+                 saveOutputs=False,
+                 outputDir=None,
+                 plottingEngine=None
+                 ):
         """ Create CodeFactory for given input.
 
         :param inputStr:
@@ -370,6 +389,13 @@ class SEDMLCodeFactory(object):
         self.python = sys.version
         self.platform = platform.platform()
         self.createOutputs = createOutputs
+        self.saveOutputs = saveOutputs
+        self.outputDir = outputDir
+        self.plottingEngine = plottingEngine
+        if not self.plottingEngine:
+            self.plottingEngine = te.getPlottingEngine()
+
+
         info = SEDMLTools.readSEDMLDocument(inputStr, workingDir)
         self.doc = info['doc']
         self.inputType = info['inputType']
@@ -1482,7 +1508,7 @@ class SEDMLCodeFactory(object):
         # save as variable in Tellurium
         lines.append("    te.setLastReport(__df__k)".format(output.getId()))
         # save to csv
-        lines.append("    __df__k.to_csv(os.path.join(workingDir, '{}_{{}}.csv'.format(k)), sep='\t', index=False)".format(output.getId()))
+        lines.append("    __df__k.to_csv(os.path.join(workingDir, '{}_{{}}.csv'.format(k)), sep=',', index=False)".format(output.getId()))
         return lines
 
     @staticmethod

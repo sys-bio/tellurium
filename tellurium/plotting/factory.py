@@ -3,12 +3,12 @@ from __future__ import print_function, absolute_import
 
 __engines = {}
 
-from .engine_mpl import MatplotlibPlottingEngine
-__engines['matplotlib'] = MatplotlibPlottingEngine
+from .engine_mpl import MatplotlibEngine
+__engines['matplotlib'] = MatplotlibEngine
 
 try:
-    from .engine_plotly import PlotlyPlottingEngine
-    __engines['plotly'] = PlotlyPlottingEngine
+    from .engine_plotly import PlotlyEngine
+    __engines['plotly'] = PlotlyEngine
 except ImportError:
     pass
 
