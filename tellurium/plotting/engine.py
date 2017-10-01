@@ -97,7 +97,7 @@ class PlottingEngine(object):
 
         :param m: An array returned by RoadRunner.simulate.
         """
-        fig = self.figureFromTimecourse(m, title=title, ordinates=ordinates, tag=tag, alpha=alpha, xlim=xlim, ylim=ylim)
+        fig = cls.figureFromTimecourse(m, title=title, ordinates=ordinates, tag=tag, alpha=alpha, xlim=xlim, ylim=ylim)
         if title:
             fig.title = title
         if xtitle:
@@ -159,24 +159,13 @@ class PlottingEngine(object):
 
 
 class PlottingLayout:
+    """ Layout information for plot. """
     pass
 
 
 class PlottingFigure(object):
-    @abc.abstractmethod
-    def render(self):
-        """ Creates the figure. """
 
-    @abc.abstractmethod
-    def save(self, filename, format):
-        """ Save figure.
-
-        :param filename: filename to save to
-        :param format: format to save
-        :return:
-        """
-    # FIXME: why is this not a constructor?
-    def initialize(self, title=None, layout=PlottingLayout(), logx=False, xtitle=None, logy=False, ytitle=None, selections=None):
+    def __init__(self, title=None, layout=PlottingLayout(), logx=False, xtitle=None, logy=False, ytitle=None, selections=None):
         """ Initialize the figure.
 
         :param title: The title of the plot.
@@ -195,6 +184,19 @@ class PlottingFigure(object):
         self.selections=selections
         self.xlim = None
         self.ylim = None
+
+    @abc.abstractmethod
+    def render(self):
+        """ Creates the figure. """
+
+    @abc.abstractmethod
+    def save(self, filename, format):
+        """ Save figure.
+
+        :param filename: filename to save to
+        :param format: format to save
+        :return:
+        """
 
     def addXYDataset(self, x_arr, y_arr, color=None, tag=None, name=None, filter=True, alpha=None, mode=None):
         """ Adds an X/Y dataset to the plot.
@@ -256,10 +258,10 @@ class PlottingFigure(object):
         if ytitle:
             self.ytitle = ytitle
         kws = {'alpha': alpha}
-        if colnames is None and hasattr(y,'colnames'):
+        if colnames is None and hasattr(y, 'colnames'):
             colnames = y.colnames
 
-        # TODOL if y is 2d array with 1 column, convert to 1d array
+        # TODO: if y is 2d array with 1 column, convert to 1d array
         if len(y.shape) > 1:
             # it's a 2d array
             for k in range(0,y.shape[1]):
@@ -271,7 +273,7 @@ class PlottingFigure(object):
                     kws['tag'] = tags[k]
                 if colnames is not None:
                     kws['name'] = colnames[k]
-                self.addXYDataset(x, y[:,k], **kws)
+                self.addXYDataset(x, y[:, k], **kws)
         elif len(y.shape) == 1:
             # it's a 1d array
             if len(x) != len(y):

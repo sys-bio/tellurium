@@ -39,7 +39,7 @@ class MatplotlibFigure(PlottingFigure):
     """ MatplotlibFigure. """
 
     def __init__(self, title=None, layout=PlottingLayout, use_legend=True, figsize=(9, 5), save_to_pdf=False):
-        self.initialize(title=title, layout=layout)
+        super(MatplotlibFigure, self).__init__(title=title, layout=layout)
         self.use_legend = use_legend
         if not SPYDER:
             self.figsize = figsize

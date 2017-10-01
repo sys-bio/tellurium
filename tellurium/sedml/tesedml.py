@@ -1602,6 +1602,9 @@ class SEDMLCodeFactory(object):
             lines.append("    fix_endpoints({}[:,k], {}[:,k], color='{}', tag='{}', fig=fig)".format(xId, yId, color, tag))
         lines.append("fig.render()\n")
 
+        # TODO: save the figures and files
+        lines.append("fig.render()\n")
+
         return lines
 
     @staticmethod
