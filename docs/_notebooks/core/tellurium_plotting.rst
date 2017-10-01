@@ -3,9 +3,13 @@
 Draw diagram
 ^^^^^^^^^^^^
 
-.. code:: python
+This example shows how to draw a network diagram, `requires
+graphviz <http://tellurium.readthedocs.io/en/latest/notebooks.html#preliminaries>`__.
+
+.. code-block:: python
 
     import tellurium as te
+    te.setDefaultPlottingEngine('matplotlib')
     
     r = te.loada('''
     model feedback()
@@ -34,11 +38,17 @@ Draw diagram
 
 
 
-.. image:: _notebooks/core/tellurium_plotting_files/tellurium_plotting_2_0.png
+.. raw:: html
+
+    <script>requirejs.config({paths: { 'plotly': ['https://cdn.plot.ly/plotly-latest.min']},});if(!window.Plotly) {{require(['plotly'],function(plotly) {window.Plotly=plotly;});}}</script>
 
 
 
 .. image:: _notebooks/core/tellurium_plotting_files/tellurium_plotting_2_1.png
+
+
+
+.. image:: _notebooks/core/tellurium_plotting_files/tellurium_plotting_2_2.png
 
 
 Plotting multiple simulations
@@ -47,9 +57,10 @@ Plotting multiple simulations
 All plotting is done via the ``r.plot`` or ``te.plotArray`` functions.
 To plot multiple curves in one figure use the ``show=False`` setting.
 
-.. code:: python
+.. code-block:: python
 
     import tellurium as te
+    te.setDefaultPlottingEngine('matplotlib')
     import numpy as np
     import matplotlib.pylab as plt
     
@@ -61,9 +72,6 @@ To plot multiple curves in one figure use the ``show=False`` setting.
     # Colormap instances are used to convert data values (floats) from the interval [0, 1]
     cmap = plt.get_cmap('Blues')
     
-    # The legend can be suppressed which is useful for plotting large 
-    # numbers of curves where a legend would get in the way
-    
     k1_values = np.linspace(start=0.1, stop=1.5, num=15)
     max_k1 = max(k1_values)
     for k, value in enumerate(k1_values):
@@ -72,13 +80,11 @@ To plot multiple curves in one figure use the ``show=False`` setting.
         s = r.simulate(0, 30, 100)
         
         color = cmap((value+max_k1)/(2*max_k1))
-        # plot curves without legend and showing
-        r.plot(s, loc=None, show=False, color=color, linewidth=2.0)
+        # use show=False to plot multiple curves in the same figure
+        r.plot(s, show=False, title="Parameter variation k1", xtitle="time", ytitle="concentration", 
+              xlim=[-1, 31], ylim=[-0.1, 11])
     
-    # add legend for last curve, show everything and set labels, titels, ...
-    r.plot(s, loc='upper right', show=True, color=color, linewidth=2.0,
-           title="Parameter variation k1", xlabel="time", ylabel="concentration", 
-           xlim=[-1, 31], ylim=[-0.1, 11], grid=True)    
+    te.show()
     
     print('Reference Simulation: k1 = {}'.format(r.k1))
     print('Parameter variation: k1 = {}'.format(k1_values))
@@ -104,17 +110,17 @@ Logarithmic axis
 The axis scale can be adapted with the ``xscale`` and ``yscale``
 settings.
 
-.. code:: python
+.. code-block:: python
 
     import tellurium as te
+    te.setDefaultPlottingEngine('matplotlib')
     r = te.loadTestModel('feedback.xml')
-    r.integrator.setSetting('variable_step_size', True)
+    r.integrator.variable_step_size = True
     s = r.simulate(0, 50)
-    r.plot(s, xscale="log", xlim=[10E-4, 10E2], grid=True, 
+    r.plot(s, logx=True, xlim=[10E-4, 10E2],
           title="Logarithmic x-Axis with grid", ylabel="concentration");
 
 
 
 .. image:: _notebooks/core/tellurium_plotting_files/tellurium_plotting_6_0.png
-
 

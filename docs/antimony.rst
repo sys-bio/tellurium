@@ -384,6 +384,11 @@ You may use units when defining formulas using the same syntax as above: any num
 
 
 
+Simulating Models
+=================
+
+.. include:: _notebooks/core/antimonyExample.rst
+
 ------------
 
 

@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<numl xmlns="http://www.numl.org/numl/level1/version1" level="1" version="1">
+	<ontologyTerms>
+		<ontologyTerm id="term1" term="concentration" sourceTermId="SBO:0000196" ontologyURI="http://www.ebi.ac.uk/sbo/" />
+		<ontologyTerm id="term2" term="metabolite" sourceTermId="SBO:0000299" ontologyURI="http://www.ebi.ac.uk/sbo/" />
+		<ontologyTerm id="term3" term="time" sourceTermId="SBO:0000345" ontologyURI="http://www.ebi.ac.uk/sbo/"/>	
+	</ontologyTerms>
+	<resultComponents>
+		<resultComponent id="species_conc">
+			<dimensionDescription>
+				<compositeDescription id="Time" name="Time" ontologyTerm="term3" indexType="float">
+					<compositeDescription id="Metabolites" name="Metabolites" ontologyTerm="term2" indexType="string">
+						<atomicDescription id="Concentrations" name="Concentrations" ontologyTerm="term1" valueType="double" />
+					</compositeDescription>
+				</compositeDescription>
+			</dimensionDescription>
+			<dimension>	
+			<compositeValue indexValue="0">
+				<compositeValue indexValue="BL">
+					<atomicValue>0.0</atomicValue>
+				</compositeValue>
+				<compositeValue indexValue="B">
+					<atomicValue>1.66058</atomicValue>
+				</compositeValue>
+				<compositeValue indexValue="DLL">
+					<atomicValue>8.84913e-2</atomicValue>
+				</compositeValue>
+			</compositeValue>		  
+			 <compositeValue indexValue="20">
+				<compositeValue indexValue="BL">
+					<atomicValue>0.23</atomicValue>
+				</compositeValue>
+				<compositeValue indexValue="B">
+					<atomicValue>1.76058</atomicValue>
+				</compositeValue>
+				<compositeValue indexValue="DLL">
+					<atomicValue>9.84913e-2</atomicValue>
+				</compositeValue>
+			</compositeValue>
+			<compositeValue indexValue="40">
+				<compositeValue indexValue="BL">
+					<atomicValue>0.253</atomicValue>
+				</compositeValue>
+				<compositeValue indexValue="B">
+					<atomicValue>1.96058</atomicValue>
+				</compositeValue>
+				<compositeValue indexValue="DLL">
+					<atomicValue>9.94913e-2</atomicValue>
+				</compositeValue>
+			</compositeValue>
+			<compositeValue indexValue="60">
+				<compositeValue indexValue="BL">
+					<atomicValue>0.2673</atomicValue>
+				</compositeValue>
+				<compositeValue indexValue="B">
+					<atomicValue>1.734058</atomicValue>
+				</compositeValue>
+				<compositeValue indexValue="DLL">
+					<atomicValue>9.97913e-2</atomicValue>
+				</compositeValue>
+			</compositeValue>
+			<compositeValue indexValue="80">
+				<compositeValue indexValue="BL">
+					<atomicValue>0.256</atomicValue>
+				</compositeValue>
+				<compositeValue indexValue="B">
+					<atomicValue>1.96058</atomicValue>
+				</compositeValue>
+				<compositeValue indexValue="DLL">
+					<atomicValue>9.23913e-2</atomicValue>
+				</compositeValue>
+			</compositeValue>
+			<compositeValue indexValue="100">
+				<compositeValue indexValue="BL">
+					<atomicValue>0.2783</atomicValue>
+				</compositeValue>
+				<compositeValue indexValue="B">
+					<atomicValue>1.79558</atomicValue>
+				</compositeValue>
+				<compositeValue indexValue="DLL">
+					<atomicValue>9.998913e-2</atomicValue>
+				</compositeValue>
+			</compositeValue>
+			</dimension>
+		</resultComponent>
+	</resultComponents>
+	</numl>

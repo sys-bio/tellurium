@@ -37,6 +37,7 @@ Tellurium's notebook front-end mixes code and narrative in a flowing, visual sty
     :align: center
     :alt: Tellurium notebook screenshot
     :figclass: align-center
+    :target: https://github.com/sys-bio/tellurium#front-end-1-tellurium-notebook
 
     Tellurium notebook offers an environment similar to Jupyter
 
@@ -63,6 +64,7 @@ User who are more familiar with MATLAB may prefer Tellurium's IDE interface, whi
     :align: center
     :alt: Tellurium IDE screenshot
     :figclass: align-center
+    :target: https://github.com/sys-bio/tellurium#front-end-2-tellurium-ide
 
     Tellurium IDE features a programmer-centric interface similar to MATLAB
 

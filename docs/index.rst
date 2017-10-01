@@ -12,16 +12,18 @@ Contents:
 .. toctree::
    :maxdepth: 2
 
-   introduction.rst
    installation.rst
+   quickstart.rst
    walkthrough.rst
-   Examples <notebooks.rst>
+   notebooks.rst
    antimony.rst
    tellurium_methods.rst
+   API.rst
+   FAQ <https://github.com/sys-bio/tellurium/wiki/FAQ>
+   appendix.rst
 ..    paramscan.rst
 ..    testing.rst
 ..    latex.rst
-   API
 
 
 .. older docs

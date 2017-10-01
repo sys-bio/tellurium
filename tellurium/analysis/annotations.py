@@ -102,6 +102,7 @@ def matchSpeciesChebi(s1, s2, logging=False):
         print("Unexpected error:", sys.exc_info()[0])
         return None
 
+
 def getMatchingSpecies(m1, m2, logging=False):
     """ Returns a list of species with matching annotations URIs for two models
 

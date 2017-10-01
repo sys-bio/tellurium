@@ -3,6 +3,7 @@ Here the supported API is tested.
 """
 from __future__ import print_function, division
 import unittest
+
 import antimony
 CELLML_SUPPORT = hasattr(antimony, "loadCellMLString")
 
@@ -36,8 +37,6 @@ api_calls = [
     #   conversion methods
     'te.antimonyToSBML',
     'te.sbmlToAntimony',
-    #   experiment
-    'te.experiment',
     #   math
     'te.getEigenvalues',
     #   plotting

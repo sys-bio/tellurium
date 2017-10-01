@@ -1,12 +1,10 @@
 """
 outputPlot3D
 """
-
-from __future__ import print_function
 import os
-from tellurium.sedml.case_template import run_case
+from tellurium.sedml.utils import run_case
 
-antimonyStr = '''
+a_str = '''
 // Created by libAntimony v2.9
 model *case_09()
 
@@ -72,7 +70,7 @@ const J7_KK8, J8_V9, J8_KK9, J9_V10, J9_KK10;
 end
 '''
 
-phrasedmlStr = '''
+p_str = '''
   mod1 = model "case_09"
   # sim1 = simulate uniform_stochastic(0, 4000, 1000)
   sim1 = simulate uniform(0, 4000, 1000)
@@ -82,4 +80,4 @@ phrasedmlStr = '''
   report repeat1.MAPK vs repeat1.time vs repeat1.MAPK_P, repeat1.MAPK vs repeat1.time vs repeat1.MAPK_PP, repeat1.MAPK vs repeat1.time vs repeat1.MKK
 '''
 
-run_case(os.path.realpath(__file__), antimonyStr, phrasedmlStr)
+run_case(os.path.realpath(__file__), a_str, p_str)

@@ -1,3 +1,7 @@
+"""
+Parameter estimation in tellurium.
+"""
+from __future__ import print_function, absolute_import
 import csv
 import numpy as np
 import tellurium as te

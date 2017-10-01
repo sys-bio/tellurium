@@ -1,21 +1,38 @@
 {% import 'macros_helpers.template' as helpers %}
 """
-    tellurium {{ version }}
+####################################################################################################
+                            tellurium {{ version }}
+-+++++++++++++++++-         Python Environment for Modeling and Simulating Biological Systems
+ .+++++++++++++++.
+  .+++++++++++++.           Homepage:      http://tellurium.analogmachine.org/
+-//++++++++++++/.   -:/-`   Documentation: https://tellurium.readthedocs.io/en/latest/index.html
+.----:+++++++/.++  .++++/   Forum:         https://groups.google.com/forum/#!forum/tellurium-discuss
+      :+++++:  .+:` .--++   Bug reports:   https://github.com/sys-bio/tellurium/issues
+       -+++-    ./+:-://.   Repository:    https://github.com/sys-bio/tellurium
+        .+.       `...`
 
-    auto-generated code
+SED-ML simulation experiments: http://www.sed-ml.org/
     sedmlDoc: L{{ doc.getLevel() }}V{{ doc.getVersion() }} {% if doc.isSetId() %}id={{ doc.getId() }} {% endif %} {% if doc.isSetName() %}name={{ doc.getName() }}{% endif %}
 
-    workingDir: {{ factory.workingDir }}
+    workingDir: '{{ factory.workingDir }}'
     inputType: {{ factory.inputType }}
+
+{{ factory.platform }}
+python {{ factory.python }}
+####################################################################################################
 """
 import tellurium as te
 from roadrunner import Config
 from tellurium.sedml.mathml import *
-from tellurium.sedml.tesedml import process_trace, terminate_trace
+from tellurium.sedml.tesedml import process_trace, terminate_trace, fix_endpoints
+
 import numpy as np
 import matplotlib.pyplot as plt
 import mpl_toolkits.mplot3d
-import tesedml as libsedml
+try:
+    import tesedml as libsedml
+except ImportError:
+    import libsedml
 import pandas
 import os.path
 Config.LOADSBMLOPTIONS_RECOMPILE = True
@@ -28,21 +45,29 @@ workingDir = r'{{ factory.workingDir }}'
 {{ modelToPython(model) }}
 {% endfor %}
 
+{{ helpers.heading(doc.getListOfDataDescriptions(), 'DataDescription') }}
+{% for dataDescription in doc.getListOfDataDescriptions() %}
+# DataDescription <{{ dataDescription.getId() }}>
+{{ dataDescriptionToPython(dataDescription) }}
+{% endfor %}
+
 {{ helpers.heading(doc.getListOfTasks(), 'Task') }}
 {% for task in doc.getListOfTasks() %}
 # Task <{{ task.getId() }}>
 {{ taskToPython(factory.doc, task) }}
-
 {% endfor %}
+
 {{ helpers.heading(doc.getListOfDataGenerators(), 'DataGenerator') }}
 {% for dg in doc.getListOfDataGenerators() %}
 # DataGenerator <{{ dg.getId() }}>
 {{ dataGeneratorToPython(factory.doc, dg) }}
-
 {% endfor %}
+
+{% if factory.createOutputs %}
 {{ helpers.heading(doc.getListOfOutputs(), 'Output') }}
 {% for out in doc.getListOfOutputs() %}
 # Output <{{ out.getId() }}>
 {{ outputToPython(factory.doc, out) }}
-
 {% endfor %}
+{% endif %}
+####################################################################################################

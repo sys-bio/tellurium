@@ -2,11 +2,10 @@
 """
 phrasedml one step test
 """
-from __future__ import print_function
 import os
-from tellurium.sedml.case_template import run_case
+from tellurium.sedml.utils import run_case
 
-antimonyStr = '''
+a_str = '''
 // Created by libAntimony v2.9
 model *oneStep()
 
@@ -44,8 +43,7 @@ J3_k2 = 5;
 const compartment_, J0_v0, J1_k3, J2_k1, J2_k_1, J2_c, J2_q, J3_k2;
 end
 '''
-
-phrasedmlStr = '''
+p_str = '''
 model1 = model "oneStep"
 stepper = simulate onestep(0.1)
 task0 = run stepper on model1
@@ -54,4 +52,4 @@ plot "One Step Simulation" task1.time vs task1.S1, task1.S2, task1.J0_v0
 report task1.time vs task1.S1, task1.S2, task1.J0_v0
 '''
 
-run_case(os.path.realpath(__file__), antimonyStr, phrasedmlStr)
+run_case(os.path.realpath(__file__), a_str, p_str)

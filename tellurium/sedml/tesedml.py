@@ -2,25 +2,12 @@
 """
 Tellurium SED-ML support.
 
-This module implements SED-ML L1V2 support for tellurium.
-In the current implementation all SED-ML constructs with exception of
-    XML transformation changes of the model
-        - Change.RemoveXML
-        - Change.AddXML
-        - Change.ChangeXML
-are supported.
+This module implements SED-ML support for tellurium.
 
-SBML models are fully supported, whereas for CellML models only basic support
-is implemented (when additional support is requested it be implemented).
-CellML models are transformed to SBML models which results in different XPath expressions,
-so that targets, selections cannot be easily resolved in the CellMl-SBML.
-
-Supported input for SED-ML are either SED-ML files ('.sedml' extension),
-SED-ML XML strings or archives ('.sedx'|'.omex' extension).
-Executable python code is generated from the SED-ML which allows the
-execution of the defined simulation experiment.
-
-SED-ML is build of five main classes
+----------------
+Overview SED-ML
+----------------
+SED-ML is build of main classes
     the Model Class,
     the Simulation Class,
     the Task Class,
@@ -38,6 +25,9 @@ The Model Class
     computing the change of a value using mathematics, or general changes on any XML element
     of the model representation that is addressable by XPath expressions, e.g. substituting
     a piece of XML by an updated one.
+
+TODO: DATA CLASS
+
 
 The Simulation Class
     The Simulation class defines the simulation settings and the steps taken during simulation.
@@ -66,138 +56,77 @@ The Output Class
     plotted in the output. To do so, an output type is defined, e.g. 2D-plot, 3D-plot or data table,
     and the according axes or columns are all assigned to one of the formerly specified instances
     of the DataGenerator class.
+
+For information about SED-ML please refer to http://www.sed-ml.org/
+and the SED-ML specification.
+
+------------------------------------
+SED-ML in tellurium: Implementation
+------------------------------------
+SED-ML support in tellurium is based on Combine Archives.
+The SED-ML files in the Archive can be executed and stored with results.
+
+----------------------------------------
+SED-ML in tellurium: Supported Features
+----------------------------------------
+Tellurium supports SED-ML L1V3 with SBML as model format.
+
+SBML models are fully supported, whereas for CellML models only basic support
+is implemented (when additional support is requested it be implemented).
+CellML models are transformed to SBML models which results in different XPath expressions,
+so that targets, selections cannot be easily resolved in the CellMl-SBML.
+
+Supported input for SED-ML are either SED-ML files ('.sedml' extension),
+SED-ML XML strings or combine archives ('.sedx'|'.omex' extension).
+Executable python code is generated from the SED-ML which allows the
+execution of the defined simulation experiment.
+
+    In the current implementation all SED-ML constructs with exception of
+    XML transformation changes of the model
+        - Change.RemoveXML
+        - Change.AddXML
+        - Change.ChangeXML
+    are supported.
+
+-------
+Notice
+-------
+The main maintainer for SED-ML support is Matthias König.
+Please let changes to this file be reviewed and make sure that all SED-ML related tests are working.
 """
+from __future__ import  absolute_import, print_function, division
 
-# TODO: implement full resolving of xpath expressions (target, selection) (see xpath.py for example)
-# TODO: handle OMEX correctly & execute OMEX with saving results
-
-# TODO: implement XML changes
-# TODO: implement full concatenation of subtasks
-# TODO: better handling of model.reset for task tree
-# FIXME: rk4 integration not working on linux (https://github.com/sys-bio/roadrunner/issues/307)
-
-from __future__ import print_function, division
-
-import sys, os, os.path, warnings
-import datetime, zipfile
-from collections import namedtuple
+import sys
+import platform
+import tempfile
+import shutil
+import traceback
+import os.path
+import warnings
+import datetime
+import zipfile
 import re
 import numpy as np
-import roadrunner
-try:
-    from jinja2 import Environment, FileSystemLoader
-except:
-    warnings.warn("'jinja2' could not be imported; SEDML not supported", ImportWarning)
-from .mathml import evaluableMathML
+from collections import namedtuple
+import jinja2
 
 try:
     import tesedml as libsedml
-    # import libsedml before libsbml to handle
-    # https://github.com/fbergmann/libSEDML/issues/21
-except ImportError as e:
-    libsedml = None
-    roadrunner.Logger.log(roadrunner.Logger.LOG_WARNING, str(e))
-    warnings.warn("'libsedml' could not be imported", ImportWarning, stacklevel=2)
+except ImportError:
+    import libsedml
 
+from tellurium.utils import omex
+from .mathml import evaluableMathML
 import tellurium as te
-from tellurium.tecombine import CombineArchive
 
 try:
-    # requrired imports within generated code
+    # required imports in generated python code
     import pandas
     import matplotlib.pyplot as plt
     import mpl_toolkits.mplot3d
 except ImportError:
-    warnings.warn("Dependencies for SEDML code execution not fullfilled.")
-
-
-######################################################################################################################
-
-def sedml_to_python(input):
-    """ Convert sedml file to python code.
-
-    Deprecated: use sedmlToPython()
-
-    :param inputstring:
-    :type inputstring:
-    :return:
-    :rtype:
-    """
-    warnings.warn('Use sedmlToPython instead, will be removed in v1.4',
-                  DeprecationWarning, stacklevel=2)
-    return sedmlToPython(input)
-
-
-def sedmlToPython(inputStr):
-    """ Convert sedml file to python code.
-
-    :param inputstring: full path name to SedML model or SED-ML string
-    :type inputstring: path
-    :return: contents
-    :rtype:
-    """
-    # FIXME: allow working directories (! the model & input files must be changed)
-    factory = SEDMLCodeFactory(inputStr)
-    return factory.toPython()
-
-
-def executeSEDML(inputStr, workingDir=None):
-    """ Run a SED-ML file or archive.
-
-    If a workingDir is provided the files and results are written in the workingDir.
-
-    :param inputStr:
-    :type inputStr:
-    :return:
-    :rtype:
-    """
-    # execute the sedml
-    factory = SEDMLCodeFactory(inputStr, workingDir=workingDir)
-    factory.executePython()
-
-
-def executeOMEX(omexPath, workingDir=None):
-    """ LEGACY. Does not use libCombine.
-
-    Run all SED-ML simulations in given OMEX COMBINE archive.
-
-    TODO: Necessary to get results back.
-
-    :param omexPath: OMEX Combine archive
-    :type omexPath: path
-    :param workingDir: directory to extract archive to
-    :type workingDir: directory path
-
-    """
-    filename, extension = os.path.splitext(os.path.basename(omexPath))
-
-    # Archive
-    if zipfile.is_zipfile(omexPath):
-
-        # a directory is created in which the files are extracted
-        if workingDir is None:
-            extractDir = os.path.join(os.path.dirname(os.path.realpath(omexPath)), '_te_{}'.format(filename))
-        else:
-            extractDir = workingDir
-
-        # extract the archive to working directory
-        CombineArchive.extractArchive(omexPath, extractDir)
-        # get SEDML files from archive
-        sedmlFiles = CombineArchive.filePathsFromExtractedArchive(extractDir, filetype='sed-ml')
-
-        if len(sedmlFiles) == 0:
-            raise IOError("No SEDML files found in COMBINE archive: {}".format(omexPath))
-
-        dgs = {}
-        for sedmlFile in sedmlFiles:
-            factory = SEDMLCodeFactory(sedmlFile, workingDir=os.path.dirname(sedmlFile))
-            sedml_dgs = factory.executePython()
-            dgs[sedmlFile] = sedml_dgs
-        return dgs
-    else:
-        raise IOError("File is not an OMEX Combine Archive in zip format: {}".format(omexPath))
-
-
+    warnings.warn("Dependencies for SEDML code execution not fulfilled.")
+    print(traceback.format_exc())
 
 ######################################################################################################################
 # KISAO MAPPINGS
@@ -302,8 +231,123 @@ KISAOS_ALGORITHMPARAMETERS = {
     'KISAO:0000487': ('minimum_damping', float),  # [nleq] minimum damping value
     'KISAO:0000488': ('seed', int),  # the seed for stochastic runs of the algorithm
 }
+
+
+######################################################################################################################
+# Interface functions
+######################################################################################################################
+# The functions listed in this section are the only functions one should interact with this module.
+# We try to keep these back-wards compatible and keep the function signatures.
+#
+# All other function and class signatures can change.
 ######################################################################################################################
 
+def sedmlToPython(inputStr, workingDir=None):
+    """ Convert sedml file to python code.
+
+    :param inputStr: full path name to SedML model or SED-ML string
+    :type inputStr: path
+    :return: generated python code
+    """
+    factory = SEDMLCodeFactory(inputStr, workingDir=workingDir)
+    return factory.toPython()
+
+
+def executeSEDML(inputStr, workingDir=None):
+    """ Run a SED-ML file or combine archive with results.
+
+    If a workingDir is provided the files and results are written in the workingDir.
+
+    :param inputStr:
+    :type inputStr:
+    :return:
+    :rtype:
+    """
+    # execute the sedml
+    factory = SEDMLCodeFactory(inputStr, workingDir=workingDir)
+    factory.executePython()
+
+
+def combineArchiveToPython(omexPath):
+    """ All python code generated from given combine archive.
+
+    :param omexPath:
+    :return: dictionary of { sedml_location: pycode }
+    """
+    tmp_dir = tempfile.mkdtemp()
+    pycode = {}
+    try:
+        omex.extractCombineArchive(omexPath, directory=tmp_dir, method="zip")
+        locations = omex.getLocationsByFormat(omexPath, "sed-ml")
+        sedml_files = [os.path.join(tmp_dir, loc) for loc in locations]
+
+        for k, sedml_file in enumerate(sedml_files):
+            pystr = sedmlToPython(sedml_file)
+            pycode[locations[k]] = pystr
+
+    finally:
+        shutil.rmtree(tmp_dir)
+    return pycode
+
+
+def executeCombineArchive(omexPath, workingDir=None, printPython=True, createOutputs=True):
+    """ Run all SED-ML simulations in given COMBINE archive.
+
+    If no workingDir is provided execution is performed in temporary directory
+    which is cleaned afterwards.
+    The executed code can be printed via the 'printPython' flag.
+
+    :param omexPath: OMEX Combine archive
+    :param workingDir: directory to extract archive to
+    :param printPython: boolean switch to print executed python code
+    :param createOutputs: boolean flag if outputs should be created, i.e. reports and plots
+    :return dictionary of sedmlFile:data generators
+    """
+
+    # combine archives are zip format
+    if zipfile.is_zipfile(omexPath):
+        try:
+            tmp_dir = tempfile.mkdtemp()
+            if workingDir is None:
+                extractDir = tmp_dir
+            else:
+                if not os.path.exists(workingDir):
+                    raise IOError("workingDir does not exist, make sure to create the directoy: '{}'".format(workingDir))
+                extractDir = workingDir
+
+            # extract
+            omex.extractCombineArchive(omexPath=omexPath, directory=extractDir)
+
+            # get sedml locations by omex
+            sedml_locations = omex.getLocationsByFormat(omexPath=omexPath, formatKey="sed-ml")
+            if len(sedml_locations) == 0:
+                warnings.warn("No SED-ML files in COMBINE archive via entries, probably not listed in manifest: {}".format(omexPath))
+
+            # FIXME: lookup via the zip entries. Could be a zip file without manifest
+
+            # run all sedml files
+            results = {}
+            sedml_paths = [os.path.join(extractDir, loc) for loc in sedml_locations]
+            for sedmlFile in sedml_paths:
+                factory = SEDMLCodeFactory(sedmlFile,
+                                           workingDir=os.path.dirname(sedmlFile),
+                                           createOutputs=createOutputs)
+                if printPython:
+                    code = factory.toPython()
+                    print(code)
+
+                results[sedmlFile] = factory.executePython()
+
+            return results
+        finally:
+            shutil.rmtree(tmp_dir)
+    else:
+        if not os.path.exists(omexPath):
+            raise FileNotFoundError("File does not exist: {}".format(omexPath))
+        else:
+            raise IOError("File is not an OMEX Combine Archive in zip format: {}".format(omexPath))
+
+######################################################################################################################
 
 class SEDMLCodeFactory(object):
     """ Code Factory generating executable code."""
@@ -311,16 +355,21 @@ class SEDMLCodeFactory(object):
     # template location
     TEMPLATE_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'templates')
 
-    def __init__(self, inputStr, workingDir=None):
+    def __init__(self, inputStr, workingDir=None, createOutputs=True):
         """ Create CodeFactory for given input.
 
         :param inputStr:
-        :type inputStr:
+        :param workingDir:
+        :param createOutputs: if outputs should be created
+
         :return:
         :rtype:
         """
         self.inputStr = inputStr
         self.workingDir = workingDir
+        self.python = sys.version
+        self.platform = platform.platform()
+        self.createOutputs = createOutputs
         info = SEDMLTools.readSEDMLDocument(inputStr, workingDir)
         self.doc = info['doc']
         self.inputType = info['inputType']
@@ -366,7 +415,7 @@ class SEDMLCodeFactory(object):
         :rtype: str
         """
         # template environment
-        env = Environment(loader=FileSystemLoader(self.TEMPLATE_DIR),
+        env = jinja2.Environment(loader=jinja2.FileSystemLoader(self.TEMPLATE_DIR),
                           extensions=['jinja2.ext.autoescape'],
                           trim_blocks=True,
                           lstrip_blocks=True)
@@ -376,6 +425,7 @@ class SEDMLCodeFactory(object):
         #      env.filters[key] = getattr(sedmlfilters, key)
         template = env.get_template(python_template)
         env.globals['modelToPython'] = self.modelToPython
+        env.globals['dataDescriptionToPython'] = self.dataDescriptionToPython
         env.globals['taskToPython'] = self.taskToPython
         env.globals['dataGeneratorToPython'] = self.dataGeneratorToPython
         env.globals['outputToPython'] = self.outputToPython
@@ -402,26 +452,34 @@ class SEDMLCodeFactory(object):
 
         The python code is created during the function call.
         See :func:`createpython`
+
+        :return: returns dictionary of information with keys
         """
-        execStr = self.toPython()
-        import tempfile
+        result = {}
+        code = self.toPython()
+        result['code'] = code
+        result['platform'] = platform.platform()
+
+        # FIXME: better solution for exec traceback
         filename = os.path.join(tempfile.gettempdir(), 'te-generated-sedml.py')
+
         try:
             # Use of exec carries the usual security warnings
             symbols = {}
-            exec(compile(execStr, filename, 'exec'), symbols)
+            exec(compile(code, filename, 'exec'), symbols)
 
-            # return dictionary of data generators
+            # read information from exec symbols
             dg_data = {}
             for dg in self.doc.getListOfDataGenerators():
                 dg_id = dg.getId()
                 dg_data[dg_id] = symbols[dg_id]
-            return dg_data
+            result['dataGenerators'] = dg_data
+            return result
 
         except:
             # leak this tempfile just so we can see a full stack trace. freaking python.
             with open(filename, 'w') as f:
-                f.write(execStr)
+                f.write(code)
             raise
 
     def modelToPython(self, model):
@@ -437,6 +495,9 @@ class SEDMLCodeFactory(object):
         language = model.getLanguage()
         source = self.model_sources[mid]
 
+        if not language:
+            warnings.warn("No model language specified, defaulting to SBML for: {}".format(source))
+
         def isUrn():
             return source.startswith('urn') or source.startswith('URN')
 
@@ -444,7 +505,7 @@ class SEDMLCodeFactory(object):
             return source.startswith('http') or source.startswith('HTTP')
 
         # read SBML
-        if 'sbml' in language:
+        if 'sbml' in language or len(language) == 0:
             if isUrn():
                 lines.append("import tellurium.temiriam as temiriam")
                 lines.append("__{}_sbml = temiriam.getSBMLFromBiomodelsURN('{}')".format(mid, source))
@@ -452,18 +513,17 @@ class SEDMLCodeFactory(object):
             elif isHttp():
                 lines.append("{} = te.loadSBMLModel('{}')".format(mid, source))
             else:
-                if not source.endswith('.xml'):
-                    source = source + '.xml'
                 lines.append("{} = te.loadSBMLModel(os.path.join(workingDir, '{}'))".format(mid, source))
         # read CellML
         elif 'cellml' in language:
+            warnings.warn("CellML model encountered. Tellurium CellML support is very limited.".format(language))
             if isHttp():
                 lines.append("{} = te.loadCellMLModel('{}')".format(mid, source))
             else:
                 lines.append("{} = te.loadCellMLModel(os.path.join(workingDir, '{}'))".format(mid, self.model_sources[mid]))
         # other
         else:
-            warnings.warn("Unsupported model language:".format(language))
+            warnings.warn("Unsupported model language: '{}'.".format(language))
 
         # apply model changes
         for change in self.model_changes[mid]:
@@ -524,6 +584,36 @@ class SEDMLCodeFactory(object):
             warnings.warn("Unsupported change: {}".format(change.getElementName()))
 
         return lines
+
+
+    def dataDescriptionToPython(self, dataDescription):
+        """ Python code for DataDescription.
+
+        :param dataDescription: SedModel instance
+        :type dataDescription: DataDescription
+        :return: python str
+        :rtype: str
+        """
+        lines = []
+
+        from tellurium.sedml.data import DataDescriptionParser
+        data_sources = DataDescriptionParser.parse(dataDescription, self.workingDir)
+
+        def data_to_string(data):
+            info = np.array2string(data)
+            info = info.replace('\n', ', ').replace('\r', '')
+            return info
+
+        for sid, data in data_sources.items():
+            # handle the 1D shapes
+            if len(data.shape) == 1:
+                data = np.reshape(data, (data.shape[0], 1))
+
+            array_str = data_to_string(data)
+            lines.append("{} = np.array({})".format(sid, array_str))
+
+        return '\n'.join(lines)
+
 
     ################################################################################################
     # Here the main work is done,
@@ -779,6 +869,7 @@ class SEDMLCodeFactory(object):
 
         # is supported algorithm
         if not SEDMLCodeFactory.isSupportedAlgorithmForSimulationType(kisao=kisao, simType=simType):
+            warnings.warn("Algorithm {} unsupported for simulation {} type {} in task {}".format(kisao, simulation.getId(), simType, task.getId()))
             lines.append("# Unsupported Algorithm {} for SimulationType {}".format(kisao, simulation.getElementName()))
             return lines
 
@@ -805,20 +896,22 @@ class SEDMLCodeFactory(object):
         # integrator/solver settings (AlgorithmParameters)
         for par in algorithm.getListOfAlgorithmParameters():
             pkey = SEDMLCodeFactory.algorithmParameterToParameterKey(par)
-            if pkey.dtype is str:
-                value = "'{}'".format(pkey.value)
-            else:
-                value = pkey.value
+            # only set supported algorithm paramters
+            if pkey:
+                if pkey.dtype is str:
+                    value = "'{}'".format(pkey.value)
+                else:
+                    value = pkey.value
 
-            if value == str('inf') or pkey.value == float('inf'):
-                value = "float('inf')"
-            else:
-                pass
+                if value == str('inf') or pkey.value == float('inf'):
+                    value = "float('inf')"
+                else:
+                    pass
 
-            if simType is libsedml.SEDML_SIMULATION_STEADYSTATE:
-                lines.append("{}.steadyStateSolver.setValue('{}', {})".format(mid, pkey.key, value))
-            else:
-                lines.append("{}.integrator.setValue('{}', {})".format(mid, pkey.key, value))
+                if simType is libsedml.SEDML_SIMULATION_STEADYSTATE:
+                    lines.append("{}.steadyStateSolver.setValue('{}', {})".format(mid, pkey.key, value))
+                else:
+                    lines.append("{}.integrator.setValue('{}', {})".format(mid, pkey.key, value))
 
         if simType is libsedml.SEDML_SIMULATION_STEADYSTATE:
             lines.append("if {model}.conservedMoietyAnalysis == False: {model}.conservedMoietyAnalysis = True".format(model=mid))
@@ -1262,13 +1355,12 @@ class SEDMLCodeFactory(object):
             return Target(getId(xpath), 'other')
         # cannot be parsed
         else:
-            warnings.warn("Unsupported target: {}".format(xpath))
-            return None
+            raise ValueError("Unsupported target in xpath: {}".format(xpath))
 
 
     @staticmethod
     def dataGeneratorToPython(doc, generator):
-        """ Create variable from the data generators and the simulations.
+        """ Create variable from the data generators and the simulation results and data sources.
 
             The data of repeatedTasks is handled differently depending
             on if reset=True or reset=False.
@@ -1294,38 +1386,50 @@ class SEDMLCodeFactory(object):
             varId = var.getId()
             taskId = var.getTaskReference()
             task = doc.getTask(taskId)
-            modelId = task.getModelReference()
 
-            selection = SEDMLCodeFactory.selectionFromVariable(var, modelId)
-            isTime = False
-            if selection.type == "symbol" and selection.id == "time":
-                isTime = True
+            # simulation data
+            if task is not None:
+                modelId = task.getModelReference()
 
-            resetModel = True
-            if task.getTypeCode() == libsedml.SEDML_TASK_REPEATEDTASK:
-                resetModel = task.getResetModel()
+                selection = SEDMLCodeFactory.selectionFromVariable(var, modelId)
+                isTime = False
+                if selection.type == "symbol" and selection.id == "time":
+                    isTime = True
 
-            sid = selection.id
-            if selection.type == "concentration":
-                sid = "[{}]".format(selection.id)
+                resetModel = True
+                if task.getTypeCode() == libsedml.SEDML_TASK_REPEATEDTASK:
+                    resetModel = task.getResetModel()
 
-            # Series of curves
-            if resetModel is True:
-                # If each entry in the task consists of a single point (e.g. steady state scan)
-                # , concatenate the points. Otherwise, plot as separate curves.
-                lines.append("__var__{} = np.concatenate([process_trace(sim['{}']) for sim in {}])".format(varId, sid, taskId))
-            else:
-                # One curve via time adjusted concatenate
-                if isTime is True:
-                    lines.append("__offsets__{} = np.cumsum(np.array([sim['{}'][-1] for sim in {}]))".format(taskId, sid, taskId))
-                    lines.append("__offsets__{} = np.insert(__offsets__{}, 0, 0)".format(taskId, taskId))
-                    lines.append("__var__{} = np.transpose(np.array([sim['{}']+__offsets__{}[k] for k, sim in enumerate({})]))".format(varId, sid, taskId, taskId))
-                    lines.append("__var__{} = np.concatenate(np.transpose(__var__{}))".format(varId, varId))
+                sid = selection.id
+                if selection.type == "concentration":
+                    sid = "[{}]".format(selection.id)
+
+                # Series of curves
+                if resetModel is True:
+                    # If each entry in the task consists of a single point (e.g. steady state scan)
+                    # , concatenate the points. Otherwise, plot as separate curves.
+                    lines.append("__var__{} = np.concatenate([process_trace(sim['{}']) for sim in {}])".format(varId, sid, taskId))
                 else:
-                    lines.append("__var__{} = np.transpose(np.array([sim['{}'] for sim in {}]))".format(varId, sid, taskId))
-                    lines.append("__var__{} = np.concatenate(np.transpose(__var__{}))".format(varId, varId))
-            lines.append("if len(__var__{}.shape) == 1:".format(varId))
-            lines.append("     __var__{}.shape += (1,)".format(varId))
+                    # One curve via time adjusted concatenate
+                    if isTime is True:
+                        lines.append("__offsets__{} = np.cumsum(np.array([sim['{}'][-1] for sim in {}]))".format(taskId, sid, taskId))
+                        lines.append("__offsets__{} = np.insert(__offsets__{}, 0, 0)".format(taskId, taskId))
+                        lines.append("__var__{} = np.transpose(np.array([sim['{}']+__offsets__{}[k] for k, sim in enumerate({})]))".format(varId, sid, taskId, taskId))
+                        lines.append("__var__{} = np.concatenate(np.transpose(__var__{}))".format(varId, varId))
+                    else:
+                        lines.append("__var__{} = np.transpose(np.array([sim['{}'] for sim in {}]))".format(varId, sid, taskId))
+                        lines.append("__var__{} = np.concatenate(np.transpose(__var__{}))".format(varId, varId))
+                lines.append("if len(__var__{}.shape) == 1:".format(varId))
+                lines.append("     __var__{}.shape += (1,)".format(varId))
+
+            # check for data sources
+            else:
+                target = var.getTarget()
+                if target.startswith('#'):
+                    sid = target[1:]
+                    lines.append("__var__{} = {}".format(varId, sid))
+                else:
+                    warnings.warn("Unknown target in variable, no reference to SId: {}".format(target))
 
         # calculate data generator
         value = evaluableMathML(mathml, variables=variables, array=True)
@@ -1431,6 +1535,7 @@ class SEDMLCodeFactory(object):
             title = output.getName()
 
         lines.append("stacked=False")
+        # stacking, currently disabled
         # for kc, curve in enumerate(output.getListOfCurves()):
         #     xId = curve.getXDataReference()
         #     lines.append("if {}.shape[1] > 1 and te.getDefaultPlottingEngine() == 'plotly':".format(xId))
@@ -1439,10 +1544,6 @@ class SEDMLCodeFactory(object):
         lines.append("    fig = te.getPlottingEngine().newFigure(title='{}')".format(title))
         lines.append("else:")
         lines.append("    fig = te.getPlottingEngine().newStackedFigure(title='{}')".format(title))
-        # lines.append("plt.figure(num=None, figsize={}, dpi={}, facecolor='{}', edgecolor='{}')".format(settings.figsize, settings.dpi, settings.facecolor, settings.edgecolor))
-        # lines.append("from matplotlib import gridspec")
-        # lines.append("__gs = gridspec.GridSpec(1, 2, width_ratios=[3, 1])")
-        # lines.append("plt.subplot(__gs[0])")
 
         oneXLabel = True
         allXLabel = None
@@ -1471,38 +1572,26 @@ class SEDMLCodeFactory(object):
             elif xLabel != allXLabel:
                 oneXLabel = False
 
-            lines.append("if {}.shape[1] > 1:".format(xId))
-            lines.append("    for k in range({}.shape[1]):".format(xId))
-            lines.append("        if k == 0:")
-            lines.append("            fig.addXYDataset({}[:,k], {}[:,k], color='{}', tag='{}', name='{}')".format(xId, yId, color, tag, yLabel))
-            lines.append("        else:")
-            lines.append("            fig.addXYDataset({}[:,k], {}[:,k], color='{}', tag='{}')".format(xId, yId, color, tag))
+            #lines.append("if {}.shape[1] > 1:".format(xId))
+            lines.append("for k in range({}.shape[1]):".format(xId))
+            lines.append("    if k == 0:")
+            lines.append("        extra_args = {{'name': '{}'}}".format(yLabel))
+            lines.append("    else:")
+            lines.append("        extra_args = {{}}")
+            lines.append("    fig.addXYDataset({}[:,k], {}[:,k], color='{}', tag='{}', **extra_args)".format(xId, yId, color, tag))
+            lines.append("    fix_endpoints({}[:,k], {}[:,k], color='{}', tag='{}', fig=fig)".format(xId, yId, color, tag))
 
-            lines.append("else:".format(xId))
-            lines.append("    for k in range({}.shape[1]):".format(xId))
-            lines.append("        if k == 0:")
-            lines.append("            fig.addXYDataset({}[:,k], {}[:,k], color='{}', tag='{}', name='{}')".format(xId, yId, color, tag, yLabel))
-            # lines.append("        plt.plot({}[:,k], {}[:,k], marker = '{}', color='{}', linewidth={}, markersize={}, alpha={}, label='{}')".format(xId, yId, settings.marker, color, settings.linewidth, settings.markersize, settings.alpha, yLabel))
-            lines.append("        else:")
-            lines.append("            fig.addXYDataset({}[:,k], {}[:,k], color='{}', tag='{}')".format(xId, yId, color, tag))
-            # lines.append("        plt.plot({}[:,k], {}[:,k], marker = '{}', color='{}', linewidth={}, markersize={}, alpha={})".format(xId, yId, settings.marker, color, settings.linewidth, settings.markersize, settings.alpha))
+            #lines.append("else:".format(xId))
+            #lines.append("    for k in range({}.shape[1]):".format(xId))
+            #lines.append("        if k == 0:")
+            #lines.append("            fig.addXYDataset({}[:,k], {}[:,k], color='{}', tag='{}', name='{}')".format(xId, yId, color, tag, yLabel))
+            ## support marker size?
+            ## lines.append("        plt.plot({}[:,k], {}[:,k], marker = '{}', color='{}', linewidth={}, markersize={}, alpha={}, label='{}')".format(xId, yId, settings.marker, color, settings.linewidth, settings.markersize, settings.alpha, yLabel))
+            #lines.append("        else:")
+            #lines.append("            fig.addXYDataset({}[:,k], {}[:,k], color='{}', tag='{}')".format(xId, yId, color, tag))
 
-            # if logX is True:
-            #     lines.append("plt.xscale('log')")
-            # if logY is True:
-            #     lines.append("plt.yscale('log')")
-        # lines.append("plt.title('{}', fontweight='bold')".format(title))
-        # if oneXLabel:
-        #     lines.append("plt.xlabel('{}', fontweight='bold')".format(xLabel))
-        # if len(output.getListOfCurves()) == 1:
-        #     lines.append("plt.ylabel('{}', fontweight='bold')".format(yLabel))
-        #
-        # lines.append("__lg = plt.legend(bbox_to_anchor=(1.05, 1), loc=2, borderaxespad=0.)")
-        # lines.append("__lg.draw_frame(False)")
-        # lines.append("plt.setp(__lg.get_texts(), fontsize='small')")
-        # lines.append("plt.setp(__lg.get_texts(), fontweight='bold')")
-        # lines.append("plt.savefig(os.path.join(workingDir, '{}.png'), dpi=100)".format(output.getId()))
-        # lines.append("plt.show()".format())
+            # TODO: Log X/Y
+        # TODO: X/Y labels from xLabel (if oneXLabel) and yLabel
         lines.append("fig.render()".format())
 
         return lines
@@ -1612,18 +1701,21 @@ class SEDMLTools(object):
         :param doc:
         :type doc:
         """
+        errorlog = doc.getErrorLog()
+        msg = errorlog.toString()
         if doc.getErrorLog().getNumFailsWithSeverity(libsedml.LIBSEDML_SEV_ERROR) > 0:
-            print(libsedml.writeSedMLToString(doc))
-            raise IOError(doc.getErrorLog().toString())
-        if doc.getErrorLog().getNumFailsWithSeverity(libsedml.LIBSEDML_SEV_FATAL) > 0:
-            print(libsedml.writeSedMLToString(doc))
-            raise IOError(doc.getErrorLog().toString())
-        if doc.getErrorLog().getNumFailsWithSeverity(libsedml.LIBSEDML_SEV_WARNING) > 0:
-            warnings.warn(doc.getErrorLog().toString())
-        if doc.getErrorLog().getNumFailsWithSeverity(libsedml.LIBSEDML_SEV_SCHEMA_ERROR) > 0:
-            warnings.warn(doc.getErrorLog().toString())
-        if doc.getErrorLog().getNumFailsWithSeverity(libsedml.LIBSEDML_SEV_GENERAL_WARNING) > 0:
-            warnings.warn(doc.getErrorLog().toString())
+            # FIXME: workaround for https://github.com/fbergmann/libSEDML/issues/47
+            warnings.warn(msg)
+            # raise IOError(msg)
+        if errorlog.getNumFailsWithSeverity(libsedml.LIBSEDML_SEV_FATAL) > 0:
+            # raise IOError(msg)
+            warnings.warn(msg)
+        if errorlog.getNumFailsWithSeverity(libsedml.LIBSEDML_SEV_WARNING) > 0:
+            warnings.warn(msg)
+        if errorlog.getNumFailsWithSeverity(libsedml.LIBSEDML_SEV_SCHEMA_ERROR) > 0:
+            warnings.warn(msg)
+        if errorlog.getNumFailsWithSeverity(libsedml.LIBSEDML_SEV_GENERAL_WARNING) > 0:
+            warnings.warn(msg)
 
     @classmethod
     def readSEDMLDocument(cls, inputStr, workingDir):
@@ -1664,6 +1756,8 @@ class SEDMLTools(object):
                 else:
                     extractDir = workingDir
 
+
+                # TODO: refactor this
                 # extract the archive to working directory
                 CombineArchive.extractArchive(omexPath, extractDir)
                 # get SEDML files from archive
@@ -1755,29 +1849,49 @@ class SEDMLTools(object):
 
         return model_sources, all_changes
 
+
+'''
+The following functions all manipulate the DataGenenerators which 
+breaks many things !!! 
+These should be used as preprocessing before plotting, but NOT CHANGE
+values or length of DataGenerator variables.
+
+MK: cannot fix this until I did not understand how the plots are generated
+for plotly.
+'''
+
+
 def process_trace(trace):
     """ If each entry in the task consists of a single point
     (e.g. steady state scan), concatenate the points.
     Otherwise, plot as separate curves."""
+    warnings.warn("don't use this", DeprecationWarning)
     # print('trace.size = {}'.format(trace.size))
     # print('len(trace.shape) = {}'.format(len(trace.shape)))
     if trace.size > 1:
+        # FIXME: this adds a nan at the end of the data. This is a bug.
         if len(trace.shape) == 1:
-            return np.concatenate((np.atleast_1d(trace), np.atleast_1d(np.nan)))
+            # return np.concatenate((np.atleast_1d(trace), np.atleast_1d(np.nan)))
+            return np.atleast_1d(trace)
+
         elif len(trace.shape) == 2:
+            #print('2d trace')
             # print(trace.shape)
-            result = np.vstack((np.atleast_1d(trace), np.full((1,trace.shape[-1]),np.nan)))
-            # print('vstack')
-            # print(result)
+            # FIXME: this adds a nan at the end of the data. This is a bug.
+            # result = np.vstack((np.atleast_1d(trace), np.full((1,trace.shape[-1]),np.nan)))
+            result = np.vstack((np.atleast_1d(trace), np.full((1, trace.shape[-1]))))
             return result
     else:
         return np.atleast_1d(trace)
+
 
 def terminate_trace(trace):
     """ If each entry in the task consists of a single point
     (e.g. steady state scan), concatenate the points.
     Otherwise, plot as separate curves."""
-    if isinstance(trace,list):
+    warnings.warn("don't use this", DeprecationWarning)
+
+    if isinstance(trace, list):
         if len(trace) > 0 and not isinstance(trace[-1], list) and not isinstance(trace[-1], dict):
             # if len(trace) > 2 and isinstance(trace[-1], dict):
             # e = np.array(trace[-1], copy=True)
@@ -1789,10 +1903,55 @@ def terminate_trace(trace):
             return trace + [e]
     return trace
 
+
+def fix_endpoints(x, y, color, tag, fig):
+    """ Adds endpoint markers wherever there is a discontinuity in the data."""
+    warnings.warn("don't use this", DeprecationWarning)
+    # expect x and y to be 1d
+    if len(x.shape) > 1:
+        raise RuntimeError('Expected x to be 1d')
+    if len(y.shape) > 1:
+        raise RuntimeError('Expected y to be 1d')
+    x_aug = np.concatenate((np.atleast_1d(np.nan), np.atleast_1d(x), np.atleast_1d(np.nan)))
+    y_aug = np.concatenate((np.atleast_1d(np.nan), np.atleast_1d(y), np.atleast_1d(np.nan)))
+    w = np.argwhere(np.isnan(x_aug))
+
+    endpoints_x = []
+    endpoints_y = []
+
+    for begin,end in ( (int(w[k]+1), int(w[k+1])) for k in range(w.shape[0]-1) ):
+        if begin != end:
+            #print('begin {}, end {}'.format(begin, end))
+            x_values = x_aug[begin:end]
+            x_identical = np.all(x_values == x_values[0])
+            y_values = y_aug[begin:end]
+            y_identical = np.all(y_values == y_values[0])
+            #print('x_values')
+            #print(x_values)
+            #print('x identical? {}'.format(x_identical))
+            #print('y_values')
+            #print(y_values)
+            #print('y identical? {}'.format(y_identical))
+
+            if x_identical and y_identical:
+                # get the coords for the new markers
+                x_begin = x_values[0]
+                x_end   = x_values[-1]
+                y_begin = y_values[0]
+                y_end   = y_values[-1]
+
+                # append to the lists
+                endpoints_x += [x_begin, x_end]
+                endpoints_y += [y_begin, y_end]
+
+        if endpoints_x:
+            fig.addXYDataset(np.array(endpoints_x), np.array(endpoints_y), color=color, tag=tag, mode='markers')
+
+
 ##################################################################################################
 if __name__ == "__main__":
     import os
-    from tellurium.tests.testdata import sedmlDir, sedxDir
+    from tellurium.tests.testdata import SEDML_TEST_DIR, OMEX_TEST_DIR
     import matplotlib
 
     def testInput(sedmlInput):
@@ -1814,11 +1973,11 @@ if __name__ == "__main__":
     # testInput(os.path.join(sedmlDir, "sedMLBIOM21.sedml"))
 
     # Check sed-ml files
-    for fname in sorted(os.listdir(sedmlDir)):
+    for fname in sorted(os.listdir(SEDML_TEST_DIR)):
         if fname.endswith(".sedml"):
-            testInput(os.path.join(sedmlDir, fname))
+            testInput(os.path.join(SEDML_TEST_DIR, fname))
 
     # Check sedx archives
-    for fname in sorted(os.listdir(sedxDir)):
+    for fname in sorted(os.listdir(OMEX_TEST_DIR)):
         if fname.endswith(".sedx"):
-            testInput(os.path.join(sedxDir, fname))
+            testInput(os.path.join(OMEX_TEST_DIR, fname))

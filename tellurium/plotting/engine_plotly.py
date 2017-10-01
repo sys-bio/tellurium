@@ -1,10 +1,16 @@
-from __future__ import print_function, division, absolute_import
+"""
+Plotly implementation of the plotting engine.
+"""
+from __future__ import print_function, absolute_import
 
 from .engine import PlottingEngine, PlottingFigure, PlottingLayout, filterWithSelections
-import plotly, numpy as np
+import numpy as np
+import plotly
 from plotly.graph_objs import Scatter, Scatter3d, Layout, Data
 
+
 class PlotlyFigure(PlottingFigure):
+    """ PlotlyFigure. """
     def __init__(self, title=None, layout=PlottingLayout(), logx=False, logy=False, save_to_pdf=False, xtitle=None, ytitle=None):
         self.initialize(title=title, layout=layout, logx=logx, xtitle=xtitle, logy=logy, ytitle=ytitle)
 
@@ -43,10 +49,14 @@ class PlotlyFigure(PlottingFigure):
                 kwargs['showlegend'] = False
             if 'alpha' in dataset and dataset['alpha'] is not None:
                 kwargs['opacity'] = dataset['alpha']
+            # lines/markers (lines by default)
+            if 'mode' in dataset and dataset['mode'] is not None:
+                kwargs['mode'] = dataset['mode']
+            else:
+                kwargs['mode'] = 'lines'
             traces.append(Scatter(
                 x = dataset['x'],
                 y = dataset['y'],
-                mode = 'lines',
                 **kwargs
             ))
 
@@ -55,6 +65,7 @@ class PlotlyFigure(PlottingFigure):
             'data': data,
             'layout': self.makeLayout()
         })
+
 
 class PlotlyStackedFigure(PlotlyFigure):
     def __init__(self, title=None, layout=PlottingLayout(), logx=False, logy=False):
@@ -87,6 +98,7 @@ class PlotlyStackedFigure(PlotlyFigure):
             'data': data,
             'layout': self.makeLayout()
         })
+
 
 class PlotlyPlottingEngine(PlottingEngine):
     def __init__(self, save_to_pdf=False):

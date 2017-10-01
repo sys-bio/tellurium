@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sedML level="1" version="3" xmlns="http://sed-ml.org/sed-ml/level1/version3">
+  <listOfDataDescriptions>
+    <dataDescription id="data_tsv" name="Oscli Time Course Data (TSV)" source="./oscli.tsv" format="urn:sedml:format:tsv">
+      <dimensionDescription>
+        <compositeDescription indexType="double" id="index" name="index" xmlns="http://www.numl.org/numl/level1/version1">
+          <compositeDescription indexType="string" id="ColumnIds" name="ColumnIds">
+            <atomicDescription valueType="double" name="Values" />
+          </compositeDescription>
+        </compositeDescription>
+      </dimensionDescription>
+      <listOfDataSources>
+        <dataSource id="dataTime">
+          <listOfSlices>
+            <slice reference="ColumnIds" value="time" />
+          </listOfSlices>
+        </dataSource>
+        <dataSource id="dataS1">
+          <listOfSlices>
+            <slice reference="ColumnIds" value="S1" />
+          </listOfSlices>
+        </dataSource>
+      </listOfDataSources>
+    </dataDescription>
+  </listOfDataDescriptions>
+</sedML>

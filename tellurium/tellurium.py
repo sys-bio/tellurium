@@ -1,43 +1,41 @@
 """
+Main tellurium entry point.
+
 The module tellurium provides support routines.
 As part of this module an ExendedRoadRunner class is defined which provides helper methods for
 model export, plotting or the Jarnac compatibility layer.
 """
+
+##############################################
+# Core imports
+##############################################
+
 from __future__ import print_function, division, absolute_import
 
-import random
-import os
 import sys
+import os
+import random
 import warnings
 import importlib
 import json
-
-# NOTE: not needed since we now require matplotlib >= 2.0.0
-# check availability of property cycler (matplotlib 1.5ish)
-# if True: # create dummy scope
-#     import matplotlib
-#     import matplotlib.pyplot as plt
-#
-#     print(dir(matplotlib))
-#     fig = matplotlib.figure.Figure()
-#     ax = fig.add_axes()
-#     if not hasattr(ax, 'set_prop_cycle'):
-#         warnings.warn("Your copy of matplotlib does not support color cycle control. Falling back to 'Picasso' mode. Please update to matplotlib 1.5 or later if you don't like modern art.")
+import numpy as np
+import antimony
+import matplotlib
 
 __default_plotting_engine = 'matplotlib'
 
+# enable fixes for Spyder (no Plotly support, no Agg support)
+SPYDER = False
 if any('SPYDER' in name for name in os.environ):
     SPYDER = True
-else:
-    SPYDER = False
 
-import antimony
-import matplotlib
 if not SPYDER:
     matplotlib.use('Agg')
-import matplotlib.pyplot as plt
-import numpy as np
-from numpy.linalg import svd
+
+
+##############################################
+# Ipython helpers
+##############################################
 
 # determine if we're running in IPython
 __in_ipython = True
@@ -57,17 +55,26 @@ if not SPYDER:
     except:
         __in_ipython = False
 
+
 def inIPython():
-    """ Returns true if tellurium is being using in
+    """ Checks if tellurium is used in IPython.
+
+    Returns true if tellurium is being using in
     an IPython environment, false otherwise.
+    :return: boolean
     """
     global __in_ipython
     return __in_ipython
 
+
 def getDefaultPlottingEngine():
-    """ Get the default plotting engine. Can be 'matplotlib' or 'plotly'."""
+    """ Get the default plotting engine.
+    Options are 'matplotlib' or 'plotly'.
+    :return:
+    """
     global __default_plotting_engine
     return __default_plotting_engine
+
 
 def setDefaultPlottingEngine(value):
     """ Set the default plotting engine. Overrides current value.
@@ -77,54 +84,71 @@ def setDefaultPlottingEngine(value):
     global __default_plotting_engine
     __default_plotting_engine = value
 
-__save_plots_to_pdf = False
+
+__save_plots_to_pdf = False  # flag which decides if plotted to pdf
+
+
 def setSavePlotsToPDF(value):
-    """Sets whether plots should be saved to PDF"""
+    """ Sets whether plots should be saved to PDF. """
     global __save_plots_to_pdf
     __save_plots_to_pdf = value
 
+
+##############################################
+# Plotting helpers
+##############################################
 import matplotlib.pyplot as plt
 
 # make this the default style for matplotlib
 # plt.style.use('fivethirtyeight')
 
-from .plotting import getPlottingEngineFactory as __getPlottingEngineFactory, plot
+from .plotting import getPlottingEngineFactory as __getPlottingEngineFactory, plot, show
 
-def getPlottingEngineFactory(engine=getDefaultPlottingEngine()):
+
+def getPlottingEngineFactory(engine=None):
     global __save_plots_to_pdf
+    if engine is None:
+        engine = getDefaultPlottingEngine()
     factory = __getPlottingEngineFactory(engine)
     factory.save_plots_to_pdf = __save_plots_to_pdf
     return factory
 
+
 __plotting_engines = {}
-def getPlottingEngine(engine=getDefaultPlottingEngine()):
+
+
+def getPlottingEngine(engine=None):
     global __plotting_engines
+    if engine is None:
+        engine = getDefaultPlottingEngine()
     if not engine in __plotting_engines:
         __plotting_engines[engine] = getPlottingEngineFactory(engine)()
     return __plotting_engines[engine]
 
+
 getPlottingEngineFactory.__doc__ = __getPlottingEngineFactory.__doc__
 
+
+##############################################
+# Remaining imports
+##############################################
 import roadrunner
 
 try:
     import tesedml as libsedml
-    # import libsedml before libsbml to handle
-    # https://github.com/fbergmann/libSEDML/issues/21
 except ImportError as e:
-    libsedml = None
-    roadrunner.Logger.log(roadrunner.Logger.LOG_WARNING, str(e))
-    warnings.warn("'libsedml' could not be imported", ImportWarning, stacklevel=2)
+    try:
+        import libsedml
+    except ImportError:
+        libsedml = None
+        roadrunner.Logger.log(roadrunner.Logger.LOG_WARNING, str(e))
+        warnings.warn("'libsedml' could not be imported", ImportWarning, stacklevel=2)
 
 try:
-    import tesbml as libsbml
-    # try to deactivate the libsbml timestamp if possible
-    # see discussion https://groups.google.com/forum/?utm_medium=email&utm_source=footer#!msg/libsbml-development/Yy78LSwOHzU/9t5PcpD2AAAJ
-    # try:
-    #     libsbml.XMLOutputStream.setWriteTimestamp(False)
-    # except AttributeError:
-    #     warnings.warn("'libsbml' timestamps can not be deactivated in this libsbml version", ImportWarning, stacklevel=2)
-
+    try:
+        import tesbml as libsbml
+    except ImportError:
+        import libsbml
 except ImportError as e:
     libsbml = None
     roadrunner.Logger.log(roadrunner.Logger.LOG_WARNING, str(e))
@@ -141,8 +165,7 @@ try:
     import sbol
 except ImportError as e:
     sbol = None
-    roadrunner.Logger.log(roadrunner.Logger.LOG_WARNING, str(e))
-    warnings.warn("'pySBOL' could not be imported", ImportWarning, stacklevel=2)
+    warnings.warn("'pySBOL' could not be imported, cannot import/export SBOL files", ImportWarning, stacklevel=2)
 
 try:
     from sbml2matlab import sbml2matlab
@@ -152,6 +175,7 @@ except ImportError as e:
     warnings.warn("'sbml2matlab' could not be imported", ImportWarning)
 
 from . import teconverters
+
 
 # ---------------------------------------------------------------------
 # Group: Utility
@@ -174,7 +198,7 @@ def getVersionInfo():
     if phrasedml:
         versions.append(('phrasedml', phrasedml.__version__))
     if sbol:
-        versions.append(('pySBOL', sbol.__version__))        
+        versions.append(('pySBOL', sbol.__version__))
     return versions
 
 
@@ -218,8 +242,8 @@ def noticesOn():
     See also :func:`noticesOff`
     """
     roadrunner.Logger.setLevel(roadrunner.Logger.LOG_NOTICE)
-	
-    
+
+
 # ---------------------------------------------------------------------
 # Group: Loading Models
 # ---------------------------------------------------------------------
@@ -464,12 +488,12 @@ def loada(ant):
     See also: :func:`loadAntimonyModel`
     ::
 
-        r = te.loada('S1 -> S2; k1*S1; k1 = 0.1; S2 = 10')
+        r = te.loada('S1 -> S2; k1*S1; k1=0.1; S1=10.0; S2 = 0.0')
 
     :param ant: Antimony model
     :type ant: str | file
     :returns: RoadRunner instance with model loaded
-    :rtype: roadrunner.RoadRunner
+    :rtype: roadrunner.ExtendedRoadRunner
     """
     return loadAntimonyModel(ant)
 
@@ -478,11 +502,14 @@ def loadAntimonyModel(ant):
     """Load Antimony model with tellurium.
 
     See also: :func:`loada`
+    ::
+
+        r = te.loadAntimonyModel('S1 -> S2; k1*S1; k1=0.1; S1=10.0; S2 = 0.0')
 
     :param ant: Antimony model
     :type ant: str | file
     :returns: RoadRunner instance with model loaded
-    :rtype: roadrunner.RoadRunner
+    :rtype: roadrunner.ExtendedRoadRunner
     """
     sbml = antimonyToSBML(ant)
     return roadrunner.RoadRunner(sbml)
@@ -496,7 +523,7 @@ def loads(ant):
     :param ant: SBML model
     :type ant: str | file
     :returns: RoadRunner instance with model loaded
-    :rtype: roadrunner.RoadRunner
+    :rtype: roadrunner.ExtendedRoadRunner
     """
     return loadSBMLModel(ant)
 
@@ -507,7 +534,7 @@ def loadSBMLModel(sbml):
     :param sbml: SBML model
     :type sbml: str | file
     :returns: RoadRunner instance with model loaded
-    :rtype: roadrunner.RoadRunner
+    :rtype: roadrunner.ExtendedRoadRunner
     """
     return roadrunner.RoadRunner(sbml)
 
@@ -518,7 +545,7 @@ def loadCellMLModel(cellml):
     :param cellml: CellML model
     :type cellml: str | file
     :returns: RoadRunner instance with model loaded
-    :rtype: roadrunner.RoadRunner
+    :rtype: roadrunner.ExtendedRoadRunner
     """
     sbml = cellmlToSBML(cellml)
     return roadrunner.RoadRunner(sbml)
@@ -576,10 +603,15 @@ def sbmlToAntimony(sbml):
     :return: Antimony
     :rtype: str
     """
-    if os.path.isfile(sbml):
+    isfile = False
+    try:
+        isfile = os.path.isfile(sbml)
+    except:
+        pass
+    if isfile:
         code = antimony.loadSBMLFile(sbml)
     else:
-        code = antimony.loadSBMLString(sbml)
+        code = antimony.loadSBMLString(str(sbml))
     _checkAntimonyReturnCode(code)
     return antimony.getAntimonyString(None)
 
@@ -631,23 +663,26 @@ def cellmlToSBML(cellml):
     return antimony.getSBMLString(None)
 
 def exportInlineOmex(inline_omex, export_location):
-    """ Execute inline phrasedml and antimony.
+    """ Export an inline OMEX string to a COMBINE archive.
 
-    :param inline_omex: String containing inline phrasedml and antimony.
-    :param export_location: Filepath of Combine archive to export
+    :param inline_omex: String containing inline OMEX describing models and simulations.
+    :param export_location: Filepath of Combine archive to create.
     """
     from .teconverters import saveInlineOMEX
     saveInlineOMEX(inline_omex, export_location)
+
 
 def executeInlineOmex(inline_omex):
     """ Execute inline phrasedml and antimony.
 
     :param inline_omex: String containing inline phrasedml and antimony.
     """
-    omex = teconverters.inlineOmex.fromString(inline_omex).executeOmex()
+    in_omex = teconverters.inlineOmex.fromString(inline_omex)
+    in_omex.executeOmex()
+
 
 def executeInlineOmexFromFile(filepath):
-    """ Execute inline phrasedml and antimony.
+    """ Execute inline OMEX with simulations described in phrasedml and models described in antimony.
 
     :param filepath: Path to file containing inline phrasedml and antimony.
     """
@@ -655,7 +690,7 @@ def executeInlineOmexFromFile(filepath):
         executeInlineOmex(f.read())
 
 def convertCombineArchive(location):
-    """ Read a Combine archive and convert its contents to an
+    """ Read a COMBINE archive and convert its contents to an
     inline Omex.
 
     :param location: Filesystem path to the archive.
@@ -664,7 +699,7 @@ def convertCombineArchive(location):
     return inlineOmexImporter.fromFile(location).toInlineOmex()
 
 def convertAndExecuteCombineArchive(location):
-    """ Read and execute a combine archive.
+    """ Read and execute a COMBINE archive.
 
     :param location: Filesystem path to the archive.
     """
@@ -675,6 +710,8 @@ def convertAndExecuteCombineArchive(location):
 def extractFileFromCombineArchive(archive_path, entry_location):
     """ Extract a single file from a COMBINE archive and return it as a string.
     """
+    warnings.warn('Use libcombine instead.', DeprecationWarning)
+    # TODO: port this function
     import tecombine
     archive = tecombine.CombineArchive()
     if not archive.initializeFromArchive(archive_path):
@@ -684,6 +721,7 @@ def extractFileFromCombineArchive(archive_path, entry_location):
     except:
         raise RuntimeError('Could not find entry {}'.format(entry_location))
     return archive.extractEntryToString(entry_location)
+
 
 # ---------------------------------------------------------------------
 # Math Utilities

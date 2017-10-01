@@ -7,6 +7,40 @@ Notebook Walkthrough
 
 If you have not already done so, download and install the `Tellurium notebook front-end <https://github.com/sys-bio/tellurium#front-end-1-tellurium-notebook>`_ for your platform (Windows, Mac, and Linux supported).
 
+* **TODO**: Add how to use Antimony & inline OMEX cells.
+* **TODO**: Show how to search/replace with CM and search word boundaries.
+* **TODO**: Show how to access example notebooks.
+* **TODO**: Demo interactive plotting online with Plotly
+
+Notebook Troubleshooting
+========================
+
+Problem: Cannot Load Kernel
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The notebook viewer ships with a Python3 kernel, which causes problems when trying to open a notebook saved (e.g. by Jupyter) with Python2.
+
+.. figure:: ./images/notebook-failed-to-load-kernel.png
+    :align: center
+    :alt: Error message when kernel cannot be loaded
+    :figclass: align-center
+
+    Error message when kernel cannot be loaded
+
+Solution
+~~~~~~~~
+
+In such a case, simply replace the kernel by choosing ``Language`` -> ``Python 3`` from the menu.
+
+.. figure:: ./images/new-kernel-python-3.png
+    :align: center
+    :alt: Fix for kernel loading problem
+    :figclass: align-center
+
+    Fix for kernel loading problem
+
+
+
 Further Reading
 ---------------
 

@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<numl xmlns="http://www.numl.org/numl/level1/version1" level="1" version="1">	
+<ontologyTerms>
+	<ontologyTerm id="term1" term="Enhanced Newton"
+		sourceTermId="SBRML:00003" ontologyURI="urn:sbrml:ontologyterms" />
+	<ontologyTerm id="term2" term="Steady State" sourceTermId="TEDDY_0000011"
+		ontologyURI="http://teddyontology.sourceforge.net/teddy/rel-2007-09-03/ontology/teddy.owl" />
+	<ontologyTerm id="term3" term="concentration"
+		sourceTermId="SBO:0000196" ontologyURI="http://www.ebi.ac.uk/sbo/" />	
+	<ontologyTerm id="term5" term="flux" sourceTermId="C2348693" ontologyURI="http://www.nlm.nih.gov/research/umls" />	
+	</ontologyTerms>
+	<resultComponents>
+	<resultComponent id="component1">
+		<dimensionDescription>
+			<compositeDescription id="Species" name="Species" indexType="string">
+					<atomicDescription id="Concentration" name="Concentration" ontologyTerm="term3" valueType="double" />
+			</compositeDescription>
+		</dimensionDescription>
+		<dimension>
+			<compositeValue indexValue="s_glu">				
+					<atomicValue>0.0094541</atomicValue>					
+			</compositeValue>
+			<compositeValue indexValue="s_pyr">				
+					<atomicValue>2.34994e-05</atomicValue>					
+			</compositeValue>
+			<compositeValue indexValue="s_acetate">				
+					<atomicValue>6.41826e-13</atomicValue>					
+			</compositeValue>
+			<compositeValue indexValue="s_acetald">				
+					<atomicValue>4.70649e-15</atomicValue>					
+			</compositeValue>
+			<compositeValue indexValue="s_EtOH">				
+					<atomicValue>3.57624e-13</atomicValue>					
+			</compositeValue>
+			<compositeValue indexValue="x">				
+					<atomicValue>7.43762</atomicValue>					
+			</compositeValue>
+		</dimension>
+	</resultComponent>
+	<resultComponent id="component2">
+		<dimensionDescription>
+			<compositeDescription id="Reaction" name="Reaction" indexType="string">
+					<atomicDescription id="Flux" name="Flux" ontologyTerm="term5" valueType="double" />
+			</compositeDescription>
+		</dimensionDescription>
+		<dimension>
+			<compositeValue indexValue="r1">				
+					<atomicValue>0.482986</atomicValue>				
+			</compositeValue>
+			<compositeValue indexValue="r2">				
+					<atomicValue>0.472358</atomicValue>					
+			</compositeValue>
+			<compositeValue indexValue="r3">
+				<tuple>
+					<atomicValue>6.19024e-12</atomicValue>
+					<atomicValue>3.72785e+12</atomicValue>
+				</tuple>
+			</compositeValue>
+			<compositeValue indexValue="r4">				
+					<atomicValue>3.06043e-12</atomicValue>					
+			</compositeValue>
+			<compositeValue indexValue="r5">				
+					<atomicValue>2.82728e-12</atomicValue>					
+			</compositeValue>
+			<compositeValue indexValue="r6">			
+					<atomicValue>3.42224e-14</atomicValue>					
+			</compositeValue>
+			<compositeValue indexValue="r7">			
+					<atomicValue>1.01607</atomicValue>					
+			</compositeValue>
+			<compositeValue indexValue="r8">			
+					<atomicValue>1.2799e-12</atomicValue>					
+			</compositeValue>
+			<compositeValue indexValue="r9">				
+					<atomicValue>0.0182721</atomicValue>					
+			</compositeValue>
+			<compositeValue indexValue="r10">				
+					<atomicValue>0.550797</atomicValue>					
+			</compositeValue>
+			<compositeValue indexValue="r11">				
+					<atomicValue>0.00304534</atomicValue>					
+			</compositeValue>
+			<compositeValue indexValue="s_glu_in">				
+					<atomicValue>1.5</atomicValue>					
+			</compositeValue>
+			<compositeValue indexValue="s_glu_out">			
+					<atomicValue>0.00094541</atomicValue>				
+			</compositeValue>
+			<compositeValue indexValue="s_pyr_out">				
+					<atomicValue>2.34994e-06</atomicValue>					
+			</compositeValue>
+			<compositeValue indexValue="s_acetate_out">				
+					<atomicValue>6.41826e-14</atomicValue>				
+			</compositeValue>
+			<compositeValue indexValue="s_acetald_out">				
+					<atomicValue>4.70649e-16</atomicValue>					
+			</compositeValue>
+			<compositeValue indexValue="s_EtOH_out">			
+					<atomicValue>3.57624e-14</atomicValue>					
+			</compositeValue>
+			<compositeValue indexValue="a_out">				
+					<atomicValue>0.174693</atomicValue>					
+			</compositeValue>
+			<compositeValue indexValue="x_out">				
+					<atomicValue>0.743762</atomicValue>					
+			</compositeValue>
+			<compositeValue indexValue="AcDH_out">				
+					<atomicValue>0.0152267</atomicValue>					
+			</compositeValue>
+		</dimension>
+	</resultComponent>
+	</resultComponents>
+</numl>

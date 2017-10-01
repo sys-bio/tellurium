@@ -1,10 +1,61 @@
 
+Preliminaries
+~~~~~~~~~~~~~
+
+In order to draw the network graphs in these examples, you will need
+graphviz and pygraphviz installed. Please consult the Graphviz
+documentation for instructions on installing it on your platform. If you
+cannot install Graphviz and pygraphviz, you can still run the following
+examples, but the network diagrams will not be generated.
+
+Also, due to limitations in pygraphviz, these examples can only be run
+in the Jupyter notebook, not the `Tellurium notebook
+app <http://tellurium.readthedocs.io/en/latest/installation.html#front-end-1-tellurium-notebook>`__.
+
+.. code-block:: python
+
+    # install pygraphviz (requires compilation)
+    import sys
+    print('Please run \n    {} -m pip install pygraphviz\nfrom a terminal or command propt (without the quotes) to install pygraphviz. Then restart your kernel in this notebook (Language->Restart Running Kernel).'.format(sys.executable))
+
+
+.. parsed-literal::
+
+    Please run 
+        /home/poltergeist/.config/Tellurium/telocal/python-3.6.1/bin/python3.6 -m pip install pygraphviz
+    from a terminal or command propt (without the quotes) to install pygraphviz. Then restart your kernel in this notebook (Language->Restart Running Kernel).
+
+
+Troubleshooting Graphviz Installation
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+pygraphviz has `known
+problems <https://github.com/pygraphviz/pygraphviz/issues/72>`__ during
+installation on some platforms. On 64-bit Fedora Linux, we have been
+able to use the following command to install pygraphviz:
+
+.. code:: bash
+
+    /path/to/python3 -m pip install pygraphviz --install-option="--include-path=/usr/include/graphviz" --install-option="--library-path=/usr/lib64/graphviz/"
+
+You may need to modify the library/include paths in the above command.
+Some Linux distributions put 64-bit libraries in ``/usr/lib`` instead of
+``/usr/lib64``, in which case the command becomes:
+
+.. code:: bash
+
+    /path/to/python3 -m pip install pygraphviz --install-option="--include-path=/usr/include/graphviz" --install-option="--library-path=/usr/lib/graphviz/"
+
+Case Studies
+------------
+
 Activator system
 ~~~~~~~~~~~~~~~~
 
-.. code:: python
+.. code-block:: python
 
     import tellurium as te
+    te.setDefaultPlottingEngine('matplotlib')
     
     # model Definition
     r = te.loada ('''
@@ -54,26 +105,33 @@ Activator system
     r.plot(result);
 
 
+
+.. raw:: html
+
+    <script>requirejs.config({paths: { 'plotly': ['https://cdn.plot.ly/plotly-latest.min']},});if(!window.Plotly) {{require(['plotly'],function(plotly) {window.Plotly=plotly;});}}</script>
+
+
 .. parsed-literal::
 
-    /usr/local/lib/python2.7/dist-packages/pygraphviz/agraph.py:1338: RuntimeWarning: Warning: node 'S', graph '%3' size too small for label
+    /home/poltergeist/.config/Tellurium/telocal/python-3.6.1/lib/python3.6/site-packages/pygraphviz/agraph.py:1338: RuntimeWarning:
     
-      warnings.warn(b"".join(errors), RuntimeWarning)
+    Warning: node 'S', graph '%3' size too small for label
+    
+    
 
 
 
-.. image:: _notebooks/core/tellurium_examples_files/tellurium_examples_1_1.png
+.. image:: _notebooks/core/tellurium_examples_files/tellurium_examples_4_2.png
 
 
 
-.. image:: _notebooks/core/tellurium_examples_files/tellurium_examples_1_2.png
+.. image:: _notebooks/core/tellurium_examples_files/tellurium_examples_4_3.png
 
 
-.. code:: python
+Feedback oscillations
+~~~~~~~~~~~~~~~~~~~~~
 
-    ### Feedback oscillations
-
-.. code:: python
+.. code-block:: python
 
     # http://tellurium.analogmachine.org/testing/
     import tellurium as te
@@ -96,11 +154,11 @@ Activator system
     
     r.integrator.setValue('variable_step_size', True)
     res = r.simulate(0, 40)
-    r.plot();
+    r.plot()
 
 
 
-.. image:: _notebooks/core/tellurium_examples_files/tellurium_examples_3_0.png
+.. image:: _notebooks/core/tellurium_examples_files/tellurium_examples_6_0.png
 
 
 Bistable System
@@ -113,7 +171,7 @@ setHold()
 Model is a bistable system, simulations start with different initial
 conditions resulting in different steady states reached.
 
-.. code:: python
+.. code-block:: python
 
     import tellurium as te
     import numpy as np
@@ -147,17 +205,16 @@ conditions resulting in different steady states reached.
 
 
 
-.. image:: _notebooks/core/tellurium_examples_files/tellurium_examples_5_1.png
+.. image:: _notebooks/core/tellurium_examples_files/tellurium_examples_8_1.png
 
 
 Add plot elements
 ~~~~~~~~~~~~~~~~~
 
-.. code:: python
+.. code-block:: python
 
     import tellurium as te
     import numpy
-    import matplotlib.pyplot as plt
     import roadrunner
     
     # Example showing how to embelise a graph, change title, axes labels.
@@ -172,23 +229,19 @@ Add plot elements
     ''')
     
     # Simulate the first part up to 20 time units
-    m = r.simulate (0, 50, 100, ["time", "S1"]);
+    m = r.simulate (0, 50, 100, ["time", "S1"])
     
-    plt.ylim ((0,1))
-    plt.xlabel ('Time')
-    plt.ylabel ('Concentration')
-    plt.title ('My First Plot ($y = x^2$)')
-    r.plot(m);
+    r.plot(m, ylim=(0.,1.), xtitle='Time', ytitle='Concentration', title='My First Plot ($y = x^2$)')
 
 
 
-.. image:: _notebooks/core/tellurium_examples_files/tellurium_examples_7_0.png
+.. image:: _notebooks/core/tellurium_examples_files/tellurium_examples_10_0.png
 
 
 Events
 ~~~~~~
 
-.. code:: python
+.. code-block:: python
 
     import tellurium as te
     import matplotlib.pyplot as plt
@@ -208,19 +261,17 @@ Events
     ''')
     
     m1 = r.simulate (0, 30, 200, ['time', 'Xo', 'S'])
-    
-    plt.ylim ((0,10))
-    r.plot(m1);
+    r.plot(ylim=(0,10))
 
 
 
-.. image:: _notebooks/core/tellurium_examples_files/tellurium_examples_9_0.png
+.. image:: _notebooks/core/tellurium_examples_files/tellurium_examples_12_0.png
 
 
 Gene network
 ~~~~~~~~~~~~
 
-.. code:: python
+.. code-block:: python
 
     import tellurium as te
     import numpy
@@ -243,17 +294,17 @@ Gene network
     ''')
     
     result = r.simulate (0, 200, 100)
-    r.plot(result);
+    r.plot()
 
 
 
-.. image:: _notebooks/core/tellurium_examples_files/tellurium_examples_11_0.png
+.. image:: _notebooks/core/tellurium_examples_files/tellurium_examples_14_0.png
 
 
 Stoichiometric matrix
 ~~~~~~~~~~~~~~~~~~~~~
 
-.. code:: python
+.. code-block:: python
 
     import tellurium as te
     
@@ -283,7 +334,7 @@ Stoichiometric matrix
 
 
 
-.. image:: _notebooks/core/tellurium_examples_files/tellurium_examples_13_1.png
+.. image:: _notebooks/core/tellurium_examples_files/tellurium_examples_16_1.png
 
 
 Lorenz attractor
@@ -292,7 +343,7 @@ Lorenz attractor
 Example showing how to describe a model using ODES. Example implements
 the Lorenz attractor.
 
-.. code:: python
+.. code-block:: python
 
     import tellurium as te
     
@@ -307,11 +358,11 @@ the Lorenz attractor.
     ''')
     
     result = r.simulate (0, 20, 1000, ['time', 'x', 'y', 'z'])
-    r.plot(result);
+    r.plot()
 
 
 
-.. image:: _notebooks/core/tellurium_examples_files/tellurium_examples_15_0.png
+.. image:: _notebooks/core/tellurium_examples_files/tellurium_examples_18_0.png
 
 
 Time Course Parameter Scan
@@ -321,7 +372,7 @@ Do 5 simulations on a simple model, for each simulation a parameter,
 ``k1`` is changed. The script merges the data together and plots the
 merged array on to one plot.
 
-.. code:: python
+.. code-block:: python
 
     import tellurium as te
     import numpy as np
@@ -342,11 +393,12 @@ merged array on to one plot.
         m = np.hstack([m, r.simulate(0, 4, 100, ['S1'])])
     
     # use plotArray to plot merged data
-    te.plotArray(m);
+    te.plotArray(m)
+    pass
 
 
 
-.. image:: _notebooks/core/tellurium_examples_files/tellurium_examples_17_0.png
+.. image:: _notebooks/core/tellurium_examples_files/tellurium_examples_20_0.png
 
 
 Merge multiple simulations
@@ -355,7 +407,7 @@ Merge multiple simulations
 Example of merging multiple simulations. In between simulations a
 parameter is changed.
 
-.. code:: python
+.. code-block:: python
 
     import tellurium as te
     import numpy
@@ -377,11 +429,11 @@ parameter is changed.
     m3 = r.simulate (40, 60, 100, ["Time","S1"]);
     
     m = numpy.vstack([m1, m2, m3])
-    r.plot(m);
+    p = te.plot(m[:,0], m[:,1], name='trace1')
 
 
 
-.. image:: _notebooks/core/tellurium_examples_files/tellurium_examples_19_0.png
+.. image:: _notebooks/core/tellurium_examples_files/tellurium_examples_22_0.png
 
 
 Relaxation oscillator
@@ -390,7 +442,7 @@ Relaxation oscillator
 Oscillator that uses positive and negative feedback. An example of a
 relaxation oscillator.
 
-.. code:: python
+.. code-block:: python
 
     import tellurium as te
     
@@ -410,7 +462,7 @@ relaxation oscillator.
 
 
 
-.. image:: _notebooks/core/tellurium_examples_files/tellurium_examples_21_0.png
+.. image:: _notebooks/core/tellurium_examples_files/tellurium_examples_24_0.png
 
 
 Scan hill coefficient
@@ -419,7 +471,7 @@ Scan hill coefficient
 Negative Feedback model where we scan over the value of the Hill
 coefficient.
 
-.. code:: python
+.. code-block:: python
 
     import tellurium as te
     import numpy as np
@@ -461,17 +513,18 @@ coefficient.
         m = r.simulate(0, 20, 201, ['S1'])
         result = numpy.hstack([result, m])
         
-    te.plotArray(result, labels=['h={}'.format(int(h)) for h in h_values]);
+    te.plotArray(result, labels=['h={}'.format(int(h)) for h in h_values])
+    pass
 
 
 
-.. image:: _notebooks/core/tellurium_examples_files/tellurium_examples_23_0.png
+.. image:: _notebooks/core/tellurium_examples_files/tellurium_examples_26_0.png
 
 
 Compare simulations
 ~~~~~~~~~~~~~~~~~~~
 
-.. code:: python
+.. code-block:: python
 
     import tellurium as te
     
@@ -496,7 +549,7 @@ Compare simulations
 
 
 
-.. image:: _notebooks/core/tellurium_examples_files/tellurium_examples_25_0.png
+.. image:: _notebooks/core/tellurium_examples_files/tellurium_examples_28_0.png
 
 
 Sinus injection
@@ -505,7 +558,7 @@ Sinus injection
 Example that show how to inject a sinusoidal into the model and use
 events to switch it off and on.
 
-.. code:: python
+.. code-block:: python
 
     import tellurium as te
     import numpy
@@ -533,7 +586,7 @@ events to switch it off and on.
 
 
 
-.. image:: _notebooks/core/tellurium_examples_files/tellurium_examples_27_0.png
+.. image:: _notebooks/core/tellurium_examples_files/tellurium_examples_30_0.png
 
 
 Protein phosphorylation cycle
@@ -543,7 +596,7 @@ Simple protein phosphorylation cycle. Steady state concentation of the
 phosphorylated protein is plotted as a funtion of the cycle kinase. In
 addition, the plot is repeated for various values of Km.
 
-.. code:: python
+.. code-block:: python
 
     import tellurium as te
     import numpy as np
@@ -577,6 +630,5 @@ addition, the plot is repeated for various values of Km.
 
 
 
-.. image:: _notebooks/core/tellurium_examples_files/tellurium_examples_29_0.png
-
+.. image:: _notebooks/core/tellurium_examples_files/tellurium_examples_32_0.png
 

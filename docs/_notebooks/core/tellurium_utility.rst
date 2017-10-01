@@ -3,11 +3,19 @@
 Version information
 ^^^^^^^^^^^^^^^^^^^
 
-.. code:: python
+Tellurium's version can be obtained via ``te.__version__``.
+``.printVersionInfo()`` also returns information from certain
+constituent packages.
+
+.. code-block:: python
 
     import tellurium as te
     
     # to get the tellurium version use
+    print('te.__version__')
+    print(te.__version__)
+    # or
+    print('te.getTelluriumVersion()')
     print(te.getTelluriumVersion())
     
     # to print the full version info use
@@ -18,23 +26,42 @@ Version information
 
 .. parsed-literal::
 
-    1.3.5
+    /home/poltergeist/.config/Tellurium/telocal/python-3.6.1/lib/python3.6/site-packages/matplotlib/__init__.py:1405: UserWarning: 
+    This call to matplotlib.use() has no effect because the backend has already
+    been chosen; matplotlib.use() must be called *before* pylab, matplotlib.pyplot,
+    or matplotlib.backends is imported for the first time.
+    
+      warnings.warn(_use_error_msg)
+
+
+
+.. raw:: html
+
+    <script>requirejs.config({paths: { 'plotly': ['https://cdn.plot.ly/plotly-latest.min']},});if(!window.Plotly) {{require(['plotly'],function(plotly) {window.Plotly=plotly;});}}</script>
+
+
+.. parsed-literal::
+
+    te.__version__
+    2.0.1
+    te.getTelluriumVersion()
+    2.0.1
     --------------------------------------------------------------------------------
-    tellurium : 1.3.5
-    roadrunner : 1.4.8; Compiler: gcc 5.4.0, C++ version: 199711; JIT Compiler: LLVM-3.5; Date: Oct 21 2016, 09:52:28; LibSBML Version: 5.13.0
-    antimony : v2.9.0
-    snbw_viewer : No information for sbnw viewer
-    libsbml : 5.14.1
+    tellurium : 2.0.1
+    roadrunner : 1.4.21; Compiler: gcc 4.8.2, C++ version: 199711; JIT Compiler: LLVM-3.3; Date: Jul  5 2017, 18:38:02; LibSBML Version: 5.14.0
+    antimony : 2.9.3
+    libsbml : 5.15.0
     libsedml : 402
-    phrasedml : v1.0.3
+    phrasedml : 1.0.7
     --------------------------------------------------------------------------------
 
 
 Repeat simulation without notification
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-.. code:: python
+.. code-block:: python
 
+    from builtins import range
     # Load SBML file
     r = te.loada("""
     model test
@@ -48,7 +75,7 @@ Repeat simulation without notification
     
     # Turn of notices so they don't clutter the output
     te.noticesOff()
-    for i in xrange(0, 20):
+    for i in range(0, 20):
         result = r.simulate (0, 10)
         r.reset()
         r.plot(result, loc=None, show=False, 
@@ -57,20 +84,14 @@ Repeat simulation without notification
     # Turn the notices back on
     te.noticesOn()
 
-
-
-.. image:: _notebooks/core/tellurium_utility_files/tellurium_utility_4_0.png
-
-
 File helpers for reading and writing
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-.. code:: python
+.. code-block:: python
 
     # create tmp file
     import tempfile
     ftmp = tempfile.NamedTemporaryFile(suffix=".xml")
-    print(ftmp.name)
     # load model
     r = te.loada('S1 -> S2; k1*S1; k1 = 0.1; S1 = 10')
     # save to file
@@ -81,12 +102,17 @@ File helpers for reading and writing
     
     # load file
     sbmlstr = te.readFromFile(ftmp.name)
+    print('%' + '*'*80)
+    print('Converted MATLAB code')
+    print('%' + '*'*80)
     print(sbmlstr)
 
 
 .. parsed-literal::
 
-    /tmp/tmpLpICyl.xml
+    %********************************************************************************
+    Converted MATLAB code
+    %********************************************************************************
     %  How to use:
     %
     %  __main takes 3 inputs and returns 3 outputs.
@@ -302,5 +328,4 @@ File helpers for reading and writing
     	z = a^(1/b); 
      
     
-
 

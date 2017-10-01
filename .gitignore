@@ -44,6 +44,7 @@ nosetests.xml
 # PyCharm
 .idea
 *~
+.cache/
 
 # Log files
 *.log
@@ -53,6 +54,8 @@ examples/notebooks/.ipynb_checkpoints/
 examples/notebooks/core/.ipynb_checkpoints/
 examples/notebooks/docstrings/.ipynb_checkpoints/
 examples/notebooks/widgets/.ipynb_checkpoints/
+tellurium/dev/oven/.ipynb_checkpoints/
+
 
 # auto-generated html docs
 docs/_build

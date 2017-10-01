@@ -2,9 +2,24 @@
 Tellurium Methods
 ===================
 
+-------------------
+Installing Packages
+-------------------
+
+Tellurium provides utility methods for installing Python packages from `PyPI <https://pypi.python.org/pypi>`_. These methods simply delegate to ``pip``, and are usually
+more reliable than running ``!pip install xyz``.
+
+.. autofunction:: tellurium.installPackage
+.. autofunction:: tellurium.upgradePackage
+.. autofunction:: tellurium.removePackage
+.. autofunction:: tellurium.searchPackage
+
+.. include:: _notebooks/core/methods_installing_packages.rst
+
 ----------------
 Utility Methods
 ----------------
+
 The most useful methods here are the notices routines. Roadrunner will offen issue warning or informational messages. For repeated simulation such messages will clutter up the outputs. noticesOff and noticesOn can be used to turn on an off the messages.
 
 .. autofunction:: tellurium.getVersionInfo
@@ -46,6 +61,7 @@ Use these routines interconvert verious standard formats
 ----------------------------------------
 Export Utilities
 ----------------------------------------
+
 Use these routines to convert the current model state into other formats, like
 Matlab, CellML, Antimony and SBML.
 
@@ -57,6 +73,7 @@ Matlab, CellML, Antimony and SBML.
 ----------------------------------------
 Stochastic Simulation
 ----------------------------------------
+
 Use these routines to carry out Gillespie style stochastic simulations.
 
 .. autoclass:: tellurium.tellurium.ExtendedRoadRunner
@@ -67,6 +84,7 @@ Use these routines to carry out Gillespie style stochastic simulations.
 ----------------------------------------
 Math
 ----------------------------------------
+
 Only one routine is currently available in this group which is a routine to compute the eigenvalues of given a matrix.
 
 .. autofunction:: tellurium.getEigenvalues
@@ -74,6 +92,7 @@ Only one routine is currently available in this group which is a routine to comp
 ----------------------------------------
 Plotting
 ----------------------------------------
+
 Two useful plotting routines. They assume that the first column in the array is the x-axis and the second and subsequent columns represent curves on the y-axis.
 
 .. autofunction:: tellurium.plotArray
@@ -85,6 +104,7 @@ Two useful plotting routines. They assume that the first column in the array is 
 ----------------------------------------
 Model Reset
 ----------------------------------------
+
 Use these routines reset your model back to particular states
 
 .. autoclass:: tellurium.tellurium.ExtendedRoadRunner
@@ -95,6 +115,7 @@ Use these routines reset your model back to particular states
 ----------------------------------------
 jarnac Short-cuts
 ----------------------------------------
+
 Routines to support the Jarnac compatibility layer
 
 .. autoclass:: tellurium.tellurium.ExtendedRoadRunner
@@ -103,6 +124,7 @@ Routines to support the Jarnac compatibility layer
 ----------------------------------------
 Test Models
 ----------------------------------------
+
 RoadRunner has built into it a number of predefined models that can be use
 to easily try and test tellurium.
 

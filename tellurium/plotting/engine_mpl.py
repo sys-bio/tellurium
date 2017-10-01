@@ -1,4 +1,8 @@
+"""
+Matplotlib implementation of the plotting engine.
+"""
 from __future__ import print_function, division, absolute_import
+
 
 from .engine import PlottingEngine, PlottingFigure, PlottingLayout, filterWithSelections
 
@@ -12,7 +16,9 @@ if any('SPYDER' in name for name in os.environ):
 else:        
     SPYDER = False
     
+
 class MatplotlibFigure(PlottingFigure):
+    """ MatplotlibFigure. """
     def __init__(self, title=None, layout=PlottingLayout, use_legend=True, figsize=(9,5), save_to_pdf=False):
         self.initialize(title=title, layout=layout)
         self.use_legend = use_legend
@@ -39,10 +45,34 @@ class MatplotlibFigure(PlottingFigure):
                 kwargs['color'] = dataset['color']
             if 'alpha' in dataset and dataset['alpha'] is not None:
                 kwargs['alpha'] = dataset['alpha']
-            plt.plot(dataset['x'], dataset['y'], marker='', **kwargs)
+            scatter = False
+            if 'mode' in dataset and dataset['mode'] is not None and dataset['mode'] == 'markers':
+                scatter = True
+            if not scatter:
+                plt.plot(dataset['x'], dataset['y'], marker='', **kwargs)
+            else:
+                plt.scatter(dataset['x'], dataset['y'], **kwargs)
         # title
         if self.title:
             plt.title(self.title, fontweight='bold')
+        # xtitle
+        if self.xtitle:
+            plt.xlabel(self.xtitle)
+        # ytitle
+        if self.ytitle:
+            plt.ylabel(self.ytitle)
+        # xlim
+        if self.xlim:
+            plt.xlim(self.xlim)
+        # ylim
+        if self.ylim:
+            plt.ylim(self.ylim)
+        # logx
+        if self.logx:
+            plt.xscale('log')
+        # logy
+        if self.logy:
+            plt.yscale('log')
         # legend
         if self.use_legend and have_labels:
             if SPYDER:
@@ -56,14 +86,14 @@ class MatplotlibFigure(PlottingFigure):
             plt.savefig(filename, format='pdf')
             print('saved plot to {}'.format(filename))
         
-        if SPYDER:
-            plt.show()
+        plt.show()
 
         return fig
 
     def save(self, filename, format):
         fig = self.plot()
         fig.savefig(filename, format=format)
+
 
 class MatplotlibPlottingEngine(PlottingEngine):
     def __init__(self, save_to_pdf=False):

@@ -5,7 +5,8 @@
 # develop install via
 # pip install -e .
 ###################################
-from setuptools import setup  # allows 'python setup.py develop'
+
+from setuptools import setup
 import os
 try:
     with open(os.path.join(os.path.dirname(__file__), 'VERSION.txt'), 'r') as f:
@@ -30,7 +31,7 @@ setup(name='tellurium',
           'tellurium.teconverters',
           'tellurium.teio',
         #   'tellurium.optimization',
-        #   'tellurium.visualization',
+          'tellurium.visualization',
         #   'tellurium.tests',
       ],
       package_data={
@@ -38,8 +39,32 @@ setup(name='tellurium',
           "tellurium.sedml": ["templates/*.template"],
       },
       install_requires=[
-          'libroadrunner>=1.4.16', 'antimony>=2.9.1', 'phrasedml>=1.0.5',
-          'tesbml>=5.15.0', 'tesedml>=0.4.2', 'tecombine>=0.2.0',
-          'pandas>=0.19.2', 'matplotlib>=2.0.0', 'appdirs>=1.4.3',
+          # general
+          'numpy>=1.13.1',
+          'scipy>=0.19.1',
+          'matplotlib>=2.0.2',
+          'pandas>=0.20.2',
+          # SBW-derived
+          'libroadrunner>=1.4.18',
+          'phrasedml>=1.0.8',
+          'antimony>=2.9.3',
+          'rrplugins>=1.1.8',
+          'sbml2matlab>=0.9.1',
+          # standards
+          'tesbml>=5.15.0.1',
+          'tenuml>=1.1.1',
+          'tesedml>=0.4.2',
+          'tecombine>=0.2.2',
+          # misc
+          'appdirs>=1.4.3',
+          'jinja2>=2.9.6',
+          'plotly>=2.0.12',
+          # Jupyter / IPython
+          'jupyter-client>=5.1.0',
+          'jupyter-core>=4.3.0',
+          'ipython',
+          'ipykernel>=4.6.1',
+          # testing
+          'pytest',
           ]
       )
