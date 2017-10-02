@@ -40,30 +40,29 @@ class PlottingEngine(object):
     def __str__(self):
         return "<PlottingEngine>"
 
-    @abc.abstractclassmethod
-    def newFigure(cls, title=None, logX=False, logY=False, layout=None, xtitle=None, ytitle=None):
+    @abc.abstractmethod
+    def newFigure(self, title=None, logX=False, logY=False, layout=None, xtitle=None, ytitle=None):
         """ Returns PlottingFigure.
         Needs to be implemented in base class.
         """
 
-    @classmethod
-    def figureFromXY(cls, x, y, **kwargs):
+    def figureFromXY(self, x, y, **kwargs):
         """ Generate a new figure from x/y data.
 
         :param x: A column representing x data.
         :param y: Y data (may be multiple columns).
         :return: instance of PlottingFigure
         """
-        return cls.newFigure().plot(x, y, **kwargs)
+        return self.newFigure().plot(x, y, **kwargs)
 
-    @classmethod
-    def figureFromTimecourse(cls, m, ordinates=None, tag=None, alpha=None, title=None, xlim=None, ylim=None, **kwargs):
+
+    def figureFromTimecourse(self, m, ordinates=None, tag=None, alpha=None, title=None, xlim=None, ylim=None, **kwargs):
         """ Generate a new figure from a timecourse simulation.
 
         :param m: An array returned by RoadRunner.simulate.
         :return: instance of PlottingFigure
         """
-        fig = cls.newFigure()
+        fig = self.newFigure()
         if m.colnames[0] != 'time':
             raise RuntimeError('Cannot plot timecourse - first column is not time')
 
@@ -91,13 +90,12 @@ class PlottingEngine(object):
             self.fig = fig
         return fig
 
-    @classmethod
-    def plotTimecourse(cls, m, title=None, ordinates=None, tag=None, xtitle=None, logx=False, logy=False, ytitle=None, alpha=None, xlim=None, ylim=None, **kwargs):
+    def plotTimecourse(self, m, title=None, ordinates=None, tag=None, xtitle=None, logx=False, logy=False, ytitle=None, alpha=None, xlim=None, ylim=None, **kwargs):
         """ Plots a timecourse from a simulation.
 
         :param m: An array returned by RoadRunner.simulate.
         """
-        fig = cls.figureFromTimecourse(m, title=title, ordinates=ordinates, tag=tag, alpha=alpha, xlim=xlim, ylim=ylim)
+        fig = self.figureFromTimecourse(m, title=title, ordinates=ordinates, tag=tag, alpha=alpha, xlim=xlim, ylim=ylim)
         if title:
             fig.title = title
         if xtitle:

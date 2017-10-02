@@ -356,12 +356,13 @@ class ExtendedRoadRunner(roadrunner.RoadRunner):
 
         # FIXME: provide the additional parameters to the plotting engine
 
+        engine = getPlottingEngine()
         if show:
             # show the plot immediately
-            getPlottingEngine().plotTimecourse(result, **kwargs)
+            engine.plotTimecourse(result, **kwargs)
         else:
             # otherwise, accumulate the traces
-            getPlottingEngine().accumulateTimecourse(result, **kwargs)
+            engine.accumulateTimecourse(result, **kwargs)
 
     def show(self, reset=True):
         """ Show plot. """
