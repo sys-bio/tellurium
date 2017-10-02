@@ -288,9 +288,11 @@ class ExtendedRoadRunner(roadrunner.RoadRunner):
         diagram = SBMLDiagram(self.getSBML())
         diagram.draw(**kwargs)
 
+
+    # FIXME: update the documentation of plot function
     def plot(self, result=None, show=True,
              xtitle=None, ytitle=None, title=None, xlim=None, ylim=None, logx=False, logy=False,
-             xscale='linear', yscale='linear', grid=False, ordinates=None, tag=None, alpha=None, **kwargs):
+             xscale='linear', yscale='linear', grid=False, ordinates=None, tag=None, **kwargs):
         """ Plot roadrunner simulation data.
 
         Plot is called with simulation data to plot as the first argument. If no data is provided the data currently
@@ -311,35 +313,23 @@ class ExtendedRoadRunner(roadrunner.RoadRunner):
             r.plot(s, loc="upper right", linewidth=2.0, lineStyle='-', marker='o', markersize=2.0, alpha=0.8,
                    title="Feedback Oscillation", xlabel="time", ylabel="concentration", xlim=[0,100], ylim=[-1, 4])
 
-        :param result: results data to plot
-        :type result: numpy array
+        :param result: results data to plot (numpy array)
         :param show: show the plot, use show=False to plot multiple simulations in one plot
-        :type show: bool
-        :param xlabel: x-axis label
-        :type xlabel: str
-        :param ylabel: y-axis label
-        :type ylabel: str
-        :param title: plot title
-        :type title: str
-        :param xlim: limits on x-axis
-        :type xlim: tuple [start, end]
+        :param xtitle: x-axis label (str)
+        :param ytitle: y-axis label (str)
+        :param title: plot title (str)
+        :param xlim: limits on x-axis (tuple [start, end])
         :param ylim: limits on y-axis
-        :type ylim: tuple [start, end]
+        :param logx:
+        :param logy:
         :param xscale: 'linear' or 'log' scale for x-axis
-        :type xscale: 'str'
         :param yscale: 'linear' or 'log' scale for y-axis
-        :type yscale: 'str'
         :param grid: show grid
-        :type grid: bool
         :param ordinates: If supplied, only these selections will be plotted (see RoadRunner selections)
-        :type ordinates: list
         :param tag: If supplied, all traces with the same tag will be plotted with the same color/style
-        :type tag: str
         :param kwargs: additional matplotlib keywords like marker, lineStyle, color, alpha, ...
         :return:
-        :rtype:
         """
-
         if result is None:
             result = self.getSimulationData()
 
@@ -361,96 +351,22 @@ class ExtendedRoadRunner(roadrunner.RoadRunner):
             kwargs['logx'] = logx
         if logy:
             kwargs['logy'] = logy
-        if alpha:
-            kwargs['alpha'] = alpha
         if tag:
             kwargs['tag'] = tag
 
+        # FIXME: provide the additional parameters to the plotting engine
+
         if show:
-            # if show is true, show the plot immediately
-            getPlottingEngine().plotTimecourse       (result, **kwargs)
+            # show the plot immediately
+            getPlottingEngine().plotTimecourse(result, **kwargs)
         else:
             # otherwise, accumulate the traces
-            getPlottingEngine().accumulateTimecourse (result, **kwargs)
-
-        # Old code:
-        # if loc is False:
-        #     loc = None
-        #
-        # if 'linewidth' not in kwargs:
-        #     kwargs['linewidth'] = 2.0
-        #
-        # # get the names
-        # names = result.dtype.names
-        # if names is None:
-        #     names = self.selections
-        #
-        # # check if set_prop_cycle is supported
-        # if hasattr(plt.gca(), 'set_prop_cycle'):
-        #     # reset color cycle (repeated simulations have the same colors)
-        #     plt.gca().set_prop_cycle(None)
-        #
-        # # make plot
-        # Ncol = result.shape[1]
-        # if len(names) != Ncol:
-        #     raise Exception('Legend names must match result array')
-        # for k in range(1, Ncol):
-        #     if loc is None:
-        #         # no labels if no legend
-        #         plt.plot(result[:, 0], result[:, k], **kwargs)
-        #     else:
-        #         plt.plot(result[:, 0], result[:, k], label=names[k], **kwargs)
-        #
-        #     cmap = plt.get_cmap('Blues')
-        #
-        # # labels
-        # if xlabel is None:
-        #     xlabel = names[0]
-        # plt.xlabel(xlabel)
-        # if ylabel is not None:
-        #     plt.ylabel(ylabel)
-        # if title is not None:
-        #     plt.title(title)
-        # if xlim is not None:
-        #     plt.xlim(xlim)
-        # if ylim is not None:
-        #     plt.ylim(ylim)
-        # # axis and grids
-        # plt.xscale(xscale)
-        # plt.yscale(yscale)
-        # plt.grid(grid)
-        #
-        # # show legend
-        # if loc is not None:
-        #     plt.legend(loc=loc)
-        # # show plot
-        # if show:
-        #     plt.show()
-        # return plt
+            getPlottingEngine().accumulateTimecourse(result, **kwargs)
 
     def show(self, reset=True):
+        """ Show plot. """
         from .. import getPlottingEngine
         getPlottingEngine().show(reset=reset)
-
-    def plotWithLegend(self, result=None, loc='upper left', show=True, **kwargs):
-        warnings.warn("'plotWithLegend' is deprecated. Use 'plot' instead. Will be removed in tellurium v1.4",
-                      DeprecationWarning, stacklevel=2)
-        return self.plot(result=result, show=show, **kwargs)
-
-    def simulateAndPlot(self, start, end, points, **kwargs):
-        """ Run simulation and plot the results.
-
-        :param start: start time of simulation
-        :param end: end time of simulation
-        :param points: number of points in simulation
-        :returns: simulation results
-        """
-        warnings.warn("'simulateAndPlot' is deprecated. Use the 'simulate' followed by 'plot' instead. " +
-                      "Will be removed in tellurium v1.4",
-                      DeprecationWarning, stacklevel=2)
-        result = self.simulate(start, end, points, **kwargs)
-        self.plot(result)
-        return result
 
     # ---------------------------------------------------------------------
     # Stochastic Simulation Methods

@@ -43,7 +43,7 @@ model = '''
 r = te.loada(model)
 r.timeCourseSelections = ['time', 'SineWave', 'SquareWave', 'SawTooth', 'TriangleWave', 'Ramp']
 result = r.simulate(0, 90, 500)
-r.plotWithLegend(result)
+r.plot(result)
 
 # reset to default config
 Config.setValue(Config.LOADSBMLOPTIONS_CONSERVED_MOIETIES, False) 

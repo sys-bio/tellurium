@@ -21,4 +21,4 @@ model = '''
 
 r = te.loadAntimonyModel(model)
 result = r.simulate(0, 50, 201)
-r.plotWithLegend(result)
+r.plot(result)
