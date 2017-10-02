@@ -1621,7 +1621,6 @@ class SEDMLCodeFactory(object):
             if dgx.isSetName():
                 xLabel += " ({})".format(dgx.getName())
 
-
             lines.append("for k in range({}.shape[1]):".format(xId))
             lines.append("    extra_args = {}")
             lines.append("    if k == 0:")

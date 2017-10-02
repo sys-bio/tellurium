@@ -5,6 +5,7 @@ from __future__ import print_function, absolute_import
 
 import os
 import pytest
+import matplotlib
 
 from tellurium.tests.testdata import TESTDATA_DIR
 
@@ -48,8 +49,25 @@ OMEX_CSV_JWS_ADLUNG2017_FIG2G = os.path.join(BASE_DIR, 'omex', "jws_adlung2017_f
 
 
 # ---------------------------------------------------------------------------------
+MPL_BACKEND = None
 
-# Test data loading functions
+
+def setup_module(module):
+    """ setup any state specific to the execution of the given module."""
+    global MPL_BACKEND
+    # Create a temporary directory
+    MPL_BACKEND = matplotlib.rcParams['backend']
+    matplotlib.pyplot.switch_backend("Agg")
+
+
+def teardown_module(module):
+    """ teardown any state that was previously setup with a setup_module
+    method.
+    """
+    matplotlib.pyplot.switch_backend(MPL_BACKEND)
+    matplotlib.pyplot.close('all')
+
+
 def test_load_csv():
     data = DataDescriptionParser._load_csv(SOURCE_CSV)
     assert data is not None
