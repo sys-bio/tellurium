@@ -772,7 +772,7 @@ def plotArray(result, loc='upper right', show=True, resetColorCycle=True,
         result = np.array([[1,2,3], [7.2,6.5,8.8], [9.8, 6.5, 4.3]])
         te.plotArray(result, title="My graph', xlim=((0, 5)))
     """
-    warnings.warn(DeprecationWarning)
+    warnings.warn("plotArray is deprecated, use plot instead", DeprecationWarning)
 
     # FIXME: unify r.plot & te.plot (lots of code duplication)
     # reset color cycle (columns in repeated simulations have same color)
