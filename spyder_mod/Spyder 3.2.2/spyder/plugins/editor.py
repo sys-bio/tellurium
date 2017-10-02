@@ -1663,7 +1663,7 @@ class Editor(SpyderPluginWidget):
                        '', 'import tellurium as te', 'import roadrunner',
                        'import antimony', '',
                        "r = te.loada ('''", 'model feedback()', '  // Reactions:',
-  '  J0: $X0 -> S1; (VM1 * (X0 - S1/Keq1))/(1 + X0 + S1 +   S4^h);',
+  '  J0: $X0 -> S1; (VM1 * (X0 - S1/Keq1))/(1 + X0 + S1 + S4^h);',
   '  J1: S1 -> S2; (10 * S1 - 2 * S2) / (1 + S1 + S2);',
   '  J2: S2 -> S3; (10 * S2 - 2 * S3) / (1 + S2 + S3);',
   '  J3: S3 -> S4; (10 * S3 - 2 * S4) / (1 + S3 + S4);',
