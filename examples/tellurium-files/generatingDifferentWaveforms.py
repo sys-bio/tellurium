@@ -39,7 +39,6 @@ model = '''
      Ramp := 0.03*time
   end
 '''
-
 r = te.loada(model)
 r.timeCourseSelections = ['time', 'SineWave', 'SquareWave', 'SawTooth', 'TriangleWave', 'Ramp']
 result = r.simulate(0, 90, 500)
