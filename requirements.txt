@@ -21,6 +21,7 @@ tenuml>=1.1.1     # python-libnuml>=1.1.1
 appdirs>=1.4.3
 jinja2>=2.9.6
 plotly>=2.0.12
+requests
 
 # Jupyter / IPython
 jupyter-client>=5.1.0

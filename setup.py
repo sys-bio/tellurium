@@ -59,6 +59,7 @@ setup(name='tellurium',
           'appdirs>=1.4.3',
           'jinja2>=2.9.6',
           'plotly>=2.0.12',
+          'requests',
           # Jupyter / IPython
           'jupyter-client>=5.1.0',
           'jupyter-core>=4.3.0',

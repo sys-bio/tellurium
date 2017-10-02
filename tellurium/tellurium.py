@@ -32,8 +32,8 @@ SPYDER = False
 if any('SPYDER' in name for name in os.environ):
     SPYDER = True
 
-# if not SPYDER:
-#    matplotlib.use('Agg')
+if not SPYDER:
+    matplotlib.use('Agg')
 
 
 ##############################################

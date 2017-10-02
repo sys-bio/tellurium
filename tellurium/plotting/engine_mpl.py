@@ -41,7 +41,7 @@ class MatplotlibFigure(PlottingFigure):
 
     def __init__(self, title=None, layout=PlottingLayout(), use_legend=True, xtitle=None, ytitle=None,
                  logx=None, logy=None,
-                 figsize=(9, 5), save_to_pdf=False):
+                 figsize=(9, 6), save_to_pdf=False):
         super(MatplotlibFigure, self).__init__(title=title, layout=layout,
                                                xtitle=xtitle, ytitle=ytitle, logx=logx, logy=logy)
         self.use_legend = use_legend
@@ -54,12 +54,12 @@ class MatplotlibFigure(PlottingFigure):
     def render(self):
         """ Plot the figure. Call this last."""
         if SPYDER:
-            fig = plt.figure(num=None, facecolor='w', edgecolor='k')
+            fig, ax = plt.subplots(num=None, facecolor='w', edgecolor='k')
         else:        
-            fig = plt.figure(num=None, figsize=self.figsize, dpi=80, facecolor='w', edgecolor='k')
-            __gs = gridspec.GridSpec(1, 2, width_ratios=[3, 1])
-            plt.subplot(__gs[0])
-
+            # fig = plt.figure(num=None, figsize=self.figsize, dpi=80, facecolor='w', edgecolor='k')
+            # __gs = gridspec.GridSpec(1, 2, width_ratios=[3, 1])
+            # plt.subplot(__gs[0])
+            fig, ax = plt.subplots(num=None, figsize=self.figsize, dpi=80, facecolor='w', edgecolor='k')
         have_labels = False
         for dataset in self.getDatasets():
             kwargs = {}
@@ -77,34 +77,43 @@ class MatplotlibFigure(PlottingFigure):
                 plt.plot(dataset['x'], dataset['y'], marker='', **kwargs)
             else:
                 plt.scatter(dataset['x'], dataset['y'], **kwargs)
-        # title
+
+        # TODO: data as points
+
+        # title & axes labels
         if self.title:
-            plt.title(self.title, fontweight='bold')
-        # xtitle
+            ax.set_title(self.title, fontweight='bold')
         if self.xtitle:
-            plt.xlabel(self.xtitle)
-        # ytitle
+            ax.set_xlabel(self.xtitle, fontweight='bold')
         if self.ytitle:
-            plt.ylabel(self.ytitle)
-        # xlim
+            ax.set_ylabel(self.ytitle, fontweight="bold")
+
+        # axes limits
         if self.xlim:
-            plt.xlim(self.xlim)
-        # ylim
+            ax.set_xlim(self.xlim)
         if self.ylim:
-            plt.ylim(self.ylim)
-        # logx
+            ax.set_ylim(self.ylim)
+
+        # logarithmic axes
         if self.logx:
-            plt.xscale('log')
-        # logy
+            ax.set_xscale('log')
         if self.logy:
-            plt.yscale('log')
+            ax.set_yscale('log')
+
         # legend
         if self.use_legend and have_labels:
             if SPYDER:
                 legend = plt.legend()
             else:
-                legend = plt.legend(bbox_to_anchor=(1.0, 0.5), loc='center left', borderaxespad=1.)
-            legend.draw_frame(False)
+                # legend = plt.legend(bbox_to_anchor=(1.0, 0.5), loc='center left', borderaxespad=1.)
+                # legend = plt.legend(bbox_to_anchor=(0.0, 1.02, 1., .102), ncol=2, loc='best', borderaxespad=0.)
+                legend = plt.legend(ncol=1, loc='best', borderaxespad=0.)
+            # legend.draw_frame(False)
+            legend.draw_frame(True)
+
+        # grid
+        ax.grid(linestyle='dotted', alpha=0.8)
+
 
         if self.save_to_pdf:
             (dummy, filename) = mkstemp(suffix='.pdf')
