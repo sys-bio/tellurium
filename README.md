@@ -1,7 +1,9 @@
 # tellurium
 <img title="tellurium logo" src="./docs/images/tellurium_logo.png" height="50" />
 
-![Documentation Status](https://readthedocs.org/projects/tellurium/badge/?version=latest) ![Build Status](https://travis-ci.org/sys-bio/tellurium.svg?branch=master)
+[![Documentation Status](https://readthedocs.org/projects/tellurium/badge/?version=latest)](http://tellurium.readthedocs.org/en/latest/) 
+[![Build Status](https://travis-ci.org/sys-bio/tellurium.svg?branch=master)](https://travis-ci.org/sys-bio/tellurium)
+
 
 Copyright 2014-2017
 Kiri Choi, J Kyle Medley, Matthias König, Kaylene Stocking, Caroline Cannistra, Michal Galdzicki, and Herbert Sauro
