@@ -18,9 +18,9 @@ class PlotlyEngine(PlottingEngine):
     def __str__(self):
         return "<PlotlyEngine>"
 
-    def newFigure(self, title=None, logX=False, logY=False, layout=PlottingLayout()):
+    def newFigure(self, title=None, logX=False, logY=False, layout=PlottingLayout(), xtitle=None, ytitle=None):
         """ Returns a figure object."""
-        return PlotlyFigure(title=title, layout=layout)
+        return PlotlyFigure(title=title, layout=layout, xtitle=xtitle, ytitle=ytitle)
 
     def newStackedFigure(self, title=None, logX=False, logY=False, layout=PlottingLayout()):
         """ Returns a figure object."""

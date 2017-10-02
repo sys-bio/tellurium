@@ -1631,9 +1631,10 @@ class SEDMLCodeFactory(object):
 
         if self.saveOutputs and self.createOutputs:
             # FIXME: only working for matplotlib
-            lines.append("filename = os.path.join('{}', '{}.{}')".format(self.outputDir, output.getId(), self.plotFormat))
-            lines.append("fig.savefig(filename, format='{}', bbox_inches='tight')".format(self.plotFormat))
-            lines.append("print('Figure {}: {{}}'.format(filename))".format(output.getId()))
+            lines.append("if str(_engine) == '<MatplotlibEngine>':".format(self.outputDir, output.getId(), self.plotFormat))
+            lines.append("    filename = os.path.join('{}', '{}.{}')".format(self.outputDir, output.getId(), self.plotFormat))
+            lines.append("    fig.savefig(filename, format='{}', bbox_inches='tight')".format(self.plotFormat))
+            lines.append("    print('Figure {}: {{}}'.format(filename))".format(output.getId()))
         return lines
 
     def outputPlot3DToPython(self, doc, output):
