@@ -32,8 +32,11 @@ SPYDER = False
 if any('SPYDER' in name for name in os.environ):
     SPYDER = True
 
-if not SPYDER:
-    matplotlib.use('Agg')
+# FIXME: the following will break plotting with matplotlib backend (nothing displayed)
+# commenting for now
+# if not SPYDER:
+#    print(matplotlib.get_backend())
+#    matplotlib.use('Agg')
 
 
 ##############################################

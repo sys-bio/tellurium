@@ -1513,9 +1513,16 @@ class SEDMLCodeFactory(object):
         lines.append("    __dfs__{}.append(__df__k)".format(output.getId()))
         # save as variable in Tellurium
         lines.append("    te.setLastReport(__df__k)".format(output.getId()))
-        # save to csv
-        lines.append("    __df__k.to_csv(os.path.join(workingDir, '{}_{{}}.csv'.format(k)), sep=',', index=False)".format(output.getId()))
+        if self.saveOutputs and self.createOutputs:
+
+            lines.append(
+                "    filename = os.path.join('{}', '{}.{}')".format(self.outputDir, output.getId(), self.reportFormat))
+            lines.append(
+                "    __df__k.to_csv(filename, sep=',', index=False)".format(output.getId()))
+            lines.append(
+                "    print('Report {}: {{}}'.format(filename))".format(output.getId()))
         return lines
+
 
     @staticmethod
     def outputPlotSettings():
@@ -1627,6 +1634,7 @@ class SEDMLCodeFactory(object):
             # FIXME: only working for matplotlib
             lines.append("filename = os.path.join('{}', '{}.{}')".format(self.outputDir, output.getId(), self.plotFormat))
             lines.append("fig.savefig(filename, format='{}', bbox_inches='tight')".format(self.plotFormat))
+            lines.append("print('Figure {}: {{}}'.format(filename))".format(output.getId()))
         return lines
 
     def outputPlot3DToPython(self, doc, output):
