@@ -2,9 +2,12 @@
 Combine Archive helper functions based on libcombine.
 """
 from __future__ import absolute_import, print_function
+
 import os
+import shutil
 import warnings
 import zipfile
+import tempfile
 try:
     import libcombine
 except ImportError:
@@ -208,8 +211,25 @@ def getLocationsByFormat(omexPath, formatKey=None, method="omex"):
 
     elif method == "zip":
         # extract to tmpfile and guess format
-        raise NotImplementedError
-        # TODO: fixme
+        tmd_dir = tempfile.mkdtemp()
+
+        try:
+            extractCombineArchive(omexPath, directory=tmd_dir, method="zip")
+            # iterate and guess formats
+
+            # iterate over all locations
+            for root, dirs, files in os.walk("."):
+                path = root.split(os.sep)
+                print((len(path) - 1) * '---', os.path.basename(root))
+                for file in files:
+                    print(len(path) * '---', file)
+
+
+            # locations = ;
+
+        finally:
+            shutil.rmtree(tmd_dir)
+
 
 
 
