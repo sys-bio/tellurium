@@ -12,7 +12,7 @@ rrplugins>=1.1.10
 sbml2matlab>=0.9.1
 
 # standards
-tesbml>=5.15.0    # python-libsbml>=1.1.1
+tesbml>=5.15.0.1  # python-libsbml>=1.1.1
 tesedml>=0.4.2    # python-libsedml
 tecombine>=0.2.2  # python-libcombine
 tenuml>=1.1.1     # python-libnuml>=1.1.1
