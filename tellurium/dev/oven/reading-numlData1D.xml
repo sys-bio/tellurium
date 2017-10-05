@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sedML level="1" version="3" xmlns="http://sed-ml.org/sed-ml/level1/version3">
+  <listOfDataDescriptions>
+    <dataDescription id="data_numl" name="test" source="./numlData1D.xml">
+      <dimensionDescription>
+        <compositeDescription indexType="double" id="time" name="time" xmlns="http://www.numl.org/numl/level1/version1">
+          <compositeDescription indexType="string" id="SpeciesIds" name="SpeciesIds">
+            <atomicDescription valueType="double" name="Concentrations" />
+          </compositeDescription>
+        </compositeDescription>
+      </dimensionDescription>
+      <listOfDataSources>
+        <dataSource id="data_s_glu">
+          <listOfSlices>
+            <slice reference="Species" value="s_glu" />
+          </listOfSlices>
+        </dataSource>
+        <dataSource id="data_s_pyr">
+          <listOfSlices>
+            <slice reference="Species" value="s_pyr" />
+          </listOfSlices>
+        </dataSource>
+        <dataSource id="data_s_acetate">
+          <listOfSlices>
+            <slice reference="Species" value="s_acetate" />
+          </listOfSlices>
+        </dataSource>
+        <dataSource id="data_s_acetald">
+          <listOfSlices>
+            <slice reference="Species" value="s_acetald" />
+          </listOfSlices>
+        </dataSource>
+        <dataSource id="data_s_EtOH">
+          <listOfSlices>
+            <slice reference="Species" value="s_EtOH" />
+          </listOfSlices>
+        </dataSource>
+        <dataSource id="data_x">
+          <listOfSlices>
+            <slice reference="Species" value="x" />
+          </listOfSlices>
+        </dataSource>
+      </listOfDataSources>
+    </dataDescription>
+  </listOfDataDescriptions>
+</sedML>
