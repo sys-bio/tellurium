@@ -211,27 +211,24 @@ def getLocationsByFormat(omexPath, formatKey=None, method="omex"):
 
     elif method == "zip":
         # extract to tmpfile and guess format
-        tmd_dir = tempfile.mkdtemp()
+        tmp_dir = tempfile.mkdtemp()
 
         try:
-            extractCombineArchive(omexPath, directory=tmd_dir, method="zip")
-            # iterate and guess formats
+            extractCombineArchive(omexPath, directory=tmp_dir, method="zip")
 
-            # iterate over all locations
-            for root, dirs, files in os.walk("."):
-                path = root.split(os.sep)
-                print((len(path) - 1) * '---', os.path.basename(root))
+            # iterate over all locations & guess format
+            for root, dirs, files in os.walk(tmp_dir):
                 for file in files:
-                    print(len(path) * '---', file)
-
-
-            # locations = ;
+                    file_path = os.path.join(root, file)
+                    location = os.path.relpath(file_path, tmp_dir)
+                    # guess the format
+                    format = libcombine.KnownFormats.guessFormat(file_path)
+                    if libcombine.KnownFormats.isFormat(formatKey=formatKey, format=format):
+                        locations.append(location)
+                    # print(format, "\t", location)
 
         finally:
-            shutil.rmtree(tmd_dir)
-
-
-
+            shutil.rmtree(tmp_dir)
 
     return locations_master + locations
 
