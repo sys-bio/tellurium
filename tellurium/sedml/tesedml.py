@@ -1445,6 +1445,7 @@ class SEDMLCodeFactory(object):
                 if resetModel is True:
                     # If each entry in the task consists of a single point (e.g. steady state scan)
                     # , concatenate the points. Otherwise, plot as separate curves.
+                    # FIXME: no process_trace ! 
                     lines.append("__var__{} = np.concatenate([process_trace(sim['{}']) for sim in {}])".format(varId, sid, taskId))
                 else:
                     # One curve via time adjusted concatenate
@@ -1591,7 +1592,6 @@ class SEDMLCodeFactory(object):
         if oneXLabel:
             xtitle = allXLabel
 
-
         lines.append("_stacked = False")
         lines.append("_engine = te.getPlottingEngine()")
         # stacking, currently disabled
@@ -1604,8 +1604,6 @@ class SEDMLCodeFactory(object):
         lines.append("else:")
         lines.append("    tefig = _engine.newFigure(title='{}', xtitle='{}')\n".format(title, xtitle))
 
-        oneXLabel = True
-        allXLabel = None
         for kc, curve in enumerate(output.getListOfCurves()):
             logX = curve.getLogX()
             logY = curve.getLogY()
@@ -1621,16 +1619,15 @@ class SEDMLCodeFactory(object):
                 yLabel += " ({})".format(curve.getName())
             elif dgy.isSetName():
                 yLabel += " ({})".format(dgy.getName())
-            xLabel = xId
-            if dgx.isSetName():
-                xLabel += " ({})".format(dgx.getName())
 
             lines.append("for k in range({}.shape[1]):".format(xId))
             lines.append("    extra_args = {}")
             lines.append("    if k == 0:")
             lines.append("        extra_args['name'] = '{}'".format(yLabel))
             lines.append("    tefig.addXYDataset({}[:,k], {}[:,k], color='{}', tag='{}', **extra_args)".format(xId, yId, color, tag))
-            lines.append("    fix_endpoints({}[:,k], {}[:,k], color='{}', tag='{}', fig=tefig)".format(xId, yId, color, tag))
+
+            # FIXME: endpoints must be handled via plotting functions
+            # lines.append("    fix_endpoints({}[:,k], {}[:,k], color='{}', tag='{}', fig=tefig)".format(xId, yId, color, tag))
         lines.append("fig = tefig.render()\n")
 
         if self.saveOutputs and self.createOutputs:
