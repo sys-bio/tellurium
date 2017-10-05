@@ -634,7 +634,8 @@ class SEDMLCodeFactory(object):
 
         def data_to_string(data):
             info = np.array2string(data)
-            info = info.replace('\n', ', ').replace('\r', '')
+            # cleaner string and NaN handling
+            info = info.replace('\n', ', ').replace('\r', '').replace('nan', 'np.nan')
             return info
 
         for sid, data in data_sources.items():

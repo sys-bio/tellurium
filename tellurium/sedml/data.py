@@ -261,7 +261,8 @@ class DataDescriptionParser(object):
                          skip_blank_lines=True,
                          quotechar='"',
                          comment="#",
-                         skipinitialspace=True)
+                         skipinitialspace=True,
+                         na_values="nan")
         return df
 
     @classmethod
