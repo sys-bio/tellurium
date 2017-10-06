@@ -94,19 +94,12 @@ class DataDescriptionParser(object):
         # -------------------------------
         # Parse DimensionDescription
         # -------------------------------
+        # FIXME: uses the data_types to check the actual data type
         dim_description = dd.getDimensionDescription()
-
-        # optional (This should be used to check the actual data)
-        # FIXME: uses this to check the actual data type
-        '''
-        # https://github.com/NuML/NuML/issues/16
-        if format != DataDescriptionParser.FORMAT_CSV:
-            # This results in: Process finished with exit code 139 (interrupted by signal 11: SIGSEGV)
+        if dim_description is not None:
+            data_types = cls.parse_dimension_description(dim_description)
+        else:
             data_types = None
-            print(dim_description, type(dim_description))
-            if dim_description is not None:
-                data_types = cls.parse_dimension_description(dim_description)
-        '''
 
         # -------------------------------
         # Load complete data
@@ -160,7 +153,17 @@ class DataDescriptionParser(object):
                         sids.append(slice.getValue())
 
                     # slice values are columns from data frame
-                    data_sources[dsid] = data[sids].values
+                    try:
+                        data_sources[dsid] = data[sids].values
+                    except KeyError as e:
+                        # something does not fit between data and data sources
+                        print("-" * 80)
+                        print("Format:", format)
+                        print("Source:", source_path)
+                        print("-" * 80)
+                        print(data)
+                        print("-" * 80)
+                        raise
 
             # NUML
             elif format == cls.FORMAT_NUML:

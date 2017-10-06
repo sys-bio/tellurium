@@ -2,8 +2,8 @@
 <sedML xmlns="http://sed-ml.org/sed-ml/level1/version3" xmlns:addedPrefix="http://sed-ml.org/sed-ml/level1/version2"
        level="1" version="3">
     <listOfDataDescriptions>
-        <dataDescription id="fig2G_BaF3_data" name="fig2G_BaF3_data" source="../data/Fig2G_BaF3data.csv"
-                         format="urn:sedml:format:csv">
+        <dataDescription id="fig2G_BaF3_data" name="fig2G_BaF3_data" source="../data/Fig2G_BaF3data.tsv"
+                         format="urn:sedml:format:tsv">
             <dimensionDescription>
                 <compositeDescription indexType="integer" name="Index">
                     <compositeDescription indexType="string" name="ColumnIds">
@@ -44,8 +44,8 @@
                 </dataSource>
             </listOfDataSources>
         </dataDescription>
-        <dataDescription id="fig2G_mCFUE_data" name="fig2G_mCFUE_data" source="../data/Fig2G_mCFUEdata.csv"
-                         format="urn:sedml:format:csv">
+        <dataDescription id="fig2G_mCFUE_data" name="fig2G_mCFUE_data" source="../data/Fig2G_mCFUEdata.tsv"
+                         format="urn:sedml:format:tsv">
             <dimensionDescription>
                 <compositeDescription indexType="integer" name="Index">
                     <compositeDescription indexType="string" name="ColumnIds">

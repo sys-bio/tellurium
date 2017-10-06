@@ -48,5 +48,7 @@ def create_zip_from_folder(directory, out_dir, extension):
 if __name__ == "__main__":
     print("*" * 80)
     print("Creating OMEX archives from folders")
+    # TODO: infer the data types and create real omex
+
     print("*" * 80)
     create_all_zip(base_dir=".", out_dir=".", extension="omex")
