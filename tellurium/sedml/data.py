@@ -204,7 +204,7 @@ class DataDescriptionParser(object):
         :param format: format given in the DataDescription
         :return:
         """
-        if format is None:
+        if format is None or format == "":
             is_xml = False
             with open(source_path) as unknown_file:
                 start_str = unknown_file.read(1024)
@@ -230,7 +230,7 @@ class DataDescriptionParser(object):
 
         # check supported formats
         if format not in cls.SUPPORTED_FORMATS:
-            raise NotImplementedError("Only the following data formats are supported: {}".format(cls.FORMATS))
+            raise NotImplementedError("Format '{}' not supported for DataDescription. Format must be in: {}".format(format, cls.SUPPORTED_FORMATS))
 
         return format
 
