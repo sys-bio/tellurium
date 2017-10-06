@@ -27,7 +27,7 @@ python {{ factory.python }}
 import tellurium as te
 from roadrunner import Config
 from tellurium.sedml.mathml import *
-from tellurium.sedml.tesedml import process_trace, terminate_trace, fix_endpoints
+# from tellurium.sedml.tesedml import process_trace, terminate_trace, fix_endpoints
 
 import numpy as np
 import matplotlib.pyplot as plt
