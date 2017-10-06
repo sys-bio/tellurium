@@ -22,15 +22,21 @@ import numpy as np
 import antimony
 import matplotlib
 
-__default_plotting_engine = 'matplotlib'
+PLOTTING_ENGINE_MATPLOTLIB = 'matplotlib'
+PLOTTING_ENGINE_PLOTLY = 'plotly'
+
+__default_plotting_engine = PLOTTING_ENGINE_MATPLOTLIB
 
 # enable fixes for Spyder (no Plotly support, no Agg support)
 SPYDER = False
 if any('SPYDER' in name for name in os.environ):
     SPYDER = True
 
-if not SPYDER:
-    matplotlib.use('Agg')
+# FIXME: the following will break plotting with matplotlib backend (nothing displayed)
+# commenting for now
+# if not SPYDER:
+#    print(matplotlib.get_backend())
+#    matplotlib.use('Agg')
 
 
 ##############################################
@@ -49,9 +55,9 @@ if not SPYDER:
             import plotly
             plotly.offline.init_notebook_mode(connected=True)
             __plotly_enabled = True
-            __default_plotting_engine = 'plotly'
+            __default_plotting_engine = PLOTTING_ENGINE_PLOTLY
         except:
-            warnings.warn("Plotly could not be initialized. Unable to use Plotly for plotting.")
+            warnings.warn("plotly could not be initialized. Unable to use Plotly for plotting.")
     except:
         __in_ipython = False
 
@@ -76,13 +82,16 @@ def getDefaultPlottingEngine():
     return __default_plotting_engine
 
 
-def setDefaultPlottingEngine(value):
+def setDefaultPlottingEngine(engine):
     """ Set the default plotting engine. Overrides current value.
 
-    :param value: A string describing which plotting engine to use. Valid values are 'matplotlib' and 'pyplot'.
+    :param engine: A string describing which plotting engine to use. Valid values are 'matplotlib' and 'pyplot'.
     """
+    if engine not in [PLOTTING_ENGINE_PLOTLY,
+                      PLOTTING_ENGINE_MATPLOTLIB]:
+        raise ValueError('Plotting engine is not supported: {}'.format(engine))
     global __default_plotting_engine
-    __default_plotting_engine = value
+    __default_plotting_engine = engine
 
 
 __save_plots_to_pdf = False  # flag which decides if plotted to pdf
@@ -763,6 +772,8 @@ def plotArray(result, loc='upper right', show=True, resetColorCycle=True,
         result = np.array([[1,2,3], [7.2,6.5,8.8], [9.8, 6.5, 4.3]])
         te.plotArray(result, title="My graph', xlim=((0, 5)))
     """
+    warnings.warn("plotArray is deprecated, use plot instead", DeprecationWarning)
+
     # FIXME: unify r.plot & te.plot (lots of code duplication)
     # reset color cycle (columns in repeated simulations have same color)
     if resetColorCycle:

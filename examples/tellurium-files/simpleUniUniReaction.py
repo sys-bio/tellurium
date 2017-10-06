@@ -23,4 +23,4 @@ r = te.loada(model)
 result = r.simulate(0, 10, 100)
 
 # plot results
-r.plotWithLegend(result)
+r.plot(result)

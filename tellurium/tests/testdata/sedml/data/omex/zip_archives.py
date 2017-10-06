@@ -19,7 +19,9 @@ def create_all_zip(base_dir, out_dir, extension):
 
     if not os.path.exists(base_dir):
         raise IOError
-    for directory in [x[0] for x in os.walk(base_dir)]:
+
+    # only in base dir, otherwise use os.walk for recursive subdirectories
+    for directory in [f for f in os.listdir(base_dir) if os.path.isdir(f)]:
 
         if "_te_" in directory or directory == ".":
             continue
@@ -46,5 +48,7 @@ def create_zip_from_folder(directory, out_dir, extension):
 if __name__ == "__main__":
     print("*" * 80)
     print("Creating OMEX archives from folders")
+    # TODO: infer the data types and create real omex
+
     print("*" * 80)
     create_all_zip(base_dir=".", out_dir=".", extension="omex")

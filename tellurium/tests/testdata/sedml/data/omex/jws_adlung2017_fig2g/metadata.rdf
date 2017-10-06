@@ -1,0 +1,96 @@
+<rdf:RDF xmlns:dcterms="http://purl.org/dc/terms/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:vCard="http://www.w3.org/2006/vcard/ns#"><rdf:Description rdf:about="."><dcterms:description>Build by JWS Online.</dcterms:description><dcterms:created><dcterms:W3CDTF>2017-09-18T07:21:02Z</dcterms:W3CDTF></dcterms:created></rdf:Description><rdf:Description rdf:about="models/adlung1.sbml"><dcterms:description>Exported by JWS Online from:
+http://jjj.mib.ac.uk/models/adlung1/</dcterms:description><dcterms:created><dcterms:W3CDTF>2017-09-18T07:21:02Z</dcterms:W3CDTF></dcterms:created></rdf:Description><rdf:Description rdf:about="models/adlung1.sbml"><dcterms:description>Protein abundance of AKT and ERK pathway components governs cell-type- specific regulation of proliferation
+&lt;br /&gt;===========================================================================================================
+&lt;br /&gt;
+&lt;br /&gt;Journal
+&lt;br /&gt;-------
+&lt;br /&gt;MSB
+&lt;br /&gt;
+&lt;br /&gt;Authors
+&lt;br /&gt;-------
+&lt;br /&gt;Lorenz Adlung1&#167;, Sandip Kar2,3,4&#167;, Marie-Christine Wagner1&#167;, Bin She1&#167;, Sajib Chakraborty1, Jie Bao5, Susen Lattermann1, Melanie Boerries5,6,7, Hauke Busch5,6,7, Jens Timmer8, Marcel Schilling1, Thomas H&#246;fer2,3*, Ursula Klingm&#252;ller1,9*
+&lt;br /&gt;
+&lt;br /&gt;Affiliations
+&lt;br /&gt;------------
+&lt;br /&gt;1 Division of Systems Biology of Signal Transduction, German Cancer Research Center (DKFZ), D-69120 Heidelberg, Germany
+2 Division of Theoretical Systems Biology, German Cancer Research Center (DKFZ), D-69120 Heidelberg, Germany
+3 BioQuant Center, University of Heidelberg, D-69120 Heidelberg, Germany
+4 Department of Chemistry, Indian Institute of Technology, Bombay, Powai, Mumbai
+400076, India
+5 Systems Biology of the Cellular Microenvironment Group, IMMZ, ALU, D-79104
+Freiburg, Germany
+6 German Cancer Consortium (DKTK), D-79104 Freiburg, Germany
+7 German Cancer Research Center (DKFZ), D-69120 Heidelberg, Germany
+8 Center for Biological Signaling Studies (BIOSS), Institute of Physics, University of
+Freiburg, D-79104 Freiburg, Germany
+9 Translational Lung Research Center (TLRC), Member of the German Center for Lung
+Research (DZL), D-69120 Heidelberg, Germany
+&lt;br /&gt;
+&lt;br /&gt;Abstract
+&lt;br /&gt;--------
+&lt;br /&gt;Signaling through the AKT and ERK pathways controls cell proliferation. However, the integrated regulation of this multistep process, involving signal processing, cell growth and cell-cycle progression, is poorly understood. Here we study different hematopoietic cell types, in which AKT and ERK signaling is triggered by erythropoietin (Epo). Although these cell types share the molecular network topology for pro-proliferative Epo signaling, they exhibit distinct proliferative responses. Iterating quantitative experiments and mathematical modeling, we identify two molecular sources for cell-type-specific proliferation. First, cell- type-specific protein abundance patterns cause differential signal flow along the AKT and ERK pathways. Second, downstream regulators of both pathways have differential effects on proliferation, suggesting that protein synthesis is rate-limiting for faster cycling cells while slower cell cycles are controlled at the G1-S progression. The integrated mathematical model of Epo-driven proliferation explains cell-type-specific effects of targeted AKT and ERK inhibitors and faithfully predicts, based on the protein abundance, anti-proliferative effects of inhibitors in primary human erythroid progenitor cells. Our findings suggest that the effectiveness of targeted cancer therapy might become predictable from protein abundance.</dcterms:description><dcterms:created><dcterms:W3CDTF>2017-09-18T07:21:02Z</dcterms:W3CDTF></dcterms:created><dcterms:creator rdf:parseType="Resource"><vCard:hasName rdf:parseType="Resource"><vCard:family-name>Lorenz Adlung1&#167;</vCard:family-name></vCard:hasName></dcterms:creator><dcterms:creator rdf:parseType="Resource"><vCard:hasName rdf:parseType="Resource"><vCard:family-name>Sandip Kar2,3,4&#167;</vCard:family-name></vCard:hasName></dcterms:creator><dcterms:creator rdf:parseType="Resource"><vCard:hasName rdf:parseType="Resource"><vCard:family-name>Marie-Christine Wagner1&#167;</vCard:family-name></vCard:hasName></dcterms:creator><dcterms:creator rdf:parseType="Resource"><vCard:hasName rdf:parseType="Resource"><vCard:family-name>Bin She1&#167;</vCard:family-name></vCard:hasName></dcterms:creator><dcterms:creator rdf:parseType="Resource"><vCard:hasName rdf:parseType="Resource"><vCard:family-name>Chakraborty1</vCard:family-name><vCard:given-name>Sajib</vCard:given-name></vCard:hasName></dcterms:creator><dcterms:creator rdf:parseType="Resource"><vCard:hasName rdf:parseType="Resource"><vCard:family-name>Bao5</vCard:family-name><vCard:given-name>Jie</vCard:given-name></vCard:hasName></dcterms:creator><dcterms:creator rdf:parseType="Resource"><vCard:hasName rdf:parseType="Resource"><vCard:family-name>Lattermann1</vCard:family-name><vCard:given-name>Susen</vCard:given-name></vCard:hasName></dcterms:creator><dcterms:creator rdf:parseType="Resource"><vCard:hasName rdf:parseType="Resource"><vCard:family-name>Melanie Boerries5,6,7</vCard:family-name></vCard:hasName></dcterms:creator><dcterms:creator rdf:parseType="Resource"><vCard:hasName rdf:parseType="Resource"><vCard:family-name>Hauke Busch5,6,7</vCard:family-name></vCard:hasName></dcterms:creator><dcterms:creator rdf:parseType="Resource"><vCard:hasName rdf:parseType="Resource"><vCard:family-name>Timmer8</vCard:family-name><vCard:given-name>Jens</vCard:given-name></vCard:hasName></dcterms:creator><dcterms:creator rdf:parseType="Resource"><vCard:hasName rdf:parseType="Resource"><vCard:family-name>Schilling1</vCard:family-name><vCard:given-name>Marcel</vCard:given-name></vCard:hasName></dcterms:creator><dcterms:creator rdf:parseType="Resource"><vCard:hasName rdf:parseType="Resource"><vCard:family-name>Thomas H&#246;fer2,3*</vCard:family-name></vCard:hasName></dcterms:creator><dcterms:creator rdf:parseType="Resource"><vCard:hasName rdf:parseType="Resource"><vCard:family-name>Ursula Klingm&#252;ller1,9*</vCard:family-name></vCard:hasName></dcterms:creator></rdf:Description><rdf:Description rdf:about="sedml/adlung2017_fig2g.sedml"><dcterms:description>Exported by JWS Online from:
+http://jjj.mib.ac.uk/models/experiments/adlung2017_fig2g/
+
+Derived from:
+http://jjj.mib.ac.uk/models/experiments/adlung2017_fig2f/</dcterms:description><dcterms:created><dcterms:W3CDTF>2017-09-18T07:21:02Z</dcterms:W3CDTF></dcterms:created></rdf:Description><rdf:Description rdf:about="sedml/adlung2017_fig2g.sedml"><dcterms:description>Protein abundance of AKT and ERK pathway components governs cell-type- specific regulation of proliferation
+&lt;br /&gt;===========================================================================================================
+&lt;br /&gt;
+&lt;br /&gt;Journal
+&lt;br /&gt;-------
+&lt;br /&gt;Molecular Systems Biology
+&lt;br /&gt;
+&lt;br /&gt;Authors
+&lt;br /&gt;-------
+&lt;br /&gt;Lorenz Adlung1&#167;, Sandip Kar2,3,4&#167;, Marie-Christine Wagner1&#167;, Bin She1&#167;, Sajib Chakraborty1, Jie Bao5, Susen Lattermann1, Melanie Boerries5,6,7, Hauke Busch5,6,7, Jens Timmer8, Marcel Schilling1, Thomas H&#246;fer2,3*, Ursula Klingm&#252;ller1,9*
+&lt;br /&gt;
+&lt;br /&gt;Affiliations
+&lt;br /&gt;------------
+&lt;br /&gt;1 Division of Systems Biology of Signal Transduction, German Cancer Research Center (DKFZ), D-69120 Heidelberg, Germany
+2 Division of Theoretical Systems Biology, German Cancer Research Center (DKFZ), D-69120 Heidelberg, Germany
+3 BioQuant Center, University of Heidelberg, D-69120 Heidelberg, Germany
+4 Department of Chemistry, Indian Institute of Technology, Bombay, Powai, Mumbai
+400076, India
+5 Systems Biology of the Cellular Microenvironment Group, IMMZ, ALU, D-79104
+Freiburg, Germany
+6 German Cancer Consortium (DKTK), D-79104 Freiburg, Germany
+7 German Cancer Research Center (DKFZ), D-69120 Heidelberg, Germany
+8 Center for Biological Signaling Studies (BIOSS), Institute of Physics, University of
+Freiburg, D-79104 Freiburg, Germany
+9 Translational Lung Research Center (TLRC), Member of the German Center for Lung
+Research (DZL), D-69120 Heidelberg, Germany
+
+&lt;br /&gt;
+&lt;br /&gt;Abstract
+&lt;br /&gt;--------
+&lt;br /&gt;Signaling through the AKT and ERK pathways controls cell proliferation. However, the integrated regulation of this multistep process, involving signal processing, cell growth and cell-cycle progression, is poorly understood. Here we study different hematopoietic cell types, in which AKT and ERK signaling is triggered by erythropoietin (Epo). Although these cell types share the molecular network topology for pro-proliferative Epo signaling, they exhibit distinct proliferative responses. Iterating quantitative experiments and mathematical modeling, we identify two molecular sources for cell-type-specific proliferation. First, cell- type-specific protein abundance patterns cause differential signal flow along the AKT and ERK pathways. Second, downstream regulators of both pathways have differential effects on proliferation, suggesting that protein synthesis is rate-limiting for faster cycling cells while slower cell cycles are controlled at the G1-S progression. The integrated mathematical model of Epo-driven proliferation explains cell-type-specific effects of targeted AKT and ERK inhibitors and faithfully predicts, based on the protein abundance, anti-proliferative effects of inhibitors in primary human erythroid progenitor cells. Our findings suggest that the effectiveness of targeted cancer therapy might become predictable from protein abundance.</dcterms:description><dcterms:created><dcterms:W3CDTF>2017-09-18T07:21:02Z</dcterms:W3CDTF></dcterms:created><dcterms:creator rdf:parseType="Resource"><vCard:hasName rdf:parseType="Resource"><vCard:family-name>Lorenz Adlung1&#167;</vCard:family-name></vCard:hasName></dcterms:creator><dcterms:creator rdf:parseType="Resource"><vCard:hasName rdf:parseType="Resource"><vCard:family-name>Sandip Kar2,3,4&#167;</vCard:family-name></vCard:hasName></dcterms:creator><dcterms:creator rdf:parseType="Resource"><vCard:hasName rdf:parseType="Resource"><vCard:family-name>Marie-Christine Wagner1&#167;</vCard:family-name></vCard:hasName></dcterms:creator><dcterms:creator rdf:parseType="Resource"><vCard:hasName rdf:parseType="Resource"><vCard:family-name>Bin She1&#167;</vCard:family-name></vCard:hasName></dcterms:creator><dcterms:creator rdf:parseType="Resource"><vCard:hasName rdf:parseType="Resource"><vCard:family-name>Chakraborty1</vCard:family-name><vCard:given-name>Sajib</vCard:given-name></vCard:hasName></dcterms:creator><dcterms:creator rdf:parseType="Resource"><vCard:hasName rdf:parseType="Resource"><vCard:family-name>Bao5</vCard:family-name><vCard:given-name>Jie</vCard:given-name></vCard:hasName></dcterms:creator><dcterms:creator rdf:parseType="Resource"><vCard:hasName rdf:parseType="Resource"><vCard:family-name>Lattermann1</vCard:family-name><vCard:given-name>Susen</vCard:given-name></vCard:hasName></dcterms:creator><dcterms:creator rdf:parseType="Resource"><vCard:hasName rdf:parseType="Resource"><vCard:family-name>Melanie Boerries5,6,7</vCard:family-name></vCard:hasName></dcterms:creator><dcterms:creator rdf:parseType="Resource"><vCard:hasName rdf:parseType="Resource"><vCard:family-name>Hauke Busch5,6,7</vCard:family-name></vCard:hasName></dcterms:creator><dcterms:creator rdf:parseType="Resource"><vCard:hasName rdf:parseType="Resource"><vCard:family-name>Timmer8</vCard:family-name><vCard:given-name>Jens</vCard:given-name></vCard:hasName></dcterms:creator><dcterms:creator rdf:parseType="Resource"><vCard:hasName rdf:parseType="Resource"><vCard:family-name>Schilling1</vCard:family-name><vCard:given-name>Marcel</vCard:given-name></vCard:hasName></dcterms:creator><dcterms:creator rdf:parseType="Resource"><vCard:hasName rdf:parseType="Resource"><vCard:family-name>Thomas H&#246;fer2,3*</vCard:family-name></vCard:hasName></dcterms:creator><dcterms:creator rdf:parseType="Resource"><vCard:hasName rdf:parseType="Resource"><vCard:family-name>Ursula Klingm&#252;ller1,9*</vCard:family-name></vCard:hasName></dcterms:creator></rdf:Description><rdf:Description rdf:about="models/adlung2.sbml"><dcterms:description>Exported by JWS Online from:
+http://jjj.mib.ac.uk/models/adlung2/</dcterms:description><dcterms:created><dcterms:W3CDTF>2017-09-18T07:21:02Z</dcterms:W3CDTF></dcterms:created></rdf:Description><rdf:Description rdf:about="models/adlung2.sbml"><dcterms:description>Protein abundance of AKT and ERK pathway components governs cell-type- specific regulation of proliferation
+&lt;br /&gt;===========================================================================================================
+&lt;br /&gt;
+&lt;br /&gt;Journal
+&lt;br /&gt;-------
+&lt;br /&gt;MSB
+&lt;br /&gt;
+&lt;br /&gt;Authors
+&lt;br /&gt;-------
+&lt;br /&gt;Lorenz Adlung1&#167;, Sandip Kar2,3,4&#167;, Marie-Christine Wagner1&#167;, Bin She1&#167;, Sajib Chakraborty1, Jie Bao5, Susen Lattermann1, Melanie Boerries5,6,7, Hauke Busch5,6,7, Jens Timmer8, Marcel Schilling1, Thomas H&#246;fer2,3*, Ursula Klingm&#252;ller1,9*
+&lt;br /&gt;
+&lt;br /&gt;Affiliations
+&lt;br /&gt;------------
+&lt;br /&gt;
+1 Division of Systems Biology of Signal Transduction, German Cancer Research Center (DKFZ), D-69120 Heidelberg, Germany
+2 Division of Theoretical Systems Biology, German Cancer Research Center (DKFZ), D-69120 Heidelberg, Germany
+3 BioQuant Center, University of Heidelberg, D-69120 Heidelberg, Germany
+4 Department of Chemistry, Indian Institute of Technology, Bombay, Powai, Mumbai
+400076, India
+5 Systems Biology of the Cellular Microenvironment Group, IMMZ, ALU, D-79104
+Freiburg, Germany
+6 German Cancer Consortium (DKTK), D-79104 Freiburg, Germany
+7 German Cancer Research Center (DKFZ), D-69120 Heidelberg, Germany
+8 Center for Biological Signaling Studies (BIOSS), Institute of Physics, University of
+Freiburg, D-79104 Freiburg, Germany
+9 Translational Lung Research Center (TLRC), Member of the German Center for Lung
+
+&lt;br /&gt;
+&lt;br /&gt;Abstract
+&lt;br /&gt;--------
+&lt;br /&gt;Signaling through the AKT and ERK pathways controls cell proliferation. However, the integrated regulation of this multistep process, involving signal processing, cell growth and cell-cycle progression, is poorly understood. Here we study different hematopoietic cell types, in which AKT and ERK signaling is triggered by erythropoietin (Epo). Although these cell types share the molecular network topology for pro-proliferative Epo signaling, they exhibit distinct proliferative responses. Iterating quantitative experiments and mathematical modeling, we identify two molecular sources for cell-type-specific proliferation. First, cell- type-specific protein abundance patterns cause differential signal flow along the AKT and ERK pathways. Second, downstream regulators of both pathways have differential effects on proliferation, suggesting that protein synthesis is rate-limiting for faster cycling cells while slower cell cycles are controlled at the G1-S progression. The integrated mathematical model of Epo-driven proliferation explains cell-type-specific effects of targeted AKT and ERK inhibitors and faithfully predicts, based on the protein abundance, anti-proliferative effects of inhibitors in primary human erythroid progenitor cells. Our findings suggest that the effectiveness of targeted cancer therapy might become predictable from protein abundance.</dcterms:description><dcterms:created><dcterms:W3CDTF>2017-09-18T07:21:02Z</dcterms:W3CDTF></dcterms:created><dcterms:creator rdf:parseType="Resource"><vCard:hasName rdf:parseType="Resource"><vCard:family-name>Lorenz Adlung1&#167;</vCard:family-name></vCard:hasName></dcterms:creator><dcterms:creator rdf:parseType="Resource"><vCard:hasName rdf:parseType="Resource"><vCard:family-name>Sandip Kar2,3,4&#167;</vCard:family-name></vCard:hasName></dcterms:creator><dcterms:creator rdf:parseType="Resource"><vCard:hasName rdf:parseType="Resource"><vCard:family-name>Marie-Christine Wagner1&#167;</vCard:family-name></vCard:hasName></dcterms:creator><dcterms:creator rdf:parseType="Resource"><vCard:hasName rdf:parseType="Resource"><vCard:family-name>Bin She1&#167;</vCard:family-name></vCard:hasName></dcterms:creator><dcterms:creator rdf:parseType="Resource"><vCard:hasName rdf:parseType="Resource"><vCard:family-name>Chakraborty1</vCard:family-name><vCard:given-name>Sajib</vCard:given-name></vCard:hasName></dcterms:creator><dcterms:creator rdf:parseType="Resource"><vCard:hasName rdf:parseType="Resource"><vCard:family-name>Bao5</vCard:family-name><vCard:given-name>Jie</vCard:given-name></vCard:hasName></dcterms:creator><dcterms:creator rdf:parseType="Resource"><vCard:hasName rdf:parseType="Resource"><vCard:family-name>Lattermann1</vCard:family-name><vCard:given-name>Susen</vCard:given-name></vCard:hasName></dcterms:creator><dcterms:creator rdf:parseType="Resource"><vCard:hasName rdf:parseType="Resource"><vCard:family-name>Melanie Boerries5,6,7</vCard:family-name></vCard:hasName></dcterms:creator><dcterms:creator rdf:parseType="Resource"><vCard:hasName rdf:parseType="Resource"><vCard:family-name>Hauke Busch5,6,7</vCard:family-name></vCard:hasName></dcterms:creator><dcterms:creator rdf:parseType="Resource"><vCard:hasName rdf:parseType="Resource"><vCard:family-name>Timmer8</vCard:family-name><vCard:given-name>Jens</vCard:given-name></vCard:hasName></dcterms:creator><dcterms:creator rdf:parseType="Resource"><vCard:hasName rdf:parseType="Resource"><vCard:family-name>Schilling1</vCard:family-name><vCard:given-name>Marcel</vCard:given-name></vCard:hasName></dcterms:creator><dcterms:creator rdf:parseType="Resource"><vCard:hasName rdf:parseType="Resource"><vCard:family-name>Thomas H&#246;fer2,3*</vCard:family-name></vCard:hasName></dcterms:creator><dcterms:creator rdf:parseType="Resource"><vCard:hasName rdf:parseType="Resource"><vCard:family-name>Ursula Klingm&#252;ller1,9*</vCard:family-name></vCard:hasName></dcterms:creator></rdf:Description></rdf:RDF>

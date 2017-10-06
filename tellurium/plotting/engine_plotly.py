@@ -9,34 +9,30 @@ import plotly
 from plotly.graph_objs import Scatter, Scatter3d, Layout, Data
 
 
+class PlotlyEngine(PlottingEngine):
+    """ PlottingEngine using plotly. """
+
+    def __init__(self):
+        PlottingEngine.__init__(self)
+
+    def __str__(self):
+        return "<PlotlyEngine>"
+
+    def newFigure(self, title=None, logX=False, logY=False, layout=PlottingLayout(), xtitle=None, ytitle=None):
+        """ Returns a figure object."""
+        return PlotlyFigure(title=title, layout=layout, xtitle=xtitle, ytitle=ytitle)
+
+    def newStackedFigure(self, title=None, logX=False, logY=False, layout=PlottingLayout()):
+        """ Returns a figure object."""
+        return PlotlyStackedFigure(title=title, layout=layout)
+
+
 class PlotlyFigure(PlottingFigure):
     """ PlotlyFigure. """
-    def __init__(self, title=None, layout=PlottingLayout(), logx=False, logy=False, save_to_pdf=False, xtitle=None, ytitle=None):
-        self.initialize(title=title, layout=layout, logx=logx, xtitle=xtitle, logy=logy, ytitle=ytitle)
 
-    def makeLayout(self):
-        kwargs = {}
-        if self.title is not None:
-            kwargs['title'] = self.title
-        if self.logx:
-            kwargs['xaxis'] = {
-                type: 'log',
-                autorange: True,
-            }
-        if self.xtitle:
-            if not 'xaxis' in kwargs:
-                kwargs['xaxis'] = {}
-            kwargs['xaxis']['title'] = self.xtitle
-        if self.logy:
-            kwargs['yaxis'] = {
-                type: 'log',
-                autorange: True,
-            }
-        if self.ytitle:
-            if not 'yaxis' in kwargs:
-                kwargs['yaxis'] = {}
-            kwargs['yaxis']['title'] = self.ytitle
-        return Layout(**kwargs)
+    def __init__(self, title=None, layout=PlottingLayout(), logx=False, logy=False, save_to_pdf=False, xtitle=None, ytitle=None):
+        super(PlotlyFigure, self).__init__(title=title, layout=layout, logx=logx, xtitle=xtitle, logy=logy, ytitle=ytitle)
+
 
     def render(self):
         """ Plot the figure. Call this last."""
@@ -66,10 +62,39 @@ class PlotlyFigure(PlottingFigure):
             'layout': self.makeLayout()
         })
 
+    def save(self, filename, format):
+        # FIXME: implement
+        raise NotImplementedError
+
+    def makeLayout(self):
+        kwargs = {}
+        if self.title is not None:
+            kwargs['title'] = self.title
+        if self.logx:
+            kwargs['xaxis'] = {
+                type: 'log',
+                autorange: True,
+            }
+        if self.xtitle:
+            if not 'xaxis' in kwargs:
+                kwargs['xaxis'] = {}
+            kwargs['xaxis']['title'] = self.xtitle
+        if self.logy:
+            kwargs['yaxis'] = {
+                type: 'log',
+                autorange: True,
+            }
+        if self.ytitle:
+            if not 'yaxis' in kwargs:
+                kwargs['yaxis'] = {}
+            kwargs['yaxis']['title'] = self.ytitle
+        return Layout(**kwargs)
+
 
 class PlotlyStackedFigure(PlotlyFigure):
+    """ Stacked figure."""
     def __init__(self, title=None, layout=PlottingLayout(), logx=False, logy=False):
-        self.initialize(title=title, layout=layout, logx=logx, logy=logy)
+        super(PlotlyStackedFigure, self).__init__(title=title, layout=layout, logx=logx, logy=logy)
         self.zindex = 0
 
     def render(self):
@@ -98,16 +123,3 @@ class PlotlyStackedFigure(PlotlyFigure):
             'data': data,
             'layout': self.makeLayout()
         })
-
-
-class PlotlyPlottingEngine(PlottingEngine):
-    def __init__(self, save_to_pdf=False):
-        PlottingEngine.__init__(self)
-
-    def newFigure(self, title=None, logX=False, logY=False, layout=PlottingLayout()):
-        """ Returns a figure object."""
-        return PlotlyFigure(title=title, layout=layout)
-
-    def newStackedFigure(self, title=None, logX=False, logY=False, layout=PlottingLayout()):
-        """ Returns a figure object."""
-        return PlotlyStackedFigure(title=title, layout=layout)

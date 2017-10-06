@@ -1,0 +1,987 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sedML xmlns="http://sed-ml.org/sed-ml/level1/version3" xmlns:addedPrefix="http://sed-ml.org/sed-ml/level1/version2"
+       level="1" version="3">
+    <listOfDataDescriptions>
+        <dataDescription id="fig2G_BaF3_data" name="fig2G_BaF3_data" source="../data/Fig2G_BaF3data.tsv"
+                         format="urn:sedml:format:tsv">
+            <dimensionDescription>
+                <compositeDescription indexType="integer" name="Index">
+                    <compositeDescription indexType="string" name="ColumnIds">
+                        <atomicDescription valueType="double" name="Values"/>
+                    </compositeDescription>
+                </compositeDescription>
+            </dimensionDescription>
+            <listOfDataSources>
+                <dataSource id="fig2G_BaF3_data_time">
+                    <listOfSlices>
+                        <slice reference="ColumnIds" value="time"/>
+                    </listOfSlices>
+                </dataSource>
+                <dataSource id="fig2G_BaF3_data_ppERK_50">
+                    <listOfSlices>
+                        <slice reference="ColumnIds" value="ppERK_50"/>
+                    </listOfSlices>
+                </dataSource>
+                <dataSource id="fig2G_BaF3_data_ppERK_10">
+                    <listOfSlices>
+                        <slice reference="ColumnIds" value="ppERK_10"/>
+                    </listOfSlices>
+                </dataSource>
+                <dataSource id="fig2G_BaF3_data_ppERK_5">
+                    <listOfSlices>
+                        <slice reference="ColumnIds" value="ppERK_5"/>
+                    </listOfSlices>
+                </dataSource>
+                <dataSource id="fig2G_BaF3_data_ppERK_2_5">
+                    <listOfSlices>
+                        <slice reference="ColumnIds" value="ppERK_2_5"/>
+                    </listOfSlices>
+                </dataSource>
+                <dataSource id="fig2G_BaF3_data_ppERK_1">
+                    <listOfSlices>
+                        <slice reference="ColumnIds" value="ppERK_1"/>
+                    </listOfSlices>
+                </dataSource>
+            </listOfDataSources>
+        </dataDescription>
+        <dataDescription id="fig2G_mCFUE_data" name="fig2G_mCFUE_data" source="../data/Fig2G_mCFUEdata.tsv"
+                         format="urn:sedml:format:tsv">
+            <dimensionDescription>
+                <compositeDescription indexType="integer" name="Index">
+                    <compositeDescription indexType="string" name="ColumnIds">
+                        <atomicDescription valueType="double" name="Values"/>
+                    </compositeDescription>
+                </compositeDescription>
+            </dimensionDescription>
+            <listOfDataSources>
+                <dataSource id="fig2G_mCFUE_data_time">
+                    <listOfSlices>
+                        <slice reference="ColumnIds" value="time"/>
+                    </listOfSlices>
+                </dataSource>
+                <dataSource id="fig2G_mCFUE_data_ppERK_50">
+                    <listOfSlices>
+                        <slice reference="ColumnIds" value="ppERK_50"/>
+                    </listOfSlices>
+                </dataSource>
+                <dataSource id="fig2G_mCFUE_data_ppERK_10">
+                    <listOfSlices>
+                        <slice reference="ColumnIds" value="ppERK_10"/>
+                    </listOfSlices>
+                </dataSource>
+                <dataSource id="fig2G_mCFUE_data_ppERK_5">
+                    <listOfSlices>
+                        <slice reference="ColumnIds" value="ppERK_5"/>
+                    </listOfSlices>
+                </dataSource>
+                <dataSource id="fig2G_mCFUE_data_ppERK_2_5">
+                    <listOfSlices>
+                        <slice reference="ColumnIds" value="ppERK_2_5"/>
+                    </listOfSlices>
+                </dataSource>
+                <dataSource id="fig2G_mCFUE_data_ppERK_0_5">
+                    <listOfSlices>
+                        <slice reference="ColumnIds" value="ppERK_0_5"/>
+                    </listOfSlices>
+                </dataSource>
+            </listOfDataSources>
+        </dataDescription>
+    </listOfDataDescriptions>
+    <listOfSimulations>
+        <uniformTimeCourse id="sim0_model0_adlung1" initialTime="0" outputStartTime="0" outputEndTime="65"
+                           numberOfPoints="1000">
+            <algorithm kisaoID="KISAO:0000019"/>
+        </uniformTimeCourse>
+        <uniformTimeCourse id="sim_task_task1_model1_adlung2" initialTime="0" outputStartTime="0" outputEndTime="65"
+                           numberOfPoints="1000">
+            <algorithm kisaoID="KISAO:0000019"/>
+        </uniformTimeCourse>
+        <uniformTimeCourse id="sim_task_task3_model3_adlung1_0" initialTime="0" outputStartTime="0" outputEndTime="65"
+                           numberOfPoints="1000">
+            <algorithm kisaoID="KISAO:0000019"/>
+        </uniformTimeCourse>
+        <uniformTimeCourse id="sim_task_task4_model4_adlung1_0" initialTime="0" outputStartTime="0" outputEndTime="65"
+                           numberOfPoints="1000">
+            <algorithm kisaoID="KISAO:0000019"/>
+        </uniformTimeCourse>
+        <uniformTimeCourse id="sim_task_task5_model5_adlung1_0" initialTime="0" outputStartTime="0" outputEndTime="65"
+                           numberOfPoints="1000">
+            <algorithm kisaoID="KISAO:0000019"/>
+        </uniformTimeCourse>
+        <uniformTimeCourse id="sim_task_task6_model6_adlung1" initialTime="0" outputStartTime="0" outputEndTime="65"
+                           numberOfPoints="1000">
+            <algorithm kisaoID="KISAO:0000019"/>
+        </uniformTimeCourse>
+        <uniformTimeCourse id="sim_task_task2_model2_adlung2" initialTime="0" outputStartTime="0" outputEndTime="65"
+                           numberOfPoints="1000">
+            <algorithm kisaoID="KISAO:0000019"/>
+        </uniformTimeCourse>
+        <uniformTimeCourse id="sim_task_task6_model6_adlung2" initialTime="0" outputStartTime="0" outputEndTime="65"
+                           numberOfPoints="1000">
+            <algorithm kisaoID="KISAO:0000019"/>
+        </uniformTimeCourse>
+        <uniformTimeCourse id="sim_task_task9_model9_adlung2_0" initialTime="0" outputStartTime="0" outputEndTime="65"
+                           numberOfPoints="1000">
+            <algorithm kisaoID="KISAO:0000019"/>
+        </uniformTimeCourse>
+        <uniformTimeCourse id="sim_task_task9_model9_adlung2_1" initialTime="0" outputStartTime="0" outputEndTime="65"
+                           numberOfPoints="1000">
+            <algorithm kisaoID="KISAO:0000019"/>
+        </uniformTimeCourse>
+        <uniformTimeCourse id="sim_task_task3_model3_adlung1_1" initialTime="0" outputStartTime="0" outputEndTime="65"
+                           numberOfPoints="1000">
+            <algorithm kisaoID="KISAO:0000019"/>
+        </uniformTimeCourse>
+        <uniformTimeCourse id="sim_task_task4_model4_adlung1_1" initialTime="0" outputStartTime="0" outputEndTime="65"
+                           numberOfPoints="1000">
+            <algorithm kisaoID="KISAO:0000019"/>
+        </uniformTimeCourse>
+        <uniformTimeCourse id="sim_task_task7_model7_adlung2_0" initialTime="0" outputStartTime="0" outputEndTime="65"
+                           numberOfPoints="1000">
+            <algorithm kisaoID="KISAO:0000019"/>
+        </uniformTimeCourse>
+        <uniformTimeCourse id="sim_task_task7_model7_adlung2_1" initialTime="0" outputStartTime="0" outputEndTime="65"
+                           numberOfPoints="1000">
+            <algorithm kisaoID="KISAO:0000019"/>
+        </uniformTimeCourse>
+        <uniformTimeCourse id="sim_task_task8_model8_adlung2_0" initialTime="0" outputStartTime="0" outputEndTime="65"
+                           numberOfPoints="1000">
+            <algorithm kisaoID="KISAO:0000019"/>
+        </uniformTimeCourse>
+        <uniformTimeCourse id="sim_task_task8_model8_adlung2_1" initialTime="0" outputStartTime="0" outputEndTime="65"
+                           numberOfPoints="1000">
+            <algorithm kisaoID="KISAO:0000019"/>
+        </uniformTimeCourse>
+        <uniformTimeCourse id="sim_task_task5_model5_adlung1_1" initialTime="0" outputStartTime="0" outputEndTime="65"
+                           numberOfPoints="1000">
+            <algorithm kisaoID="KISAO:0000019"/>
+        </uniformTimeCourse>
+        <uniformTimeCourse id="sim_task_task10_model10_adlung2_0" initialTime="0" outputStartTime="0" outputEndTime="65"
+                           numberOfPoints="1000">
+            <algorithm kisaoID="KISAO:0000019"/>
+        </uniformTimeCourse>
+        <uniformTimeCourse id="sim_task_task10_model10_adlung2_1" initialTime="0" outputStartTime="0" outputEndTime="65"
+                           numberOfPoints="1000">
+            <algorithm kisaoID="KISAO:0000019"/>
+        </uniformTimeCourse>
+    </listOfSimulations>
+    <listOfModels>
+        <model id="model0_adlung1" name="adlung1" language="urn:sedml:language:sbml" source="../models/adlung1.sbml">
+            <listOfChanges>
+                <changeAttribute
+                        target="/sbml:sbml/sbml:model/sbml:listOfParameters/sbml:parameter[@id=&apos;kppMek&apos;]/@value"
+                        newValue="9999.77"/>
+                <changeAttribute
+                        target="/sbml:sbml/sbml:model/sbml:listOfParameters/sbml:parameter[@id=&apos;ksatb&apos;]/@value"
+                        newValue="0.0024577"/>
+                <changeAttribute
+                        target="/sbml:sbml/sbml:model/sbml:listOfParameters/sbml:parameter[@id=&apos;kshbasal&apos;]/@value"
+                        newValue="1e-05"/>
+                <changeAttribute
+                        target="/sbml:sbml/sbml:model/sbml:listOfParameters/sbml:parameter[@id=&apos;kst1&apos;]/@value"
+                        newValue="20.0908"/>
+                <changeAttribute
+                        target="/sbml:sbml/sbml:model/sbml:listOfParameters/sbml:parameter[@id=&apos;kst2&apos;]/@value"
+                        newValue="0.0619403"/>
+                <changeAttribute
+                        target="/sbml:sbml/sbml:model/sbml:listOfParameters/sbml:parameter[@id=&apos;kvpakt&apos;]/@value"
+                        newValue="0.000174996"/>
+                <changeAttribute
+                        target="/sbml:sbml/sbml:model/sbml:listOfParameters/sbml:parameter[@id=&apos;kvppErk&apos;]/@value"
+                        newValue="0.000282332"/>
+                <changeAttribute
+                        target="/sbml:sbml/sbml:model/sbml:listOfParameters/sbml:parameter[@id=&apos;lAkt&apos;]/@value"
+                        newValue="10.1007"/>
+                <changeAttribute
+                        target="/sbml:sbml/sbml:model/sbml:listOfParameters/sbml:parameter[@id=&apos;lPDK1&apos;]/@value"
+                        newValue="2355.54"/>
+                <changeAttribute
+                        target="/sbml:sbml/sbml:model/sbml:listOfParameters/sbml:parameter[@id=&apos;lSHIP1&apos;]/@value"
+                        newValue="0.000650697"/>
+                <changeAttribute
+                        target="/sbml:sbml/sbml:model/sbml:listOfParameters/sbml:parameter[@id=&apos;lSos&apos;]/@value"
+                        newValue="0.39616"/>
+                <changeAttribute
+                        target="/sbml:sbml/sbml:model/sbml:listOfParameters/sbml:parameter[@id=&apos;lpErk&apos;]/@value"
+                        newValue="177.216"/>
+                <changeAttribute
+                        target="/sbml:sbml/sbml:model/sbml:listOfParameters/sbml:parameter[@id=&apos;lpMek&apos;]/@value"
+                        newValue="0.0414313"/>
+                <changeAttribute
+                        target="/sbml:sbml/sbml:model/sbml:listOfParameters/sbml:parameter[@id=&apos;lpRaf&apos;]/@value"
+                        newValue="2549.69"/>
+                <changeAttribute
+                        target="/sbml:sbml/sbml:model/sbml:listOfParameters/sbml:parameter[@id=&apos;lppErk&apos;]/@value"
+                        newValue="3.2516"/>
+                <changeAttribute
+                        target="/sbml:sbml/sbml:model/sbml:listOfParameters/sbml:parameter[@id=&apos;lppMek&apos;]/@value"
+                        newValue="1336.21"/>
+                <changeAttribute
+                        target="/sbml:sbml/sbml:model/sbml:listOfParameters/sbml:parameter[@id=&apos;main1&apos;]/@value"
+                        newValue="0.000224787"/>
+                <changeAttribute
+                        target="/sbml:sbml/sbml:model/sbml:listOfParameters/sbml:parameter[@id=&apos;maxccb&apos;]/@value"
+                        newValue="0.99"/>
+                <changeAttribute
+                        target="/sbml:sbml/sbml:model/sbml:listOfParameters/sbml:parameter[@id=&apos;n1&apos;]/@value"
+                        newValue="4.0"/>
+                <changeAttribute
+                        target="/sbml:sbml/sbml:model/sbml:listOfParameters/sbml:parameter[@id=&apos;nb&apos;]/@value"
+                        newValue="2.03939"/>
+                <changeAttribute
+                        target="/sbml:sbml/sbml:model/sbml:listOfParameters/sbml:parameter[@id=&apos;pEpoRdeactivation1&apos;]/@value"
+                        newValue="3.20488"/>
+                <changeAttribute
+                        target="/sbml:sbml/sbml:model/sbml:listOfParameters/sbml:parameter[@id=&apos;pbk2correct&apos;]/@value"
+                        newValue="0.485791"/>
+                <changeAttribute
+                        target="/sbml:sbml/sbml:model/sbml:listOfParameters/sbml:parameter[@id=&apos;pboffcorrect&apos;]/@value"
+                        newValue="0.470245"/>
+                <changeAttribute
+                        target="/sbml:sbml/sbml:model/sbml:listOfParameters/sbml:parameter[@id=&apos;vPI34P2&apos;]/@value"
+                        newValue="9996.96"/>
+                <changeAttribute
+                        target="/sbml:sbml/sbml:model/sbml:listOfParameters/sbml:parameter[@id=&apos;vPI45P2&apos;]/@value"
+                        newValue="84.5564"/>
+                <changeAttribute
+                        target="/sbml:sbml/sbml:model/sbml:listOfParameters/sbml:parameter[@id=&apos;vPIP3&apos;]/@value"
+                        newValue="10000.0"/>
+                <changeAttribute
+                        target="/sbml:sbml/sbml:model/sbml:listOfParameters/sbml:parameter[@id=&apos;vPIP3basal&apos;]/@value"
+                        newValue="0.104429"/>
+                <changeAttribute
+                        target="/sbml:sbml/sbml:model/sbml:listOfParameters/sbml:parameter[@id=&apos;vpAkt&apos;]/@value"
+                        newValue="6.90774"/>
+                <changeAttribute
+                        target="/sbml:sbml/sbml:model/sbml:listOfCompartments/sbml:compartment[@id=&apos;cyt&apos;]/@size"
+                        newValue="1.0"/>
+                <changeAttribute
+                        target="/sbml:sbml/sbml:model/sbml:listOfSpecies/sbml:species[@id=&apos;Intpakt&apos;]/@initialConcentration"
+                        newValue="0.0"/>
+                <changeAttribute
+                        target="/sbml:sbml/sbml:model/sbml:listOfSpecies/sbml:species[@id=&apos;pSos&apos;]/@initialConcentration"
+                        newValue="0.0"/>
+                <changeAttribute
+                        target="/sbml:sbml/sbml:model/sbml:listOfSpecies/sbml:species[@id=&apos;actPhosphatase&apos;]/@initialConcentration"
+                        newValue="0.0"/>
+                <changeAttribute
+                        target="/sbml:sbml/sbml:model/sbml:listOfSpecies/sbml:species[@id=&apos;phos2&apos;]/@initialConcentration"
+                        newValue="0.0"/>
+                <changeAttribute
+                        target="/sbml:sbml/sbml:model/sbml:listOfSpecies/sbml:species[@id=&apos;Proliferation&apos;]/@initialConcentration"
+                        newValue="0.0"/>
+                <changeAttribute
+                        target="/sbml:sbml/sbml:model/sbml:listOfSpecies/sbml:species[@id=&apos;BaF3Epo&apos;]/@initialConcentration"
+                        newValue="0.002"/>
+                <changeAttribute
+                        target="/sbml:sbml/sbml:model/sbml:listOfSpecies/sbml:species[@id=&apos;EpoRBaF3&apos;]/@initialConcentration"
+                        newValue="0.01862"/>
+                <changeAttribute
+                        target="/sbml:sbml/sbml:model/sbml:listOfSpecies/sbml:species[@id=&apos;RpSos&apos;]/@initialConcentration"
+                        newValue="0.0"/>
+                <changeAttribute
+                        target="/sbml:sbml/sbml:model/sbml:listOfSpecies/sbml:species[@id=&apos;Raptorb&apos;]/@initialConcentration"
+                        newValue="0.1"/>
+                <changeAttribute
+                        target="/sbml:sbml/sbml:model/sbml:listOfSpecies/sbml:species[@id=&apos;TORC2&apos;]/@initialConcentration"
+                        newValue="0.0"/>
+                <changeAttribute
+                        target="/sbml:sbml/sbml:model/sbml:listOfSpecies/sbml:species[@id=&apos;Intperk&apos;]/@initialConcentration"
+                        newValue="0.0"/>
+                <changeAttribute
+                        target="/sbml:sbml/sbml:model/sbml:listOfSpecies/sbml:species[@id=&apos;mTORt&apos;]/@initialConcentration"
+                        newValue="0.1"/>
+                <changeAttribute
+                        target="/sbml:sbml/sbml:model/sbml:listOfSpecies/sbml:species[@id=&apos;PhosphatasetBaF3&apos;]/@initialConcentration"
+                        newValue="0.0415"/>
+                <changeAttribute
+                        target="/sbml:sbml/sbml:model/sbml:listOfSpecies/sbml:species[@id=&apos;pEpoR&apos;]/@initialConcentration"
+                        newValue="0.0"/>
+                <changeAttribute
+                        target="/sbml:sbml/sbml:model/sbml:listOfSpecies/sbml:species[@id=&apos;Rictorb&apos;]/@initialConcentration"
+                        newValue="1.2329"/>
+                <changeAttribute
+                        target="/sbml:sbml/sbml:model/sbml:listOfSpecies/sbml:species[@id=&apos;IntpS6&apos;]/@initialConcentration"
+                        newValue="0.0"/>
+                <changeAttribute
+                        target="/sbml:sbml/sbml:model/sbml:listOfSpecies/sbml:species[@id=&apos;mTORa&apos;]/@initialConcentration"
+                        newValue="0.0"/>
+                <changeAttribute
+                        target="/sbml:sbml/sbml:model/sbml:listOfParameters/sbml:parameter[@id=&apos;Aktin&apos;]/@value"
+                        newValue="0.0"/>
+                <changeAttribute
+                        target="/sbml:sbml/sbml:model/sbml:listOfParameters/sbml:parameter[@id=&apos;EpoRactivation1&apos;]/@value"
+                        newValue="0.140964"/>
+                <changeAttribute
+                        target="/sbml:sbml/sbml:model/sbml:listOfParameters/sbml:parameter[@id=&apos;Epodegradation&apos;]/@value"
+                        newValue="0.0173287"/>
+                <changeAttribute
+                        target="/sbml:sbml/sbml:model/sbml:listOfParameters/sbml:parameter[@id=&apos;Ji1&apos;]/@value"
+                        newValue="0.220505"/>
+                <changeAttribute
+                        target="/sbml:sbml/sbml:model/sbml:listOfParameters/sbml:parameter[@id=&apos;Ki1&apos;]/@value"
+                        newValue="0.0272784"/>
+                <changeAttribute
+                        target="/sbml:sbml/sbml:model/sbml:listOfParameters/sbml:parameter[@id=&apos;Mekin&apos;]/@value"
+                        newValue="0.0"/>
+                <changeAttribute
+                        target="/sbml:sbml/sbml:model/sbml:listOfParameters/sbml:parameter[@id=&apos;Phosact1&apos;]/@value"
+                        newValue="341.317"/>
+                <changeAttribute
+                        target="/sbml:sbml/sbml:model/sbml:listOfParameters/sbml:parameter[@id=&apos;Phosdeact1&apos;]/@value"
+                        newValue="1e-05"/>
+                <changeAttribute
+                        target="/sbml:sbml/sbml:model/sbml:listOfParameters/sbml:parameter[@id=&apos;Phosphataseactivation1&apos;]/@value"
+                        newValue="144.425"/>
+                <changeAttribute
+                        target="/sbml:sbml/sbml:model/sbml:listOfParameters/sbml:parameter[@id=&apos;Phosphatasedeactivation1&apos;]/@value"
+                        newValue="1e-05"/>
+                <changeAttribute
+                        target="/sbml:sbml/sbml:model/sbml:listOfParameters/sbml:parameter[@id=&apos;RSKin&apos;]/@value"
+                        newValue="0.0"/>
+                <changeAttribute
+                        target="/sbml:sbml/sbml:model/sbml:listOfParameters/sbml:parameter[@id=&apos;Rapamycin&apos;]/@value"
+                        newValue="0.0"/>
+                <changeAttribute
+                        target="/sbml:sbml/sbml:model/sbml:listOfParameters/sbml:parameter[@id=&apos;Sostb&apos;]/@value"
+                        newValue="4.46181e-05"/>
+                <changeAttribute
+                        target="/sbml:sbml/sbml:model/sbml:listOfParameters/sbml:parameter[@id=&apos;bDUSP3&apos;]/@value"
+                        newValue="96.7699"/>
+                <changeAttribute
+                        target="/sbml:sbml/sbml:model/sbml:listOfParameters/sbml:parameter[@id=&apos;cycleaktinb&apos;]/@value"
+                        newValue="0.967522"/>
+                <changeAttribute
+                        target="/sbml:sbml/sbml:model/sbml:listOfParameters/sbml:parameter[@id=&apos;cyclemekinb&apos;]/@value"
+                        newValue="0.127989"/>
+                <changeAttribute
+                        target="/sbml:sbml/sbml:model/sbml:listOfParameters/sbml:parameter[@id=&apos;dpAkt&apos;]/@value"
+                        newValue="3.4739"/>
+                <changeAttribute
+                        target="/sbml:sbml/sbml:model/sbml:listOfParameters/sbml:parameter[@id=&apos;initAkttBaF3&apos;]/@value"
+                        newValue="0.51"/>
+                <changeAttribute
+                        target="/sbml:sbml/sbml:model/sbml:listOfParameters/sbml:parameter[@id=&apos;initErktBaF3&apos;]/@value"
+                        newValue="2.964"/>
+                <changeAttribute
+                        target="/sbml:sbml/sbml:model/sbml:listOfParameters/sbml:parameter[@id=&apos;initMektBaF3&apos;]/@value"
+                        newValue="4.38"/>
+                <changeAttribute
+                        target="/sbml:sbml/sbml:model/sbml:listOfParameters/sbml:parameter[@id=&apos;initPDK1tBaF3&apos;]/@value"
+                        newValue="0.763"/>
+                <changeAttribute
+                        target="/sbml:sbml/sbml:model/sbml:listOfParameters/sbml:parameter[@id=&apos;initPI3KtBaF3&apos;]/@value"
+                        newValue="0.0124"/>
+                <changeAttribute
+                        target="/sbml:sbml/sbml:model/sbml:listOfParameters/sbml:parameter[@id=&apos;initPI45P2BaF3&apos;]/@value"
+                        newValue="10.0"/>
+                <changeAttribute
+                        target="/sbml:sbml/sbml:model/sbml:listOfParameters/sbml:parameter[@id=&apos;initPTENBaF3&apos;]/@value"
+                        newValue="0.1074"/>
+                <changeAttribute
+                        target="/sbml:sbml/sbml:model/sbml:listOfParameters/sbml:parameter[@id=&apos;initRSKtb&apos;]/@value"
+                        newValue="3.0306"/>
+                <changeAttribute
+                        target="/sbml:sbml/sbml:model/sbml:listOfParameters/sbml:parameter[@id=&apos;initRaftBaF3&apos;]/@value"
+                        newValue="3.886"/>
+                <changeAttribute
+                        target="/sbml:sbml/sbml:model/sbml:listOfParameters/sbml:parameter[@id=&apos;initRastBaF3&apos;]/@value"
+                        newValue="9.531"/>
+                <changeAttribute
+                        target="/sbml:sbml/sbml:model/sbml:listOfParameters/sbml:parameter[@id=&apos;initRpSHIP1&apos;]/@value"
+                        newValue="0.0"/>
+                <changeAttribute
+                        target="/sbml:sbml/sbml:model/sbml:listOfParameters/sbml:parameter[@id=&apos;initS6tBaF3&apos;]/@value"
+                        newValue="2.59"/>
+                <changeAttribute
+                        target="/sbml:sbml/sbml:model/sbml:listOfParameters/sbml:parameter[@id=&apos;initSHIP1tBaF3&apos;]/@value"
+                        newValue="0.0842"/>
+                <changeAttribute
+                        target="/sbml:sbml/sbml:model/sbml:listOfParameters/sbml:parameter[@id=&apos;initTORC1&apos;]/@value"
+                        newValue="0.0"/>
+                <changeAttribute
+                        target="/sbml:sbml/sbml:model/sbml:listOfParameters/sbml:parameter[@id=&apos;kAkt&apos;]/@value"
+                        newValue="9984.96"/>
+                <changeAttribute
+                        target="/sbml:sbml/sbml:model/sbml:listOfParameters/sbml:parameter[@id=&apos;kPDK1&apos;]/@value"
+                        newValue="9439.5"/>
+                <changeAttribute
+                        target="/sbml:sbml/sbml:model/sbml:listOfParameters/sbml:parameter[@id=&apos;kPI3K&apos;]/@value"
+                        newValue="0.000104741"/>
+                <changeAttribute
+                        target="/sbml:sbml/sbml:model/sbml:listOfParameters/sbml:parameter[@id=&apos;kPI3Kras&apos;]/@value"
+                        newValue="10000.0"/>
+                <changeAttribute
+                        target="/sbml:sbml/sbml:model/sbml:listOfParameters/sbml:parameter[@id=&apos;kSHIP1&apos;]/@value"
+                        newValue="0.0745937"/>
+                <changeAttribute
+                        target="/sbml:sbml/sbml:model/sbml:listOfParameters/sbml:parameter[@id=&apos;kSos&apos;]/@value"
+                        newValue="59.4049"/>
+                <changeAttribute
+                        target="/sbml:sbml/sbml:model/sbml:listOfParameters/sbml:parameter[@id=&apos;kaRas&apos;]/@value"
+                        newValue="2981.53"/>
+                <changeAttribute
+                        target="/sbml:sbml/sbml:model/sbml:listOfParameters/sbml:parameter[@id=&apos;kaktinb&apos;]/@value"
+                        newValue="1.866219406"/>
+                <changeAttribute
+                        target="/sbml:sbml/sbml:model/sbml:listOfParameters/sbml:parameter[@id=&apos;karsk&apos;]/@value"
+                        newValue="1.26435"/>
+                <changeAttribute
+                        target="/sbml:sbml/sbml:model/sbml:listOfParameters/sbml:parameter[@id=&apos;kas6r&apos;]/@value"
+                        newValue="0.000533083"/>
+                <changeAttribute
+                        target="/sbml:sbml/sbml:model/sbml:listOfParameters/sbml:parameter[@id=&apos;kas6t&apos;]/@value"
+                        newValue="2180.44"/>
+                <changeAttribute
+                        target="/sbml:sbml/sbml:model/sbml:listOfParameters/sbml:parameter[@id=&apos;kbackRas&apos;]/@value"
+                        newValue="0.0103384"/>
+                <changeAttribute
+                        target="/sbml:sbml/sbml:model/sbml:listOfParameters/sbml:parameter[@id=&apos;kbacks6&apos;]/@value"
+                        newValue="1.00003e-05"/>
+                <changeAttribute
+                        target="/sbml:sbml/sbml:model/sbml:listOfParameters/sbml:parameter[@id=&apos;kdRas&apos;]/@value"
+                        newValue="0.540777"/>
+                <changeAttribute
+                        target="/sbml:sbml/sbml:model/sbml:listOfParameters/sbml:parameter[@id=&apos;kdactm&apos;]/@value"
+                        newValue="0.0617342"/>
+                <changeAttribute
+                        target="/sbml:sbml/sbml:model/sbml:listOfParameters/sbml:parameter[@id=&apos;kdpes&apos;]/@value"
+                        newValue="0.0270729"/>
+                <changeAttribute
+                        target="/sbml:sbml/sbml:model/sbml:listOfParameters/sbml:parameter[@id=&apos;kdphoss6&apos;]/@value"
+                        newValue="0.328006"/>
+                <changeAttribute
+                        target="/sbml:sbml/sbml:model/sbml:listOfParameters/sbml:parameter[@id=&apos;kdrsk&apos;]/@value"
+                        newValue="0.677229"/>
+                <changeAttribute
+                        target="/sbml:sbml/sbml:model/sbml:listOfParameters/sbml:parameter[@id=&apos;kdt1&apos;]/@value"
+                        newValue="1588.13"/>
+                <changeAttribute
+                        target="/sbml:sbml/sbml:model/sbml:listOfParameters/sbml:parameter[@id=&apos;kdt2&apos;]/@value"
+                        newValue="1e-05"/>
+                <changeAttribute
+                        target="/sbml:sbml/sbml:model/sbml:listOfParameters/sbml:parameter[@id=&apos;kinrapab&apos;]/@value"
+                        newValue="2.778901656"/>
+                <changeAttribute
+                        target="/sbml:sbml/sbml:model/sbml:listOfParameters/sbml:parameter[@id=&apos;kinrskb&apos;]/@value"
+                        newValue="0.552054462"/>
+                <changeAttribute
+                        target="/sbml:sbml/sbml:model/sbml:listOfParameters/sbml:parameter[@id=&apos;kmekinb&apos;]/@value"
+                        newValue="3.224998336"/>
+                <changeAttribute
+                        target="/sbml:sbml/sbml:model/sbml:listOfParameters/sbml:parameter[@id=&apos;kpErk&apos;]/@value"
+                        newValue="9999.08"/>
+                <changeAttribute
+                        target="/sbml:sbml/sbml:model/sbml:listOfParameters/sbml:parameter[@id=&apos;kpMek&apos;]/@value"
+                        newValue="9774.26"/>
+                <changeAttribute
+                        target="/sbml:sbml/sbml:model/sbml:listOfParameters/sbml:parameter[@id=&apos;kpRaf&apos;]/@value"
+                        newValue="1.17959"/>
+                <changeAttribute
+                        target="/sbml:sbml/sbml:model/sbml:listOfParameters/sbml:parameter[@id=&apos;kpes&apos;]/@value"
+                        newValue="0.583255"/>
+                <changeAttribute
+                        target="/sbml:sbml/sbml:model/sbml:listOfParameters/sbml:parameter[@id=&apos;kppErk&apos;]/@value"
+                        newValue="9999.96"/>
+            </listOfChanges>
+        </model>
+        <model id="model1_adlung2" name="adlung2" language="urn:sedml:language:sbml" source="../models/adlung2.sbml"/>
+        <model id="model4_adlung1" name="adlung1_Epo2_5" language="urn:sedml:language:sbml"
+               source="../models/adlung1.sbml">
+            <listOfChanges>
+                <changeAttribute
+                        target="/sbml:sbml/sbml:model/sbml:listOfSpecies/sbml:species[@id=&apos;BaF3Epo&apos;]/@initialConcentration"
+                        newValue="0.001"/>
+            </listOfChanges>
+        </model>
+        <model id="model2_adlung1" name="adlung1_Epo50" language="urn:sedml:language:sbml"
+               source="../models/adlung1.sbml">
+            <listOfChanges>
+                <changeAttribute
+                        target="/sbml:sbml/sbml:model/sbml:listOfSpecies/sbml:species[@id=&apos;BaF3Epo&apos;]/@initialConcentration"
+                        newValue="0.02"/>
+            </listOfChanges>
+        </model>
+        <model id="model5_adlung1" name="adlung1_Epo1" language="urn:sedml:language:sbml"
+               source="../models/adlung1.sbml">
+            <listOfChanges>
+                <changeAttribute
+                        target="/sbml:sbml/sbml:model/sbml:listOfSpecies/sbml:species[@id=&apos;BaF3Epo&apos;]/@initialConcentration"
+                        newValue="0.0004"/>
+            </listOfChanges>
+        </model>
+        <model id="model7_adlung2" name="adlung2_Epo10" language="urn:sedml:language:sbml"
+               source="../models/adlung2.sbml">
+            <listOfChanges>
+                <changeAttribute
+                        target="/sbml:sbml/sbml:model/sbml:listOfSpecies/sbml:species[@id=&apos;Epo&apos;]/@initialConcentration"
+                        newValue="0.004"/>
+            </listOfChanges>
+        </model>
+        <model id="model9_adlung2" name="adlung2_Epo1" language="urn:sedml:language:sbml"
+               source="../models/adlung2.sbml">
+            <listOfChanges>
+                <changeAttribute
+                        target="/sbml:sbml/sbml:model/sbml:listOfSpecies/sbml:species[@id=&apos;Epo&apos;]/@initialConcentration"
+                        newValue="0.0004"/>
+            </listOfChanges>
+        </model>
+        <model id="model3_adlung1" name="adlung1_Epo10" language="urn:sedml:language:sbml"
+               source="../models/adlung1.sbml">
+            <listOfChanges>
+                <changeAttribute
+                        target="/sbml:sbml/sbml:model/sbml:listOfSpecies/sbml:species[@id=&apos;BaF3Epo&apos;]/@initialConcentration"
+                        newValue="0.004"/>
+            </listOfChanges>
+        </model>
+        <model id="model6_adlung2" name="adlung2_Epo50" language="urn:sedml:language:sbml"
+               source="../models/adlung2.sbml">
+            <listOfChanges>
+                <changeAttribute
+                        target="/sbml:sbml/sbml:model/sbml:listOfSpecies/sbml:species[@id=&apos;Epo&apos;]/@initialConcentration"
+                        newValue="0.02"/>
+            </listOfChanges>
+        </model>
+        <model id="model8_adlung2" name="adlung2_Epo2.5" language="urn:sedml:language:sbml"
+               source="../models/adlung2.sbml">
+            <listOfChanges>
+                <changeAttribute
+                        target="/sbml:sbml/sbml:model/sbml:listOfSpecies/sbml:species[@id=&apos;Epo&apos;]/@initialConcentration"
+                        newValue="0.001"/>
+            </listOfChanges>
+        </model>
+        <model id="model10_adlung2" name="adlung2_Epo0.5" language="urn:sedml:language:sbml"
+               source="../models/adlung2.sbml">
+            <listOfChanges>
+                <changeAttribute
+                        target="/sbml:sbml/sbml:model/sbml:listOfSpecies/sbml:species[@id=&apos;Epo&apos;]/@initialConcentration"
+                        newValue="0.0002"/>
+            </listOfChanges>
+        </model>
+    </listOfModels>
+    <listOfTasks>
+        <task id="task0_model0_adlung1" modelReference="model0_adlung1" simulationReference="sim0_model0_adlung1"/>
+        <task id="task1_model1_adlung2" name="task1_model1_adlung2" modelReference="model1_adlung2"
+              simulationReference="sim_task_task1_model1_adlung2"/>
+        <task id="task2_model2_adlung1" name="task2_model2_adlung1" modelReference="model2_adlung1"
+              simulationReference="sim_task_task2_model2_adlung2"/>
+        <task id="task4_model4_adlung1" modelReference="model4_adlung1"
+              simulationReference="sim_task_task4_model4_adlung1_1"/>
+        <task id="task6_model6_adlung2" modelReference="model6_adlung2"
+              simulationReference="sim_task_task6_model6_adlung2"/>
+        <task id="task8_model8_adlung2" modelReference="model8_adlung2"
+              simulationReference="sim_task_task8_model8_adlung2_1"/>
+        <task id="task10_model10_adlung2" modelReference="model10_adlung2"
+              simulationReference="sim_task_task10_model10_adlung2_1"/>
+        <task id="task3_model3_adlung1" modelReference="model3_adlung1"
+              simulationReference="sim_task_task3_model3_adlung1_1"/>
+        <task id="task5_model5_adlung1" modelReference="model5_adlung1"
+              simulationReference="sim_task_task5_model5_adlung1_1"/>
+        <task id="task7_model7_adlung2" modelReference="model7_adlung2"
+              simulationReference="sim_task_task7_model7_adlung2_1"/>
+        <task id="task9_model9_adlung2" modelReference="model9_adlung2"
+              simulationReference="sim_task_task9_model9_adlung2_1"/>
+    </listOfTasks>
+    <listOfDataGenerators>
+        <dataGenerator id="fig2G_mCFUE_50_exp_datagen1">
+            <listOfVariables>
+                <variable id="fig2G_mCFUE_data_fig2G_mCFUE_data_ppERK_50" target="#fig2G_mCFUE_data_ppERK_50"/>
+            </listOfVariables>
+            <math xmlns="http://www.w3.org/1998/Math/MathML">
+                <ci>fig2G_mCFUE_data_fig2G_mCFUE_data_ppERK_50</ci>
+            </math>
+        </dataGenerator>
+        <dataGenerator id="fig2G_mCFUE_0_5_exp_datagen0">
+            <listOfVariables>
+                <variable id="fig2G_mCFUE_data_fig2G_mCFUE_data_time" target="#fig2G_mCFUE_data_time"/>
+            </listOfVariables>
+            <math xmlns="http://www.w3.org/1998/Math/MathML">
+                <ci>fig2G_mCFUE_data_fig2G_mCFUE_data_time</ci>
+            </math>
+        </dataGenerator>
+        <dataGenerator id="fig2G_BaF3_10_exp_datagen0">
+            <listOfVariables>
+                <variable id="fig2G_BaF3_data_fig2G_BaF3_data_time" target="#fig2G_BaF3_data_time"/>
+            </listOfVariables>
+            <math xmlns="http://www.w3.org/1998/Math/MathML">
+                <ci>fig2G_BaF3_data_fig2G_BaF3_data_time</ci>
+            </math>
+        </dataGenerator>
+        <dataGenerator id="fig2G_BaF3_5_exp_datagen0">
+            <listOfVariables>
+                <variable id="fig2G_BaF3_data_fig2G_BaF3_data_time" target="#fig2G_BaF3_data_time"/>
+            </listOfVariables>
+            <math xmlns="http://www.w3.org/1998/Math/MathML">
+                <ci>fig2G_BaF3_data_fig2G_BaF3_data_time</ci>
+            </math>
+        </dataGenerator>
+        <dataGenerator id="fig2G_BaF3_5_exp_datagen1">
+            <listOfVariables>
+                <variable id="fig2G_BaF3_data_fig2G_BaF3_data_ppERK_5" target="#fig2G_BaF3_data_ppERK_5"/>
+            </listOfVariables>
+            <math xmlns="http://www.w3.org/1998/Math/MathML">
+                <ci>fig2G_BaF3_data_fig2G_BaF3_data_ppERK_5</ci>
+            </math>
+        </dataGenerator>
+        <dataGenerator id="fig2G_BaF3_2_5_exp_datagen0">
+            <listOfVariables>
+                <variable id="fig2G_BaF3_data_fig2G_BaF3_data_time" target="#fig2G_BaF3_data_time"/>
+            </listOfVariables>
+            <math xmlns="http://www.w3.org/1998/Math/MathML">
+                <ci>fig2G_BaF3_data_fig2G_BaF3_data_time</ci>
+            </math>
+        </dataGenerator>
+        <dataGenerator id="fig2G_BaF3_2_5_exp_datagen1">
+            <listOfVariables>
+                <variable id="fig2G_BaF3_data_fig2G_BaF3_data_ppERK_2_5" target="#fig2G_BaF3_data_ppERK_2_5"/>
+            </listOfVariables>
+            <math xmlns="http://www.w3.org/1998/Math/MathML">
+                <ci>fig2G_BaF3_data_fig2G_BaF3_data_ppERK_2_5</ci>
+            </math>
+        </dataGenerator>
+        <dataGenerator id="fig2G_BaF3_1_exp_datagen0">
+            <listOfVariables>
+                <variable id="fig2G_BaF3_data_fig2G_BaF3_data_time" target="#fig2G_BaF3_data_time"/>
+            </listOfVariables>
+            <math xmlns="http://www.w3.org/1998/Math/MathML">
+                <ci>fig2G_BaF3_data_fig2G_BaF3_data_time</ci>
+            </math>
+        </dataGenerator>
+        <dataGenerator id="fig2G_BaF3_1_exp_datagen1">
+            <listOfVariables>
+                <variable id="fig2G_BaF3_data_fig2G_BaF3_data_ppERK_1" target="#fig2G_BaF3_data_ppERK_1"/>
+            </listOfVariables>
+            <math xmlns="http://www.w3.org/1998/Math/MathML">
+                <ci>fig2G_BaF3_data_fig2G_BaF3_data_ppERK_1</ci>
+            </math>
+        </dataGenerator>
+        <dataGenerator id="fig2G_mCFUE_0_5_exp_datagen1">
+            <listOfVariables>
+                <variable id="fig2G_mCFUE_data_fig2G_mCFUE_data_ppERK_0_5" target="#fig2G_mCFUE_data_ppERK_0_5"/>
+            </listOfVariables>
+            <math xmlns="http://www.w3.org/1998/Math/MathML">
+                <ci>fig2G_mCFUE_data_fig2G_mCFUE_data_ppERK_0_5</ci>
+            </math>
+        </dataGenerator>
+        <dataGenerator id="fig2G_mCFUE_0_5_datagen0">
+            <listOfVariables>
+                <variable id="task10_model10_adlung2_time" symbol="urn:sedml:symbol:time"
+                          taskReference="task10_model10_adlung2"/>
+            </listOfVariables>
+            <math xmlns="http://www.w3.org/1998/Math/MathML">
+                <ci>task10_model10_adlung2_time</ci>
+            </math>
+        </dataGenerator>
+        <dataGenerator id="fig2G_mCFUE_0_5_datagen1">
+            <listOfVariables>
+                <variable id="task10_model10_adlung2_ppErk"
+                          target="/sbml:sbml/sbml:model/sbml:listOfSpecies/sbml:species[@id=&apos;ppErk&apos;]"
+                          taskReference="task10_model10_adlung2"/>
+            </listOfVariables>
+            <math xmlns="http://www.w3.org/1998/Math/MathML">
+                <ci>task10_model10_adlung2_ppErk</ci>
+            </math>
+        </dataGenerator>
+        <dataGenerator id="fig2G_mCFUE_5_exp_datagen1">
+            <listOfVariables>
+                <variable id="fig2G_mCFUE_data_fig2G_mCFUE_data_ppERK_5" target="#fig2G_mCFUE_data_ppERK_5"/>
+            </listOfVariables>
+            <math xmlns="http://www.w3.org/1998/Math/MathML">
+                <ci>fig2G_mCFUE_data_fig2G_mCFUE_data_ppERK_5</ci>
+            </math>
+        </dataGenerator>
+        <dataGenerator id="fig2G_BaF3_2_5_datagen0">
+            <listOfVariables>
+                <variable id="task4_model4_adlung1_time" symbol="urn:sedml:symbol:time"
+                          taskReference="task4_model4_adlung1"/>
+            </listOfVariables>
+            <math xmlns="http://www.w3.org/1998/Math/MathML">
+                <ci>task4_model4_adlung1_time</ci>
+            </math>
+        </dataGenerator>
+        <dataGenerator id="fig2G_BaF3_2_5_datagen1">
+            <listOfVariables>
+                <variable id="task4_model4_adlung1_ppErk"
+                          target="/sbml:sbml/sbml:model/sbml:listOfSpecies/sbml:species[@id=&apos;ppErk&apos;]"
+                          taskReference="task4_model4_adlung1"/>
+            </listOfVariables>
+            <math xmlns="http://www.w3.org/1998/Math/MathML">
+                <ci>task4_model4_adlung1_ppErk</ci>
+            </math>
+        </dataGenerator>
+        <dataGenerator id="fig2G_BaF3_1_datagen0">
+            <listOfVariables>
+                <variable id="task5_model5_adlung1_time" symbol="urn:sedml:symbol:time"
+                          taskReference="task5_model5_adlung1"/>
+            </listOfVariables>
+            <math xmlns="http://www.w3.org/1998/Math/MathML">
+                <ci>task5_model5_adlung1_time</ci>
+            </math>
+        </dataGenerator>
+        <dataGenerator id="fig2G_BaF3_1_datagen1">
+            <listOfVariables>
+                <variable id="task5_model5_adlung1_ppErk"
+                          target="/sbml:sbml/sbml:model/sbml:listOfSpecies/sbml:species[@id=&apos;ppErk&apos;]"
+                          taskReference="task5_model5_adlung1"/>
+            </listOfVariables>
+            <math xmlns="http://www.w3.org/1998/Math/MathML">
+                <ci>task5_model5_adlung1_ppErk</ci>
+            </math>
+        </dataGenerator>
+        <dataGenerator id="fig2G_mCFUE_50_exp_datagen0">
+            <listOfVariables>
+                <variable id="fig2G_mCFUE_data_fig2G_mCFUE_data_time" target="#fig2G_mCFUE_data_time"/>
+            </listOfVariables>
+            <math xmlns="http://www.w3.org/1998/Math/MathML">
+                <ci>fig2G_mCFUE_data_fig2G_mCFUE_data_time</ci>
+            </math>
+        </dataGenerator>
+        <dataGenerator id="fig2G_mCFUE_10_exp_datagen0">
+            <listOfVariables>
+                <variable id="fig2G_mCFUE_data_fig2G_mCFUE_data_time" target="#fig2G_mCFUE_data_time"/>
+            </listOfVariables>
+            <math xmlns="http://www.w3.org/1998/Math/MathML">
+                <ci>fig2G_mCFUE_data_fig2G_mCFUE_data_time</ci>
+            </math>
+        </dataGenerator>
+        <dataGenerator id="fig2G_mCFUE_2_5_exp_datagen0">
+            <listOfVariables>
+                <variable id="fig2G_mCFUE_data_fig2G_mCFUE_data_time" target="#fig2G_mCFUE_data_time"/>
+            </listOfVariables>
+            <math xmlns="http://www.w3.org/1998/Math/MathML">
+                <ci>fig2G_mCFUE_data_fig2G_mCFUE_data_time</ci>
+            </math>
+        </dataGenerator>
+        <dataGenerator id="fig2G_BaF3_50_exp_datagen0">
+            <listOfVariables>
+                <variable id="fig2G_BaF3_data_fig2G_BaF3_data_time" target="#fig2G_BaF3_data_time"/>
+            </listOfVariables>
+            <math xmlns="http://www.w3.org/1998/Math/MathML">
+                <ci>fig2G_BaF3_data_fig2G_BaF3_data_time</ci>
+            </math>
+        </dataGenerator>
+        <dataGenerator id="fig2G_BaF3_50_exp_datagen1">
+            <listOfVariables>
+                <variable id="fig2G_BaF3_data_fig2G_BaF3_data_ppERK_50" target="#fig2G_BaF3_data_ppERK_50"/>
+            </listOfVariables>
+            <math xmlns="http://www.w3.org/1998/Math/MathML">
+                <ci>fig2G_BaF3_data_fig2G_BaF3_data_ppERK_50</ci>
+            </math>
+        </dataGenerator>
+        <dataGenerator id="fig2G_BaF3_50_datagen0">
+            <listOfVariables>
+                <variable id="task2_model2_adlung1_time" symbol="urn:sedml:symbol:time"
+                          taskReference="task2_model2_adlung1"/>
+            </listOfVariables>
+            <math xmlns="http://www.w3.org/1998/Math/MathML">
+                <ci>task2_model2_adlung1_time</ci>
+            </math>
+        </dataGenerator>
+        <dataGenerator id="fig2G_BaF3_50_datagen1">
+            <listOfVariables>
+                <variable id="task2_model2_adlung1_ppErk"
+                          target="/sbml:sbml/sbml:model/sbml:listOfSpecies/sbml:species[@id=&apos;ppErk&apos;]"
+                          taskReference="task2_model2_adlung1"/>
+            </listOfVariables>
+            <math xmlns="http://www.w3.org/1998/Math/MathML">
+                <ci>task2_model2_adlung1_ppErk</ci>
+            </math>
+        </dataGenerator>
+        <dataGenerator id="fig2G_BaF3_10_datagen0">
+            <listOfVariables>
+                <variable id="task3_model3_adlung1_time" symbol="urn:sedml:symbol:time"
+                          taskReference="task3_model3_adlung1"/>
+            </listOfVariables>
+            <math xmlns="http://www.w3.org/1998/Math/MathML">
+                <ci>task3_model3_adlung1_time</ci>
+            </math>
+        </dataGenerator>
+        <dataGenerator id="fig2G_BaF3_10_datagen1">
+            <listOfVariables>
+                <variable id="task3_model3_adlung1_ppErk"
+                          target="/sbml:sbml/sbml:model/sbml:listOfSpecies/sbml:species[@id=&apos;ppErk&apos;]"
+                          taskReference="task3_model3_adlung1"/>
+            </listOfVariables>
+            <math xmlns="http://www.w3.org/1998/Math/MathML">
+                <ci>task3_model3_adlung1_ppErk</ci>
+            </math>
+        </dataGenerator>
+        <dataGenerator id="fig2G_BaF3_5_datagen0">
+            <listOfVariables>
+                <variable id="task0_model0_adlung1_time" symbol="urn:sedml:symbol:time"
+                          taskReference="task0_model0_adlung1"/>
+            </listOfVariables>
+            <math xmlns="http://www.w3.org/1998/Math/MathML">
+                <ci>task0_model0_adlung1_time</ci>
+            </math>
+        </dataGenerator>
+        <dataGenerator id="fig2G_BaF3_5_datagen1">
+            <listOfVariables>
+                <variable id="task0_model0_adlung1_ppErk"
+                          target="/sbml:sbml/sbml:model/sbml:listOfSpecies/sbml:species[@id=&apos;ppErk&apos;]"
+                          taskReference="task0_model0_adlung1"/>
+            </listOfVariables>
+            <math xmlns="http://www.w3.org/1998/Math/MathML">
+                <ci>task0_model0_adlung1_ppErk</ci>
+            </math>
+        </dataGenerator>
+        <dataGenerator id="fig2G_mCFUE_10_exp_datagen1">
+            <listOfVariables>
+                <variable id="fig2G_mCFUE_data_fig2G_mCFUE_data_ppERK_10" target="#fig2G_mCFUE_data_ppERK_10"/>
+            </listOfVariables>
+            <math xmlns="http://www.w3.org/1998/Math/MathML">
+                <ci>fig2G_mCFUE_data_fig2G_mCFUE_data_ppERK_10</ci>
+            </math>
+        </dataGenerator>
+        <dataGenerator id="fig2G_mCFUE_5_exp_datagen0">
+            <listOfVariables>
+                <variable id="fig2G_mCFUE_data_fig2G_mCFUE_data_time" target="#fig2G_mCFUE_data_time"/>
+            </listOfVariables>
+            <math xmlns="http://www.w3.org/1998/Math/MathML">
+                <ci>fig2G_mCFUE_data_fig2G_mCFUE_data_time</ci>
+            </math>
+        </dataGenerator>
+        <dataGenerator id="fig2G_mCFUE_2_5_exp_datagen1">
+            <listOfVariables>
+                <variable id="fig2G_mCFUE_data_fig2G_mCFUE_data_ppERK_2_5" target="#fig2G_mCFUE_data_ppERK_2_5"/>
+            </listOfVariables>
+            <math xmlns="http://www.w3.org/1998/Math/MathML">
+                <ci>fig2G_mCFUE_data_fig2G_mCFUE_data_ppERK_2_5</ci>
+            </math>
+        </dataGenerator>
+        <dataGenerator id="fig2G_mCFUE_50_datagen0">
+            <listOfVariables>
+                <variable id="task6_model6_adlung2_time" symbol="urn:sedml:symbol:time"
+                          taskReference="task6_model6_adlung2"/>
+            </listOfVariables>
+            <math xmlns="http://www.w3.org/1998/Math/MathML">
+                <ci>task6_model6_adlung2_time</ci>
+            </math>
+        </dataGenerator>
+        <dataGenerator id="fig2G_mCFUE_50_datagen1">
+            <listOfVariables>
+                <variable id="task6_model6_adlung2_ppErk"
+                          target="/sbml:sbml/sbml:model/sbml:listOfSpecies/sbml:species[@id=&apos;ppErk&apos;]"
+                          taskReference="task6_model6_adlung2"/>
+            </listOfVariables>
+            <math xmlns="http://www.w3.org/1998/Math/MathML">
+                <ci>task6_model6_adlung2_ppErk</ci>
+            </math>
+        </dataGenerator>
+        <dataGenerator id="fig2G_mCFUE_10_datagen0">
+            <listOfVariables>
+                <variable id="task7_model7_adlung2_time" symbol="urn:sedml:symbol:time"
+                          taskReference="task7_model7_adlung2"/>
+            </listOfVariables>
+            <math xmlns="http://www.w3.org/1998/Math/MathML">
+                <ci>task7_model7_adlung2_time</ci>
+            </math>
+        </dataGenerator>
+        <dataGenerator id="fig2G_mCFUE_10_datagen1">
+            <listOfVariables>
+                <variable id="task7_model7_adlung2_ppErk"
+                          target="/sbml:sbml/sbml:model/sbml:listOfSpecies/sbml:species[@id=&apos;ppErk&apos;]"
+                          taskReference="task7_model7_adlung2"/>
+            </listOfVariables>
+            <math xmlns="http://www.w3.org/1998/Math/MathML">
+                <ci>task7_model7_adlung2_ppErk</ci>
+            </math>
+        </dataGenerator>
+        <dataGenerator id="fig2G_mCFUE_5_datagen0">
+            <listOfVariables>
+                <variable id="task1_model1_adlung2_time" symbol="urn:sedml:symbol:time"
+                          taskReference="task1_model1_adlung2"/>
+            </listOfVariables>
+            <math xmlns="http://www.w3.org/1998/Math/MathML">
+                <ci>task1_model1_adlung2_time</ci>
+            </math>
+        </dataGenerator>
+        <dataGenerator id="fig2G_mCFUE_5_datagen1">
+            <listOfVariables>
+                <variable id="task1_model1_adlung2_ppErk"
+                          target="/sbml:sbml/sbml:model/sbml:listOfSpecies/sbml:species[@id=&apos;ppErk&apos;]"
+                          taskReference="task1_model1_adlung2"/>
+            </listOfVariables>
+            <math xmlns="http://www.w3.org/1998/Math/MathML">
+                <ci>task1_model1_adlung2_ppErk</ci>
+            </math>
+        </dataGenerator>
+        <dataGenerator id="fig2G_mCFUE_2_5_datagen0">
+            <listOfVariables>
+                <variable id="task8_model8_adlung2_time" symbol="urn:sedml:symbol:time"
+                          taskReference="task8_model8_adlung2"/>
+            </listOfVariables>
+            <math xmlns="http://www.w3.org/1998/Math/MathML">
+                <ci>task8_model8_adlung2_time</ci>
+            </math>
+        </dataGenerator>
+        <dataGenerator id="fig2G_mCFUE_2_5_datagen1">
+            <listOfVariables>
+                <variable id="task8_model8_adlung2_ppErk"
+                          target="/sbml:sbml/sbml:model/sbml:listOfSpecies/sbml:species[@id=&apos;ppErk&apos;]"
+                          taskReference="task8_model8_adlung2"/>
+            </listOfVariables>
+            <math xmlns="http://www.w3.org/1998/Math/MathML">
+                <ci>task8_model8_adlung2_ppErk</ci>
+            </math>
+        </dataGenerator>
+        <dataGenerator id="fig2G_BaF3_10_exp_datagen1">
+            <listOfVariables>
+                <variable id="fig2G_BaF3_data_fig2G_BaF3_data_ppERK_10" target="#fig2G_BaF3_data_ppERK_10"/>
+            </listOfVariables>
+            <math xmlns="http://www.w3.org/1998/Math/MathML">
+                <ci>fig2G_BaF3_data_fig2G_BaF3_data_ppERK_10</ci>
+            </math>
+        </dataGenerator>
+    </listOfDataGenerators>
+    <listOfOutputs>
+        <plot2D id="Fig2G_BaF3_ppERK" name="Fig2G_BaF3_ppERK (uM)">
+            <listOfCurves>
+                <curve id="fig2G_BaF3_10" name="Epo10" logX="false" logY="false" xDataReference="fig2G_BaF3_10_datagen0"
+                       yDataReference="fig2G_BaF3_10_datagen1"/>
+                <curve id="fig2G_BaF3_50" name="Epo50" logX="false" logY="false" xDataReference="fig2G_BaF3_50_datagen0"
+                       yDataReference="fig2G_BaF3_50_datagen1"/>
+                <curve id="fig2G_BaF3_5" name="Epo5" logX="false" logY="false" xDataReference="fig2G_BaF3_5_datagen0"
+                       yDataReference="fig2G_BaF3_5_datagen1"/>
+                <curve id="fig2G_BaF3_2_5" name="Epo2.5" logX="false" logY="false"
+                       xDataReference="fig2G_BaF3_2_5_datagen0" yDataReference="fig2G_BaF3_2_5_datagen1"/>
+                <curve id="fig2G_BaF3_1" name="Epo1" logX="false" logY="false" xDataReference="fig2G_BaF3_1_datagen0"
+                       yDataReference="fig2G_BaF3_1_datagen1"/>
+                <curve id="fig2G_BaF3_50_exp" name="Epo50_exp" logX="false" logY="false"
+                       xDataReference="fig2G_BaF3_50_exp_datagen0" yDataReference="fig2G_BaF3_50_exp_datagen1"/>
+                <curve id="fig2G_BaF3_5_exp" name="Epo5_exp" logX="false" logY="false"
+                       xDataReference="fig2G_BaF3_5_exp_datagen0" yDataReference="fig2G_BaF3_5_exp_datagen1"/>
+                <curve id="fig2G_BaF3_2_5_exp" name="Epo2.5_exp" logX="false" logY="false"
+                       xDataReference="fig2G_BaF3_2_5_exp_datagen0" yDataReference="fig2G_BaF3_2_5_exp_datagen1"/>
+                <curve id="fig2G_BaF3_10_exp" name="Epo10_exp" logX="false" logY="false"
+                       xDataReference="fig2G_BaF3_10_exp_datagen0" yDataReference="fig2G_BaF3_10_exp_datagen1"/>
+                <curve id="fig2G_BaF3_1_exp" name="Epo1_exp" logX="false" logY="false"
+                       xDataReference="fig2G_BaF3_1_exp_datagen0" yDataReference="fig2G_BaF3_1_exp_datagen1"/>
+            </listOfCurves>
+        </plot2D>
+        <plot2D id="Fig2G_mCFUE_ppERK" name="Fig2G_mCFUE_ppERK (uM)">
+            <listOfCurves>
+                <curve id="fig2G_mCFUE_10_exp" name="Epo10_exp" logX="false" logY="false"
+                       xDataReference="fig2G_mCFUE_10_exp_datagen0" yDataReference="fig2G_mCFUE_10_exp_datagen1"/>
+                <curve id="fig2G_mCFUE_5_exp" name="Epo5_exp" logX="false" logY="false"
+                       xDataReference="fig2G_mCFUE_5_exp_datagen0" yDataReference="fig2G_mCFUE_5_exp_datagen1"/>
+                <curve id="fig2G_mCFUE_2_5_exp" name="Epo2.5_exp" logX="false" logY="false"
+                       xDataReference="fig2G_mCFUE_2_5_exp_datagen0" yDataReference="fig2G_mCFUE_2_5_exp_datagen1"/>
+                <curve id="fig2G_mCFUE_0_5_exp" name="Epo0.5_exp" logX="false" logY="false"
+                       xDataReference="fig2G_mCFUE_0_5_exp_datagen0" yDataReference="fig2G_mCFUE_0_5_exp_datagen1"/>
+                <curve id="fig2G_mCFUE_50_exp" name="Epo50_exp" logX="false" logY="false"
+                       xDataReference="fig2G_mCFUE_50_exp_datagen0" yDataReference="fig2G_mCFUE_50_exp_datagen1"/>
+                <curve id="fig2G_mCFUE_50" name="Epo50" logX="false" logY="false"
+                       xDataReference="fig2G_mCFUE_50_datagen0" yDataReference="fig2G_mCFUE_50_datagen1"/>
+                <curve id="fig2G_mCFUE_10" name="Epo10" logX="false" logY="false"
+                       xDataReference="fig2G_mCFUE_10_datagen0" yDataReference="fig2G_mCFUE_10_datagen1"/>
+                <curve id="fig2G_mCFUE_5" name="Epo5" logX="false" logY="false" xDataReference="fig2G_mCFUE_5_datagen0"
+                       yDataReference="fig2G_mCFUE_5_datagen1"/>
+                <curve id="fig2G_mCFUE_2_5" name="Epo2.5" logX="false" logY="false"
+                       xDataReference="fig2G_mCFUE_2_5_datagen0" yDataReference="fig2G_mCFUE_2_5_datagen1"/>
+                <curve id="fig2G_mCFUE_0_5" name="Epo0.5" logX="false" logY="false"
+                       xDataReference="fig2G_mCFUE_0_5_datagen0" yDataReference="fig2G_mCFUE_0_5_datagen1"/>
+            </listOfCurves>
+        </plot2D>
+    </listOfOutputs>
+</sedML>

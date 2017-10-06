@@ -1,6 +1,6 @@
 # general
-numpy>=1.13.1
-scipy>=0.19.1
+numpy>=1.11.0  # 0.13.1
+scipy>=0.19.0  # 0.19.1
 matplotlib>=2.0.2
 pandas>=0.20.2
 
@@ -12,8 +12,8 @@ rrplugins>=1.1.10
 sbml2matlab>=0.9.1
 
 # standards
-tesbml>=5.15.0    # python-libsbml>=1.1.1
-tesedml>=0.4.2    # python-libsedml
+tesbml>=5.15.0.1  # python-libsbml>=1.1.1
+tesedml>=0.4.3    # python-libsedml
 tecombine>=0.2.2  # python-libcombine
 tenuml>=1.1.1     # python-libnuml>=1.1.1
 
@@ -21,6 +21,7 @@ tenuml>=1.1.1     # python-libnuml>=1.1.1
 appdirs>=1.4.3
 jinja2>=2.9.6
 plotly>=2.0.12
+requests
 
 # Jupyter / IPython
 jupyter-client>=5.1.0
