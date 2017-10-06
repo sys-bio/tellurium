@@ -857,9 +857,11 @@ class SEDMLCodeFactory(object):
                             terminator = 'terminate_trace({})'.format(node.task.getId())
                         else:
                             terminator = '{}'.format(node.task.getId())
+
                         lines.extend([
                             "",
-                            "    "*node.depth + "{}.extend({})".format(peek.task.getId(), terminator),
+                            # "    "*node.depth + "{}.extend({})".format(peek.task.getId(), terminator),
+                            "    " * node.depth + "{}.extend({})".format(peek.task.getId(), node.task.getId()),
                         ])
                         node = nodeStack.pop()
 
