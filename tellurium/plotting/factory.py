@@ -1,20 +1,25 @@
-from __future__ import print_function, absolute_import
+"""
+Factory for the engines.
+"""
+
+from __future__ import absolute_import, print_function
 
 
 __engines = {}
 
-from .engine_mpl import MatplotlibPlottingEngine
-__engines['matplotlib'] = MatplotlibPlottingEngine
+from .engine_mpl import MatplotlibEngine
+__engines['matplotlib'] = MatplotlibEngine
 
 try:
-    from .engine_plotly import PlotlyPlottingEngine
-    __engines['plotly'] = PlotlyPlottingEngine
+    from .engine_plotly import PlotlyEngine
+    __engines['plotly'] = PlotlyEngine
 except ImportError:
     pass
 
 def getEngines():
     global __engines
     return __engines
+
 
 class PlottingEngineFactory:
     def __init__(self, engine):
@@ -33,7 +38,7 @@ class PlottingEngineFactory:
             'plotly',
         ]
         try:
-            return self.engines[self.engine](save_to_pdf=self.save_plots_to_pdf)
+            return self.engines[self.engine]()
         except KeyError:
             if not self.engine in possible_keys:
                 raise RuntimeError('No such plotting engine "{}". Possible values are {}.'.format(self.engine, ', '.join(possible_keys)))

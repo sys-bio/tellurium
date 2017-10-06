@@ -18,4 +18,4 @@ end
 ''')
 
 result = r.simulate(0, 10, 51)
-r.plotWithLegend(result)
+r.plot(result)

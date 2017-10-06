@@ -290,7 +290,13 @@ def combineArchiveToPython(omexPath):
     return pycode
 
 
-def executeCombineArchive(omexPath, workingDir=None, printPython=True, createOutputs=True):
+def executeCombineArchive(omexPath,
+                          workingDir=None,
+                          printPython=False,
+                          createOutputs=True,
+                          saveOutputs=False,
+                          outputDir=None,
+                          plottingEngine=None):
     """ Run all SED-ML simulations in given COMBINE archive.
 
     If no workingDir is provided execution is performed in temporary directory
@@ -301,6 +307,9 @@ def executeCombineArchive(omexPath, workingDir=None, printPython=True, createOut
     :param workingDir: directory to extract archive to
     :param printPython: boolean switch to print executed python code
     :param createOutputs: boolean flag if outputs should be created, i.e. reports and plots
+    :param saveOutputs: flag if the outputs should be saved to file
+    :param outputDir: directory where the outputs should be written
+    :param plottingEngin: string of which plotting engine to use; uses set plotting engine otherwise
     :return dictionary of sedmlFile:data generators
     """
 
@@ -319,11 +328,14 @@ def executeCombineArchive(omexPath, workingDir=None, printPython=True, createOut
             omex.extractCombineArchive(omexPath=omexPath, directory=extractDir)
 
             # get sedml locations by omex
-            sedml_locations = omex.getLocationsByFormat(omexPath=omexPath, formatKey="sed-ml")
+            sedml_locations = omex.getLocationsByFormat(omexPath=omexPath, formatKey="sed-ml", method="omex")
             if len(sedml_locations) == 0:
-                warnings.warn("No SED-ML files in COMBINE archive via entries, probably not listed in manifest: {}".format(omexPath))
 
-            # FIXME: lookup via the zip entries. Could be a zip file without manifest
+                # falling back to zip archive
+                sedml_locations = omex.getLocationsByFormat(omexPath=omexPath, formatKey="sed-ml", method="zip")
+                warnings.warn(
+                    "No SED-ML files in COMBINE archive based on manifest '{}'; Guessed SED-ML {}".format(omexPath, sedml_locations))
+
 
             # run all sedml files
             results = {}
@@ -331,7 +343,11 @@ def executeCombineArchive(omexPath, workingDir=None, printPython=True, createOut
             for sedmlFile in sedml_paths:
                 factory = SEDMLCodeFactory(sedmlFile,
                                            workingDir=os.path.dirname(sedmlFile),
-                                           createOutputs=createOutputs)
+                                           createOutputs=createOutputs,
+                                           saveOutputs=saveOutputs,
+                                           outputDir=outputDir,
+                                           plottingEngine=plottingEngine
+                                           )
                 if printPython:
                     code = factory.toPython()
                     print(code)
@@ -355,7 +371,13 @@ class SEDMLCodeFactory(object):
     # template location
     TEMPLATE_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'templates')
 
-    def __init__(self, inputStr, workingDir=None, createOutputs=True):
+    def __init__(self, inputStr,
+                 workingDir=None,
+                 createOutputs=True,
+                 saveOutputs=False,
+                 outputDir=None,
+                 plottingEngine=None
+                 ):
         """ Create CodeFactory for given input.
 
         :param inputStr:
@@ -370,6 +392,20 @@ class SEDMLCodeFactory(object):
         self.python = sys.version
         self.platform = platform.platform()
         self.createOutputs = createOutputs
+        self.saveOutputs = saveOutputs
+        self.outputDir = outputDir
+        self.plotFormat = "pdf"
+        self.reportFormat = "csv"
+
+        if not plottingEngine:
+            plottingEngine = te.getPlottingEngine()
+        self.plottingEngine = plottingEngine
+
+        if self.outputDir:
+            if not os.path.exists(outputDir):
+                raise IOError("outputDir does not exist: {}".format(outputDir))
+
+
         info = SEDMLTools.readSEDMLDocument(inputStr, workingDir)
         self.doc = info['doc']
         self.inputType = info['inputType']
@@ -601,7 +637,8 @@ class SEDMLCodeFactory(object):
 
         def data_to_string(data):
             info = np.array2string(data)
-            info = info.replace('\n', ', ').replace('\r', '')
+            # cleaner string and NaN handling
+            info = info.replace('\n', ', ').replace('\r', '').replace('nan', 'np.nan')
             return info
 
         for sid, data in data_sources.items():
@@ -1408,6 +1445,7 @@ class SEDMLCodeFactory(object):
                 if resetModel is True:
                     # If each entry in the task consists of a single point (e.g. steady state scan)
                     # , concatenate the points. Otherwise, plot as separate curves.
+                    # FIXME: no process_trace ! 
                     lines.append("__var__{} = np.concatenate([process_trace(sim['{}']) for sim in {}])".format(varId, sid, taskId))
                 else:
                     # One curve via time adjusted concatenate
@@ -1437,23 +1475,22 @@ class SEDMLCodeFactory(object):
 
         return "\n".join(lines)
 
-    @staticmethod
-    def outputToPython(doc, output):
+
+    def outputToPython(self, doc, output):
         """ Create output """
         lines = []
         typeCode = output.getTypeCode()
         if typeCode == libsedml.SEDML_OUTPUT_REPORT:
-            lines.extend(SEDMLCodeFactory.outputReportToPython(doc, output))
+            lines.extend(SEDMLCodeFactory.outputReportToPython(self, doc, output))
         elif typeCode == libsedml.SEDML_OUTPUT_PLOT2D:
-            lines.extend(SEDMLCodeFactory.outputPlot2DToPython(doc, output))
+            lines.extend(SEDMLCodeFactory.outputPlot2DToPython(self, doc, output))
         elif typeCode == libsedml.SEDML_OUTPUT_PLOT3D:
-            lines.extend(SEDMLCodeFactory.outputPlot3DToPython(doc, output))
+            lines.extend(SEDMLCodeFactory.outputPlot3DToPython(self, doc, output))
         else:
-            lines.append("# Unsupported output type: {}".format(output.getElementName()))
+            warnings.warn("# Unsupported output type '{}' in output {}".format(output.getElementName(), output.getId()))
         return '\n'.join(lines)
 
-    @staticmethod
-    def outputReportToPython(doc, output):
+    def outputReportToPython(self, doc, output):
         """ OutputReport
 
         :param doc:
@@ -1464,7 +1501,6 @@ class SEDMLCodeFactory(object):
         :rtype: list(str)
         """
         lines = []
-
         headers = []
         dgIds = []
         columns = []
@@ -1478,17 +1514,20 @@ class SEDMLCodeFactory(object):
         # create data frames for the repeats
         lines.append("__dfs__{} = []".format(output.getId()))
         lines.append("for k in range({}.shape[1]):".format(dgIds[0]))
-        lines.append("    print('-'*80)")
-        lines.append("    print('{}, Repeat:', k)".format(output.getId()))
-        lines.append("    print('-'*80)")
         lines.append("    __df__k = pandas.DataFrame(np.column_stack(" + str(columns).replace("'", "") + "), \n    columns=" + str(headers) + ")")
-        lines.append("    print(__df__k.head(5))")
         lines.append("    __dfs__{}.append(__df__k)".format(output.getId()))
         # save as variable in Tellurium
         lines.append("    te.setLastReport(__df__k)".format(output.getId()))
-        # save to csv
-        lines.append("    __df__k.to_csv(os.path.join(workingDir, '{}_{{}}.csv'.format(k)), sep='\t', index=False)".format(output.getId()))
+        if self.saveOutputs and self.createOutputs:
+
+            lines.append(
+                "    filename = os.path.join('{}', '{}.{}')".format(self.outputDir, output.getId(), self.reportFormat))
+            lines.append(
+                "    __df__k.to_csv(filename, sep=',', index=False)".format(output.getId()))
+            lines.append(
+                "    print('Report {}: {{}}'.format(filename))".format(output.getId()))
         return lines
+
 
     @staticmethod
     def outputPlotSettings():
@@ -1513,8 +1552,7 @@ class SEDMLCodeFactory(object):
         )
         return settings
 
-    @staticmethod
-    def outputPlot2DToPython(doc, output):
+    def outputPlot2DToPython(self, doc, output):
         """ OutputReport
 
         If workingDir is provided the plot is saved in the workingDir.
@@ -1525,28 +1563,47 @@ class SEDMLCodeFactory(object):
         :return: list of python lines
         :rtype: list(str)
         """
-        # TODO: handle mix of log and linear axis
-        # TODO: display range information in Legend|TextBox (than it is clear in Figure what was iterated)
+
+        # TODO: logX and logY not applied
         lines = []
         settings = SEDMLCodeFactory.outputPlotSettings()
 
+        # figure title
         title = output.getId()
         if output.isSetName():
-            title = output.getName()
+            title += " ({})".format(output.getName())
 
-        lines.append("stacked=False")
+        # xtitle
+        oneXLabel = True
+        allXLabel = None
+        for kc, curve in enumerate(output.getListOfCurves()):
+            xId = curve.getXDataReference()
+            dgx = doc.getDataGenerator(xId)
+            xLabel = xId
+            if dgx.isSetName():
+                xLabel += " ({})".format(dgx.getName())
+
+            # do all curves have the same xLabel
+            if kc == 0:
+                allXLabel = xLabel
+            elif xLabel != allXLabel:
+                oneXLabel = False
+        xtitle = ''
+        if oneXLabel:
+            xtitle = allXLabel
+
+        lines.append("_stacked = False")
+        lines.append("_engine = te.getPlottingEngine()")
         # stacking, currently disabled
         # for kc, curve in enumerate(output.getListOfCurves()):
         #     xId = curve.getXDataReference()
         #     lines.append("if {}.shape[1] > 1 and te.getDefaultPlottingEngine() == 'plotly':".format(xId))
         #     lines.append("    stacked=True")
-        lines.append("if not stacked:")
-        lines.append("    fig = te.getPlottingEngine().newFigure(title='{}')".format(title))
+        lines.append("if _stacked:")
+        lines.append("    tefig = _engine.newStackedFigure(title='{}', xtitle='{}')".format(title, xtitle))
         lines.append("else:")
-        lines.append("    fig = te.getPlottingEngine().newStackedFigure(title='{}')".format(title))
+        lines.append("    tefig = _engine.newFigure(title='{}', xtitle='{}')\n".format(title, xtitle))
 
-        oneXLabel = True
-        allXLabel = None
         for kc, curve in enumerate(output.getListOfCurves()):
             logX = curve.getLogX()
             logY = curve.getLogY()
@@ -1559,45 +1616,29 @@ class SEDMLCodeFactory(object):
 
             yLabel = yId
             if curve.isSetName():
-                yLabel = curve.getName()
+                yLabel += " ({})".format(curve.getName())
             elif dgy.isSetName():
-                yLabel = dgy.getName()
-            xLabel = xId
-            if dgx.isSetName():
-                xLabel = dgx.getName()
+                yLabel += " ({})".format(dgy.getName())
 
-            # do all curves have the same xLabel
-            if kc == 0:
-                allXLabel = xLabel
-            elif xLabel != allXLabel:
-                oneXLabel = False
-
-            #lines.append("if {}.shape[1] > 1:".format(xId))
             lines.append("for k in range({}.shape[1]):".format(xId))
+            lines.append("    extra_args = {}")
             lines.append("    if k == 0:")
-            lines.append("        extra_args = {{'name': '{}'}}".format(yLabel))
-            lines.append("    else:")
-            lines.append("        extra_args = {{}}")
-            lines.append("    fig.addXYDataset({}[:,k], {}[:,k], color='{}', tag='{}', **extra_args)".format(xId, yId, color, tag))
-            lines.append("    fix_endpoints({}[:,k], {}[:,k], color='{}', tag='{}', fig=fig)".format(xId, yId, color, tag))
+            lines.append("        extra_args['name'] = '{}'".format(yLabel))
+            lines.append("    tefig.addXYDataset({}[:,k], {}[:,k], color='{}', tag='{}', **extra_args)".format(xId, yId, color, tag))
 
-            #lines.append("else:".format(xId))
-            #lines.append("    for k in range({}.shape[1]):".format(xId))
-            #lines.append("        if k == 0:")
-            #lines.append("            fig.addXYDataset({}[:,k], {}[:,k], color='{}', tag='{}', name='{}')".format(xId, yId, color, tag, yLabel))
-            ## support marker size?
-            ## lines.append("        plt.plot({}[:,k], {}[:,k], marker = '{}', color='{}', linewidth={}, markersize={}, alpha={}, label='{}')".format(xId, yId, settings.marker, color, settings.linewidth, settings.markersize, settings.alpha, yLabel))
-            #lines.append("        else:")
-            #lines.append("            fig.addXYDataset({}[:,k], {}[:,k], color='{}', tag='{}')".format(xId, yId, color, tag))
+            # FIXME: endpoints must be handled via plotting functions
+            # lines.append("    fix_endpoints({}[:,k], {}[:,k], color='{}', tag='{}', fig=tefig)".format(xId, yId, color, tag))
+        lines.append("fig = tefig.render()\n")
 
-            # TODO: Log X/Y
-        # TODO: X/Y labels from xLabel (if oneXLabel) and yLabel
-        lines.append("fig.render()".format())
-
+        if self.saveOutputs and self.createOutputs:
+            # FIXME: only working for matplotlib
+            lines.append("if str(_engine) == '<MatplotlibEngine>':".format(self.outputDir, output.getId(), self.plotFormat))
+            lines.append("    filename = os.path.join('{}', '{}.{}')".format(self.outputDir, output.getId(), self.plotFormat))
+            lines.append("    fig.savefig(filename, format='{}', bbox_inches='tight')".format(self.plotFormat))
+            lines.append("    print('Figure {}: {{}}'.format(filename))".format(output.getId()))
         return lines
 
-    @staticmethod
-    def outputPlot3DToPython(doc, output):
+    def outputPlot3DToPython(self, doc, output):
         """ OutputPlot3D
 
         :param doc:
@@ -1919,7 +1960,7 @@ def fix_endpoints(x, y, color, tag, fig):
     endpoints_x = []
     endpoints_y = []
 
-    for begin,end in ( (int(w[k]+1), int(w[k+1])) for k in range(w.shape[0]-1) ):
+    for begin, end in ( (int(w[k]+1), int(w[k+1])) for k in range(w.shape[0]-1) ):
         if begin != end:
             #print('begin {}, end {}'.format(begin, end))
             x_values = x_aug[begin:end]

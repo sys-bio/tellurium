@@ -463,7 +463,7 @@ class TelluriumTestCase(unittest.TestCase):
         '''
         r = te.loada(model)
         result = r.simulate(0, 40, 101)
-        r.plotWithLegend(result)
+        r.plot(result)
 
     def test_getTelluriumVersionInfo(self):
         version = te.getTelluriumVersion()

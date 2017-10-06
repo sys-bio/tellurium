@@ -5,6 +5,7 @@ from __future__ import print_function, absolute_import
 
 import os
 import pytest
+import matplotlib
 
 from tellurium.tests.testdata import TESTDATA_DIR
 
@@ -44,9 +45,29 @@ SOURCE_CSV_PARAMETERS = os.path.join(BASE_DIR, "parameters.csv")
 SEDML_CSV_PARAMETERS = os.path.join(BASE_DIR, "parameter-from-data-csv.xml")
 OMEX_CSV_PARAMETERS = os.path.join(BASE_DIR, 'omex', "parameter_from_data_csv.omex")
 
-# ---------------------------------------------------------------------------------
+OMEX_CSV_JWS_ADLUNG2017_FIG2G = os.path.join(BASE_DIR, 'omex', "jws_adlung2017_fig2g.omex")
 
-# Test data loading functions
+
+# ---------------------------------------------------------------------------------
+MPL_BACKEND = None
+
+
+def setup_module(module):
+    """ setup any state specific to the execution of the given module."""
+    global MPL_BACKEND
+    # Create a temporary directory
+    MPL_BACKEND = matplotlib.rcParams['backend']
+    matplotlib.pyplot.switch_backend("Agg")
+
+
+def teardown_module(module):
+    """ teardown any state that was previously setup with a setup_module
+    method.
+    """
+    matplotlib.pyplot.switch_backend(MPL_BACKEND)
+    matplotlib.pyplot.close('all')
+
+
 def test_load_csv():
     data = DataDescriptionParser._load_csv(SOURCE_CSV)
     assert data is not None
@@ -225,6 +246,12 @@ def test_omex_plot_numl_with_model(tmpdir):
     assert "dgDataTime" in dg_dict
     assert len(dg_dict["dgDataS1"]) == 200
     assert len(dg_dict["dgDataTime"]) == 200
+
+def test_omex_jws_adlung2017_fig2gl(tmpdir):
+    results = tesedml.executeCombineArchive(OMEX_CSV_JWS_ADLUNG2017_FIG2G, workingDir=str(tmpdir))
+    result = list(results.values())[0]
+    dg_dict = result['dataGenerators']
+    assert len(dg_dict) == 40
 
 
 @pytest.mark.skip("Not supported in L1V3, will be part of L1V4")
