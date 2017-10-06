@@ -40,8 +40,8 @@ setup(name='tellurium',
       },
       install_requires=[
           # general
-          'numpy>=1.13.1',
-          'scipy>=0.19.1',
+          'numpy>=1.11.0',
+          'scipy>=0.19.0',
           'matplotlib>=2.0.2',
           'pandas>=0.20.2',
           # SBW-derived
