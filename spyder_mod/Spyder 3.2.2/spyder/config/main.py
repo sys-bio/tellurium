@@ -95,7 +95,7 @@ DEFAULTS = [
               'custom_margin': 0,
               'use_custom_cursor_blinking': False,
               'show_internal_console_if_traceback': False,
-              'check_updates_on_startup': True,
+              'check_updates_on_startup': False,
               'toolbars_visible': True,
               # Global Spyder fonts
               'font/family': MONOSPACE,
