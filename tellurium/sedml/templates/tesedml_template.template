@@ -54,17 +54,20 @@ workingDir = r'{{ factory.workingDir }}'
 {{ dataDescriptionToPython(dataDescription) }}
 {% endfor %}
 
+
 {{ helpers.heading(doc.getListOfTasks(), 'Task') }}
 {% for task in doc.getListOfTasks() %}
 # Task <{{ task.getId() }}>
 {{ taskToPython(doc, task) }}
 {% endfor %}
 
+{#
 {{ helpers.heading(doc.getListOfDataGenerators(), 'DataGenerator') }}
 {% for dg in doc.getListOfDataGenerators() %}
 # DataGenerator <{{ dg.getId() }}>
 {{ dataGeneratorToPython(doc, dg) }}
 {% endfor %}
+
 
 {% if factory.createOutputs %}
 {{ helpers.heading(doc.getListOfOutputs(), 'Output') }}
@@ -73,4 +76,5 @@ workingDir = r'{{ factory.workingDir }}'
 {{ outputToPython(doc, out) }}
 {% endfor %}
 {% endif %}
+#}
 ####################################################################################################
