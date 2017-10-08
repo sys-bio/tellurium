@@ -23,6 +23,10 @@ except ImportError:
     import tecombine as libcombine
 import pprint
 
+MANIFEST_PATTERN = "manifest.xml"
+METADAT_PATTERN = "metadata.*"
+
+
 
 class Entry(object):
     """ Helper class to store content to create an OmexEntry."""
@@ -78,18 +82,26 @@ def combineArchiveFromDirectory(directory, omexPath, creators=None, creators_for
 
     :param directory:
     :param omexPath:
-    :param 
+    :param
     :return:
     """
-    entries = []
+    # FIXME: check if manifest exists in the folder and reuse it
+    manifest_path = os.path.join(directory, MANIFEST_PATTERN)
 
-    Entry(location=location, format=format, master=True, creators=creators)
+    print(manifest_path)
+    if os.path.exists(manifest_path):
+        warnings.warn("Manifest file exists in directory, but not used in COMBINE archive creation: %s".format(manifest_path))
+
+    # add the base entry
+    entries = [
+        Entry(location=".", format="http://identifiers.org/combine.specifications/omex", master=False)
+    ]
 
     # iterate over all locations & guess format
     for root, dirs, files in os.walk(directory):
         for file in files:
             file_path = os.path.join(root, file)
-            location = os.path.relpath(file_path, tmp_dir)
+            location = os.path.relpath(file_path, directory)
             # guess the format
             format = libcombine.KnownFormats.guessFormat(file_path)
             master = False
@@ -97,7 +109,7 @@ def combineArchiveFromDirectory(directory, omexPath, creators=None, creators_for
                 master = True
 
             entries.append(
-                Entry(location=location, format=format, master=True, creators=creators)
+                Entry(location=location, format=format, master=master, creators=creators)
             )
 
     # create additional metadata if available
