@@ -1,6 +1,15 @@
 """
-Combine Archive helper functions based on libcombine.
+COMBINE Archive helper functions and classes based on libcombine.
+
+Here common operations with COMBINE archives are implemented, like
+extracting archives, creating archives from entries or directories,
+adding metadata, listing content of archives.
+
+When working with COMBINE archives these wrapper functions should be used.
+
 """
+# FIXME: handle the adding of metadata
+
 from __future__ import absolute_import, print_function
 
 import os
@@ -18,18 +27,26 @@ import pprint
 class Entry(object):
     """ Helper class to store content to create an OmexEntry."""
 
-    def __init__(self, location, formatKey, master=False, description=None, creators=None):
+    def __init__(self, location, format=None, formatKey=None, master=False, description=None, creators=None):
         """ Create entry from information.
 
-        :param location:
-        :param formatKey:
-        :param master:
-        :param description:
-        :param creators:
+        If format and formatKey are provided the format is used.
+
+        :param location: location of the entry
+        :param format: full format string
+        :param formatKey: short formatKey string
+        :param master: master attribute
+        :param description: description
+        :param creators: iterator over Creator objects
         """
+        if (formatKey is None) and (format is None):
+            raise ValueError("Either 'formatKey' or 'format' must be specified for Entry.")
+        if format is None:
+            format = libcombine.KnownFormats.lookupFormat(formatKey=formatKey)
+
+        # self.formatKey = formatKey
+        self.format = format
         self.location = location
-        self.formatKey = formatKey
-        self.format = libcombine.KnownFormats.lookupFormat(formatKey=formatKey)
         self.master = master
         self.description = description
         self.creators = creators
@@ -39,6 +56,58 @@ class Entry(object):
             return '<*master* Entry {} | {}>'.format(self.master, self.location, self.format)
         else:
             return '<Entry {} | {}>'.format(self.master, self.location, self.format)
+
+
+class Creator(object):
+    """ Helper class to store the creator information. """
+
+    def __init__(self, givenName, familyName, organization, email):
+        self.givenName = givenName
+        self.familyName = familyName
+        self.organization = organization
+        self.email = email
+
+
+def combineArchiveFromDirectory(directory, omexPath, creators=None, creators_for_all=False):
+    """ Creates a COMBINE archive from a given folder.
+
+    The file types are inferred,
+    in case of existing manifest or metadata information this should be reused.
+
+    For all SED-ML files in the directory the master attribute is set to True.
+
+    :param directory:
+    :param omexPath:
+    :param 
+    :return:
+    """
+    entries = []
+
+    Entry(location=location, format=format, master=True, creators=creators)
+
+    # iterate over all locations & guess format
+    for root, dirs, files in os.walk(directory):
+        for file in files:
+            file_path = os.path.join(root, file)
+            location = os.path.relpath(file_path, tmp_dir)
+            # guess the format
+            format = libcombine.KnownFormats.guessFormat(file_path)
+            master = False
+            if libcombine.KnownFormats.isFormat(formatKey="sed-ml", format=format):
+                master = True
+
+            entries.append(
+                Entry(location=location, format=format, master=True, creators=creators)
+            )
+
+    # create additional metadata if available
+
+    # write all the entries
+    combineArchiveFromEntries(omexPath=omexPath, entries=entries, workingDir=directory)
+
+
+    from pprint import pprint
+    pprint(entries)
 
 
 def combineArchiveFromEntries(omexPath, entries, workingDir):

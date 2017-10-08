@@ -43,6 +43,7 @@ def create_zip_from_folder(directory, out_dir, extension):
     shutil.move(zip_file + ".zip", zip_file)
 
     print('-' * 80)
+    # FIXME: use the omex.CreateCombineArchive instead
 
 
 if __name__ == "__main__":

@@ -1,0 +1,90 @@
+{ "entries": [
+
+  { "location" : ".",
+    "format" : "http://identifiers.org/combine.specifications/omex",
+    "description" : "SED-ML L1V3 specification example.",
+    "creators" : [
+      { "givenName": "Matthias", "familyName": "König", "email": "konigmatt@googlemail.com", "organisation": "Humboldt University Berlin"}
+    ]
+  },
+  {
+    "location" : "manifest.json",
+    "format" : "http://purl.org/NET/mediatypes/application/json",
+    "description" : "Information to create archive metadata",
+    "creators" : [
+      { "givenName": "Matthias", "familyName": "König", "email": "konigmatt@googlemail.com", "organisation": "Humboldt University Berlin"}
+    ]
+  },
+  {
+    "location" : "lorenz.xml",
+    "format" : "http://identifiers.org/combine.specifications/sed-ml",
+    "master" : true,
+    "description": "Lorenz simulation experiment",
+    "creators" : [
+      { "givenName": "Matthias", "familyName": "König", "email": "konigmatt@googlemail.com", "organisation": "Humboldt University Berlin"}
+    ]
+  },
+  {
+    "location" : "lorenz-model.xml",
+    "format" : "http://identifiers.org/combine.specifications/sbml",
+    "description": "Lorenz CellML model.",
+    "creators" : [
+      { "givenName": "Matthias", "familyName": "König", "email": "konigmatt@googlemail.com", "organisation": "Humboldt University Berlin"}
+    ]
+  },
+  {
+    "location" : "results/sedml_webtools/plot1.pdf",
+    "format" : "http://purl.org/NET/mediatypes/application/pdf",
+    "description": "Plot2D SED-ML webtools",
+    "creators" : [
+      { "givenName": "Matthias", "familyName": "König", "email": "konigmatt@googlemail.com", "organisation": "Humboldt University Berlin"},
+      { "givenName": "Frank", "familyName": "Bergmann", "email": "fbergmann@caltech.edu", "organisation": "Caltech"}
+    ]
+  },
+  {
+    "location" : "results/sedml_webtools/plot2.pdf",
+    "format" : "http://purl.org/NET/mediatypes/application/pdf",
+    "description": "Plot2D SED-ML webtools",
+    "creators" : [
+      { "givenName": "Matthias", "familyName": "König", "email": "konigmatt@googlemail.com", "organisation": "Humboldt University Berlin"},
+      { "givenName": "Frank", "familyName": "Bergmann", "email": "fbergmann@caltech.edu", "organisation": "Caltech"}
+    ]
+  },
+  {
+    "location" : "results/sedml_webtools/plot3.pdf",
+    "format" : "http://purl.org/NET/mediatypes/application/pdf",
+    "description": "Plot2D SED-ML webtools",
+    "creators" : [
+      { "givenName": "Matthias", "familyName": "König", "email": "konigmatt@googlemail.com", "organisation": "Humboldt University Berlin"},
+      { "givenName": "Frank", "familyName": "Bergmann", "email": "fbergmann@caltech.edu", "organisation": "Caltech"}
+    ]
+  },
+  {
+    "location" : "results/tellurium/plot1.pdf",
+    "format" : "http://purl.org/NET/mediatypes/application/pdf",
+    "description": "Plot2D tellurium",
+    "creators" : [
+      { "givenName": "Matthias", "familyName": "König", "email": "konigmatt@googlemail.com", "organisation": "Humboldt University Berlin"},
+      { "givenName": "Frank", "familyName": "Bergmann", "email": "fbergmann@caltech.edu", "organisation": "Caltech"}
+    ]
+  },
+  {
+    "location" : "results/tellurium/plot2.pdf",
+    "format" : "http://purl.org/NET/mediatypes/application/pdf",
+    "description": "Plot2D tellurium",
+    "creators" : [
+      { "givenName": "Matthias", "familyName": "König", "email": "konigmatt@googlemail.com", "organisation": "Humboldt University Berlin"},
+      { "givenName": "Frank", "familyName": "Bergmann", "email": "fbergmann@caltech.edu", "organisation": "Caltech"}
+    ]
+  },
+  {
+    "location" : "results/tellurium/plot3.pdf",
+    "format" : "http://purl.org/NET/mediatypes/application/pdf",
+    "description": "Plot2D tellurium",
+    "creators" : [
+      { "givenName": "Matthias", "familyName": "König", "email": "konigmatt@googlemail.com", "organisation": "Humboldt University Berlin"},
+      { "givenName": "Frank", "familyName": "Bergmann", "email": "fbergmann@caltech.edu", "organisation": "Caltech"}
+    ]
+  }
+
+]}

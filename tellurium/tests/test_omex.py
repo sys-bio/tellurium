@@ -7,7 +7,7 @@ import tempfile
 import shutil
 import pytest
 
-
+from tellurium.tests.testdata import TESTDATA_DIR
 from tellurium.tests.testdata import OMEX_SHOWCASE
 from tellurium.utils import omex
 
@@ -78,10 +78,10 @@ def test_getLocationsByFormat3_zip():
 def test_getLocationsByFormat4_zip():
     locations = omex.getLocationsByFormat(omexPath=OMEX_SHOWCASE, formatKey="sed-ml", method="zip")
     assert len(locations) == 2
-    # master=True file first
-    assert locations[0].endswith("Calzone2007-simulation-figure-1B.xml")
-    # master=False afterwards
-    assert locations[1].endswith("Calzone2007-default-simulation.xml")
+    # in case of zip files no master file exists, so the order of the entries depends on
+    # filenames and how they are returned from the zip
+    assert "experiment/Calzone2007-simulation-figure-1B.xml" in locations
+    assert "experiment/Calzone2007-default-simulation.xml" in locations
 
 
 def test_listContents():
@@ -91,3 +91,19 @@ def test_listContents():
 
 def test_printContents():
     omex.printContents(omexPath=OMEX_SHOWCASE)
+
+
+def test_createCombineArchiveFromDirectory():
+    """ Testing if COMBINE archive can be created from directory."""
+    omexPath = tempfile.NamedTemporaryFile(suffix="omex")
+    directory = os.path.join(TESTDATA_DIR, "utils", "omex_from_zip")
+    omex.combineArchiveFromDirectory(omexPath=omexPath, directory=directory)
+    assert omexPath is not None
+    # TODO: additional checks via extracting information from the archive again
+
+
+
+
+
+
+
