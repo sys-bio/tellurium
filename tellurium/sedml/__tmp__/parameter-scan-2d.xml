@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sedML xmlns="http://sed-ml.org/sed-ml/level1/version3" level="1" version="3">
+  <listOfSimulations>
+    <steadyState id="steady1">
+      <algorithm kisaoID="KISAO:0000282" />
+    </steadyState>
+  </listOfSimulations>
+  <listOfModels>
+    <model id="model1" language="urn:sedml:language:sbml" source="BorisEJB.xml" />
+  </listOfModels>
+  <listOfTasks>
+    <task id="task0" modelReference="model1" simulationReference="steady1" />
+    <repeatedTask id="task1" resetModel="false" range="current">
+      <listOfRanges>
+        <vectorRange id="current">
+          <value>1</value>
+          <value>5</value>
+          <value>10</value>
+          <value>50</value>
+          <value>60</value>
+          <value>70</value>
+          <value>80</value>
+          <value>90</value>
+          <value>100</value>
+        </vectorRange>
+      </listOfRanges>
+      <listOfChanges>
+        <setValue target="/sbml:sbml/sbml:model/sbml:listOfParameters/sbml:parameter[@id='J1_KK2']"
+          range="current" modelReference="model1">
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <ci> current </ci>
+          </math>
+        </setValue>
+      </listOfChanges>
+      <listOfSubTasks>
+        <subTask order="1" task="task2" />
+      </listOfSubTasks>
+    </repeatedTask>
+    <repeatedTask id="task2" resetModel="false" range="current1">
+      <listOfRanges>
+        <uniformRange id="current1" start="1" end="40" numberOfPoints="100" type="linear" />
+      </listOfRanges>
+      <listOfChanges>
+        <setValue target="/sbml:sbml/sbml:model/sbml:listOfParameters/sbml:parameter[@id='J4_KK5']"
+          range="current1" modelReference="model1">
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <ci> current1 </ci>
+          </math>
+        </setValue>
+      </listOfChanges>
+      <listOfSubTasks>
+        <subTask order="1" task="task0" />
+      </listOfSubTasks>
+    </repeatedTask>
+  </listOfTasks>
+  <listOfDataGenerators>
+    <dataGenerator id="J4_KK5_1" name="J4_KK5">
+      <listOfVariables>
+        <variable id="J4_KK5" name="J4_KK5" taskReference="task1" target="/sbml:sbml/sbml:model/sbml:listOfParameters/sbml:parameter[@id='J4_KK5']" />
+      </listOfVariables>
+      <math xmlns="http://www.w3.org/1998/Math/MathML">
+        <ci> J4_KK5 </ci>
+      </math>
+    </dataGenerator>
+    <dataGenerator id="J1_KK2_1" name="J1_KK2">
+      <listOfVariables>
+        <variable id="J1_KK2" name="J1_KK2" taskReference="task1" target="/sbml:sbml/sbml:model/sbml:listOfParameters/sbml:parameter[@id='J1_KK2']" />
+      </listOfVariables>
+      <math xmlns="http://www.w3.org/1998/Math/MathML">
+        <ci> J1_KK2 </ci>
+      </math>
+    </dataGenerator>
+    <dataGenerator id="MKK_1" name="MKK">
+      <listOfVariables>
+        <variable id="MKK" name="MKK" taskReference="task1" target="/sbml:sbml/sbml:model/sbml:listOfSpecies/sbml:species[@id='MKK']" />
+      </listOfVariables>
+      <math xmlns="http://www.w3.org/1998/Math/MathML">
+        <ci> MKK </ci>
+      </math>
+    </dataGenerator>
+    <dataGenerator id="MKK_P_1" name="MKK_P">
+      <listOfVariables>
+        <variable id="MKK_P" name="MKK_P" taskReference="task1" target="/sbml:sbml/sbml:model/sbml:listOfSpecies/sbml:species[@id='MKK_P']" />
+      </listOfVariables>
+      <math xmlns="http://www.w3.org/1998/Math/MathML">
+        <ci> MKK_P </ci>
+      </math>
+    </dataGenerator>
+    <dataGenerator id="MKK_PP_1" name="MKK_PP_1">
+      <listOfVariables>
+        <variable id="MKK_PP_1" name="MKK_PP" taskReference="task1" target="/sbml:sbml/sbml:model/sbml:listOfSpecies/sbml:species[@id='MKK_PP']" />
+      </listOfVariables>
+      <math xmlns="http://www.w3.org/1998/Math/MathML">
+        <ci> MKK_PP_1 </ci>
+      </math>
+    </dataGenerator>
+    <dataGenerator id="MKK_TOT" name="MKK_TOT">
+      <listOfVariables>
+        <variable id="MKK" name="MKK" taskReference="task1" target="/sbml:sbml/sbml:model/sbml:listOfSpecies/sbml:species[@id='MKK']" />
+        <variable id="MKK_P" name="MKK_P" taskReference="task1" target="/sbml:sbml/sbml:model/sbml:listOfSpecies/sbml:species[@id='MKK_P']" />
+        <variable id="MKK_PP" name="MKK_PP" taskReference="task1" target="/sbml:sbml/sbml:model/sbml:listOfSpecies/sbml:species[@id='MKK_PP']" />
+      </listOfVariables>
+      <math xmlns="http://www.w3.org/1998/Math/MathML">
+        <apply>
+          <plus/>
+          <ci> MKK </ci>
+          <ci> MKK_P </ci>
+          <ci> MKK_PP </ci>
+        </apply>
+      </math>
+    </dataGenerator>
+  </listOfDataGenerators>
+  <listOfOutputs>
+    <plot2D id="plot1" name="Steady State Scan (Boris 2D)">
+      <listOfCurves>
+        <curve id="curve1" logX="false" logY="false" xDataReference="J4_KK5_1" yDataReference="MKK_1" />
+        <curve id="curve2" logX="false" logY="false" xDataReference="J4_KK5_1" yDataReference="MKK_P_1" />
+      </listOfCurves>
+    </plot2D>
+    <plot2D id="plot2" name="MKK_TOT vs J4_KK5">
+      <listOfCurves>
+        <curve id="curve3" logX="false" logY="false" xDataReference="J4_KK5_1" yDataReference="MKK_TOT" />
+      </listOfCurves>
+    </plot2D>
+    <report id="report1" name="Steady State Values (Boris2D)">
+      <listOfDataSets>
+        <dataSet id="col0" dataReference="J4_KK5_1" label="J4_KK5" />
+        <dataSet id="col1" dataReference="J1_KK2_1" label="J1_KK2" />
+        <dataSet id="col2" dataReference="MKK_1" label="MKK" />
+        <dataSet id="col3" dataReference="MKK_P_1" label="MKK_P" />
+        <dataSet id="col_4" dataReference="MKK_PP_1" label="MKK_PP_1" />
+        <dataSet id="col4" dataReference="MKK_TOT" label="MKK_TOT" />
+      </listOfDataSets>
+    </report>
+  </listOfOutputs>
+</sedML>
