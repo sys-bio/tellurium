@@ -23,6 +23,9 @@ MANIFEST
 # Text editors
 *.swp
 
+# Dev tmp files
+tellurium/dev/oven/__tellurium__/
+
 # Installer logs
 pip-log.txt
 
