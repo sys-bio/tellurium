@@ -79,9 +79,9 @@ def test_getLocationsByFormat4_zip():
     locations = omex.getLocationsByFormat(omexPath=OMEX_SHOWCASE, formatKey="sed-ml", method="zip")
     assert len(locations) == 2
     # master=True file first
-    assert locations[0].endswith("Calzone2007-simulation-figure-1B.xml")
+    assert "experiment/Calzone2007-simulation-figure-1B.xml" in locations
     # master=False afterwards
-    assert locations[1].endswith("Calzone2007-default-simulation.xml")
+    assert "experiment/Calzone2007-default-simulation.xml" in locations
 
 
 def test_listContents():
