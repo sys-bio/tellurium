@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sbml xmlns="http://www.sbml.org/sbml/level3/version1/core" level="3" version="1">
+  <model id="lorenz" name="lorenz">
+    <listOfParameters>
+      <parameter id="x" value="1" constant="false"/>
+      <parameter id="y" value="1" constant="false"/>
+      <parameter id="z" value="1" constant="false"/>
+      <parameter id="sigma" value="10" constant="true"/>
+      <parameter id="rho" value="28" constant="true"/>
+      <parameter id="beta" value="2.66667" constant="true"/>
+    </listOfParameters>
+    <listOfRules>
+      <rateRule variable="x">
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <apply>
+            <times/>
+            <ci> sigma </ci>
+            <apply>
+              <minus/>
+              <ci> y </ci>
+              <ci> x </ci>
+            </apply>
+          </apply>
+        </math>
+      </rateRule>
+      <rateRule variable="y">
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <apply>
+            <minus/>
+            <apply>
+              <times/>
+              <ci> x </ci>
+              <apply>
+                <minus/>
+                <ci> rho </ci>
+                <ci> z </ci>
+              </apply>
+            </apply>
+            <ci> y </ci>
+          </apply>
+        </math>
+      </rateRule>
+      <rateRule variable="z">
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+          <apply>
+            <minus/>
+            <apply>
+              <times/>
+              <ci> x </ci>
+              <ci> y </ci>
+            </apply>
+            <apply>
+              <times/>
+              <ci> beta </ci>
+              <ci> z </ci>
+            </apply>
+          </apply>
+        </math>
+      </rateRule>
+    </listOfRules>
+  </model>
+</sbml>

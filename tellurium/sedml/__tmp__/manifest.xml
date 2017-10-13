@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<omexManifest xmlns="http://identifiers.org/combine.specifications/omex-manifest">
+  <content location="." format="http://identifiers.org/combine.specifications/omex" master="false"/>
+  <content location="manifest.json" format="http://purl.org/NET/mediatypes/application/json" master="false"/>
+  <content location="parameter-scan-2d.xml" format="http://identifiers.org/combine.specifications/sed-ml" master="true"/>
+  <content location="BorisEJB.xml" format="http://identifiers.org/combine.specifications/sbml" master="false"/>
+  <content location="results/sedml_webtools/plot1.pdf" format="http://purl.org/NET/mediatypes/application/pdf" master="false"/>
+  <content location="results/sedml_webtools/plot2.pdf" format="http://purl.org/NET/mediatypes/application/pdf" master="false"/>
+  <content location="results/tellurium/plot1.pdf" format="http://purl.org/NET/mediatypes/application/pdf" master="false"/>
+  <content location="results/tellurium/plot2.pdf" format="http://purl.org/NET/mediatypes/application/pdf" master="false"/>
+  <content location="metadata.xml" format="http://identifiers.org/combine.specifications/omex-metadata" master="false"/>
+  <content location="metadata_1.xml" format="http://identifiers.org/combine.specifications/omex-metadata" master="false"/>
+  <content location="metadata_2.xml" format="http://identifiers.org/combine.specifications/omex-metadata" master="false"/>
+  <content location="metadata_3.xml" format="http://identifiers.org/combine.specifications/omex-metadata" master="false"/>
+  <content location="metadata_4.xml" format="http://identifiers.org/combine.specifications/omex-metadata" master="false"/>
+  <content location="metadata_5.xml" format="http://identifiers.org/combine.specifications/omex-metadata" master="false"/>
+</omexManifest>

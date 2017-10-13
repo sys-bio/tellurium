@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created by phraSED-ML version v1.0.7 with libSBML version 5.15.0. -->
+<sedML xmlns="http://sed-ml.org/sed-ml/level1/version3" level="1" version="3">
+  <listOfSimulations>
+    <uniformTimeCourse id="sim1" initialTime="0" outputStartTime="0" outputEndTime="1000" numberOfPoints="1000">
+      <algorithm kisaoID="KISAO:0000019"/>
+    </uniformTimeCourse>
+  </listOfSimulations>
+  <listOfModels>
+    <model id="model1" language="urn:sedml:language:sbml.level-3.version-1" source="urn:miriam:biomodels.db:BIOMD0000000012"/>
+    <model id="model2" language="urn:sedml:language:sbml.level-3.version-1" source="model1">
+      <listOfChanges>
+        <changeAttribute target="/sbml:sbml/sbml:model/sbml:listOfParameters/sbml:parameter[@id='ps_0']/@value" newValue="1.3e-05"/>
+        <changeAttribute target="/sbml:sbml/sbml:model/sbml:listOfParameters/sbml:parameter[@id='ps_a']/@value" newValue="0.013"/>
+      </listOfChanges>
+    </model>
+  </listOfModels>
+  <listOfTasks>
+    <task id="task1" modelReference="model1" simulationReference="sim1"/>
+    <task id="task2" modelReference="model2" simulationReference="sim1"/>
+  </listOfTasks>
+  <listOfDataGenerators>
+    <!-- timecourse -->
+    <dataGenerator id="dg_0_0_0" name="task1.time">
+      <listOfVariables>
+        <variable id="task1_____time" symbol="urn:sedml:symbol:time" taskReference="task1"/>
+      </listOfVariables>
+      <math xmlns="http://www.w3.org/1998/Math/MathML">
+        <ci> task1_____time </ci>
+      </math>
+    </dataGenerator>
+    <dataGenerator id="dg_0_0_1" name="PX (lacI)">
+      <listOfVariables>
+        <variable id="task1_____PX" target="/sbml:sbml/sbml:model/sbml:listOfSpecies/sbml:species[@id='PX']" taskReference="task1" modelReference="model1"/>
+      </listOfVariables>
+      <math xmlns="http://www.w3.org/1998/Math/MathML">
+        <ci> task1_____PX </ci>
+      </math>
+    </dataGenerator>
+    <dataGenerator id="dg_0_1_1" name="PZ (cI)">
+      <listOfVariables>
+        <variable id="task1_____PZ" target="/sbml:sbml/sbml:model/sbml:listOfSpecies/sbml:species[@id='PZ']" taskReference="task1" modelReference="model1"/>
+      </listOfVariables>
+      <math xmlns="http://www.w3.org/1998/Math/MathML">
+        <ci> task1_____PZ </ci>
+      </math>
+    </dataGenerator>
+    <dataGenerator id="dg_0_2_1" name="PY (tetR)">
+      <listOfVariables>
+        <variable id="task1_____PY" target="/sbml:sbml/sbml:model/sbml:listOfSpecies/sbml:species[@id='PY']" taskReference="task1" modelReference="model1"/>
+      </listOfVariables>
+      <math xmlns="http://www.w3.org/1998/Math/MathML">
+        <ci> task1_____PY </ci>
+      </math>
+    </dataGenerator>
+    <!-- pre-processing -->
+    <dataGenerator id="dg_1_0_0" name="time">
+      <listOfVariables>
+        <variable id="task2_____time" symbol="urn:sedml:symbol:time" taskReference="task2"/>
+      </listOfVariables>
+      <math xmlns="http://www.w3.org/1998/Math/MathML">
+        <ci> task2_____time </ci>
+      </math>
+    </dataGenerator>
+    <dataGenerator id="dg_1_0_1" name="PX (lacI)">
+      <listOfVariables>
+        <variable id="task2_____PX" target="/sbml:sbml/sbml:model/sbml:listOfSpecies/sbml:species[@id='PX']" taskReference="task2" modelReference="model2"/>
+      </listOfVariables>
+      <math xmlns="http://www.w3.org/1998/Math/MathML">
+        <ci> task2_____PX </ci>
+      </math>
+    </dataGenerator>
+    <dataGenerator id="dg_1_1_1" name="PZ (cI)">
+      <listOfVariables>
+        <variable id="task2_____PZ" target="/sbml:sbml/sbml:model/sbml:listOfSpecies/sbml:species[@id='PZ']" taskReference="task2" modelReference="model2"/>
+      </listOfVariables>
+      <math xmlns="http://www.w3.org/1998/Math/MathML">
+        <ci> task2_____PZ </ci>
+      </math>
+    </dataGenerator>
+    <dataGenerator id="dg_1_2_1" name="PY (tetR)">
+      <listOfVariables>
+        <variable id="task2_____PY" target="/sbml:sbml/sbml:model/sbml:listOfSpecies/sbml:species[@id='PY']" taskReference="task2" modelReference="model2"/>
+      </listOfVariables>
+      <math xmlns="http://www.w3.org/1998/Math/MathML">
+        <ci> task2_____PY </ci>
+      </math>
+    </dataGenerator>
+    <!-- post-processing -->
+    <dataGenerator id="dg_2_0_0" name="PX/max(PX) (lacI normalized)">
+      <listOfVariables>
+        <variable id="task1_____PX" target="/sbml:sbml/sbml:model/sbml:listOfSpecies/sbml:species[@id='PX']" taskReference="task1" modelReference="model1"/>
+      </listOfVariables>
+      <math xmlns="http://www.w3.org/1998/Math/MathML">
+        <apply>
+          <divide/>
+          <ci> task1_____PX </ci>
+          <apply>
+            <csymbol definitionURL="http://sed-ml.org/#max" encoding="text">max</csymbol>
+            <ci> task1_____PX </ci>
+          </apply>
+        </apply>
+      </math>
+    </dataGenerator>
+    <dataGenerator id="dg_2_0_1" name="PZ/max(PZ) (cI normalized)">
+      <listOfVariables>
+        <variable id="task1_____PZ" target="/sbml:sbml/sbml:model/sbml:listOfSpecies/sbml:species[@id='PZ']" taskReference="task1" modelReference="model1"/>
+      </listOfVariables>
+      <math xmlns="http://www.w3.org/1998/Math/MathML">
+        <apply>
+          <divide/>
+          <ci> task1_____PZ </ci>
+          <apply>
+            <csymbol definitionURL="http://sed-ml.org/#max" encoding="text">max</csymbol>
+            <ci> task1_____PZ </ci>
+          </apply>
+        </apply>
+      </math>
+    </dataGenerator>
+    <dataGenerator id="dg_2_1_0" name="PY/max(PY) (tetR normalized)">
+      <listOfVariables>
+        <variable id="task1_____PY" target="/sbml:sbml/sbml:model/sbml:listOfSpecies/sbml:species[@id='PY']" taskReference="task1" modelReference="model1"/>
+      </listOfVariables>
+      <math xmlns="http://www.w3.org/1998/Math/MathML">
+        <apply>
+          <divide/>
+          <ci> task1_____PY </ci>
+          <apply>
+            <csymbol definitionURL="http://sed-ml.org/#max" encoding="text">max</csymbol>
+            <ci> task1_____PY </ci>
+          </apply>
+        </apply>
+      </math>
+    </dataGenerator>
+  </listOfDataGenerators>
+  <listOfOutputs>
+    <plot2D id="timecourse" name="Timecourse of repressilator">
+      <listOfCurves>
+        <curve id="plot_0__plot_0_0_0__plot_0_0_1" logX="false" logY="false" xDataReference="dg_0_0_0" yDataReference="dg_0_0_1"/>
+        <curve id="plot_0__plot_0_0_0__plot_0_1_1" logX="false" logY="false" xDataReference="dg_0_0_0" yDataReference="dg_0_1_1"/>
+        <curve id="plot_0__plot_0_0_0__plot_0_2_1" logX="false" logY="false" xDataReference="dg_0_0_0" yDataReference="dg_0_2_1"/>
+      </listOfCurves>
+    </plot2D>
+    <plot2D id="preprocessing" name="Timecourse after pre-processing">
+      <listOfCurves>
+        <curve id="plot_1__plot_1_0_0__plot_1_0_1" logX="false" logY="false" xDataReference="dg_1_0_0" yDataReference="dg_1_0_1"/>
+        <curve id="plot_1__plot_1_0_0__plot_1_1_1" logX="false" logY="false" xDataReference="dg_1_0_0" yDataReference="dg_1_1_1"/>
+        <curve id="plot_1__plot_1_0_0__plot_1_2_1" logX="false" logY="false" xDataReference="dg_1_0_0" yDataReference="dg_1_2_1"/>
+      </listOfCurves>
+    </plot2D>
+    <plot2D id="postprocessing" name="Timecourse after post-processing">
+      <listOfCurves>
+        <curve id="plot_2__plot_2_0_0__plot_2_0_1" logX="false" logY="false" xDataReference="dg_2_0_0" yDataReference="dg_2_0_1"/>
+        <curve id="plot_2__plot_2_1_0__plot_2_0_0" logX="false" logY="false" xDataReference="dg_2_1_0" yDataReference="dg_2_0_0"/>
+        <curve id="plot_2__plot_2_0_1__plot_2_1_0" logX="false" logY="false" xDataReference="dg_2_0_1" yDataReference="dg_2_1_0"/>
+      </listOfCurves>
+    </plot2D>
+  </listOfOutputs>
+</sedML>

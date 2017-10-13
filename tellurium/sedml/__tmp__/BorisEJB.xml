@@ -1,0 +1,1737 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--Created on: 4/1/2015 4:24:28 PM-->
+<sbml xmlns="http://www.sbml.org/sbml/level2" level="2" version="1" xmlns:jd2="http://www.sys-bio.org/sbml/jd2">
+  <!--                     -->
+  <!--  Model Starts Here  -->
+  <!--                     -->
+  <model id="BorisEJB" name="BorisEJB">
+    <annotation>
+      <jd2:JDesignerLayout version="2.0" MajorVersion="2" MinorVersion="3" BuildVersion="45" xmlns:jd2="http://www.sys-bio.org/sbml/jd2">
+        <jd2:header>
+          <jd2:VersionHeader JDesignerVersion="1.0" />
+          <jd2:ModelHeader Author="" ModelVersion="" ModelTitle="BorisEJB" />
+          <jd2:TimeCourseDetails timeStart="0" timeEnd="4000" numberOfPoints="1000" />
+        </jd2:header>
+        <jd2:JDGraphicsHeader BackGroundColor="FFFFFFEF" />
+        <jd2:listOfCompartments>
+          <jd2:compartment id="compartment" size="1" visible="false">
+            <jd2:boundingBox x="0" y="0" w="0" h="0" />
+            <jd2:membraneStyle thickness="12" color="FF00A5FF" />
+            <jd2:interiorStyle color="FFEEEEFF" />
+            <jd2:text value="compartment" visible="true">
+              <jd2:position rx="-31" ry="-16" />
+              <jd2:font fontName="Arial" fontSize="8" fontStyle="" fontColor="FF000000" />
+            </jd2:text>
+          </jd2:compartment>
+        </jd2:listOfCompartments>
+        <jd2:listOfSpecies>
+          <jd2:species id="MKKK" boundaryCondition="false" compartment="compartment" initialConcentration="90">
+            <jd2:positionLocked value="false" />
+            <jd2:boundingBox x="41" y="74" />
+            <jd2:displayValue visible="false">
+              <jd2:position rx="0" ry="0" />
+              <jd2:font fontName="Arial" fontSize="8" fontColor="FF000000" fontStyle="" />
+            </jd2:displayValue>
+            <jd2:text value="MKKK" visible="true">
+              <jd2:position rx="4" ry="6" />
+              <jd2:font fontName="Arial" fontSize="8" fontStyle="" fontColor="FF000000" />
+            </jd2:text>
+            <jd2:complex id="DefaultMolecule" w="43" h="24" boundarySpeciesStyle="bsBox" boundaryStyleColor="FF0000FF" captionPosition="npCenter" aliasBoundaryColor="FFFF0000" aliasBoundaryThickness="3">
+              <jd2:subunit shape="suRoundSquare">
+                <jd2:boundingBox rx="0" ry="0" w="43" h="24" />
+                <jd2:text value="S1" visible="false">
+                  <jd2:position rx="15" ry="5" />
+                  <jd2:font fontName="Arial" fontSize="8" fontColor="FF000000" fontStyle="" />
+                </jd2:text>
+                <jd2:color scheme="gtHorizLinear" startColor="FFCCFFFF" endColor="FFFFFFFF" />
+                <jd2:edgeStyle color="FF969696" thickness="1" stroke="dsSolid" />
+              </jd2:subunit>
+            </jd2:complex>
+          </jd2:species>
+          <jd2:species id="MKKK_P" boundaryCondition="false" compartment="compartment" initialConcentration="10">
+            <jd2:positionLocked value="false" />
+            <jd2:boundingBox x="179" y="74" />
+            <jd2:displayValue visible="false">
+              <jd2:position rx="0" ry="0" />
+              <jd2:font fontName="Arial" fontSize="8" fontColor="FF000000" fontStyle="" />
+            </jd2:displayValue>
+            <jd2:text value="MKKK_P" visible="true">
+              <jd2:position rx="3" ry="6" />
+              <jd2:font fontName="Arial" fontSize="8" fontStyle="" fontColor="FF000000" />
+            </jd2:text>
+            <jd2:complex id="DefaultMolecule" w="55" h="24" boundarySpeciesStyle="bsBox" boundaryStyleColor="FF0000FF" captionPosition="npCenter" aliasBoundaryColor="FFFF0000" aliasBoundaryThickness="3">
+              <jd2:subunit shape="suRoundSquare">
+                <jd2:boundingBox rx="0" ry="0" w="55" h="24" />
+                <jd2:text value="S1" visible="false">
+                  <jd2:position rx="21" ry="5" />
+                  <jd2:font fontName="Arial" fontSize="8" fontColor="FF000000" fontStyle="" />
+                </jd2:text>
+                <jd2:color scheme="gtHorizLinear" startColor="FFCCFFFF" endColor="FFFFFFFF" />
+                <jd2:edgeStyle color="FF969696" thickness="1" stroke="dsSolid" />
+              </jd2:subunit>
+            </jd2:complex>
+          </jd2:species>
+          <jd2:species id="MKK" boundaryCondition="false" compartment="compartment" initialConcentration="280">
+            <jd2:positionLocked value="false" />
+            <jd2:boundingBox x="78" y="197" />
+            <jd2:displayValue visible="false">
+              <jd2:position rx="0" ry="0" />
+              <jd2:font fontName="Arial" fontSize="8" fontColor="FF000000" fontStyle="" />
+            </jd2:displayValue>
+            <jd2:text value="MKK" visible="true">
+              <jd2:position rx="4" ry="6" />
+              <jd2:font fontName="Arial" fontSize="8" fontStyle="" fontColor="FF000000" />
+            </jd2:text>
+            <jd2:complex id="DefaultMolecule" w="36" h="24" boundarySpeciesStyle="bsBox" boundaryStyleColor="FF0000FF" captionPosition="npCenter" aliasBoundaryColor="FFFF0000" aliasBoundaryThickness="3">
+              <jd2:subunit shape="suRoundSquare">
+                <jd2:boundingBox rx="0" ry="0" w="36" h="24" />
+                <jd2:text value="S1" visible="false">
+                  <jd2:position rx="12" ry="5" />
+                  <jd2:font fontName="Arial" fontSize="8" fontColor="FF000000" fontStyle="" />
+                </jd2:text>
+                <jd2:color scheme="gtHorizLinear" startColor="FFCCFFFF" endColor="FFFFFFFF" />
+                <jd2:edgeStyle color="FF969696" thickness="1" stroke="dsSolid" />
+              </jd2:subunit>
+            </jd2:complex>
+          </jd2:species>
+          <jd2:species id="MKK_P" boundaryCondition="false" compartment="compartment" initialConcentration="10">
+            <jd2:positionLocked value="false" />
+            <jd2:boundingBox x="195" y="197" />
+            <jd2:displayValue visible="false">
+              <jd2:position rx="0" ry="0" />
+              <jd2:font fontName="Arial" fontSize="8" fontColor="FF000000" fontStyle="" />
+            </jd2:displayValue>
+            <jd2:text value="MKK_P" visible="true">
+              <jd2:position rx="3" ry="6" />
+              <jd2:font fontName="Arial" fontSize="8" fontStyle="" fontColor="FF000000" />
+            </jd2:text>
+            <jd2:complex id="DefaultMolecule" w="48" h="24" boundarySpeciesStyle="bsBox" boundaryStyleColor="FF0000FF" captionPosition="npCenter" aliasBoundaryColor="FFFF0000" aliasBoundaryThickness="3">
+              <jd2:subunit shape="suRoundSquare">
+                <jd2:boundingBox rx="0" ry="0" w="48" h="24" />
+                <jd2:text value="S1" visible="false">
+                  <jd2:position rx="18" ry="5" />
+                  <jd2:font fontName="Arial" fontSize="8" fontColor="FF000000" fontStyle="" />
+                </jd2:text>
+                <jd2:color scheme="gtHorizLinear" startColor="FFCCFFFF" endColor="FFFFFFFF" />
+                <jd2:edgeStyle color="FF969696" thickness="1" stroke="dsSolid" />
+              </jd2:subunit>
+            </jd2:complex>
+          </jd2:species>
+          <jd2:species id="MKK_PP" boundaryCondition="false" compartment="compartment" initialConcentration="10">
+            <jd2:positionLocked value="false" />
+            <jd2:boundingBox x="312" y="197" />
+            <jd2:displayValue visible="false">
+              <jd2:position rx="0" ry="0" />
+              <jd2:font fontName="Arial" fontSize="8" fontColor="FF000000" fontStyle="" />
+            </jd2:displayValue>
+            <jd2:text value="MKK_PP" visible="true">
+              <jd2:position rx="3" ry="6" />
+              <jd2:font fontName="Arial" fontSize="8" fontStyle="" fontColor="FF000000" />
+            </jd2:text>
+            <jd2:complex id="DefaultMolecule" w="54" h="24" boundarySpeciesStyle="bsBox" boundaryStyleColor="FF0000FF" captionPosition="npCenter" aliasBoundaryColor="FFFF0000" aliasBoundaryThickness="3">
+              <jd2:subunit shape="suRoundSquare">
+                <jd2:boundingBox rx="0" ry="0" w="54" h="24" />
+                <jd2:text value="S1" visible="false">
+                  <jd2:position rx="21" ry="5" />
+                  <jd2:font fontName="Arial" fontSize="8" fontColor="FF000000" fontStyle="" />
+                </jd2:text>
+                <jd2:color scheme="gtHorizLinear" startColor="FFCCFFFF" endColor="FFFFFFFF" />
+                <jd2:edgeStyle color="FF969696" thickness="1" stroke="dsSolid" />
+              </jd2:subunit>
+            </jd2:complex>
+          </jd2:species>
+          <jd2:species id="MAPK" boundaryCondition="false" compartment="compartment" initialConcentration="280">
+            <jd2:positionLocked value="false" />
+            <jd2:boundingBox x="166" y="318" />
+            <jd2:displayValue visible="false">
+              <jd2:position rx="0" ry="0" />
+              <jd2:font fontName="Arial" fontSize="8" fontColor="FF000000" fontStyle="" />
+            </jd2:displayValue>
+            <jd2:text value="MAPK" visible="true">
+              <jd2:position rx="4" ry="6" />
+              <jd2:font fontName="Arial" fontSize="8" fontStyle="" fontColor="FF000000" />
+            </jd2:text>
+            <jd2:complex id="DefaultMolecule" w="43" h="24" boundarySpeciesStyle="bsBox" boundaryStyleColor="FF0000FF" captionPosition="npCenter" aliasBoundaryColor="FFFF0000" aliasBoundaryThickness="3">
+              <jd2:subunit shape="suRoundSquare">
+                <jd2:boundingBox rx="0" ry="0" w="43" h="24" />
+                <jd2:text value="S1" visible="false">
+                  <jd2:position rx="15" ry="5" />
+                  <jd2:font fontName="Arial" fontSize="8" fontColor="FF000000" fontStyle="" />
+                </jd2:text>
+                <jd2:color scheme="gtHorizLinear" startColor="FFCCFFFF" endColor="FFFFFFFF" />
+                <jd2:edgeStyle color="FF969696" thickness="1" stroke="dsSolid" />
+              </jd2:subunit>
+            </jd2:complex>
+          </jd2:species>
+          <jd2:species id="MAPK_P" boundaryCondition="false" compartment="compartment" initialConcentration="10">
+            <jd2:positionLocked value="false" />
+            <jd2:boundingBox x="326" y="318" />
+            <jd2:displayValue visible="false">
+              <jd2:position rx="0" ry="0" />
+              <jd2:font fontName="Arial" fontSize="8" fontColor="FF000000" fontStyle="" />
+            </jd2:displayValue>
+            <jd2:text value="MAPK_P" visible="true">
+              <jd2:position rx="3" ry="6" />
+              <jd2:font fontName="Arial" fontSize="8" fontStyle="" fontColor="FF000000" />
+            </jd2:text>
+            <jd2:complex id="DefaultMolecule" w="55" h="24" boundarySpeciesStyle="bsBox" boundaryStyleColor="FF0000FF" captionPosition="npCenter" aliasBoundaryColor="FFFF0000" aliasBoundaryThickness="3">
+              <jd2:subunit shape="suRoundSquare">
+                <jd2:boundingBox rx="0" ry="0" w="55" h="24" />
+                <jd2:text value="S1" visible="false">
+                  <jd2:position rx="21" ry="5" />
+                  <jd2:font fontName="Arial" fontSize="8" fontColor="FF000000" fontStyle="" />
+                </jd2:text>
+                <jd2:color scheme="gtHorizLinear" startColor="FFCCFFFF" endColor="FFFFFFFF" />
+                <jd2:edgeStyle color="FF969696" thickness="1" stroke="dsSolid" />
+              </jd2:subunit>
+            </jd2:complex>
+          </jd2:species>
+          <jd2:species id="MAPK_PP" boundaryCondition="false" compartment="compartment" initialConcentration="10">
+            <jd2:positionLocked value="false" />
+            <jd2:boundingBox x="486" y="312" />
+            <jd2:displayValue visible="false">
+              <jd2:position rx="0" ry="0" />
+              <jd2:font fontName="Arial" fontSize="8" fontColor="FF000000" fontStyle="" />
+            </jd2:displayValue>
+            <jd2:text value="MAPK_PP" visible="true">
+              <jd2:position rx="2" ry="6" />
+              <jd2:font fontName="Arial" fontSize="8" fontStyle="" fontColor="FF000000" />
+            </jd2:text>
+            <jd2:complex id="DefaultMolecule" w="61" h="24" boundarySpeciesStyle="bsBox" boundaryStyleColor="FF0000FF" captionPosition="npCenter" aliasBoundaryColor="FFFF0000" aliasBoundaryThickness="3">
+              <jd2:subunit shape="suRoundSquare">
+                <jd2:boundingBox rx="0" ry="0" w="61" h="24" />
+                <jd2:text value="S1" visible="false">
+                  <jd2:position rx="24" ry="5" />
+                  <jd2:font fontName="Arial" fontSize="8" fontColor="FF000000" fontStyle="" />
+                </jd2:text>
+                <jd2:color scheme="gtHorizLinear" startColor="FFCCFFFF" endColor="FFFFFFFF" />
+                <jd2:edgeStyle color="FF969696" thickness="1" stroke="dsSolid" />
+              </jd2:subunit>
+            </jd2:complex>
+          </jd2:species>
+        </jd2:listOfSpecies>
+        <jd2:listOfReactions>
+          <jd2:reaction id="J0" reversible="false">
+            <jd2:listOfReactants>
+              <jd2:speciesReference species="MKKK" stoichiometry="1" />
+            </jd2:listOfReactants>
+            <jd2:listOfProducts>
+              <jd2:speciesReference species="MKKK_P" stoichiometry="1" />
+            </jd2:listOfProducts>
+            <jd2:listOfModifierEdges>
+              <jd2:modifierEdge>
+                <jd2:speciesReference species="MAPK_PP" />
+                <jd2:destinationReaction name="J0" regulatorType="rtNegative" relativePosition="0.555555555555556" destinationArcId="0" destinationLineSegmentId="0" />
+                <jd2:display lineThickness="2" lineColor="FFFF0000" lineDashStyle="dsSolid" negativeMarkerStyle="rmBar">
+                  <jd2:lineType type="ltSegmentedLine">
+                    <jd2:pt x="516" y="324" type="modifier" speciesRef="MAPK_PP" />
+                    <jd2:pt x="305" y="11" />
+                    <jd2:pt x="131" y="11" />
+                    <jd2:pt x="132" y="35" />
+                  </jd2:lineType>
+                </jd2:display>
+              </jd2:modifierEdge>
+            </jd2:listOfModifierEdges>
+            <jd2:kineticLaw type="explicit">
+              <jd2:rateEquation value="J0_V1*MKKK/((1+pow(MAPK_PP/J0_Ki,J0_n))*(J0_K1+MKKK))" />
+            </jd2:kineticLaw>
+            <jd2:display arrowStyle="ar1" arrowFillColor="FFC0C0C0" lineColor="FFFF9900" lineThickness="2">
+              <jd2:lineType type="ltBezier">
+                <jd2:edge>
+                  <jd2:pt x="62" y="86" type="substrate" speciesRef="MKKK" />
+                  <jd2:pt x="127" y="34" type="controlPoint" />
+                  <jd2:pt x="128" y="34" type="controlPoint" />
+                  <jd2:pt x="206" y="86" type="product" speciesRef="MKKK_P" />
+                </jd2:edge>
+              </jd2:lineType>
+            </jd2:display>
+          </jd2:reaction>
+          <jd2:reaction id="J1" reversible="false">
+            <jd2:listOfReactants>
+              <jd2:speciesReference species="MKKK_P" stoichiometry="1" />
+            </jd2:listOfReactants>
+            <jd2:listOfProducts>
+              <jd2:speciesReference species="MKKK" stoichiometry="1" />
+            </jd2:listOfProducts>
+            <jd2:listOfModifierEdges />
+            <jd2:kineticLaw type="explicit">
+              <jd2:rateEquation value="J1_V2*MKKK_P/(J1_KK2+MKKK_P)" />
+            </jd2:kineticLaw>
+            <jd2:display arrowStyle="ar1" arrowFillColor="FFC0C0C0" lineColor="FFFF9900" lineThickness="2">
+              <jd2:lineType type="ltBezier">
+                <jd2:edge>
+                  <jd2:pt x="206" y="86" type="substrate" speciesRef="MKKK_P" />
+                  <jd2:pt x="131" y="115" type="controlPoint" />
+                  <jd2:pt x="131" y="115" type="controlPoint" />
+                  <jd2:pt x="62" y="86" type="product" speciesRef="MKKK" />
+                </jd2:edge>
+              </jd2:lineType>
+            </jd2:display>
+          </jd2:reaction>
+          <jd2:reaction id="J2" reversible="false">
+            <jd2:listOfReactants>
+              <jd2:speciesReference species="MKK" stoichiometry="1" />
+            </jd2:listOfReactants>
+            <jd2:listOfProducts>
+              <jd2:speciesReference species="MKK_P" stoichiometry="1" />
+            </jd2:listOfProducts>
+            <jd2:listOfModifierEdges>
+              <jd2:modifierEdge>
+                <jd2:speciesReference species="MKKK_P" />
+                <jd2:destinationReaction name="J2" regulatorType="rtPositive" relativePosition="0.577235772357724" destinationArcId="0" destinationLineSegmentId="0" />
+                <jd2:display lineThickness="2" lineColor="FF0000FF" lineDashStyle="dsSolid" positiveMarkerStyle="rmEmptyCircle">
+                  <jd2:lineType type="ltLine">
+                    <jd2:pt x="206" y="86" type="modifier" speciesRef="MKKK_P" />
+                    <jd2:pt x="156" y="162" />
+                  </jd2:lineType>
+                </jd2:display>
+              </jd2:modifierEdge>
+            </jd2:listOfModifierEdges>
+            <jd2:kineticLaw type="explicit">
+              <jd2:rateEquation value="J2_k3*MKKK_P*MKK/(J2_KK3+MKK)" />
+            </jd2:kineticLaw>
+            <jd2:display arrowStyle="ar1" arrowFillColor="FFC0C0C0" lineColor="FFFF9900" lineThickness="2">
+              <jd2:lineType type="ltBezier">
+                <jd2:edge>
+                  <jd2:pt x="96" y="209" type="substrate" speciesRef="MKK" />
+                  <jd2:pt x="153" y="163" type="controlPoint" />
+                  <jd2:pt x="153" y="163" type="controlPoint" />
+                  <jd2:pt x="219" y="209" type="product" speciesRef="MKK_P" />
+                </jd2:edge>
+              </jd2:lineType>
+            </jd2:display>
+          </jd2:reaction>
+          <jd2:reaction id="J3" reversible="false">
+            <jd2:listOfReactants>
+              <jd2:speciesReference species="MKK_P" stoichiometry="1" />
+            </jd2:listOfReactants>
+            <jd2:listOfProducts>
+              <jd2:speciesReference species="MKK_PP" stoichiometry="1" />
+            </jd2:listOfProducts>
+            <jd2:listOfModifierEdges>
+              <jd2:modifierEdge>
+                <jd2:speciesReference species="MKKK_P" />
+                <jd2:destinationReaction name="J3" regulatorType="rtPositive" relativePosition="0.55" destinationArcId="0" destinationLineSegmentId="0" />
+                <jd2:display lineThickness="2" lineColor="FF0000FF" lineDashStyle="dsSolid" positiveMarkerStyle="rmEmptyCircle">
+                  <jd2:lineType type="ltLine">
+                    <jd2:pt x="206" y="86" type="modifier" speciesRef="MKKK_P" />
+                    <jd2:pt x="271" y="162" />
+                  </jd2:lineType>
+                </jd2:display>
+              </jd2:modifierEdge>
+            </jd2:listOfModifierEdges>
+            <jd2:kineticLaw type="explicit">
+              <jd2:rateEquation value="J3_k4*MKKK_P*MKK_P/(J3_KK4+MKK_P)" />
+            </jd2:kineticLaw>
+            <jd2:display arrowStyle="ar1" arrowFillColor="FFC0C0C0" lineColor="FFFF9900" lineThickness="2">
+              <jd2:lineType type="ltBezier">
+                <jd2:edge>
+                  <jd2:pt x="219" y="209" type="substrate" speciesRef="MKK_P" />
+                  <jd2:pt x="270" y="163" type="controlPoint" />
+                  <jd2:pt x="270" y="163" type="controlPoint" />
+                  <jd2:pt x="339" y="209" type="product" speciesRef="MKK_PP" />
+                </jd2:edge>
+              </jd2:lineType>
+            </jd2:display>
+          </jd2:reaction>
+          <jd2:reaction id="J4" reversible="false">
+            <jd2:listOfReactants>
+              <jd2:speciesReference species="MKK_PP" stoichiometry="1" />
+            </jd2:listOfReactants>
+            <jd2:listOfProducts>
+              <jd2:speciesReference species="MKK_P" stoichiometry="1" />
+            </jd2:listOfProducts>
+            <jd2:listOfModifierEdges />
+            <jd2:kineticLaw type="explicit">
+              <jd2:rateEquation value="J4_V5*MKK_PP/(J4_KK5+MKK_PP)" />
+            </jd2:kineticLaw>
+            <jd2:display arrowStyle="ar1" arrowFillColor="FFC0C0C0" lineColor="FFFF9900" lineThickness="2">
+              <jd2:lineType type="ltBezier">
+                <jd2:edge>
+                  <jd2:pt x="339" y="209" type="substrate" speciesRef="MKK_PP" />
+                  <jd2:pt x="277" y="233" type="controlPoint" />
+                  <jd2:pt x="277" y="233" type="controlPoint" />
+                  <jd2:pt x="219" y="209" type="product" speciesRef="MKK_P" />
+                </jd2:edge>
+              </jd2:lineType>
+            </jd2:display>
+          </jd2:reaction>
+          <jd2:reaction id="J5" reversible="false">
+            <jd2:listOfReactants>
+              <jd2:speciesReference species="MKK_P" stoichiometry="1" />
+            </jd2:listOfReactants>
+            <jd2:listOfProducts>
+              <jd2:speciesReference species="MKK" stoichiometry="1" />
+            </jd2:listOfProducts>
+            <jd2:listOfModifierEdges />
+            <jd2:kineticLaw type="explicit">
+              <jd2:rateEquation value="J5_V6*MKK_P/(J5_KK6+MKK_P)" />
+            </jd2:kineticLaw>
+            <jd2:display arrowStyle="ar1" arrowFillColor="FFC0C0C0" lineColor="FFFF9900" lineThickness="2">
+              <jd2:lineType type="ltBezier">
+                <jd2:edge>
+                  <jd2:pt x="219" y="209" type="substrate" speciesRef="MKK_P" />
+                  <jd2:pt x="154" y="233" type="controlPoint" />
+                  <jd2:pt x="154" y="233" type="controlPoint" />
+                  <jd2:pt x="96" y="209" type="product" speciesRef="MKK" />
+                </jd2:edge>
+              </jd2:lineType>
+            </jd2:display>
+          </jd2:reaction>
+          <jd2:reaction id="J6" reversible="false">
+            <jd2:listOfReactants>
+              <jd2:speciesReference species="MAPK" stoichiometry="1" />
+            </jd2:listOfReactants>
+            <jd2:listOfProducts>
+              <jd2:speciesReference species="MAPK_P" stoichiometry="1" />
+            </jd2:listOfProducts>
+            <jd2:listOfModifierEdges>
+              <jd2:modifierEdge>
+                <jd2:speciesReference species="MKK_PP" />
+                <jd2:destinationReaction name="J6" regulatorType="rtPositive" relativePosition="0.542168674698795" destinationArcId="0" destinationLineSegmentId="0" />
+                <jd2:display lineThickness="2" lineColor="FF0000FF" lineDashStyle="dsSolid" positiveMarkerStyle="rmEmptyCircle">
+                  <jd2:lineType type="ltLine">
+                    <jd2:pt x="339" y="209" type="modifier" speciesRef="MKK_PP" />
+                    <jd2:pt x="266" y="283" />
+                  </jd2:lineType>
+                </jd2:display>
+              </jd2:modifierEdge>
+            </jd2:listOfModifierEdges>
+            <jd2:kineticLaw type="explicit">
+              <jd2:rateEquation value="J6_k7*MKK_PP*MAPK/(J6_KK7+MAPK)" />
+            </jd2:kineticLaw>
+            <jd2:display arrowStyle="ar1" arrowFillColor="FFC0C0C0" lineColor="FFFF9900" lineThickness="2">
+              <jd2:lineType type="ltBezier">
+                <jd2:edge>
+                  <jd2:pt x="187" y="330" type="substrate" speciesRef="MAPK" />
+                  <jd2:pt x="266" y="284" type="controlPoint" />
+                  <jd2:pt x="266" y="284" type="controlPoint" />
+                  <jd2:pt x="353" y="330" type="product" speciesRef="MAPK_P" />
+                </jd2:edge>
+              </jd2:lineType>
+            </jd2:display>
+          </jd2:reaction>
+          <jd2:reaction id="J7" reversible="false">
+            <jd2:listOfReactants>
+              <jd2:speciesReference species="MAPK_P" stoichiometry="1" />
+            </jd2:listOfReactants>
+            <jd2:listOfProducts>
+              <jd2:speciesReference species="MAPK_PP" stoichiometry="1" />
+            </jd2:listOfProducts>
+            <jd2:listOfModifierEdges>
+              <jd2:modifierEdge>
+                <jd2:speciesReference species="MKK_PP" />
+                <jd2:destinationReaction name="J7" regulatorType="rtPositive" relativePosition="0.496932515337423" destinationArcId="0" destinationLineSegmentId="0" />
+                <jd2:display lineThickness="2" lineColor="FF0000FF" lineDashStyle="dsSolid" positiveMarkerStyle="rmEmptyCircle">
+                  <jd2:lineType type="ltLine">
+                    <jd2:pt x="339" y="209" type="modifier" speciesRef="MKK_PP" />
+                    <jd2:pt x="421" y="284" />
+                  </jd2:lineType>
+                </jd2:display>
+              </jd2:modifierEdge>
+            </jd2:listOfModifierEdges>
+            <jd2:kineticLaw type="explicit">
+              <jd2:rateEquation value="J7_k8*MKK_PP*MAPK_P/(J7_KK8+MAPK_P)" />
+            </jd2:kineticLaw>
+            <jd2:display arrowStyle="ar1" arrowFillColor="FFC0C0C0" lineColor="FFFF9900" lineThickness="2">
+              <jd2:lineType type="ltBezier">
+                <jd2:edge>
+                  <jd2:pt x="353" y="330" type="substrate" speciesRef="MAPK_P" />
+                  <jd2:pt x="427" y="284" type="controlPoint" />
+                  <jd2:pt x="427" y="284" type="controlPoint" />
+                  <jd2:pt x="516" y="324" type="product" speciesRef="MAPK_PP" />
+                </jd2:edge>
+              </jd2:lineType>
+            </jd2:display>
+          </jd2:reaction>
+          <jd2:reaction id="J8" reversible="false">
+            <jd2:listOfReactants>
+              <jd2:speciesReference species="MAPK_PP" stoichiometry="1" />
+            </jd2:listOfReactants>
+            <jd2:listOfProducts>
+              <jd2:speciesReference species="MAPK_P" stoichiometry="1" />
+            </jd2:listOfProducts>
+            <jd2:listOfModifierEdges />
+            <jd2:kineticLaw type="explicit">
+              <jd2:rateEquation value="J8_V9*MAPK_PP/(J8_KK9+MAPK_PP)" />
+            </jd2:kineticLaw>
+            <jd2:display arrowStyle="ar1" arrowFillColor="FFC0C0C0" lineColor="FFFF9900" lineThickness="2">
+              <jd2:lineType type="ltBezier">
+                <jd2:edge>
+                  <jd2:pt x="516" y="324" type="substrate" speciesRef="MAPK_PP" />
+                  <jd2:pt x="433" y="355" type="controlPoint" />
+                  <jd2:pt x="433" y="355" type="controlPoint" />
+                  <jd2:pt x="353" y="330" type="product" speciesRef="MAPK_P" />
+                </jd2:edge>
+              </jd2:lineType>
+            </jd2:display>
+          </jd2:reaction>
+          <jd2:reaction id="J9" reversible="false">
+            <jd2:listOfReactants>
+              <jd2:speciesReference species="MAPK_P" stoichiometry="1" />
+            </jd2:listOfReactants>
+            <jd2:listOfProducts>
+              <jd2:speciesReference species="MAPK" stoichiometry="1" />
+            </jd2:listOfProducts>
+            <jd2:listOfModifierEdges />
+            <jd2:kineticLaw type="explicit">
+              <jd2:rateEquation value="J9_V10*MAPK_P/(J9_KK10+MAPK_P)" />
+            </jd2:kineticLaw>
+            <jd2:display arrowStyle="ar1" arrowFillColor="FFC0C0C0" lineColor="FFFF9900" lineThickness="2">
+              <jd2:lineType type="ltBezier">
+                <jd2:edge>
+                  <jd2:pt x="353" y="330" type="substrate" speciesRef="MAPK_P" />
+                  <jd2:pt x="266" y="349" type="controlPoint" />
+                  <jd2:pt x="266" y="349" type="controlPoint" />
+                  <jd2:pt x="187" y="330" type="product" speciesRef="MAPK" />
+                </jd2:edge>
+              </jd2:lineType>
+            </jd2:display>
+          </jd2:reaction>
+        </jd2:listOfReactions>
+      </jd2:JDesignerLayout>
+      <listOfLayouts xmlns="http://projects.eml.org/bcb/sbml/level2">
+        <layout id="JDesigner2_0" xmlns="http://projects.eml.org/bcb/sbml/level2">
+          <!--Created by SBW SBML LayoutViewer/Manipulator-->
+          <annotation>
+            <listOfRenderStyles xmlns="http://sys-bio.org/xml/render/level1">
+              <renderStyle id="RenderStyle_0">
+                <fillStyle fillType="Solid" startColor="ffffffef" />
+                <listOfSpeciesStyles>
+                  <speciesStyle id="sStyle_0" reference="sGlyph_0">
+                    <listOfShapes>
+                      <shape kind="RoundedRectangle">
+                        <fillStyle fillType="LinearGradient" startColor="ffccffff" endColor="ffffffff" gradientStyle="Horizontal" />
+                        <boundingBox>
+                          <position x="0" y="0" />
+                          <dimensions width="43" height="24" />
+                        </boundingBox>
+                        <edgeStyle color="ff969696" thickness="1" style="Solid" />
+                      </shape>
+                    </listOfShapes>
+                  </speciesStyle>
+                  <speciesStyle id="sStyle_1" reference="sGlyph_1">
+                    <listOfShapes>
+                      <shape kind="RoundedRectangle">
+                        <fillStyle fillType="LinearGradient" startColor="ffccffff" endColor="ffffffff" gradientStyle="Horizontal" />
+                        <boundingBox>
+                          <position x="0" y="0" />
+                          <dimensions width="55" height="24" />
+                        </boundingBox>
+                        <edgeStyle color="ff969696" thickness="1" style="Solid" />
+                      </shape>
+                    </listOfShapes>
+                  </speciesStyle>
+                  <speciesStyle id="sStyle_2" reference="sGlyph_2">
+                    <listOfShapes>
+                      <shape kind="RoundedRectangle">
+                        <fillStyle fillType="LinearGradient" startColor="ffccffff" endColor="ffffffff" gradientStyle="Horizontal" />
+                        <boundingBox>
+                          <position x="0" y="0" />
+                          <dimensions width="36" height="24" />
+                        </boundingBox>
+                        <edgeStyle color="ff969696" thickness="1" style="Solid" />
+                      </shape>
+                    </listOfShapes>
+                  </speciesStyle>
+                  <speciesStyle id="sStyle_3" reference="sGlyph_3">
+                    <listOfShapes>
+                      <shape kind="RoundedRectangle">
+                        <fillStyle fillType="LinearGradient" startColor="ffccffff" endColor="ffffffff" gradientStyle="Horizontal" />
+                        <boundingBox>
+                          <position x="0" y="0" />
+                          <dimensions width="48" height="24" />
+                        </boundingBox>
+                        <edgeStyle color="ff969696" thickness="1" style="Solid" />
+                      </shape>
+                    </listOfShapes>
+                  </speciesStyle>
+                  <speciesStyle id="sStyle_4" reference="sGlyph_4">
+                    <listOfShapes>
+                      <shape kind="RoundedRectangle">
+                        <fillStyle fillType="LinearGradient" startColor="ffccffff" endColor="ffffffff" gradientStyle="Horizontal" />
+                        <boundingBox>
+                          <position x="0" y="0" />
+                          <dimensions width="54" height="24" />
+                        </boundingBox>
+                        <edgeStyle color="ff969696" thickness="1" style="Solid" />
+                      </shape>
+                    </listOfShapes>
+                  </speciesStyle>
+                  <speciesStyle id="sStyle_5" reference="sGlyph_5">
+                    <listOfShapes>
+                      <shape kind="RoundedRectangle">
+                        <fillStyle fillType="LinearGradient" startColor="ffccffff" endColor="ffffffff" gradientStyle="Horizontal" />
+                        <boundingBox>
+                          <position x="0" y="0" />
+                          <dimensions width="43" height="24" />
+                        </boundingBox>
+                        <edgeStyle color="ff969696" thickness="1" style="Solid" />
+                      </shape>
+                    </listOfShapes>
+                  </speciesStyle>
+                  <speciesStyle id="sStyle_6" reference="sGlyph_6">
+                    <listOfShapes>
+                      <shape kind="RoundedRectangle">
+                        <fillStyle fillType="LinearGradient" startColor="ffccffff" endColor="ffffffff" gradientStyle="Horizontal" />
+                        <boundingBox>
+                          <position x="0" y="0" />
+                          <dimensions width="55" height="24" />
+                        </boundingBox>
+                        <edgeStyle color="ff969696" thickness="1" style="Solid" />
+                      </shape>
+                    </listOfShapes>
+                  </speciesStyle>
+                  <speciesStyle id="sStyle_7" reference="sGlyph_7">
+                    <listOfShapes>
+                      <shape kind="RoundedRectangle">
+                        <fillStyle fillType="LinearGradient" startColor="ffccffff" endColor="ffffffff" gradientStyle="Horizontal" />
+                        <boundingBox>
+                          <position x="0" y="0" />
+                          <dimensions width="61" height="24" />
+                        </boundingBox>
+                        <edgeStyle color="ff969696" thickness="1" style="Solid" />
+                      </shape>
+                    </listOfShapes>
+                  </speciesStyle>
+                </listOfSpeciesStyles>
+                <listOfReactionStyles>
+                  <reactionStyle id="rStyle_0" reference="rGlyph_0">
+                    <arrow kind="default">
+                      <fillStyle fillType="Solid" startColor="ffc0c0c0" />
+                      <lineStyle color="ff000000" thickness="2" style="Solid" />
+                    </arrow>
+                    <lineStyle color="ffff9900" thickness="2" style="Solid" />
+                  </reactionStyle>
+                  <reactionStyle id="rStyle_1" reference="rGlyph_1">
+                    <arrow kind="default">
+                      <fillStyle fillType="Solid" startColor="ffc0c0c0" />
+                      <lineStyle color="ff000000" thickness="2" style="Solid" />
+                    </arrow>
+                    <lineStyle color="ffff9900" thickness="2" style="Solid" />
+                  </reactionStyle>
+                  <reactionStyle id="rStyle_2" reference="rGlyph_2">
+                    <arrow kind="default">
+                      <fillStyle fillType="Solid" startColor="ffc0c0c0" />
+                      <lineStyle color="ff000000" thickness="2" style="Solid" />
+                    </arrow>
+                    <lineStyle color="ffff9900" thickness="2" style="Solid" />
+                  </reactionStyle>
+                  <reactionStyle id="rStyle_3" reference="rGlyph_3">
+                    <arrow kind="default">
+                      <fillStyle fillType="Solid" startColor="ffc0c0c0" />
+                      <lineStyle color="ff000000" thickness="2" style="Solid" />
+                    </arrow>
+                    <lineStyle color="ffff9900" thickness="2" style="Solid" />
+                  </reactionStyle>
+                  <reactionStyle id="rStyle_4" reference="rGlyph_4">
+                    <arrow kind="default">
+                      <fillStyle fillType="Solid" startColor="ffc0c0c0" />
+                      <lineStyle color="ff000000" thickness="2" style="Solid" />
+                    </arrow>
+                    <lineStyle color="ffff9900" thickness="2" style="Solid" />
+                  </reactionStyle>
+                  <reactionStyle id="rStyle_5" reference="rGlyph_5">
+                    <arrow kind="default">
+                      <fillStyle fillType="Solid" startColor="ffc0c0c0" />
+                      <lineStyle color="ff000000" thickness="2" style="Solid" />
+                    </arrow>
+                    <lineStyle color="ffff9900" thickness="2" style="Solid" />
+                  </reactionStyle>
+                  <reactionStyle id="rStyle_6" reference="rGlyph_6">
+                    <arrow kind="default">
+                      <fillStyle fillType="Solid" startColor="ffc0c0c0" />
+                      <lineStyle color="ff000000" thickness="2" style="Solid" />
+                    </arrow>
+                    <lineStyle color="ffff9900" thickness="2" style="Solid" />
+                  </reactionStyle>
+                  <reactionStyle id="rStyle_7" reference="rGlyph_7">
+                    <arrow kind="default">
+                      <fillStyle fillType="Solid" startColor="ffc0c0c0" />
+                      <lineStyle color="ff000000" thickness="2" style="Solid" />
+                    </arrow>
+                    <lineStyle color="ffff9900" thickness="2" style="Solid" />
+                  </reactionStyle>
+                  <reactionStyle id="rStyle_8" reference="rGlyph_8">
+                    <arrow kind="default">
+                      <fillStyle fillType="Solid" startColor="ffc0c0c0" />
+                      <lineStyle color="ff000000" thickness="2" style="Solid" />
+                    </arrow>
+                    <lineStyle color="ffff9900" thickness="2" style="Solid" />
+                  </reactionStyle>
+                  <reactionStyle id="rStyle_9" reference="rGlyph_9">
+                    <arrow kind="default">
+                      <fillStyle fillType="Solid" startColor="ffc0c0c0" />
+                      <lineStyle color="ff000000" thickness="2" style="Solid" />
+                    </arrow>
+                    <lineStyle color="ffff9900" thickness="2" style="Solid" />
+                  </reactionStyle>
+                </listOfReactionStyles>
+                <listOfTextStyles>
+                  <textStyle>
+                    <fontStyle id="tStyle_0" reference="tGlyph_0" font="Arial" calculateSize="False" size="8" style="">
+                      <fillStyle fillType="Solid" startColor="ff000000" />
+                    </fontStyle>
+                  </textStyle>
+                  <textStyle>
+                    <fontStyle id="tStyle_1" reference="tGlyph_1" font="Arial" calculateSize="False" size="8" style="">
+                      <fillStyle fillType="Solid" startColor="ff000000" />
+                    </fontStyle>
+                  </textStyle>
+                  <textStyle>
+                    <fontStyle id="tStyle_2" reference="tGlyph_2" font="Arial" calculateSize="False" size="8" style="">
+                      <fillStyle fillType="Solid" startColor="ff000000" />
+                    </fontStyle>
+                  </textStyle>
+                  <textStyle>
+                    <fontStyle id="tStyle_3" reference="tGlyph_3" font="Arial" calculateSize="False" size="8" style="">
+                      <fillStyle fillType="Solid" startColor="ff000000" />
+                    </fontStyle>
+                  </textStyle>
+                  <textStyle>
+                    <fontStyle id="tStyle_4" reference="tGlyph_4" font="Arial" calculateSize="False" size="8" style="">
+                      <fillStyle fillType="Solid" startColor="ff000000" />
+                    </fontStyle>
+                  </textStyle>
+                  <textStyle>
+                    <fontStyle id="tStyle_5" reference="tGlyph_5" font="Arial" calculateSize="False" size="8" style="">
+                      <fillStyle fillType="Solid" startColor="ff000000" />
+                    </fontStyle>
+                  </textStyle>
+                  <textStyle>
+                    <fontStyle id="tStyle_6" reference="tGlyph_6" font="Arial" calculateSize="False" size="8" style="">
+                      <fillStyle fillType="Solid" startColor="ff000000" />
+                    </fontStyle>
+                  </textStyle>
+                  <textStyle>
+                    <fontStyle id="tStyle_7" reference="tGlyph_7" font="Arial" calculateSize="False" size="8" style="">
+                      <fillStyle fillType="Solid" startColor="ff000000" />
+                    </fontStyle>
+                  </textStyle>
+                </listOfTextStyles>
+              </renderStyle>
+            </listOfRenderStyles>
+            <listOfRenderInformation xmlns="http://projects.eml.org/bcb/sbml/render/level2">
+              <renderInformation id="ConvertedRenderStyle" programName="SBML Layout Viewer - SBW version" programVersion="2.7.5569.27733 Compiled on: 4/1/2015 3:24:26 PM">
+                <listOfColorDefinitions>
+                  <colorDefinition id="Color_0" value="#969696" />
+                  <colorDefinition id="Color_1" value="#ff9900" />
+                  <colorDefinition id="Color_2" value="#000000" />
+                </listOfColorDefinitions>
+                <listOfGradientDefinitions>
+                  <linearGradient id="LinearGradient_0" spreadMethod="pad" x1="0%" y1="0%" z1="0%" x2="100%" y2="0%" z2="100%">
+                    <stop offset="0%" stop-color="#ccffff" />
+                    <stop offset="100%" stop-color="#ffffff" />
+                  </linearGradient>
+                </listOfGradientDefinitions>
+                <listOfLineEndings>
+                  <lineEnding id="product" enableRotationalMapping="true">
+                    <boundingBox>
+                      <position x="-10" y="-5" />
+                      <dimensions width="10" height="10" />
+                    </boundingBox>
+                    <g stroke="Color_1" stroke-width="0.001" fill="Color_1" font-size="0" font-style="normal" font-weight="normal" text-anchor="start" vtext-anchor="top">
+                      <polygon fill="Color_1">
+                        <listOfCurveSegments>
+                          <curveSegment xsi:type="LineSegment" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                            <start x="0%" y="0%" />
+                            <end x="100%" y="50%" />
+                          </curveSegment>
+                          <curveSegment xsi:type="LineSegment" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                            <start x="100%" y="50%" />
+                            <end x="0%" y="100%" />
+                          </curveSegment>
+                          <curveSegment xsi:type="LineSegment" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                            <start x="0%" y="100%" />
+                            <end x="33%" y="50%" />
+                          </curveSegment>
+                          <curveSegment xsi:type="LineSegment" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                            <start x="33%" y="50%" />
+                            <end x="0%" y="0%" />
+                          </curveSegment>
+                        </listOfCurveSegments>
+                      </polygon>
+                    </g>
+                  </lineEnding>
+                  <lineEnding id="inhibitor" enableRotationalMapping="true">
+                    <boundingBox>
+                      <position x="-0.5" y="-4" />
+                      <dimensions width="0.6" height="8" />
+                    </boundingBox>
+                    <g stroke="Color_1" stroke-width="2" font-size="0" font-style="normal" font-weight="normal" text-anchor="start" vtext-anchor="top">
+                      <polygon>
+                        <listOfElements>
+                          <element xsi:type="RenderPoint" x="0" y="0" z="0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" />
+                          <element xsi:type="RenderPoint" x="0.3" y="0" z="0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" />
+                          <element xsi:type="RenderPoint" x="0.3" y="8" z="0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" />
+                          <element xsi:type="RenderPoint" x="0" y="8" z="0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" />
+                        </listOfElements>
+                      </polygon>
+                    </g>
+                  </lineEnding>
+                  <lineEnding id="activator" enableRotationalMapping="true">
+                    <boundingBox>
+                      <position x="-8" y="-4" />
+                      <dimensions width="8" height="8" />
+                    </boundingBox>
+                    <g stroke="Color_1" stroke-width="1" fill="#ffffff" font-size="0" font-style="normal" font-weight="normal" text-anchor="start" vtext-anchor="top">
+                      <ellipse stroke="Color_1" stroke-width="1" fill="#ffffff" cx="50%" cy="50%" cz="0.0" rx="50%" ry="50%" />
+                    </g>
+                  </lineEnding>
+                </listOfLineEndings>
+                <listOfStyles>
+                  <style idList="sGlyph_0 sGlyph_5">
+                    <g font-size="0" font-style="normal" font-weight="normal" text-anchor="start" vtext-anchor="top">
+                      <rectangle stroke="Color_0" stroke-width="1" fill="LinearGradient_0" x="0" y="0" width="43" height="24" rx="5" />
+                    </g>
+                  </style>
+                  <style idList="sGlyph_1 sGlyph_6">
+                    <g font-size="0" font-style="normal" font-weight="normal" text-anchor="start" vtext-anchor="top">
+                      <rectangle stroke="Color_0" stroke-width="1" fill="LinearGradient_0" x="0" y="0" width="55" height="24" rx="5" />
+                    </g>
+                  </style>
+                  <style idList="sGlyph_2">
+                    <g font-size="0" font-style="normal" font-weight="normal" text-anchor="start" vtext-anchor="top">
+                      <rectangle stroke="Color_0" stroke-width="1" fill="LinearGradient_0" x="0" y="0" width="36" height="24" rx="5" />
+                    </g>
+                  </style>
+                  <style idList="sGlyph_3">
+                    <g font-size="0" font-style="normal" font-weight="normal" text-anchor="start" vtext-anchor="top">
+                      <rectangle stroke="Color_0" stroke-width="1" fill="LinearGradient_0" x="0" y="0" width="48" height="24" rx="5" />
+                    </g>
+                  </style>
+                  <style idList="sGlyph_4">
+                    <g font-size="0" font-style="normal" font-weight="normal" text-anchor="start" vtext-anchor="top">
+                      <rectangle stroke="Color_0" stroke-width="1" fill="LinearGradient_0" x="0" y="0" width="54" height="24" rx="5" />
+                    </g>
+                  </style>
+                  <style idList="sGlyph_7">
+                    <g font-size="0" font-style="normal" font-weight="normal" text-anchor="start" vtext-anchor="top">
+                      <rectangle stroke="Color_0" stroke-width="1" fill="LinearGradient_0" x="0" y="0" width="61" height="24" rx="5" />
+                    </g>
+                  </style>
+                  <style roleList=" product">
+                    <g stroke="Color_1" stroke-width="2" font-size="0" font-style="normal" font-weight="normal" text-anchor="start" vtext-anchor="top" endHead="product" />
+                  </style>
+                  <style roleList=" inhibitor">
+                    <g stroke="Color_1" stroke-width="2" font-size="0" font-style="normal" font-weight="normal" text-anchor="start" vtext-anchor="top" endHead="inhibitor" />
+                  </style>
+                  <style roleList="substrate sidesubstrate" idList="rGlyph_0 rGlyph_1 rGlyph_2 rGlyph_3 rGlyph_4 rGlyph_5 rGlyph_6 rGlyph_7 rGlyph_8 rGlyph_9">
+                    <g stroke="Color_1" stroke-width="2" font-size="0" font-style="normal" font-weight="normal" text-anchor="start" vtext-anchor="top" />
+                  </style>
+                  <style roleList=" activator">
+                    <g stroke="Color_1" stroke-width="2" font-size="0" font-style="normal" font-weight="normal" text-anchor="start" vtext-anchor="top" endHead="activator" />
+                  </style>
+                  <style idList="tGlyph_0 tGlyph_1 tGlyph_2 tGlyph_3 tGlyph_4 tGlyph_5 tGlyph_6 tGlyph_7">
+                    <g stroke="Color_2" font-family="Arial" font-size="11" font-style="normal" font-weight="normal" text-anchor="middle" vtext-anchor="top" />
+                  </style>
+                </listOfStyles>
+              </renderInformation>
+            </listOfRenderInformation>
+          </annotation>
+          <dimensions width="588.77170753479" height="429" />
+          <listOfSpeciesGlyphs>
+            <speciesGlyph id="sGlyph_0" species="MKKK">
+              <boundingBox>
+                <position x="41" y="74" />
+                <dimensions width="43" height="24" />
+              </boundingBox>
+            </speciesGlyph>
+            <speciesGlyph id="sGlyph_1" species="MKKK_P">
+              <boundingBox>
+                <position x="179" y="74" />
+                <dimensions width="55" height="24" />
+              </boundingBox>
+            </speciesGlyph>
+            <speciesGlyph id="sGlyph_2" species="MKK">
+              <boundingBox>
+                <position x="78" y="197" />
+                <dimensions width="36" height="24" />
+              </boundingBox>
+            </speciesGlyph>
+            <speciesGlyph id="sGlyph_3" species="MKK_P">
+              <boundingBox>
+                <position x="195" y="197" />
+                <dimensions width="48" height="24" />
+              </boundingBox>
+            </speciesGlyph>
+            <speciesGlyph id="sGlyph_4" species="MKK_PP">
+              <boundingBox>
+                <position x="312" y="197" />
+                <dimensions width="54" height="24" />
+              </boundingBox>
+            </speciesGlyph>
+            <speciesGlyph id="sGlyph_5" species="MAPK">
+              <boundingBox>
+                <position x="166" y="318" />
+                <dimensions width="43" height="24" />
+              </boundingBox>
+            </speciesGlyph>
+            <speciesGlyph id="sGlyph_6" species="MAPK_P">
+              <boundingBox>
+                <position x="326" y="318" />
+                <dimensions width="55" height="24" />
+              </boundingBox>
+            </speciesGlyph>
+            <speciesGlyph id="sGlyph_7" species="MAPK_PP">
+              <boundingBox>
+                <position x="486" y="312" />
+                <dimensions width="61" height="24" />
+              </boundingBox>
+            </speciesGlyph>
+          </listOfSpeciesGlyphs>
+          <listOfReactionGlyphs>
+            <reactionGlyph id="rGlyph_0" reaction="J0">
+              <boundingBox>
+                <position x="0" y="0" />
+                <dimensions width="0" height="0" />
+              </boundingBox>
+              <listOfSpeciesReferenceGlyphs>
+                <speciesReferenceGlyph id="SpeciesReference_J0_0" render:objectRole="product" speciesReference="MKKK_P" speciesGlyph="sGlyph_1" role="product" xmlns:render="http://projects.eml.org/bcb/sbml/render/level2">
+                  <boundingBox>
+                    <position x="0" y="0" />
+                    <dimensions width="0" height="0" />
+                  </boundingBox>
+                  <curve>
+                    <listOfCurveSegments>
+                      <curveSegment xsi:type="CubicBezier" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                        <start x="83.3846153846154" y="69" />
+                        <end x="182.384615384615" y="70" />
+                        <basePoint1 x="127" y="34" />
+                        <basePoint2 x="128" y="34" />
+                      </curveSegment>
+                    </listOfCurveSegments>
+                  </curve>
+                </speciesReferenceGlyph>
+                <speciesReferenceGlyph id="SpeciesReference_J0_2" render:objectRole="substrate" speciesReference="MKKK" speciesGlyph="sGlyph_0" role="substrate" xmlns:render="http://projects.eml.org/bcb/sbml/render/level2">
+                  <boundingBox>
+                    <position x="0" y="0" />
+                    <dimensions width="0" height="0" />
+                  </boundingBox>
+                </speciesReferenceGlyph>
+                <speciesReferenceGlyph id="SpeciesReference_J0_3" render:objectRole="inhibitor" speciesReference="MAPK_PP" speciesGlyph="sGlyph_7" role="inhibitor" xmlns:render="http://projects.eml.org/bcb/sbml/render/level2">
+                  <boundingBox>
+                    <position x="0" y="0" />
+                    <dimensions width="0" height="0" />
+                  </boundingBox>
+                  <curve>
+                    <listOfCurveSegments>
+                      <curveSegment xsi:type="LineSegment" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                        <start x="504.391373801917" y="306" />
+                        <end x="305" y="11" />
+                      </curveSegment>
+                      <curveSegment xsi:type="LineSegment" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                        <start x="305" y="11" />
+                        <end x="131" y="11" />
+                      </curveSegment>
+                      <curveSegment xsi:type="LineSegment" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                        <start x="131" y="11" />
+                        <end x="132" y="35" />
+                      </curveSegment>
+                    </listOfCurveSegments>
+                  </curve>
+                </speciesReferenceGlyph>
+              </listOfSpeciesReferenceGlyphs>
+            </reactionGlyph>
+            <reactionGlyph id="rGlyph_1" reaction="J1">
+              <boundingBox>
+                <position x="0" y="0" />
+                <dimensions width="0" height="0" />
+              </boundingBox>
+              <listOfSpeciesReferenceGlyphs>
+                <speciesReferenceGlyph id="SpeciesReference_J1_0" render:objectRole="product" speciesReference="MKKK" speciesGlyph="sGlyph_0" role="product" xmlns:render="http://projects.eml.org/bcb/sbml/render/level2">
+                  <boundingBox>
+                    <position x="0" y="0" />
+                    <dimensions width="0" height="0" />
+                  </boundingBox>
+                  <curve>
+                    <listOfCurveSegments>
+                      <curveSegment xsi:type="CubicBezier" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                        <start x="172" y="98.5629139072848" />
+                        <end x="91" y="98.1021897810219" />
+                        <basePoint1 x="131" y="115" />
+                        <basePoint2 x="131" y="115" />
+                      </curveSegment>
+                    </listOfCurveSegments>
+                  </curve>
+                </speciesReferenceGlyph>
+                <speciesReferenceGlyph id="SpeciesReference_J1_2" render:objectRole="substrate" speciesReference="MKKK_P" speciesGlyph="sGlyph_1" role="substrate" xmlns:render="http://projects.eml.org/bcb/sbml/render/level2">
+                  <boundingBox>
+                    <position x="0" y="0" />
+                    <dimensions width="0" height="0" />
+                  </boundingBox>
+                </speciesReferenceGlyph>
+              </listOfSpeciesReferenceGlyphs>
+            </reactionGlyph>
+            <reactionGlyph id="rGlyph_2" reaction="J2">
+              <boundingBox>
+                <position x="0" y="0" />
+                <dimensions width="0" height="0" />
+              </boundingBox>
+              <listOfSpeciesReferenceGlyphs>
+                <speciesReferenceGlyph id="SpeciesReference_J2_0" render:objectRole="product" speciesReference="MKK_P" speciesGlyph="sGlyph_3" role="product" xmlns:render="http://projects.eml.org/bcb/sbml/render/level2">
+                  <boundingBox>
+                    <position x="0" y="0" />
+                    <dimensions width="0" height="0" />
+                  </boundingBox>
+                  <curve>
+                    <listOfCurveSegments>
+                      <curveSegment xsi:type="CubicBezier" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                        <start x="116.869565217391" y="192" />
+                        <end x="195.782608695652" y="193" />
+                        <basePoint1 x="153" y="163" />
+                        <basePoint2 x="153" y="163" />
+                      </curveSegment>
+                    </listOfCurveSegments>
+                  </curve>
+                </speciesReferenceGlyph>
+                <speciesReferenceGlyph id="SpeciesReference_J2_2" render:objectRole="substrate" speciesReference="MKK" speciesGlyph="sGlyph_2" role="substrate" xmlns:render="http://projects.eml.org/bcb/sbml/render/level2">
+                  <boundingBox>
+                    <position x="0" y="0" />
+                    <dimensions width="0" height="0" />
+                  </boundingBox>
+                </speciesReferenceGlyph>
+                <speciesReferenceGlyph id="SpeciesReference_J2_3" render:objectRole="activator" speciesReference="MKKK_P" speciesGlyph="sGlyph_1" role="activator" xmlns:render="http://projects.eml.org/bcb/sbml/render/level2">
+                  <boundingBox>
+                    <position x="0" y="0" />
+                    <dimensions width="0" height="0" />
+                  </boundingBox>
+                  <curve>
+                    <listOfCurveSegments>
+                      <curveSegment xsi:type="LineSegment" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                        <start x="194.526315789474" y="104" />
+                        <end x="156" y="162" />
+                      </curveSegment>
+                    </listOfCurveSegments>
+                  </curve>
+                </speciesReferenceGlyph>
+              </listOfSpeciesReferenceGlyphs>
+            </reactionGlyph>
+            <reactionGlyph id="rGlyph_3" reaction="J3">
+              <boundingBox>
+                <position x="0" y="0" />
+                <dimensions width="0" height="0" />
+              </boundingBox>
+              <listOfSpeciesReferenceGlyphs>
+                <speciesReferenceGlyph id="SpeciesReference_J3_0" render:objectRole="product" speciesReference="MKK_PP" speciesGlyph="sGlyph_4" role="product" xmlns:render="http://projects.eml.org/bcb/sbml/render/level2">
+                  <boundingBox>
+                    <position x="0" y="0" />
+                    <dimensions width="0" height="0" />
+                  </boundingBox>
+                  <curve>
+                    <listOfCurveSegments>
+                      <curveSegment xsi:type="CubicBezier" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                        <start x="237.304347826087" y="192" />
+                        <end x="315" y="193" />
+                        <basePoint1 x="270" y="163" />
+                        <basePoint2 x="270" y="163" />
+                      </curveSegment>
+                    </listOfCurveSegments>
+                  </curve>
+                </speciesReferenceGlyph>
+                <speciesReferenceGlyph id="SpeciesReference_J3_2" render:objectRole="substrate" speciesReference="MKK_P" speciesGlyph="sGlyph_3" role="substrate" xmlns:render="http://projects.eml.org/bcb/sbml/render/level2">
+                  <boundingBox>
+                    <position x="0" y="0" />
+                    <dimensions width="0" height="0" />
+                  </boundingBox>
+                </speciesReferenceGlyph>
+                <speciesReferenceGlyph id="SpeciesReference_J3_3" render:objectRole="activator" speciesReference="MKKK_P" speciesGlyph="sGlyph_1" role="activator" xmlns:render="http://projects.eml.org/bcb/sbml/render/level2">
+                  <boundingBox>
+                    <position x="0" y="0" />
+                    <dimensions width="0" height="0" />
+                  </boundingBox>
+                  <curve>
+                    <listOfCurveSegments>
+                      <curveSegment xsi:type="LineSegment" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                        <start x="221.684210526316" y="104" />
+                        <end x="271" y="162" />
+                      </curveSegment>
+                    </listOfCurveSegments>
+                  </curve>
+                </speciesReferenceGlyph>
+              </listOfSpeciesReferenceGlyphs>
+            </reactionGlyph>
+            <reactionGlyph id="rGlyph_4" reaction="J4">
+              <boundingBox>
+                <position x="0" y="0" />
+                <dimensions width="0" height="0" />
+              </boundingBox>
+              <listOfSpeciesReferenceGlyphs>
+                <speciesReferenceGlyph id="SpeciesReference_J4_0" render:objectRole="product" speciesReference="MKK_P" speciesGlyph="sGlyph_3" role="product" xmlns:render="http://projects.eml.org/bcb/sbml/render/level2">
+                  <boundingBox>
+                    <position x="0" y="0" />
+                    <dimensions width="0" height="0" />
+                  </boundingBox>
+                  <curve>
+                    <listOfCurveSegments>
+                      <curveSegment xsi:type="CubicBezier" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                        <start x="305" y="221.451612903226" />
+                        <end x="250" y="221.931034482759" />
+                        <basePoint1 x="277" y="233" />
+                        <basePoint2 x="277" y="233" />
+                      </curveSegment>
+                    </listOfCurveSegments>
+                  </curve>
+                </speciesReferenceGlyph>
+                <speciesReferenceGlyph id="SpeciesReference_J4_2" render:objectRole="substrate" speciesReference="MKK_PP" speciesGlyph="sGlyph_4" role="substrate" xmlns:render="http://projects.eml.org/bcb/sbml/render/level2">
+                  <boundingBox>
+                    <position x="0" y="0" />
+                    <dimensions width="0" height="0" />
+                  </boundingBox>
+                </speciesReferenceGlyph>
+              </listOfSpeciesReferenceGlyphs>
+            </reactionGlyph>
+            <reactionGlyph id="rGlyph_5" reaction="J5">
+              <boundingBox>
+                <position x="0" y="0" />
+                <dimensions width="0" height="0" />
+              </boundingBox>
+              <listOfSpeciesReferenceGlyphs>
+                <speciesReferenceGlyph id="SpeciesReference_J5_0" render:objectRole="product" speciesReference="MKK" speciesGlyph="sGlyph_2" role="product" xmlns:render="http://projects.eml.org/bcb/sbml/render/level2">
+                  <boundingBox>
+                    <position x="0" y="0" />
+                    <dimensions width="0" height="0" />
+                  </boundingBox>
+                  <curve>
+                    <listOfCurveSegments>
+                      <curveSegment xsi:type="CubicBezier" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                        <start x="188" y="219.861538461538" />
+                        <end x="121" y="219.448275862069" />
+                        <basePoint1 x="154" y="233" />
+                        <basePoint2 x="154" y="233" />
+                      </curveSegment>
+                    </listOfCurveSegments>
+                  </curve>
+                </speciesReferenceGlyph>
+                <speciesReferenceGlyph id="SpeciesReference_J5_2" render:objectRole="substrate" speciesReference="MKK_P" speciesGlyph="sGlyph_3" role="substrate" xmlns:render="http://projects.eml.org/bcb/sbml/render/level2">
+                  <boundingBox>
+                    <position x="0" y="0" />
+                    <dimensions width="0" height="0" />
+                  </boundingBox>
+                </speciesReferenceGlyph>
+              </listOfSpeciesReferenceGlyphs>
+            </reactionGlyph>
+            <reactionGlyph id="rGlyph_6" reaction="J6">
+              <boundingBox>
+                <position x="0" y="0" />
+                <dimensions width="0" height="0" />
+              </boundingBox>
+              <listOfSpeciesReferenceGlyphs>
+                <speciesReferenceGlyph id="SpeciesReference_J6_0" render:objectRole="product" speciesReference="MAPK_P" speciesGlyph="sGlyph_6" role="product" xmlns:render="http://projects.eml.org/bcb/sbml/render/level2">
+                  <boundingBox>
+                    <position x="0" y="0" />
+                    <dimensions width="0" height="0" />
+                  </boundingBox>
+                  <curve>
+                    <listOfCurveSegments>
+                      <curveSegment xsi:type="CubicBezier" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                        <start x="213.978260869565" y="314" />
+                        <end x="323.673913043478" y="315" />
+                        <basePoint1 x="266" y="284" />
+                        <basePoint2 x="266" y="284" />
+                      </curveSegment>
+                    </listOfCurveSegments>
+                  </curve>
+                </speciesReferenceGlyph>
+                <speciesReferenceGlyph id="SpeciesReference_J6_2" render:objectRole="substrate" speciesReference="MAPK" speciesGlyph="sGlyph_5" role="substrate" xmlns:render="http://projects.eml.org/bcb/sbml/render/level2">
+                  <boundingBox>
+                    <position x="0" y="0" />
+                    <dimensions width="0" height="0" />
+                  </boundingBox>
+                </speciesReferenceGlyph>
+                <speciesReferenceGlyph id="SpeciesReference_J6_3" render:objectRole="activator" speciesReference="MKK_PP" speciesGlyph="sGlyph_4" role="activator" xmlns:render="http://projects.eml.org/bcb/sbml/render/level2">
+                  <boundingBox>
+                    <position x="0" y="0" />
+                    <dimensions width="0" height="0" />
+                  </boundingBox>
+                  <curve>
+                    <listOfCurveSegments>
+                      <curveSegment xsi:type="LineSegment" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                        <start x="322.162162162162" y="226" />
+                        <end x="266" y="283" />
+                      </curveSegment>
+                    </listOfCurveSegments>
+                  </curve>
+                </speciesReferenceGlyph>
+              </listOfSpeciesReferenceGlyphs>
+            </reactionGlyph>
+            <reactionGlyph id="rGlyph_7" reaction="J7">
+              <boundingBox>
+                <position x="0" y="0" />
+                <dimensions width="0" height="0" />
+              </boundingBox>
+              <listOfSpeciesReferenceGlyphs>
+                <speciesReferenceGlyph id="SpeciesReference_J7_0" render:objectRole="product" speciesReference="MAPK_PP" speciesGlyph="sGlyph_7" role="product" xmlns:render="http://projects.eml.org/bcb/sbml/render/level2">
+                  <boundingBox>
+                    <position x="0" y="0" />
+                    <dimensions width="0" height="0" />
+                  </boundingBox>
+                  <curve>
+                    <listOfCurveSegments>
+                      <curveSegment xsi:type="CubicBezier" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                        <start x="378.673913043478" y="314" />
+                        <end x="482.65" y="309" />
+                        <basePoint1 x="427" y="284" />
+                        <basePoint2 x="427" y="284" />
+                      </curveSegment>
+                    </listOfCurveSegments>
+                  </curve>
+                </speciesReferenceGlyph>
+                <speciesReferenceGlyph id="SpeciesReference_J7_2" render:objectRole="substrate" speciesReference="MAPK_P" speciesGlyph="sGlyph_6" role="substrate" xmlns:render="http://projects.eml.org/bcb/sbml/render/level2">
+                  <boundingBox>
+                    <position x="0" y="0" />
+                    <dimensions width="0" height="0" />
+                  </boundingBox>
+                </speciesReferenceGlyph>
+                <speciesReferenceGlyph id="SpeciesReference_J7_3" render:objectRole="activator" speciesReference="MKK_PP" speciesGlyph="sGlyph_4" role="activator" xmlns:render="http://projects.eml.org/bcb/sbml/render/level2">
+                  <boundingBox>
+                    <position x="0" y="0" />
+                    <dimensions width="0" height="0" />
+                  </boundingBox>
+                  <curve>
+                    <listOfCurveSegments>
+                      <curveSegment xsi:type="LineSegment" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                        <start x="357.12" y="226" />
+                        <end x="421" y="284" />
+                      </curveSegment>
+                    </listOfCurveSegments>
+                  </curve>
+                </speciesReferenceGlyph>
+              </listOfSpeciesReferenceGlyphs>
+            </reactionGlyph>
+            <reactionGlyph id="rGlyph_8" reaction="J8">
+              <boundingBox>
+                <position x="0" y="0" />
+                <dimensions width="0" height="0" />
+              </boundingBox>
+              <listOfSpeciesReferenceGlyphs>
+                <speciesReferenceGlyph id="SpeciesReference_J8_0" render:objectRole="product" speciesReference="MAPK_P" speciesGlyph="sGlyph_6" role="product" xmlns:render="http://projects.eml.org/bcb/sbml/render/level2">
+                  <boundingBox>
+                    <position x="0" y="0" />
+                    <dimensions width="0" height="0" />
+                  </boundingBox>
+                  <curve>
+                    <listOfCurveSegments>
+                      <curveSegment xsi:type="CubicBezier" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                        <start x="479" y="337.323353293413" />
+                        <end x="388" y="340.647798742138" />
+                        <basePoint1 x="433" y="355" />
+                        <basePoint2 x="433" y="355" />
+                      </curveSegment>
+                    </listOfCurveSegments>
+                  </curve>
+                </speciesReferenceGlyph>
+                <speciesReferenceGlyph id="SpeciesReference_J8_2" render:objectRole="substrate" speciesReference="MAPK_PP" speciesGlyph="sGlyph_7" role="substrate" xmlns:render="http://projects.eml.org/bcb/sbml/render/level2">
+                  <boundingBox>
+                    <position x="0" y="0" />
+                    <dimensions width="0" height="0" />
+                  </boundingBox>
+                </speciesReferenceGlyph>
+              </listOfSpeciesReferenceGlyphs>
+            </reactionGlyph>
+            <reactionGlyph id="rGlyph_9" reaction="J9">
+              <boundingBox>
+                <position x="0" y="0" />
+                <dimensions width="0" height="0" />
+              </boundingBox>
+              <listOfSpeciesReferenceGlyphs>
+                <speciesReferenceGlyph id="SpeciesReference_J9_0" render:objectRole="product" speciesReference="MAPK" speciesGlyph="sGlyph_5" role="product" xmlns:render="http://projects.eml.org/bcb/sbml/render/level2">
+                  <boundingBox>
+                    <position x="0" y="0" />
+                    <dimensions width="0" height="0" />
+                  </boundingBox>
+                  <curve>
+                    <listOfCurveSegments>
+                      <curveSegment xsi:type="CubicBezier" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                        <start x="319" y="336.971428571429" />
+                        <end x="216" y="336.203821656051" />
+                        <basePoint1 x="266" y="349" />
+                        <basePoint2 x="266" y="349" />
+                      </curveSegment>
+                    </listOfCurveSegments>
+                  </curve>
+                </speciesReferenceGlyph>
+                <speciesReferenceGlyph id="SpeciesReference_J9_2" render:objectRole="substrate" speciesReference="MAPK_P" speciesGlyph="sGlyph_6" role="substrate" xmlns:render="http://projects.eml.org/bcb/sbml/render/level2">
+                  <boundingBox>
+                    <position x="0" y="0" />
+                    <dimensions width="0" height="0" />
+                  </boundingBox>
+                </speciesReferenceGlyph>
+              </listOfSpeciesReferenceGlyphs>
+            </reactionGlyph>
+          </listOfReactionGlyphs>
+          <listOfTextGlyphs>
+            <textGlyph id="tGlyph_0" graphicalObject="sGlyph_0" text="MKKK">
+              <boundingBox>
+                <position x="41" y="74" />
+                <dimensions width="43" height="24" />
+              </boundingBox>
+            </textGlyph>
+            <textGlyph id="tGlyph_1" graphicalObject="sGlyph_1" text="MKKK_P">
+              <boundingBox>
+                <position x="179" y="74" />
+                <dimensions width="55" height="24" />
+              </boundingBox>
+            </textGlyph>
+            <textGlyph id="tGlyph_2" graphicalObject="sGlyph_2" text="MKK">
+              <boundingBox>
+                <position x="78" y="197" />
+                <dimensions width="36" height="24" />
+              </boundingBox>
+            </textGlyph>
+            <textGlyph id="tGlyph_3" graphicalObject="sGlyph_3" text="MKK_P">
+              <boundingBox>
+                <position x="195" y="197" />
+                <dimensions width="48" height="24" />
+              </boundingBox>
+            </textGlyph>
+            <textGlyph id="tGlyph_4" graphicalObject="sGlyph_4" text="MKK_PP">
+              <boundingBox>
+                <position x="312" y="197" />
+                <dimensions width="54" height="24" />
+              </boundingBox>
+            </textGlyph>
+            <textGlyph id="tGlyph_5" graphicalObject="sGlyph_5" text="MAPK">
+              <boundingBox>
+                <position x="166" y="318" />
+                <dimensions width="43" height="24" />
+              </boundingBox>
+            </textGlyph>
+            <textGlyph id="tGlyph_6" graphicalObject="sGlyph_6" text="MAPK_P">
+              <boundingBox>
+                <position x="326" y="318" />
+                <dimensions width="55" height="24" />
+              </boundingBox>
+            </textGlyph>
+            <textGlyph id="tGlyph_7" graphicalObject="sGlyph_7" text="MAPK_PP">
+              <boundingBox>
+                <position x="486" y="312" />
+                <dimensions width="61" height="24" />
+              </boundingBox>
+            </textGlyph>
+          </listOfTextGlyphs>
+        </layout>
+      </listOfLayouts>
+    </annotation>
+    <listOfCompartments>
+      <compartment id="compartment" size="1" />
+    </listOfCompartments>
+    <listOfSpecies>
+      <species id="MKKK" boundaryCondition="false" initialConcentration="90" compartment="compartment" />
+      <species id="MKKK_P" boundaryCondition="false" initialConcentration="10" compartment="compartment" />
+      <species id="MKK" boundaryCondition="false" initialConcentration="280" compartment="compartment" />
+      <species id="MKK_P" boundaryCondition="false" initialConcentration="10" compartment="compartment" />
+      <species id="MKK_PP" boundaryCondition="false" initialConcentration="10" compartment="compartment" />
+      <species id="MAPK" boundaryCondition="false" initialConcentration="280" compartment="compartment" />
+      <species id="MAPK_P" boundaryCondition="false" initialConcentration="10" compartment="compartment" />
+      <species id="MAPK_PP" boundaryCondition="false" initialConcentration="10" compartment="compartment" />
+    </listOfSpecies>
+    <listOfParameters>
+      <parameter id="J0_V1" value="2.5" />
+      <parameter id="J0_Ki" value="9" />
+      <parameter id="J0_n" value="1" />
+      <parameter id="J0_K1" value="10" />
+      <parameter id="J1_V2" value="0.25" />
+      <parameter id="J1_KK2" value="8" />
+      <parameter id="J2_k3" value="0.025" />
+      <parameter id="J2_KK3" value="15" />
+      <parameter id="J3_k4" value="0.025" />
+      <parameter id="J3_KK4" value="15" />
+      <parameter id="J4_V5" value="0.75" />
+      <parameter id="J4_KK5" value="15" />
+      <parameter id="J5_V6" value="0.75" />
+      <parameter id="J5_KK6" value="15" />
+      <parameter id="J6_k7" value="0.025" />
+      <parameter id="J6_KK7" value="15" />
+      <parameter id="J7_k8" value="0.025" />
+      <parameter id="J7_KK8" value="15" />
+      <parameter id="J8_V9" value="0.5" />
+      <parameter id="J8_KK9" value="15" />
+      <parameter id="J9_V10" value="0.5" />
+      <parameter id="J9_KK10" value="15" />
+    </listOfParameters>
+    <listOfReactions>
+      <reaction id="J0" reversible="false">
+        <listOfReactants>
+          <speciesReference species="MKKK" stoichiometry="1" />
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="MKKK_P" stoichiometry="1" />
+        </listOfProducts>
+        <listOfModifiers>
+          <modifierSpeciesReference species="MAPK_PP" />
+        </listOfModifiers>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <divide />
+              <apply>
+                <times />
+                <ci>
+                              J0_V1
+                        </ci>
+                <ci>
+                              MKKK
+                        </ci>
+              </apply>
+              <apply>
+                <times />
+                <apply>
+                  <plus />
+                  <cn type="integer">
+                                 1
+                           </cn>
+                  <apply>
+                    <power />
+                    <apply>
+                      <divide />
+                      <ci>
+                                       MAPK_PP
+                                 </ci>
+                      <ci>
+                                       J0_Ki
+                                 </ci>
+                    </apply>
+                    <ci>
+                                    J0_n
+                              </ci>
+                  </apply>
+                </apply>
+                <apply>
+                  <plus />
+                  <ci>
+                                 J0_K1
+                           </ci>
+                  <ci>
+                                 MKKK
+                           </ci>
+                </apply>
+              </apply>
+            </apply>
+          </math>
+        </kineticLaw>
+      </reaction>
+      <reaction id="J1" reversible="false">
+        <listOfReactants>
+          <speciesReference species="MKKK_P" stoichiometry="1" />
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="MKKK" stoichiometry="1" />
+        </listOfProducts>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <divide />
+              <apply>
+                <times />
+                <ci>
+                              J1_V2
+                        </ci>
+                <ci>
+                              MKKK_P
+                        </ci>
+              </apply>
+              <apply>
+                <plus />
+                <ci>
+                              J1_KK2
+                        </ci>
+                <ci>
+                              MKKK_P
+                        </ci>
+              </apply>
+            </apply>
+          </math>
+        </kineticLaw>
+      </reaction>
+      <reaction id="J2" reversible="false">
+        <listOfReactants>
+          <speciesReference species="MKK" stoichiometry="1" />
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="MKK_P" stoichiometry="1" />
+        </listOfProducts>
+        <listOfModifiers>
+          <modifierSpeciesReference species="MKKK_P" />
+        </listOfModifiers>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <divide />
+              <apply>
+                <times />
+                <ci>
+                              J2_k3
+                        </ci>
+                <ci>
+                              MKKK_P
+                        </ci>
+                <ci>
+                              MKK
+                        </ci>
+              </apply>
+              <apply>
+                <plus />
+                <ci>
+                              J2_KK3
+                        </ci>
+                <ci>
+                              MKK
+                        </ci>
+              </apply>
+            </apply>
+          </math>
+        </kineticLaw>
+      </reaction>
+      <reaction id="J3" reversible="false">
+        <listOfReactants>
+          <speciesReference species="MKK_P" stoichiometry="1" />
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="MKK_PP" stoichiometry="1" />
+        </listOfProducts>
+        <listOfModifiers>
+          <modifierSpeciesReference species="MKKK_P" />
+        </listOfModifiers>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <divide />
+              <apply>
+                <times />
+                <ci>
+                              J3_k4
+                        </ci>
+                <ci>
+                              MKKK_P
+                        </ci>
+                <ci>
+                              MKK_P
+                        </ci>
+              </apply>
+              <apply>
+                <plus />
+                <ci>
+                              J3_KK4
+                        </ci>
+                <ci>
+                              MKK_P
+                        </ci>
+              </apply>
+            </apply>
+          </math>
+        </kineticLaw>
+      </reaction>
+      <reaction id="J4" reversible="false">
+        <listOfReactants>
+          <speciesReference species="MKK_PP" stoichiometry="1" />
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="MKK_P" stoichiometry="1" />
+        </listOfProducts>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <divide />
+              <apply>
+                <times />
+                <ci>
+                              J4_V5
+                        </ci>
+                <ci>
+                              MKK_PP
+                        </ci>
+              </apply>
+              <apply>
+                <plus />
+                <ci>
+                              J4_KK5
+                        </ci>
+                <ci>
+                              MKK_PP
+                        </ci>
+              </apply>
+            </apply>
+          </math>
+        </kineticLaw>
+      </reaction>
+      <reaction id="J5" reversible="false">
+        <listOfReactants>
+          <speciesReference species="MKK_P" stoichiometry="1" />
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="MKK" stoichiometry="1" />
+        </listOfProducts>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <divide />
+              <apply>
+                <times />
+                <ci>
+                              J5_V6
+                        </ci>
+                <ci>
+                              MKK_P
+                        </ci>
+              </apply>
+              <apply>
+                <plus />
+                <ci>
+                              J5_KK6
+                        </ci>
+                <ci>
+                              MKK_P
+                        </ci>
+              </apply>
+            </apply>
+          </math>
+        </kineticLaw>
+      </reaction>
+      <reaction id="J6" reversible="false">
+        <listOfReactants>
+          <speciesReference species="MAPK" stoichiometry="1" />
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="MAPK_P" stoichiometry="1" />
+        </listOfProducts>
+        <listOfModifiers>
+          <modifierSpeciesReference species="MKK_PP" />
+        </listOfModifiers>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <divide />
+              <apply>
+                <times />
+                <ci>
+                              J6_k7
+                        </ci>
+                <ci>
+                              MKK_PP
+                        </ci>
+                <ci>
+                              MAPK
+                        </ci>
+              </apply>
+              <apply>
+                <plus />
+                <ci>
+                              J6_KK7
+                        </ci>
+                <ci>
+                              MAPK
+                        </ci>
+              </apply>
+            </apply>
+          </math>
+        </kineticLaw>
+      </reaction>
+      <reaction id="J7" reversible="false">
+        <listOfReactants>
+          <speciesReference species="MAPK_P" stoichiometry="1" />
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="MAPK_PP" stoichiometry="1" />
+        </listOfProducts>
+        <listOfModifiers>
+          <modifierSpeciesReference species="MKK_PP" />
+        </listOfModifiers>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <divide />
+              <apply>
+                <times />
+                <ci>
+                              J7_k8
+                        </ci>
+                <ci>
+                              MKK_PP
+                        </ci>
+                <ci>
+                              MAPK_P
+                        </ci>
+              </apply>
+              <apply>
+                <plus />
+                <ci>
+                              J7_KK8
+                        </ci>
+                <ci>
+                              MAPK_P
+                        </ci>
+              </apply>
+            </apply>
+          </math>
+        </kineticLaw>
+      </reaction>
+      <reaction id="J8" reversible="false">
+        <listOfReactants>
+          <speciesReference species="MAPK_PP" stoichiometry="1" />
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="MAPK_P" stoichiometry="1" />
+        </listOfProducts>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <divide />
+              <apply>
+                <times />
+                <ci>
+                              J8_V9
+                        </ci>
+                <ci>
+                              MAPK_PP
+                        </ci>
+              </apply>
+              <apply>
+                <plus />
+                <ci>
+                              J8_KK9
+                        </ci>
+                <ci>
+                              MAPK_PP
+                        </ci>
+              </apply>
+            </apply>
+          </math>
+        </kineticLaw>
+      </reaction>
+      <reaction id="J9" reversible="false">
+        <listOfReactants>
+          <speciesReference species="MAPK_P" stoichiometry="1" />
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="MAPK" stoichiometry="1" />
+        </listOfProducts>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <divide />
+              <apply>
+                <times />
+                <ci>
+                              J9_V10
+                        </ci>
+                <ci>
+                              MAPK_P
+                        </ci>
+              </apply>
+              <apply>
+                <plus />
+                <ci>
+                              J9_KK10
+                        </ci>
+                <ci>
+                              MAPK_P
+                        </ci>
+              </apply>
+            </apply>
+          </math>
+        </kineticLaw>
+      </reaction>
+    </listOfReactions>
+  </model>
+</sbml>

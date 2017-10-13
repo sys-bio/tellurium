@@ -23,9 +23,6 @@ MANIFEST
 # Text editors
 *.swp
 
-# Dev tmp files
-tellurium/dev/oven/__tellurium__/
-
 # Installer logs
 pip-log.txt
 
@@ -58,6 +55,7 @@ examples/notebooks/core/.ipynb_checkpoints/
 examples/notebooks/docstrings/.ipynb_checkpoints/
 examples/notebooks/widgets/.ipynb_checkpoints/
 tellurium/dev/oven/.ipynb_checkpoints/
+tellurium/dev/oven/__tellurium__/
 
 
 # auto-generated html docs
