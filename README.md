@@ -8,10 +8,6 @@
 Copyright 2014-2017
 Kiri Choi, J Kyle Medley, Matthias König, Kaylene Stocking, Caroline Cannistra, Michal Galdzicki, and Herbert Sauro
 
-![Parameter scan demo](http://tellurium.readthedocs.org/en/latest/_images/parameter_scan_2_0.png)
-
-*Parameter scan example*
-
 ## Introduction
 
 Tellurium is a python environment based on the [Spyder2 IDE](https://github.com/spyder-ide/spyder) 
@@ -75,7 +71,7 @@ We recommend first-time users choose one of the front-ends, while developers loo
 
 #### Windows
 
-1. [Download Tellurium IDE for Windows](https://sourceforge.net/projects/pytellurium/files/Tellurium-2.0/2.0.0beta/Tellurium-2.0.0beta-Python-2.7-win64-portable-setup-beta.exe/download)
+1. [Download Tellurium IDE for Windows](https://sourceforge.net/projects/pytellurium/files/Tellurium-2.0/2.0.3/Tellurium-2.0.3-Python-2.7-win64-portable-setup.exe/download)
 2. Double-click the installer to start the installation
 3. Follow the instructions
 
@@ -131,7 +127,7 @@ The Tellurium notebook supports Windows 10, Mac OS X 10.10+, Debian 8+, and Fedo
 
 ## Supported Python Versions
 
-The Tellurium PyPI packages support 64-bit Python versions 2.7, 3.4, 3.5, and 3.6 for Windows, Mac, and Linux. The notebook viewer comes with Python 3.6 (64-bit) and the IDE comes with Python 2.7 (32-bit).
+The Tellurium PyPI packages support 64-bit Python versions 2.7, 3.4, 3.5, and 3.6 for Windows, Mac, and Linux. The notebook viewer comes with Python 3.6 (64-bit) and the IDE comes with Python 2.7 (64-bit).
 
 ## Legal
 
