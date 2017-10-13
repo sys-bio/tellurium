@@ -75,7 +75,7 @@ We recommend first-time users choose one of the front-ends, while developers loo
 
 #### Windows
 
-1. [Download Tellurium IDE for Windows](https://sourceforge.net/projects/pytellurium/files/Tellurium-2.0/2.0.0beta/Tellurium-2.0.0beta-Python-2.7-win64-portable-setup-beta.exe/download)
+1. [Download Tellurium IDE for Windows](https://sourceforge.net/projects/pytellurium/files/Tellurium-2.0/2.0.3/Tellurium-2.0.3-Python-2.7-win64-portable-setup.exe/download)
 2. Double-click the installer to start the installation
 3. Follow the instructions
 
