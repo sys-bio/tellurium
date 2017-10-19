@@ -19,11 +19,6 @@ building better models. Tellurium also provides first-class support for exchange
 [COMBINE archives](http://co.mbine.org/documents/archive), allowing you to share your models 
 and simulations with other tools.
 
-`Tellurium` is available either as  
-A. [Notebook front-end](#front-end-1-tellurium-notebook)  
-B. [IDE front-end](#front-end-2-tellurium-ide): python environment based on the [Spyder2 IDE](https://github.com/spyder-ide/spyder)  
-C. [pip package](#pip-installation-no-front-end)
-
 `Tellurium` combines state-of-the-art scientific Python libraries, such 
 as [NumPy](http://www.numpy.org/) and [SciPy](http://www.scipy.org/), 
 and includes special-purpose systems biology Python tools. Out of the box, 
@@ -40,11 +35,11 @@ The `Tellurium` project is funded from the NIH/NIGMS (GM081070).
 
 ## Installation Instructions
 
-`Tellurium` can be installed via a front-end which includes all of its constituent packages, or via `pip`:
+`Tellurium` can either be installed with a front-end (Notebook, IDE) or as a Python package:
 
 A. [Notebook front-end](#front-end-1-tellurium-notebook)  
-B. [IDE front-end](#front-end-2-tellurium-ide)  
-C. [pip package](#pip-installation-no-front-end)
+B. [IDE front-end](#front-end-2-tellurium-ide) based on [Spyder2](https://github.com/spyder-ide/spyder)  
+C. [Python package (pip)](#pip-installation-no-front-end)
 
 We recommend first-time users choose one of the front-ends, while developers looking to integrate `Tellurium` use the pip package. 
 The IDE front-end provides a MATLAB like experience with a code editor and Python console. 
@@ -57,36 +52,38 @@ The `Tellurium` notebook supports Windows 10, Mac OS X 10.10+, Debian 8+, and Fe
 The notebook viewer comes with Python 3.6 (64-bit).
 
 <img align="left" width="32px" id="windows" src="https://raw.githubusercontent.com/wiki/sys-bio/tellurium/img/windows.png">
-<h3>Windows</h3>
+<h4>Windows</h4>
 <br style="clear:both"/>
 
-1. [Download Tellurium notebook for Windows](https://github.com/sys-bio/tellurium/releases/download/2.0.0-alpha4/Tellurium.Setup.2.0.0.exe)
-2. Double-click the installer to start the installation
+1. [Download Tellurium Notebook for Windows](https://github.com/sys-bio/tellurium/releases/download/2.0.0-alpha4/Tellurium.Setup.2.0.0.exe)
+2. Double-click the installer `*.exe` to start the installation
 3. Follow the instructions
 
 <img align="left" width="32px" id="mac-osx" src="https://raw.githubusercontent.com/wiki/sys-bio/tellurium/img/macos.png">
-<h3>Mac OS X</h3>
+<h4>Mac OS X</h4>
 <br style="clear:both"/>
 
-1. [Download Tellurium notebook for Mac OS X 10.10 or later](https://github.com/sys-bio/tellurium/releases/download/2.0.0-alpha4/Tellurium-2.0.0.dmg)
+1. [Download Tellurium Notebook for Mac OS X 10.10 or later](https://github.com/sys-bio/tellurium/releases/download/2.0.0-alpha4/Tellurium-2.0.0.dmg)
 2. Double-click the `*.dmg` file to open a new window
 3. Drag the Tellurium icon to your Applications
 4. You can now launch `Tellurium` from Spotlight or directly from your applications folder
 
 <img align="left" width="32px" id="debian" src="https://raw.githubusercontent.com/wiki/sys-bio/tellurium/img/debian.png">
-<h3>Linux (Debian)</h3>
+<h4>Linux (Debian)</h4>
 <br style="clear:both"/>
 
-1. [Download Tellurium notebook for Debian](https://github.com/sys-bio/tellurium/releases/download/2.0.0-alpha9/Tellurium_2.0.0_amd64.deb)
-2. Install the package using `dpkg -i Tellurium_2.0.0_amd64.deb`
+1. [Download Tellurium Notebook for Debian](https://github.com/sys-bio/tellurium/releases/download/2.0.0-alpha9/Tellurium_2.0.0_amd64.deb)
+2. Install the package using `dpkg -i Tellurium_2.*.deb`
 3. You should be able to launch Tellurium from your activities pane. If not, log out and in again or run `tellurium` from the terminal.
 
-### Front-end 2: Tellurium IDE
+### Front-end 2: Tellurium Spyder IDE
 The Spyder IDE installers are tested with Windows 7+ and Mac OS X 10.9+. Some older Macs cannot run Spyder, regardless of 
 whether the operating system is up-to-date. 
 The IDE comes with Python 2.7 (64-bit).
 
-#### Windows
+<img align="left" width="32px" id="windows" src="https://raw.githubusercontent.com/wiki/sys-bio/tellurium/img/windows.png">
+<h4>Windows</h4>
+<br style="clear:both"/>
 
 1. [Download Tellurium IDE for Windows](https://sourceforge.net/projects/pytellurium/files/Tellurium-2.0/2.0.3/Tellurium-2.0.3-Python-2.7-win64-portable-setup.exe/download)
 2. Double-click the installer to start the installation
@@ -94,8 +91,12 @@ The IDE comes with Python 2.7 (64-bit).
 
 NOTE: Installation requires administrative rights. It is recommended to accept the default settings.
 
-#### Mac OSX (Legacy)
+<img align="left" width="32px" id="mac-osx" src="https://raw.githubusercontent.com/wiki/sys-bio/tellurium/img/macos.png">
+<h4>Mac OS X (Legacy)</h4>
+<br style="clear:both"/>
+
 Currently, only a legacy version of the Mac Spyder IDE is available. We recommend using the Notebook front-end on Mac.
+
 
 1. [Download Tellurium IDE for Mac OS X 10.10 or later](https://github.com/sys-bio/tellurium/releases/download/1.3.5-rc3/Tellurium-1.3.5-Spyder-2.3.8-OSX.dmg)
 2. Double-click the .dmg file to open a new window
@@ -137,7 +138,7 @@ result = rr.simulate(0, 40, 500)
 te.plotArray(result)
 ```
 
-![Tellurium front page demo](./tellurium/docs/images/tellurium-front-page-image.png)
+![Tellurium front page demo](./docs/images/tellurium-front-page-image.png)
 
 
 ## Legal
