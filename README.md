@@ -58,8 +58,8 @@ te.plotArray(result)
 `Tellurium` can either be installed with a front-end (Notebook, IDE) or as a Python package:
 
 A. [Notebook front-end](#front-end-1-tellurium-notebook)  
-B. [IDE front-end](#front-end-2-tellurium-ide) based on [Spyder2](https://github.com/spyder-ide/spyder)  
-C. [Python package (pip)](#pip-installation-no-front-end)
+B. [IDE front-end](#front-end-2-tellurium-spyder-ide) based on [Spyder2](https://github.com/spyder-ide/spyder)  
+C. [Python package (pip)](#pip-package-no-front-end)
 
 We recommend first-time users choose one of the front-ends, while developers looking to integrate `Tellurium` use the pip package. 
 The IDE front-end provides a MATLAB like experience with a code editor and Python console. 
@@ -125,8 +125,7 @@ Currently, only a legacy version of the Mac Spyder IDE is available. We recommen
 ### pip package (no front-end)
 [![PyPI version](https://badge.fury.io/py/tellurium.svg)](https://badge.fury.io/py/tellurium)
 
-Binaries wheels for `Tellurium` are available from PyPi.  
-The PyPI packages support 64-bit Python versions 2.7, 3.5, and 3.6 for Windows, Mac, and Linux.
+Binaries wheels for `Tellurium` are available from PyPi and support 64-bit Python versions 2.7, 3.5, and 3.6 for Windows, Mac, and Linux.
 Pip packages are tested on Fedora 22, Debian 8, Ubuntu 14.04, and Mac OS X 10.10.
 
 The latest package release can be installed via
