@@ -77,7 +77,7 @@ We recommend first-time users choose one of the front-ends, while developers loo
 
 NOTE: Installation requires administrative rights. It is recommended to accept the default settings.
 
-#### Mac OSX
+#### Mac OSX (Legacy)
 
 1. [Download Tellurium IDE for Mac OS X 10.10 or later](https://github.com/sys-bio/tellurium/releases/download/1.3.5-rc3/Tellurium-1.3.5-Spyder-2.3.8-OSX.dmg)
 2. Double-click the .dmg file to open a new window
