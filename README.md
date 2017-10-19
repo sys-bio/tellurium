@@ -33,6 +33,26 @@ The `Tellurium` project is funded from the NIH/NIGMS (GM081070).
 * API: http://tellurium.readthedocs.io/en/latest/_apidoc/tellurium.html
 * Webpage: http://tellurium.analogmachine.org/
 
+## Usage Example
+
+```{python}
+import tellurium as te
+
+rr = te.loada('''
+    model example0
+      S1 -> S2; k1*S1
+      S1 = 10
+      S2 = 0
+      k1 = 0.1
+    end
+''')
+
+result = rr.simulate(0, 40, 500) 
+te.plotArray(result)
+```
+
+![Tellurium front page demo](./docs/images/tellurium-front-page-image.png)
+
 ## Installation Instructions
 
 `Tellurium` can either be installed with a front-end (Notebook, IDE) or as a Python package:
@@ -119,27 +139,6 @@ pip install git+https://github.com/sys-bio/tellurium.git
 ```
 
 Detailed instructions for using the `conda` package manager are available [here](http://conda.pydata.org/docs/using/pkgs.html). 
-
-## Usage Example
-
-```{python}
-import tellurium as te
-
-rr = te.loada('''
-    model example0
-      S1 -> S2; k1*S1
-      S1 = 10
-      S2 = 0
-      k1 = 0.1
-    end
-''')
-
-result = rr.simulate(0, 40, 500) 
-te.plotArray(result)
-```
-
-![Tellurium front page demo](./docs/images/tellurium-front-page-image.png)
-
 
 ## Legal
 
