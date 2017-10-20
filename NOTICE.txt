@@ -1,15 +1,15 @@
-Tellurium v1.3.6
+Tellurium v2.0.5
 Copyright 2017 Kiri Choi, J Kyle Medley, Matthias König, Kaylene Stocking, Caroline Cannistra, Michal Galdzicki, and Herbert Sauro
 http://tellurium.analogmachine.org/
 
 This product makes use of the following open source software packages:
 
 bioservices 1.4.16
-    Copyright (c) 2016 Thomas Cokelaer
+    Copyright (c) 2017 Thomas Cokelaer
     Licensed under GPL License
     https://github.com/cokelaer/bioservices
 
-cobraPy 0.5.11
+cobraPy 0.8.2
     Copyright (c) Daniel Robert Hyduke and Ali Ebrahim 
     Licensed under LGPL/GPL v2
     https://opencobra.github.io/cobrapy/
@@ -19,37 +19,52 @@ control 0.7.0
 	Licensed under BSD license
     https://sourceforge.net/projects/python-control/
 
-IPython 4.0.3
-    Copyright (c) 2015, IPython Development Team
+IPython 5.5.0
+    Copyright (c) 2017, IPython Development Team
     IPython is licensed under the terms of the new or revised BSD license	
 	http://ipython.org/
 
-jedi 0.9.0
-    Copyright 2012 - 2015, Jedi contributors
+jedi 0.11.0
+    Copyright 2012 - 2017, Jedi contributors
     Licensed under MIT license.
     http://jedi.jedidjah.ch/en/latest/#
 	
-jinja2 2.7.3
-    Copyright (c) 2009 by the Jinja Team
+jinja2 2.9.6
+    Copyright (c) 2017 by the Jinja Team
     Licensed under BSD license.
     http://jinja.pocoo.org/docs/dev/
 	
-jsonschema	2.5.1
-    Copyright (c) 2013 Julian Berman
+jsonschema	2.6.0
+    Copyright (c) 2017 Julian Berman
     Licensed under MIT license.
     https://github.com/Julian/jsonschema
+
+Jupyter 1.0.0
+    Copyright © 2017 Project Jupyter
+    Licensed under BSD license.
+    https://jupyter.org/
 	
-libAntimony 2.8.0
+libAntimony 2.9.4
     Copyright (c) 2008-2015, Lucian Smith and Herbert Sauro
     Distributed under BSD license
     http://antimony.sourceforge.net/
 
-libRoadRunner 1.4.15
-    Copyright (C) 2012-2015 Andy Somogyi, Herbert Sauro
+libCombine 0.2.2
+    Copyright (c) 2016, Sarah M. Keating & Frank T. Bergmann All rights reserved.
+    Available under the Simplified BSD license.
+    https://github.com/sbmlteam/libCombine
+    
+libNUML 1.1.1
+    Copyright 2013 The University of Manchester, UK
+    Available under the LGPL 2.1 license. https://github.com/NuML/NuML/blob/master/libnuml/LICENSE.txt
+    https://github.com/NuML/NuML
+    
+libRoadRunner 1.4.24
+    Copyright (C) 2012-2017 Andy Somogyi, Herbert Sauro
     Distributed under Apache License, Version 2.0
     http://libroadrunner.org/
 	
-libSBML 5.14.0
+libSBML 5.15.0
     Copyright © 2013-2014 jointly by the following organizations:
     1. California Institute of Technology, Pasadena, CA, USA
     2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
@@ -64,12 +79,12 @@ libSBML 5.14.0
     Distributed under GNU LGPL 2.1 license
     http://sbml.org/Software/libSBML
 	
-libSEDML 0.4.1
+libSEDML 0.4.2
     Copyright (c) 2013-2015, Frank T. Bergmann, All rights reserved.
     Distributed under Simplified BSD License.
     https://github.com/fbergmann/libSEDML
 
-LMFIT 0.9.2
+LMFIT 0.9.7
      Copyright (c) 2014 Matthew Newville, The University of Chicago
                      Till Stensitzki, Freie Universitat Berlin
                      Daniel B. Allen, Johns Hopkins University
@@ -79,7 +94,7 @@ LMFIT 0.9.2
     Distributed under BSD License.
     https://lmfit.github.io/lmfit-py/index.html
 	
-matplotlib 2.0.0
+matplotlib 2.1.0
     Copyright (c) 2012-2015 Matplotlib Development Team; All Rights Reserved
     Distributed under matplotlib license, based on the PSF license
     http://matplotlib.org/
@@ -94,63 +109,78 @@ nose 1.3.7
     Distributed under GNU LGPL license.
     https://nose.readthedocs.org/en/latest/
 
-numpy 1.12.0
+numpy 1.13.3
     Copyright (c) 2005-2015, NumPy Developers.
     Distributed under BSD license, http://www.numpy.org/license.html#license
     http://www.numpy.org	
 
-pandas 0.19.2
+pandas 0.20.3
     Copyright (c) 2011-2012, Lambda Foundry, Inc. and PyData Development Team. All rights reserved.
     Copyright (c) 2008-2011 AQR Capital Management, LLC. All rights reserved.
     pandas is distributed under a 3-clause ("Simplified" or "New") BSD license.
 
+phrasedml 1.0.8
+    Copyright (c) 2017, Lucian Smith, Kiri Choi, and Herbert Sauro
+    Distributed under BSD 3 license, https://github.com/sys-bio/phrasedml/blob/master/LICENSE.txt
+    https://github.com/sys-bio/phrasedml
+    
 pip 9.0.1
     Copyright (c) 2008-2016 The pip developers
     Licensed under MIT license.
     https://pip.pypa.io/en/stable/
+
+plotly 2.1.0
+    Copyright 2017 Plotly, Inc.
+    Code released under the MIT license.
+    https://plot.ly/
+    
+pysces 0.9.5
+    Copyright (c) 2004 - 2017, Brett G. Olivier, Johann M. Rohwer and Jan-Hendrik S. Hofmeyr All rights reserved.
+    PySCeS is distributed under a BSD style licence, please see LICENCE.txt for details. https://github.com/PySCeS/pysces/blob/master/LICENSE.txt
+    http://pysces.sourceforge.net/
 
 pygraphviz 1.3.1
 	Copyright (C) 2006-2015 by Aric Hagberg, Dan Schult, Manos Renieris.
     Distributed with BSD license. 
     https://pygraphviz.github.io/
 	
-pyparsing 2.0.3
+pyparsing 2.2.0
     Paul McGuire
     Distributed under the MIT license (no copyright statement)
     http://pyparsing.wikispaces.com/
 	
-PyQt4 (PyQt4-4.11.4-gpl-Py2.7-Qt4.8.7-x32)
+PyQt5
     Copyright (C) 2015 Riverbank Computing Limited <info@riverbankcomputing.com>
-    Lincensed under the terms of the GNU GPL 2, with Riverbank GPL Exception version 1.1
-    see GPL_EXCEPTION.TXT in the PyQt4 Source Code. The right to use Open Source Licenses not compatible with the GNU General Public License: Apache License 2.0
+    Lincensed under the terms of the GNU GPL 3, with Riverbank GPL Exception version 1.1
+    see GPL_EXCEPTION.TXT in the PyQt5 Source Code. The right to use Open Source Licenses not compatible with the GNU General Public License: Apache License 2.0
     http://www.riverbankcomputing.com/
 
-pySBOL 2.1.1
+pySBOL 2.2.0
     Distributed under Apache 2.0 license.
     https://github.com/SynBioDex/pysbol
 
-Python 2.7.10
-    Copyright (c) 2001-2015 Python Software Foundation; All Rights Reserved
+Python 2.7.13
+    Copyright (c) 2001-2017 Python Software Foundation; All Rights Reserved
     Distributed under PSF LICENSE FOR PYTHON 2.7.6, http://docs.python.org/2/license.html
     http://python.org/
 	
-python-dateutil 2.4.2
+python-dateutil 2.6.1
     Copyright (c) 2003-2011 - Gustavo Niemeyer <gustavo@niemeyer.net>
     Copyright (c) 2012 - Tomi PievilÎáÎéÎåinen <tomi.pievilainen@iki.fi>
     Distributed under Simplified BSD license
     http://labix.org/python-dateutil
 
-rrPlugins 1.1.1
+rrPlugins 1.1.8
     Copyright (C) 2012-2015 Totte Karlsson, Herbert Sauro
     Distributed under Apache License, Version 2.0
     http://tellurium.analogmachine.org/plugins/	
 
-sbml2matlab 1.2.2/license
+sbml2matlab 1.2.2
     Copyright (c) 2012, Stanley Gu
     Distributed under BSD License
     https://github.com/sys-bio/sbml2matlab
 	
-Scipy 0.18.1
+Scipy 0.19.1
     Copyright © 2001, 2002 Enthought, Inc. All rights reserved.
     Copyright © 2003-2015 SciPy Developers. All rights reserved.
     Distributed under BSD license, https://www.scipy.org/scipylib/license.html
@@ -166,17 +196,22 @@ six 1.10.0
     Distributed under the MIT license
     http://pypi.python.org/pypi/six/	
 
-Spyder 2.3.8 (modified)
+Spyder 3.2.3 (modified)
     Copyright (c) 2009- The Spyder Development Team
     Licensed under the terms of the MIT License
     https://github.com/spyder-ide/spyder
 
-SymPy 0.7.6	
+SymPy 1.1.1	
     Copyright (c) 2006-2016 SymPy Development Team
     Licensed under New BSD License.
     http://www.sympy.org/en/index.html
+
+urllib3 1.22
+    Copyright 2008-2016 Andrey Petrov and contributors
+    urllib3 is made available under the MIT License.
+    https://urllib3.readthedocs.io/en/latest/
 	
-Winpython 2.7.10.1
+Winpython 2.7.13.0
     Copyright (c) 2009-2013, Pierre Raybaut
     Copyright (c) 2014-2016 The Winpython development team
     Licensed under the terms of the MIT License
