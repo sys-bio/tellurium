@@ -135,9 +135,7 @@ pip install tellurium
 The latest stable version from the repository can be installed via
 ```
 pip install git+https://github.com/sys-bio/tellurium.git
-```
-
-Detailed instructions for using the `conda` package manager are available [here](http://conda.pydata.org/docs/using/pkgs.html). 
+``` 
 
 ## Legal
 
