@@ -33,9 +33,9 @@ The most useful methods here are the notices routines. Roadrunner will offen iss
 .. include:: _notebooks/core/tellurium_utility.rst
 
 -------------------------
-Model Loading 
+Model Loading
 -------------------------
-There are a variety of methods to load models into libRoadrunner. 
+There are a variety of methods to load models into libRoadrunner.
 
 .. autofunction:: tellurium.loada
 .. autofunction:: tellurium.loadAntimonyModel
@@ -93,7 +93,12 @@ Only one routine is currently available in this group which is a routine to comp
 Plotting
 ----------------------------------------
 
-Two useful plotting routines. They assume that the first column in the array is the x-axis and the second and subsequent columns represent curves on the y-axis.
+Tellurium has a plotting engine which can target either Plotly (when used in a
+notebook environment) or Matplotlib.
+
+.. autofunction:: tellurium.plot
+
+The function ``tellurium.plotArray`` assumes that the first column in the array is the x-axis and the second and subsequent columns represent curves on the y-axis.
 
 .. autofunction:: tellurium.plotArray
 .. autoclass:: tellurium.tellurium.ExtendedRoadRunner
@@ -141,4 +146,3 @@ Routines flattened from model, aves typing and easier for finding the methods
 
 .. autoclass:: tellurium.tellurium.ExtendedRoadRunner
    :members: getRatesOfChange, getBoundarySpeciesConcentrations, getBoundarySpeciesIds, getNumBoundarySpecies, getFloatingSpeciesConcentrations, getFloatingSpeciesIds, getNumFloatingSpecies, getGlobalParameterIds, getGlobalParameterValues, getNumGlobalParameters, getCompartmentIds, getCompartmentVolumes, getNumCompartments, getConservedMoietyValues, getNumConservedMoieties, getNumDepFloatingSpecies, getNumIndFloatingSpecies, getNumReactions, getReactionIds, getReactionRates, getNumEvents, setStartTime, setEndTime, getStartTime, getEndTime, getNumberOfPoints, setNumberOfPoints, getNumRateRules
-
