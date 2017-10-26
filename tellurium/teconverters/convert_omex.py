@@ -389,7 +389,7 @@ class inlineOmexImporter:
                     sedml_str,
                     self.makeSBMLResourceMap(os.path.dirname(entry.getLocation()))
                 ).toPhrasedml().rstrip().replace('compartment', 'compartment_')
-            except:
+            except Exception as e:
                 errmsg = 'Could not read embedded SED-ML file {}.'.format(entry.getLocation())
                 try:
                     import tesedml
@@ -400,8 +400,10 @@ class inlineOmexImporter:
                             for k in range(s.getNumErrors()):
                                 f.write('Error {}:\n{}'.format(k + 1, s.getError(k).getMessage()).encode('utf-8'))
                             errmsg += ' Error log written to {}'.format(f.name)
+                    else:
+                        errmsg += ' Could not convert to PhraSEDML.'
                 except:
-                    pass
+                    errmsg += ' Could not read file with libSEDML.'
                 raise RuntimeError(errmsg)
             output += (self.makeHeader(entry, 'sedml') +
                        phrasedml_output + '\n'
