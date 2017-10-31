@@ -348,7 +348,7 @@ class inlineOmexImporter:
             result[self.formatPhrasedmlResource(relpath)] = self.omex.extractEntryToString(entry.getLocation())
         return result
 
-    def toInlineOmex(self):
+    def toInlineOmex(self, detailedErrors=True):
         """ Converts a COMBINE archive into an inline phrasedml / antimony string.
 
         :returns: A string with the inline phrasedml / antimony source
@@ -395,15 +395,18 @@ class inlineOmexImporter:
                     import tesedml
                     s = tesedml.readSedMLFromString(sedml_str)
                     if s.getNumErrors() > 0:
-                        import tempfile
-                        with tempfile.NamedTemporaryFile(suffix='.log', delete=False) as f:
+                        if detailedErrors:
                             for k in range(s.getNumErrors()):
-                                f.write('Error {}:\n{}'.format(k + 1, s.getError(k).getMessage()).encode('utf-8'))
-                            errmsg += ' Error log written to {}'.format(f.name)
+                                errmsg += 'Error {}:\n{}'.format(k + 1, s.getError(k).getMessage())
+                        else:
+                            errmsg += ' Run te.convertCombineArchive for more info.'
                     else:
-                        errmsg += ' Could not convert to PhraSEDML.'
-                except:
-                    errmsg += ' Could not read file with libSEDML.'
+                        errmsg += ' Not supported by PhraSEDML.'
+                except Exception as e:
+                    if detailedErrors:
+                        errmsg += ' '+str(e)
+                    else:
+                        errmsg += ' Invalid SED-ML.'
                 raise RuntimeError(errmsg)
             output += (self.makeHeader(entry, 'sedml') +
                        phrasedml_output + '\n'
