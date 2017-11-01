@@ -234,6 +234,20 @@ class inlineOmexImporter:
         # match sbml, any level/ver
         self.sbml_fmt_expr = re.compile(r'^http[s]?://identifiers\.org/combine\.specifications/sbml.*$')
 
+        def isSBMLEntry(entry):
+            """ Return true if this entry is SBML. """
+            if self.sbml_fmt_expr.match(entry.getFormat()) != None:
+                return True
+            elif entry.getFormat() == 'application/xml':
+                # try to guess if it is SBML
+                content = self.omex.extractEntryToString(entry.getLocation())
+                if content.startswith('<?xml') and '<sbml xmlns="http://www.sbml.org/sbml' in content:
+                    return True
+                else:
+                    return False
+            else:
+                return False
+
         # Prevents %antimony and %phrasedml headers from
         # being written when all entries are in root of archive
         # and no sedml entries have master=False.
@@ -257,7 +271,7 @@ class inlineOmexImporter:
                     else:
                         # must write headers to specify non-master sedml
                         self.headerless = False
-            elif self.sbml_fmt_expr.match(entry.getFormat()) != None:
+            elif isSBMLEntry(entry):
                 self.sbml_entries.append(entry)
                 # check whether the model id matches the file name - if it doesn't, we need headers
                 module_name = antimonyConverter().sbmlToAntimony(self.omex.extractEntryToString(entry.getLocation()))[0]
@@ -265,9 +279,37 @@ class inlineOmexImporter:
                 if module_name != file_name_normalized:
                     self.headerless = False
 
+        self.BioModHackRemoveDuplicates()
+
     def getEntries(self):
         for k in range(self.omex.getNumEntries()):
             yield self.omex.getEntry(k)
+
+    def numEntries(self):
+        return self.omex.getNumEntries()
+
+    def numSBMLEntries(self):
+        return len(self.sbml_entries)
+
+    def containsSBMLOnly(self):
+        """ Return true if this is a SBML-only archive (no SED-ML). """
+        if len(self.sbml_entries) > 0 and len(self.sedml_entries) == 0:
+            return True
+        else:
+            return False
+
+    def BioModHackRemoveDuplicates(self):
+        """ A hack to remove duplicates (urn/url) in BioModels archives. """
+        if len(self.sbml_entries) == 2:
+            n_urn = 0
+            n_url = 0
+            for entry in self.sbml_entries:
+                if '_urn.xml' in entry.getLocation():
+                    n_urn += 1
+                if '_url.xml' in entry.getLocation():
+                    n_url += 1
+            if n_urn == 1 and n_url == 1:
+                del self.sbml_entries[-1]
 
     def isInRootDir(self, path):
         """ Returns true if path specififies a root location like ./file.ext."""
@@ -360,7 +402,7 @@ class inlineOmexImporter:
         if desc and desc.getNumCreators() > 0:
             # just get first one
             vcard = desc.getCreator(0)
-            output += '// Author information:\n'
+            output += '// Archive author information:\n'
             first_name = vcard.getGivenName()
             last_name = vcard.getFamilyName()
             name = ' '.join([first_name, last_name])
