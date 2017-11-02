@@ -66,6 +66,7 @@ The IDE front-end provides a MATLAB like experience with a code editor and Pytho
 The notebook front-end provides a notebook interface similar to [Jupyter](http://jupyter.org/), 
 and features notebook cells for inline OMEX, a human-readable representation of COMBINE archives.
 
+--------
 
 ### Front-end 1: Tellurium Notebook
 The `Tellurium` notebook supports Windows 10, Mac OS X 10.10+, Debian 8+, and Fedora 22+.
@@ -105,6 +106,8 @@ The notebook viewer comes with Python 3.6 (64-bit).
 2. Install the package using `dpkg -i Tellurium_1.0.1_amd64.deb`
 3. You should be able to launch Tellurium from your activities pane. If not, log out and in again or run `tellurium` from the terminal.
 
+--------
+
 ### Front-end 2: Tellurium Spyder IDE
 The Spyder IDE installers are tested with Windows 7+ and Mac OS X 10.9+. Some older Macs cannot run Spyder, regardless of 
 whether the operating system is up-to-date. 
@@ -130,6 +133,8 @@ Currently, only a legacy version of the Mac Spyder IDE is available. We recommen
 1. [Download Tellurium IDE for Mac OS X 10.10 or later](https://github.com/sys-bio/tellurium/releases/download/1.3.5-rc3/Tellurium-1.3.5-Spyder-2.3.8-OSX.dmg)
 2. Double-click the .dmg file to open a new window
 3. Double-click the Spyder icon
+
+--------
 
 ### Install via pip (no front-end)
 [![PyPI version](https://badge.fury.io/py/tellurium.svg)](https://badge.fury.io/py/tellurium)
