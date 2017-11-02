@@ -75,7 +75,7 @@ The notebook viewer comes with Python 3.6 (64-bit).
 <h4>Windows</h4>
 <br style="clear:both"/>
 
-1. [Download Tellurium Notebook for Windows](https://github.com/sys-bio/tellurium/releases/download/2.0.0-alpha4/Tellurium.Setup.2.0.0.exe)
+1. [Download Tellurium Notebook for Windows](https://sourceforge.net/projects/pytellurium/files/notebook/Tellurium%20Setup%201.0.1.exe/download)
 2. Double-click the installer `*.exe` to start the installation
 3. Follow the instructions
 
