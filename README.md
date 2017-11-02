@@ -75,7 +75,7 @@ The notebook viewer comes with Python 3.6 (64-bit).
 <h4>Windows</h4>
 <br style="clear:both"/>
 
-1. [Download Tellurium Notebook for Windows](https://github.com/sys-bio/tellurium/releases/download/2.0.0-alpha4/Tellurium.Setup.2.0.0.exe)
+1. [Download Tellurium Notebook for Windows](https://sourceforge.net/projects/pytellurium/files/notebook/Tellurium%20Setup%201.0.1.exe/download)
 2. Double-click the installer `*.exe` to start the installation
 3. Follow the instructions
 
@@ -83,17 +83,26 @@ The notebook viewer comes with Python 3.6 (64-bit).
 <h4>Mac OS X</h4>
 <br style="clear:both"/>
 
-1. [Download Tellurium Notebook for Mac OS X 10.10 or later](https://github.com/sys-bio/tellurium/releases/download/2.0.0-alpha4/Tellurium-2.0.0.dmg)
-2. Double-click the `*.dmg` file to open a new window
-3. Drag the Tellurium icon to your Applications
-4. You can now launch `Tellurium` from Spotlight or directly from your applications folder
+1. [Download Tellurium Notebook for Mac OS X 10.10 or later](https://sourceforge.net/projects/pytellurium/files/notebook/Tellurium-1.0.1.dmg/download)
+2. You may need to [disable Gatekeeper](https://www.tekrevue.com/tip/gatekeeper-macos-sierra/)
+3. Double-click the `*.dmg` file to open a new window
+4. Drag the Tellurium icon to your Applications
+5. You can now launch `Tellurium` from Spotlight or directly from your applications folder
+
+<img align="left" width="32px" id="redhat" src="https://raw.githubusercontent.com/wiki/sys-bio/tellurium/img/redhat.png">
+<h3>Linux (RedHat)</h3>
+<br style="clear:both"/>
+
+1. [Download Tellurium Notebook (.rpm)](https://sourceforge.net/projects/pytellurium/files/notebook/Tellurium-1.0.1.rpm/download)
+2. Install the package using `dnf install Tellurium-1.0.1.rpm`
+3. You should be able to launch Tellurium from your activities pane. If not, log out and in again or run `tellurium` from the terminal.
 
 <img align="left" width="32px" id="debian" src="https://raw.githubusercontent.com/wiki/sys-bio/tellurium/img/debian.png">
 <h4>Linux (Debian)</h4>
 <br style="clear:both"/>
 
-1. [Download Tellurium Notebook for Debian](https://github.com/sys-bio/tellurium/releases/download/2.0.0-alpha9/Tellurium_2.0.0_amd64.deb)
-2. Install the package using `dpkg -i Tellurium_2.*.deb`
+1. [Download Tellurium Notebook (.deb)](https://sourceforge.net/projects/pytellurium/files/notebook/Tellurium_1.0.1_amd64.deb/download)
+2. Install the package using `dpkg -i Tellurium_1.0.1_amd64.deb`
 3. You should be able to launch Tellurium from your activities pane. If not, log out and in again or run `tellurium` from the terminal.
 
 ### Front-end 2: Tellurium Spyder IDE
@@ -122,10 +131,10 @@ Currently, only a legacy version of the Mac Spyder IDE is available. We recommen
 2. Double-click the .dmg file to open a new window
 3. Double-click the Spyder icon
 
-### pip package (no front-end)
+### Install via pip (no front-end)
 [![PyPI version](https://badge.fury.io/py/tellurium.svg)](https://badge.fury.io/py/tellurium)
 
-Binaries wheels for `Tellurium` are available from PyPi and support 64-bit Python versions 2.7, 3.5, and 3.6 for Windows, Mac, and Linux.
+Binary pip packages for `Tellurium` are available from PyPi and support 64-bit Python versions 2.7, 3.5, and 3.6 for Windows, Mac, and Linux.
 Pip packages are tested on Fedora 22, Debian 8, Ubuntu 14.04, and Mac OS X 10.10.
 
 The latest package release can be installed via
@@ -135,9 +144,7 @@ pip install tellurium
 The latest stable version from the repository can be installed via
 ```
 pip install git+https://github.com/sys-bio/tellurium.git
-```
-
-Detailed instructions for using the `conda` package manager are available [here](http://conda.pydata.org/docs/using/pkgs.html). 
+``` 
 
 ## Legal
 
