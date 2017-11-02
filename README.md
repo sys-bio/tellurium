@@ -114,7 +114,7 @@ The IDE comes with Python 2.7 (64-bit).
 <h4>Windows</h4>
 <br style="clear:both"/>
 
-1. [Download Tellurium IDE for Windows](https://sourceforge.net/projects/pytellurium/files/Tellurium-2.0/2.0.3/Tellurium-2.0.3-Python-2.7-win64-portable-setup.exe/download)
+1. [Download Tellurium IDE for Windows](https://sourceforge.net/projects/pytellurium/files/Tellurium-2.0/2.0.6/Tellurium-2.0.6-Python-2.7-win64-portable-setup.exe/download)
 2. Double-click the installer to start the installation
 3. Follow the instructions
 
