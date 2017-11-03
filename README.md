@@ -76,7 +76,7 @@ The notebook viewer comes with Python 3.6 (64-bit).
 <h4>Windows</h4>
 <br style="clear:both"/>
 
-1. [Download Tellurium Notebook for Windows](https://sourceforge.net/projects/pytellurium/files/notebook/Tellurium%20Setup%201.0.1.exe/download)
+1. [Download Tellurium Notebook for Windows](https://sourceforge.net/projects/pytellurium/files/notebook/Tellurium%20Setup%201.0.2.exe/download)
 2. Double-click the installer `*.exe` to start the installation
 3. Follow the instructions
 
@@ -84,7 +84,7 @@ The notebook viewer comes with Python 3.6 (64-bit).
 <h4>Mac OS X</h4>
 <br style="clear:both"/>
 
-1. [Download Tellurium Notebook for Mac OS X 10.10 or later](https://sourceforge.net/projects/pytellurium/files/notebook/Tellurium-1.0.1.dmg/download)
+1. [Download Tellurium Notebook for Mac OS X 10.10 or later](https://sourceforge.net/projects/pytellurium/files/notebook/Tellurium-1.0.2.dmg/download)
 2. You may need to [disable Gatekeeper](https://www.tekrevue.com/tip/gatekeeper-macos-sierra/)
 3. Double-click the `*.dmg` file to open a new window
 4. Drag the Tellurium icon to your Applications
@@ -94,7 +94,7 @@ The notebook viewer comes with Python 3.6 (64-bit).
 <h3>Linux (RedHat)</h3>
 <br style="clear:both"/>
 
-1. [Download Tellurium Notebook (.rpm)](https://sourceforge.net/projects/pytellurium/files/notebook/Tellurium-1.0.1.rpm/download)
+1. [Download Tellurium Notebook (.rpm)](https://sourceforge.net/projects/pytellurium/files/notebook/Tellurium-1.0.2.rpm/download)
 2. Install the package using `dnf install Tellurium-1.0.1.rpm`
 3. You should be able to launch Tellurium from your activities pane. If not, log out and in again or run Tellurium from the terminal.
 
@@ -102,7 +102,7 @@ The notebook viewer comes with Python 3.6 (64-bit).
 <h4>Linux (Debian)</h4>
 <br style="clear:both"/>
 
-1. [Download Tellurium Notebook (.deb)](https://sourceforge.net/projects/pytellurium/files/notebook/Tellurium_1.0.1_amd64.deb/download)
+1. [Download Tellurium Notebook (.deb)](https://sourceforge.net/projects/pytellurium/files/notebook/Tellurium_1.0.2_amd64.deb/download)
 2. Install the package using `dpkg -i Tellurium_1.0.1_amd64.deb`
 3. You should be able to launch Tellurium from your activities pane. If not, log out and in again or run Tellurium from the terminal.
 
