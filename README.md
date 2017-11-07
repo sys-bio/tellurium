@@ -76,7 +76,7 @@ The notebook viewer comes with Python 3.6 (64-bit).
 <h4>Windows</h4>
 <br style="clear:both"/>
 
-1. [Download Tellurium Notebook for Windows](https://sourceforge.net/projects/pytellurium/files/notebook/Tellurium%20Setup%201.0.2.exe/download)
+1. [Download Tellurium Notebook for Windows](https://sourceforge.net/projects/pytellurium/files/notebook/Tellurium%20Setup%202.0.8.exe/download)
 2. Double-click the installer `*.exe` to start the installation
 3. Follow the instructions
 
@@ -84,7 +84,7 @@ The notebook viewer comes with Python 3.6 (64-bit).
 <h4>Mac OS X</h4>
 <br style="clear:both"/>
 
-1. [Download Tellurium Notebook for Mac OS X 10.10 or later](https://sourceforge.net/projects/pytellurium/files/notebook/Tellurium-1.0.2.dmg/download)
+1. [Download Tellurium Notebook for Mac OS X 10.10 or later](https://sourceforge.net/projects/pytellurium/files/notebook/Tellurium-2.0.8.dmg/download)
 2. You may need to [disable Gatekeeper](https://www.tekrevue.com/tip/gatekeeper-macos-sierra/)
 3. Double-click the `*.dmg` file to open a new window
 4. Drag the Tellurium icon to your Applications
