@@ -375,9 +375,16 @@ class inlineOmexImporter:
         p = os.path.splitext(path)[0]
         return ''.join([p, '.xml'])
 
+    def fixSep(self, path):
+        """ Converts Windows-style separators to Unix separators."""
+        if os.path.sep == '\\':
+            return path.replace(os.path.sep, '/')
+        else:
+            return path
+
     def formatPhrasedmlResource(self, path):
-        """ Normalizes and also strips xml extension."""
-        return self.normalizePath(path)
+        """ Normalizes path, strips xml extension, and normalizes fs separator."""
+        return self.fixSep(self.normalizePath(path))
         # return os.path.splitext(self.normalizePath(path))[0]
 
     def makeSBMLResourceMap(self, relative_to=None):
@@ -386,7 +393,7 @@ class inlineOmexImporter:
             if relative_to is None:
                 relpath = entry.getLocation()
             else:
-                relpath = os.path.relpath(entry.getLocation(), relative_to)
+                relpath = self.fixSep(os.path.relpath(entry.getLocation(), relative_to))
             result[self.formatPhrasedmlResource(relpath)] = self.omex.extractEntryToString(entry.getLocation())
         return result
 
@@ -429,7 +436,7 @@ class inlineOmexImporter:
             try:
                 phrasedml_output = phrasedmlImporter.fromContent(
                     sedml_str,
-                    self.makeSBMLResourceMap(os.path.dirname(entry.getLocation()))
+                    self.makeSBMLResourceMap(self.fixSep(os.path.dirname(entry.getLocation())))
                 ).toPhrasedml().rstrip().replace('compartment', 'compartment_')
             except Exception as e:
                 errmsg = 'Could not read embedded SED-ML file {}.'.format(entry.getLocation())
