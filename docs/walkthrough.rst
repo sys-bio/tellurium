@@ -44,7 +44,7 @@ For now, select ``New Markdown Cell``. Markdown cells allow you to place formatt
 
     Creating a new Markdown cell
 
-.. figure:: ./images/notebook-python-cell.png
+.. figure:: ./images/notebook-markdown.png
     :align: center
     :alt: Editing a Markdown cell
     :figclass: align-center
