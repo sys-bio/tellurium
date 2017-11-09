@@ -12,7 +12,7 @@ Basics
 
 The notebook environment allows you to mix Python code, narrative, and exchangeable standards for models and simulations. When you first open the notebook, you will have a single Python cell. You can type Python code into this cell. To run the code:
 
-* Press shift-enter,
+* Press ``shift+Enter``,
 * Click the play button at the upper right of the cell, or
 * Choose ``Cell`` -> ``Run All`` from the menu.
 
@@ -100,6 +100,15 @@ After you run this cell, you should see the following simulation plot:
     Simulating the SBML model
 
 The ``repressilator`` variable is actually an instance of the `RoadRunner simulator <http://libroadrunner.org/>`_. Please see the `official documentation for libRoadRunner <http://sys-bio.github.io/roadrunner/python_docs/index.html>`_ for an extensive list of methods and options that can be used with RoadRunner.
+
+You can also use ``ctrl+Space`` to open the auto-completion menu for a variable defined in a previous cell. This also goes for variables such as ``repressilator`` defined in SBML cells.
+
+.. figure:: ./images/notebook-autocompletion.png
+    :align: center
+    :alt: Showing all auto-completions for the repressilator RoadRunner instance
+    :figclass: align-center
+
+    Showing all auto-completions for the repressilator RoadRunner instance
 
 COMBINE Archive Cells
 ~~~~~~~~~~~~~~~~~~~~~
