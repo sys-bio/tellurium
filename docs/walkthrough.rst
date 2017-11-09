@@ -63,7 +63,7 @@ Unlike vanilla Jupyter, Tellurium allows you embed a human-readable representati
 
     Importing an SBML model
 
-Navigate to the ``BIOMD0000000012.xml`` file that you downloaded and select it. A new cell will be created in the notebook with a human-readable representation of this model. The human-readable syntax is called Antimony, and you can find an extensive reference on the syntax here. For now, just change the name of the model from ``BIOMD0000000012`` to ``repressilator``.
+Navigate to the ``BIOMD0000000012.xml`` file that you downloaded and select it. A new cell will be created in the notebook with a human-readable representation of this model. The human-readable syntax is called Antimony, and you can find an `extensive reference on the syntax here <http://tellurium.readthedocs.io/en/latest/antimony.html>`_. For now, just change the name of the model from ``BIOMD0000000012`` to ``repressilator``.
 
 
 .. figure:: ./images/notebook-sb-cell-change-name.png
@@ -99,12 +99,86 @@ After you run this cell, you should see the following simulation plot:
 
     Simulating the SBML model
 
-The ``repressilator`` variable is actually an instance of the `RoadRunner simulator <http://libroadrunner.org/>`_. Please see the `official documentation for libRoadRunner <http://sys-bio.github.io/roadrunner/python_docs/index.html>`_ for an extensive list of methods and options for running on RoadRunner.
+The ``repressilator`` variable is actually an instance of the `RoadRunner simulator <http://libroadrunner.org/>`_. Please see the `official documentation for libRoadRunner <http://sys-bio.github.io/roadrunner/python_docs/index.html>`_ for an extensive list of methods and options that can be used with RoadRunner.
 
-* **TODO**: Add how to use inline OMEX cells.
-* **TODO**: Show how to search/replace with CM and search word boundaries.
-* **TODO**: Show how to access example notebooks.
-* **TODO**: Demo interactive plotting online with Plotly
+COMBINE Archive Cells
+~~~~~~~~~~~~~~~~~~~~~
+
+Another name for COMBINE archives is the Open Modeling and EXchange format (OMEX), which shows up in various Tellurium menus and functions. COMBINE archives are containers for various community standards in systems biology. They can contain `SBML <http://sbml.org/Main_Page>`_, `SED-ML <https://sed-ml.github.io/>`_, `CellML <https://www.cellml.org/>`_, and `NeuroML <https://www.neuroml.org/>`_. Tellurium supports importing COMBINE archives containing SBML and SED-ML.
+
+To begin, download `this COMBINE archive <https://github.com/0u812/tellurium-combine-archive-test-cases/raw/master/swt/pulse_experiment.omex>`_ example (originally from the `SED-ML Web Tools <http://sysbioapps.dyndns.org/SED-ML_Web_Tools>`_). In the Tellurium notebook viewer, choose ``Import`` -> ``Import COMBINE archive (OMEX)...``.
+
+This archive contains an SBML model and a SED-ML simulation. The simulation has a forcing function (representing external input to the system) in the form of a pulse. After running this cell, you should see the following output:
+
+.. figure:: ./images/notebook-omex-pulse.png
+    :align: center
+    :alt: Running the OMEX cell
+    :figclass: align-center
+
+    Running the OMEX cell
+
+As a demo of Tellurium's COMBINE archive editing functionality, we can change the duration of the pulse. Change the following line:
+
+.. code-block::
+
+    task1 = repeat task0 for local.index in uniform(0, 10, 100), local.current = index -> piecewise(8, index < 1, 0.1, (index >= 4) && (index < 6), 8), model1.J0_v0 = current : current
+
+To:
+
+.. code-block::
+
+    task1 = repeat task0 for local.index in uniform(0, 10, 100), local.current = index -> piecewise(8, index < 1, 0.1, (index >= 4) && (index < 10), 8), model1.J0_v0 = current : current
+
+In other words, ``index < 6`` was changed to ``index < 10``. Run the cell:
+
+.. figure:: ./images/notebook-omex-longer-pulse.png
+    :align: center
+    :alt: Editing the OMEX cell
+    :figclass: align-center
+
+    Editing the OMEX cell
+
+You can re-export this cell to a COMBINE archive by clicking the diskette icon in the upper right:
+
+.. figure:: ./images/notebook-save=omex.png
+    :align: center
+    :alt: Exporting the COMBINE archive
+    :figclass: align-center
+
+    Exporting the COMBINE archive
+
+Find/Replace in Notebook Cells
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+To search for text in a notebook cell, use ``ctrl+F``. To search for whole-words only, use ``/\bmyword\b`` where ``myword`` is the word you want to search for.
+
+.. figure:: ./images/notebook-word-boundary.png
+    :align: center
+    :alt: Searching for whole words
+    :figclass: align-center
+
+    Searching for whole words
+
+To search and replace, use ``ctrl+shift+R``. For example, to replace ``myvar`` but not ``myvar2`` (i.e. whole-word search & replace) in the code below, press ``ctrl+shift+R``, enter ``/\bmyvar\b/`` for the search field and ``newvar`` for the replace field. The result is that all instances of ``myvar`` are replaced, but not ``myvar2``:
+
+.. figure:: ./images/notebook-search-replace-demo-whole-words.png
+    :align: center
+    :alt: Search & replace demo with whole words
+    :figclass: align-center
+
+    Search & replace demo with whole words
+
+Find/Replace in Notebook Cells
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Tellurium comes with many example notebooks showing how to use its various features. To access these notebooks, use the ``File`` -> ``Open Example Notebook`` menu. Tellurium comes with five example notebooks:
+
+.. figure:: ./images/notebook-open-example-notebook.png
+    :align: center
+    :alt: Search & replace demo with whole words
+    :figclass: align-center
+
+    Search & replace demo with whole words
 
 Notebook Troubleshooting
 ========================
@@ -133,18 +207,15 @@ In such a case, simply replace the kernel by choosing ``Language`` -> ``Python 3
 
     Fix for kernel loading problem
 
-Notebook Troubleshooting
-========================
-
 Problem: Saving the Notebook Takes Forever
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Solution
 ~~~~~~~~
 
-When highly detailed / numerous plots are presentPlotly is known to slow down notebook saving. In such cases, please save the notebook without output. Choose ``Language`` -> ``Restart and Clear All Cells``, then save the notebook.
+When highly detailed / numerous plots are present, Plotly is known to slow down notebook saving. In such cases, please save the notebook without output. Choose ``Language`` -> ``Restart and Clear All Cells``, then save the notebook.
 
-.. figure:: ./images/new-kernel-python-3.png
+.. figure:: ./images/notebook-reset-clear.png
     :align: center
     :alt: Reset and clear all cells
     :figclass: align-center
