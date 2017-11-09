@@ -119,13 +119,13 @@ This archive contains an SBML model and a SED-ML simulation. The simulation has 
 
 As a demo of Tellurium's COMBINE archive editing functionality, we can change the duration of the pulse. Change the following line:
 
-.. code-block::
+::
 
     task1 = repeat task0 for local.index in uniform(0, 10, 100), local.current = index -> piecewise(8, index < 1, 0.1, (index >= 4) && (index < 6), 8), model1.J0_v0 = current : current
 
 To:
 
-.. code-block::
+::
 
     task1 = repeat task0 for local.index in uniform(0, 10, 100), local.current = index -> piecewise(8, index < 1, 0.1, (index >= 4) && (index < 10), 8), model1.J0_v0 = current : current
 
@@ -140,7 +140,7 @@ In other words, ``index < 6`` was changed to ``index < 10``. Run the cell:
 
 You can re-export this cell to a COMBINE archive by clicking the diskette icon in the upper right:
 
-.. figure:: ./images/notebook-save=omex.png
+.. figure:: ./images/notebook-save-omex.png
     :align: center
     :alt: Exporting the COMBINE archive
     :figclass: align-center
