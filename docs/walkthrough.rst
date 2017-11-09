@@ -168,8 +168,8 @@ To search and replace, use ``ctrl+shift+R``. For example, to replace ``myvar`` b
 
     Search & replace demo with whole words
 
-Find/Replace in Notebook Cells
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Example Notebooks
+~~~~~~~~~~~~~~~~~
 
 Tellurium comes with many example notebooks showing how to use its various features. To access these notebooks, use the ``File`` -> ``Open Example Notebook`` menu. Tellurium comes with five example notebooks:
 
