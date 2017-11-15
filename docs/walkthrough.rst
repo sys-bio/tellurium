@@ -231,7 +231,9 @@ Problem: Saving the Notebook Takes Forever
 Solution
 ~~~~~~~~
 
-When highly detailed / numerous plots are present, Plotly is known to slow down notebook saving. In such cases, please save the notebook without output. Choose ``Language`` -> ``Restart and Clear All Cells``, then save the notebook.
+When highly detailed / numerous plots are present, Plotly is known to slow down notebook saving. In such cases, you can switch to matplotlib instead of Plotly by calling ``import tellurium as te; te.setDefaultPlottingEngine('matplotlib')`` at the beginning of your notebook. When using matplotlib for plotting, the long save times do not occur.
+
+Alternatively, choose ``Language`` -> ``Restart and Clear All Cells`` to save the notebook without output.
 
 .. figure:: ./images/notebook-reset-clear.png
     :align: center
