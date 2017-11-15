@@ -211,10 +211,19 @@ class inlineOmexImporter:
         if not os.path.isfile(path):
             raise IOError('No such file: {}'.format(path))
 
+        d = None
+        if not os.access(cwd, os.W_OK):
+            d = os.getcwd()
+            os.chdir(tempfile.gettempdir())
+
         omex = libcombine.CombineArchive()
         if not omex.initializeFromArchive(path):
             raise IOError('Could not read COMBINE archive.')
-        return inlineOmexImporter(omex)
+        importer = inlineOmexImporter(omex)
+
+        if d is not None:
+            os.chdir(d)
+        return importer
 
     def __init__(self, omex):
         """ Initialize from a CombineArchive instance
