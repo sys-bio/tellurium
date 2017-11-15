@@ -72,8 +72,8 @@ class PlotlyFigure(PlottingFigure):
             kwargs['title'] = self.title
         if self.logx:
             kwargs['xaxis'] = {
-                type: 'log',
-                autorange: True,
+                'type': 'log',
+                'autorange': True,
             }
         if self.xtitle:
             if not 'xaxis' in kwargs:
@@ -81,8 +81,8 @@ class PlotlyFigure(PlottingFigure):
             kwargs['xaxis']['title'] = self.xtitle
         if self.logy:
             kwargs['yaxis'] = {
-                type: 'log',
-                autorange: True,
+                'type': 'log',
+                'autorange': True,
             }
         if self.ytitle:
             if not 'yaxis' in kwargs:

@@ -248,7 +248,7 @@ class PlottingFigure(object):
             (dataset for dataset in self.xy_datasets if not 'tag' in dataset))
 
     # TODO: don't need name/names and tag/tags redundancy
-    def plot(self, x, y, colnames=None, title=None, xtitle=None, logy=False, ytitle=None, alpha=None, name=None, names=None, tag=None, tags=None):
+    def plot(self, x, y, colnames=None, title=None, xtitle=None, logx=None, logy=None, ytitle=None, alpha=None, name=None, names=None, tag=None, tags=None):
         """ Plot x & y data.
         """
         if xtitle:
@@ -258,6 +258,11 @@ class PlottingFigure(object):
         kws = {'alpha': alpha}
         if colnames is None and hasattr(y, 'colnames'):
             colnames = y.colnames
+
+        if logx is not None:
+            kws['logx'] = logx
+        if logy is not None:
+            kws['logy'] = logx
 
         # TODO: if y is 2d array with 1 column, convert to 1d array
         if len(y.shape) > 1:
