@@ -196,7 +196,7 @@ class PlottingFigure(object):
         :return:
         """
 
-    def addXYDataset(self, x_arr, y_arr, color=None, tag=None, name=None, filter=True, alpha=None, mode=None):
+    def addXYDataset(self, x_arr, y_arr, color=None, tag=None, name=None, filter=True, alpha=None, mode=None, logx=None, logy=None):
         """ Adds an X/Y dataset to the plot.
 
         :param x_arr: A numpy array describing the X datapoints. Should have the same size as y_arr.
@@ -225,6 +225,10 @@ class PlottingFigure(object):
             dataset['alpha'] = alpha
         if mode is not None:
             dataset['mode'] = mode
+        if logx is not None:
+            self.logx = logx
+        if logy is not None:
+            self.logy = logy
         self.xy_datasets.append(dataset)
 
     def getMergedTaggedDatasets(self):
