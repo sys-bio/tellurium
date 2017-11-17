@@ -198,6 +198,11 @@ The **Quickstart** notebook contains the `Quickstart <>`_ example from this docu
 
     Quickstart example notebook
 
+Exporting to Jupyter
+~~~~~~~~~~~~~~~~~~~~
+
+Tellurium notebooks can contain special cell types such as the SBML or OMEX cells described above. These notebooks cannot be properly read by Jupyter. However, you can export these notebooks to Jupyter by choosing ``File`` -> ``Export to Jupyter...`` from the menu. You will notice that the exported notebooks contain special cell magics such as ``%%crn`` and ``%%omex``. To run these notebooks in Jupyter, install the ``temagics`` package.
+
 Notebook Troubleshooting
 ========================
 
