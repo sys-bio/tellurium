@@ -252,7 +252,7 @@ Alternatively, choose ``Language`` -> ``Restart and Clear All Cells`` to save th
 
 
 Further Reading
----------------
+===============
 
 * Tellurium notebook is based on the `nteract app <https://blog.nteract.io/nteract-revolutionizing-the-notebook-experience-d106ca5d2c38>`_.
 * `Jupyter. <http://jupyter.org/>`_
