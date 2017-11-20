@@ -115,7 +115,7 @@ COMBINE Archive Cells
 
 Another name for COMBINE archives is the Open Modeling and EXchange format (OMEX), which shows up in various Tellurium menus and functions. COMBINE archives are containers for various community standards in systems biology. They can contain `SBML <http://sbml.org/Main_Page>`_, `SED-ML <https://sed-ml.github.io/>`_, `CellML <https://www.cellml.org/>`_, and `NeuroML <https://www.neuroml.org/>`_. Tellurium supports importing COMBINE archives containing SBML and SED-ML.
 
-To begin, download `this COMBINE archive <https://github.com/0u812/tellurium-combine-archive-test-cases/raw/master/swt/pulse_experiment.omex>`_ example (originally from the `SED-ML Web Tools <http://sysbioapps.dyndns.org/SED-ML_Web_Tools>`_). In the Tellurium notebook viewer, choose ``Import`` -> ``Import COMBINE archive (OMEX)...``.
+To begin, download `this COMBINE archive <https://github.com/0u812/tellurium-combine-archive-test-cases/raw/master/swt/pulse_experiment.omex>`_ example (originally from the `SED-ML Web Tools <http://sysbioapps.dyndns.org/SED-ML_Web_Tools>`_). In the Tellurium notebook viewer, move the mouse past the last cell until the Cell Creator Bar appears and choose ``Import`` -> ``Import COMBINE archive (OMEX)...``.
 
 This archive contains an SBML model and a SED-ML simulation. The simulation has a forcing function (representing external input to the system) in the form of a pulse. After running this cell, you should see the following output:
 
