@@ -189,7 +189,7 @@ Tellurium comes with many example notebooks showing how to use its various featu
 
     Opening example notebooks
 
-The **Quickstart** notebook contains the `Quickstart <>`_ example from this documentation, using the SBML cells of the Tellurium notebook viewer.
+The **Quickstart** notebook contains the `Quickstart`_ example from this documentation, using the SBML cells of the Tellurium notebook viewer.
 
 .. figure:: ./images/notebook-example-quickstart.png
     :align: center
