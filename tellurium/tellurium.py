@@ -91,7 +91,7 @@ def getDefaultPlottingEngine():
 def setDefaultPlottingEngine(engine):
     """ Set the default plotting engine. Overrides current value.
 
-    :param engine: A string describing which plotting engine to use. Valid values are 'matplotlib' and 'pyplot'.
+    :param engine: A string describing which plotting engine to use. Valid values are 'matplotlib' and 'plotly'.
     """
     if engine not in [PLOTTING_ENGINE_PLOTLY,
                       PLOTTING_ENGINE_MATPLOTLIB]:
