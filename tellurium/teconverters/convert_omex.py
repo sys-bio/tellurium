@@ -30,7 +30,7 @@ def readCreator(file=None):
         file = os.path.join(getAppDir(), 'telocal', getpass.getuser() + '.vcard')
         if not os.path.exists(file) or not os.path.isfile(file):
             return None
-    with open(file) as f:
+    with open(file, 'rb') as f:
         return json.load(f)
 
 
