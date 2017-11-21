@@ -212,7 +212,7 @@ class inlineOmexImporter:
             raise IOError('No such file: {}'.format(path))
 
         d = None
-        if not os.access(cwd, os.W_OK):
+        if not os.access(os.getcwd(), os.W_OK):
             d = os.getcwd()
             os.chdir(tempfile.gettempdir())
 
