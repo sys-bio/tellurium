@@ -221,8 +221,8 @@ class inlineOmexImporter:
             raise IOError('Could not read COMBINE archive.')
         importer = inlineOmexImporter(omex)
 
-        if d is not None:
-            os.chdir(d)
+        # if d is not None:
+            # os.chdir(d)
         return importer
 
     def __init__(self, omex):
