@@ -172,7 +172,9 @@ class ParameterEstimation(object):
             arguments = (x_axis_time, y_axis_values)
 
         if (self._func is None): # Then Differential Evolution is used (default)
-            result = differential_evolution(self._SSE, self._parameter_bounds, args=arguments,maxiter=500)
+            num_iter = 1 if self._stochastic else None
+            print("The value of num iter is "+str(num_iter))
+            result = differential_evolution(self._SSE, self._parameter_bounds, args=arguments,maxiter=num_iter)
 
         else:
             result = func(self._SSE, self._parameter_bounds, args=arguments)
@@ -347,7 +349,7 @@ class ParameterEstimation(object):
 
         final_result = (SSE_RESULT / total_observations) ** 0.5
         self._collected_values = np.append(self._collected_values,final_result)
-        print(final_result)
+        #print(final_result)
         return final_result
 
 def stochastic_sim(model_object):
