@@ -167,7 +167,8 @@ class ParameterEstimation(object):
         self._parameter_names = self._bounds.keys()
         self._parameter_bounds = self._bounds.values()
 
-        self._prepare_model()
+        for key, value in kwargs.iteritems():
+            print("%s == %s" % (key, value))
 
         if (self._func is None): # Then Differential Evolution is used (default)
             result = differential_evolution(self._SSE, self._parameter_bounds, **kwargs)
@@ -259,7 +260,7 @@ class ParameterEstimation(object):
         random.seed()
         self._prepare_model()
         self._set_theta_values(theta)
-        
+
 
         try: # The Simulation may fail. If so, throw a large penalty
             sim_data = None
@@ -286,6 +287,8 @@ class ParameterEstimation(object):
                 normal_sim = self._model_roadrunner.simulate(self._model.from_time, self._model.to_time,
                                                                            self._model.step_points)
 
+                self._model_roadrunner.reset()
+
                 sim_data = pandas.DataFrame(data=normal_sim, index=normal_sim["time"], columns=normal_sim.colnames)
 
                 column_names = {}
@@ -310,19 +313,15 @@ class ParameterEstimation(object):
 
                 comp_data = self._data[self._data.index <= row_timestamp].iloc[-1]
 
-                star = 6
                 for each_key in comp_data.keys():
                     partial_result += (comp_data[each_key] - row[each_key]) ** 2
-
                     total_observations += 1
 
             final_result = (partial_result / total_observations) ** 0.5
 
             self._collected_values = np.append(self._collected_values, final_result)
-
-            print("SSE :"+str(final_result))
             return(final_result)
 
         except Exception as e:
-            
+
             return 10000000.
