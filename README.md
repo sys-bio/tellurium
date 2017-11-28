@@ -85,7 +85,7 @@ The notebook viewer comes with Python 3.6 (64-bit).
 <br style="clear:both"/>
 
 1. [Download Tellurium Notebook for Mac OS X 10.10 or later](https://sourceforge.net/projects/pytellurium/files/notebook/Tellurium-2.0.12.dmg/download)
-2. You may need to [disable Gatekeeper](https://www.tekrevue.com/tip/gatekeeper-macos-sierra/)
+2. You may need to [disable Gatekeeper](https://github.com/sys-bio/tellurium/wiki/FAQ#on-mac-after-downloading-tellurium-i-cant-open-it-because-it-is-from-an-unidentified-developer)
 3. Double-click the `*.dmg` file to open a new window
 4. Drag the Tellurium icon to your Applications
 5. You can now launch Tellurium from Spotlight or directly from your applications folder
