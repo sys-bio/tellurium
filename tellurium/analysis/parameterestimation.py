@@ -7,6 +7,7 @@ import numpy as np
 import tellurium as te
 from scipy.optimize import differential_evolution
 import random
+import pandas
 
 
 class ParameterEstimation(object):
@@ -131,17 +132,17 @@ class ParameterEstimation(object):
         if(self._stochastic):
             if self._sc is None:
                 raise ValueError('If you want to run it in a distributed mode, provide spark context')
-        if(self._allow_log):
+
+
+    def _handle_allow_log(self):
+        if self._allow_log:
             for each_parameter in self._bounds.keys():
                 _begin = self._bounds[each_parameter][0]*1.0
                 _end = self._bounds[each_parameter][1]*1.0
                 self._bounds[each_parameter] = tuple(np.logspace(_begin,_end, num=2))
 
 
-
-
-
-    def run(self, func=None):
+    def run(self, func=None, **kwargs):
         """
         Allows the user to set the data from a File
         This data is to be compared with the simulated data in the process of parameter estimation
@@ -158,36 +159,33 @@ class ParameterEstimation(object):
 
         """
 
-        self._parameter_names = self._bounds.keys()
-        self._parameter_bounds = self._bounds.values()
-        self._model_roadrunner = te.loada(self._model.model)
-
         if self._data is None:
             raise ValueError('Data is not available. Set the data using setDataFromFile method')
             return
-        else:
-            # Pre-computed data provided by the user
-            x_axis_time = self._data[:, 0]
-            y_axis_values = self._data[:, 1:]
-            arguments = (x_axis_time, y_axis_values)
+
+        self._handle_allow_log()
+        self._parameter_names = self._bounds.keys()
+        self._parameter_bounds = self._bounds.values()
+
+        for key, value in kwargs.iteritems():
+            print("%s == %s" % (key, value))
 
         if (self._func is None): # Then Differential Evolution is used (default)
-            num_iter = 1 if self._stochastic else None
-            print("The value of num iter is "+str(num_iter))
-            result = differential_evolution(self._SSE, self._parameter_bounds, args=arguments,maxiter=num_iter)
+            result = differential_evolution(self._SSE, self._parameter_bounds, **kwargs)
 
         else:
-            result = func(self._SSE, self._parameter_bounds, args=arguments)
+            result = func(self._SSE, self._parameter_bounds,**kwargs)
 
         metrics = {
             "Parameters": self._parameter_names,
             "Average SSE": self._collected_values.mean(0),
-            "estimated_value": result.x
+            "Estimated Result": result.x
         }
+
         self._collected_values = np.array([])
         return (metrics)
 
-    def setDataFromFile(self, FILENAME, delimiter=",", headers=True):
+    def setDataFromFile(self, FILENAME, delimiter=",", headers=True, time_column="time", usecols=None):
         """Allows the user to set the data from a File
         This data is to be compared with the simulated data in the process of parameter estimation
 
@@ -206,16 +204,13 @@ class ParameterEstimation(object):
 
 
         """
-        with open(FILENAME, 'r') as dest_f:
-            data_iter = csv.reader(dest_f,
-                                   delimiter=",",
-                                   quotechar='"')
-            self._data = [data for data in data_iter]
-        if (headers):
-            self._species = self._data[0]
-            self._data = self._data[1:]
 
-        self._data = np.asarray(self._data, dtype=float)
+        data = np.genfromtxt(FILENAME, dtype=float, delimiter=delimiter, names=headers, usecols=usecols)
+        self._data = pandas.DataFrame(data=data, index=data[time_column])
+        self._data.drop(["time"], axis=1, inplace=True)
+
+
+
 
     def _set_theta_values(self, theta):
         """ Sets the Theta Value in the range of bounds provided to the Function.
@@ -235,9 +230,16 @@ class ParameterEstimation(object):
         for theta_i, each_theta in enumerate(self._parameter_names):
             setattr(self._model_roadrunner, each_theta, theta[theta_i])
 
+    def _prepare_model(self):
+        random.seed()
+        self._model_roadrunner = te.loada(self._model.model)
+        self._model_roadrunner.integrator.variable_step_size = self._model.variable_step_size
+        self._model_roadrunner.integrator = self._model.integrator
 
 
-    def _SSE(self,parameters, *data):
+
+
+    def _SSE(self,parameters):
         """ Runs a simuation of SumOfSquares that get parameters and data and compute the metric.
             Not intended to be called by user.
 
@@ -255,119 +257,71 @@ class ParameterEstimation(object):
 
         """
         theta = parameters
-
-        sample_x, sample_y = data
+        random.seed()
+        self._prepare_model()
         self._set_theta_values(theta)
 
-        random.seed()
 
+        try: # The Simulation may fail. If so, throw a large penalty
+            sim_data = None
+            if self._stochastic:
+                modified_model = self._model_roadrunner.getCurrentAntimony()
+                stochastic_simulation_model = te.StochasticSimulationModel(model=modified_model,
+                                                                   seed=1234,  # not used
+                                                                   variable_step_size=self._model.variable_step_size,
+                                                                   from_time=self._model.from_time,
+                                                                   to_time=self._model.to_time,
+                                                                   step_points=self.model._step_points)
+                stochastic_simulation_model.integrator = self._model.integrator
+                results = te.distributed_stochastic_simulation(self._sc, stochastic_simulation_model, 50)
 
-        self._model_roadrunner.integrator.variable_step_size = self._model.variable_step_size
-        self._model_roadrunner.reset()
+                column_names = results[0][0]
+                column_names = [item[1:-1] if (item != "time" and item[0] == '[') else item for item in column_names]
 
-        try: # the simulation may fail
-            if(not self._stochastic):
-                simulated_data = self._model_roadrunner.simulate(self._model.from_time, self.model.to_time,
-                                                                           self._model.step_points)
-                if (self._species is not None):
-                    # Check it the concentration in eclosed in Square brackets
-                    try:
-                        simulated_data = [simulated_data[colname] for colname in self.species]
+                mean_result = np.array([item[1] for item in results]).mean(0)
 
-                    except:
-                        simulated_data = [
-                            simulated_data["[" + colname + "]"] if colname != "time" else simulated_data["time"] for
-                            colname in self.species]
-
-                simulated_data = np.array(simulated_data)
-                simulated_x = simulated_data[0]
-                simulated_y = simulated_data[1:].T
+                sim_data = pandas.DataFrame(data=mean_result, columns=column_names)
 
             else:
 
-                stoch_model = self._model
-                spark_context = self._sc
-                result = spark_context.parallelize([stoch_model] * 20, 20).map(stochastic_sim).collect()
-                col_names = result[0][0]
-                sim_result = np.array([item[1] for item in result])
-                mean_result = sim_result.mean(0)
+                normal_sim = self._model_roadrunner.simulate(self._model.from_time, self._model.to_time,
+                                                                           self._model.step_points)
+
+                self._model_roadrunner.reset()
+
+                sim_data = pandas.DataFrame(data=normal_sim, index=normal_sim["time"], columns=normal_sim.colnames)
+
+                column_names = {}
+                for each_column in normal_sim.colnames:
+                    if (each_column != "time" and each_column[0] == '['):
+                        column_names[each_column] = each_column[1:-1]
+                    else:
+                        column_names[each_column] = each_column
+
+                sim_data.rename(columns=column_names,inplace=True)
 
 
-                if(self._species is not None):
-                    col_indices = []
-                    selected_species = set(col_names)
-                    for each_comp in self._species:
 
-                        if "["+each_comp+"]" in selected_species:
-                            col_indices.append(col_names.index("["+each_comp+"]"))
-                        elif each_comp in selected_species:
-                            col_indices.append(col_names.index(each_comp))
-                        else:
-                            continue
-                    simulated_x = mean_result[:,0]
-                    if 0 in col_indices:
-                        col_indices.remove(0)
-                    simulated_y = mean_result[:,col_indices]
-                else:
-                    simulated_x = mean_result[:,0]
-                    simulated_y = mean_result[:,1:]
+            if sim_data is None:
+                raise ValueError("Something wrong in calculating Simulation Data")
 
+            partial_result = 0.0
+            total_observations = 0
+            for _, row in sim_data.iterrows():
 
-        except: # if it does fail, need to apply a large penalty
+                row_timestamp = float(row["time"])
+
+                comp_data = self._data[self._data.index <= row_timestamp].iloc[-1]
+
+                for each_key in comp_data.keys():
+                    partial_result += (comp_data[each_key] - row[each_key]) ** 2
+                    total_observations += 1
+
+            final_result = (partial_result / total_observations) ** 0.5
+
+            self._collected_values = np.append(self._collected_values, final_result)
+            return(final_result)
+
+        except Exception as e:
+
             return 10000000.
-
-
-
-
-        SEARCH_BEGIN_INDEX = 0
-        SSE_RESULT = 0
-
-        total_observations = 0
-
-        for simulated_i in range(len(simulated_y)):
-            y_i = simulated_y[simulated_i]
-            yhat_i = None
-            x_i = simulated_x[simulated_i]
-            for search_i in range(SEARCH_BEGIN_INDEX+1,len(sample_x)):
-                if(sample_x[search_i-1] <= x_i < sample_x[search_i]):
-                    yhat_i = sample_y[search_i-1]
-                    break
-                SEARCH_BEGIN_INDEX += 1
-
-            #If the bounds are not found for the X to be searched, the last
-            # value will be used for comparision
-            if(yhat_i is None and SEARCH_BEGIN_INDEX >= len(sample_x)-1):
-                yhat_i = sample_y[-1]
-
-
-
-            partial_result = 0
-            for sse_i in range(len(y_i)):
-                partial_result += (float(y_i[sse_i]) - float(yhat_i[sse_i])) ** 2
-            SSE_RESULT += partial_result
-            total_observations += len(y_i)
-
-        final_result = (SSE_RESULT / total_observations) ** 0.5
-        self._collected_values = np.append(self._collected_values,final_result)
-        #print(final_result)
-        return final_result
-
-def stochastic_sim(model_object):
-    import tellurium as te
-    model_roadrunner = te.loada(model_object.model)
-    model_roadrunner.integrator = model_object.integrator
-    # seed the randint method with the current time
-    random.seed()
-    # it is now safe to use random.randint
-    model_roadrunner.setSeed(random.randint(1000, 99999))
-    model_roadrunner.integrator.variable_step_size = model_object.variable_step_size
-    model_roadrunner.reset()
-    simulated_data = model_roadrunner.simulate(model_object.from_time, model_object.to_time,
-                                               model_object.step_points)
-    return ([simulated_data.colnames, np.array(simulated_data)])
-
-
-
-
-
-
