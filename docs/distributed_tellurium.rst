@@ -53,7 +53,7 @@ In the above example, we have created a model as an antimony string and then cre
 
 .. image:: images/stochastic_image.png
    :scale: 100 %
-   :alt: alternate text
+   :alt: Stochastic Simulation Result
    :align: right
 
 
@@ -181,8 +181,17 @@ After the computation, plotting the results is easy
 	for fig in plots:
 	    te.plotImage(fig)
 
+You should see results similar to the ones below
 
 
+.. image:: images/paramest1.png
+   :width: 49 %
+   :alt: For the First Model
+.. image:: images/paramest2.png
+   :width: 49 %
+   :alt: For the Second Model
+
+Check this space for more information ...
 
 
 
