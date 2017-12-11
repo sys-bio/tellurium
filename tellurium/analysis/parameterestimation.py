@@ -236,9 +236,6 @@ class ParameterEstimation(object):
         self._model_roadrunner.integrator.variable_step_size = self._model.variable_step_size
         self._model_roadrunner.integrator = self._model.integrator
 
-
-
-
     def _SSE(self,parameters):
         """ Runs a simuation of SumOfSquares that get parameters and data and compute the metric.
             Not intended to be called by user.
