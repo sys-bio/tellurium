@@ -253,6 +253,30 @@ def noticesOn():
     roadrunner.Logger.setLevel(roadrunner.Logger.LOG_NOTICE)
 
 
+ def runTool (toolFileName):
+     """ Call an external application called toolFileName.
+         Note that .exe extension may be omitted for windows applications.
+ 
+         Include any arguments in arguments parameter.
+ 
+         Example:
+         returnString = te.runTool (['myplugin', 'arg1', 'arg2'])
+ 
+               If the external tool writes to stdout, this will be captured and returned.
+ 
+         :param arguments to external tool
+         :return String return by external tool, if any.
+         """
+     import subprocess
+     try:
+         p = os.path.dirname(sys.executable)
+         root, waste = os.path.split (p)
+         #if (os.name == 'nt') and (not toolFileName[0].endswith ('.exe')):
+         toolFileName[0] = root + '\\telluriumTools\\' + toolFileName[0] + '\\' + toolFileName[0] + '.exe'
+         return subprocess.check_output(toolFileName)
+     except subprocess.CalledProcessError as e:
+         raise Exception ('Tool failed to run correctly or could not be found')
+
 # ---------------------------------------------------------------------
 # Group: Loading Models
 # ---------------------------------------------------------------------
@@ -748,6 +772,46 @@ def getEigenvalues(m):
     w, v = linalg.eig(m)
     return w
 
+import numpy as np
+  
+def rank(A, atol=1e-13, rtol=0):
+    """Estimate the rank (i.e. the dimension of the nullspace) of a matrix.
+    """
+ 
+    A = np.atleast_2d(A)
+    s = svd(A, compute_uv=False)
+    s = np.linalg.svd(A, compute_uv=False)
+    tol = max(atol, rtol * s[0])
+    rank = int((s >= tol).sum())
+    return rank
+  
+def nullspace(A, atol=1e-13, rtol=0):
+    """Compute an approximate basis for the nullspace of A.
+    """
+  
+    A = np.atleast_2d(A)
+    u, s, vh = svd(A)
+    u, s, vh = np.svd(A)
+    tol = max(atol, rtol * s[0])
+    nnz = (s >= tol).sum()
+    ns = vh[nnz:].conj().T
+    return ns 
+  
+# We import sympy here because it is slow to load and would slow down the initial
+# start up of tellurium
+def rref (A):
+    """Compute the reduced row echelon for the matrix A. Returns
+      returns a tuple of two elements. The first is the reduced row
+      echelon form, and the second is a list of indices of the pivot columns.
+    """
+
+    # We import sympy here because it is slow to load and would slow down the initial
+    # start up of tellurium
+    import sympy
+    m = sympy.Matrix (A)
+    return m.rref() 
+    m = sympy.Matrix(A)
+    return m.rref()
 
 # ---------------------------------------------------------------------
 # Plotting Utilities
