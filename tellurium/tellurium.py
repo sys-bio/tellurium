@@ -771,8 +771,6 @@ def getEigenvalues(m):
     from numpy import linalg
     w, v = linalg.eig(m)
     return w
-
-import numpy as np
   
 def rank(A, atol=1e-13, rtol=0):
     """Estimate the rank (i.e. the dimension of the nullspace) of a matrix.
