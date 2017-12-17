@@ -130,6 +130,9 @@ from tellurium.utils.misc import(
     saveToFile,
     readFromFile,
     runTool,
+    getODEsFromSBMLFile,
+    getODEsFromSBMLString,
+    getODEsFromModel,
 )
 from tellurium.utils.matrix import(
     rank,
