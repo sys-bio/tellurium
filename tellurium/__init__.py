@@ -129,6 +129,12 @@ from tellurium.utils.package import (
 from tellurium.utils.misc import(
     saveToFile,
     readFromFile,
+    runTool,
+)
+from tellurium.utils.matrix import(
+    rank,
+    nullspace,
+    rref,
 )
 
 # Dist config
@@ -150,9 +156,6 @@ from .tellurium import (
 
 # Math
 from .tellurium import (
-    rref,
-    rank,
-    nullspace,
     getEigenvalues,
 )
 
