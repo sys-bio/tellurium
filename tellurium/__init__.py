@@ -148,8 +148,13 @@ from .tellurium import (
     getLastReport,
 )
 
-# Eigenvalues
-from .tellurium import getEigenvalues
+# Math
+from .tellurium import (
+    rref,
+    rank,
+    nullspace,
+    getEigenvalues,
+)
 
 # SBML diagram with graphviz
 from .visualization import (
