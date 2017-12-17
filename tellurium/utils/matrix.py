@@ -2,7 +2,7 @@
 Helpers for matrix operations.
 """
 
-from __future__ import absolute_import, printfunction
+from __future__ import absolute_import, print_function
 import numpy as np
 
 def rank(A, atol=1e-13, rtol=0):
