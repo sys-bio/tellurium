@@ -32,11 +32,17 @@ SPYDER = False
 if any('SPYDER' in name for name in os.environ):
     SPYDER = True
 
-# FIXME: the following will break plotting with matplotlib backend (nothing displayed)
-# commenting for now
-# if not SPYDER:
-#    print(matplotlib.get_backend())
-#    matplotlib.use('Agg')
+# use Agg backend in notebooks or when Tkinter is not present
+try:
+    get_ipython()
+    if not SPYDER:
+        matplotlib.use('Agg')
+except:
+    try:
+        import Tkinter
+    except ImportError:
+        if not SPYDER:
+          matplotlib.use('Agg')
 
 
 ##############################################
@@ -85,7 +91,7 @@ def getDefaultPlottingEngine():
 def setDefaultPlottingEngine(engine):
     """ Set the default plotting engine. Overrides current value.
 
-    :param engine: A string describing which plotting engine to use. Valid values are 'matplotlib' and 'pyplot'.
+    :param engine: A string describing which plotting engine to use. Valid values are 'matplotlib' and 'plotly'.
     """
     if engine not in [PLOTTING_ENGINE_PLOTLY,
                       PLOTTING_ENGINE_MATPLOTLIB]:
@@ -729,6 +735,23 @@ def extractFileFromCombineArchive(archive_path, entry_location):
     except:
         raise RuntimeError('Could not find entry {}'.format(entry_location))
     return archive.extractEntryToString(entry_location)
+
+def addFileToCombineArchive(archive_path, file_name, entry_location, file_format, master, out_archive_path):
+    """ Add a file to an existing COMBINE archive on disk and save the result as a new archive.
+
+    :param archive_path: The path to the archive.
+    :param file_name: The name of the file to add.
+    :param entry_location: The location to store the entry in the archive.
+    :param file_format: The format of the file. Can use tecombine.KnownFormats.lookupFormat for common formats.
+    :param master: Whether the file should be marked master.
+    :param out_archive_path: The path to the output archive.
+    """
+    import tecombine
+    archive = tecombine.CombineArchive()
+    if not archive.initializeFromArchive(archive_path):
+        raise RuntimeError('Failed to initialize archive')
+    archive.addFile(file_name, entry_location, file_format, master)
+    archive.writeToFile(out_archive_path)
 
 
 # ---------------------------------------------------------------------

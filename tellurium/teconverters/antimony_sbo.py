@@ -10,7 +10,7 @@ try:
 except ImportError:
     import libsbml
 
-from .antimony_regex import getModelStartRegex, getModelEndRegex, getSBORegex
+from .antimony_regex import getModelStartRegex, getModelEndRegex, getFunctionStartRegex, getSBORegex
 
 def filterIfEmpty(l):
     """ If l is one line (comment), filter."""
@@ -18,6 +18,9 @@ def filterIfEmpty(l):
         return []
     else:
         return l
+
+class SBOError(RuntimeError):
+    pass
 
 class antimonySBOConverter(object):
     def __init__(self, doc):
@@ -42,9 +45,13 @@ class antimonySBOConverter(object):
         model_start = re.compile(getModelStartRegex())
         n_model_starts = 0
 
+        function_start = re.compile(getFunctionStartRegex())
+
         model_end = re.compile(getModelEndRegex())
         n_model_ends = 0
         model_end_index = None
+
+        scopes = []
 
         n_leading_spaces = 0
 
@@ -54,11 +61,22 @@ class antimonySBOConverter(object):
         for n,line in enumerate(lines):
             if model_start.match(line) != None:
                 n_model_starts += 1
+                scopes.append('model')
+            if function_start.match(line) != None:
+                scopes.append('function')
             elif model_end.match(line) != None:
                 if n_model_ends > 0:
-                    raise RuntimeError('Multiple embedded models (e.g. comp) not supported for SBO converter')
-                n_model_ends += 1
-                model_end_index = n
+                    raise SBOError('Multiple embedded models (e.g. comp) not supported for SBO converter')
+                if len(scopes) == 0:
+                    raise RuntimeError('Unbalanced begin/end blocks')
+                scope = scopes.pop()
+                if scope == 'model':
+                    n_model_ends += 1
+                    model_end_index = n
+                elif scope == 'function':
+                    pass
+                else:
+                    raise RuntimeError('Unknown scope')
             else:
                 # calculate leading whitespace
                 ws = len(line) - len(line.lstrip(' '))
@@ -67,9 +85,9 @@ class antimonySBOConverter(object):
         if n_model_starts != n_model_ends:
             raise RuntimeError('Antimony model begin/end blocks unbalanced - missing begin/end marker?')
         if n_model_starts > 1:
-            raise RuntimeError('Multiple embedded models (e.g. comp) not supported for SBO converter')
+            raise SBOError('Multiple embedded models (e.g. comp) not supported for SBO converter')
         if n_model_ends > 1:
-            raise RuntimeError('Multiple embedded models (e.g. comp) not supported for SBO converter')
+            raise SBOError('Multiple embedded models (e.g. comp) not supported for SBO converter')
         # add SBO terms right before the end
         lead_space = ' '*n_leading_spaces
         if model_end_index is not None:
@@ -179,7 +197,7 @@ class antimonySBOParser(object):
                 out_lines.append(line)
             elif model_end.match(line) != None:
                 if n_model_ends > 0:
-                    raise RuntimeError('Multiple embedded models (e.g. comp) not supported for SBO converter')
+                    raise SBOError('Multiple embedded models (e.g. comp) not supported for SBO converter')
                 n_model_ends += 1
                 model_end_index = n
                 out_lines.append(line)
@@ -193,9 +211,9 @@ class antimonySBOParser(object):
         if n_model_starts != n_model_ends:
             raise RuntimeError('Antimony model begin/end blocks unbalanced - missing begin/end marker?')
         if n_model_starts > 1:
-            raise RuntimeError('Multiple embedded models (e.g. comp) not supported for SBO converter')
+            raise SBOError('Multiple embedded models (e.g. comp) not supported for SBO converter')
         if n_model_ends > 1:
-            raise RuntimeError('Multiple embedded models (e.g. comp) not supported for SBO converter')
+            raise SBOError('Multiple embedded models (e.g. comp) not supported for SBO converter')
 
         return '\n'.join(out_lines)
 
