@@ -74,6 +74,9 @@ class inlineOmex(object):
                         path = sbml_asset.location
                 else:
                     path = sbml_asset.getModuleName()
+                # make windows paths like unix paths
+                if os.path.sep == '\\':
+                    path = path.replace(os.path.sep, '/')
                 phrasedml.setReferencedSBML(path, sbml_asset.getContent())
             phrasedml.convertString(t)
             phrasedml.addDotXMLToModelSources(False)
