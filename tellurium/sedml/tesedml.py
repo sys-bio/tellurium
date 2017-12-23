@@ -1570,7 +1570,7 @@ class SEDMLCodeFactory(object):
         # figure title
         title = output.getId()
         if output.isSetName():
-            title += " ({})".format(output.getName())
+            title = "{}".format(output.getName())
 
         # xtitle
         oneXLabel = True
@@ -1580,7 +1580,7 @@ class SEDMLCodeFactory(object):
             dgx = doc.getDataGenerator(xId)
             xLabel = xId
             if dgx.isSetName():
-                xLabel += " ({})".format(dgx.getName())
+                xLabel = "{}".format(dgx.getName())
 
             # do all curves have the same xLabel
             if kc == 0:
@@ -1618,9 +1618,9 @@ class SEDMLCodeFactory(object):
 
             yLabel = yId
             if curve.isSetName():
-                yLabel += " ({})".format(curve.getName())
+                yLabel = "{}".format(curve.getName())
             elif dgy.isSetName():
-                yLabel += " ({})".format(dgy.getName())
+                yLabel = "{}".format(dgy.getName())
 
 
             # FIXME: add all the additional information to the plot, i.e. the settings and styles for a given curve

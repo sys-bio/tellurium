@@ -111,6 +111,7 @@ from .sedml.tesedml import sedmlToPython, executeSEDML, executeCombineArchive
 
 # Combine archive support
 from .tellurium import (
+    addFileToCombineArchive,
     convertCombineArchive,
     convertAndExecuteCombineArchive,
     extractFileFromCombineArchive,
@@ -129,6 +130,15 @@ from tellurium.utils.package import (
 from tellurium.utils.misc import(
     saveToFile,
     readFromFile,
+    runTool,
+    getODEsFromSBMLFile,
+    getODEsFromSBMLString,
+    getODEsFromModel,
+)
+from tellurium.utils.matrix import(
+    rank,
+    nullspace,
+    rref,
 )
 
 # Dist config
@@ -148,8 +158,10 @@ from .tellurium import (
     getLastReport,
 )
 
-# Eigenvalues
-from .tellurium import getEigenvalues
+# Math
+from .tellurium import (
+    getEigenvalues,
+)
 
 # SBML diagram with graphviz
 from .visualization import (

@@ -30,7 +30,7 @@ def readCreator(file=None):
         file = os.path.join(getAppDir(), 'telocal', getpass.getuser() + '.vcard')
         if not os.path.exists(file) or not os.path.isfile(file):
             return None
-    with open(file) as f:
+    with open(file, 'rb') as f:
         return json.load(f)
 
 
@@ -211,10 +211,19 @@ class inlineOmexImporter:
         if not os.path.isfile(path):
             raise IOError('No such file: {}'.format(path))
 
+        d = None
+        if not os.access(os.getcwd(), os.W_OK):
+            d = os.getcwd()
+            os.chdir(tempfile.gettempdir())
+
         omex = libcombine.CombineArchive()
         if not omex.initializeFromArchive(path):
             raise IOError('Could not read COMBINE archive.')
-        return inlineOmexImporter(omex)
+        importer = inlineOmexImporter(omex)
+
+        # if d is not None:
+            # os.chdir(d)
+        return importer
 
     def __init__(self, omex):
         """ Initialize from a CombineArchive instance
@@ -233,6 +242,20 @@ class inlineOmexImporter:
         self.sbml_entries = []
         # match sbml, any level/ver
         self.sbml_fmt_expr = re.compile(r'^http[s]?://identifiers\.org/combine\.specifications/sbml.*$')
+
+        def isSBMLEntry(entry):
+            """ Return true if this entry is SBML. """
+            if self.sbml_fmt_expr.match(entry.getFormat()) != None:
+                return True
+            elif entry.getFormat() == 'application/xml':
+                # try to guess if it is SBML
+                content = self.omex.extractEntryToString(entry.getLocation())
+                if content.startswith('<?xml') and '<sbml xmlns="http://www.sbml.org/sbml' in content:
+                    return True
+                else:
+                    return False
+            else:
+                return False
 
         # Prevents %antimony and %phrasedml headers from
         # being written when all entries are in root of archive
@@ -257,7 +280,7 @@ class inlineOmexImporter:
                     else:
                         # must write headers to specify non-master sedml
                         self.headerless = False
-            elif self.sbml_fmt_expr.match(entry.getFormat()) != None:
+            elif isSBMLEntry(entry):
                 self.sbml_entries.append(entry)
                 # check whether the model id matches the file name - if it doesn't, we need headers
                 module_name = antimonyConverter().sbmlToAntimony(self.omex.extractEntryToString(entry.getLocation()))[0]
@@ -265,9 +288,37 @@ class inlineOmexImporter:
                 if module_name != file_name_normalized:
                     self.headerless = False
 
+        self.BioModHackRemoveDuplicates()
+
     def getEntries(self):
         for k in range(self.omex.getNumEntries()):
             yield self.omex.getEntry(k)
+
+    def numEntries(self):
+        return self.omex.getNumEntries()
+
+    def numSBMLEntries(self):
+        return len(self.sbml_entries)
+
+    def containsSBMLOnly(self):
+        """ Return true if this is a SBML-only archive (no SED-ML). """
+        if len(self.sbml_entries) > 0 and len(self.sedml_entries) == 0:
+            return True
+        else:
+            return False
+
+    def BioModHackRemoveDuplicates(self):
+        """ A hack to remove duplicates (urn/url) in BioModels archives. """
+        if len(self.sbml_entries) == 2:
+            n_urn = 0
+            n_url = 0
+            for entry in self.sbml_entries:
+                if '_urn.xml' in entry.getLocation():
+                    n_urn += 1
+                if '_url.xml' in entry.getLocation():
+                    n_url += 1
+            if n_urn == 1 and n_url == 1:
+                del self.sbml_entries[-1]
 
     def isInRootDir(self, path):
         """ Returns true if path specififies a root location like ./file.ext."""
@@ -333,9 +384,16 @@ class inlineOmexImporter:
         p = os.path.splitext(path)[0]
         return ''.join([p, '.xml'])
 
+    def fixSep(self, path):
+        """ Converts Windows-style separators to Unix separators."""
+        if os.path.sep == '\\':
+            return path.replace(os.path.sep, '/')
+        else:
+            return path
+
     def formatPhrasedmlResource(self, path):
-        """ Normalizes and also strips xml extension."""
-        return self.normalizePath(path)
+        """ Normalizes path, strips xml extension, and normalizes fs separator."""
+        return self.fixSep(self.normalizePath(path))
         # return os.path.splitext(self.normalizePath(path))[0]
 
     def makeSBMLResourceMap(self, relative_to=None):
@@ -344,11 +402,11 @@ class inlineOmexImporter:
             if relative_to is None:
                 relpath = entry.getLocation()
             else:
-                relpath = os.path.relpath(entry.getLocation(), relative_to)
+                relpath = self.fixSep(os.path.relpath(entry.getLocation(), relative_to))
             result[self.formatPhrasedmlResource(relpath)] = self.omex.extractEntryToString(entry.getLocation())
         return result
 
-    def toInlineOmex(self):
+    def toInlineOmex(self, detailedErrors=True):
         """ Converts a COMBINE archive into an inline phrasedml / antimony string.
 
         :returns: A string with the inline phrasedml / antimony source
@@ -360,7 +418,7 @@ class inlineOmexImporter:
         if desc and desc.getNumCreators() > 0:
             # just get first one
             vcard = desc.getCreator(0)
-            output += '// Author information:\n'
+            output += '// Archive author information:\n'
             first_name = vcard.getGivenName()
             last_name = vcard.getFamilyName()
             name = ' '.join([first_name, last_name])
@@ -387,21 +445,26 @@ class inlineOmexImporter:
             try:
                 phrasedml_output = phrasedmlImporter.fromContent(
                     sedml_str,
-                    self.makeSBMLResourceMap(os.path.dirname(entry.getLocation()))
+                    self.makeSBMLResourceMap(self.fixSep(os.path.dirname(entry.getLocation())))
                 ).toPhrasedml().rstrip().replace('compartment', 'compartment_')
-            except:
+            except Exception as e:
                 errmsg = 'Could not read embedded SED-ML file {}.'.format(entry.getLocation())
                 try:
                     import tesedml
                     s = tesedml.readSedMLFromString(sedml_str)
                     if s.getNumErrors() > 0:
-                        import tempfile
-                        with tempfile.NamedTemporaryFile(suffix='.log', delete=False) as f:
+                        if detailedErrors:
                             for k in range(s.getNumErrors()):
-                                f.write('Error {}:\n{}'.format(k + 1, s.getError(k).getMessage()).encode('utf-8'))
-                            errmsg += ' Error log written to {}'.format(f.name)
-                except:
-                    pass
+                                errmsg += 'Error {}:\n{}'.format(k + 1, s.getError(k).getMessage())
+                        else:
+                            errmsg += ' Run te.convertCombineArchive for more info.'
+                    else:
+                        errmsg += ' Not supported by PhraSEDML.'
+                except Exception as e:
+                    if detailedErrors:
+                        errmsg += ' '+str(e)
+                    else:
+                        errmsg += ' Invalid SED-ML.'
                 raise RuntimeError(errmsg)
             output += (self.makeHeader(entry, 'sedml') +
                        phrasedml_output + '\n'

@@ -196,7 +196,7 @@ class PlottingFigure(object):
         :return:
         """
 
-    def addXYDataset(self, x_arr, y_arr, color=None, tag=None, name=None, filter=True, alpha=None, mode=None):
+    def addXYDataset(self, x_arr, y_arr, color=None, tag=None, name=None, filter=True, alpha=None, mode=None, logx=None, logy=None):
         """ Adds an X/Y dataset to the plot.
 
         :param x_arr: A numpy array describing the X datapoints. Should have the same size as y_arr.
@@ -225,6 +225,10 @@ class PlottingFigure(object):
             dataset['alpha'] = alpha
         if mode is not None:
             dataset['mode'] = mode
+        if logx is not None:
+            self.logx = logx
+        if logy is not None:
+            self.logy = logy
         self.xy_datasets.append(dataset)
 
     def getMergedTaggedDatasets(self):
@@ -248,7 +252,7 @@ class PlottingFigure(object):
             (dataset for dataset in self.xy_datasets if not 'tag' in dataset))
 
     # TODO: don't need name/names and tag/tags redundancy
-    def plot(self, x, y, colnames=None, title=None, xtitle=None, logy=False, ytitle=None, alpha=None, name=None, names=None, tag=None, tags=None):
+    def plot(self, x, y, colnames=None, title=None, xtitle=None, logx=None, logy=None, ytitle=None, alpha=None, name=None, names=None, tag=None, tags=None):
         """ Plot x & y data.
         """
         if xtitle:
@@ -258,6 +262,11 @@ class PlottingFigure(object):
         kws = {'alpha': alpha}
         if colnames is None and hasattr(y, 'colnames'):
             colnames = y.colnames
+
+        if logx is not None:
+            kws['logx'] = logx
+        if logy is not None:
+            kws['logy'] = logx
 
         # TODO: if y is 2d array with 1 column, convert to 1d array
         if len(y.shape) > 1:

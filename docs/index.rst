@@ -6,6 +6,7 @@
 Welcome to tellurium's documentation!
 =====================================
 Model, simulate, and analyse biochemical systems using a single tool.
+To view the documentation on libRoadRunner, please go `here <https://sys-bio.github.io/roadrunner/python_docs/index.html>`_.
 
 Contents:
 
@@ -19,6 +20,7 @@ Contents:
    antimony.rst
    tellurium_methods.rst
    API.rst
+   libRoadRunner Documents <https://sys-bio.github.io/roadrunner/python_docs/index.html>
    FAQ <https://github.com/sys-bio/tellurium/wiki/FAQ>
    appendix.rst
 ..    paramscan.rst
