@@ -27,7 +27,7 @@ python {{ factory.python }}
 import tellurium as te
 from roadrunner import Config
 from tellurium.sedml.mathml import *
-# from tellurium.sedml.tesedml import process_trace, terminate_trace, fix_endpoints
+from tellurium.sedml.tesedml import process_trace, terminate_trace, fix_endpoints
 
 import numpy as np
 import matplotlib.pyplot as plt
@@ -61,13 +61,11 @@ workingDir = r'{{ factory.workingDir }}'
 {{ taskToPython(doc, task) }}
 {% endfor %}
 
-{#
 {{ helpers.heading(doc.getListOfDataGenerators(), 'DataGenerator') }}
 {% for dg in doc.getListOfDataGenerators() %}
 # DataGenerator <{{ dg.getId() }}>
 {{ dataGeneratorToPython(doc, dg) }}
 {% endfor %}
-
 
 {% if factory.createOutputs %}
 {{ helpers.heading(doc.getListOfOutputs(), 'Output') }}
