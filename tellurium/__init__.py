@@ -112,6 +112,7 @@ from .sedml.tesedml import sedmlToPython, executeSEDML, executeCombineArchive
 # Combine archive support
 from .tellurium import (
     addFileToCombineArchive,
+    addFilesToCombineArchive,
     convertCombineArchive,
     convertAndExecuteCombineArchive,
     extractFileFromCombineArchive,
