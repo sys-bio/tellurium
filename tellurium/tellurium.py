@@ -753,10 +753,10 @@ def addFilesToCombineArchive(archive_path, file_names, entry_locations, file_for
     """ Add multiple files to an existing COMBINE archive on disk and save the result as a new archive.
 
     :param archive_path: The path to the archive.
-    :param file_name: List of extra files to add.
-    :param entry_location: The location to store the entry in the archive.
-    :param file_format: The format of the file. Can use tecombine.KnownFormats.lookupFormat for common formats.
-    :param master: Whether the file should be marked master.
+    :param file_names: List of extra files to add.
+    :param entry_locations: List of destination locations for the files in the output archive.
+    :param file_format: List of formats for the resp. files.
+    :param master_attributes: List of true/false values for the resp. master attributes of the files.
     :param out_archive_path: The path to the output archive.
     """
     import tecombine, tempfile
