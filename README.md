@@ -106,6 +106,10 @@ The notebook viewer comes with Python 3.6 (64-bit).
 2. Install the package using `dpkg -i Tellurium_2.0.12_amd64.deb`
 3. You should be able to launch Tellurium from your activities pane. If not, log out and in again or run `tellurium` from the terminal.
 
+<br><br>
+
+:question:Looking for old releases? [You can find them here.](https://sourceforge.net/projects/pytellurium/files/notebook)
+
 -------
 
 ### Front-end 2: Tellurium Spyder IDE

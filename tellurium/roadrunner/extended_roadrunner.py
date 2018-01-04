@@ -292,7 +292,7 @@ class ExtendedRoadRunner(roadrunner.RoadRunner):
     # FIXME: update the documentation of plot function
     def plot(self, result=None, show=True,
              xtitle=None, ytitle=None, title=None, xlim=None, ylim=None, logx=False, logy=False,
-             xscale='linear', yscale='linear', grid=False, ordinates=None, tag=None, **kwargs):
+             xscale='linear', yscale='linear', grid=False, ordinates=None, tag=None, labels=None, **kwargs):
         """ Plot roadrunner simulation data.
 
         Plot is called with simulation data to plot as the first argument. If no data is provided the data currently
@@ -328,6 +328,7 @@ class ExtendedRoadRunner(roadrunner.RoadRunner):
         :param ordinates: If supplied, only these selections will be plotted (see RoadRunner selections)
         :param tag: If supplied, all traces with the same tag will be plotted with the same color/style
         :param kwargs: additional matplotlib keywords like marker, lineStyle, color, alpha, ...
+        :param labels: 'id' to use species IDs,
         :return:
         """
         if result is None:
@@ -436,7 +437,7 @@ class ExtendedRoadRunner(roadrunner.RoadRunner):
         :param kwargs: parameters for simulate
         :returns: simulation results
         """
-        
+
         integratorName = self.integrator.getName()
         self.setIntegrator('gillespie')
         if (len(args) > 2):

@@ -1,5 +1,5 @@
 {% import 'macros_helpers.template' as helpers %}
-"""
+r"""
 ####################################################################################################
                             tellurium {{ version }}
 -+++++++++++++++++-         Python Environment for Modeling and Simulating Biological Systems
