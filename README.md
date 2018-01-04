@@ -76,7 +76,7 @@ The notebook viewer comes with Python 3.6 (64-bit).
 <h4>Windows</h4>
 <br style="clear:both"/>
 
-1. [Download Tellurium Notebook for Windows](https://sourceforge.net/projects/pytellurium/files/notebook/Tellurium%20Setup%202.0.13.exe/download)
+1. [Download Tellurium Notebook for Windows](https://sourceforge.net/projects/pytellurium/files/notebook/Tellurium%20Setup%202.0.12.exe/download)
 2. Double-click the installer `*.exe` to start the installation
 3. Follow the instructions
 
@@ -84,7 +84,7 @@ The notebook viewer comes with Python 3.6 (64-bit).
 <h4>Mac OS X</h4>
 <br style="clear:both"/>
 
-1. [Download Tellurium Notebook for Mac OS X 10.10 or later](https://sourceforge.net/projects/pytellurium/files/notebook/Tellurium-2.0.13.dmg/download)
+1. [Download Tellurium Notebook for Mac OS X 10.10 or later](https://sourceforge.net/projects/pytellurium/files/notebook/Tellurium-2.0.12.dmg/download)
 2. You may need to [disable Gatekeeper](https://github.com/sys-bio/tellurium/wiki/FAQ#on-mac-after-downloading-tellurium-i-cant-open-it-because-it-is-from-an-unidentified-developer)
 3. Double-click the `*.dmg` file to open a new window
 4. Drag the Tellurium icon to your Applications
@@ -94,7 +94,7 @@ The notebook viewer comes with Python 3.6 (64-bit).
 <h4>Linux (RedHat)</h3>
 <br style="clear:both"/>
 
-1. [Download Tellurium Notebook (.rpm)](https://sourceforge.net/projects/pytellurium/files/notebook/Tellurium-2.0.13.rpm/download)
+1. [Download Tellurium Notebook (.rpm)](https://sourceforge.net/projects/pytellurium/files/notebook/Tellurium-2.0.12.rpm/download)
 2. Install the package using `dnf install Tellurium-2.0.12.rpm`
 3. You should be able to launch Tellurium from your activities pane. If not, log out and in again or run `tellurium` from the terminal.
 
@@ -102,7 +102,7 @@ The notebook viewer comes with Python 3.6 (64-bit).
 <h4>Linux (Debian)</h4>
 <br style="clear:both"/>
 
-1. [Download Tellurium Notebook (.deb)](https://sourceforge.net/projects/pytellurium/files/notebook/Tellurium_2.0.13_amd64.deb/download)
+1. [Download Tellurium Notebook (.deb)](https://sourceforge.net/projects/pytellurium/files/notebook/Tellurium_2.0.12_amd64.deb/download)
 2. Install the package using `dpkg -i Tellurium_2.0.12_amd64.deb`
 3. You should be able to launch Tellurium from your activities pane. If not, log out and in again or run `tellurium` from the terminal.
 
@@ -121,7 +121,7 @@ The IDE comes with Python 2.7 (64-bit).
 <h4>Windows</h4>
 <br style="clear:both"/>
 
-1. [Download Tellurium IDE for Windows](https://sourceforge.net/projects/pytellurium/files/Tellurium-2.0/2.0.13/Tellurium-2.0.13-Python-2.7-win64-portable-setup.exe/download)
+1. [Download Tellurium IDE for Windows](https://sourceforge.net/projects/pytellurium/files/Tellurium-2.0/2.0.12/Tellurium-2.0.12-Python-2.7-win64-portable-setup.exe/download)
 2. Double-click the installer to start the installation
 3. Follow the instructions
 
