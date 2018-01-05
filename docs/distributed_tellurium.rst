@@ -62,6 +62,82 @@ Parameter Estimation
 
 As a next example, you want to run Parameter Estimation for a specific set of attributes of your model(s). Additionally you may need to provide an optimization function so as to estimate values accurately. It begins with usual object creation of stochastic simulation model (Check the above code for reference)
 
+Lets test Lotka Volterra Model and try estimating parameters in that model. We will use differential_evolution as an optimization function available in scipy library.
+
+.. code-block:: python
+	
+	import tellurium as te
+	from scipy.optimize import differential_evolution as diff_evol
+
+Now we will initialise our Lotka-Volterra antimony model. 
+
+.. code-block:: python
+
+	# Load the Lotka-Volterra model
+	lotka_volterra_antimony_model_definition = '''
+	model *LVModel()
+	  // Compartments and Species:
+	  compartment compartment_;
+	  species A in compartment_, B in compartment_;
+	  // Reactions:
+	  R1: A => 2A; compartment_*R1_k1*A;
+	  R2: A => B; compartment_*A*B*R2_p;
+	  R4: B => ; compartment_*R4_k1*B;
+	  // Species initializations:
+	  A = 71;
+	  B = 79;
+	  // Compartment initializations:
+	  compartment_ = 1;
+	  // Variable initializations:
+	  R1_k1 = 0.5;
+	  R2_p = 0.0025;
+	  R4_k1 = 0.3;
+	  // Other declarations:
+	  const compartment_;
+	  // Unit definitions:
+	  unit volume = 1e-3 litre;
+	  unit substance = item;
+	end
+	'''
+
+We use the above initialisation in order to create a Stochastic Simulation Model
+
+.. code-block:: python
+
+	stochastic_simulation_model = te.StochasticSimulationModel(model=lotka_volterra_antimony_model_definition,
+	                seed=1234, # not used
+	                variable_step_size = False,
+	                from_time=0,
+	                to_time=1000,
+	                step_points=1000)
+	stochastic_simulation_model.integrator = "gillespie"
+
+Defining the bounds of the parameters we wish to estimate
+
+.. code-block:: python
+
+	bounds = {"R1_k1":(0.0,1.0),"R4_k1":(0.0,0.5)}
+
+If you wish to run it as a stochastic simulation with running number of simulation in a distributed enviroment.
+
+.. code-block:: python
+	
+	from pyspark import SparkContext,SparkConf
+	conf = SparkConf().setAppName('RunningMonteCluster').setMaster('SPARK_MASTER')
+	sc = SparkContext(conf=conf)
+
+Now, you just need to call run function to evaluate and estimate the parameters based on the bounds provided
+
+.. code-block:: python
+	
+	parameter_est = te.ParameterEstimation(stochastic_simulation_model,bounds,stochastic=False, sc=None)
+	path = "/home/shaik/year/stoch-param-fitting-benchmarks/zimmer/ID/"
+	parameter_est.setDataFromFile(path+FILENAME)
+	print parameter_est.run(diff_evol,maxiter=1)
+
+Lets look into more Complex models using Stochastic Simulations
+
+	
 .. code-block:: python
 
 	from scipy.optimize import differential_evolution as diff_evol
