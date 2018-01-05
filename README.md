@@ -152,7 +152,7 @@ The latest package release can be installed via
 ```
 pip install tellurium
 ```
-The latest stable version from the repository can be installed via
+For developers, the latest stable source code from the repository can be installed via
 ```
 pip install git+https://github.com/sys-bio/tellurium.git
 ``` 
