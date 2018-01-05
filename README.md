@@ -59,7 +59,7 @@ Tellurium can either be installed with a front-end (Notebook, IDE) or as a Pytho
 
 A. [Notebook front-end](#front-end-1-tellurium-notebook)  
 B. [IDE front-end](#front-end-2-tellurium-spyder-ide) based on [Spyder2](https://github.com/spyder-ide/spyder)  
-C. [Python package (pip)](#pip-package-no-front-end)
+C. [Python package (pip)](#install-via-pip-no-front-end)
 
 We recommend first-time users choose one of the front-ends, while developers looking to integrate Tellurium use the pip package. 
 The IDE front-end provides a MATLAB like experience with a code editor and Python console. 
