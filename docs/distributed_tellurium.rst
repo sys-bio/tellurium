@@ -135,6 +135,42 @@ Now, you just need to call run function to evaluate and estimate the parameters 
 	parameter_est.setDataFromFile(path+FILENAME)
 	print parameter_est.run(diff_evol,maxiter=1)
 
+If we want to test it for Immigration-Death Model, all we need to do is to change the antimony_model string and change the bounds.
+
+.. code-block:: python
+	
+	immigration_death_antimony_model_definition = '''
+	model *IDModel()
+
+	  // Compartments and Species:
+	  compartment compartment_;
+	  species A in compartment_;
+
+	  // Reactions:
+	  R1:  => A; compartment_*p1;
+	  R2: A => ; compartment_*p2*A;
+
+	  // Species initializations:
+	  A = 10;
+
+	  // Compartment initializations:
+	  compartment_ = 1;
+
+	  // Variable initializations:
+	  p1 = 1;
+	  p2 = 0.1;
+
+	  // Other declarations:
+	  const compartment_, p1, p2;
+
+	  // Unit definitions:
+	  unit volume = 1e-3 litre;
+	  unit substance = item;
+	end
+	'''
+	bounds = {"p1":(0.0,5.0),"p2":(0.0,0.5)}
+
+
 Lets look into more Complex models using Stochastic Simulations
 
 	
