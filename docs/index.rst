@@ -17,6 +17,7 @@ Contents:
    walkthrough.rst
    notebooks.rst
    antimony.rst
+   distributed_tellurium.rst
    tellurium_methods.rst
    API.rst
    FAQ <https://github.com/sys-bio/tellurium/wiki/FAQ>
