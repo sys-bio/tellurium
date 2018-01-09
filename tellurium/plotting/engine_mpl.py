@@ -46,20 +46,12 @@ class MatplotlibFigure(PlottingFigure):
                                                xtitle=xtitle, ytitle=ytitle, logx=logx, logy=logy)
         self.use_legend = use_legend
 
-        # FIXME: ? why this check here?
-        if not SPYDER:
-            self.figsize = figsize
+        self.figsize = figsize
         self.save_to_pdf = save_to_pdf
 
     def render(self):
         """ Plot the figure. Call this last."""
-        if SPYDER:
-            fig, ax = plt.subplots(num=None, facecolor='w', edgecolor='k')
-        else:        
-            # fig = plt.figure(num=None, figsize=self.figsize, dpi=80, facecolor='w', edgecolor='k')
-            # __gs = gridspec.GridSpec(1, 2, width_ratios=[3, 1])
-            # plt.subplot(__gs[0])
-            fig, ax = plt.subplots(num=None, figsize=self.figsize, dpi=80, facecolor='w', edgecolor='k')
+        fig, ax = plt.subplots(num=None, figsize=self.figsize, dpi=80, facecolor='w', edgecolor='k')
         have_labels = False
         for dataset in self.getDatasets():
             kwargs = {}

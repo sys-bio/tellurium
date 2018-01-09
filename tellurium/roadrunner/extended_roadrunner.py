@@ -292,7 +292,7 @@ class ExtendedRoadRunner(roadrunner.RoadRunner):
     # FIXME: update the documentation of plot function
     def plot(self, result=None, show=True,
              xtitle=None, ytitle=None, title=None, xlim=None, ylim=None, logx=False, logy=False,
-             xscale='linear', yscale='linear', grid=False, ordinates=None, tag=None, labels=None, **kwargs):
+             xscale='linear', yscale='linear', grid=False, ordinates=None, tag=None, labels=None, figsize=(6,4), **kwargs):
         """ Plot roadrunner simulation data.
 
         Plot is called with simulation data to plot as the first argument. If no data is provided the data currently
@@ -329,6 +329,7 @@ class ExtendedRoadRunner(roadrunner.RoadRunner):
         :param tag: If supplied, all traces with the same tag will be plotted with the same color/style
         :param kwargs: additional matplotlib keywords like marker, lineStyle, color, alpha, ...
         :param labels: 'id' to use species IDs,
+        :param figsize: If supplied, customize the size of the figure,
         :return:
         """
         if result is None:
@@ -354,6 +355,8 @@ class ExtendedRoadRunner(roadrunner.RoadRunner):
             kwargs['logy'] = logy
         if tag:
             kwargs['tag'] = tag
+        if figsize:
+            kwargs['figsize'] = figsize
 
         # FIXME: provide the additional parameters to the plotting engine
 
