@@ -209,7 +209,7 @@ def getVersionInfo():
     if libsbml:
         versions.append(('libsbml', libsbml.getLibSBMLDottedVersion()))
     if libsedml:
-        versions.append(('libsedml', libsedml.getLibSEDMLVersionString()))
+        versions.append(('libsedml', libsedml.getLibSEDMLDottedVersion()))
     if phrasedml:
         versions.append(('phrasedml', phrasedml.__version__))
     if sbol:
