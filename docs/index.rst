@@ -18,6 +18,7 @@ Contents:
    walkthrough.rst
    notebooks.rst
    antimony.rst
+   distributed_tellurium.rst
    tellurium_methods.rst
    API.rst
    libRoadRunner Documents <https://sys-bio.github.io/roadrunner/python_docs/index.html>
