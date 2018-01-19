@@ -569,7 +569,7 @@ def loadCellMLModel(cellml):
 # Interconversion Methods
 # ---------------------------------------------------------------------
 def antimonyTosbml(ant):
-    warnings.warn("'antimonyTosbml' is deprecated. Use 'antimonyToSBML' instead. Will be removed in tellurium v1.4",
+    warnings.warn("'antimonyTosbml' is deprecated. Use 'antimonyToSBML' instead. Will be removed in tellurium v2.1",
                   DeprecationWarning, stacklevel=2)
     return antimonyToSBML(ant)
 
@@ -840,7 +840,7 @@ def plotArray(result, loc='upper right', show=True, resetColorCycle=True,
     return p
 
 def plotWithLegend(r, result=None, loc='upper left', show=True, **kwargs):
-    warnings.warn("'plotWithLegend' is deprecated. Use 'r.plot' instead. Will be removed in tellurium v1.4",
+    warnings.warn("'plotWithLegend' is deprecated. Use 'r.plot' instead. Will be removed in tellurium v2.1",
                   DeprecationWarning, stacklevel=2)
     return r.plot(result=result, loc=loc, show=show, **kwargs)
 
