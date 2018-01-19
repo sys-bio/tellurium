@@ -63,8 +63,6 @@ class PlottingEngine(object):
         :return: instance of PlottingFigure
         """
         fig = self.newFigure()
-        if m.colnames[0] != 'time':
-            raise RuntimeError('Cannot plot timecourse - first column is not time')
 
         for k in range(1, m.shape[1]):
             fig.addXYDataset(m[:,0], m[:,k], name=m.colnames[k], tag=tag, alpha=alpha)
