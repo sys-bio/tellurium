@@ -18,12 +18,12 @@ Contents:
    walkthrough.rst
    notebooks.rst
    antimony.rst
+   paramscan.rst
    tellurium_methods.rst
    API.rst
    libRoadRunner Documents <https://sys-bio.github.io/roadrunner/python_docs/index.html>
    FAQ <https://github.com/sys-bio/tellurium/wiki/FAQ>
    appendix.rst
-..    paramscan.rst
 ..    testing.rst
 ..    latex.rst
 

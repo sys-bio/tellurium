@@ -2,17 +2,17 @@
 Parameter Scan
 ==============
 
-teParameterScan is a package for Tellurium that provides a different way to run simulations and plot graphs than given in the standard Tellurium library. While the standard syntax in Tellurium asks you to put parameters, such as the amount of time for the simulation to run, as arguments in the simulation function, teParameterScan allows you to set these values before calling the function. This is especially useful for more complicated 3D plots that often take many arguments to customize. Therefore, teParameterScan also provides several plotting options that would be cumbersome to handle using the traditional approach. This tutorial will go over how to use all of teParameterScan’s functionality. Additionally, there are examples which you can run and edit in Tellurium. They can be found in `examples/tellurium-files/parameterScan <https://github.com/sys-bio/tellurium/tree/master/examples/tellurium-files/parameterscan>`_.
+ParameterScan is a package for Tellurium that provides a different way to run simulations and plot graphs than given in the standard Tellurium library. While the standard syntax in Tellurium asks you to put parameters, such as the amount of time for the simulation to run, as arguments in the simulation function, ParameterScan allows you to set these values before calling the function. This is especially useful for more complicated 3D plots that often take many arguments to customize. Therefore, ParameterScan also provides several plotting options that would be cumbersome to handle using the traditional approach. This tutorial will go over how to use all of ParameterScan’s functionality.
 
 Loading a Model
 ===============
 
-To use teParameterScan you will need to import it. The easiest way to do this is the command ‘from tellurium import ParameterScan’ after the standard ‘import tellurium as te’.
+To use ParameterScan you will need to import it. The easiest way to do this is the command ‘from tellurium import ParameterScan’ after the standard ‘import tellurium as te’.
 
 .. code-block:: python
 
     import tellurium as te
-    from tellurium import ParameterScan as ps
+    from tellurium import ParameterScan
 
     cell = '''
         $Xo -> S1; vo;
@@ -24,7 +24,7 @@ To use teParameterScan you will need to import it. The easiest way to do this is
     '''
 
     rr = te.loadAntimonyModel(cell)
-    p = ps.ParameterScan(rr)
+    p = ParameterScan(rr)
 
     p.startTime = 0
     p.endTime = 20
@@ -57,7 +57,7 @@ This method runs the same simulation as plotGraduatedArray(), but plots each gra
 
 ``plotMultiArray(param1, param1Range, param2, param2Range)``
 
-This method plots a grid of arrays with different starting conditions. It is the only method in teParameterScan that takes arguments when it is called. The two param arguments specify the species or constant that should be set, and the range arguments give the different values that should be simulated with. The resulting grid is an array for each possible combination of the two ranges. For instance, plotMultiArray(‘k1’, [1, 2], ‘k2’, [1, 2, 3]) would result in a grid of six arrays, one with k1 = 1 and k2 = 1, the next with k1 = 1 and k2 = 2, and so on. The advantage of this method is that you can plot multiple species in each array. Accepted parameters are startTime, endTime, numberOfPoints, width, title, and integrator.
+This method plots a grid of arrays with different starting conditions. It is the only method in ParameterScan that takes arguments when it is called. The two param arguments specify the species or constant that should be set, and the range arguments give the different values that should be simulated with. The resulting grid is an array for each possible combination of the two ranges. For instance, plotMultiArray(‘k1’, [1, 2], ‘k2’, [1, 2, 3]) would result in a grid of six arrays, one with k1 = 1 and k2 = 1, the next with k1 = 1 and k2 = 2, and so on. The advantage of this method is that you can plot multiple species in each array. Accepted parameters are startTime, endTime, numberOfPoints, width, title, and integrator.
 
 ``plotSurface()``
 
@@ -79,7 +79,7 @@ Let’s say that we want to examine how the value of a rate constant (parameter)
 .. code-block:: python
 
     import tellurium as te
-    from tellurium import ParameterScan as ps
+    from tellurium import ParameterScan
 
     r = te.loada('''
         $Xo -> S1; vo;
@@ -90,7 +90,7 @@ Let’s say that we want to examine how the value of a rate constant (parameter)
         k1 = 2; k2 = 0; k3 = 3;
     ''')
 
-    p = ps.ParameterScan(r)
+    p = ParameterScan(r)
 
     p.endTime = 6
     p.numberOfPoints = 100
@@ -102,7 +102,9 @@ Let’s say that we want to examine how the value of a rate constant (parameter)
 
     p.plotGraduatedArray()
 
-    Another way is to use createColormap() and plotSurface() to create a 3D graph of the same model as above. After loading the model, we can use this code:
+Another way is to use createColormap() and plotSurface() to create a 3D graph of the same model as above. After loading the model, we can use this code:
+
+.. code-block:: python
 
     p.endTime = 6
     p.colormap = p.createColormap([.12,.56,1], [.86,.08,.23])
@@ -168,11 +170,8 @@ These are the properties of the ``ParameterScan`` class.
 SteadyStateScan
 =====================
 
-This class is part of teParameterScan but provides some added functionality. It allows the user to plot graphs of the steady state values of one or more species as dependent on the changing value of an equilibrium constant on the x-axis. To use it, use the same import statement as before: ‘from tellurium import ParameterScan as ps’. Then, you can use SteadyStateScan on a loaded model by using ‘ss = ps.SteadyStateScan(rr)’. Right now, the only working method is plotArray(), which needs the parameters of value, startValue, endValue, numberOfPoints, and selection. The parameter ‘value’ refers to the equilibrium constant, and should be the string of the chosen constant. The start and end value parameters are numbers that determine the domain of the x-axis. The ‘numberOfPoints’ parameter refers to the number of data points (i.e. a larger value gives a smoother graph) and ‘selection’ is a list of strings of one or more species that you would like in the graph.
+This class is part of ParameterScan but provides some added functionality. It allows the user to plot graphs of the steady state values of one or more species as dependent on the changing value of an equilibrium constant on the x-axis. To use it, use the same import statement as before: ‘from tellurium import SteadyStateScan. Then, you can use SteadyStateScan on a loaded model by using ‘ss = SteadyStateScan(rr)’. Right now, the only working method is plotArray(), which needs the parameters of value, startValue, endValue, numberOfPoints, and selection. The parameter ‘value’ refers to the equilibrium constant, and should be the string of the chosen constant. The start and end value parameters are numbers that determine the domain of the x-axis. The ‘numberOfPoints’ parameter refers to the number of data points (i.e. a larger value gives a smoother graph) and ‘selection’ is a list of strings of one or more species that you would like in the graph.
 
---------------------
-Examples
---------------------
 
 .. include:: _notebooks/core/parameter_scan.rst
 .. include:: _notebooks/core/steadystate_scan.rst
