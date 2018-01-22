@@ -134,6 +134,8 @@ Currently, only a legacy version of the Mac Spyder IDE is available. We recommen
 2. Double-click the .dmg file to open a new window
 3. Double-click the Spyder icon
 
+If you want to experience the most up-to-date version of Tellurium through Spyder in Mac OS X, see [this page](https://github.com/sys-bio/tellurium/wiki/FAQ#i-am-a-mac-user-and-i-want-tellurium-spyder-but-its-not-supported-anymore).
+
 -------
 
 ### Install via pip (no front-end)
