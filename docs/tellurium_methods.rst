@@ -11,7 +11,7 @@ more reliable than running ``!pip install xyz``.
 
 .. autofunction:: tellurium.installPackage
 .. autofunction:: tellurium.upgradePackage
-.. autofunction:: tellurium.removePackage
+.. autofunction:: tellurium.uninstallPackage
 .. autofunction:: tellurium.searchPackage
 
 .. include:: _notebooks/core/methods_installing_packages.rst
