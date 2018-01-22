@@ -82,6 +82,68 @@ Use these routines to carry out Gillespie style stochastic simulations.
 .. include:: _notebooks/core/tellurium_stochastic.rst
 
 ----------------------------------------
+Distributed Stochastic Simulation
+----------------------------------------
+
+Use these in order to run simulations in distributed environment. 
+
+.. autoclass:: tellurium.StochasticSimulationModel
+   :members: model, seed, variable_step_size, from_time, to_time, step_points, integrator
+
+----------------------------------------
+Distributed Stochastic Simulation Utility
+----------------------------------------
+
+Use these in order to run simulations in distributed environment. It uses the object defined with StochasticSimulationModel.
+
+.. autofunction:: tellurium.distributed_stochastic_simulation
+
+
+----------------------------------------
+Plot Distributed Stochastic Simulation Results
+----------------------------------------
+
+To plot the results retrieved from distributed_stochastic_simulation.
+
+.. autofunction:: tellurium.plot_stochastic_result
+
+----------------------------------------
+Distributed Parameter Scanning
+----------------------------------------
+
+Parameter Scanning one/more models in a distributed environment
+
+.. autofunction:: tellurium.distributed_parameter_scanning
+
+----------------------------------------
+Plotting Image of Parameter Scan 
+----------------------------------------
+
+Helps in plotting the results parameter Scanning of one/more models run in a distributed environment
+
+.. autofunction:: tellurium.plotImage
+
+
+----------------------------------------
+Distributed Sensitivity Analysis
+----------------------------------------
+
+Use these in order to run Sensitivity Analysis in distributed environment. 
+
+.. autoclass:: tellurium.SensitivityAnalysis
+   :members: model, sbml, conservedMoietyAnalysis, filename, bounds, allowLog
+
+
+----------------------------------------
+Distributed Sensitivity Analysis Utility
+----------------------------------------
+
+Running the Sensitivity analysis using the model created using tellurium.SensitivityAnalysis
+
+.. autofunction:: tellurium.distributed_sensitivity_analysis
+
+
+----------------------------------------
 Math
 ----------------------------------------
 
