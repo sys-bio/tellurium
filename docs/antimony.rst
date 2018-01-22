@@ -927,7 +927,7 @@ Another question is whether, if at the beginning of the simulation the trigger c
 
 ::
 
-  E1: at (x>5)), t0=false: y=3, x=r+2;
+  E1: at (x>5), t0=false: y=3, x=r+2;
 
 In this situation, the value at t0 is considered to be false, meaning it can immediately transition to true if x is greater than 5, triggering the event. You may explicitly state the default by using ‘t0 = true‘.
 
@@ -935,7 +935,7 @@ Finally, a different class of events is often modeled in some situations where t
 
 ::
 
-  E1: at 3 after (x>5)), persistent=true: y=3, x=r+2;
+  E1: at 3 after (x>5), persistent=true: y=3, x=r+2;
 
 For this model, x must be greater than 5 for three seconds before executing its event assignments: if x dips below 5 during that time, the event will not fire. To explicitly declare the default situation, use ‘persistent=false‘.
 
