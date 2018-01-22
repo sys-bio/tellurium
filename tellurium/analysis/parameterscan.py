@@ -12,6 +12,9 @@ from matplotlib.ticker import LinearLocator, FormatStrFormatter
 import matplotlib.image as mpimg
 import uuid
 
+SPYDER = False
+if any('SPYDER' in name for name in os.environ):
+    SPYDER = True
 
 class ParameterScan (object):
     """ ParameterScan """
@@ -116,8 +119,16 @@ class ParameterScan (object):
             plt.suptitle(self.title)
         if self.legend:
             plt.legend()
-        plt.show()
-
+        
+        if SPYDER:
+            plt.show()
+        else:
+            FILENAME = str(uuid.uuid4())+".png"
+            plt.savefig(FILENAME)
+            plt.close()
+            imag = mpimg.imread(FILENAME)
+            return(imag)
+            
 
     def plotArray(self):
         """ Plots result of simulation with options for linewdith and line color.
@@ -125,9 +136,11 @@ class ParameterScan (object):
         p.plotArray()
         """
         result = self._sim()
-        self.plotArrayFunction(result)
-        
-        return result
+        if SPYDER:
+            self.plotArrayFunction(result)
+            return result
+        else:
+            return(self.plotArrayFunction(result))
 
 
     def _graduatedSim(self):
@@ -236,7 +249,14 @@ class ParameterScan (object):
             plt.ylabel(self.ylabel)
         if self.legend:
             plt.legend()
-        plt.show()
+        if SPYDER:
+            plt.show()
+        else:
+            FILENAME = str(uuid.uuid4()) + ".png"
+            plt.savefig(FILENAME)
+            plt.close()
+            imag = mpimg.imread(FILENAME)
+            return(imag)            
         
 
     def plotGraduatedArray(self):
@@ -245,9 +265,12 @@ class ParameterScan (object):
 
         p.plotGraduatedArray()"""
         result = self._graduatedSim()
-        self.plotGraduatedArrayFunction(result)
         
-        return result
+        if SPYDER:
+            self.plotGraduatedArrayFunction(result)
+            return result
+        else:
+            return(self.plotGraduatedArrayFunction(result))
                 
 
     def plotPolyArrayFunction(self,result):
@@ -301,7 +324,15 @@ class ParameterScan (object):
             #        ax.set_zlabel(self.value) if self.zlabel is None else ax.set_zlabel(self.zlabel)
         if self.title is not None:
             ax.set_title(self.title)
-        plt.show()
+        
+        if SPYDER:
+            plt.show()
+        else:
+            FILENAME = str(uuid.uuid4()) + ".png"
+            plt.savefig(FILENAME)
+            plt.close()
+            imag = mpimg.imread(FILENAME)
+            return(imag)
         
         
     def collect_plotPolyArray_result(self):
@@ -315,9 +346,12 @@ class ParameterScan (object):
 
         p.plotPolyArray()"""
         result = self._graduatedSim()
-        self.plotPolyArrayFunction(result)
         
-        return result
+        if SPYDER:
+            self.plotPolyArrayFunction(result)
+            return result
+        else:
+            return(self.plotPolyArrayFunction(result))
 
 
     def plotSurface(self):
@@ -407,7 +441,15 @@ class ParameterScan (object):
 
             if self.colorbar:
                 fig.colorbar(surf, shrink=0.5, aspect=4)
-            plt.show()
+            
+            if SPYDER:
+                plt.show()
+            else:
+                FILENAME = str(uuid.uuid4()) + ".png"
+                plt.savefig(FILENAME)
+                plt.close()
+                imag = mpimg.imread(FILENAME)
+                return(imag)                
 
         except Exception as e:
             print('error: {0}'.format(e.message))
