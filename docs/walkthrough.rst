@@ -206,6 +206,8 @@ Tellurium notebooks can contain special cell types such as the SBML or OMEX cell
 Advanced Topics
 ===============
 
+.. _other-kernels:
+
 Using Other Jupyter Kernels / Languages
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
