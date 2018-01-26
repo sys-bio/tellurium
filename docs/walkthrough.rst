@@ -213,7 +213,7 @@ A built-in Python 3 kernel is provided with the notebook app. However, there are
 
 Nevertheless, sometimes using a kernel other than the built-in Python 3 kernel is necessary. Starting with version 2.0.14, Tellurium supports automated discovery of other Jupyter kernels, such as different Python versions and distributions (e.g. Anaconda) and other languages (the Tellurium packages are not available in other languages). The following example shows how to use an `R <https://www.r-project.org/>`_ kernel with Tellurium.
 
-* First, follow the installation instructions for the `IRkernel <https://github.com/IRkernel/IRkernel>`_ (`see also <https://irkernel.github.io/installation/>`_). These instructions use R 3.3.0. This procedure for installing the IRkernel works for us:
+* First, follow the installation instructions for the `IRkernel <https://github.com/IRkernel/IRkernel>`_ (`see also <https://irkernel.github.io/installation/>`_). These instructions use R 3.3.0. The following procedure for installing the IRkernel works for us:
 
 .. code-block:: r
 
