@@ -245,7 +245,7 @@ Nevertheless, sometimes using a kernel other than the built-in Python 3 kernel i
 
     Hover over the name of a kernel to display its path
 
-* By selecting ``Language`` -> ``R``, the notebook will switch to the IRkernel. All code cells will be interpreted as R (SBML and OMEX cells will not work).
+* By selecting ``Language`` -> ``R``, you can cause the notebook to switch to the IRkernel. All code cells will be interpreted as R (SBML and OMEX cells will not work).
 
 .. figure:: ./images/notebook-r-demo.png
     :align: center
