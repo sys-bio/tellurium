@@ -227,7 +227,7 @@ Nevertheless, sometimes using a kernel other than the built-in Python 3 kernel i
 
     IRkernel::installspec()
 
-* Start the Tellurium notebook app. Under the ``Language`` menu, select ``Find Kernels...``. A pop-up with a ``Scan`` button should appear. Click the ``Scan`` button. The results of the scan show all the kernels available to Tellurium. The built-in Python 3 and Node.js kernels are always available. Additional kernels appear based on installed Jupyter kernels.
+* Start the Tellurium notebook app. Under the ``Language`` menu, select ``Find Kernels...``. A pop-up with a ``Scan`` button should appear. Click the ``Scan`` button. The results of the scan show all the kernels available to Tellurium. The built-in Python 3 and Node.js kernels are always available. Additional kernels appear based on installed Jupyter kernels. If you don't see a Jupyter kernel you want here, make sure you have correctly installed the kernel (each his its own set of instructions). If the kernel still does not show up, make sure it is a true Jupyter kernel. Older IPython-based kernels (i.e. kernels which install under ``~/.ipython`` instead of ``~/.jupyter``) cannot be discovered by Tellurium.
 
 .. figure:: ./images/notebook-found-kernels.png
     :align: center
