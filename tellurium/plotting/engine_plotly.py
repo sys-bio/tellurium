@@ -3,10 +3,11 @@ Plotly implementation of the plotting engine.
 """
 from __future__ import print_function, absolute_import
 
-from .engine import PlottingEngine, PlottingFigure, PlottingLayout, filterWithSelections
+from .engine import PlottingEngine, PlottingFigure, PlottingLayout, filterWithSelections, TiledFigure
 import numpy as np
 import plotly
 from plotly.graph_objs import Scatter, Scatter3d, Layout, Data
+from plotly import tools
 
 
 class PlotlyEngine(PlottingEngine):
@@ -26,6 +27,9 @@ class PlotlyEngine(PlottingEngine):
         """ Returns a figure object."""
         return PlotlyStackedFigure(title=title, layout=layout)
 
+    def newTiledFigure(self, title=None, rows=None, cols=None):
+        return PlotlyTiledFigure(engine=self, rows=rows, cols=cols)
+
 
 class PlotlyFigure(PlottingFigure):
     """ PlotlyFigure. """
@@ -33,28 +37,33 @@ class PlotlyFigure(PlottingFigure):
     def __init__(self, title=None, layout=PlottingLayout(), logx=False, logy=False, save_to_pdf=False, xtitle=None, ytitle=None):
         super(PlotlyFigure, self).__init__(title=title, layout=layout, logx=logx, xtitle=xtitle, logy=logy, ytitle=ytitle)
 
+    def getArgsForDataset(self, dataset):
+        kwargs = {}
+        if 'name' in dataset and dataset['name'] is not None:
+            kwargs['name'] = dataset['name']
+        else:
+            kwargs['showlegend'] = False
+        if 'alpha' in dataset and dataset['alpha'] is not None:
+            kwargs['opacity'] = dataset['alpha']
+        # lines/markers (lines by default)
+        if 'mode' in dataset and dataset['mode'] is not None:
+            kwargs['mode'] = dataset['mode']
+        else:
+            kwargs['mode'] = 'lines'
+        return kwargs
+
+    def getScatterGOs(self):
+        for dataset in self.getDatasets():
+            yield Scatter(
+                x = dataset['x'],
+                y = dataset['y'],
+                **self.getArgsForDataset(dataset)
+            )
+
 
     def render(self):
         """ Plot the figure. Call this last."""
-        traces = []
-        for dataset in self.getDatasets():
-            kwargs = {}
-            if 'name' in dataset and dataset['name'] is not None:
-                kwargs['name'] = dataset['name']
-            else:
-                kwargs['showlegend'] = False
-            if 'alpha' in dataset and dataset['alpha'] is not None:
-                kwargs['opacity'] = dataset['alpha']
-            # lines/markers (lines by default)
-            if 'mode' in dataset and dataset['mode'] is not None:
-                kwargs['mode'] = dataset['mode']
-            else:
-                kwargs['mode'] = 'lines'
-            traces.append(Scatter(
-                x = dataset['x'],
-                y = dataset['y'],
-                **kwargs
-            ))
+        traces = list(self.getScatterGOs())
 
         data = Data(traces)
         plotly.offline.iplot({
@@ -123,3 +132,39 @@ class PlotlyStackedFigure(PlotlyFigure):
             'data': data,
             'layout': self.makeLayout()
         })
+
+
+
+class PlotlyTiledFigure(TiledFigure):
+    def __init__(self, engine, rows, cols):
+        self.rows = rows
+        self.rowmarker = 0
+        self.cols = cols
+        self.colmarker = 0
+        self.engine = engine
+        #self.fig = None
+        self.figures = []
+
+    def nextFigure(self, *args, **kwargs):
+        self.cycleMarker()
+        fig = self.engine.newFigure(*args, **kwargs)
+        self.figures.append(fig)
+        return fig
+
+    def renderIfExhausted(self):
+        print('is exhausted: {}'.format(self.isExhausted()))
+        if not self.isExhausted():
+            return
+        fig = tools.make_subplots(self.rows, self.cols)
+        row = 1
+        col = 1
+        for f in self.figures:
+            for trace in f.getScatterGOs():
+                fig.append_trace(trace, row, col)
+            row += 1
+            if row > self.rows:
+                row = 1
+                col += 1
+                if col > self.cols:
+                    col = self.cols
+        plotly.offline.iplot(fig)

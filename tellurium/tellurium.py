@@ -117,7 +117,7 @@ import matplotlib.pyplot as plt
 # make this the default style for matplotlib
 # plt.style.use('fivethirtyeight')
 
-from .plotting import getPlottingEngineFactory as __getPlottingEngineFactory, plot, show
+from .plotting import getPlottingEngineFactory as __getPlottingEngineFactory, plot, show, nextFigure, tiledFigure, newTiledFigure, clearTiledFigure
 
 
 def getPlottingEngineFactory(engine=None):
