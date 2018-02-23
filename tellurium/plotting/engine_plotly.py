@@ -183,24 +183,24 @@ class PlotlyLowerTriFigure(PlotlyTiledFigure,LowerTriFigure):
         if not self.isExhausted():
             return
         fig = tools.make_subplots(self.rows, self.cols, subplot_titles=tuple(f.title for f in self.figures))
-        #fig['layout'].update(xaxis = {'showgrid': False})
-        #import pprint
-        #pp = pprint.PrettyPrinter(indent=2)
-        #pp.pprint(fig)
-        #pp.pprint(fig['layout'])
-        for key in fig['layout']:
-            if key.startswith('xaxis') or key.startswith('yaxis'):
-                fig['layout'][key]['showgrid'] = False
-                fig['layout'][key]['showline'] = False
-                fig['layout'][key]['showticklabels'] = False
-                fig['layout'][key]['ticks'] = ''
         row = 1
         col = 1
+        n = 1
         for f in self.figures:
             for trace in f.getScatterGOs():
                 fig.append_trace(trace, row, col)
             col += 1
+            n += 1
             if col > row:
+                while col <= self.cols:
+                    for key in ('xaxis'+str(n), 'yaxis'+str(n)):
+                        fig['layout'][key]['showgrid'] = False
+                        fig['layout'][key]['showline'] = False
+                        fig['layout'][key]['showticklabels'] = False
+                        fig['layout'][key]['ticks'] = ''
+                        fig['layout'][key]['zeroline'] = False
+                    n+=1
+                    col+=1
                 col = 1
                 row += 1
                 if row > self.rows:
