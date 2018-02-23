@@ -3,7 +3,7 @@ Plotly implementation of the plotting engine.
 """
 from __future__ import print_function, absolute_import
 
-from .engine import PlottingEngine, PlottingFigure, PlottingLayout, filterWithSelections, TiledFigure
+from .engine import PlottingEngine, PlottingFigure, PlottingLayout, filterWithSelections, TiledFigure, LowerTriFigure
 import numpy as np
 import plotly
 from plotly.graph_objs import Scatter, Scatter3d, Layout, Data
@@ -29,6 +29,9 @@ class PlotlyEngine(PlottingEngine):
 
     def newTiledFigure(self, title=None, rows=None, cols=None):
         return PlotlyTiledFigure(engine=self, rows=rows, cols=cols)
+
+    def newLowerTriFigure(self, title=None, rows=None, cols=None):
+        return PlotlyLowerTriFigure(engine=self, rows=rows, cols=cols)
 
 
 class PlotlyFigure(PlottingFigure):
@@ -97,6 +100,11 @@ class PlotlyFigure(PlottingFigure):
             if not 'yaxis' in kwargs:
                 kwargs['yaxis'] = {}
             kwargs['yaxis']['title'] = self.ytitle
+        if not self.grid_enabled:
+            kwargs['xaxis']['showgrid'] = False
+            kwargs['xaxis']['showline'] = False
+            kwargs['yaxis']['showgrid'] = False
+            kwargs['yaxis']['showline'] = False
         return Layout(**kwargs)
 
 
@@ -152,19 +160,49 @@ class PlotlyTiledFigure(TiledFigure):
         return fig
 
     def renderIfExhausted(self):
-        print('is exhausted: {}'.format(self.isExhausted()))
+        #print('is exhausted: {}'.format(self.isExhausted()))
         if not self.isExhausted():
             return
-        fig = tools.make_subplots(self.rows, self.cols)
+        fig = tools.make_subplots(self.rows, self.cols, subplot_titles=tuple(f.title for f in self.figures))
         row = 1
         col = 1
         for f in self.figures:
             for trace in f.getScatterGOs():
                 fig.append_trace(trace, row, col)
-            row += 1
-            if row > self.rows:
-                row = 1
-                col += 1
-                if col > self.cols:
-                    col = self.cols
+            col += 1
+            if col > self.cols:
+                col = 1
+                row += 1
+                if row > self.rows:
+                    row = self.rows
+        plotly.offline.iplot(fig)
+
+class PlotlyLowerTriFigure(PlotlyTiledFigure,LowerTriFigure):
+    def renderIfExhausted(self):
+        print('lower tri fig render')
+        if not self.isExhausted():
+            return
+        fig = tools.make_subplots(self.rows, self.cols, subplot_titles=tuple(f.title for f in self.figures))
+        #fig['layout'].update(xaxis = {'showgrid': False})
+        #import pprint
+        #pp = pprint.PrettyPrinter(indent=2)
+        #pp.pprint(fig)
+        #pp.pprint(fig['layout'])
+        for key in fig['layout']:
+            if key.startswith('xaxis') or key.startswith('yaxis'):
+                fig['layout'][key]['showgrid'] = False
+                fig['layout'][key]['showline'] = False
+                fig['layout'][key]['showticklabels'] = False
+                fig['layout'][key]['ticks'] = ''
+        row = 1
+        col = 1
+        for f in self.figures:
+            for trace in f.getScatterGOs():
+                fig.append_trace(trace, row, col)
+            col += 1
+            if col > row:
+                col = 1
+                row += 1
+                if row > self.rows:
+                    row = self.rows
         plotly.offline.iplot(fig)

@@ -66,6 +66,7 @@ from .tellurium import (
     nextFigure,
     tiledFigure,
     newTiledFigure,
+    newLowerTriFigure,
     clearTiledFigure,
     getDefaultPlottingEngine,
     setDefaultPlottingEngine,

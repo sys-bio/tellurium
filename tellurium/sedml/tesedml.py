@@ -1628,7 +1628,6 @@ class SEDMLCodeFactory(object):
             # FIXME: endpoints must be handled via plotting functions
             # lines.append("    fix_endpoints({}[:,k], {}[:,k], color='{}', tag='{}', fig=tefig)".format(xId, yId, color, tag))
         lines.append("if te.tiledFigure():\n")
-        lines.append("    print('render tiled fig')\n")
         lines.append("    te.tiledFigure().renderIfExhausted()\n")
         #lines.append("    te.clearTiledFigure()\n")
         lines.append("else:\n")

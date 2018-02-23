@@ -38,6 +38,11 @@ def newTiledFigure(*args, **kwargs):
     nextFigure.tiledFigure = getPlottingEngine().newTiledFigure(*args, **kwargs)
     return nextFigure.tiledFigure
 
+def newLowerTriFigure(*args, **kwargs):
+    from .. import getPlottingEngine
+    nextFigure.tiledFigure = getPlottingEngine().newLowerTriFigure(*args, **kwargs)
+    return nextFigure.tiledFigure
+
 def tiledFigure():
     return nextFigure.tiledFigure
 

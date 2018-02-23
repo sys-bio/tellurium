@@ -188,6 +188,7 @@ class PlottingFigure(object):
         self.selections=selections
         self.xlim = None
         self.ylim = None
+        self.grid_enabled = True
 
     @abc.abstractmethod
     def render(self):
@@ -324,12 +325,21 @@ class TiledFigure(object):
         pass
 
     def isExhausted(self):
-        return self.colmarker == self.cols
+        return self.rowmarker == self.rows
 
     def cycleMarker(self):
-        self.rowmarker += 1
-        if self.rowmarker >= self.rows:
-            self.rowmarker = 0
-            self.colmarker += 1
-            if self.colmarker >= self.cols:
-                self.colmarker = self.cols
+        self.colmarker += 1
+        if self.colmarker >= self.cols:
+            self.colmarker = 0
+            self.rowmarker += 1
+            if self.rowmarker >= self.rows:
+                self.rowmarker = self.rows
+
+class LowerTriFigure(TiledFigure):
+    def cycleMarker(self):
+        self.colmarker += 1
+        if self.colmarker > self.rowmarker:
+            self.colmarker = 0
+            self.rowmarker += 1
+            if self.rowmarker >= self.rows:
+                self.rowmarker = self.rows
