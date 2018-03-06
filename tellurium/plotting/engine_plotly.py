@@ -160,16 +160,24 @@ class PlotlyTiledFigure(TiledFigure):
         return fig
 
     def renderIfExhausted(self):
-        #print('is exhausted: {}'.format(self.isExhausted()))
         if not self.isExhausted():
             return
-        fig = tools.make_subplots(self.rows, self.cols, subplot_titles=tuple(f.title for f in self.figures))
+        fig = tools.make_subplots(self.rows, self.cols, subplot_titles=tuple(f.title for f in self.figures), print_grid=False)
         row = 1
         col = 1
+        n = 1
         for f in self.figures:
             for trace in f.getScatterGOs():
                 fig.append_trace(trace, row, col)
+            print('f.logx = {}.{}'.format(f,f.logx))
+            if f.logx:
+                fig['layout']['xaxis'+str(n)]['type'] = 'log'
+                fig['layout']['xaxis'+str(n)]['autorange'] = True
+            if f.logy:
+                fig['layout']['yaxis'+str(n)]['type'] = 'log'
+                fig['layout']['yaxis'+str(n)]['autorange'] = True
             col += 1
+            n += 1
             if col > self.cols:
                 col = 1
                 row += 1
@@ -178,11 +186,25 @@ class PlotlyTiledFigure(TiledFigure):
         plotly.offline.iplot(fig)
 
 class PlotlyLowerTriFigure(PlotlyTiledFigure,LowerTriFigure):
+    def makeTitles(self):
+        row = 1
+        col = 1
+        for f in self.figures:
+            yield f.title
+            col += 1
+            if col > row:
+                while col <= self.cols:
+                    col += 1
+                    yield ''
+                col = 1
+                row += 1
+                if row > self.rows:
+                    return;
+
     def renderIfExhausted(self):
-        print('lower tri fig render')
         if not self.isExhausted():
             return
-        fig = tools.make_subplots(self.rows, self.cols, subplot_titles=tuple(f.title for f in self.figures))
+        fig = tools.make_subplots(self.rows, self.cols, subplot_titles=tuple(self.makeTitles()), print_grid=False)
         row = 1
         col = 1
         n = 1

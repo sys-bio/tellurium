@@ -1631,7 +1631,6 @@ class SEDMLCodeFactory(object):
         lines.append("    te.tiledFigure().renderIfExhausted()\n")
         #lines.append("    te.clearTiledFigure()\n")
         lines.append("else:\n")
-        lines.append("    print('render reg fig')\n")
         lines.append("    fig = tefig.render()\n")
 
         if self.saveOutputs and self.createOutputs:
