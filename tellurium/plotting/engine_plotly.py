@@ -169,7 +169,6 @@ class PlotlyTiledFigure(TiledFigure):
         for f in self.figures:
             for trace in f.getScatterGOs():
                 fig.append_trace(trace, row, col)
-            print('f.logx = {}.{}'.format(f,f.logx))
             if f.logx:
                 fig['layout']['xaxis'+str(n)]['type'] = 'log'
                 fig['layout']['xaxis'+str(n)]['autorange'] = True
