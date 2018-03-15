@@ -22,6 +22,7 @@ import numpy as np
 import antimony
 import matplotlib
 
+PLOTTING_ENGINE_NULL = 'null'
 PLOTTING_ENGINE_MATPLOTLIB = 'matplotlib'
 PLOTTING_ENGINE_PLOTLY = 'plotly'
 
@@ -94,10 +95,15 @@ def setDefaultPlottingEngine(engine):
     :param engine: A string describing which plotting engine to use. Valid values are 'matplotlib' and 'plotly'.
     """
     if engine not in [PLOTTING_ENGINE_PLOTLY,
-                      PLOTTING_ENGINE_MATPLOTLIB]:
+                      PLOTTING_ENGINE_MATPLOTLIB,
+                      PLOTTING_ENGINE_NULL]:
         raise ValueError('Plotting engine is not supported: {}'.format(engine))
     global __default_plotting_engine
     __default_plotting_engine = engine
+
+
+def disablePlotting():
+    setDefaultPlottingEngine(PLOTTING_ENGINE_NULL)
 
 
 __save_plots_to_pdf = False  # flag which decides if plotted to pdf

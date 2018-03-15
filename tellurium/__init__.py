@@ -70,6 +70,7 @@ from .tellurium import (
     clearTiledFigure,
     getDefaultPlottingEngine,
     setDefaultPlottingEngine,
+    disablePlotting,
     setSavePlotsToPDF,
 )
 
