@@ -4,8 +4,7 @@ working with packages.
 """
 
 from __future__ import print_function, absolute_import
-import pip
-
+import sys, subprocess
 
 def searchPackage(name):
     """ Search pip package for package name.
@@ -13,8 +12,7 @@ def searchPackage(name):
     :param name: package name
     :return:
     """
-
-    pip.main(['search', name])
+    subprocess.check_call([sys.executable, '-m', 'pip', 'search', name])
 
 
 def installPackage(name):
@@ -27,7 +25,7 @@ def installPackage(name):
     :param name: package name
     :return:
     """
-    pip.main(['install', name])
+    subprocess.check_call([sys.executable, '-m', 'pip', 'install', name])
 
 
 def upgradePackage(name):
@@ -36,7 +34,7 @@ def upgradePackage(name):
         :param name: package name
         :return:
         """
-    pip.main(['install', '--upgrade', name])
+    subprocess.check_call([sys.executable, '-m', 'pip', 'install', '--upgrade', name])
 
 
 def uninstallPackage(name):
@@ -45,4 +43,4 @@ def uninstallPackage(name):
         :param name: package name
         :return:
         """
-    pip.main(['uninstall', '-y', name])
+    subprocess.check_call([sys.executable, '-m', 'pip', 'uninstall', '-y', name])
