@@ -12,9 +12,9 @@ from matplotlib.ticker import LinearLocator, FormatStrFormatter
 import matplotlib.image as mpimg
 import uuid
 
-SPYDER = False
-if any('SPYDER' in name for name in os.environ):
-    SPYDER = True
+IPYTHON = False
+if any('IPYTHONDIR' in name for name in os.environ):
+    IPYTHON = True
 
 class ParameterScan (object):
     """ ParameterScan """
@@ -120,7 +120,7 @@ class ParameterScan (object):
         if self.legend:
             plt.legend()
         
-        if SPYDER:
+        if not IPYTHON:
             plt.show()
         else:
             FILENAME = str(uuid.uuid4())+".png"
@@ -136,7 +136,7 @@ class ParameterScan (object):
         p.plotArray()
         """
         result = self._sim()
-        if SPYDER:
+        if not IPYTHON:
             self.plotArrayFunction(result)
             return result
         else:
@@ -249,7 +249,7 @@ class ParameterScan (object):
             plt.ylabel(self.ylabel)
         if self.legend:
             plt.legend()
-        if SPYDER:
+        if not IPYTHON:
             plt.show()
         else:
             FILENAME = str(uuid.uuid4()) + ".png"
@@ -266,7 +266,7 @@ class ParameterScan (object):
         p.plotGraduatedArray()"""
         result = self._graduatedSim()
         
-        if SPYDER:
+        if not IPYTHON:
             self.plotGraduatedArrayFunction(result)
             return result
         else:
@@ -325,7 +325,7 @@ class ParameterScan (object):
         if self.title is not None:
             ax.set_title(self.title)
         
-        if SPYDER:
+        if not IPYTHON:
             plt.show()
         else:
             FILENAME = str(uuid.uuid4()) + ".png"
@@ -347,7 +347,7 @@ class ParameterScan (object):
         p.plotPolyArray()"""
         result = self._graduatedSim()
         
-        if SPYDER:
+        if not IPYTHON:
             self.plotPolyArrayFunction(result)
             return result
         else:
@@ -442,7 +442,7 @@ class ParameterScan (object):
             if self.colorbar:
                 fig.colorbar(surf, shrink=0.5, aspect=4)
             
-            if SPYDER:
+            if not IPYTHON:
                 plt.show()
             else:
                 FILENAME = str(uuid.uuid4()) + ".png"

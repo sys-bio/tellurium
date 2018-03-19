@@ -11,10 +11,10 @@ import matplotlib.pyplot as plt
 from matplotlib import gridspec
 from tempfile import mkstemp
 
-# Check if in spyder environment
-SPYDER = False
-if any('SPYDER' in name for name in os.environ):
-    SPYDER = True
+# enable fixes for non-IPython environment
+IPYTHON = False
+if any('IPYTHONDIR' in name for name in os.environ):
+    IPYTHON = True
 
 
 class MatplotlibEngine(PlottingEngine):
@@ -94,7 +94,7 @@ class MatplotlibFigure(PlottingFigure):
 
         # legend
         if self.use_legend and have_labels:
-            if SPYDER:
+            if not IPYTHON:
                 legend = plt.legend()
             else:
                 # legend = plt.legend(bbox_to_anchor=(1.0, 0.5), loc='center left', borderaxespad=1.)
