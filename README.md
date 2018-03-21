@@ -72,6 +72,8 @@ and features notebook cells for inline OMEX, a human-readable representation of 
 The Tellurium notebook supports Windows 10, Mac OS X 10.10+, Debian 8+, and Fedora 22+.
 The notebook viewer comes with Python 3.6 (64-bit).
 
+:exclamation:**Note:** Tellurium Notebook may take a **long time** to start up the first time you run it. During this time, it uninstalls old versions and installs a new version of the Python runtime environment.
+
 <img align="left" width="32px" id="windows" src="https://raw.githubusercontent.com/wiki/sys-bio/tellurium/img/windows.png">
 <h4>Windows</h4>
 <br style="clear:both"/>
