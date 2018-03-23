@@ -36,13 +36,13 @@ if any('IPYTHONDIR' in name for name in os.environ):
 try:
     get_ipython()
     if IPYTHON:
-        matplotlib.use('Agg')
+        matplotlib.use('Agg', warn=False)
 except:
     try:
         import Tkinter
     except ImportError:
         if IPYTHON:
-          matplotlib.use('Agg')
+          matplotlib.use('Agg', warn=False)
 
 
 ##############################################
