@@ -333,11 +333,36 @@ Spyder IDE also supports various ways to check the documentations. If you wish t
     
 Sometimes, IPython console might crash. Sometimes, you might want to restart the console to free up some memory. Yes, these things happen unfortunately. To researt the console, simply press ``ctrl+.`` in the console or ``right click -> Restart kernel``. While doing so, you might notice that you can open another IPython console as well. 
 
-
 Further Reading
 ---------------
 
 * `Official Spyder documentation <http://pythonhosted.org/spyder/>`_
+
+Advanced Topics on Tellurium Spyder
+===================================
+
+Running Jupyter Notebook
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+Tellurium Spyder comes with Jupyter Notebook by default. To run it, go to ``Start Menu`` -> ``Tellurium Winpython`` -> ``Launch Jupyter Notebook`` or go to Tellurium Spyder installation directory and run ``Jupyter Notebook.exe``.
+
+Running Command Prompt for Tellurium Spyder
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Sometimes, you might want to run a Windows command prompt with the Python that comes with Tellurium Spyder as the default Python distribution. This can be useful if you wish to install addtional Python packages with more control. To do so, go to ``Start Menu`` -> ``Tellurium Winpython`` -> ``WinPython Command Prompt`` or go to Tellurium Spyder installation directory and run ``WinPython Command Prompt.exe``.
+
+Tellurium Spyder Troubleshooting
+================================
+
+Problem: IPython Console Crashed
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+When this happens, IPython will automatically recover most of the times. If it does not, manually restart the IPython console using ``ctrl+.`` or ``right click -> Restart kernel``.
+
+Problem: Cannot Open Tellruim Spyder
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+When Spyder IDE crashes, it will automatically try to recover on the next execution. However, if this does not happen, manually run the reset script. To do so, go to ``Start Menu`` -> ``Tellurium Winpython`` -> ``Reset Spyder`` or go to Tellurium Spyder installation directory and run ``Spyder reset.exe``. If Spyder still does not open, we suggest you to clean re-install Tellurium Spyder.
 
 ------------
 
