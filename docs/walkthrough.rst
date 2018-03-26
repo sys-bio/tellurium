@@ -266,7 +266,73 @@ Further Reading
 IDE Walkthrough
 ====================
 
-If you have not already done so, download and install the `Tellurium IDE front-end <https://github.com/sys-bio/tellurium#front-end-2-tellurium-ide>`_ for your platform (only for Windows, legacy versions supported Mac).
+If you have not already done so, download and install the `Tellurium Spyder IDE front-end <https://github.com/sys-bio/tellurium#front-end-2-tellurium-spyder-ide>`_ for your platform (only for Windows, legacy versions supported Mac).
+
+Basics
+~~~~~~
+
+Tellurium Spyder is based on Spyder IDE, a popular open-source integrated development environment for Python. Tellurium Spyder offers experience akin to MATLAB, allowing you to view, edit, and execute Python scripts through dedicated editor and console windows. Addtionally, Tellurium Spyder comes with various tools to help you code. When you first open Tellurium Spyder, you will be greeted by an editor pane with example script, an IPython console, and a Help pane. You can execute the script in the editor pane directly on the IPython console by:
+
+* Pressing the green arrow
+* Pressing ``F5``
+* Pressing ``Run`` -> ``Run``
+
+The example script contains an oscillation model. When you run the script, a plot will appear in the IPython console as the output.
+
+.. figure:: ./images/spyder-overview.png
+    :align: center
+    :alt: Output of running the example script
+    :figclass: align-center
+
+    Output of running the example script
+
+For more information on how to build and simulate a model, check `Quick Start <https://tellurium.readthedocs.io/en/latest/quickstart.html>`_  and   `libRoadRunner Tutorial <https://sys-bio.github.io/roadrunner/python_docs/using_roadrunner.html>`_.
+
+Creating and Running Cells
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Similar to Jupyter notebook, Spyder IDE allows you to create cells. To create a cell, simply put ``#%%`` in the script. Each ``#%%`` will signal generation of a new cell. To run a cell, press ``shift+enter`` while in focus of a cell. If you want to run only part of a script, you can do it by drag-selecting the part and pressing ``F9``.
+
+Importing Files
+~~~~~~~~~~~~~~~
+
+Tellurium Spyder comes with few plugins to help you import SBML, SED-ML, and COMBINE archives. Under ``File`` menu, press ``Open SBML file`` to open an SBML file and automatically translate it into Antimony string in a new editor tab. To import SED-ML or COMBINE archive, go to ``File`` -> ``Import``. You can import SED-ML or COMBINE archive using either phraSED-ML notation or raw Python output. Tellurium understands phraSED-ML notation. 
+
+.. figure:: ./images/spyder-filemenu.png
+    :align: center
+    :alt: Importing SBML, SED-ML, and COMBINE archives
+    :figclass: align-center
+
+    Importing SBML, SED-ML, and COMBINE archives
+
+RateLaw Plugin
+~~~~~~~~~~~~~~
+
+Tellurium Spyder comes with RateLaw plugin. RateLaw plugin contains a list of various rate laws and allows users to insert rate laws directly to the editor. Simply put, it is a dictionary of rate laws so that you don't have to memorize it. To use it, go to ``Tools`` -> ``Rate Law Library``. You can then choose a rate law, fill in the parameters if you wish, and press ``Insert Rate Law``.
+
+.. figure:: ./images/spyder-ratelaw.png
+    :align: center
+    :alt: RateLaw Plugin
+    :figclass: align-center
+
+    RateLaw Plugin
+    
+Spyder Tips
+~~~~~~~~~~~    
+    
+Both the editor and console window support tab completion. If you are looking for certain functions under a module or a class, simply press ``tab``. 
+
+Spyder IDE also supports various ways to check the documentations. If you wish to know more about a function, press ``ctrl+i`` while the cursur is next to the function to pull up the documentation in the Help window or execute ``help(<function>)`` in IPython console. You can also use ``<function>?`` to know more about the object itself. IPython offers various IPython-specific magic commends. Check it out by running ``?`` without any arguments in the IPython console.
+
+.. figure:: ./images/spyder-help.png
+    :align: center
+    :alt: Pulling documentation in the Help window or through IPython console.
+    :figclass: align-center
+
+    Pulling documentation in the Help window or through IPython console.
+    
+Sometimes, IPython console might crash. Sometimes, you might want to restart the console to free up some memory. Yes, these things happen unfortunately. To researt the console, simply press ``ctrl+.`` in the console or ``right click -> Restart kernel``. While doing so, you might notice that you can open another IPython console as well. 
+
 
 Further Reading
 ---------------
