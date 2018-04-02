@@ -21,3 +21,30 @@ def plot(x, y, show=True, **kwargs):
 def show(reset=True):
     from .. import getPlottingEngine
     return getPlottingEngine().show(reset=reset)
+
+def nextFigure(*args, **kwargs):
+    from .. import getPlottingEngine
+    if nextFigure.tiledFigure is not None:
+        fig = nextFigure.tiledFigure.nextFigure(*args, **kwargs)
+        #if nextFigure.tiledFigure.isExhausted():
+            #nextFigure.tiledFigure = None
+        return fig
+    else:
+        return getPlottingEngine().newFigure(*args, **kwargs)
+nextFigure.tiledFigure = None
+
+def newTiledFigure(*args, **kwargs):
+    from .. import getPlottingEngine
+    nextFigure.tiledFigure = getPlottingEngine().newTiledFigure(*args, **kwargs)
+    return nextFigure.tiledFigure
+
+def newLowerTriFigure(*args, **kwargs):
+    from .. import getPlottingEngine
+    nextFigure.tiledFigure = getPlottingEngine().newLowerTriFigure(*args, **kwargs)
+    return nextFigure.tiledFigure
+
+def tiledFigure():
+    return nextFigure.tiledFigure
+
+def clearTiledFigure():
+    nextFigure.tiledFigure = None

@@ -1627,15 +1627,19 @@ class SEDMLCodeFactory(object):
             lines.append("    extra_args = {}")
             lines.append("    if k == 0:")
             lines.append("        extra_args['name'] = '{}'".format(yLabel))
-            lines.append("    tefig.addXYDataset({}[:,k], {}[:,k], color='{}', tag='{}', **extra_args)".format(xId, yId, color, tag))
+            lines.append("    tefig.addXYDataset({xarr}[:,k], {yarr}[:,k], color='{color}', tag='{tag}', logx={logx}, logy={logy}, **extra_args)".format(xarr=xId, yarr=yId, color=color, tag=tag, logx=logX, logy=logY))
 
             # FIXME: endpoints must be handled via plotting functions
             # lines.append("    fix_endpoints({}[:,k], {}[:,k], color='{}', tag='{}', fig=tefig)".format(xId, yId, color, tag))
-        lines.append("fig = tefig.render()\n")
+        lines.append("if te.tiledFigure():\n")
+        lines.append("    te.tiledFigure().renderIfExhausted()\n")
+        #lines.append("    te.clearTiledFigure()\n")
+        lines.append("else:\n")
+        lines.append("    fig = tefig.render()\n")
 
         if self.saveOutputs and self.createOutputs:
             # FIXME: only working for matplotlib
-            lines.append("if str(_engine) == '<MatplotlibEngine>':".format(self.outputDir, output.getId(), self.plotFormat))
+            lines.append("if str(te.getPlottingEngine()) == '<MatplotlibEngine>':".format(self.outputDir, output.getId(), self.plotFormat))
             lines.append("    filename = os.path.join('{}', '{}.{}')".format(self.outputDir, output.getId(), self.plotFormat))
             lines.append("    fig.savefig(filename, format='{}', bbox_inches='tight')".format(self.plotFormat))
             lines.append("    print('Figure {}: {{}}'.format(filename))".format(output.getId()))

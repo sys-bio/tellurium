@@ -2,7 +2,7 @@ from __future__ import print_function, division, absolute_import
 
 def getModelStartRegex():
     """ Return the regex string for Antimony model start. Matches whole line. """
-    return r'^\s*\*?\s*model\s*[^()\s]+\s*(\([^)]*\))?\s*$'
+    return r'^\s*\*?\s*model\s*[^()\s]+\s*(\([^)]*\))?\s*(//.*)?$'
 
 def getFunctionStartRegex():
     """ Return the regex string for Antimony model start. Matches whole line. """

@@ -46,6 +46,12 @@ class PlottingEngine(object):
         Needs to be implemented in base class.
         """
 
+    @abc.abstractmethod
+    def newTiledFigure(self, title=None, logX=False, logY=False, layout=None, xtitle=None, ytitle=None):
+        """ Returns PlottingTiledFigure.
+        Needs to be implemented in base class.
+        """
+
     def figureFromXY(self, x, y, **kwargs):
         """ Generate a new figure from x/y data.
 
@@ -184,6 +190,7 @@ class PlottingFigure(object):
         self.selections=selections
         self.xlim = None
         self.ylim = None
+        self.grid_enabled = True
 
     @abc.abstractmethod
     def render(self):
@@ -312,3 +319,29 @@ class PlottingFigure(object):
         :param ylim: tuple of min/max values
         """
         self.ylim = ylim
+
+
+class TiledFigure(object):
+    @abc.abstractmethod
+    def nextFigure(self, *args, **kwargs):
+        pass
+
+    def isExhausted(self):
+        return self.rowmarker == self.rows
+
+    def cycleMarker(self):
+        self.colmarker += 1
+        if self.colmarker >= self.cols:
+            self.colmarker = 0
+            self.rowmarker += 1
+            if self.rowmarker >= self.rows:
+                self.rowmarker = self.rows
+
+class LowerTriFigure(TiledFigure):
+    def cycleMarker(self):
+        self.colmarker += 1
+        if self.colmarker > self.rowmarker:
+            self.colmarker = 0
+            self.rowmarker += 1
+            if self.rowmarker >= self.rows:
+                self.rowmarker = self.rows
