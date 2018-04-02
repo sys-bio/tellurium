@@ -1591,9 +1591,7 @@ class SEDMLCodeFactory(object):
         if oneXLabel:
             xtitle = allXLabel
 
-        lines.append("_engine = te.getPlottingEngine()")
-        lines.append("tefig = _engine.newFigure(title='{}', xtitle='{}')\n".format(title, xtitle))
-
+        lines.append("_stacked = False")
         # stacking, currently disabled
         # lines.append("_stacked = False")
         # lines.append("_engine = te.getPlottingEngine()")
@@ -1601,10 +1599,10 @@ class SEDMLCodeFactory(object):
         #     xId = curve.getXDataReference()
         #     lines.append("if {}.shape[1] > 1 and te.getDefaultPlottingEngine() == 'plotly':".format(xId))
         #     lines.append("    stacked=True")
-        # lines.append("if _stacked:")
-        # lines.append("    tefig = _engine.newStackedFigure(title='{}', xtitle='{}')".format(title, xtitle))
-        # lines.append("else:")
-        # lines.append("    tefig = _engine.newFigure(title='{}', xtitle='{}')\n".format(title, xtitle))
+        lines.append("if _stacked:")
+        lines.append("    tefig = te.getPlottingEngine().newStackedFigure(title='{}', xtitle='{}')".format(title, xtitle))
+        lines.append("else:")
+        lines.append("    tefig = te.nextFigure(title='{}', xtitle='{}')\n".format(title, xtitle))
 
         for kc, curve in enumerate(output.getListOfCurves()):
             logX = curve.getLogX()
