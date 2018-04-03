@@ -97,7 +97,7 @@ def test_createCombineArchiveFromDirectory():
     """ Testing if COMBINE archive can be created from directory."""
     omexPath = tempfile.NamedTemporaryFile(suffix="omex")
     directory = os.path.join(TESTDATA_DIR, "utils", "omex_from_zip")
-    omex.combineArchiveFromDirectory(omexPath=omexPath, directory=directory)
+    omex.combineArchiveFromDirectory(omexPath=omexPath.name, directory=directory)
     assert omexPath is not None
     # TODO: additional checks via extracting information from the archive again
 
