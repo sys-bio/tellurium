@@ -110,7 +110,7 @@ The notebook viewer comes with Python 3.6 (64-bit).
 
 <br>
 
-:question:Looking for old releases? [You can find them here.](https://sourceforge.net/projects/pytellurium/files/notebook)
+:question:Looking for old releases? [You can find them here.](https://sourceforge.net/projects/pytellurium/files/notebook) To install an old release over a new release, you will need to [manually wipe the data directory.](https://github.com/sys-bio/tellurium/wiki/FAQ#how-do-i-uninstall-tellurium-notebook)
 
 <br>
 
