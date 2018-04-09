@@ -161,7 +161,7 @@ class PlotlyTiledFigure(TiledFigure):
 
     def renderIfExhausted(self):
         if not self.isExhausted():
-            return
+            return False
         fig = tools.make_subplots(self.rows, self.cols, subplot_titles=tuple(f.title for f in self.figures), print_grid=False)
         row = 1
         col = 1
@@ -183,6 +183,7 @@ class PlotlyTiledFigure(TiledFigure):
                 if row > self.rows:
                     row = self.rows
         plotly.offline.iplot(fig)
+        return True
 
 class PlotlyLowerTriFigure(PlotlyTiledFigure,LowerTriFigure):
     def makeTitles(self):
@@ -202,7 +203,7 @@ class PlotlyLowerTriFigure(PlotlyTiledFigure,LowerTriFigure):
 
     def renderIfExhausted(self):
         if not self.isExhausted():
-            return
+            return False
         fig = tools.make_subplots(self.rows, self.cols, subplot_titles=tuple(self.makeTitles()), print_grid=False)
         row = 1
         col = 1
@@ -227,3 +228,4 @@ class PlotlyLowerTriFigure(PlotlyTiledFigure,LowerTriFigure):
                 if row > self.rows:
                     row = self.rows
         plotly.offline.iplot(fig)
+        return True
