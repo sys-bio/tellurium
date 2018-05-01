@@ -6,12 +6,16 @@ def getModelStartRegex():
 
 def getFunctionStartRegex():
     """ Return the regex string for Antimony model start. Matches whole line. """
-    return r'^\s*function\s*[^()\s]*\s*(\([^)]*\))?\s*$'
+    return r'^\s*function\s*([^()]*)\s*(\([^)]*\))?\s*$'
 
 def getModelEndRegex():
     """ Return the regex string for Antimony model end. Matches whole line. """
     return r'^\s*end\s*$'
 
 def getSBORegex():
-    """ Return the regex string for Antimony model end. Matches whole line. """
-    return r'^\s*([^.]+)\.sboTerm\s*=\s*(SBO:)?([0-9]+)\s*(;)?\s*$'
+    """ Return the regex string for an SBO term. Matches whole line. """
+    return r'^\s*([^.\s]+)\.sboTerm\s*=\s*(SBO:)?([0-9]+)\s*(;)?\s*$'
+
+def getFunctionSBORegex():
+    """ Return the regex string for a function SBO term. Matches whole line. """
+    return r'^\s*sboTerm\s*=\s*(SBO:)?([0-9]+)\s*(;)?\s*$'
