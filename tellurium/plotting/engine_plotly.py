@@ -53,6 +53,17 @@ class PlotlyFigure(PlottingFigure):
             kwargs['mode'] = dataset['mode']
         else:
             kwargs['mode'] = 'lines'
+        # override mode via scatter
+        #if 'scatter' in dataset and dataset['scatter'] == True:
+            #kwargs['mode'] = 'markers'
+        if 'error_y_pos' in dataset and dataset['error_y_pos'] is not None and 'error_y_neg' in dataset and dataset['error_y_neg'] is not None:
+            kwargs['error_y'] = dict(
+                type='data',
+                symmetric=False,
+                array=dataset['error_y_pos'],
+                arrayminus=dataset['error_y_neg'],
+                visible=True,
+            )
         return kwargs
 
     def getScatterGOs(self):
