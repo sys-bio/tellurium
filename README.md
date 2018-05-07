@@ -86,7 +86,7 @@ The notebook viewer comes with Python 3.6 (64-bit).
 
 :exclamation:**Note:** Tellurium versions prior to 2.0.17 had a non-functional version of pip (affecting macOS only). Please upgrade to 2.0.17 to ensure you can install packages via pip.
 
-1. [Download Tellurium Notebook for Mac OS X 10.10 or later](https://sourceforge.net/projects/pytellurium/files/notebook/Tellurium-2.0.17.dmg/download)
+1. [Download Tellurium Notebook for Mac OS X 10.10 or later](https://sourceforge.net/projects/pytellurium/files/notebook/Tellurium-2.0.18.dmg/download)
 2. You may need to [disable Gatekeeper](https://github.com/sys-bio/tellurium/wiki/FAQ#on-mac-after-downloading-tellurium-i-cant-open-it-because-it-is-from-an-unidentified-developer)
 3. Double-click the `*.dmg` file to open a new window
 4. Drag the Tellurium icon to your Applications
@@ -96,16 +96,16 @@ The notebook viewer comes with Python 3.6 (64-bit).
 <h4>Linux (RedHat)</h3>
 <br style="clear:both"/>
 
-1. [Download Tellurium Notebook (.rpm)](https://sourceforge.net/projects/pytellurium/files/notebook/Tellurium-2.0.16.rpm/download)
-2. Install the package using `dnf install Tellurium-2.0.17.rpm`
+1. [Download Tellurium Notebook (.rpm)](https://sourceforge.net/projects/pytellurium/files/notebook/Tellurium-2.0.18.rpm/download)
+2. Install the package using `dnf install Tellurium-2.0.18.rpm`
 3. You should be able to launch Tellurium from your activities pane. If not, log out and in again or run `tellurium` from the terminal.
 
 <img align="left" width="32px" id="debian" src="https://raw.githubusercontent.com/wiki/sys-bio/tellurium/img/debian.png">
 <h4>Linux (Debian)</h4>
 <br style="clear:both"/>
 
-1. [Download Tellurium Notebook (.deb)](https://sourceforge.net/projects/pytellurium/files/notebook/Tellurium_2.0.16_amd64.deb/download)
-2. Install the package using `dpkg -i Tellurium_2.0.17_amd64.deb`
+1. [Download Tellurium Notebook (.deb)](https://sourceforge.net/projects/pytellurium/files/notebook/Tellurium_2.0.18_amd64.deb/download)
+2. Install the package using `dpkg -i Tellurium_2.0.18_amd64.deb`
 3. You should be able to launch Tellurium from your activities pane. If not, log out and in again or run `/opt/Tellurium/tellurium` from the terminal.
 
 <br>
