@@ -7,7 +7,7 @@
 [![PyPI version](https://badge.fury.io/py/tellurium.svg)](https://badge.fury.io/py/tellurium)
 [![GitHub version](https://badge.fury.io/gh/sys-bio%2Ftellurium.svg)](https://badge.fury.io/gh/sys-bio%2Ftellurium)
 
-Copyright 2014-2017
+Copyright 2014-2018
 Kiri Choi, J Kyle Medley, Matthias König, Kaylene Stocking, Caroline Cannistra, Michal Galdzicki, and Herbert Sauro
 
 ## Introduction
@@ -125,7 +125,7 @@ The IDE comes with Python 2.7 (64-bit).
 <h4>Windows</h4>
 <br style="clear:both"/>
 
-1. [Download Tellurium IDE for Windows](https://sourceforge.net/projects/pytellurium/files/Tellurium-2.0/2.0.17/Tellurium-2.0.17-Python-2.7-win64-portable-setup.exe/download)
+1. [Download Tellurium IDE for Windows](https://sourceforge.net/projects/pytellurium/files/Tellurium-2.0/2.0.18/Tellurium-2.0.18-Python-2.7-win64-portable-setup.exe/download)
 2. Double-click the installer to start the installation
 3. Follow the instructions
 
