@@ -644,7 +644,7 @@ class SEDMLCodeFactory(object):
         for sid, data in data_sources.items():
             # handle the 1D shapes
             if len(data.shape) == 1:
-                data = np.reshape(data, (data.shape[0], 1))
+                data = np.reshape(data.values, (data.shape[0], 1))
 
             array_str = data_to_string(data)
             lines.append("{} = np.array({})".format(sid, array_str))
