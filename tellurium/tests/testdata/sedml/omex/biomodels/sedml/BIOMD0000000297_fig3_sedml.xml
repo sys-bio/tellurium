@@ -31,18 +31,18 @@
     </dataGenerator>
     <dataGenerator id="Clb_1" name="Clb_1">
       <listOfVariables>
-        <variable id="Clb" name="Clb" taskReference="task1" target="/sbml:sbml/sbml:model/sbml:listOfSpecies/sbml:species[@id='Clb']" />
+        <variable id="Clb2" name="Clb2" taskReference="task1" target="/sbml:sbml/sbml:model/sbml:listOfSpecies/sbml:species[@id='Clb2']" />
       </listOfVariables>
       <math xmlns="http://www.w3.org/1998/Math/MathML">
-        <ci> Clb </ci>
+        <ci> Clb2 </ci>
       </math>
     </dataGenerator>
     <dataGenerator id="Sic_1" name="Sic_1">
       <listOfVariables>
-        <variable id="Sic" name="Sic" taskReference="task1" target="/sbml:sbml/sbml:model/sbml:listOfSpecies/sbml:species[@id='Sic']" />
+        <variable id="Sic1" name="Sic1" taskReference="task1" target="/sbml:sbml/sbml:model/sbml:listOfSpecies/sbml:species[@id='Sic1']" />
       </listOfVariables>
       <math xmlns="http://www.w3.org/1998/Math/MathML">
-        <ci> Sic </ci>
+        <ci> Sic1 </ci>
       </math>
     </dataGenerator>
     <dataGenerator id="PTrim_1" name="PTrim_1">
@@ -55,10 +55,10 @@
     </dataGenerator>
     <dataGenerator id="PClb_1" name="PClb_1">
       <listOfVariables>
-        <variable id="PClb" name="PClb" taskReference="task1" target="/sbml:sbml/sbml:model/sbml:listOfSpecies/sbml:species[@id='PClb']" />
+        <variable id="PClb2" name="PClb2" taskReference="task1" target="/sbml:sbml/sbml:model/sbml:listOfSpecies/sbml:species[@id='PClb2']" />
       </listOfVariables>
       <math xmlns="http://www.w3.org/1998/Math/MathML">
-        <ci> PClb </ci>
+        <ci> PClb2 </ci>
       </math>
     </dataGenerator>
     <dataGenerator id="SBF_1" name="SBF_1">
@@ -79,10 +79,10 @@
     </dataGenerator>
     <dataGenerator id="Cdc20a_1" name="Cdc20a_1">
       <listOfVariables>
-        <variable id="Cdc20a" name="Cdc20a" taskReference="task1" target="/sbml:sbml/sbml:model/sbml:listOfSpecies/sbml:species[@id='Cdc20a']" />
+        <variable id="Cdc20_a" name="Cdc20_a" taskReference="task1" target="/sbml:sbml/sbml:model/sbml:listOfSpecies/sbml:species[@id='Cdc20_a']" />
       </listOfVariables>
       <math xmlns="http://www.w3.org/1998/Math/MathML">
-        <ci> Cdc20a </ci>
+        <ci> Cdc20_a </ci>
       </math>
     </dataGenerator>
     <dataGenerator id="Cdc20_1" name="Cdc20_1">
@@ -135,10 +135,10 @@
     </dataGenerator>
     <dataGenerator id="Mih1a_1" name="Mih1a_1">
       <listOfVariables>
-        <variable id="Mih1a" name="Mih1a" taskReference="task1" target="/sbml:sbml/sbml:model/sbml:listOfSpecies/sbml:species[@id='Mih1a']" />
+        <variable id="Mih1_a" name="Mih1_a" taskReference="task1" target="/sbml:sbml/sbml:model/sbml:listOfSpecies/sbml:species[@id='Mih1_a']" />
       </listOfVariables>
       <math xmlns="http://www.w3.org/1998/Math/MathML">
-        <ci> Mih1a </ci>
+        <ci> Mih1_a </ci>
       </math>
     </dataGenerator>
     <dataGenerator id="Mcm_1" name="Mcm_1">
@@ -167,10 +167,10 @@
     </dataGenerator>
     <dataGenerator id="mass_1" name="mass_1">
       <listOfVariables>
-        <variable id="mass" name="mass" taskReference="task1" target="/sbml:sbml/sbml:model/sbml:listOfSpecies/sbml:species[@id='mass']" />
+        <variable id="M_0" name="M_0" taskReference="task1" target="/sbml:sbml/sbml:model/sbml:listOfSpecies/sbml:species[@id='M_0']" />
       </listOfVariables>
       <math xmlns="http://www.w3.org/1998/Math/MathML">
-        <ci> mass </ci>
+        <ci> M_0 </ci>
       </math>
     </dataGenerator>
   </listOfDataGenerators>
