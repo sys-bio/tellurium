@@ -159,6 +159,12 @@ For developers, the latest stable version from the repository can be installed v
 pip install git+https://github.com/sys-bio/tellurium.git
 ``` 
 
+## Citing
+
+If you use Tellurium in your research, we would appreciate you citing Tellurium's papers in any works you publish:
+
+Medley et al. ["Tellurium notebooks—An environment for reproducible dynamical modeling in systems biology"](http://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1006220) PLoS Computational Biology, 2018.
+
 ## Contact Us
 
 For general questions or to request help, please post to the [Tellurium-discuss](https://groups.google.com/d/forum/tellurium-discuss) mailing list. If you think you found a bug in our software, please post it to [GitHub issue tracker](https://github.com/sys-bio/tellurium/issues).
