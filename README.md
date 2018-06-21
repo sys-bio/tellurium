@@ -163,7 +163,7 @@ pip install git+https://github.com/sys-bio/tellurium.git
 
 If you use Tellurium in your research, we would appreciate a citation in any works you publish:
 
-Medley et al. ["Tellurium notebooks—An environment for reproducible dynamical modeling in systems biology"](http://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1006220) PLoS Computational Biology, 2018.
+Medley et al. (2018) ["Tellurium notebooks—An environment for reproducible dynamical modeling in systems biology"](http://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1006220) PLoS Computational Biology 14(6) e1006220.
 
 ## Contact Us
 
