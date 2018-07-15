@@ -6,8 +6,20 @@ To get the examples clone the repository via
 ```
 git clone https://github.com/sys-bio/tellurium.git
 ```
-To run the notebooks change in the notebook folder in the console and run jupyter
+
+To run the notebooks first create a virtual environment with tellurium and jupyter notebook.
 ```
-cd tellurium/examples/notebooks
-jupyter notebook index.ipynb
+# create virtualenv
+mkvirtualenv te
+(te) pip install tellurium
+(te) pip install jupyter notebook
+
+# register the kernel
+(te) ipython kernel install --user --name=te
+```
+
+Change in the notebook folder in the console and run jupyter
+```
+(te) cd tellurium/examples/notebooks
+(te) jupyter notebook index.ipynb
 ```
