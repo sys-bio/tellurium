@@ -205,7 +205,7 @@ class PlottingFigure(object):
         :return:
         """
 
-    def addXYDataset(self, x_arr, y_arr, color=None, tag=None, name=None, filter=True, alpha=None, mode=None, logx=None, logy=None):
+    def addXYDataset(self, x_arr, y_arr, color=None, tag=None, name=None, filter=True, alpha=None, mode=None, logx=None, logy=None, scatter=None, error_y_pos=None, error_y_neg=None):
         """ Adds an X/Y dataset to the plot.
 
         :param x_arr: A numpy array describing the X datapoints. Should have the same size as y_arr.
@@ -238,6 +238,12 @@ class PlottingFigure(object):
             self.logx = logx
         if logy is not None:
             self.logy = logy
+        if scatter is not None:
+            dataset['scatter'] = scatter
+        if error_y_pos is not None:
+            dataset['error_y_pos'] = error_y_pos
+        if error_y_neg is not None:
+            dataset['error_y_neg'] = error_y_neg
         self.xy_datasets.append(dataset)
 
     def getMergedTaggedDatasets(self):
@@ -261,7 +267,7 @@ class PlottingFigure(object):
             (dataset for dataset in self.xy_datasets if not 'tag' in dataset))
 
     # TODO: don't need name/names and tag/tags redundancy
-    def plot(self, x, y, colnames=None, title=None, xtitle=None, logx=None, logy=None, ytitle=None, alpha=None, name=None, names=None, tag=None, tags=None):
+    def plot(self, x, y, colnames=None, title=None, xtitle=None, logx=None, logy=None, ytitle=None, alpha=None, name=None, names=None, tag=None, tags=None, scatter=None, error_y_pos=None, error_y_neg=None):
         """ Plot x & y data.
         """
         if xtitle:
@@ -276,6 +282,12 @@ class PlottingFigure(object):
             kws['logx'] = logx
         if logy is not None:
             kws['logy'] = logx
+        if scatter is not None:
+            kws['scatter'] = scatter
+        if error_y_pos is not None:
+            kws['error_y_pos'] = error_y_pos
+        if error_y_neg is not None:
+            kws['error_y_neg'] = error_y_neg
 
         # TODO: if y is 2d array with 1 column, convert to 1d array
         if len(y.shape) > 1:
