@@ -43,7 +43,6 @@ class OntologySearch(object):
             ch.background_color = 'black'
 
         # <Container>
-
         self.wContainer = w.VBox([
             self.wOntologySelect,
             self.wSearchTerm,
@@ -56,7 +55,7 @@ class OntologySearch(object):
         self.init_display()
 
     def init_display(self):
-        clear_output()
+        # clear_output()
         self.wResults.visible = False
         self.wSearchButton.visible = True
 

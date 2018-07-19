@@ -16,15 +16,18 @@ Search via bioservices is done via
 see example notebook: `tellurium/examples/notebooks/species_search.ipynb`
 """
 from __future__ import print_function, division
-
+import warnings
 from IPython.display import display, clear_output
-import bioservices
 
 try:
-    import ipywidgets
+    import bioservices
+except ImportError:
+    warnings.warn("OntologySearch requires package 'bioservices'.")
+
+try:
+    import ipywidgets as w
 except ImportError:
     warnings.warn("SpeciesSearch example requires package 'ipywidgets'.")
-
 
 
 class SearchBySpeciesForm(object):
