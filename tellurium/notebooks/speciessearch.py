@@ -17,9 +17,14 @@ see example notebook: `tellurium/examples/notebooks/species_search.ipynb`
 """
 from __future__ import print_function, division
 
-import ipywidgets as w
 from IPython.display import display, clear_output
 import bioservices
+
+try:
+    import ipywidgets
+except ImportError:
+    warnings.warn("SpeciesSearch example requires package 'ipywidgets'.")
+
 
 
 class SearchBySpeciesForm(object):

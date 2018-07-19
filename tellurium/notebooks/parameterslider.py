@@ -19,13 +19,18 @@ IPython parameter slider.
     r = te.loadAntimonyModel(model)
     ParameterSlider(r)
 """
+
 from __future__ import print_function, division
 import sys
-import ipywidgets
+
 import warnings
 import tellurium as te
 from roadrunner import SelectionRecord
 
+try:
+    import ipywidgets
+except ImportError:
+    warnings.warn("ParameterSlider example requires package 'ipywidgets'.")
 
 def simulateAndPlot(r, **kwargs):
     """ Simulate with r.simulate with given arguments and plot with tellurium.
@@ -83,8 +88,7 @@ class ParameterSlider(object):
             # set parameters, key:value pairs
             for k, v in kwargs.items():
                 try:
-                    key = k.encode('ascii', 'ignore')
-                    r[key] = v
+                    r[k] = v
                 except RuntimeError:
                     # error in setting model variable, variable probably not in model
                     e = sys.exc_info()
