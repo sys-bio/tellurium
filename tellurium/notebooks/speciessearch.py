@@ -16,10 +16,18 @@ Search via bioservices is done via
 see example notebook: `tellurium/examples/notebooks/species_search.ipynb`
 """
 from __future__ import print_function, division
-
-import ipywidgets as w
+import warnings
 from IPython.display import display, clear_output
-import bioservices
+
+try:
+    import bioservices
+except ImportError:
+    warnings.warn("OntologySearch requires package 'bioservices'.")
+
+try:
+    import ipywidgets as w
+except ImportError:
+    warnings.warn("SpeciesSearch example requires package 'ipywidgets'.")
 
 
 class SearchBySpeciesForm(object):
@@ -55,7 +63,7 @@ class SearchBySpeciesForm(object):
         self.wModelSbml = w.Textarea(description='Model SBML:', width='800px', height='300px')
 
         # <Container>
-        self.wModel = w.FlexBox(children=[
+        self.wModel = w.VBox([
             self.wModelId,
             self.wModelCode,
             self.wSelectModels,
@@ -67,7 +75,7 @@ class SearchBySpeciesForm(object):
             ch.color = '#AAAAAA'
             ch.background_color = 'black'
 
-        self.wContainer = w.FlexBox(children=[
+        self.wContainer = w.VBox([
             self.wSearchChebi,
             self.wSelectChebis,
             self.wModel
@@ -75,8 +83,6 @@ class SearchBySpeciesForm(object):
 
         # display the widgets
         display(self.wContainer)
-        # clear notebook output
-        clear_output()
 
     def searchChebi(self, b):
         """ Search Chebi with search term and updates the Chebi selection based on results.
@@ -84,6 +90,10 @@ class SearchBySpeciesForm(object):
         :param b: ?
         :type b: ?
         """
+        # clear old values
+        self.wModelSbml.value = ''
+        self.wModelId.value = ''
+        self.wModelImport.value = ''
         term = self.wSearchTerm.value
         if self.debug:
             print("searchTerm:", term)
@@ -123,13 +133,14 @@ class SearchBySpeciesForm(object):
         """
         if trait == 'value':
             modelId = self.wSelectModels.value
-            if self.debug:
-                print("selected Model:", modelId)
-            sbml = self.s.getModelById(modelId)
-            self.wModelId.value = modelId
-            self.wModelCode = 'pip install git+https://github.com/biomodels/%s.git' % modelId
-            self.wModelImport.value = 'import %s' % modelId
-            self.wModelSbml.value = sbml
+            if (modelId is not None) and (len(modelId) > 0):
+                if self.debug:
+                    print("selected Model:", modelId)
+                sbml = self.s.getModelById(modelId)
+                self.wModelId.value = modelId
+                self.wModelCode = 'pip install git+https://github.com/biomodels/%s.git' % modelId
+                self.wModelImport.value = 'import %s' % modelId
+                self.wModelSbml.value = sbml
 
     def getSBML(self):
         """ Get the SBML string of the current search.
