@@ -10,7 +10,7 @@ try:
 except ImportError:
     import libsbml
 
-from .antimony_regex import getModelStartRegex, getModelEndRegex, getFunctionStartRegex, getSBORegex
+from .antimony_regex import getModelStartRegex, getModelEndRegex, getFunctionStartRegex, getSBORegex, getFunctionSBORegex
 
 def filterIfEmpty(l):
     """ If l is one line (comment), filter."""
@@ -170,6 +170,7 @@ class antimonySBOParser(object):
 
     def elideSBOTerms(self):
         """Remove SBO terms from self.antimony_str.
+        Remove SBO terms for functions. See https://github.com/sys-bio/tellurium/issues/340.
 
         :return: Antimony string without SBO terms."""
 
@@ -184,6 +185,14 @@ class antimonySBOParser(object):
 
         sbo_term = re.compile(getSBORegex())
 
+        fct_start = re.compile(getFunctionStartRegex())
+        fct_end = re.compile(getModelEndRegex())
+        function_sbo = re.compile(getFunctionSBORegex())
+        fct_id = ''
+
+        n_functions = 0
+        in_function = False
+
         n_leading_spaces = 0
 
         lines = self.antimony_str.splitlines()
@@ -191,21 +200,41 @@ class antimonySBOParser(object):
         out_lines = []
         for n,line in enumerate(lines):
             sbo_match = sbo_term.match(line)
+            fct_match = fct_start.match(line)
+            fct_sbo_match = function_sbo.match(line)
 
             if model_start.match(line) != None:
+                if n_model_starts > 0:
+                    raise SBOError('Multiple embedded models (e.g. comp) not supported for SBO converter')
                 n_model_starts += 1
                 out_lines.append(line)
             elif model_end.match(line) != None:
-                if n_model_ends > 0:
-                    raise SBOError('Multiple embedded models (e.g. comp) not supported for SBO converter')
-                n_model_ends += 1
-                model_end_index = n
+                if in_function:
+                    in_function = False
+                    fct_id = ''
+                else:
+                    n_model_ends += 1
+                    model_end_index = n
                 out_lines.append(line)
+            elif fct_match != None:
+                if not in_function:
+                    n_functions += 1
+                    in_function = True
+                    out_lines.append(line)
+                    fct_id = fct_match.group(1)
+                    #print('Match function id {}'.format(fct_id))
+                else:
+                    raise RuntimeError('Nested function: {}'.format(line))
             elif sbo_term.match(line):
                 elt_id = sbo_match.group(1)
                 sbo = int(sbo_match.group(3))
                 self.sbo_map[elt_id] = sbo
-                # print('Match SBO term {}->{}'.format(elt_id,sbo))
+                #print('Match SBO term {}->{}'.format(elt_id,sbo))
+            elif fct_sbo_match != None:
+                sbo = int(fct_sbo_match.group(2))
+                #self.sbo_map[elt_id] = sbo
+                #print('Match function SBO term {}->{}'.format(fct_id,sbo))
+                self.sbo_map[fct_id] = sbo
             else:
                 out_lines.append(line)
         if n_model_starts != n_model_ends:

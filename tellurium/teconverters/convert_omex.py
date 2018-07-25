@@ -23,6 +23,30 @@ except ImportError:
 from .convert_phrasedml import phrasedmlImporter
 from .convert_antimony import antimonyConverter
 
+class OmexFormatDetector:
+    def __init__(self, omex):
+        self.omex = omex
+        # match sbml, any level/ver
+        self.sbml_fmt_expr = re.compile(r'^http[s]?://identifiers\.org/combine\.specifications/sbml.*$')
+        # match sedml, any level/ver
+        self.sedml_fmt_expr = re.compile(r'^http[s]?://identifiers\.org/combine\.specifications/sed-ml.*$')
+
+    def isSEDMLEntry(self, entry):
+        return self.sedml_fmt_expr.match(entry.getFormat()) != None
+
+    def isSBMLEntry(self, entry):
+        """ Return true if this entry is SBML. """
+        if self.sbml_fmt_expr.match(entry.getFormat()) != None:
+            return True
+        elif entry.getFormat() == 'application/xml':
+            # try to guess if it is SBML
+            content = self.omex.extractEntryToString(entry.getLocation())
+            if content.startswith('<?xml') and '<sbml xmlns="http://www.sbml.org/sbml' in content:
+                return True
+            else:
+                return False
+        else:
+            return False
 
 def readCreator(file=None):
     from .. import getAppDir
@@ -236,26 +260,8 @@ class inlineOmexImporter:
 
         self.n_master_sedml = 0
         self.sedml_entries = []
-        # match sedml, any level/ver
-        self.sedml_fmt_expr = re.compile(r'^http[s]?://identifiers\.org/combine\.specifications/sed-ml.*$')
-
         self.sbml_entries = []
-        # match sbml, any level/ver
-        self.sbml_fmt_expr = re.compile(r'^http[s]?://identifiers\.org/combine\.specifications/sbml.*$')
-
-        def isSBMLEntry(entry):
-            """ Return true if this entry is SBML. """
-            if self.sbml_fmt_expr.match(entry.getFormat()) != None:
-                return True
-            elif entry.getFormat() == 'application/xml':
-                # try to guess if it is SBML
-                content = self.omex.extractEntryToString(entry.getLocation())
-                if content.startswith('<?xml') and '<sbml xmlns="http://www.sbml.org/sbml' in content:
-                    return True
-                else:
-                    return False
-            else:
-                return False
+        detector = OmexFormatDetector(self.omex)
 
         # Prevents %antimony and %phrasedml headers from
         # being written when all entries are in root of archive
@@ -269,7 +275,7 @@ class inlineOmexImporter:
                 # must write headers to specify entry paths
                 self.headerless = False
             # count number of master sedml entries
-            if self.sedml_fmt_expr.match(entry.getFormat()) != None:
+            if detector.isSEDMLEntry(entry):
                 if entry.isSetMaster():
                     if entry.getMaster():
                         self.n_master_sedml += 1
@@ -280,7 +286,7 @@ class inlineOmexImporter:
                     else:
                         # must write headers to specify non-master sedml
                         self.headerless = False
-            elif isSBMLEntry(entry):
+            elif detector.isSBMLEntry(entry):
                 self.sbml_entries.append(entry)
                 # check whether the model id matches the file name - if it doesn't, we need headers
                 module_name = antimonyConverter().sbmlToAntimony(self.omex.extractEntryToString(entry.getLocation()))[0]

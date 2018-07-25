@@ -63,8 +63,14 @@ from .tellurium import (
     plot,
     show,
     getPlottingEngine,
+    nextFigure,
+    tiledFigure,
+    newTiledFigure,
+    newLowerTriFigure,
+    clearTiledFigure,
     getDefaultPlottingEngine,
     setDefaultPlottingEngine,
+    disablePlotting,
     setSavePlotsToPDF,
 )
 
@@ -112,6 +118,7 @@ from .sedml.tesedml import sedmlToPython, executeSEDML, executeCombineArchive
 # Combine archive support
 from .tellurium import (
     addFileToCombineArchive,
+    addFilesToCombineArchive,
     convertCombineArchive,
     convertAndExecuteCombineArchive,
     extractFileFromCombineArchive,

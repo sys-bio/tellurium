@@ -4,8 +4,8 @@ Factory for the engines.
 
 from __future__ import absolute_import, print_function
 
-
-__engines = {}
+from .engine_null import NullEngine
+__engines = {'null': NullEngine}
 
 from .engine_mpl import MatplotlibEngine
 __engines['matplotlib'] = MatplotlibEngine
@@ -36,6 +36,7 @@ class PlottingEngineFactory:
         possible_keys = [
             'matplotlib',
             'plotly',
+            'null'
         ]
         try:
             return self.engines[self.engine]()

@@ -22,6 +22,7 @@ import numpy as np
 import antimony
 import matplotlib
 
+PLOTTING_ENGINE_NULL = 'null'
 PLOTTING_ENGINE_MATPLOTLIB = 'matplotlib'
 PLOTTING_ENGINE_PLOTLY = 'plotly'
 
@@ -94,10 +95,15 @@ def setDefaultPlottingEngine(engine):
     :param engine: A string describing which plotting engine to use. Valid values are 'matplotlib' and 'plotly'.
     """
     if engine not in [PLOTTING_ENGINE_PLOTLY,
-                      PLOTTING_ENGINE_MATPLOTLIB]:
+                      PLOTTING_ENGINE_MATPLOTLIB,
+                      PLOTTING_ENGINE_NULL]:
         raise ValueError('Plotting engine is not supported: {}'.format(engine))
     global __default_plotting_engine
     __default_plotting_engine = engine
+
+
+def disablePlotting():
+    setDefaultPlottingEngine(PLOTTING_ENGINE_NULL)
 
 
 __save_plots_to_pdf = False  # flag which decides if plotted to pdf
@@ -117,7 +123,7 @@ import matplotlib.pyplot as plt
 # make this the default style for matplotlib
 # plt.style.use('fivethirtyeight')
 
-from .plotting import getPlottingEngineFactory as __getPlottingEngineFactory, plot, show
+from .plotting import getPlottingEngineFactory as __getPlottingEngineFactory, plot, show, nextFigure, tiledFigure, newTiledFigure, newLowerTriFigure, clearTiledFigure
 
 
 def getPlottingEngineFactory(engine=None):
@@ -582,7 +588,11 @@ def antimonyToSBML(ant):
     :return: SBML
     :rtype: str
     """
-    if os.path.isfile(ant):
+    try:
+        isfile = os.path.isfile(ant)
+    except ValueError:
+        isfile = False
+    if isfile:
         code = antimony.loadAntimonyFile(ant)
     else:
         code = antimony.loadAntimonyString(ant)
@@ -746,12 +756,59 @@ def addFileToCombineArchive(archive_path, file_name, entry_location, file_format
     :param master: Whether the file should be marked master.
     :param out_archive_path: The path to the output archive.
     """
-    import tecombine
-    archive = tecombine.CombineArchive()
-    if not archive.initializeFromArchive(archive_path):
+    addFilesToCombineArchive(archive_path, [file_name], [entry_location], [file_format], [master], out_archive_path)
+
+def addFilesToCombineArchive(archive_path, file_names, entry_locations, file_formats, master_attributes, out_archive_path):
+    """ Add multiple files to an existing COMBINE archive on disk and save the result as a new archive.
+
+    :param archive_path: The path to the archive.
+    :param file_names: List of extra files to add.
+    :param entry_locations: List of destination locations for the files in the output archive.
+    :param file_format: List of formats for the resp. files.
+    :param master_attributes: List of true/false values for the resp. master attributes of the files.
+    :param out_archive_path: The path to the output archive.
+    """
+    import tecombine, tempfile
+    input_archive = tecombine.CombineArchive()
+    if not input_archive.initializeFromArchive(archive_path):
         raise RuntimeError('Failed to initialize archive')
-    archive.addFile(file_name, entry_location, file_format, master)
-    archive.writeToFile(out_archive_path)
+
+    tempfiles = []
+
+    output_archive = tecombine.CombineArchive()
+
+    description = input_archive.getMetadataForLocation('.')
+    if description:
+        output_archive.addMetadata('.', description)
+
+    for entry in (input_archive.getEntry(k) for k in range(input_archive.getNumEntries())):
+        fhandle, fname = tempfile.mkstemp()
+        tempfiles.append(fname)
+        input_archive.extractEntry(entry.getLocation(), fname)
+        if not entry.getLocation() in entry_locations:
+            output_archive.addFile(
+                                  fname,
+                                  entry.getLocation(),
+                                  entry.getFormat(),
+                                  entry.getMaster())
+    # add the extra files
+    for file_name, entry_location, file_format, master in zip(file_names, entry_locations, file_formats, master_attributes):
+        output_archive.addFile(file_name, entry_location, file_format, master)
+
+    # if the archive already exists, clear it
+    if os.path.exists(out_archive_path):
+        if os.path.isfile(out_archive_path):
+            os.remove(out_archive_path)
+        elif os.path.isdir(out_archive_path):
+            raise RuntimeError('Tried to write archive to {}, which is a directory.'.format(out_archive_path))
+        else:
+            raise RuntimeError('Could not write archive to {}.'.format(out_archive_path))
+    # write archive
+    output_archive.writeToFile(out_archive_path)
+
+    # delete temp files
+    for t in tempfiles:
+        os.remove(t)
 
 
 # ---------------------------------------------------------------------

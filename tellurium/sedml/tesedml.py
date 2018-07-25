@@ -644,7 +644,7 @@ class SEDMLCodeFactory(object):
         for sid, data in data_sources.items():
             # handle the 1D shapes
             if len(data.shape) == 1:
-                data = np.reshape(data, (data.shape[0], 1))
+                data = np.reshape(data.values, (data.shape[0], 1))
 
             array_str = data_to_string(data)
             lines.append("{} = np.array({})".format(sid, array_str))
@@ -1593,16 +1593,15 @@ class SEDMLCodeFactory(object):
             xtitle = allXLabel
 
         lines.append("_stacked = False")
-        lines.append("_engine = te.getPlottingEngine()")
         # stacking, currently disabled
         # for kc, curve in enumerate(output.getListOfCurves()):
         #     xId = curve.getXDataReference()
         #     lines.append("if {}.shape[1] > 1 and te.getDefaultPlottingEngine() == 'plotly':".format(xId))
         #     lines.append("    stacked=True")
         lines.append("if _stacked:")
-        lines.append("    tefig = _engine.newStackedFigure(title='{}', xtitle='{}')".format(title, xtitle))
+        lines.append("    tefig = te.getPlottingEngine().newStackedFigure(title='{}', xtitle='{}')".format(title, xtitle))
         lines.append("else:")
-        lines.append("    tefig = _engine.newFigure(title='{}', xtitle='{}')\n".format(title, xtitle))
+        lines.append("    tefig = te.nextFigure(title='{}', xtitle='{}')\n".format(title, xtitle))
 
         for kc, curve in enumerate(output.getListOfCurves()):
             logX = curve.getLogX()
@@ -1624,15 +1623,19 @@ class SEDMLCodeFactory(object):
             lines.append("    extra_args = {}")
             lines.append("    if k == 0:")
             lines.append("        extra_args['name'] = '{}'".format(yLabel))
-            lines.append("    tefig.addXYDataset({}[:,k], {}[:,k], color='{}', tag='{}', **extra_args)".format(xId, yId, color, tag))
+            lines.append("    tefig.addXYDataset({xarr}[:,k], {yarr}[:,k], color='{color}', tag='{tag}', logx={logx}, logy={logy}, **extra_args)".format(xarr=xId, yarr=yId, color=color, tag=tag, logx=logX, logy=logY))
 
             # FIXME: endpoints must be handled via plotting functions
             # lines.append("    fix_endpoints({}[:,k], {}[:,k], color='{}', tag='{}', fig=tefig)".format(xId, yId, color, tag))
-        lines.append("fig = tefig.render()\n")
+        lines.append("if te.tiledFigure():\n")
+        lines.append("    if te.tiledFigure().renderIfExhausted():\n")
+        lines.append("        te.clearTiledFigure()\n")
+        lines.append("else:\n")
+        lines.append("    fig = tefig.render()\n")
 
         if self.saveOutputs and self.createOutputs:
             # FIXME: only working for matplotlib
-            lines.append("if str(_engine) == '<MatplotlibEngine>':".format(self.outputDir, output.getId(), self.plotFormat))
+            lines.append("if str(te.getPlottingEngine()) == '<MatplotlibEngine>':".format(self.outputDir, output.getId(), self.plotFormat))
             lines.append("    filename = os.path.join('{}', '{}.{}')".format(self.outputDir, output.getId(), self.plotFormat))
             lines.append("    fig.savefig(filename, format='{}', bbox_inches='tight')".format(self.plotFormat))
             lines.append("    print('Figure {}: {{}}'.format(filename))".format(output.getId()))

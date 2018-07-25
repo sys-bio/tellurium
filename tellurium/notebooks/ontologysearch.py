@@ -4,9 +4,18 @@ Ontology search widget for ipython notebooks.
 see example notebook: `tellurium/examples/notebooks/ontology_search.ipynb`
 """
 from __future__ import print_function, division
-import ipywidgets as w
+
+import warnings
 from IPython.display import display, clear_output
-import bioservices
+
+try:
+    import bioservices
+except ImportError:
+    warnings.warn("OntologySearch requires package 'bioservices'.")
+try:
+    import ipywidgets as w
+except ImportError:
+    warnings.warn("OntologySearch example requires package 'ipywidgets'.")
 
 
 class OntologySearch(object):
@@ -34,7 +43,7 @@ class OntologySearch(object):
             ch.background_color = 'black'
 
         # <Container>
-        self.wContainer = w.FlexBox(children=[
+        self.wContainer = w.VBox([
             self.wOntologySelect,
             self.wSearchTerm,
             self.wSearchButton,
@@ -46,7 +55,7 @@ class OntologySearch(object):
         self.init_display()
 
     def init_display(self):
-        clear_output()
+        # clear_output()
         self.wResults.visible = False
         self.wSearchButton.visible = True
 

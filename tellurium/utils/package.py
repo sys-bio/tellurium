@@ -4,8 +4,18 @@ working with packages.
 """
 
 from __future__ import print_function, absolute_import
-import pip
+import sys, subprocess
 
+def check_macos_ver():
+    import sys,platform
+    if sys.platform == 'darwin':
+        vstr, _, _ = platform.mac_ver()
+        from distutils.version import LooseVersion
+        import warnings
+        v = LooseVersion(vstr)
+        oldest_str = '10.9.0'
+        if v < LooseVersion(oldest_str):
+            warnings.warn('Your OS version is older than the oldest supported version ({} < {}). The operation may fail.'.format(vstr,oldest_str))
 
 def searchPackage(name):
     """ Search pip package for package name.
@@ -13,8 +23,8 @@ def searchPackage(name):
     :param name: package name
     :return:
     """
-
-    pip.main(['search', name])
+    check_macos_ver()
+    subprocess.check_call([sys.executable, '-m', 'pip', 'search', name])
 
 
 def installPackage(name):
@@ -27,7 +37,8 @@ def installPackage(name):
     :param name: package name
     :return:
     """
-    pip.main(['install', name])
+    check_macos_ver()
+    subprocess.check_call([sys.executable, '-m', 'pip', 'install', name])
 
 
 def upgradePackage(name):
@@ -36,7 +47,8 @@ def upgradePackage(name):
         :param name: package name
         :return:
         """
-    pip.main(['install', '--upgrade', name])
+    check_macos_ver()
+    subprocess.check_call([sys.executable, '-m', 'pip', 'install', '--upgrade', name])
 
 
 def uninstallPackage(name):
@@ -45,4 +57,5 @@ def uninstallPackage(name):
         :param name: package name
         :return:
         """
-    pip.main(['uninstall', '-y', name])
+    check_macos_ver()
+    subprocess.check_call([sys.executable, '-m', 'pip', 'uninstall', '-y', name])
