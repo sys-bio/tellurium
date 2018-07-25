@@ -920,23 +920,13 @@ def plotWithLegend (r, result=None, loc='upper right', show=True):
        legendItems = r.selections[1:]       
        if columns-1 != len (legendItems):
            raise Exception ('Legend list must match result array')
-       for i in range(columns-1):
-           p = plt.plot (result[:,0], result[:,i+1], linewidth=2.0, label=legendItems[i])           
     else:
         # result is structured array
         if len(result.dtype.names) < 1:
             raise Exception('No columns available to plot')
+            
+    return plotArray(result, loc=loc, labels=legendItems, show=show)
 
-        time = result.dtype.names[0]
-
-        for name in result.dtype.names[1:]:
-            p = plt.plot(result[time], result[name], label=name)
-
-    plt.legend (loc=loc)
-
-    if show:
-        plt.show()
-    return p
 
 
 
