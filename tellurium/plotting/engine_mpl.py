@@ -11,10 +11,10 @@ import matplotlib.pyplot as plt
 from matplotlib import gridspec
 from tempfile import mkstemp
 
-# Check if in spyder environment
-SPYDER = False
-if any('SPYDER' in name for name in os.environ):
-    SPYDER = True
+# enable fixes for non-IPython environment
+IPYTHON = False
+if any('IPYTHONDIR' in name for name in os.environ):
+    IPYTHON = True
 
 
 class MatplotlibEngine(PlottingEngine):
@@ -46,20 +46,12 @@ class MatplotlibFigure(PlottingFigure):
                                                xtitle=xtitle, ytitle=ytitle, logx=logx, logy=logy)
         self.use_legend = use_legend
 
-        # FIXME: ? why this check here?
-        if not SPYDER:
-            self.figsize = figsize
+        self.figsize = figsize
         self.save_to_pdf = save_to_pdf
 
     def render(self):
         """ Plot the figure. Call this last."""
-        if SPYDER:
-            fig, ax = plt.subplots(num=None, facecolor='w', edgecolor='k')
-        else:        
-            # fig = plt.figure(num=None, figsize=self.figsize, dpi=80, facecolor='w', edgecolor='k')
-            # __gs = gridspec.GridSpec(1, 2, width_ratios=[3, 1])
-            # plt.subplot(__gs[0])
-            fig, ax = plt.subplots(num=None, figsize=self.figsize, dpi=80, facecolor='w', edgecolor='k')
+        fig, ax = plt.subplots(num=None, figsize=self.figsize, dpi=80, facecolor='w', edgecolor='k')
         have_labels = False
         for dataset in self.getDatasets():
             kwargs = {}
@@ -102,7 +94,7 @@ class MatplotlibFigure(PlottingFigure):
 
         # legend
         if self.use_legend and have_labels:
-            if SPYDER:
+            if not IPYTHON:
                 legend = plt.legend()
             else:
                 # legend = plt.legend(bbox_to_anchor=(1.0, 0.5), loc='center left', borderaxespad=1.)

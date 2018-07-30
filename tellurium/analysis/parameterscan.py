@@ -12,6 +12,9 @@ from matplotlib.ticker import LinearLocator, FormatStrFormatter
 import matplotlib.image as mpimg
 import uuid
 
+IPYTHON = False
+if any('IPYTHONDIR' in name for name in os.environ):
+    IPYTHON = True
 
 class ParameterScan (object):
     """ ParameterScan """
@@ -66,8 +69,6 @@ class ParameterScan (object):
         self.legend = legend
 
 
-
-
     def _sim(self):
         """ Runs a simulation and returns the result for a plotting function.
         Not intended to be called by user.
@@ -118,12 +119,16 @@ class ParameterScan (object):
             plt.suptitle(self.title)
         if self.legend:
             plt.legend()
-        #plt.show()
-        FILENAME = str(uuid.uuid4())+".png"
-        plt.savefig(FILENAME)
-        plt.close()
-        imag = mpimg.imread(FILENAME)
-        return(imag)
+        
+        if not IPYTHON:
+            plt.show()
+        else:
+            FILENAME = str(uuid.uuid4())+".png"
+            plt.savefig(FILENAME)
+            plt.close()
+            imag = mpimg.imread(FILENAME)
+            return(imag)
+            
 
     def plotArray(self):
         """ Plots result of simulation with options for linewdith and line color.
@@ -131,8 +136,11 @@ class ParameterScan (object):
         p.plotArray()
         """
         result = self._sim()
-        return(self.plotArrayFunction(result))
-
+        if not IPYTHON:
+            self.plotArrayFunction(result)
+            return result
+        else:
+            return(self.plotArrayFunction(result))
 
 
     def _graduatedSim(self):
@@ -188,6 +196,7 @@ class ParameterScan (object):
     def collect_plotGraduatedArray_result(self):
         result = self._graduatedSim()
         return(np.array(result))
+        
 
     def plotGraduatedArrayFunction(self,result):
         interval = ((self.endValue - self.startValue) / (self.polyNumber - 1))
@@ -240,12 +249,15 @@ class ParameterScan (object):
             plt.ylabel(self.ylabel)
         if self.legend:
             plt.legend()
-        #plt.show()
-        FILENAME = str(uuid.uuid4()) + ".png"
-        plt.savefig(FILENAME)
-        plt.close()
-        imag = mpimg.imread(FILENAME)
-        return(imag)
+        if not IPYTHON:
+            plt.show()
+        else:
+            FILENAME = str(uuid.uuid4()) + ".png"
+            plt.savefig(FILENAME)
+            plt.close()
+            imag = mpimg.imread(FILENAME)
+            return(imag)            
+        
 
     def plotGraduatedArray(self):
         """Plots array with either default multiple colors or user sepcified colors using
@@ -253,7 +265,13 @@ class ParameterScan (object):
 
         p.plotGraduatedArray()"""
         result = self._graduatedSim()
-        return(self.plotGraduatedArrayFunction(result))
+        
+        if not IPYTHON:
+            self.plotGraduatedArrayFunction(result)
+            return result
+        else:
+            return(self.plotGraduatedArrayFunction(result))
+                
 
     def plotPolyArrayFunction(self,result):
         interval = ((self.endValue - self.startValue) / (self.polyNumber - 1))
@@ -306,16 +324,21 @@ class ParameterScan (object):
             #        ax.set_zlabel(self.value) if self.zlabel is None else ax.set_zlabel(self.zlabel)
         if self.title is not None:
             ax.set_title(self.title)
-        #plt.show()
-        FILENAME = str(uuid.uuid4()) + ".png"
-        plt.savefig(FILENAME)
-        plt.close()
-        imag = mpimg.imread(FILENAME)
-        return(imag)
-
+        
+        if not IPYTHON:
+            plt.show()
+        else:
+            FILENAME = str(uuid.uuid4()) + ".png"
+            plt.savefig(FILENAME)
+            plt.close()
+            imag = mpimg.imread(FILENAME)
+            return(imag)
+        
+        
     def collect_plotPolyArray_result(self):
         result = self._graduatedSim()
         return(np.array(result))
+        
 
     def plotPolyArray(self):
         """Plots results as individual graphs parallel to each other in 3D space using results
@@ -323,7 +346,12 @@ class ParameterScan (object):
 
         p.plotPolyArray()"""
         result = self._graduatedSim()
-        return(self.plotPolyArrayFunction(result))
+        
+        if not IPYTHON:
+            self.plotPolyArrayFunction(result)
+            return result
+        else:
+            return(self.plotPolyArrayFunction(result))
 
 
     def plotSurface(self):
@@ -413,15 +441,19 @@ class ParameterScan (object):
 
             if self.colorbar:
                 fig.colorbar(surf, shrink=0.5, aspect=4)
-
-            FILENAME = str(uuid.uuid4()) + ".png"
-            plt.savefig(FILENAME)
-            plt.close()
-            imag = mpimg.imread(FILENAME)
-            return(imag)
+            
+            if not IPYTHON:
+                plt.show()
+            else:
+                FILENAME = str(uuid.uuid4()) + ".png"
+                plt.savefig(FILENAME)
+                plt.close()
+                imag = mpimg.imread(FILENAME)
+                return(imag)                
 
         except Exception as e:
             print('error: {0}'.format(e.message))
+            
 
     def plotMultiArray(self, param1, param1Range, param2, param2Range):
         """Plots separate arrays for each possible combination of the contents of param1range and
@@ -474,6 +506,7 @@ class ParameterScan (object):
                     axarr[i, j].set_ylabel('%s = %.2f' % (param1, k1))
                 if self.title is not None:
                     plt.suptitle(self.title)
+                    
 
     @classmethod
     def createColormap(cls, color1, color2):
@@ -505,6 +538,7 @@ class ParameterScan (object):
                           (1., color2[2], 0.))}
         my_cmap = matplotlib.colors.LinearSegmentedColormap('my_colormap',cdict,256)
         return my_cmap
+    
 
     def colorCycle(self):
         """ Adjusts contents of self.color as needed for plotting methods."""
@@ -515,6 +549,7 @@ class ParameterScan (object):
             for i in range(len(self.color) - self.polyNumber):
                 del self.color[-(i+1)]
         return self.color
+    
 
     def createColorPoints(self):
         """ Sets self.color to a set of values that allow plotPolyArray, plotArray,
@@ -608,10 +643,10 @@ class SteadyStateScan (object):
             result = np.vstack((result, b))
         result = np.delete(result, 0, 0)
         return result
+    
 
     def plotArray(self):
         result = self.steadyStateSim()
-        print(result)
         if self.color is None:
             plt.plot(result[:, 0], result[:, 1:], linewidth=self.width)
         else:
@@ -619,6 +654,9 @@ class SteadyStateScan (object):
                 self.color = self.colorCycle()
             for i in range(result.shape[1] - 1):
                 plt.plot(result[:, 0], result[:, i], color=self.color[i], linewidth=self.width)
+        plt.show()
+        
+        return result
 
 
 def plot2DParameterScan(r, p1, p1Range, p2, p2Range, start=0, end=100, points=101):

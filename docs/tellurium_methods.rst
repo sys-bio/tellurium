@@ -11,7 +11,7 @@ more reliable than running ``!pip install xyz``.
 
 .. autofunction:: tellurium.installPackage
 .. autofunction:: tellurium.upgradePackage
-.. autofunction:: tellurium.removePackage
+.. autofunction:: tellurium.uninstallPackage
 .. autofunction:: tellurium.searchPackage
 
 .. include:: _notebooks/core/methods_installing_packages.rst
@@ -85,9 +85,22 @@ Use these routines to carry out Gillespie style stochastic simulations.
 Math
 ----------------------------------------
 
-Only one routine is currently available in this group which is a routine to compute the eigenvalues of given a matrix.
+Use these routines to perform various calculations.
 
 .. autofunction:: tellurium.getEigenvalues
+.. autofunction:: tellurium.rank
+.. autofunction:: tellurium.nullspace
+.. autofunction:: tellurium.rref
+
+----------------------------------------
+ODE Extraction Methods
+----------------------------------------
+
+Routines to extract ODEs.
+
+.. autofunction:: tellurium.getODEsFromSBMLFile
+.. autofunction:: tellurium.getODEsFromSBMLString
+.. autofunction:: tellurium.getODEsFromModel
 
 ----------------------------------------
 Plotting
@@ -125,6 +138,16 @@ Routines to support the Jarnac compatibility layer
 
 .. autoclass:: tellurium.tellurium.ExtendedRoadRunner
    :members: fjac, sm, rs, fs, bs, ps, vs, dv, rv, sv
+      
+----------------------------------------
+Parameter Scanning
+----------------------------------------
+
+Routines to support the Jarnac compatibility layer
+
+.. autofunction:: tellurium.ParameterScan
+.. autofunction:: tellurium.SteadyStateScan
+
 
 ----------------------------------------
 Test Models
@@ -138,6 +161,14 @@ to easily try and test tellurium.
 .. autofunction:: tellurium.listTestModels
 
 .. include:: _notebooks/core/tellurium_test.rst
+
+----------------------------------------
+Running external tools
+----------------------------------------
+
+Routines to run external tools.
+
+.. autofunction:: tellurium.runTool 
 
 ----------------------------------------
 Model Methods

@@ -173,8 +173,12 @@ class Accumulator:
 
 class ODEExtractor:
     def __init__(self, sbmlStr):
-
-        self.doc = libsbml.readSBMLFromString (sbmlStr)
+        try:
+            import tesbml
+        except ImportError:
+            raise Exception("Cannot import tesbml. Try tellurium.installPackage('tesbml')")
+            
+        self.doc = tesbml.readSBMLFromString (sbmlStr)
         self.model = self.doc.getModel()
                
         self.species_map = {}

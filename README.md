@@ -116,16 +116,18 @@ The notebook viewer comes with Python 3.6 (64-bit).
 
 -------
 
+-------
+
 ### Front-end 2: Tellurium Spyder IDE
 The Spyder IDE installers are tested with Windows 7+ and Mac OS X 10.9+. Some older Macs cannot run Spyder, regardless of 
 whether the operating system is up-to-date. 
-The IDE comes with Python 2.7 (64-bit).
+The IDE comes with Python 2.7 (64-bit) and Python 3.6 (64-bit).
 
 <img align="left" width="32px" id="windows" src="https://raw.githubusercontent.com/wiki/sys-bio/tellurium/img/windows.png">
 <h4>Windows</h4>
 <br style="clear:both"/>
 
-1. [Download Tellurium IDE for Windows](https://sourceforge.net/projects/pytellurium/files/Tellurium-2.0/2.0.18/Tellurium-2.0.18-Python-2.7-win64-portable-setup.exe/download)
+1. [Download Tellurium IDE for Windows](https://sourceforge.net/projects/pytellurium/files/Tellurium-2.0/2.0.19/Tellurium-2.0.19-Python-2.7-win64-portable-setup.exe/download)
 2. Double-click the installer to start the installation
 3. Follow the instructions
 
@@ -161,9 +163,10 @@ pip install git+https://github.com/sys-bio/tellurium.git
 
 ## Citing
 
-If you use Tellurium in your research, we would appreciate a citation in any works you publish:
+If you use Tellurium in your research, we would appreciate following citations in any works you publish:
 
 Medley et al. (2018) ["Tellurium notebooks—An environment for reproducible dynamical modeling in systems biology"](http://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1006220) PLoS Computational Biology 14(6) e1006220.
+Choi et al. (2018) ["Tellurium: An extensible python-based modeling environment for systems and synthetic biology"](https://www.sciencedirect.com/science/article/pii/S0303264718301254) Biosystems.
 
 ## Contact Us
 

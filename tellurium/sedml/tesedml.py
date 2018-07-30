@@ -778,8 +778,6 @@ class SEDMLCodeFactory(object):
     def taskTreeToPython(doc, tree):
         """ Python code generation from task tree. """
 
-        # TODO: implement the merge of subtasks & and collection of simulations
-
         # go forward through task tree
         lines = []
         nodeStack = SEDMLCodeFactory.Stack()
@@ -859,9 +857,11 @@ class SEDMLCodeFactory(object):
                             terminator = 'terminate_trace({})'.format(node.task.getId())
                         else:
                             terminator = '{}'.format(node.task.getId())
+
                         lines.extend([
                             "",
-                            "    "*node.depth + "{}.extend({})".format(peek.task.getId(), terminator),
+                            # "    "*node.depth + "{}.extend({})".format(peek.task.getId(), terminator),
+                            "    " * node.depth + "{}.extend({})".format(peek.task.getId(), node.task.getId()),
                         ])
                         node = nodeStack.pop()
 
@@ -1445,8 +1445,7 @@ class SEDMLCodeFactory(object):
                 if resetModel is True:
                     # If each entry in the task consists of a single point (e.g. steady state scan)
                     # , concatenate the points. Otherwise, plot as separate curves.
-                    # FIXME: no process_trace ! 
-                    lines.append("__var__{} = np.concatenate([process_trace(sim['{}']) for sim in {}])".format(varId, sid, taskId))
+                    lines.append("__var__{} = np.concatenate([sim['{}'] for sim in {}])".format(varId, sid, taskId))
                 else:
                     # One curve via time adjusted concatenate
                     if isTime is True:
@@ -1540,7 +1539,7 @@ class SEDMLCodeFactory(object):
 
         # all lines of same cuve have same color
         settings = PlotSettings(
-            colors=[u'C0', u'C1', u'C2', u'C3', u'C4', u'C5', u'C6'],
+            colors=[u'C0', u'C1', u'C2', u'C3', u'C4', u'C5', u'C6', u'C7', u'C8', u'C9'],
             figsize=(9, 5),
             dpi=80,
             facecolor='w',
@@ -1548,7 +1547,7 @@ class SEDMLCodeFactory(object):
             linewidth=1.5,
             marker='',
             markersize=3.0,
-            alpha=0.8
+            alpha=1.0
         )
         return settings
 
@@ -1594,6 +1593,8 @@ class SEDMLCodeFactory(object):
 
         lines.append("_stacked = False")
         # stacking, currently disabled
+        # lines.append("_stacked = False")
+        # lines.append("_engine = te.getPlottingEngine()")
         # for kc, curve in enumerate(output.getListOfCurves()):
         #     xId = curve.getXDataReference()
         #     lines.append("if {}.shape[1] > 1 and te.getDefaultPlottingEngine() == 'plotly':".format(xId))
@@ -1619,6 +1620,9 @@ class SEDMLCodeFactory(object):
             elif dgy.isSetName():
                 yLabel = "{}".format(dgy.getName())
 
+
+            # FIXME: add all the additional information to the plot, i.e. the settings and styles for a given curve
+
             lines.append("for k in range({}.shape[1]):".format(xId))
             lines.append("    extra_args = {}")
             lines.append("    if k == 0:")
@@ -1639,6 +1643,7 @@ class SEDMLCodeFactory(object):
             lines.append("    filename = os.path.join('{}', '{}.{}')".format(self.outputDir, output.getId(), self.plotFormat))
             lines.append("    fig.savefig(filename, format='{}', bbox_inches='tight')".format(self.plotFormat))
             lines.append("    print('Figure {}: {{}}'.format(filename))".format(output.getId()))
+            lines.append("")
         return lines
 
     def outputPlot3DToPython(self, doc, output):
@@ -1893,7 +1898,7 @@ class SEDMLTools(object):
 
         return model_sources, all_changes
 
-
+        
 '''
 The following functions all manipulate the DataGenenerators which 
 breaks many things !!! 
@@ -1990,7 +1995,7 @@ def fix_endpoints(x, y, color, tag, fig):
 
         if endpoints_x:
             fig.addXYDataset(np.array(endpoints_x), np.array(endpoints_y), color=color, tag=tag, mode='markers')
-
+            
 
 ##################################################################################################
 if __name__ == "__main__":

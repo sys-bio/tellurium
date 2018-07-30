@@ -28,22 +28,22 @@ PLOTTING_ENGINE_PLOTLY = 'plotly'
 
 __default_plotting_engine = PLOTTING_ENGINE_MATPLOTLIB
 
-# enable fixes for Spyder (no Plotly support, no Agg support)
-SPYDER = False
-if any('SPYDER' in name for name in os.environ):
-    SPYDER = True
+# enable fixes for non-IPython environment
+IPYTHON = False
+if any('IPYTHONDIR' in name for name in os.environ):
+    IPYTHON = True
 
 # use Agg backend in notebooks or when Tkinter is not present
 try:
     get_ipython()
-    if not SPYDER:
-        matplotlib.use('Agg')
+    if IPYTHON:
+        matplotlib.use('Agg', warn=False)
 except:
     try:
         import Tkinter
     except ImportError:
-        if not SPYDER:
-          matplotlib.use('Agg')
+        if IPYTHON:
+          matplotlib.use('Agg', warn=False)
 
 
 ##############################################
@@ -53,7 +53,7 @@ except:
 # determine if we're running in IPython
 __in_ipython = True
 __plotly_enabled = False
-if not SPYDER:
+if IPYTHON:
     try:
         get_ipython()
 
@@ -215,7 +215,7 @@ def getVersionInfo():
     if libsbml:
         versions.append(('libsbml', libsbml.getLibSBMLDottedVersion()))
     if libsedml:
-        versions.append(('libsedml', libsedml.getLibSEDMLVersionString()))
+        versions.append(('libsedml', libsedml.getLibSEDMLDottedVersion()))
     if phrasedml:
         versions.append(('phrasedml', phrasedml.__version__))
     if sbol:
@@ -575,7 +575,7 @@ def loadCellMLModel(cellml):
 # Interconversion Methods
 # ---------------------------------------------------------------------
 def antimonyTosbml(ant):
-    warnings.warn("'antimonyTosbml' is deprecated. Use 'antimonyToSBML' instead. Will be removed in tellurium v1.4",
+    warnings.warn("'antimonyTosbml' is deprecated. Use 'antimonyToSBML' instead. Will be removed in tellurium v2.1",
                   DeprecationWarning, stacklevel=2)
     return antimonyToSBML(ant)
 

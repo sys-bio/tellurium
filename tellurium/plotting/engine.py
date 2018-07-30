@@ -62,15 +62,13 @@ class PlottingEngine(object):
         return self.newFigure().plot(x, y, **kwargs)
 
 
-    def figureFromTimecourse(self, m, ordinates=None, tag=None, alpha=None, title=None, xlim=None, ylim=None, **kwargs):
+    def figureFromTimecourse(self, m, ordinates=None, tag=None, alpha=None, title=None, xlim=None, ylim=None, figsize=(9,6), **kwargs):
         """ Generate a new figure from a timecourse simulation.
 
         :param m: An array returned by RoadRunner.simulate.
         :return: instance of PlottingFigure
         """
         fig = self.newFigure()
-        if m.colnames[0] != 'time':
-            raise RuntimeError('Cannot plot timecourse - first column is not time')
 
         for k in range(1, m.shape[1]):
             fig.addXYDataset(m[:,0], m[:,k], name=m.colnames[k], tag=tag, alpha=alpha)
@@ -96,12 +94,12 @@ class PlottingEngine(object):
             self.fig = fig
         return fig
 
-    def plotTimecourse(self, m, title=None, ordinates=None, tag=None, xtitle=None, logx=False, logy=False, ytitle=None, alpha=None, xlim=None, ylim=None, **kwargs):
+    def plotTimecourse(self, m, title=None, ordinates=None, tag=None, xtitle=None, logx=False, logy=False, ytitle=None, alpha=None, xlim=None, ylim=None, figsize=(9,6), **kwargs):
         """ Plots a timecourse from a simulation.
 
         :param m: An array returned by RoadRunner.simulate.
         """
-        fig = self.figureFromTimecourse(m, title=title, ordinates=ordinates, tag=tag, alpha=alpha, xlim=xlim, ylim=ylim)
+        fig = self.figureFromTimecourse(m, title=title, ordinates=ordinates, tag=tag, alpha=alpha, xlim=xlim, ylim=ylim, figsize=figsize)
         if title:
             fig.title = title
         if xtitle:
@@ -116,9 +114,11 @@ class PlottingEngine(object):
             fig.logx = logx
         if logy:
             fig.logy = logy
+        if figsize:
+            fig.figsize = figsize
         fig.render()
 
-    def accumulateTimecourse(self, m, title=None, ordinates=None, tag=None, xtitle=None, logx=False, logy=False, ytitle=None, alpha=None, xlim=None, ylim=None, **kwargs):
+    def accumulateTimecourse(self, m, title=None, ordinates=None, tag=None, xtitle=None, logx=False, logy=False, ytitle=None, alpha=None, xlim=None, ylim=None, figsize=(9,6), **kwargs):
         """ Accumulates the traces instead of plotting (like matplotlib with show=False).
         Call show() to show the plot.
 
@@ -148,7 +148,9 @@ class PlottingEngine(object):
             self.fig.logx = logx
         if logy:
             self.fig.logy = logy
-
+        if figsize:
+            self.fig.figsize = figsize
+            
     def show(self, reset=True):
         """ Shows the traces accummulated from accumulateTimecourse.
 
