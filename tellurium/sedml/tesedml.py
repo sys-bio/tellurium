@@ -1251,7 +1251,7 @@ class SEDMLCodeFactory(object):
         :rtype: str
         """
         if kid in KISAOS_NLEQ:
-            return 'nleq'
+            return 'nleq2'
         if kid in KISAOS_CVODE:
             return 'cvode'
         if kid in KISAOS_GILLESPIE:
