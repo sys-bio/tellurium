@@ -896,10 +896,38 @@ def plotArray(result, loc='upper right', show=True, resetColorCycle=True,
         plt.show()
     return p
 
-def plotWithLegend(r, result=None, loc='upper left', show=True, **kwargs):
-    warnings.warn("'plotWithLegend' is deprecated. Use 'r.plot' instead. Will be removed in tellurium v2.1",
-                  DeprecationWarning, stacklevel=2)
-    return r.plot(result=result, loc=loc, show=show, **kwargs)
+def plotWithLegend (r, result=None, loc='upper right', show=True):
+    """
+    Plot an array and include a legend. The first argument must be a roadrunner variable. 
+    The second argument must be an array containing data to plot. The first column of the array will
+    be the x-axis and remaining columns the y-axis. Returns
+    a handle to the plotting object.
+    
+    plotWithLegend (r)
+    """
+    
+    if not isinstance (r, roadrunner.RoadRunner):
+        raise Exception ('First argument must be a roadrunner variable')
+
+    if result is None:
+        result = r.getSimulationData()
+
+    if result is None:
+        raise Exception("No simulation result available")
+
+    if result.dtype.names is None:
+       columns = result.shape[1]
+       legendItems = r.selections[1:]       
+       if columns-1 != len (legendItems):
+           raise Exception ('Legend list must match result array')
+    else:
+        # result is structured array
+        if len(result.dtype.names) < 1:
+            raise Exception('No columns available to plot')
+            
+    return plotArray(result, loc=loc, labels=legendItems, show=show)
+
+
 
 
 # ---------------------------------------------------------------------

@@ -22,6 +22,7 @@ Contents:
    tellurium_methods.rst
    API.rst
    libRoadRunner Documents <https://sys-bio.github.io/roadrunner/python_docs/index.html>
+   SimpleSBML Documents <https://simplesbml.readthedocs.io/en/latest/>
    FAQ <https://github.com/sys-bio/tellurium/wiki/FAQ>
    appendix.rst
 ..    testing.rst

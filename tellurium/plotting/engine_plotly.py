@@ -53,6 +53,17 @@ class PlotlyFigure(PlottingFigure):
             kwargs['mode'] = dataset['mode']
         else:
             kwargs['mode'] = 'lines'
+        # override mode via scatter
+        if 'scatter' in dataset and dataset['scatter'] == True:
+            kwargs['mode'] = 'markers'
+        if 'error_y_pos' in dataset and dataset['error_y_pos'] is not None and 'error_y_neg' in dataset and dataset['error_y_neg'] is not None:
+            kwargs['error_y'] = dict(
+                type='data',
+                symmetric=False,
+                array=dataset['error_y_pos'],
+                arrayminus=dataset['error_y_neg'],
+                visible=True,
+            )
         return kwargs
 
     def getScatterGOs(self):
@@ -161,7 +172,7 @@ class PlotlyTiledFigure(TiledFigure):
 
     def renderIfExhausted(self):
         if not self.isExhausted():
-            return
+            return False
         fig = tools.make_subplots(self.rows, self.cols, subplot_titles=tuple(f.title for f in self.figures), print_grid=False)
         row = 1
         col = 1
@@ -183,6 +194,7 @@ class PlotlyTiledFigure(TiledFigure):
                 if row > self.rows:
                     row = self.rows
         plotly.offline.iplot(fig)
+        return True
 
 class PlotlyLowerTriFigure(PlotlyTiledFigure,LowerTriFigure):
     def makeTitles(self):
@@ -202,7 +214,7 @@ class PlotlyLowerTriFigure(PlotlyTiledFigure,LowerTriFigure):
 
     def renderIfExhausted(self):
         if not self.isExhausted():
-            return
+            return False
         fig = tools.make_subplots(self.rows, self.cols, subplot_titles=tuple(self.makeTitles()), print_grid=False)
         row = 1
         col = 1
@@ -227,3 +239,4 @@ class PlotlyLowerTriFigure(PlotlyTiledFigure,LowerTriFigure):
                 if row > self.rows:
                     row = self.rows
         plotly.offline.iplot(fig)
+        return True
