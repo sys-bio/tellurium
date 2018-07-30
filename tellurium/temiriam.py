@@ -24,7 +24,7 @@ def getSBMLFromBiomodelsURN(urn):
     mid = match.group(0)
 
     url = "https://www.ebi.ac.uk/biomodels-main/download?mid=" + mid
-    response = requests.get(url, allow_redirects=False)
+    response = requests.get(url, allow_redirects=True)
     response.raise_for_status()
 
     sbml = response.content
