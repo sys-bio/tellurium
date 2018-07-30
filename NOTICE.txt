@@ -1,4 +1,4 @@
-Tellurium v2.0.5
+Tellurium v2.1.0
 Copyright 2017 Kiri Choi, J Kyle Medley, Matthias König, Kaylene Stocking, Caroline Cannistra, Michal Galdzicki, and Herbert Sauro
 http://tellurium.analogmachine.org/
 
