@@ -116,8 +116,6 @@ The notebook viewer comes with Python 3.6 (64-bit).
 
 -------
 
--------
-
 ### Front-end 2: Tellurium Spyder IDE
 The Spyder IDE installers are tested with Windows 7+ and Mac OS X 10.9+. Some older Macs cannot run Spyder, regardless of 
 whether the operating system is up-to-date. 
