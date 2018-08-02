@@ -32,7 +32,7 @@ type to 'gillespie' or by using the ``r.gillespie`` function.
 
 
 
-.. image:: _notebooks/core/tellurium_stochastic_files/tellurium_stochastic_2_1.png
+.. image:: tellurium_stochastic_files/tellurium_stochastic_2_1.png
 
 
 Seed
@@ -54,7 +54,7 @@ in each simulation.
 
 
 
-.. image:: _notebooks/core/tellurium_stochastic_files/tellurium_stochastic_4_0.png
+.. image:: tellurium_stochastic_files/tellurium_stochastic_4_0.png
 
 
 Combining Simulations
@@ -89,5 +89,5 @@ be drawn with the same color.
 
 
 
-.. image:: _notebooks/core/tellurium_stochastic_files/tellurium_stochastic_6_0.png
+.. image:: tellurium_stochastic_files/tellurium_stochastic_6_0.png
 

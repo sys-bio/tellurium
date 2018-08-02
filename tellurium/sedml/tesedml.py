@@ -1044,6 +1044,7 @@ class SEDMLCodeFactory(object):
         # <STEADY STATE>
         # -------------------------------------------------------------------------
         elif simType == libsedml.SEDML_SIMULATION_STEADYSTATE:
+            lines.append("{}.steadyStateSolver.setValue('{}', {})".format(mid, 'allow_presimulation', False))
             lines.append("{}.steadyStateSelections = {}".format(mid, list(selections)))
             lines.append("{}.simulate()".format(mid))  # for stability of the steady state solver
             lines.append("{} = {}.steadyStateNamedArray()".format(resultVariable, mid))
@@ -1251,7 +1252,7 @@ class SEDMLCodeFactory(object):
         :rtype: str
         """
         if kid in KISAOS_NLEQ:
-            return 'nleq'
+            return 'nleq2'
         if kid in KISAOS_CVODE:
             return 'cvode'
         if kid in KISAOS_GILLESPIE:
