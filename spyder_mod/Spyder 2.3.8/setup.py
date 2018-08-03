@@ -8,7 +8,7 @@
 Spyder
 ======
 
-The Scientific PYthon Development EnviRonment
+The Scientific Python Development Environment
 """
 
 from __future__ import print_function
@@ -227,17 +227,18 @@ if WINDOWS_INSTALLER:
 
 setup(name=NAME,
       version=__version__,
-      description='Scientific PYthon Development EnviRonment',
+      description='The Scientific Python Development Environment',
       long_description=WININST_MSG + \
-"""Spyder is an interactive Python development environment providing 
-MATLAB-like features in a simple and light-weighted software.
-It also provides ready-to-use pure-Python widgets to your PyQt4 or 
-PySide application: source code editor with syntax highlighting and 
-code introspection/analysis features, NumPy array editor, dictionary 
-editor, Python console, etc.""",
-      download_url='%s/files/%s-%s.zip' % (__project_url__, NAME, __version__),
-      author="Pierre Raybaut",
-      url=__project_url__,
+"""Spyder is a powerful scientific environment written in Python, for Python,
+and designed by and for scientists, engineers and data analysts.
+It features a unique combination of the advanced editing, analysis, debugging
+and profiling functionality of a comprehensive development tool with the data
+exploration, interactive execution, deep inspection and beautiful visualization
+capabilities of a scientific package.""",
+      download_url="https://www.spyder-ide.org/#fh5co-download",
+      author="The Spyder Project Contributors",
+      author_email="spyderlib@googlegroups.com",
+      url="https://www.spyder-ide.org/",
       license='MIT',
       keywords='PyQt4 PySide editor shell console widgets IDE',
       platforms=['any'],
