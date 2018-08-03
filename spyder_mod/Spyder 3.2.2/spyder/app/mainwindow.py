@@ -5,7 +5,7 @@
 # (see spyder/__init__.py for details)
 
 """
-Spyder, the Scientific PYthon Development EnviRonment
+Spyder, the Scientific Python Development Environment
 =====================================================
 
 Developped and maintained by the Spyder Project
@@ -952,7 +952,7 @@ class MainWindow(QMainWindow):
                                     'doc', "index.html")
         # * If we totally fail, point to our web build
         if not osp.isfile(spyder_doc):
-            spyder_doc = 'http://pythonhosted.org/spyder'
+            spyder_doc = 'https://docs.spyder-ide.org/'
         else:
             spyder_doc = file_uri(spyder_doc)
         doc_action = create_action(self, _("Spyder documentation"),
@@ -2313,7 +2313,7 @@ class MainWindow(QMainWindow):
         QMessageBox.about(self,
             _("About %s") % "Spyder",
             """<b>Spyder %s</b> %s
-            <br>The Scientific PYthon Development EnviRonment
+            <br>The Scientific Python Development Environment
             <br>Copyright &copy; The Spyder Project Contributors
             <br>Licensed under the terms of the MIT License
             <p>Created by Pierre Raybaut.
@@ -2326,7 +2326,7 @@ class MainWindow(QMainWindow):
             <p>This project is part of a larger effort to promote and
             facilitate the use of Python for scientific and engineering
             software development. The popular Python distributions
-            <a href="http://continuum.io/downloads">Anaconda</a>,
+            <a href="https://www.anaconda.com/download/">Anaconda</a>,
             <a href="https://winpython.github.io/">WinPython</a> and
             <a href="http://python-xy.github.io/">Python(x,y)</a>
             also contribute to this plan.
@@ -2412,7 +2412,7 @@ class MainWindow(QMainWindow):
 
     @Slot()
     def google_group(self):
-        url = QUrl("http://groups.google.com/group/spyderlib")
+        url = QUrl("https://groups.google.com/group/spyderlib")
         QDesktopServices.openUrl(url)
 
     @Slot()
@@ -2834,7 +2834,7 @@ class MainWindow(QMainWindow):
         error_msg = self.worker_updates.error
 
         url_r = 'https://github.com/spyder-ide/spyder/releases'
-        url_i = 'http://pythonhosted.org/spyder/installation.html'
+        url_i = 'https://docs.spyder-ide.org/installation.html'
 
         # Define the custom QMessageBox
         box = MessageCheckBox(icon=QMessageBox.Information,

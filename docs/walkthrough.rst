@@ -389,7 +389,7 @@ Sometimes, IPython console might crash. Sometimes, you might want to restart the
 Further Reading
 ---------------
 
-* `Official Spyder documentation <http://pythonhosted.org/spyder/>`_
+* `Official Spyder documentation <https://docs.spyder-ide.org/>`_
 
 Advanced Topics on Tellurium Spyder
 ===================================

@@ -41,7 +41,7 @@ def install():
     lib_dir = distutils.sysconfig.get_python_lib(plat_specific=1)
     ico_dir = osp.join(lib_dir, 'spyderlib', 'windows')
 
-    desc = 'Scientific Python Development EnvironmEnt, an alternative to IDLE'
+    desc = 'The Scientific Python Development Environment'
     fname = osp.join(start_menu, 'Tellurium Spyder.lnk')
     create_shortcut(pythonw, desc, fname, '"%s"' % script, workdir,
                     osp.join(ico_dir, 'Tellurium.ico'))
@@ -71,7 +71,7 @@ def install():
     # Create desktop shortcut file
     desktop_folder = get_special_folder_path("CSIDL_DESKTOPDIRECTORY")
     fname = osp.join(desktop_folder, 'Spyder.lnk')
-    desc = 'Scientific Python Development EnvironmEnt, an alternative to IDLE'
+    desc = 'The Scientific Python Development Environment'
     create_shortcut(pythonw, desc, fname, '"%s"' % script, workdir,
                     osp.join(ico_dir, 'spyder.ico'))
     file_created(fname)
