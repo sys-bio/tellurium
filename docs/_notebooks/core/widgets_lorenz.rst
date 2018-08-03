@@ -100,7 +100,7 @@ attractors.
 
 
 
-.. image:: widgets_lorenz_files/widgets_lorenz_11_0.png
+.. image:: _notebooks/core/widgets_lorenz_files/widgets_lorenz_11_0.png
 
 
 Using IPython's ``interactive`` function, we can explore how the
@@ -113,7 +113,7 @@ trajectories behave as we change the various parameters.
 
 
 
-.. image:: widgets_lorenz_files/widgets_lorenz_13_0.png
+.. image:: _notebooks/core/widgets_lorenz_files/widgets_lorenz_13_0.png
 
 
 
@@ -434,7 +434,7 @@ attractors.
 
 
 
-.. image:: widgets_lorenz_files/widgets_lorenz_21_1.png
+.. image:: _notebooks/core/widgets_lorenz_files/widgets_lorenz_21_1.png
 
 
 .. code:: python
@@ -452,6 +452,6 @@ attractors.
 
 
 
-.. image:: widgets_lorenz_files/widgets_lorenz_22_1.png
+.. image:: _notebooks/core/widgets_lorenz_files/widgets_lorenz_22_1.png
 
 
