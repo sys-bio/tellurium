@@ -44,7 +44,7 @@ Tellurium's notebook front-end mixes code and narrative in a flowing, visual sty
 Front-end 2: Tellurium IDE
 ==========================
 
-User who are more familiar with MATLAB may prefer Tellurium's IDE interface, which is based on popular programming tools (Visual Studio, etc.). This front-end is based on the `Spyder project <https://pythonhosted.org/spyder/>`_. Due to stability issues, we recommend Mac users use the Tellurium notebook front-end instead.
+User who are more familiar with MATLAB may prefer Tellurium's IDE interface, which is based on popular programming tools (Visual Studio, etc.). This front-end is based on the `Spyder project <https://www.spyder-ide.org/>`_. Due to stability issues, we recommend Mac users use the Tellurium notebook front-end instead.
 
 .. |billy2| image:: ./images/windows.png
    :scale: 50%
