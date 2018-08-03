@@ -31,7 +31,7 @@ below.
 
 
 
-.. image:: introduction_files/introduction_2_1.png
+.. image:: _notebooks/core/introduction_files/introduction_2_1.png
 
 
 More Complex Example
@@ -83,5 +83,5 @@ model.
 
 
 
-.. image:: introduction_files/introduction_4_0.png
+.. image:: _notebooks/core/introduction_files/introduction_4_0.png
 
