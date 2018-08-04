@@ -26,13 +26,7 @@ type to 'gillespie' or by using the ``r.gillespie`` function.
 
 
 
-.. raw:: html
-
-    <script>requirejs.config({paths: { 'plotly': ['https://cdn.plot.ly/plotly-latest.min']},});if(!window.Plotly) {{require(['plotly'],function(plotly) {window.Plotly=plotly;});}}</script>
-
-
-
-.. image:: _notebooks/core/tellurium_stochastic_files/tellurium_stochastic_2_1.png
+.. image:: _notebooks/core/tellurium_stochastic_files/tellurium_stochastic_2_0.png
 
 
 Seed

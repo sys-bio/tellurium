@@ -46,13 +46,7 @@ inline OMEX, which contain correct syntax-highlighting for the format.
 
 
 
-.. raw:: html
-
-    <script>requirejs.config({paths: { 'plotly': ['https://cdn.plot.ly/plotly-latest.min']},});if(!window.Plotly) {{require(['plotly'],function(plotly) {window.Plotly=plotly;});}}</script>
-
-
-
-.. image:: _notebooks/core/phrasedmlExample_files/phrasedmlExample_2_1.png
+.. image:: _notebooks/core/phrasedmlExample_files/phrasedmlExample_2_0.png
 
 
 Forcing Functions

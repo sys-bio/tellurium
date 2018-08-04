@@ -70,13 +70,6 @@ The created model is exported as ``SBML`` which than can be used in
     file_path = os.path.join(temp_dir, 'normalizedSpecies.xml')
     r.exportToSBML(file_path)
 
-
-
-.. raw:: html
-
-    <script>requirejs.config({paths: { 'plotly': ['https://cdn.plot.ly/plotly-latest.min']},});if(!window.Plotly) {{require(['plotly'],function(plotly) {window.Plotly=plotly;});}}</script>
-
-
 Model simulation
 ^^^^^^^^^^^^^^^^
 

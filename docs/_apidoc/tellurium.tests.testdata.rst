@@ -1,6 +1,13 @@
 tellurium.tests.testdata package
 ================================
 
+Subpackages
+-----------
+
+.. toctree::
+
+    tellurium.tests.testdata.sedml
+
 Module contents
 ---------------
 

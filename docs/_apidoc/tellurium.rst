@@ -7,25 +7,19 @@ Subpackages
 .. toctree::
 
     tellurium.analysis
-    tellurium.interpolation
+    tellurium.dev
     tellurium.notebooks
-    tellurium.optimization
-    tellurium.oven
+    tellurium.plotting
+    tellurium.roadrunner
     tellurium.sedml
+    tellurium.teconverters
     tellurium.teio
     tellurium.tests
+    tellurium.utils
     tellurium.visualization
 
 Submodules
 ----------
-
-tellurium.tecombine module
---------------------------
-
-.. automodule:: tellurium.tecombine
-    :members:
-    :undoc-members:
-    :show-inheritance:
 
 tellurium.tellurium module
 --------------------------
@@ -39,6 +33,14 @@ tellurium.temiriam module
 -------------------------
 
 .. automodule:: tellurium.temiriam
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+tellurium.testcases module
+--------------------------
+
+.. automodule:: tellurium.testcases
     :members:
     :undoc-members:
     :show-inheritance:

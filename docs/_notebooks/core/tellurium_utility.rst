@@ -26,33 +26,17 @@ constituent packages.
 
 .. parsed-literal::
 
-    /home/poltergeist/.config/Tellurium/telocal/python-3.6.1/lib/python3.6/site-packages/matplotlib/__init__.py:1405: UserWarning: 
-    This call to matplotlib.use() has no effect because the backend has already
-    been chosen; matplotlib.use() must be called *before* pylab, matplotlib.pyplot,
-    or matplotlib.backends is imported for the first time.
-    
-      warnings.warn(_use_error_msg)
-
-
-
-.. raw:: html
-
-    <script>requirejs.config({paths: { 'plotly': ['https://cdn.plot.ly/plotly-latest.min']},});if(!window.Plotly) {{require(['plotly'],function(plotly) {window.Plotly=plotly;});}}</script>
-
-
-.. parsed-literal::
-
     te.__version__
-    2.0.1
+    2.1.0
     te.getTelluriumVersion()
-    2.0.1
+    2.1.0
     --------------------------------------------------------------------------------
-    tellurium : 2.0.1
-    roadrunner : 1.4.21; Compiler: gcc 4.8.2, C++ version: 199711; JIT Compiler: LLVM-3.3; Date: Jul  5 2017, 18:38:02; LibSBML Version: 5.14.0
-    antimony : 2.9.3
+    tellurium : 2.1.0
+    roadrunner : 1.4.24
+    antimony : 2.9.4
     libsbml : 5.15.0
-    libsedml : 402
-    phrasedml : 1.0.7
+    libsedml : 0.4.3
+    phrasedml : 1.0.9
     --------------------------------------------------------------------------------
 
 

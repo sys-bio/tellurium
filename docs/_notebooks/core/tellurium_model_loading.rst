@@ -40,19 +40,13 @@ strings or respective model files.
     r = te.loadAntimonyModel(ant_model)
 
 
-
-.. raw:: html
-
-    <script>requirejs.config({paths: { 'plotly': ['https://cdn.plot.ly/plotly-latest.min']},});if(!window.Plotly) {{require(['plotly'],function(plotly) {window.Plotly=plotly;});}}</script>
-
-
 .. parsed-literal::
 
     ---  load using roadrunner ---
 
 
 
-.. image:: _notebooks/core/tellurium_model_loading_files/tellurium_model_loading_2_2.png
+.. image:: _notebooks/core/tellurium_model_loading_files/tellurium_model_loading_2_1.png
 
 
 .. parsed-literal::
@@ -61,5 +55,5 @@ strings or respective model files.
 
 
 
-.. image:: _notebooks/core/tellurium_model_loading_files/tellurium_model_loading_2_4.png
+.. image:: _notebooks/core/tellurium_model_loading_files/tellurium_model_loading_2_3.png
 

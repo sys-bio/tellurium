@@ -36,16 +36,10 @@ can be used to export the current model state to a file.
     print(str_sbml)
 
 
-
-.. raw:: html
-
-    <script>requirejs.config({paths: { 'plotly': ['https://cdn.plot.ly/plotly-latest.min']},});if(!window.Plotly) {{require(['plotly'],function(plotly) {window.Plotly=plotly;});}}</script>
-
-
 .. parsed-literal::
 
     <?xml version="1.0" encoding="UTF-8"?>
-    <!-- Created by libAntimony version v2.9.3 with libSBML version 5.15.0. -->
+    <!-- Created by libAntimony version v2.9.4 with libSBML version 5.15.0. -->
     <sbml xmlns="http://www.sbml.org/sbml/level3/version1/core" level="3" version="1">
       <model id="__main" name="__main">
         <listOfCompartments>
@@ -116,7 +110,7 @@ current Antimony representation.
 
 .. parsed-literal::
 
-    // Created by libAntimony v2.9.3
+    // Created by libAntimony v2.9.4
     // Compartments and Species:
     species S1, S2;
     
@@ -196,9 +190,12 @@ conversion.
     <bvar>
     <ci>time</ci>
     </bvar>
-    <ci>S2</ci>
+    <ci>S1</ci>
     </apply>
+    <apply>
+    <minus/>
     <ci>_J0</ci>
+    </apply>
     </apply>
     </math>
     <math xmlns="http://www.w3.org/1998/Math/MathML">
@@ -209,12 +206,9 @@ conversion.
     <bvar>
     <ci>time</ci>
     </bvar>
-    <ci>S1</ci>
+    <ci>S2</ci>
     </apply>
-    <apply>
-    <minus/>
     <ci>_J0</ci>
-    </apply>
     </apply>
     </math>
     </component>

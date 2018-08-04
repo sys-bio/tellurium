@@ -27,11 +27,5 @@ reactions S1 -> S2 -> S3 -> S4.
 
 
 
-.. raw:: html
-
-    <script>requirejs.config({paths: { 'plotly': ['https://cdn.plot.ly/plotly-latest.min']},});if(!window.Plotly) {{require(['plotly'],function(plotly) {window.Plotly=plotly;});}}</script>
-
-
-
-.. image:: _notebooks/core/model_consecutiveUniUniReactions_files/model_consecutiveUniUniReactions_2_1.png
+.. image:: _notebooks/core/model_consecutiveUniUniReactions_files/model_consecutiveUniUniReactions_2_0.png
 

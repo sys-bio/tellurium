@@ -1,5 +1,5 @@
 
-.. code:: python
+.. code:: ipython2
 
     import tellurium as te
     from tellurium.analysis.parameterscan import plot2DParameterScan
@@ -28,11 +28,12 @@
 
 .. parsed-literal::
 
-    /usr/local/lib/python2.7/dist-packages/matplotlib/figure.py:397: UserWarning: matplotlib is currently using a non-GUI backend, so cannot show the figure
-      "matplotlib is currently using a non-GUI backend, "
+    /home/poltergeist/.config/Tellurium/telocal/python-3.6.3/lib/python3.6/site-packages/matplotlib/figure.py:459: UserWarning:
+    
+    matplotlib is currently using a non-GUI backend, so cannot show the figure
+    
 
 
 
 .. image:: _notebooks/core/plot2DParameterScan_files/plot2DParameterScan_0_2.png
-
 
