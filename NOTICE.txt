@@ -199,7 +199,7 @@ six 1.10.0
 Spyder 3.2.3 (modified)
     Copyright (c) 2009- The Spyder Development Team
     Licensed under the terms of the MIT License
-    https://github.com/spyder-ide/spyder
+    https://www.spyder-ide.org/
 
 SymPy 1.1.1	
     Copyright (c) 2006-2016 SymPy Development Team

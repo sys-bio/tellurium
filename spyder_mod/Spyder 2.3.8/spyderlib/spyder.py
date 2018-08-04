@@ -5,7 +5,7 @@
 # (see spyderlib/__init__.py for details)
 
 """
-Spyder, the Scientific PYthon Development EnviRonment
+Spyder, the Scientific Python Development Environment
 =====================================================
 
 Developped and maintained by the Spyder Development
@@ -894,7 +894,7 @@ class MainWindow(QMainWindow):
                                       'doc', "index.html")
             # * If we totally fail, point to our web build
             if not osp.isfile(spyder_doc):
-                spyder_doc = 'http://pythonhosted.org/spyder'
+                spyder_doc = 'https://docs.spyder-ide.org/'
             else:
                 spyder_doc = file_uri(spyder_doc)
             doc_action = create_bookmark_action(self, spyder_doc,
@@ -1699,7 +1699,7 @@ class MainWindow(QMainWindow):
         QMessageBox.about(self,
             _("About %s") % "Spyder",
             """<b>Spyder %s</b> %s
-            <br>The Scientific PYthon Development EnviRonment
+            <br>The Scientific Python Development Environment
             <p>Copyright &copy; 2009 - 2015 Pierre Raybaut
             <br>Copyright &copy; 2010 - 2015 The Spyder Development Team
             <br>Licensed under the terms of the MIT License
@@ -1719,7 +1719,7 @@ class MainWindow(QMainWindow):
             <p>This project is part of a larger effort to promote and
             facilitate the use of Python for scientific and engineering
             software development. The popular Python distributions
-            <a href="http://continuum.io/downloads">Anaconda</a>,
+            <a href="https://www.anaconda.com/download/">Anaconda</a>,
             <a href="https://winpython.github.io/">WinPython</a> and
             <a href="http://code.google.com/p/pythonxy/">Python(x,y)</a>
             also contribute to this plan.
@@ -1786,7 +1786,7 @@ class MainWindow(QMainWindow):
         QDesktopServices.openUrl(url)
     
     def google_group(self):
-        url = QUrl("http://groups.google.com/group/spyderlib")
+        url = QUrl("https://groups.google.com/group/spyderlib")
         QDesktopServices.openUrl(url)
 
     #---- Global callbacks (called from plugins)
