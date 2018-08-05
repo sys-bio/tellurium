@@ -58,7 +58,7 @@ te.plotArray(result)
 Tellurium can either be installed with a front-end (Notebook, IDE) or as a Python package:
 
 A. [Notebook front-end](#front-end-1-tellurium-notebook)  
-B. [IDE front-end](#front-end-2-tellurium-spyder-ide) based on [Spyder2](https://www.spyder-ide.org/)  
+B. [IDE front-end](#front-end-2-tellurium-spyder-ide) based on [Spyder](https://www.spyder-ide.org/)  
 C. [Python package (pip)](#install-via-pip-no-front-end)
 
 We recommend first-time users choose one of the front-ends, while developers looking to integrate Tellurium use the pip package. 
