@@ -11,6 +11,14 @@ Subpackages
 Submodules
 ----------
 
+tellurium.sedml.data module
+---------------------------
+
+.. automodule:: tellurium.sedml.data
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
 tellurium.sedml.mathml module
 -----------------------------
 
@@ -19,18 +27,18 @@ tellurium.sedml.mathml module
     :undoc-members:
     :show-inheritance:
 
-tellurium.sedml.tephrasedml module
-----------------------------------
-
-.. automodule:: tellurium.sedml.tephrasedml
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
 tellurium.sedml.tesedml module
 ------------------------------
 
 .. automodule:: tellurium.sedml.tesedml
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+tellurium.sedml.utils module
+----------------------------
+
+.. automodule:: tellurium.sedml.utils
     :members:
     :undoc-members:
     :show-inheritance:

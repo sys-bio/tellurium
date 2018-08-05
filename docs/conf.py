@@ -88,7 +88,7 @@ author = u'sys-bio'
 # The short X.Y version.
 version = None
 with open(os.path.join(os.path.dirname(__file__), '../tellurium/VERSION.txt'), 'r') as f:
-    version = unicode(f.read().rstrip())
+    version = str(f.read().rstrip())
 # The full version, including alpha/beta/rc tags.
 release = version
 

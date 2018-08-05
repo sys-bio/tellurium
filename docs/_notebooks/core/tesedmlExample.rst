@@ -80,16 +80,10 @@ be properly converted into a SED-ML file.
     print(sedml_str)
 
 
-
-.. raw:: html
-
-    <script>requirejs.config({paths: { 'plotly': ['https://cdn.plot.ly/plotly-latest.min']},});if(!window.Plotly) {{require(['plotly'],function(plotly) {window.Plotly=plotly;});}}</script>
-
-
 .. parsed-literal::
 
     <?xml version="1.0" encoding="UTF-8"?>
-    <!-- Created by phraSED-ML version v1.0.7 with libSBML version 5.15.0. -->
+    <!-- Created by phraSED-ML version v1.0.9 with libSBML version 5.15.0. -->
     <sedML xmlns="http://sed-ml.org/sed-ml/level1/version2" level="1" version="2">
       <listOfSimulations>
         <uniformTimeCourse id="sim1" initialTime="0" outputStartTime="0" outputEndTime="5" numberOfPoints="100">
@@ -298,20 +292,20 @@ examples).
     te.executeSEDML(omexPath)
 
 
-.. parsed-literal::
-
-    Loading SED-ML archive from path: /home/poltergeist/devel/src/tellurium/tellurium/tests/testdata/sedml/sedx/BIOMD0000000003.sedx
-    Using /home/poltergeist/devel/src/tellurium/tellurium/tests/testdata/sedml/sedx/_te_BIOMD0000000003 as a working directory
+::
 
 
-.. parsed-literal::
+    ---------------------------------------------------------------------------
 
-    /home/poltergeist/devel/src/tellurium/tellurium/tecombine.py:330: UserWarning:
-    
-    No 'manifest.xml' in archive, trying to resolve manually
-    
+    ImportError                               Traceback (most recent call last)
+
+    <ipython-input-4-378cee3cdcc4> in <module>()
+          1 import tellurium as te
+    ----> 2 from tellurium.tests.testdata import sedxDir
+          3 import os
+          4 omexPath = os.path.join(sedxDir, "BIOMD0000000003.sedx")
+          5 print('Loading SED-ML archive from path: {}'.format(omexPath))
 
 
-
-.. image:: _notebooks/core/tesedmlExample_files/tesedmlExample_8_2.png
+    ImportError: cannot import name 'sedxDir'
 

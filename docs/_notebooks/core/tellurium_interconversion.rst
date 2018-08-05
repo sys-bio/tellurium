@@ -46,18 +46,12 @@ Tellurium can convert between Antimony, SBML, and CellML.
     print('...')
 
 
-
-.. raw:: html
-
-    <script>requirejs.config({paths: { 'plotly': ['https://cdn.plot.ly/plotly-latest.min']},});if(!window.Plotly) {{require(['plotly'],function(plotly) {window.Plotly=plotly;});}}</script>
-
-
 .. parsed-literal::
 
     sbml_model
     ********************************************************************************
     <?xml version="1.0" encoding="UTF-8"?>
-    <!-- Created by libAntimony version v2.9.3 with libSBML version 5.15.0. -->
+    <!-- Created by libAntimony version v2.9.4 with libSBML version 5.15.0. -->
     <sbml xmlns="http://www.sbml.org/sbml/level3/version1/core" level="3" version="1">
       <model id="__main" name="__main">
         <listOfCompartments>

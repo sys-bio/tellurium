@@ -5,7 +5,7 @@ Steady state calculation
 
 Steady states can be calculated using ``r.getSteadyStateValues``
 
-.. code:: python
+.. code:: ipython2
 
     import tellurium as te
     from roadrunner import Config
@@ -34,7 +34,6 @@ Steady states can be calculated using ``r.getSteadyStateValues``
 
 .. parsed-literal::
 
-    [S1] = 0.178571428571
+    [S1] = 0.17857142857142858
     [S2] = 0.0
-
 

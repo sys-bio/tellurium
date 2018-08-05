@@ -36,15 +36,9 @@ Model oscillations via feedback
 
 
 
-.. raw:: html
-
-    <script>requirejs.config({paths: { 'plotly': ['https://cdn.plot.ly/plotly-latest.min']},});if(!window.Plotly) {{require(['plotly'],function(plotly) {window.Plotly=plotly;});}}</script>
+.. image:: _notebooks/core/model_feedback_oscillations_files/model_feedback_oscillations_2_0.png
 
 
 
 .. image:: _notebooks/core/model_feedback_oscillations_files/model_feedback_oscillations_2_1.png
-
-
-
-.. image:: _notebooks/core/model_feedback_oscillations_files/model_feedback_oscillations_2_2.png
 

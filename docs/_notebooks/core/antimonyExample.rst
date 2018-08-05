@@ -75,22 +75,20 @@ simulation.
     print('\n'.join(list(difflib.unified_diff(ant_str_before.splitlines(), ant_str_after2.splitlines(), fromfile="before.sb", tofile="after.sb"))))
 
 
-
-.. raw:: html
-
-    <script>requirejs.config({paths: { 'plotly': ['https://cdn.plot.ly/plotly-latest.min']},});if(!window.Plotly) {{require(['plotly'],function(plotly) {window.Plotly=plotly;});}}</script>
-
-
 .. parsed-literal::
 
     --------------------------------------------------------------------------------
-    tellurium : 2.0.1
-    roadrunner : 1.4.21; Compiler: gcc 4.8.2, C++ version: 199711; JIT Compiler: LLVM-3.3; Date: Jul  5 2017, 18:38:02; LibSBML Version: 5.14.0
-    antimony : 2.9.3
+    tellurium : 2.1.0
+    roadrunner : 1.4.24
+    antimony : 2.9.4
     libsbml : 5.15.0
-    libsedml : 402
-    phrasedml : 1.0.7
+    libsedml : 0.4.3
+    phrasedml : 1.0.9
     --------------------------------------------------------------------------------
+
+
+
+.. image:: _notebooks/core/antimonyExample_files/antimonyExample_2_1.png
 
 
 
@@ -101,10 +99,6 @@ simulation.
 .. image:: _notebooks/core/antimonyExample_files/antimonyExample_2_3.png
 
 
-
-.. image:: _notebooks/core/antimonyExample_files/antimonyExample_2_4.png
-
-
 .. parsed-literal::
 
     Comparing Antimony at time 0 & 40 (expect no differences)
@@ -112,7 +106,7 @@ simulation.
 
 
 
-.. image:: _notebooks/core/antimonyExample_files/antimonyExample_2_6.png
+.. image:: _notebooks/core/antimonyExample_files/antimonyExample_2_5.png
 
 
 .. parsed-literal::
@@ -152,6 +146,5 @@ simulation.
       [     10.0002, 10],
       [     12.2588, 10],
       [          15, 10]]
-
 
 

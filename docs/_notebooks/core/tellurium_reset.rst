@@ -43,19 +43,13 @@ their respective initial values. ``resetAll`` also resets parameters.
     r.plot(sim4);
 
 
-
-.. raw:: html
-
-    <script>requirejs.config({paths: { 'plotly': ['https://cdn.plot.ly/plotly-latest.min']},});if(!window.Plotly) {{require(['plotly'],function(plotly) {window.Plotly=plotly;});}}</script>
-
-
 .. parsed-literal::
 
     *** sim1 ***
 
 
 
-.. image:: _notebooks/core/tellurium_reset_files/tellurium_reset_2_2.png
+.. image:: _notebooks/core/tellurium_reset_files/tellurium_reset_2_1.png
 
 
 .. parsed-literal::
@@ -65,7 +59,7 @@ their respective initial values. ``resetAll`` also resets parameters.
 
 
 
-.. image:: _notebooks/core/tellurium_reset_files/tellurium_reset_2_4.png
+.. image:: _notebooks/core/tellurium_reset_files/tellurium_reset_2_3.png
 
 
 .. parsed-literal::
@@ -75,7 +69,7 @@ their respective initial values. ``resetAll`` also resets parameters.
 
 
 
-.. image:: _notebooks/core/tellurium_reset_files/tellurium_reset_2_6.png
+.. image:: _notebooks/core/tellurium_reset_files/tellurium_reset_2_5.png
 
 
 .. parsed-literal::
@@ -85,5 +79,5 @@ their respective initial values. ``resetAll`` also resets parameters.
 
 
 
-.. image:: _notebooks/core/tellurium_reset_files/tellurium_reset_2_8.png
+.. image:: _notebooks/core/tellurium_reset_files/tellurium_reset_2_7.png
 

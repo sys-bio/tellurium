@@ -58,7 +58,7 @@ te.plotArray(result)
 Tellurium can either be installed with a front-end (Notebook, IDE) or as a Python package:
 
 A. [Notebook front-end](#front-end-1-tellurium-notebook)  
-B. [IDE front-end](#front-end-2-tellurium-spyder-ide) based on [Spyder2](https://www.spyder-ide.org/)
+B. [IDE front-end](#front-end-2-tellurium-spyder-ide) based on [Spyder](https://www.spyder-ide.org/)  
 C. [Python package (pip)](#install-via-pip-no-front-end)
 
 We recommend first-time users choose one of the front-ends, while developers looking to integrate Tellurium use the pip package. 
@@ -116,8 +116,8 @@ The notebook viewer comes with Python 3.6 (64-bit).
 
 -------
 
-### Front-end 2: Tellurium Spyder IDE
-The Spyder IDE installers are tested with Windows 7+ and Mac OS X 10.9+. Some older Macs cannot run Spyder, regardless of 
+### Front-end 2: Tellurium Spyder 
+The Tellurium Spyder installers are tested with Windows 7+ and Mac OS X 10.9+. Some older Macs cannot run Spyder IDE, regardless of 
 whether the operating system is up-to-date. 
 The IDE comes with Python 2.7 (64-bit) and Python 3.6 (64-bit).
 
@@ -125,7 +125,9 @@ The IDE comes with Python 2.7 (64-bit) and Python 3.6 (64-bit).
 <h4>Windows</h4>
 <br style="clear:both"/>
 
-1. [Download Tellurium IDE for Windows](https://sourceforge.net/projects/pytellurium/files/Tellurium-2.0/2.0.19/Tellurium-2.0.19-Python-2.7-win64-portable-setup.exe/download)
+1. Download Tellurium Spyder for Windows:
+    * [Python 3.6](https://sourceforge.net/projects/pytellurium/files/Tellurium-2.1/2.1.0/Tellurium-2.1.0-Python-3.6-win64-setup.exe/download)  
+    * [Python 2.7](https://sourceforge.net/projects/pytellurium/files/Tellurium-2.1/2.1.0/Tellurium-2.1.0-Python-2.7-win64-setup.exe/download)  
 2. Double-click the installer to start the installation
 3. Follow the instructions
 

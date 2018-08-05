@@ -22,7 +22,7 @@ app <http://tellurium.readthedocs.io/en/latest/installation.html#front-end-1-tel
 .. parsed-literal::
 
     Please run 
-        /home/poltergeist/.config/Tellurium/telocal/python-3.6.1/bin/python3.6 -m pip install pygraphviz
+        /home/poltergeist/.config/Tellurium/telocal/python-3.6.3/bin/python3.6 -m pip install pygraphviz
     from a terminal or command propt (without the quotes) to install pygraphviz. Then restart your kernel in this notebook (Language->Restart Running Kernel).
 
 
@@ -105,27 +105,46 @@ Activator system
     r.plot(result);
 
 
-
-.. raw:: html
-
-    <script>requirejs.config({paths: { 'plotly': ['https://cdn.plot.ly/plotly-latest.min']},});if(!window.Plotly) {{require(['plotly'],function(plotly) {window.Plotly=plotly;});}}</script>
+::
 
 
-.. parsed-literal::
+    ---------------------------------------------------------------------------
 
-    /home/poltergeist/.config/Tellurium/telocal/python-3.6.1/lib/python3.6/site-packages/pygraphviz/agraph.py:1338: RuntimeWarning:
-    
-    Warning: node 'S', graph '%3' size too small for label
-    
-    
+    AttributeError                            Traceback (most recent call last)
 
-
-
-.. image:: _notebooks/core/tellurium_examples_files/tellurium_examples_4_2.png
-
+    <ipython-input-2-65bec52b7aca> in <module>()
+         45         at (time > 100): Activator = 5;
+         46 ''')
+    ---> 47 r.draw(width=300)
+         48 r.conservedMoietyAnalysis = True
+         49 result = r.simulate (0, 300, 2000, ['time', 'J11', 'J12']);
 
 
-.. image:: _notebooks/core/tellurium_examples_files/tellurium_examples_4_3.png
+    /extra/devel/src/tellurium/tellurium/roadrunner/extended_roadrunner.py in draw(self, **kwargs)
+        286 
+        287         from tellurium import SBMLDiagram
+    --> 288         diagram = SBMLDiagram(self.getSBML())
+        289         diagram.draw(**kwargs)
+        290 
+
+
+    /extra/devel/src/tellurium/tellurium/visualization/sbmldiagram.py in __init__(self, sbml, species, reactions, reactants, products, modifiers)
+         59                                           reactants=reactants,
+         60                                           products=products,
+    ---> 61                                           modifiers=modifiers)
+         62 
+         63 
+
+
+    /extra/devel/src/tellurium/tellurium/visualization/sbmldiagram.py in _createGraph(model, species, reactions, reactants, products, modifiers)
+         89             warnings.warn("'pygraphviz' could not be imported, cannot draw network diagrams", ImportWarning, stacklevel=2)
+         90 
+    ---> 91         g = pgv.AGraph(strict=False, directed=True)
+         92 
+         93         # set some default node attributes
+
+
+    AttributeError: 'NoneType' object has no attribute 'AGraph'
 
 
 Feedback oscillations
@@ -333,8 +352,44 @@ Stoichiometric matrix
     
 
 
+::
 
-.. image:: _notebooks/core/tellurium_examples_files/tellurium_examples_16_1.png
+
+    ---------------------------------------------------------------------------
+
+    AttributeError                            Traceback (most recent call last)
+
+    <ipython-input-8-2c9377ed179d> in <module>()
+         14 
+         15 print(r.getFullStoichiometryMatrix())
+    ---> 16 r.draw()
+    
+
+    /extra/devel/src/tellurium/tellurium/roadrunner/extended_roadrunner.py in draw(self, **kwargs)
+        286 
+        287         from tellurium import SBMLDiagram
+    --> 288         diagram = SBMLDiagram(self.getSBML())
+        289         diagram.draw(**kwargs)
+        290 
+
+
+    /extra/devel/src/tellurium/tellurium/visualization/sbmldiagram.py in __init__(self, sbml, species, reactions, reactants, products, modifiers)
+         59                                           reactants=reactants,
+         60                                           products=products,
+    ---> 61                                           modifiers=modifiers)
+         62 
+         63 
+
+
+    /extra/devel/src/tellurium/tellurium/visualization/sbmldiagram.py in _createGraph(model, species, reactions, reactants, products, modifiers)
+         89             warnings.warn("'pygraphviz' could not be imported, cannot draw network diagrams", ImportWarning, stacklevel=2)
+         90 
+    ---> 91         g = pgv.AGraph(strict=False, directed=True)
+         92 
+         93         # set some default node attributes
+
+
+    AttributeError: 'NoneType' object has no attribute 'AGraph'
 
 
 Lorenz attractor

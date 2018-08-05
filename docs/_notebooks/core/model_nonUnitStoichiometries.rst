@@ -20,15 +20,9 @@ stoichiometries.
     print(r.getCurrentAntimony())
 
 
-
-.. raw:: html
-
-    <script>requirejs.config({paths: { 'plotly': ['https://cdn.plot.ly/plotly-latest.min']},});if(!window.Plotly) {{require(['plotly'],function(plotly) {window.Plotly=plotly;});}}</script>
-
-
 .. parsed-literal::
 
-    // Created by libAntimony v2.9.3
+    // Created by libAntimony v2.9.4
     model *pathway()
     
       // Compartments and Species:

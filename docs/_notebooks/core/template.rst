@@ -5,9 +5,8 @@ Heading (Used heading 3)
 
 Description Text
 
-.. code:: python
+.. code:: ipython2
 
     import tellurium as te
     # Example code here
     # ...
-

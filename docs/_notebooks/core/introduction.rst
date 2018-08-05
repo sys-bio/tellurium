@@ -25,13 +25,7 @@ below.
 
 
 
-.. raw:: html
-
-    <script>requirejs.config({paths: { 'plotly': ['https://cdn.plot.ly/plotly-latest.min']},});if(!window.Plotly) {{require(['plotly'],function(plotly) {window.Plotly=plotly;});}}</script>
-
-
-
-.. image:: introduction_files/introduction_2_1.png
+.. image:: _notebooks/core/introduction_files/introduction_2_0.png
 
 
 More Complex Example
@@ -83,5 +77,5 @@ model.
 
 
 
-.. image:: introduction_files/introduction_4_0.png
+.. image:: _notebooks/core/introduction_files/introduction_4_0.png
 

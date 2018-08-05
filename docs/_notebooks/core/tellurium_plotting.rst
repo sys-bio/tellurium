@@ -37,18 +37,46 @@ graphviz <http://tellurium.readthedocs.io/en/latest/notebooks.html#preliminaries
     r.plot(s, title="Feedback Oscillations", ylabel="concentration", alpha=0.9);
 
 
-
-.. raw:: html
-
-    <script>requirejs.config({paths: { 'plotly': ['https://cdn.plot.ly/plotly-latest.min']},});if(!window.Plotly) {{require(['plotly'],function(plotly) {window.Plotly=plotly;});}}</script>
+::
 
 
+    ---------------------------------------------------------------------------
 
-.. image:: _notebooks/core/tellurium_plotting_files/tellurium_plotting_2_1.png
+    AttributeError                            Traceback (most recent call last)
+
+    <ipython-input-1-1762a727bd4c> in <module>()
+         25 s = r.simulate(0, 50)
+         26 # draw the diagram
+    ---> 27 r.draw(width=200)
+         28 # and the plot
+         29 r.plot(s, title="Feedback Oscillations", ylabel="concentration", alpha=0.9);
 
 
+    /extra/devel/src/tellurium/tellurium/roadrunner/extended_roadrunner.py in draw(self, **kwargs)
+        286 
+        287         from tellurium import SBMLDiagram
+    --> 288         diagram = SBMLDiagram(self.getSBML())
+        289         diagram.draw(**kwargs)
+        290 
 
-.. image:: _notebooks/core/tellurium_plotting_files/tellurium_plotting_2_2.png
+
+    /extra/devel/src/tellurium/tellurium/visualization/sbmldiagram.py in __init__(self, sbml, species, reactions, reactants, products, modifiers)
+         59                                           reactants=reactants,
+         60                                           products=products,
+    ---> 61                                           modifiers=modifiers)
+         62 
+         63 
+
+
+    /extra/devel/src/tellurium/tellurium/visualization/sbmldiagram.py in _createGraph(model, species, reactions, reactants, products, modifiers)
+         89             warnings.warn("'pygraphviz' could not be imported, cannot draw network diagrams", ImportWarning, stacklevel=2)
+         90 
+    ---> 91         g = pgv.AGraph(strict=False, directed=True)
+         92 
+         93         # set some default node attributes
+
+
+    AttributeError: 'NoneType' object has no attribute 'AGraph'
 
 
 Plotting multiple simulations
@@ -90,18 +118,46 @@ To plot multiple curves in one figure use the ``show=False`` setting.
     print('Parameter variation: k1 = {}'.format(k1_values))
 
 
-
-.. image:: _notebooks/core/tellurium_plotting_files/tellurium_plotting_4_0.png
-
+::
 
 
-.. image:: _notebooks/core/tellurium_plotting_files/tellurium_plotting_4_1.png
+    ---------------------------------------------------------------------------
+
+    AttributeError                            Traceback (most recent call last)
+
+    <ipython-input-2-5a68953df668> in <module>()
+          7 # Load a model and carry out a simulation generating 100 points
+          8 r = te.loada ('S1 -> S2; k1*S1; k1 = 0.1; S1 = 10')
+    ----> 9 r.draw(width=100)
+         10 
+         11 # get colormap
 
 
-.. parsed-literal::
+    /extra/devel/src/tellurium/tellurium/roadrunner/extended_roadrunner.py in draw(self, **kwargs)
+        286 
+        287         from tellurium import SBMLDiagram
+    --> 288         diagram = SBMLDiagram(self.getSBML())
+        289         diagram.draw(**kwargs)
+        290 
 
-    Reference Simulation: k1 = 1.5
-    Parameter variation: k1 = [ 0.1  0.2  0.3  0.4  0.5  0.6  0.7  0.8  0.9  1.   1.1  1.2  1.3  1.4  1.5]
+
+    /extra/devel/src/tellurium/tellurium/visualization/sbmldiagram.py in __init__(self, sbml, species, reactions, reactants, products, modifiers)
+         59                                           reactants=reactants,
+         60                                           products=products,
+    ---> 61                                           modifiers=modifiers)
+         62 
+         63 
+
+
+    /extra/devel/src/tellurium/tellurium/visualization/sbmldiagram.py in _createGraph(model, species, reactions, reactants, products, modifiers)
+         89             warnings.warn("'pygraphviz' could not be imported, cannot draw network diagrams", ImportWarning, stacklevel=2)
+         90 
+    ---> 91         g = pgv.AGraph(strict=False, directed=True)
+         92 
+         93         # set some default node attributes
+
+
+    AttributeError: 'NoneType' object has no attribute 'AGraph'
 
 
 Logarithmic axis
