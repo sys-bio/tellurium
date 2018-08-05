@@ -12,24 +12,23 @@ quickly load a user config file
 """
 
 import os
-import sys
 import os.path as osp
+import sys
 
 # Local import
 from spyder.config.base import (CHECK_ALL, EXCLUDED_NAMES, get_home_dir,
-                                SUBFOLDER, TEST)
+                                SUBFOLDER)
 from spyder.config.fonts import BIG, MEDIUM, MONOSPACE, SANS_SERIF
 from spyder.config.user import UserConfig
 from spyder.config.utils import IMPORT_EXT
 from spyder.utils import codeanalysis
 
 
-#==============================================================================
+# =============================================================================
 # Main constants
-#==============================================================================
+# =============================================================================
 # Find in files exclude patterns
-EXCLUDE_PATTERNS = [r'\.pyc$|\.pyo$|\.orig$|\.hg|\.svn|\bbuild\b',
-                    r'\.pyc$|\.pyo$|\.orig$|\.hg|\.svn']
+EXCLUDE_PATTERNS = [r'\.pyc$|\.pyo$|\.git']
 
 # Extensions that should be visible in Spyder's file/project explorers
 SHOW_EXT = ['.py', '.ipynb', '.txt', '.dat', '.pdf', '.png', '.svg']
@@ -59,7 +58,9 @@ if sys.platform == 'darwin':
     RUN_CELL_SHORTCUT = 'Meta+Return'
 else:
     RUN_CELL_SHORTCUT = 'Ctrl+Return'
+RE_RUN_LAST_CELL_SHORTCUT = 'Alt+Return'
 RUN_CELL_AND_ADVANCE_SHORTCUT = 'Shift+Return'
+
 
 # =============================================================================
 #  Defaults
@@ -71,7 +72,10 @@ DEFAULTS = [
               'single_instance': True,
               'open_files_port': OPEN_FILES_PORT,
               'tear_off_menus': False,
+              'normal_screen_resolution': True,
               'high_dpi_scaling': False,
+              'high_dpi_custom_scale_factor': False,
+              'high_dpi_custom_scale_factors': '1.5',
               'vertical_dockwidget_titlebars': False,
               'vertical_tabs': False,
               'animated_docks': True,
@@ -89,8 +93,9 @@ DEFAULTS = [
               'cpu_usage/timeout': 2000,
               'use_custom_margin': True,
               'custom_margin': 0,
-              'show_internal_console_if_traceback': True,
-              'check_updates_on_startup': True,
+              'use_custom_cursor_blinking': False,
+              'show_internal_errors': True,
+              'check_updates_on_startup': False,
               'toolbars_visible': True,
               # Global Spyder fonts
               'font/family': MONOSPACE,
@@ -103,6 +108,8 @@ DEFAULTS = [
               'rich_font/bold': False,
               'cursor/width': 2,
               'completion/size': (300, 180),
+              'report_error/remember_me': False,
+              'report_error/remember_token': False,
               }),
             ('quick_layouts',
              {
@@ -133,27 +140,6 @@ DEFAULTS = [
               'umr/verbose': True,
               'umr/namelist': [],
               }),
-            ('console',
-             {
-              'max_line_count': 500,
-              'wrap': True,
-              'single_tab': True,
-              'calltips': True,
-              'codecompletion/auto': True,
-              'codecompletion/enter_key': True,
-              'codecompletion/case_sensitive': True,
-              'show_elapsed_time': False,
-              'show_icontext': False,
-              'monitor/enabled': True,
-              'qt/api': 'default',
-              'matplotlib/backend/value': 0,
-              'light_background': True,
-              'merge_output_channels': os.name != 'nt',
-              'colorize_sys_stderr': os.name != 'nt',
-              'pythonstartup/default': False,
-              'pythonstartup/custom': True,
-              'ets_backend': 'qt4'
-              }),
             ('ipython_console',
              {
               'show_banner': True,
@@ -161,6 +147,7 @@ DEFAULTS = [
               'use_pager': False,
               'show_calltips': True,
               'ask_before_closing': False,
+              'show_reset_namespace_warning': True,
               'buffer_size': 500,
               'pylab': True,
               'pylab/autoload': False,
@@ -169,24 +156,23 @@ DEFAULTS = [
               'pylab/inline/resolution': 72,
               'pylab/inline/width': 6,
               'pylab/inline/height': 4,
+              'pylab/inline/bbox_inches': True,
               'startup/run_lines': 'import antimony, import sbml2matlab, import rrplugins, import numpy, import scipy, import matplotlib, import roadrunner, import tellurium as te',
               'startup/use_run_file': False,
               'startup/run_file': '',
               'greedy_completer': False,
+              'jedi_completer': False,
               'autocall': 0,
               'symbolic_math': False,
               'in_prompt': '',
               'out_prompt': '',
-              'light_color': True,
-              'dark_color': False
+              'show_elapsed_time': False
               }),
             ('variable_explorer',
              {
-              'autorefresh': False,
-              'autorefresh/timeout': 2000,
               'check_all': CHECK_ALL,
-              'dataframe_format': '.3g', # no percent sign to avoid problems
-                                         # with ConfigParser's interpolation
+              'dataframe_format': '.6g',  # No percent sign to avoid problems
+                                          # with ConfigParser's interpolation
               'excluded_names': EXCLUDED_NAMES,
               'exclude_private': True,
               'exclude_uppercase': True,
@@ -233,7 +219,6 @@ DEFAULTS = [
               'occurrence_highlighting': True,
               'occurrence_highlighting/timeout': 1500,
               'always_remove_trailing_spaces': False,
-              'fullpath_sorting': True,
               'show_tab_bar': True,
               'max_recent_files': 20,
               'save_all_before_run': True,
@@ -253,7 +238,6 @@ DEFAULTS = [
               'max_history_entries': 20,
               'wrap': True,
               'connect/editor': False,
-              'connect/python_console': False,
               'connect/ipython_console': False,
               'math': True,
               'automatic_import': True,
@@ -290,8 +274,6 @@ DEFAULTS = [
              {
               'enable': True,
               'supported_encodings': ["utf-8", "iso-8859-1", "cp1252"],
-              'include': '',
-              'include_regexp': True,
               'exclude': EXCLUDE_PATTERNS,
               'exclude_regexp': True,
               'search_text_regexp': True,
@@ -299,18 +281,15 @@ DEFAULTS = [
               'search_text_samples': [codeanalysis.TASKS_PATTERN],
               'in_python_path': False,
               'more_options': False,
+              'case_sensitive': True
               }),
             ('workingdir',
              {
-              'editor/open/browse_scriptdir': True,
-              'editor/open/browse_workdir': False,
-              'editor/new/browse_scriptdir': False,
-              'editor/new/browse_workdir': True,
-              'editor/open/auto_set_to_basedir': False,
-              'editor/save/auto_set_to_basedir': False,
               'working_dir_adjusttocontents': False,
               'working_dir_history': 20,
-              'startup/use_last_directory': True,
+              'console/use_project_or_home_directory': False,
+              'console/use_cwd': True,
+              'console/use_fixed_directory': False,
               }),
             ('shortcuts',
              {
@@ -369,8 +348,11 @@ DEFAULTS = [
               'editor/delete line': 'Ctrl+D',
               'editor/transform to uppercase': 'Ctrl+Shift+U',
               'editor/transform to lowercase': 'Ctrl+U',
+              'editor/indent': 'Ctrl+]',
+              'editor/unindent': 'Ctrl+[',
               'editor/move line up': "Alt+Up",
               'editor/move line down': "Alt+Down",
+              'editor/go to new line': "Ctrl+Shift+Return",
               'editor/go to definition': "Ctrl+G",
               'editor/toggle comment': "Ctrl+1",
               'editor/blockcomment': "Ctrl+4",
@@ -389,8 +371,8 @@ DEFAULTS = [
               'editor/rotate kill ring': 'Shift+Meta+Y',
               'editor/kill previous word': 'Meta+Backspace',
               'editor/kill next word': 'Meta+D',
-              'editor/start of document': 'Ctrl+Up',
-              'editor/end of document': 'Ctrl+Down',
+              'editor/start of document': 'Ctrl+Home',
+              'editor/end of document': 'Ctrl+End',
               'editor/undo': 'Ctrl+Z',
               'editor/redo': 'Ctrl+Shift+Z',
               'editor/cut': 'Ctrl+X',
@@ -404,8 +386,10 @@ DEFAULTS = [
               'editor/conditional breakpoint': 'Shift+F12',
               'editor/run selection': "F9",
               'editor/go to line': 'Ctrl+L',
-              'editor/go to previous file': 'Ctrl+Tab',
-              'editor/go to next file': 'Ctrl+Shift+Tab',
+              'editor/go to previous file': 'Ctrl+Shift+Tab',
+              'editor/go to next file': 'Ctrl+Tab',
+              'editor/cycle to previous file': 'Ctrl+PgUp',
+              'editor/cycle to next file': 'Ctrl+PgDown',
               'editor/new file': "Ctrl+N",
               'editor/open last closed':"Ctrl+Shift+T",
               'editor/open file': "Ctrl+O",
@@ -424,8 +408,9 @@ DEFAULTS = [
               'editor/close file 2': "Ctrl+F4",
               'editor/run cell': RUN_CELL_SHORTCUT,
               'editor/run cell and advance': RUN_CELL_AND_ADVANCE_SHORTCUT,
-              # -- In plugins/editor.py
-              'editor/show/hide outline': "Ctrl+Alt+O",
+              'editor/go to next cell': 'Ctrl+Down',
+              'editor/go to previous cell': 'Ctrl+Up',
+              'editor/re-run last cell': RE_RUN_LAST_CELL_SHORTCUT,
               # -- In Breakpoints
               '_/switch to breakpoints': "Ctrl+Shift+B",
               # ---- Consoles (in widgets/shell) ----
@@ -610,7 +595,7 @@ DEFAULTS = [
               'solarized/light/background':  '#fdf6e3',
               'solarized/light/currentline': '#f5efdB',
               'solarized/light/currentcell': '#eee8d5',
-              'solarized/light/occurence':   '#839496',
+              'solarized/light/occurrence':   '#839496',
               'solarized/light/ctrlclick':   '#d33682',
               'solarized/light/sideareas':   '#eee8d5',
               'solarized/light/matched_p':   '#586e75',
@@ -629,7 +614,7 @@ DEFAULTS = [
               'solarized/dark/background':  '#002b36',
               'solarized/dark/currentline': '#083f4d',
               'solarized/dark/currentcell': '#073642',
-              'solarized/dark/occurence':   '#657b83',
+              'solarized/dark/occurrence':   '#657b83',
               'solarized/dark/ctrlclick':   '#d33682',
               'solarized/dark/sideareas':   '#073642',
               'solarized/dark/matched_p':   '#93a1a1',
@@ -646,9 +631,9 @@ DEFAULTS = [
             ]
 
 
-#==============================================================================
+# =============================================================================
 # Config instance
-#==============================================================================
+# =============================================================================
 # IMPORTANT NOTES:
 # 1. If you want to *change* the default value of a current option, you need to
 #    do a MINOR update in config version, e.g. from 3.0.0 to 3.1.0
@@ -656,14 +641,14 @@ DEFAULTS = [
 #    or if you want to *rename* options, then you need to do a MAJOR update in
 #    version, e.g. from 3.0.0 to 4.0.0
 # 3. You don't need to touch this value if you're just adding a new option
-CONF_VERSION = '32.0.0'
+CONF_VERSION = '43.1.0'
 
 # Main configuration instance
 try:
-    CONF = UserConfig('spyder', defaults=DEFAULTS, load=(not TEST),
+    CONF = UserConfig('spyder', defaults=DEFAULTS, load=True,
                       version=CONF_VERSION, subfolder=SUBFOLDER, backup=True,
                       raw_mode=True)
-except:
+except Exception:
     CONF = UserConfig('spyder', defaults=DEFAULTS, load=False,
                       version=CONF_VERSION, subfolder=SUBFOLDER, backup=True,
                       raw_mode=True)
