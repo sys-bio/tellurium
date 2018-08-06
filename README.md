@@ -55,6 +55,14 @@ te.plotArray(result)
 
 ## Installation Instructions
 
+In the unlikley event you have problems with the windows installation contact:
+
+Kiri Choi <kirichoi@uw.edu>
+
+If the likely event you have problems with the Mac or Linux installation contact:
+
+Kyle Medley <medjk@comcast.net> and/or <medleyj@uw.edu>
+
 Tellurium can either be installed with a front-end (Notebook, IDE) or as a Python package:
 
 A. [Notebook front-end](#front-end-1-tellurium-notebook)  
