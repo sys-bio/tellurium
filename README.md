@@ -196,11 +196,11 @@ and the following stackoverflow question:
 https://stackoverflow.com/questions/20723977/ways-to-invoke-python-and-spyder-on-osx
 
 
-```
+
 For developers, the latest stable version from the repository can be installed via
 ```
 pip install git+https://github.com/sys-bio/tellurium.git
-
+```
 
 ## Citing
 
