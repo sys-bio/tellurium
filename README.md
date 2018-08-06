@@ -151,15 +151,17 @@ Currently, only a legacy version of the Mac Spyder IDE is available. We recommen
 
 Binary pip packages for Tellurium are available from PyPi and support 64-bit Python versions 2.7, 3.5, and 3.6 for Windows, Mac, and Linux. Pip packages are tested on Fedora 22, Debian 8, Ubuntu 14.04, and Mac OS X 10.10.
 
+Installing software on the Mac or Linux requires some IT expertise. The following instructions are complex by design, please contact Kyle Medley <medleyj@uw.edu> for an explantion.  If you have difficulties we recommend Windows as the easiest way to get Tellurium to install as it is simply a one-click installer.   
+
 There are two options here, you can either use the basic python console or use spyder. With spyder you get graphing and a better user experience. If you don't want to use either of these you can try the Jupyer interface described previously.
 
-If you use the basic python console just type
+If you use the basic python consolefirst start your command line console and type (if you are unsure how to use the console please contact your IT admistrator), .
 
 pip install tellurium
 
-If this doesn't work please contact your IT admistrator as it means you have a misconfiged computer. 
+If this doesn't work please contact your IT admistrator as it means you have a misconfigured or damaged computer. 
 
-If you wish to get acess to the spyde IDE the follow these instructions:
+If you wish to get access to the spyde IDE use the follow instructions:
 
 First go to:
 
@@ -167,19 +169,32 @@ https://www.anaconda.com/download/
 
 and download the Mac or Linux distribution.
 
-This site describes the installtion in detail for the Mac, proably also works for Linux:
+This site describes the installation in detail for the Mac, probably also works for Linux:
 
 https://www.datacamp.com/community/tutorials/installing-anaconda-mac-os-x
 
-Once you've installed Anaconda, go to the command line and typee:
+Once you've installed Anaconda, go to the command line and type:
 
 conda install tellurium
 
-If that doens't work try typing this line:
+If that doesn't work try typing this line:
 
 pip install tellurium
 
-If this doesn't work or if you have any problems wit the Mac or Linux installation please contact Kyle Medley <medleyj@uw.edu>
+If this doesn't work or if you have any problems with the Mac or Linux installation please contact Kyle Medley <medleyj@uw.edu>.
+
+If you have got this far you can start Sypder by reading the following links:
+
+To start Spyder, type the name spyder in a terminal or at the Command Prompt. The Python 2.7 version of Anaconda also includes a graphical Launcher application that enables you to start IPython Notebook, IPython QTConsole, and Spyder with a single click.
+
+See also the instructions at:
+
+http://www.cdt-pv.org/media/resources/Anaconda-Quickstart.pdf
+
+and the following stackoverflow question:
+
+https://stackoverflow.com/questions/20723977/ways-to-invoke-python-and-spyder-on-osx
+
 
 ```
 For developers, the latest stable version from the repository can be installed via
