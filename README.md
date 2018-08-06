@@ -151,6 +151,16 @@ Currently, only a legacy version of the Mac Spyder IDE is available. We recommen
 
 Binary pip packages for Tellurium are available from PyPi and support 64-bit Python versions 2.7, 3.5, and 3.6 for Windows, Mac, and Linux. Pip packages are tested on Fedora 22, Debian 8, Ubuntu 14.04, and Mac OS X 10.10.
 
+There are two options here, you can either use the basic python console or use spyder. With spyder you get graphing and a better user experience. If you don't want to use either of these you can try the Jupyer interface described previously.
+
+If you use the basic python console just type
+
+pip install tellurium
+
+If this doesn't work please contact your IT admistrator as it means you have a misconfiged computer. 
+
+If you wish to get acess to the spyde IDE the follow these instructions:
+
 First go to:
 
 https://www.anaconda.com/download/
@@ -169,7 +179,7 @@ If that doens't work try typing this line:
 
 pip install tellurium
 
-If this doesn't work please contact Kyle Medley <medleyj@uw.edu>
+If this doesn't work or if you have any problems wit the Mac or Linux installation please contact Kyle Medley <medleyj@uw.edu>
 
 ```
 For developers, the latest stable version from the repository can be installed via
