@@ -153,7 +153,7 @@ Binary pip packages for Tellurium are available from PyPi and support 64-bit Pyt
 
 Installing software on the Mac or Linux requires some IT expertise. The following instructions are complex by design, please contact Kyle Medley <medleyj@uw.edu> for an explantion.  If you have difficulties we recommend Windows as the easiest way to get Tellurium to install as it is simply a one-click installer.   
 
-There are two options here, you can either use the basic python console or use spyder. With spyder you get graphing and a better user experience. If you don't want to use either of these you can try the Jupyer interface described previously.
+There are two options here, you can either use the basic python console (ie no front-end) or use spyder. With spyder you get graphing and a better user experience. If you don't want to use either of these you can try the Jupyer interface described previously.
 
 If you use the basic python consolefirst start your command line console and type (if you are unsure how to use the console please contact your IT admistrator), .
 
