@@ -55,14 +55,6 @@ te.plotArray(result)
 
 ## Installation Instructions
 
-In the unlikley event you have problems with the windows installation contact:
-
-Kiri Choi <kirichoi@uw.edu>
-
-If the likely event you have problems with the Mac or Linux installation contact:
-
-Kyle Medley <medjk@comcast.net> and/or <medleyj@uw.edu>
-
 Tellurium can either be installed with a front-end (Notebook, IDE) or as a Python package:
 
 A. [Notebook front-end](#front-end-1-tellurium-notebook)  
@@ -73,6 +65,8 @@ We recommend first-time users choose one of the front-ends, while developers loo
 The IDE front-end provides a MATLAB like experience with a code editor and Python console. 
 The notebook front-end provides a notebook interface similar to [Jupyter](http://jupyter.org/), 
 and features notebook cells for inline OMEX, a human-readable representation of COMBINE archives.
+
+For any issues with installation and setup, please check [FAQ](https://github.com/sys-bio/tellurium/wiki/FAQ) or [contact us](#contact-us). 
 
 -------
 
@@ -124,14 +118,19 @@ The notebook viewer comes with Python 3.6 (64-bit).
 
 -------
 
-### Front-end 2: Tellurium Spyder ide
+### Front-end 2: Tellurium Spyder IDE
 The Tellurium Spyder installers are tested with Windows 7+ and Mac OS X 10.9+. Some older Macs cannot run Spyder IDE, regardless of 
 whether the operating system is up-to-date. 
-The IDE comes with Python 2.7 (64-bit) and Python 3.6 (64-bit).
+The IDE comes with Python 2.7 (64-bit) or Python 3.6 (64-bit).
+For those who wish to use Tellurium with Spyder IDE on Mac OS X or Linux, we suggest you to install through [Anaconda](https://www.anaconda.com/) by 
+following instructions on [this page](https://github.com/sys-bio/tellurium/wiki/FAQ#i-would-like-to-use-tellurium-on-anaconda-what-should-i-do).
 
 <img align="left" width="32px" id="windows" src="https://raw.githubusercontent.com/wiki/sys-bio/tellurium/img/windows.png">
 <h4>Windows</h4>
 <br style="clear:both"/>
+
+:exclamation:**Attention to those upgrading to Tellurium Spyder IDE version 2.1.0+ from older version :** 
+We strongly suggest you to completely remove the older version of Tellurium prior to installing one of the 2.1.0+ versions.
 
 1. Download Tellurium Spyder for Windows:
     * [Python 3.6](https://sourceforge.net/projects/pytellurium/files/Tellurium-2.1/2.1.0/Tellurium-2.1.0-Python-3.6-win64-setup.exe/download)  
@@ -147,7 +146,6 @@ NOTE: Installation requires administrative rights. It is recommended to accept t
 
 Currently, only a legacy version of the Mac Spyder IDE is available. We recommend using the Notebook front-end on Mac.
 
-
 1. [Download Tellurium IDE for Mac OS X 10.10 or later](https://github.com/sys-bio/tellurium/releases/download/1.3.5-rc3/Tellurium-1.3.5-Spyder-2.3.8-OSX.dmg)
 2. Double-click the .dmg file to open a new window
 3. Double-click the Spyder icon
@@ -157,62 +155,20 @@ Currently, only a legacy version of the Mac Spyder IDE is available. We recommen
 ### Install via pip (no front-end)
 [![PyPI version](https://badge.fury.io/py/tellurium.svg)](https://badge.fury.io/py/tellurium)
 
-Binary pip packages for Tellurium are available from PyPi and support 64-bit Python versions 2.7, 3.5, and 3.6 for Windows, Mac, and Linux. Pip packages are tested on Fedora 22, Debian 8, Ubuntu 14.04, and Mac OS X 10.10.
+Binary pip packages for Tellurium are available from PyPi and support 64-bit Python versions 2.7, 3.5, and 3.6 for Windows, Mac, and Linux. 
+Pip packages are tested on Fedora 22, Debian 8, Ubuntu 14.04, and Mac OS X 10.10.
 
-Installing software on the Mac or Linux requires some IT expertise. The following instructions are complex by design, please contact Kyle Medley <medleyj@uw.edu> for why it was designed this way.  If you have difficulties we recommend Windows as the easiest way to get Tellurium to install as it is simply a one-click installer.   
-
-There are two options here, you can either use the basic python console (ie no front-end) or use spyder. With spyder you get graphing and a better user experience. If you don't want to use either of these you can try the Jupyter interface described previously.
-
-If you use the basic python console, first start your command line console and type (if you are unsure how to use the console please contact your IT admistrator):
-
-pip install tellurium
-
-If this doesn't work please contact your IT admistrator as it means you have a misconfigured or damaged computer. 
-
-If you wish to get access to the spyder IDE use the follow instructions:
-
-First go to:
-
-https://www.anaconda.com/download/
-
-and download the Mac or Linux distribution.
-
-This site describes the installation in detail for the Mac, it probably also works for Linux:
-
-https://www.datacamp.com/community/tutorials/installing-anaconda-mac-os-x
-
-Once you've installed Anaconda, go to the command line and type:
-
+The latest package release can be installed via	
 ```
-conda install tellurium
-```
-
-If that doesn't work try typing this line:
-
-```
-pip install tellurium
-```
-
-If this doesn't work or if you have any problems with the Mac or Linux installation please contact Kyle Medley <medleyj@uw.edu>, but its most likley your computer is damaged.
-
-If you have got this far successfully you can start Spyder by reading the following text and links:
-
-To start Spyder, type the name spyder in a terminal or at the Command Prompt. The Python 2.7 version of Anaconda also includes a graphical Launcher application that enables you to start IPython Notebook, IPython QTConsole, and Spyder with a single click.
-
-See also the instructions at:
-
-http://www.cdt-pv.org/media/resources/Anaconda-Quickstart.pdf
-
-and the following stackoverflow question:
-
-https://stackoverflow.com/questions/20723977/ways-to-invoke-python-and-spyder-on-osx
-
-
-
+pip install tellurium	pip install tellurium
+```	
 For developers, the latest stable version from the repository can be installed via
 ```
 pip install git+https://github.com/sys-bio/tellurium.git
 ```
+
+:exclamation:**If you would like a detailed instruction on how to setup Tellurium on Anaconda distributions, 
+check [this page](https://github.com/sys-bio/tellurium/wiki/FAQ#i-would-like-to-use-tellurium-on-anaconda-what-should-i-do)** 
 
 ## Citing
 
