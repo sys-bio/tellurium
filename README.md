@@ -149,12 +149,28 @@ Currently, only a legacy version of the Mac Spyder IDE is available. We recommen
 ### Install via pip (no front-end)
 [![PyPI version](https://badge.fury.io/py/tellurium.svg)](https://badge.fury.io/py/tellurium)
 
-Binary pip packages for Tellurium are available from PyPi and support 64-bit Python versions 2.7, 3.5, and 3.6 for Windows, Mac, and Linux.
-Pip packages are tested on Fedora 22, Debian 8, Ubuntu 14.04, and Mac OS X 10.10.
+Binary pip packages for Tellurium are available from PyPi and support 64-bit Python versions 2.7, 3.5, and 3.6 for Windows, Mac, and Linux. Pip packages are tested on Fedora 22, Debian 8, Ubuntu 14.04, and Mac OS X 10.10.
 
-The latest package release can be installed via
-```
+First go to:
+
+https://www.anaconda.com/download/
+
+and download the Mac or Linux distribution.
+
+This site describes the installtion in detail for the Mac, proably also works for Linux:
+
+https://www.datacamp.com/community/tutorials/installing-anaconda-mac-os-x
+
+Once you've installed Anaconda, go to the command line and typee:
+
+conda install tellurium
+
+If that doens't work try typing this line:
+
 pip install tellurium
+
+If this doesn't work please contact Kyle Medley <medleyj@uw.edu>
+
 ```
 For developers, the latest stable version from the repository can be installed via
 ```
