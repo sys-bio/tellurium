@@ -163,9 +163,21 @@ The latest package release can be installed via
 ```
 pip install tellurium
 ```	
+
 For developers, the latest stable version from the repository can be installed via
 ```
 pip install git+https://github.com/sys-bio/tellurium.git
+```
+
+### Install via Anaconda
+
+1. [Download the Anaconda distribution for your platform.](https://www.anaconda.com/download)
+2. [Follow the installer instructions.](https://docs.anaconda.com/anaconda/install/linux)
+3. When prompted, add Anaconda to your PATH
+4. Run
+
+```
+pip install tellurium
 ```
 
 :exclamation:**If you would like a detailed instruction on how to setup Tellurium on Anaconda distributions, 
