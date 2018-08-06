@@ -175,15 +175,19 @@ https://www.datacamp.com/community/tutorials/installing-anaconda-mac-os-x
 
 Once you've installed Anaconda, go to the command line and type:
 
+```
 conda install tellurium
+```
 
 If that doesn't work try typing this line:
 
+```
 pip install tellurium
+```
 
-If this doesn't work or if you have any problems with the Mac or Linux installation please contact Kyle Medley <medleyj@uw.edu>.
+If this doesn't work or if you have any problems with the Mac or Linux installation please contact Kyle Medley <medleyj@uw.edu>, but its most likley your computer is damaged.
 
-If you have got this far you can start Sypder by reading the following links:
+If you have got this far successfully you can start Spyder by reading the following text and links:
 
 To start Spyder, type the name spyder in a terminal or at the Command Prompt. The Python 2.7 version of Anaconda also includes a graphical Launcher application that enables you to start IPython Notebook, IPython QTConsole, and Spyder with a single click.
 
