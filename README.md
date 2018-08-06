@@ -124,14 +124,14 @@ whether the operating system is up-to-date.
 The Tellurium Spyder IDE comes with Python 2.7 (64-bit) or Python 3.6 (64-bit).
 
 **For those who wish to use Tellurium with Spyder IDE on Mac OS X or Linux, we suggest you to install through [Anaconda](https://www.anaconda.com/) by 
-following instructions on [this page](https://github.com/sys-bio/tellurium/wiki/FAQ#i-would-like-to-use-tellurium-on-anaconda-what-should-i-do).**
+following the instructions on [this page](https://github.com/sys-bio/tellurium/wiki/FAQ#i-would-like-to-use-tellurium-on-anaconda-what-should-i-do).**
 
 <img align="left" width="32px" id="windows" src="https://raw.githubusercontent.com/wiki/sys-bio/tellurium/img/windows.png">
 <h4>Windows</h4>
 <br style="clear:both"/>
 
 :exclamation:**Attention to those upgrading to Tellurium Spyder IDE version 2.1.0+ from older version :** 
-We strongly suggest you to completely remove the older version of Tellurium prior to installing one of the 2.1.0+ versions.
+We strongly suggest you to completely remove the older version of Tellurium Spyder IDE prior to installing one of the 2.1.0+ versions.
 
 1. Download Tellurium Spyder for Windows:
     * [Python 3.6](https://sourceforge.net/projects/pytellurium/files/Tellurium-2.1/2.1.0/Tellurium-2.1.0-Python-3.6-win64-setup.exe/download)  
@@ -161,7 +161,7 @@ Pip packages are tested on Fedora 22, Debian 8, Ubuntu 14.04, and Mac OS X 10.10
 
 The latest package release can be installed via	
 ```
-pip install tellurium	pip install tellurium
+pip install tellurium
 ```	
 For developers, the latest stable version from the repository can be installed via
 ```
@@ -169,7 +169,7 @@ pip install git+https://github.com/sys-bio/tellurium.git
 ```
 
 :exclamation:**If you would like a detailed instruction on how to setup Tellurium on Anaconda distributions, 
-check [this page](https://github.com/sys-bio/tellurium/wiki/FAQ#i-would-like-to-use-tellurium-on-anaconda-what-should-i-do)** 
+check [this page](https://github.com/sys-bio/tellurium/wiki/FAQ#i-would-like-to-use-tellurium-on-anaconda-what-should-i-do).** 
 
 ## Citing
 
