@@ -155,13 +155,13 @@ Installing software on the Mac or Linux requires some IT expertise. The followin
 
 There are two options here, you can either use the basic python console (ie no front-end) or use spyder. With spyder you get graphing and a better user experience. If you don't want to use either of these you can try the Jupyter interface described previously.
 
-If you use the basic python consolefirst start your command line console and type (if you are unsure how to use the console please contact your IT admistrator), .
+If you use the basic python console, first start your command line console and type (if you are unsure how to use the console please contact your IT admistrator):
 
 pip install tellurium
 
 If this doesn't work please contact your IT admistrator as it means you have a misconfigured or damaged computer. 
 
-If you wish to get access to the spyde IDE use the follow instructions:
+If you wish to get access to the spyder IDE use the follow instructions:
 
 First go to:
 
@@ -169,7 +169,7 @@ https://www.anaconda.com/download/
 
 and download the Mac or Linux distribution.
 
-This site describes the installation in detail for the Mac, probably also works for Linux:
+This site describes the installation in detail for the Mac, it probably also works for Linux:
 
 https://www.datacamp.com/community/tutorials/installing-anaconda-mac-os-x
 
