@@ -320,8 +320,8 @@ class ExtendedRoadRunner(roadrunner.RoadRunner):
         :param title: plot title (str)
         :param xlim: limits on x-axis (tuple [start, end])
         :param ylim: limits on y-axis
-        :param logx:
-        :param logy:
+        :param logx: boolean of log scale for x-axis
+        :param logy: boolean of log scale for y-axis
         :param xscale: 'linear' or 'log' scale for x-axis
         :param yscale: 'linear' or 'log' scale for y-axis
         :param grid: show grid
