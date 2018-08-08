@@ -40,14 +40,14 @@ class MatplotlibFigure(PlottingFigure):
     """ MatplotlibFigure. """
 
     def __init__(self, title=None, layout=PlottingLayout(), use_legend=True, xtitle=None, ytitle=None,
-                 logx=None, logy=None,
-                 figsize=(9, 6), save_to_pdf=False):
+                 logx=None, logy=None, figsize=(9,6), savefig=None, dpi=80):
         super(MatplotlibFigure, self).__init__(title=title, layout=layout,
                                                xtitle=xtitle, ytitle=ytitle, logx=logx, logy=logy)
         self.use_legend = use_legend
 
         self.figsize = figsize
-        self.save_to_pdf = save_to_pdf
+        self.savefig = savefig
+        self.dpi = dpi
 
     def render(self):
         """ Plot the figure. Call this last."""
@@ -105,12 +105,11 @@ class MatplotlibFigure(PlottingFigure):
 
         # grid
         ax.grid(linestyle='dotted', alpha=0.8)
-
-        if self.save_to_pdf:
-            (dummy, filename) = mkstemp(suffix='.pdf')
-            plt.savefig(filename, format='pdf')
-            print('saved plot to {}'.format(filename))
         
+        if self.savefig:
+            plt.savefig(self.savefig, dpi=self.dpi, bbox_inches='tight')
+            print('saved plot to {}'.format(self.savefig))
+
         plt.show()
 
         return fig
