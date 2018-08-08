@@ -258,6 +258,41 @@ If you want to define some elements as changing in time, you can either define t
     S2 -> S3; k2*S2
   end
 
+Piecewise Assignments
+---------------------
+
+You can use ``piecewise`` to define piecewise assignments.
+
+::
+
+  model pathway()
+    # Examples of piecewise assignments
+    $Xo -> S1; k1*Xo;
+    S1 -> S2; k2*S1; 
+    S2 -> $X1; k3*S2;
+    
+    k1 := piecewise(0.1, time > 50, 20)
+         
+    k2 = 0.45; k3 = 0.34; Xo = 5;
+  end
+
+Above will return ``k1 = 0.1`` if ``time > 50`` and ``20`` otherwise. A more complicated piecewise assignment can be defined as well.
+  
+::
+
+  model pathway()
+    $Xo -> S1; k1*Xo;
+    S1 -> S2; k2*S1; 
+    S2 -> $X1; k3*S2;
+              
+    # This statement will:
+    # Return (5 if time > 20), if not (return 8 if y<1.7),
+    # and if not it will return 15.
+    k1 := piecewise(5, time > 20, 8, S2 < 100, 15)
+    
+    k2 = 0.45; k3 = 0.34; Xo = 5;
+  end
+  
 Events
 ------
 
