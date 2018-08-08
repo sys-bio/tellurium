@@ -159,9 +159,9 @@ class PlottingEngine(object):
         if figsize:
             self.fig.figsize = figsize
         if savefig:
-            fig.savefig = savefig
+            self.fig.savefig = savefig
         if dpi:
-            fig.dpi = dpi
+            self.fig.dpi = dpi
             
     def show(self, reset=True):
         """ Shows the traces accummulated from accumulateTimecourse.
