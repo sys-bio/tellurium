@@ -449,10 +449,11 @@ class ExtendedRoadRunner(roadrunner.RoadRunner):
         """
 
         integratorName = self.integrator.getName()
+        vss = self.integrator.variable_step_size
         if (integratorName != 'gillespie'):
             self.setIntegrator('gillespie')
             self.integrator.variable_step_size = True        
-        if (len(args) > 3): 
+        if (len(args) > 3):
             self.integrator.variable_step_size = False
         if (len(args) == 3):
             if (type(args[2]) != list):
@@ -462,4 +463,5 @@ class ExtendedRoadRunner(roadrunner.RoadRunner):
 
         s = self.simulate(*args, **kwargs)
         self.setIntegrator(integratorName)
+        self.integrator.variable_step_size = vss
         return s
