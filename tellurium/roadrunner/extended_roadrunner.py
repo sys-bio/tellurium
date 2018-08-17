@@ -449,12 +449,17 @@ class ExtendedRoadRunner(roadrunner.RoadRunner):
         """
 
         integratorName = self.integrator.getName()
-        self.setIntegrator('gillespie')
-        if (len(args) > 2):
+        if (integratorName != 'gillespie'):
+            self.setIntegrator('gillespie')
+            self.integrator.variable_step_size = True        
+        if (len(args) > 3): 
             self.integrator.variable_step_size = False
+        if (len(args) == 3):
+            if (type(args[2]) != list):
+                self.integrator.variable_step_size = False
         elif ('points' in kwargs or 'steps' in kwargs):
             self.integrator.variable_step_size = False
+
         s = self.simulate(*args, **kwargs)
-        self.integrator.variable_step_size = True
         self.setIntegrator(integratorName)
         return s
