@@ -426,17 +426,17 @@ class ExtendedRoadRunner(roadrunner.RoadRunner):
         ::
 
             rr = te.loada ('S1 -> S2; k1*S1; k1 = 0.1; S1 = 40')
-            # Simulate from time zero to 40 time units
+            # Simulate from time zero to 40 time units using variable step sizes (classic Gillespie)
             result = rr.gillespie (0, 40)
             # Simulate on a grid with 10 points from start 0 to end time 40
             rr.reset()
             result = rr.gillespie (0, 40, 10)
-            # Simulate from time zero to 40 time units using the given selection list
+            # Simulate from time zero to 40 time units using variable step sizes with given selection list
             # This means that the first column will be time and the second column species S1
             rr.reset()
             result = rr.gillespie (0, 40, selections=['time', 'S1'])
-            # Simulate from time zero to 40 time units, on a grid with 20 points
-            # using the give selection list
+            # Simulate on a grid with 20 points from time zero to 40 time units
+            # using the given selection list
             rr.reset()
             result = rr.gillespie (0, 40, 20, ['time', 'S1'])
             rr.plot(result)
