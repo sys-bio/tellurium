@@ -123,11 +123,6 @@ The function ``tellurium.plotArray`` assumes that the first column in the array 
 Model Reset
 ----------------------------------------
 
-Use these routines reset your model back to particular states
-
-.. autoclass:: tellurium.tellurium.ExtendedRoadRunner
-   :members: resetToOrigin, resetAll
-
 .. include:: _notebooks/core/tellurium_reset.rst
 
 ----------------------------------------
