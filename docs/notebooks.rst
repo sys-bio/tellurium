@@ -29,7 +29,6 @@ In this section, various types of models and different ways to building models a
 .. include:: _notebooks/core/model_modelFromBioModels.rst
 .. include:: _notebooks/core/model_nonUnitStoichiometries.rst
 .. include:: _notebooks/core/model_consecutiveUniUniReactions.rst
-.. include:: _notebooks/core/model_feedback_oscillations.rst
 .. include:: _notebooks/core/model_generatingDifferentWaveforms.rst
 .. include:: _notebooks/core/model_normalizedSpecies.rst
 
@@ -91,9 +90,5 @@ To draw the network diagrams seen here, you will need `graphviz <http://www.grap
 -------------
 Miscellaneous
 -------------
-
-If you are using Tellurium notebook or Tellurium Spyder, you can install additional package using ``installPackage`` function. In Tellurium Spyder, you can also install packages using included command Prompt. For more information, see `Running Command Prompt for Tellurium Spyder <https://tellurium.readthedocs.io/en/latest/walkthrough.html#running-command-prompt-for-tellurium-spyder>`_.
-
-.. autofunction:: tellurium.installPackage
 
 .. include:: _notebooks/core/methods_installing_packages.rst
