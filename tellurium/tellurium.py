@@ -833,12 +833,12 @@ def getEigenvalues(m):
 def plotArray(result, loc='upper right', show=True, resetColorCycle=True,
              xlabel=None, ylabel=None, title=None, xlim=None, ylim=None,
              xscale='linear', yscale="linear", grid=False, labels=None, **kwargs):
-    """ Plot an array. Returns a handle to the plotting object.
+    """ Plot an array.
 
     :param result: Array to plot, first column of the array must be the x-axis and remaining columns the y-axis
 	:param loc: Location of legend box (str)
 	:param show: False to add multiple curves to one plot
-	:param color: 'red','blue', etc. to use the same color for every curve
+	:param color: 'red', 'blue', etc. to use the same color for every curve
 	:param labels: A list of labels for the legend, include as many labels as there are curves to plot
 	:param xlabel: x-axis label (str)
 	:param ylabel: y-axis label (str)
