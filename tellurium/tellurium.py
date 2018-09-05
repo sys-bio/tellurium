@@ -836,23 +836,23 @@ def plotArray(result, loc='upper right', show=True, resetColorCycle=True,
     """ Plot an array.
 
     :param result: Array to plot, first column of the array must be the x-axis and remaining columns the y-axis
-	:param loc: Location of legend box
-	:type loc: str
-	:param color: 'red', 'blue', etc. to use the same color for every curve
-	:type color: str
-	:param labels: A list of labels for the legend, include as many labels as there are curves to plot
-	:param xlabel: x-axis label
-	:type xlabel: str
-	:param ylabel: y-axis label
-	:type ylabel: str
-	:param title: Add plot title
-	:type title: str
-	:param xlim: Limits on x-axis (tuple [start, end])
-	:param ylim: Limits on y-axis
-	:param xscale: 'linear' or 'log' scale for x-axis
-	:param yscale: 'linear' or 'log' scale for y-axis
-	:param grid: Show grid
-	:type grid: bool
+    :param loc: Location of legend box
+    :type loc: str
+    :param color: 'red', 'blue', etc. to use the same color for every curve
+    :type color: str
+    :param labels: A list of labels for the legend, include as many labels as there are curves to plot
+    :param xlabel: x-axis label
+    :type xlabel: str
+    :param ylabel: y-axis label
+    :type ylabel: str
+    :param title: Add plot title
+    :type title: str
+    :param xlim: Limits on x-axis (tuple [start, end])
+    :param ylim: Limits on y-axis
+    :param xscale: 'linear' or 'log' scale for x-axis
+    :param yscale: 'linear' or 'log' scale for y-axis
+    :param grid: Show grid
+    :type grid: bool
 	
     ::
 
