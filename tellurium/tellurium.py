@@ -833,23 +833,21 @@ def getEigenvalues(m):
 def plotArray(result, loc='upper right', show=True, resetColorCycle=True,
              xlabel=None, ylabel=None, title=None, xlim=None, ylim=None,
              xscale='linear', yscale="linear", grid=False, labels=None, **kwargs):
-    """ Plot an array.
+    """ Plot an array. Returns a handle to the plotting object.
 
-    Returns a handle to the plotting object
-
-    :param result: array to plot. First column of the array must be the x-axis and remaining columns the y-axis.
-	:param loc: location of legend box (str)
+    :param result: Array to plot, first column of the array must be the x-axis and remaining columns the y-axis
+	:param loc: Location of legend box (str)
 	:param show: False to add multiple curves to one plot
 	:param color: 'red','blue', etc. to use the same color for every curve
-	:param labels: a list of labels for the legend. Include as many labels as there are curves to plot
+	:param labels: A list of labels for the legend, include as many labels as there are curves to plot
 	:param xlabel: x-axis label (str)
 	:param ylabel: y-axis label (str)
-	:param title: plot title (str)
-	:param xlim: limits on x-axis (tuple [start, end])
-	:param ylim: limits on y-axis
+	:param title: Plot title (str)
+	:param xlim: Limits on x-axis (tuple [start, end])
+	:param ylim: Limits on y-axis
 	:param xscale: 'linear' or 'log' scale for x-axis
 	:param yscale: 'linear' or 'log' scale for y-axis
-	:param grid: show grid (boolean)	
+	:param grid: Show grid (boolean)	
 	
     ::
 
