@@ -21,7 +21,7 @@ Contents:
    paramscan.rst
    tellurium_methods.rst
    API.rst
-   libRoadRunner Documents <https://sys-bio.github.io/roadrunner/python_docs/index.html>
+   libRoadRunner Documents <https://libroadrunner.readthedocs.io/en/latest/>
    SimpleSBML Documents <https://simplesbml.readthedocs.io/en/latest/>
    FAQ <https://github.com/sys-bio/tellurium/wiki/FAQ>
    appendix.rst
