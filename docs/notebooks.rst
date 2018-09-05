@@ -38,12 +38,9 @@ Simulation and Analysis Methods
 
 In this section, different ways to simlate and analyse a model is shown.
 
-.. include:: _notebooks/core/computeSteadyState.rst
 .. include:: _notebooks/core/tellurium_stochastic.rst
 .. include:: _notebooks/core/parameter_scan.rst
 .. include:: _notebooks/core/plot2DParameterScan.rst
-.. include:: _notebooks/core/steadystate_scan.rst
-.. include:: _notebooks/core/tellurium_reset.rst
 
 --------
 SED-ML

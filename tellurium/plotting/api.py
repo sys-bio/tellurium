@@ -10,7 +10,7 @@ def plot(x, y, show=True, **kwargs):
     :param tag: A tag so that all traces of the same type are plotted using same color/label (for e.g. multiple stochastic traces).
     :param tags: Like tag, but for multiple traces.
     :param name: The name of the trace.
-    :param name: Like name, but for multiple traces.
+    :param names: Like name, but for multiple traces to appear in the legend.
     :param alpha: Floating point representing the opacity ranging from 0 (transparent) to 1 (opaque).
     :param mode: Either 'lines' or 'markers' (defaults to 'lines').
     """
