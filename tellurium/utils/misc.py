@@ -66,8 +66,8 @@ def runTool (toolFileName):
 
               If the external tool writes to stdout, this will be captured and returned.
 
-        :param arguments to external tool
-        :return String return by external tool, if any.
+        :param toolFileName: argument to external tool
+        :returns: String return by external tool, if any.
         """
     import subprocess
     try:

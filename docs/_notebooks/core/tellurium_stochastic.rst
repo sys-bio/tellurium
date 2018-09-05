@@ -1,7 +1,7 @@
 
 
 Stochastic simulation
-^^^^^^^^^^^^^^^^^^^^^
+~~~~~~~~~~~~~~~~~~~~~
 
 Stochastic simulations can be run by changing the current integrator
 type to 'gillespie' or by using the ``r.gillespie`` function.

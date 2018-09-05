@@ -133,16 +133,6 @@ Routines to support the Jarnac compatibility layer
 
 .. autoclass:: tellurium.tellurium.ExtendedRoadRunner
    :members: fjac, sm, rs, fs, bs, ps, vs, dv, rv, sv
-      
-----------------------------------------
-Parameter Scanning
-----------------------------------------
-
-Routines to support the Jarnac compatibility layer
-
-.. autofunction:: tellurium.ParameterScan
-.. autofunction:: tellurium.SteadyStateScan
-
 
 ----------------------------------------
 Test Models

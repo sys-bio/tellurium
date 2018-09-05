@@ -835,20 +835,30 @@ def plotArray(result, loc='upper right', show=True, resetColorCycle=True,
              xscale='linear', yscale="linear", grid=False, labels=None, **kwargs):
     """ Plot an array.
 
-    The first column of the array must be the x-axis and remaining columns the y-axis. Returns
-    a handle to the plotting object. Note that you can add plotting options as named key values after
-    the array. To add a legend, include the label legend values:
-
-    te.plotArray (m, labels=['Label 1, 'Label 2', etc])
-
-    Make sure you include as many labels as there are curves to plot!
-
-    Use show=False to add multiple curves. Use color='red' to use the same color for every curve.
+    :param result: Array to plot, first column of the array must be the x-axis and remaining columns the y-axis
+    :param loc: Location of legend box
+    :type loc: str
+    :param color: 'red', 'blue', etc. to use the same color for every curve
+    :type color: str
+    :param labels: A list of labels for the legend, include as many labels as there are curves to plot
+    :param xlabel: x-axis label
+    :type xlabel: str
+    :param ylabel: y-axis label
+    :type ylabel: str
+    :param title: Add plot title
+    :type title: str
+    :param xlim: Limits on x-axis (tuple [start, end])
+    :param ylim: Limits on y-axis
+    :param xscale: 'linear' or 'log' scale for x-axis
+    :param yscale: 'linear' or 'log' scale for y-axis
+    :param grid: Show grid
+    :type grid: bool
+	
     ::
 
         import numpy as np
         result = np.array([[1,2,3], [7.2,6.5,8.8], [9.8, 6.5, 4.3]])
-        te.plotArray(result, title="My graph', xlim=((0, 5)))
+        te.plotArray(result, title="My graph", xlim=((0, 5)), labels=["Label 1", "Label 2"])
     """
     warnings.warn("plotArray is deprecated, use plot instead", DeprecationWarning)
 
