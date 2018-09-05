@@ -299,7 +299,7 @@ class ExtendedRoadRunner(roadrunner.RoadRunner):
         Plot is called with simulation data to plot as the first argument. If no data is provided the data currently
         held by roadrunner generated in the last simulation is used. The first column is considered the x axis and
         all remaining columns the y axis.
-        If the result array has no names, than the current r.selections are used for naming. In this case the
+        If the result array has no names, then the current r.selections are used for naming. In this case the
         dimension of the r.selections has to be the same like the number of columns of the result array.
 
         Curves are plotted in order of selection (columns in result).
@@ -311,29 +311,36 @@ class ExtendedRoadRunner(roadrunner.RoadRunner):
             sbml = te.getTestModel('feedback.xml')
             r = te.loadSBMLModel(sbml)
             s = r.simulate(0, 100, 201)
-            r.plot(s, loc="upper right", linewidth=2.0, lineStyle='-', marker='o', markersize=2.0, alpha=0.8,
-                   title="Feedback Oscillation", xlabel="time", ylabel="concentration", xlim=[0,100], ylim=[-1, 4])
+            r.plot(s, loc="upper right", linewidth=2.0, lineStyle='-', marker='o', markersize=2.0,
+                   alpha=0.8, title="Feedback Oscillation", xlabel="time", ylabel="concentration",
+                   xlim=[0,100], ylim=[-1, 4])
 
         :param result: results data to plot (numpy array)
         :param show: show the plot, use show=False to plot multiple simulations in one plot
-        :param xtitle: x-axis label (str)
-        :param ytitle: y-axis label (str)
-        :param title: plot title (str)
+        :type show: bool
+        :param xtitle: x-axis label
+        :type xtitle: str
+        :param ytitle: y-axis label
+        :type ytitle: str
+        :param title: plot title
+        :type title: str
         :param xlim: limits on x-axis (tuple [start, end])
         :param ylim: limits on y-axis
-        :param logx: boolean of log scale for x-axis
-        :param logy: boolean of log scale for y-axis
+        :param logx: use log scale for x-axis
+        :type logx: bool
+        :param logy: use log scale for y-axis
+        :type logy: bool
         :param xscale: 'linear' or 'log' scale for x-axis
         :param yscale: 'linear' or 'log' scale for y-axis
         :param grid: show grid
+        :type grid: bool
         :param ordinates: If supplied, only these selections will be plotted (see RoadRunner selections)
         :param tag: If supplied, all traces with the same tag will be plotted with the same color/style
         :param kwargs: additional matplotlib keywords like marker, lineStyle, color, alpha, ...
-        :param labels: 'id' to use species IDs,
-        :param figsize: If supplied, customize the size of the figure,
-        :param savefig: If supplied, save the figure to specified location,
-        :param dpi: Change the dpi of the saved figure,
-        :return:
+        :param labels: 'id' to use species IDs
+        :param figsize: If supplied, customize the size of the figure (width,height)
+        :param savefig: If supplied, saves the figure to specified location
+        :param dpi: Change the dpi of the saved figure
         """
         if result is None:
             result = self.getSimulationData()
