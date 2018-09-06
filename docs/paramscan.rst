@@ -108,7 +108,7 @@ Another way is to use createColormap() and plotSurface() to create a 3D graph of
 
     p.endTime = 6
     p.colormap = p.createColormap([.12,.56,1], [.86,.08,.23])
-    p.dependent = ['S1']
+    p.dependent = 'S1'
     p.independent = ['time', 'k1']
     p.startValue = 1
     p.endValue = 5
