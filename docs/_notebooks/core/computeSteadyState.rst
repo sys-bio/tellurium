@@ -10,8 +10,6 @@ Steady states can be calculated using ``r.getSteadyStateValues``
     import tellurium as te
     from roadrunner import Config
     
-    Config.setValue(Config.LOADSBMLOPTIONS_CONSERVED_MOIETIES, True) 
-    
     r = te.loada('''
       model pathway()
          $Xo -> S1; k1*Xo - k2*S1
@@ -29,11 +27,10 @@ Steady states can be calculated using ``r.getSteadyStateValues``
     values = r.getSteadyStateValues()
     for sid, value in zip(r.steadyStateSelections, r.getSteadyStateValues()):
         print(sid, "=", value)
-    Config.setValue(Config.LOADSBMLOPTIONS_CONSERVED_MOIETIES, False)
 
 
 .. parsed-literal::
 
     [S1] = 0.17857142857142858
-    [S2] = 0.0
+    [S2] = 4.5150957559317066e-35
 

@@ -22,7 +22,7 @@ app <http://tellurium.readthedocs.io/en/latest/installation.html#front-end-1-tel
 .. parsed-literal::
 
     Please run 
-        /home/poltergeist/.config/Tellurium/telocal/python-3.6.3/bin/python3.6 -m pip install pygraphviz
+        /home/kirichoi/anaconda3/bin/python -m pip install pygraphviz
     from a terminal or command propt (without the quotes) to install pygraphviz. Then restart your kernel in this notebook (Language->Restart Running Kernel).
 
 
@@ -54,6 +54,9 @@ Activator system
 
 .. code-block:: python
 
+    import warnings
+    warnings.filterwarnings("ignore")
+    
     import tellurium as te
     te.setDefaultPlottingEngine('matplotlib')
     
@@ -100,51 +103,16 @@ Activator system
             at (time > 100): Activator = 5;  
     ''')
     r.draw(width=300)
-    r.conservedMoietyAnalysis = True
     result = r.simulate (0, 300, 2000, ['time', 'J11', 'J12']);
     r.plot(result);
 
 
-::
+
+.. image:: _notebooks/core/tellurium_examples_files/tellurium_examples_4_0.png
 
 
-    ---------------------------------------------------------------------------
 
-    AttributeError                            Traceback (most recent call last)
-
-    <ipython-input-2-65bec52b7aca> in <module>()
-         45         at (time > 100): Activator = 5;
-         46 ''')
-    ---> 47 r.draw(width=300)
-         48 r.conservedMoietyAnalysis = True
-         49 result = r.simulate (0, 300, 2000, ['time', 'J11', 'J12']);
-
-
-    /extra/devel/src/tellurium/tellurium/roadrunner/extended_roadrunner.py in draw(self, **kwargs)
-        286 
-        287         from tellurium import SBMLDiagram
-    --> 288         diagram = SBMLDiagram(self.getSBML())
-        289         diagram.draw(**kwargs)
-        290 
-
-
-    /extra/devel/src/tellurium/tellurium/visualization/sbmldiagram.py in __init__(self, sbml, species, reactions, reactants, products, modifiers)
-         59                                           reactants=reactants,
-         60                                           products=products,
-    ---> 61                                           modifiers=modifiers)
-         62 
-         63 
-
-
-    /extra/devel/src/tellurium/tellurium/visualization/sbmldiagram.py in _createGraph(model, species, reactions, reactants, products, modifiers)
-         89             warnings.warn("'pygraphviz' could not be imported, cannot draw network diagrams", ImportWarning, stacklevel=2)
-         90 
-    ---> 91         g = pgv.AGraph(strict=False, directed=True)
-         92 
-         93         # set some default node attributes
-
-
-    AttributeError: 'NoneType' object has no attribute 'AGraph'
+.. image:: _notebooks/core/tellurium_examples_files/tellurium_examples_4_1.png
 
 
 Feedback oscillations
@@ -352,44 +320,8 @@ Stoichiometric matrix
     
 
 
-::
 
-
-    ---------------------------------------------------------------------------
-
-    AttributeError                            Traceback (most recent call last)
-
-    <ipython-input-8-2c9377ed179d> in <module>()
-         14 
-         15 print(r.getFullStoichiometryMatrix())
-    ---> 16 r.draw()
-    
-
-    /extra/devel/src/tellurium/tellurium/roadrunner/extended_roadrunner.py in draw(self, **kwargs)
-        286 
-        287         from tellurium import SBMLDiagram
-    --> 288         diagram = SBMLDiagram(self.getSBML())
-        289         diagram.draw(**kwargs)
-        290 
-
-
-    /extra/devel/src/tellurium/tellurium/visualization/sbmldiagram.py in __init__(self, sbml, species, reactions, reactants, products, modifiers)
-         59                                           reactants=reactants,
-         60                                           products=products,
-    ---> 61                                           modifiers=modifiers)
-         62 
-         63 
-
-
-    /extra/devel/src/tellurium/tellurium/visualization/sbmldiagram.py in _createGraph(model, species, reactions, reactants, products, modifiers)
-         89             warnings.warn("'pygraphviz' could not be imported, cannot draw network diagrams", ImportWarning, stacklevel=2)
-         90 
-    ---> 91         g = pgv.AGraph(strict=False, directed=True)
-         92 
-         93         # set some default node attributes
-
-
-    AttributeError: 'NoneType' object has no attribute 'AGraph'
+.. image:: _notebooks/core/tellurium_examples_files/tellurium_examples_16_1.png
 
 
 Lorenz attractor
@@ -663,8 +595,6 @@ addition, the plot is repeated for various values of Km.
        k1 = 0.1; k2 = 0.4; S1 = 10; S2 = 0;
        Km1 = 0.1; Km2 = 0.1;  
     ''')
-    
-    r.conservedMoietyAnalysis = True
     
     for i in range (1,8):
       numbers = np.linspace (0, 1.2, 200)

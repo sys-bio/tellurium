@@ -190,12 +190,9 @@ conversion.
     <bvar>
     <ci>time</ci>
     </bvar>
-    <ci>S1</ci>
+    <ci>S2</ci>
     </apply>
-    <apply>
-    <minus/>
     <ci>_J0</ci>
-    </apply>
     </apply>
     </math>
     <math xmlns="http://www.w3.org/1998/Math/MathML">
@@ -206,9 +203,12 @@ conversion.
     <bvar>
     <ci>time</ci>
     </bvar>
-    <ci>S2</ci>
+    <ci>S1</ci>
     </apply>
+    <apply>
+    <minus/>
     <ci>_J0</ci>
+    </apply>
     </apply>
     </math>
     </component>

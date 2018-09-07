@@ -79,7 +79,7 @@ simulation.
 
     --------------------------------------------------------------------------------
     tellurium : 2.1.0
-    roadrunner : 1.4.24
+    roadrunner : 1.5.1
     antimony : 2.9.4
     libsbml : 5.15.0
     libsedml : 0.4.3

@@ -1,6 +1,9 @@
 
-.. code:: ipython2
+.. code-block:: python
 
+    import warnings
+    warnings.filterwarnings("ignore")
+    
     import tellurium as te
     from tellurium.analysis.parameterscan import plot2DParameterScan
     
@@ -26,14 +29,6 @@
 .. image:: _notebooks/core/plot2DParameterScan_files/plot2DParameterScan_0_0.png
 
 
-.. parsed-literal::
 
-    /home/poltergeist/.config/Tellurium/telocal/python-3.6.3/lib/python3.6/site-packages/matplotlib/figure.py:459: UserWarning:
-    
-    matplotlib is currently using a non-GUI backend, so cannot show the figure
-    
-
-
-
-.. image:: _notebooks/core/plot2DParameterScan_files/plot2DParameterScan_0_2.png
+.. image:: _notebooks/core/plot2DParameterScan_files/plot2DParameterScan_0_1.png
 

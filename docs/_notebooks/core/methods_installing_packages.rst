@@ -1,9 +1,12 @@
 
+How to install additional packages
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-How to install additional packages 
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-If you are using Tellurium notebook or Tellurium Spyder, you can install additional package using ``installPackage`` function. In Tellurium Spyder, you can also install packages using included command Prompt. For more information, see `Running Command Prompt for Tellurium Spyder <https://tellurium.readthedocs.io/en/latest/walkthrough.html#running-command-prompt-for-tellurium-spyder>`_.
+If you are using Tellurium notebook or Tellurium Spyder, you can install
+additional package using ``installPackage`` function. In Tellurium
+Spyder, you can also install packages using included command Prompt. For
+more information, see `Running Command Prompt for Tellurium
+Spyder <https://tellurium.readthedocs.io/en/latest/walkthrough.html#running-command-prompt-for-tellurium-spyder>`__.
 
 .. code-block:: python
 
