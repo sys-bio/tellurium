@@ -154,12 +154,10 @@ from .tellurium import (
     getAppDir,
 )
 
-# Test cases
+# SBML test cases
 from .tellurium import (
     getSupportedTestCases,
 )
-
-from .tests import testdata
 
 # SED-ML reports
 from .tellurium import (
