@@ -349,7 +349,6 @@ class ParameterScan (object):
         
         if not IPYTHON:
             self.plotPolyArrayFunction(result)
-            return result
         else:
             return(self.plotPolyArrayFunction(result))
 
