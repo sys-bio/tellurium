@@ -12,19 +12,15 @@ Also, due to limitations in pygraphviz, these examples can only be run
 in the Jupyter notebook, not the `Tellurium notebook
 app <http://tellurium.readthedocs.io/en/latest/installation.html#front-end-1-tellurium-notebook>`__.
 
-.. code-block:: python
+Install pygraphviz (requires compilation)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-    # install pygraphviz (requires compilation)
-    import sys
-    print('Please run \n    {} -m pip install pygraphviz\nfrom a terminal or command propt (without the quotes) to install pygraphviz. Then restart your kernel in this notebook (Language->Restart Running Kernel).'.format(sys.executable))
+Please run
 
+``<your-local-python-executable> -m pip install pygraphviz``
 
-.. parsed-literal::
-
-    Please run 
-        /home/kirichoi/anaconda3/bin/python -m pip install pygraphviz
-    from a terminal or command propt (without the quotes) to install pygraphviz. Then restart your kernel in this notebook (Language->Restart Running Kernel).
-
+from a terminal or command prompt to install pygraphviz. Then restart
+your kernel in this notebook (Language->Restart Running Kernel).
 
 Troubleshooting Graphviz Installation
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -108,11 +104,11 @@ Activator system
 
 
 
-.. image:: _notebooks/core/tellurium_examples_files/tellurium_examples_4_0.png
+.. image:: _notebooks/core/tellurium_examples_files/tellurium_examples_3_0.png
 
 
 
-.. image:: _notebooks/core/tellurium_examples_files/tellurium_examples_4_1.png
+.. image:: _notebooks/core/tellurium_examples_files/tellurium_examples_3_1.png
 
 
 Feedback oscillations
@@ -145,7 +141,7 @@ Feedback oscillations
 
 
 
-.. image:: _notebooks/core/tellurium_examples_files/tellurium_examples_6_0.png
+.. image:: _notebooks/core/tellurium_examples_files/tellurium_examples_5_0.png
 
 
 Bistable System
@@ -192,7 +188,7 @@ conditions resulting in different steady states reached.
 
 
 
-.. image:: _notebooks/core/tellurium_examples_files/tellurium_examples_8_1.png
+.. image:: _notebooks/core/tellurium_examples_files/tellurium_examples_7_1.png
 
 
 Add plot elements
@@ -222,7 +218,7 @@ Add plot elements
 
 
 
-.. image:: _notebooks/core/tellurium_examples_files/tellurium_examples_10_0.png
+.. image:: _notebooks/core/tellurium_examples_files/tellurium_examples_9_0.png
 
 
 Events
@@ -252,7 +248,7 @@ Events
 
 
 
-.. image:: _notebooks/core/tellurium_examples_files/tellurium_examples_12_0.png
+.. image:: _notebooks/core/tellurium_examples_files/tellurium_examples_11_0.png
 
 
 Gene network
@@ -285,7 +281,7 @@ Gene network
 
 
 
-.. image:: _notebooks/core/tellurium_examples_files/tellurium_examples_14_0.png
+.. image:: _notebooks/core/tellurium_examples_files/tellurium_examples_13_0.png
 
 
 Stoichiometric matrix
@@ -321,7 +317,7 @@ Stoichiometric matrix
 
 
 
-.. image:: _notebooks/core/tellurium_examples_files/tellurium_examples_16_1.png
+.. image:: _notebooks/core/tellurium_examples_files/tellurium_examples_15_1.png
 
 
 Lorenz attractor
@@ -349,7 +345,7 @@ the Lorenz attractor.
 
 
 
-.. image:: _notebooks/core/tellurium_examples_files/tellurium_examples_18_0.png
+.. image:: _notebooks/core/tellurium_examples_files/tellurium_examples_17_0.png
 
 
 Time Course Parameter Scan
@@ -385,7 +381,7 @@ merged array on to one plot.
 
 
 
-.. image:: _notebooks/core/tellurium_examples_files/tellurium_examples_20_0.png
+.. image:: _notebooks/core/tellurium_examples_files/tellurium_examples_19_0.png
 
 
 Merge multiple simulations
@@ -420,7 +416,7 @@ parameter is changed.
 
 
 
-.. image:: _notebooks/core/tellurium_examples_files/tellurium_examples_22_0.png
+.. image:: _notebooks/core/tellurium_examples_files/tellurium_examples_21_0.png
 
 
 Relaxation oscillator
@@ -449,7 +445,7 @@ relaxation oscillator.
 
 
 
-.. image:: _notebooks/core/tellurium_examples_files/tellurium_examples_24_0.png
+.. image:: _notebooks/core/tellurium_examples_files/tellurium_examples_23_0.png
 
 
 Scan hill coefficient
@@ -505,7 +501,7 @@ coefficient.
 
 
 
-.. image:: _notebooks/core/tellurium_examples_files/tellurium_examples_26_0.png
+.. image:: _notebooks/core/tellurium_examples_files/tellurium_examples_25_0.png
 
 
 Compare simulations
@@ -536,7 +532,7 @@ Compare simulations
 
 
 
-.. image:: _notebooks/core/tellurium_examples_files/tellurium_examples_28_0.png
+.. image:: _notebooks/core/tellurium_examples_files/tellurium_examples_27_0.png
 
 
 Sinus injection
@@ -573,7 +569,7 @@ events to switch it off and on.
 
 
 
-.. image:: _notebooks/core/tellurium_examples_files/tellurium_examples_30_0.png
+.. image:: _notebooks/core/tellurium_examples_files/tellurium_examples_29_0.png
 
 
 Protein phosphorylation cycle
@@ -615,5 +611,5 @@ addition, the plot is repeated for various values of Km.
 
 
 
-.. image:: _notebooks/core/tellurium_examples_files/tellurium_examples_32_0.png
+.. image:: _notebooks/core/tellurium_examples_files/tellurium_examples_31_0.png
 

@@ -4,7 +4,7 @@ Reset model values
 ^^^^^^^^^^^^^^^^^^
 
 The ``reset`` function of a
-`RoadRunner <http://sys-bio.github.io/roadrunner/python_docs/index.html>`__
+`RoadRunner <https://libroadrunner.readthedocs.io/en/latest/api_reference.html?highlight=reset#RoadRunner.RoadRunner.reset>`__
 instance reset the system variables (usu. species concentrations) to
 their respective initial values. ``resetAll`` also resets parameters.
 ``resetToOrigin`` completely resets the model.
