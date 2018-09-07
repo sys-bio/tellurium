@@ -294,7 +294,7 @@ class ParameterScan (object):
         result = []
         for i in range(int(columnNumber) - 1):
             zs.append(i)
-            result.append(zip(zresult[:, 0], zresult[:, (i + 1)]))
+            result.append(list(zip(zresult[:, 0], zresult[:, (i + 1)])))
         if self.color is None:
             poly = PolyCollection(result)
         else:
