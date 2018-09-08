@@ -96,11 +96,11 @@ class MatplotlibFigure(PlottingFigure):
         # axes type
         if self.logx or self.xscale == 'log':
             ax.set_xscale('log')
-        else:
+        elif self.xscale != None:
             ax.set_xscale(self.xscale)
         if self.logy or self.yscale == 'log':
             ax.set_yscale('log')
-        else:
+        elif self.yscale != None:
             ax.set_yscale(self.yscale)
             
         # grid
