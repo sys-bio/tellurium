@@ -289,11 +289,10 @@ class ExtendedRoadRunner(roadrunner.RoadRunner):
         diagram.draw(**kwargs)
 
 
-    # FIXME: update the documentation of plot function
     def plot(self, result=None, show=True,
-             xtitle=None, ytitle=None, title=None, xlim=None, ylim=None, logx=False, logy=False,
+             xtitle=None, ytitle=None, title=None, linewidth=2, xlim=None, ylim=None, logx=False, logy=False,
              xscale='linear', yscale='linear', grid=False, ordinates=None, tag=None, labels=None, 
-             figsize=(6,4), savefig=None, dpi=80, **kwargs):
+             figsize=(6,4), savefig=None, dpi=80, alpha=1.0, **kwargs):
         """ Plot roadrunner simulation data.
 
         Plot is called with simulation data to plot as the first argument. If no data is provided the data currently
@@ -324,6 +323,8 @@ class ExtendedRoadRunner(roadrunner.RoadRunner):
         :type ytitle: str
         :param title: plot title
         :type title: str
+        :param linewidth: linewidth of the plot
+        :type linewidth: float
         :param xlim: limits on x-axis (tuple [start, end])
         :param ylim: limits on y-axis
         :param logx: use log scale for x-axis
@@ -336,25 +337,29 @@ class ExtendedRoadRunner(roadrunner.RoadRunner):
         :type grid: bool
         :param ordinates: If supplied, only these selections will be plotted (see RoadRunner selections)
         :param tag: If supplied, all traces with the same tag will be plotted with the same color/style
-        :param kwargs: additional matplotlib keywords like marker, lineStyle, color, alpha, ...
         :param labels: 'id' to use species IDs
         :param figsize: If supplied, customize the size of the figure (width,height)
         :param savefig: If supplied, saves the figure to specified location
+        :type savefig: str
         :param dpi: Change the dpi of the saved figure
+        :type dpi: int
+        :param alpha: Change the alpha value of the figure
+        :type alpha: float
+        :param kwargs: additional matplotlib keywords like marker, lineStyle, ...
         """
         if result is None:
             result = self.getSimulationData()
 
         from .. import getPlottingEngine
 
-        if ordinates:
-            kwargs['ordinates'] = ordinates
-        if title:
-            kwargs['title'] = title
         if xtitle:
             kwargs['xtitle'] = xtitle
         if ytitle:
             kwargs['ytitle'] = ytitle
+        if title:
+            kwargs['title'] = title
+        if linewidth:
+            kwargs['linewidth'] = linewidth
         if xlim:
             kwargs['xlim'] = xlim
         if ylim:
@@ -363,14 +368,26 @@ class ExtendedRoadRunner(roadrunner.RoadRunner):
             kwargs['logx'] = logx
         if logy:
             kwargs['logy'] = logy
+        if xscale:
+            kwargs['xscale'] = xscale
+        if yscale:
+            kwargs['yscale'] = yscale
+        if grid:
+            kwargs['grid'] = grid
+        if ordinates:
+            kwargs['ordinates'] = ordinates
         if tag:
             kwargs['tag'] = tag
+        if labels:
+            kwargs['labels'] = labels
         if figsize:
             kwargs['figsize'] = figsize
         if savefig:
             kwargs['savefig'] = savefig
         if dpi:
             kwargs['dpi'] = dpi
+        if alpha:
+            kwargs['alpha'] = alpha            
 
         # FIXME: provide the additional parameters to the plotting engine
 

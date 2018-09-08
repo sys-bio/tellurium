@@ -39,19 +39,26 @@ class MatplotlibEngine(PlottingEngine):
 class MatplotlibFigure(PlottingFigure):
     """ MatplotlibFigure. """
 
-    def __init__(self, title=None, layout=PlottingLayout(), use_legend=True, xtitle=None, ytitle=None,
-                 logx=None, logy=None, figsize=(9,6), savefig=None, dpi=80):
+    def __init__(self, layout=PlottingLayout(), use_legend=True, xtitle=None, ytitle=None, title=None, 
+                 linewidth=None, xlim=None, ylim=None, logx=None, logy=None, xscale=None, yscale=None, 
+                 grid=None, ordinates=None, tag=None, labels=None, figsize=(9,6), savefig=None, dpi=None):
         super(MatplotlibFigure, self).__init__(title=title, layout=layout,
                                                xtitle=xtitle, ytitle=ytitle, logx=logx, logy=logy)
         self.use_legend = use_legend
-
+        self.linewidth = linewidth
+        self.xscale = xscale
+        self.yscale = yscale
+        self.grid = grid
+        self.ordinates = ordinates
+        self.tag = tag
+        self.labels = labels
         self.figsize = figsize
         self.savefig = savefig
         self.dpi = dpi
 
     def render(self):
         """ Plot the figure. Call this last."""
-        fig, ax = plt.subplots(num=None, figsize=self.figsize, dpi=80, facecolor='w', edgecolor='k')
+        fig, ax = plt.subplots(num=None, figsize=self.figsize, facecolor='w', edgecolor='k')
         have_labels = False
         for dataset in self.getDatasets():
             kwargs = {}
@@ -66,7 +73,7 @@ class MatplotlibFigure(PlottingFigure):
             if 'mode' in dataset and dataset['mode'] is not None and dataset['mode'] == 'markers':
                 scatter = True
             if not scatter:
-                plt.plot(dataset['x'], dataset['y'], marker='', **kwargs)
+                plt.plot(dataset['x'], dataset['y'], marker='', linewidth=self.linewidth, **kwargs)
             else:
                 plt.scatter(dataset['x'], dataset['y'], **kwargs)
 
@@ -86,11 +93,21 @@ class MatplotlibFigure(PlottingFigure):
         if self.ylim:
             ax.set_ylim(self.ylim)
 
-        # logarithmic axes
-        if self.logx:
+        # axes type
+        if self.logx or self.xscale == 'log':
             ax.set_xscale('log')
-        if self.logy:
+        else:
+            ax.set_xscale(self.xscale)
+        if self.logy or self.yscale == 'log':
             ax.set_yscale('log')
+        else:
+            ax.set_yscale(self.yscale)
+            
+        # grid
+        if self.grid:
+            ax.grid(linestyle='dotted', alpha=0.8)
+            
+        # TODO: implement ordinates, tags & labels
 
         # legend
         if self.use_legend and have_labels:
@@ -103,9 +120,7 @@ class MatplotlibFigure(PlottingFigure):
             # legend.draw_frame(False)
             legend.draw_frame(True)
 
-        # grid
-        ax.grid(linestyle='dotted', alpha=0.8)
-        
+        # save figure
         if self.savefig:
             plt.savefig(self.savefig, dpi=self.dpi, bbox_inches='tight')
             print('saved plot to {}'.format(self.savefig))

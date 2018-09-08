@@ -94,20 +94,24 @@ class PlottingEngine(object):
             self.fig = fig
         return fig
 
-    def plotTimecourse(self, m, title=None, ordinates=None, tag=None, xtitle=None, logx=False, logy=False,
-                       ytitle=None, alpha=None, xlim=None, ylim=None, figsize=(9,6), savefig=None, dpi=80, **kwargs):
+    def plotTimecourse(self, m, xtitle=None, ytitle=None, title=None, linewidth=2, xlim=None, ylim=None, 
+                       logx=False, logy=False, xscale='linear', yscale='linear', grid=False, ordinates=None, 
+                       tag=None, labels=None, figsize=(6,4), savefig=None, dpi=80, alpha=1.0, **kwargs):
         """ Plots a timecourse from a simulation.
 
         :param m: An array returned by RoadRunner.simulate.
         """
-        fig = self.figureFromTimecourse(m, title=title, ordinates=ordinates, tag=tag, alpha=alpha, 
-                                        xlim=xlim, ylim=ylim, figsize=figsize, savefig=savefig, dpi=dpi)
-        if title:
-            fig.title = title
+        fig = self.figureFromTimecourse(m, title=title, ordinates=ordinates, tag=tag, 
+                                        alpha=alpha, xlim=xlim, ylim=ylim)
+                                        
         if xtitle:
             fig.xtitle = xtitle
         if ytitle:
             fig.ytitle = ytitle
+        if title:
+            fig.title = title
+        if linewidth:
+            fig.linewidth = linewidth
         if xlim:
             fig.setXLim(xlim)
         if ylim:
@@ -116,17 +120,32 @@ class PlottingEngine(object):
             fig.logx = logx
         if logy:
             fig.logy = logy
+        if xscale:
+            fig.xscale = xscale
+        if yscale:
+            fig.yscale = yscale
+        if grid:
+            fig.grid = grid
+        if ordinates:
+            fig.ordinates = ordinates
+        if tag:
+            fig.tag = tag
+        if labels:
+            fig.labels = labels
         if figsize:
             fig.figsize = figsize
         if savefig:
             fig.savefig = savefig
         if dpi:
             fig.dpi = dpi
+        if alpha:
+            fig.alpha = alpha 
+            
         fig.render()
 
-    def accumulateTimecourse(self, m, title=None, ordinates=None, tag=None, xtitle=None, logx=False, 
-                             logy=False, ytitle=None, alpha=None, xlim=None, ylim=None, figsize=(9,6),
-                             savefig=None, dpi=80, **kwargs):
+    def accumulateTimecourse(self, m, xtitle=None, ytitle=None, title=None, linewidth=2, xlim=None, ylim=None, 
+                             logx=False, logy=False, xscale='linear', yscale='linear', grid=False, ordinates=None, 
+                             tag=None, labels=None, figsize=(6,4), savefig=None, dpi=80, alpha=1.0, **kwargs):
         """ Accumulates the traces instead of plotting (like matplotlib with show=False).
         Call show() to show the plot.
 
@@ -142,12 +161,14 @@ class PlottingEngine(object):
             t = tag if tag else m.colnames[k]
             self.fig.addXYDataset(m[:,0], m[:, k], name=m.colnames[k], tag=t, alpha=alpha)
 
-        if title:
-            self.fig.title = title
         if xtitle:
             self.fig.xtitle = xtitle
         if ytitle:
             self.fig.ytitle = ytitle
+        if title:
+            self.fig.title = title
+        if linewidth:
+            self.fig.linewidth = linewidth
         if xlim:
             self.fig.setXLim(xlim)
         if ylim:
@@ -156,12 +177,23 @@ class PlottingEngine(object):
             self.fig.logx = logx
         if logy:
             self.fig.logy = logy
+        if xscale:
+            self.fig.xscale = xscale
+        if yscale:
+            self.fig.yscale = yscale
+        if grid:
+            self.fig.grid = grid
+        if ordinates:
+            self.fig.ordinates = ordinates
+        if labels:
+            self.fig.labels = labels
         if figsize:
             self.fig.figsize = figsize
         if savefig:
             self.fig.savefig = savefig
         if dpi:
             self.fig.dpi = dpi
+            
             
     def show(self, reset=True):
         """ Shows the traces accummulated from accumulateTimecourse.
