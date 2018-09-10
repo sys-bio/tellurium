@@ -860,7 +860,8 @@ def plotArray(result, loc='upper right', show=True, resetColorCycle=True,
 
         import numpy as np, tellurium as te
         result = np.array([[1,2,3], [7.2,6.5,8.8], [9.8, 6.5, 4.3]])
-        te.plotArray(result, title="My graph", xlim=((1, 5)), labels=["Label 1", "Label 2"], yscale='log', linestyle='dashed')
+        te.plotArray(result, title="My graph", xlim=((1, 5)), labels=["Label 1", "Label 2"], 
+                     yscale='log', linestyle='dashed')
     """
     warnings.warn("plotArray is deprecated, use plot instead", DeprecationWarning)
 

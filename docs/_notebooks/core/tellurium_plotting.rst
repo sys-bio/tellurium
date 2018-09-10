@@ -1,7 +1,39 @@
+Subplots
+~~~~~~~~
 
+``te.plotArray`` can be used in conjunction with matplotlib functions to create subplots.
+
+.. code-block:: python
+
+    import tellurium as te
+    import numpy as np
+    import matplotlib.pylab as plt
+
+    r = te.loada ('S1 -> S2; k1*S1; k1 = 0.1; S1 = 20')
+    r.setIntegrator('gillespie')
+    r.integrator.seed = '1234'
+    kValues = np.linspace(0.1, 0.9, num=9) # generate k1 values
+
+    plt.gcf().set_size_inches(10, 10) # size of figure
+    plt.subplots_adjust(wspace=0.4, hspace=0.4) # adjust the space between subplots
+    plt.suptitle('Variation in k1 value', fontsize=16) # main title
+
+    for i in range(1, len(kValues) + 1):
+        r.k1 = kValues[i - 1]
+        # designates number of subplots (row, col) and spot to plot next
+        plt.subplot(3, 3, i)  
+        for j in range(1, 30):
+            r.reset()
+            s = r.simulate(0, 10)
+            t = "k1 = " + '{:.1f}'.format(kValues[i - 1])
+            # plot each subplot, use show=False to save multiple traces
+            te.plotArray(s, show=False, title=t, xlabel='Time', 
+                         ylabel='Concentration', alpha=0.7)
+
+.. image:: _notebooks/core/tellurium_plotting_files/tellurium_plotting_1_0.png
 
 Plotting multiple simulations
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 All plotting is done via the ``r.plot`` or ``te.plotArray`` functions.
 To plot multiple curves in one figure use the ``show=False`` setting.
@@ -54,7 +86,7 @@ To plot multiple curves in one figure use the ``show=False`` setting.
 
 
 Logarithmic axis
-^^^^^^^^^^^^^^^^
+~~~~~~~~~~~~~~~~
 
 The axis scale can be adapted with the ``xscale`` and ``yscale``
 settings.
@@ -75,7 +107,7 @@ settings.
 
 
 Draw diagram
-^^^^^^^^^^^^
+~~~~~~~~~~~~
 
 This example shows how to draw a network diagram, `requires
 graphviz <http://tellurium.readthedocs.io/en/latest/notebooks.html#preliminaries>`__.

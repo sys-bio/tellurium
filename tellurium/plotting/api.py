@@ -6,7 +6,6 @@ def plot(x, y, show=True, **kwargs):
 
     :param x: A numpy array describing the X datapoints. Should have the same number of rows as y.
     :param y: A numpy array describing the Y datapoints. Should have the same number of rows as x.
-    :param color: The color to use.
     :param tag: A tag so that all traces of the same type are plotted using same color/label (for e.g. multiple stochastic traces).
     :param tags: Like tag, but for multiple traces.
     :param name: The name of the trace.
