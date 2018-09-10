@@ -122,6 +122,7 @@ Subplots
             # plot each subplot, use show=False to save multiple traces
             te.plotArray(s, show=False, title=t, xlabel='Time', 
                          ylabel='Concentration', alpha=0.7)
+
 .. image:: _notebooks/core/tellurium_plotting_files/tellurium_plotting_1_0.png
 
 Draw diagram
