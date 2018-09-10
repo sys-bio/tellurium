@@ -71,6 +71,7 @@ Using Tags and Names
 Tags can be used to coordinate the color, opacity, and legend names between several sets of data. This can be used to highlight certain features that these datasets have in common. Names allow you to give a more meaningful description of the data in the legend.
 
 .. code-block:: python
+
     import tellurium as te
     import numpy as np
 
@@ -123,6 +124,7 @@ Subplots
             # plot each subplot, use show=False to save multiple traces
             te.plotArray(s, show=False, title=t, xlabel='Time', 
                          ylabel='Concentration', alpha=0.7)
+                         
 .. image:: _notebooks/core/tellurium_plotting_files/tellurium_plotting_1_0.png
 
 Draw diagram
