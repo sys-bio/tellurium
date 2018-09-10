@@ -1,36 +1,22 @@
-Subplots
-~~~~~~~~
+Logarithmic axis
+~~~~~~~~~~~~~~~~
 
-``te.plotArray`` can be used in conjunction with matplotlib functions to create subplots.
+The axis scale can be adapted with the ``xscale`` and ``yscale``
+settings.
 
 .. code-block:: python
 
     import tellurium as te
-    import numpy as np
-    import matplotlib.pylab as plt
+    te.setDefaultPlottingEngine('matplotlib')
+    r = te.loadTestModel('feedback.xml')
+    r.integrator.variable_step_size = True
+    s = r.simulate(0, 50)
+    r.plot(s, logx=True, xlim=[10E-4, 10E2],
+          title="Logarithmic x-Axis with grid", ylabel="concentration");
+          
 
-    r = te.loada ('S1 -> S2; k1*S1; k1 = 0.1; S1 = 20')
-    r.setIntegrator('gillespie')
-    r.integrator.seed = '1234'
-    kValues = np.linspace(0.1, 0.9, num=9) # generate k1 values
+.. image:: _notebooks/core/tellurium_plotting_files/tellurium_plotting_4_0.png
 
-    plt.gcf().set_size_inches(10, 10) # size of figure
-    plt.subplots_adjust(wspace=0.4, hspace=0.4) # adjust the space between subplots
-    plt.suptitle('Variation in k1 value', fontsize=16) # main title
-
-    for i in range(1, len(kValues) + 1):
-        r.k1 = kValues[i - 1]
-        # designates number of subplots (row, col) and spot to plot next
-        plt.subplot(3, 3, i)  
-        for j in range(1, 30):
-            r.reset()
-            s = r.simulate(0, 10)
-            t = "k1 = " + '{:.1f}'.format(kValues[i - 1])
-            # plot each subplot, use show=False to save multiple traces
-            te.plotArray(s, show=False, title=t, xlabel='Time', 
-                         ylabel='Concentration', alpha=0.7)
-
-.. image:: _notebooks/core/tellurium_plotting_files/tellurium_plotting_1_0.png
 
 Plotting multiple simulations
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -70,14 +56,11 @@ To plot multiple curves in one figure use the ``show=False`` setting.
     print('Reference Simulation: k1 = {}'.format(r.k1))
     print('Parameter variation: k1 = {}'.format(k1_values))
 
-
+.. image:: _notebooks/core/tellurium_plotting_files/tellurium_plotting_1_0.png
 
 .. image:: _notebooks/core/tellurium_plotting_files/tellurium_plotting_2_0.png
 
-
-
 .. image:: _notebooks/core/tellurium_plotting_files/tellurium_plotting_2_1.png
-
 
 .. parsed-literal::
 
@@ -85,25 +68,37 @@ To plot multiple curves in one figure use the ``show=False`` setting.
     Parameter variation: k1 = [0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9 1.  1.1 1.2 1.3 1.4 1.5]
 
 
-Logarithmic axis
-~~~~~~~~~~~~~~~~
+Subplots
+~~~~~~~~
 
-The axis scale can be adapted with the ``xscale`` and ``yscale``
-settings.
+``te.plotArray`` can be used in conjunction with matplotlib functions to create subplots.
 
 .. code-block:: python
 
     import tellurium as te
-    te.setDefaultPlottingEngine('matplotlib')
-    r = te.loadTestModel('feedback.xml')
-    r.integrator.variable_step_size = True
-    s = r.simulate(0, 50)
-    r.plot(s, logx=True, xlim=[10E-4, 10E2],
-          title="Logarithmic x-Axis with grid", ylabel="concentration");
+    import numpy as np
+    import matplotlib.pylab as plt
 
+    r = te.loada ('S1 -> S2; k1*S1; k1 = 0.1; S1 = 20')
+    r.setIntegrator('gillespie')
+    r.integrator.seed = '1234'
+    kValues = np.linspace(0.1, 0.9, num=9) # generate k1 values
 
+    plt.gcf().set_size_inches(10, 10) # size of figure
+    plt.subplots_adjust(wspace=0.4, hspace=0.4) # adjust the space between subplots
+    plt.suptitle('Variation in k1 value', fontsize=16) # main title
 
-.. image:: _notebooks/core/tellurium_plotting_files/tellurium_plotting_4_0.png
+    for i in range(1, len(kValues) + 1):
+        r.k1 = kValues[i - 1]
+        # designates number of subplots (row, col) and spot to plot next
+        plt.subplot(3, 3, i)  
+        for j in range(1, 30):
+            r.reset()
+            s = r.simulate(0, 10)
+            t = "k1 = " + '{:.1f}'.format(kValues[i - 1])
+            # plot each subplot, use show=False to save multiple traces
+            te.plotArray(s, show=False, title=t, xlabel='Time', 
+                         ylabel='Concentration', alpha=0.7)
 
 
 Draw diagram
