@@ -285,14 +285,13 @@ Above will return ``k1 = 0.1`` if ``time > 50`` and ``20`` otherwise. A more com
     S1 -> S2; k2*S1; 
     S2 -> $X1; k3*S2;
               
-    # This statement will:
-    # Return (5 if time > 20), if not (return 8 if y<1.7),
-    # and if not it will return 15.
     k1 := piecewise(5, time > 20, 8, S2 < 100, 15)
     
     k2 = 0.45; k3 = 0.34; Xo = 5;
   end
   
+The above piecewise call will return 5 if time > 20, else it will return 8 if S2 < 100, else it will return 15. The piecewise function has this general "do this if this is true, else ..." pattern, and can be extended to include as may conditions as needed.
+
 Events
 ------
 
@@ -1021,6 +1020,9 @@ The simplest signal is  input step. The following code implements a step that oc
     m = r.simulate (0, 100, 300, ['time', 'Xo', 'S1'])
     r.plot()
 
+.. image::_notebooks/core/antimonyExample_files/antimonyExample_2_6.png
+
+
 Ramp
 ~~~~
 
@@ -1045,6 +1047,8 @@ The following code starts a ramp at 20 time units by setting the p1 variable to 
 
     m = r.simulate (0, 100, 200, ['time', 'Xo', 'S1'])
     r.plot()
+
+.. image::_notebooks/core/antimonyExample_files/antimonyExample_2_7.png
 
 Ramp then Stop
 ~~~~~~~~~~~~~~
@@ -1073,6 +1077,8 @@ The following code starts a ramp at 20 time units by setting the p1 variable to 
     m = r.simulate (0, 100, 200, ['time', 'Xo', 'S1'])
     r.plot()
 
+.. image::_notebooks/core/antimonyExample_files/antimonyExample_2_8.png
+
 Pulse
 ~~~~~
 
@@ -1100,6 +1106,9 @@ The following code starts a pulse at 20 time units by setting the p1 variable to
     m = r.simulate (0, 100, 200, ['time', 'Xo', 'S1'])
     r.plot()
 
+
+.. image::_notebooks/core/antimonyExample_files/antimonyExample_2_9.png   
+
 Sinusoidal Input
 ~~~~~~~~~~~~~~~~
 
@@ -1124,6 +1133,8 @@ The following code starts a sinusoidal input at 20 time units by setting the p1 
 
     m = r.simulate (0, 100, 200, ['time', 'Xo', 'S1'])
     r.plot()
+
+.. image::_notebooks/core/antimonyExample_files/antimonyExample_2_9.png   
 
 Rate Rules
 ----------

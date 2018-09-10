@@ -66,19 +66,19 @@ To plot multiple curves in one figure use the ``show=False`` setting.
     Parameter variation: k1 = [0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9 1.  1.1 1.2 1.3 1.4 1.5]
 
 Using Tags and Names
-~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~
 
 Tags can be used to coordinate the color, opacity, and legend names between several sets of data. This can be used to highlight certain features that these datasets have in common. Names allow you to give a more meaningful description of the data in the legend.
 
 .. code-block:: python
+
     import tellurium as te
     import numpy as np
 
-    for i in range(1,10):
-        x = np.linspace(0,10, num = 10)
-        print(x)
+    for i in range(1, 10):
+        x = np.linspace(0, 10, num = 10)
         y = i*x**2 + 10*i
-        print(y)
+
         if i % 2 == 0:
             next_tag = "positive slope"
         else:
@@ -88,7 +88,6 @@ Tags can be used to coordinate the color, opacity, and legend names between seve
         te.plot(x, y, show = False, tag = next_tag, name = next_tag)
 
     te.show()
-
 .. image:: _notebooks/core/tellurium_plotting_files/tellurium_plotting_3_0.png
 
 
