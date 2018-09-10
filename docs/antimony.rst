@@ -1134,7 +1134,7 @@ The following code starts a sinusoidal input at 20 time units by setting the p1 
     m = r.simulate (0, 100, 200, ['time', 'Xo', 'S1'])
     r.plot()
 
-.. image:: _notebooks/core/antimonyExample_files/antimonyExample_2_9.png   
+.. image:: _notebooks/core/antimonyExample_files/antimonyExample_2_10.png   
 
 Rate Rules
 ----------
