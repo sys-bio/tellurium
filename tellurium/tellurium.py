@@ -836,7 +836,7 @@ def plotArray(result, loc='upper right', show=True, resetColorCycle=True,
     """ Plot an array.
 
     :param result: Array to plot, first column of the array must be the x-axis and remaining columns the y-axis
-    :param loc: Location of legend box
+    :param loc: Location of legend box. Valid strings 'best' | upper right' | 'upper left' | 'lower left' | 'lower right' | 'right' | 'center left' | 'center right' | 'lower center' | 'upper center' | 'center' |
     :type loc: str
     :param color: 'red', 'blue', etc. to use the same color for every curve
     :type color: str
@@ -853,6 +853,7 @@ def plotArray(result, loc='upper right', show=True, resetColorCycle=True,
     :param yscale: 'linear' or 'log' scale for y-axis
     :param grid: Show grid
     :type grid: bool
+    :param kwargs: Additional matplotlib keywords like linewidth, linestyle...
 	
     ::
 

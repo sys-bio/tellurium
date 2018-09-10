@@ -13,6 +13,7 @@ def plot(x, y, show=True, **kwargs):
     :param names: Like name, but for multiple traces to appear in the legend.
     :param alpha: Floating point representing the opacity ranging from 0 (transparent) to 1 (opaque).
     :param mode: Either 'lines' or 'markers' (defaults to 'lines').
+    :param kwargs: Additional matplotlib keywords like marker, linestyle...
     """
     from .. import getPlottingEngine
     # global _plot_index
