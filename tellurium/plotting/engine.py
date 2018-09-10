@@ -353,7 +353,7 @@ class PlottingFigure(object):
             if name is not None:
                 kws['name'] = name
             if tag is not None:
-                kws['tag'] = name
+                kws['tag'] = tag
             elif colnames is not None:
                 kws['name'] = colnames[0]
             self.addXYDataset(x, y, **kws)
