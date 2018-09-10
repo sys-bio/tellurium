@@ -12,8 +12,16 @@ def plot(x, y, show=True, **kwargs):
     :param name: The name of the trace.
     :param names: Like name, but for multiple traces to appear in the legend.
     :param alpha: Floating point representing the opacity ranging from 0 (transparent) to 1 (opaque).
-    :param mode: Either 'lines' or 'markers' (defaults to 'lines').
-    :param kwargs: Additional matplotlib keywords like marker, linestyle...
+    :param show: show=True (default) shows the plot, use show=False to plot multiple simulations in one plot
+    ::
+
+        import numpy as np, tellurium as te
+        result = np.array([[1,2,3,4], [7.2,6.5,8.8,10.5], [9.8, 6.5, 4.3,3.0]])
+        te.plot(result[:,0], result[:,1], name='Second column', show=False)
+        te.plot(result[:,0], result[:,2], name='Third column', show=False)
+        te.show(reset=False) # does not reset the plot after showing plot
+        te.plot(result[:,0], result[:,3], name='Fourth column', show=False)
+        te.show()
     """
     from .. import getPlottingEngine
     # global _plot_index

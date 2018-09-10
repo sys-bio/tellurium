@@ -315,7 +315,7 @@ class ExtendedRoadRunner(roadrunner.RoadRunner):
                    xlim=[0,100], ylim=[-1, 4])
 
         :param result: results data to plot (numpy array)
-        :param show: show the plot, use show=False to plot multiple simulations in one plot
+        :param show: show=True (default) shows the plot, use show=False to plot multiple simulations in one plot
         :type show: bool
         :param xtitle: x-axis label
         :type xtitle: str
@@ -323,8 +323,6 @@ class ExtendedRoadRunner(roadrunner.RoadRunner):
         :type ytitle: str
         :param title: plot title
         :type title: str
-        :param linewidth: linewidth of the plot
-        :type linewidth: float
         :param xlim: limits on x-axis (tuple [start, end])
         :param ylim: limits on y-axis
         :param logx: use log scale for x-axis
