@@ -1167,7 +1167,7 @@ When some tools visualize models, they make a distinction between the ‘id‘ o
 DNA Strands
 -----------
 
-A new concept in Antimony that has not been modeled explicitly in previous model definition languages such as SBML is the idea of having DNA strands where downstream elements can inherit reaction rates from upstream elements. DNA strands are declared by connecting symbols with ‘--‘:
+A new concept in Antimony that has not been modeled explicitly in previous model definition languages such as SBML is the idea of having DNA strands where downstream elements can inherit reaction rates from upstream elements. DNA strands are declared by connecting symbols with ``--``:
 
 ::
 
@@ -1187,9 +1187,9 @@ By default, the reaction rate or formula associated with an element of a DNA str
   P1 = S1*k;
   G1: -> prot1;
 
-the reaction rate of G1 will be “S1*k”.
+the reaction rate of G1 will be ``S1*k``.
 
-It is also possible to modulate the inherited reaction rate. To do this, we use ellipses (‘…’) as shorthand for ‘the formula for the element upstream of me’. Let’s add a ribosome binding site that increases the rate of production of protein by a factor of three, and say that the promoter actually increases the rate of protein production by S1*k instead of setting it to S1*k:
+It is also possible to modulate the inherited reaction rate. To do this, we use ellipses ``...`` as shorthand for ‘the formula for the element upstream of me’. Let’s add a ribosome binding site that increases the rate of production of protein by a factor of three, and say that the promoter actually increases the rate of protein production by S1*k instead of setting it to S1*k:
 
 ::
 
@@ -1198,7 +1198,7 @@ It is also possible to modulate the inherited reaction rate. To do this, we use 
   RBS1 = ...*3;
   G1: -> prot1;
 
-Since in this model, nothing is upstream of P1, the upstream rate is set to zero, so the final reaction rate of G1 is equal to “(S1*k + 0)*3”.
+Since in this model, nothing is upstream of P1, the upstream rate is set to zero, so the final reaction rate of G1 is equal to ``(S1*k + 0)*3``.
 
 Valid elements of DNA strands include formulas (operators), reactions (genes), and other DNA strands. Let’s wrap our model so far in a submodule, and then use the strand in a new strand:
 
@@ -1242,8 +1242,8 @@ If the reaction rate or formula for any duplicated symbol is left at the default
   RBS2 = ...*1.1;
   G1: -> prot1;
 
-The reaction rate for the production of ‘prot1‘ will be equal to “(((0+1.2)+0.3)*0.8) + (((0+1.2)*1.1))”.
-If you set the reaction rate of G1 without using an ellipsis, but include it in multiple strands, its reaction rate will be a multiple of the number of strands it is a part of. For example, if you set the reaction rate of G1 above to “k1*S1”, and include it in two strands, the net reaction rate will be “k1*S1 + k1*S1”.
+The reaction rate for the production of ‘prot1‘ will be equal to ``(((0+1.2)+0.3)*0.8) + (((0+1.2)*1.1))``.
+If you set the reaction rate of G1 without using an ellipsis, but include it in multiple strands, its reaction rate will be a multiple of the number of strands it is a part of. For example, if you set the reaction rate of G1 above to “k1*S1”, and include it in two strands, the net reaction rate will be ``k1*S1 + k1*S1``.
 
 The purpose of prepending or postfixing a ‘--‘ to a strand is to declare that the strand in question is designed to have DNA attached to it at that end. If exactly one DNA strand is defined with an upstream ‘--‘ in its definition in a submodule, the name of that module may be used as a proxy for that strand when creating attaching something upstream of it, and visa versa with a defined downstream ‘--‘ in its definition:
 
@@ -1260,7 +1260,7 @@ The purpose of prepending or postfixing a ‘--‘ to a strand is to declare tha
     A--G3
   end
 
-The module ‘long‘ will have two strands: “P3–A.P1–A.RBS1–A.G1” and “A.P2–A.RBS2–A.G2–G3”.
+The module ‘long‘ will have two strands: ``P3–A.P1–A.RBS1–A.G1`` and ``A.P2–A.RBS2–A.G2–G3``.
 
 Submodule strands intended to be used in the middle of other strands should be defined with ‘--‘ both upstream and downstream of the strand in question:
 
@@ -1281,7 +1281,7 @@ If multiple strands are defined with upstream or downstream “–” marks, it 
 Interactions
 ------------
 
-Some species act as activators or repressors of reactions that they do not actively participate in. Typical models do not bother mentioning this explicitly, as it will show up in the reaction rates. However, for visualization purposes and/or for cases where the reaction rates might not be known explicitly, you may declare these interactions using the same format as reactions, using different symbols instead of “->”: for activations, use “-o”; for inhibitions, use “-|”, and for unknown interactions or for interactions which sometimes activate and sometimes inhibit, use “-(“:
+Some species act as activators or repressors of reactions that they do not actively participate in. Typical models do not bother mentioning this explicitly, as it will show up in the reaction rates. However, for visualization purposes and/or for cases where the reaction rates might not be known explicitly, you may declare these interactions using the same format as reactions, using different symbols instead of ``->``: for activations, use ``-o``; for inhibitions, use ``-|``, and for unknown interactions or for interactions which sometimes activate and sometimes inhibit, use ``-(``:
 
 ::
 
@@ -1297,14 +1297,14 @@ If a reaction rate is given for the reaction in question, that reaction must inc
   J0: S1 + E -> SE; k1*S1*E/S2
   i1: S2 -| J0;
 
-because the species S2 is present in the formula “k1*S1*E/S2”. If the concentration of an inhibitory species increases, it should decrease the reaction rate of the reaction it inhibits, and vice versa for activating species. The current version of libAntimony (v2.4) does not check this, but future versions may add the check.
+because the species S2 is present in the formula ``k1*S1*E/S2``. If the concentration of an inhibitory species increases, it should decrease the reaction rate of the reaction it inhibits, and vice versa for activating species. The current version of libAntimony (v2.4) does not check this, but future versions may add the check.
 
 When the reaction rate is not known, species from interactions will be added to the SBML ‘listOfModifiers’ for the reaction in question. Normally, the kinetic law is parsed by libAntimony and any species there are added to the list of modifiers automatically, but if there is no kinetic law to parse, this is how to add species to that list.
 
 Other files
 -----------
 
-More than one file may be used to define a set of modules in Antimony through the use of the ‘import‘ keyword. At any point in the file outside of a module definition, use the word ‘import‘ followed by the name of the file in quotation marks, and Antimony will include the modules defined in that file as if they had been cut and pasted into your file at that point. SBML files may also be included in this way:
+More than one file may be used to define a set of modules in Antimony through the use of the ‘import‘ keyword. At any point in the file outside of a module definition, use the word ``import`` followed by the name of the file in quotation marks, and Antimony will include the modules defined in that file as if they had been cut and pasted into your file at that point. SBML files may also be included in this way:
 
 ::
 
@@ -1318,11 +1318,11 @@ More than one file may be used to define a set of modules in Antimony through th
 
 In this example, the file ‘models1.txt‘ is an Antimony file that defines the module ‘mod1‘, and the file ‘oscli.xml‘ is an SBML file that defines a model named ‘oscli‘. The Antimony module ‘mod2‘ may then use modules from either or both of the other imported files.
 
-Remember that imported files act like they were cut and pasted into the main file. As such, any bare declarations in the main file and in the imported files will all contribute to the default ‘__main‘ module. Most SBML files will not contribute to this module, unless the name of the model in the file is ‘__main‘ (for example, if it was created by the antimony converter).
+Remember that imported files act like they were cut and pasted into the main file. As such, any bare declarations in the main file and in the imported files will all contribute to the default ‘__main‘ module. Most SBML files will not contribute to this module, unless the name of the model in the file is ``__main`` (for example, if it was created by the antimony converter).
 
 By default, libantimony will examine the ‘import‘ text to determine whether it is a relative or absolute filename, and, if relative, will prepend the directory of the working file to the import text before attempting to load the file. If it cannot find it there, it is possible to tell the libantimony API to look in different directories for files loaded from import statements.
 
-However, if the working directory contains a ‘.antimony‘ file, or if one of the named directories contains a ‘.antimony‘ file, import statements can be subverted. Each line of this file must contain three tab-delimited strings: the name of the file which contains an import statement, the text of the import statement, and the filename where the program should look for the file. Thus, if a file “file1.txt” contains the line ‘import "file2.txt"‘, and a .antimony file is discovered with the line:
+However, if the working directory contains a ``.antimony`` file, or if one of the named directories contains a ``.antimony`` file, import statements can be subverted. Each line of this file must contain three tab-delimited strings: the name of the file which contains an import statement, the text of the import statement, and the filename where the program should look for the file. Thus, if a file ``file1.txt`` contains the line ``import "file2.txt``, and a .antimony file is discovered with the line:
 
 ::
 
@@ -1346,7 +1346,7 @@ QTAntimony can be used to edit and translate Antimony, SBML, and CellML models. 
 The SBML tabs can additionally be configured to use the ‘Hierarchical Model Composition’ package constructs. Select ‘Edit/Flatten SBML tab(s)’ or hit control-F to toggle between this version and the old ‘flattened’ version of SBML. (To enable this feature if you compile Antimony yourself, you will need the latest versions of libSBML with the SBML ‘comp’ package enabled, and to select ‘WITH_COMP_SBML’ from the CMake menu.)
 
 As there were now several different file formats available for translation, the old command-line translators still exist (antimony2sbml; sbml2antimony), but have been supplanted by the new ‘sbtranslate’ executable. Instructions for use are available by running sbtranslate from the command line, but in brief: any number of files to translate may be added to the command line, and the desired output format is given with the ‘-o‘ flag:
-‘-o antimony‘, ‘-o sbml‘, ‘-o cellml‘, or ‘-o sbml-comp‘ (the last to output files with the SBML ‘comp‘ package constructs).
+``-o antimony``, ``-o sbml``, ``-o cellml``, or ``-o sbml-comp`` (the last to output files with the SBML ‘comp‘ package constructs).
 
 Examples:
 
