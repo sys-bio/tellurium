@@ -1,8 +1,8 @@
 Saving plots
 ~~~~~~~~~~~~
 
-To save a plot, use ``r.plot`` and the ``savefig`` parameter. Use ``dpi`` to specifie image quality. 
-Pass in the specificed location and the image name.
+To save a plot, use ``r.plot`` and the ``savefig`` parameter. Use ``dpi`` to specify image quality. 
+Pass in the save location and the image name.
 
 .. code-block:: python
 
