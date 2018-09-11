@@ -245,7 +245,7 @@ You can also initialize elements with more complicated formulas than simple numb
 Assignments in Time
 -------------------
 
-If you want to define some elements as changing in time, you can either define the formula a variable equals at all points in time with a ``:=``, or you can define how a variable changes in time with ``X'``, in which case you’ll also need to define its initial starting value. The keyword ``time`` represents time.
+If you want to define some elements as changing in time, you can either define the formula a variable equals at all points in time with a ``:=``, or you can define how a variable changes in time using ``X'`` (a `rate rule <https://tellurium.readthedocs.io/en/latest/antimony.html#rate-rules/>`_) in which case you’ll also need to define its initial starting value. The keyword ``time`` represents time.
 
 ::
 
@@ -1300,25 +1300,6 @@ If a reaction rate is given for the reaction in question, that reaction must inc
 because the species S2 is present in the formula “k1*S1*E/S2”. If the concentration of an inhibitory species increases, it should decrease the reaction rate of the reaction it inhibits, and vice versa for activating species. The current version of libAntimony (v2.4) does not check this, but future versions may add the check.
 
 When the reaction rate is not known, species from interactions will be added to the SBML ‘listOfModifiers’ for the reaction in question. Normally, the kinetic law is parsed by libAntimony and any species there are added to the list of modifiers automatically, but if there is no kinetic law to parse, this is how to add species to that list.
-
-Function Definitions
---------------------
-
-You may create user-defined functions in a similar fashion to the way you create modules, and then use these functions in Antimony equations. These functions must be basic single equations, and act in a similar manner to macro expansions. As an example, you might define the quadratic equation thus:
-
-::
-
-  function quadratic(x, a, b, c)
-    a*x^2 + b*x + c
-  end
-
-And then use it in a later equation:
-
-::
-
-  S3 = quadratic(s1, k1, k2, k3);
-
-This would effectively define S3 to have the equation ``k1*s1^2 + k2*s1 + k3``.
 
 Other files
 -----------
