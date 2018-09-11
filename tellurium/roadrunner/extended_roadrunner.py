@@ -121,7 +121,7 @@ class ExtendedRoadRunner(roadrunner.RoadRunner):
         """ Antimony string of the current model state.
 
         See also: :func:`getAntimony`
-        :return: Antimony
+        :returns: Antimony
         :rtype: str
         """
         return self.getAntimony(current=True)
@@ -131,7 +131,7 @@ class ExtendedRoadRunner(roadrunner.RoadRunner):
 
         :param current: return current model state
         :type current: bool
-        :returns: CellML string
+        :returns: Antimony
         :rtype: str
         """
         sbml = self.__getSBML(current)

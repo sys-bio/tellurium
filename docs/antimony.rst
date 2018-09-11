@@ -419,7 +419,9 @@ You may use units when defining formulas using the same syntax as above: any num
                         #   value of '3.3'.
   z has foo;            # 'z' is given units of 'foo'.
 
+Antimony does not calculate any derived units: in the above example, ‘x’ is fully defined in terms of moles per liter per second, but it is not annotated as such.
 
+As with many things in Antimony, you may use a unit before defining it: ‘x = 10 ml‘ will create a parameter x and a unit ‘ml‘.
 
 Simulating Models
 =================
@@ -1161,51 +1163,6 @@ When some tools visualize models, they make a distinction between the ‘id‘ o
 
   A.k1 is "reaction rate k1";
   S34  is "Ethyl Alcohol";
-
-Comments
---------
-
-Comments in Antimony can be made on one line with //[comments]‘, or on multiple lines with /* [comments] */:
-
-::
-
-  /* The following initializations were
-     taken from the literature */
-  X=3; //Taken from Galdziki, et al.
-  Y=4; //Taken from Rutherford, et al.
-
-Comments are not translated to SBML or CellML, and will be lost if round-tripped through those languages.
-
-Units
------
-
-As of version 2.4 of Antimony, units may now be created and translated to SBML (but not CellML, yet). Units may be created by using the ‘unit‘ keyword:
-
-::
-
-  unit substance = 1e-6 mole;
-  unit hour = 3600 seconds;
-
-Adding an ‘s’ to the end of a unit name to make it plural is fine when defining a unit: ‘3600 second‘ is the same as ‘3600 seconds‘. Compound units may be created by using formulas with ‘*‘, ‘/‘, and ‘^‘. However, you must use base units when doing so (‘base units’ defined as those listed in Table 2 of the SBML Level 3 Version 1 specification, which mostly are SI and SI-derived units).
-
-::
-
-  unit micromole = 10e-6 mole / liter;
-  unit daily_feeding = 1 item / 86400 seconds
-  unit voltage = 1000 grams * meters^2 / seconds^-3 * ampere^-1
-
-You may use units when defining formulas using the same syntax as above: any number may be given a unit by writing the name of the unit after the number. When defining a symbol (of any numerical type: species, parameter, compartment, etc.), you can either use the same technique to give it an initial value and a unit, or you may just define its units by using the ‘has’ keyword:
-
-::
-
-  unit foo = 100 mole/5 liter;
-  x = 40 foo/3 seconds; //'40' now has units of 'foo' and '3' units of 'seconds'.
-  y = 3.3 foo;   // 'y' is given units of 'foo' and an initial value of '3.3'.
-  z has foo;     // 'z' is given units of 'foo'.
-
-Antimony does not calculate any derived units: in the above example, ‘x’ is fully defined in terms of moles per liter per second, but it is not annotated as such.
-
-As with many things in Antimony, you may use a unit before defining it: ‘x = 10 ml‘ will create a parameter x and a unit ‘ml‘.
 
 DNA Strands
 -----------

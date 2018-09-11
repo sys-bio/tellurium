@@ -57,7 +57,7 @@ Repeat simulation without notification
     
     import matplotlib.pyplot as plt
     
-    # Turn of notices so they don't clutter the output
+    # Turn off notices so they don't clutter the output
     te.noticesOff()
     for i in range(0, 20):
         result = r.simulate (0, 10)
