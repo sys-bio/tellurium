@@ -21,7 +21,7 @@ def searchPackage(name):
     """ Search pip package for package name.
 
     :param name: package name
-    :return:
+    :type name: str
     """
     check_macos_ver()
     subprocess.check_call([sys.executable, '-m', 'pip', 'search', name])
@@ -35,7 +35,7 @@ def installPackage(name):
     (useful e.g. in the Tellurium notebook viewer).
 
     :param name: package name
-    :return:
+    :type name: str
     """
     check_macos_ver()
     subprocess.check_call([sys.executable, '-m', 'pip', 'install', name])
@@ -44,9 +44,9 @@ def installPackage(name):
 def upgradePackage(name):
     """ Upgrade pip package.
 
-        :param name: package name
-        :return:
-        """
+    :param name: package name
+    :type name: str
+    """
     check_macos_ver()
     subprocess.check_call([sys.executable, '-m', 'pip', 'install', '--upgrade', name])
 
@@ -54,8 +54,8 @@ def upgradePackage(name):
 def uninstallPackage(name):
     """ Uninstall pip package.
 
-        :param name: package name
-        :return:
-        """
+    :param str name: package name
+    :type name: str
+    """
     check_macos_ver()
     subprocess.check_call([sys.executable, '-m', 'pip', 'uninstall', '-y', name])

@@ -237,8 +237,7 @@ Selections
 
 The selections list can be used to set which state variables will appear
 in the output array. By default, it includes all SBML species and the
-``time`` variable. Selections can be either given as argument to
-``r.simulate``.
+``time`` variable. Selections can be given as an argument to ``r.simulate``.
 
 .. code-block:: python
 

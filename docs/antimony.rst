@@ -140,6 +140,8 @@ Reactions can be created with multiple reactants and/or products, and the stoich
   2 S1 -> S2;               k3*S1*S1
   # More complex stoichiometry
   S1 + 2 S2 -> 3 S3 + 5 S4; k4*S1*S2*S2
+  # Degradation of S4
+  S4 -> ; k5*S4
 
 Rate Laws and Initializing Values
 ---------------------------------
@@ -163,6 +165,7 @@ Reactions can be defined with a wide variety of rate laws
     S5 = 0
     k1 = 0.1
     k2 = 0.2
+    k3 = 0.2
     Vm = 6.7
     Km = 1E-3
     n = 4
@@ -242,7 +245,7 @@ You can also initialize elements with more complicated formulas than simple numb
 Assignments in Time
 -------------------
 
-If you want to define some elements as changing in time, you can either define the formula a variable equals at all points in time with a ``:=``, or you can define how a variable changes in time with X', in which case you’ll also need to define its initial starting value. The keyword ``time`` represents time.
+If you want to define some elements as changing in time, you can either define the formula a variable equals at all points in time with a ``:=``, or you can define how a variable changes in time with ``X'``, in which case you’ll also need to define its initial starting value. The keyword ``time`` represents time.
 
 ::
 

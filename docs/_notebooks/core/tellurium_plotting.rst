@@ -27,16 +27,23 @@ Saving plots
 ~~~~~~~~~~~~
 
 To save a plot, use ``r.plot`` and the ``savefig`` parameter. Use ``dpi`` to specify image quality. 
-Pass in the save location and the image name.
+Pass in the save location along with the image name.
 
 .. code-block:: python
 
     import tellurium as te, os
     r = te.loada('S1 -> S2; k1*S1; k1 = 0.1; S1 = 10')
-    result = r.simulate(0,50,100)
+    result = r.simulate(0, 50, 100)
     currentDir = os.getcwd() # gets the current directory
     r.plot(title='My plot', xtitle='Time', ytitle='Concentration', dpi=150,
            savefig=currentDir + '\\test.png')  # save image to current directory as "test.png"
+
+
+The path can be specified as a written out string. The plot can also be saved as a pdf instead of png. 
+
+.. code-block:: python
+
+    savefig='C:\\Tellurium-Winpython-3.6\\settings\\.spyder-py3\\test.pdf'
 
 Logarithmic axis
 ~~~~~~~~~~~~~~~~
