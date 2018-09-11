@@ -6,11 +6,12 @@ Pass in the save location and the image name.
 
 .. code-block:: python
 
-    import tellurium as te
+    import tellurium as te, os
     r = te.loada('S1 -> S2; k1*S1; k1 = 0.1; S1 = 10')
     result = r.simulate(0,50,100)
+    currentDir = os.getcwd() # gets the current directory
     r.plot(title='My plot', xtitle='Time', ytitle='Concentration', dpi=150,
-           savefig='c:/Tellurium-Winpython-3.6/settings/.spyder-py3/test.png') 
+           savefig=currentDir + '\\test.png')  # save image to current directory as "test.png"
 
 Logarithmic axis
 ~~~~~~~~~~~~~~~~
