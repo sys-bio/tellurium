@@ -85,7 +85,8 @@ Tags can be used to coordinate the color, opacity, and legend names between seve
             next_tag = "negative slope"
             y = -1*y
 
-        te.plot(x, y, show = False, tag = next_tag, name = next_tag)
+        next_name = next_tag + " (i = " + str(i) + ")"    
+        te.plot(x, y, show = False, tag = next_tag, name = next_name)
 
     te.show()
 
