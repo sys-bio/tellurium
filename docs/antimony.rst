@@ -1322,7 +1322,7 @@ Remember that imported files act like they were cut and pasted into the main fil
 
 By default, libantimony will examine the ‘import‘ text to determine whether it is a relative or absolute filename, and, if relative, will prepend the directory of the working file to the import text before attempting to load the file. If it cannot find it there, it is possible to tell the libantimony API to look in different directories for files loaded from import statements.
 
-However, if the working directory contains a ``.antimony`` file, or if one of the named directories contains a ``.antimony`` file, import statements can be subverted. Each line of this file must contain three tab-delimited strings: the name of the file which contains an import statement, the text of the import statement, and the filename where the program should look for the file. Thus, if a file ``file1.txt`` contains the line ``import "file2.txt``, and a .antimony file is discovered with the line:
+However, if the working directory contains a ``.antimony`` file, or if one of the named directories contains a ``.antimony`` file, import statements can be subverted. Each line of this file must contain three tab-delimited strings: the name of the file which contains an import statement, the text of the import statement, and the filename where the program should look for the file. Thus, if a file ``file1.txt`` contains the line ``import "file2.txt"``, and a .antimony file is discovered with the line:
 
 ::
 
