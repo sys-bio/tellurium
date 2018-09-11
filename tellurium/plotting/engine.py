@@ -249,7 +249,7 @@ class PlottingFigure(object):
         :return:
         """
 
-    def addXYDataset(self, x_arr, y_arr, color=None, tag=None, name=None, filter=True, alpha=None, mode=None, logx=None, logy=None, scatter=None, error_y_pos=None, error_y_neg=None):
+    def addXYDataset(self, x_arr, y_arr, color=None, tag=None, name=None, filter=True, alpha=None, mode=None, logx=None, logy=None, scatter=None, error_y_pos=None, error_y_neg=None, showlegend=None):
         """ Adds an X/Y dataset to the plot.
 
         :param x_arr: A numpy array describing the X datapoints. Should have the same size as y_arr.
@@ -288,6 +288,8 @@ class PlottingFigure(object):
             dataset['error_y_pos'] = error_y_pos
         if error_y_neg is not None:
             dataset['error_y_neg'] = error_y_neg
+        if showlegend is not None:
+            dataset['showlegend'] = showlegend
         self.xy_datasets.append(dataset)
 
     def getMergedTaggedDatasets(self):
@@ -311,7 +313,7 @@ class PlottingFigure(object):
             (dataset for dataset in self.xy_datasets if not 'tag' in dataset))
 
     # TODO: don't need name/names and tag/tags redundancy
-    def plot(self, x, y, colnames=None, title=None, xtitle=None, logx=None, logy=None, ytitle=None, alpha=None, name=None, names=None, tag=None, tags=None, scatter=None, error_y_pos=None, error_y_neg=None):
+    def plot(self, x, y, colnames=None, title=None, xtitle=None, logx=None, logy=None, ytitle=None, alpha=None, name=None, names=None, tag=None, tags=None, scatter=None, error_y_pos=None, error_y_neg=None, showlegend=None):
         """ Plot x & y data.
         """
         if xtitle:
@@ -345,6 +347,8 @@ class PlottingFigure(object):
                     kws['tag'] = tags[k]
                 if colnames is not None:
                     kws['name'] = colnames[k]
+                if showlegend is not None:
+                    kws['showlegend'] = showlegend[k]
                 self.addXYDataset(x, y[:, k], **kws)
         elif len(y.shape) == 1:
             # it's a 1d array
@@ -356,6 +360,11 @@ class PlottingFigure(object):
                 kws['tag'] = tag
             elif colnames is not None:
                 kws['name'] = colnames[0]
+            if showlegend is not None:
+                if isinstance(showlegend, bool):
+                    kws['showlegend'] = showlegend
+                else:
+                    kws['showlegend'] = showlegend[k]
             self.addXYDataset(x, y, **kws)
         else:
             raise RuntimeError('Could not plot y data with {} dimensions'.format(len(y.shape)))

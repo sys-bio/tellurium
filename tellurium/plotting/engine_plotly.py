@@ -46,6 +46,9 @@ class PlotlyFigure(PlottingFigure):
             kwargs['name'] = dataset['name']
         else:
             kwargs['showlegend'] = False
+        if 'showlegend' in dataset and dataset['showlegend'] is not None:
+            # override with user-specified legend setting
+            kwargs['showlegend'] = dataset['showlegend']
         if 'alpha' in dataset and dataset['alpha'] is not None:
             kwargs['opacity'] = dataset['alpha']
         # lines/markers (lines by default)

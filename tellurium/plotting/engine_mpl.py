@@ -60,6 +60,7 @@ class MatplotlibFigure(PlottingFigure):
         """ Plot the figure. Call this last."""
         fig, ax = plt.subplots(num=None, figsize=self.figsize, facecolor='w', edgecolor='k')
         have_labels = False
+        show_legend = False # override self.use_legend if user called plot with showlegend=True
         for dataset in self.getDatasets():
             kwargs = {}
             if 'name' in dataset:
@@ -69,6 +70,8 @@ class MatplotlibFigure(PlottingFigure):
                 kwargs['color'] = dataset['color']
             if 'alpha' in dataset and dataset['alpha'] is not None:
                 kwargs['alpha'] = dataset['alpha']
+            if 'showlegend' in dataset and dataset['showlegend'] is not None:
+                show_legend = dataset['showlegend']
             scatter = False
             if 'mode' in dataset and dataset['mode'] is not None and dataset['mode'] == 'markers':
                 scatter = True
@@ -110,7 +113,7 @@ class MatplotlibFigure(PlottingFigure):
         # TODO: implement ordinates, tags & labels
 
         # legend
-        if self.use_legend and have_labels:
+        if (self.use_legend and have_labels) or show_legend:
             if not IPYTHON:
                 legend = plt.legend()
             else:

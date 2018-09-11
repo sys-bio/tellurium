@@ -13,6 +13,11 @@ import matplotlib.image as mpimg
 import uuid
 
 IPYTHON = False
+try:
+    get_ipython()
+    IPYTHON = True
+except:
+    pass
 if any('IPYTHONDIR' in name for name in os.environ):
     IPYTHON = True
 
@@ -89,46 +94,43 @@ class ParameterScan (object):
             result = self.rr.simulate(self.startTime, self.endTime, self.numberOfPoints, self.selection)
         return result
 
+
     def collect_plotArray_result(self):
         result = self._sim()
         return(np.array(result))
 
-    def plotArrayFunction(self,result):
 
+    def plotArrayFunction(self,result):
+        from tellurium.plotting import plot, show
+
+        kwargs = {}
+
+        if self.xlabel == 'toSet':
+            kwargs['xtitle'] = 'time'
+        elif self.xlabel:
+            kwargs['xtitle'] = self.xlabel
+        if self.ylabel == 'toSet':
+            kwargs['ytitle'] = 'concentration'
+        elif self.ylabel:
+            kwargs['ytitle'] = self.ylabel
+        if self.title is not None:
+            kwargs['title'] = self.title
+        if self.legend is not None:
+            kwargs['showlegend'] = self.legend
 
         if self.color is None:
             for species in self.rr.timeCourseSelections[1:]:
-                plt.plot(result[:, 0], result[species],
-                         linewidth=self.width, label=species)
+                plot(result[:, 0], result[species],
+                     name=species, show=False, **kwargs)
         else:
             if len(self.color) != result.shape[1]:
                 self.color = self.colorCycle()
             for i in range(result.shape[1] - 1):
-                plt.plot(result[:, 0], result[:, i + 1], color=self.color[i],
-                         linewidth=self.width, label=self.rr.timeCourseSelections[i + 1])
+                plot(result[:, 0], result[:, i + 1], color=self.color[i],
+                     names=self.rr.timeCourseSelections[i + 1], show=False, **kwargs)
 
-        if self.xlabel == 'toSet':
-            plt.xlabel('time')
-        elif self.xlabel:
-            plt.xlabel(self.xlabel)
-        if self.ylabel == 'toSet':
-            plt.ylabel('concentration')
-        elif self.ylabel:
-            plt.ylabel(self.ylabel)
-        if self.title is not None:
-            plt.suptitle(self.title)
-        if self.legend:
-            plt.legend()
-        
-        if not IPYTHON:
-            plt.show()
-        else:
-            FILENAME = str(uuid.uuid4())+".png"
-            plt.savefig(FILENAME)
-            plt.close()
-            imag = mpimg.imread(FILENAME)
-            return(imag)
-            
+        show()
+
 
     def plotArray(self):
         """ Plots result of simulation with options for linewdith and line color.
@@ -190,13 +192,13 @@ class ParameterScan (object):
             m1 = self.rr.simulate(self.startTime, self.endTime, self.numberOfPoints, self.selection)
             m1 = np.delete(m1, 0, 1)
             m = np.hstack((m, m1))
-
         return m
+
 
     def collect_plotGraduatedArray_result(self):
         result = self._graduatedSim()
         return(np.array(result))
-        
+
 
     def plotGraduatedArrayFunction(self,result):
         interval = ((self.endValue - self.startValue) / (self.polyNumber - 1))
@@ -212,6 +214,7 @@ class ParameterScan (object):
                     plt.plot(result[:, 0], result[:, numSp * i + count], linewidth=self.width, color='b', label=lbl)
                 count += 1
 
+
         elif self.color is None:
             count = 1
             for species in self.selection[1:]:
@@ -222,7 +225,6 @@ class ParameterScan (object):
                         lbl = "{0} = {1}".format(self.value, round((self.startValue + (interval * i)), 2))
                     plt.plot(result[:, 0], result[:, numSp * i + count], linewidth=self.width, label=lbl)
                 count += 1
-
         else:
             if len(self.color) != self.polyNumber:
                 self.color = self.colorCycle()
@@ -247,17 +249,10 @@ class ParameterScan (object):
             plt.ylabel('concentration')
         elif self.ylabel:
             plt.ylabel(self.ylabel)
-        if self.legend:
+        if self.legend is not None:
             plt.legend()
-        if not IPYTHON:
-            plt.show()
-        else:
-            FILENAME = str(uuid.uuid4()) + ".png"
-            plt.savefig(FILENAME)
-            plt.close()
-            imag = mpimg.imread(FILENAME)
-            return(imag)            
-        
+        plt.show()
+
 
     def plotGraduatedArray(self):
         """Plots array with either default multiple colors or user sepcified colors using
@@ -271,7 +266,7 @@ class ParameterScan (object):
             return result
         else:
             return(self.plotGraduatedArrayFunction(result))
-                
+
 
     def plotPolyArrayFunction(self,result):
         interval = ((self.endValue - self.startValue) / (self.polyNumber - 1))
@@ -324,21 +319,13 @@ class ParameterScan (object):
             #        ax.set_zlabel(self.value) if self.zlabel is None else ax.set_zlabel(self.zlabel)
         if self.title is not None:
             ax.set_title(self.title)
-        
-        if not IPYTHON:
-            plt.show()
-        else:
-            FILENAME = str(uuid.uuid4()) + ".png"
-            plt.savefig(FILENAME)
-            plt.close()
-            imag = mpimg.imread(FILENAME)
-            return(imag)
-        
-        
+        plt.show()
+
+
     def collect_plotPolyArray_result(self):
         result = self._graduatedSim()
         return(np.array(result))
-        
+
 
     def plotPolyArray(self):
         """Plots results as individual graphs parallel to each other in 3D space using results
@@ -440,19 +427,12 @@ class ParameterScan (object):
 
             if self.colorbar:
                 fig.colorbar(surf, shrink=0.5, aspect=4)
-            
-            if not IPYTHON:
-                plt.show()
-            else:
-                FILENAME = str(uuid.uuid4()) + ".png"
-                plt.savefig(FILENAME)
-                plt.close()
-                imag = mpimg.imread(FILENAME)
-                return(imag)                
+
+            plt.show()
 
         except Exception as e:
             print('error: {0}'.format(e.message))
-            
+
 
     def plotMultiArray(self, param1, param1Range, param2, param2Range):
         """Plots separate arrays for each possible combination of the contents of param1range and
@@ -505,7 +485,7 @@ class ParameterScan (object):
                     axarr[i, j].set_ylabel('%s = %.2f' % (param1, k1))
                 if self.title is not None:
                     plt.suptitle(self.title)
-                    
+
 
     @classmethod
     def createColormap(cls, color1, color2):
@@ -580,8 +560,6 @@ class SteadyStateScan (object):
                 value=None,
                 independent=None,
                 selection=None,
-                dependent=None,
-                integrator="cvode",
                 color=None,
                 width=2.5,
                 alpha=0.7,
@@ -592,7 +570,8 @@ class SteadyStateScan (object):
                 colormap="seismic",
                 colorbar=True,
                 antialias=True,
-                sameColor=False):
+                sameColor=False,
+                legend=None):
         self.rr = rr
         self.startTime = startTime
         self.endTime = endTime
@@ -603,8 +582,6 @@ class SteadyStateScan (object):
         self.value = value
         self.independent = independent
         self.selection = selection
-        self.dependent = dependent
-        self.integrator = "cvode"
         self.color = color
         self.width = width
         self.alpha = alpha
@@ -616,6 +593,8 @@ class SteadyStateScan (object):
         self.colorbar = colorbar
         self.antialias = antialias
         self.sameColor = sameColor
+        self.legend = legend
+
 
     def steadyStateSim(self):
         if self.value is None:
@@ -645,16 +624,30 @@ class SteadyStateScan (object):
     
 
     def plotArray(self):
+        from tellurium.plotting import plot, show
+
+        kwargs = {}
+
+        if self.xlabel is None:
+            kwargs['xtitle'] = self.value
+        else:
+            kwargs['xtitle'] = self.xlabel
+        if self.ylabel is not None:
+            kwargs['ytitle'] = self.ylabel
+        if self.title is not None:
+            kwargs['title'] = self.title
+        if self.legend is not None:
+            kwargs['showlegend'] = self.legend
+
         result = self.steadyStateSim()
         if self.color is None:
-            plt.plot(result[:, 0], result[:, 1:], linewidth=self.width)
+            plot(result[:, 0], result[:, 1:], names=self.selection, show=False, **kwargs)
         else:
             if len(self.color) != result.shape[1]:
                 self.color = self.colorCycle()
             for i in range(result.shape[1] - 1):
-                plt.plot(result[:, 0], result[:, i], color=self.color[i], linewidth=self.width)
-        plt.show()
-        
+                plot(result[:, 0], result[:, i], name=self.selection[i], color=self.color[i], show=False, **kwargs)
+        show()
         return result
 
 
