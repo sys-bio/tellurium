@@ -88,7 +88,10 @@ Tags can be used to coordinate the color, opacity, and legend names between seve
         te.plot(x, y, show = False, tag = next_tag, name = next_tag)
 
     te.show()
+
 .. image:: _notebooks/core/tellurium_plotting_files/tellurium_plotting_3_0.png
+
+Note that only two items show up in the legend, one for each tag used. In this case, the name found in the legend will match the name of the last set of data plotted using that specific tag. The color and opacity for each tagged groups will also be chosen from the last dataset inputted with that given tag.
 
 
 Subplots
