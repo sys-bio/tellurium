@@ -1,3 +1,28 @@
+Add plot elements
+~~~~~~~~~~~~~~~~~
+
+Example showing how to embelish a graph - change title, axes labels, set axis limit.
+Example also uses an event to pulse S1.
+
+.. code-block:: python
+
+    import tellurium as te, roadrunner
+    
+    r = te.loada ('''
+       $Xo -> S1; k1*Xo;
+       S1 -> $X1; k2*S1;
+       
+       k1 = 0.2; k2 = 0.4; Xo = 1; S1 = 0.5;
+       at (time > 20): S1 = S1 + 0.35
+    ''')
+    
+    # Simulate the first part up to 20 time units
+    m = r.simulate (0, 50, 100, ["time", "S1"])
+                                                                # using latex syntax to render math
+    r.plot(m, ylim=(0.,1.), xtitle='Time', ytitle='Concentration', title='My First Plot ($y = x^2$)')
+
+.. image:: _notebooks/core/tellurium_examples_files/tellurium_examples_9_0.png
+
 Saving plots
 ~~~~~~~~~~~~
 
