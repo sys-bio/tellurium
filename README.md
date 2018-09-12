@@ -70,7 +70,43 @@ For any issues with installation and setup, please check [FAQ](https://github.co
 
 -------
 
-### Front-end 1: Tellurium Notebook
+
+### Front-end 1: Tellurium Spyder IDE
+The Tellurium Spyder installers are tested with Windows 7+ and Mac OS X 10.9+. Some older Macs cannot run Spyder IDE, regardless of 
+whether the operating system is up-to-date. 
+The Tellurium Spyder IDE comes with Python 2.7 (64-bit) or Python 3.6 (64-bit).
+
+**For those who wish to use Tellurium with Spyder IDE on Mac OS X or Linux, we suggest you to install through [Anaconda](https://www.anaconda.com/) by 
+following the instructions on [this page](https://github.com/sys-bio/tellurium/wiki/FAQ#i-would-like-to-use-tellurium-on-anaconda-what-should-i-do).**
+
+<img align="left" width="32px" id="windows" src="https://raw.githubusercontent.com/wiki/sys-bio/tellurium/img/windows.png">
+<h4>Windows</h4>
+<br style="clear:both"/>
+
+:exclamation:**Attention to those upgrading to Tellurium Spyder IDE version 2.1.0+ from older version :** 
+We strongly suggest you to completely remove the older version of Tellurium Spyder IDE prior to installing one of the 2.1.0+ versions.
+
+1. Download Tellurium Spyder for Windows:
+    * [Python 3.6](https://sourceforge.net/projects/pytellurium/files/Tellurium-2.1/2.1.0/Tellurium-2.1.0-Python-3.6-win64-setup.exe/download)  
+    * [Python 2.7](https://sourceforge.net/projects/pytellurium/files/Tellurium-2.1/2.1.0/Tellurium-2.1.0-Python-2.7-win64-setup.exe/download)  
+2. Double-click the installer to start the installation
+3. Follow the instructions
+
+NOTE: Installation requires administrative rights. It is recommended to accept the default settings.
+
+<img align="left" width="32px" id="mac-osx" src="https://raw.githubusercontent.com/wiki/sys-bio/tellurium/img/macos.png">
+<h4>Mac OS X (Legacy)</h4>
+<br style="clear:both"/>
+
+Currently, only a legacy version of the Mac Spyder IDE is available. We recommend using the Notebook front-end on Mac.
+
+1. [Download Tellurium IDE for Mac OS X 10.10 or later](https://github.com/sys-bio/tellurium/releases/download/1.3.5-rc3/Tellurium-1.3.5-Spyder-2.3.8-OSX.dmg)
+2. Double-click the .dmg file to open a new window
+3. Double-click the Spyder icon
+
+-------
+
+### Front-end 2: Tellurium Notebook
 The Tellurium notebook supports Windows 10, Mac OS X 10.10+, Debian 8+, and Fedora 22+.
 The notebook viewer comes with Python 3.6 (64-bit).
 
@@ -113,41 +149,6 @@ The notebook viewer comes with Python 3.6 (64-bit).
 :question:Looking for old releases? [You can find them here.](https://sourceforge.net/projects/pytellurium/files/notebook) To install an old release over a new release, you will need to [manually wipe the data directory.](https://github.com/sys-bio/tellurium/wiki/FAQ#how-do-i-uninstall-tellurium-notebook)
 
 <br>
-
--------
-
-### Front-end 2: Tellurium Spyder IDE
-The Tellurium Spyder installers are tested with Windows 7+ and Mac OS X 10.9+. Some older Macs cannot run Spyder IDE, regardless of 
-whether the operating system is up-to-date. 
-The Tellurium Spyder IDE comes with Python 2.7 (64-bit) or Python 3.6 (64-bit).
-
-**For those who wish to use Tellurium with Spyder IDE on Mac OS X or Linux, we suggest you to install through [Anaconda](https://www.anaconda.com/) by 
-following the instructions on [this page](https://github.com/sys-bio/tellurium/wiki/FAQ#i-would-like-to-use-tellurium-on-anaconda-what-should-i-do).**
-
-<img align="left" width="32px" id="windows" src="https://raw.githubusercontent.com/wiki/sys-bio/tellurium/img/windows.png">
-<h4>Windows</h4>
-<br style="clear:both"/>
-
-:exclamation:**Attention to those upgrading to Tellurium Spyder IDE version 2.1.0+ from older version :** 
-We strongly suggest you to completely remove the older version of Tellurium Spyder IDE prior to installing one of the 2.1.0+ versions.
-
-1. Download Tellurium Spyder for Windows:
-    * [Python 3.6](https://sourceforge.net/projects/pytellurium/files/Tellurium-2.1/2.1.0/Tellurium-2.1.0-Python-3.6-win64-setup.exe/download)  
-    * [Python 2.7](https://sourceforge.net/projects/pytellurium/files/Tellurium-2.1/2.1.0/Tellurium-2.1.0-Python-2.7-win64-setup.exe/download)  
-2. Double-click the installer to start the installation
-3. Follow the instructions
-
-NOTE: Installation requires administrative rights. It is recommended to accept the default settings.
-
-<img align="left" width="32px" id="mac-osx" src="https://raw.githubusercontent.com/wiki/sys-bio/tellurium/img/macos.png">
-<h4>Mac OS X (Legacy)</h4>
-<br style="clear:both"/>
-
-Currently, only a legacy version of the Mac Spyder IDE is available. We recommend using the Notebook front-end on Mac.
-
-1. [Download Tellurium IDE for Mac OS X 10.10 or later](https://github.com/sys-bio/tellurium/releases/download/1.3.5-rc3/Tellurium-1.3.5-Spyder-2.3.8-OSX.dmg)
-2. Double-click the .dmg file to open a new window
-3. Double-click the Spyder icon
 
 -------
 
