@@ -132,7 +132,7 @@ jarnac Short-cuts
 Routines to support the Jarnac compatibility layer
 
 .. autoclass:: tellurium.tellurium.ExtendedRoadRunner
-   :members: fjac, sm, rs, fs, bs, ps, vs, dv, rv, sv
+	:members: fjac, sm, rs, fs, bs, ps, vs, dv, rv, sv 
 
 ----------------------------------------
 Test Models
@@ -158,7 +158,7 @@ Routines to run external tools.
 ----------------------------------------
 Model Methods
 ----------------------------------------
-Routines flattened from model, aves typing and easier for finding the methods
+Routines flattened from model, saves typing and easier for finding the methods
 
 .. autoclass:: tellurium.tellurium.ExtendedRoadRunner
    :members: getRatesOfChange, getBoundarySpeciesConcentrations, getBoundarySpeciesIds, getNumBoundarySpecies, getFloatingSpeciesConcentrations, getFloatingSpeciesIds, getNumFloatingSpecies, getGlobalParameterIds, getGlobalParameterValues, getNumGlobalParameters, getCompartmentIds, getCompartmentVolumes, getNumCompartments, getConservedMoietyValues, getNumConservedMoieties, getNumDepFloatingSpecies, getNumIndFloatingSpecies, getNumReactions, getReactionIds, getReactionRates, getNumEvents, setStartTime, setEndTime, getStartTime, getEndTime, getNumberOfPoints, setNumberOfPoints, getNumRateRules
