@@ -29,7 +29,6 @@ class ExtendedRoadRunner(roadrunner.RoadRunner):
         'getBoundarySpeciesIds',
         'getNumBoundarySpecies',
 
-        'getFloatingSpeciesConcentrations',
         'getFloatingSpeciesIds',
         'getNumFloatingSpecies',
 
@@ -85,8 +84,8 @@ class ExtendedRoadRunner(roadrunner.RoadRunner):
     vs.__doc__ = roadrunner.ExecutableModel.getCompartmentIds.__doc__
 
     def dv(self):
-        return self.model.getStateVectorRate()
-    dv.__doc__ = roadrunner.ExecutableModel.getStateVector.__doc__
+        return self.getRatesOfChange()
+    dv.__doc__ = roadrunner.RoadRunner.getRatesOfChange.__doc__
 
     def rv(self):
         return self.model.getReactionRates()
@@ -121,7 +120,7 @@ class ExtendedRoadRunner(roadrunner.RoadRunner):
         """ Antimony string of the current model state.
 
         See also: :func:`getAntimony`
-        :returns: Antimony
+        :returns: Antimony string
         :rtype: str
         """
         return self.getAntimony(current=True)
@@ -131,7 +130,7 @@ class ExtendedRoadRunner(roadrunner.RoadRunner):
 
         :param current: return current model state
         :type current: bool
-        :returns: Antimony
+        :returns: CellML string
         :rtype: str
         """
         sbml = self.__getSBML(current)
@@ -246,21 +245,6 @@ class ExtendedRoadRunner(roadrunner.RoadRunner):
                    roadrunner.SelectionRecord.GLOBAL_PARAMETER)
 
     # ---------------------------------------------------------------------
-    # Routines flattened from model, aves typing and easier finding of methods
-    # ---------------------------------------------------------------------
-    def getRatesOfChange(self):
-        """ Rate of change of all state variables in the model.
-
-        :returns: rate of change of all state variables (eg species) in the model.
-        """
-        if self.conservedMoietyAnalysis:
-            m1 = self.getLinkMatrix()
-            m2 = self.model.getStateVectorRate()
-            return m1.dot(m2)
-        else:
-            return self.model.getStateVectorRate()
-
-    # ---------------------------------------------------------------------
     # Plotting Utilities
     # ---------------------------------------------------------------------
     def draw(self, **kwargs):
@@ -323,6 +307,8 @@ class ExtendedRoadRunner(roadrunner.RoadRunner):
         :type ytitle: str
         :param title: plot title
         :type title: str
+        :param linewidth: linewidth of the plot
+        :type linewidth: float
         :param xlim: limits on x-axis (tuple [start, end])
         :param ylim: limits on y-axis
         :param logx: use log scale for x-axis
