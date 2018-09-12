@@ -1,9 +1,9 @@
 Perform Parameter Scan
-======================
+~~~~~~~~~~~~~~~~~~~~~~
 
 ``plotPolyArray()`` example
 
-.. code:: ipython2
+.. code-block:: python
 
     import tellurium as te
     
@@ -39,7 +39,7 @@ Perform Parameter Scan
 
 ``plotSurface()`` example
 
-.. code:: ipython2
+.. code-block:: python
 
     r = te.loada('''
         $Xo -> S1; vo;
