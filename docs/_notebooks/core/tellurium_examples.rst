@@ -23,7 +23,7 @@ from a terminal or command prompt to install pygraphviz. Then restart
 your kernel in this notebook (Language->Restart Running Kernel).
 
 Troubleshooting Graphviz Installation
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 pygraphviz has `known
 problems <https://github.com/pygraphviz/pygraphviz/issues/72>`__ during

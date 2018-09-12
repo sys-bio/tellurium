@@ -1,3 +1,6 @@
+Perform Parameter Scan
+======================
+
 ``plotPolyArray()`` example
 
 .. code:: ipython2
@@ -64,8 +67,6 @@
     )
     # plot
     p.plotSurface()
-
-
 
 .. image:: _notebooks/core/parameter_scan_files/parameter_scan_3_0.png
 
