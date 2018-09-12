@@ -120,6 +120,8 @@ Another way is to use createColormap() and plotSurface() to create a 3D graph of
 
     p.plotSurface()
 
+.. include:: _notebooks/core/parameter_scan.rst
+
 Properties
 ==========
 
