@@ -2,7 +2,7 @@
 Preliminaries
 ~~~~~~~~~~~~~
 
-In order to draw the network graphs in these examples (i.e. using ``r.draw()``), you will need
+In order to draw the network graphs in these examples, you will need
 graphviz and pygraphviz installed. Please consult the Graphviz
 documentation for instructions on installing it on your platform. If you
 cannot install Graphviz and pygraphviz, you can still run the following

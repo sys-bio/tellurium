@@ -436,7 +436,7 @@ Further Reading
 Additional Resources for Tellurium
 ==================================
 
-* For general questions or to request help, please post to the `Tellurium-discuss <https://groups.google.com/forum/#!forum/tellurium-discuss/>`_ mailing list.
+* For general questions or to request help, please post to the `Tellurium-discuss. <http://sysbio.uservoice.com/>`_ mailing list.
 * `Herbert Sauro's modeling textbook <http://tellurium.analogmachine.org/new-modeling-text-book/>`_, which uses Tellurium
 * `YouTube video tutorials <https://www.youtube.com/channel/UCpNSURm4YWe7sF0561mcvkg>`_ (made prior to Tellurium notebook).
 
