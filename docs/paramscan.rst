@@ -123,6 +123,8 @@ Another way is to use createColormap() and plotSurface() to create a 3D graph of
 
 .. include:: _notebooks/core/parameter_scan.rst
 
+.. include:: _notebooks/core/plot2DParameterScan.rst
+
 
 Properties
 ==========
