@@ -319,7 +319,7 @@ In a model with this event, at any moment when x transitions from being less tha
     k1 = 0.5
   end
 
-For more advanced usage of events, see `Antimony’s reference documentation on events <events-ref>`_.
+For more advanced usage of events, see `Antimony’s reference documentation on events <https://tellurium.readthedocs.io/en/latest/antimony.html#id3>`_.
 
 Function Definitions
 --------------------
