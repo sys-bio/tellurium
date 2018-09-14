@@ -6,7 +6,7 @@ from __future__ import absolute_import, print_function
 import numpy as np
 
 def rank(A, atol=1e-13, rtol=0):
-    """Estimate the rank (i.e. the dimension of the nullspace) of a matrix.
+    """Estimate the rank (i.e. the dimension of the columnspace) of a matrix.
 
     The algorithm used by this function is based on the singular value
     decomposition of `A`.
