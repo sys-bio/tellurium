@@ -123,6 +123,8 @@ Another way is to use createColormap() and plotSurface() to create a 3D graph of
 
 .. include:: _notebooks/core/parameter_scan.rst
 
+.. include:: _notebooks/core/plot2DParameterScan.rst
+
 
 Properties
 ==========
@@ -181,4 +183,3 @@ SteadyStateScan
 This class is part of ParameterScan but provides some added functionality. It allows the user to plot graphs of the steady state values of one or more species as dependent on the changing value of an equilibrium constant on the x-axis. To use it, use the same import statement as before: ‘from tellurium import SteadyStateScan. Then, you can use SteadyStateScan on a loaded model by using ‘ss = SteadyStateScan(rr)’. Right now, the only working method is plotArray(), which needs the parameters of value, startValue, endValue, numberOfPoints, and selection. The parameter ‘value’ refers to the equilibrium constant, and should be the string of the chosen constant. The start and end value parameters are numbers that determine the domain of the x-axis. The ‘numberOfPoints’ parameter refers to the number of data points (i.e. a larger value gives a smoother graph) and ‘selection’ is a list of strings of one or more species that you would like in the graph.
 
 .. include:: _notebooks/core/steadystate_scan.rst
-.. include:: _notebooks/core/computeSteadyState.rst
