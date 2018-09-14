@@ -140,7 +140,6 @@ class ParameterScan (object):
         result = self._sim()
         if not IPYTHON:
             self.plotArrayFunction(result)
-            return result
         else:
             return(self.plotArrayFunction(result))
 
@@ -263,7 +262,6 @@ class ParameterScan (object):
         
         if not IPYTHON:
             self.plotGraduatedArrayFunction(result)
-            return result
         else:
             return(self.plotGraduatedArrayFunction(result))
 
@@ -648,8 +646,12 @@ class SteadyStateScan (object):
             for i in range(result.shape[1] - 1):
                 plot(result[:, 0], result[:, i], name=self.selection[i], color=self.color[i], show=False, **kwargs)
         show()
-        return result
 
+
+    def collect_plotArray_result(self):
+        result = self.steadyStateSim()
+        return(np.array(result))
+        
 
 def plot2DParameterScan(r, p1, p1Range, p2, p2Range, start=0, end=100, points=101):
     """ Create a 2D Parameter scan and plot the results.
