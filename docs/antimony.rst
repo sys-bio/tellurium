@@ -1025,7 +1025,7 @@ The simplest signal is  input step. The following code implements a step that oc
     m = r.simulate (0, 100, 300, ['time', 'Xo', 'S1'])
     r.plot()
 
-.. image:: _notebooks/core/antimonyExample_files/antimonyExample_2_6.png
+.. image:: images/antimony_0.png
 
 
 Ramp
@@ -1053,7 +1053,7 @@ The following code starts a ramp at 20 time units by setting the p1 variable to 
     m = r.simulate (0, 100, 200, ['time', 'Xo', 'S1'])
     r.plot()
 
-.. image:: _notebooks/core/antimonyExample_files/antimonyExample_2_7.png
+.. image:: images/antimony_1.png
 
 Ramp then Stop
 ~~~~~~~~~~~~~~
@@ -1082,7 +1082,7 @@ The following code starts a ramp at 20 time units by setting the p1 variable to 
     m = r.simulate (0, 100, 200, ['time', 'Xo', 'S1'])
     r.plot()
 
-.. image:: _notebooks/core/antimonyExample_files/antimonyExample_2_8.png
+.. image:: images/antimony_2.png
 
 Pulse
 ~~~~~
@@ -1112,7 +1112,7 @@ The following code starts a pulse at 20 time units by setting the p1 variable to
     r.plot()
 
 
-.. image:: _notebooks/core/antimonyExample_files/antimonyExample_2_9.png   
+.. image:: images/antimony_3.png
 
 Sinusoidal Input
 ~~~~~~~~~~~~~~~~
@@ -1139,7 +1139,7 @@ The following code starts a sinusoidal input at 20 time units by setting the p1 
     m = r.simulate (0, 100, 200, ['time', 'Xo', 'S1'])
     r.plot()
 
-.. image:: _notebooks/core/antimonyExample_files/antimonyExample_2_10.png   
+.. image:: images/antimony_4.png
 
 Rate Rules
 ----------
