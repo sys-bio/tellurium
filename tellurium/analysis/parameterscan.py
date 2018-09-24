@@ -338,21 +338,14 @@ class ParameterScan (object):
             return(self.plotPolyArrayFunction(result))
 
 
-    def plotSurface(self):
-        """ Plots results of simulation as a colored surface. Takes three variables, two
-        independent and one dependent. Legal colormap names can be found at
-        http://matplotlib.org/examples/color/colormaps_reference.html.
+    def collect_plotSurface_result(self):
+        result = self._surfaceSim()
+        return(np.array(result))
 
-        p.plotSurface()"""
+
+    def _surfaceSim(self):
+        
         try:
-#            if self.independent is None and self.dependent is None:
-#                self.independent = ['Time']
-#                defaultParameter = self.rr.model.getGlobalParameterIds()[0]
-#                self.independent.append(defaultParameter)
-#                defaultSpecies = self.rr.model.getFloatingSpeciesIds()[0]
-#                self.dependent = [defaultSpecies]
-#                print 'Warning: self.independent and self.dependent not set. Using' \
-#                ' self.independent = %s and self.dependent = %s' % (self.independent, self.dependent)
             if self.independent is None:
                 self.independent = ['Time']
                 defaultParameter = self.rr.model.getGlobalParameterIds()[0]
@@ -378,9 +371,6 @@ class ParameterScan (object):
             if self.endValue is None:
                 self.endValue = self.startValue + 5
 
-
-            fig = plt.figure()
-            ax = fig.gca(projection='3d')
             interval = (self.endTime - self.startTime) / float(self.numberOfPoints - 1)
             X = np.arange(self.startTime, (self.endTime + (interval - 0.001)), interval)
             interval = (self.endValue - self.startValue) / float(self.numberOfPoints - 1)
@@ -398,92 +388,55 @@ class ParameterScan (object):
                 Z1 = self.rr.simulate(self.startTime, self.endTime, self.numberOfPoints, [self.dependent])
                 Z1 = Z1.T
                 Z = np.concatenate((Z, Z1))
-
-            if self.antialias is False:
-                surf = ax.plot_surface(X, Y, Z, rstride=1, cstride=1, cmap=self.colormap,
-                                       antialiased=False, linewidth=0)
-            else:
-                surf = ax.plot_surface(X, Y, Z, rstride=1, cstride=1, cmap=self.colormap,
-                                       linewidth=0)
-
-            ax.yaxis.set_major_locator(LinearLocator((6)))
-            ax.yaxis.set_major_formatter(FormatStrFormatter('%.1f'))
-            if self.xlabel == 'toSet':
-                ax.set_xlabel(self.independent[0])
-            elif self.xlabel:
-                ax.set_xlabel(self.xlabel)
-            if self.ylabel == 'toSet':
-                ax.set_ylabel(self.independent[1])
-            elif self.ylabel:
-                ax.set_ylabel(self.ylabel)
-            if self.zlabel == 'toSet':
-                ax.set_zlabel(self.dependent)
-            elif self.zlabel:
-                ax.set_zlabel(self.zlabel)
-            if self.title is not None:
-                ax.set_title(self.title)
-
-            if self.colorbar:
-                fig.colorbar(surf, shrink=0.5, aspect=4)
-
-            plt.show()
+            
+            return np.vstack((X, Y, Z))
 
         except Exception as e:
             print('error: {0}'.format(e.message))
+            
 
+    def plotSurface(self):
+        """ Plots results of simulation as a colored surface. Takes three variables, two
+        independent and one dependent. Legal colormap names can be found at
+        http://matplotlib.org/examples/color/colormaps_reference.html.
 
-    def plotMultiArray(self, param1, param1Range, param2, param2Range):
-        """Plots separate arrays for each possible combination of the contents of param1range and
-        param2range as an array of subplots. The ranges are lists of values that determine the
-        initial conditions of each simulation.
+        p.plotSurface()"""
+        
+        result = self._surfaceSim()
+        X = result[0]
+        Y = result[1]
+        Z = result[2]
 
-        p.multiArrayPlot('S1', [1, 2, 3], 'S2', [1, 2])"""
-        mdl = self.rr.model
+        fig = plt.figure()
+        ax = fig.gca(projection='3d')
+        if self.antialias is False:
+            surf = ax.plot_surface(X, Y, Z, rstride=1, cstride=1, cmap=self.colormap,
+                                   antialiased=False, linewidth=0)
+        else:
+            surf = ax.plot_surface(X, Y, Z, rstride=1, cstride=1, cmap=self.colormap,
+                                   linewidth=0)
 
-        f, axarr = plt.subplots(
-            len(param1Range),
-            len(param2Range),
-            sharex='col',
-            sharey='row')
+        ax.yaxis.set_major_locator(LinearLocator((6)))
+        ax.yaxis.set_major_formatter(FormatStrFormatter('%.1f'))
+        if self.xlabel == 'toSet':
+            ax.set_xlabel(self.independent[0])
+        elif self.xlabel:
+            ax.set_xlabel(self.xlabel)
+        if self.ylabel == 'toSet':
+            ax.set_ylabel(self.independent[1])
+        elif self.ylabel:
+            ax.set_ylabel(self.ylabel)
+        if self.zlabel == 'toSet':
+            ax.set_zlabel(self.dependent)
+        elif self.zlabel:
+            ax.set_zlabel(self.zlabel)
+        if self.title is not None:
+            ax.set_title(self.title)
 
-        if self.color is None:
-            self.color = ['b', 'g', 'r', 'k']
+        if self.colorbar:
+            fig.colorbar(surf, shrink=0.5, aspect=4)
 
-        self.rr.setIntegrator(self.integrator)
-        for i, k1 in enumerate(param1Range):
-            for j, k2 in enumerate(param2Range):
-                self.rr.reset()
-                mdl[param1], mdl[param2] = k1, k2
-                if self.selection is None:
-                    result = self.rr.simulate(self.startTime, self.endTime, self.numberOfPoints)
-                else:
-                    if 'time' not in [item.lower() for item in self.selection]:
-                        self.selection = ['time'] + self.selection
-                    for item in self.selection:
-                        if item not in mdl.getFloatingSpeciesIds() and item not in mdl.getBoundarySpeciesIds():
-                            if item.lower() != 'time':
-                                raise ValueError('"{0}" is not a valid species in loaded model'.format(item))
-                    result = self.rr.simulate(self.startTime, self.endTime, self.numberOfPoints, self.selection)
-                columns = result.shape[1]
-                legendItems = self.rr.timeCourseSelections[1:]
-                if columns-1 != len(legendItems):
-                    raise Exception('Legend list must match result array')
-                for c in range(columns-1):
-                    axarr[i, j].plot(
-                        result[:, 0],
-                        result[:, c+1],
-                        linewidth=self.width,
-                        label=legendItems[c])
-                if (self.legend):
-                    plt.legend(loc= 3, bbox_to_anchor=(0.5, 0.5))
-
-                if (i == (len(param1Range) - 1)):
-                    axarr[i, j].set_xlabel('%s = %.2f' % (param2, k2))
-                if (j == 0):
-                    axarr[i, j].set_ylabel('%s = %.2f' % (param1, k1))
-                if self.title is not None:
-                    plt.suptitle(self.title)
-
+        plt.show()
 
     @classmethod
     def createColormap(cls, color1, color2):
@@ -545,6 +498,197 @@ class ParameterScan (object):
                 color.append(self.colormap(count))
                 count += interval
         self.color = color
+    
+
+class ParameterScan2D (object):
+    """ ParameterScan2D """
+    def __init__(self, rr,
+                    p1=None,
+                    p1Range=None,
+                    p2=None,
+                    p2Range=None,
+                    start=0,
+                    end=100,
+                    points=101,
+                    independent=None,
+                    selection=None,
+                    dependent=None,
+                    integrator="cvode",
+                    color=None,
+                    width=2.5,
+                    alpha=0.7,
+                    title=None,
+                    xlabel='toSet',
+                    ylabel='toSet',
+                    zlabel='toSet',
+                    colormap="seismic",
+                    colorbar=True,
+                    antialias=True,
+                    sameColor=False,
+                    legend=True):
+
+        self.rr = rr
+        self.p1 = p1
+        self.p1Range = p1Range
+        self.p2 = p2
+        self.p2Range = p2Range
+        self.start = start
+        self.end = end
+        self.points = points
+        self.independent = independent
+        self.selection = selection
+        self.dependent = dependent
+        self.integrator = integrator
+        self.color = color
+        self.width = width
+        self.alpha = alpha
+        self.title = title
+        self.xlabel = xlabel
+        self.ylabel = ylabel
+        self.zlabel = zlabel
+        self.colormap = colormap
+        self.colorbar = colorbar
+        self.antialias = antialias
+        self.sameColor = sameColor
+        self.legend = legend
+    
+
+    def collect_plotMultiArray_result(self):
+        result = self._multiArraySim()
+        return(np.array(result))
+
+
+    def _multiArraySim(self):
+        
+        mdl = self.rr.model
+        
+        output = []
+
+        self.rr.setIntegrator(self.integrator)
+        for i, k1 in enumerate(self.p1Range):
+            for j, k2 in enumerate(self.p2Range):
+                self.rr.reset()
+                mdl[self.p1], mdl[self.p2] = k1, k2
+                if self.selection is None:
+                    result = self.rr.simulate(self.startTime, self.endTime, self.numberOfPoints)
+                else:
+                    if 'time' not in [item.lower() for item in self.selection]:
+                        self.selection = ['time'] + self.selection
+                    for item in self.selection:
+                        if item not in mdl.getFloatingSpeciesIds() and item not in mdl.getBoundarySpeciesIds():
+                            if item.lower() != 'time':
+                                raise ValueError('"{0}" is not a valid species in loaded model'.format(item))
+                    result = self.rr.simulate(self.startTime, self.endTime, self.numberOfPoints, self.selection)
+                output.append(result)
+        
+        return output
+
+
+    def plotMultiArray(self):
+        """Plots separate arrays for each possible combination of the contents of param1range and
+        param2range as an array of subplots. The ranges are lists of values that determine the
+        initial conditions of each simulation.
+
+        p.multiArrayPlot('S1', [1, 2, 3], 'S2', [1, 2])"""
+
+        output = self._multiArraySim()
+
+        f, axarr = plt.subplots(
+            len(self.p1Range),
+            len(self.p2Range),
+            sharex='col',
+            sharey='row')
+
+        if self.color is None:
+            self.color = ['b', 'g', 'r', 'k']
+
+        for i, k1 in enumerate(self.p1Range):
+            for j, k2 in enumerate(self.p2Range):
+                result = output[i]
+                columns = result.shape[1]
+                legendItems = self.rr.timeCourseSelections[1:]
+                if columns-1 != len(legendItems):
+                    raise Exception('Legend list must match result array')
+                for c in range(columns-1):
+                    axarr[i, j].plot(
+                        result[:, 0],
+                        result[:, c+1],
+                        linewidth=self.width,
+                        label=legendItems[c])
+                if (self.legend):
+                    plt.legend(loc= 3, bbox_to_anchor=(0.5, 0.5))
+
+                if (i == (len(self.p1Range) - 1)):
+                    axarr[i, j].set_xlabel('%s = %.2f' % (self.p2, k2))
+                if (j == 0):
+                    axarr[i, j].set_ylabel('%s = %.2f' % (self.p1, k1))
+                if self.title is not None:
+                    plt.suptitle(self.title)
+                    
+
+    def collect_2DParameterScan_result(self):
+        result = self._2DParameterScanSim()
+        return(np.array(result))
+
+
+    def _2DParameterScanSim(self):
+        
+        mdl = self.rr.model
+        
+        output = []
+    
+        for i, k1 in enumerate(self.p1Range):
+            for j, k2 in enumerate(self.p2Range):
+                mdl.reset()
+                mdl[self.p1], mdl[self.p2] = k1, k2
+                result = mdl.simulate(self.start, self.end, self.points)
+                output.append(result)
+                
+        return output
+
+
+    def plot2DParameterScan(self):
+        """ Create a 2D Parameter scan and plot the results.
+    
+        :param r: RoadRunner instance
+        :param p1: id of first parameter
+        :param p1Range: range of first parameter
+        :param p2: id of second parameter
+        :param p2Range: range of second parameter
+        """
+    
+        # FIXME: refactor in plotting function & and parameter scan function. I.e.
+        # one function for performing simulations, the other only plots the results.
+        # FIXME: return the plot object to create figure
+    
+        result = self._2DParameterScanSim()
+        
+        f, axarr = plt.subplots(
+            len(self.p1Range),
+            len(self.p2Range),
+            sharex='col',
+            sharey='row')
+    
+        for i, k1 in enumerate(self.p1Range):
+            for j, k2 in enumerate(self.p2Range):
+                columns = result.shape[1]
+                legendItems = self.rr.timeCourseSelections[1:]
+                if columns-1 != len(legendItems):
+                    raise Exception('Legend list must match result array')
+                for c in range(columns-1):
+                    axarr[i, j].plot(
+                        result[:, 0],
+                        result[:, c+1],
+                        linewidth=2,
+                        label=legendItems[c])
+    
+                if (i == len(self.p1Range) - 1):
+                    axarr[i, j].set_xlabel('%s = %.2f' % (self.p2, k2))
+                if (j is 0):
+                    axarr[i, j].set_ylabel('%s = %.2f' % (self.p1, k1))
+    
+        f.show()
+
 
 
 class SteadyStateScan (object):
@@ -652,46 +796,3 @@ class SteadyStateScan (object):
         result = self.steadyStateSim()
         return(np.array(result))
         
-
-def plot2DParameterScan(r, p1, p1Range, p2, p2Range, start=0, end=100, points=101):
-    """ Create a 2D Parameter scan and plot the results.
-
-    :param r: RoadRunner instance
-    :param p1: id of first parameter
-    :param p1Range: range of first parameter
-    :param p2: id of second parameter
-    :param p2Range: range of second parameter
-    """
-
-    # FIXME: refactor in plotting function & and parameter scan function. I.e.
-    # one function for performing simulations, the other only plots the results.
-    # FIXME: return the plot object to create figure
-
-    f, axarr = plt.subplots(
-        len(p1Range),
-        len(p2Range),
-        sharex='col',
-        sharey='row')
-
-    for i, k1 in enumerate(p1Range):
-        for j, k2 in enumerate(p2Range):
-            r.reset()
-            r[p1], r[p2] = k1, k2
-            result = r.simulate(start, end, points)
-            columns = result.shape[1]
-            legendItems = r.selections[1:]
-            if columns-1 != len(legendItems):
-                raise Exception('Legend list must match result array')
-            for c in range(columns-1):
-                axarr[i, j].plot(
-                    result[:, 0],
-                    result[:, c+1],
-                    linewidth=2,
-                    label=legendItems[c])
-
-            if (i == len(p1Range) - 1):
-                axarr[i, j].set_xlabel('%s = %.2f' % (p2, k2))
-            if (j is 0):
-                axarr[i, j].set_ylabel('%s = %.2f' % (p1, k1))
-
-    f.show()
