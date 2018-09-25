@@ -570,7 +570,7 @@ class ParameterScan2D (object):
                 self.rr.reset()
                 mdl[self.p1], mdl[self.p2] = k1, k2
                 if self.selection is None:
-                    result = self.rr.simulate(self.startTime, self.endTime, self.numberOfPoints)
+                    result = self.rr.simulate(self.start, self.end, self.points)
                 else:
                     if 'time' not in [item.lower() for item in self.selection]:
                         self.selection = ['time'] + self.selection
@@ -581,7 +581,7 @@ class ParameterScan2D (object):
                     result = self.rr.simulate(self.startTime, self.endTime, self.numberOfPoints, self.selection)
                 output.append(result)
         
-        return output
+        return np.array(output)
 
 
     def plotMultiArray(self):
@@ -589,9 +589,9 @@ class ParameterScan2D (object):
         param2range as an array of subplots. The ranges are lists of values that determine the
         initial conditions of each simulation.
 
-        p.multiArrayPlot('S1', [1, 2, 3], 'S2', [1, 2])"""
+        p.plotMultiArray()"""
 
-        output = self._multiArraySim()
+        result = self._multiArraySim()
 
         f, axarr = plt.subplots(
             len(self.p1Range),
@@ -604,15 +604,14 @@ class ParameterScan2D (object):
 
         for i, k1 in enumerate(self.p1Range):
             for j, k2 in enumerate(self.p2Range):
-                result = output[i]
-                columns = result.shape[1]
+                columns = result.shape[2]
                 legendItems = self.rr.timeCourseSelections[1:]
                 if columns-1 != len(legendItems):
                     raise Exception('Legend list must match result array')
                 for c in range(columns-1):
                     axarr[i, j].plot(
-                        result[:, 0],
-                        result[:, c+1],
+                        result[i+j,:,0],
+                        result[i+j,:,c+1],
                         linewidth=self.width,
                         label=legendItems[c])
                 if (self.legend):
@@ -639,22 +638,18 @@ class ParameterScan2D (object):
     
         for i, k1 in enumerate(self.p1Range):
             for j, k2 in enumerate(self.p2Range):
-                mdl.reset()
+                self.rr.reset()
                 mdl[self.p1], mdl[self.p2] = k1, k2
-                result = mdl.simulate(self.start, self.end, self.points)
+                result = self.rr.simulate(self.start, self.end, self.points)
                 output.append(result)
                 
-        return output
+        return np.array(output)
 
 
     def plot2DParameterScan(self):
         """ Create a 2D Parameter scan and plot the results.
-    
-        :param r: RoadRunner instance
-        :param p1: id of first parameter
-        :param p1Range: range of first parameter
-        :param p2: id of second parameter
-        :param p2Range: range of second parameter
+        
+        p.plot2DParameterScan()
         """
     
         # FIXME: refactor in plotting function & and parameter scan function. I.e.
@@ -671,14 +666,14 @@ class ParameterScan2D (object):
     
         for i, k1 in enumerate(self.p1Range):
             for j, k2 in enumerate(self.p2Range):
-                columns = result.shape[1]
+                columns = result.shape[2]
                 legendItems = self.rr.timeCourseSelections[1:]
                 if columns-1 != len(legendItems):
                     raise Exception('Legend list must match result array')
                 for c in range(columns-1):
                     axarr[i, j].plot(
-                        result[:, 0],
-                        result[:, c+1],
+                        result[i+j,:,0],
+                        result[i+j,:,c+1],
                         linewidth=2,
                         label=legendItems[c])
     
