@@ -95,6 +95,21 @@ We strongly suggest you to completely remove the older version of Tellurium Spyd
 NOTE: Installation requires administrative rights. It is recommended to accept the default settings.
 
 <img align="left" width="32px" id="mac-osx" src="https://raw.githubusercontent.com/wiki/sys-bio/tellurium/img/macos.png">
+<h4>Mac OS X</h4>
+<br style="clear:both"/>
+
+Mac OS X user can install Tellurium and the Spyder IDE through Anaconda:
+
+1. [Download the Anaconda distribution for your platform.](https://www.anaconda.com/download)
+2. [Follow the installer instructions.](https://docs.anaconda.com/anaconda/install/linux). The installer will install Spyder as part of the installation process. If you customize the installation, you will have a chance to select which packages to install - ensure Spyder is selected.
+3. When prompted, add Anaconda to your PATH
+4. [Open a Terminal](https://www.wikihow.com/Open-a-Terminal-Window-in-Mac) and run the command:
+```
+pip install tellurium
+```
+5. You should be able to `import tellurium` within Spyder.
+
+<img align="left" width="32px" id="mac-osx" src="https://raw.githubusercontent.com/wiki/sys-bio/tellurium/img/macos.png">
 <h4>Mac OS X (Legacy)</h4>
 <br style="clear:both"/>
 
