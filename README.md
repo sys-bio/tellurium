@@ -105,6 +105,10 @@ Mac OS X user can install Tellurium and the Spyder IDE through Anaconda:
 3. When prompted, add Anaconda to your PATH (optional, but this will make the following steps easier).
 4. [Open a Terminal](https://www.wikihow.com/Open-a-Terminal-Window-in-Mac) and run the command:
 ```
+conda install msgpack-python
+```
+Next, install Tellurium itself:
+```
 pip install tellurium
 ```
 If this fails, try using the default absolute path to Anaconda:
