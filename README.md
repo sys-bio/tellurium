@@ -100,7 +100,7 @@ NOTE: Installation requires administrative rights. It is recommended to accept t
 
 Mac OS X user can install Tellurium and the Spyder IDE through Anaconda:
 
-1. [Download the Anaconda distribution for your platform.](https://www.anaconda.com/download)
+1. [Download the Anaconda distribution for Mac OS X.](https://www.anaconda.com/download). Select the Python 3.6 version of Anaconda.
 2. [Follow the installer instructions.](https://docs.anaconda.com/anaconda/install/linux). The installer will install Spyder as part of the installation process. If you customize the installation, you will have a chance to select which packages to install - ensure Spyder is selected.
 3. When prompted, add Anaconda to your PATH
 4. [Open a Terminal](https://www.wikihow.com/Open-a-Terminal-Window-in-Mac) and run the command:
