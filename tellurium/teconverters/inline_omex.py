@@ -114,7 +114,7 @@ class inlineOmex(object):
                     args = parseMagicArgs(line.split()[1:])
                     return S_PML(True, args=args), self.pml if self.force else None, None, self.args if self.force else None
                 if not self.force and self.sb_start.match(line) != None:
-                    return S_SB(self.force, line), self.pml, None, self.args
+                    return S_SB(self.force, line+'\n'), self.pml, None, self.args
                 else:
                     self.pml += line + '\n'
                     return self, None, None, None
@@ -176,10 +176,17 @@ class inlineOmex(object):
         # merge phrasedml when no location specified
         if s.force == False:
             phrasedml_combined = ''
+            antimony_combined = '' # need to combine for comp to work
             for src in list(sources):
                 if src['type'] == 'phrasedml':
                     phrasedml_combined += src['source']
                     sources.remove(src)
+                elif src['type'] == 'antimony':
+                    antimony_combined += src['source']
+            sources = [{
+                'source': antimony_combined,
+                'type': 'antimony',
+            }]
             if phrasedml_combined:
                 sources.append({
                     'source': phrasedml_combined,
