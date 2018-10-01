@@ -107,7 +107,11 @@ Mac OS X user can install Tellurium and the Spyder IDE through Anaconda:
 ```
 pip install tellurium
 ```
-5. You should be able to `import tellurium` within Spyder.
+If this fails, try using the default absolute path to Anaconda:
+```
+/Users/<your-user>/anaconda3/bin/pip install tellurium
+```
+5. Launch the Anaconda Navigator via Launchpad. In Anaconda Navigator, run Spyder and then try `import tellurium` within the Spyder editor or console.
 
 <img align="left" width="32px" id="mac-osx" src="https://raw.githubusercontent.com/wiki/sys-bio/tellurium/img/macos.png">
 <h4>Mac OS X (Legacy)</h4>
