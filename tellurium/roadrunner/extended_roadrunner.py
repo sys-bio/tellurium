@@ -303,8 +303,12 @@ class ExtendedRoadRunner(roadrunner.RoadRunner):
         :type show: bool
         :param xtitle: x-axis label
         :type xtitle: str
+        :param xlabel: x-axis label (same as xtitle)
+        :type xlabel: str
         :param ytitle: y-axis label
         :type ytitle: str
+        :param ylabel: y-axis label (same as ytitle)
+        :type ylabel: str
         :param title: plot title
         :type title: str
         :param linewidth: linewidth of the plot
