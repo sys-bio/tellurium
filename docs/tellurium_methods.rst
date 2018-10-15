@@ -111,9 +111,10 @@ notebook environment) or Matplotlib.
 
 .. autofunction:: tellurium.plot
 
+.. autofunction:: tellurium.plotArray
+
 The function ``tellurium.plotArray`` assumes that the first column in the array is the x-axis and the second and subsequent columns represent curves on the y-axis.
 
-.. autofunction:: tellurium.plotArray
 .. autoclass:: tellurium.tellurium.ExtendedRoadRunner
    :members: draw, plot
 
