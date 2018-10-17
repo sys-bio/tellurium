@@ -28,7 +28,7 @@ def readFromFile(filePath):
     :param filePath: file path to read from
     :returns: string representation of the contents of the file
     """
-    with open(filePath, 'r') as f:
+    with open(filePath, 'r', encoding="utf8") as f:
         string = f.read()
     return string
 
