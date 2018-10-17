@@ -121,6 +121,7 @@ from .tellurium import (
     addFilesToCombineArchive,
     convertCombineArchive,
     convertAndExecuteCombineArchive,
+    createCombineArchive,
     extractFileFromCombineArchive,
     exportInlineOmex,
     executeInlineOmex,

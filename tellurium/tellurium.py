@@ -810,6 +810,38 @@ def addFilesToCombineArchive(archive_path, file_names, entry_locations, file_for
     for t in tempfiles:
         os.remove(t)
 
+def createCombineArchive(archive_path, file_names, entry_locations, file_formats, master_attributes, out_archive_path, description=None):
+    """ Create a new COMBINE archive containing the provided entries and locations.
+
+    :param archive_path: The path to the archive.
+    :param file_names: List of extra files to add.
+    :param entry_locations: List of destination locations for the files in the output archive.
+    :param file_format: List of formats for the resp. files.
+    :param master_attributes: List of true/false values for the resp. master attributes of the files.
+    :param out_archive_path: The path to the output archive.
+    :param description: A libcombine description structure to be assigned to the combine archive, if desired.
+    """
+    import tecombine
+
+    output_archive = tecombine.CombineArchive()
+    if description is not None:
+        output_archive.addMetadata('.', description)
+
+    # add the extra files
+    for file_name, entry_location, file_format, master in zip(file_names, entry_locations, file_formats, master_attributes):
+        output_archive.addFile(file_name, entry_location, file_format, master)
+
+    # if the archive already exists, clear it
+    if os.path.exists(out_archive_path):
+        if os.path.isfile(out_archive_path):
+            os.remove(out_archive_path)
+        elif os.path.isdir(out_archive_path):
+            raise RuntimeError('Tried to write archive to {}, which is a directory.'.format(out_archive_path))
+        else:
+            raise RuntimeError('Could not write archive to {}.'.format(out_archive_path))
+    # write archive
+    output_archive.writeToFile(out_archive_path)
+
 
 # ---------------------------------------------------------------------
 # Math Utilities
@@ -826,7 +858,7 @@ def getEigenvalues(m):
     from numpy import linalg
     w, v = linalg.eig(m)
     return w
-  
+
 # ---------------------------------------------------------------------
 # Plotting Utilities
 # ---------------------------------------------------------------------
@@ -855,12 +887,12 @@ def plotArray(result, loc='upper right', show=True, resetColorCycle=True,
     :type grid: bool
     :param show: show=True (default) shows the plot, use show=False to plot multiple simulations in one plot
     :param kwargs: Additional matplotlib keywords like linewidth, linestyle...
-	
+
     ::
 
         import numpy as np, tellurium as te
         result = np.array([[1,2,3], [7.2,6.5,8.8], [9.8, 6.5, 4.3]])
-        te.plotArray(result, title="My graph", xlim=((1, 5)), labels=["Label 1", "Label 2"], 
+        te.plotArray(result, title="My graph", xlim=((1, 5)), labels=["Label 1", "Label 2"],
                      yscale='log', linestyle='dashed')
     """
     warnings.warn("plotArray is deprecated, use plot instead", DeprecationWarning)
@@ -911,14 +943,14 @@ def plotArray(result, loc='upper right', show=True, resetColorCycle=True,
 
 def plotWithLegend (r, result=None, loc='upper right', show=True):
     """
-    Plot an array and include a legend. The first argument must be a roadrunner variable. 
+    Plot an array and include a legend. The first argument must be a roadrunner variable.
     The second argument must be an array containing data to plot. The first column of the array will
     be the x-axis and remaining columns the y-axis. Returns
     a handle to the plotting object.
-    
+
     plotWithLegend (r)
     """
-    
+
     if not isinstance (r, roadrunner.RoadRunner):
         raise Exception ('First argument must be a roadrunner variable')
 
@@ -930,14 +962,14 @@ def plotWithLegend (r, result=None, loc='upper right', show=True):
 
     if result.dtype.names is None:
        columns = result.shape[1]
-       legendItems = r.selections[1:]       
+       legendItems = r.selections[1:]
        if columns-1 != len (legendItems):
            raise Exception ('Legend list must match result array')
     else:
         # result is structured array
         if len(result.dtype.names) < 1:
             raise Exception('No columns available to plot')
-            
+
     return plotArray(result, loc=loc, labels=legendItems, show=show)
 
 
