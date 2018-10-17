@@ -810,7 +810,7 @@ def addFilesToCombineArchive(archive_path, file_names, entry_locations, file_for
     for t in tempfiles:
         os.remove(t)
 
-def createCombineArchive(archive_path, file_names, entry_locations, file_formats, master_attributes, out_archive_path, description=None):
+def createCombineArchive(archive_path, file_names, entry_locations, file_formats, master_attributes, description=None):
     """ Create a new COMBINE archive containing the provided entries and locations.
 
     :param archive_path: The path to the archive.
@@ -832,15 +832,15 @@ def createCombineArchive(archive_path, file_names, entry_locations, file_formats
         output_archive.addFile(file_name, entry_location, file_format, master)
 
     # if the archive already exists, clear it
-    if os.path.exists(out_archive_path):
-        if os.path.isfile(out_archive_path):
-            os.remove(out_archive_path)
-        elif os.path.isdir(out_archive_path):
-            raise RuntimeError('Tried to write archive to {}, which is a directory.'.format(out_archive_path))
+    if os.path.exists(archive_path):
+        if os.path.isfile(archive_path):
+            os.remove(archive_path)
+        elif os.path.isdir(archive_path):
+            raise RuntimeError('Tried to write archive to {}, which is a directory.'.format(archive_path))
         else:
-            raise RuntimeError('Could not write archive to {}.'.format(out_archive_path))
+            raise RuntimeError('Could not write archive to {}.'.format(archive_path))
     # write archive
-    output_archive.writeToFile(out_archive_path)
+    output_archive.writeToFile(archive_path)
 
 
 # ---------------------------------------------------------------------
