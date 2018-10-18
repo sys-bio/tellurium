@@ -185,6 +185,7 @@ timecourse data returned from ``r.simulate``. Data is returned in the form of a 
 so specific elements can easily be extracted using the species name as the key.
 
 .. code-block:: python
+
         import tellurium as te
         import matplotlib.pylab as plt
 
@@ -219,6 +220,7 @@ so specific elements can easily be extracted using the species name as the key.
         plt.subplot(1,2,2);
         plt.plot(results['time'], results['[GeneOff]'], 'r', results['time'], results['[GeneOn]'], 'b');
         plt.legend({'GeneOff', 'GeneOn'});
+
 
 
 .. image:: _notebooks/core/tellurium_plotting_files/tellurium_plotting_extendedplotting.png
