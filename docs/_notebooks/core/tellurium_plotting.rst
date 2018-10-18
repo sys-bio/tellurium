@@ -176,6 +176,57 @@ Subplots
 
 .. image:: _notebooks/core/tellurium_plotting_files/tellurium_plotting_1_0.png
 
+External Plotting
+~~~~~~~~~~~~~~~~~
+
+For those more familiar with plotting in Python, other libraries such as ``matplotlib.pylab``
+offer a wider range of plotting options. To use these external libraries, extract the simulation
+timecourse data returned from ``r.simulate``. Data is returned in the form of a dictionary/NamedArray,
+so specific elements can easily be extracted using the species name as the key.
+
+.. code-block:: python
+        import tellurium as te
+        import matplotlib.pylab as plt
+
+        antimonyString = ('''
+        model feedback()
+        // Reactions:
+        J0: Nan1 + Mol -> Nan1Mol; (K1*Nan1*Mol);
+        J1: Nan1Mol -> Nan1 + Mol; (K_1*Nan1Mol); 
+        J2: Nan1Mol + Nan2 -> Nan1MolNan2; (K2*Nan1Mol*Nan2)
+        J3: Nan1MolNan2 + GeneOff -> GeneOn; (K3*Nan1MolNan2*GeneOff);
+        J4: GeneOn -> Nan1MolNan2 + GeneOff; (K_3*GeneOn);
+
+        // Species initializations:
+        Nan1 = 0.0001692; Mol = 0.0001692/2; Nan2 = 0.0001692; Nan1Mol = 0;
+        Nan1MolNan2 = 0; GeneOff = 5*10^-5; GeneOn = 0;
+
+        // Variable initialization:
+        K1 = 6.1*10^5; K_1 = 8*10^-5; K2 = 3.3*10^5; K_2 = 5.7*10^-8;  K3 = 1*10^5; K_3 = 0;
+        end''')
+
+        r = te.loada(antimonyString)
+        results = r.simulate(0,0.5,1000)
+        r.plot()
+
+        plt.figure(figsize=(30,10));
+        plt.rc('font', size=30); 
+
+        plt.subplot(1,2,1);
+        plt.plot(results['time'], results['[Nan2]'], 'r', results['time'], results['[Nan1MolNan2]'], 'b');
+        plt.legend({'Nan2', 'Nan1MolNan2'});
+
+        plt.subplot(1,2,2);
+        plt.plot(results['time'], results['[GeneOff]'], 'r', results['time'], results['[GeneOn]'], 'b');
+        plt.legend({'GeneOff', 'GeneOn'});
+
+
+.. image:: _notebooks/core/tellurium_plotting_files/tellurium_plotting_extendedplotting.png
+
+Note that we can extract all the time course data for a specific species such as Nan2 by calling ``results['[Nan2]']``.
+The extract brackets [  ] around Nan2 may or may not be required depending on if the units are in terms of
+concentration or just a count. To check, simply print out results and you can see the names of each species.
+
 Draw diagram
 ~~~~~~~~~~~~
 

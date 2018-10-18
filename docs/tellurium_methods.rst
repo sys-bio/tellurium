@@ -111,12 +111,18 @@ notebook environment) or Matplotlib.
 
 .. autofunction:: tellurium.plot
 
+**NOTE: When loading a model with ``r = te.loada('antimony_string')`` and calling ``r.plot()``, it is the above ``tellerium.ExtendedRoadRunner.plot()`` method below that is called
+not ``te.plot()``.**
 .. autofunction:: tellurium.plotArray
 
 The function ``tellurium.plotArray`` assumes that the first column in the array is the x-axis and the second and subsequent columns represent curves on the y-axis.
 
 .. autoclass:: tellurium.tellurium.ExtendedRoadRunner
    :members: draw, plot
+
+**NOTE: When loading a model with ``r = te.loada('antimony_string')`` and calling ``r.plot()``, it is the above plot() method that is called
+not ``te.plot()``.**
+
 
 .. include:: _notebooks/core/tellurium_plotting.rst
 
