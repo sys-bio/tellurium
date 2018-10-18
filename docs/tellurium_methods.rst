@@ -111,8 +111,8 @@ notebook environment) or Matplotlib.
 
 .. autofunction:: tellurium.plot
 
-**NOTE: When loading a model with**  r = te.loada('antimony_string')  **and calling**  r.plot() , **it is the below**  tellerium.ExtendedRoadRunner.plot()  **method below that is called**
-**not** te.plot().
+**NOTE: When loading a model with r = te.loada('antimony_string') and calling r.plot(), it is the below tellerium.ExtendedRoadRunner.plot() method below that is called
+not te.plot().**
 
 .. autofunction:: tellurium.plotArray
 
@@ -122,8 +122,8 @@ The function  tellurium.plotArray  assumes that the first column in the array is
    :members: draw, plot
 
 
-**NOTE: When loading a model with**  r = te.loada('antimony_string')  **and calling**  r.plot() , **it is the above**  tellerium.ExtendedRoadRunner.plot()  **method below that is called**
-**not**  te.plot() .
+**NOTE: When loading a model with r = te.loada('antimony_string') and calling r.plot(), it is the above tellerium.ExtendedRoadRunner.plot() method below that is called
+not te.plot().**
 
 .. include:: _notebooks/core/tellurium_plotting.rst
 
