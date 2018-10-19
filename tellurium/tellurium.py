@@ -886,6 +886,8 @@ def plotArray(result, loc='upper right', show=True, resetColorCycle=True,
     :param grid: Show grid
     :type grid: bool
     :param show: show=True (default) shows the plot, use show=False to plot multiple simulations in one plot
+    :param resetColorCycle: If true, resets color cycle on given figure (works with show=False to plot multiple simulations on a single plot) 
+    :type resetColorCycle: bool
     :param kwargs: Additional matplotlib keywords like linewidth, linestyle...
 
     ::
