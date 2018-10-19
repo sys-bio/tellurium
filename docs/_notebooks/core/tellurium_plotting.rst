@@ -273,3 +273,88 @@ graphviz <http://tellurium.readthedocs.io/en/latest/notebooks.html#preliminaries
 
 .. image:: _notebooks/core/tellurium_plotting_files/tellurium_plotting_6_1.png
 
+
+Parameter Scans
+~~~~~~~~~~~~~~~
+To study the consequences of varying a specific parameter value or initial concentration on a simulation,
+iteratively adjust the given parameter over a range of values of interest and re-run the simulation.
+Using the ``show`` parameter and ``te.show()`` we can plot all these simulations on a single figure.
+
+.. code-block:: python
+
+        import tellurium as te
+        import roadrunner
+        import numpy as np
+
+        r = te.loada("""
+             $Xo -> A; k1*Xo;
+              A -> B; kf*A - kr*B;
+              B -> ; k2*B;
+              
+              Xo = 5
+              k1 = 0.1; k2 = 0.5;
+              kf = 0.3; kr = 0.4    
+        """)
+
+        for Xo in np.arange(1.0, 10, 1):
+            r.reset()
+            r.Xo = Xo
+            m = r.simulate (0, 50, 100, ['time', 'A'])  
+            te.plotArray (m, show=False, labels=['Xo='+str(Xo)], resetColorCycle=False)
+        te.show()
+
+.. image:: _notebooks/core/tellurium_plotting_files/tellurium_plotting_parameter_scans.png
+
+
+Parameter Uncertainty Modeling
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+In most systems, some parameters are more sensitve to perturbations than others. When studying these systems,
+it is important to understand which parameters are highly sensitive, as errors (i.e. measurement error) introduced
+to these variables can create drastic differences between experimental and simulated results. To study the
+sensitivity of these parameters, we can sweep over a range of values as we did in the parameter scan example above.
+These ranges represent our uncertainty in the value of the parameter, and those parameters that create highly variable
+results in some measure of an output variable are deemed to be sensitive.
+
+.. code-block:: python
+
+        import numpy as np
+        import tellurium as te
+        import roadrunner
+        import antimony
+        import matplotlib.pyplot as plt
+        import time
+        import math
+        import CIDmodelBasic as model
+
+        r = te.loada (model.antimonyString)
+
+        def plot_param_uncertainty(model, startVal, name, num_sims):
+            stdDev = 0.6
+            vals = np.linspace((1-stdDev)*startVal, (1+stdDev)*startVal, 100)
+            for val in vals:
+                r.resetToOrigin()
+                exec("r.%s = %f" % (name, val))
+                result = r.simulate(0,0.5,1000, selections = ['time', 'GeneOn'])
+                plt.plot(result[:,0],result[:,1])
+                plt.title("uncertainty in " + name)
+            plt.legend(["GeneOn"])
+            plt.xlabel("Time (hours)")
+            plt.ylabel("Concentration")
+
+        startVals = r.getGlobalParameterValues();
+        names = list(enumerate([x for x in r.getGlobalParameterIds() if ("K" in x or "k" in x)]));
+
+        n = len(names) + 1;
+        dim = math.ceil(math.sqrt(n))
+        for i,next_param in enumerate(names):
+            plt.subplot(dim,dim,i+1)
+            plot_param_uncertainty(r, startVals[next_param[0]], next_param[1], 100)
+
+        plt.tight_layout()
+        plt.show()
+
+.. image:: _notebooks/core/tellurium_plotting_files/tellurium_plotting_parameter_uncertainty.png
+
+In the above code, the ``exec`` command is used to set the model parameters to their given value (i.e. ``r.K1 = 1.5``) and
+the code sweeps through all the given parameters of interests (names).
