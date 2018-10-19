@@ -278,7 +278,7 @@ Parameter Scans
 ~~~~~~~~~~~~~~~
 To study the consequences of varying a specific parameter value or initial concentration on a simulation,
 iteratively adjust the given parameter over a range of values of interest and re-run the simulation.
-Using the ``show`` parameter and ``te.show()`` we can plot all these simulations on a single figure.
+Using the ``show`` parameter and ``te.show`` we can plot all these simulations on a single figure.
 
 .. code-block:: python
 
@@ -331,6 +331,8 @@ results in some measure of an output variable are deemed to be sensitive.
 
         def plot_param_uncertainty(model, startVal, name, num_sims):
             stdDev = 0.6
+            
+            # assumes initial parameter estimate as mean and iterates 60% above and below.
             vals = np.linspace((1-stdDev)*startVal, (1+stdDev)*startVal, 100)
             for val in vals:
                 r.resetToOrigin()
@@ -358,3 +360,6 @@ results in some measure of an output variable are deemed to be sensitive.
 
 In the above code, the ``exec`` command is used to set the model parameters to their given value (i.e. ``r.K1 = 1.5``) and
 the code sweeps through all the given parameters of interests (names).
+Above, we see that the K3 parameter produces the widest distribution of outcomes, and is thus the most sensitive
+under the given model, taking into account its assumptions and approximate parameter values. On the other hand, variations in  K_1, K1, and K_3 
+seem to have very little effect on the outcome of the system.
