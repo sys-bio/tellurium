@@ -9,7 +9,6 @@ type to 'gillespie' or by using the ``r.gillespie`` function.
 .. code-block:: python
 
     import tellurium as te
-    te.setDefaultPlottingEngine('matplotlib')
     import numpy as np
     
     r = te.loada('S1 -> S2; k1*S1; k1 = 0.1; S1 = 40')

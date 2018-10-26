@@ -12,7 +12,6 @@ their respective initial values. ``resetAll`` resets variables to their CURRENT 
 .. code-block:: python
 
     import tellurium as te
-    te.setDefaultPlottingEngine('matplotlib')
 
     r = te.loada ('S1 -> S2; k1*S1; k1 = 0.1; S1 = 10')
     r.integrator.setValue('variable_step_size', True)

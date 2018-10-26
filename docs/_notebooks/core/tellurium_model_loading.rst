@@ -11,7 +11,6 @@ strings or respective model files.
 .. code-block:: python
 
     import tellurium as te
-    te.setDefaultPlottingEngine('matplotlib')
     
     # Load an antimony model
     ant_model = '''
