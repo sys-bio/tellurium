@@ -108,7 +108,7 @@ Plotting
 
 Tellurium has a plotting engine which can target either Plotly (when used in a
 notebook environment) or Matplotlib. To specify which engine to use, use 
-`te.setDefaultPlottingEngine()`.
+``te.setDefaultPlottingEngine()``.
 
 .. autofunction:: tellurium.plot
 
