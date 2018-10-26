@@ -54,7 +54,7 @@ settings.
 .. code-block:: python
 
     import tellurium as te
-    te.setDefaultPlottingEngine('matplotlib')
+     
     r = te.loadTestModel('feedback.xml')
     r.integrator.variable_step_size = True
     s = r.simulate(0, 50)
@@ -74,7 +74,7 @@ To plot multiple curves in one figure use the ``show=False`` setting.
 .. code-block:: python
 
     import tellurium as te
-    te.setDefaultPlottingEngine('matplotlib')
+     
     import numpy as np
     import matplotlib.pylab as plt
     
@@ -238,7 +238,7 @@ graphviz <http://tellurium.readthedocs.io/en/latest/notebooks.html#preliminaries
 .. code-block:: python
 
     import tellurium as te
-    te.setDefaultPlottingEngine('matplotlib')
+     
     
     r = te.loada('''
     model feedback()
