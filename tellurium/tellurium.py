@@ -42,8 +42,7 @@ except:
     try:
         import Tkinter
     except ImportError:
-        if IPYTHON:
-          matplotlib.use('Agg', warn=False)
+        matplotlib.use('Agg', warn=False)
 
 
 ##############################################
