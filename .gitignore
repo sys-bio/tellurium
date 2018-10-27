@@ -70,3 +70,5 @@ examples/tellurium-files/phrasedml/results/
 examples/tellurium-files/omex/results/
 tellurium/tests/testdata/sedml/sed-ml/results/
 
+# Mac .DS_store
+.DS_Store
