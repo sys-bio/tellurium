@@ -6,7 +6,7 @@ from __future__ import print_function, division, absolute_import
 import os
 import roadrunner
 import warnings
-
+import copy
 # ---------------------------------------------------------------------
 # Extended RoadRunner class
 # ---------------------------------------------------------------------
@@ -336,7 +336,9 @@ class ExtendedRoadRunner(roadrunner.RoadRunner):
         :param kwargs: additional matplotlib keywords like marker, lineStyle, ...
         """
         if result is None:
-            result = self.getSimulationData()
+            simData = self.getSimulationData()
+            result = copy.copy(simData)
+            result.colnames = simData.colnames
 
         from .. import getPlottingEngine
 
