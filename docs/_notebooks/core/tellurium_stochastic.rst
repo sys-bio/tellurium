@@ -64,21 +64,24 @@ legend, and ``tags``, which ensures that traces with the same tag will
 be drawn with the same color.
 
 .. code-block:: python
+        import tellurium as te
 
-    import tellurium as te
-    import numpy as np
-    
-    r = te.loada('S1 -> S2; k1*S1; k1 = 0.02; S1 = 100')
-    r.setSeed(1234)
-    for k in range(1, 20):
-        r.resetToOrigin()
-        res1 = r.gillespie(0, 10)
-        # change in parameter after the first half of the simulation
-        r.k1 = r.k1*20
-        res2 = r.gillespie (10, 20)
-        sim = np.vstack([res1, res2])
-        te.plot(sim[:,0], sim[:,1:], alpha=0.7, names=['S1', 'S2'], tags=['S1', 'S2'], show=False)
-    te.show()
+        r = te.loada('S1 -> S2; k1*S1; k1 = 0.02; S1 = 100')
+        r.setSeed(1234)
+        for k in range(1, 20):
+            r.resetToOrigin()
+            res1 = r.gillespie(0, 10)
+            r.plot(res1, show=False) # plot first half of data
+            
+            # change in parameter after the first half of the simulation
+            # We could have also used an Event in the antimony model,
+            # which are described further in the Antimony Reference section
+            r.k1 = r.k1*20
+            res2 = r.gillespie (10, 20)
+            
+            r.plot(res2, show=False) # plot second half of data
+
+        te.show()
 
 
 
