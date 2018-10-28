@@ -65,6 +65,7 @@ be drawn with the same color (each species within each trace will be
 plotted in its own color, but these colors will match trace to trace).
 
 .. code-block:: python
+
         import tellurium as te
 
         r = te.loada('S1 -> S2; k1*S1; k1 = 0.02; S1 = 100')
