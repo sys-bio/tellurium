@@ -102,7 +102,7 @@ def getODEsFromSBMLString (sbmlStr):
     extractor = ODEExtractor (sbmlStr)
     return extractor.toString()
   
-def getODEsFromModel (sbmlModel):
+def getODEsFromModel (roadrunnerModel):
     """Given a roadrunner instance this function returns
     a string of rules and ODEs
     
@@ -110,8 +110,8 @@ def getODEsFromModel (sbmlModel):
     >>> te.getODEsFromModel (r)
     """       
     from roadrunner import RoadRunner
-    if type (sbmlModel) == RoadRunner:
-       extractor = ODEExtractor (sbmlModel.getSBML())
+    if type (roadrunnerModel) == RoadRunner:
+       extractor = ODEExtractor (roadrunnerModel.getSBML())
     else:
        raise RuntimeError('The argument to getODEsFromModelAsString should be a roadrunner variable')
            
