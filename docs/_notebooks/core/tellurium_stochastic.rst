@@ -58,10 +58,11 @@ values in between each simulation. The ``gillespie`` method simulates up
 to the given end time ``10``, after which you can make arbitrary changes
 to the model, then simulate again.
 
-When using the ``te.plot`` function, you can pass the parameter
-``names``, which controls the names that will be used in the figure
-legend, and ``tags``, which ensures that traces with the same tag will
-be drawn with the same color.
+When using the ``r.plot`` function, you can pass the parameter
+``labels``, which controls the names that will be used in the figure
+legend, and ``tag``, which ensures that traces with the same tag will
+be drawn with the same color (each species within each trace will be
+plotted in its own color, but these colors will match trace to trace).
 
 .. code-block:: python
         import tellurium as te
