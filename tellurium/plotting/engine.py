@@ -94,6 +94,9 @@ class PlottingEngine(object):
             self.fig = fig
         return fig
 
+    def plot_text(self, x, y, text, show=True, **kwargs):
+        return self.plot(x, y, text=text, show=show, **kwargs)
+
     def plotTimecourse(self, m, xtitle=None, ytitle=None, title=None, linewidth=2, xlim=None, ylim=None, 
                        logx=False, logy=False, xscale='linear', yscale='linear', grid=False, ordinates=None, 
                        tag=None, labels=None, figsize=(6,4), savefig=None, dpi=80, alpha=1.0, **kwargs):
@@ -249,7 +252,7 @@ class PlottingFigure(object):
         :return:
         """
 
-    def addXYDataset(self, x_arr, y_arr, color=None, tag=None, name=None, filter=True, alpha=None, mode=None, logx=None, logy=None, scatter=None, error_y_pos=None, error_y_neg=None, showlegend=None):
+    def addXYDataset(self, x_arr, y_arr, color=None, tag=None, name=None, filter=True, alpha=None, mode=None, logx=None, logy=None, scatter=None, error_y_pos=None, error_y_neg=None, showlegend=None, text=None, dash=None):
         """ Adds an X/Y dataset to the plot.
 
         :param x_arr: A numpy array describing the X datapoints. Should have the same size as y_arr.
@@ -290,6 +293,10 @@ class PlottingFigure(object):
             dataset['error_y_neg'] = error_y_neg
         if showlegend is not None:
             dataset['showlegend'] = showlegend
+        if text is not None:
+            dataset['text'] = text
+        if dash is not None:
+            dataset['dash'] = dash
         self.xy_datasets.append(dataset)
 
     def getMergedTaggedDatasets(self):
@@ -312,8 +319,7 @@ class PlottingFigure(object):
             self.getMergedTaggedDatasets(),
             (dataset for dataset in self.xy_datasets if not 'tag' in dataset))
 
-    # TODO: don't need name/names and tag/tags redundancy
-    def plot(self, x, y, colnames=None, title=None, xtitle=None, logx=None, logy=None, ytitle=None, alpha=None, name=None, names=None, tag=None, tags=None, scatter=None, error_y_pos=None, error_y_neg=None, showlegend=None):
+    def plot(self, x, y, colnames=None, title=None, xtitle=None, logx=None, logy=None, ytitle=None, alpha=None, name=None, names=None, tag=None, tags=None, scatter=None, error_y_pos=None, error_y_neg=None, showlegend=None, label=None, labels=None, text=None, dash=None, color=None):
         """ Plot x & y data.
         """
         if xtitle:
@@ -343,12 +349,22 @@ class PlottingFigure(object):
                     raise RuntimeError('x data has length {} but y data has length {}'.format(len(x), len(y)))
                 if names is not None:
                     kws['name'] = names[k]
+                if labels is not None:
+                    kws['name'] = labels[k]
                 if tags is not None:
                     kws['tag'] = tags[k]
                 if colnames is not None:
                     kws['name'] = colnames[k]
                 if showlegend is not None:
                     kws['showlegend'] = showlegend[k]
+                if text is not None:
+                    kws['text'] = text
+                if dash is not None:
+                    kws['dash'] = dash[k]
+                if color is not None:
+                    kws['color'] = color[k]
+                if alpha is not None:
+                    kws['alpha'] = alpha[k]
                 self.addXYDataset(x, y[:, k], **kws)
         elif len(y.shape) == 1:
             # it's a 1d array
@@ -356,6 +372,10 @@ class PlottingFigure(object):
                 raise RuntimeError('x data has length {} but y data has length {}'.format(len(x), len(y)))
             if name is not None:
                 kws['name'] = name
+            if label is not None:
+                kws['name'] = label
+            if labels is not None:
+                kws['name'] = labels[0]
             if tag is not None:
                 kws['tag'] = tag
             elif colnames is not None:
@@ -365,6 +385,14 @@ class PlottingFigure(object):
                     kws['showlegend'] = showlegend
                 else:
                     kws['showlegend'] = showlegend[k]
+            if text is not None:
+                kws['text'] = text
+            if dash is not None:
+                kws['dash'] = dash[0]
+            if color is not None:
+                kws['color'] = color[0]
+            if alpha is not None:
+                kws['alpha'] = alpha[0]
             self.addXYDataset(x, y, **kws)
         else:
             raise RuntimeError('Could not plot y data with {} dimensions'.format(len(y.shape)))

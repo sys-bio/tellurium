@@ -72,11 +72,21 @@ class MatplotlibFigure(PlottingFigure):
                 kwargs['alpha'] = dataset['alpha']
             if 'showlegend' in dataset and dataset['showlegend'] is not None:
                 show_legend = dataset['showlegend']
+            if 'color' in dataset and dataset['color'] is not None:
+                kwargs['color'] = dataset['color']
             scatter = False
-            if 'mode' in dataset and dataset['mode'] is not None and dataset['mode'] == 'markers':
-                scatter = True
-            if not scatter:
-                plt.plot(dataset['x'], dataset['y'], marker='', linewidth=self.linewidth, **kwargs)
+            marker = ''
+            if 'mode' in dataset and dataset['mode'] is not None:
+                if dataset['mode'] == 'markers':
+                    scatter = True
+                    marker = ''
+            if 'dash' in dataset and dataset['dash'] is not None:
+                kwargs['dashes'] = [4,2]
+            if  'text' in dataset and dataset['text'] is not None:
+                for x,y,t in zip(dataset['x'], dataset['y'], dataset['text']):
+                    plt.text(x, y, t, bbox=dict(facecolor='white', alpha=1))
+            elif not scatter:
+                plt.plot(dataset['x'], dataset['y'], marker=marker, linewidth=self.linewidth, **kwargs)
             else:
                 plt.scatter(dataset['x'], dataset['y'], **kwargs)
 

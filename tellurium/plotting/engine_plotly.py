@@ -6,7 +6,7 @@ from __future__ import print_function, absolute_import
 from .engine import PlottingEngine, PlottingFigure, PlottingLayout, filterWithSelections, TiledFigure, LowerTriFigure
 import numpy as np
 import plotly
-from plotly.graph_objs import Scatter, Scatter3d, Layout, Data
+from plotly.graph_objs import Scatter, Scatter3d, Layout, Data, Marker
 from plotly import tools
 
 
@@ -42,6 +42,8 @@ class PlotlyFigure(PlottingFigure):
 
     def getArgsForDataset(self, dataset):
         kwargs = {}
+        kwargs['mode'] = 'lines'
+
         if 'name' in dataset and dataset['name'] is not None:
             kwargs['name'] = dataset['name']
         else:
@@ -51,11 +53,18 @@ class PlotlyFigure(PlottingFigure):
             kwargs['showlegend'] = dataset['showlegend']
         if 'alpha' in dataset and dataset['alpha'] is not None:
             kwargs['opacity'] = dataset['alpha']
+        if 'text' in dataset and dataset['text'] is not None:
+            kwargs['text'] = dataset['text']
+            kwargs['textposition'] = 'bottom center'
+            kwargs['mode'] = 'markers+text'
+            kwargs['marker']=Marker(color='black')
+        if 'color' in dataset and dataset['color'] is not None:
+            kwargs['marker']=Marker(color=dataset['color'])
         # lines/markers (lines by default)
         if 'mode' in dataset and dataset['mode'] is not None:
             kwargs['mode'] = dataset['mode']
-        else:
-            kwargs['mode'] = 'lines'
+        if 'dash' in dataset and dataset['dash'] is not None:
+            kwargs['line'] = {'dash': dataset['dash']}
         # override mode via scatter
         if 'scatter' in dataset and dataset['scatter'] == True:
             kwargs['mode'] = 'markers'
