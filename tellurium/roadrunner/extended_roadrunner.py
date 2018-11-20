@@ -30,6 +30,7 @@ class ExtendedRoadRunner(roadrunner.RoadRunner):
         'getNumBoundarySpecies',
 
         'getFloatingSpeciesIds',
+        'getFloatingSpeciesConcentrationIds',
         'getNumFloatingSpecies',
 
         'getGlobalParameterIds',
