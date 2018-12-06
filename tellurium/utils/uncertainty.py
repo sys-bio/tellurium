@@ -22,9 +22,9 @@ def UncertaintySingleP(model, variables, runType = None, parameters = None, simu
                       fontsize = None,  
                       callback = None, datasave = None, imagesave = None):
     
-    """ Measures the contribution of a singple parameter uncertainty to the model output. 
+    """ Measures the contribution of a single parameter uncertainty to the model output. 
     The row of the grid indicates individual parameter, the independent variable of the simulation.
-    The column of the grid is the varaiable of interest. 
+    The column of the grid is the variable of interest. 
     The x-axis of the subplot is time. 
     The y-axis of the subplot is the value of the species variable. 
     For each subplot, the model is simulated multiple time (default : 10000 times) 
