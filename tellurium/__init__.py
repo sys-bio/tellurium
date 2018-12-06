@@ -149,6 +149,11 @@ from tellurium.utils.matrix import(
     rref,
 )
 
+from tellurium.utils.uncertainty import(
+    UncertaintySingleP,
+	UncertaintyAllP,
+)
+
 # Dist config
 from .tellurium import (
     DumpJSONInfo,
