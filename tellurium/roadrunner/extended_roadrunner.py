@@ -24,13 +24,16 @@ class ExtendedRoadRunner(roadrunner.RoadRunner):
 
     # These model functions are attached after class creation
     _model_functions = [
-        'getBoundarySpeciesConcentrations',
-        'getBoundarySpeciesConcentrationIds',
         'getBoundarySpeciesIds',
+        'getBoundarySpeciesConcentrationIds',
+        'getBoundarySpeciesConcentrations',
+        'getBoundarySpeciesAmounts',
         'getNumBoundarySpecies',
 
         'getFloatingSpeciesIds',
         'getFloatingSpeciesConcentrationIds',
+        'getFloatingSpeciesConcentrations',
+        'getFloatingSpeciesAmounts',
         'getNumFloatingSpecies',
 
         'getGlobalParameterIds',
