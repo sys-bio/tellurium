@@ -88,8 +88,8 @@ class ExtendedRoadRunner(roadrunner.RoadRunner):
     vs.__doc__ = roadrunner.ExecutableModel.getCompartmentIds.__doc__
 
     def dv(self):
-        return self.model.getStateVectorRate()
-    dv.__doc__ = roadrunner.ExecutableModel.getStateVector.__doc__
+        return self.getRatesOfChange()
+    dv.__doc__ = roadrunner.RoadRunner.getRatesOfChange.__doc__
 
     def rv(self):
         return self.model.getReactionRates()
