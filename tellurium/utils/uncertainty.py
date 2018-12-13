@@ -15,16 +15,16 @@ import matplotlib.gridspec as gs
 import pandas as pd 
 
 
-def UncertaintySingleP(model, variables, runType = None, parameters = None, simulation = None, 
+def UncertaintySingleP(model, variables, runType = None, parameters = None, simulation = None, degreeofVariability = None,
                       excludedParameters = None, sizeofEnsemble = None, ConfidenceInterval = None,  
                       limitc = None, midc = None, fillc = None, barc = None, 
                       limitw = None, midw = None,
                       fontsize = None,  
                       callback = None, datasave = None, imagesave = None):
     
-    """ Measures the contribution of a single parameter uncertainty to the model output. 
+    """ Measures the contribution of a singple parameter uncertainty to the model output. 
     The row of the grid indicates individual parameter, the independent variable of the simulation.
-    The column of the grid is the variable of interest. 
+    The column of the grid is the varaiable of interest. 
     The x-axis of the subplot is time. 
     The y-axis of the subplot is the value of the species variable. 
     For each subplot, the model is simulated multiple time (default : 10000 times) 
@@ -36,6 +36,7 @@ def UncertaintySingleP(model, variables, runType = None, parameters = None, simu
     :param runType: mode of simulation (str). Two options, "TimeCourse" and "SteadyState", available.
     :param parameters: parameters to use for the uncertainty quantification (list). If not designated, all parameters will be run.  
     :param simulation: simulation time range (tuple, (start time, end time, number of points)).
+	:param degreeofVariability: degree of variability (float) 
     :param excludedParameters: parameters to be excluded from the uncertainty quantification (list) .
     :param sizeofEnsemble: number of simulations (integer).
     :param ConfidenceInterval: 95 (default) level of confidence interval. (int, 0-100).
@@ -60,6 +61,9 @@ def UncertaintySingleP(model, variables, runType = None, parameters = None, simu
         
     if simulation is None: 
         simulation = (0,60,241)
+    
+    if degreeofVariability is None: 
+        degreeofVariability = 0.1
 
     if excludedParameters is None: 
         excludedParameters = []
@@ -147,7 +151,7 @@ def UncertaintySingleP(model, variables, runType = None, parameters = None, simu
         # run simulations and collect all the results
                 for i in range(0, sizeofEnsemble+1):
                     model.resetAll()
-                    model[p] = random.normalvariate(model[p], 0.1 * model[p])
+                    model[p] = random.normalvariate(model[p], degreeofVariability * model[p])
                     result = model.simulate(simulation[0], simulation[1], simulation[2], ['time'] + [v]) 
                     results.append(result)
                 
@@ -222,7 +226,7 @@ def UncertaintySingleP(model, variables, runType = None, parameters = None, simu
                 ssresults=[]
                 for i in range(0,sizeofEnsemble+1):
                     model.resetAll()
-                    model[p]=random.normalvariate(model[p], 0.1 * model[p]) 
+                    model[p]=random.normalvariate(model[p], degreeofVariability * model[p]) 
                     ssresult = model.getSteadyStateValuesNamedArray()[nv][0]
                     ssresults.append(ssresult)
                 lowlimits.append(np.percentile(ssresults,cilimit[0]))
@@ -252,8 +256,8 @@ def UncertaintySingleP(model, variables, runType = None, parameters = None, simu
             fig.savefig("SingleP_UQ.png")
             
             
-def UncertaintyAllP(model, variables, runType = None, parameters = None, simulation = None, excludedParameters = None, 
-                    sizeofEnsemble = None, ConfidenceInterval = None,  
+def UncertaintyAllP(model, variables, runType = None, parameters = None, simulation = None, degreeofVariability = None, 
+					excludedParameters = None, sizeofEnsemble = None, ConfidenceInterval = None,  
                     limitc = None, midc = None, fillc = None, barc = None, errorc = None, 
                     limitw = None, midw = None,
                     figtitle = None, xlabel = None, ylabel = None,
@@ -287,8 +291,6 @@ def UncertaintyAllP(model, variables, runType = None, parameters = None, simulat
     :param datasave: name of the directory (str). creates a new directory in current working directory and save raw data in CSV format.
     :param imagesave: name of the image file (str, "filename.format"). saves the image file of the grid output. 
     """
-    if simulation is None: 
-        simulation = (0,60,241)
     
     if parameters is None: 
         parameters = model.getGlobalParameterIds()
@@ -296,7 +298,13 @@ def UncertaintyAllP(model, variables, runType = None, parameters = None, simulat
     for v in variables:
         if v in parameters:
             parameters.remove(v)
-            
+    if simulation is None: 
+        simulation = (0,60,241)
+    
+    if degreeofVariability is None:
+        degreeofVariability = 0.1
+
+	
     if excludedParameters is None: 
         excludedParameters = []
     else:
@@ -360,7 +368,7 @@ def UncertaintyAllP(model, variables, runType = None, parameters = None, simulat
         fig = plt.figure(figsize = figuresize)
         grids = gs.GridSpec(nrows = 1, ncols= len(variables), figure = fig)
     elif runType == "SteadyState":
-        figuresize = (3*len(variables), 4)
+        figuresize = (2*len(variables), 4)
         fig = plt.figure(figsize = figuresize)
         grids = gs.GridSpec(nrows = 1, ncols = 1, figure = fig)
     #time course simulation 
@@ -374,7 +382,7 @@ def UncertaintyAllP(model, variables, runType = None, parameters = None, simulat
             for i in range(0, sizeofEnsemble+1):
                 model.resetAll()
                 for p in parameters: 
-                    model[p] = random.normalvariate(model[p], 0.1 * model[p])
+                    model[p] = random.normalvariate(model[p], degreeofVariability * model[p])
                 result = model.simulate(simulation[0], simulation[1], simulation[2], ['time'] + [v]) 
                 results.append(result)
             
@@ -443,7 +451,7 @@ def UncertaintyAllP(model, variables, runType = None, parameters = None, simulat
             for i in range(0,sizeofEnsemble+1):
                 model.resetAll()
                 for p in parameters:
-                    model[p]=random.normalvariate(model[p], 0.1*model[p])
+                    model[p]=random.normalvariate(model[p], degreeofVariability *model[p])
                 
                 ssresults.append(model.getSteadyStateValuesNamedArray()[nv][0])
             midpoint = np.percentile(ssresults,cilimit[1])
@@ -454,12 +462,19 @@ def UncertaintyAllP(model, variables, runType = None, parameters = None, simulat
             upps_df.append(upperlimit)
             if callback == True: 
                 print ("UQ_SS_AllP:",nv)
-        UQ = list(np.asarray(upps_df)-np.asarray(lows_df))
-#        lowerror = list(np.asarray(mids_df) - np.asarray(lows_df))
-#        upperror = list(np.asarray(upps_df) - np.asarray(mids_df))
+#        UQ = list(np.asarray(upps_df)-np.asarray(lows_df))
+        lowerror = list(np.asarray(mids_df) - np.asarray(lows_df))
+        upperror = list(np.asarray(upps_df) - np.asarray(mids_df))
+        errorbar = [lowerror,upperror]
         nwsub = fig.add_subplot(grids[0,0])  
-        nwsub.bar(x=variables, height = UQ, color = barc)
-        
+#        nwsub.bar(x=variables, height = UQ, color = barc)
+        nwsub.axis([0,len(variables)+1,0,max(upps_df)*1.1])
+        vartonum=[variables.index(v)+1 for v in variables]
+        nwsub.errorbar(x=vartonum, y=mids_df, yerr=errorbar, ecolor="cornflowerblue", fmt = 'o', capsize = 10)
+        nwsub.set_xticks(vartonum)
+        nwsub.set_xticklabels(labels = variables)
+        fig.tight_layout(pad=0.5,h_pad=0.5,w_pad=0.5)
+        plt.subplots_adjust(top=0.88)
         if ylabel is None:
             nwsub.set_ylabel("")
         else:
@@ -469,7 +484,6 @@ def UncertaintyAllP(model, variables, runType = None, parameters = None, simulat
             nwsub.set_title("UQ at steady state")
         else:
             nwsub.set_title(figtitle)
-        fig.tight_layout(pad=0.5,h_pad=0.5,w_pad=0.5)
         if datasave is not None: 
             filename =  "AllP_UQSS.csv" 
             pathtofile = os.path.join(newdir,filename)
