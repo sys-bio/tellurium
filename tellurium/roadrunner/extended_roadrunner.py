@@ -6,7 +6,7 @@ from __future__ import print_function, division, absolute_import
 import os
 import roadrunner
 import warnings
-
+import copy
 # ---------------------------------------------------------------------
 # Extended RoadRunner class
 # ---------------------------------------------------------------------
@@ -24,13 +24,16 @@ class ExtendedRoadRunner(roadrunner.RoadRunner):
 
     # These model functions are attached after class creation
     _model_functions = [
-        'getBoundarySpeciesConcentrations',
-        'getBoundarySpeciesConcentrations',
         'getBoundarySpeciesIds',
+        'getBoundarySpeciesConcentrationIds',
+        'getBoundarySpeciesConcentrations',
+        'getBoundarySpeciesAmounts',
         'getNumBoundarySpecies',
 
-        'getFloatingSpeciesConcentrations',
         'getFloatingSpeciesIds',
+        'getFloatingSpeciesConcentrationIds',
+        'getFloatingSpeciesConcentrations',
+        'getFloatingSpeciesAmounts',
         'getNumFloatingSpecies',
 
         'getGlobalParameterIds',
@@ -85,8 +88,8 @@ class ExtendedRoadRunner(roadrunner.RoadRunner):
     vs.__doc__ = roadrunner.ExecutableModel.getCompartmentIds.__doc__
 
     def dv(self):
-        return self.model.getStateVectorRate()
-    dv.__doc__ = roadrunner.ExecutableModel.getStateVector.__doc__
+        return self.getRatesOfChange()
+    dv.__doc__ = roadrunner.RoadRunner.getRatesOfChange.__doc__
 
     def rv(self):
         return self.model.getReactionRates()
@@ -121,7 +124,7 @@ class ExtendedRoadRunner(roadrunner.RoadRunner):
         """ Antimony string of the current model state.
 
         See also: :func:`getAntimony`
-        :return: Antimony
+        :returns: Antimony string
         :rtype: str
         """
         return self.getAntimony(current=True)
@@ -246,21 +249,6 @@ class ExtendedRoadRunner(roadrunner.RoadRunner):
                    roadrunner.SelectionRecord.GLOBAL_PARAMETER)
 
     # ---------------------------------------------------------------------
-    # Routines flattened from model, aves typing and easier finding of methods
-    # ---------------------------------------------------------------------
-    def getRatesOfChange(self):
-        """ Rate of change of all state variables in the model.
-
-        :returns: rate of change of all state variables (eg species) in the model.
-        """
-        if self.conservedMoietyAnalysis:
-            m1 = self.getLinkMatrix()
-            m2 = self.model.getStateVectorRate()
-            return m1.dot(m2)
-        else:
-            return self.model.getStateVectorRate()
-
-    # ---------------------------------------------------------------------
     # Plotting Utilities
     # ---------------------------------------------------------------------
     def draw(self, **kwargs):
@@ -289,16 +277,16 @@ class ExtendedRoadRunner(roadrunner.RoadRunner):
         diagram.draw(**kwargs)
 
 
-    # FIXME: update the documentation of plot function
     def plot(self, result=None, show=True,
-             xtitle=None, ytitle=None, title=None, xlim=None, ylim=None, logx=False, logy=False,
-             xscale='linear', yscale='linear', grid=False, ordinates=None, tag=None, labels=None, figsize=(6,4), **kwargs):
+             xtitle=None, ytitle=None, title=None, linewidth=2, xlim=None, ylim=None, logx=False, logy=False,
+             xscale='linear', yscale='linear', grid=False, ordinates=None, tag=None, labels=None, 
+             figsize=(6,4), savefig=None, dpi=80, alpha=1.0, **kwargs):
         """ Plot roadrunner simulation data.
 
         Plot is called with simulation data to plot as the first argument. If no data is provided the data currently
         held by roadrunner generated in the last simulation is used. The first column is considered the x axis and
         all remaining columns the y axis.
-        If the result array has no names, than the current r.selections are used for naming. In this case the
+        If the result array has no names, then the current r.selections are used for naming. In this case the
         dimension of the r.selections has to be the same like the number of columns of the result array.
 
         Curves are plotted in order of selection (columns in result).
@@ -310,41 +298,62 @@ class ExtendedRoadRunner(roadrunner.RoadRunner):
             sbml = te.getTestModel('feedback.xml')
             r = te.loadSBMLModel(sbml)
             s = r.simulate(0, 100, 201)
-            r.plot(s, loc="upper right", linewidth=2.0, lineStyle='-', marker='o', markersize=2.0, alpha=0.8,
-                   title="Feedback Oscillation", xlabel="time", ylabel="concentration", xlim=[0,100], ylim=[-1, 4])
+            r.plot(s, loc="upper right", linewidth=2.0, lineStyle='-', marker='o', markersize=2.0,
+                   alpha=0.8, title="Feedback Oscillation", xlabel="time", ylabel="concentration",
+                   xlim=[0,100], ylim=[-1, 4])
 
         :param result: results data to plot (numpy array)
-        :param show: show the plot, use show=False to plot multiple simulations in one plot
-        :param xtitle: x-axis label (str)
-        :param ytitle: y-axis label (str)
-        :param title: plot title (str)
+        :param show: show=True (default) shows the plot, use show=False to plot multiple simulations in one plot
+        :type show: bool
+        :param xtitle: x-axis label
+        :type xtitle: str
+        :param xlabel: x-axis label (same as xtitle)
+        :type xlabel: str
+        :param ytitle: y-axis label
+        :type ytitle: str
+        :param ylabel: y-axis label (same as ytitle)
+        :type ylabel: str
+        :param title: plot title
+        :type title: str
+        :param linewidth: linewidth of the plot
+        :type linewidth: float
         :param xlim: limits on x-axis (tuple [start, end])
         :param ylim: limits on y-axis
-        :param logx:
-        :param logy:
+        :param logx: use log scale for x-axis
+        :type logx: bool
+        :param logy: use log scale for y-axis
+        :type logy: bool
         :param xscale: 'linear' or 'log' scale for x-axis
         :param yscale: 'linear' or 'log' scale for y-axis
         :param grid: show grid
+        :type grid: bool
         :param ordinates: If supplied, only these selections will be plotted (see RoadRunner selections)
         :param tag: If supplied, all traces with the same tag will be plotted with the same color/style
-        :param kwargs: additional matplotlib keywords like marker, lineStyle, color, alpha, ...
-        :param labels: 'id' to use species IDs,
-        :param figsize: If supplied, customize the size of the figure,
-        :return:
+        :param labels: 'id' to use species IDs
+        :param figsize: If supplied, customize the size of the figure (width,height)
+        :param savefig: If supplied, saves the figure to specified location
+        :type savefig: str
+        :param dpi: Change the dpi of the saved figure
+        :type dpi: int
+        :param alpha: Change the alpha value of the figure
+        :type alpha: float
+        :param kwargs: additional matplotlib keywords like marker, lineStyle, ...
         """
         if result is None:
-            result = self.getSimulationData()
+            simData = self.getSimulationData()
+            result = copy.copy(simData)
+            result.colnames = simData.colnames
 
         from .. import getPlottingEngine
 
-        if ordinates:
-            kwargs['ordinates'] = ordinates
-        if title:
-            kwargs['title'] = title
         if xtitle:
             kwargs['xtitle'] = xtitle
         if ytitle:
             kwargs['ytitle'] = ytitle
+        if title:
+            kwargs['title'] = title
+        if linewidth:
+            kwargs['linewidth'] = linewidth
         if xlim:
             kwargs['xlim'] = xlim
         if ylim:
@@ -353,10 +362,26 @@ class ExtendedRoadRunner(roadrunner.RoadRunner):
             kwargs['logx'] = logx
         if logy:
             kwargs['logy'] = logy
+        if xscale:
+            kwargs['xscale'] = xscale
+        if yscale:
+            kwargs['yscale'] = yscale
+        if grid:
+            kwargs['grid'] = grid
+        if ordinates:
+            kwargs['ordinates'] = ordinates
         if tag:
             kwargs['tag'] = tag
+        if labels:
+            kwargs['labels'] = labels
         if figsize:
             kwargs['figsize'] = figsize
+        if savefig:
+            kwargs['savefig'] = savefig
+        if dpi:
+            kwargs['dpi'] = dpi
+        if alpha:
+            kwargs['alpha'] = alpha            
 
         # FIXME: provide the additional parameters to the plotting engine
 
@@ -419,17 +444,17 @@ class ExtendedRoadRunner(roadrunner.RoadRunner):
         ::
 
             rr = te.loada ('S1 -> S2; k1*S1; k1 = 0.1; S1 = 40')
-            # Simulate from time zero to 40 time units
+            # Simulate from time zero to 40 time units using variable step sizes (classic Gillespie)
             result = rr.gillespie (0, 40)
             # Simulate on a grid with 10 points from start 0 to end time 40
             rr.reset()
             result = rr.gillespie (0, 40, 10)
-            # Simulate from time zero to 40 time units using the given selection list
+            # Simulate from time zero to 40 time units using variable step sizes with given selection list
             # This means that the first column will be time and the second column species S1
             rr.reset()
             result = rr.gillespie (0, 40, selections=['time', 'S1'])
-            # Simulate from time zero to 40 time units, on a grid with 20 points
-            # using the give selection list
+            # Simulate on a grid with 20 points from time zero to 40 time units
+            # using the given selection list
             rr.reset()
             result = rr.gillespie (0, 40, 20, ['time', 'S1'])
             rr.plot(result)
@@ -442,12 +467,19 @@ class ExtendedRoadRunner(roadrunner.RoadRunner):
         """
 
         integratorName = self.integrator.getName()
-        self.setIntegrator('gillespie')
-        if (len(args) > 2):
+        vss = self.integrator.variable_step_size
+        if (integratorName != 'gillespie'):
+            self.setIntegrator('gillespie')
+            self.integrator.variable_step_size = True        
+        if (len(args) > 3):
             self.integrator.variable_step_size = False
+        if (len(args) == 3):
+            if (type(args[2]) != list):
+                self.integrator.variable_step_size = False
         elif ('points' in kwargs or 'steps' in kwargs):
             self.integrator.variable_step_size = False
+
         s = self.simulate(*args, **kwargs)
-        self.integrator.variable_step_size = True
         self.setIntegrator(integratorName)
+        self.integrator.variable_step_size = vss
         return s

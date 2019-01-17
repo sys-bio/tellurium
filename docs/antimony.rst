@@ -140,6 +140,8 @@ Reactions can be created with multiple reactants and/or products, and the stoich
   2 S1 -> S2;               k3*S1*S1
   # More complex stoichiometry
   S1 + 2 S2 -> 3 S3 + 5 S4; k4*S1*S2*S2
+  # Degradation of S4
+  S4 -> ; k5*S4
 
 Rate Laws and Initializing Values
 ---------------------------------
@@ -163,6 +165,7 @@ Reactions can be defined with a wide variety of rate laws
     S5 = 0
     k1 = 0.1
     k2 = 0.2
+    k3 = 0.2
     Vm = 6.7
     Km = 1E-3
     n = 4
@@ -242,7 +245,7 @@ You can also initialize elements with more complicated formulas than simple numb
 Assignments in Time
 -------------------
 
-If you want to define some elements as changing in time, you can either define the formula a variable equals at all points in time with a ``:=``, or you can define how a variable changes in time with X', in which case you’ll also need to define its initial starting value. The keyword ``time`` represents time.
+If you want to define some elements as changing in time, you can either define the formula a variable equals at all points in time with a ``:=``, or you can define how a variable changes in time using ``X'`` (a `rate rule <https://tellurium.readthedocs.io/en/latest/antimony.html#rate-rules/>`_) in which case you’ll also need to define its initial starting value. The keyword ``time`` represents time.
 
 ::
 
@@ -257,6 +260,40 @@ If you want to define some elements as changing in time, you can either define t
     S1 -> S2; k1*S1
     S2 -> S3; k2*S2
   end
+
+Piecewise Assignments
+---------------------
+
+You can use ``piecewise`` to define piecewise assignments.
+
+::
+
+  model pathway()
+    # Examples of piecewise assignments
+    $Xo -> S1; k1*Xo;
+    S1 -> S2; k2*S1; 
+    S2 -> $X1; k3*S2;
+    
+    k1 := piecewise(0.1, time > 50, 20)
+         
+    k2 = 0.45; k3 = 0.34; Xo = 5;
+  end
+
+Above will return ``k1 = 0.1`` if ``time > 50`` and ``20`` otherwise. A more complicated piecewise assignment can be defined as well.
+  
+::
+
+  model pathway()
+    $Xo -> S1; k1*Xo;
+    S1 -> S2; k2*S1; 
+    S2 -> $X1; k3*S2;
+              
+    k1 := piecewise(5, time > 20, 8, S2 < 100, 15)
+    
+    k2 = 0.45; k3 = 0.34; Xo = 5;
+  end
+  
+The above piecewise call will return 5 if time > 20, else it will return 8 if S2 < 100, else it will return 15. The piecewise function has this general "do this if this is true, else ..." pattern, and can be extended to include as may conditions as needed.
 
 Events
 ------
@@ -282,7 +319,7 @@ In a model with this event, at any moment when x transitions from being less tha
     k1 = 0.5
   end
 
-For more advanced usage of events, see `Antimony’s reference documentation on events <events-ref>`_.
+For more advanced usage of events, see `Antimony’s reference documentation on events <https://tellurium.readthedocs.io/en/latest/antimony.html#id3>`_.
 
 Function Definitions
 --------------------
@@ -382,7 +419,9 @@ You may use units when defining formulas using the same syntax as above: any num
                         #   value of '3.3'.
   z has foo;            # 'z' is given units of 'foo'.
 
+Antimony does not calculate any derived units: in the above example, ‘x’ is fully defined in terms of moles per liter per second, but it is not annotated as such.
 
+As with many things in Antimony, you may use a unit before defining it: ‘x = 10 ml‘ will create a parameter x and a unit ‘ml‘.
 
 Simulating Models
 =================
@@ -986,6 +1025,9 @@ The simplest signal is  input step. The following code implements a step that oc
     m = r.simulate (0, 100, 300, ['time', 'Xo', 'S1'])
     r.plot()
 
+.. image:: images/antimony_0.png
+
+
 Ramp
 ~~~~
 
@@ -1010,6 +1052,8 @@ The following code starts a ramp at 20 time units by setting the p1 variable to 
 
     m = r.simulate (0, 100, 200, ['time', 'Xo', 'S1'])
     r.plot()
+
+.. image:: images/antimony_1.png
 
 Ramp then Stop
 ~~~~~~~~~~~~~~
@@ -1038,6 +1082,8 @@ The following code starts a ramp at 20 time units by setting the p1 variable to 
     m = r.simulate (0, 100, 200, ['time', 'Xo', 'S1'])
     r.plot()
 
+.. image:: images/antimony_2.png
+
 Pulse
 ~~~~~
 
@@ -1065,6 +1111,9 @@ The following code starts a pulse at 20 time units by setting the p1 variable to
     m = r.simulate (0, 100, 200, ['time', 'Xo', 'S1'])
     r.plot()
 
+
+.. image:: images/antimony_3.png
+
 Sinusoidal Input
 ~~~~~~~~~~~~~~~~
 
@@ -1090,6 +1139,8 @@ The following code starts a sinusoidal input at 20 time units by setting the p1 
     m = r.simulate (0, 100, 200, ['time', 'Xo', 'S1'])
     r.plot()
 
+.. image:: images/antimony_4.png
+
 Rate Rules
 ----------
 
@@ -1113,55 +1164,10 @@ When some tools visualize models, they make a distinction between the ‘id‘ o
   A.k1 is "reaction rate k1";
   S34  is "Ethyl Alcohol";
 
-Comments
---------
-
-Comments in Antimony can be made on one line with //[comments]‘, or on multiple lines with /* [comments] */:
-
-::
-
-  /* The following initializations were
-     taken from the literature */
-  X=3; //Taken from Galdziki, et al.
-  Y=4; //Taken from Rutherford, et al.
-
-Comments are not translated to SBML or CellML, and will be lost if round-tripped through those languages.
-
-Units
------
-
-As of version 2.4 of Antimony, units may now be created and translated to SBML (but not CellML, yet). Units may be created by using the ‘unit‘ keyword:
-
-::
-
-  unit substance = 1e-6 mole;
-  unit hour = 3600 seconds;
-
-Adding an ‘s’ to the end of a unit name to make it plural is fine when defining a unit: ‘3600 second‘ is the same as ‘3600 seconds‘. Compound units may be created by using formulas with ‘*‘, ‘/‘, and ‘^‘. However, you must use base units when doing so (‘base units’ defined as those listed in Table 2 of the SBML Level 3 Version 1 specification, which mostly are SI and SI-derived units).
-
-::
-
-  unit micromole = 10e-6 mole / liter;
-  unit daily_feeding = 1 item / 86400 seconds
-  unit voltage = 1000 grams * meters^2 / seconds^-3 * ampere^-1
-
-You may use units when defining formulas using the same syntax as above: any number may be given a unit by writing the name of the unit after the number. When defining a symbol (of any numerical type: species, parameter, compartment, etc.), you can either use the same technique to give it an initial value and a unit, or you may just define its units by using the ‘has’ keyword:
-
-::
-
-  unit foo = 100 mole/5 liter;
-  x = 40 foo/3 seconds; //'40' now has units of 'foo' and '3' units of 'seconds'.
-  y = 3.3 foo;   // 'y' is given units of 'foo' and an initial value of '3.3'.
-  z has foo;     // 'z' is given units of 'foo'.
-
-Antimony does not calculate any derived units: in the above example, ‘x’ is fully defined in terms of moles per liter per second, but it is not annotated as such.
-
-As with many things in Antimony, you may use a unit before defining it: ‘x = 10 ml‘ will create a parameter x and a unit ‘ml‘.
-
 DNA Strands
 -----------
 
-A new concept in Antimony that has not been modeled explicitly in previous model definition languages such as SBML is the idea of having DNA strands where downstream elements can inherit reaction rates from upstream elements. DNA strands are declared by connecting symbols with ‘--‘:
+A new concept in Antimony that has not been modeled explicitly in previous model definition languages such as SBML is the idea of having DNA strands where downstream elements can inherit reaction rates from upstream elements. DNA strands are declared by connecting symbols with ``--``:
 
 ::
 
@@ -1181,9 +1187,9 @@ By default, the reaction rate or formula associated with an element of a DNA str
   P1 = S1*k;
   G1: -> prot1;
 
-the reaction rate of G1 will be “S1*k”.
+the reaction rate of G1 will be ``S1*k``.
 
-It is also possible to modulate the inherited reaction rate. To do this, we use ellipses (‘…’) as shorthand for ‘the formula for the element upstream of me’. Let’s add a ribosome binding site that increases the rate of production of protein by a factor of three, and say that the promoter actually increases the rate of protein production by S1*k instead of setting it to S1*k:
+It is also possible to modulate the inherited reaction rate. To do this, we use ellipses ``...`` as shorthand for ‘the formula for the element upstream of me’. Let’s add a ribosome binding site that increases the rate of production of protein by a factor of three, and say that the promoter actually increases the rate of protein production by S1*k instead of setting it to S1*k:
 
 ::
 
@@ -1192,7 +1198,7 @@ It is also possible to modulate the inherited reaction rate. To do this, we use 
   RBS1 = ...*3;
   G1: -> prot1;
 
-Since in this model, nothing is upstream of P1, the upstream rate is set to zero, so the final reaction rate of G1 is equal to “(S1*k + 0)*3”.
+Since in this model, nothing is upstream of P1, the upstream rate is set to zero, so the final reaction rate of G1 is equal to ``(S1*k + 0)*3``.
 
 Valid elements of DNA strands include formulas (operators), reactions (genes), and other DNA strands. Let’s wrap our model so far in a submodule, and then use the strand in a new strand:
 
@@ -1236,8 +1242,8 @@ If the reaction rate or formula for any duplicated symbol is left at the default
   RBS2 = ...*1.1;
   G1: -> prot1;
 
-The reaction rate for the production of ‘prot1‘ will be equal to “(((0+1.2)+0.3)*0.8) + (((0+1.2)*1.1))”.
-If you set the reaction rate of G1 without using an ellipsis, but include it in multiple strands, its reaction rate will be a multiple of the number of strands it is a part of. For example, if you set the reaction rate of G1 above to “k1*S1”, and include it in two strands, the net reaction rate will be “k1*S1 + k1*S1”.
+The reaction rate for the production of ‘prot1‘ will be equal to ``(((0+1.2)+0.3)*0.8) + (((0+1.2)*1.1))``.
+If you set the reaction rate of G1 without using an ellipsis, but include it in multiple strands, its reaction rate will be a multiple of the number of strands it is a part of. For example, if you set the reaction rate of G1 above to “k1*S1”, and include it in two strands, the net reaction rate will be ``k1*S1 + k1*S1``.
 
 The purpose of prepending or postfixing a ‘--‘ to a strand is to declare that the strand in question is designed to have DNA attached to it at that end. If exactly one DNA strand is defined with an upstream ‘--‘ in its definition in a submodule, the name of that module may be used as a proxy for that strand when creating attaching something upstream of it, and visa versa with a defined downstream ‘--‘ in its definition:
 
@@ -1254,7 +1260,7 @@ The purpose of prepending or postfixing a ‘--‘ to a strand is to declare tha
     A--G3
   end
 
-The module ‘long‘ will have two strands: “P3–A.P1–A.RBS1–A.G1” and “A.P2–A.RBS2–A.G2–G3”.
+The module ‘long‘ will have two strands: ``P3–A.P1–A.RBS1–A.G1`` and ``A.P2–A.RBS2–A.G2–G3``.
 
 Submodule strands intended to be used in the middle of other strands should be defined with ‘--‘ both upstream and downstream of the strand in question:
 
@@ -1275,7 +1281,7 @@ If multiple strands are defined with upstream or downstream “–” marks, it 
 Interactions
 ------------
 
-Some species act as activators or repressors of reactions that they do not actively participate in. Typical models do not bother mentioning this explicitly, as it will show up in the reaction rates. However, for visualization purposes and/or for cases where the reaction rates might not be known explicitly, you may declare these interactions using the same format as reactions, using different symbols instead of “->”: for activations, use “-o”; for inhibitions, use “-|”, and for unknown interactions or for interactions which sometimes activate and sometimes inhibit, use “-(“:
+Some species act as activators or repressors of reactions that they do not actively participate in. Typical models do not bother mentioning this explicitly, as it will show up in the reaction rates. However, for visualization purposes and/or for cases where the reaction rates might not be known explicitly, you may declare these interactions using the same format as reactions, using different symbols instead of ``->``: for activations, use ``-o``; for inhibitions, use ``-|``, and for unknown interactions or for interactions which sometimes activate and sometimes inhibit, use ``-(``:
 
 ::
 
@@ -1291,33 +1297,14 @@ If a reaction rate is given for the reaction in question, that reaction must inc
   J0: S1 + E -> SE; k1*S1*E/S2
   i1: S2 -| J0;
 
-because the species S2 is present in the formula “k1*S1*E/S2”. If the concentration of an inhibitory species increases, it should decrease the reaction rate of the reaction it inhibits, and vice versa for activating species. The current version of libAntimony (v2.4) does not check this, but future versions may add the check.
+because the species S2 is present in the formula ``k1*S1*E/S2``. If the concentration of an inhibitory species increases, it should decrease the reaction rate of the reaction it inhibits, and vice versa for activating species. The current version of libAntimony (v2.4) does not check this, but future versions may add the check.
 
 When the reaction rate is not known, species from interactions will be added to the SBML ‘listOfModifiers’ for the reaction in question. Normally, the kinetic law is parsed by libAntimony and any species there are added to the list of modifiers automatically, but if there is no kinetic law to parse, this is how to add species to that list.
-
-Function Definitions
---------------------
-
-You may create user-defined functions in a similar fashion to the way you create modules, and then use these functions in Antimony equations. These functions must be basic single equations, and act in a similar manner to macro expansions. As an example, you might define the quadratic equation thus:
-
-::
-
-  function quadratic(x, a, b, c)
-    a*x^2 + b*x + c
-  end
-
-And then use it in a later equation:
-
-::
-
-  S3 = quadratic(s1, k1, k2, k3);
-
-This would effectively define S3 to have the equation ``k1*s1^2 + k2*s1 + k3``.
 
 Other files
 -----------
 
-More than one file may be used to define a set of modules in Antimony through the use of the ‘import‘ keyword. At any point in the file outside of a module definition, use the word ‘import‘ followed by the name of the file in quotation marks, and Antimony will include the modules defined in that file as if they had been cut and pasted into your file at that point. SBML files may also be included in this way:
+More than one file may be used to define a set of modules in Antimony through the use of the ‘import‘ keyword. At any point in the file outside of a module definition, use the word ``import`` followed by the name of the file in quotation marks, and Antimony will include the modules defined in that file as if they had been cut and pasted into your file at that point. SBML files may also be included in this way:
 
 ::
 
@@ -1331,11 +1318,11 @@ More than one file may be used to define a set of modules in Antimony through th
 
 In this example, the file ‘models1.txt‘ is an Antimony file that defines the module ‘mod1‘, and the file ‘oscli.xml‘ is an SBML file that defines a model named ‘oscli‘. The Antimony module ‘mod2‘ may then use modules from either or both of the other imported files.
 
-Remember that imported files act like they were cut and pasted into the main file. As such, any bare declarations in the main file and in the imported files will all contribute to the default ‘__main‘ module. Most SBML files will not contribute to this module, unless the name of the model in the file is ‘__main‘ (for example, if it was created by the antimony converter).
+Remember that imported files act like they were cut and pasted into the main file. As such, any bare declarations in the main file and in the imported files will all contribute to the default ‘__main‘ module. Most SBML files will not contribute to this module, unless the name of the model in the file is ``__main`` (for example, if it was created by the antimony converter).
 
 By default, libantimony will examine the ‘import‘ text to determine whether it is a relative or absolute filename, and, if relative, will prepend the directory of the working file to the import text before attempting to load the file. If it cannot find it there, it is possible to tell the libantimony API to look in different directories for files loaded from import statements.
 
-However, if the working directory contains a ‘.antimony‘ file, or if one of the named directories contains a ‘.antimony‘ file, import statements can be subverted. Each line of this file must contain three tab-delimited strings: the name of the file which contains an import statement, the text of the import statement, and the filename where the program should look for the file. Thus, if a file “file1.txt” contains the line ‘import "file2.txt"‘, and a .antimony file is discovered with the line:
+However, if the working directory contains a ``.antimony`` file, or if one of the named directories contains a ``.antimony`` file, import statements can be subverted. Each line of this file must contain three tab-delimited strings: the name of the file which contains an import statement, the text of the import statement, and the filename where the program should look for the file. Thus, if a file ``file1.txt`` contains the line ``import "file2.txt"``, and a .antimony file is discovered with the line:
 
 ::
 
@@ -1359,7 +1346,7 @@ QTAntimony can be used to edit and translate Antimony, SBML, and CellML models. 
 The SBML tabs can additionally be configured to use the ‘Hierarchical Model Composition’ package constructs. Select ‘Edit/Flatten SBML tab(s)’ or hit control-F to toggle between this version and the old ‘flattened’ version of SBML. (To enable this feature if you compile Antimony yourself, you will need the latest versions of libSBML with the SBML ‘comp’ package enabled, and to select ‘WITH_COMP_SBML’ from the CMake menu.)
 
 As there were now several different file formats available for translation, the old command-line translators still exist (antimony2sbml; sbml2antimony), but have been supplanted by the new ‘sbtranslate’ executable. Instructions for use are available by running sbtranslate from the command line, but in brief: any number of files to translate may be added to the command line, and the desired output format is given with the ‘-o‘ flag:
-‘-o antimony‘, ‘-o sbml‘, ‘-o cellml‘, or ‘-o sbml-comp‘ (the last to output files with the SBML ‘comp‘ package constructs).
+``-o antimony``, ``-o sbml``, ``-o cellml``, or ``-o sbml-comp`` (the last to output files with the SBML ‘comp‘ package constructs).
 
 Examples:
 

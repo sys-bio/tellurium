@@ -63,6 +63,10 @@ This method plots a grid of arrays with different starting conditions. It is the
 
 This method produces a color-coded 3D surface based on the concentration of one species and the variation of two factors (usually time and an equilibrium constant). Accepted parameters are startTime, endTime, numberOfPoints, startValue, endValue, independent, dependent, color, xlabel, ylabel, title, integrator, colormap, colorbar, and antialias.
 
+``plot2DParameterScan(p1, p1Range, p2, p2Range)``
+
+Create a 2D parameter scan and plots the results. The two parameters p1, p2 are the id of the first and second parameter. p1Range and p2Range are the range of the first and second parameter respectively. Parameters start and end represents the starting time and ending time, and points is the number of points to simulate. Will generate a 2D plot containing multiple graphs of the given parameters at various values in the given ranges.
+
 ``createColormap(color1, color2)``
 
 This method allows you to create a custom colormap for plotSurface(). It returns a colormap that stretches between color1 and color2. Colors can be input as RGB tuplet lists (i.e. [0.5, 0, 1]), or as strings with either a standard color name or a hex value. The first color becomes bottom of the colormap (i.e. lowest values in plotArray()) and the second becomes the top.
@@ -108,13 +112,19 @@ Another way is to use createColormap() and plotSurface() to create a 3D graph of
 
     p.endTime = 6
     p.colormap = p.createColormap([.12,.56,1], [.86,.08,.23])
-    p.dependent = ['S1']
+    p.dependent = 'S1'
     p.independent = ['time', 'k1']
     p.startValue = 1
     p.endValue = 5
     p.numberOfPoints = 100
 
     p.plotSurface()
+    
+
+.. include:: _notebooks/core/parameter_scan.rst
+
+.. include:: _notebooks/core/plot2DParameterScan.rst
+
 
 Properties
 ==========
@@ -172,7 +182,4 @@ SteadyStateScan
 
 This class is part of ParameterScan but provides some added functionality. It allows the user to plot graphs of the steady state values of one or more species as dependent on the changing value of an equilibrium constant on the x-axis. To use it, use the same import statement as before: ‘from tellurium import SteadyStateScan. Then, you can use SteadyStateScan on a loaded model by using ‘ss = SteadyStateScan(rr)’. Right now, the only working method is plotArray(), which needs the parameters of value, startValue, endValue, numberOfPoints, and selection. The parameter ‘value’ refers to the equilibrium constant, and should be the string of the chosen constant. The start and end value parameters are numbers that determine the domain of the x-axis. The ‘numberOfPoints’ parameter refers to the number of data points (i.e. a larger value gives a smoother graph) and ‘selection’ is a list of strings of one or more species that you would like in the graph.
 
-
-.. include:: _notebooks/core/parameter_scan.rst
 .. include:: _notebooks/core/steadystate_scan.rst
-.. include:: _notebooks/core/computeSteadyState.rst

@@ -2,7 +2,7 @@
 Preliminaries
 ~~~~~~~~~~~~~
 
-In order to draw the network graphs in these examples, you will need
+In order to draw the network graphs in these examples (i.e. using ``r.draw()``), you will need
 graphviz and pygraphviz installed. Please consult the Graphviz
 documentation for instructions on installing it on your platform. If you
 cannot install Graphviz and pygraphviz, you can still run the following
@@ -12,22 +12,18 @@ Also, due to limitations in pygraphviz, these examples can only be run
 in the Jupyter notebook, not the `Tellurium notebook
 app <http://tellurium.readthedocs.io/en/latest/installation.html#front-end-1-tellurium-notebook>`__.
 
-.. code-block:: python
+Install pygraphviz (requires compilation)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-    # install pygraphviz (requires compilation)
-    import sys
-    print('Please run \n    {} -m pip install pygraphviz\nfrom a terminal or command propt (without the quotes) to install pygraphviz. Then restart your kernel in this notebook (Language->Restart Running Kernel).'.format(sys.executable))
+Please run
 
+``<your-local-python-executable> -m pip install pygraphviz``
 
-.. parsed-literal::
-
-    Please run 
-        /home/poltergeist/.config/Tellurium/telocal/python-3.6.3/bin/python3.6 -m pip install pygraphviz
-    from a terminal or command propt (without the quotes) to install pygraphviz. Then restart your kernel in this notebook (Language->Restart Running Kernel).
-
+from a terminal or command prompt to install pygraphviz. Then restart
+your kernel in this notebook (Language->Restart Running Kernel).
 
 Troubleshooting Graphviz Installation
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 pygraphviz has `known
 problems <https://github.com/pygraphviz/pygraphviz/issues/72>`__ during
@@ -54,6 +50,9 @@ Activator system
 
 .. code-block:: python
 
+    import warnings
+    warnings.filterwarnings("ignore")
+    
     import tellurium as te
     te.setDefaultPlottingEngine('matplotlib')
     
@@ -100,51 +99,16 @@ Activator system
             at (time > 100): Activator = 5;  
     ''')
     r.draw(width=300)
-    r.conservedMoietyAnalysis = True
     result = r.simulate (0, 300, 2000, ['time', 'J11', 'J12']);
     r.plot(result);
 
 
-::
+
+.. image:: _notebooks/core/tellurium_examples_files/tellurium_examples_3_0.png
 
 
-    ---------------------------------------------------------------------------
 
-    AttributeError                            Traceback (most recent call last)
-
-    <ipython-input-2-65bec52b7aca> in <module>()
-         45         at (time > 100): Activator = 5;
-         46 ''')
-    ---> 47 r.draw(width=300)
-         48 r.conservedMoietyAnalysis = True
-         49 result = r.simulate (0, 300, 2000, ['time', 'J11', 'J12']);
-
-
-    /extra/devel/src/tellurium/tellurium/roadrunner/extended_roadrunner.py in draw(self, **kwargs)
-        286 
-        287         from tellurium import SBMLDiagram
-    --> 288         diagram = SBMLDiagram(self.getSBML())
-        289         diagram.draw(**kwargs)
-        290 
-
-
-    /extra/devel/src/tellurium/tellurium/visualization/sbmldiagram.py in __init__(self, sbml, species, reactions, reactants, products, modifiers)
-         59                                           reactants=reactants,
-         60                                           products=products,
-    ---> 61                                           modifiers=modifiers)
-         62 
-         63 
-
-
-    /extra/devel/src/tellurium/tellurium/visualization/sbmldiagram.py in _createGraph(model, species, reactions, reactants, products, modifiers)
-         89             warnings.warn("'pygraphviz' could not be imported, cannot draw network diagrams", ImportWarning, stacklevel=2)
-         90 
-    ---> 91         g = pgv.AGraph(strict=False, directed=True)
-         92 
-         93         # set some default node attributes
-
-
-    AttributeError: 'NoneType' object has no attribute 'AGraph'
+.. image:: _notebooks/core/tellurium_examples_files/tellurium_examples_3_1.png
 
 
 Feedback oscillations
@@ -177,7 +141,7 @@ Feedback oscillations
 
 
 
-.. image:: _notebooks/core/tellurium_examples_files/tellurium_examples_6_0.png
+.. image:: _notebooks/core/tellurium_examples_files/tellurium_examples_5_0.png
 
 
 Bistable System
@@ -224,37 +188,7 @@ conditions resulting in different steady states reached.
 
 
 
-.. image:: _notebooks/core/tellurium_examples_files/tellurium_examples_8_1.png
-
-
-Add plot elements
-~~~~~~~~~~~~~~~~~
-
-.. code-block:: python
-
-    import tellurium as te
-    import numpy
-    import roadrunner
-    
-    # Example showing how to embelise a graph, change title, axes labels.
-    # Example also uses an event to pulse S1
-    
-    r = te.loada ('''
-       $Xo -> S1; k1*Xo;
-       S1 -> $X1; k2*S1;
-       
-       k1 = 0.2; k2 = 0.4; Xo = 1; S1 = 0.5;
-       at (time > 20): S1 = S1 + 0.35
-    ''')
-    
-    # Simulate the first part up to 20 time units
-    m = r.simulate (0, 50, 100, ["time", "S1"])
-    
-    r.plot(m, ylim=(0.,1.), xtitle='Time', ytitle='Concentration', title='My First Plot ($y = x^2$)')
-
-
-
-.. image:: _notebooks/core/tellurium_examples_files/tellurium_examples_10_0.png
+.. image:: _notebooks/core/tellurium_examples_files/tellurium_examples_7_1.png
 
 
 Events
@@ -284,7 +218,7 @@ Events
 
 
 
-.. image:: _notebooks/core/tellurium_examples_files/tellurium_examples_12_0.png
+.. image:: _notebooks/core/tellurium_examples_files/tellurium_examples_11_0.png
 
 
 Gene network
@@ -317,7 +251,7 @@ Gene network
 
 
 
-.. image:: _notebooks/core/tellurium_examples_files/tellurium_examples_14_0.png
+.. image:: _notebooks/core/tellurium_examples_files/tellurium_examples_13_0.png
 
 
 Stoichiometric matrix
@@ -352,44 +286,8 @@ Stoichiometric matrix
     
 
 
-::
 
-
-    ---------------------------------------------------------------------------
-
-    AttributeError                            Traceback (most recent call last)
-
-    <ipython-input-8-2c9377ed179d> in <module>()
-         14 
-         15 print(r.getFullStoichiometryMatrix())
-    ---> 16 r.draw()
-    
-
-    /extra/devel/src/tellurium/tellurium/roadrunner/extended_roadrunner.py in draw(self, **kwargs)
-        286 
-        287         from tellurium import SBMLDiagram
-    --> 288         diagram = SBMLDiagram(self.getSBML())
-        289         diagram.draw(**kwargs)
-        290 
-
-
-    /extra/devel/src/tellurium/tellurium/visualization/sbmldiagram.py in __init__(self, sbml, species, reactions, reactants, products, modifiers)
-         59                                           reactants=reactants,
-         60                                           products=products,
-    ---> 61                                           modifiers=modifiers)
-         62 
-         63 
-
-
-    /extra/devel/src/tellurium/tellurium/visualization/sbmldiagram.py in _createGraph(model, species, reactions, reactants, products, modifiers)
-         89             warnings.warn("'pygraphviz' could not be imported, cannot draw network diagrams", ImportWarning, stacklevel=2)
-         90 
-    ---> 91         g = pgv.AGraph(strict=False, directed=True)
-         92 
-         93         # set some default node attributes
-
-
-    AttributeError: 'NoneType' object has no attribute 'AGraph'
+.. image:: _notebooks/core/tellurium_examples_files/tellurium_examples_15_1.png
 
 
 Lorenz attractor
@@ -417,7 +315,7 @@ the Lorenz attractor.
 
 
 
-.. image:: _notebooks/core/tellurium_examples_files/tellurium_examples_18_0.png
+.. image:: _notebooks/core/tellurium_examples_files/tellurium_examples_17_0.png
 
 
 Time Course Parameter Scan
@@ -453,7 +351,7 @@ merged array on to one plot.
 
 
 
-.. image:: _notebooks/core/tellurium_examples_files/tellurium_examples_20_0.png
+.. image:: _notebooks/core/tellurium_examples_files/tellurium_examples_19_0.png
 
 
 Merge multiple simulations
@@ -488,7 +386,7 @@ parameter is changed.
 
 
 
-.. image:: _notebooks/core/tellurium_examples_files/tellurium_examples_22_0.png
+.. image:: _notebooks/core/tellurium_examples_files/tellurium_examples_21_0.png
 
 
 Relaxation oscillator
@@ -517,7 +415,7 @@ relaxation oscillator.
 
 
 
-.. image:: _notebooks/core/tellurium_examples_files/tellurium_examples_24_0.png
+.. image:: _notebooks/core/tellurium_examples_files/tellurium_examples_23_0.png
 
 
 Scan hill coefficient
@@ -573,7 +471,7 @@ coefficient.
 
 
 
-.. image:: _notebooks/core/tellurium_examples_files/tellurium_examples_26_0.png
+.. image:: _notebooks/core/tellurium_examples_files/tellurium_examples_25_0.png
 
 
 Compare simulations
@@ -604,7 +502,7 @@ Compare simulations
 
 
 
-.. image:: _notebooks/core/tellurium_examples_files/tellurium_examples_28_0.png
+.. image:: _notebooks/core/tellurium_examples_files/tellurium_examples_27_0.png
 
 
 Sinus injection
@@ -641,7 +539,7 @@ events to switch it off and on.
 
 
 
-.. image:: _notebooks/core/tellurium_examples_files/tellurium_examples_30_0.png
+.. image:: _notebooks/core/tellurium_examples_files/tellurium_examples_29_0.png
 
 
 Protein phosphorylation cycle
@@ -664,8 +562,6 @@ addition, the plot is repeated for various values of Km.
        Km1 = 0.1; Km2 = 0.1;  
     ''')
     
-    r.conservedMoietyAnalysis = True
-    
     for i in range (1,8):
       numbers = np.linspace (0, 1.2, 200)
       result = np.empty ([0,2])
@@ -685,5 +581,5 @@ addition, the plot is repeated for various values of Km.
 
 
 
-.. image:: _notebooks/core/tellurium_examples_files/tellurium_examples_32_0.png
+.. image:: _notebooks/core/tellurium_examples_files/tellurium_examples_31_0.png
 

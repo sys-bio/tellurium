@@ -27,7 +27,7 @@ Contact
 
 * For questions about Tellurium, please visit our `tellurium-discuss Google group <https://groups.google.com/forum/?utm_medium=email&utm_source=footer#!forum/tellurium-discuss>`_.
 
-* For new feature requests, see `Tellurium on UserVoice. <http://sysbio.uservoice.com/>`_.
+* For new feature requests or to report bugs, see `Tellurium on GitHub. <https://github.com/sys-bio/tellurium/issues/>`_ and create an issue.
 
 Funding
 =======

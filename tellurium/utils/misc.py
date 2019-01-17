@@ -28,7 +28,7 @@ def readFromFile(filePath):
     :param filePath: file path to read from
     :returns: string representation of the contents of the file
     """
-    with open(filePath, 'r') as f:
+    with open(filePath, 'r', encoding="utf8") as f:
         string = f.read()
     return string
 
@@ -66,8 +66,8 @@ def runTool (toolFileName):
 
               If the external tool writes to stdout, this will be captured and returned.
 
-        :param arguments to external tool
-        :return String return by external tool, if any.
+        :param toolFileName: argument to external tool
+        :returns: String return by external tool, if any.
         """
     import subprocess
     try:
@@ -86,7 +86,7 @@ def getODEsFromSBMLFile (fileName):
     """ Given a SBML file name, this function returns the model 
     as a string of rules and ODEs
     
-    eg te.getODEsFromSBMLFile ('mymodel.xml')
+    >>> te.getODEsFromSBMLFile ('mymodel.xml')
     """
     sbmlStr = te.readFromFile (fileName)
     extractor = ODEExtractor (sbmlStr)
@@ -96,7 +96,7 @@ def getODEsFromSBMLString (sbmlStr):
     """ Given a SBML string this fucntion returns the model 
     as a string of rules and ODEs
       
-    eg te.getODEsFromSBMLString (sbmlStr)
+    >>> te.getODEsFromSBMLString (sbmlStr)
     """
     
     extractor = ODEExtractor (sbmlStr)
@@ -106,13 +106,11 @@ def getODEsFromModel (roadrunnerModel):
     """Given a roadrunner instance this function returns
     a string of rules and ODEs
     
-    eg
-     
-    r = te.loada ('S1 -> S2; k1*S1; k1=1')
-    te.getODEsFromModel (r)
+    >>> r = te.loada ('S1 -> S2; k1*S1; k1=1')
+    >>> te.getODEsFromModel (r)
     """       
     from roadrunner import RoadRunner
-    if type (sbmlModel) == RoadRunner:
+    if type (roadrunnerModel) == RoadRunner:
        extractor = ODEExtractor (roadrunnerModel.getSBML())
     else:
        raise RuntimeError('The argument to getODEsFromModel should be a roadrunner variable')

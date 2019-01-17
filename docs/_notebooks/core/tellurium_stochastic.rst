@@ -1,7 +1,7 @@
 
 
 Stochastic simulation
-^^^^^^^^^^^^^^^^^^^^^
+---------------------
 
 Stochastic simulations can be run by changing the current integrator
 type to 'gillespie' or by using the ``r.gillespie`` function.
@@ -9,7 +9,6 @@ type to 'gillespie' or by using the ``r.gillespie`` function.
 .. code-block:: python
 
     import tellurium as te
-    te.setDefaultPlottingEngine('matplotlib')
     import numpy as np
     
     r = te.loada('S1 -> S2; k1*S1; k1 = 0.1; S1 = 40')
@@ -59,27 +58,32 @@ values in between each simulation. The ``gillespie`` method simulates up
 to the given end time ``10``, after which you can make arbitrary changes
 to the model, then simulate again.
 
-When using the ``te.plot`` function, you can pass the parameter
-``names``, which controls the names that will be used in the figure
-legend, and ``tags``, which ensures that traces with the same tag will
-be drawn with the same color.
+When using the ``r.plot`` function, you can pass the parameter
+``labels``, which controls the names that will be used in the figure
+legend, and ``tag``, which ensures that traces with the same tag will
+be drawn with the same color (each species within each trace will be
+plotted in its own color, but these colors will match trace to trace).
 
 .. code-block:: python
 
-    import tellurium as te
-    import numpy as np
-    
-    r = te.loada('S1 -> S2; k1*S1; k1 = 0.02; S1 = 100')
-    r.setSeed(1234)
-    for k in range(1, 20):
-        r.resetToOrigin()
-        res1 = r.gillespie(0, 10)
-        # change in parameter after the first half of the simulation
-        r.k1 = r.k1*20
-        res2 = r.gillespie (10, 20)
-        sim = np.vstack([res1, res2])
-        te.plot(sim[:,0], sim[:,1:], alpha=0.7, names=['S1', 'S2'], tags=['S1', 'S2'], show=False)
-    te.show()
+        import tellurium as te
+
+        r = te.loada('S1 -> S2; k1*S1; k1 = 0.02; S1 = 100')
+        r.setSeed(1234)
+        for k in range(1, 20):
+            r.resetToOrigin()
+            res1 = r.gillespie(0, 10)
+            r.plot(res1, show=False) # plot first half of data
+            
+            # change in parameter after the first half of the simulation
+            # We could have also used an Event in the antimony model,
+            # which are described further in the Antimony Reference section
+            r.k1 = r.k1*20
+            res2 = r.gillespie (10, 20)
+            
+            r.plot(res2, show=False) # plot second half of data
+
+        te.show()
 
 
 

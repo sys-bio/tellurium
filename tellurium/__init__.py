@@ -121,6 +121,7 @@ from .tellurium import (
     addFilesToCombineArchive,
     convertCombineArchive,
     convertAndExecuteCombineArchive,
+    createCombineArchive,
     extractFileFromCombineArchive,
     exportInlineOmex,
     executeInlineOmex,
@@ -146,6 +147,11 @@ from tellurium.utils.matrix import(
     rank,
     nullspace,
     rref,
+)
+
+from tellurium.utils.uncertainty import(
+    UncertaintySingleP,
+    UncertaintyAllP,
 )
 
 # Dist config

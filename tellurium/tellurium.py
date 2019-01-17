@@ -42,8 +42,7 @@ except:
     try:
         import Tkinter
     except ImportError:
-        if IPYTHON:
-          matplotlib.use('Agg', warn=False)
+        matplotlib.use('Agg', warn=False)
 
 
 ##############################################
@@ -810,6 +809,38 @@ def addFilesToCombineArchive(archive_path, file_names, entry_locations, file_for
     for t in tempfiles:
         os.remove(t)
 
+def createCombineArchive(archive_path, file_names, entry_locations, file_formats, master_attributes, description=None):
+    """ Create a new COMBINE archive containing the provided entries and locations.
+
+    :param archive_path: The path to the archive.
+    :param file_names: List of extra files to add.
+    :param entry_locations: List of destination locations for the files in the output archive.
+    :param file_format: List of formats for the resp. files.
+    :param master_attributes: List of true/false values for the resp. master attributes of the files.
+    :param out_archive_path: The path to the output archive.
+    :param description: A libcombine description structure to be assigned to the combine archive, if desired.
+    """
+    import tecombine
+
+    output_archive = tecombine.CombineArchive()
+    if description is not None:
+        output_archive.addMetadata('.', description)
+
+    # add the extra files
+    for file_name, entry_location, file_format, master in zip(file_names, entry_locations, file_formats, master_attributes):
+        output_archive.addFile(file_name, entry_location, file_format, master)
+
+    # if the archive already exists, clear it
+    if os.path.exists(archive_path):
+        if os.path.isfile(archive_path):
+            os.remove(archive_path)
+        elif os.path.isdir(archive_path):
+            raise RuntimeError('Tried to write archive to {}, which is a directory.'.format(archive_path))
+        else:
+            raise RuntimeError('Could not write archive to {}.'.format(archive_path))
+    # write archive
+    output_archive.writeToFile(archive_path)
+
 
 # ---------------------------------------------------------------------
 # Math Utilities
@@ -826,7 +857,7 @@ def getEigenvalues(m):
     from numpy import linalg
     w, v = linalg.eig(m)
     return w
-  
+
 # ---------------------------------------------------------------------
 # Plotting Utilities
 # ---------------------------------------------------------------------
@@ -835,20 +866,35 @@ def plotArray(result, loc='upper right', show=True, resetColorCycle=True,
              xscale='linear', yscale="linear", grid=False, labels=None, **kwargs):
     """ Plot an array.
 
-    The first column of the array must be the x-axis and remaining columns the y-axis. Returns
-    a handle to the plotting object. Note that you can add plotting options as named key values after
-    the array. To add a legend, include the label legend values:
+    :param result: Array to plot, first column of the array must be the x-axis and remaining columns the y-axis
+    :param loc: Location of legend box. Valid strings 'best' | upper right' | 'upper left' | 'lower left' | 'lower right' | 'right' | 'center left' | 'center right' | 'lower center' | 'upper center' | 'center' |
+    :type loc: str
+    :param color: 'red', 'blue', etc. to use the same color for every curve
+    :type color: str
+    :param labels: A list of labels for the legend, include as many labels as there are curves to plot
+    :param xlabel: x-axis label
+    :type xlabel: str
+    :param ylabel: y-axis label
+    :type ylabel: str
+    :param title: Add plot title
+    :type title: str
+    :param xlim: Limits on x-axis (tuple [start, end])
+    :param ylim: Limits on y-axis
+    :param xscale: 'linear' or 'log' scale for x-axis
+    :param yscale: 'linear' or 'log' scale for y-axis
+    :param grid: Show grid
+    :type grid: bool
+    :param show: show=True (default) shows the plot, use show=False to plot multiple simulations in one plot
+    :param resetColorCycle: If true, resets color cycle on given figure (works with show=False to plot multiple simulations on a single plot) 
+    :type resetColorCycle: bool
+    :param kwargs: Additional matplotlib keywords like linewidth, linestyle...
 
-    te.plotArray (m, labels=['Label 1, 'Label 2', etc])
-
-    Make sure you include as many labels as there are curves to plot!
-
-    Use show=False to add multiple curves. Use color='red' to use the same color for every curve.
     ::
 
-        import numpy as np
+        import numpy as np, tellurium as te
         result = np.array([[1,2,3], [7.2,6.5,8.8], [9.8, 6.5, 4.3]])
-        te.plotArray(result, title="My graph', xlim=((0, 5)))
+        te.plotArray(result, title="My graph", xlim=((1, 5)), labels=["Label 1", "Label 2"],
+                     yscale='log', linestyle='dashed')
     """
     warnings.warn("plotArray is deprecated, use plot instead", DeprecationWarning)
 
@@ -898,14 +944,14 @@ def plotArray(result, loc='upper right', show=True, resetColorCycle=True,
 
 def plotWithLegend (r, result=None, loc='upper right', show=True):
     """
-    Plot an array and include a legend. The first argument must be a roadrunner variable. 
+    Plot an array and include a legend. The first argument must be a roadrunner variable.
     The second argument must be an array containing data to plot. The first column of the array will
     be the x-axis and remaining columns the y-axis. Returns
     a handle to the plotting object.
-    
+
     plotWithLegend (r)
     """
-    
+
     if not isinstance (r, roadrunner.RoadRunner):
         raise Exception ('First argument must be a roadrunner variable')
 
@@ -917,14 +963,14 @@ def plotWithLegend (r, result=None, loc='upper right', show=True):
 
     if result.dtype.names is None:
        columns = result.shape[1]
-       legendItems = r.selections[1:]       
+       legendItems = r.selections[1:]
        if columns-1 != len (legendItems):
            raise Exception ('Legend list must match result array')
     else:
         # result is structured array
         if len(result.dtype.names) < 1:
             raise Exception('No columns available to plot')
-            
+
     return plotArray(result, loc=loc, labels=legendItems, show=show)
 
 

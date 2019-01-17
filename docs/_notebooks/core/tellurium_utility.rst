@@ -32,7 +32,7 @@ constituent packages.
     2.1.0
     --------------------------------------------------------------------------------
     tellurium : 2.1.0
-    roadrunner : 1.4.24
+    roadrunner : 1.5.1
     antimony : 2.9.4
     libsbml : 5.15.0
     libsedml : 0.4.3
@@ -57,7 +57,7 @@ Repeat simulation without notification
     
     import matplotlib.pyplot as plt
     
-    # Turn of notices so they don't clutter the output
+    # Turn off notices so they don't clutter the output
     te.noticesOff()
     for i in range(0, 20):
         result = r.simulate (0, 10)

@@ -13,7 +13,6 @@ can be used to export the current model state to a file.
 .. code-block:: python
 
     import tellurium as te
-    te.setDefaultPlottingEngine('matplotlib')
     import tempfile
     
     # load model

@@ -107,26 +107,30 @@ Plotting
 ----------------------------------------
 
 Tellurium has a plotting engine which can target either Plotly (when used in a
-notebook environment) or Matplotlib.
+notebook environment) or Matplotlib. To specify which engine to use, use 
+``te.setDefaultPlottingEngine()``.
 
 .. autofunction:: tellurium.plot
 
-The function ``tellurium.plotArray`` assumes that the first column in the array is the x-axis and the second and subsequent columns represent curves on the y-axis.
+**NOTE: When loading a model with r = te.loada('antimony_string') and calling r.plot(), it is the below tellerium.ExtendedRoadRunner.plot() method below that is called
+not te.plot().**
 
 .. autofunction:: tellurium.plotArray
+
+The function  tellurium.plotArray  assumes that the first column in the array is the x-axis and the second and subsequent columns represent curves on the y-axis.
+
 .. autoclass:: tellurium.tellurium.ExtendedRoadRunner
    :members: draw, plot
+
+
+**NOTE: When loading a model with r = te.loada('antimony_string') and calling r.plot(), it is the above tellerium.ExtendedRoadRunner.plot() method below that is called
+not te.plot().**
 
 .. include:: _notebooks/core/tellurium_plotting.rst
 
 ----------------------------------------
 Model Reset
 ----------------------------------------
-
-Use these routines reset your model back to particular states
-
-.. autoclass:: tellurium.tellurium.ExtendedRoadRunner
-   :members: resetToOrigin, resetAll
 
 .. include:: _notebooks/core/tellurium_reset.rst
 
@@ -137,17 +141,7 @@ jarnac Short-cuts
 Routines to support the Jarnac compatibility layer
 
 .. autoclass:: tellurium.tellurium.ExtendedRoadRunner
-   :members: fjac, sm, rs, fs, bs, ps, vs, dv, rv, sv
-      
-----------------------------------------
-Parameter Scanning
-----------------------------------------
-
-Routines to support the Jarnac compatibility layer
-
-.. autofunction:: tellurium.ParameterScan
-.. autofunction:: tellurium.SteadyStateScan
-
+	:members: fjac, sm, rs, fs, bs, ps, vs, dv, rv, sv 
 
 ----------------------------------------
 Test Models
@@ -173,7 +167,7 @@ Routines to run external tools.
 ----------------------------------------
 Model Methods
 ----------------------------------------
-Routines flattened from model, aves typing and easier for finding the methods
+Routines flattened from model, saves typing and easier for finding the methods
 
 .. autoclass:: tellurium.tellurium.ExtendedRoadRunner
    :members: getRatesOfChange, getBoundarySpeciesConcentrations, getBoundarySpeciesIds, getNumBoundarySpecies, getFloatingSpeciesConcentrations, getFloatingSpeciesIds, getNumFloatingSpecies, getGlobalParameterIds, getGlobalParameterValues, getNumGlobalParameters, getCompartmentIds, getCompartmentVolumes, getNumCompartments, getConservedMoietyValues, getNumConservedMoieties, getNumDepFloatingSpecies, getNumIndFloatingSpecies, getNumReactions, getReactionIds, getReactionRates, getNumEvents, setStartTime, setEndTime, getStartTime, getEndTime, getNumberOfPoints, setNumberOfPoints, getNumRateRules

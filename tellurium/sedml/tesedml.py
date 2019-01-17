@@ -1446,7 +1446,11 @@ class SEDMLCodeFactory(object):
                 if resetModel is True:
                     # If each entry in the task consists of a single point (e.g. steady state scan)
                     # , concatenate the points. Otherwise, plot as separate curves.
-                    lines.append("__var__{} = np.concatenate([sim['{}'] for sim in {}])".format(varId, sid, taskId))
+                    import os
+                    if 'PROCESS_TRACE' in os.environ and os.environ['PROCESS_TRACE']:
+                        lines.append("__var__{} = np.concatenate([process_trace(sim['{}']) for sim in {}])".format(varId, sid, taskId))
+                    else:
+                        lines.append("__var__{} = np.concatenate([sim['{}'] for sim in {}])".format(varId, sid, taskId))
                 else:
                     # One curve via time adjusted concatenate
                     if isTime is True:
@@ -1899,37 +1903,16 @@ class SEDMLTools(object):
 
         return model_sources, all_changes
 
-        
-'''
-The following functions all manipulate the DataGenenerators which 
-breaks many things !!! 
-These should be used as preprocessing before plotting, but NOT CHANGE
-values or length of DataGenerator variables.
-
-MK: cannot fix this until I did not understand how the plots are generated
-for plotly.
-'''
-
 
 def process_trace(trace):
     """ If each entry in the task consists of a single point
     (e.g. steady state scan), concatenate the points.
     Otherwise, plot as separate curves."""
-    warnings.warn("don't use this", DeprecationWarning)
-    # print('trace.size = {}'.format(trace.size))
-    # print('len(trace.shape) = {}'.format(len(trace.shape)))
     if trace.size > 1:
-        # FIXME: this adds a nan at the end of the data. This is a bug.
         if len(trace.shape) == 1:
             return np.concatenate((np.atleast_1d(trace), np.atleast_1d(np.nan)))
-            #return np.atleast_1d(trace)
-
         elif len(trace.shape) == 2:
-            #print('2d trace')
-            # print(trace.shape)
-            # FIXME: this adds a nan at the end of the data. This is a bug.
-            result = np.vstack((np.atleast_1d(trace), np.full((1,trace.shape[-1]),np.nan)))
-            #result = np.vstack((np.atleast_1d(trace), np.full((1, trace.shape[-1]))))
+            result = np.vstack((np.atleast_1d(trace), np.full((1,trace.shape[-1]), np.nan)))
             return result
     else:
         return np.atleast_1d(trace)
@@ -1996,7 +1979,7 @@ def fix_endpoints(x, y, color, tag, fig):
 
         if endpoints_x:
             fig.addXYDataset(np.array(endpoints_x), np.array(endpoints_y), color=color, tag=tag, mode='markers')
-            
+
 
 ##################################################################################################
 if __name__ == "__main__":

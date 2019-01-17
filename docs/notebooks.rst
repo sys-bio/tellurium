@@ -12,6 +12,8 @@ To run the examples, clone the git repository:
 
 and use the `Tellurium notebook viewer <http://tellurium.readthedocs.io/en/latest/installation.html#front-end-1-tellurium-notebook>`_ or `Jupyter <http://jupyter.readthedocs.org/en/latest/install.html>`_ to open any notebook in the ``tellurium/examples/notebooks/core`` directory.
 
+Tellurium Spyder comes with these examples under Tellurium Spyder installation directory. Look for folder called ``tellurium-winpython-examples``.
+
 --------------------
 Basics
 --------------------
@@ -22,14 +24,21 @@ Basics
 Models & Model Building
 -------------------------
 
-In this section model the creation of example models is shown.
+In this section, various types of models and different ways to building models are shown.
 
 .. include:: _notebooks/core/model_modelFromBioModels.rst
 .. include:: _notebooks/core/model_nonUnitStoichiometries.rst
 .. include:: _notebooks/core/model_consecutiveUniUniReactions.rst
-.. include:: _notebooks/core/model_feedback_oscillations.rst
 .. include:: _notebooks/core/model_generatingDifferentWaveforms.rst
 .. include:: _notebooks/core/model_normalizedSpecies.rst
+
+-------------------------------
+Simulation and Analysis Methods
+-------------------------------
+
+In this section, different ways to simlate and analyse a model is shown.
+
+.. include:: _notebooks/core/tellurium_stochastic.rst
 
 --------
 SED-ML
@@ -72,3 +81,9 @@ examples which correspond to common motifs in biological networks (negative feed
 To draw the network diagrams seen here, you will need `graphviz <http://www.graphviz.org/>`_ installed.
 
 .. include:: _notebooks/core/tellurium_examples.rst
+
+-------------
+Miscellaneous
+-------------
+
+.. include:: _notebooks/core/methods_installing_packages.rst
