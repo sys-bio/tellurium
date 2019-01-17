@@ -57,8 +57,8 @@ te.plotArray(result)
 
 Tellurium can either be installed with a front-end (Notebook, IDE) or as a Python package:
 
-A. [Notebook front-end](#front-end-1-tellurium-notebook)  
-B. [IDE front-end](#front-end-2-tellurium-spyder-ide) based on [Spyder](https://www.spyder-ide.org/)  
+A. [IDE front-end](#front-end-1-tellurium-spyder-ide) based on [Spyder](https://www.spyder-ide.org/)  
+B. [Notebook front-end](#front-end-2-tellurium-notebook)  
 C. [Python package (pip)](#install-via-pip-no-front-end)
 
 We recommend first-time users choose one of the front-ends, while developers looking to integrate Tellurium use the pip package. 
@@ -70,55 +70,8 @@ For any issues with installation and setup, please check [FAQ](https://github.co
 
 -------
 
-### Front-end 1: Tellurium Notebook
-The Tellurium notebook supports Windows 10, Mac OS X 10.10+, Debian 8+, and Fedora 22+.
-The notebook viewer comes with Python 3.6 (64-bit).
 
-<img align="left" width="32px" id="windows" src="https://raw.githubusercontent.com/wiki/sys-bio/tellurium/img/windows.png">
-<h4>Windows</h4>
-<br style="clear:both"/>
-
-1. [Download Tellurium Notebook for Windows](https://sourceforge.net/projects/pytellurium/files/notebook/Tellurium%20Setup%202.0.17.exe/download)
-2. Double-click the installer `*.exe` to start the installation
-3. Follow the instructions
-
-<img align="left" width="32px" id="mac-osx" src="https://raw.githubusercontent.com/wiki/sys-bio/tellurium/img/macos.png">
-<h4>Mac OS X</h4>
-<br style="clear:both"/>
-
-:exclamation:**Note:** Tellurium versions prior to 2.0.17 had a non-functional version of pip (affecting macOS only). Please upgrade to 2.0.17 to ensure you can install packages via pip.
-
-1. [Download Tellurium Notebook for Mac OS X 10.10 or later](https://sourceforge.net/projects/pytellurium/files/notebook/Tellurium-2.0.18.dmg/download)
-2. You may need to [disable Gatekeeper](https://github.com/sys-bio/tellurium/wiki/FAQ#on-mac-after-downloading-tellurium-i-cant-open-it-because-it-is-from-an-unidentified-developer)
-3. Double-click the `*.dmg` file to open a new window
-4. Drag the Tellurium icon to your Applications
-5. You can now launch Tellurium from Spotlight or directly from your applications folder
-
-<img align="left" width="32px" id="redhat" src="https://raw.githubusercontent.com/wiki/sys-bio/tellurium/img/redhat.png">
-<h4>Linux (RedHat)</h3>
-<br style="clear:both"/>
-
-1. [Download Tellurium Notebook (.rpm)](https://sourceforge.net/projects/pytellurium/files/notebook/Tellurium-2.0.18.rpm/download)
-2. Install the package using `dnf install Tellurium-2.0.18.rpm`
-3. You should be able to launch Tellurium from your activities pane. If not, log out and in again or run `tellurium` from the terminal.
-
-<img align="left" width="32px" id="debian" src="https://raw.githubusercontent.com/wiki/sys-bio/tellurium/img/debian.png">
-<h4>Linux (Debian)</h4>
-<br style="clear:both"/>
-
-1. [Download Tellurium Notebook (.deb)](https://sourceforge.net/projects/pytellurium/files/notebook/Tellurium_2.0.18_amd64.deb/download)
-2. Install the package using `dpkg -i Tellurium_2.0.18_amd64.deb`
-3. You should be able to launch Tellurium from your activities pane. If not, log out and in again or run `/opt/Tellurium/tellurium` from the terminal.
-
-<br>
-
-:question:Looking for old releases? [You can find them here.](https://sourceforge.net/projects/pytellurium/files/notebook) To install an old release over a new release, you will need to [manually wipe the data directory.](https://github.com/sys-bio/tellurium/wiki/FAQ#how-do-i-uninstall-tellurium-notebook)
-
-<br>
-
--------
-
-### Front-end 2: Tellurium Spyder IDE
+### Front-end 1: Tellurium Spyder IDE
 The Tellurium Spyder installers are tested with Windows 7+ and Mac OS X 10.9+. Some older Macs cannot run Spyder IDE, regardless of 
 whether the operating system is up-to-date. 
 The Tellurium Spyder IDE comes with Python 2.7 (64-bit) or Python 3.6 (64-bit).
@@ -134,12 +87,35 @@ following the instructions on [this page](https://github.com/sys-bio/tellurium/w
 We strongly suggest you to completely remove the older version of Tellurium Spyder IDE prior to installing one of the 2.1.0+ versions.
 
 1. Download Tellurium Spyder for Windows:
-    * [Python 3.6](https://sourceforge.net/projects/pytellurium/files/Tellurium-2.1/2.1.0/Tellurium-2.1.0-Python-3.6-win64-setup.exe/download)  
-    * [Python 2.7](https://sourceforge.net/projects/pytellurium/files/Tellurium-2.1/2.1.0/Tellurium-2.1.0-Python-2.7-win64-setup.exe/download)  
+    * [Python 3.6](https://sourceforge.net/projects/pytellurium/files/Tellurium-2.1/2.1.1/Tellurium-2.1.1-Python-3.6-win64-setup.exe/download)  
+    * [Python 2.7](https://sourceforge.net/projects/pytellurium/files/Tellurium-2.1/2.1.1/Tellurium-2.1.1-Python-2.7-win64-setup.exe/download)  
 2. Double-click the installer to start the installation
 3. Follow the instructions
 
 NOTE: Installation requires administrative rights. It is recommended to accept the default settings.
+
+<img align="left" width="32px" id="mac-osx" src="https://raw.githubusercontent.com/wiki/sys-bio/tellurium/img/macos.png">
+<h4>Mac OS X</h4>
+<br style="clear:both"/>
+
+Mac OS X user can install Tellurium and the Spyder IDE through Anaconda:
+
+1. [Download the Anaconda distribution for Mac OS X.](https://www.anaconda.com/download). Select the Python 3.6 version of Anaconda.
+2. [Follow the installer instructions.](https://docs.anaconda.com/anaconda/install/linux). The installer will install Spyder as part of the installation process. If you customize the installation, you will have a chance to select which packages to install - ensure Spyder is selected.
+3. When prompted, add Anaconda to your PATH (optional, but this will make the following steps easier).
+4. [Open a Terminal](https://www.wikihow.com/Open-a-Terminal-Window-in-Mac) and run the command:
+```
+conda install msgpack-python
+```
+Next, install Tellurium itself:
+```
+pip install tellurium
+```
+If this fails, try using the default absolute path to Anaconda:
+```
+/Users/<your-user>/anaconda3/bin/pip install tellurium
+```
+5. Launch the Anaconda Navigator via Launchpad. In Anaconda Navigator, run Spyder and then try `import tellurium` within the Spyder editor or console.
 
 <img align="left" width="32px" id="mac-osx" src="https://raw.githubusercontent.com/wiki/sys-bio/tellurium/img/macos.png">
 <h4>Mac OS X (Legacy)</h4>
@@ -153,6 +129,52 @@ Currently, only a legacy version of the Mac Spyder IDE is available. We recommen
 
 -------
 
+### Front-end 2: Tellurium Notebook
+The Tellurium notebook supports Windows 10, Mac OS X 10.10+, Debian 8+, and Fedora 22+.
+The notebook viewer comes with Python 3.6 (64-bit).
+
+<img align="left" width="32px" id="windows" src="https://raw.githubusercontent.com/wiki/sys-bio/tellurium/img/windows.png">
+<h4>Windows</h4>
+<br style="clear:both"/>
+
+1. [Download Tellurium Notebook for Windows](https://sourceforge.net/projects/pytellurium/files/notebook/Tellurium%20Setup%202.1.1.exe/download)
+2. Double-click the installer `*.exe` to start the installation
+3. Follow the instructions
+
+<img align="left" width="32px" id="mac-osx" src="https://raw.githubusercontent.com/wiki/sys-bio/tellurium/img/macos.png">
+<h4>Mac OS X</h4>
+<br style="clear:both"/>
+
+1. [Download Tellurium Notebook for Mac OS X 10.10 or later](https://sourceforge.net/projects/pytellurium/files/notebook/Tellurium-2.1.1.dmg/download)
+2. You may need to [disable Gatekeeper](https://github.com/sys-bio/tellurium/wiki/FAQ#on-mac-after-downloading-tellurium-i-cant-open-it-because-it-is-from-an-unidentified-developer)
+3. Double-click the `*.dmg` file to open a new window
+4. Drag the Tellurium icon to your Applications
+5. You can now launch Tellurium from Spotlight or directly from your applications folder
+
+<img align="left" width="32px" id="redhat" src="https://raw.githubusercontent.com/wiki/sys-bio/tellurium/img/redhat.png">
+<h4>Linux (RedHat)</h3>
+<br style="clear:both"/>
+
+1. [Download Tellurium Notebook (.rpm)](https://sourceforge.net/projects/pytellurium/files/notebook/Tellurium-2.1.1.rpm/download)
+2. Install the package using `dnf install Tellurium-2.1.1.rpm`
+3. You should be able to launch Tellurium from your activities pane. If not, log out and in again or run `tellurium` from the terminal.
+
+<img align="left" width="32px" id="debian" src="https://raw.githubusercontent.com/wiki/sys-bio/tellurium/img/debian.png">
+<h4>Linux (Debian)</h4>
+<br style="clear:both"/>
+
+1. [Download Tellurium Notebook (.deb)](https://sourceforge.net/projects/pytellurium/files/notebook/Tellurium_2.1.1_amd64.deb/download)
+2. Install the package using `dpkg -i Tellurium_2.1.1_amd64.deb`
+3. You should be able to launch Tellurium from your activities pane. If not, log out and in again or run `/opt/Tellurium/tellurium` from the terminal.
+
+<br>
+
+:question:Looking for old releases? [You can find them here.](https://sourceforge.net/projects/pytellurium/files/notebook) To install an old release over a new release, you will need to [manually wipe the data directory.](https://github.com/sys-bio/tellurium/wiki/FAQ#how-do-i-uninstall-tellurium-notebook)
+
+<br>
+
+-------
+
 ### Install via pip (no front-end)
 [![PyPI version](https://badge.fury.io/py/tellurium.svg)](https://badge.fury.io/py/tellurium)
 
@@ -163,9 +185,21 @@ The latest package release can be installed via
 ```
 pip install tellurium
 ```	
+
 For developers, the latest stable version from the repository can be installed via
 ```
 pip install git+https://github.com/sys-bio/tellurium.git
+```
+
+### Install via Anaconda
+
+1. [Download the Anaconda distribution for your platform.](https://www.anaconda.com/download)
+2. [Follow the installer instructions.](https://docs.anaconda.com/anaconda/install/linux)
+3. When prompted, add Anaconda to your PATH
+4. Run
+
+```
+pip install tellurium
 ```
 
 :exclamation:**If you would like a detailed instruction on how to setup Tellurium on Anaconda distributions, 

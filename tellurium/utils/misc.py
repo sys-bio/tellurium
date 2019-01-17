@@ -113,7 +113,7 @@ def getODEsFromModel (roadrunnerModel):
     if type (roadrunnerModel) == RoadRunner:
        extractor = ODEExtractor (roadrunnerModel.getSBML())
     else:
-       raise RuntimeError('The argument to getODEsFromModelAsString should be a roadrunner variable')
+       raise RuntimeError('The argument to getODEsFromModel should be a roadrunner variable')
            
     return extractor.toString()
     
