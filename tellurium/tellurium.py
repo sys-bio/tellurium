@@ -700,7 +700,7 @@ def executeInlineOmex(inline_omex, comp=False):
 
     :param inline_omex: String containing inline phrasedml and antimony.
     """
-    in_omex = teconverters.inlineOmex.fromString(inline_omex, comp=False)
+    in_omex = teconverters.inlineOmex.fromString(inline_omex, comp=comp)
     in_omex.executeOmex()
 
 
