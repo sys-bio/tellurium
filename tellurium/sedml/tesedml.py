@@ -1544,7 +1544,7 @@ class SEDMLCodeFactory(object):
 
         # all lines of same cuve have same color
         settings = PlotSettings(
-            colors=[u'C0', u'C1', u'C2', u'C3', u'C4', u'C5', u'C6', u'C7', u'C8', u'C9'],
+            colors=[u'#1f77b4', u'#ff7f0e', u'#2ca02c', u'#d62728', u'#9467bd', u'#8c564b', u'#e377c2', u'#7f7f7f', u'#bcbd22', u'#17becf'],
             figsize=(9, 5),
             dpi=80,
             facecolor='w',

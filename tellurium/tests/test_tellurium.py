@@ -283,7 +283,7 @@ class TelluriumTestCase(unittest.TestCase):
     def test_jarnac_dv(self):
         r = te.loada(self.ant_str)
         m1 = r.dv()
-        m2 = r.model.getStateVectorRate()
+        m2 = r.getRatesOfChange()
         self.assertTrue(np.allclose(m1, m2))
 
     def test_jarnac_rv(self):

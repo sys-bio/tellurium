@@ -695,12 +695,12 @@ def exportInlineOmex(inline_omex, export_location):
     saveInlineOMEX(inline_omex, export_location)
 
 
-def executeInlineOmex(inline_omex):
+def executeInlineOmex(inline_omex, comp=False):
     """ Execute inline phrasedml and antimony.
 
     :param inline_omex: String containing inline phrasedml and antimony.
     """
-    in_omex = teconverters.inlineOmex.fromString(inline_omex)
+    in_omex = teconverters.inlineOmex.fromString(inline_omex, comp=comp)
     in_omex.executeOmex()
 
 
