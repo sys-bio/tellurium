@@ -52,7 +52,7 @@ class inlineOmex(object):
             description=DumpJSONInfo(),
             creator=readCreator()
         )
-
+        
         # Convert antimony to sbml
         for t, loc, master in (
         (x['source'], x['location'] if 'location' in x else None, x['master'] if 'master' in x else None)
@@ -88,7 +88,7 @@ class inlineOmex(object):
 
 
     @classmethod
-    def fromString(cls, omex_str):
+    def fromString(cls, omex_str, comp=False):
         """Given mixed Antimony/PhraSEDML, separates out the constituent parts.
         Assumes that Antimony and PhraSEDML are not mixed on the same line.
 
@@ -183,10 +183,11 @@ class inlineOmex(object):
                     sources.remove(src)
                 elif src['type'] == 'antimony':
                     antimony_combined += src['source']
-            sources = [{
-                'source': antimony_combined,
-                'type': 'antimony',
-            }]
+            if comp:
+                sources = [{
+                    'source': antimony_combined,
+                    'type': 'antimony',
+                }]
             if phrasedml_combined:
                 sources.append({
                     'source': phrasedml_combined,
