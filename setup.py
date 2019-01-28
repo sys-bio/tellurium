@@ -46,7 +46,7 @@ setup(name='tellurium',
           'matplotlib>=2.0.2',
           'pandas>=0.20.2',
           # SBW-derived
-          'libroadrunner>=1.4.24',
+          'libroadrunner>=1.5.3',
           'phrasedml>=1.0.9',
           'antimony>=2.9.3',
           'rrplugins>=1.1.8',
