@@ -88,7 +88,7 @@ def getODEsFromSBMLFile (fileName):
     
     >>> te.getODEsFromSBMLFile ('mymodel.xml')
     """
-    sbmlStr = te.readFromFile (fileName)
+    sbmlStr = readFromFile (fileName)
     extractor = ODEExtractor (sbmlStr)
     return extractor.toString()
     
