@@ -77,7 +77,7 @@ master_doc = 'index'
 
 # General information about the project.
 project = u'tellurium'
-copyright = u'2014-2018, Kiri Choi, J Kyle Medley, Matthias König, Kaylene Stocking, Caroline Cannistra, Michal Galdzicki, and Herbert Sauro'
+copyright = u'2014-2019, Kiri Choi, J Kyle Medley, Matthias König, Kaylene Stocking, Caroline Cannistra, Michal Galdzicki, and Herbert Sauro'
 author = u'Kiri Choi, J Kyle Medley, Matthias König, Kaylene Stocking, Caroline Cannistra, Michal Galdzicki, and Herbert Sauro'
 
 # The version info for the project you're documenting, acts as replacement for
