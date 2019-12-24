@@ -191,7 +191,7 @@ The notebook viewer comes with Python 3.6 (64-bit).
 ### Install via pip (no front-end)
 [![PyPI version](https://badge.fury.io/py/tellurium.svg)](https://badge.fury.io/py/tellurium)
 
-Binary pip packages for Tellurium are available from PyPI and support 64-bit Python versions 2.7, 3.5, and 3.6 for Windows, Mac, and Linux. 
+Binary pip packages for Tellurium are available from PyPI and support 64-bit Python versions 2.7, 3.5, 3.6, and 3.7 for Windows, Mac, and Linux. 
 Pip packages are tested on Fedora 22, Debian 8, Ubuntu 14.04, and Mac OS X 10.10.
 
 The latest package release can be installed via	
@@ -222,9 +222,9 @@ check [this page](https://github.com/sys-bio/tellurium/wiki/FAQ#i-would-like-to-
 
 If you use Tellurium in your research, we would appreciate following citations in any works you publish:
 
-Medley et al. (2018) ["Tellurium notebooks—An environment for reproducible dynamical modeling in systems biology"](http://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1006220) PLoS Computational Biology 14(6) e1006220.
+Medley et al. (2018). ["Tellurium notebooks—An environment for reproducible dynamical modeling in systems biology."](http://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1006220) *PLoS Computational Biology*, 14(6), e1006220.
 
-Choi et al. (2018) ["Tellurium: An extensible python-based modeling environment for systems and synthetic biology"](https://www.sciencedirect.com/science/article/pii/S0303264718301254) Biosystems 171 74-79.
+Choi et al. (2018). ["Tellurium: An extensible python-based modeling environment for systems and synthetic biology."](https://www.sciencedirect.com/science/article/pii/S0303264718301254) *Biosystems*, 171, 74-79.
 
 ## Contact Us
 
