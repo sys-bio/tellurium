@@ -55,6 +55,9 @@ te.plotArray(result)
 
 ## Installation Instructions
 
+:exclamation:**Attention to those using Python 2.7 :**
+**[Python 2.7 is reaching EOL on January 1st, 2020](https://www.python.org/doc/sunset-python-2/). We plan to drop support for Python 2.7 from now on.**
+
 Tellurium can either be installed with a front-end (Notebook, IDE) or as a Python package:
 
 A. [IDE front-end](#front-end-1-tellurium-spyder-ide) based on [Spyder](https://www.spyder-ide.org/)  
@@ -74,7 +77,7 @@ For any issues with installation and setup, please check [FAQ](https://github.co
 ### Front-end 1: Tellurium Spyder IDE
 The Tellurium Spyder installers are tested with Windows 7+ and Mac OS X 10.9+. Some older Macs cannot run Spyder IDE, regardless of 
 whether the operating system is up-to-date. 
-The Tellurium Spyder IDE comes with Python 2.7 (64-bit) or Python 3.6 (64-bit).
+The Tellurium Spyder IDE comes with Python 2.7 (64-bit), Python 3.6 (64-bit), or Python 3.7 (64-bit).
 
 **For those who wish to use Tellurium with Spyder IDE on Mac OS X or Linux, we suggest you to install through [Anaconda](https://www.anaconda.com/) by 
 following the instructions on [this page](https://github.com/sys-bio/tellurium/wiki/FAQ#i-would-like-to-use-tellurium-on-anaconda-what-should-i-do).**
@@ -87,6 +90,7 @@ following the instructions on [this page](https://github.com/sys-bio/tellurium/w
 We strongly suggest you to completely remove the older version of Tellurium Spyder IDE prior to installing one of the 2.1.0+ versions.
 
 1. Download Tellurium Spyder for Windows:
+    * [Python 3.7](https://sourceforge.net/projects/pytellurium/files/Tellurium-2.2/2.2.0/Tellurium-2.2.0-Python-3.7-win64-setup.exe/download)
     * [Python 3.6](https://sourceforge.net/projects/pytellurium/files/Tellurium-2.1/2.1.7/Tellurium-2.1.7-Python-3.6-win64-setup.exe/download)  
     * [Python 2.7](https://sourceforge.net/projects/pytellurium/files/Tellurium-2.1/2.1.7/Tellurium-2.1.7-Python-2.7-win64-setup.exe/download)  
 2. Double-click the installer to start the installation
