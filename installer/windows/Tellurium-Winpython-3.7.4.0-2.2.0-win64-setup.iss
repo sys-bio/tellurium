@@ -10,10 +10,10 @@
 
 #define Py "Python"
 #define PyV "3.7"
-#define PyVer "3.7.4.amd64"
+#define PyVer "3.7.7.amd64"
 #define CurrentVer ""
-#define TelluriumVersion "2.2.0"
-#define Tellurium_Winpython "TW-3.7.4.0-win64-2.2.0"
+#define TelluriumVersion "2.3.0"
+#define Tellurium_Winpython "TW-3.7.7.1-win64-2.3.0"
 
 #define ISSI_Splash "Tellurium_splash_installer_updated.bmp"
 #define ISSI_Splash_T 3
@@ -56,9 +56,9 @@ Name: "english"; MessagesFile: "compiler:Default.isl"
 ;Source: "./VERSION.txt"; DestDir: "{app}"; Flags: ignoreversion deleteafterinstall
 ;Source: "./README.txt"; DestDir: "{app}"; Flags: ignoreversion
 ;Source: "./NOTICE.txt"; DestDir: "{app}"; Flags: ignoreversion
-Source: "./settings3.3.6/*"; DestDir: "{app}/settings"; Flags: ignoreversion recursesubdirs createallsubdirs onlyifdoesntexist uninsneveruninstall
+Source: "./settings4.1.3/*"; DestDir: "{app}/settings"; Flags: ignoreversion recursesubdirs createallsubdirs onlyifdoesntexist uninsneveruninstall
 Source: "./{#Tellurium_Winpython}/*"; DestDir: "{app}"; Flags: replacesameversion recursesubdirs createallsubdirs
-Source: "./tellurium-examples/*"; DestDir: "{app}\tellurium-examples"; Flags: replacesameversion recursesubdirs createallsubdirs
+Source: "./tellurium-examples/*"; DestDir: "{app}/tellurium-examples"; Flags: replacesameversion recursesubdirs createallsubdirs
 
 [Run]
 ;Filename: "{app}\python-{#PyVer}\Lib\site-packages\tellurium\README.txt"; Description: "View the README file"; Flags: postinstall shellexec skipifsilent unchecked
