@@ -562,6 +562,8 @@ addition, the plot is repeated for various values of Km.
        Km1 = 0.1; Km2 = 0.1;  
     ''')
     
+    r.conservedMoietyAnalysis = True
+    
     for i in range (1,8):
       numbers = np.linspace (0, 1.2, 200)
       result = np.empty ([0,2])
