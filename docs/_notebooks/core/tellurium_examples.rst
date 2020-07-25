@@ -5,7 +5,7 @@ Preliminaries
 In order to draw the network graphs in these examples (i.e. using ``r.draw()``), you will need
 graphviz and pygraphviz installed. Please consult the Graphviz
 documentation for instructions on installing it on your platform. If you
-cannot install Graphviz and pygraphviz, you can still run the following
+cannot install Graphviz and yraphviz, you can still run the following
 examples, but the network diagrams will not be generated.
 
 Also, due to limitations in pygraphviz, these examples can only be run
@@ -464,7 +464,7 @@ coefficient.
         r.reset()
         r.J0_h = h
         m = r.simulate(0, 20, 201, ['S1'])
-        result = numpy.hstack([result, m])
+        result = np.hstack([result, m])
         
     te.plotArray(result, labels=['h={}'.format(int(h)) for h in h_values])
     pass
