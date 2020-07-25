@@ -229,7 +229,7 @@ Gene network
     import tellurium as te
     import numpy
     
-    # Model desribes a cascade of two genes. First gene is activated
+    # Model describes a cascade of two genes. First gene is activated
     # second gene is repressed. Uses events to change the input 
     # to the gene regulatory network
     
@@ -546,7 +546,7 @@ Protein phosphorylation cycle
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Simple protein phosphorylation cycle. Steady state concentation of the
-phosphorylated protein is plotted as a funtion of the cycle kinase. In
+phosphorylated protein is plotted as a function of the cycle kinase. In
 addition, the plot is repeated for various values of Km.
 
 .. code-block:: python
