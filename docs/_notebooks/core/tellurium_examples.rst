@@ -553,6 +553,7 @@ addition, the plot is repeated for various values of Km.
 
     import tellurium as te
     import numpy as np
+    import matplotlib.pyplot as plt
     
     r = te.loada ('''
        S1 -> S2; k1*S1/(Km1 + S1);
@@ -580,6 +581,7 @@ addition, the plot is repeated for various values of Km.
       r.k1 = 0.1
       r.Km1 = r.Km1 + 0.5;
       r.Km2 = r.Km2 + 0.5;
+    plt.show()
 
 
 
