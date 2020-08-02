@@ -889,16 +889,17 @@ def plotArray(result, loc='upper right', show=True, resetColorCycle=True,
     :type resetColorCycle: bool
     :param kwargs: Additional matplotlib keywords like linewidth, linestyle...
 
+    If you wish to set the figure size, called plt.figure (figsize=(w,h)) before calling plotArray
     ::
 
         import numpy as np, tellurium as te
+        import matplotlib.pyplot as plt
         result = np.array([[1,2,3], [7.2,6.5,8.8], [9.8, 6.5, 4.3]])
+        plt.figure (figsize=(10,6))
         te.plotArray(result, title="My graph", xlim=((1, 5)), labels=["Label 1", "Label 2"],
                      yscale='log', linestyle='dashed')
     """
-    warnings.warn("plotArray is deprecated, use plot instead", DeprecationWarning)
-
-    # FIXME: unify r.plot & te.plot (lots of code duplication)
+ 
     # reset color cycle (columns in repeated simulations have same color)
     if resetColorCycle:
         plt.gca().set_prop_cycle(None)
