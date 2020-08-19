@@ -5,7 +5,7 @@ Preliminaries
 In order to draw the network graphs in these examples (i.e. using ``r.draw()``), you will need
 graphviz and pygraphviz installed. Please consult the Graphviz
 documentation for instructions on installing it on your platform. If you
-cannot install Graphviz and pygraphviz, you can still run the following
+cannot install Graphviz and yraphviz, you can still run the following
 examples, but the network diagrams will not be generated.
 
 Also, due to limitations in pygraphviz, these examples can only be run
@@ -229,7 +229,7 @@ Gene network
     import tellurium as te
     import numpy
     
-    # Model desribes a cascade of two genes. First gene is activated
+    # Model describes a cascade of two genes. First gene is activated
     # second gene is repressed. Uses events to change the input 
     # to the gene regulatory network
     
@@ -464,7 +464,7 @@ coefficient.
         r.reset()
         r.J0_h = h
         m = r.simulate(0, 20, 201, ['S1'])
-        result = numpy.hstack([result, m])
+        result = np.hstack([result, m])
         
     te.plotArray(result, labels=['h={}'.format(int(h)) for h in h_values])
     pass
@@ -546,13 +546,14 @@ Protein phosphorylation cycle
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Simple protein phosphorylation cycle. Steady state concentation of the
-phosphorylated protein is plotted as a funtion of the cycle kinase. In
+phosphorylated protein is plotted as a function of the cycle kinase. In
 addition, the plot is repeated for various values of Km.
 
 .. code-block:: python
 
     import tellurium as te
     import numpy as np
+    import matplotlib.pyplot as plt
     
     r = te.loada ('''
        S1 -> S2; k1*S1/(Km1 + S1);
@@ -561,6 +562,8 @@ addition, the plot is repeated for various values of Km.
        k1 = 0.1; k2 = 0.4; S1 = 10; S2 = 0;
        Km1 = 0.1; Km2 = 0.1;  
     ''')
+    
+    r.conservedMoietyAnalysis = True
     
     for i in range (1,8):
       numbers = np.linspace (0, 1.2, 200)
@@ -578,6 +581,7 @@ addition, the plot is repeated for various values of Km.
       r.k1 = 0.1
       r.Km1 = r.Km1 + 0.5;
       r.Km2 = r.Km2 + 0.5;
+    plt.show()
 
 
 
