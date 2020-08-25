@@ -90,7 +90,7 @@ following the instructions on [this page](https://github.com/sys-bio/tellurium/w
 We strongly suggest you to completely remove the older version of Tellurium Spyder IDE prior to installing one of the 2.1.0+ versions.
 
 1. Download Tellurium Spyder for Windows:
-    * [Python 3.7](https://sourceforge.net/projects/pytellurium/files/Tellurium-2.2/2.2.0/Tellurium-2.2.0-Python-3.7-win64-setup.exe/download)
+    * [Python 3.7](https://sourceforge.net/projects/pytellurium/files/Tellurium-2.3/2.3.1/Tellurium-2.3.1-Python-3.7-win64-setup.exe/download)
     * [Python 3.6](https://sourceforge.net/projects/pytellurium/files/Tellurium-2.1/2.1.7/Tellurium-2.1.7-Python-3.6-win64-setup.exe/download)  
     * [Python 2.7](https://sourceforge.net/projects/pytellurium/files/Tellurium-2.1/2.1.7/Tellurium-2.1.7-Python-2.7-win64-setup.exe/download)  
 2. Double-click the installer to start the installation
