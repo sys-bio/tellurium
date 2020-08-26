@@ -94,6 +94,7 @@ from .teio.latex import LatexExport
 # Parameter scanning
 from .analysis.parameterscan import (
     ParameterScan,
+    ParameterScan2D,
     SteadyStateScan,
 )
 

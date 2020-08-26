@@ -189,6 +189,38 @@ Reactions can be defined with a wide variety of rate laws
     n = 4
   end
 
+Rate Rules
+----------
+
+Rate rules allow one to define changes in species, parameters, or compartments over time using a
+differential equation, e.g. in the syntax of ``x' = dx/dt = f``. One may need to make clear the type of ``x``. The
+syntax for specifying the type of ``x`` is listed below.
+
+Parameter Rate Rules
+^^^^^^^^^^^^^^^^^^^^
+If not defined otherwise before, variables are of type **parameter** by default. To declare a rate rule for a
+parameter ``x``, use the ``x'`` syntax. For instance, to specify the exponential decay of ``x``:
+::
+  x' = -k1*x
+  x = 10; k1=0.1
+
+Species Rate Rules
+^^^^^^^^^^^^^^^^^^
+To declare a rate rule for a *species* ``x``, one needs to make sure that ``x`` is defined as a species, e.g.
+::
+  species x
+  x' = -k1*x
+  x = 10; k1=0.1
+
+Compartment Rate Rules
+^^^^^^^^^^^^^^^^^^^^^^
+To declare a rate rule for a *compartment* ``x``, one needs to make sure that ``x`` is defined as a compartment,
+e.g.
+::
+  compartment x
+  x' = -k1*x
+  x = 10; k1 = 0.1
+
 Boundary Species
 ----------------
 
