@@ -28,32 +28,69 @@ editor. This has the advantage of being usable in an automated setting,
 such as generating models from a template metalanguage
 (`TemplateSB <https://github.com/BioModelTools/TemplateSB>`__ is such a
 metalanguage for Antimony) and readable by others without translation.
-Antimony (so named because the chemical symbol of the element is 'Sb')
-was designed as a successor to Jarnac's model definition language, with
+Antimony (so named because the chemical symbol of the element is ‘Sb’)
+was designed as a successor to Jarnac’s model definition language, with
 some new features that mesh with newer elements of SBML, some new
 features we feel will be generally applicable, and some new features
 that are designed to aid the creation of genetic networks specifically.
 Antimony is available as a library and a Python package.
 
-Antimony is the main method of building models in Tellurium. Its main
-features include:
+Antimony is the main method of building models in
+`Tellurium <http://tellurium.analogmachine.org/>`__, and can be used in
+other contexts as well. Its main features include:
 
 -  Easily define species, reactions, compartments, events, and other
    elements of a biological model.
 -  Package and re-use models as modules with defined or implied
    interfaces.
--  Create 'DNA strand' elements, which can pass reaction rates to
-   downstream elements, and inherit and modify reaction rates from
-   upstream elements.
 
 Change Log
 ----------
 
+The 2.12 release added the ability to save extra ‘annotation-like’
+elements from the ‘distributions’ SBML package, and fixed numerous bugs
+in cvterm/SBOterm setting.
+
+The 2.11 release quashed all known memory leaks, and added the ability
+to define synthesis reactions with no id (i.e. ’ -> S1; k1’)
+
+The 2.10 release updated support for distributions to the latest SBML
+release of that package, updated the default version of SBML to Level 3
+version 2, added support for setting cvterms and the SBOterm,
+
+The 2.9.1 release added the ability to convert to SBML Level 3 version
+2, and SBML Level 2 version 5.
+
+The 2.9.0 release of Antimony was largely a maintenance release:
+numerous bugs were fixed, and installation was streamlined, particularly
+for Python and conda.
+
+The 2.8.0 release of Antimony included support for the SBML ‘Flux
+Balance Constraints’ package (version 1), as well as constraints in
+general.
+
+In the 2.7.1 release of Antimony, species marked
+‘hasOnlySubstanceUnits=true’ in SBML now have a corresponding definition
+in Antimony: ‘species substanceOnly S1, S2’.
+
+In the 2.7 release of Antimony, QTAntimony got several new improvements,
+including displayed line numbers, find/replace, and a ‘go to line’
+option. A few new syntaxes were also added, including the ability to
+concisely define elements plus their assignment rules (‘species S1 in C
+:= 3+p’), and to define submodules with implied parameters (‘A:
+mod1(1,2)’).
+
+In the 2.6 release of Antimony, some features of hierarchical
+translation (deletions in particular) were made more robust, and a
+number of built-in distribution functions were added, which are
+translated to SBML using the ‘distributions’ package, as well as using
+custom annotations
+
 In the 2.5 release of Antimony, translation of Antimony concepts to and
 from the Hierarchical Model Composition package was developed further to
 be much more robust, and a new test system was added to ensure that
-Antimony's 'flattening' routine (which exports plain SBML) matches
-libSBML's flattening routine.
+Antimony’s ‘flattening’ routine (which exports plain SBML) matches
+libSBML’s flattening routine.
 
 In the 2.4 release of Antimony, use of the Hierarchical Model
 Composition package constructs in the SBML translation became standard,
@@ -62,23 +99,18 @@ due to the package being fully accepted by the SBML community.
 In the 2.2/2.3 release of Antimony, units, conversion factors, and
 deletions were added.
 
-In the 2.1 version of Antimony, the 'import' handling became much more
+In the 2.1 version of Antimony, the ‘import’ handling became much more
 robust, and it became additionally possible to export hierarchical
 models using the Hierarchical Model Composition package constructs for
 SBML level 3.
 
 In the 2.0 version of Antimony, it became possible to export models as
 CellML. This requires the use of the CellML API, which is now available
-as an SDK. Hierarchical models are exported using CellML's hierarchy,
-translated to accommodate their 'black box' requirements.
+as an SDK. Hierarchical models are exported using CellML’s hierarchy,
+translated to accommodate their ‘black box’ requirements.
 
-Contents
---------
-
-.. container:: contents
-
-Introduction & Basics
----------------------
+Introduction and Basics
+-----------------------
 
 .. container:: highlight
 
@@ -91,7 +123,7 @@ syntax.
 The most common way to use Antimony is to create a reaction network,
 where processes are defined wherein some elements are consumed and other
 elements are created. Using the language of SBML, the processes are
-called 'reactions' and the elements are called 'species', but any set of
+called ‘reactions’ and the elements are called ‘species’, but any set of
 processes and elements may be modeled in this way. The syntax for
 defining a reaction in Antimony is to list the species being consumed,
 separated by a ``+``, followed by an arrow ``->``, followed by another
@@ -104,7 +136,7 @@ listed next:
    S1 -> S2; k1*S1
 
 The above model defines a reaction where ``S1`` is converted to ``S2``
-at a rate of 'k1*S1'.
+at a rate of ‘k1*S1’.
 
 This model cannot be simulated, however, because a simulator would not
 know what the conditions are to start the simulation. These values can
@@ -134,7 +166,7 @@ with the text: ``model [name] [reactions, etc.] end``:
      k1 = 0.1
    end
 
-In subsequent examples in this tutorial, we'll be using this syntax to
+In subsequent examples in this tutorial, we’ll be using this syntax to
 name the examples, but for simple models, the name is optional. Later,
 when we discuss submodels, this will become more important.
 
@@ -165,8 +197,8 @@ oscillator:
      J3_k2 = 5
    end
 
-Examples
---------
+Model Elements
+--------------
 
 Comments
 ~~~~~~~~
@@ -281,7 +313,7 @@ boundary species.
 
 .. raw:: html
 
-   <!-- -->
+   <!-- end list -->
 
 ::
 
@@ -297,7 +329,7 @@ boundary species.
 
 .. raw:: html
 
-   <!-- -->
+   <!-- end list -->
 
 ::
 
@@ -356,14 +388,14 @@ simple numbers:
    end
 
 Assignments in Time
-~~~~~~~~~~~~~~~~~~~
+^^^^^^^^^^^^^^^^^^^
 
 If you want to define some elements as changing in time, you can either
 define the formula a variable equals at all points in time with a
 ``:=``, or you can define how a variable changes in time using ``X'`` (a
 `rate
 rule <https://tellurium.readthedocs.io/en/latest/antimony.html#rate-rules/>`__)
-in which case you'll also need to define its initial starting value. The
+in which case you’ll also need to define its initial starting value. The
 keyword ``time`` represents time.
 
 ::
@@ -381,7 +413,7 @@ keyword ``time`` represents time.
    end
 
 Piecewise Assignments
-~~~~~~~~~~~~~~~~~~~~~
+^^^^^^^^^^^^^^^^^^^^^
 
 You can use ``piecewise`` to define piecewise assignments.
 
@@ -415,11 +447,11 @@ more complicated piecewise assignment can be defined as well.
 
 The above piecewise call will return 5 if time > 20, else it will return
 8 if S2 < 100, else it will return 15. The piecewise function has this
-general "do this if this is true, else ..." pattern, and can be extended
+general “do this if this is true, else …” pattern, and can be extended
 to include as may conditions as needed.
 
-Events
-~~~~~~
+Events (basic)
+~~~~~~~~~~~~~~
 
 Events are discontinuities in model simulations that change the
 definitions of one or more symbols at the moment when certain conditions
@@ -451,9 +483,7 @@ reset.
      k1 = 0.5
    end
 
-For more advanced usage of events, see Antimony's reference
-documentation on
-events <https://tellurium.readthedocs.io/en/latest/antimony.html#id3>`__.
+For more advanced usage of events, see `below <#events>`__.
 
 Function Definitions
 ~~~~~~~~~~~~~~~~~~~~
@@ -477,16 +507,38 @@ quadratic equation and use it in a later equation as follows:
 This effectively defines S3 to always equal the equation
 ``k1*s1^2 + k2*s1 + k3``.
 
+Annotation
+~~~~~~~~~~
+
+Antimony elements can be annotated with URNs using annotation keywords
+You can see the `full list <#sbo-and-cvterms>`__ below, but in general,
+you annotate in the following way:
+
+::
+
+   //Species
+   species Glcin in comp, MgATP in comp
+
+   // CV terms:
+   comp  identity "http://identifiers.org/go/GO:0005737"
+   Glcin identity "http://identifiers.org/chebi/CHEBI:17234",
+                  "http://identifiers.org/kegg.compound/C00293"
+   MgATP part "http://identifiers.org/chebi/CHEBI:25107",
+              "http://identifiers.org/chebi/CHEBI:15422"
+
+Any Antimony element with an id may be annotated in this way, including
+the model itself.
+
 Modular Models
 ~~~~~~~~~~~~~~
 
 Antimony was actually originally designed to allow the modular creation
 of models, and has a basic syntax set up to do so. For a full discussion
-of Antimony modularity, see the full documentation, but at the most
-basic level, you define a re-usable module with the 'model' syntax,
-followed by parentheses where you define the elements you wish to
-expose, then import it by using the model's name, and the local
-variables you want to connect to that module
+of Antimony modularity, see `below <#modules>`__, but at the most basic
+level, you define a re-usable module with the ‘model’ syntax, followed
+by parentheses where you define the elements you wish to expose, then
+import it by using the model’s name, and the local variables you want to
+connect to that module
 
 ::
 
@@ -528,8 +580,8 @@ Importing Files
 ~~~~~~~~~~~~~~~
 
 More than one file may be used to define a set of modules in Antimony
-through the use of the 'import' keyword. At any point in the file
-outside of a module definition, use the word 'import' followed by the
+through the use of the ‘import’ keyword. At any point in the file
+outside of a module definition, use the word ‘import’ followed by the
 name of the file in quotation marks, and Antimony will include the
 modules defined in that file as if they had been cut and pasted into
 your file at that point. SBML files may also be included in this way:
@@ -561,10 +613,10 @@ you can define them in Antimony for annotation purposes by using the
    unit substance = 1e-6 mole;
    unit hour = 3600 seconds;
 
-Adding an 's' to the end of a unit name to make it plural is fine when
+Adding an ‘s’ to the end of a unit name to make it plural is fine when
 defining a unit: ``3600 second`` is the same as ``3600 seconds``.
 Compound units may be created by using formulas with ``*``, ``/``, and
-``^``. However, you must use base units when doing so ('base units'
+``^``. However, you must use base units when doing so (‘base units’
 defined as those listed in Table 2 of the `SBML Level 3 Version 1
 specification <http://sbml.org/Documents/Specifications#SBML_Level_3_Version_1_Core>`__,
 which mostly are SI and SI-derived units).
@@ -580,7 +632,7 @@ any number may be given a unit by writing the name of the unit after the
 number. When defining a symbol (of any numerical type: species,
 parameter, compartment, etc.), you can either use the same technique to
 give it an initial value and a unit, or you may just define its units by
-using the 'has' keyword:
+using the ‘has’ keyword:
 
 ::
 
@@ -590,12 +642,12 @@ using the 'has' keyword:
                          #   value of '3.3'.
    z has foo;            # 'z' is given units of 'foo'.
 
-Antimony does not calculate any derived units: in the above example, 'x'
+Antimony does not calculate any derived units: in the above example, ‘x’
 is fully defined in terms of moles per liter per second, but it is not
 annotated as such.
 
 As with many things in Antimony, you may use a unit before defining it:
-'x = 10 ml' will create a parameter x and a unit 'ml'.
+‘x = 10 ml’ will create a parameter x and a unit ‘ml’.
 
 Simulating Models
 -----------------
@@ -740,6 +792,182 @@ simulation.
 
    --------------
 
+Signals
+-------
+
+Signals can be generated by combining assignment rules with events.
+
+Step Input
+~~~~~~~~~~
+
+Signals
+~~~~~~~
+
+Signals can be generated by combining assignment rules with events.
+
+Step Input
+~~~~~~~~~~
+
+The simplest signal is input step. The following code implements a step
+that occurs at time = 20 with a magnitude of f. A trigger is used to set
+a trigger variable alpha which is used to initate the step input in an
+assignment expression.
+
+.. code:: python
+
+   import tellurium as te
+   import roadrunner
+
+   r = te.loada("""
+   $Xo -> S1; k1*Xo;
+   S1 -> $X1; k2*S1;
+
+   k1 = 0.2; k2 = 0.45;
+
+   alpha = 0; f = 2
+   Xo := alpha*f
+   at time > 20:
+       alpha = 1
+   """)
+
+   m = r.simulate (0, 100, 300, ['time', 'Xo', 'S1'])
+   r.plot()
+
+.. figure:: images/antimony_0.png
+   :alt: image
+
+   image
+
+Ramp
+~~~~
+
+The following code starts a ramp at 20 time units by setting the p1
+variable to one. This variable is used to acticate a ramp function.
+
+.. code:: python
+
+   import tellurium as te
+   import roadrunner
+
+   r = te.loada("""
+   $Xo -> S1; k1*Xo;
+   S1 -> $X1; k2*S1;
+
+   k1 = 0.2; k2 = 0.45;
+
+   p1 = 0;
+   Xo := p1*(time - 20)
+   at time > 20:
+       p1 = 1
+   """)
+
+   m = r.simulate (0, 100, 200, ['time', 'Xo', 'S1'])
+   r.plot()
+
+.. figure:: images/antimony_1.png
+   :alt: image
+
+   image
+
+Ramp then Stop
+~~~~~~~~~~~~~~
+
+The following code starts a ramp at 20 time units by setting the p1
+variable to one and then stopping the ramp 20 time units later. At 20
+time units later a new term is switched on which subtract the ramp slope
+that results in a horizontal line.
+
+.. code:: python
+
+   import tellurium as te
+   import roadrunner
+
+   r = te.loada("""
+   $Xo -> S1; k1*Xo;
+   S1 -> $X1; k2*S1;
+
+   k1 = 0.2; k2 = 0.45;
+
+   p1 = 0; p2 = 0
+   Xo := p1*(time - 20) - p2*(time - 40)
+   at time > 20:
+       p1 = 1
+   at time > 40:
+       p2 = 1
+   """)
+
+   m = r.simulate (0, 100, 200, ['time', 'Xo', 'S1'])
+   r.plot()
+
+.. figure:: images/antimony_2.png
+   :alt: image
+
+   image
+
+Pulse
+~~~~~
+
+The following code starts a pulse at 20 time units by setting the p1
+variable to one and then stops the pulse 20 time units later by setting
+p2 equal to zero.
+
+.. code:: python
+
+   import tellurium as te
+   import roadrunner
+
+   r = te.loada("""
+   $Xo -> S1; k1*Xo;
+   S1 -> $X1; k2*S1;
+
+   k1 = 0.2; k2 = 0.45;
+
+   p1 = 0; p2 = 1
+   Xo := p1*p2
+   at time > 20:
+       p1 = 1
+   at time > 40:
+       p2 = 0
+   """)
+
+   m = r.simulate (0, 100, 200, ['time', 'Xo', 'S1'])
+   r.plot()
+
+.. figure:: images/antimony_3.png
+   :alt: image
+
+   image
+
+Sinusoidal Input
+~~~~~~~~~~~~~~~
+
+The following code starts a sinusoidal input at 20 time units by setting
+the p1 variable to one.
+
+.. code:: python
+
+   import tellurium as te
+   import roadrunner
+
+   r = te.loada("""
+   $Xo -> S1; k1*Xo;
+   S1 -> $X1; k2*S1;
+
+   k1 = 0.2; k2 = 0.45;
+
+   p1 = 0;
+   Xo := p1*(sin (time) + 1)
+   at time > 20:
+       p1 = 1
+   """)
+
+   m = r.simulate (0, 100, 200, ['time', 'Xo', 'S1'])
+   r.plot()
+
+.. figure:: images/antimony_4.png
+   :alt: image
+
+
 Language Reference
 ------------------
 
@@ -794,9 +1022,9 @@ checked to ensure that it is compatible with an irreversible reaction.
 At this point, Antimony will make several assumptions about your model.
 It will assume (and require) that all symbols that appear in the
 reaction itself are species. Any symbol that appears elsewhere that is
-not used or defined as a species is 'undefined'; 'undefined' symbols may
-later be declared or used as species or as 'formulas', Antimony's term
-for constants and packaged equations like SBML's assignment rules. In
+not used or defined as a species is ‘undefined’; ‘undefined’ symbols may
+later be declared or used as species or as ‘formulas’, Antimony’s term
+for constants and packaged equations like SBML’s assignment rules. In
 the above example, k1 and k2 are (thus far) undefined symbols, which may
 be assigned straightforwardly:
 
@@ -831,15 +1059,32 @@ resulting model will still be valid. Antimony files written by
 libAntimony will adhere to a standard format of defining symbols, but
 this is not required.
 
+Substance-only species
+~~~~~~~~~~~~~~~~~~~~~~
+
+In SBML, species can be defined such that when their ID is used in math,
+that symbol means either ‘the concentration of the species’ or ‘the
+amount of the species’. In Antimony, by default, a species symbol is
+defined as meaning its concentration. However, it can be defined to mean
+the amount by using the ‘substanceOnly’ keyword:
+
+substanceOnly species S1;
+
+Now, whenever ‘S1’ is used in the model, it is a reference to the
+species amount, and not its concentration. Defining an initial amount is
+still accomplished with the same syntax:
+
+S1 = 2.5/C1;
+
 Modules
 ~~~~~~~
 
 Antimony input files may define several different models, and may use
 previously-defined models as parts of newly-defined models. Each
-different model is known as a 'module', and is minimally defined by
-putting the keyword 'model' (or 'module', if you like) and the name you
+different model is known as a ‘module’, and is minimally defined by
+putting the keyword ‘model’ (or ‘module’, if you like) and the name you
 want to give the module at the beginning of the model definitions you
-wish to encapsulate, and putting the keyword 'end' at the end:
+wish to encapsulate, and putting the keyword ‘end’ at the end:
 
 ::
 
@@ -862,7 +1107,7 @@ by parentheses:
      example();
    end
 
-This is usually not very helpful in and of itself-you'll likely want to
+This is usually not very helpful in and of itself-you’ll likely want to
 give the submodule a name so you can refer to the things inside it. To
 do this, prepend a name followed by a colon:
 
@@ -873,7 +1118,7 @@ do this, prepend a name followed by a colon:
    end
 
 Now, you can modify or define elements in the submodule by referring to
-symbols in the submodule by name, prepended with the name you've given
+symbols in the submodule by name, prepended with the name you’ve given
 the module, followed by a ``.``:
 
 ::
@@ -916,10 +1161,10 @@ You can also use the species defined in submodules in new reactions:
      A.S -> ; kdeg*A.S;
    end
 
-When combining multiple submodules, you can also 'attach' them to each
+When combining multiple submodules, you can also ‘attach’ them to each
 other by declaring that a species in one submodule is the same species
 as is found in a different submodule by using the ``is`` keyword
-``A.S is B.S``. For example, let's say that we have a species which is
+``A.S is B.S``. For example, let’s say that we have a species which is
 known to bind reversibly to two different species. You could set this up
 as the following:
 
@@ -954,7 +1199,7 @@ easily use it in the ``full_reaction`` module:
    end
 
 In this system, ``S`` is involved in two reversible reactions with
-exactly the same reaction kinetics and initial concentrations. Let's now
+exactly the same reaction kinetics and initial concentrations. Let’s now
 say the reaction rate of the second side-reaction takes the same form,
 but that the kinetics are twice as fast, and the starting conditions are
 different:
@@ -977,7 +1222,7 @@ Note that since we defined the initial concentration of ``SE`` as
 since ``B.E`` has been changed.
 
 Finally, we add a third side reaction, one in which S binds
-irreversibly, and where the complex it forms degrades. We'll need a new
+irreversibly, and where the complex it forms degrades. We’ll need a new
 reaction rate, and a whole new reaction as well:
 
 ::
@@ -1034,7 +1279,7 @@ is equivalent to writing:
    A.k1 is k2;
 
 One thing to be aware of when using this method: Since wrapping
-definitions in a defined model is optional, all 'bare' declarations are
+definitions in a defined model is optional, all ‘bare’ declarations are
 defined to be in a default module with the name ``__main``. If there are
 no unwrapped definitions, ``__main`` will still exist, but will be
 empty.
@@ -1058,7 +1303,7 @@ is equivalent to writing:
    ABA -> ABA8OH;
 
 Module conversion factors
-~~~~~~~~~~~~~~~~~~~~~~~~~
+^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Occasionally, the unit system of a submodel will not match the unit
 system of the containing model, for one or more model elements. In this
@@ -1066,7 +1311,7 @@ case, you can use conversion factor constructs to bring the submodule in
 line with the containing model.
 
 If time is different in the submodel (affecting reactions, rate rules,
-delay, and 'time'), use the ``timeconv`` keyword when declaring the
+delay, and ‘time’), use the ``timeconv`` keyword when declaring the
 submodel:
 
 ::
@@ -1110,7 +1355,7 @@ When flattened, all of these conversion factors will be incorporated
 into the mathematics.
 
 Submodel deletions
-~~~~~~~~~~~~~~~~~~
+^^^^^^^^^^^^^^^^^^
 
 Sometimes, an element of a submodel has to be removed entirely for the
 model to make sense as a whole. A degradation reaction might need to be
@@ -1141,17 +1386,17 @@ rate rule (respectively) from the submodel.
 Constant and variable symbols
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Some models have 'boundary species' in their reactions, or species whose
+Some models have ‘boundary species’ in their reactions, or species whose
 concentrations do not change as a result of participating in a reaction.
-To declare that a species is a boundary species, use the 'const'
+To declare that a species is a boundary species, use the ‘const’
 keyword:
 
 ::
 
    const S1;
 
-While you're declaring it, you may want to be more specific by using the
-'species' keyword:
+While you’re declaring it, you may want to be more specific by using the
+‘species’ keyword:
 
 ::
 
@@ -1159,8 +1404,8 @@ While you're declaring it, you may want to be more specific by using the
 
 If a symbol appears as a participant in a reaction, Antimony will
 recognize that it is a species automatically, so the use of the keyword
-'species' is not required. If, however, you have a species which never
-appears in a reaction, you will need to use the 'species' keyword.
+‘species’ is not required. If, however, you have a species which never
+appears in a reaction, you will need to use the ‘species’ keyword.
 
 If you have several species that are all constant, you may declare this
 all in one line:
@@ -1170,20 +1415,20 @@ all in one line:
    const species S1, S2, S3;
 
 While species are variable by default, you may also declare them so
-explicitly with the 'var' keyword:
+explicitly with the ‘var’ keyword:
 
 ::
 
    var species S4, S5, S6;
 
 Alternatively, you may declare a species to be a boundary species by
-prepending a '$' in front of it:
+prepending a ‘$’ in front of it:
 
 ::
 
    S1 + $E -> ES;
 
-This would set the level of 'E' to be constant. You can use this symbol
+This would set the level of ‘E’ to be constant. You can use this symbol
 in declaration lists as well:
 
 ::
@@ -1216,8 +1461,8 @@ and be more specific and declare that both are formulas:
    var formula k2;
 
 Variables defined with an equals sign are assigned those values at the
-start of the simulation. In SBML terms, they use the 'Initial
-Assignment' values. If the formula is to vary during the course of the
+start of the simulation. In SBML terms, they use the ‘Initial
+Assignment’ values. If the formula is to vary during the course of the
 simulation, use the Assignment Rule (or Rate Rule) syntax, described
 later.
 
@@ -1246,13 +1491,13 @@ as re-using a variable for a new purpose will not work:
 In a sequential programming language, the above would result in
 different values being stored in k1 and k2. (This is how Jarnac works,
 for those familiar with that language/simulation environment.) In a pure
-model definition language like Antimony, 'pH', 'k1', 'k2', and even the
-formula '-log10(pH)' are static symbols that are being defined by
+model definition language like Antimony, ‘pH’, ‘k1’, ‘k2’, and even the
+formula ‘-log10(pH)’ are static symbols that are being defined by
 Antimony statements, and not processed in any way. A simulator that
 requests the mathematical expression for k1 will receive the string
-'-log10(pH)'; the same string it will receive for k2. A request for the
-mathematical expression for pH will receive the string '8.2', since
-that's the last definition found in the file. As such, k1 and k2 will
+‘-log10(pH)’; the same string it will receive for k2. A request for the
+mathematical expression for pH will receive the string ‘8.2’, since
+that’s the last definition found in the file. As such, k1 and k2 will
 end up being identical.
 
 As a side note, we considered having libAntimony store a warning when
@@ -1261,7 +1506,7 @@ definition overwriting an earlier definition. However, there was no way
 with our current interface to let the user know that a warning had been
 saved, and it seemed like there could be a number of cases where the
 user might legitimately want to override an earlier definition (such as
-when using submodules, as we'll get to in a bit). So for now, the above
+when using submodules, as we’ll get to in a bit). So for now, the above
 is valid Antimony input that just so happens to produce exactly the same
 output as:
 
@@ -1279,23 +1524,23 @@ Compartments
 A compartment is a demarcated region of space that contains species and
 has a particular volume. In Antimony, you may ignore compartments
 altogether, and all species are assumed to be members of a default
-compartment with the imaginative name 'default_compartment' with a
+compartment with the imaginative name ‘default_compartment’ with a
 constant volume of 1. You may define other compartments by using the
-'compartment' keyword:
+‘compartment’ keyword:
 
 ::
 
    compartment comp1;
 
 Compartments may also be variable or constant, and defined as such with
-'var' and 'const':
+‘var’ and ‘const’:
 
 ::
 
    const compartment comp1;
    var compartment comp2;
 
-The volume of a compartment may be set with an '=' in the same manner as
+The volume of a compartment may be set with an ‘=’ in the same manner as
 species and reaction rates:
 
 ::
@@ -1303,7 +1548,7 @@ species and reaction rates:
    comp1 = 5;
    comp2 = 3*comp1;
 
-To declare that something is in a compartment, the 'in' keyword is used,
+To declare that something is in a compartment, the ‘in’ keyword is used,
 either during declaration:
 
 ::
@@ -1332,7 +1577,7 @@ or other variables:
 
    S1 in comp2 = 5;
 
-Here are Antimony's rules for determining which compartment something is
+Here are Antimony’s rules for determining which compartment something is
 in:
 
 -  If the symbol has been declared to be in a compartment, it is in that
@@ -1352,11 +1597,11 @@ in:
    multiple submodules with conflicting compartments, it is in the
    compartment of the last declared submodule that has a declared
    compartment.
--  If not, the symbol is in the compartment 'default_compartment', and
+-  If not, the symbol is in the compartment ‘default_compartment’, and
    is treated as having no declared compartment for the purposes of
    determining the compartments of other symbols.
 
-Note that declaring that one compartment is 'in' a second compartment
+Note that declaring that one compartment is ‘in’ a second compartment
 does not change the compartment of the symbols in the first compartment:
 
 ::
@@ -1367,18 +1612,17 @@ does not change the compartment of the symbols in the first compartment:
 
 yields:
 
-::
-
-   symbol compartment
-   s1 c1
-   s2 c1
-   c1 c2
-   c2 default_compartment
+====== ===================
+symbol compartment
+====== ===================
+s1     c1
+s2     c1
+c1     c2
+c2     default_compartment
+====== ===================
 
 Compartments may not be circular: ``c1 in c2; c2 in c3; c3 in c1`` is
 illegal.
-
-.. _events-1:
 
 Events
 ~~~~~~
@@ -1386,7 +1630,7 @@ Events
 Events are discontinuities in model simulations that change the
 definitions of one or more symbols at the moment when certain conditions
 apply. The condition is expressed as a boolean formula, and the
-definition changes are expressed as assignments, using the keyword 'at'
+definition changes are expressed as assignments, using the keyword ‘at’
 and the following syntax:
 
 ::
@@ -1405,13 +1649,13 @@ You may also give the event a name by prepending it with a colon:
 
    E1: at(x>=5): y=3, x=r+2;
 
-(you may also claim an event is 'in' a compartment just like everything
-else ('E1 in comp1:'). This declaration will never change the
+(you may also claim an event is ‘in’ a compartment just like everything
+else (‘E1 in comp1:’). This declaration will never change the
 compartment of anything else.)
 
 In addition, there are a number of concepts in SBML events that can now
 be encoded in Antimony. If event assignments are to occur after a delay,
-this can be encoded by using the 'after' keyword:
+this can be encoded by using the ‘after’ keyword:
 
 ::
 
@@ -1431,13 +1675,13 @@ event assignments: the values from the time the event was triggered, or
 the values from the time the event assignments are being executed? By
 default (in Antimony, as in SBML Level 2) the first holds true: event
 assignments are to use values from the moment the event is triggered. To
-change this, the keyword 'fromTrigger' is used:
+change this, the keyword ‘fromTrigger’ is used:
 
 ::
 
    E1: at 2*z/y after (x>5), fromTrigger=false: y=3, x=r+2;
 
-You may also declare 'fromTrigger=true' to explicitly declare what is
+You may also declare ‘fromTrigger=true’ to explicitly declare what is
 the default.
 
 New complications can arise when event assignments from multiple events
@@ -1460,10 +1704,10 @@ whichever happens last takes precedence. By giving the events priorities
 deterministic: E2 will execute last, and y will equal 5 and not 3.
 
 Another question is whether, if at the beginning of the simulation the
-trigger condition is 'true', it should be considered to have just
+trigger condition is ‘true’, it should be considered to have just
 transitioned to being true or not. The default is no, meaning that no
 event may trigger at time 0. You may override this default by using the
-'t0' keyword:
+‘t0’ keyword:
 
 ::
 
@@ -1471,14 +1715,14 @@ event may trigger at time 0. You may override this default by using the
 
 In this situation, the value at t0 is considered to be false, meaning it
 can immediately transition to true if x is greater than 5, triggering
-the event. You may explicitly state the default by using 't0 = true'.
+the event. You may explicitly state the default by using ‘t0 = true’.
 
 Finally, a different class of events is often modeled in some situations
 where the trigger condition must persist in being true from the entire
 time between when the event is triggered to when it is executed. By
 default, this is not the case for Antimony events, and, once triggered,
 all events will execute. To change the class of your event, use the
-keyword 'persistent':
+keyword ‘persistent’:
 
 ::
 
@@ -1487,7 +1731,7 @@ keyword 'persistent':
 For this model, x must be greater than 5 for three seconds before
 executing its event assignments: if x dips below 5 during that time, the
 event will not fire. To explicitly declare the default situation, use
-'persistent=false'.
+‘persistent=false’.
 
 The ability to change the default priority, t0, and persistent
 characteristics of events was introduced in SBML Level 3, so if you
@@ -1502,21 +1746,21 @@ Assignment Rules
 In some models, species and/or variables change in a manner not
 described by a reaction. When a variable receives a new value at every
 point in the model, this can be expressed in an assignment rule, which
-in Antimony is formulated with a ':=' as:
+in Antimony is formulated with a ‘:=’ as:
 
 ::
 
    Ptot := P1 + P2 + PE;
 
-In this example, 'Ptot' will continually be updated to reflect the total
-amount of 'P' present in the model.
+In this example, ‘Ptot’ will continually be updated to reflect the total
+amount of ‘P’ present in the model.
 
 Each symbol (species or formula) may have only one assignment rule
 associated with it. If an Antimony file defines more than one rule, only
 the last will be saved.
 
 When species are used as the target of an assignment rule, they are
-defined to be 'boundary species' and thus 'const'. Antimony doesn't have
+defined to be ‘boundary species’ and thus ‘const’. Antimony doesn’t have
 a separate syntax for boundary species whose concentrations never change
 vs. boundary species whose concentrations change due to assignment rules
 (or rate rules, below). SBML distinguishes between boundary species that
@@ -1524,181 +1768,10 @@ may change and boundary species that may not, but in Antimony, all
 boundary species may change as the result of being in an Assignment Rule
 or Rate Rule.
 
-Signals
-~~~~~~~
-
-Signals can be generated by combining assignment rules with events.
-
-Step Input
-''''''''''
-
-The simplest signal is input step. The following code implements a step
-that occurs at time = 20 with a magnitude of f. A trigger is used to set
-a trigger variable alpha which is used to initate the step input in an
-assignment expression.
-
-.. code:: python
-
-   import tellurium as te
-   import roadrunner
-
-   r = te.loada("""
-   $Xo -> S1; k1*Xo;
-   S1 -> $X1; k2*S1;
-
-   k1 = 0.2; k2 = 0.45;
-
-   alpha = 0; f = 2
-   Xo := alpha*f
-   at time > 20:
-       alpha = 1
-   """)
-
-   m = r.simulate (0, 100, 300, ['time', 'Xo', 'S1'])
-   r.plot()
-
-.. figure:: images/antimony_0.png
-   :alt: image
-
-   image
-
-Ramp
-''''
-
-The following code starts a ramp at 20 time units by setting the p1
-variable to one. This variable is used to acticate a ramp function.
-
-.. code:: python
-
-   import tellurium as te
-   import roadrunner
-
-   r = te.loada("""
-   $Xo -> S1; k1*Xo;
-   S1 -> $X1; k2*S1;
-
-   k1 = 0.2; k2 = 0.45;
-
-   p1 = 0;
-   Xo := p1*(time - 20)
-   at time > 20:
-       p1 = 1
-   """)
-
-   m = r.simulate (0, 100, 200, ['time', 'Xo', 'S1'])
-   r.plot()
-
-.. figure:: images/antimony_1.png
-   :alt: image
-
-   image
-
-Ramp then Stop
-''''''''''''''
-
-The following code starts a ramp at 20 time units by setting the p1
-variable to one and then stopping the ramp 20 time units later. At 20
-time units later a new term is switched on which subtract the ramp slope
-that results in a horizontal line.
-
-.. code:: python
-
-   import tellurium as te
-   import roadrunner
-
-   r = te.loada("""
-   $Xo -> S1; k1*Xo;
-   S1 -> $X1; k2*S1;
-
-   k1 = 0.2; k2 = 0.45;
-
-   p1 = 0; p2 = 0
-   Xo := p1*(time - 20) - p2*(time - 40)
-   at time > 20:
-       p1 = 1
-   at time > 40:
-       p2 = 1
-   """)
-
-   m = r.simulate (0, 100, 200, ['time', 'Xo', 'S1'])
-   r.plot()
-
-.. figure:: images/antimony_2.png
-   :alt: image
-
-   image
-
-Pulse
-'''''
-
-The following code starts a pulse at 20 time units by setting the p1
-variable to one and then stops the pulse 20 time units later by setting
-p2 equal to zero.
-
-.. code:: python
-
-   import tellurium as te
-   import roadrunner
-
-   r = te.loada("""
-   $Xo -> S1; k1*Xo;
-   S1 -> $X1; k2*S1;
-
-   k1 = 0.2; k2 = 0.45;
-
-   p1 = 0; p2 = 1
-   Xo := p1*p2
-   at time > 20:
-       p1 = 1
-   at time > 40:
-       p2 = 0
-   """)
-
-   m = r.simulate (0, 100, 200, ['time', 'Xo', 'S1'])
-   r.plot()
-
-.. figure:: images/antimony_3.png
-   :alt: image
-
-   image
-
-Sinusoidal Input
-''''''''''''''''
-
-The following code starts a sinusoidal input at 20 time units by setting
-the p1 variable to one.
-
-.. code:: python
-
-   import tellurium as te
-   import roadrunner
-
-   r = te.loada("""
-   $Xo -> S1; k1*Xo;
-   S1 -> $X1; k2*S1;
-
-   k1 = 0.2; k2 = 0.45;
-
-   p1 = 0;
-   Xo := p1*(sin (time) + 1)
-   at time > 20:
-       p1 = 1
-   """)
-
-   m = r.simulate (0, 100, 200, ['time', 'Xo', 'S1'])
-   r.plot()
-
-.. figure:: images/antimony_4.png
-   :alt: image
-
-   image
-
-.. _rate-rules-1:
-
 Rate Rules
 ~~~~~~~~~~
 
-Rate rules define the change in a symbol's value over time instead of
+Rate rules define the change in a symbol’s value over time instead of
 defining its new value. In this sense, they are similar to reaction rate
 kinetics, but without an explicit stoichiometry of change. These may be
 modeled in Antimony by appending an apostrophe to the name of the
@@ -1718,17 +1791,37 @@ Display Names
 ~~~~~~~~~~~~~
 
 When some tools visualize models, they make a distinction between the
-'id' of an element, which must be unique to the model and which must
-conform to certain naming conventions, and the 'name' of an element,
+‘id’ of an element, which must be unique to the model and which must
+conform to certain naming conventions, and the ‘name’ of an element,
 which does not have to be unique and which has much less stringent
 naming requirements. In Antimony, it is the id of elements which is used
-everywhere. However, you may also set the 'display name' of an element
-by using the 'is' keyword and putting the name in quotes:
+everywhere. However, you may also set the ‘display name’ of an element
+by using the ‘is’ keyword and putting the name in quotes:
 
 ::
 
    A.k1 is "reaction rate k1";
    S34  is "Ethyl Alcohol";
+
+.. _comments-1:
+
+Comments
+~~~~~~~~
+
+Comments in Antimony can be made on one line with ``//[comments]``, or
+on multiple lines with ``/* [comments] */``. You may also use
+python-style comments with ``#[comments]``.
+
+::
+
+   /* The following initializations were
+      taken from the literature */
+   X=3; //Taken from Galdziki, et al.
+   Y=4; //Taken from Rutherford, et al.
+   Z=5; # A python comment.
+
+Comments are not translated to SBML or CellML, and will be lost if
+round-tripped through those languages.
 
 DNA Strands
 ~~~~~~~~~~~
@@ -1763,8 +1856,8 @@ gene, in the model:
 the reaction rate of G1 will be ``S1*k``.
 
 It is also possible to modulate the inherited reaction rate. To do this,
-we use ellipses ``...`` as shorthand for 'the formula for the element
-upstream of me'. Let's add a ribosome binding site that increases the
+we use ellipses ``...`` as shorthand for ‘the formula for the element
+upstream of me’. Let’s add a ribosome binding site that increases the
 rate of production of protein by a factor of three, and say that the
 promoter actually increases the rate of protein production by S1*k
 instead of setting it to S1*k:
@@ -1780,7 +1873,7 @@ Since in this model, nothing is upstream of P1, the upstream rate is set
 to zero, so the final reaction rate of G1 is equal to ``(S1*k + 0)*3``.
 
 Valid elements of DNA strands include formulas (operators), reactions
-(genes), and other DNA strands. Let's wrap our model so far in a
+(genes), and other DNA strands. Let’s wrap our model so far in a
 submodule, and then use the strand in a new strand:
 
 ::
@@ -1814,7 +1907,7 @@ singletons or within a single other strand (and may not, of course,
 exist in a loop, being contained in a strand that it itself contains).
 
 If the reaction rate or formula for any duplicated symbol is left at the
-default or if it contains ellipses explicitly ('…'), it will be equal to
+default or if it contains ellipses explicitly (‘…’), it will be equal to
 the sum of all reaction rates in all the strands in which it appears. If
 we further define our above model:
 
@@ -1829,20 +1922,20 @@ we further define our above model:
    RBS2 = ...*1.1;
    G1: -> prot1;
 
-The reaction rate for the production of 'prot1' will be equal to
+The reaction rate for the production of ‘prot1’ will be equal to
 ``(((0+1.2)+0.3)*0.8) + (((0+1.2)*1.1))``. If you set the reaction rate
 of G1 without using an ellipsis, but include it in multiple strands, its
 reaction rate will be a multiple of the number of strands it is a part
-of. For example, if you set the reaction rate of G1 above to 'k1*S1',
+of. For example, if you set the reaction rate of G1 above to ‘k1*S1’,
 and include it in two strands, the net reaction rate will be
 ``k1*S1 + k1*S1``.
 
-The purpose of prepending or postfixing a '--' to a strand is to declare
+The purpose of prepending or postfixing a ‘–’ to a strand is to declare
 that the strand in question is designed to have DNA attached to it at
-that end. If exactly one DNA strand is defined with an upstream '--' in
+that end. If exactly one DNA strand is defined with an upstream ‘–’ in
 its definition in a submodule, the name of that module may be used as a
 proxy for that strand when creating attaching something upstream of it,
-and visa versa with a defined downstream '--' in its definition:
+and visa versa with a defined downstream ‘–’ in its definition:
 
 ::
 
@@ -1857,12 +1950,12 @@ and visa versa with a defined downstream '--' in its definition:
      A--G3
    end
 
-The module 'long' will have two strands: ``P3–A.P1–A.RBS1–A.G1`` and
-``A.P2–A.RBS2–A.G2–G3``.
+The module ‘long’ will have two strands: ``"P3--A.P1--A.RBS1--A.G1"``
+and ``"A.P2--A.RBS2--A.G2--G3"``.
 
 Submodule strands intended to be used in the middle of other strands
-should be defined with '--' both upstream and downstream of the strand
-in question:
+should be defined with ‘–’ both upstream and downstream of the strand in
+question:
 
 ::
 
@@ -1876,7 +1969,7 @@ in question:
      P2--A--stop
    end
 
-If multiple strands are defined with upstream or downstream '–' marks,
+If multiple strands are defined with upstream or downstream ‘–’ marks,
 it is illegal to use the name of the module containing them as proxy.
 
 Interactions
@@ -1915,16 +2008,166 @@ species. The current version of libAntimony (v2.4) does not check this,
 but future versions may add the check.
 
 When the reaction rate is not known, species from interactions will be
-added to the SBML 'listOfModifiers' for the reaction in question.
+added to the SBML ‘listOfModifiers’ for the reaction in question.
 Normally, the kinetic law is parsed by libAntimony and any species there
 are added to the list of modifiers automatically, but if there is no
 kinetic law to parse, this is how to add species to that list.
+
+Predefined Function Definitions
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+In addition to the `user-defined function
+definitions <#function-definitions>`__, there are several built-in
+functions defined in Antimony. All of the functions present in the
+MathML subset used in SBML Level 3 Level 2 are likewise defined here,
+and include:
+
+::
+
+   abs, and, arccos, arccosh, arccot, arccoth, arccsc, arccsch, arcsec, arcsech, arcsin, 
+   arcsinh, arctan, arctanh, ceiling, cos, cosh, cot, coth, csc, csch, divide, eq, exp, 
+   factorial, floor, geq, gt, leq, ln, log, lt, minus, neq, not, or, piecewise, plus, 
+   power, root, sec, sech, sin, sinh, tan, tanh, times, and xor.  
+
+In addition, the constants
+
+::
+
+   true, false, notanumber, pi, avogadro, infinity, and exponentiale 
+
+are all allowed.
+
+As of Antimony v2.12, the following distributions are also allowed, and
+will be added to the translated SBML file if used:
+
+::
+
+   normal(mean, stddev), 
+   normal(mean, stddev, min, max), 
+   uniform(min, max), 
+   bernoulli(prob), 
+   binomial(nTrials, probabilityOfSuccess),
+   binomial(nTrials, probabilityOfSuccess, min, max),
+   cauchy(location, scale),
+   cauchy(location, scale, min, max),
+   chisquare(degreesOfFreedom),
+   chisquare(degreesOfFreedom, min, max),
+   exponential(rate), 
+   exponential(rate, min, max), 
+   gamma(shape, scale), 
+   gamma(shape, scale, min, max), 
+   laplace(location, scale),
+   laplace(location, scale, min, max),
+   lognormal(mean, stdev),
+   lognormal(mean, stdev, min, max),
+   poisson(rate),
+   poisson(rate, min, max),
+   rayleigh(scale), and
+   rayleigh(scale, min, max).  
+
+The ‘truncated’ forms of all functions allow one to define inclusive
+boundaries, meaning that the returned value must fall between the min
+and the max values given.
+
+Uncertainty Information
+~~~~~~~~~~~~~~~~~~~~~~~
+
+The SBML ‘Distributions’ package introduced a variety of ways to store
+information about the uncertainty of model elements. Antimony is now
+extended to also store this same information, through the following
+syntax:
+
+::
+
+   A.mean = x
+   A.stdev = x  (or A.standardDeviation = x)
+   A.coefficientOfVariation = x
+   A.kurtosis = x
+   A.median = x
+   A.mode = x
+   A.sampleSize = x
+   A.skewness = x
+   A.standardError = x
+   A.variance = x
+   A.confidenceInterval = {x, y}
+   A.credibleInterval = {x, y}
+   A.interquartileRange = {x,y}
+   A.range = {x,y}
+   A.distribution = function()
+   A.distribution is "http://uri"
+   A.externalParameter = x || {x,y} || function()
+   A.externalParameter is "http://uri"
+
+Where ``A`` may be any symbol in Antimony with mathematical meaning;
+``x`` and ``y`` may both be either a symbol or a value
+(i.e. ``A.mean=2.4``; ``A.confidenceInterval={S1, 8.2}``);
+``function()`` may be any mathematical formula; and ``"http://uri"`` is
+a URI that defines the given distribution or externalParameter.
+
+SBO and cvterms
+~~~~~~~~~~~~~~~
+
+Antimony model elements may also be annotated with their SBO terms and
+cvterms, using the following syntax:
+
+::
+
+   A.sboTerm = 236 or A.sboTerm = SBO:00000236
+   A identity "cvterm" or A biological_entity_is "cvterm"
+   A hasPart "cvterm" or A part "cvterm"
+   A isPartOf "cvterm" or A parthood "cvterm"
+   A isVersionOf "cvterm" or A hypernym "cvterm"
+   A hasVersion "cvterm" or A version "cvterm"
+   A isHomologTo "cvterm" or A homolog "cvterm"
+   A isDescribedBy "cvterm" or A description "cvterm"
+   A isEncodedBy "cvterm" or A encoder "cvterm"
+   A encodes "cvterm" or A encodement "cvterm"
+   A occursIn "cvterm" or A container "cvterm"
+   A hasProperty "cvterm" or A property "cvterm"
+   A isPropertyOf "cvterm" or A propertyBearer "cvterm"
+   A hasTaxon "cvterm" or A taxon "cvterm"
+
+Where ``A`` is any model element, model name, or function name, and
+``cvterm`` is a URI like ``"http://identifiers.org/uniprot/P12999"``.
+
+Flux Balance Constraints
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+In some models, reaction rates are not known specifically, but one can
+place certain constraints on those reactions, and then apply an
+objective function (such as ‘maximize growth’) to try to discern a
+likely set of reaction rates. In SBML, the package that lets you define
+these constraints and objective functions is known as the ‘Flux Balance
+Constraints’ package. As of v2.8.0 of Antimony, these constraints can
+now be defined in Antimony as well, using equalities and inequalities
+``<``, ``>``, ``<=``, ``>=``, and ``==``. If we assume that all ``J``
+variables are reactions, the following definitions are all Flux Balance
+constraints:
+
+::
+
+   0 <= J0
+   J1 <= 1000
+   -10 <= J2 <= 10
+
+Constraints that do not involve the ID of a reaction by itself will be
+translated as core SBML constraints. (Flux Balance constraints are also
+translated as core constraints, for consistency.)
+
+The objective function is defined using either the keyword ``maximize``
+or ``minimize``. It may be named by prepending the statement with that
+name, followed by a colon:
+
+::
+
+   maximize J1
+   obj1: minimize J2
 
 Other files
 ~~~~~~~~~~~
 
 More than one file may be used to define a set of modules in Antimony
-through the use of the 'import' keyword. At any point in the file
+through the use of the ``'import'`` keyword. At any point in the file
 outside of a module definition, use the word ``import`` followed by the
 name of the file in quotation marks, and Antimony will include the
 modules defined in that file as if they had been cut and pasted into
@@ -1940,19 +2183,19 @@ your file at that point. SBML files may also be included in this way:
      B: oscli();
    end
 
-In this example, the file 'models1.txt' is an Antimony file that defines
-the module 'mod1', and the file 'oscli.xml' is an SBML file that defines
-a model named 'oscli'. The Antimony module 'mod2' may then use modules
+In this example, the file ‘models1.txt’ is an Antimony file that defines
+the module ‘mod1’, and the file ‘oscli.xml’ is an SBML file that defines
+a model named ‘oscli’. The Antimony module ‘mod2’ may then use modules
 from either or both of the other imported files.
 
 Remember that imported files act like they were cut and pasted into the
 main file. As such, any bare declarations in the main file and in the
-imported files will all contribute to the default '__main' module. Most
+imported files will all contribute to the default ‘\__main’ module. Most
 SBML files will not contribute to this module, unless the name of the
 model in the file is ``__main`` (for example, if it was created by the
 antimony converter).
 
-By default, libantimony will examine the 'import' text to determine
+By default, libantimony will examine the ‘import’ text to determine
 whether it is a relative or absolute filename, and, if relative, will
 prepend the directory of the working file to the import text before
 attempting to load the file. If it cannot find it there, it is possible
@@ -1972,8 +2215,8 @@ the line:
 
    file1.txt file2.txt   antimony/import/file2.txt
 
-The library will attempt to load 'antimony/import/file2.txt' instead of
-looking for 'file2.txt' directly. For creating files in-memory or when
+The library will attempt to load ‘antimony/import/file2.txt’ instead of
+looking for ‘file2.txt’ directly. For creating files in-memory or when
 reading antimony models from strings, the first string may be left out:
 
 ::
@@ -1982,70 +2225,64 @@ reading antimony models from strings, the first string may be left out:
 
 The first and third entries may be relative filenames: the directory of
 the .antimony file itself will be added internally when determining the
-file's actual location. The second entry must be exactly as it appears
-in the first file's 'import' directive, between the quotation marks.
+file’s actual location. The second entry must be exactly as it appears
+in the first file’s ‘import’ directive, between the quotation marks.
 
 Importing and Exporting Antimony Models
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Once you have created an Antimony file, you can convert it to SBML or
-CellML using 'sbtranslate' or the 'QTAntimony' visual editor (both
+CellML using ‘sbtranslate’ or the ‘QTAntimony’ visual editor (both
 available from http://antimony.sourceforge.net/) This will convert each
 of the models defined in the Antimony text file into a separate SBML
-model, including the overall '__main' module (if it contains anything).
+model, including the overall ‘\__main’ module (if it contains anything).
 These files can then be used for simulation or visualization in other
 programs.
 
 QTAntimony can be used to edit and translate Antimony, SBML, and CellML
 models. Any file in those three formats can be opened, and from the
-'View' menu, you can turn on or off the SBML and CellML tabs. Select the
+‘View’ menu, you can turn on or off the SBML and CellML tabs. Select the
 tabs to translate and view the working model in those different formats.
 
-The SBML tabs can additionally be configured to use the 'Hierarchical
-Model Composition' package constructs. Select 'Edit/Flatten SBML tab(s)'
-or hit control-F to toggle between this version and the old 'flattened'
+The SBML tabs can additionally be configured to use the ‘Hierarchical
+Model Composition’ package constructs. Select ‘Edit/Flatten SBML tab(s)’
+or hit control-F to toggle between this version and the old ‘flattened’
 version of SBML. (To enable this feature if you compile Antimony
 yourself, you will need the latest versions of libSBML with the SBML
-'comp' package enabled, and to select 'WITH_COMP_SBML' from the CMake
+‘comp’ package enabled, and to select ‘WITH_COMP_SBML’ from the CMake
 menu.)
 
 As there were now several different file formats available for
 translation, the old command-line translators still exist
 (antimony2sbml; sbml2antimony), but have been supplanted by the new
-'sbtranslate' executable. Instructions for use are available by running
+‘sbtranslate’ executable. Instructions for use are available by running
 sbtranslate from the command line, but in brief: any number of files to
 translate may be added to the command line, and the desired output
-format is given with the '-o' flag: ``-o antimony``, ``-o sbml``,
+format is given with the ‘-o’ flag: ``-o antimony``, ``-o sbml``,
 ``-o cellml``, or ``-o sbml-comp`` (the last to output files with the
-SBML 'comp' package constructs).
+SBML ‘comp’ package constructs).
 
 Examples:
 
-.. code:: bash
-
-   sbtranslate model1.txt model2.txt -o sbml
+``sourceCode bash sbtranslate model1.txt model2.txt -o sbml``
 
 will create one flattened SBML file for the main model in the two
 Antimony files in the working directory. Each file will be of the format
-'[prefix].xml', where [prefix] is the original filename with '.txt'
+‘[prefix].xml’, where [prefix] is the original filename with ‘.txt’
 removed (if present).
 
-.. code:: bash
+``sourceCode bash sbtranslate oscli.xml ffn.xml -o antimony``
 
-   sbtranslate oscli.xml ffn.xml -o antimony
+will output two files in the working directory: ‘oscli.txt’ and
+‘ffn.txt’ (in the antimony format).
 
-will output two files in the working directory: 'oscli.txt' and
-'ffn.txt' (in the antimony format).
+``sourceCode bash sbtranslate model1.txt -o sbml-comp``
 
-.. code:: bash
-
-   sbtranslate model1.txt -o sbml-comp
-
-will output 'model1.xml' in the working directory, containing all models
-in the 'model1.txt' file, using the SBML 'comp' package.
+will output ‘model1.xml’ in the working directory, containing all models
+in the ‘model1.txt’ file, using the SBML ‘comp’ package.
 
 Appendix: Converting between SBML and Antimony
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------------------------
 
 For reference, here are some of the differences you will see when
 converting models between SBML and Antimony:
@@ -2064,9 +2301,9 @@ converting models between SBML and Antimony:
    even if that same species is set ``boundary=false``.
 -  All ``boundary=true`` species in SBML are set ``const`` in Antimony,
    even if that same species is set ``constant=false``.
--  Boundary ('const') species in Antimony are set boundary=true and
+-  Boundary (‘const’) species in Antimony are set boundary=true and
    constant=false in SBML.
--  Variable ('var') species in Antimony are set boundary=false and
+-  Variable (‘var’) species in Antimony are set boundary=false and
    constant=false in SBML.
 -  Modules in Antimony are flattened in SBML (unless you use the
    ``comp`` option).
@@ -2076,28 +2313,31 @@ converting models between SBML and Antimony:
    accurate, even for elements appearing in multiple DNA strands. These
    reaction rates and assignment rules will be the sum of the rate at
    all duplicate elements within the DNA strands.
--  Any symbol with the MathML csymbol 'time' in SBML becomes 'time' in
+-  Any symbol with the MathML csymbol ‘time’ in SBML becomes ‘time’ in
    Antimony.
--  Any formula with the symbol 'time' in it in Antimony will become the
-   MathML csymbol 'time' in in SBML.
--  The MathML csymbol 'delay' in SBML disappears in Antimony.
--  Any SBML version 2 level 1 function with the MathML csymbol 'time' in
-   it will become a local variable with the name 'time_ref' in Antimony.
-   This 'time_ref' is added to the function's interface (as the last in
+-  Any formula with the symbol ‘time’ in it in Antimony will become the
+   MathML csymbol ‘time’ in in SBML.
+-  The MathML csymbol ‘delay’ in SBML disappears in Antimony.
+-  Any SBML version 2 level 1 function with the MathML csymbol ‘time’ in
+   it will become a local variable with the name ‘time_ref’ in Antimony.
+   This ‘time_ref’ is added to the function’s interface (as the last in
    the list of symbols), and any uses of the function are modified to
-   use 'time' in the call. In other words, a function 'function(x, y):
-   x+y*time' becomes 'function(x, y, time_ref): x + y*time_ref', and
-   formulas that use 'function(A, B)' become 'function(A, B, time)'
+   use ‘time’ in the call. In other words, a function ‘function(x, y):
+   x+y*time’ becomes ’function(x, y, time_ref): x
+
+   -  y*time_ref’, and formulas that use ‘function(A, B)’ become
+      ‘function(A, B, time)’
+
 -  A variety of Antimony keywords, if found in SBML models as IDs, are
-   renamed to add an appended '_'. So the ID ``compartment`` becomes
+   renamed to add an appended ‘\_’. So the ID ``compartment`` becomes
    ``compartment_``, ``model`` becomes ``model_``, etc.
 
 Further Reading
-~~~~~~~~~~~~~~~
+---------------
 
--  Lucian Smith's `example
+-  Lucian Smith’s `example
    models <http://antimony.sourceforge.net/antimony-examples.html>`__
    show how to use the `comp
    package <http://sbml.org/Documents/Specifications/SBML_Level_3/Packages/comp>`__.
--  `Antimony's manual <http://antimony.sourceforge.net/Tutorial.pdf>`__
-   in PDF format.
+-  `This manual <http://antimony.sourceforge.net/Tutorial.pdf>`__ in PDF
+   format.
