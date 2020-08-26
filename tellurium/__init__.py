@@ -139,6 +139,7 @@ from tellurium.utils.package import (
 from tellurium.utils.misc import(
     saveToFile,
     readFromFile,
+    listFiles,
     runTool,
     getODEsFromSBMLFile,
     getODEsFromSBMLString,

@@ -20,6 +20,24 @@ Antimony is the main method of building models in Tellurium. Its main features i
 Change Log
 ==========
 
+The 2.12 release added the ability to save extra ‘annotation-like’ elements from the ‘distributions’ SBML package, and fixed numerous bugs in cvterm/SBOterm setting. 
+
+The 2.11 release quashed all known memory leaks, and added the ability to define synthesis reactions with no id (i.e. ‘ -> S1; k1’)
+
+The 2.10 release updated support for distributions to the latest SBML release of that package, updated the default version of SBML to Level 3 version 2, added support for setting cvterms and the SBOterm, 
+
+The 2.9.1 release added the ability to convert to SBML Level 3 version 2, and SBML Level 2 version 5.
+
+The 2.9.0 release of Antimony was largely a maintenance release: numerous bugs were fixed, and installation was streamlined, particularly for Python and conda.
+
+The 2.8.0 release of Antimony included support for the SBML ‘Flux Balance Constraints’ package (version 1), as well as constraints in general.  
+
+In the 2.7.1 release of Antimony, species marked ‘hasOnlySubstanceUnits=true’ in SBML now have a corresponding definition in Antimony: ‘species substanceOnly S1, S2’.  
+
+In the 2.7 release of Antimony, QTAntimony got several new improvements, including displayed line numbers, find/replace, and a ‘go to line’ option.  A few new syntaxes were also added, including the ability to concisely define elements plus their assignment rules (‘species S1 in C := 3+p’), and to define submodules with implied parameters (‘A: mod1(1,2)’).
+
+In the 2.6 release of Antimony, some features of hierarchical translation (deletions in particular) were made more robust, and a number of built-in distribution functions were added, which are translated to SBML using the ‘distributions’ package, as well as using custom annotations
+
 In the 2.5 release of Antimony, translation of Antimony concepts to and from the Hierarchical Model Composition package was developed further to be much more robust, and a new test system was added to ensure that Antimony’s ‘flattening’ routine (which exports plain SBML) matches libSBML’s flattening routine.
 
 In the 2.4 release of Antimony, use of the Hierarchical Model Composition package constructs in the SBML translation became standard, due to the package being fully accepted by the SBML community.
@@ -423,37 +441,6 @@ More than one file may be used to define a set of modules in Antimony through th
 
 In this example, the file ``models1.txt`` is an Antimony file that defines the module ``mod1``, and the file ``oscli.xml`` is an SBML file that defines a model named ``oscli``. The Antimony module ``mod2`` may then use modules from either or both of the other imported files.
 
-Units
------
-
-While units do not affect the mathematics of SBML or Antimony models, you can define them in Antimony for annotation purposes by using the ``unit`` keyword:
-
-::
-
-  unit substance = 1e-6 mole;
-  unit hour = 3600 seconds;
-
-Adding an ‘s’ to the end of a unit name to make it plural is fine when defining a unit: ``3600 second`` is the same as ``3600 seconds``. Compound units may be created by using formulas with ``*``, ``/``, and ``^``. However, you must use base units when doing so (‘base units’ defined as those listed in Table 2 of the `SBML Level 3 Version 1 specification <http://sbml.org/Documents/Specifications#SBML_Level_3_Version_1_Core>`_, which mostly are SI and SI-derived units).
-
-::
-
-  unit micromole = 10e-6 mole / liter;
-  unit daily_feeding = 1 item / 86400 seconds
-  unit voltage = 1000 grams * meters^2 / seconds^-3 * ampere^-1
-
-You may use units when defining formulas using the same syntax as above: any number may be given a unit by writing the name of the unit after the number. When defining a symbol (of any numerical type: species, parameter, compartment, etc.), you can either use the same technique to give it an initial value and a unit, or you may just define its units by using the ‘has’ keyword:
-
-::
-
-  unit foo = 100 mole/5 liter;
-  x = 40 foo/3 seconds; # '40' now has units of 'foo' and '3' units of 'seconds'.
-  y = 3.3 foo;          # 'y' is given units of 'foo' and an initial
-                        #   value of '3.3'.
-  z has foo;            # 'z' is given units of 'foo'.
-
-Antimony does not calculate any derived units: in the above example, ‘x’ is fully defined in terms of moles per liter per second, but it is not annotated as such.
-
-As with many things in Antimony, you may use a unit before defining it: ‘x = 10 ml‘ will create a parameter x and a unit ‘ml‘.
 
 Simulating Models
 =================
@@ -1196,6 +1183,53 @@ When some tools visualize models, they make a distinction between the ‘id‘ o
   A.k1 is "reaction rate k1";
   S34  is "Ethyl Alcohol";
 
+Comments
+--------
+
+Comments in Antimony can be made on one line with ``//[comments]``, or on multiple lines with ``/* [comments] */``.  You may also use python-style comments with ``#[comments]``.
+
+::
+
+  /* The following initializations were
+     taken from the literature */
+  X=3; //Taken from Galdziki, et al.
+  Y=4; //Taken from Rutherford, et al.
+  Z=5; # A python comment.
+
+Comments are not translated to SBML or CellML, and will be lost if round-tripped through those languages. 
+
+Units
+-----
+
+While units do not affect the mathematics of SBML or Antimony models, you can define them in Antimony for annotation purposes by using the ``unit`` keyword:
+
+::
+
+  unit substance = 1e-6 mole;
+  unit hour = 3600 seconds;
+
+Adding an ‘s’ to the end of a unit name to make it plural is fine when defining a unit: ``3600 second`` is the same as ``3600 seconds``. Compound units may be created by using formulas with ``*``, ``/``, and ``^``. However, you must use base units when doing so (‘base units’ defined as those listed in Table 2 of the `SBML Level 3 Version 1 specification <http://sbml.org/Documents/Specifications#SBML_Level_3_Version_1_Core>`_, which mostly are SI and SI-derived units).
+
+::
+
+  unit micromole = 10e-6 mole / liter;
+  unit daily_feeding = 1 item / 86400 seconds
+  unit voltage = 1000 grams * meters^2 / seconds^-3 * ampere^-1
+
+You may use units when defining formulas using the same syntax as above: any number may be given a unit by writing the name of the unit after the number. When defining a symbol (of any numerical type: species, parameter, compartment, etc.), you can either use the same technique to give it an initial value and a unit, or you may just define its units by using the ‘has’ keyword:
+
+::
+
+  unit foo = 100 mole/5 liter;
+  x = 40 foo/3 seconds; # '40' now has units of 'foo' and '3' units of 'seconds'.
+  y = 3.3 foo;          # 'y' is given units of 'foo' and an initial
+                        #   value of '3.3'.
+  z has foo;            # 'z' is given units of 'foo'.
+
+Antimony does not calculate any derived units: in the above example, ‘x’ is fully defined in terms of moles per liter per second, but it is not annotated as such.
+
+As with many things in Antimony, you may use a unit before defining it: ‘x = 10 ml‘ will create a parameter x and a unit ‘ml‘.
+
 DNA Strands
 -----------
 
@@ -1333,10 +1367,147 @@ because the species S2 is present in the formula ``k1*S1*E/S2``. If the concentr
 
 When the reaction rate is not known, species from interactions will be added to the SBML ‘listOfModifiers’ for the reaction in question. Normally, the kinetic law is parsed by libAntimony and any species there are added to the list of modifiers automatically, but if there is no kinetic law to parse, this is how to add species to that list.
 
+Function Definitions
+--------------------
+
+You may create user-defined functions in a similar fashion to the way you create modules, and then use these functions in Antimony equations. These functions must be basic single equations, and act in a similar manner to macro expansions. As an example, you might define the quadratic equation and use it in a later equation as follows: 
+
+::
+
+  function quadratic(x, a, b, c)
+    a*x^2 + b*x + c
+  end
+
+  model quad1
+    S3 = quadratic(s1, k1, k2, k3);
+  end
+
+This effectively defines S3 to have the equation ``k1*s1^2 + k2*s1 + k3``. 
+
+In addition, there are several built-in functions defined in Antimony.  All of the functions present in the MathML subset used in SBML Level 3 are likewise defined here, and include:
+
+::
+
+  abs, and, arccos, arccosh, arccot, arccoth, arccsc, arccsch, arcsec, arcsech, arcsin, 
+  arcsinh, arctan, arctanh, ceiling, cos, cosh, cot, coth, csc, csch, divide, eq, exp, 
+  factorial, floor, geq, gt, leq, ln, log, lt, minus, neq, not, or, piecewise, plus, 
+  power, root, sec, sech, sin, sinh, tan, tanh, times, and xor.  
+
+In addition, the constants
+
+::
+
+  true, false, notanumber, pi, avogadro, infinity, and exponentiale 
+
+are all allowed.
+
+As of Antimony v2.12, the following distributions are also allowed, and will be added to the translated SBML file if used: 
+
+::
+
+	normal(mean, stddev), 
+	normal(mean, stddev, min, max), 
+	uniform(min, max), 
+	bernoulli(prob), 
+	binomial(nTrials, probabilityOfSuccess),
+	binomial(nTrials, probabilityOfSuccess, min, max),
+	cauchy(location, scale),
+	cauchy(location, scale, min, max),
+	chisquare(degreesOfFreedom),
+	chisquare(degreesOfFreedom, min, max),
+	exponential(rate), 
+	exponential(rate, min, max), 
+	gamma(shape, scale), 
+	gamma(shape, scale, min, max), 
+	laplace(location, scale),
+	laplace(location, scale, min, max),
+	lognormal(mean, stdev),
+	lognormal(mean, stdev, min, max),
+	poisson(rate),
+	poisson(rate, min, max),
+	rayleigh(scale), and
+	rayleigh(scale, min, max).  
+
+The ‘truncated’ forms of all functions allow one to define inclusive boundaries, meaning that the returned value must fall between the min and the max values given.
+
+Uncertainty information
+-----------------------
+
+The SBML 'Distributions' package introduced a variety of ways to store information about the uncertainty of model elements.  Antimony is now extended to also store this same information, through the following syntax:
+
+::
+
+	A.mean = x
+	A.stdev = x  (or A.standardDeviation = x)
+	A.coefficientOfVariation = x
+	A.kurtosis = x
+	A.median = x
+	A.mode = x
+	A.sampleSize = x
+	A.skewness = x
+	A.standardError = x
+	A.variance = x
+	A.confidenceInterval = {x, y}
+	A.credibleInterval = {x, y}
+	A.interquartileRange = {x,y}
+	A.range = {x,y}
+	A.distribution = function()
+	A.distribution is "http://uri"
+    A.externalParameter = x || {x,y} || function()
+    A.externalParameter is "http://uri"
+    
+
+Where ``A`` may be any symbol in Antimony with mathematical meaning; ``x`` and ``y`` may both be either a symbol or a value (i.e. ``A.mean=2.4``; ``A.confidenceInterval={S1, 8.2}``); ``function()`` may be any mathematical formula; and ``"http://uri"`` is a URI that defines the given distribution or externalParameter.
+
+SBO and cvterms
+---------------
+
+Antimony model elements may also be annotated with their SBO terms and cvterms, using the following syntax:
+
+::
+
+	A.sboTerm = 236 or A.sboTerm = SBO:00000236
+	A identity "cvterm" or A biological_entity_is "cvterm"
+	A hasPart "cvterm" or A part "cvterm"
+	A isPartOf "cvterm" or A parthood "cvterm"
+	A isVersionOf "cvterm" or A hypernym "cvterm"
+	A hasVersion "cvterm" or A version "cvterm"
+	A isHomologTo "cvterm" or A homolog "cvterm"
+	A isDescribedBy "cvterm" or A description "cvterm"
+	A isEncodedBy "cvterm" or A encoder "cvterm"
+	A encodes "cvterm" or A encodement "cvterm"
+	A occursIn "cvterm" or A container "cvterm"
+	A hasProperty "cvterm" or A property "cvterm"
+	A isPropertyOf "cvterm" or A propertyBearer "cvterm"
+	A hasTaxon "cvterm" or A taxon "cvterm"
+
+Where ``A`` is any model element, model name, or function name, and ``cvterm`` is a URI like ``"http://identifiers.org/uniprot/P12999"``.
+
+Flux Balance Constraints
+------------------------
+
+In some models, reaction rates are not known specifically, but one can place certain constraints on those reactions, and then apply an objective function (such as 'maximize growth') to try to discern a likely set of reaction rates.  In SBML, the package that lets you define these constraints and objective functions is known as the ‘Flux Balance Constraints’ package.  As of v2.8.0 of Antimony, these constraints can now be defined in Antimony as well, using equalities and inequalities ``<``, ``>``, ``<=``, ``>=``, and ``==``.  If we assume that all ``J`` variables are reactions, the following definitions are all Flux Balance constraints:
+
+::
+
+  0 <= J0
+  J1 <= 1000
+  -10 <= J2 <= 10
+
+Constraints that do not involve the ID of a reaction by itself will be translated as core SBML constraints.  (Flux Balance constraints are also translated as core constraints, for consistency.)
+
+The objective function is defined using either the keyword ``maximize`` or ``minimize``.  It may be named by prepending the statement with that name, followed by a colon:
+
+::
+
+  maximize J1
+  obj1: minimize J2
+
+
 Other files
 -----------
 
-More than one file may be used to define a set of modules in Antimony through the use of the ‘import‘ keyword. At any point in the file outside of a module definition, use the word ``import`` followed by the name of the file in quotation marks, and Antimony will include the modules defined in that file as if they had been cut and pasted into your file at that point. SBML files may also be included in this way:
+More than one file may be used to define a set of modules in Antimony through the use of the ``'import'`` keyword. At any point in the file outside of a module definition, use the word ``import`` followed by the name of the file in quotation marks, and Antimony will include the modules defined in that file as if they had been cut and pasted into your file at that point. SBML files may also be included in this way:
 
 ::
 

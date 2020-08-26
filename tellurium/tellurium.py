@@ -861,7 +861,7 @@ def getEigenvalues(m):
 # ---------------------------------------------------------------------
 # Plotting Utilities
 # ---------------------------------------------------------------------
-def plotArray(result, loc='upper right', show=True, resetColorCycle=True,
+def plotArray(result, loc='upper right', legendOutside=False, show=True, resetColorCycle=True,
              xlabel=None, ylabel=None, title=None, xlim=None, ylim=None,
              xscale='linear', yscale="linear", grid=False, labels=None, **kwargs):
     """ Plot an array.
@@ -869,6 +869,8 @@ def plotArray(result, loc='upper right', show=True, resetColorCycle=True,
     :param result: Array to plot, first column of the array must be the x-axis and remaining columns the y-axis
     :param loc: Location of legend box. Valid strings 'best' | upper right' | 'upper left' | 'lower left' | 'lower right' | 'right' | 'center left' | 'center right' | 'lower center' | 'upper center' | 'center' |
     :type loc: str
+    :param legendOutside=: Set to true if you want the legend outside the axies
+    :type loc: bool
     :param color: 'red', 'blue', etc. to use the same color for every curve
     :type color: str
     :param labels: A list of labels for the legend, include as many labels as there are curves to plot
@@ -889,16 +891,17 @@ def plotArray(result, loc='upper right', show=True, resetColorCycle=True,
     :type resetColorCycle: bool
     :param kwargs: Additional matplotlib keywords like linewidth, linestyle...
 
+    If you wish to set the figure size, called plt.figure (figsize=(w,h)) before calling plotArray
     ::
 
         import numpy as np, tellurium as te
+        import matplotlib.pyplot as plt
         result = np.array([[1,2,3], [7.2,6.5,8.8], [9.8, 6.5, 4.3]])
+        plt.figure (figsize=(10,6))
         te.plotArray(result, title="My graph", xlim=((1, 5)), labels=["Label 1", "Label 2"],
                      yscale='log', linestyle='dashed')
     """
-    warnings.warn("plotArray is deprecated, use plot instead", DeprecationWarning)
-
-    # FIXME: unify r.plot & te.plot (lots of code duplication)
+ 
     # reset color cycle (columns in repeated simulations have same color)
     if resetColorCycle:
         plt.gca().set_prop_cycle(None)
@@ -936,7 +939,11 @@ def plotArray(result, loc='upper right', show=True, resetColorCycle=True,
 
     # show legend
     if loc is not None and labels is not None:
-        plt.legend(loc=loc)
+       if legendOutside:
+          plt.legend(loc=None, bbox_to_anchor=(1, 0.5))
+       else: 
+          plt.legend(loc=loc)    
+                
     # show plot
     if show:
         plt.show()
