@@ -13,7 +13,8 @@ This guide will show you the intricacies of working with Antimony.
 Contents
 --------
 
-.. container:: contents
+.. contents::
+
 
 Background
 ----------
