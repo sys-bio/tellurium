@@ -118,9 +118,7 @@ translated to accommodate their ‘black box’ requirements.
 Introduction and Basics
 -----------------------
 
-.. container:: highlight
-
-   none
+.. highlight:: none
 
 Creating a model in Antimony is designed to be very straightforward and
 simple. Model elements are created and defined in text, with a simple
