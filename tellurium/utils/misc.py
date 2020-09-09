@@ -257,7 +257,7 @@ class ODEExtractor:
         r = self.getRules()  
         r = r + self.getKineticLaws() + '\n'
         for index in range (self.model.getNumSpecies()):
-            if not self.model.getSpecies (index).boundary_condition:
+            if not self.model.getSpecies (index).getBoundaryCondition():
                r = r + self.getRateOfChange (index)     
 
         return r
