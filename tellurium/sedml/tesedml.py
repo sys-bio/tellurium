@@ -1450,7 +1450,7 @@ class SEDMLCodeFactory(object):
                     if 'PROCESS_TRACE' in os.environ and os.environ['PROCESS_TRACE']:
                         lines.append("__var__{} = np.concatenate([process_trace(sim['{}']) for sim in {}])".format(varId, sid, taskId))
                     else:
-                        lines.append("__var__{} = np.concatenate([sim['{}'] for sim in {}])".format(varId, sid, taskId))
+                        lines.append("__var__{} = np.column_stack([sim['{}'] for sim in {}])".format(varId, sid, taskId))
                 else:
                     # One curve via time adjusted concatenate
                     if isTime is True:
