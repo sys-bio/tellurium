@@ -38,8 +38,10 @@ def installPackage(name):
     :type name: str
     """
     check_macos_ver()
-    subprocess.check_call([sys.executable, '-m', 'pip', 'install', name])
-
+    try:
+      subprocess.check_call([sys.executable, '-m', 'pip', 'install', name])
+    except subprocess.CalledProcessError as error:
+        print ("Error while calling installPackage:", error)
 
 def upgradePackage(name):
     """ Upgrade pip package.

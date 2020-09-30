@@ -33,6 +33,16 @@ def readFromFile(filePath):
     return string
 
 
+def listFiles (wildcardstr):
+    """ List the files names in the current directory using the wildcard argument
+    
+    eg te.listFiles ('*.xml')
+    :param wildcardstr: WIld card using during the file search
+    :returns: list of file names that match the wildcard
+    """
+    import glob
+    return glob.glob (wildcardstr)
+
 # ---------------------------------------------------------------------
 # Deprecated warning
 # ---------------------------------------------------------------------
@@ -247,7 +257,7 @@ class ODEExtractor:
         r = self.getRules()  
         r = r + self.getKineticLaws() + '\n'
         for index in range (self.model.getNumSpecies()):
-            if not self.model.getSpecies (index).boundary_condition:
+            if not self.model.getSpecies (index).getBoundaryCondition():
                r = r + self.getRateOfChange (index)     
 
         return r
