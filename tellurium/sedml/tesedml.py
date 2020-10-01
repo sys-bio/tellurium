@@ -793,8 +793,11 @@ class SEDMLCodeFactory(object):
                 taskLines = SEDMLCodeFactory.repeatedTaskToPython(doc, node=node)
 
             elif taskType == libsedml.SEDML_TASK:
-                tid = node.task.getId()
-                taskLines = SEDMLCodeFactory.simpleTaskToPython(doc=doc, node=node)
+                if node.parent and node.parent.task.getTypeCode()==libsedml.SEDML_TASK_REPEATEDTASK:
+                    #The repeated task itself should have set up the simulation; here we just run it.
+                    taskLines = SEDMLCodeFactory.simpleTaskMainSim(doc, node)
+                else:
+                    taskLines = SEDMLCodeFactory.simpleTaskToPython(doc=doc, node=node)
             else:
                 lines.append("# Unsupported task: {}".format(taskType))
                 warnings.warn("Unsupported task: {}".format(taskType))
@@ -887,6 +890,26 @@ class SEDMLCodeFactory(object):
         :return:
         :rtype:
         """
+        lines = SEDMLCodeFactory.simpleTaskSetup(doc, node)
+        lines.extend(SEDMLCodeFactory.simpleTaskMainSim(doc, node))
+        return lines
+        
+
+
+    @staticmethod
+    def simpleTaskSetup(doc, node):
+        """ Creates the first half of simulation python code for a given taskNode.
+
+        The taskNodes are required to handle the relationships between
+        RepeatedTasks, SubTasks and SimpleTasks (Task).
+
+        :param doc: sedml document
+        :type doc: SEDDocument
+        :param node: taskNode of the current task
+        :type node: TaskNode
+        :return:
+        :rtype:
+        """
         lines = []
         task = node.task
         lines.append("# Task: <{}>".format(task.getId()))
@@ -962,12 +985,6 @@ class SEDMLCodeFactory(object):
             parents.append(parent)
             parent = parent.parent
 
-        # <selections> of all parents
-        # ---------------------------
-        selections = SEDMLCodeFactory.selectionsForTask(doc=doc, task=node.task)
-        for p in parents:
-            selections.update(SEDMLCodeFactory.selectionsForTask(doc=doc, task=p.task))
-
         # <setValues> of all parents
         # ---------------------------
         # apply changes based on current variables, parameters and range variables
@@ -1007,6 +1024,43 @@ class SEDMLCodeFactory(object):
                                                              value=evaluableMathML(setValue.getMath(), variables=variables),
                                                              modelId=setValue.getModelReference())
                              )
+        return lines
+
+    @staticmethod
+    def simpleTaskMainSim(doc, node):
+        """ Creates the simulation python code for a given taskNode.
+
+        The taskNodes are required to handle the relationships between
+        RepeatedTasks, SubTasks and SimpleTasks (Task).
+
+        :param doc: sedml document
+        :type doc: SEDDocument
+        :param node: taskNode of the current task
+        :type node: TaskNode
+        :return:
+        :rtype:
+        """
+        lines = []
+        task = node.task
+
+        mid = task.getModelReference()
+        sid = task.getSimulationReference()
+        simulation = doc.getSimulation(sid)
+
+        simType = simulation.getTypeCode()
+
+        # get parents
+        parents = []
+        parent = node.parent
+        while parent is not None:
+            parents.append(parent)
+            parent = parent.parent
+
+        # <selections> of all parents
+        # ---------------------------
+        selections = SEDMLCodeFactory.selectionsForTask(doc=doc, task=node.task)
+        for p in parents:
+            selections.update(SEDMLCodeFactory.selectionsForTask(doc=doc, task=p.task))
 
         # handle result variable
         resultVariable = "{}[0]".format(task.getId())
@@ -1070,6 +1124,14 @@ class SEDMLCodeFactory(object):
         # storage of results
         task = node.task
         lines = ["", "{} = []".format(task.getId())]
+
+
+        # Set up the integrator outside the loop.  This is mostly so that
+        # the 'seed' is set up outside the loop, but everyting else also 
+        # doesn't need to be reset all the time.
+        for child in node:
+            if child.task.getTypeCode() == libsedml.SEDML_TASK:
+                lines.extend(SEDMLCodeFactory.simpleTaskSetup(doc=doc, node=child))
 
         # <Range Definition>
         # master range
