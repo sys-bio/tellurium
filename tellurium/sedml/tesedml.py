@@ -194,6 +194,7 @@ KISAOS_GILLESPIE = [  # 'gillespie'
 ]
 
 KISAOS_NLEQ = [  # 'nleq'
+    'KISAO:0000569', # NLEQ2
     'KISAO:0000099',
     'KISAO:0000274',
     'KISAO:0000282',
@@ -201,7 +202,7 @@ KISAOS_NLEQ = [  # 'nleq'
     'KISAO:0000355',
     'KISAO:0000356',
     'KISAO:0000407',
-    'KISAO:0000408',
+    'KISAO:0000408', # Newton-type method
     'KISAO:0000409',
     'KISAO:0000410',
     'KISAO:0000411',
@@ -225,7 +226,7 @@ KISAOS_ALGORITHMPARAMETERS = {
     'KISAO:0000415': ('maximum_num_steps', int),  # the maximum number of steps that can be taken before exiting
     'KISAO:0000467': ('maximum_time_step', float),  # the maximum time step that can be taken
     'KISAO:0000485': ('minimum_time_step', float),  # the minimum time step that can be taken
-    'KISAO:0000332': ('initial_time_step', float),  # the initial value of the time step for algorithms that change this value
+    'KISAO:0000559': ('initial_time_step', float),  # the initial value of the time step for algorithms that change this value
     'KISAO:0000107': ('variable_step_size', bool),  # whether or not the algorithm proceeds with an adaptive step size or not
     'KISAO:0000486': ('maximum_iterations', int),  # [nleq] the maximum number of iterations the algorithm should take before exiting
     'KISAO:0000487': ('minimum_damping', float),  # [nleq] minimum damping value
