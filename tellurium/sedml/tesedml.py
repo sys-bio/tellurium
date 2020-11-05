@@ -133,84 +133,119 @@ except ImportError:
 ######################################################################################################################
 
 KISAOS_CVODE = [  # 'cvode'
-    'KISAO:0000019',  # CVODE
-    'KISAO:0000433',  # CVODE-like method
-    'KISAO:0000407',
-    'KISAO:0000099',
-    'KISAO:0000035',
-    'KISAO:0000071',
-    "KISAO:0000288",  # "BDF" cvode, stiff=true
-    "KISAO:0000280",  # "Adams-Moulton" cvode, stiff=false
+    'KISAO_0000019',  # CVODE
+    'KISAO_0000433',  # CVODE-like method
+    'KISAO_0000407',
+    'KISAO_0000099',
+    'KISAO_0000035',
+    'KISAO_0000071',
+    "KISAO_0000288",  # "BDF" cvode, stiff=true
+    "KISAO_0000280",  # "Adams-Moulton" cvode, stiff=false
 ]
 
 KISAOS_RK4 = [  # 'rk4'
-    'KISAO:0000032',  # RK4 explicit fourth-order Runge-Kutta method
-    'KISAO:0000064',  # Runge-Kutta based method
+    'KISAO_0000032',  # RK4 explicit fourth-order Runge-Kutta method
+    'KISAO_0000064',  # Runge-Kutta based method
 ]
 
 KISAOS_RK45 = [  # 'rk45'
-    'KISAO:0000086',  # RKF45 embedded Runge-Kutta-Fehlberg 5(4) method
+    'KISAO_0000086',  # RKF45 embedded Runge-Kutta-Fehlberg 5(4) method
 ]
 
 KISAOS_LSODA = [  # 'lsoda'
-    'KISAO:0000088',  # roadrunner doesn't have an lsoda solver so use cvode
+    'KISAO_0000088',  # roadrunner doesn't have an lsoda solver so use cvode
 ]
 
 KISAOS_GILLESPIE = [  # 'gillespie'
-    'KISAO:0000241',  # Gillespie-like method
-    'KISAO:0000029',
-    'KISAO:0000319',
-    'KISAO:0000274',
-    'KISAO:0000333',
-    'KISAO:0000329',
-    'KISAO:0000323',
-    'KISAO:0000331',
-    'KISAO:0000027',
-    'KISAO:0000082',
-    'KISAO:0000324',
-    'KISAO:0000350',
-    'KISAO:0000330',
-    'KISAO:0000028',
-    'KISAO:0000038',
-    'KISAO:0000039',
-    'KISAO:0000048',
-    'KISAO:0000074',
-    'KISAO:0000081',
-    'KISAO:0000045',
-    'KISAO:0000351',
-    'KISAO:0000084',
-    'KISAO:0000040',
-    'KISAO:0000046',
-    'KISAO:0000003',
-    'KISAO:0000051',
-    'KISAO:0000335',
-    'KISAO:0000336',
-    'KISAO:0000095',
-    'KISAO:0000022',
-    'KISAO:0000076',
-    'KISAO:0000015',
-    'KISAO:0000075',
-    'KISAO:0000278',
+    'KISAO_0000241',  # Gillespie-like method
+    'KISAO_0000029',
+    'KISAO_0000319',
+    'KISAO_0000274',
+    'KISAO_0000333',
+    'KISAO_0000329',
+    'KISAO_0000323',
+    'KISAO_0000331',
+    'KISAO_0000027',
+    'KISAO_0000082',
+    'KISAO_0000324',
+    'KISAO_0000350',
+    'KISAO_0000330',
+    'KISAO_0000028',
+    'KISAO_0000038',
+    'KISAO_0000039',
+    'KISAO_0000048',
+    'KISAO_0000074',
+    'KISAO_0000081',
+    'KISAO_0000045',
+    'KISAO_0000351',
+    'KISAO_0000084',
+    'KISAO_0000040',
+    'KISAO_0000046',
+    'KISAO_0000003',
+    'KISAO_0000051',
+    'KISAO_0000335',
+    'KISAO_0000336',
+    'KISAO_0000095',
+    'KISAO_0000022',
+    'KISAO_0000076',
+    'KISAO_0000015',
+    'KISAO_0000075',
+    'KISAO_0000278',
 ]
 
 KISAOS_NLEQ = [  # 'nleq'
-    'KISAO:0000569', # NLEQ2
-    'KISAO:0000099',
-    'KISAO:0000274',
-    'KISAO:0000282',
-    'KISAO:0000283',
-    'KISAO:0000355',
-    'KISAO:0000356',
-    'KISAO:0000407',
-    'KISAO:0000408', # Newton-type method
-    'KISAO:0000409',
-    'KISAO:0000410',
-    'KISAO:0000411',
-    'KISAO:0000412',
-    'KISAO:0000413',
-    'KISAO:0000432',
-    'KISAO:0000437',
+    'KISAO_0000569', # NLEQ2
+    'KISAO_0000099',
+    'KISAO_0000274',
+    'KISAO_0000282',
+    'KISAO_0000283',
+    'KISAO_0000355',
+    'KISAO_0000356',
+    'KISAO_0000407',
+    'KISAO_0000408', # Newton-type method
+    'KISAO_0000409',
+    'KISAO_0000410',
+    'KISAO_0000411',
+    'KISAO_0000412',
+    'KISAO_0000413',
+    'KISAO_0000432',
+    'KISAO_0000437',
 ]
+
+# support both correct KISAO ids (KISAO_\d{7}) and incorrect ids (KISAO:\d{7})
+def make_incorrect_kisao_id(id):
+    """ Make a commonly used incorrect variant (with pattern `KISAO:\d{7}`) of a
+    correct KiSAO (with pattern `KISAO_\d{7}`).
+
+    Args:
+        id (:obj:`str`): correct KiSAO id with pattern `KISAO_\d{7}`
+
+    Returns:
+        :obj:`str`: incorrect KiSAO id with pattern `KISAO:\d{7}`
+    """
+    return id.replace('_', ':')
+
+def add_incorrect_kisao_ids(ids):
+    """ Extend a list of correct KiSAO ids (with pattern `KISAO_\d{7}`) with
+    their incorrect variants (with pattern `KISAO:\d{7}`).
+
+    Args:
+        ids (:obj:`list` of :obj:`str`): list of correct KiSAO ids (with pattern `KISAO_\d{7}`)
+    
+    Returns:
+        ids (:obj:`list` of :obj:`str`): list of KiSAO correct ids (with pattern `KISAO_\d{7}`)
+            and their incorrect variants (with the pattern `KISAO:\d{7}`)
+    """
+    incorrect_ids = [make_incorrect_kisao_id(id) for id in ids]
+    ids.extend(incorrect_ids)
+    return ids
+
+add_incorrect_kisao_ids(KISAOS_CVODE)
+add_incorrect_kisao_ids(KISAOS_RK4)
+add_incorrect_kisao_ids(KISAOS_RK45)
+add_incorrect_kisao_ids(KISAOS_LSODA)
+add_incorrect_kisao_ids(KISAOS_GILLESPIE)
+add_incorrect_kisao_ids(KISAOS_NLEQ)
 
 # allowed algorithms for simulation type
 KISAOS_STEADYSTATE = KISAOS_NLEQ
@@ -219,20 +254,24 @@ KISAOS_ONESTEP = KISAOS_UNIFORMTIMECOURSE
 
 # supported algorithm parameters
 KISAOS_ALGORITHMPARAMETERS = {
-    'KISAO:0000209': ('relative_tolerance', float),  # the relative tolerance
-    'KISAO:0000211': ('absolute_tolerance', float),  # the absolute tolerance
-    'KISAO:0000220': ('maximum_bdf_order', int),  # the maximum BDF (stiff) order
-    'KISAO:0000219': ('maximum_adams_order', int),  # the maximum Adams (non-stiff) order
-    'KISAO:0000415': ('maximum_num_steps', int),  # the maximum number of steps that can be taken before exiting
-    'KISAO:0000467': ('maximum_time_step', float),  # the maximum time step that can be taken
-    'KISAO:0000485': ('minimum_time_step', float),  # the minimum time step that can be taken
-    'KISAO:0000332': ('initial_time_step', float),  # the initial value of the time step for algorithms that change this value
-    'KISAO:0000559': ('initial_time_step', float),  # the initial value of the time step for algorithms that change this value
-    'KISAO:0000107': ('variable_step_size', bool),  # whether or not the algorithm proceeds with an adaptive step size or not
-    'KISAO:0000486': ('maximum_iterations', int),  # [nleq] the maximum number of iterations the algorithm should take before exiting
-    'KISAO:0000487': ('minimum_damping', float),  # [nleq] minimum damping value
-    'KISAO:0000488': ('seed', int),  # the seed for stochastic runs of the algorithm
+    'KISAO_0000209': ('relative_tolerance', float),  # the relative tolerance
+    'KISAO_0000211': ('absolute_tolerance', float),  # the absolute tolerance
+    'KISAO_0000220': ('maximum_bdf_order', int),  # the maximum BDF (stiff) order
+    'KISAO_0000219': ('maximum_adams_order', int),  # the maximum Adams (non-stiff) order
+    'KISAO_0000415': ('maximum_num_steps', int),  # the maximum number of steps that can be taken before exiting
+    'KISAO_0000467': ('maximum_time_step', float),  # the maximum time step that can be taken
+    'KISAO_0000485': ('minimum_time_step', float),  # the minimum time step that can be taken
+    'KISAO_0000332': ('initial_time_step', float),  # the initial value of the time step for algorithms that change this value
+    'KISAO_0000559': ('initial_time_step', float),  # the initial value of the time step for algorithms that change this value
+    'KISAO_0000107': ('variable_step_size', bool),  # whether or not the algorithm proceeds with an adaptive step size or not
+    'KISAO_0000486': ('maximum_iterations', int),  # [nleq] the maximum number of iterations the algorithm should take before exiting
+    'KISAO_0000487': ('minimum_damping', float),  # [nleq] minimum damping value
+    'KISAO_0000488': ('seed', int),  # the seed for stochastic runs of the algorithm
 }
+
+for id, val in list(KISAOS_ALGORITHMPARAMETERS.items()):
+    incorrect_id = make_incorrect_kisao_id(id)
+    KISAOS_ALGORITHMPARAMETERS[incorrect_id] = val
 
 
 ######################################################################################################################
@@ -924,9 +963,9 @@ class SEDMLCodeFactory(object):
         simType = simulation.getTypeCode()
         algorithm = simulation.getAlgorithm()
         if algorithm is None:
-            warnings.warn("Algorithm missing on simulation, defaulting to 'cvode: KISAO:0000019'")
+            warnings.warn("Algorithm missing on simulation, defaulting to 'cvode: KISAO_0000019'")
             algorithm = simulation.createAlgorithm()
-            algorithm.setKisaoID("KISAO:0000019")
+            algorithm.setKisaoID("KISAO:0000019") # TODO: correct to 'KISAO_0000019'
         kisao = algorithm.getKisaoID()
 
         # is supported algorithm
@@ -950,9 +989,9 @@ class SEDMLCodeFactory(object):
         if integratorName == 'gillespie':
             lines.append("{}.integrator.setValue('{}', {})".format(mid, 'variable_step_size', False))
 
-        if kisao == "KISAO:0000288":  # BDF
+        if kisao in ["KISAO_0000288", "KISAO:0000288"]:  # BDF
             lines.append("{}.integrator.setValue('{}', {})".format(mid, 'stiff', True))
-        elif kisao == "KISAO:0000280":  # Adams-Moulton
+        elif kisao in ["KISAO_0000280", "KISAO:0000280"]:  # Adams-Moulton
             lines.append("{}.integrator.setValue('{}', {})".format(mid, 'stiff', False))
 
         # integrator/solver settings (AlgorithmParameters)
