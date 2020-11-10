@@ -1072,8 +1072,8 @@ def VersionDict():
         'antimony': antimony.__version__,
         'phrasedml': phrasedml.__version__,
         'tesbml': libsbml.getLibSBMLDottedVersion(),
-        'tesedml': tesedml.__version__,
-        'tecombine': tecombine.__version__
+        'tesedml': tesedml.getLibSEDMLDottedVersion(),
+        'tecombine': tecombine.getLibCombineDottedVersion(),
         }
 
 def DumpJSONInfo():
