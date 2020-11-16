@@ -6,9 +6,9 @@ language: python
 sudo: required
 cache: pip
 python:
-  - "2.7"
-  - "3.5"
   - "3.6"
+  - "3.7"
+  - "3.8"
 install:
     - pip install -r requirements.txt
 script:
