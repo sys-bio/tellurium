@@ -12,7 +12,8 @@ r"""
         .+.       `...`
 
 SED-ML simulation experiments: http://www.sed-ml.org/
-    sedmlDoc: L{{ doc.getLevel() }}V{{ doc.getVersion() }} {% if doc.isSetId() %}id={{ doc.getId() }} {% endif %} {% if doc.isSetName() %}name={{ doc.getName() }}{% endif %}
+    # Change back to the original (with 'getName') when libsedml is fixed
+    sedmlDoc: L{{ doc.getLevel() }}V{{ doc.getVersion() }} {% if doc.isSetId() %}id={{ doc.getId() }} {% endif %}
 
     inputType:      '{{ factory.inputType }}'
     workingDir:     '{{ factory.workingDir }}'
@@ -33,9 +34,9 @@ import numpy as np
 import matplotlib.pyplot as plt
 import mpl_toolkits.mplot3d
 try:
-    import tesedml as libsedml
-except ImportError:
     import libsedml
+except ImportError:
+    import tesedml as libsedml
 import pandas
 import os.path
 Config.LOADSBMLOPTIONS_RECOMPILE = True

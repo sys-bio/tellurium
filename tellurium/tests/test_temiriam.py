@@ -19,7 +19,7 @@ def test_getSBMLFromBiomodelsURN1():
     assert isinstance(sbml, string_types)
 
 
-def test_getSBMLFromBiomodelsURN1():
+def test_getSBMLFromBiomodelsURN2():
     """ Check that model can be loaded in roadrunner.
 
     :return:

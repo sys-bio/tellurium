@@ -18,9 +18,9 @@ import warnings
 import zipfile
 import tempfile
 try:
-    import libcombine
-except ImportError:
     import tecombine as libcombine
+except ImportError:
+    import libcombine
 import pprint
 
 MANIFEST_PATTERN = "manifest.xml"

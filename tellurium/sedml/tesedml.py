@@ -111,9 +111,9 @@ from collections import namedtuple
 import jinja2
 
 try:
-    import tesedml as libsedml
-except ImportError:
     import libsedml
+except ImportError:
+    import tesedml as libsedml
 
 from tellurium.utils import omex
 from .mathml import evaluableMathML
@@ -132,83 +132,98 @@ except ImportError:
 # KISAO MAPPINGS
 ######################################################################################################################
 
+def getKisaoValFromString(id):
+    idvec = []
+    if ":" in id:
+        idvec = id.split(":")
+    elif "_" in id:
+        idvec = id.split("_")
+    return int(idvec[-1])
+
+def getKisaoStringFromVal(val):
+    return "KISAO_" + str(val).zfill(7)
+
 KISAOS_CVODE = [  # 'cvode'
-    'KISAO:0000019',  # CVODE
-    'KISAO:0000433',  # CVODE-like method
-    'KISAO:0000407',
-    'KISAO:0000099',
-    'KISAO:0000035',
-    'KISAO:0000071',
-    "KISAO:0000288",  # "BDF" cvode, stiff=true
-    "KISAO:0000280",  # "Adams-Moulton" cvode, stiff=false
+    19,  # CVODE
+    433,  # CVODE-like method
+    407,
+    99,
+    35,
+    71,
+    288,  # "BDF" cvode, stiff=true
+    280,  # "Adams-Moulton" cvode, stiff=false
 ]
 
 KISAOS_RK4 = [  # 'rk4'
-    'KISAO:0000032',  # RK4 explicit fourth-order Runge-Kutta method
-    'KISAO:0000064',  # Runge-Kutta based method
+    32,  # RK4 explicit fourth-order Runge-Kutta method
+    64,  # Runge-Kutta based method
 ]
 
 KISAOS_RK45 = [  # 'rk45'
-    'KISAO:0000086',  # RKF45 embedded Runge-Kutta-Fehlberg 5(4) method
+    435,  # RKF45 embedded Runge-Kutta 5(4) method
+    321,  # RKF45 embedded Runge-Kutta 5(4) method of Cash-Karp
+    87,  # RKF45 embedded Runge-Kutta 5(4) method of Dormand-Price
+    86,  # RKF45 embedded Runge-Kutta 5(4) method of Fehlberg
+    434,  # RKF45 embedded Runge-Kutta 5(4) method of Higham-Hall
 ]
 
 KISAOS_LSODA = [  # 'lsoda'
-    'KISAO:0000088',  # roadrunner doesn't have an lsoda solver so use cvode
+    88,  # roadrunner doesn't have an lsoda solver so use cvode
 ]
 
 KISAOS_GILLESPIE = [  # 'gillespie'
-    'KISAO:0000241',  # Gillespie-like method
-    'KISAO:0000029',
-    'KISAO:0000319',
-    'KISAO:0000274',
-    'KISAO:0000333',
-    'KISAO:0000329',
-    'KISAO:0000323',
-    'KISAO:0000331',
-    'KISAO:0000027',
-    'KISAO:0000082',
-    'KISAO:0000324',
-    'KISAO:0000350',
-    'KISAO:0000330',
-    'KISAO:0000028',
-    'KISAO:0000038',
-    'KISAO:0000039',
-    'KISAO:0000048',
-    'KISAO:0000074',
-    'KISAO:0000081',
-    'KISAO:0000045',
-    'KISAO:0000351',
-    'KISAO:0000084',
-    'KISAO:0000040',
-    'KISAO:0000046',
-    'KISAO:0000003',
-    'KISAO:0000051',
-    'KISAO:0000335',
-    'KISAO:0000336',
-    'KISAO:0000095',
-    'KISAO:0000022',
-    'KISAO:0000076',
-    'KISAO:0000015',
-    'KISAO:0000075',
-    'KISAO:0000278',
+    241,  # Gillespie-like method
+    29,
+    319,
+    274,
+    333,
+    329,
+    323,
+    331,
+    27,
+    82,
+    324,
+    350,
+    330,
+    28,
+    38,
+    39,
+    48,
+    74,
+    81,
+    45,
+    351,
+    84,
+    40,
+    46,
+    3,
+    51,
+    335,
+    336,
+    95,
+    22,
+    76,
+    15,
+    75,
+    278,
 ]
 
 KISAOS_NLEQ = [  # 'nleq'
-    'KISAO:0000099',
-    'KISAO:0000274',
-    'KISAO:0000282',
-    'KISAO:0000283',
-    'KISAO:0000355',
-    'KISAO:0000356',
-    'KISAO:0000407',
-    'KISAO:0000408',
-    'KISAO:0000409',
-    'KISAO:0000410',
-    'KISAO:0000411',
-    'KISAO:0000412',
-    'KISAO:0000413',
-    'KISAO:0000432',
-    'KISAO:0000437',
+    99,
+    274,
+    282,
+    283,
+    355,
+    356,
+    407,
+    408,
+    409,
+    410,
+    411,
+    412,
+    413,
+    432,
+    437,
 ]
 
 # allowed algorithms for simulation type
@@ -218,18 +233,18 @@ KISAOS_ONESTEP = KISAOS_UNIFORMTIMECOURSE
 
 # supported algorithm parameters
 KISAOS_ALGORITHMPARAMETERS = {
-    'KISAO:0000209': ('relative_tolerance', float),  # the relative tolerance
-    'KISAO:0000211': ('absolute_tolerance', float),  # the absolute tolerance
-    'KISAO:0000220': ('maximum_bdf_order', int),  # the maximum BDF (stiff) order
-    'KISAO:0000219': ('maximum_adams_order', int),  # the maximum Adams (non-stiff) order
-    'KISAO:0000415': ('maximum_num_steps', int),  # the maximum number of steps that can be taken before exiting
-    'KISAO:0000467': ('maximum_time_step', float),  # the maximum time step that can be taken
-    'KISAO:0000485': ('minimum_time_step', float),  # the minimum time step that can be taken
-    'KISAO:0000332': ('initial_time_step', float),  # the initial value of the time step for algorithms that change this value
-    'KISAO:0000107': ('variable_step_size', bool),  # whether or not the algorithm proceeds with an adaptive step size or not
-    'KISAO:0000486': ('maximum_iterations', int),  # [nleq] the maximum number of iterations the algorithm should take before exiting
-    'KISAO:0000487': ('minimum_damping', float),  # [nleq] minimum damping value
-    'KISAO:0000488': ('seed', int),  # the seed for stochastic runs of the algorithm
+    209: ('relative_tolerance', float),  # the relative tolerance
+    211: ('absolute_tolerance', float),  # the absolute tolerance
+    220: ('maximum_bdf_order', int),  # the maximum BDF (stiff) order
+    219: ('maximum_adams_order', int),  # the maximum Adams (non-stiff) order
+    415: ('maximum_num_steps', int),  # the maximum number of steps that can be taken before exiting
+    467: ('maximum_time_step', float),  # the maximum time step that can be taken
+    485: ('minimum_time_step', float),  # the minimum time step that can be taken
+    332: ('initial_time_step', float),  # the initial value of the time step for algorithms that change this value
+    107: ('variable_step_size', bool),  # whether or not the algorithm proceeds with an adaptive step size or not
+    486: ('maximum_iterations', int),  # [nleq] the maximum number of iterations the algorithm should take before exiting
+    487: ('minimum_damping', float),  # [nleq] minimum damping value
+    488: ('seed', int),  # the seed for stochastic runs of the algorithm
 }
 
 
@@ -922,10 +937,10 @@ class SEDMLCodeFactory(object):
         simType = simulation.getTypeCode()
         algorithm = simulation.getAlgorithm()
         if algorithm is None:
-            warnings.warn("Algorithm missing on simulation, defaulting to 'cvode: KISAO:0000019'")
+            warnings.warn("Algorithm missing on simulation, defaulting to 'cvode: KISAO_0000019'")
             algorithm = simulation.createAlgorithm()
-            algorithm.setKisaoID("KISAO:0000019")
-        kisao = algorithm.getKisaoID()
+            algorithm.setKisaoID(getKisaoStringFromVal(19))
+        kisao = getKisaoValFromString(algorithm.getKisaoID())
 
         # is supported algorithm
         if not SEDMLCodeFactory.isSupportedAlgorithmForSimulationType(kisao=kisao, simType=simType):
@@ -948,9 +963,9 @@ class SEDMLCodeFactory(object):
         if integratorName == 'gillespie':
             lines.append("{}.integrator.setValue('{}', {})".format(mid, 'variable_step_size', False))
 
-        if kisao == "KISAO:0000288":  # BDF
+        if kisao == 288:  # BDF
             lines.append("{}.integrator.setValue('{}', {})".format(mid, 'stiff', True))
-        elif kisao == "KISAO:0000280":  # Adams-Moulton
+        elif kisao == 280:  # Adams-Moulton
             lines.append("{}.integrator.setValue('{}', {})".format(mid, 'stiff', False))
 
         # integrator/solver settings (AlgorithmParameters)
@@ -1236,6 +1251,37 @@ class SEDMLCodeFactory(object):
         return dgs
 
     @staticmethod
+    def getModelsFrom(task):
+        """
+        Parameters
+        ----------
+        task : libsedml.SedRepeatedTask
+            The repeated task that you need the models from.
+
+        Returns
+        -------
+        A vector of unique model IDs from the repeated task's subtasks.
+
+        """
+        modvec = []
+        for st in range(task.getNumSubTasks()):
+            subtask = task.getSubTask(st)
+            stid = subtask.getTask()
+            refed_task = task.getSedDocument().getTask(stid)
+            if isinstance(refed_task, libsedml.SedTask):
+                newmod = refed_task.getModelReference()
+                if newmod not in modvec:
+                    modvec.append(newmod)
+            elif isinstance(refed_task, libsedml.RepeatedTask):
+                subvec = SEDMLCodeFactory.getModelsFrom(refed_task)
+                for newmod in subvec:
+                    if newmod not in modvec:
+                        modvec.append(newmod)
+            else:
+                raise NotImplemented("Abstract Tasks that are not Tasks or Repeated Tasks are not supported.")
+        return modvec
+
+    @staticmethod
     def selectionsForTask(doc, task):
         """ Populate variable lists from the data generators for the given task.
 
@@ -1244,11 +1290,22 @@ class SEDMLCodeFactory(object):
 
         Search all data generators for variables which have to be part of the simulation.
         """
-        modelId = task.getModelReference()
+        modelId = ""
+        if isinstance(task, libsedml.SedTask):
+            modelId = task.getModelReference()
+        elif isinstance(task, libsedml.SedRepeatedTask):
+            modvec = SEDMLCodeFactory.getModelsFrom(task)
+            if len(modvec) == 1:
+                modelId = modvec[0]
+            
         selections = set()
         for dg in doc.getListOfDataGenerators():
             for var in dg.getListOfVariables():
                 if var.getTaskReference() == task.getId():
+                    if modelId=="":
+                        modelId = var.getModelReference()
+                    if modelId=="":
+                        raise RuntimeError("Unable to determine which model a referenced task variable is from.")
                     selection = SEDMLCodeFactory.selectionFromVariable(var, modelId)
                     expr = selection.id
                     if selection.type == "concentration":
@@ -1332,7 +1389,7 @@ class SEDMLCodeFactory(object):
     def algorithmParameterToParameterKey(par):
         """ Resolve the mapping between parameter keys and roadrunner integrator keys."""
         ParameterKey = namedtuple('ParameterKey', 'key value dtype')
-        kid = par.getKisaoID()
+        kid = getKisaoValFromString(par.getKisaoID())
         value = par.getValue()
 
         if kid in KISAOS_ALGORITHMPARAMETERS:
@@ -1340,9 +1397,9 @@ class SEDMLCodeFactory(object):
             key, dtype = KISAOS_ALGORITHMPARAMETERS[kid]
             if dtype is bool:
                 # transform manually ! (otherwise all strings give True)
-                if value == 'true':
+                if value == 'true' or value == "True":
                     value = True
-                elif value == 'false':
+                elif value == 'false' or value == "False":
                     value = False
             else:
                 # cast to data type of parameter
@@ -1489,7 +1546,17 @@ class SEDMLCodeFactory(object):
 
             # simulation data
             if task is not None:
-                modelId = task.getModelReference()
+                modelId = ""
+                if isinstance(task, libsedml.SedTask):
+                    modelId = task.getModelReference()
+                elif isinstance(task, libsedml.SedRepeatedTask):
+                    modvec = SEDMLCodeFactory.getModelsFrom(task)
+                    if len(modvec) == 1:
+                        modelId = modvec[0]
+                if modelId=="":
+                    modelId = task.getModelReference()
+                if modelId=="":
+                    raise RuntimeError("Unable to determine which model a referenced task variable is from.")
 
                 selection = SEDMLCodeFactory.selectionFromVariable(var, modelId)
                 isTime = False

@@ -7,9 +7,9 @@ import roadrunner
 import warnings
 import tempfile
 try:
-    import tesbml as libsbml
-except ImportError:
     import libsbml
+except ImportError:
+    import tesbml as libsbml
 from six import string_types
 
 try:

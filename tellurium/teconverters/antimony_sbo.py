@@ -6,9 +6,9 @@ from __future__ import print_function, division, absolute_import
 
 import re
 try:
-    import tesbml as libsbml
-except ImportError:
     import libsbml
+except ImportError:
+    import tesbml as libsbml
 
 from .antimony_regex import getModelStartRegex, getModelEndRegex, getFunctionStartRegex, getSBORegex, getFunctionSBORegex
 

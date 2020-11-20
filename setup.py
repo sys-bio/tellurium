@@ -31,9 +31,10 @@ setup(name='tellurium',
           'tellurium.teconverters',
           'tellurium.teio',
           'tellurium.utils',
-        #   'tellurium.optimization',
+          #'tellurium.optimization',
           'tellurium.visualization',
-        #   'tellurium.tests',
+          #'tellurium.tests',
+          #'tellurium.tests.testdata',
       ],
       package_data={
           "tellurium": ["*.txt"],
@@ -41,7 +42,7 @@ setup(name='tellurium',
       },
       install_requires=[
           # general
-          'numpy>=1.19.0',  # 0.13.1
+          'numpy==1.19.3',  # 0.13.1
           'scipy>=1.5.1',  # 0.19.1
           'matplotlib>=2.0.2',
           'pandas>=0.20.2',
@@ -52,10 +53,10 @@ setup(name='tellurium',
           #'rrplugins>=1.1.8',
           'sbml2matlab>=0.9.1',
           # standards
-          'tesbml>=5.18.1',
-          'tenuml>=1.0.0',
-          'tesedml>=0.4.3',
-          'tecombine>=0.2.2',
+          'python-libsbml>=5.18.0',
+          'python-libnuml>=1.0.0',
+          'python-libsedml>=0.4.3',
+          'python-libcombine>=0.2.2',
           # misc
           'appdirs>=1.4.3',
           'jinja2>=2.9.6',
