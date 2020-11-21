@@ -1650,13 +1650,13 @@ class SEDMLCodeFactory(object):
         lines.append("    __df__k = pandas.DataFrame(np.column_stack(" + str(columns).replace("'", "") + "), \n    columns=" + str(headers) + ")")
         lines.append("    __dfs__{}.append(__df__k)".format(output.getId()))
         # save as variable in Tellurium
-        lines.append("    te.setLastReport(__df__k)".format(output.getId()))
+        lines.append("    te.setLastReport(__df__k)")
         if self.saveOutputs and self.createOutputs:
 
             lines.append(
                 "    filename = os.path.join('{}', '{}.{}')".format(self.outputDir, output.getId(), self.reportFormat))
             lines.append(
-                "    __df__k.to_csv(filename, sep=',', index=False)".format(output.getId()))
+                "    __df__k.to_csv(filename, sep=',', index=False)")
             lines.append(
                 "    print('Report {}: {{}}'.format(filename))".format(output.getId()))
         return lines

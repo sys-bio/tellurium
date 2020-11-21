@@ -9,11 +9,7 @@ import tempfile
 import numpy as np
 import pandas as pd
 
-# py2 / py3
-try:
-    import httplib
-except ImportError:
-    import http.client as httplib
+import urllib.request
 
 try:
     import libnuml
@@ -58,19 +54,16 @@ class DataDescriptionParser(object):
         # TODO: refactor in general resource module (for resolving anyURI and resource)
         tmp_file = None
         if source.startswith('http') or source.startswith('HTTP'):
-            conn = httplib.HTTPConnection(source)
-            conn.request("GET", "")
-            r1 = conn.getresponse()
-            # print(r1.status, r1.reason)
-            data = r1.read()
-            conn.close()
+            webURL = urllib.request.urlopen(source)
+            data = webURL.read()
             try:
                 file_str = str(data.decode("utf-8"))
             except:
                 file_str = str(data)
 
-            tmp_file = tempfile.NamedTemporaryFile("w")
+            tmp_file = tempfile.NamedTemporaryFile("w", delete=False)
             tmp_file.write(file_str)
+            tmp_file.close()
             source_path = tmp_file.name
         else:
             source_path = os.path.join(workingDir, source)
@@ -195,7 +188,7 @@ class DataDescriptionParser(object):
         # cleanup
         # FIXME: handle in finally
         if tmp_file is not None:
-            os.remove(tmp_file)
+            os.remove(tmp_file.name)
 
         return data_sources
 
