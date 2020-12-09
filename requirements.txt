@@ -2,7 +2,8 @@ numpy==1.19.3
 scipy>=1.5.1
 matplotlib>=2.0.2
 pandas>=0.20.2
-libroadrunner>=2.0.0
+libroadrunner>=2.0.3
+rrplugins>=2.0.3
 phrasedml>=1.0.9
 antimony>=2.12.0
 sbml2matlab>=0.9.1

@@ -42,20 +42,20 @@ setup(name='tellurium',
       },
       install_requires=[
           # general
-          'numpy==1.19.3',  # 0.13.1
-          'scipy>=1.5.1',  # 0.19.1
+          'numpy==1.19.3',
+          'scipy>=1.5.1',
           'matplotlib>=2.0.2',
           'pandas>=0.20.2',
           # SBW-derived
-          'libroadrunner>=2.0.0',
+          'libroadrunner>=2.0.3',
+          'rrplugins>=2.0.3',
           'phrasedml>=1.0.9',
           'antimony>=2.12.0',
-          #'rrplugins>=1.1.8',
           'sbml2matlab>=0.9.1',
           # standards
           'python-libsbml>=5.18.0',
           'python-libnuml>=1.0.0',
-          'python-libsedml>=0.4.3',
+          'python-libsedml>=2.0.12',
           'python-libcombine>=0.2.2',
           # misc
           'appdirs>=1.4.3',
