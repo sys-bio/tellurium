@@ -39,7 +39,10 @@ try:
                sbml = antimonyConverter.antimonyToSBML(model)
            except:
                # it better be SBML
-               import tesbml as libsbml
+               try:
+                   import libsbml
+               except ImportError:
+                   import tesbml as libsbml
                # this will throw if it's not SBML
                libsbml.readSBML(model)
    

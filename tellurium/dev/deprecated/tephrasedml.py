@@ -30,12 +30,15 @@ from tellurium.utils import deprecated
 
 
 import tellurium as te
-import tellurium.tecombine as tecombine
 import phrasedml
 try:
-    import tesedml as libsedml
+    import libcombine
 except ImportError:
+    import tecombine as libcombine
+try:
     import libsedml
+except ImportError:
+    import tesedml as libsedml
 
 from tellurium.sedml import tesedml
 
@@ -192,7 +195,7 @@ class experiment(object):
         """
         warnings.warn('Use inline_omex instead.', DeprecationWarning)
         # Create empty archive
-        m = tecombine.CombineArchive()
+        m = libcombine.CombineArchive()
 
         # Add antimony models to archive
         for aStr in self.antimonyList:

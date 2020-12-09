@@ -80,8 +80,8 @@ def test_getLocationsByFormat4_zip():
     assert len(locations) == 2
     # in case of zip files no master file exists, so the order of the entries depends on
     # filenames and how they are returned from the zip
-    assert "experiment/Calzone2007-simulation-figure-1B.xml" in locations
-    assert "experiment/Calzone2007-default-simulation.xml" in locations
+    assert "experiment/Calzone2007-simulation-figure-1B.xml" in locations or "experiment\\Calzone2007-simulation-figure-1B.xml" in locations
+    assert "experiment/Calzone2007-default-simulation.xml" in locations or "experiment\\Calzone2007-default-simulation.xml" in locations
 
 
 def test_listContents():

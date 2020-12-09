@@ -12,12 +12,9 @@ import getpass
 
 import imp  # reloads because numl is overwriting symbols
 try:
-    import tecombine as libcombine
-
-except ImportError:
     import libcombine
-
-
+except ImportError:
+    import tecombine as libcombine
 
 
 from .convert_phrasedml import phrasedmlImporter
@@ -456,8 +453,11 @@ class inlineOmexImporter:
             except Exception as e:
                 errmsg = 'Could not read embedded SED-ML file {}.'.format(entry.getLocation())
                 try:
-                    import tesedml
-                    s = tesedml.readSedMLFromString(sedml_str)
+                    try:
+                        import libsedml
+                    except ImportError:
+                        import tesedml as libsedml
+                    s = libsedml.readSedMLFromString(sedml_str)
                     if s.getNumErrors() > 0:
                         if detailedErrors:
                             for k in range(s.getNumErrors()):

@@ -155,10 +155,10 @@ getPlottingEngineFactory.__doc__ = __getPlottingEngineFactory.__doc__
 import roadrunner
 
 try:
-    import tesedml as libsedml
+    import libsedml
 except ImportError as e:
     try:
-        import libsedml
+        import tesedml as libsedml
     except ImportError:
         libsedml = None
         roadrunner.Logger.log(roadrunner.Logger.LOG_WARNING, str(e))
@@ -166,9 +166,9 @@ except ImportError as e:
 
 try:
     try:
-        import tesbml as libsbml
-    except ImportError:
         import libsbml
+    except ImportError:
+        import tesbml as libsbml
 except ImportError as e:
     libsbml = None
     roadrunner.Logger.log(roadrunner.Logger.LOG_WARNING, str(e))
@@ -647,6 +647,8 @@ def sbmlToCellML(sbml):
     :return: CellML
     :rtype: str
     """
+    if not hasattr(antimony, "loadCellMLString"):
+        raise NotImplementedError("CellML support was not compiled into Antimony, so conversion is not available.")
     if os.path.isfile(sbml):
         code = antimony.loadSBMLFile(sbml)
     else:
@@ -662,6 +664,8 @@ def cellmlToAntimony(cellml):
     :return: antimony
     :rtype: str
     """
+    if not hasattr(antimony, "loadCellMLString"):
+        raise NotImplementedError("CellML support was not compiled into Antimony, so conversion is not available.")
     if os.path.isfile(cellml):
         code = antimony.loadCellMLFile(cellml)
     else:
@@ -678,6 +682,8 @@ def cellmlToSBML(cellml):
     :return: SBML
     :rtype: str
     """
+    if not hasattr(antimony, "loadCellMLString"):
+        raise NotImplementedError("CellML support was not compiled into Antimony, so conversion is not available.")
     if os.path.isfile(cellml):
         code = antimony.loadCellMLFile(cellml)
     else:
@@ -735,8 +741,11 @@ def extractFileFromCombineArchive(archive_path, entry_location):
     """
     warnings.warn('Use libcombine instead.', DeprecationWarning)
     # TODO: port this function
-    import tecombine
-    archive = tecombine.CombineArchive()
+    try:
+        import libcombine
+    except ImportError:
+        import tecombine as libcombine
+    archive = libcombine.CombineArchive()
     if not archive.initializeFromArchive(archive_path):
         raise RuntimeError('Failed to initialize archive')
     try:
@@ -751,7 +760,7 @@ def addFileToCombineArchive(archive_path, file_name, entry_location, file_format
     :param archive_path: The path to the archive.
     :param file_name: The name of the file to add.
     :param entry_location: The location to store the entry in the archive.
-    :param file_format: The format of the file. Can use tecombine.KnownFormats.lookupFormat for common formats.
+    :param file_format: The format of the file. Can use libcombine.KnownFormats.lookupFormat for common formats.
     :param master: Whether the file should be marked master.
     :param out_archive_path: The path to the output archive.
     """
@@ -767,14 +776,18 @@ def addFilesToCombineArchive(archive_path, file_names, entry_locations, file_for
     :param master_attributes: List of true/false values for the resp. master attributes of the files.
     :param out_archive_path: The path to the output archive.
     """
-    import tecombine, tempfile
-    input_archive = tecombine.CombineArchive()
+    try:
+        import libcombine
+    except ImportError:
+        import tecombine as libcombine
+    import tempfile
+    input_archive = libcombine.CombineArchive()
     if not input_archive.initializeFromArchive(archive_path):
         raise RuntimeError('Failed to initialize archive')
 
     tempfiles = []
 
-    output_archive = tecombine.CombineArchive()
+    output_archive = libcombine.CombineArchive()
 
     description = input_archive.getMetadataForLocation('.')
     if description:
@@ -820,9 +833,12 @@ def createCombineArchive(archive_path, file_names, entry_locations, file_formats
     :param out_archive_path: The path to the output archive.
     :param description: A libcombine description structure to be assigned to the combine archive, if desired.
     """
-    import tecombine
+    try:
+        import libcombine
+    except ImportError:
+        import tecombine as libcombine
 
-    output_archive = tecombine.CombineArchive()
+    output_archive = libcombine.CombineArchive()
     if description is not None:
         output_archive.addMetadata('.', description)
 
@@ -1065,15 +1081,26 @@ roadrunner.RoadRunner = ExtendedRoadRunner
 
 def VersionDict():
     '''Return dict of version strings.'''
-    import tesbml, tesedml, tecombine
+    try:
+        import libsbml
+    except ImportError:
+        import tesbml as libsbml
+    try:
+        import libsedml
+    except ImportError:
+        import tesedml as libsedml
+    try:
+        import libcombine
+    except ImportError:
+        import tecombine as libcombine
     return {
         'tellurium': getTelluriumVersion(),
         'roadrunner': roadrunner.getVersionStr(roadrunner.VERSIONSTR_BASIC),
         'antimony': antimony.__version__,
         'phrasedml': phrasedml.__version__,
-        'tesbml': libsbml.getLibSBMLDottedVersion(),
-        'tesedml': tesedml.getLibSEDMLDottedVersion(),
-        'tecombine': tecombine.getLibCombineDottedVersion(),
+        'libsbml': libsbml.getLibSBMLDottedVersion(),
+        'libsedml': libsedml.getLibSEDMLDottedVersion(),
+        'libcombine': libcombine.getLibCombineDottedVersion(),
         }
 
 def DumpJSONInfo():

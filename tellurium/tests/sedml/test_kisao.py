@@ -18,9 +18,9 @@ import matplotlib
 
 import tellurium as te
 try:
-    import tesedml as libsedml
-except ImportError:
     import libsedml
+except ImportError:
+    import tesedml as libsedml
 
 from tellurium.sedml import tesedml
 from tellurium.utils import omex
@@ -610,3 +610,6 @@ class KisaoSedmlTestCase(unittest.TestCase):
         self.checkKisaoAlgorithmParameter(inline_omex, 'KISAO:0000488', 'seed', 1234)
         te.executeInlineOmex(inline_omex)
 
+if __name__ == "__main__":
+    import unittest
+    unittest.main()

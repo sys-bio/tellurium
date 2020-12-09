@@ -8,9 +8,9 @@ import os
 import argparse
 
 try:
-    import tecombine as libcombine
-except ImportError:
     import libcombine
+except ImportError:
+    import tecombine as libcombine
 
 import phrasedml
 from .antimony_regex import getModelStartRegex, getModelEndRegex

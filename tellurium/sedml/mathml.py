@@ -16,9 +16,9 @@ except ImportError:
 
 from math import *
 try:
-    import tesbml as libsbml
-except:
     import libsbml
+except:
+    import tesbml as libsbml
 import operator
 
 def product(*args):

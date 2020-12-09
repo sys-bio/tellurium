@@ -211,29 +211,35 @@ class TelluriumTestCase(unittest.TestCase):
         self.assertIsNotNone(ant)
 
 
-    def test_sbmlToCellML_file(self):
-        cellml = te.sbmlToCellML(self.sbml_file)
-        self.assertIsNotNone(cellml)
+    if CELLML_SUPPORT:
+        def test_sbmlToCellML_file(self):
+            cellml = te.sbmlToCellML(self.sbml_file)
+            self.assertIsNotNone(cellml)
 
-    def test_sbmlToCellML_str(self):
-        cellml = te.sbmlToCellML(self.sbml_str)
-        self.assertIsNotNone(cellml)
+    if CELLML_SUPPORT:
+        def test_sbmlToCellML_str(self):
+            cellml = te.sbmlToCellML(self.sbml_str)
+            self.assertIsNotNone(cellml)
 
-    def test_cellmlToAntimony_file(self):
-        ant = te.cellmlToAntimony(self.cellml_file)
-        self.assertIsNotNone(ant)
+    if CELLML_SUPPORT:
+        def test_cellmlToAntimony_file(self):
+            ant = te.cellmlToAntimony(self.cellml_file)
+            self.assertIsNotNone(ant)
 
-    def test_cellmlToAntimony_str(self):
-        ant = te.cellmlToAntimony(self.cellml_str)
-        self.assertIsNotNone(ant)
+    if CELLML_SUPPORT:
+        def test_cellmlToAntimony_str(self):
+            ant = te.cellmlToAntimony(self.cellml_str)
+            self.assertIsNotNone(ant)
 
-    def test_cellmlToSBML_file(self):
-        sbml = te.cellmlToSBML(self.cellml_file)
-        self.assertIsNotNone(sbml)
+    if CELLML_SUPPORT:
+        def test_cellmlToSBML_file(self):
+            sbml = te.cellmlToSBML(self.cellml_file)
+            self.assertIsNotNone(sbml)
 
-    def test_cellmlToSBML_str(self):
-        sbml = te.cellmlToSBML(self.cellml_str)
-        self.assertIsNotNone(sbml)
+    if CELLML_SUPPORT:
+        def test_cellmlToSBML_str(self):
+            sbml = te.cellmlToSBML(self.cellml_str)
+            self.assertIsNotNone(sbml)
 
     # ---------------------------------------------------------------------
     # Jarnac compatibility layer

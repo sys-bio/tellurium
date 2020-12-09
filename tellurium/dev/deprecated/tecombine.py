@@ -66,9 +66,9 @@ import re
 import tellurium as te
 import roadrunner
 try:
-    import tesedml as libsedml
-except ImportError:
     import libsedml
+except ImportError:
+    import tesedml as libsedml
 from xml.etree import ElementTree as et
 
 

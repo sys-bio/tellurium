@@ -19,11 +19,11 @@ def getSBMLFromBiomodelsURN(urn):
     :param urn:
     :return: SBML string for given model urn
     """
-    pattern = "((BIOMD|MODEL)\d{10})|(BMID\d{12})"
-    match = re.search(pattern, urn)
-    mid = match.group(0)
+    if ":" not in urn:
+        raise ValueError("The URN", urn, "is not in the correct format: it must be divided by colons in a format such as 'urn:miriam:biomodels.db:BIOMD0000000003.xml'.")
+    core = urn.split(":")[-1].split(".")[0]
 
-    url = "https://www.ebi.ac.uk/biomodels-main/download?mid=" + mid
+    url = "https://www.ebi.ac.uk/biomodels/model/download/" + core + "?filename="+ core + "_url.xml"
     response = requests.get(url, allow_redirects=True)
     response.raise_for_status()
 

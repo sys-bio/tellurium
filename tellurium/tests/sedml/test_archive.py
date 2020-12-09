@@ -9,7 +9,10 @@ import unittest
 import tempfile
 import shutil
 
-from tellurium.sedml import tesedml
+try:
+    import libsedml
+except ImportError:
+    import tesedml as libsedml
 
 from tellurium.tests.testdata import OMEX_TEST_DIR
 from tellurium.utils import omex
@@ -36,7 +39,7 @@ def test_single_omex(tmpdir):
     # TODO print generated code
     tmp_dir = tempfile.mkdtemp()
     try:
-        tesedml.executeCombineArchive(omexPath=omex_path, workingDir=tmp_dir)
+        libsedml.executeCombineArchive(omexPath=omex_path, workingDir=tmp_dir)
     finally:
         shutil.rmtree(tmp_dir)
 

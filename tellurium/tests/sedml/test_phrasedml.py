@@ -17,9 +17,9 @@ import matplotlib
 
 import tellurium as te
 try:
-    import tesedml as libsedml
-except ImportError:
     import libsedml
+except ImportError:
+    import tesedml as libsedml
 import phrasedml
 
 from tellurium.sedml.utils import run_case

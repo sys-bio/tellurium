@@ -266,3 +266,7 @@ def test_omex_csv_parameters(tmpdir):
     assert "dgDataMu" in dg_dict
     assert len(dg_dict["dgDataIndex"]) == 10
     assert len(dg_dict["dgDataMu"]) == 10
+
+if __name__ == "__main__":
+    import unittest
+    unittest.main()
