@@ -206,9 +206,11 @@ def getVersionInfo():
 
     :returns: list of tuples (package, version)
     """
+    import rrplugins
     versions = [
         ('tellurium', getTelluriumVersion()),
         ('roadrunner', roadrunner.__version__),
+        ('rrplugins', rrplugins.__version__),
         ('antimony', antimony.__version__),
     ]
     if libsbml:
@@ -1093,9 +1095,11 @@ def VersionDict():
         import libcombine
     except ImportError:
         import tecombine as libcombine
+    import rrplugins
     return {
         'tellurium': getTelluriumVersion(),
         'roadrunner': roadrunner.getVersionStr(roadrunner.VERSIONSTR_BASIC),
+        'rrplugins': rrplugins.__version__,
         'antimony': antimony.__version__,
         'phrasedml': phrasedml.__version__,
         'libsbml': libsbml.getLibSBMLDottedVersion(),
