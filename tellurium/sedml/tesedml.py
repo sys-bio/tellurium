@@ -1497,7 +1497,7 @@ class SEDMLCodeFactory(object):
         def getId(xpath):
             xpath = xpath.replace('"', "'")
             match = re.findall(r"id='(.*?)'", xpath)
-            if (match is None) or (len(match) is 0):
+            if (match is None) or (len(match) == 0):
                 warnings.warn("Xpath could not be resolved: {}".format(xpath))
             return match[0]
 
