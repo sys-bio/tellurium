@@ -240,6 +240,7 @@ KISAOS_ALGORITHMPARAMETERS = {
     415: ('maximum_num_steps', int),  # the maximum number of steps that can be taken before exiting
     467: ('maximum_time_step', float),  # the maximum time step that can be taken
     485: ('minimum_time_step', float),  # the minimum time step that can be taken
+    559: ('initial_time_step', float),  # the initial value of the time step for algorithms that change this value
     332: ('initial_time_step', float),  # the initial value of the time step for algorithms that change this value
     107: ('variable_step_size', bool),  # whether or not the algorithm proceeds with an adaptive step size or not
     486: ('maximum_iterations', int),  # [nleq] the maximum number of iterations the algorithm should take before exiting
