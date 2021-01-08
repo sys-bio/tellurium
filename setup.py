@@ -42,7 +42,7 @@ setup(name='tellurium',
       },
       install_requires=[
           # general
-          'numpy==1.19.3',
+          'numpy>=1.19.5',
           'scipy>=1.5.1',
           'matplotlib>=2.0.2',
           'pandas>=0.20.2',
