@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <omexManifest xmlns="http://identifiers.org/combine.specifications/omex-manifest">
   <content location="." format="http://identifiers.org/combine.specifications/omex" master="false"/>
+  <content location="manifest.xml" format="application/xml" master="false"/>
   <content location="plot_numl_with_model.xml" format="http://identifiers.org/combine.specifications/sed-ml" master="true"/>
   <content location="oscli.xml" format="http://identifiers.org/combine.specifications/sbml" master="true"/>
-  <content location="oscli.numl" format="http://identifiers.org/combine.specifications/numl" master="false"/>
+  <content location="oscli.numl" master="false"/>
 </omexManifest>
