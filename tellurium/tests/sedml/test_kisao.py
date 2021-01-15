@@ -499,19 +499,19 @@ class KisaoSedmlTestCase(unittest.TestCase):
             plot task0.time vs task0.S1
         """
         inline_omex = '\n'.join([self.a1, p])
-        self.checkKisaoAlgorithmParameter(inline_omex, 'KISAO:0000332', 'initial_time_step', 0.01)
+        self.checkKisaoAlgorithmParameter(inline_omex, 'KISAO:0000559', 'initial_time_step', 0.01)
         te.executeInlineOmex(inline_omex)
 
     def test_kisao_initial_time_step_2(self):
         p = """
             model0 = model "m1"
             sim0 = simulate uniform(0, 10, 100)
-            sim0.algorithm.332 = 0.01
+            sim0.algorithm.559 = 0.01
             task0 = run sim0 on model0
             plot task0.time vs task0.S1
         """
         inline_omex = '\n'.join([self.a1, p])
-        self.checkKisaoAlgorithmParameter(inline_omex, 'KISAO:0000332', 'initial_time_step', 0.01)
+        self.checkKisaoAlgorithmParameter(inline_omex, 'KISAO:0000559', 'initial_time_step', 0.01)
         te.executeInlineOmex(inline_omex)
 
     def test_kisao_variable_step_size_1(self):
