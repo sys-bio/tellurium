@@ -993,6 +993,38 @@ class SEDMLCodeFactory(object):
             lines.append("if {model}.conservedMoietyAnalysis == False: {model}.conservedMoietyAnalysis = True".format(model=mid))
         else:
             lines.append("if {model}.conservedMoietyAnalysis == True: {model}.conservedMoietyAnalysis = False".format(model=mid))
+        return lines
+
+
+    @staticmethod
+    def simpleTaskParentInit(doc, node):
+        """ Creates the simulation python code for a given taskNode.
+
+        The taskNodes are required to handle the relationships between
+        RepeatedTasks, SubTasks and SimpleTasks (Task).
+
+        :param doc: sedml document
+        :type doc: SEDDocument
+        :param node: taskNode of the current task
+        :type node: TaskNode
+        :return:
+        :rtype:
+        """
+        lines = []
+        task = node.task
+
+        mid = task.getModelReference()
+        sid = task.getSimulationReference()
+        simulation = doc.getSimulation(sid)
+
+        simType = simulation.getTypeCode()
+
+        # get parents
+        parents = []
+        parent = node.parent
+        while parent is not None:
+            parents.append(parent)
+            parent = parent.parent
 
         # get parents
         parents = []
@@ -1056,7 +1088,8 @@ class SEDMLCodeFactory(object):
         :return:
         :rtype:
         """
-        lines = []
+        lines = SEDMLCodeFactory.simpleTaskParentInit(doc, node)
+
         task = node.task
 
         mid = task.getModelReference()
@@ -1143,7 +1176,7 @@ class SEDMLCodeFactory(object):
 
 
         # Set up the integrator outside the loop.  This is mostly so that
-        # the 'seed' is set up outside the loop, but everyting else also 
+        # the 'seed' is set up outside the loop, but everything else also 
         # doesn't need to be reset all the time.
         for child in node:
             if child.task.getTypeCode() == libsedml.SEDML_TASK:
@@ -1273,7 +1306,7 @@ class SEDMLCodeFactory(object):
                 newmod = refed_task.getModelReference()
                 if newmod not in modvec:
                     modvec.append(newmod)
-            elif isinstance(refed_task, libsedml.RepeatedTask):
+            elif isinstance(refed_task, libsedml.SedRepeatedTask):
                 subvec = SEDMLCodeFactory.getModelsFrom(refed_task)
                 for newmod in subvec:
                     if newmod not in modvec:
@@ -1554,8 +1587,10 @@ class SEDMLCodeFactory(object):
                     modvec = SEDMLCodeFactory.getModelsFrom(task)
                     if len(modvec) == 1:
                         modelId = modvec[0]
-                if modelId=="":
+                if modelId=="" and isinstance(task, libsedml.SedTask):
                     modelId = task.getModelReference()
+                if modelId=="":
+                    modelId = var.getModelReference()
                 if modelId=="":
                     raise RuntimeError("Unable to determine which model a referenced task variable is from.")
 
