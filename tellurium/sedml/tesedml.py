@@ -248,6 +248,30 @@ KISAOS_ALGORITHMPARAMETERS = {
     488: ('seed', int),  # the seed for stochastic runs of the algorithm
 }
 
+line_types = {
+    libsedml.SEDML_LINETYPE_NONE: (False, "none", []),
+    libsedml.SEDML_LINETYPE_DASH: (True, "dash", [4, 2]),
+    libsedml.SEDML_LINETYPE_DASHDOT: (True, "dash", [4, 2, 1, 2]),
+    libsedml.SEDML_LINETYPE_DASHDOTDOT: (True, "dash", [4, 2, 1, 2, 1, 2]),
+    libsedml.SEDML_LINETYPE_DOT: (True, "dash", [1, 2]),
+    libsedml.SEDML_LINETYPE_SOLID: (True, "line", []),
+}
+
+marker_types = {
+    libsedml.SEDML_MARKERTYPE_CIRCLE: "o",
+    libsedml.SEDML_MARKERTYPE_DIAMOND: "D",
+    libsedml.SEDML_MARKERTYPE_HDASH: "_",
+    libsedml.SEDML_MARKERTYPE_NONE: "",
+    libsedml.SEDML_MARKERTYPE_PLUS: "+",
+    libsedml.SEDML_MARKERTYPE_SQUARE: "s",
+    libsedml.SEDML_MARKERTYPE_STAR: "*",
+    libsedml.SEDML_MARKERTYPE_TRIANGLEDOWN: "v",
+    libsedml.SEDML_MARKERTYPE_TRIANGLELEFT: "<",
+    libsedml.SEDML_MARKERTYPE_TRIANGLERIGHT: ">",
+    libsedml.SEDML_MARKERTYPE_TRIANGLEUP: "^",
+    libsedml.SEDML_MARKERTYPE_VDASH: "\\",
+    libsedml.SEDML_MARKERTYPE_XCROSS: "x",
+}
 
 ######################################################################################################################
 # Interface functions
@@ -1782,6 +1806,39 @@ class SEDMLCodeFactory(object):
             dgx = doc.getDataGenerator(xId)
             dgy = doc.getDataGenerator(yId)
             color = settings.colors[kc % len(settings.colors)]
+            showLine = True
+            showMarkers = False
+            lthickness = None
+            ltype = "line"
+            mtype = ""
+            mfc = None
+            mec = None
+            ms = None
+            mew = None
+            dashes = []
+            if curve.isSetStyle():
+                style = doc.getStyle(curve.getStyle())
+                if style.isSetLineStyle():
+                    line = style.getLineStyle()
+                    if line.isSetStyle():
+                        (showLine, ltype, dashes) = line_types[line.getStyle()]
+                    if line.isSetColor():
+                        color = line.getColor()
+                    if line.isSetThickness():
+                        lthickness = line.getThickness()
+                if style.isSetMarkerStyle():
+                    marker = style.getMarkerStyle()
+                    if marker.isSetStyle():
+                        mtype = marker_types[marker.getStyle()]
+                    if marker.isSetFill():
+                        mfc = marker.getFill()
+                    if marker.isSetLineColor():
+                        mec = marker.getLineColor()
+                    if marker.isSetSize():
+                        ms = marker.getSize()
+                    if marker.isSetLineThickness():
+                        mew = marker.getLineThickness()
+                
             tag = 'tag{}'.format(kc)
 
             yLabel = yId
@@ -1797,6 +1854,24 @@ class SEDMLCodeFactory(object):
             lines.append("    extra_args = {}")
             lines.append("    if k == 0:")
             lines.append("        extra_args['name'] = '{}'".format(yLabel))
+            if ltype=="dash":
+                lines.append("    extra_args['dash'] = {dashes}".format(dashes = dashes))
+            elif ltype=="none":
+                lines.append("    extra_args['mode'] = 'markers'")
+            if not mtype=="":
+                lines.append("    extra_args['marker'] = '{mtype}'".format(mtype = mtype))
+            if not lthickness==None:
+                lines.append("    extra_args['linewidth'] = {lthickness}".format(lthickness = lthickness))
+            if not mfc==None:
+                lines.append("    extra_args['mfc'] = '{mfc}'".format(mfc = mfc))
+            if not mec==None:
+                lines.append("    extra_args['mec'] = '{mec}'".format(mec = mec))
+            if not ms==None:
+                lines.append("    extra_args['ms'] = {ms}".format(ms = ms))
+            if not mew==None:
+                lines.append("    extra_args['mew'] = {mew}".format(mew = mew))
+                
+                
             lines.append("    tefig.addXYDataset({xarr}[:,k], {yarr}[:,k], color='{color}', tag='{tag}', logx={logx}, logy={logy}, **extra_args)".format(xarr=xId, yarr=yId, color=color, tag=tag, logx=logX, logy=logY))
 
             # FIXME: endpoints must be handled via plotting functions
