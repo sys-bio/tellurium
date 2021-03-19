@@ -1806,6 +1806,7 @@ class SEDMLCodeFactory(object):
         lines.append("else:")
         lines.append("    tefig = te.nextFigure(title='{}', xtitle='{}')\n".format(title, xtitle))
 
+        lastbar = None
         for kc, curve in enumerate(output.getListOfCurves()):
             logX = curve.getLogX()
             logY = curve.getLogY()
@@ -1826,6 +1827,7 @@ class SEDMLCodeFactory(object):
             mew = None
             fillcolor = None
             edgecolor = None
+            bottom = None
             dashes = []
             if curve.isSetType():
                 ctype = curve_types[curve.getType()]
@@ -1868,10 +1870,15 @@ class SEDMLCodeFactory(object):
 
             if ctype=="line" and ltype=="none":
                 ctype = "markers"
-            if ctype=="bar" and color is not None:
-                edgecolor = color
-            if ctype=="bar" and fillcolor is not None:
-                color = fillcolor
+            if "bar" in ctype or "Bar" in ctype:
+                if color is not None:
+                    edgecolor = color
+                if fillcolor is not None:
+                    color = fillcolor
+                if "Stacked" in ctype:
+                    bottom = lastbar
+                lastbar = [yId, kc]
+                ctype = "bar" #The only issue with st
 
             # FIXME: add all the additional information to the plot, i.e. the settings and styles for a given curve
 
@@ -1897,6 +1904,8 @@ class SEDMLCodeFactory(object):
                 lines.append("    extra_args['mew'] = {mew}".format(mew = mew))
             if not edgecolor==None:
                 lines.append("    extra_args['edgecolor'] = '{edgecolor}'".format(edgecolor = edgecolor))
+            if not bottom==None:
+                lines.append("    extra_args['bottom'] = {bottom}[:,{prevk}]".format(bottom = bottom[0], prevk=bottom[1]))
                 
                 
             lines.append("    tefig.addXYDataset({xarr}[:,k], {yarr}[:,k], color='{color}', tag='{tag}', logx={logx}, logy={logy}, **extra_args)".format(xarr=xId, yarr=yId, color=color, tag=tag, logx=logX, logy=logY))

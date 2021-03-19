@@ -75,7 +75,7 @@ class MatplotlibFigure(PlottingFigure):
                 kwargs['marker'] = 'o'
                 kwargs['linewidth'] = 0
             elif mode=="bar":
-                passkeys = ["alpha", "showlegend", "color", "linewidth", "edgecolor"]
+                passkeys = ["alpha", "showlegend", "color", "linewidth", "edgecolor", "bottom"]
             for dkey in dataset:
                 element = dataset[dkey]
                 if element is None:
