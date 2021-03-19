@@ -248,6 +248,14 @@ KISAOS_ALGORITHMPARAMETERS = {
     488: ('seed', int),  # the seed for stochastic runs of the algorithm
 }
 
+curve_types = {
+    libsedml.SEDML_CURVETYPE_POINTS: "line",
+    libsedml.SEDML_CURVETYPE_BAR: "bar",
+    libsedml.SEDML_CURVETYPE_BARSTACKED: "barStacked",
+    libsedml.SEDML_CURVETYPE_HORIZONTALBAR: "horizontalBar",
+    libsedml.SEDML_CURVETYPE_HORIZONTALBARSTACKED: "horizontalBarStacked",
+}
+
 line_types = {
     libsedml.SEDML_LINETYPE_NONE: (False, "none", []),
     libsedml.SEDML_LINETYPE_DASH: (True, "dash", [4, 2]),
@@ -1811,13 +1819,20 @@ class SEDMLCodeFactory(object):
             lthickness = None
             ltype = "line"
             mtype = ""
+            ctype = ""
             mfc = None
             mec = None
             ms = None
             mew = None
+            fillcolor = None
+            edgecolor = None
             dashes = []
+            if curve.isSetType():
+                ctype = curve_types[curve.getType()]
             if curve.isSetStyle():
                 style = doc.getStyle(curve.getStyle())
+                if style==None:
+                    raise ValueError("SED-ML curve '" + curve.getId() + "' references nonexistent style '" + curve.getStyle() + "'.")
                 if style.isSetLineStyle():
                     line = style.getLineStyle()
                     if line.isSetStyle():
@@ -1838,6 +1853,9 @@ class SEDMLCodeFactory(object):
                         ms = marker.getSize()
                     if marker.isSetLineThickness():
                         mew = marker.getLineThickness()
+                if style.isSetFillStyle():
+                    fill = style.getFillStyle()
+                    fillcolor = fill.getColor()
                 
             tag = 'tag{}'.format(kc)
 
@@ -1848,6 +1866,13 @@ class SEDMLCodeFactory(object):
                 yLabel = "{}".format(dgy.getName())
 
 
+            if ctype=="line" and ltype=="none":
+                ctype = "markers"
+            if ctype=="bar" and color is not None:
+                edgecolor = color
+            if ctype=="bar" and fillcolor is not None:
+                color = fillcolor
+
             # FIXME: add all the additional information to the plot, i.e. the settings and styles for a given curve
 
             lines.append("for k in range({}.shape[1]):".format(xId))
@@ -1856,8 +1881,8 @@ class SEDMLCodeFactory(object):
             lines.append("        extra_args['name'] = '{}'".format(yLabel))
             if ltype=="dash":
                 lines.append("    extra_args['dash'] = {dashes}".format(dashes = dashes))
-            elif ltype=="none":
-                lines.append("    extra_args['mode'] = 'markers'")
+            if not ctype=="":
+                lines.append("    extra_args['mode'] = '{ctype}'".format(ctype=ctype))
             if not mtype=="":
                 lines.append("    extra_args['marker'] = '{mtype}'".format(mtype = mtype))
             if not lthickness==None:
@@ -1870,9 +1895,14 @@ class SEDMLCodeFactory(object):
                 lines.append("    extra_args['ms'] = {ms}".format(ms = ms))
             if not mew==None:
                 lines.append("    extra_args['mew'] = {mew}".format(mew = mew))
+            if not edgecolor==None:
+                lines.append("    extra_args['edgecolor'] = '{edgecolor}'".format(edgecolor = edgecolor))
                 
                 
             lines.append("    tefig.addXYDataset({xarr}[:,k], {yarr}[:,k], color='{color}', tag='{tag}', logx={logx}, logy={logy}, **extra_args)".format(xarr=xId, yarr=yId, color=color, tag=tag, logx=logX, logy=logY))
+
+            if fillcolor is not None and ctype != "bar":
+                lines.append("    tefig.addXYDataset({xarr}[:,k], {yarr}[:,k], color='{fillcolor}', mode='fill')".format(xarr=xId, yarr=yId, fillcolor=fillcolor))
 
             # FIXME: endpoints must be handled via plotting functions
             # lines.append("    fix_endpoints({}[:,k], {}[:,k], color='{}', tag='{}', fig=tefig)".format(xId, yId, color, tag))

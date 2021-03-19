@@ -62,50 +62,49 @@ class MatplotlibFigure(PlottingFigure):
         have_labels = False
         show_legend = False # override self.use_legend if user called plot with showlegend=True
         for dataset in self.getDatasets():
-            scatter = False
-            marker = ''
-            linewidth = self.linewidth
+            mode = "line"
             kwargs = {}
-            if 'name' in dataset:
-                kwargs['label'] = dataset['name']
-                have_labels = True
-            if 'alpha' in dataset and dataset['alpha'] is not None:
-                kwargs['alpha'] = dataset['alpha']
-            if 'showlegend' in dataset and dataset['showlegend'] is not None:
-                show_legend = dataset['showlegend']
-            if 'color' in dataset and dataset['color'] is not None:
-                kwargs['color'] = dataset['color']
-            if 'linewidth' in dataset and dataset['linewidth'] is not None:
-                linewidth = dataset['linewidth']
-            if 'mode' in dataset and dataset['mode'] is not None:
-                if dataset['mode'] == 'markers':
-                    marker = 'o'
-                    linewidth = 0
-            if 'dash' in dataset and dataset['dash'] is not None:
-                if isinstance(dataset['dash'], list):
-                    kwargs['dashes'] = dataset['dash']
-                else:
-                    kwargs['dashes'] = [4,2]
+            if "mode" in dataset:
+                mode = dataset["mode"]
+            #Set different defaults based on the mode
+            passkeys = ["alpha", "showlegend", "color", "linewidth", "marker", "mfc", "mec", "ms", "mew"]
+            if mode=="line":
+                kwargs['marker'] = ''
+                kwargs['linewidth'] = self.linewidth
+            elif mode=="markers":
+                kwargs['marker'] = 'o'
+                kwargs['linewidth'] = 0
+            elif mode=="bar":
+                passkeys = ["alpha", "showlegend", "color", "linewidth", "edgecolor"]
+            for dkey in dataset:
+                element = dataset[dkey]
+                if element is None:
+                    continue
+                #These keys have the same id as is needed in the matplotlib call
+                if dkey in passkeys:
+                    kwargs[dkey] = element
+                    
+                #These keys must be translated to matplotlib
+                elif dkey=="name":
+                    kwargs['label'] = element
+                    have_labels = True
+                # elif dkey==""
+                elif dkey == 'dash' and mode != "bar":
+                    if isinstance(dataset['dash'], list):
+                        kwargs['dashes'] = element
+                    else:
+                        kwargs['dashes'] = [4,2]
 
-            #Markers:
-            if 'marker' in dataset and dataset['marker'] is not None:
-                marker = dataset['marker']
-            if 'mfc' in dataset and dataset['mfc'] is not None:
-                kwargs['mfc'] = dataset['mfc']
-            if 'mec' in dataset and dataset['mec'] is not None:
-                kwargs['mec'] = dataset['mec']
-            if 'ms' in dataset and dataset['ms'] is not None:
-                kwargs['ms'] = dataset['ms']
-            if 'mew' in dataset and dataset['mew'] is not None:
-                kwargs['mew'] = dataset['mew']
 
             if  'text' in dataset and dataset['text'] is not None:
                 for x,y,t in zip(dataset['x'], dataset['y'], dataset['text']):
                     plt.text(x, y, t, bbox=dict(facecolor='white', alpha=1))
-            elif not scatter:
-                plt.plot(dataset['x'], dataset['y'], marker=marker, linewidth=linewidth, **kwargs)
+            elif mode == "fill":
+                plt.fill_between(dataset['x'], dataset['y'], **kwargs)
+            elif mode == "bar":
+                plt.bar(dataset['x'], dataset['y'], **kwargs)
             else:
-                plt.scatter(dataset['x'], dataset['y'], **kwargs)
+                plt.plot(dataset['x'], dataset['y'], **kwargs)
 
         # TODO: data as points
 
