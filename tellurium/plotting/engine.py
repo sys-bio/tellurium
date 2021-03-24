@@ -252,7 +252,7 @@ class PlottingFigure(object):
         :return:
         """
 
-    def addXYDataset(self, x_arr, y_arr, color=None, tag=None, name=None, filter=True, alpha=None, mode=None, logx=None, logy=None, scatter=None, error_y_pos=None, error_y_neg=None, showlegend=None, text=None, dash=None, linewidth=None, marker=None, mec=None, mfc=None, ms=None, mew=None, edgecolor=None, bottom=None):
+    def addXYDataset(self, x_arr, y_arr, color=None, tag=None, name=None, filter=True, alpha=None, mode=None, logx=None, logy=None, scatter=None, error_y_pos=None, error_y_neg=None, showlegend=None, text=None, dash=None, linewidth=None, marker=None, mec=None, mfc=None, ms=None, mew=None, edgecolor=None, bottom=None, bartype=None, y2=None):
         """ Adds an X/Y dataset to the plot.
 
         :param x_arr: A numpy array describing the X datapoints. Should have the same size as y_arr.
@@ -313,6 +313,10 @@ class PlottingFigure(object):
             dataset['edgecolor'] = edgecolor
         if bottom is not None:
             dataset['bottom'] = bottom
+        if bartype is not None:
+            dataset['bartype'] = bartype
+        if y2 is not None:
+            dataset['y2'] = y2
         self.xy_datasets.append(dataset)
 
     def getMergedTaggedDatasets(self):

@@ -61,6 +61,7 @@ class MatplotlibFigure(PlottingFigure):
         fig, ax = plt.subplots(num=None, figsize=self.figsize, facecolor='w', edgecolor='k')
         have_labels = False
         show_legend = False # override self.use_legend if user called plot with showlegend=True
+        bartype = "vertical"
         for dataset in self.getDatasets():
             mode = "line"
             kwargs = {}
@@ -76,6 +77,8 @@ class MatplotlibFigure(PlottingFigure):
                 kwargs['linewidth'] = 0
             elif mode=="bar":
                 passkeys = ["alpha", "showlegend", "color", "linewidth", "edgecolor", "bottom"]
+            elif mode=="fillBetween":
+                passkeys = ["alpha", "showlegend", "color", "y2"]
             for dkey in dataset:
                 element = dataset[dkey]
                 if element is None:
@@ -88,7 +91,8 @@ class MatplotlibFigure(PlottingFigure):
                 elif dkey=="name":
                     kwargs['label'] = element
                     have_labels = True
-                # elif dkey==""
+                elif dkey=="bartype":
+                    bartype = element
                 elif dkey == 'dash' and mode != "bar":
                     if isinstance(dataset['dash'], list):
                         kwargs['dashes'] = element
@@ -101,8 +105,16 @@ class MatplotlibFigure(PlottingFigure):
                     plt.text(x, y, t, bbox=dict(facecolor='white', alpha=1))
             elif mode == "fill":
                 plt.fill_between(dataset['x'], dataset['y'], **kwargs)
+            elif mode == "fillBetween":
+                plt.fill_between(dataset['x'], dataset['y'], **kwargs)
             elif mode == "bar":
-                plt.bar(dataset['x'], dataset['y'], **kwargs)
+                if bartype == "horizontal":
+                    if "bottom" in kwargs:
+                        kwargs["left"] = kwargs["bottom"]
+                        del kwargs["bottom"]
+                    plt.barh(dataset['x'], dataset['y'], **kwargs)
+                else:
+                    plt.bar(dataset['x'], dataset['y'], **kwargs)
             else:
                 plt.plot(dataset['x'], dataset['y'], **kwargs)
 

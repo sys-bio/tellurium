@@ -252,8 +252,8 @@ curve_types = {
     libsedml.SEDML_CURVETYPE_POINTS: "line",
     libsedml.SEDML_CURVETYPE_BAR: "bar",
     libsedml.SEDML_CURVETYPE_BARSTACKED: "barStacked",
-    libsedml.SEDML_CURVETYPE_HORIZONTALBAR: "horizontalBar",
-    libsedml.SEDML_CURVETYPE_HORIZONTALBARSTACKED: "horizontalBarStacked",
+    libsedml.SEDML_CURVETYPE_HORIZONTALBAR: "barHorizontal",
+    libsedml.SEDML_CURVETYPE_HORIZONTALBARSTACKED: "barHorizontalStacked",
 }
 
 line_types = {
@@ -1806,14 +1806,10 @@ class SEDMLCodeFactory(object):
         lines.append("else:")
         lines.append("    tefig = te.nextFigure(title='{}', xtitle='{}')\n".format(title, xtitle))
 
-        lastbar = None
+        lastvbar = []
+        lasthbar = []
         for kc, curve in enumerate(output.getListOfCurves()):
-            logX = curve.getLogX()
-            logY = curve.getLogY()
-            xId = curve.getXDataReference()
-            yId = curve.getYDataReference()
-            dgx = doc.getDataGenerator(xId)
-            dgy = doc.getDataGenerator(yId)
+            #defaults:
             color = settings.colors[kc % len(settings.colors)]
             showLine = True
             showMarkers = False
@@ -1829,8 +1825,23 @@ class SEDMLCodeFactory(object):
             edgecolor = None
             bottom = None
             dashes = []
-            if curve.isSetType():
-                ctype = curve_types[curve.getType()]
+            yId2 = None
+            dgy2 = None
+            
+            #Data:
+            xId = curve.getXDataReference()
+            if curve.getTypeCode()==libsedml.SEDML_SHADEDAREA:
+                yId = curve.getYDataReferenceFrom()
+                yId2 = curve.getYDataReferenceTo()
+                dgy2 = doc.getDataGenerator(yId2)
+                ctype = "fillBetween"
+            else:
+                yId = curve.getYDataReference()
+                if curve.isSetType():
+                    ctype = curve_types[curve.getType()]
+            dgx = doc.getDataGenerator(xId)
+            dgy = doc.getDataGenerator(yId)
+
             if curve.isSetStyle():
                 style = doc.getStyle(curve.getStyle())
                 if style==None:
@@ -1870,15 +1881,35 @@ class SEDMLCodeFactory(object):
 
             if ctype=="line" and ltype=="none":
                 ctype = "markers"
-            if "bar" in ctype or "Bar" in ctype:
+            bartype = None
+            if "bar" in ctype:
                 if color is not None:
                     edgecolor = color
                 if fillcolor is not None:
                     color = fillcolor
                 if "Stacked" in ctype:
-                    bottom = lastbar
-                lastbar = [yId, kc]
+                    lastbar = []
+                    if "Horizontal" in ctype:
+                        lastbar = lasthbar
+                    else:
+                        lastbar = lastvbar
+                    for b, bid in enumerate(lastbar):
+                        if b==0:
+                            bottom = ""
+                        else:
+                            bottom += " + "
+                        bottom += bid
+                        bottom += "[:,k]"
+                if "Horizontal" in ctype:
+                    bartype = "horizontal"
+                    lasthbar.append(yId)
+                else:
+                    bartype = "vertical"
+                    lastvbar.append(yId)
                 ctype = "bar" #The only issue with st
+            
+            if ctype == "fillBetween" and fillcolor is not None:
+                color = fillcolor
 
             # FIXME: add all the additional information to the plot, i.e. the settings and styles for a given curve
 
@@ -1905,13 +1936,17 @@ class SEDMLCodeFactory(object):
             if not edgecolor==None:
                 lines.append("    extra_args['edgecolor'] = '{edgecolor}'".format(edgecolor = edgecolor))
             if not bottom==None:
-                lines.append("    extra_args['bottom'] = {bottom}[:,{prevk}]".format(bottom = bottom[0], prevk=bottom[1]))
+                lines.append("    extra_args['bottom'] = {bottom}".format(bottom = bottom))
+            if not bartype==None:
+                lines.append("    extra_args['bartype'] = '{bartype}'".format(bartype= bartype))
+            if not yId2==None:
+                lines.append("    extra_args['y2'] = {yId2}[:,k]".format(yId2= yId2))
                 
                 
-            lines.append("    tefig.addXYDataset({xarr}[:,k], {yarr}[:,k], color='{color}', tag='{tag}', logx={logx}, logy={logy}, **extra_args)".format(xarr=xId, yarr=yId, color=color, tag=tag, logx=logX, logy=logY))
+            lines.append("    tefig.addXYDataset({xId}[:,k], {yId}[:,k], color='{color}', tag='{tag}', **extra_args)".format(xId=xId, yId=yId, color=color, tag=tag))
 
-            if fillcolor is not None and ctype != "bar":
-                lines.append("    tefig.addXYDataset({xarr}[:,k], {yarr}[:,k], color='{fillcolor}', mode='fill')".format(xarr=xId, yarr=yId, fillcolor=fillcolor))
+            if fillcolor is not None and ctype != "bar" and ctype != "fillBetween":
+                lines.append("    tefig.addXYDataset({xId}[:,k], {yId}[:,k], color='{fillcolor}', mode='fill')".format(xId=xId, yId=yId, fillcolor=fillcolor))
 
             # FIXME: endpoints must be handled via plotting functions
             # lines.append("    fix_endpoints({}[:,k], {}[:,k], color='{}', tag='{}', fig=tefig)".format(xId, yId, color, tag))
@@ -1960,9 +1995,6 @@ class SEDMLCodeFactory(object):
         allYLabel = None
 
         for kc, surf in enumerate(output.getListOfSurfaces()):
-            logX = surf.getLogX()
-            logY = surf.getLogY()
-            logZ = surf.getLogZ()
             xId = surf.getXDataReference()
             yId = surf.getYDataReference()
             zId = surf.getZDataReference()
