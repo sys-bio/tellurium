@@ -1,8 +1,8 @@
 .. _front-ends::
 
-===========================
-Installation and Front-ends
-===========================
+============
+Installation
+============
 
 * Supported platforms: |billy3| |jobsey3| |benguin3|
 
@@ -30,7 +30,7 @@ Installation Options
 
 Tellurium can be used with variety of Python front-ends, for example Spyder, PyCharm, Visual Studio Code, Jupyter Notebooks and Jupyter Lab. For easy access on Windows we recommend the Windows installer. This will install the Spyder IDE as well as one click access to either Jupyter Notebook or Jupyter Lab. 
 
-For Mac, Linux as well Windows platforms, Tellurium can be installed using a standard pip insall as a collection of pip packages: 
+For Mac, Linux as well Windows platforms, Tellurium can be installed using a standard pip install as a collection of pip packages: 
 
 .. code-block:: bash
 
@@ -45,7 +45,6 @@ The image below shows Telluirum running on the Spyder Python interface.
 * Front-end: **Tellurium using Spyder IDE**
 * Supported platforms: |billy| |jobsey| |benguin|
 * Python version: 3.7, 3.8, 3.9 64-bit
-* **Download:** `here <https://github.com/sys-bio/tellurium#front-end-1-tellurium-notebook>`_
 
 .. figure:: ./images/spyderFrontEndExample.png
     :align: center
@@ -55,19 +54,15 @@ The image below shows Telluirum running on the Spyder Python interface.
 
 It's also possible to run Tellurium on the popular Jupyter notebook interface or Jupyter Lab. This can be accessed from colab, NanoHub and can also be installed on hosting systems such as binder. 
 
-
 * Front-end: **Tellurium Using CoLab**
 * Supported platforms: |billy2| |jobsey2| (no Mac updates)
 * Python version: 3.8, 3.9, 64-bit
-* **Download:** `here <https://github.com/sys-bio/tellurium#front-end-2-tellurium-ide>`_
 
-.. figure:: ./images/tellurium_screenshot2.png
+.. figure:: ./images/jupyter1_example.png
     :align: center
-    :alt: Tellurium IDE screenshot
+    :alt: Tellurium running under Google's CoLab
     :figclass: align-center
-    :target: https://github.com/sys-bio/tellurium#front-end-2-tellurium-ide
-
-    Tellurium IDE features a programmer-centric interface similar to MATLAB
+    :target: https://github.com/sys-bio/tellurium#jupyter1_example
 
 
 
