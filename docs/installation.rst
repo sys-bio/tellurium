@@ -36,7 +36,7 @@ For Mac, Linux as well Windows platforms, Tellurium can be installed using a sta
 
     $ pip install tellurium
 
-For novice users we recommend the Windows Installer. This provdes everything you need and installation is like any other Windows application.
+For novice users we recommend the Windows Installer. This provdes everything you need and installation is like any other Windows application. `here <https://github.com/sys-bio/tellurium#front-end-1-tellurium-notebook>`_
 
 User who are more familiar with MATLAB may prefer the Spyder interface `Spyder project <https://www.spyder-ide.org/>`_ that comes with the Windows installer and is available on other platforms via Anaconda. 
 
