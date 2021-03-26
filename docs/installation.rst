@@ -4,12 +4,13 @@
 Installation and Front-ends
 ===========================
 
+* Supported platforms: |billy3| |jobsey3| |benguin3|
+
 As of March 2021, we currently support Python 3.7, 3.8 and 3.9 for Windows, Mac and Linux.
 
 If you need support for a Python version not already covered, please `file an issue <https://github.com/sys-bio/tellurium/issues>`_.
 
-
-New versions of Tellurium no longer support Python 2.7. For those needing Python 2.7 access, previous version of Tellurium can be installed. 
+New versions of Tellurium no longer support Python 2.7. For those needing Python 2.7 access, previous versions of Tellurium can be installed. 
 
 .. |billy| image:: ./images/windows.png
    :scale: 50%
@@ -97,14 +98,6 @@ Tellurium can be installed using the command line tool ``pip``.
 .. |benguin3| image:: ./images/linux.png
    :scale: 50%
 
-
-* No front-end
-* Supported platforms: |billy3| |jobsey3| |benguin3|
-* Python version: 3.7, 3.8, 3.9
-
-.. code-block:: bash
-
-    $ pip install tellurium
 
 
 
