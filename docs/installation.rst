@@ -1,12 +1,8 @@
 .. _front-ends::
 
-=========================
-Supported Python Versions
-=========================
-
 ===========================
 Installation and Front-ends
-==========================
+===========================
 
 As of March 2021, we currently support Python 3.7, 3.8 and 3.9. 
 
