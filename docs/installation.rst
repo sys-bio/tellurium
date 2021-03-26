@@ -50,7 +50,7 @@ Using **Tellurium with the Spyder IDE**
     :figclass: align-center
     :target: https://github.com/sys-bio/tellurium#spyderFrontEndExample
 
-It's also possible to run Tellurium on the popular Jupyter notebook interface or Jupyter Lab. This can be accessed from Colab, NanoHub and can also be installed on hosting systems such as binder. The Windows installer provide desktop access to Juyter. 
+It's also possible to run Tellurium on the popular Jupyter notebook interface or Jupyter Lab. This can be accessed from `Colab <https://colab.research.google.com/notebooks/intro.ipynb>`_ , `NanoHub <https://nanohub.org/>`_ and can also be installed on hosting systems such as `binder <https://mybinder.org/>`_. The Windows installer provide desktop access to Juyter notebook interface directly. 
 
 Using **Tellurium With CoLab**
 
