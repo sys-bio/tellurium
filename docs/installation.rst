@@ -1,17 +1,5 @@
 .. _front-ends::
 
-============
-Installation
-============
-
-* Supported platforms: |billy3| |jobsey3| |benguin3|
-
-As of March 2021, we currently support Python 3.7, 3.8 and 3.9 for Windows, Mac and Linux.
-
-If you need support for a Python version not already covered, please `file an issue <https://github.com/sys-bio/tellurium/issues>`_.
-
-New versions of Tellurium no longer support Python 2.7. For those needing Python 2.7 access, previous versions of Tellurium can be installed. 
-
 .. |billy| image:: ./images/windows.png
    :scale: 50%
    :target: https://github.com/sys-bio/tellurium#windows
@@ -23,6 +11,18 @@ New versions of Tellurium no longer support Python 2.7. For those needing Python
 .. |benguin| image:: ./images/linux.png
    :scale: 50%
    :target: https://github.com/sys-bio/tellurium#redhat
+
+============
+Installation
+============
+
+* Supported platforms: |billy3| |jobsey3| |benguin3|
+
+As of March 2021, we currently support Python 3.7, 3.8 and 3.9 for Windows, Mac and Linux.
+
+If you need support for a Python version not already covered, please `file an issue <https://github.com/sys-bio/tellurium/issues>`_.
+
+New versions of Tellurium no longer support Python 2.7. For those needing Python 2.7 access, previous versions of Tellurium can be installed. 
 
 ---------------------
 Installation Options
@@ -42,9 +42,7 @@ User who are more familiar with MATLAB may prefer the Spyder interface `Spyder p
 
 The image below shows Telluirum running on the Spyder Python interface.
 
-* Front-end: **Tellurium using Spyder IDE**
-* Supported platforms: |billy| |jobsey| |benguin|
-* Python version: 3.7, 3.8, 3.9 64-bit
+Using **Tellurium with the Spyder IDE**
 
 .. figure:: ./images/spyderFrontEndExample.png
     :align: center
@@ -54,9 +52,7 @@ The image below shows Telluirum running on the Spyder Python interface.
 
 It's also possible to run Tellurium on the popular Jupyter notebook interface or Jupyter Lab. This can be accessed from colab, NanoHub and can also be installed on hosting systems such as binder. 
 
-* Front-end: **Tellurium Using CoLab**
-* Supported platforms: |billy2| |jobsey2| (no Mac updates)
-* Python version: 3.8, 3.9, 64-bit
+Using **Tellurium With CoLab**
 
 .. figure:: ./images/jupyter1_example.png
     :align: center
