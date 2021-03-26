@@ -36,44 +36,29 @@ For Mac, Linux as well Windows platforms, Tellurium can be installed using a sta
 
     $ pip install tellurium
 
-We recommend a front-end for end-users who wish to use Tellurium for biological modeling, and the pip packages for developers of other software which uses or incorporates Tellurium.
+For novice users we recommend the Windows Installer. This provdes everything you need and installation is like any other Windows application.
 
-Front-end 1: Tellurium Notebook
-===============================
+User who are more familiar with MATLAB may prefer the Spyder interface `Spyder project <https://www.spyder-ide.org/>`_ that comes with the Windows installer and is available on other platforms via Anaconda. 
 
-Tellurium's notebook front-end mixes code and narrative in a flowing, visual style. The Tellurium notebook will be familiar to users of Jupyter, Mathematica, and SAGE. However, unlike Jupyter, Tellurium notebook comes pre-packaged as an app for Windows, Mac, and Linux and does not require any command line installation. This front-end is based on the `nteract project <https://github.com/nteract/nteract>`_.
+The image below shows Telluirum running on the Spyder Python interface.
 
-
-* Front-end: **Tellurium Notebook**
+* Front-end: **Tellurium using Spyder IDE**
 * Supported platforms: |billy| |jobsey| |benguin|
 * Python version: 3.7, 3.8, 3.9 64-bit
 * **Download:** `here <https://github.com/sys-bio/tellurium#front-end-1-tellurium-notebook>`_
 
-.. figure:: ./images/notebook_screenshot.png
+.. figure:: ./images/spyderFrontEndExample.png
     :align: center
-    :alt: Tellurium notebook screenshot
+    :alt: Tellurium spyder screenshot
     :figclass: align-center
-    :target: https://github.com/sys-bio/tellurium#front-end-1-tellurium-notebook
+    :target: https://github.com/sys-bio/tellurium#spyderFrontEndExample
 
-    Tellurium notebook offers an environment similar to Jupyter
-
-Front-end 2: Tellurium IDE
-==========================
-
-User who are more familiar with MATLAB may prefer Tellurium's IDE interface, which is based on popular programming tools (Visual Studio, etc.). This front-end is based on the `Spyder project <https://www.spyder-ide.org/>`_. Due to stability issues, we recommend Mac users use the Tellurium notebook front-end instead.
-
-.. |billy2| image:: ./images/windows.png
-   :scale: 50%
-   :target: https://github.com/sys-bio/tellurium#windows-1
-
-.. |jobsey2| image:: ./images/macos.png
-   :scale: 50%
-   :target: https://github.com/sys-bio/tellurium#mac-osx-1
+It's also possible to run Tellurium on the popular Jupyter notebook interface or Jupyter Lab. This can be accessed from colab, NanoHub and can also be installed on hosting systems such as binder. 
 
 
-* Front-end: **Tellurium IDE**
+* Front-end: **Tellurium Using CoLab**
 * Supported platforms: |billy2| |jobsey2| (no Mac updates)
-* Python version: 3.8, 64-bit
+* Python version: 3.8, 3.9, 64-bit
 * **Download:** `here <https://github.com/sys-bio/tellurium#front-end-2-tellurium-ide>`_
 
 .. figure:: ./images/tellurium_screenshot2.png
@@ -83,20 +68,6 @@ User who are more familiar with MATLAB may prefer Tellurium's IDE interface, whi
     :target: https://github.com/sys-bio/tellurium#front-end-2-tellurium-ide
 
     Tellurium IDE features a programmer-centric interface similar to MATLAB
-
-PyPI Packages
-=============
-
-Tellurium can be installed using the command line tool ``pip``.
-
-.. |billy3| image:: ./images/windows.png
-   :scale: 50%
-
-.. |jobsey3| image:: ./images/macos.png
-   :scale: 50%
-
-.. |benguin3| image:: ./images/linux.png
-   :scale: 50%
 
 
 
