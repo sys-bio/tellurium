@@ -1,5 +1,9 @@
 .. _front-ends::
 
+============
+Installation
+============
+
 .. |billy| image:: ./images/windows.png
    :scale: 50%
    :target: https://github.com/sys-bio/tellurium#windows
@@ -11,10 +15,6 @@
 .. |benguin| image:: ./images/linux.png
    :scale: 50%
    :target: https://github.com/sys-bio/tellurium#redhat
-
-============
-Installation
-============
 
 * Supported platforms: |billy3| |jobsey3| |benguin3|
 
@@ -36,11 +36,11 @@ For Mac, Linux as well Windows platforms, Tellurium can be installed using a sta
 
     $ pip install tellurium
 
-For novice users we recommend the Windows Installer. This provdes everything you need and installation is like any other Windows application. `here <https://github.com/sys-bio/tellurium#front-end-1-tellurium-notebook>`_
+For novice users we recommend the `Windows Installer <https://github.com/sys-bio/tellurium#front-end-1-tellurium-notebook>`_. This provdes everything you need and installation is like any other Windows application. 
 
-User who are more familiar with MATLAB may prefer the Spyder interface `Spyder project <https://www.spyder-ide.org/>`_ that comes with the Windows installer and is available on other platforms via Anaconda. 
+User who are more familiar with MATLAB may prefer the Spyder interface `Spyder project <https://www.spyder-ide.org/>`_ that comes with the Windows installer and is available on other platforms via `Anaconda <https://www.anaconda.com/>`_. 
 
-The image below shows Telluirum running on the Spyder Python interface.
+The image below shows Tellurium running on the Spyder Python interface.
 
 Using **Tellurium with the Spyder IDE**
 
@@ -50,7 +50,7 @@ Using **Tellurium with the Spyder IDE**
     :figclass: align-center
     :target: https://github.com/sys-bio/tellurium#spyderFrontEndExample
 
-It's also possible to run Tellurium on the popular Jupyter notebook interface or Jupyter Lab. This can be accessed from colab, NanoHub and can also be installed on hosting systems such as binder. 
+It's also possible to run Tellurium on the popular Jupyter notebook interface or Jupyter Lab. This can be accessed from Colab, NanoHub and can also be installed on hosting systems such as binder. 
 
 Using **Tellurium With CoLab**
 
