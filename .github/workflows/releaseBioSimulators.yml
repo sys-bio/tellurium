@@ -1,0 +1,28 @@
+name: Update command-line interface and Docker image
+on:
+  release:
+    types:
+      - published
+jobs:
+  updateCliAndDockerImage:
+    name: Build and release downstream command-line interface and Docker image
+    runs-on: ubuntu-latest
+    env:
+      # Owner/repository-id for the GitHub repository for the downstream command-line interface and Docker image
+      DOWNSTREAM_REPOSITORY: biosimulators/Biosimulators_tellurium
+      # Username/token to use the GitHub API to trigger an action on the GitHub repository for the downstream
+      # command-line interface and Docker image. Tokens can be generated at https://github.com/settings/tokens.
+      # The token should have the scope `repo`
+      GH_ISSUE_USERNAME: ${{ secrets.GH_ISSUE_USERNAME }}
+      GH_ISSUE_TOKEN: ${{ secrets.GH_ISSUE_TOKEN }}
+    steps:
+      - name: Trigger GitHub action that will build and release the downstream command-line interface and Docker image
+        run: |
+          PACKAGE_VERSION="${GITHUB_REF/refs\/tags\//}"
+          WORKFLOW_FILE=ci.yml
+          curl \
+            -X POST \
+            -u ${GH_ISSUE_USERNAME}:${GH_ISSUE_TOKEN} \
+            -H "Accept: application/vnd.github.v3+json" \
+              https://api.github.com/repos/${DOWNSTREAM_REPOSITORY}/actions/workflows/${WORKFLOW_FILE}/dispatches \
+            -d "{\"inputs\": {\"simulatorVersion\": \"${PACKAGE_VERSION}\"}}"
