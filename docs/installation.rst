@@ -4,7 +4,10 @@
 Installation and Front-ends
 ===========================
 
-As of March 2021, we currently support Python 3.7, 3.8 and 3.9. 
+As of March 2021, we currently support Python 3.7, 3.8 and 3.9 for Windows, Mac and Linux.
+
+If you need support for a Python version not already covered, please `file an issue <https://github.com/sys-bio/tellurium/issues>`_.
+
 
 New versions of Tellurium no longer support Python 2.7. For those needing Python 2.7 access, previous version of Tellurium can be installed. 
 
@@ -24,15 +27,15 @@ New versions of Tellurium no longer support Python 2.7. For those needing Python
 Installation Options
 ---------------------
 
-Tellurium can be used with variety of Python front-ends, for example Spyder, PyCharm, Visual Studip Code, Jupyter Notebooks and Jupyter Lab. For easy access on Windows we recommend the Windows installer. This will install the Spyder IDE as well as one click access to either Jupyter Notebook or Jupyter Lab. 
+Tellurium can be used with variety of Python front-ends, for example Spyder, PyCharm, Visual Studio Code, Jupyter Notebooks and Jupyter Lab. For easy access on Windows we recommend the Windows installer. This will install the Spyder IDE as well as one click access to either Jupyter Notebook or Jupyter Lab. 
 
-For Mac, Linux as well Windows platforms, Tellurium can be installed using standard 
+For Mac, Linux as well Windows platforms, Tellurium can be installed using a standard pip insall as a collection of pip packages: 
 
 .. code-block:: bash
 
     $ pip install tellurium
 
-can also be installed as a collection of pip packages. We recommend a front-end for end-users who wish to use Tellurium for biological modeling, and the pip packages for developers of other software which uses or incorporates Tellurium.
+We recommend a front-end for end-users who wish to use Tellurium for biological modeling, and the pip packages for developers of other software which uses or incorporates Tellurium.
 
 Front-end 1: Tellurium Notebook
 ===============================
@@ -69,7 +72,7 @@ User who are more familiar with MATLAB may prefer Tellurium's IDE interface, whi
 
 * Front-end: **Tellurium IDE**
 * Supported platforms: |billy2| |jobsey2| (no Mac updates)
-* Python version: 2.7, 64-bit
+* Python version: 3.8, 64-bit
 * **Download:** `here <https://github.com/sys-bio/tellurium#front-end-2-tellurium-ide>`_
 
 .. figure:: ./images/tellurium_screenshot2.png
@@ -97,17 +100,11 @@ Tellurium can be installed using the command line tool ``pip``.
 
 * No front-end
 * Supported platforms: |billy3| |jobsey3| |benguin3|
-* Python version: 2.7, 3.4, 3.5, 3.6
+* Python version: 3.7, 3.8, 3.9
 
 .. code-block:: bash
 
     $ pip install tellurium
-
-Supported Python Versions
-=======================
-
-The Tellurium PyPI packages support 64-bit Python versions 2.7, 3.4, 3.5, and 3.6 for Windows, Mac, and Linux. The notebook viewer comes with Python 3.6 (64-bit) and the IDE comes with Python 2.7 (32-bit). If you need support for a Python version not already covered, please `file an issue <https://github.com/sys-bio/tellurium/issues>`_.
-
 
 
 
