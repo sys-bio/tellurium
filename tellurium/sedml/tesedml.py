@@ -1975,7 +1975,6 @@ class SEDMLCodeFactory(object):
         :return: list of python lines
         :rtype: list(str)
         """
-        # TODO: handle mix of log and linear axis
         settings = SEDMLCodeFactory.outputPlotSettings()
         lines = []
         lines.append("from mpl_toolkits.mplot3d import Axes3D")
@@ -2097,7 +2096,8 @@ class SEDMLTools(object):
                 x = ElementTree.fromstring(inputStr)
                 # is parsable xml string
                 doc = libsedml.readSedMLFromString(inputStr)
-                doc.sortOrderedObjects()
+                if doc:
+                    doc.sortOrderedObjects()
                 inputType = cls.INPUT_TYPE_STR
                 if workingDir is None:
                     workingDir = os.getcwd()
@@ -2139,7 +2139,8 @@ class SEDMLTools(object):
 
                 sedmlFile = sedmlFiles[0]
                 doc = libsedml.readSedMLFromFile(sedmlFile)
-                doc.sortOrderedObjects()
+                if doc:
+                    doc.sortOrderedObjects()
                 # we have to work relative to the SED-ML file
                 workingDir = os.path.dirname(sedmlFile)
 
@@ -2152,8 +2153,9 @@ class SEDMLTools(object):
                     raise IOError("SEDML file should have [.sedml|.xml] extension:", inputStr)
                 inputType = cls.INPUT_TYPE_FILE_SEDML
                 doc = libsedml.readSedMLFromFile(inputStr)
-                doc.sortOrderedObjects()
                 cls.checkSEDMLDocument(doc)
+                if doc:
+                    doc.sortOrderedObjects()
                 # working directory is where the sedml file is
                 if workingDir is None:
                     workingDir = os.path.dirname(os.path.realpath(inputStr))
