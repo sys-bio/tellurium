@@ -277,7 +277,7 @@ marker_types = {
     libsedml.SEDML_MARKERTYPE_TRIANGLELEFT: "<",
     libsedml.SEDML_MARKERTYPE_TRIANGLERIGHT: ">",
     libsedml.SEDML_MARKERTYPE_TRIANGLEUP: "^",
-    libsedml.SEDML_MARKERTYPE_VDASH: "\\",
+    libsedml.SEDML_MARKERTYPE_VDASH: "|",
     libsedml.SEDML_MARKERTYPE_XCROSS: "x",
 }
 
@@ -1815,7 +1815,7 @@ class SEDMLCodeFactory(object):
             showMarkers = False
             lthickness = None
             ltype = "line"
-            mtype = ""
+            mtype = None
             ctype = ""
             mfc = None
             mec = None
@@ -1843,8 +1843,8 @@ class SEDMLCodeFactory(object):
             dgy = doc.getDataGenerator(yId)
 
             if curve.isSetStyle():
-                style = doc.getStyle(curve.getStyle())
-                if style==None:
+                style = doc.getEffectiveStyle(curve.getStyle())
+                if doc.getStyle(curve.getStyle())==None:
                     raise ValueError("SED-ML curve '" + curve.getId() + "' references nonexistent style '" + curve.getStyle() + "'.")
                 if style.isSetLineStyle():
                     line = style.getLineStyle()
@@ -1921,7 +1921,7 @@ class SEDMLCodeFactory(object):
                 lines.append("    extra_args['dash'] = {dashes}".format(dashes = dashes))
             if not ctype=="":
                 lines.append("    extra_args['mode'] = '{ctype}'".format(ctype=ctype))
-            if not mtype=="":
+            if not mtype==None:
                 lines.append("    extra_args['marker'] = '{mtype}'".format(mtype = mtype))
             if not lthickness==None:
                 lines.append("    extra_args['linewidth'] = {lthickness}".format(lthickness = lthickness))
@@ -2097,6 +2097,7 @@ class SEDMLTools(object):
                 x = ElementTree.fromstring(inputStr)
                 # is parsable xml string
                 doc = libsedml.readSedMLFromString(inputStr)
+                doc.sortOrderedObjects()
                 inputType = cls.INPUT_TYPE_STR
                 if workingDir is None:
                     workingDir = os.getcwd()
@@ -2138,6 +2139,7 @@ class SEDMLTools(object):
 
                 sedmlFile = sedmlFiles[0]
                 doc = libsedml.readSedMLFromFile(sedmlFile)
+                doc.sortOrderedObjects()
                 # we have to work relative to the SED-ML file
                 workingDir = os.path.dirname(sedmlFile)
 
@@ -2150,6 +2152,7 @@ class SEDMLTools(object):
                     raise IOError("SEDML file should have [.sedml|.xml] extension:", inputStr)
                 inputType = cls.INPUT_TYPE_FILE_SEDML
                 doc = libsedml.readSedMLFromFile(inputStr)
+                doc.sortOrderedObjects()
                 cls.checkSEDMLDocument(doc)
                 # working directory is where the sedml file is
                 if workingDir is None:

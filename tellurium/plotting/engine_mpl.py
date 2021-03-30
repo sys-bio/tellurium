@@ -75,6 +75,7 @@ class MatplotlibFigure(PlottingFigure):
             elif mode=="markers":
                 kwargs['marker'] = 'o'
                 kwargs['linewidth'] = 0
+                passkeys = ["alpha", "showlegend", "color", "marker", "mfc", "mec", "ms", "mew"]
             elif mode=="bar":
                 passkeys = ["alpha", "showlegend", "color", "linewidth", "edgecolor", "bottom"]
             elif mode=="fillBetween":
