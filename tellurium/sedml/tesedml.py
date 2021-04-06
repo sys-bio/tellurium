@@ -281,6 +281,16 @@ marker_types = {
     libsedml.SEDML_MARKERTYPE_XCROSS: "x",
 }
 
+surface_types = {
+    libsedml.SEDML_SURFACETYPE_BAR: "bar",
+    libsedml.SEDML_SURFACETYPE_CONTOUR: "contour",
+    libsedml.SEDML_SURFACETYPE_HEATMAP: "heatmap",
+    libsedml.SEDML_SURFACETYPE_PARAMETRICCURVE: "line",
+    libsedml.SEDML_SURFACETYPE_STACKEDCURVES: "curves",
+    libsedml.SEDML_SURFACETYPE_SURFACECONTOUR: "contour",
+    libsedml.SEDML_SURFACETYPE_SURFACEMESH: "mesh",
+}
+
 ######################################################################################################################
 # Interface functions
 ######################################################################################################################
@@ -2000,7 +2010,6 @@ class SEDMLCodeFactory(object):
             dgx = doc.getDataGenerator(xId)
             dgy = doc.getDataGenerator(yId)
             dgz = doc.getDataGenerator(zId)
-            color = settings.colors[kc % len(settings.colors)]
 
             zLabel = zId
             if surf.isSetName():
@@ -2023,12 +2032,59 @@ class SEDMLCodeFactory(object):
                 oneXLabel = False
             if yLabel != allYLabel:
                 oneYLabel = False
+            
+            kwargs = {}
+            kwargs["color"] = "'" + settings.colors[kc % len(settings.colors)] + "'"
+            kwargs["linewidth"] = settings.linewidth
+            kwargs["marker"] = "'" + settings.marker + "'"
+            kwargs["ms"] = settings.markersize
+            kwargs["alpha"] = settings.alpha
+            kwargs["label"] = "'" + zLabel + "'"
 
+            mode = "line"
+            
+            if (surf.isSetType()):
+                mode = surface_types[surf.getType()]
+            if (surf.isSetStyle()):
+                style = doc.getEffectiveStyle(surf.getStyle())
+                if style.isSetLineStyle():
+                    line = style.getLineStyle()
+                    if line.isSetColor():
+                        kwargs["color"] = "'" + line.getColor() + "'"
+                    if line.isSetThickness():
+                        kwargs["linewidth"] = line.getThickness()
+                    if line.isSetStyle():
+                        ltype = line_types[line.getStyle()]
+                if style.isSetMarkerStyle():
+                    marker = style.getMarkerStyle()
+                    if marker.isSetStyle():
+                        kwargs["marker"] = marker.getStyle()
+                    if marker.isSetFill():
+                        kwargs["mfc"] = "'" + marker.getFill() + "'"
+                    if marker.isSetLineColor():
+                        kwargs["mec"] = "'" + marker.getLineColor() + "'"
+                    if marker.isSetSize():
+                        kwargs["ms"] = marker.getSize()
+                    if marker.isSetLineThickness():
+                        kwargs["mew"] = marker.getLineThickness()
+                
             lines.append("for k in range({}.shape[1]):".format(xId))
             lines.append("    if k == 0:")
-            lines.append("        ax.plot({}[:,k], {}[:,k], {}[:,k], marker = '{}', color='{}', linewidth={}, markersize={}, alpha={}, label='{}')".format(xId, yId, zId, settings.marker, color, settings.linewidth, settings.markersize, settings.alpha, zLabel))
+            plotline = "        ax.plot({}[:,k], {}[:,k], {}[:,k]".format(xId, yId, zId)
+            for kwarg in kwargs:
+                plotline = plotline + ", " + kwarg + "=" + str(kwargs[kwarg])
+            # lines.append("        ax.plot({}[:,k], {}[:,k], {}[:,k], marker = '{}', color='{}', linewidth={}, markersize={}, alpha={}, label='{}')".format(xId, yId, zId, mtype, color, linewidth, markersize, alpha, zLabel))
+            plotline += ")"
+            lines.append(plotline)
             lines.append("    else:")
-            lines.append("        ax.plot({}[:,k], {}[:,k], {}[:,k], marker = '{}', color='{}', linewidth={}, markersize={}, alpha={})".format(xId, yId, zId, settings.marker, color, settings.linewidth, settings.markersize, settings.alpha))
+            plotline = "        ax.plot({}[:,k], {}[:,k], {}[:,k]".format(xId, yId, zId)
+            for kwarg in kwargs:
+                if kwarg=="label":
+                    continue
+                plotline = plotline + ", " + kwarg + "=" + str(kwargs[kwarg])
+            plotline += ")"
+            # lines.append("        ax.plot({}[:,k], {}[:,k], {}[:,k], marker = '{}', color='{}', linewidth={}, markersize={}, alpha={})".format(xId, yId, zId, mtype, color, linewidth, markersize, settings.alpha))
+            lines.append(plotline)
 
         lines.append("ax.set_title('{}', fontweight='bold')".format(title))
         if oneXLabel:
@@ -2045,7 +2101,7 @@ class SEDMLCodeFactory(object):
         lines.append("plt.tick_params(axis='both', which='major', labelsize=10)")
         lines.append("plt.tick_params(axis='both', which='minor', labelsize=8)")
         lines.append("plt.savefig(os.path.join(workingDir, '{}.png'), dpi=100)".format(output.getId()))
-        lines.append("plt.show()".format(title))
+        lines.append("plt.show()")
 
         return lines
 
@@ -2096,8 +2152,7 @@ class SEDMLTools(object):
                 x = ElementTree.fromstring(inputStr)
                 # is parsable xml string
                 doc = libsedml.readSedMLFromString(inputStr)
-                if doc:
-                    doc.sortOrderedObjects()
+                doc.sortOrderedObjects()
                 inputType = cls.INPUT_TYPE_STR
                 if workingDir is None:
                     workingDir = os.getcwd()
@@ -2139,8 +2194,7 @@ class SEDMLTools(object):
 
                 sedmlFile = sedmlFiles[0]
                 doc = libsedml.readSedMLFromFile(sedmlFile)
-                if doc:
-                    doc.sortOrderedObjects()
+                doc.sortOrderedObjects()
                 # we have to work relative to the SED-ML file
                 workingDir = os.path.dirname(sedmlFile)
 
@@ -2154,8 +2208,7 @@ class SEDMLTools(object):
                 inputType = cls.INPUT_TYPE_FILE_SEDML
                 doc = libsedml.readSedMLFromFile(inputStr)
                 cls.checkSEDMLDocument(doc)
-                if doc:
-                    doc.sortOrderedObjects()
+                doc.sortOrderedObjects()
                 # working directory is where the sedml file is
                 if workingDir is None:
                     workingDir = os.path.dirname(os.path.realpath(inputStr))
