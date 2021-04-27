@@ -282,13 +282,13 @@ marker_types = {
 }
 
 surface_types = {
-    libsedml.SEDML_SURFACETYPE_BAR: "bar",
+    libsedml.SEDML_SURFACETYPE_BAR: "plot",
     libsedml.SEDML_SURFACETYPE_CONTOUR: "contour",
-    libsedml.SEDML_SURFACETYPE_HEATMAP: "heatmap",
-    libsedml.SEDML_SURFACETYPE_PARAMETRICCURVE: "line",
-    libsedml.SEDML_SURFACETYPE_STACKEDCURVES: "curves",
-    libsedml.SEDML_SURFACETYPE_SURFACECONTOUR: "contour",
-    libsedml.SEDML_SURFACETYPE_SURFACEMESH: "mesh",
+    libsedml.SEDML_SURFACETYPE_HEATMAP: "pcolormesh",
+    libsedml.SEDML_SURFACETYPE_PARAMETRICCURVE: "plot",
+    libsedml.SEDML_SURFACETYPE_STACKEDCURVES: "plot",
+    libsedml.SEDML_SURFACETYPE_SURFACECONTOUR: "plot_surface",
+    libsedml.SEDML_SURFACETYPE_SURFACEMESH: "plot_wireframe",
 }
 
 ######################################################################################################################
@@ -1858,16 +1858,16 @@ class SEDMLCodeFactory(object):
                     raise ValueError("SED-ML curve '" + curve.getId() + "' references nonexistent style '" + curve.getStyle() + "'.")
                 if style.isSetLineStyle():
                     line = style.getLineStyle()
-                    if line.isSetStyle():
-                        (showLine, ltype, dashes) = line_types[line.getStyle()]
+                    if line.isSetType():
+                        (showLine, ltype, dashes) = line_types[line.getType()]
                     if line.isSetColor():
                         color = line.getColor()
                     if line.isSetThickness():
                         lthickness = line.getThickness()
                 if style.isSetMarkerStyle():
                     marker = style.getMarkerStyle()
-                    if marker.isSetStyle():
-                        mtype = marker_types[marker.getStyle()]
+                    if marker.isSetType():
+                        mtype = marker_types[marker.getType()]
                     if marker.isSetFill():
                         mfc = marker.getFill()
                     if marker.isSetLineColor():
@@ -1991,7 +1991,6 @@ class SEDMLCodeFactory(object):
         lines.append("fig = plt.figure(num=None, figsize={}, dpi={}, facecolor='{}', edgecolor='{}')".format(settings.figsize, settings.dpi, settings.facecolor, settings.edgecolor))
         lines.append("from matplotlib import gridspec")
         lines.append("__gs = gridspec.GridSpec(1, 2, width_ratios=[3, 1])")
-        lines.append("ax = plt.subplot(__gs[0], projection='3d')")
         # lines.append("ax = fig.gca(projection='3d')")
 
         title = output.getId()
@@ -2041,7 +2040,7 @@ class SEDMLCodeFactory(object):
             kwargs["alpha"] = settings.alpha
             kwargs["label"] = "'" + zLabel + "'"
 
-            mode = "line"
+            mode = "plot"
             
             if (surf.isSetType()):
                 mode = surface_types[surf.getType()]
@@ -2053,12 +2052,12 @@ class SEDMLCodeFactory(object):
                         kwargs["color"] = "'" + line.getColor() + "'"
                     if line.isSetThickness():
                         kwargs["linewidth"] = line.getThickness()
-                    if line.isSetStyle():
-                        ltype = line_types[line.getStyle()]
-                if style.isSetMarkerStyle():
+                    if line.isSetType():
+                        ltype = line_types[line.getType()]
+                if mode=="plot" and style.isSetMarkerStyle():
                     marker = style.getMarkerStyle()
-                    if marker.isSetStyle():
-                        kwargs["marker"] = marker.getStyle()
+                    if marker.isSetType():
+                        kwargs["marker"] = marker.getType()
                     if marker.isSetFill():
                         kwargs["mfc"] = "'" + marker.getFill() + "'"
                     if marker.isSetLineColor():
@@ -2067,37 +2066,63 @@ class SEDMLCodeFactory(object):
                         kwargs["ms"] = marker.getSize()
                     if marker.isSetLineThickness():
                         kwargs["mew"] = marker.getLineThickness()
+                if style.isSetFillStyle():
+                    fill = style.getFillStyle()
+                    if fill.isSetColor():
+                        kwargs["fillcolor"] = "'" + fill.getColor() + "'";
+            if mode=="contour":
+                kwargs["levels"] = 30
+            if mode=="pcolormesh":
+                kwargs["cmap"] = "'RdBu'"
+                kwargs["shading"] = "'auto'"
+                lines.append("ax = plt.subplot(__gs[0])")
+            else:
+                lines.append("ax = plt.subplot(__gs[0], projection='3d')")
+            if mode=="plot":
+                lines.append("for k in range({}.shape[1]):".format(xId))
+                lines.append("    if k == 0:")
+                plotline = "        ax." + mode + "({}[:,k], {}[:,k], {}[:,k]".format(xId, yId, zId)
+                for kwarg in kwargs:
+                    plotline = plotline + ", " + kwarg + "=" + str(kwargs[kwarg])
+                # lines.append("        ax.plot({}[:,k], {}[:,k], {}[:,k], marker = '{}', color='{}', linewidth={}, markersize={}, alpha={}, label='{}')".format(xId, yId, zId, mtype, color, linewidth, markersize, alpha, zLabel))
+                plotline += ")"
+                lines.append(plotline)
+                lines.append("    else:")
+                plotline = "        ax." + mode + "({}[:,k], {}[:,k], {}[:,k]".format(xId, yId, zId)
+                for kwarg in kwargs:
+                    if kwarg=="label":
+                        continue
+                    plotline = plotline + ", " + kwarg + "=" + str(kwargs[kwarg])
+                plotline += ")"
+                # lines.append("        ax.plot({}[:,k], {}[:,k], {}[:,k], marker = '{}', color='{}', linewidth={}, markersize={}, alpha={})".format(xId, yId, zId, mtype, color, linewidth, markersize, settings.alpha))
+                lines.append(plotline)
+            else:
+                del kwargs["marker"]
+                del kwargs["ms"]
+                if "fillcolor" in kwargs:
+                    kwargs["color"] = kwargs["fillcolor"]
+                    del kwargs["fillcolor"]
+                plotline = "ax." + mode + "({}, {}, {}".format(xId, yId, zId)
+                for kwarg in kwargs:
+                    plotline = plotline + ", " + kwarg + "=" + str(kwargs[kwarg])
+                # lines.append("        ax.plot({}[:,k], {}[:,k], {}[:,k], marker = '{}', color='{}', linewidth={}, markersize={}, alpha={}, label='{}')".format(xId, yId, zId, mtype, color, linewidth, markersize, alpha, zLabel))
+                plotline += ")"
+                lines.append(plotline)
                 
-            lines.append("for k in range({}.shape[1]):".format(xId))
-            lines.append("    if k == 0:")
-            plotline = "        ax.plot({}[:,k], {}[:,k], {}[:,k]".format(xId, yId, zId)
-            for kwarg in kwargs:
-                plotline = plotline + ", " + kwarg + "=" + str(kwargs[kwarg])
-            # lines.append("        ax.plot({}[:,k], {}[:,k], {}[:,k], marker = '{}', color='{}', linewidth={}, markersize={}, alpha={}, label='{}')".format(xId, yId, zId, mtype, color, linewidth, markersize, alpha, zLabel))
-            plotline += ")"
-            lines.append(plotline)
-            lines.append("    else:")
-            plotline = "        ax.plot({}[:,k], {}[:,k], {}[:,k]".format(xId, yId, zId)
-            for kwarg in kwargs:
-                if kwarg=="label":
-                    continue
-                plotline = plotline + ", " + kwarg + "=" + str(kwargs[kwarg])
-            plotline += ")"
-            # lines.append("        ax.plot({}[:,k], {}[:,k], {}[:,k], marker = '{}', color='{}', linewidth={}, markersize={}, alpha={})".format(xId, yId, zId, mtype, color, linewidth, markersize, settings.alpha))
-            lines.append(plotline)
 
         lines.append("ax.set_title('{}', fontweight='bold')".format(title))
         if oneXLabel:
             lines.append("ax.set_xlabel('{}', fontweight='bold')".format(xLabel))
         if oneYLabel:
             lines.append("ax.set_ylabel('{}', fontweight='bold')".format(yLabel))
-        if len(output.getListOfSurfaces()) == 1:
+        if len(output.getListOfSurfaces()) == 1 and mode != "pcolormesh":
             lines.append("ax.set_zlabel('{}', fontweight='bold')".format(zLabel))
-
-        lines.append("__lg = plt.legend(bbox_to_anchor=(1.05, 1), loc=2, borderaxespad=0.)")
-        lines.append("__lg.draw_frame(False)")
-        lines.append("plt.setp(__lg.get_texts(), fontsize='small')")
-        lines.append("plt.setp(__lg.get_texts(), fontweight='bold')")
+            
+        if mode=="plot":
+            lines.append("__lg = plt.legend(bbox_to_anchor=(1.05, 1), loc=2, borderaxespad=0.)")
+            lines.append("__lg.draw_frame(False)")
+            lines.append("plt.setp(__lg.get_texts(), fontsize='small')")
+            lines.append("plt.setp(__lg.get_texts(), fontweight='bold')")
         lines.append("plt.tick_params(axis='both', which='major', labelsize=10)")
         lines.append("plt.tick_params(axis='both', which='minor', labelsize=8)")
         lines.append("plt.savefig(os.path.join(workingDir, '{}.png'), dpi=100)".format(output.getId()))
