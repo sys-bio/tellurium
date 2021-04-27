@@ -1123,7 +1123,7 @@ class SEDMLCodeFactory(object):
             initialTime = simulation.getInitialTime()
             outputStartTime = simulation.getOutputStartTime()
             outputEndTime = simulation.getOutputEndTime()
-            numberOfPoints = simulation.getNumberOfPoints()
+            numberOfSteps = simulation.getNumberOfSteps()
 
             # reset before simulation (see https://github.com/sys-bio/tellurium/issues/193)
             lines.append("{}.reset()".format(mid))
@@ -1134,7 +1134,7 @@ class SEDMLCodeFactory(object):
                                     mid, initialTime, outputStartTime))
             # real simulation
             lines.append("{} = {}.simulate(start={}, end={}, steps={})".format(
-                                    resultVariable, mid, outputStartTime, outputEndTime, numberOfPoints))
+                                    resultVariable, mid, outputStartTime, outputEndTime, numberOfSteps))
         # -------------------------------------------------------------------------
         # <ONESTEP>
         # -------------------------------------------------------------------------

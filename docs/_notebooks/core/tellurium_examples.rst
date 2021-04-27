@@ -148,7 +148,7 @@ Bistable System
 ~~~~~~~~~~~~~~~
 
 Example showing how to to multiple time course simulations, merging the
-data and plotting it onto one platting surface. Alternative is to use
+data and plotting it onto one plotting surface. Alternative is to use
 setHold()
 
 Model is a bistable system, simulations start with different initial
