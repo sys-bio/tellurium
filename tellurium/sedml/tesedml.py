@@ -248,6 +248,48 @@ KISAOS_ALGORITHMPARAMETERS = {
     488: ('seed', int),  # the seed for stochastic runs of the algorithm
 }
 
+curve_types = {
+    libsedml.SEDML_CURVETYPE_POINTS: "line",
+    libsedml.SEDML_CURVETYPE_BAR: "bar",
+    libsedml.SEDML_CURVETYPE_BARSTACKED: "barStacked",
+    libsedml.SEDML_CURVETYPE_HORIZONTALBAR: "barHorizontal",
+    libsedml.SEDML_CURVETYPE_HORIZONTALBARSTACKED: "barHorizontalStacked",
+}
+
+line_types = {
+    libsedml.SEDML_LINETYPE_NONE: (False, "none", []),
+    libsedml.SEDML_LINETYPE_DASH: (True, "dash", [4, 2]),
+    libsedml.SEDML_LINETYPE_DASHDOT: (True, "dash", [4, 2, 1, 2]),
+    libsedml.SEDML_LINETYPE_DASHDOTDOT: (True, "dash", [4, 2, 1, 2, 1, 2]),
+    libsedml.SEDML_LINETYPE_DOT: (True, "dash", [1, 2]),
+    libsedml.SEDML_LINETYPE_SOLID: (True, "line", []),
+}
+
+marker_types = {
+    libsedml.SEDML_MARKERTYPE_CIRCLE: "o",
+    libsedml.SEDML_MARKERTYPE_DIAMOND: "D",
+    libsedml.SEDML_MARKERTYPE_HDASH: "_",
+    libsedml.SEDML_MARKERTYPE_NONE: "",
+    libsedml.SEDML_MARKERTYPE_PLUS: "+",
+    libsedml.SEDML_MARKERTYPE_SQUARE: "s",
+    libsedml.SEDML_MARKERTYPE_STAR: "*",
+    libsedml.SEDML_MARKERTYPE_TRIANGLEDOWN: "v",
+    libsedml.SEDML_MARKERTYPE_TRIANGLELEFT: "<",
+    libsedml.SEDML_MARKERTYPE_TRIANGLERIGHT: ">",
+    libsedml.SEDML_MARKERTYPE_TRIANGLEUP: "^",
+    libsedml.SEDML_MARKERTYPE_VDASH: "|",
+    libsedml.SEDML_MARKERTYPE_XCROSS: "x",
+}
+
+surface_types = {
+    libsedml.SEDML_SURFACETYPE_BAR: "plot",
+    libsedml.SEDML_SURFACETYPE_CONTOUR: "contour",
+    libsedml.SEDML_SURFACETYPE_HEATMAP: "pcolormesh",
+    libsedml.SEDML_SURFACETYPE_PARAMETRICCURVE: "plot",
+    libsedml.SEDML_SURFACETYPE_STACKEDCURVES: "plot",
+    libsedml.SEDML_SURFACETYPE_SURFACECONTOUR: "plot_surface",
+    libsedml.SEDML_SURFACETYPE_SURFACEMESH: "plot_wireframe",
+}
 
 ######################################################################################################################
 # Interface functions
@@ -1774,14 +1816,70 @@ class SEDMLCodeFactory(object):
         lines.append("else:")
         lines.append("    tefig = te.nextFigure(title='{}', xtitle='{}')\n".format(title, xtitle))
 
+        lastvbar = []
+        lasthbar = []
         for kc, curve in enumerate(output.getListOfCurves()):
-            logX = curve.getLogX()
-            logY = curve.getLogY()
+            #defaults:
+            color = settings.colors[kc % len(settings.colors)]
+            showLine = True
+            showMarkers = False
+            lthickness = None
+            ltype = "line"
+            mtype = None
+            ctype = ""
+            mfc = None
+            mec = None
+            ms = None
+            mew = None
+            fillcolor = None
+            edgecolor = None
+            bottom = None
+            dashes = []
+            yId2 = None
+            dgy2 = None
+            
+            #Data:
             xId = curve.getXDataReference()
-            yId = curve.getYDataReference()
+            if curve.getTypeCode()==libsedml.SEDML_SHADEDAREA:
+                yId = curve.getYDataReferenceFrom()
+                yId2 = curve.getYDataReferenceTo()
+                dgy2 = doc.getDataGenerator(yId2)
+                ctype = "fillBetween"
+            else:
+                yId = curve.getYDataReference()
+                if curve.isSetType():
+                    ctype = curve_types[curve.getType()]
             dgx = doc.getDataGenerator(xId)
             dgy = doc.getDataGenerator(yId)
-            color = settings.colors[kc % len(settings.colors)]
+
+            if curve.isSetStyle():
+                style = doc.getEffectiveStyle(curve.getStyle())
+                if doc.getStyle(curve.getStyle())==None:
+                    raise ValueError("SED-ML curve '" + curve.getId() + "' references nonexistent style '" + curve.getStyle() + "'.")
+                if style.isSetLineStyle():
+                    line = style.getLineStyle()
+                    if line.isSetType():
+                        (showLine, ltype, dashes) = line_types[line.getType()]
+                    if line.isSetColor():
+                        color = line.getColor()
+                    if line.isSetThickness():
+                        lthickness = line.getThickness()
+                if style.isSetMarkerStyle():
+                    marker = style.getMarkerStyle()
+                    if marker.isSetType():
+                        mtype = marker_types[marker.getType()]
+                    if marker.isSetFill():
+                        mfc = marker.getFill()
+                    if marker.isSetLineColor():
+                        mec = marker.getLineColor()
+                    if marker.isSetSize():
+                        ms = marker.getSize()
+                    if marker.isSetLineThickness():
+                        mew = marker.getLineThickness()
+                if style.isSetFillStyle():
+                    fill = style.getFillStyle()
+                    fillcolor = fill.getColor()
+                
             tag = 'tag{}'.format(kc)
 
             yLabel = yId
@@ -1791,13 +1889,74 @@ class SEDMLCodeFactory(object):
                 yLabel = "{}".format(dgy.getName())
 
 
+            if ctype=="line" and ltype=="none":
+                ctype = "markers"
+            bartype = None
+            if "bar" in ctype:
+                if color is not None:
+                    edgecolor = color
+                if fillcolor is not None:
+                    color = fillcolor
+                if "Stacked" in ctype:
+                    lastbar = []
+                    if "Horizontal" in ctype:
+                        lastbar = lasthbar
+                    else:
+                        lastbar = lastvbar
+                    for b, bid in enumerate(lastbar):
+                        if b==0:
+                            bottom = ""
+                        else:
+                            bottom += " + "
+                        bottom += bid
+                        bottom += "[:,k]"
+                if "Horizontal" in ctype:
+                    bartype = "horizontal"
+                    lasthbar.append(yId)
+                else:
+                    bartype = "vertical"
+                    lastvbar.append(yId)
+                ctype = "bar" #The only issue with st
+            
+            if ctype == "fillBetween" and fillcolor is not None:
+                color = fillcolor
+
             # FIXME: add all the additional information to the plot, i.e. the settings and styles for a given curve
 
             lines.append("for k in range({}.shape[1]):".format(xId))
             lines.append("    extra_args = {}")
             lines.append("    if k == 0:")
             lines.append("        extra_args['name'] = '{}'".format(yLabel))
-            lines.append("    tefig.addXYDataset({xarr}[:,k], {yarr}[:,k], color='{color}', tag='{tag}', logx={logx}, logy={logy}, **extra_args)".format(xarr=xId, yarr=yId, color=color, tag=tag, logx=logX, logy=logY))
+            if ltype=="dash":
+                lines.append("    extra_args['dash'] = {dashes}".format(dashes = dashes))
+            if not ctype=="":
+                lines.append("    extra_args['mode'] = '{ctype}'".format(ctype=ctype))
+            if not mtype==None:
+                lines.append("    extra_args['marker'] = '{mtype}'".format(mtype = mtype))
+            if not lthickness==None:
+                lines.append("    extra_args['linewidth'] = {lthickness}".format(lthickness = lthickness))
+            if not mfc==None:
+                lines.append("    extra_args['mfc'] = '{mfc}'".format(mfc = mfc))
+            if not mec==None:
+                lines.append("    extra_args['mec'] = '{mec}'".format(mec = mec))
+            if not ms==None:
+                lines.append("    extra_args['ms'] = {ms}".format(ms = ms))
+            if not mew==None:
+                lines.append("    extra_args['mew'] = {mew}".format(mew = mew))
+            if not edgecolor==None:
+                lines.append("    extra_args['edgecolor'] = '{edgecolor}'".format(edgecolor = edgecolor))
+            if not bottom==None:
+                lines.append("    extra_args['bottom'] = {bottom}".format(bottom = bottom))
+            if not bartype==None:
+                lines.append("    extra_args['bartype'] = '{bartype}'".format(bartype= bartype))
+            if not yId2==None:
+                lines.append("    extra_args['y2'] = {yId2}[:,k]".format(yId2= yId2))
+                
+                
+            lines.append("    tefig.addXYDataset({xId}[:,k], {yId}[:,k], color='{color}', tag='{tag}', **extra_args)".format(xId=xId, yId=yId, color=color, tag=tag))
+
+            if fillcolor is not None and ctype != "bar" and ctype != "fillBetween":
+                lines.append("    tefig.addXYDataset({xId}[:,k], {yId}[:,k], color='{fillcolor}', mode='fill')".format(xId=xId, yId=yId, fillcolor=fillcolor))
 
             # FIXME: endpoints must be handled via plotting functions
             # lines.append("    fix_endpoints({}[:,k], {}[:,k], color='{}', tag='{}', fig=tefig)".format(xId, yId, color, tag))
@@ -1826,14 +1985,12 @@ class SEDMLCodeFactory(object):
         :return: list of python lines
         :rtype: list(str)
         """
-        # TODO: handle mix of log and linear axis
         settings = SEDMLCodeFactory.outputPlotSettings()
         lines = []
         lines.append("from mpl_toolkits.mplot3d import Axes3D")
         lines.append("fig = plt.figure(num=None, figsize={}, dpi={}, facecolor='{}', edgecolor='{}')".format(settings.figsize, settings.dpi, settings.facecolor, settings.edgecolor))
         lines.append("from matplotlib import gridspec")
         lines.append("__gs = gridspec.GridSpec(1, 2, width_ratios=[3, 1])")
-        lines.append("ax = plt.subplot(__gs[0], projection='3d')")
         # lines.append("ax = fig.gca(projection='3d')")
 
         title = output.getId()
@@ -1846,16 +2003,12 @@ class SEDMLCodeFactory(object):
         allYLabel = None
 
         for kc, surf in enumerate(output.getListOfSurfaces()):
-            logX = surf.getLogX()
-            logY = surf.getLogY()
-            logZ = surf.getLogZ()
             xId = surf.getXDataReference()
             yId = surf.getYDataReference()
             zId = surf.getZDataReference()
             dgx = doc.getDataGenerator(xId)
             dgy = doc.getDataGenerator(yId)
             dgz = doc.getDataGenerator(zId)
-            color = settings.colors[kc % len(settings.colors)]
 
             zLabel = zId
             if surf.isSetName():
@@ -1878,29 +2031,102 @@ class SEDMLCodeFactory(object):
                 oneXLabel = False
             if yLabel != allYLabel:
                 oneYLabel = False
+            
+            kwargs = {}
+            kwargs["color"] = "'" + settings.colors[kc % len(settings.colors)] + "'"
+            kwargs["linewidth"] = settings.linewidth
+            kwargs["marker"] = "'" + settings.marker + "'"
+            kwargs["ms"] = settings.markersize
+            kwargs["alpha"] = settings.alpha
+            kwargs["label"] = "'" + zLabel + "'"
 
-            lines.append("for k in range({}.shape[1]):".format(xId))
-            lines.append("    if k == 0:")
-            lines.append("        ax.plot({}[:,k], {}[:,k], {}[:,k], marker = '{}', color='{}', linewidth={}, markersize={}, alpha={}, label='{}')".format(xId, yId, zId, settings.marker, color, settings.linewidth, settings.markersize, settings.alpha, zLabel))
-            lines.append("    else:")
-            lines.append("        ax.plot({}[:,k], {}[:,k], {}[:,k], marker = '{}', color='{}', linewidth={}, markersize={}, alpha={})".format(xId, yId, zId, settings.marker, color, settings.linewidth, settings.markersize, settings.alpha))
+            mode = "plot"
+            
+            if (surf.isSetType()):
+                mode = surface_types[surf.getType()]
+            if (surf.isSetStyle()):
+                style = doc.getEffectiveStyle(surf.getStyle())
+                if style.isSetLineStyle():
+                    line = style.getLineStyle()
+                    if line.isSetColor():
+                        kwargs["color"] = "'" + line.getColor() + "'"
+                    if line.isSetThickness():
+                        kwargs["linewidth"] = line.getThickness()
+                    if line.isSetType():
+                        ltype = line_types[line.getType()]
+                if mode=="plot" and style.isSetMarkerStyle():
+                    marker = style.getMarkerStyle()
+                    if marker.isSetType():
+                        kwargs["marker"] = marker.getType()
+                    if marker.isSetFill():
+                        kwargs["mfc"] = "'" + marker.getFill() + "'"
+                    if marker.isSetLineColor():
+                        kwargs["mec"] = "'" + marker.getLineColor() + "'"
+                    if marker.isSetSize():
+                        kwargs["ms"] = marker.getSize()
+                    if marker.isSetLineThickness():
+                        kwargs["mew"] = marker.getLineThickness()
+                if style.isSetFillStyle():
+                    fill = style.getFillStyle()
+                    if fill.isSetColor():
+                        kwargs["fillcolor"] = "'" + fill.getColor() + "'";
+            if mode=="contour":
+                kwargs["levels"] = 30
+            if mode=="pcolormesh":
+                kwargs["cmap"] = "'RdBu'"
+                kwargs["shading"] = "'auto'"
+                lines.append("ax = plt.subplot(__gs[0])")
+            else:
+                lines.append("ax = plt.subplot(__gs[0], projection='3d')")
+            if mode=="plot":
+                lines.append("for k in range({}.shape[1]):".format(xId))
+                lines.append("    if k == 0:")
+                plotline = "        ax." + mode + "({}[:,k], {}[:,k], {}[:,k]".format(xId, yId, zId)
+                for kwarg in kwargs:
+                    plotline = plotline + ", " + kwarg + "=" + str(kwargs[kwarg])
+                # lines.append("        ax.plot({}[:,k], {}[:,k], {}[:,k], marker = '{}', color='{}', linewidth={}, markersize={}, alpha={}, label='{}')".format(xId, yId, zId, mtype, color, linewidth, markersize, alpha, zLabel))
+                plotline += ")"
+                lines.append(plotline)
+                lines.append("    else:")
+                plotline = "        ax." + mode + "({}[:,k], {}[:,k], {}[:,k]".format(xId, yId, zId)
+                for kwarg in kwargs:
+                    if kwarg=="label":
+                        continue
+                    plotline = plotline + ", " + kwarg + "=" + str(kwargs[kwarg])
+                plotline += ")"
+                # lines.append("        ax.plot({}[:,k], {}[:,k], {}[:,k], marker = '{}', color='{}', linewidth={}, markersize={}, alpha={})".format(xId, yId, zId, mtype, color, linewidth, markersize, settings.alpha))
+                lines.append(plotline)
+            else:
+                del kwargs["marker"]
+                del kwargs["ms"]
+                if "fillcolor" in kwargs:
+                    kwargs["color"] = kwargs["fillcolor"]
+                    del kwargs["fillcolor"]
+                plotline = "ax." + mode + "({}, {}, {}".format(xId, yId, zId)
+                for kwarg in kwargs:
+                    plotline = plotline + ", " + kwarg + "=" + str(kwargs[kwarg])
+                # lines.append("        ax.plot({}[:,k], {}[:,k], {}[:,k], marker = '{}', color='{}', linewidth={}, markersize={}, alpha={}, label='{}')".format(xId, yId, zId, mtype, color, linewidth, markersize, alpha, zLabel))
+                plotline += ")"
+                lines.append(plotline)
+                
 
         lines.append("ax.set_title('{}', fontweight='bold')".format(title))
         if oneXLabel:
             lines.append("ax.set_xlabel('{}', fontweight='bold')".format(xLabel))
         if oneYLabel:
             lines.append("ax.set_ylabel('{}', fontweight='bold')".format(yLabel))
-        if len(output.getListOfSurfaces()) == 1:
+        if len(output.getListOfSurfaces()) == 1 and mode != "pcolormesh":
             lines.append("ax.set_zlabel('{}', fontweight='bold')".format(zLabel))
-
-        lines.append("__lg = plt.legend(bbox_to_anchor=(1.05, 1), loc=2, borderaxespad=0.)")
-        lines.append("__lg.draw_frame(False)")
-        lines.append("plt.setp(__lg.get_texts(), fontsize='small')")
-        lines.append("plt.setp(__lg.get_texts(), fontweight='bold')")
+            
+        if mode=="plot":
+            lines.append("__lg = plt.legend(bbox_to_anchor=(1.05, 1), loc=2, borderaxespad=0.)")
+            lines.append("__lg.draw_frame(False)")
+            lines.append("plt.setp(__lg.get_texts(), fontsize='small')")
+            lines.append("plt.setp(__lg.get_texts(), fontweight='bold')")
         lines.append("plt.tick_params(axis='both', which='major', labelsize=10)")
         lines.append("plt.tick_params(axis='both', which='minor', labelsize=8)")
         lines.append("plt.savefig(os.path.join(workingDir, '{}.png'), dpi=100)".format(output.getId()))
-        lines.append("plt.show()".format(title))
+        lines.append("plt.show()")
 
         return lines
 
@@ -1951,6 +2177,7 @@ class SEDMLTools(object):
                 x = ElementTree.fromstring(inputStr)
                 # is parsable xml string
                 doc = libsedml.readSedMLFromString(inputStr)
+                doc.sortOrderedObjects()
                 inputType = cls.INPUT_TYPE_STR
                 if workingDir is None:
                     workingDir = os.getcwd()
@@ -1992,6 +2219,7 @@ class SEDMLTools(object):
 
                 sedmlFile = sedmlFiles[0]
                 doc = libsedml.readSedMLFromFile(sedmlFile)
+                doc.sortOrderedObjects()
                 # we have to work relative to the SED-ML file
                 workingDir = os.path.dirname(sedmlFile)
 
@@ -2005,6 +2233,7 @@ class SEDMLTools(object):
                 inputType = cls.INPUT_TYPE_FILE_SEDML
                 doc = libsedml.readSedMLFromFile(inputStr)
                 cls.checkSEDMLDocument(doc)
+                doc.sortOrderedObjects()
                 # working directory is where the sedml file is
                 if workingDir is None:
                     workingDir = os.path.dirname(os.path.realpath(inputStr))

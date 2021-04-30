@@ -55,7 +55,7 @@ setup(name='tellurium',
           # standards
           'python-libsbml>=5.18.0',
           'python-libnuml>=1.0.0',
-          'python-libsedml>=2.0.12',
+          'python-libsedml>=2.0.17',
           'python-libcombine>=0.2.2',
           # misc
           'appdirs>=1.4.3',
