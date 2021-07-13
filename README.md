@@ -95,7 +95,7 @@ We strongly suggest you to completely remove the older version of Tellurium Spyd
 2. Double-click the installer to start the installation
 3. Follow the instructions
 
-For Python 3.9, install viw pip install tellurium
+For Python 3.9, install via: pip install tellurium
 
 
 NOTE: Installation requires administrative rights. It is recommended to accept the default settings.
