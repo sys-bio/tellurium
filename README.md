@@ -10,9 +10,10 @@
     <td><img alt="Licence", src="https://img.shields.io/hexpm/l/tellurium"</td>
     <td><img alt="Read the Docs" src="https://img.shields.io/readthedocs/tellurium"></td>
     <td><img alt="PyPI - Downloads", src="https://img.shields.io/pypi/dm/tellurium"></td>
-    <td><img alt="Funding", src="https://img.shields.io/badge/Funding-NIH%20(R01GM123032)-blue"></td>
-    <td><img alt"PypiVersion", src="https://badge.fury.io/py/tellurium"> </td>
-  </tr>
+    <td><img alt="Funding", src="https://img.shields.io/badge/Funding-NIH%20(GM123032)-blue"></td>
+    <td><img alt"PypiVersion", src="https://img.shields.io/pypi/v/tellurium"> </td>
+      <td> [![PyPI version](https://badge.fury.io/py/tellurium.svg)](https://badge.fury.io/py/tellurium) </td>
+   </tr>
 </table> 
 
 Copyright 2014-2021
