@@ -2,7 +2,6 @@
 
 [![Build Status](https://travis-ci.org/sys-bio/tellurium.svg?branch=master)](https://travis-ci.org/sys-bio/tellurium)
 [![DOI](https://zenodo.org/badge/16783593.svg)](https://zenodo.org/badge/latestdoi/16783593)
-[![PyPI version](https://badge.fury.io/py/tellurium.svg)](https://badge.fury.io/py/tellurium)
 [![GitHub version](https://badge.fury.io/gh/sys-bio%2Ftellurium.svg)](https://badge.fury.io/gh/sys-bio%2Ftellurium)
     
  <table style="width:100%">
@@ -11,8 +10,7 @@
     <td><img alt="Read the Docs" src="https://img.shields.io/readthedocs/tellurium"></td>
     <td><img alt="PyPI - Downloads", src="https://img.shields.io/pypi/dm/tellurium"></td>
     <td><img alt="Funding", src="https://img.shields.io/badge/Funding-NIH%20(GM123032)-blue"></td>
-    <td><img alt"PypiVersion", src="https://img.shields.io/pypi/v/tellurium"> </td>
-      <td> <a href="https://badge.fury.io/py/tellurium"><img src="https://badge.fury.io/py/tellurium.svg" alt="PyPI version" height="18"></a> </td>
+    <td> <a href="https://badge.fury.io/py/tellurium"><img src="https://badge.fury.io/py/tellurium.svg" alt="PyPI version" height="18"></a> </td>
    </tr>
 </table> 
 
