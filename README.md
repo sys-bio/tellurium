@@ -9,8 +9,7 @@
  <table style="width:100%">
   <tr>
     <td><img alt="Licence", src="https://img.shields.io/hexpm/l/tellurium"</td>
-
-    <td><img alt="PyPI - Downloads" src="https://img.shields.io/pypi/dm/simplesbml"></td>
+    <td><img alt="PyPI - Downloads", src="https://img.shields.io/pypi/dm/tellurium"></td>
   </tr>
 </table> 
 
