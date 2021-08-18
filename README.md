@@ -1,10 +1,11 @@
 <h1><img title="tellurium logo" src="./docs/images/tellurium_logo.png" height="50" />&nbsp;&nbsp;tellurium</h1>
 
- <table style="width:100%">
-  <tr>
 [![Build Status](https://travis-ci.org/sys-bio/tellurium.svg?branch=master)](https://travis-ci.org/sys-bio/tellurium)
 [![Documentation Status](https://readthedocs.org/projects/tellurium/badge/?version=latest)](http://tellurium.readthedocs.org/en/latest/)
 [![DOI](https://zenodo.org/badge/16783593.svg)](https://zenodo.org/badge/latestdoi/16783593)
+
+ <table style="width:100%">
+  <tr>
     <td><img alt="Licence", src="https://img.shields.io/hexpm/l/tellurium"</td>
     <td>[![PyPI version](https://badge.fury.io/py/tellurium.svg)](https://badge.fury.io/py/tellurium)</td>
     <td>[![GitHub version](https://badge.fury.io/gh/sys-bio%2Ftellurium.svg)](https://badge.fury.io/gh/sys-bio%2Ftellurium)</td>
