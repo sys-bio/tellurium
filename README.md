@@ -5,6 +5,7 @@
 
 <table style="width:100%">
   <tr>
+    <td><a href="https://badge.fury.io/gh/sys-bio%2Ftellurium"><img src="https://badge.fury.io/gh/sys-bio%2Ftellurium.svg" alt="GitHub version" height="18"></a></td>
     <td><img alt="Read the Docs" src="https://img.shields.io/readthedocs/tellurium"></td>
   </tr>
 </table> 
