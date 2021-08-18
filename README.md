@@ -11,6 +11,7 @@
     <td><img alt="Read the Docs" src="https://img.shields.io/readthedocs/tellurium"></td>
     <td><img alt="PyPI - Downloads", src="https://img.shields.io/pypi/dm/tellurium"></td>
     <td><img alt="Funding", src="https://img.shields.io/badge/Funding-NIH%20(R01GM123032)-blue"></td>
+    <td><img alt"PypiVersion", src="https://badge.fury.io/py/tellurium"> </td>
   </tr>
 </table> 
 
