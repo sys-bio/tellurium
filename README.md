@@ -1,7 +1,7 @@
 <h1><img title="tellurium logo" src="./docs/images/tellurium_logo.png" height="50" />&nbsp;&nbsp;tellurium</h1>
 
 [![Build Status](https://travis-ci.org/sys-bio/tellurium.svg?branch=master)](https://travis-ci.org/sys-bio/tellurium)
-[![GitHub version](https://badge.fury.io/gh/sys-bio%2Ftellurium.svg)](https://badge.fury.io/gh/sys-bio%2Ftellurium)
+
 
 <table style="width:100%">
   <tr>
