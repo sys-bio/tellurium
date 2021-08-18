@@ -10,7 +10,8 @@
     <td><img alt="Read the Docs" src="https://img.shields.io/readthedocs/tellurium"></td>
     <td><img alt="PyPI - Downloads", src="https://img.shields.io/pypi/dm/tellurium"></td>
     <td><img alt="Funding", src="https://img.shields.io/badge/Funding-NIH%20(GM123032)-blue"></td>
-    <td> <a href="https://badge.fury.io/py/tellurium"><img src="https://badge.fury.io/py/tellurium.svg" alt="PyPI version" height="18"></a> </td>
+    <td><a href="https://doi.org/10.5281/zenodo.2548944"><img src="https://zenodo.org/badge/DOI/10.5281/zenodo.2548944.svg" alt="DOI"></a></td>
+    <td><a href="https://badge.fury.io/py/tellurium"><img src="https://badge.fury.io/py/tellurium.svg" alt="PyPI version" height="18"></a> </td>
    </tr>
 </table> 
 
