@@ -10,6 +10,7 @@
     <td><img alt="Licence", src="https://img.shields.io/hexpm/l/tellurium"</td>
     <td><img alt="Read the Docs" src="https://img.shields.io/readthedocs/tellurium"></td>
     <td><img alt="PyPI - Downloads", src="https://img.shields.io/pypi/dm/tellurium"></td>
+     <td><imag alt="Funding", src="https://img.shields.io/badge/Funding-NIH%20(R01GM123032)-blue"></td>
   </tr>
 </table> 
 
