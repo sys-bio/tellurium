@@ -1,14 +1,12 @@
 <h1><img title="tellurium logo" src="./docs/images/tellurium_logo.png" height="50" />&nbsp;&nbsp;tellurium</h1>
 
-[![Build Status](https://travis-ci.org/sys-bio/tellurium.svg?branch=master)](https://travis-ci.org/sys-bio/tellurium)
-
 <!-- These badges come from shield.io, zenodo or travis -->
 
 <table style="width:100%">
   <tr>
     <td><img alt="Github version", src="https://travis-ci.com/sys-bio/tellurium.svg?branch=master"></td>
-    <td><a href="https://badge.fury.io/gh/sys-bio%2Ftellurium"><img src="https://badge.fury.io/gh/sys-bio%2Ftellurium.svg" alt="GitHub version" height="18"></a></td>
     <td><img alt="Read the Docs" src="https://img.shields.io/readthedocs/tellurium"></td>
+    <td><a href="https://badge.fury.io/gh/sys-bio%2Ftellurium"><img src="https://badge.fury.io/gh/sys-bio%2Ftellurium.svg" alt="GitHub version" height="18"></a></td>
   </tr>
 </table> 
 
