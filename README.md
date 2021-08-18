@@ -15,6 +15,12 @@
    </tr>
 </table> 
 
+ <table style="width:100%">
+  <tr>
+    <td><a href="https://doi.org/10.5281/zenodo.2548944"><img src="https://zenodo.org/badge/DOI/10.5281/zenodo.2548944.svg" alt="DOI"></a></td>
+  </tr>
+</table>
+
 Copyright 2014-2021
 Kiri Choi, J Kyle Medley, Matthias König, Kaylene Stocking, Caroline Cannistra, Michal Galdzicki, Ciaran Welsh, Lucian Smith, and Herbert Sauro
 
