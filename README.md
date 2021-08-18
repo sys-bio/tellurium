@@ -4,7 +4,6 @@
 
 <!-- These badges come from shield.io, zenodo or travis -->
 
-Read more: https://html.com/tags/comment-tag/#ixzz73vihfN8I
 <table style="width:100%">
   <tr>
     <td><img alt="Github version", src="https://travis-ci.com/sys-bio/tellurium.svg?branch=develop"></td>
