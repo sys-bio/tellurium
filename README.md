@@ -1,14 +1,32 @@
 <h1><img title="tellurium logo" src="./docs/images/tellurium_logo.png" height="50" />&nbsp;&nbsp;tellurium</h1>
 
-[![Build Status](https://travis-ci.org/sys-bio/tellurium.svg?branch=master)](https://travis-ci.org/sys-bio/tellurium)
-[![Documentation Status](https://readthedocs.org/projects/tellurium/badge/?version=latest)](http://tellurium.readthedocs.org/en/latest/)
-[![DOI](https://zenodo.org/badge/16783593.svg)](https://zenodo.org/badge/latestdoi/16783593)
-[![License (Apache License 2.0)](https://img.shields.io/badge/license-Apache2.0-blue.svg?style=flat-square)](https://opensource.org/licenses/Apache-2.0)
-[![PyPI version](https://badge.fury.io/py/tellurium.svg)](https://badge.fury.io/py/tellurium)
-[![GitHub version](https://badge.fury.io/gh/sys-bio%2Ftellurium.svg)](https://badge.fury.io/gh/sys-bio%2Ftellurium)
+<!-- These badges come from shield.io, zenodo or travis -->
 
-Copyright 2014-2020
-Kiri Choi, J Kyle Medley, Matthias König, Kaylene Stocking, Caroline Cannistra, Michal Galdzicki, and Herbert Sauro
+<table style="width:100%">
+  <tr>
+    <td><img alt="Github version", src="https://travis-ci.com/sys-bio/tellurium.svg?branch=master"></td>
+    <td><img alt="Read the Docs" src="https://img.shields.io/readthedocs/tellurium"></td>
+    <td><a href="https://badge.fury.io/gh/sys-bio%2Ftellurium"><img src="https://badge.fury.io/gh/sys-bio%2Ftellurium.svg" alt="GitHub version" height="18"></a></td>
+  </tr>
+</table> 
+
+ <table style="width:100%">
+  <tr>
+    <td><img alt="Licence", src="https://img.shields.io/hexpm/l/tellurium"</td>
+    <td><img alt="PyPI - Downloads", src="https://img.shields.io/pypi/dm/tellurium"></td>
+    <td><img alt="Funding", src="https://img.shields.io/badge/Funding-NIH%20(GM123032)-blue"></td>
+    <td><a href="https://badge.fury.io/py/tellurium"><img src="https://badge.fury.io/py/tellurium.svg" alt="PyPI version" height="18"></a> </td>
+   </tr>
+</table> 
+
+ <table style="width:100%">
+  <tr>
+    <td><a href="https://doi.org/10.5281/zenodo.2548944"><img src="https://zenodo.org/badge/DOI/10.5281/zenodo.2548944.svg" alt="DOI"></a></td>
+  </tr>
+</table>
+
+Copyright 2014-2021
+Kiri Choi, J Kyle Medley, Matthias König, Kaylene Stocking, Caroline Cannistra, Michal Galdzicki, Ciaran Welsh, Lucian Smith, and Herbert Sauro
 
 ## Introduction
 
@@ -95,7 +113,7 @@ We strongly suggest you to completely remove the older version of Tellurium Spyd
 2. Double-click the installer to start the installation
 3. Follow the instructions
 
-For Python 3.9, install viw pip install tellurium
+For now if you wish to use Python 3.9 you'll need to install Tellurium from the windows command line by using the command: pip install tellurium
 
 
 NOTE: Installation requires administrative rights. It is recommended to accept the default settings.
