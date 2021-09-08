@@ -223,32 +223,6 @@ class ExtendedRoadRunner(roadrunner.RoadRunner):
             f.write(self.getMatlab(current))
 
     # ---------------------------------------------------------------------
-    # Reset Methods
-    # ---------------------------------------------------------------------
-    # FIXME: Remove in next release
-    def resetToOrigin(self):
-        """ Reset model to state when first loaded.
-
-        This resets the model back to the state when it was FIRST loaded,
-        this includes all init() and parameters such as k1 etc.
-
-        identical to:
-            r.reset(roadrunner.SelectionRecord.ALL)
-        """
-        self.reset(roadrunner.SelectionRecord.ALL)
-
-    def resetAll(self):
-        """ Reset all model variables to CURRENT init(X) values.
-
-        This resets all variables, S1, S2 etc to the CURRENT init(X) values. It also resets all
-        parameters back to the values they had when the model was first loaded.
-        """
-        self.reset(roadrunner.SelectionRecord.TIME |
-                   roadrunner.SelectionRecord.RATE |
-                   roadrunner.SelectionRecord.FLOATING |
-                   roadrunner.SelectionRecord.GLOBAL_PARAMETER)
-
-    # ---------------------------------------------------------------------
     # Plotting Utilities
     # ---------------------------------------------------------------------
     def draw(self, **kwargs):
