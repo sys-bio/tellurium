@@ -68,18 +68,18 @@ class MatplotlibFigure(PlottingFigure):
             if "mode" in dataset:
                 mode = dataset["mode"]
             #Set different defaults based on the mode
-            passkeys = ["alpha", "showlegend", "color", "linewidth", "marker", "mfc", "mec", "ms", "mew"]
+            passkeys = ["alpha", "color", "linewidth", "marker", "mfc", "mec", "ms", "mew"]
             if mode=="line":
                 kwargs['marker'] = ''
                 kwargs['linewidth'] = self.linewidth
             elif mode=="markers":
                 kwargs['marker'] = 'o'
                 kwargs['linewidth'] = 0
-                passkeys = ["alpha", "showlegend", "color", "marker", "mfc", "mec", "ms", "mew"]
+                passkeys = ["alpha", "color", "marker", "mfc", "mec", "ms", "mew"]
             elif mode=="bar":
-                passkeys = ["alpha", "showlegend", "color", "linewidth", "edgecolor", "bottom"]
+                passkeys = ["alpha", "color", "linewidth", "edgecolor", "bottom"]
             elif mode=="fillBetween":
-                passkeys = ["alpha", "showlegend", "color", "y2"]
+                passkeys = ["alpha", "color", "y2"]
             for dkey in dataset:
                 element = dataset[dkey]
                 if element is None:
