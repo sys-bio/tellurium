@@ -160,7 +160,7 @@ class ExtendedRoadRunner(roadrunner.RoadRunner):
         try:
             from sbml2matlab import sbml2matlab
             sbml = self.__getSBML(current)
-            return sbml2matlab(sbml)
+            return sbml2matlab.sbml2matlab(sbml)
         except ImportError:
             warnings.warn("'sbml2matlab' could not be imported, no support for Matlab code generation",
                           RuntimeWarning, stacklevel=2)
