@@ -452,6 +452,9 @@ class ExtendedRoadRunner(roadrunner.RoadRunner):
                 self.integrator.variable_step_size = False
         elif ('points' in kwargs or 'steps' in kwargs):
             self.integrator.variable_step_size = False
+        if "seed" in kwargs:
+            self.integrator.setValue("seed", kwargs["seed"])
+            del kwargs["seed"]
 
         s = self.simulate(*args, **kwargs)
         self.setIntegrator(integratorName)
