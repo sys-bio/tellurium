@@ -293,6 +293,46 @@ class KisaoSedmlTestCase(unittest.TestCase):
         self.assertTrue("integrator.setValue('stiff', False)" in pycode)
 
 
+    def test_kisao_euler_1(self):
+        p = """
+            model0 = model "m1"
+            sim0 = simulate uniform(0, 10, 100)
+            sim0.algorithm = kisao.30
+            task0 = run sim0 on model0
+            plot task0.time vs task0.S1
+        """
+        inline_omex = '\n'.join([self.a1, p])
+        self.checkKisaoIntegrator(inline_omex, 'KISAO:0000030', 'euler')
+        te.executeInlineOmex(inline_omex)
+
+        omex_file = os.path.join(self.test_dir, "test.omex")
+        te.exportInlineOmex(inline_omex, omex_file)
+        pycode_dict = tesedml.combineArchiveToPython(omex_file)
+        pycode = six.next(six.itervalues(pycode_dict))
+        print(pycode)
+        self.assertTrue("model0.setIntegrator('euler')" in pycode)
+
+
+    def test_kisao_euler_2(self):
+        p = """
+            model0 = model "m1"
+            sim0 = simulate uniform(0, 10, 100)
+            sim0.algorithm = kisao.261
+            task0 = run sim0 on model0
+            plot task0.time vs task0.S1
+        """
+        inline_omex = '\n'.join([self.a1, p])
+        self.checkKisaoIntegrator(inline_omex, 'KISAO:0000261', 'euler')
+        te.executeInlineOmex(inline_omex)
+
+        omex_file = os.path.join(self.test_dir, "test.omex")
+        te.exportInlineOmex(inline_omex, omex_file)
+        pycode_dict = tesedml.combineArchiveToPython(omex_file)
+        pycode = six.next(six.itervalues(pycode_dict))
+        print(pycode)
+        self.assertTrue("model0.setIntegrator('euler')" in pycode)
+
+
     @pytest.mark.skip(reason="bug in roadrunner")
     def test_kisao_rk45_1(self):
         p = """

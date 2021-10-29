@@ -171,6 +171,11 @@ KISAOS_LSODA = [  # 'lsoda'
     88,  # roadrunner doesn't have an lsoda solver so use cvode
 ]
 
+KISAOS_EULER = [  # 'lsoda'
+    30,  # The Euler forward method
+    261, # The Euler method in general.  (31 is the backward method, which we don't support.)
+]
+
 KISAOS_GILLESPIE = [  # 'gillespie'
     241,  # Gillespie-like method
     29,
@@ -228,7 +233,7 @@ KISAOS_NLEQ = [  # 'nleq'
 
 # allowed algorithms for simulation type
 KISAOS_STEADYSTATE = KISAOS_NLEQ
-KISAOS_UNIFORMTIMECOURSE = KISAOS_CVODE + KISAOS_RK4 + KISAOS_RK45 + KISAOS_GILLESPIE + KISAOS_LSODA
+KISAOS_UNIFORMTIMECOURSE = KISAOS_CVODE + KISAOS_RK4 + KISAOS_RK45 + KISAOS_GILLESPIE + KISAOS_LSODA + KISAOS_EULER
 KISAOS_ONESTEP = KISAOS_UNIFORMTIMECOURSE
 
 # supported algorithm parameters
@@ -1383,6 +1388,8 @@ class SEDMLCodeFactory(object):
                     if modelId=="":
                         raise RuntimeError("Unable to determine which model a referenced task variable is from.")
                     selection = SEDMLCodeFactory.selectionFromVariable(var, modelId)
+                    if selection is None:
+                        raise RuntimeError("Unable to retrieve model variable '" + var + "' from model '" + modelId + "'.")
                     expr = selection.id
                     if selection.type == "concentration":
                         expr = "[{}]".format(selection.id)
@@ -1456,6 +1463,8 @@ class SEDMLCodeFactory(object):
             return 'rk4'
         if kid in KISAOS_RK45:
             return 'rk45'
+        if kid in KISAOS_EULER:
+            return 'euler'
         if kid in KISAOS_LSODA:
             warnings.warn('Tellurium does not support LSODA. Using CVODE instead.')
             return 'cvode' # just use cvode
