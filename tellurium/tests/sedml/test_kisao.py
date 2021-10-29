@@ -530,6 +530,25 @@ class KisaoSedmlTestCase(unittest.TestCase):
         self.checkKisaoAlgorithmParameter(inline_omex, 'KISAO:0000485', 'minimum_time_step', 1E-6)
         te.executeInlineOmex(inline_omex)
 
+    def test_kisao_nonnegative(self):
+        """ Check nonnegative setting."""
+        p = """
+            model0 = model "m1"
+            sim0 = simulate uniform_stochastic(0, 10, 100)
+            sim0.algorithm.673 = true
+            task0 = run sim0 on model0
+            plot task0.time vs task0.S1
+        """
+        inline_omex = '\n'.join([self.a1, p])
+        self.checkKisaoAlgorithmParameter(inline_omex, 'KISAO:0000673', 'nonnegative', True)
+        te.executeInlineOmex(inline_omex)
+        omex_file = os.path.join(self.test_dir, "test.omex")
+        te.exportInlineOmex(inline_omex, omex_file)
+        pycode_dict = tesedml.combineArchiveToPython(omex_file)
+        pycode = six.next(six.itervalues(pycode_dict))
+        print(pycode)
+        self.assertTrue("model0.integrator.setValue('nonnegative', True)" in pycode)
+
     def test_kisao_initial_time_step_1(self):
         p = """
             model0 = model "m1"

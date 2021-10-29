@@ -251,6 +251,7 @@ KISAOS_ALGORITHMPARAMETERS = {
     486: ('maximum_iterations', int),  # [nleq] the maximum number of iterations the algorithm should take before exiting
     487: ('minimum_damping', float),  # [nleq] minimum damping value
     488: ('seed', int),  # the seed for stochastic runs of the algorithm
+    673: ('nonnegative', bool), #For gillespie algorithms; ensures no reaction produces negative species amounts.
 }
 
 curve_types = {
