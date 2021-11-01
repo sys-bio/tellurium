@@ -253,6 +253,15 @@ KISAOS_ALGORITHMPARAMETERS = {
     487: ('minimum_damping', float),  # [nleq] minimum damping value
     488: ('seed', int),  # the seed for stochastic runs of the algorithm
     673: ('nonnegative', bool), #For gillespie algorithms; ensures no reaction produces negative species amounts.
+    674: ('allow_presimulation', bool), #For any steady state solver, allow presimulation.
+    677: ('presimulation_maximum_steps', float), #For any steady state solver, number of presimulation steps to take.
+    680: ('presimulation_time', float), #For any steady state solver, amount of time for the presimulation.
+    682: ('allow_approx', bool), #For any steady state solver: use an approximation routine when steady state calculation fails.
+    683: ('approx_tolerance', float), #For any steady state solver, tolerance of the approximation routine.
+    678: ('approx_maximum_steps', int), #For any steady state solver, max steps of the approximation routine.
+    679: ('approx_time', float), #For any steady state solver, end time for approximation routine.
+    675: ('broyden_method', int), #For an NLEQ steady state solver: use the Broyden method.
+    676: ('linearity', int), #For an NLEQ steady state solver: set the linearity of the problem (1-4).
 }
 
 curve_types = {

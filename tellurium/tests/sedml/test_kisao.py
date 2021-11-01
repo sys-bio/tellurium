@@ -645,6 +645,116 @@ class KisaoSedmlTestCase(unittest.TestCase):
         self.checkKisaoAlgorithmParameter(inline_omex, 'KISAO:0000487', 'minimum_damping', 1.0)
         te.executeInlineOmex(inline_omex)
 
+    def test_kisao_allow_presimulation(self):
+        p = """
+            model0 = model "m1"
+            sim0 = simulate steadystate
+            sim0.algorithm.674 = True
+            task0 = run sim0 on model0
+            plot task0.time vs task0.S1
+        """
+        inline_omex = '\n'.join([self.a1, p])
+        self.checkKisaoAlgorithmParameter(inline_omex, 'KISAO:0000674', 'allow_presimulation', True)
+        te.executeInlineOmex(inline_omex)
+
+    def test_kisao_presimulation_maximum_steps(self):
+        p = """
+            model0 = model "m1"
+            sim0 = simulate steadystate
+            sim0.algorithm.677 = 1000
+            task0 = run sim0 on model0
+            plot task0.time vs task0.S1
+        """
+        inline_omex = '\n'.join([self.a1, p])
+        self.checkKisaoAlgorithmParameter(inline_omex, 'KISAO:0000677', 'presimulation_maximum_steps', 1000.0)
+        te.executeInlineOmex(inline_omex)
+
+    def test_kisao_presimulation_time(self):
+        p = """
+            model0 = model "m1"
+            sim0 = simulate steadystate
+            sim0.algorithm.680 = 100
+            task0 = run sim0 on model0
+            plot task0.time vs task0.S1
+        """
+        inline_omex = '\n'.join([self.a1, p])
+        self.checkKisaoAlgorithmParameter(inline_omex, 'KISAO:0000680', 'presimulation_time', 100.0)
+        te.executeInlineOmex(inline_omex)
+
+    def test_kisao_allow_approx(self):
+        p = """
+            model0 = model "m1"
+            sim0 = simulate steadystate
+            sim0.algorithm.682 = True
+            task0 = run sim0 on model0
+            plot task0.time vs task0.S1
+        """
+        inline_omex = '\n'.join([self.a1, p])
+        self.checkKisaoAlgorithmParameter(inline_omex, 'KISAO:0000682', 'allow_approx', True)
+        te.executeInlineOmex(inline_omex)
+
+    def test_kisao_approx_tolerance(self):
+        p = """
+            model0 = model "m1"
+            sim0 = simulate steadystate
+            sim0.algorithm.683 = 0.000001
+            task0 = run sim0 on model0
+            plot task0.time vs task0.S1
+        """
+        inline_omex = '\n'.join([self.a1, p])
+        self.checkKisaoAlgorithmParameter(inline_omex, 'KISAO:0000683', 'approx_tolerance', 0.000001)
+        te.executeInlineOmex(inline_omex)
+
+    def test_kisao_approx_maximum_steps(self):
+        p = """
+            model0 = model "m1"
+            sim0 = simulate steadystate
+            sim0.algorithm.678 = 1001
+            task0 = run sim0 on model0
+            plot task0.time vs task0.S1
+        """
+        inline_omex = '\n'.join([self.a1, p])
+        self.checkKisaoAlgorithmParameter(inline_omex, 'KISAO:0000678', 'approx_maximum_steps', 1001)
+        te.executeInlineOmex(inline_omex)
+
+    def test_kisao_approx_time(self):
+        p = """
+            model0 = model "m1"
+            sim0 = simulate steadystate
+            sim0.algorithm.679 = 150
+            task0 = run sim0 on model0
+            plot task0.time vs task0.S1
+        """
+        inline_omex = '\n'.join([self.a1, p])
+        self.checkKisaoAlgorithmParameter(inline_omex, 'KISAO:0000679', 'approx_time', 150.0)
+        te.executeInlineOmex(inline_omex)
+
+    def test_kisao_broyden_method(self):
+        p = """
+            model0 = model "m1"
+            sim0 = simulate steadystate
+            sim0.algorithm.675 = 0
+            task0 = run sim0 on model0
+            plot task0.time vs task0.S1
+        """
+        inline_omex = '\n'.join([self.a1, p])
+        self.checkKisaoAlgorithmParameter(inline_omex, 'KISAO:0000675', 'broyden_method', 0)
+        te.executeInlineOmex(inline_omex)
+
+    def test_kisao_linearity(self):
+        p = """
+            model0 = model "m1"
+            sim0 = simulate steadystate
+            sim0.algorithm.676 = 4
+            task0 = run sim0 on model0
+            plot task0.time vs task0.S1
+        """
+        inline_omex = '\n'.join([self.a1, p])
+        self.checkKisaoAlgorithmParameter(inline_omex, 'KISAO:0000676', 'linearity', 4)
+        te.executeInlineOmex(inline_omex)
+
+    # 675: ('', int), #For an NLEQ steady state solver: use the Broyden method.
+    # 676: ('', int), #For an NLEQ steady state solver: set the linearity of the problem (1-4).
     def test_kisao_seed_1(self):
         p = """
             model0 = model "m1"
