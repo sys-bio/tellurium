@@ -12,7 +12,7 @@
 #define PyV "3.7"
 #define PyVer "3.7.7.amd64"
 #define CurrentVer ""
-#define TelluriumVersion "2.3.0"
+#define TelluriumVersion "2.3.5"
 #define Tellurium_Winpython "TW-3.7.7.1-win64-2.3.0"
 
 #define ISSI_Splash "Tellurium_splash_installer_updated.bmp"
@@ -56,7 +56,7 @@ Name: "english"; MessagesFile: "compiler:Default.isl"
 ;Source: "./VERSION.txt"; DestDir: "{app}"; Flags: ignoreversion deleteafterinstall
 ;Source: "./README.txt"; DestDir: "{app}"; Flags: ignoreversion
 ;Source: "./NOTICE.txt"; DestDir: "{app}"; Flags: ignoreversion
-Source: "./settings4.1.3/*"; DestDir: "{app}/settings"; Flags: ignoreversion recursesubdirs createallsubdirs onlyifdoesntexist uninsneveruninstall
+Source: "./settings5.1.5/*"; DestDir: "{app}/settings"; Flags: ignoreversion recursesubdirs createallsubdirs onlyifdoesntexist uninsneveruninstall
 Source: "./{#Tellurium_Winpython}/*"; DestDir: "{app}"; Flags: replacesameversion recursesubdirs createallsubdirs
 Source: "./tellurium-examples/*"; DestDir: "{app}/tellurium-examples"; Flags: replacesameversion recursesubdirs createallsubdirs
 
@@ -203,7 +203,7 @@ begin
   SelectDirBrowseLabel2.Parent := WizardForm.SelectDirPage;
   SelectDirBrowseLabel2.AutoSize := False;
   SelectDirBrowseLabel2.Left := WizardForm.SelectDirBrowseLabel.Left;
-  SelectDirBrowseLabel2.Top := 97//WizardForm.SelectDirBrowseLabel.Top + WizardForm.SelectDirBrowseLabel.Height;
+  SelectDirBrowseLabel2.Top := WizardForm.DirEdit.Top + WizardForm.DirEdit.Height + ScaleY(16);
   SelectDirBrowseLabel2.Width := WizardForm.SelectDirBrowseLabel.Width;
   SelectDirBrowseLabel2.Height := 60
   SelectDirBrowseLabel2.Font.Assign(WizardForm.SelectDirBrowseLabel.Font); 
