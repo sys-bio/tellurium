@@ -12,7 +12,6 @@ model export, plotting or the Jarnac compatibility layer.
 
 from __future__ import print_function, division, absolute_import
 
-import sys
 import os
 import random
 import warnings
@@ -185,6 +184,7 @@ try:
     import sbol
 except ImportError as e:
     sbol = None
+    roadrunner.Logger.log(roadrunner.Logger.LOG_WARNING, str(e))
     warnings.warn("'pySBOL' could not be imported, cannot import/export SBOL files", ImportWarning, stacklevel=2)
 
 try:
@@ -405,7 +405,7 @@ def distributed_sensitivity_analysis(sc,senitivity_analysis_model,calculation=No
         sa_model.simulation = user_defined_simulator()
 
         if(sa_model.sbml):
-            model_roadrunner = te.loadAntimonyModel(te.sbmlToAntimony(sa_model.model))
+            model_roadrunner = te.loadSBMLModel(sa_model.model)
         else:
             model_roadrunner = te.loadAntimonyModel(sa_model.model)
 
@@ -464,7 +464,7 @@ def distributed_sensitivity_analysis(sc,senitivity_analysis_model,calculation=No
 
     samples = perform_sampling(np.meshgrid(*params))
     samples = zip([senitivity_analysis_model]*len(samples),samples)
-    if(calculation is "avg"):
+    if(calculation == "avg"):
         group_rdd = sc.parallelize(samples,len(samples)).map(spark_sensitivity_analysis).\
             flatMap(lambda x: x[1].items()).groupByKey()
 
@@ -589,6 +589,7 @@ def antimonyToSBML(ant):
     :return: SBML
     :rtype: str
     """
+    antimony.clearPreviousLoads()
     try:
         isfile = os.path.isfile(ant)
     except ValueError:
@@ -611,6 +612,7 @@ def antimonyToCellML(ant):
     :return: CellML
     :rtype: str
     """
+    antimony.clearPreviousLoads()
     if os.path.isfile(ant):
         code = antimony.loadAntimonyFile(ant)
     else:
@@ -628,6 +630,7 @@ def sbmlToAntimony(sbml):
     :return: Antimony
     :rtype: str
     """
+    antimony.clearPreviousLoads()
     isfile = False
     try:
         isfile = os.path.isfile(sbml)
@@ -651,6 +654,7 @@ def sbmlToCellML(sbml):
     """
     if not hasattr(antimony, "loadCellMLString"):
         raise NotImplementedError("CellML support was not compiled into Antimony, so conversion is not available.")
+    antimony.clearPreviousLoads()
     if os.path.isfile(sbml):
         code = antimony.loadSBMLFile(sbml)
     else:
@@ -668,6 +672,7 @@ def cellmlToAntimony(cellml):
     """
     if not hasattr(antimony, "loadCellMLString"):
         raise NotImplementedError("CellML support was not compiled into Antimony, so conversion is not available.")
+    antimony.clearPreviousLoads()
     if os.path.isfile(cellml):
         code = antimony.loadCellMLFile(cellml)
     else:
@@ -686,6 +691,7 @@ def cellmlToSBML(cellml):
     """
     if not hasattr(antimony, "loadCellMLString"):
         raise NotImplementedError("CellML support was not compiled into Antimony, so conversion is not available.")
+    antimony.clearPreviousLoads()
     if os.path.isfile(cellml):
         code = antimony.loadCellMLFile(cellml)
     else:
@@ -751,7 +757,7 @@ def extractFileFromCombineArchive(archive_path, entry_location):
     if not archive.initializeFromArchive(archive_path):
         raise RuntimeError('Failed to initialize archive')
     try:
-        entry = archive.getEntryByLocation(entry_location)
+        archive.getEntryByLocation(entry_location)
     except:
         raise RuntimeError('Could not find entry {}'.format(entry_location))
     return archive.extractEntryToString(entry_location)
