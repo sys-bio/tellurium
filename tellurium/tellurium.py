@@ -590,6 +590,7 @@ def antimonyToSBML(ant):
     :rtype: str
     """
     antimony.clearPreviousLoads()
+    antimony.freeAll()
     try:
         isfile = os.path.isfile(ant)
     except ValueError:
@@ -613,6 +614,7 @@ def antimonyToCellML(ant):
     :rtype: str
     """
     antimony.clearPreviousLoads()
+    antimony.freeAll()
     if os.path.isfile(ant):
         code = antimony.loadAntimonyFile(ant)
     else:
@@ -631,6 +633,7 @@ def sbmlToAntimony(sbml):
     :rtype: str
     """
     antimony.clearPreviousLoads()
+    antimony.freeAll()
     isfile = False
     try:
         isfile = os.path.isfile(sbml)
@@ -655,6 +658,7 @@ def sbmlToCellML(sbml):
     if not hasattr(antimony, "loadCellMLString"):
         raise NotImplementedError("CellML support was not compiled into Antimony, so conversion is not available.")
     antimony.clearPreviousLoads()
+    antimony.freeAll()
     if os.path.isfile(sbml):
         code = antimony.loadSBMLFile(sbml)
     else:
@@ -673,6 +677,7 @@ def cellmlToAntimony(cellml):
     if not hasattr(antimony, "loadCellMLString"):
         raise NotImplementedError("CellML support was not compiled into Antimony, so conversion is not available.")
     antimony.clearPreviousLoads()
+    antimony.freeAll()
     if os.path.isfile(cellml):
         code = antimony.loadCellMLFile(cellml)
     else:
@@ -692,6 +697,7 @@ def cellmlToSBML(cellml):
     if not hasattr(antimony, "loadCellMLString"):
         raise NotImplementedError("CellML support was not compiled into Antimony, so conversion is not available.")
     antimony.clearPreviousLoads()
+    antimony.freeAll()
     if os.path.isfile(cellml):
         code = antimony.loadCellMLFile(cellml)
     else:
