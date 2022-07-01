@@ -22,8 +22,15 @@ from .tellurium import (
 # Converters
 from .teconverters import (
     antimonyConverter,
-    inlineOmex,
 )
+
+try:
+    #Might not exist if we don't have phrasedml.
+    from .teconverters import (
+        inlineOmex,
+    )
+except:
+    pass
 
 # Model import
 from .tellurium import (

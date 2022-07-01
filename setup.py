@@ -48,10 +48,7 @@ setup(name='tellurium',
           'pandas>=0.20.2',
           # SBW-derived
           'libroadrunner>=2.0.3',
-          'rrplugins>=2.0.3',
-          'phrasedml>=1.0.9',
           'antimony>=2.12.0',
-          'sbml2matlab>=0.9.1',
           # standards
           'python-libsbml>=5.18.0',
           'python-libnuml>=1.0.0',
@@ -69,5 +66,14 @@ setup(name='tellurium',
           'ipykernel>=4.6.1',
           # testing
           'pytest',
-          ]
+          ],
+      extras_require={
+        ':(python_version < "3.10" and platform_machine != "arm64")': [
+          'phrasedml>=1.0.9',
+          'sbml2matlab>=0.9.1',
+          ],
+        ': platform_machine != "arm64"': [
+          'rrplugins>=2.0.3',
+          ],
+          },
       )

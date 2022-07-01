@@ -679,7 +679,7 @@ class ParameterScan2D (object):
     
                 if (i == len(self.p1Range) - 1):
                     axarr[i, j].set_xlabel('%s = %.2f' % (self.p2, k2))
-                if (j is 0):
+                if (j == 0):
                     axarr[i, j].set_ylabel('%s = %.2f' % (self.p1, k1))
     
         f.show()
