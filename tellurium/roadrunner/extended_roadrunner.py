@@ -46,8 +46,6 @@ class ExtendedRoadRunner(roadrunner.RoadRunner):
 
         'getConservedMoietyValues',
         'getNumConservedMoieties',
-        'getNumDepFloatingSpecies',
-        'getNumIndFloatingSpecies',
 
         'getReactionIds',
         'getReactionRates',
