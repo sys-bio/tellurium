@@ -4,7 +4,6 @@ Class for working with omex files.
 from __future__ import print_function, division, absolute_import
 import os
 import re
-import shutil
 import tempfile
 import json
 import getpass
@@ -16,8 +15,10 @@ try:
 except ImportError:
     import tecombine as libcombine
 
-
-from .convert_phrasedml import phrasedmlImporter
+try:
+    from .convert_phrasedml import phrasedmlImporter
+except:
+    pass
 from .convert_antimony import antimonyConverter
 
 class OmexFormatDetector:
@@ -146,8 +147,11 @@ class Omex(object):
 
         :return:
         """
-        import phrasedml
-        phrasedml.clearReferencedSBML()
+        try:
+            import phrasedml
+            phrasedml.clearReferencedSBML()
+        except:
+            pass
 
         workingDir = tempfile.mkdtemp(suffix="_sedml")
         self.writeFiles(workingDir)
@@ -163,8 +167,11 @@ class Omex(object):
         """ Export Omex instance as combine archive.
 
         :param outfile: A path to the output file"""
-        import phrasedml
-        phrasedml.clearReferencedSBML()
+        try:
+            import phrasedml
+            phrasedml.clearReferencedSBML()
+        except:
+            pass
 
         archive = libcombine.CombineArchive()
         description = libcombine.OmexDescription()
@@ -232,9 +239,7 @@ class inlineOmexImporter:
         if not os.path.isfile(path):
             raise IOError('No such file: {}'.format(path))
 
-        d = None
         if not os.access(os.getcwd(), os.W_OK):
-            d = os.getcwd()
             os.chdir(tempfile.gettempdir())
 
         omex = libcombine.CombineArchive()
@@ -242,8 +247,6 @@ class inlineOmexImporter:
             raise IOError('Could not read COMBINE archive.')
         importer = inlineOmexImporter(omex)
 
-        # if d is not None:
-            # os.chdir(d)
         return importer
 
     def __init__(self, omex):
@@ -445,13 +448,14 @@ class inlineOmexImporter:
         for entry in self.sedml_entries:
             sedml_str = self.omex.extractEntryToString(entry.getLocation()).replace('BIOMD0000000012,xml',
                                                                                     'BIOMD0000000012.xml')
+            phrasedml_output = ""
             try:
                 phrasedml_output = phrasedmlImporter.fromContent(
                     sedml_str,
                     self.makeSBMLResourceMap(self.fixSep(os.path.dirname(entry.getLocation())))
                 ).toPhrasedml().rstrip().replace('compartment', 'compartment_')
             except Exception as e:
-                errmsg = 'Could not read embedded SED-ML file {}.'.format(entry.getLocation())
+                errmsg = 'Could not read embedded SED-ML file or could not convert to phraSED-ML: {}.\n{}'.format(entry.getLocation(), e.what())
                 try:
                     try:
                         import libsedml
