@@ -8,9 +8,9 @@ from .convert_omex import inlineOmexImporter, OmexFormatDetector
 
 try:
     from .convert_phrasedml import phrasedmlImporter
+    from .inline_omex import inlineOmex, saveInlineOMEX
 except:
     pass
 
 from .antimony_sbo import SBOError
 
-from .inline_omex import inlineOmex, saveInlineOMEX
