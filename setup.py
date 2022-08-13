@@ -42,7 +42,7 @@ setup(name='tellurium',
       },
       install_requires=[
           # general
-          'numpy>=1.20.2',
+          'numpy>=1.23',
           'scipy>=1.5.1',
           'matplotlib>=2.0.2',
           'pandas>=0.20.2',
@@ -56,7 +56,7 @@ setup(name='tellurium',
           'python-libcombine>=0.2.2',
           # misc
           'appdirs>=1.4.3',
-          'jinja2>=2.9.6',
+          'jinja2>=3.0.0',
           'plotly>=2.0.12',
           'requests',
           # Jupyter / IPython

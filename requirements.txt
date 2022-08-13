@@ -1,4 +1,4 @@
-numpy>=1.20.2
+numpy>=1.23
 scipy>=1.5.1
 matplotlib>=2.0.2
 pandas>=0.20.2
@@ -12,7 +12,7 @@ python-libnuml>=1.0.0
 python-libsedml>=2.0.17
 python-libcombine>=0.2.2
 appdirs>=1.4.3
-jinja2>=2.9.6
+jinja2>=3.0.0
 plotly>=2.0.12
 requests
 jupyter-client>=5.1.0

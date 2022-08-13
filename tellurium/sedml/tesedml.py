@@ -526,7 +526,6 @@ class SEDMLCodeFactory(object):
         """
         # template environment
         env = jinja2.Environment(loader=jinja2.FileSystemLoader(self.TEMPLATE_DIR),
-                          extensions=['jinja2.ext.autoescape'],
                           trim_blocks=True,
                           lstrip_blocks=True)
 
@@ -622,6 +621,8 @@ class SEDMLCodeFactory(object):
                 lines.append("{} = te.loadSBMLModel(__{}_sbml)".format(mid, mid))
             elif isHttp():
                 lines.append("{} = te.loadSBMLModel('{}')".format(mid, source))
+            elif source[0] == "#":
+                lines.append("{} = te.loadSBMLModel({}.getCurrentSBML())".format(mid, source[1:]))
             else:
                 lines.append("{} = te.loadSBMLModel(os.path.join(workingDir, '{}'))".format(mid, source))
         # read CellML
