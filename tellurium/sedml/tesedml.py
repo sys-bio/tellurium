@@ -327,7 +327,13 @@ def sedmlToPython(inputStr, workingDir=None):
     return factory.toPython()
 
 
-def executeSEDML(inputStr, workingDir=None):
+def executeSEDML(inputStr, 
+                 workingDir=None,
+                 createOutputs=True,
+                 saveOutputs=False,
+                 outputDir=None,
+                 plottingEngine=None
+):
     """ Run a SED-ML file or combine archive with results.
 
     If a workingDir is provided the files and results are written in the workingDir.
@@ -338,7 +344,12 @@ def executeSEDML(inputStr, workingDir=None):
     :rtype:
     """
     # execute the sedml
-    factory = SEDMLCodeFactory(inputStr, workingDir=workingDir)
+    factory = SEDMLCodeFactory(inputStr, workingDir=workingDir,
+                     createOutputs=createOutputs,
+                     saveOutputs=saveOutputs,
+                     outputDir=outputDir,
+                     plottingEngine=plottingEngine
+)
     factory.executePython()
 
 
