@@ -601,6 +601,16 @@ class SEDMLCodeFactory(object):
             with open(filename, 'w') as f:
                 f.write(code)
             raise
+    def localParamsInModelChanges(self):
+        """
+        Returns True if any of the model changes target local parameters.
+        """
+        for mod in self.model_changes:
+            for change in self.model_changes[mod]:
+                target = change.getTarget()
+                if "kineticLaw" in target and "arameter" in target:
+                    return False
+        return False
 
     def modelToPython(self, model):
         """ Python code for SedModel.
@@ -646,6 +656,13 @@ class SEDMLCodeFactory(object):
         # other
         else:
             warnings.warn("Unsupported model language: '{}'.".format(language))
+
+        # If there are local parameters pointed to by the model changes, convert
+        # the model first
+        if self.localParamsInModelChanges():
+            lines.append("# Promote the local parameters, since there are model changes that target them, and roadrunner doesn't normally provide access.")
+            lines.append("promoted = {}.getParamPromotedSBML({}.getCurrentSBML())".format(mid, mid))
+            lines.append("{} = te.loadSBMLModel(promoted)".format(mid))
 
         # apply model changes
         for change in self.model_changes[mid]:
@@ -1608,6 +1625,18 @@ class SEDMLCodeFactory(object):
             if (match is None) or (len(match) == 0):
                 warnings.warn("Xpath could not be resolved: {}".format(xpath))
             return match[0]
+
+        def getAllIds(xpath):
+            xpath = xpath.replace('"', "'")
+            match = re.findall(r"id='(.*?)'", xpath)
+            if (match is None) or (len(match) == 0):
+                warnings.warn("Xpath could not be resolved: {}".format(xpath))
+            return match
+
+        #Local parameter value change
+        if ("model" in xpath) and ("parameter" in xpath) and ("reaction" in xpath):
+            (rxn, param) = getAllIds(xpath)
+            return Target(rxn + "_" + param, 'parameter')
 
         # parameter value change
         if ("model" in xpath) and ("parameter" in xpath):
