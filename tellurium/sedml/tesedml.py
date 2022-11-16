@@ -609,7 +609,7 @@ class SEDMLCodeFactory(object):
             for change in self.model_changes[mod]:
                 target = change.getTarget()
                 if "kineticLaw" in target and "arameter" in target:
-                    return False
+                    return True
         return False
 
     def modelToPython(self, model):
