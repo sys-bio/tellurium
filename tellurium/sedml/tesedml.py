@@ -229,6 +229,8 @@ KISAOS_NLEQ = [  # 'nleq'
     413,
     432,
     437,
+    568,
+    569,
 ]
 
 # allowed algorithms for simulation type
@@ -327,7 +329,13 @@ def sedmlToPython(inputStr, workingDir=None):
     return factory.toPython()
 
 
-def executeSEDML(inputStr, workingDir=None):
+def executeSEDML(inputStr, 
+                 workingDir=None,
+                 createOutputs=True,
+                 saveOutputs=False,
+                 outputDir=None,
+                 plottingEngine=None
+):
     """ Run a SED-ML file or combine archive with results.
 
     If a workingDir is provided the files and results are written in the workingDir.
@@ -338,7 +346,12 @@ def executeSEDML(inputStr, workingDir=None):
     :rtype:
     """
     # execute the sedml
-    factory = SEDMLCodeFactory(inputStr, workingDir=workingDir)
+    factory = SEDMLCodeFactory(inputStr, workingDir=workingDir,
+                     createOutputs=createOutputs,
+                     saveOutputs=saveOutputs,
+                     outputDir=outputDir,
+                     plottingEngine=plottingEngine
+)
     factory.executePython()
 
 
@@ -590,6 +603,16 @@ class SEDMLCodeFactory(object):
             with open(filename, 'w') as f:
                 f.write(code)
             raise
+    def localParamsInModelChanges(self):
+        """
+        Returns True if any of the model changes target local parameters.
+        """
+        for mod in self.model_changes:
+            for change in self.model_changes[mod]:
+                target = change.getTarget()
+                if "kineticLaw" in target and "arameter" in target:
+                    return True
+        return False
 
     def modelToPython(self, model):
         """ Python code for SedModel.
@@ -635,6 +658,13 @@ class SEDMLCodeFactory(object):
         # other
         else:
             warnings.warn("Unsupported model language: '{}'.".format(language))
+
+        # If there are local parameters pointed to by the model changes, convert
+        # the model first
+        if self.localParamsInModelChanges():
+            lines.append("# Promote the local parameters, since there are model changes that target them, and roadrunner doesn't normally provide access.")
+            lines.append("promoted = {}.getParamPromotedSBML({}.getCurrentSBML())".format(mid, mid))
+            lines.append("{} = te.loadSBMLModel(promoted)".format(mid))
 
         # apply model changes
         for change in self.model_changes[mid]:
@@ -1598,6 +1628,18 @@ class SEDMLCodeFactory(object):
                 warnings.warn("Xpath could not be resolved: {}".format(xpath))
             return match[0]
 
+        def getAllIds(xpath):
+            xpath = xpath.replace('"', "'")
+            match = re.findall(r"id='(.*?)'", xpath)
+            if (match is None) or (len(match) == 0):
+                warnings.warn("Xpath could not be resolved: {}".format(xpath))
+            return match
+
+        #Local parameter value change
+        if ("model" in xpath) and ("parameter" in xpath) and ("reaction" in xpath):
+            (rxn, param) = getAllIds(xpath)
+            return Target(rxn + "_" + param, 'parameter')
+
         # parameter value change
         if ("model" in xpath) and ("parameter" in xpath):
             return Target(getId(xpath), 'parameter')
@@ -1823,6 +1865,32 @@ class SEDMLCodeFactory(object):
         xtitle = ''
         if oneXLabel:
             xtitle = allXLabel
+        
+        #X axis
+        xmin = None
+        xmax = None
+        if output.isSetXAxis():
+            xaxis = output.getXAxis()
+            if xaxis.isSetName():
+                xtitle = xaxis.getName()
+            if xaxis.isSetMin():
+                xmin = xaxis.getMin()
+            if xaxis.isSetMax():
+                xmax = xaxis.getMax()
+            
+        #y ayis
+        ymin = None
+        ymax = None
+        ytitle = ""
+        if output.isSetYAxis():
+            yaxis = output.getYAxis()
+            if yaxis.isSetName():
+                ytitle = yaxis.getName()
+            if yaxis.isSetMin():
+                ymin = yaxis.getMin()
+            if yaxis.isSetMax():
+                ymax = yaxis.getMax()
+            
 
         lines.append("_stacked = False")
         # stacking, currently disabled
@@ -1833,9 +1901,9 @@ class SEDMLCodeFactory(object):
         #     lines.append("if {}.shape[1] > 1 and te.getDefaultPlottingEngine() == 'plotly':".format(xId))
         #     lines.append("    stacked=True")
         lines.append("if _stacked:")
-        lines.append("    tefig = te.getPlottingEngine().newStackedFigure(title='{}', xtitle='{}')".format(title, xtitle))
+        lines.append("    tefig = te.getPlottingEngine().newStackedFigure(title='{}', xtitle='{}', ytitle='{}', xlim=({}, {}), ylim=({}, {}))".format(title, xtitle, ytitle, xmin, xmax, ymin, ymax))
         lines.append("else:")
-        lines.append("    tefig = te.nextFigure(title='{}', xtitle='{}')\n".format(title, xtitle))
+        lines.append("    tefig = te.nextFigure(title='{}', xtitle='{}', ytitle='{}', xlim=({}, {}), ylim=({}, {}))\n".format(title, xtitle, ytitle, xmin, xmax, ymin, ymax))
 
         lastvbar = []
         lasthbar = []
@@ -1883,6 +1951,8 @@ class SEDMLCodeFactory(object):
                         (showLine, ltype, dashes) = line_types[line.getType()]
                     if line.isSetColor():
                         color = line.getColor()
+                        if color[0] != "#":
+                            color = "#" + color
                     if line.isSetThickness():
                         lthickness = line.getThickness()
                 if style.isSetMarkerStyle():
@@ -1893,6 +1963,8 @@ class SEDMLCodeFactory(object):
                         mfc = marker.getFill()
                     if marker.isSetLineColor():
                         mec = marker.getLineColor()
+                        if mec[0] != "#":
+                            mec = "#" + mec
                     if marker.isSetSize():
                         ms = marker.getSize()
                     if marker.isSetLineThickness():
@@ -1900,6 +1972,8 @@ class SEDMLCodeFactory(object):
                 if style.isSetFillStyle():
                     fill = style.getFillStyle()
                     fillcolor = fill.getColor()
+                    if fillcolor[0] != "#":
+                        fillcolor = "#" + fillcolor
                 
             tag = 'tag{}'.format(kc)
 

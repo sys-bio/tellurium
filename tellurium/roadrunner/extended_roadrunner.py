@@ -182,7 +182,7 @@ class ExtendedRoadRunner(roadrunner.RoadRunner):
         :param filePath: file path of SBML file
         :type filePath: str
         """
-        with open(filePath, 'w') as f:
+        with open(filePath, 'w', encoding="utf-8") as f:
             f.write(self.__getSBML(current))
 
     def exportToAntimony(self, filePath, current=True):
@@ -193,7 +193,7 @@ class ExtendedRoadRunner(roadrunner.RoadRunner):
         :param filePath: file path of Antimony file
         :type filePath: str
         """
-        with open(filePath, 'w') as f:
+        with open(filePath, 'w', encoding="utf-8") as f:
             f.write(self.getAntimony(current))
 
     def exportToCellML(self, filePath, current=True):
@@ -204,7 +204,7 @@ class ExtendedRoadRunner(roadrunner.RoadRunner):
         :param filePath: file path of CellML file
         :type filePath: str
         """
-        with open(filePath, 'w') as f:
+        with open(filePath, 'w', encoding="utf-8") as f:
             f.write(self.getCellML(current))
 
     def exportToMatlab(self, filePath, current=True):
@@ -217,7 +217,7 @@ class ExtendedRoadRunner(roadrunner.RoadRunner):
         :param filePath: file path of Matlab file
         :type filePath: str
         """
-        with open(filePath, 'w') as f:
+        with open(filePath, 'w', encoding="utf-8") as f:
             f.write(self.getMatlab(current))
 
     # ---------------------------------------------------------------------

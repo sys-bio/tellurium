@@ -104,6 +104,20 @@ def f_or(*args):
     return 0
 """
 
+def renameNPFuncs(astnode):
+    if astnode.isFunction():
+        name = astnode.getName()
+        if name=="max":
+            astnode.setName("np.nanmax")
+        if name=="min":
+            astnode.setName("np.nanmin")
+        if name=="sum":
+            astnode.setName("np.nansum")
+        if name=="product":
+            astnode.setName("np.prod")
+    for c in range(astnode.getNumChildren()):
+        renameNPFuncs(astnode.getChild(c))
+
 def evaluableMathML(astnode, variables={}, array=False):
     """ Create evaluable python string.
 
@@ -111,22 +125,15 @@ def evaluableMathML(astnode, variables={}, array=False):
     # replace variables with provided values
     for key, value in variables.items():
         astnode.replaceArgument(key, libsbml.parseFormula(str(value)))
-
+    if array:
+        renameNPFuncs(astnode)
     # get formula
     formula = libsbml.formulaToL3String(astnode)
 
     # <replacements>
     # FIXME: these are not exhaustive, but are improved with examples
-    if array is False:
-        # scalar
-        formula = formula.replace("&&", 'and')
-        formula = formula.replace("||", 'or')
-    else:
-        # np.array
-        formula = formula.replace("max", 'np.nanmax')
-        formula = formula.replace("min", 'np.nanmin')
-        formula = formula.replace("sum", 'np.nansum')
-        formula = formula.replace("product", 'np.prod')
+    formula = formula.replace("&&", 'and')
+    formula = formula.replace("||", 'or')
 
     return formula
 
