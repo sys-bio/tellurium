@@ -229,6 +229,8 @@ KISAOS_NLEQ = [  # 'nleq'
     413,
     432,
     437,
+    568,
+    569,
 ]
 
 # allowed algorithms for simulation type
@@ -1863,6 +1865,32 @@ class SEDMLCodeFactory(object):
         xtitle = ''
         if oneXLabel:
             xtitle = allXLabel
+        
+        #X axis
+        xmin = None
+        xmax = None
+        if output.isSetXAxis():
+            xaxis = output.getXAxis()
+            if xaxis.isSetName():
+                xtitle = xaxis.getName()
+            if xaxis.isSetMin():
+                xmin = xaxis.getMin()
+            if xaxis.isSetMax():
+                xmax = xaxis.getMax()
+            
+        #y ayis
+        ymin = None
+        ymax = None
+        ytitle = ""
+        if output.isSetYAxis():
+            yaxis = output.getYAxis()
+            if yaxis.isSetName():
+                ytitle = yaxis.getName()
+            if yaxis.isSetMin():
+                ymin = yaxis.getMin()
+            if yaxis.isSetMax():
+                ymax = yaxis.getMax()
+            
 
         lines.append("_stacked = False")
         # stacking, currently disabled
@@ -1873,9 +1901,9 @@ class SEDMLCodeFactory(object):
         #     lines.append("if {}.shape[1] > 1 and te.getDefaultPlottingEngine() == 'plotly':".format(xId))
         #     lines.append("    stacked=True")
         lines.append("if _stacked:")
-        lines.append("    tefig = te.getPlottingEngine().newStackedFigure(title='{}', xtitle='{}')".format(title, xtitle))
+        lines.append("    tefig = te.getPlottingEngine().newStackedFigure(title='{}', xtitle='{}', ytitle='{}', xlim=({}, {}), ylim=({}, {}))".format(title, xtitle, ytitle, xmin, xmax, ymin, ymax))
         lines.append("else:")
-        lines.append("    tefig = te.nextFigure(title='{}', xtitle='{}')\n".format(title, xtitle))
+        lines.append("    tefig = te.nextFigure(title='{}', xtitle='{}', ytitle='{}', xlim=({}, {}), ylim=({}, {}))\n".format(title, xtitle, ytitle, xmin, xmax, ymin, ymax))
 
         lastvbar = []
         lasthbar = []
@@ -1923,6 +1951,8 @@ class SEDMLCodeFactory(object):
                         (showLine, ltype, dashes) = line_types[line.getType()]
                     if line.isSetColor():
                         color = line.getColor()
+                        if color[0] != "#":
+                            color = "#" + color
                     if line.isSetThickness():
                         lthickness = line.getThickness()
                 if style.isSetMarkerStyle():
@@ -1933,6 +1963,8 @@ class SEDMLCodeFactory(object):
                         mfc = marker.getFill()
                     if marker.isSetLineColor():
                         mec = marker.getLineColor()
+                        if mec[0] != "#":
+                            mec = "#" + mec
                     if marker.isSetSize():
                         ms = marker.getSize()
                     if marker.isSetLineThickness():
@@ -1940,6 +1972,8 @@ class SEDMLCodeFactory(object):
                 if style.isSetFillStyle():
                     fill = style.getFillStyle()
                     fillcolor = fill.getColor()
+                    if fillcolor[0] != "#":
+                        fillcolor = "#" + fillcolor
                 
             tag = 'tag{}'.format(kc)
 
