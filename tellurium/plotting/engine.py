@@ -41,7 +41,7 @@ class PlottingEngine(object):
         return "<PlottingEngine>"
 
     @abc.abstractmethod
-    def newFigure(self, title=None, logX=False, logY=False, layout=None, xtitle=None, ytitle=None):
+    def newFigure(self, title=None, logX=False, logY=False, layout=None, xtitle=None, ytitle=None, xlim=None, ylim=None):
         """ Returns PlottingFigure.
         Needs to be implemented in base class.
         """

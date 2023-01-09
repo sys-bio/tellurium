@@ -27,12 +27,12 @@ class MatplotlibEngine(PlottingEngine):
         return "<MatplotlibEngine>"
 
     @classmethod
-    def newFigure(cls, title=None, logX=False, logY=False, layout=None, xtitle=None, ytitle=None):
+    def newFigure(cls, title=None, logX=False, logY=False, layout=None, xtitle=None, ytitle=None, xlim=None, ylim=None):
         """ Returns a figure object."""
         if layout is None:
             layout = PlottingLayout()
 
-        fig = MatplotlibFigure(title=title, layout=layout, xtitle=xtitle, ytitle=ytitle, logx=logX, logy=logY)
+        fig = MatplotlibFigure(title=title, layout=layout, xtitle=xtitle, ytitle=ytitle, logx=logX, logy=logY, xlim=xlim, ylim=ylim)
         return fig
 
 
@@ -55,6 +55,8 @@ class MatplotlibFigure(PlottingFigure):
         self.figsize = figsize
         self.savefig = savefig
         self.dpi = dpi
+        self.xlim = xlim
+        self.ylim = ylim
 
     def render(self):
         """ Plot the figure. Call this last."""
