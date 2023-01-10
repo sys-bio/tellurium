@@ -38,11 +38,7 @@ try:
     if IPYTHON:
         matplotlib.use('Agg')
 except:
-    try:
-        import Tkinter
-    except ImportError:
-        matplotlib.use('Agg')
-
+    pass
 
 ##############################################
 # Ipython helpers
@@ -154,6 +150,13 @@ getPlottingEngineFactory.__doc__ = __getPlottingEngineFactory.__doc__
 import roadrunner
 
 try:
+    import rrplugins
+except ImportError as e:
+    rrplugins = None
+    roadrunner.Logger.log(roadrunner.Logger.LOG_WARNING, str(e))
+    warnings.warn("'rrplugins' could not be imported", ImportWarning, stacklevel=2)
+
+try:
     import libsedml
 except ImportError as e:
     try:
@@ -206,13 +209,13 @@ def getVersionInfo():
 
     :returns: list of tuples (package, version)
     """
-    import rrplugins
     versions = [
         ('tellurium', getTelluriumVersion()),
         ('roadrunner', roadrunner.__version__),
-        ('rrplugins', rrplugins.__version__),
         ('antimony', antimony.__version__),
     ]
+    if rrplugins:
+        versions.append(('rrplugins', rrplugins.__version__))
     if libsbml:
         versions.append(('libsbml', libsbml.getLibSBMLDottedVersion()))
     if libsedml:
