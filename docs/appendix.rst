@@ -9,10 +9,10 @@ Tellurium is a collection of Python packages developed inside and outside our gr
 
 * `tellurium <https://github.com/sys-bio/tellurium>`_: This project.
 * `libroadrunner <https://github.com/sys-bio/roadrunner>`_: SBML ODE / stochastic simulator.
-* `antimony <http://antimony.sourceforge.net/>`_: A human-readable representation of SBML.
-* `phrasedml <http://phrasedml.sourceforge.net/>`_: A human-readable representation of SED-ML.
+* `antimony <https://github.com/sys-bio/antimony>`_: A human-readable representation of SBML.
+* `phrasedml <https://github.com/sys-bio/phrasedml>`_: A human-readable representation of SED-ML.
 * `libcombine <https://github.com/sbmlteam/libCombine>`_: A library for reading/writing COMBINE archives.
-* `sbml2matlab <https://github.com/stanleygu/sbml2matlab>`_: A utility for converting SBML models to MATLAB ODE simulations.
+* `sbml2matlab <https://github.com/sys-bio/sbml2matlab>`_: A utility for converting SBML models to MATLAB ODE simulations.
 * `simplesbml <http://sys-bio.github.io/simplesbml/>`_: A utility for creating SBML models without the complexity of libSBML.
 * `libsbml <https://sourceforge.net/projects/sbml>`_: A library for reading/writing `SBML <http://sbml.org/Main_Page>`_.
 * `libsedml <https://github.com/fbergmann/libSEDML>`_: A library for reading/writing SED-ML.
