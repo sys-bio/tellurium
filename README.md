@@ -136,9 +136,9 @@ Next, install Tellurium itself:
 ```
 pip install tellurium
 ```
-If this fails, try using the default absolute path to Anaconda:
+If this fails, try using the default absolute path to Anaconda, which will probably be something like:
 ```
-/Users/<your-user>/anaconda3/bin/pip install tellurium
+/Users/<your-user>/opt/anaconda3/bin/pip install tellurium
 ```
 5. Launch the Anaconda Navigator via Launchpad. In Anaconda Navigator, run Spyder and then try `import tellurium` within the Spyder editor or console.
 
