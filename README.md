@@ -76,11 +76,12 @@ te.plotArray(result)
 :exclamation:**Attention to those using Python 2.7 :**
 **[Python 2.7 reached EOL on January 1st, 2020](https://www.python.org/doc/sunset-python-2/). Support for Python 2.7 has been dropped, though previous releases will continue to be available.**
 
-Tellurium can be installed as a Python package, or with a front-end (Notebook, IDE):
+Tellurium can be installed as a Python package, with a front-end (Notebook, IDE), or in a cloud environment (Google Colab):
 
 A. [Python package (pip)](#install-via-pip-no-front-end)  
 B. [IDE front-end](#front-end-1-spyder-for-tellurium-ide) based on [Spyder](https://www.spyder-ide.org/)  
 C. [Notebook front-end](#front-end-2-tellurium-notebook)  
+D. [Google Colab](#google-colab)  
 
 We recommend first-time users choose one of the front-ends, while developers looking to integrate Tellurium use the pip package. 
 The IDE front-end provides a MATLAB like experience with a code editor and Python console. 
@@ -220,6 +221,19 @@ The notebook viewer comes with Python 3.6 (64-bit).
 
 <br>
 
+-------
+
+### Google Colab
+Tellurium can be used entirely in a browser using [Google Colab](https://colab.research.google.com/).  Ideally, it will work with the following steps:
+  
+1. run a cell with ```pip install tellurium```
+2. Restart the runtime (From the menu: 'Runtime / Restart runtime')
+3. Use Tellurium normally.
+  
+The Python version behind Colab changes periodically, so what worked one day may stop working the next, but the following Colab notebook worked when used at ICSB 2022:  https://colab.research.google.com/drive/1wddLftHNhetbozZY29r2HRkzQLl1F_fs#scrollTo=l1bCgW46-adR and will hopefully be instructive.
+
+
+  
 ## Citing
 
 If you use Tellurium in your research, we would appreciate following citations in any works you publish:
