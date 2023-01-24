@@ -109,6 +109,7 @@ import re
 import numpy as np
 from collections import namedtuple
 import jinja2
+from pathlib import Path
 
 try:
     import libsedml
@@ -429,6 +430,7 @@ def executeCombineArchive(omexPath,
             sedml_paths = [os.path.join(extractDir, loc) for loc in sedml_locations]
             for sedmlFile in sedml_paths:
                 factory = SEDMLCodeFactory(sedmlFile,
+                                           sedmlFile=sedmlFile,
                                            workingDir=os.path.dirname(sedmlFile),
                                            createOutputs=createOutputs,
                                            saveOutputs=saveOutputs,
@@ -459,6 +461,7 @@ class SEDMLCodeFactory(object):
     TEMPLATE_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'templates')
 
     def __init__(self, inputStr,
+                 sedmlFile=None,
                  workingDir=None,
                  createOutputs=True,
                  saveOutputs=False,
@@ -475,7 +478,10 @@ class SEDMLCodeFactory(object):
         :rtype:
         """
         self.inputStr = inputStr
-        self.workingDir = workingDir
+        if sedmlFile:
+            self.sedmlFileBase = Path(sedmlFile).stem + "_"
+        else:
+            self.sedmlFileBase = ""
         self.python = sys.version
         self.platform = platform.platform()
         self.createOutputs = createOutputs
@@ -610,7 +616,7 @@ class SEDMLCodeFactory(object):
         for mod in self.model_changes:
             for change in self.model_changes[mod]:
                 target = change.getTarget()
-                if "kineticLaw" in target and "arameter" in target:
+                if "sbml:kineticLaw" in target and "sbml:reaction" in target:
                     return True
         return False
 
@@ -1456,7 +1462,7 @@ class SEDMLCodeFactory(object):
         if rType in ['Linear', 'linear']:
             lines.append("__range__{} = np.linspace(start={}, stop={}, num={})".format(rId, rStart, rEnd, rPoints))
         elif rType in ['Log', 'log']:
-            lines.append("__range__{} = np.logspace(start={}, stop={}, num={})".format(rId, rStart, rEnd, rPoints))
+            lines.append("__range__{} = np.logspace(start=np.log10({}), stop=np.log10({}), num={})".format(rId, rStart, rEnd, rPoints))
         else:
             warnings.warn("Unsupported range type in UniformRange: {}".format(rType))
         return lines
@@ -1636,7 +1642,7 @@ class SEDMLCodeFactory(object):
             return match
 
         #Local parameter value change
-        if ("model" in xpath) and ("parameter" in xpath) and ("reaction" in xpath):
+        if ("sbml:kineticLaw" in xpath) and ("sbml:reaction" in xpath):
             (rxn, param) = getAllIds(xpath)
             return Target(rxn + "_" + param, 'parameter')
 
@@ -1795,7 +1801,7 @@ class SEDMLCodeFactory(object):
         if self.saveOutputs and self.createOutputs:
 
             lines.append(
-                "    filename = os.path.join('{}', '{}.{}')".format(self.outputDir, output.getId(), self.reportFormat))
+                "    filename = os.path.join('{}', '{}.{}')".format(self.outputDir, self.sedmlFileBase + output.getId(), self.reportFormat))
             lines.append(
                 "    __df__k.to_csv(filename, sep=',', index=False)")
             lines.append(
@@ -2064,7 +2070,7 @@ class SEDMLCodeFactory(object):
         if self.saveOutputs and self.createOutputs:
             # FIXME: only working for matplotlib
             lines.append("if str(te.getPlottingEngine()) == '<MatplotlibEngine>':".format(self.outputDir, output.getId(), self.plotFormat))
-            lines.append("    filename = os.path.join('{}', '{}.{}')".format(self.outputDir, output.getId(), self.plotFormat))
+            lines.append("    filename = os.path.join('{}', '{}.{}')".format(self.outputDir, self.sedmlFileBase + output.getId(), self.plotFormat))
             lines.append("    fig.savefig(filename, format='{}', bbox_inches='tight')".format(self.plotFormat))
             lines.append("    print('Figure {}: {{}}'.format(filename))".format(output.getId()))
             lines.append("")
