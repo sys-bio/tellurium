@@ -76,11 +76,12 @@ te.plotArray(result)
 :exclamation:**Attention to those using Python 2.7 :**
 **[Python 2.7 reached EOL on January 1st, 2020](https://www.python.org/doc/sunset-python-2/). Support for Python 2.7 has been dropped, though previous releases will continue to be available.**
 
-Tellurium can either be installed with a front-end (Notebook, IDE) or as a Python package:
+Tellurium can be installed as a Python package, with a front-end (Notebook, IDE), or in a cloud environment (Google Colab):
 
-A. [IDE front-end](#front-end-1-tellurium-spyder-ide) based on [Spyder](https://www.spyder-ide.org/)  
-B. [Notebook front-end](#front-end-2-tellurium-notebook)  
-C. [Python package (pip)](#install-via-pip-no-front-end)
+A. [Python package (pip)](#install-via-pip-no-front-end)  
+B. [IDE front-end](#front-end-1-spyder-for-tellurium-ide) based on [Spyder](https://www.spyder-ide.org/)  
+C. [Notebook front-end](#front-end-2-tellurium-notebook)  
+D. [Google Colab](#google-colab)  
 
 We recommend first-time users choose one of the front-ends, while developers looking to integrate Tellurium use the pip package. 
 The IDE front-end provides a MATLAB like experience with a code editor and Python console. 
@@ -91,11 +92,33 @@ For any issues with installation and setup, please check [FAQ](https://github.co
 
 -------
 
+### Install via pip
+[![PyPI version](https://badge.fury.io/py/tellurium.svg)](https://badge.fury.io/py/tellurium)
 
-### Front-end 1: Tellurium Spyder IDE
-The Tellurium Spyder installers are tested with Windows 7+ and Mac OS X 10.9+. Some older Macs cannot run Spyder IDE, regardless of 
-whether the operating system is up-to-date. 
-The Tellurium Spyder IDE comes with Python 3.7 (64-bit).
+If you have a version of Python in an environment you're comfortable with, you can add Tellurium with pip:
+
+```
+pip install tellurium
+```	
+
+Tellurium itself is Python-only, and is available for any version of Python 3.  Its main binary dependency, roadrunner, should be installed with Tellurium, and should be available for the latest three or four versions of Python (currently 3.8, 3.9, 3.10, and 3.11), for Windows, Mac (both Intel and ARM), and Linux. 
+
+For those using Anaconda, we currently do not have a separate Anaconda version of Tellurium, so you'll need to install it via pip, as above.
+
+:exclamation:**For detailed instructions on how to setup Tellurium on Anaconda distributions, 
+see [this page](https://github.com/sys-bio/tellurium/wiki/FAQ#i-would-like-to-use-tellurium-on-anaconda-what-should-i-do).** 
+
+
+For developers, the latest stable version from the repository can be installed via
+```
+pip install git+https://github.com/sys-bio/tellurium.git
+```
+
+-------
+
+
+### Front-end 1: Spyder for Tellurium IDE
+The Tellurium Spyder installers are tested with Windows 8+, and comes with Python 3.9 (64-bit).
 
 **For those who wish to use Tellurium with Spyder IDE on Mac OS X or Linux, we suggest you to install through [Anaconda](https://www.anaconda.com/) by 
 following the instructions on [this page](https://github.com/sys-bio/tellurium/wiki/FAQ#i-would-like-to-use-tellurium-on-anaconda-what-should-i-do).**
@@ -105,15 +128,17 @@ following the instructions on [this page](https://github.com/sys-bio/tellurium/w
 <br style="clear:both"/>
 
 :exclamation:**Attention to those upgrading to Tellurium Spyder IDE from an older version :** 
-We strongly suggest you to completely remove the older version of Tellurium Spyder IDE prior to installing one of the 2.1.0+ versions.
+We strongly suggest you to completely remove the older version of Tellurium Spyder IDE prior to installing the latest version.
 
 1. Download Tellurium Spyder for Windows:
     * [Python 3.7](https://sourceforge.net/projects/pytellurium/files/Tellurium-2.3/2.3.5/Tellurium-2.3.5-Python-3.7-win64-setup.exe/download)
     * [Python 3.8](https://sourceforge.net/projects/pytellurium/files/Tellurium-2.3/2.3.5/Tellurium-2.3.5-Python-3.8-win64-setup.exe/download)
+    * [Python 3.10](https://sourceforge.net/projects/pytellurium/files/Tellurium-2.4/2.4.0/Tellurium-2.4.0-Python-3.10-win64-setup.exe/download)
+    * [Python 3.11](https://sourceforge.net/projects/pytellurium/files/Tellurium-2.4/2.4.0/Tellurium-2.4.0-Python-3.11-win64-setup.exe/download)
 2. Double-click the installer to start the installation
 3. Follow the instructions
 
-For now if you wish to use Python 3.9 you'll need to install Tellurium from the windows command line by using the command: pip install tellurium
+If you wish to use a different version of Python, you'll need to install Tellurium from the windows command line by using the command: pip install tellurium
 
 
 NOTE: Installation requires administrative rights. It is recommended to accept the default settings.
@@ -122,7 +147,7 @@ NOTE: Installation requires administrative rights. It is recommended to accept t
 <h4>Mac OS X</h4>
 <br style="clear:both"/>
 
-Mac OS X user can install Tellurium and the Spyder IDE through Anaconda:
+Mac OS X users can install Tellurium and the Spyder IDE through Anaconda:
 
 1. [Download the Anaconda distribution for Mac OS X.](https://www.anaconda.com/download). 
 
@@ -155,7 +180,7 @@ Currently, only a legacy version of the Mac Spyder IDE is available. We recommen
 -------
 
 ### Front-end 2: Tellurium Notebook
-The Tellurium notebook supports Windows 10, Mac OS X 10.10+, Debian 8+, and Fedora 22+.
+The Tellurium notebook is no longer being updated, but is still available.  It was tested with Windows 10, Mac OS X 10.10+, Debian 8+, and Fedora 22+.
 The notebook viewer comes with Python 3.6 (64-bit).
 
 <img align="left" width="32px" id="windows" src="https://raw.githubusercontent.com/wiki/sys-bio/tellurium/img/windows.png">
@@ -200,36 +225,17 @@ The notebook viewer comes with Python 3.6 (64-bit).
 
 -------
 
-### Install via pip (no front-end)
-[![PyPI version](https://badge.fury.io/py/tellurium.svg)](https://badge.fury.io/py/tellurium)
+### Google Colab
+Tellurium can be used entirely in a browser using [Google Colab](https://colab.research.google.com/).  Ideally, it will work with the following steps:
+  
+1. run a cell with ```pip install tellurium```
+2. Restart the runtime (From the menu: 'Runtime / Restart runtime')
+3. Use Tellurium normally.
+  
+The Python version behind Colab changes periodically, so what worked one day may stop working the next, but the following Colab notebook worked when used at ICSB 2022:  https://colab.research.google.com/drive/1wddLftHNhetbozZY29r2HRkzQLl1F_fs#scrollTo=l1bCgW46-adR and will hopefully be instructive.
 
-Binary pip packages for Tellurium are available from PyPI and support 64-bit Python versions 3.6, 3.7, and 3.8 for Windows, Mac, and Linux. 
-Pip packages are tested on Fedora 22, Debian 8, Ubuntu 14.04, and Mac OS X 10.13.
 
-The latest package release can be installed via	
-```
-pip install tellurium
-```	
-
-For developers, the latest stable version from the repository can be installed via
-```
-pip install git+https://github.com/sys-bio/tellurium.git
-```
-
-### Install via Anaconda
-
-1. [Download the Anaconda distribution for your platform.](https://www.anaconda.com/download)
-2. [Follow the installer instructions.](https://docs.anaconda.com/anaconda/install/linux)
-3. When prompted, add Anaconda to your PATH
-4. Run
-
-```
-pip install tellurium
-```
-
-:exclamation:**If you would like a detailed instruction on how to setup Tellurium on Anaconda distributions, 
-check [this page](https://github.com/sys-bio/tellurium/wiki/FAQ#i-would-like-to-use-tellurium-on-anaconda-what-should-i-do).** 
-
+  
 ## Citing
 
 If you use Tellurium in your research, we would appreciate following citations in any works you publish:
@@ -240,7 +246,7 @@ Choi et al. (2018). ["Tellurium: An extensible python-based modeling environment
 
 ## Contact Us
 
-For general questions or to request help, please post to the [Tellurium-discuss](https://groups.google.com/d/forum/tellurium-discuss) mailing list. If you think you found a bug in our software, please post it to [GitHub issue tracker](https://github.com/sys-bio/tellurium/issues).
+For general questions, requesting help, or reporting bugs, feel free to use the [GitHub issue tracker](https://github.com/sys-bio/tellurium/issues).  You can also post to the  [Tellurium-discuss](https://groups.google.com/d/forum/tellurium-discuss) mailing list.
 
 ## Legal
 
