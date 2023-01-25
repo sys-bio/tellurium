@@ -283,7 +283,7 @@ sweeps through a uniform range for another parameter ``J4_KK5``.
     '''
     
     phrasedml_str = '''
-      model_3 = model "parameterScan2D"
+      model_3 = model "parameterScan2D.xml"
       sim_repeat = simulate uniform(0,3000,100)
       task_1 = run sim_repeat on model_3
       repeatedtask_1 = repeat task_1 for J1_KK2 in [1, 5, 10, 50, 60, 70, 80, 90, 100], reset=true
