@@ -133,6 +133,8 @@ We strongly suggest you to completely remove the older version of Tellurium Spyd
 1. Download Tellurium Spyder for Windows:
     * [Python 3.7](https://sourceforge.net/projects/pytellurium/files/Tellurium-2.3/2.3.5/Tellurium-2.3.5-Python-3.7-win64-setup.exe/download)
     * [Python 3.8](https://sourceforge.net/projects/pytellurium/files/Tellurium-2.3/2.3.5/Tellurium-2.3.5-Python-3.8-win64-setup.exe/download)
+    * [Python 3.10](https://sourceforge.net/projects/pytellurium/files/Tellurium-2.4/2.4.0/Tellurium-2.4.0-Python-3.10-win64-setup.exe/download)
+    * [Python 3.11](https://sourceforge.net/projects/pytellurium/files/Tellurium-2.4/2.4.0/Tellurium-2.4.0-Python-3.11-win64-setup.exe/download)
 2. Double-click the installer to start the installation
 3. Follow the instructions
 
