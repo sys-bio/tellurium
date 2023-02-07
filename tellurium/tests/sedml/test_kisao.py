@@ -43,7 +43,7 @@ class KisaoSedmlTestCase(unittest.TestCase):
         end
         '''
         self.phrasedml = '''
-          model1 = model "myModel"
+          model1 = model "myModel.xml"
           sim1 = simulate uniform(0, 5, 100)
           task1 = run sim1 on model1
           plot "Figure 1" time vs S1, S2
@@ -146,7 +146,7 @@ class KisaoSedmlTestCase(unittest.TestCase):
 
     def test_kisao_cvode_1(self):
         p = """
-            model0 = model "m1"
+            model0 = model "m1.xml"
             sim0 = simulate uniform(0, 10, 100)
             sim0.algorithm = CVODE
             task0 = run sim0 on model0
@@ -158,7 +158,7 @@ class KisaoSedmlTestCase(unittest.TestCase):
 
     def test_kisao_cvode_2(self):
         p = """
-            model0 = model "m1"
+            model0 = model "m1.xml"
             sim0 = simulate uniform(0, 10, 100)
             sim0.algorithm = kisao.19
             task0 = run sim0 on model0
@@ -171,7 +171,7 @@ class KisaoSedmlTestCase(unittest.TestCase):
     def test_kisao_cvode_3(self):
         """ Default of uniform is cvode. """
         p = """
-            model0 = model "m1"
+            model0 = model "m1.xml"
             sim0 = simulate uniform(0, 10, 100)
             task0 = run sim0 on model0
             plot task0.time vs task0.S1
@@ -183,7 +183,7 @@ class KisaoSedmlTestCase(unittest.TestCase):
     def test_kisao_cvode_4(self):
         """ Default of onestep is cvode. """
         p = """
-            model0 = model "m1"
+            model0 = model "m1.xml"
             sim0 = simulate onestep(10)
             task0 = run sim0 on model0
             plot task0.time vs task0.S1
@@ -194,7 +194,7 @@ class KisaoSedmlTestCase(unittest.TestCase):
 
     def test_kisao_gillespie_1(self):
         p = """
-            model0 = model "m1"
+            model0 = model "m1.xml"
             sim0 = simulate uniform(0, 10, 100)
             sim0.algorithm = gillespie
             task0 = run sim0 on model0
@@ -206,7 +206,7 @@ class KisaoSedmlTestCase(unittest.TestCase):
 
     def test_kisao_gillespie_2(self):
         p = """
-            model0 = model "m1"
+            model0 = model "m1.xml"
             sim0 = simulate uniform(0, 10, 100)
             sim0.algorithm = kisao.241
             task0 = run sim0 on model0
@@ -219,7 +219,7 @@ class KisaoSedmlTestCase(unittest.TestCase):
     def test_kisao_gillespie_3(self):
         """ Default of uniform_stochastic is gillespie."""
         p = """
-            model0 = model "m1"
+            model0 = model "m1.xml"
             sim0 = simulate uniform_stochastic(0, 10, 100)
             task0 = run sim0 on model0
             plot task0.time vs task0.S1
@@ -230,7 +230,7 @@ class KisaoSedmlTestCase(unittest.TestCase):
 
     def test_kisao_rk4_1(self):
         p = """
-            model0 = model "m1"
+            model0 = model "m1.xml"
             sim0 = simulate uniform(0, 10, 100)
             sim0.algorithm = rk4
             task0 = run sim0 on model0
@@ -242,7 +242,7 @@ class KisaoSedmlTestCase(unittest.TestCase):
 
     def test_kisao_rk4_2(self):
         p = """
-            model0 = model "m1"
+            model0 = model "m1.xml"
             sim0 = simulate uniform(0, 10, 100)
             sim0.algorithm = kisao.32
             task0 = run sim0 on model0
@@ -255,7 +255,7 @@ class KisaoSedmlTestCase(unittest.TestCase):
 
     def test_kisao_bdf(self):
         p = """
-            model0 = model "m1"
+            model0 = model "m1.xml"
             sim0 = simulate uniform(0, 10, 100)
             sim0.algorithm = stiff
             task0 = run sim0 on model0
@@ -275,7 +275,7 @@ class KisaoSedmlTestCase(unittest.TestCase):
 
     def test_kisao_adams(self):
         p = """
-            model0 = model "m1"
+            model0 = model "m1.xml"
             sim0 = simulate uniform(0, 10, 100)
             sim0.algorithm = nonstiff
             task0 = run sim0 on model0
@@ -295,7 +295,7 @@ class KisaoSedmlTestCase(unittest.TestCase):
 
     def test_kisao_euler_1(self):
         p = """
-            model0 = model "m1"
+            model0 = model "m1.xml"
             sim0 = simulate uniform(0, 10, 100)
             sim0.algorithm = kisao.30
             task0 = run sim0 on model0
@@ -315,7 +315,7 @@ class KisaoSedmlTestCase(unittest.TestCase):
 
     def test_kisao_euler_2(self):
         p = """
-            model0 = model "m1"
+            model0 = model "m1.xml"
             sim0 = simulate uniform(0, 10, 100)
             sim0.algorithm = kisao.261
             task0 = run sim0 on model0
@@ -336,7 +336,7 @@ class KisaoSedmlTestCase(unittest.TestCase):
     @pytest.mark.skip(reason="bug in roadrunner")
     def test_kisao_rk45_1(self):
         p = """
-            model0 = model "m1"
+            model0 = model "m1.xml"
             sim0 = simulate uniform(0, 10, 100)
             sim0.algorithm = rk45
             task0 = run sim0 on model0
@@ -350,7 +350,7 @@ class KisaoSedmlTestCase(unittest.TestCase):
     @pytest.mark.skip(reason="bug in roadrunner")
     def test_kisao_rk45_2(self):
         p = """
-            model0 = model "m1"
+            model0 = model "m1.xml"
             sim0 = simulate uniform(0, 10, 100)
             sim0.algorithm = kisao.435
             task0 = run sim0 on model0
@@ -362,7 +362,7 @@ class KisaoSedmlTestCase(unittest.TestCase):
 
     def test_kisao_relative_tolerance_1(self):
         p = """
-            model0 = model "m1"
+            model0 = model "m1.xml"
             sim0 = simulate uniform(0, 10, 100)
             sim0.algorithm.relative_tolerance = 1E-8
             task0 = run sim0 on model0
@@ -374,7 +374,7 @@ class KisaoSedmlTestCase(unittest.TestCase):
 
     def test_kisao_relative_tolerance_2(self):
         p = """
-            model0 = model "m1"
+            model0 = model "m1.xml"
             sim0 = simulate uniform(0, 10, 100)
             sim0.algorithm.209 = 1E-8
             task0 = run sim0 on model0
@@ -386,7 +386,7 @@ class KisaoSedmlTestCase(unittest.TestCase):
 
     def test_kisao_absolute_tolerance_1(self):
         p = """
-            model0 = model "m1"
+            model0 = model "m1.xml"
             sim0 = simulate uniform(0, 10, 100)
             sim0.algorithm.absolute_tolerance = 1E-8
             task0 = run sim0 on model0
@@ -398,7 +398,7 @@ class KisaoSedmlTestCase(unittest.TestCase):
 
     def test_kisao_absolute_tolerance_2(self):
         p = """
-            model0 = model "m1"
+            model0 = model "m1.xml"
             sim0 = simulate uniform(0, 10, 100)
             sim0.algorithm.211 = 1E-8
             task0 = run sim0 on model0
@@ -410,7 +410,7 @@ class KisaoSedmlTestCase(unittest.TestCase):
 
     def test_kisao_maximum_bdf_order_1(self):
         p = """
-            model0 = model "m1"
+            model0 = model "m1.xml"
             sim0 = simulate uniform(0, 10, 100)
             sim0.algorithm.maximum_bdf_order = 4
             task0 = run sim0 on model0
@@ -422,7 +422,7 @@ class KisaoSedmlTestCase(unittest.TestCase):
 
     def test_kisao_maximum_bdf_order_2(self):
         p = """
-            model0 = model "m1"
+            model0 = model "m1.xml"
             sim0 = simulate uniform(0, 10, 100)
             sim0.algorithm.220 = 4
             task0 = run sim0 on model0
@@ -434,7 +434,7 @@ class KisaoSedmlTestCase(unittest.TestCase):
 
     def test_kisao_maximum_adams_order_1(self):
         p = """
-            model0 = model "m1"
+            model0 = model "m1.xml"
             sim0 = simulate uniform(0, 10, 100)
             sim0.algorithm.maximum_adams_order = 5
             task0 = run sim0 on model0
@@ -446,7 +446,7 @@ class KisaoSedmlTestCase(unittest.TestCase):
 
     def test_kisao_maximum_adams_order_2(self):
         p = """
-            model0 = model "m1"
+            model0 = model "m1.xml"
             sim0 = simulate uniform(0, 10, 100)
             sim0.algorithm.219 = 5
             task0 = run sim0 on model0
@@ -458,7 +458,7 @@ class KisaoSedmlTestCase(unittest.TestCase):
 
     def test_kisao_maximum_num_steps_1(self):
         p = """
-            model0 = model "m1"
+            model0 = model "m1.xml"
             sim0 = simulate uniform(0, 10, 100)
             sim0.algorithm.maximum_num_steps = 10000
             task0 = run sim0 on model0
@@ -470,7 +470,7 @@ class KisaoSedmlTestCase(unittest.TestCase):
 
     def test_kisao_maximum_num_steps_2(self):
         p = """
-            model0 = model "m1"
+            model0 = model "m1.xml"
             sim0 = simulate uniform(0, 10, 100)
             sim0.algorithm.415 = 10000
             task0 = run sim0 on model0
@@ -482,7 +482,7 @@ class KisaoSedmlTestCase(unittest.TestCase):
 
     def test_kisao_maximum_time_step_1(self):
         p = """
-            model0 = model "m1"
+            model0 = model "m1.xml"
             sim0 = simulate uniform(0, 10, 100)
             sim0.algorithm.maximum_time_step = 1.0
             task0 = run sim0 on model0
@@ -494,7 +494,7 @@ class KisaoSedmlTestCase(unittest.TestCase):
 
     def test_kisao_maximum_time_step_2(self):
         p = """
-            model0 = model "m1"
+            model0 = model "m1.xml"
             sim0 = simulate uniform(0, 10, 100)
             sim0.algorithm.467 = 1.0
             task0 = run sim0 on model0
@@ -507,7 +507,7 @@ class KisaoSedmlTestCase(unittest.TestCase):
     # @pytest.mark.skip(reason="bug in roadrunner")
     def test_kisao_minimum_time_step_1(self):
         p = """
-            model0 = model "m1"
+            model0 = model "m1.xml"
             sim0 = simulate uniform(0, 10, 100)
             sim0.algorithm.minimum_time_step = 1E-6
             task0 = run sim0 on model0
@@ -520,7 +520,7 @@ class KisaoSedmlTestCase(unittest.TestCase):
     # @pytest.mark.skip(reason="bug in roadrunner")
     def test_kisao_minimum_time_step_2(self):
         p = """
-            model0 = model "m1"
+            model0 = model "m1.xml"
             sim0 = simulate uniform(0, 10, 100)
             sim0.algorithm.485 = 1E-6
             task0 = run sim0 on model0
@@ -533,7 +533,7 @@ class KisaoSedmlTestCase(unittest.TestCase):
     def test_kisao_nonnegative(self):
         """ Check nonnegative setting."""
         p = """
-            model0 = model "m1"
+            model0 = model "m1.xml"
             sim0 = simulate uniform_stochastic(0, 10, 100)
             sim0.algorithm.673 = true
             task0 = run sim0 on model0
@@ -551,7 +551,7 @@ class KisaoSedmlTestCase(unittest.TestCase):
 
     def test_kisao_initial_time_step_1(self):
         p = """
-            model0 = model "m1"
+            model0 = model "m1.xml"
             sim0 = simulate uniform(0, 10, 100)
             sim0.algorithm.initial_time_step = 0.01
             task0 = run sim0 on model0
@@ -563,7 +563,7 @@ class KisaoSedmlTestCase(unittest.TestCase):
 
     def test_kisao_initial_time_step_2(self):
         p = """
-            model0 = model "m1"
+            model0 = model "m1.xml"
             sim0 = simulate uniform(0, 10, 100)
             sim0.algorithm.559 = 0.01
             task0 = run sim0 on model0
@@ -575,7 +575,7 @@ class KisaoSedmlTestCase(unittest.TestCase):
 
     def test_kisao_variable_step_size_1(self):
         p = """
-            model0 = model "m1"
+            model0 = model "m1.xml"
             sim0 = simulate uniform(0, 10, 100)
             sim0.algorithm.variable_step_size = true
             task0 = run sim0 on model0
@@ -587,7 +587,7 @@ class KisaoSedmlTestCase(unittest.TestCase):
 
     def test_kisao_variable_step_size_2(self):
         p = """
-            model0 = model "m1"
+            model0 = model "m1.xml"
             sim0 = simulate uniform(0, 10, 100)
             sim0.algorithm.107 = true
             task0 = run sim0 on model0
@@ -599,7 +599,7 @@ class KisaoSedmlTestCase(unittest.TestCase):
 
     def test_kisao_maximum_iterations_1(self):
         p = """
-            model0 = model "m1"
+            model0 = model "m1.xml"
             sim0 = simulate steadystate
             sim0.algorithm.maximum_iterations = 10
             task0 = run sim0 on model0
@@ -611,7 +611,7 @@ class KisaoSedmlTestCase(unittest.TestCase):
 
     def test_kisao_maximum_iterations_2(self):
         p = """
-            model0 = model "m1"
+            model0 = model "m1.xml"
             sim0 = simulate steadystate
             sim0.algorithm.486 = 10
             task0 = run sim0 on model0
@@ -623,7 +623,7 @@ class KisaoSedmlTestCase(unittest.TestCase):
 
     def test_kisao_minimum_damping_1(self):
         p = """
-            model0 = model "m1"
+            model0 = model "m1.xml"
             sim0 = simulate steadystate
             sim0.algorithm.minimum_damping = 1.0
             task0 = run sim0 on model0
@@ -635,7 +635,7 @@ class KisaoSedmlTestCase(unittest.TestCase):
 
     def test_kisao_minimum_damping_2(self):
         p = """
-            model0 = model "m1"
+            model0 = model "m1.xml"
             sim0 = simulate steadystate
             sim0.algorithm.487 = 1
             task0 = run sim0 on model0
@@ -647,7 +647,7 @@ class KisaoSedmlTestCase(unittest.TestCase):
 
     def test_kisao_allow_presimulation(self):
         p = """
-            model0 = model "m1"
+            model0 = model "m1.xml"
             sim0 = simulate steadystate
             sim0.algorithm.674 = True
             task0 = run sim0 on model0
@@ -659,7 +659,7 @@ class KisaoSedmlTestCase(unittest.TestCase):
 
     def test_kisao_presimulation_maximum_steps(self):
         p = """
-            model0 = model "m1"
+            model0 = model "m1.xml"
             sim0 = simulate steadystate
             sim0.algorithm.677 = 1000
             task0 = run sim0 on model0
@@ -671,7 +671,7 @@ class KisaoSedmlTestCase(unittest.TestCase):
 
     def test_kisao_presimulation_time(self):
         p = """
-            model0 = model "m1"
+            model0 = model "m1.xml"
             sim0 = simulate steadystate
             sim0.algorithm.680 = 100
             task0 = run sim0 on model0
@@ -683,7 +683,7 @@ class KisaoSedmlTestCase(unittest.TestCase):
 
     def test_kisao_allow_approx(self):
         p = """
-            model0 = model "m1"
+            model0 = model "m1.xml"
             sim0 = simulate steadystate
             sim0.algorithm.682 = True
             task0 = run sim0 on model0
@@ -695,7 +695,7 @@ class KisaoSedmlTestCase(unittest.TestCase):
 
     def test_kisao_approx_tolerance(self):
         p = """
-            model0 = model "m1"
+            model0 = model "m1.xml"
             sim0 = simulate steadystate
             sim0.algorithm.683 = 0.000001
             task0 = run sim0 on model0
@@ -707,7 +707,7 @@ class KisaoSedmlTestCase(unittest.TestCase):
 
     def test_kisao_approx_maximum_steps(self):
         p = """
-            model0 = model "m1"
+            model0 = model "m1.xml"
             sim0 = simulate steadystate
             sim0.algorithm.678 = 1001
             task0 = run sim0 on model0
@@ -719,7 +719,7 @@ class KisaoSedmlTestCase(unittest.TestCase):
 
     def test_kisao_approx_time(self):
         p = """
-            model0 = model "m1"
+            model0 = model "m1.xml"
             sim0 = simulate steadystate
             sim0.algorithm.679 = 150
             task0 = run sim0 on model0
@@ -731,7 +731,7 @@ class KisaoSedmlTestCase(unittest.TestCase):
 
     def test_kisao_broyden_method(self):
         p = """
-            model0 = model "m1"
+            model0 = model "m1.xml"
             sim0 = simulate steadystate
             sim0.algorithm.675 = 0
             task0 = run sim0 on model0
@@ -743,7 +743,7 @@ class KisaoSedmlTestCase(unittest.TestCase):
 
     def test_kisao_linearity(self):
         p = """
-            model0 = model "m1"
+            model0 = model "m1.xml"
             sim0 = simulate steadystate
             sim0.algorithm.676 = 4
             task0 = run sim0 on model0
@@ -757,7 +757,7 @@ class KisaoSedmlTestCase(unittest.TestCase):
     # 676: ('', int), #For an NLEQ steady state solver: set the linearity of the problem (1-4).
     def test_kisao_seed_1(self):
         p = """
-            model0 = model "m1"
+            model0 = model "m1.xml"
             sim0 = simulate uniform_stochastic(0, 10, 100)
             sim0.algorithm.seed = 1234
             task0 = run sim0 on model0
@@ -769,7 +769,7 @@ class KisaoSedmlTestCase(unittest.TestCase):
 
     def test_kisao_seed_2(self):
         p = """
-            model0 = model "m1"
+            model0 = model "m1.xml"
             sim0 = simulate uniform_stochastic(0, 10, 100)
             sim0.algorithm.488 = 1234
             task0 = run sim0 on model0

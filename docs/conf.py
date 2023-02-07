@@ -25,7 +25,7 @@ class Mock(MagicMock):
             return Mock()
 
 MOCK_MODULES = ['roadrunner',
-				'roadrunner.testing',
+				'roadrunner.tests',
 				'antimony',
 				'libsbml',
 				'libsedml',

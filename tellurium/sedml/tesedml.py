@@ -905,8 +905,9 @@ class SEDMLCodeFactory(object):
 
             elif taskType == libsedml.SEDML_TASK:
                 if node.parent and node.parent.task.getTypeCode()==libsedml.SEDML_TASK_REPEATEDTASK:
-                    #The repeated task itself should have set up the simulation; here we just run it.
-                    taskLines = SEDMLCodeFactory.simpleTaskMainSim(doc, node)
+                    #The repeated task itself should have set this all up
+                    pass
+                    #taskLines = SEDMLCodeFactory.simpleTaskMainSim(doc, node)
                 else:
                     taskLines = SEDMLCodeFactory.simpleTaskToPython(doc=doc, node=node)
             else:
@@ -1221,7 +1222,7 @@ class SEDMLCodeFactory(object):
             numberOfSteps = simulation.getNumberOfSteps()
 
             # reset before simulation (see https://github.com/sys-bio/tellurium/issues/193)
-            lines.append("{}.reset()".format(mid))
+            lines.append("{}.resetAll()".format(mid))
 
             # throw some points away
             if abs(outputStartTime - initialTime) > 1E-6:
@@ -1242,12 +1243,25 @@ class SEDMLCodeFactory(object):
         # <STEADY STATE>
         # -------------------------------------------------------------------------
         elif simType == libsedml.SEDML_SIMULATION_STEADYSTATE:
-            lines.append("{}.steadyStateSolver.setValue('{}', {})".format(mid, 'allow_presimulation', False))
-            lines.append("{}.steadyStateSelections = {}".format(mid, list(selections)))
-            lines.append("{}.simulate()".format(mid))  # for stability of the steady state solver
-            lines.append("{} = {}.steadyStateNamedArray()".format(resultVariable, mid))
+            indent = ""
+            if len(parents) == 0:
+                #Have to put this here directly; the parent repeatedTask otherwise adds it.
+                lines.append("simdists = [0, 0.1, 1, 10, 100, 1000]")
+                lines.append("sd = 0")
+                lines.append("while sd < len(simdists) and " + resultVariable + " is None:")
+                lines.append("    try:")
+                indent = "        "
+            lines.append(indent + "{}.steadyStateSolver.setValue('{}', {})".format(mid, 'allow_presimulation', False))
+            lines.append(indent + "{}.steadyStateSelections = {}".format(mid, list(selections)))
+            lines.append(indent + "if simdists[sd] > 0:")
+            lines.append(indent + "    {}.simulate(end=simdists[sd])".format(mid))  # for stability of the steady state solver
+            lines.append(indent + "{} = {}.steadyStateNamedArray()".format(resultVariable, mid))
             # no need to turn this off because it will be checked before the next simulation
             # lines.append("{}.conservedMoietyAnalysis = False".format(mid))
+            if len(parents) == 0:
+                lines.append("    except:")
+                lines.append("        pass")
+                lines.append("    sd += 1")
 
         # -------------------------------------------------------------------------
         # <OTHER>
@@ -1338,21 +1352,47 @@ class SEDMLCodeFactory(object):
 
         # <resetModels>
         # models to reset via task tree below node
-        mids = set([])
+        # Also check to see if any tasks are steady states; if so, we need a wrapper.
+        childSteadyStateTasks = []
         for child in node:
             t = child.task
             if t.getTypeCode() == libsedml.SEDML_TASK:
-                mids.add(t.getModelReference())
-        # reset models referenced in tree below task
-        for mid in mids:
-            if task.getResetModel():
-                # reset before every iteration
-                forLines.append("{}.reset()".format(mid))
-            else:
-                # reset before first iteration
-                forLines.append("if __k__{} == 0:".format(rangeId))
-                forLines.append("    {}.reset()".format(mid))
+                sim = doc.getSimulation(t.getSimulationReference())
+                tid = t.getId()
+                indent = ""
+                if sim.getTypeCode() == libsedml.SEDML_SIMULATION_STEADYSTATE:
+                    #Set up try/catch block for child steady state
+                    for tid in childSteadyStateTasks:
+                        forLines.append(tid + " = [None]")
+                    forLines.append("simdists = [0, 0.1, 1, 10, 100, 1000]")
+                    forLines.append("sd = 0")
+                    forLines.append("while sd < len(simdists) and " + tid + "[0] is None:")
+                    forLines.append("    try:")
+                    indent = "        "
+        
+        
+                # reset model referenced in tree below task
+                mid = t.getModelReference()
+                if task.getResetModel():
+                    # reset before every iteration
+                    forLines.append(indent + "{}.resetAll()".format(mid))
+                else:
+                    # reset before first iteration
+                    forLines.append(indent + "if __k__{} == 0:".format(rangeId))
+                    forLines.append(indent + "    {}.resetAll()".format(mid))
+                
+                #Actually append the simple tasks
+                simpleTaskLines = SEDMLCodeFactory.simpleTaskMainSim(doc, child)
+                for line in simpleTaskLines:
+                    forLines.append(indent + line)
+        
+                # Follow 'try' with 'except':
+                if sim.getTypeCode() == libsedml.SEDML_SIMULATION_STEADYSTATE:
+                    forLines.append("    except:")
+                    forLines.append("        pass")
+                    forLines.append("    sd += 1")
 
+            
         # add lines
         lines.extend('    ' + line for line in forLines)
 

@@ -1027,8 +1027,8 @@ def loadTestModel(string):
 
     :returns: RoadRunner instance with test model loaded
     """
-    import roadrunner.testing
-    return roadrunner.testing.getRoadRunner(string)
+    import roadrunner.tests
+    return roadrunner.tests.getRoadRunner(string)
 
 
 def getTestModel(string):
@@ -1043,8 +1043,8 @@ def getTestModel(string):
 
     :returns: SBML string of test model
     """
-    import roadrunner.testing
-    return roadrunner.testing.getData(string)
+    import roadrunner.tests
+    return roadrunner.tests.getData(string)
 
 
 def listTestModels():
@@ -1055,9 +1055,9 @@ def listTestModels():
 
     :returns: list of test model paths
     """
-    import roadrunner.testing
+    import roadrunner.tests
     modelList = []
-    fileList = roadrunner.testing.dir('*.xml')
+    fileList = roadrunner.tests.dir('*.xml')
     for pathName in fileList:
         modelList.append(os.path.basename(pathName))
     return modelList

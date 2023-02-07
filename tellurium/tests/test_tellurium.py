@@ -419,8 +419,8 @@ class TelluriumTestCase(unittest.TestCase):
 
     def test_roadrunner_tests(self):
         """ Run the roadrunner tests. """
-        import roadrunner.testing
-        Nfailed = roadrunner.testing.runTester()
+        import roadrunner.tests
+        Nfailed = roadrunner.tests.runTester()
         self.assertEqual(Nfailed, 0)
 
     def test_loada(self):

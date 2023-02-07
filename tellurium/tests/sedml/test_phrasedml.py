@@ -45,7 +45,7 @@ class PhrasedmlTestCase(unittest.TestCase):
         end
         '''
         self.phrasedml = '''
-          model1 = model "myModel"
+          model1 = model "myModel.xml"
           sim1 = simulate uniform(0, 5, 100)
           task1 = run sim1 on model1
           plot "Figure 1" time vs S1, S2
@@ -93,7 +93,7 @@ class PhrasedmlTestCase(unittest.TestCase):
         end
         """
         phrasedml_str = """
-            model0 = model "test"
+            model0 = model "test.xml"
             sim0 = simulate uniform(0, 10, 100)
             task0 = run sim0 on model0
             plot task0.time vs task0.S1
@@ -104,14 +104,14 @@ class PhrasedmlTestCase(unittest.TestCase):
     def test_1Model2PhrasedML(self):
         """ Test multiple models and multiple phrasedml files. """
         p1 = """
-            model1 = model "m1"
+            model1 = model "m1.xml"
             sim1 = simulate uniform(0, 6, 100)
             task1 = run sim1 on model1
             plot task1.time vs task1.S1, task1.S2
         """
 
         p2 = """
-            model1 = model "m1"
+            model1 = model "m1.xml"
             model2 = model model1 with S1=S2+20
             sim1 = simulate uniform(0, 6, 100)
             task1 = run sim1 on model2
@@ -129,8 +129,8 @@ class PhrasedmlTestCase(unittest.TestCase):
     def test_2Model1PhrasedML(self):
         """ Test multiple models and multiple phrasedml files. """
         p1 = """
-            model1 = model "m1"
-            model2 = model "m2"
+            model1 = model "m1.xml"
+            model2 = model "m2.xml"
             model3 = model model1 with S1=S2+20
             sim1 = simulate uniform(0, 6, 100)
             task1 = run sim1 on model1
@@ -144,16 +144,16 @@ class PhrasedmlTestCase(unittest.TestCase):
     def test_2Model2PhrasedML(self):
         """ Test multiple models and multiple phrasedml files. """
         p1 = """
-            model1 = model "m1"
-            model2 = model "m2"
+            model1 = model "m1.xml"
+            model2 = model "m2.xml"
             sim1 = simulate uniform(0, 6, 100)
             task1 = run sim1 on model1
             task2 = run sim1 on model2
             plot task1.time vs task1.S1, task1.S2, task2.time vs task2.X1, task2.X2
         """
         p2 = """
-            model1 = model "m1"
-            model2 = model "m2"
+            model1 = model "m1.xml"
+            model2 = model "m2.xml"
             sim1 = simulate uniform(0, 20, 20)
             task1 = run sim1 on model1
             task2 = run sim1 on model2
@@ -188,7 +188,7 @@ class PhrasedmlTestCase(unittest.TestCase):
         end
         """
         p_str = """
-            model0 = model "case_01"
+            model0 = model "case_01.xml"
             sim0 = simulate uniform(0, 10, 100)
             task0 = run sim0 on model0
             plot "UniformTimecourse" task0.time vs task0.S1
@@ -205,7 +205,7 @@ class PhrasedmlTestCase(unittest.TestCase):
         end
         """
         p_str = """
-            model0 = model "case_02"
+            model0 = model "case_02.xml"
             model1 = model model0 with S1=5.0
             sim0 = simulate uniform(0, 6, 100)
             task0 = run sim0 on model1
@@ -226,7 +226,7 @@ class PhrasedmlTestCase(unittest.TestCase):
         end
         '''
         p_str = '''
-          mod1 = model "case_03"
+          mod1 = model "case_03.xml"
           mod2 = model mod1 with S2=S1+4
           sim1 = simulate uniform(0, 10, 100)
           task1 = run sim1 on mod1
@@ -245,7 +245,7 @@ class PhrasedmlTestCase(unittest.TestCase):
         end
         '''
         p_str = '''
-          mod1 = model "case_04"
+          mod1 = model "case_04.xml"
           mod2 = model mod1 with S2=S1+4
           mod3 = model mod2 with S1=20.0
           sim1 = simulate uniform(0, 10, 100)
@@ -266,7 +266,7 @@ class PhrasedmlTestCase(unittest.TestCase):
         end
         '''
         p_str = '''
-          mod1 = model "case_05"
+          mod1 = model "case_05.xml"
           sim1 = simulate uniform(0, 10, 100)
           task1 = run sim1 on mod1
           plot "Example plot" task1.time vs task1.S1, task1.S2, task1.S1/task1.S2
@@ -285,7 +285,7 @@ class PhrasedmlTestCase(unittest.TestCase):
         end
         '''
         p_str = '''
-          mod1 = model "case_06"
+          mod1 = model "case_06.xml"
           sim1 = simulate uniform(0, 10, 100)
           task1 = run sim1 on mod1
           repeat1 = repeat task1 for S1 in [1, 3, 5], S2 in uniform(0, 10, 2), reset=True
@@ -306,7 +306,7 @@ class PhrasedmlTestCase(unittest.TestCase):
         end
         '''
         p_str = '''
-          mod1 = model "case_07"
+          mod1 = model "case_07.xml"
           sim1 = simulate uniform(0, 10, 100)
           task1 = run sim1 on mod1
           repeat1 = repeat task1 for S1 in [1, 3, 5], reset=True
@@ -324,8 +324,8 @@ class PhrasedmlTestCase(unittest.TestCase):
         end
         '''
         p_str = '''
-          mod1 = model "case_08"
-          mod2 = model "case_08"
+          mod1 = model "case_08.xml"
+          mod2 = model "case_08.xml"
           sim1 = simulate uniform(0, 10, 20)
           sim2 = simulate uniform(0, 3, 10)
           task1 = run sim1 on mod1
@@ -403,7 +403,7 @@ class PhrasedmlTestCase(unittest.TestCase):
         end
         '''
         p_str = '''
-          mod1 = model "case_09"
+          mod1 = model "case_09.xml"
           # sim1 = simulate uniform_stochastic(0, 4000, 1000)
           sim1 = simulate uniform(0, 4000, 1000)
           task1 = run sim1 on mod1
@@ -422,8 +422,8 @@ class PhrasedmlTestCase(unittest.TestCase):
         end
         '''
         p_str = '''
-          mod1 = model "case_10"
-          mod2 = model "case_10"
+          mod1 = model "case_10.xml"
+          mod2 = model "case_10.xml"
           sim1 = simulate uniform(0, 10, 100)
           sim2 = simulate uniform(0, 3, 10)
           task1 = run sim1 on mod1
@@ -442,7 +442,7 @@ class PhrasedmlTestCase(unittest.TestCase):
         end
         '''
         p_str = '''
-          mod1 = model "case_11"
+          mod1 = model "case_11.xml"
           sim1 = simulate uniform(0, 10, 100)
           task1 = run sim1 on mod1
           rtask1 = repeat task1 for k1 in uniform(0, 1, 2)
@@ -462,7 +462,7 @@ class PhrasedmlTestCase(unittest.TestCase):
         end
         '''
         p_str = '''
-          mod1 = model "case_12"
+          mod1 = model "case_12.xml"
           sim1 = simulate uniform(0, 2, 10, 49)
           sim2 = simulate uniform(0, 15, 49)
           task1 = run sim1 on mod1
@@ -486,7 +486,7 @@ class PhrasedmlTestCase(unittest.TestCase):
         '''
 
         p_str = '''
-        model1 = model "lorenz"
+        model1 = model "lorenz.xml"
         sim1 = simulate uniform(0,15,2000)
         task1 = run sim1 on model1
         plot task1.z vs task1.x
@@ -533,7 +533,7 @@ class PhrasedmlTestCase(unittest.TestCase):
         end
         '''
         p_str = '''
-        model1 = model "oneStep"
+        model1 = model "oneStep.xml"
         stepper = simulate onestep(0.1)
         task0 = run stepper on model1
         task1 = repeat task0 for local.x in uniform(0, 10, 100), J0_v0 = piecewise(8, x<4, 0.1, 4<=x<6, 8)
@@ -582,7 +582,7 @@ class PhrasedmlTestCase(unittest.TestCase):
         end
         '''
         p_str = '''
-        model1 = model "parameterScan1D"
+        model1 = model "parameterScan1D.xml"
         timecourse1 = simulate uniform(0, 20, 1000)
         task0 = run timecourse1 on model1
         task1 = repeat task0 for J0_v0 in [8, 4, 0.4], reset=true
@@ -657,7 +657,7 @@ class PhrasedmlTestCase(unittest.TestCase):
         end
         '''
         p_str = '''
-          model_3 = model "parameterScan2D"
+          model_3 = model "parameterScan2D.xml"
           sim_repeat = simulate uniform(0,3000,100)
           task_1 = run sim_repeat on model_3
           repeatedtask_1 = repeat task_1 for J1_KK2 in [1, 5, 10, 50, 60, 70, 80, 90, 100], reset=true
@@ -735,7 +735,7 @@ class PhrasedmlTestCase(unittest.TestCase):
         '''
 
         p_str = '''
-        model1 = model "repeatedStochastic"
+        model1 = model "repeatedStochastic.xml"
         timecourse1 = simulate uniform_stochastic(0, 4000, 1000)
         timecourse1.algorithm.seed = 1003
         timecourse2 = simulate uniform_stochastic(0, 4000, 1000)
@@ -886,7 +886,7 @@ class PhrasedmlTestCase(unittest.TestCase):
         end
         '''
         p_str = '''
-        model1 = model "MAPKcascade"
+        model1 = model "MAPKcascade.xml"
         sim1 = simulate uniform(0,4000,1000)
         task1 = run sim1 on model1
         plot task1.time vs task1.MAPK, task1.MAPK_P, task1.MAPK_PP
