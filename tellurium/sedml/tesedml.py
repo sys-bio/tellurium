@@ -1356,7 +1356,7 @@ class SEDMLCodeFactory(object):
         childSteadyStateTasks = []
         for child in node:
             t = child.task
-            if t.getTypeCode() == libsedml.SEDML_TASK:
+            if t.getTypeCode() == libsedml.SEDML_TASK and child.depth - node.depth <= 1:
                 sim = doc.getSimulation(t.getSimulationReference())
                 tid = t.getId()
                 indent = ""
