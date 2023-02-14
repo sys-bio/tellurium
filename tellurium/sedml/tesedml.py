@@ -2028,6 +2028,7 @@ class SEDMLCodeFactory(object):
                 yLabel = "{}".format(curve.getName())
             elif dgy.isSetName():
                 yLabel = "{}".format(dgy.getName())
+            yLabel = yLabel.replace("'", "\\'")
 
 
             if ctype=="line" and ltype=="none":
