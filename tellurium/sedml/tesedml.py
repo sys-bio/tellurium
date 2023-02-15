@@ -906,6 +906,7 @@ class SEDMLCodeFactory(object):
             elif taskType == libsedml.SEDML_TASK:
                 if node.parent and node.parent.task.getTypeCode()==libsedml.SEDML_TASK_REPEATEDTASK:
                     #The repeated task itself should have set this all up
+                    taskLines = []
                     pass
                     #taskLines = SEDMLCodeFactory.simpleTaskMainSim(doc, node)
                 else:
@@ -1354,7 +1355,7 @@ class SEDMLCodeFactory(object):
         # models to reset via task tree below node
         # Also check to see if any tasks are steady states; if so, we need a wrapper.
         childSteadyStateTasks = []
-        for child in node:
+        for child in node.children:
             t = child.task
             if t.getTypeCode() == libsedml.SEDML_TASK and child.depth - node.depth <= 1:
                 sim = doc.getSimulation(t.getSimulationReference())
