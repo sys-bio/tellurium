@@ -2,8 +2,8 @@ numpy>=1.23
 scipy>=1.5.1
 matplotlib>=2.0.2
 pandas>=0.20.2
-libroadrunner>=2.0.3
-rrplugins>=2.0.3; platform_machine != "arm64"
+libroadrunner>=2.1
+rrplugins>=2.1; platform_system == "Windows"
 phrasedml>=1.0.9; (python_version < '3.10' and platform_machine != "arm64")
 antimony>=2.12.0
 sbml2matlab>=0.9.1; (python_version < '3.10' and platform_machine != "arm64")

@@ -47,7 +47,7 @@ setup(name='tellurium',
           'matplotlib>=2.0.2',
           'pandas>=0.20.2',
           # SBW-derived
-          'libroadrunner>=2.0.3',
+          'libroadrunner>=2.1',
           'antimony>=2.12.0',
           # standards
           'python-libsbml>=5.18.0',
@@ -72,8 +72,8 @@ setup(name='tellurium',
           'phrasedml>=1.0.9',
           'sbml2matlab>=0.9.1',
           ],
-        ': platform_machine != "arm64"': [
-          'rrplugins>=2.0.3',
+        ': platform_system == "Windows"': [
+          'rrplugins>=2.1',
           ],
           },
       )

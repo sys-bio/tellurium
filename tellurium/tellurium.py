@@ -1098,29 +1098,22 @@ roadrunner.RoadRunner = ExtendedRoadRunner
 
 def VersionDict():
     '''Return dict of version strings.'''
-    try:
-        import libsbml
-    except ImportError:
-        import tesbml as libsbml
-    try:
-        import libsedml
-    except ImportError:
-        import tesedml as libsedml
-    try:
-        import libcombine
-    except ImportError:
-        import tecombine as libcombine
-    import rrplugins
-    return {
-        'tellurium': getTelluriumVersion(),
-        'roadrunner': roadrunner.getVersionStr(roadrunner.VERSIONSTR_BASIC),
-        'rrplugins': rrplugins.__version__,
-        'antimony': antimony.__version__,
-        'phrasedml': phrasedml.__version__,
-        'libsbml': libsbml.getLibSBMLDottedVersion(),
-        'libsedml': libsedml.getLibSEDMLDottedVersion(),
-        'libcombine': libcombine.getLibCombineDottedVersion(),
-        }
+    versions = {
+        'tellurium', getTelluriumVersion(),
+        'roadrunner', roadrunner.__version__,
+        'antimony', antimony.__version__,
+    }
+    if rrplugins:
+        versions['rrplugins'] = rrplugins.__version__
+    if libsbml:
+        versions['libsbml'] = libsbml.getLibSBMLDottedVersion()
+    if libsedml:
+        versions['libsedml'] = libsedml.getLibSEDMLDottedVersion()
+    if phrasedml:
+        versions['phrasedml'] = phrasedml.__version__
+    if sbol:
+        versions['pySBOL'] = sbol.__version__
+    return versions
 
 def DumpJSONInfo():
     '''Tellurium dist info. Goes into COMBINE archive.'''

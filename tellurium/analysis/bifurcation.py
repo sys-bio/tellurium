@@ -85,7 +85,7 @@ try:
        biData.plotBifurcationDiagram(pts, lbls)
 except:
    def bifurcation(model, parameter, lowerBound, upperBound, maxPoints=5000, scanPositive=True):
-     raise RuntimeError('Bifurcation unavailable in this version of Tellurium.')
+     raise RuntimeError('Bifurcation unavailable in this version of Tellurium; rrplugins not present.')
 
    def plotBifurcation(model, parameter, lowerBound, upperBound, maxPoints=5000, scanPositive=True):
-     raise RuntimeError('Bifurcation unavailable in this version of Tellurium.')
+     raise RuntimeError('Bifurcation unavailable in this version of Tellurium; rrplugins not present.')

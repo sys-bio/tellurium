@@ -153,7 +153,7 @@ DEFAULTS = [
               'pylab/inline/resolution': 72,
               'pylab/inline/width': 6,
               'pylab/inline/height': 4,
-              'startup/run_lines': 'import antimony, import sbml2matlab, import rrplugins, import numpy, import scipy, import matplotlib, import roadrunner, import tellurium as te',
+              'startup/run_lines': 'import antimony, import sbml2matlab, import numpy, import scipy, import matplotlib, import roadrunner, import tellurium as te',
               'startup/use_run_file': False,
               'startup/run_file': '',
               'greedy_completer': False,
