@@ -709,11 +709,9 @@ class SEDMLCodeFactory(object):
             for var in change.getListOfVariables():
                 vid = var.getId()
                 selection = SEDMLCodeFactory.selectionFromVariable(var, mid)
-                expr = selection.id
+                expr = "init({})".format(selection.id)
                 if selection.type == "concentration":
                     expr = "init([{}])".format(selection.id)
-                elif selection.type == "amount":
-                    expr = "init({})".format(selection.id)
                 lines.append("__var__{} = {}['{}']".format(vid, mid, expr))
                 variables[vid] = "__var__{}".format(vid)
 
@@ -1833,20 +1831,20 @@ class SEDMLCodeFactory(object):
             dgIds.append(dgId)
             columns.append("{}[:,k]".format(dgId))
         # create data frames for the repeats
-        lines.append("__dfs__{} = []".format(output.getId()))
+        lines.append("__dfs__{} = pandas.DataFrame()".format(output.getId()))
         lines.append("for k in range({}.shape[1]):".format(dgIds[0]))
         lines.append("    __df__k = pandas.DataFrame(np.column_stack(" + str(columns).replace("'", "") + "), \n    columns=" + str(headers) + ")")
-        lines.append("    __dfs__{}.append(__df__k)".format(output.getId()))
+        lines.append("    __dfs__{} = pandas.concat([__dfs__{}, __df__k])".format(output.getId(), output.getId()))
         # save as variable in Tellurium
         lines.append("    te.setLastReport(__df__k)")
         if self.saveOutputs and self.createOutputs:
 
             lines.append(
-                "    filename = os.path.join('{}', '{}.{}')".format(self.outputDir, self.sedmlFileBase + output.getId(), self.reportFormat))
+                "filename = os.path.join('{}', '{}.{}')".format(self.outputDir, self.sedmlFileBase + output.getId(), self.reportFormat))
             lines.append(
-                "    __df__k.to_csv(filename, sep=',', index=False)")
+                "__dfs__{}.to_csv(filename, sep=',', index=False)".format(output.getId()))
             lines.append(
-                "    print('Report {}: {{}}'.format(filename))".format(output.getId()))
+                "print('Report {}: {{}}'.format(filename))".format(output.getId()))
         return lines
 
 
