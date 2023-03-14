@@ -675,6 +675,11 @@ class SEDMLCodeFactory(object):
         # apply model changes
         for change in self.model_changes[mid]:
             lines.extend(SEDMLCodeFactory.modelChangeToPython(model, change))
+            
+        if len(self.model_changes[mid]) > 0:
+            lines.append("# Need to save the 'reset state' of the model to the current state.")
+            lines.append("temp_sbml = {}.getCurrentSBML()".format(mid))
+            lines.append("{} = te.loadSBMLModel(temp_sbml)".format(mid))
 
         return '\n'.join(lines)
 
