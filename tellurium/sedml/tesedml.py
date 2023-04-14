@@ -109,6 +109,7 @@ import re
 import numpy as np
 from collections import namedtuple
 import jinja2
+from pathlib import Path
 
 try:
     import libsedml
@@ -429,6 +430,7 @@ def executeCombineArchive(omexPath,
             sedml_paths = [os.path.join(extractDir, loc) for loc in sedml_locations]
             for sedmlFile in sedml_paths:
                 factory = SEDMLCodeFactory(sedmlFile,
+                                           sedmlFile=sedmlFile,
                                            workingDir=os.path.dirname(sedmlFile),
                                            createOutputs=createOutputs,
                                            saveOutputs=saveOutputs,
@@ -459,6 +461,7 @@ class SEDMLCodeFactory(object):
     TEMPLATE_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'templates')
 
     def __init__(self, inputStr,
+                 sedmlFile=None,
                  workingDir=None,
                  createOutputs=True,
                  saveOutputs=False,
@@ -475,7 +478,10 @@ class SEDMLCodeFactory(object):
         :rtype:
         """
         self.inputStr = inputStr
-        self.workingDir = workingDir
+        if sedmlFile:
+            self.sedmlFileBase = Path(sedmlFile).stem + "_"
+        else:
+            self.sedmlFileBase = ""
         self.python = sys.version
         self.platform = platform.platform()
         self.createOutputs = createOutputs
@@ -610,7 +616,7 @@ class SEDMLCodeFactory(object):
         for mod in self.model_changes:
             for change in self.model_changes[mod]:
                 target = change.getTarget()
-                if "kineticLaw" in target and "arameter" in target:
+                if "sbml:kineticLaw" in target and "sbml:reaction" in target:
                     return True
         return False
 
@@ -669,6 +675,11 @@ class SEDMLCodeFactory(object):
         # apply model changes
         for change in self.model_changes[mid]:
             lines.extend(SEDMLCodeFactory.modelChangeToPython(model, change))
+            
+        if len(self.model_changes[mid]) > 0:
+            lines.append("# Need to save the 'reset state' of the model to the current state.")
+            lines.append("temp_sbml = {}.getCurrentSBML()".format(mid))
+            lines.append("{} = te.loadSBMLModel(temp_sbml)".format(mid))
 
         return '\n'.join(lines)
 
@@ -703,11 +714,9 @@ class SEDMLCodeFactory(object):
             for var in change.getListOfVariables():
                 vid = var.getId()
                 selection = SEDMLCodeFactory.selectionFromVariable(var, mid)
-                expr = selection.id
+                expr = "init({})".format(selection.id)
                 if selection.type == "concentration":
                     expr = "init([{}])".format(selection.id)
-                elif selection.type == "amount":
-                    expr = "init({})".format(selection.id)
                 lines.append("__var__{} = {}['{}']".format(vid, mid, expr))
                 variables[vid] = "__var__{}".format(vid)
 
@@ -899,8 +908,10 @@ class SEDMLCodeFactory(object):
 
             elif taskType == libsedml.SEDML_TASK:
                 if node.parent and node.parent.task.getTypeCode()==libsedml.SEDML_TASK_REPEATEDTASK:
-                    #The repeated task itself should have set up the simulation; here we just run it.
-                    taskLines = SEDMLCodeFactory.simpleTaskMainSim(doc, node)
+                    #The repeated task itself should have set this all up
+                    taskLines = []
+                    pass
+                    #taskLines = SEDMLCodeFactory.simpleTaskMainSim(doc, node)
                 else:
                     taskLines = SEDMLCodeFactory.simpleTaskToPython(doc=doc, node=node)
             else:
@@ -1215,7 +1226,7 @@ class SEDMLCodeFactory(object):
             numberOfSteps = simulation.getNumberOfSteps()
 
             # reset before simulation (see https://github.com/sys-bio/tellurium/issues/193)
-            lines.append("{}.reset()".format(mid))
+            lines.append("{}.resetAll()".format(mid))
 
             # throw some points away
             if abs(outputStartTime - initialTime) > 1E-6:
@@ -1236,12 +1247,25 @@ class SEDMLCodeFactory(object):
         # <STEADY STATE>
         # -------------------------------------------------------------------------
         elif simType == libsedml.SEDML_SIMULATION_STEADYSTATE:
-            lines.append("{}.steadyStateSolver.setValue('{}', {})".format(mid, 'allow_presimulation', False))
-            lines.append("{}.steadyStateSelections = {}".format(mid, list(selections)))
-            lines.append("{}.simulate()".format(mid))  # for stability of the steady state solver
-            lines.append("{} = {}.steadyStateNamedArray()".format(resultVariable, mid))
+            indent = ""
+            if len(parents) == 0:
+                #Have to put this here directly; the parent repeatedTask otherwise adds it.
+                lines.append("simdists = [0, 0.1, 1, 10, 100, 1000]")
+                lines.append("sd = 0")
+                lines.append("while sd < len(simdists) and " + resultVariable + " is None:")
+                lines.append("    try:")
+                indent = "        "
+            lines.append(indent + "{}.steadyStateSolver.setValue('{}', {})".format(mid, 'allow_presimulation', False))
+            lines.append(indent + "{}.steadyStateSelections = {}".format(mid, list(selections)))
+            lines.append(indent + "if simdists[sd] > 0:")
+            lines.append(indent + "    {}.simulate(end=simdists[sd])".format(mid))  # for stability of the steady state solver
+            lines.append(indent + "{} = {}.steadyStateNamedArray()".format(resultVariable, mid))
             # no need to turn this off because it will be checked before the next simulation
             # lines.append("{}.conservedMoietyAnalysis = False".format(mid))
+            if len(parents) == 0:
+                lines.append("    except:")
+                lines.append("        pass")
+                lines.append("    sd += 1")
 
         # -------------------------------------------------------------------------
         # <OTHER>
@@ -1332,21 +1356,47 @@ class SEDMLCodeFactory(object):
 
         # <resetModels>
         # models to reset via task tree below node
-        mids = set([])
-        for child in node:
+        # Also check to see if any tasks are steady states; if so, we need a wrapper.
+        childSteadyStateTasks = []
+        for child in node.children:
             t = child.task
-            if t.getTypeCode() == libsedml.SEDML_TASK:
-                mids.add(t.getModelReference())
-        # reset models referenced in tree below task
-        for mid in mids:
-            if task.getResetModel():
-                # reset before every iteration
-                forLines.append("{}.reset()".format(mid))
-            else:
-                # reset before first iteration
-                forLines.append("if __k__{} == 0:".format(rangeId))
-                forLines.append("    {}.reset()".format(mid))
+            if t.getTypeCode() == libsedml.SEDML_TASK and child.depth - node.depth <= 1:
+                sim = doc.getSimulation(t.getSimulationReference())
+                tid = t.getId()
+                indent = ""
+                if sim.getTypeCode() == libsedml.SEDML_SIMULATION_STEADYSTATE:
+                    #Set up try/catch block for child steady state
+                    for tid in childSteadyStateTasks:
+                        forLines.append(tid + " = [None]")
+                    forLines.append("simdists = [0, 0.1, 1, 10, 100, 1000]")
+                    forLines.append("sd = 0")
+                    forLines.append("while sd < len(simdists) and " + tid + "[0] is None:")
+                    forLines.append("    try:")
+                    indent = "        "
+        
+        
+                # reset model referenced in tree below task
+                mid = t.getModelReference()
+                if task.getResetModel():
+                    # reset before every iteration
+                    forLines.append(indent + "{}.resetAll()".format(mid))
+                else:
+                    # reset before first iteration
+                    forLines.append(indent + "if __k__{} == 0:".format(rangeId))
+                    forLines.append(indent + "    {}.resetAll()".format(mid))
+                
+                #Actually append the simple tasks
+                simpleTaskLines = SEDMLCodeFactory.simpleTaskMainSim(doc, child)
+                for line in simpleTaskLines:
+                    forLines.append(indent + line)
+        
+                # Follow 'try' with 'except':
+                if sim.getTypeCode() == libsedml.SEDML_SIMULATION_STEADYSTATE:
+                    forLines.append("    except:")
+                    forLines.append("        pass")
+                    forLines.append("    sd += 1")
 
+            
         # add lines
         lines.extend('    ' + line for line in forLines)
 
@@ -1456,7 +1506,7 @@ class SEDMLCodeFactory(object):
         if rType in ['Linear', 'linear']:
             lines.append("__range__{} = np.linspace(start={}, stop={}, num={})".format(rId, rStart, rEnd, rPoints))
         elif rType in ['Log', 'log']:
-            lines.append("__range__{} = np.logspace(start={}, stop={}, num={})".format(rId, rStart, rEnd, rPoints))
+            lines.append("__range__{} = np.logspace(start=np.log10({}), stop=np.log10({}), num={})".format(rId, rStart, rEnd, rPoints))
         else:
             warnings.warn("Unsupported range type in UniformRange: {}".format(rType))
         return lines
@@ -1636,7 +1686,7 @@ class SEDMLCodeFactory(object):
             return match
 
         #Local parameter value change
-        if ("model" in xpath) and ("parameter" in xpath) and ("reaction" in xpath):
+        if ("sbml:kineticLaw" in xpath) and ("sbml:reaction" in xpath):
             (rxn, param) = getAllIds(xpath)
             return Target(rxn + "_" + param, 'parameter')
 
@@ -1786,20 +1836,20 @@ class SEDMLCodeFactory(object):
             dgIds.append(dgId)
             columns.append("{}[:,k]".format(dgId))
         # create data frames for the repeats
-        lines.append("__dfs__{} = []".format(output.getId()))
+        lines.append("__dfs__{} = pandas.DataFrame()".format(output.getId()))
         lines.append("for k in range({}.shape[1]):".format(dgIds[0]))
         lines.append("    __df__k = pandas.DataFrame(np.column_stack(" + str(columns).replace("'", "") + "), \n    columns=" + str(headers) + ")")
-        lines.append("    __dfs__{}.append(__df__k)".format(output.getId()))
+        lines.append("    __dfs__{} = pandas.concat([__dfs__{}, __df__k])".format(output.getId(), output.getId()))
         # save as variable in Tellurium
         lines.append("    te.setLastReport(__df__k)")
         if self.saveOutputs and self.createOutputs:
 
             lines.append(
-                "    filename = os.path.join('{}', '{}.{}')".format(self.outputDir, output.getId(), self.reportFormat))
+                "filename = os.path.join('{}', '{}.{}')".format(self.outputDir, self.sedmlFileBase + output.getId(), self.reportFormat))
             lines.append(
-                "    __df__k.to_csv(filename, sep=',', index=False)")
+                "__dfs__{}.to_csv(filename, sep=',', index=False)".format(output.getId()))
             lines.append(
-                "    print('Report {}: {{}}'.format(filename))".format(output.getId()))
+                "print('Report {}: {{}}'.format(filename))".format(output.getId()))
         return lines
 
 
@@ -1982,6 +2032,7 @@ class SEDMLCodeFactory(object):
                 yLabel = "{}".format(curve.getName())
             elif dgy.isSetName():
                 yLabel = "{}".format(dgy.getName())
+            yLabel = yLabel.replace("'", "\\'")
 
 
             if ctype=="line" and ltype=="none":
@@ -2064,7 +2115,7 @@ class SEDMLCodeFactory(object):
         if self.saveOutputs and self.createOutputs:
             # FIXME: only working for matplotlib
             lines.append("if str(te.getPlottingEngine()) == '<MatplotlibEngine>':".format(self.outputDir, output.getId(), self.plotFormat))
-            lines.append("    filename = os.path.join('{}', '{}.{}')".format(self.outputDir, output.getId(), self.plotFormat))
+            lines.append("    filename = os.path.join('{}', '{}.{}')".format(self.outputDir, self.sedmlFileBase + output.getId(), self.plotFormat))
             lines.append("    fig.savefig(filename, format='{}', bbox_inches='tight')".format(self.plotFormat))
             lines.append("    print('Figure {}: {{}}'.format(filename))".format(output.getId()))
             lines.append("")

@@ -38,11 +38,7 @@ try:
     if IPYTHON:
         matplotlib.use('Agg')
 except:
-    try:
-        import Tkinter
-    except ImportError:
-        matplotlib.use('Agg')
-
+    pass
 
 ##############################################
 # Ipython helpers
@@ -154,6 +150,13 @@ getPlottingEngineFactory.__doc__ = __getPlottingEngineFactory.__doc__
 import roadrunner
 
 try:
+    import rrplugins
+except ImportError as e:
+    rrplugins = None
+    roadrunner.Logger.log(roadrunner.Logger.LOG_WARNING, str(e))
+    warnings.warn("'rrplugins' could not be imported", ImportWarning, stacklevel=2)
+
+try:
     import libsedml
 except ImportError as e:
     try:
@@ -206,13 +209,13 @@ def getVersionInfo():
 
     :returns: list of tuples (package, version)
     """
-    import rrplugins
     versions = [
         ('tellurium', getTelluriumVersion()),
         ('roadrunner', roadrunner.__version__),
-        ('rrplugins', rrplugins.__version__),
         ('antimony', antimony.__version__),
     ]
+    if rrplugins:
+        versions.append(('rrplugins', rrplugins.__version__))
     if libsbml:
         versions.append(('libsbml', libsbml.getLibSBMLDottedVersion()))
     if libsedml:
@@ -1024,8 +1027,8 @@ def loadTestModel(string):
 
     :returns: RoadRunner instance with test model loaded
     """
-    import roadrunner.testing
-    return roadrunner.testing.getRoadRunner(string)
+    import roadrunner.tests
+    return roadrunner.tests.getRoadRunner(string)
 
 
 def getTestModel(string):
@@ -1040,8 +1043,8 @@ def getTestModel(string):
 
     :returns: SBML string of test model
     """
-    import roadrunner.testing
-    return roadrunner.testing.getData(string)
+    import roadrunner.tests
+    return roadrunner.tests.getData(string)
 
 
 def listTestModels():
@@ -1052,9 +1055,9 @@ def listTestModels():
 
     :returns: list of test model paths
     """
-    import roadrunner.testing
+    import roadrunner.tests
     modelList = []
-    fileList = roadrunner.testing.dir('*.xml')
+    fileList = roadrunner.tests.dir('*.xml')
     for pathName in fileList:
         modelList.append(os.path.basename(pathName))
     return modelList
@@ -1095,29 +1098,22 @@ roadrunner.RoadRunner = ExtendedRoadRunner
 
 def VersionDict():
     '''Return dict of version strings.'''
-    try:
-        import libsbml
-    except ImportError:
-        import tesbml as libsbml
-    try:
-        import libsedml
-    except ImportError:
-        import tesedml as libsedml
-    try:
-        import libcombine
-    except ImportError:
-        import tecombine as libcombine
-    import rrplugins
-    return {
-        'tellurium': getTelluriumVersion(),
-        'roadrunner': roadrunner.getVersionStr(roadrunner.VERSIONSTR_BASIC),
-        'rrplugins': rrplugins.__version__,
-        'antimony': antimony.__version__,
-        'phrasedml': phrasedml.__version__,
-        'libsbml': libsbml.getLibSBMLDottedVersion(),
-        'libsedml': libsedml.getLibSEDMLDottedVersion(),
-        'libcombine': libcombine.getLibCombineDottedVersion(),
-        }
+    versions = {
+        'tellurium', getTelluriumVersion(),
+        'roadrunner', roadrunner.__version__,
+        'antimony', antimony.__version__,
+    }
+    if rrplugins:
+        versions['rrplugins'] = rrplugins.__version__
+    if libsbml:
+        versions['libsbml'] = libsbml.getLibSBMLDottedVersion()
+    if libsedml:
+        versions['libsedml'] = libsedml.getLibSEDMLDottedVersion()
+    if phrasedml:
+        versions['phrasedml'] = phrasedml.__version__
+    if sbol:
+        versions['pySBOL'] = sbol.__version__
+    return versions
 
 def DumpJSONInfo():
     '''Tellurium dist info. Goes into COMBINE archive.'''
