@@ -69,8 +69,10 @@ setup(name='tellurium',
           ],
       extras_require={
         ':(python_version < "3.10" and platform_machine != "arm64")': [
-          'phrasedml>=1.0.9',
           'sbml2matlab>=0.9.1',
+          ],
+        ':(platform_machine != "arm64")': [
+          'phrasedml>=1.0.9',
           ],
         ': platform_system == "Windows"': [
           'rrplugins>=2.1',
