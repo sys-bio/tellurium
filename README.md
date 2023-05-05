@@ -119,7 +119,7 @@ pip install git+https://github.com/sys-bio/tellurium.git
 
 
 ### Front-end 1: Spyder for Tellurium IDE
-The Tellurium Spyder installers are tested with Windows 10, and comes woth a chice of Python versios.
+The Tellurium Spyder installers are tested with Windows 10 and 11, and come with a choice of Python versions.
 
 **For those who wish to use Tellurium with Spyder IDE on Mac OS X or Linux, we suggest you to install through [Anaconda](https://www.anaconda.com/) by 
 following the instructions on [this page](https://github.com/sys-bio/tellurium/wiki/FAQ#i-would-like-to-use-tellurium-on-anaconda-what-should-i-do).**
