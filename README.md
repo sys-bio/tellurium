@@ -226,11 +226,12 @@ The notebook viewer comes with Python 3.6 (64-bit).
 -------
 
 ### Google Colab
-Tellurium can be used entirely in a browser using [Google Colab](https://colab.research.google.com/).  Ideally, it will work with the following steps:
+Tellurium can be used entirely in a browser using [Google Colab](https://colab.research.google.com/).  Ideally, it will work with the following steps (updated May 2023)
   
-1. run a cell with ```pip install tellurium```
-2. Restart the runtime (From the menu: 'Runtime / Restart runtime')
-3. Use Tellurium normally.
+1. run a cell with ```!apt-get install libncurses5```
+2. run a cell with ```!pip install -q tellurium==2.2.8```
+3. Restart the runtime (From the menu: 'Runtime / Restart runtime')
+4. Use Tellurium normally.
   
 The Python version behind Colab changes periodically, so what worked one day may stop working the next, but the following Colab notebook worked when used at ICSB 2022:  https://colab.research.google.com/drive/1wddLftHNhetbozZY29r2HRkzQLl1F_fs#scrollTo=l1bCgW46-adR and will hopefully be instructive.
 
