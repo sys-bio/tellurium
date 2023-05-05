@@ -26,8 +26,8 @@
   </tr>
 </table>
 
-Copyright 2014-2021
-Kiri Choi, J Kyle Medley, Matthias König, Kaylene Stocking, Caroline Cannistra, Michal Galdzicki, Ciaran Welsh, Lucian Smith, and Herbert Sauro
+Copyright 2014-2023
+Kiri Choi, J Kyle Medley, Matthias König, Kaylene Stocking, Caroline Cannistra, Michal Galdzicki, Ciaran Welsh, Lucian Smith, Adel Heydarabadipour, and Herbert Sauro
 
 ## Introduction
 
