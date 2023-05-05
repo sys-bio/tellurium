@@ -44,7 +44,7 @@ Tellurium includes [libroadrunner](https://github.com/sys-bio/roadrunner),
 [antimony](http://antimony.sourceforge.net/), [phrasedml](http://phrasedml.sf.net/), 
 [libsbml](http://sbml.org/Software/libSBML), and [libsedml](https://github.com/fbergmann/libSEDML).
 
-The Tellurium project is funded from the NIH/NIGMS (GM081070).
+The Tellurium (and libroadrunner project) project is funded from the NIH/NIGMS (GM081070) and NIH/NIBIB U24EB028887.
 
 ## Documentation 
 * General: http://tellurium.readthedocs.org/en/latest/
@@ -83,7 +83,8 @@ B. [IDE front-end](#front-end-1-spyder-for-tellurium-ide) based on [Spyder](http
 C. [Notebook front-end](#front-end-2-tellurium-notebook)  
 D. [Google Colab](#google-colab)  
 
-We recommend first-time users choose one of the front-ends, while developers looking to integrate Tellurium use the pip package. 
+We recommend first-time users choose one of the front-ends, while developers looking to integrate Tellurium use the pip package. All python desktop IDE graphical front-ends should work. We know for certain that telluirum will work from Spyder, pyCharm and Visual Studio Code.
+
 The IDE front-end provides a MATLAB like experience with a code editor and Python console. 
 The notebook front-end provides a notebook interface similar to [Jupyter](http://jupyter.org/), 
 and features notebook cells for inline OMEX, a human-readable representation of COMBINE archives.
@@ -118,7 +119,7 @@ pip install git+https://github.com/sys-bio/tellurium.git
 
 
 ### Front-end 1: Spyder for Tellurium IDE
-The Tellurium Spyder installers are tested with Windows 8+, and comes with Python 3.9 (64-bit).
+The Tellurium Spyder installers are tested with Windows 10, and comes woth a chice of Python versios.
 
 **For those who wish to use Tellurium with Spyder IDE on Mac OS X or Linux, we suggest you to install through [Anaconda](https://www.anaconda.com/) by 
 following the instructions on [this page](https://github.com/sys-bio/tellurium/wiki/FAQ#i-would-like-to-use-tellurium-on-anaconda-what-should-i-do).**
