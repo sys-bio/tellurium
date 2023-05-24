@@ -4,7 +4,7 @@
 
 <table style="width:100%">
   <tr>
-    <td><img alt="Github version", src="https://travis-ci.com/sys-bio/tellurium.svg?branch=master"></td>
+    <!--<td><img alt="Github version", src="https://travis-ci.com/sys-bio/tellurium.svg?branch=master"></td> -->
     <td><img alt="Read the Docs" src="https://img.shields.io/readthedocs/tellurium"></td>
     <td><a href="https://badge.fury.io/gh/sys-bio%2Ftellurium"><img src="https://badge.fury.io/gh/sys-bio%2Ftellurium.svg" alt="GitHub version" height="18"></a></td>
   </tr>
@@ -14,7 +14,8 @@
   <tr>
     <td><img alt="Licence", src="https://img.shields.io/hexpm/l/tellurium"</td>
     <td><img alt="PyPI - Downloads", src="https://img.shields.io/pypi/dm/tellurium"></td>
-    <td><img alt="Funding", src="https://img.shields.io/badge/Funding-NIH%20(GM123032)-blue"></td>
+    <td><img alt="Funding", src="https://img.shields.io/badge/Funding-NIGMS%20(GM123032)-blue"></td>
+    <td><img alt="Funding", src="https://img.shields.io/badge/Funding-NIBIB%20(EB028887)-blue"></td>
     <td><a href="https://badge.fury.io/py/tellurium"><img src="https://badge.fury.io/py/tellurium.svg" alt="PyPI version" height="18"></a> </td>
    </tr>
 </table> 
@@ -25,8 +26,8 @@
   </tr>
 </table>
 
-Copyright 2014-2021
-Kiri Choi, J Kyle Medley, Matthias König, Kaylene Stocking, Caroline Cannistra, Michal Galdzicki, Ciaran Welsh, Lucian Smith, and Herbert Sauro
+Copyright 2014-2023
+Kiri Choi, J Kyle Medley, Matthias König, Kaylene Stocking, Caroline Cannistra, Michal Galdzicki, Ciaran Welsh, Lucian Smith, Adel Heydarabadipour, and Herbert Sauro
 
 ## Introduction
 
@@ -44,7 +45,7 @@ Tellurium includes [libroadrunner](https://github.com/sys-bio/roadrunner),
 [antimony](http://antimony.sourceforge.net/), [phrasedml](http://phrasedml.sf.net/), 
 [libsbml](http://sbml.org/Software/libSBML), and [libsedml](https://github.com/fbergmann/libSEDML).
 
-The Tellurium project is funded from the NIH/NIGMS (GM081070).
+The Tellurium (and libroadrunner project) project is funded from the NIH/NIGMS (GM081070) and NIH/NIBIB U24EB028887.
 
 ## Documentation 
 * General: http://tellurium.readthedocs.org/en/latest/
@@ -83,7 +84,8 @@ B. [IDE front-end](#front-end-1-spyder-for-tellurium-ide) based on [Spyder](http
 C. [Notebook front-end](#front-end-2-tellurium-notebook)  
 D. [Google Colab](#google-colab)  
 
-We recommend first-time users choose one of the front-ends, while developers looking to integrate Tellurium use the pip package. 
+We recommend first-time users choose one of the front-ends, while developers looking to integrate Tellurium use the pip package. All python desktop IDE graphical front-ends should work. We know for certain that telluirum will work from Spyder, pyCharm and Visual Studio Code.
+
 The IDE front-end provides a MATLAB like experience with a code editor and Python console. 
 The notebook front-end provides a notebook interface similar to [Jupyter](http://jupyter.org/), 
 and features notebook cells for inline OMEX, a human-readable representation of COMBINE archives.
@@ -118,7 +120,7 @@ pip install git+https://github.com/sys-bio/tellurium.git
 
 
 ### Front-end 1: Spyder for Tellurium IDE
-The Tellurium Spyder installers are tested with Windows 8+, and comes with Python 3.9 (64-bit).
+The Tellurium Spyder installers are tested with Windows 10 and 11, and come with a choice of Python versions.
 
 **For those who wish to use Tellurium with Spyder IDE on Mac OS X or Linux, we suggest you to install through [Anaconda](https://www.anaconda.com/) by 
 following the instructions on [this page](https://github.com/sys-bio/tellurium/wiki/FAQ#i-would-like-to-use-tellurium-on-anaconda-what-should-i-do).**
@@ -226,11 +228,12 @@ The notebook viewer comes with Python 3.6 (64-bit).
 -------
 
 ### Google Colab
-Tellurium can be used entirely in a browser using [Google Colab](https://colab.research.google.com/).  Ideally, it will work with the following steps:
+Tellurium can be used entirely in a browser using [Google Colab](https://colab.research.google.com/).  Ideally, it will work with the following steps (updated May 2023)
   
-1. run a cell with ```pip install tellurium```
-2. Restart the runtime (From the menu: 'Runtime / Restart runtime')
-3. Use Tellurium normally.
+1. run a cell with ```!apt-get install libncurses5```
+2. run a cell with ```!pip install -q tellurium==2.2.8```
+3. (Very important) Restart the runtime (From the menu: 'Runtime / Restart runtime')
+4. Test by typing ```import telluirum as te```
   
 The Python version behind Colab changes periodically, so what worked one day may stop working the next, but the following Colab notebook worked when used at ICSB 2022:  https://colab.research.google.com/drive/1wddLftHNhetbozZY29r2HRkzQLl1F_fs#scrollTo=l1bCgW46-adR and will hopefully be instructive.
 
