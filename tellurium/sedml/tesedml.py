@@ -145,7 +145,8 @@ def getKisaoStringFromVal(val):
     return "KISAO_" + str(val).zfill(7)
 
 KISAOS_CVODE = [  # 'cvode'
-    19,  # CVODE
+    694,  # Generic 'ODE solver'
+    19,   # CVODE
     433,  # CVODE-like method
     407,
     99,
@@ -242,7 +243,9 @@ KISAOS_ONESTEP = KISAOS_UNIFORMTIMECOURSE
 # supported algorithm parameters
 KISAOS_ALGORITHMPARAMETERS = {
     209: ('relative_tolerance', float),  # the relative tolerance
-    211: ('absolute_tolerance', float),  # the absolute tolerance
+    211: ('absolute_tolerance', float),  # the absolute tolerance (we use as adjustment factor, not directly)
+    216: ('conserved_moiety_analysis', bool), # Officially 'Integrate Reduced Model' in KiSAO; we use it as a flag to turn on or off the conserved moiety analysis.
+    571: ('absolute_tolerance', float),  # the absolute tolerance adjustment factor (what we actually use)
     220: ('maximum_bdf_order', int),  # the maximum BDF (stiff) order
     219: ('maximum_adams_order', int),  # the maximum Adams (non-stiff) order
     415: ('maximum_num_steps', int),  # the maximum number of steps that can be taken before exiting
@@ -1042,11 +1045,14 @@ class SEDMLCodeFactory(object):
             algorithm = simulation.createAlgorithm()
             algorithm.setKisaoID(getKisaoStringFromVal(19))
         kisao = getKisaoValFromString(algorithm.getKisaoID())
+        kisaoname = ""
+        if algorithm.isSetName():
+            kisaoname = " (" + algorithm.getName() + ")"
 
         # is supported algorithm
         if not SEDMLCodeFactory.isSupportedAlgorithmForSimulationType(kisao=kisao, simType=simType):
-            warnings.warn("Algorithm {} unsupported for simulation {} type {} in task {}".format(kisao, simulation.getId(), simType, task.getId()))
-            lines.append("# Unsupported Algorithm {} for SimulationType {}".format(kisao, simulation.getElementName()))
+            warnings.warn("Algorithm {}{} unsupported for {} simulation '{}' in task '{}'.  Using CVODE.".format(kisao, kisaoname, simulation.getElementName(), simulation.getId(), task.getId()))
+            lines.append("# Unsupported Algorithm {}{} for SimulationType {}.  Using CVODE.".format(kisao, kisaoname, simulation.getElementName()))
             return lines
 
         # set integrator/solver
@@ -1086,6 +1092,8 @@ class SEDMLCodeFactory(object):
 
                 if simType is libsedml.SEDML_SIMULATION_STEADYSTATE:
                     lines.append("{}.steadyStateSolver.setValue('{}', {})".format(mid, pkey.key, value))
+                elif pkey.key == "conserved_moiety_analysis":
+                    lines.append("{}.conservedMoietyAnalysis = {}".format(mid, value))
                 else:
                     lines.append("{}.integrator.setValue('{}', {})".format(mid, pkey.key, value))
 
@@ -1567,6 +1575,9 @@ class SEDMLCodeFactory(object):
         """ Resolve the mapping between parameter keys and roadrunner integrator keys."""
         ParameterKey = namedtuple('ParameterKey', 'key value dtype')
         kid = getKisaoValFromString(par.getKisaoID())
+        kidname = ""
+        if par.isSetName():
+            kidname = " (" + par.getName() + ")"
         value = par.getValue()
 
         if kid in KISAOS_ALGORITHMPARAMETERS:
@@ -1574,9 +1585,9 @@ class SEDMLCodeFactory(object):
             key, dtype = KISAOS_ALGORITHMPARAMETERS[kid]
             if dtype is bool:
                 # transform manually ! (otherwise all strings give True)
-                if value == 'true' or value == "True":
+                if value == 'true' or value == "True" or value == 1:
                     value = True
-                elif value == 'false' or value == "False":
+                elif value == 'false' or value == "False" or value == 0:
                     value = False
             else:
                 # cast to data type of parameter
@@ -1584,7 +1595,7 @@ class SEDMLCodeFactory(object):
             return ParameterKey(key, value, dtype)
         else:
             # algorithm parameter not supported
-            warnings.warn("Unsupported AlgorithmParameter: {} = {})".format(kid, value))
+            warnings.warn("Unsupported AlgorithmParameter: {}{} = {})".format(kid, kidname, value))
             return None
 
     @staticmethod
