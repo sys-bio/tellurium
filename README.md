@@ -233,7 +233,7 @@ Tellurium can be used entirely in a browser using [Google Colab](https://colab.r
 1. run a cell with ```!apt-get install libncurses5```
 2. run a cell with ```!pip install -q tellurium==2.2.8```
 3. (Very important) Restart the runtime (From the menu: 'Runtime / Restart runtime')
-4. Test by typing ```import telluirum as te```
+4. Test by typing ```import tellurium as te```
   
 The Python version behind Colab changes periodically, so what worked one day may stop working the next, but the following Colab notebook worked when used at ICSB 2022:  https://colab.research.google.com/drive/1wddLftHNhetbozZY29r2HRkzQLl1F_fs#scrollTo=l1bCgW46-adR and will hopefully be instructive.
 
