@@ -145,7 +145,8 @@ If you wish to use a different version of Python, you'll need to install Telluri
 
 NOTE: Installation requires administrative rights. It is recommended to accept the default settings.
 
-
+<p/>
+  
 <img align="left" width="32px" id="mac-osx" src="https://raw.githubusercontent.com/wiki/sys-bio/tellurium/img/macos.png">
 <h4>Mac OS X</h4>
 <br style="clear:both"/>
