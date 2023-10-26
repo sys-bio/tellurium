@@ -142,14 +142,15 @@ We strongly suggest you to completely remove the older version of Tellurium Spyd
 
 If you wish to use a different version of Python, you'll need to install Tellurium from the windows command line by using the command: pip install tellurium
 
-
 NOTE: Installation requires administrative rights. It is recommended to accept the default settings.
 
-<p/>
+&nbsp;&nbsp;
   
 <img align="left" width="32px" id="mac-osx" src="https://raw.githubusercontent.com/wiki/sys-bio/tellurium/img/macos.png">
 <h4>Mac OS X</h4>
 <br style="clear:both"/>
+
+For Mac users ther a a number of options. By far the easiest is to use the self-cotbained Thonny Python IDE.
 
 ### Thonny IDE for Python
 Tellurium can be used with [Thonny](https://en.wikipedia.org/wiki/Thonny), a free, open-source IDE for Python that is designed for beginners.
