@@ -149,7 +149,40 @@ NOTE: Installation requires administrative rights. It is recommended to accept t
 <h4>Mac OS X</h4>
 <br style="clear:both"/>
 
-Mac OS X users can install Tellurium and the Spyder IDE through Anaconda:
+### Mac OS X users
+
+### Thonny IDE for Python
+Tellurium can be used with [Thonny](https://en.wikipedia.org/wiki/Thonny), a free, open-source IDE for Python that is designed for beginners.
+
+<img align="left" width="32px" id="windows" src="https://raw.githubusercontent.com/wiki/sys-bio/tellurium/img/windows.png">
+<h4>Windows</h4>
+<br style="clear:both"/>
+
+1. [Download the latest version of Thonny for Windows](https://thonny.org)
+2. Double-click the installer `*.exe` to start the installation
+3. Follow the instructions
+4. Launch Thonny
+5. Go to Tools > Manage packages...
+6. Type `tellurium` in the search box and press the "Search on PyPI" button
+7. Once the `tellurium` package is found in "Search results", click on it, and then press the "Install" button. Wait until the installation process is completed.
+
+
+<img align="left" width="32px" id="mac-osx" src="https://raw.githubusercontent.com/wiki/sys-bio/tellurium/img/macos.png">
+<h4>Mac OS X</h4>
+<br style="clear:both"/>
+
+1. [Download the latest version of Thonny for Mac OS X](https://thonny.org)
+2. Double-click the installer `*.pkg` to start the installation
+3. Follow the instructions
+4. Launch Thonny from Spotlight or directly from your Applications folder
+5. Go to Tools > Manage packages...
+6. Type `tellurium` in the search box and press the "Search on PyPI" button
+7. Once the `tellurium` package is found in "Search results", click on it, and then press the "Install" button. Wait until the installation process is completed.
+
+
+
+
+and the Spyder IDE through Anaconda:
 
 1. [Download the Anaconda distribution for Mac OS X.](https://www.anaconda.com/download). 
 
@@ -238,35 +271,6 @@ Tellurium can be used entirely in a browser using [Google Colab](https://colab.r
 The Python version behind Colab changes periodically, so what worked one day may stop working the next, but the following Colab notebook worked when used at ICSB 2022:  https://colab.research.google.com/drive/1wddLftHNhetbozZY29r2HRkzQLl1F_fs#scrollTo=l1bCgW46-adR and will hopefully be instructive.
 
 -------
-
-### Thonny IDE for Python
-Tellurium can be used with [Thonny](https://en.wikipedia.org/wiki/Thonny), a free, open-source IDE for Python that is designed for beginners.
-
-<img align="left" width="32px" id="windows" src="https://raw.githubusercontent.com/wiki/sys-bio/tellurium/img/windows.png">
-<h4>Windows</h4>
-<br style="clear:both"/>
-
-1. [Download the latest version of Thonny for Windows](https://thonny.org)
-2. Double-click the installer `*.exe` to start the installation
-3. Follow the instructions
-4. Launch Thonny
-5. Go to Tools > Manage packages...
-6. Type `tellurium` in the search box and press the "Search on PyPI" button
-7. Once the `tellurium` package is found in "Search results", click on it, and then press the "Install" button. Wait until the installation process is completed.
-
-
-<img align="left" width="32px" id="mac-osx" src="https://raw.githubusercontent.com/wiki/sys-bio/tellurium/img/macos.png">
-<h4>Mac OS X</h4>
-<br style="clear:both"/>
-
-1. [Download the latest version of Thonny for Mac OS X](https://thonny.org)
-2. Double-click the installer `*.pkg` to start the installation
-3. Follow the instructions
-4. Launch Thonny from Spotlight or directly from your Applications folder
-5. Go to Tools > Manage packages...
-6. Type `tellurium` in the search box and press the "Search on PyPI" button
-7. Once the `tellurium` package is found in "Search results", click on it, and then press the "Install" button. Wait until the installation process is completed.
-
   
 ## Citing
 
