@@ -118,16 +118,14 @@ pip install git+https://github.com/sys-bio/tellurium.git
 
 -------
 
-
-### Front-end 1: Spyder for Tellurium IDE
-The Tellurium Spyder installers are tested with Windows 10 and 11, and come with a choice of Python versions.
-
-**For those who wish to use Tellurium with Spyder IDE on Mac OS X or Linux, we suggest you to install through [Anaconda](https://www.anaconda.com/) by 
-following the instructions on [this page](https://github.com/sys-bio/tellurium/wiki/FAQ#i-would-like-to-use-tellurium-on-anaconda-what-should-i-do).**
+### Front-end installation
 
 <img align="left" width="32px" id="windows" src="https://raw.githubusercontent.com/wiki/sys-bio/tellurium/img/windows.png">
 <h4>Windows</h4>
 <br style="clear:both"/>
+
+#### Approach 1: Spyder for Tellurium IDE
+The Tellurium Spyder installers are tested with Windows 10 and 11, and come with a choice of Python versions.
 
 :exclamation:**Attention to those upgrading to Tellurium Spyder IDE from an older version :** 
 We strongly suggest you to completely remove the older version of Tellurium Spyder IDE prior to installing the latest version.
@@ -144,20 +142,8 @@ If you wish to use a different version of Python, you'll need to install Telluri
 
 NOTE: Installation requires administrative rights. It is recommended to accept the default settings.
 
-&nbsp;&nbsp;
-  
-<img align="left" width="32px" id="mac-osx" src="https://raw.githubusercontent.com/wiki/sys-bio/tellurium/img/macos.png">
-<h4>Mac OS X</h4>
-<br style="clear:both"/>
-
-For Mac users ther a a number of options. By far the easiest is to use the self-cotbained Thonny Python IDE.
-
-### Thonny IDE for Python
+#### Approach 2: Thonny IDE for Python
 Tellurium can be used with [Thonny](https://en.wikipedia.org/wiki/Thonny), a free, open-source IDE for Python that is designed for beginners.
-
-<img align="left" width="32px" id="windows" src="https://raw.githubusercontent.com/wiki/sys-bio/tellurium/img/windows.png">
-<h4>Windows</h4>
-<br style="clear:both"/>
 
 1. [Download the latest version of Thonny for Windows](https://thonny.org)
 2. Double-click the installer `*.exe` to start the installation
@@ -167,10 +153,23 @@ Tellurium can be used with [Thonny](https://en.wikipedia.org/wiki/Thonny), a fre
 6. Type `tellurium` in the search box and press the "Search on PyPI" button
 7. Once the `tellurium` package is found in "Search results", click on it, and then press the "Install" button. Wait until the installation process is completed.
 
+#### Approach 3: Tellurium Notebook
+The Tellurium notebook is no longer being updated, but is still available.  It was tested with Windows 10. The notebook viewer comes with Python 3.6 (64-bit).
+
+1. [Download Tellurium Notebook for Windows](https://sourceforge.net/projects/pytellurium/files/notebook/Tellurium%20Setup%202.1.1.exe/download)
+2. Double-click the installer `*.exe` to start the installation
+3. Follow the instructions
+
+&nbsp;
 
 <img align="left" width="32px" id="mac-osx" src="https://raw.githubusercontent.com/wiki/sys-bio/tellurium/img/macos.png">
 <h4>Mac OS X</h4>
 <br style="clear:both"/>
+
+For Mac users there a a number of options. By far, the easiest is to use the self-cotbained Thonny Python IDE.
+
+#### Approach 1: Thonny IDE for Python
+Tellurium can be used with [Thonny](https://en.wikipedia.org/wiki/Thonny), a free, open-source IDE for Python that is designed for beginners.
 
 1. [Download the latest version of Thonny for Mac OS X](https://thonny.org)
 2. Double-click the installer `*.pkg` to start the installation
@@ -180,10 +179,7 @@ Tellurium can be used with [Thonny](https://en.wikipedia.org/wiki/Thonny), a fre
 6. Type `tellurium` in the search box and press the "Search on PyPI" button
 7. Once the `tellurium` package is found in "Search results", click on it, and then press the "Install" button. Wait until the installation process is completed.
 
-
-
-
-and the Spyder IDE through Anaconda:
+#### Approach 2: Spyder for Tellurium IDE
 
 1. [Download the Anaconda distribution for Mac OS X.](https://www.anaconda.com/download). 
 
@@ -203,33 +199,16 @@ If this fails, try using the default absolute path to Anaconda, which will proba
 ```
 5. Launch the Anaconda Navigator via Launchpad. In Anaconda Navigator, run Spyder and then try `import tellurium` within the Spyder editor or console.
 
-<img align="left" width="32px" id="mac-osx" src="https://raw.githubusercontent.com/wiki/sys-bio/tellurium/img/macos.png">
-<h4>Mac OS X (Legacy)</h4>
-<br style="clear:both"/>
+#### Approach 3: Spyder for Tellurium IDE (only for Mac OS X Legacy)
 
-Currently, only a legacy version of the Mac Spyder IDE is available. We recommend using the Notebook front-end on Mac.
+Currently, only a Legacy version of the Mac Spyder IDE is available. We recommend using the Notebook front-end on Mac.
 
 1. [Download Tellurium IDE for Mac OS X 10.10 or later](https://github.com/sys-bio/tellurium/releases/download/1.3.5-rc3/Tellurium-1.3.5-Spyder-2.3.8-OSX.dmg)
 2. Double-click the .dmg file to open a new window
 3. Double-click the Spyder icon
 
--------
-
-### Front-end 2: Tellurium Notebook
-The Tellurium notebook is no longer being updated, but is still available.  It was tested with Windows 10, Mac OS X 10.10+, Debian 8+, and Fedora 22+.
-The notebook viewer comes with Python 3.6 (64-bit).
-
-<img align="left" width="32px" id="windows" src="https://raw.githubusercontent.com/wiki/sys-bio/tellurium/img/windows.png">
-<h4>Windows</h4>
-<br style="clear:both"/>
-
-1. [Download Tellurium Notebook for Windows](https://sourceforge.net/projects/pytellurium/files/notebook/Tellurium%20Setup%202.1.1.exe/download)
-2. Double-click the installer `*.exe` to start the installation
-3. Follow the instructions
-
-<img align="left" width="32px" id="mac-osx" src="https://raw.githubusercontent.com/wiki/sys-bio/tellurium/img/macos.png">
-<h4>Mac OS X</h4>
-<br style="clear:both"/>
+#### Approach 4: Tellurium Notebook
+The Tellurium notebook is no longer being updated, but is still available.  It was tested with Mac OS X 10.10+. The notebook viewer comes with Python 3.6 (64-bit).
 
 1. [Download Tellurium Notebook for Mac OS X 10.10 or later](https://sourceforge.net/projects/pytellurium/files/notebook/Tellurium-2.1.1.dmg/download)
 2. You may need to [disable Gatekeeper](https://github.com/sys-bio/tellurium/wiki/FAQ#on-mac-after-downloading-tellurium-i-cant-open-it-because-it-is-from-an-unidentified-developer)
@@ -237,27 +216,40 @@ The notebook viewer comes with Python 3.6 (64-bit).
 4. Drag the Tellurium icon to your Applications
 5. You can now launch Tellurium from Spotlight or directly from your applications folder
 
+**For those who wish to use Tellurium with Spyder IDE on Mac OS X, we also suggest that you install through [Anaconda](https://www.anaconda.com/) by 
+following the instructions on [this page](https://github.com/sys-bio/tellurium/wiki/FAQ#i-would-like-to-use-tellurium-on-anaconda-what-should-i-do).**
+
+&nbsp;
+
 <img align="left" width="32px" id="redhat" src="https://raw.githubusercontent.com/wiki/sys-bio/tellurium/img/redhat.png">
 <h4>Linux (RedHat)</h3>
 <br style="clear:both"/>
+
+#### Tellurium Notebook
+The Tellurium notebook is no longer being updated, but is still available.  It was tested with Fedora 22+. The notebook viewer comes with Python 3.6 (64-bit).
 
 1. [Download Tellurium Notebook (.rpm)](https://sourceforge.net/projects/pytellurium/files/notebook/Tellurium-2.1.1.rpm/download)
 2. Install the package using `dnf install Tellurium-2.1.1.rpm`
 3. You should be able to launch Tellurium from your activities pane. If not, log out and in again or run `tellurium` from the terminal.
 
+&nbsp;
+
 <img align="left" width="32px" id="debian" src="https://raw.githubusercontent.com/wiki/sys-bio/tellurium/img/debian.png">
 <h4>Linux (Debian)</h4>
 <br style="clear:both"/>
+
+#### Tellurium Notebook
+The Tellurium notebook is no longer being updated, but is still available.  It was tested with Debian 8+. The notebook viewer comes with Python 3.6 (64-bit).
 
 1. [Download Tellurium Notebook (.deb)](https://sourceforge.net/projects/pytellurium/files/notebook/Tellurium_2.1.1_amd64.deb/download)
 2. Install the package using `dpkg -i Tellurium_2.1.1_amd64.deb`
 3. You should be able to launch Tellurium from your activities pane. If not, log out and in again or run `/opt/Tellurium/tellurium` from the terminal.
 
-<br>
+
+**For those who wish to use Tellurium with Spyder IDE on Linux, we also suggest that you install through [Anaconda](https://www.anaconda.com/) by 
+following the instructions on [this page](https://github.com/sys-bio/tellurium/wiki/FAQ#i-would-like-to-use-tellurium-on-anaconda-what-should-i-do).**
 
 :question:Looking for old releases? [You can find them here.](https://sourceforge.net/projects/pytellurium/files/notebook) To install an old release over a new release, you will need to [manually wipe the data directory.](https://github.com/sys-bio/tellurium/wiki/FAQ#how-do-i-uninstall-tellurium-notebook)
-
-<br>
 
 -------
 
