@@ -250,7 +250,7 @@ class ExtendedRoadRunner(roadrunner.RoadRunner):
 
 
     def plot(self, result=None, show=True,
-             xtitle=None, ytitle=None, title=None, linewidth=2, xlim=None, ylim=None, logx=False, logy=False,
+             xlabel=None, ylabel=None, title=None, linewidth=2, xlim=None, ylim=None, logx=False, logy=False,
              xscale='linear', yscale='linear', grid=False, ordinates=None, tag=None, labels=None, 
              figsize=(6,4), savefig=None, dpi=80, alpha=1.0, **kwargs):
         """ Plot roadrunner simulation data.
@@ -277,13 +277,9 @@ class ExtendedRoadRunner(roadrunner.RoadRunner):
         :param result: results data to plot (numpy array)
         :param show: show=True (default) shows the plot, use show=False to plot multiple simulations in one plot
         :type show: bool
-        :param xtitle: x-axis label
-        :type xtitle: str
-        :param xlabel: x-axis label (same as xtitle)
+        :param xlabel: x-axis label
         :type xlabel: str
-        :param ytitle: y-axis label
-        :type ytitle: str
-        :param ylabel: y-axis label (same as ytitle)
+        :param ylabel: y-axis label
         :type ylabel: str
         :param title: plot title
         :type title: str
@@ -318,10 +314,10 @@ class ExtendedRoadRunner(roadrunner.RoadRunner):
 
         from .. import getPlottingEngine
 
-        if xtitle:
-            kwargs['xtitle'] = xtitle
-        if ytitle:
-            kwargs['ytitle'] = ytitle
+        if xlabel:
+            kwargs['xlabel'] = xlabel
+        if ylabel:
+            kwargs['ylabel'] = ylabel
         if title:
             kwargs['title'] = title
         if linewidth:

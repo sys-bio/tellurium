@@ -106,13 +106,13 @@ class ParameterScan (object):
         kwargs = {}
 
         if self.xlabel == 'toSet':
-            kwargs['xtitle'] = 'time'
+            kwargs['xlabel'] = 'time'
         elif self.xlabel:
-            kwargs['xtitle'] = self.xlabel
+            kwargs['xlabel'] = self.xlabel
         if self.ylabel == 'toSet':
-            kwargs['ytitle'] = 'concentration'
+            kwargs['ylabel'] = 'concentration'
         elif self.ylabel:
-            kwargs['ytitle'] = self.ylabel
+            kwargs['ylabel'] = self.ylabel
         if self.title is not None:
             kwargs['title'] = self.title
         if self.legend is not None:
@@ -766,11 +766,11 @@ class SteadyStateScan (object):
         kwargs = {}
 
         if self.xlabel is None:
-            kwargs['xtitle'] = self.value
+            kwargs['xlabel'] = self.value
         else:
-            kwargs['xtitle'] = self.xlabel
+            kwargs['xlabel'] = self.xlabel
         if self.ylabel is not None:
-            kwargs['ytitle'] = self.ylabel
+            kwargs['ylabel'] = self.ylabel
         if self.title is not None:
             kwargs['title'] = self.title
         if self.legend is not None:

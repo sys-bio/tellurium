@@ -73,7 +73,7 @@ model.
         r.plot(s, alpha=0.5, show=False)
     
     # add mean curve, legend, show everything and set labels, titels, ...
-    fig = te.plot(s[:,0], s_sum[:,1:]/Nsim, names=[x + ' (mean)' for x in selections[1:]], title="Stochastic simulation", xtitle="time", ytitle="concentration")
+    fig = te.plot(s[:,0], s_sum[:,1:]/Nsim, names=[x + ' (mean)' for x in selections[1:]], title="Stochastic simulation", xlabel="time", ylabel="concentration")
 
 
 

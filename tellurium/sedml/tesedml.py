@@ -1908,7 +1908,7 @@ class SEDMLCodeFactory(object):
         if output.isSetName():
             title = "{}".format(output.getName())
 
-        # xtitle
+        # xlabel
         oneXLabel = True
         allXLabel = None
         for kc, curve in enumerate(output.getListOfCurves()):
@@ -1923,9 +1923,9 @@ class SEDMLCodeFactory(object):
                 allXLabel = xLabel
             elif xLabel != allXLabel:
                 oneXLabel = False
-        xtitle = ''
+        xlabel = ''
         if oneXLabel:
-            xtitle = allXLabel
+            xlabel = allXLabel
         
         #X axis
         xmin = None
@@ -1933,7 +1933,7 @@ class SEDMLCodeFactory(object):
         if output.isSetXAxis():
             xaxis = output.getXAxis()
             if xaxis.isSetName():
-                xtitle = xaxis.getName()
+                xlabel = xaxis.getName()
             if xaxis.isSetMin():
                 xmin = xaxis.getMin()
             if xaxis.isSetMax():
@@ -1942,11 +1942,11 @@ class SEDMLCodeFactory(object):
         #y ayis
         ymin = None
         ymax = None
-        ytitle = ""
+        ylabel = ""
         if output.isSetYAxis():
             yaxis = output.getYAxis()
             if yaxis.isSetName():
-                ytitle = yaxis.getName()
+                ylabel = yaxis.getName()
             if yaxis.isSetMin():
                 ymin = yaxis.getMin()
             if yaxis.isSetMax():
@@ -1962,9 +1962,9 @@ class SEDMLCodeFactory(object):
         #     lines.append("if {}.shape[1] > 1 and te.getDefaultPlottingEngine() == 'plotly':".format(xId))
         #     lines.append("    stacked=True")
         lines.append("if _stacked:")
-        lines.append("    tefig = te.getPlottingEngine().newStackedFigure(title='{}', xtitle='{}', ytitle='{}', xlim=({}, {}), ylim=({}, {}))".format(title, xtitle, ytitle, xmin, xmax, ymin, ymax))
+        lines.append("    tefig = te.getPlottingEngine().newStackedFigure(title='{}', xlabel='{}', ylabel='{}', xlim=({}, {}), ylim=({}, {}))".format(title, xlabel, ylabel, xmin, xmax, ymin, ymax))
         lines.append("else:")
-        lines.append("    tefig = te.nextFigure(title='{}', xtitle='{}', ytitle='{}', xlim=({}, {}), ylim=({}, {}))\n".format(title, xtitle, ytitle, xmin, xmax, ymin, ymax))
+        lines.append("    tefig = te.nextFigure(title='{}', xlabel='{}', ylabel='{}', xlim=({}, {}), ylim=({}, {}))\n".format(title, xlabel, ylabel, xmin, xmax, ymin, ymax))
 
         lastvbar = []
         lasthbar = []
