@@ -267,6 +267,7 @@ KISAOS_ALGORITHMPARAMETERS = {
     678: ('approx_maximum_steps', int), #For any steady state solver, max steps of the approximation routine.
     679: ('approx_time', float), #For any steady state solver, end time for approximation routine.
     675: ('broyden_method', int), #For an NLEQ steady state solver: use the Broyden method.
+    671: ('stiff', bool), # Use a stiff solver or not.
     676: ('linearity', int), #For an NLEQ steady state solver: set the linearity of the problem (1-4).
 }
 
@@ -709,6 +710,11 @@ class SEDMLCodeFactory(object):
             value = change.getNewValue()
             lines.append("# {} {}".format(xpath, value))
             lines.append(SEDMLCodeFactory.targetToPython(xpath, value, modelId=mid))
+            expr = SEDMLCodeFactory.targetToExpr(xpath, modelId=mid)
+            if expr:
+                lines.append("if '" + expr + "' in " + mid + ".getInitialAssignmentIds():")
+                lines.append("     " + mid + ".removeInitialAssignment('" + expr + "')")
+            
 
         elif change.getTypeCode() == libsedml.SEDML_CHANGE_COMPUTECHANGE:
             variables = {}
@@ -899,6 +905,18 @@ class SEDMLCodeFactory(object):
         lines = []
         nodeStack = SEDMLCodeFactory.Stack()
         treeNodes = [n for n in tree]
+
+        # Need to reset the models first before anything else:
+        models = []
+        typeCode = treeNodes[0].task.getTypeCode()
+        if typeCode == libsedml.SEDML_TASK:
+            models.append(treeNodes[0].task.getModelReference())
+        elif typeCode == libsedml.SEDML_TASK_REPEATEDTASK:
+            models = SEDMLCodeFactory.getModelsFrom(treeNodes[0].task)
+        for mid in models:
+            lines.append("{}.resetAll()".format(mid))
+
+
 
         # iterate over the tree
         for kn, node in enumerate(treeNodes):
@@ -1093,7 +1111,10 @@ class SEDMLCodeFactory(object):
                 if simType is libsedml.SEDML_SIMULATION_STEADYSTATE:
                     lines.append("{}.steadyStateSolver.setValue('{}', {})".format(mid, pkey.key, value))
                 elif pkey.key == "conserved_moiety_analysis":
-                    lines.append("{}.conservedMoietyAnalysis = {}".format(mid, value))
+                    if pkey.value.isdigit():
+                        lines.append("{}.conservedMoietyAnalysis = {}".format(mid, bool(int(pkey.value))))
+                    else:
+                        lines.append("{}.conservedMoietyAnalysis = {}".format(mid, pkey.value))
                 else:
                     lines.append("{}.integrator.setValue('{}', {})".format(mid, pkey.key, value))
 
@@ -1233,9 +1254,6 @@ class SEDMLCodeFactory(object):
             outputEndTime = simulation.getOutputEndTime()
             numberOfSteps = simulation.getNumberOfSteps()
 
-            # reset before simulation (see https://github.com/sys-bio/tellurium/issues/193)
-            lines.append("{}.resetAll()".format(mid))
-
             # throw some points away
             if abs(outputStartTime - initialTime) > 1E-6:
                 lines.append("{}.simulate(start={}, end={}, points=2)".format(
@@ -1258,6 +1276,7 @@ class SEDMLCodeFactory(object):
             indent = ""
             if len(parents) == 0:
                 #Have to put this here directly; the parent repeatedTask otherwise adds it.
+                lines.append(resultVariable + " = None")
                 lines.append("simdists = [0, 0.1, 1, 10, 100, 1000]")
                 lines.append("sd = 0")
                 lines.append("while sd < len(simdists) and " + resultVariable + " is None:")
@@ -1365,7 +1384,6 @@ class SEDMLCodeFactory(object):
         # <resetModels>
         # models to reset via task tree below node
         # Also check to see if any tasks are steady states; if so, we need a wrapper.
-        childSteadyStateTasks = []
         for child in node.children:
             t = child.task
             if t.getTypeCode() == libsedml.SEDML_TASK and child.depth - node.depth <= 1:
@@ -1374,8 +1392,7 @@ class SEDMLCodeFactory(object):
                 indent = ""
                 if sim.getTypeCode() == libsedml.SEDML_SIMULATION_STEADYSTATE:
                     #Set up try/catch block for child steady state
-                    for tid in childSteadyStateTasks:
-                        forLines.append(tid + " = [None]")
+                    forLines.append(tid + "[0] = None")
                     forLines.append("simdists = [0, 0.1, 1, 10, 100, 1000]")
                     forLines.append("sd = 0")
                     forLines.append("while sd < len(simdists) and " + tid + "[0] is None:")
@@ -1459,7 +1476,7 @@ class SEDMLCodeFactory(object):
                     if newmod not in modvec:
                         modvec.append(newmod)
             else:
-                raise NotImplemented("Abstract Tasks that are not Tasks or Repeated Tasks are not supported.")
+                raise NotImplementedError("Abstract Tasks that are not Tasks or Repeated Tasks are not supported.")
         return modvec
 
     @staticmethod
@@ -1599,11 +1616,10 @@ class SEDMLCodeFactory(object):
             return None
 
     @staticmethod
-    def targetToPython(xpath, value, modelId):
+    def targetToExpr(xpath, modelId):
         """ Creates python line for given xpath target and value.
         :param xpath:
         :type xpath:
-        :param value:
         :type value:
         :return:
         :rtype:
@@ -1619,6 +1635,22 @@ class SEDMLCodeFactory(object):
             # other (parameter, flux, ...)
             else:
                 expr = target.id
+            return expr
+        else:
+            return None
+
+    @staticmethod
+    def targetToPython(xpath, value, modelId):
+        """ Creates python line for given xpath target and value.
+        :param xpath:
+        :type xpath:
+        :param value:
+        :type value:
+        :return:
+        :rtype:
+        """
+        expr = SEDMLCodeFactory.targetToExpr(xpath, modelId)
+        if expr:
             line = ("{}['{}'] = {}".format(modelId, expr, value))
         else:
             line = ("# Unsupported target xpath: {}".format(xpath))
