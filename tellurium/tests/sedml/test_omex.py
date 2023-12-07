@@ -52,6 +52,10 @@ OMEX_EXCLUDED = [
 
     # negative start time: FIXME: https://github.com/sys-bio/roadrunner/issues/411
     os.path.join(OMEX_TEST_DIR, 'jws', 'omex', 'martins2016_fig4b.sedx'),
+    
+    # Incorrect interpretation of multiple repeated subtasks: FIXME https://github.com/sys-bio/tellurium/issues/576
+    os.path.join(OMEX_TEST_DIR, 'tellurium', 'case_08.omex'),
+    os.path.join(OMEX_TEST_DIR, 'tellurium', 'case_10.omex'),
 ]
 
 # ----------------------------------------------------------------
