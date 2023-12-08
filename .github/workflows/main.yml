@@ -34,13 +34,11 @@ jobs:
     - name: Run Python Tests
       run: |
         pytest tellurium/tests
-      continue-on-error: true
 
     - name: Build Wheel if Tests Pass
       if: success()
       run: |
         python setup.py bdist_wheel
-      continue-on-error: true
 
     - name: Upload to PyPI
       if: success() && github.event_name == 'push' && github.ref == 'refs/heads/develop' && github.event.before != '0000000000000000000000000000000000000000' && paths('tellurium/Versions.txt')
