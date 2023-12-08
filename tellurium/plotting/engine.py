@@ -41,13 +41,13 @@ class PlottingEngine(object):
         return "<PlottingEngine>"
 
     @abc.abstractmethod
-    def newFigure(self, title=None, logX=False, logY=False, layout=None, xtitle=None, ytitle=None, xlim=None, ylim=None):
+    def newFigure(self, title=None, logX=False, logY=False, layout=None, xlabel=None, ylabel=None, xlim=None, ylim=None):
         """ Returns PlottingFigure.
         Needs to be implemented in base class.
         """
 
     @abc.abstractmethod
-    def newTiledFigure(self, title=None, logX=False, logY=False, layout=None, xtitle=None, ytitle=None):
+    def newTiledFigure(self, title=None, logX=False, logY=False, layout=None, xlabel=None, ylabel=None):
         """ Returns PlottingTiledFigure.
         Needs to be implemented in base class.
         """
@@ -97,7 +97,7 @@ class PlottingEngine(object):
     def plot_text(self, x, y, text, show=True, **kwargs):
         return self.plot(x, y, text=text, show=show, **kwargs)
 
-    def plotTimecourse(self, m, xtitle=None, ytitle=None, title=None, linewidth=2, xlim=None, ylim=None, 
+    def plotTimecourse(self, m, xlabel=None, ylabel=None, title=None, linewidth=2, xlim=None, ylim=None,
                        logx=False, logy=False, xscale='linear', yscale='linear', grid=False, ordinates=None, 
                        tag=None, labels=None, figsize=(6,4), savefig=None, dpi=80, alpha=1.0, **kwargs):
         """ Plots a timecourse from a simulation.
@@ -107,10 +107,10 @@ class PlottingEngine(object):
         fig = self.figureFromTimecourse(m, title=title, ordinates=ordinates, tag=tag, 
                                         alpha=alpha, xlim=xlim, ylim=ylim)
                                         
-        if xtitle:
-            fig.xtitle = xtitle
-        if ytitle:
-            fig.ytitle = ytitle
+        if xlabel:
+            fig.xlabel = xlabel
+        if ylabel:
+            fig.ylabel = ylabel
         if title:
             fig.title = title
         if linewidth:
@@ -146,7 +146,7 @@ class PlottingEngine(object):
             
         fig.render()
 
-    def accumulateTimecourse(self, m, xtitle=None, ytitle=None, title=None, linewidth=2, xlim=None, ylim=None, 
+    def accumulateTimecourse(self, m, xlabel=None, ylabel=None, title=None, linewidth=2, xlim=None, ylim=None,
                              logx=False, logy=False, xscale='linear', yscale='linear', grid=False, ordinates=None, 
                              tag=None, labels=None, figsize=(6,4), savefig=None, dpi=80, alpha=1.0, **kwargs):
         """ Accumulates the traces instead of plotting (like matplotlib with show=False).
@@ -164,10 +164,10 @@ class PlottingEngine(object):
             t = tag if tag else m.colnames[k]
             self.fig.addXYDataset(m[:,0], m[:, k], name=m.colnames[k], tag=t, alpha=alpha)
 
-        if xtitle:
-            self.fig.xtitle = xtitle
-        if ytitle:
-            self.fig.ytitle = ytitle
+        if xlabel:
+            self.fig.xlabel = xlabel
+        if ylabel:
+            self.fig.ylabel = ylabel
         if title:
             self.fig.title = title
         if linewidth:
@@ -218,7 +218,7 @@ class PlottingLayout:
 
 class PlottingFigure(object):
 
-    def __init__(self, title=None, layout=PlottingLayout(), logx=False, xtitle=None, logy=False, ytitle=None, selections=None):
+    def __init__(self, title=None, layout=PlottingLayout(), logx=False, xlabel=None, logy=False, ylabel=None, selections=None):
         """ Initialize the figure.
 
         :param title: The title of the plot.
@@ -230,8 +230,8 @@ class PlottingFigure(object):
         self.title = title
         self.xy_datasets = []
         self.tagged_data = defaultdict(list)
-        self.xtitle = xtitle
-        self.ytitle = ytitle
+        self.xlabel = xlabel
+        self.ylabel = ylabel
         self.logx = logx
         self.logy = logy
         self.selections=selections
@@ -339,13 +339,13 @@ class PlottingFigure(object):
             self.getMergedTaggedDatasets(),
             (dataset for dataset in self.xy_datasets if not 'tag' in dataset))
 
-    def plot(self, x, y, colnames=None, title=None, xtitle=None, logx=None, logy=None, ytitle=None, alpha=None, name=None, names=None, tag=None, tags=None, scatter=None, error_y_pos=None, error_y_neg=None, showlegend=None, label=None, labels=None, text=None, dash=None, color=None):
+    def plot(self, x, y, colnames=None, title=None, xlabel=None, logx=None, logy=None, ylabel=None, alpha=None, name=None, names=None, tag=None, tags=None, scatter=None, error_y_pos=None, error_y_neg=None, showlegend=None, label=None, labels=None, text=None, dash=None, color=None):
         """ Plot x & y data.
         """
-        if xtitle:
-            self.xtitle = xtitle
-        if ytitle:
-            self.ytitle = ytitle
+        if xlabel:
+            self.xlabel = xlabel
+        if ylabel:
+            self.ylabel = ylabel
         kws = {'alpha': alpha}
         if colnames is None and hasattr(y, 'colnames'):
             colnames = y.colnames

@@ -15,9 +15,9 @@ class NullEngine(PlottingEngine):
     def __str__(self):
         return "<NullEngine>"
 
-    def newFigure(self, title=None, logX=False, logY=False, layout=PlottingLayout(), xtitle=None, ytitle=None):
+    def newFigure(self, title=None, logX=False, logY=False, layout=PlottingLayout(), xlabel=None, ylabel=None):
         """ Returns a figure object."""
-        return NullFigure(title=title, layout=layout, xtitle=xtitle, ytitle=ytitle)
+        return NullFigure(title=title, layout=layout, xlabel=xlabel, ylabel=ylabel)
 
     def newTiledFigure(self, title=None, rows=None, cols=None):
         return NullTiledFigure(engine=self, rows=rows, cols=cols)
@@ -29,8 +29,8 @@ class NullEngine(PlottingEngine):
 class NullFigure(PlottingFigure):
     """ PlotlyFigure. """
 
-    def __init__(self, title=None, layout=PlottingLayout(), logx=False, logy=False, save_to_pdf=False, xtitle=None, ytitle=None):
-        super(NullFigure, self).__init__(title=title, layout=layout, logx=logx, xtitle=xtitle, logy=logy, ytitle=ytitle)
+    def __init__(self, title=None, layout=PlottingLayout(), logx=False, logy=False, save_to_pdf=False, xlabel=None, ylabel=None):
+        super(NullFigure, self).__init__(title=title, layout=layout, logx=logx, xlabel=xlabel, logy=logy, ylabel=ylabel)
 
     def render(self):
         pass

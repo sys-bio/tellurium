@@ -19,7 +19,7 @@ Example also uses an event to pulse S1.
     # Simulate the first part up to 20 time units
     m = r.simulate (0, 50, 100, ["time", "S1"])
                                                                 # using latex syntax to render math
-    r.plot(m, ylim=(0.,1.), xtitle='Time', ytitle='Concentration', title='My First Plot ($y = x^2$)')
+    r.plot(m, ylim=(0.,1.), xlabel='Time', ylabel='Concentration', title='My First Plot ($y = x^2$)')
 
 .. image:: _notebooks/core/tellurium_examples_files/tellurium_examples_9_0.png
 
@@ -35,7 +35,7 @@ Pass in the save location along with the image name.
     r = te.loada('S1 -> S2; k1*S1; k1 = 0.1; S1 = 10')
     result = r.simulate(0, 50, 100)
     currentDir = os.getcwd() # gets the current directory
-    r.plot(title='My plot', xtitle='Time', ytitle='Concentration', dpi=150,
+    r.plot(title='My plot', xlabel='Time', ylabel='Concentration', dpi=150,
            savefig=currentDir + '\\test.png')  # save image to current directory as "test.png"
 
 
@@ -95,7 +95,7 @@ To plot multiple curves in one figure use the ``show=False`` setting.
         
         color = cmap((value+max_k1)/(2*max_k1))
         # use show=False to plot multiple curves in the same figure
-        r.plot(s, show=False, title="Parameter variation k1", xtitle="time", ytitle="concentration", 
+        r.plot(s, show=False, title="Parameter variation k1", xlabel="time", ylabel="concentration",
               xlim=[-1, 31], ylim=[-0.1, 11])
     
     te.show()

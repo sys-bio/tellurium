@@ -27,23 +27,23 @@ class MatplotlibEngine(PlottingEngine):
         return "<MatplotlibEngine>"
 
     @classmethod
-    def newFigure(cls, title=None, logX=False, logY=False, layout=None, xtitle=None, ytitle=None, xlim=None, ylim=None):
+    def newFigure(cls, title=None, logX=False, logY=False, layout=None, xlabel=None, ylabel=None, xlim=None, ylim=None):
         """ Returns a figure object."""
         if layout is None:
             layout = PlottingLayout()
 
-        fig = MatplotlibFigure(title=title, layout=layout, xtitle=xtitle, ytitle=ytitle, logx=logX, logy=logY, xlim=xlim, ylim=ylim)
+        fig = MatplotlibFigure(title=title, layout=layout, xlabel=xlabel, ylabel=ylabel, logx=logX, logy=logY, xlim=xlim, ylim=ylim)
         return fig
 
 
 class MatplotlibFigure(PlottingFigure):
     """ MatplotlibFigure. """
 
-    def __init__(self, layout=PlottingLayout(), use_legend=True, xtitle=None, ytitle=None, title=None, 
+    def __init__(self, layout=PlottingLayout(), use_legend=True, xlabel=None, ylabel=None, title=None,
                  linewidth=None, xlim=None, ylim=None, logx=None, logy=None, xscale=None, yscale=None, 
                  grid=None, ordinates=None, tag=None, labels=None, figsize=(9,6), savefig=None, dpi=None):
         super(MatplotlibFigure, self).__init__(title=title, layout=layout,
-                                               xtitle=xtitle, ytitle=ytitle, logx=logx, logy=logy)
+                                               xlabel=xlabel, ylabel=ylabel, logx=logx, logy=logy)
         self.use_legend = use_legend
         self.linewidth = linewidth
         self.xscale = xscale
@@ -126,10 +126,10 @@ class MatplotlibFigure(PlottingFigure):
         # title & axes labels
         if self.title:
             ax.set_title(self.title, fontweight='bold')
-        if self.xtitle:
-            ax.set_xlabel(self.xtitle, fontweight='bold')
-        if self.ytitle:
-            ax.set_ylabel(self.ytitle, fontweight="bold")
+        if self.xlabel:
+            ax.set_xlabel(self.xlabel, fontweight='bold')
+        if self.ylabel:
+            ax.set_ylabel(self.ylabel, fontweight="bold")
 
         # axes limits
         if self.xlim:
