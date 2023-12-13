@@ -427,8 +427,6 @@ class ExtendedRoadRunner(roadrunner.RoadRunner):
             result = rr.gillespie (0, 40, 20, ['time', 'S1'])
             rr.plot(result)
 
-        :param seed: seed for gillespie
-        :type seed: int
         :param args: parameters for simulate
         :param kwargs: parameters for simulate
         :returns: simulation results
