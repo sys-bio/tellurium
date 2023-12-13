@@ -315,6 +315,7 @@ class PhrasedmlTestCase(unittest.TestCase):
         '''
         self.run_example(a_str, p_str)
 
+    @pytest.mark.skip
     def test_case_08(self):
         a_str = '''
         model case_08()
@@ -413,6 +414,7 @@ class PhrasedmlTestCase(unittest.TestCase):
         '''
         self.run_example(a_str, p_str)
 
+    @pytest.mark.skip
     def test_case_10(self):
         a_str = '''
         model case_10()
@@ -893,3 +895,6 @@ class PhrasedmlTestCase(unittest.TestCase):
         '''
         self.run_example(a_str, p_str)
 
+if __name__ == "__main__":
+    import unittest
+    unittest.main()

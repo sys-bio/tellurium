@@ -145,7 +145,8 @@ def getKisaoStringFromVal(val):
     return "KISAO_" + str(val).zfill(7)
 
 KISAOS_CVODE = [  # 'cvode'
-    19,  # CVODE
+    694,  # Generic 'ODE solver'
+    19,   # CVODE
     433,  # CVODE-like method
     407,
     99,
@@ -242,7 +243,9 @@ KISAOS_ONESTEP = KISAOS_UNIFORMTIMECOURSE
 # supported algorithm parameters
 KISAOS_ALGORITHMPARAMETERS = {
     209: ('relative_tolerance', float),  # the relative tolerance
-    211: ('absolute_tolerance', float),  # the absolute tolerance
+    211: ('absolute_tolerance', float),  # the absolute tolerance (we use as adjustment factor, not directly)
+    216: ('conserved_moiety_analysis', bool), # Officially 'Integrate Reduced Model' in KiSAO; we use it as a flag to turn on or off the conserved moiety analysis.
+    571: ('absolute_tolerance', float),  # the absolute tolerance adjustment factor (what we actually use)
     220: ('maximum_bdf_order', int),  # the maximum BDF (stiff) order
     219: ('maximum_adams_order', int),  # the maximum Adams (non-stiff) order
     415: ('maximum_num_steps', int),  # the maximum number of steps that can be taken before exiting
@@ -264,6 +267,7 @@ KISAOS_ALGORITHMPARAMETERS = {
     678: ('approx_maximum_steps', int), #For any steady state solver, max steps of the approximation routine.
     679: ('approx_time', float), #For any steady state solver, end time for approximation routine.
     675: ('broyden_method', int), #For an NLEQ steady state solver: use the Broyden method.
+    671: ('stiff', bool), # Use a stiff solver or not.
     676: ('linearity', int), #For an NLEQ steady state solver: set the linearity of the problem (1-4).
 }
 
@@ -706,6 +710,11 @@ class SEDMLCodeFactory(object):
             value = change.getNewValue()
             lines.append("# {} {}".format(xpath, value))
             lines.append(SEDMLCodeFactory.targetToPython(xpath, value, modelId=mid))
+            expr = SEDMLCodeFactory.targetToExpr(xpath, modelId=mid)
+            if expr:
+                lines.append("if '" + expr + "' in " + mid + ".getInitialAssignmentIds():")
+                lines.append("     " + mid + ".removeInitialAssignment('" + expr + "')")
+            
 
         elif change.getTypeCode() == libsedml.SEDML_CHANGE_COMPUTECHANGE:
             variables = {}
@@ -897,6 +906,18 @@ class SEDMLCodeFactory(object):
         nodeStack = SEDMLCodeFactory.Stack()
         treeNodes = [n for n in tree]
 
+        # Need to reset the models first before anything else:
+        models = []
+        typeCode = treeNodes[0].task.getTypeCode()
+        if typeCode == libsedml.SEDML_TASK:
+            models.append(treeNodes[0].task.getModelReference())
+        elif typeCode == libsedml.SEDML_TASK_REPEATEDTASK:
+            models = SEDMLCodeFactory.getModelsFrom(treeNodes[0].task)
+        for mid in models:
+            lines.append("{}.resetAll()".format(mid))
+
+
+
         # iterate over the tree
         for kn, node in enumerate(treeNodes):
             taskType = node.task.getTypeCode()
@@ -1042,11 +1063,14 @@ class SEDMLCodeFactory(object):
             algorithm = simulation.createAlgorithm()
             algorithm.setKisaoID(getKisaoStringFromVal(19))
         kisao = getKisaoValFromString(algorithm.getKisaoID())
+        kisaoname = ""
+        if algorithm.isSetName():
+            kisaoname = " (" + algorithm.getName() + ")"
 
         # is supported algorithm
         if not SEDMLCodeFactory.isSupportedAlgorithmForSimulationType(kisao=kisao, simType=simType):
-            warnings.warn("Algorithm {} unsupported for simulation {} type {} in task {}".format(kisao, simulation.getId(), simType, task.getId()))
-            lines.append("# Unsupported Algorithm {} for SimulationType {}".format(kisao, simulation.getElementName()))
+            warnings.warn("Algorithm {}{} unsupported for {} simulation '{}' in task '{}'.  Using CVODE.".format(kisao, kisaoname, simulation.getElementName(), simulation.getId(), task.getId()))
+            lines.append("# Unsupported Algorithm {}{} for SimulationType {}.  Using CVODE.".format(kisao, kisaoname, simulation.getElementName()))
             return lines
 
         # set integrator/solver
@@ -1086,6 +1110,11 @@ class SEDMLCodeFactory(object):
 
                 if simType is libsedml.SEDML_SIMULATION_STEADYSTATE:
                     lines.append("{}.steadyStateSolver.setValue('{}', {})".format(mid, pkey.key, value))
+                elif pkey.key == "conserved_moiety_analysis":
+                    if pkey.value.isdigit():
+                        lines.append("{}.conservedMoietyAnalysis = {}".format(mid, bool(int(pkey.value))))
+                    else:
+                        lines.append("{}.conservedMoietyAnalysis = {}".format(mid, pkey.value))
                 else:
                     lines.append("{}.integrator.setValue('{}', {})".format(mid, pkey.key, value))
 
@@ -1225,9 +1254,6 @@ class SEDMLCodeFactory(object):
             outputEndTime = simulation.getOutputEndTime()
             numberOfSteps = simulation.getNumberOfSteps()
 
-            # reset before simulation (see https://github.com/sys-bio/tellurium/issues/193)
-            lines.append("{}.resetAll()".format(mid))
-
             # throw some points away
             if abs(outputStartTime - initialTime) > 1E-6:
                 lines.append("{}.simulate(start={}, end={}, points=2)".format(
@@ -1250,6 +1276,7 @@ class SEDMLCodeFactory(object):
             indent = ""
             if len(parents) == 0:
                 #Have to put this here directly; the parent repeatedTask otherwise adds it.
+                lines.append(resultVariable + " = None")
                 lines.append("simdists = [0, 0.1, 1, 10, 100, 1000]")
                 lines.append("sd = 0")
                 lines.append("while sd < len(simdists) and " + resultVariable + " is None:")
@@ -1357,7 +1384,6 @@ class SEDMLCodeFactory(object):
         # <resetModels>
         # models to reset via task tree below node
         # Also check to see if any tasks are steady states; if so, we need a wrapper.
-        childSteadyStateTasks = []
         for child in node.children:
             t = child.task
             if t.getTypeCode() == libsedml.SEDML_TASK and child.depth - node.depth <= 1:
@@ -1366,8 +1392,7 @@ class SEDMLCodeFactory(object):
                 indent = ""
                 if sim.getTypeCode() == libsedml.SEDML_SIMULATION_STEADYSTATE:
                     #Set up try/catch block for child steady state
-                    for tid in childSteadyStateTasks:
-                        forLines.append(tid + " = [None]")
+                    forLines.append(tid + "[0] = None")
                     forLines.append("simdists = [0, 0.1, 1, 10, 100, 1000]")
                     forLines.append("sd = 0")
                     forLines.append("while sd < len(simdists) and " + tid + "[0] is None:")
@@ -1451,7 +1476,7 @@ class SEDMLCodeFactory(object):
                     if newmod not in modvec:
                         modvec.append(newmod)
             else:
-                raise NotImplemented("Abstract Tasks that are not Tasks or Repeated Tasks are not supported.")
+                raise NotImplementedError("Abstract Tasks that are not Tasks or Repeated Tasks are not supported.")
         return modvec
 
     @staticmethod
@@ -1567,6 +1592,9 @@ class SEDMLCodeFactory(object):
         """ Resolve the mapping between parameter keys and roadrunner integrator keys."""
         ParameterKey = namedtuple('ParameterKey', 'key value dtype')
         kid = getKisaoValFromString(par.getKisaoID())
+        kidname = ""
+        if par.isSetName():
+            kidname = " (" + par.getName() + ")"
         value = par.getValue()
 
         if kid in KISAOS_ALGORITHMPARAMETERS:
@@ -1574,9 +1602,9 @@ class SEDMLCodeFactory(object):
             key, dtype = KISAOS_ALGORITHMPARAMETERS[kid]
             if dtype is bool:
                 # transform manually ! (otherwise all strings give True)
-                if value == 'true' or value == "True":
+                if value == 'true' or value == "True" or value == 1:
                     value = True
-                elif value == 'false' or value == "False":
+                elif value == 'false' or value == "False" or value == 0:
                     value = False
             else:
                 # cast to data type of parameter
@@ -1584,15 +1612,14 @@ class SEDMLCodeFactory(object):
             return ParameterKey(key, value, dtype)
         else:
             # algorithm parameter not supported
-            warnings.warn("Unsupported AlgorithmParameter: {} = {})".format(kid, value))
+            warnings.warn("Unsupported AlgorithmParameter: {}{} = {})".format(kid, kidname, value))
             return None
 
     @staticmethod
-    def targetToPython(xpath, value, modelId):
+    def targetToExpr(xpath, modelId):
         """ Creates python line for given xpath target and value.
         :param xpath:
         :type xpath:
-        :param value:
         :type value:
         :return:
         :rtype:
@@ -1608,6 +1635,22 @@ class SEDMLCodeFactory(object):
             # other (parameter, flux, ...)
             else:
                 expr = target.id
+            return expr
+        else:
+            return None
+
+    @staticmethod
+    def targetToPython(xpath, value, modelId):
+        """ Creates python line for given xpath target and value.
+        :param xpath:
+        :type xpath:
+        :param value:
+        :type value:
+        :return:
+        :rtype:
+        """
+        expr = SEDMLCodeFactory.targetToExpr(xpath, modelId)
+        if expr:
             line = ("{}['{}'] = {}".format(modelId, expr, value))
         else:
             line = ("# Unsupported target xpath: {}".format(xpath))
@@ -1897,7 +1940,7 @@ class SEDMLCodeFactory(object):
         if output.isSetName():
             title = "{}".format(output.getName())
 
-        # xtitle
+        # xlabel
         oneXLabel = True
         allXLabel = None
         for kc, curve in enumerate(output.getListOfCurves()):
@@ -1912,9 +1955,9 @@ class SEDMLCodeFactory(object):
                 allXLabel = xLabel
             elif xLabel != allXLabel:
                 oneXLabel = False
-        xtitle = ''
+        xlabel = ''
         if oneXLabel:
-            xtitle = allXLabel
+            xlabel = allXLabel
         
         #X axis
         xmin = None
@@ -1922,7 +1965,7 @@ class SEDMLCodeFactory(object):
         if output.isSetXAxis():
             xaxis = output.getXAxis()
             if xaxis.isSetName():
-                xtitle = xaxis.getName()
+                xlabel = xaxis.getName()
             if xaxis.isSetMin():
                 xmin = xaxis.getMin()
             if xaxis.isSetMax():
@@ -1931,11 +1974,11 @@ class SEDMLCodeFactory(object):
         #y ayis
         ymin = None
         ymax = None
-        ytitle = ""
+        ylabel = ""
         if output.isSetYAxis():
             yaxis = output.getYAxis()
             if yaxis.isSetName():
-                ytitle = yaxis.getName()
+                ylabel = yaxis.getName()
             if yaxis.isSetMin():
                 ymin = yaxis.getMin()
             if yaxis.isSetMax():
@@ -1951,9 +1994,9 @@ class SEDMLCodeFactory(object):
         #     lines.append("if {}.shape[1] > 1 and te.getDefaultPlottingEngine() == 'plotly':".format(xId))
         #     lines.append("    stacked=True")
         lines.append("if _stacked:")
-        lines.append("    tefig = te.getPlottingEngine().newStackedFigure(title='{}', xtitle='{}', ytitle='{}', xlim=({}, {}), ylim=({}, {}))".format(title, xtitle, ytitle, xmin, xmax, ymin, ymax))
+        lines.append("    tefig = te.getPlottingEngine().newStackedFigure(title='{}', xlabel='{}', ylabel='{}', xlim=({}, {}), ylim=({}, {}))".format(title, xlabel, ylabel, xmin, xmax, ymin, ymax))
         lines.append("else:")
-        lines.append("    tefig = te.nextFigure(title='{}', xtitle='{}', ytitle='{}', xlim=({}, {}), ylim=({}, {}))\n".format(title, xtitle, ytitle, xmin, xmax, ymin, ymax))
+        lines.append("    tefig = te.nextFigure(title='{}', xlabel='{}', ylabel='{}', xlim=({}, {}), ylim=({}, {}))\n".format(title, xlabel, ylabel, xmin, xmax, ymin, ymax))
 
         lastvbar = []
         lasthbar = []

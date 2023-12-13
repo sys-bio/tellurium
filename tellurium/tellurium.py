@@ -1099,9 +1099,9 @@ roadrunner.RoadRunner = ExtendedRoadRunner
 def VersionDict():
     '''Return dict of version strings.'''
     versions = {
-        'tellurium', getTelluriumVersion(),
-        'roadrunner', roadrunner.__version__,
-        'antimony', antimony.__version__,
+        'tellurium': getTelluriumVersion(),
+        'roadrunner': roadrunner.__version__,
+        'antimony': antimony.__version__,
     }
     if rrplugins:
         versions['rrplugins'] = rrplugins.__version__

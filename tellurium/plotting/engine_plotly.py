@@ -19,9 +19,9 @@ class PlotlyEngine(PlottingEngine):
     def __str__(self):
         return "<PlotlyEngine>"
 
-    def newFigure(self, title=None, logX=False, logY=False, layout=PlottingLayout(), xtitle=None, ytitle=None):
+    def newFigure(self, title=None, logX=False, logY=False, layout=PlottingLayout(), xlabel=None, ylabel=None):
         """ Returns a figure object."""
-        return PlotlyFigure(title=title, layout=layout, xtitle=xtitle, ytitle=ytitle)
+        return PlotlyFigure(title=title, layout=layout, xlabel=xlabel, ylabel=ylabel)
 
     def newStackedFigure(self, title=None, logX=False, logY=False, layout=PlottingLayout()):
         """ Returns a figure object."""
@@ -37,8 +37,8 @@ class PlotlyEngine(PlottingEngine):
 class PlotlyFigure(PlottingFigure):
     """ PlotlyFigure. """
 
-    def __init__(self, title=None, layout=PlottingLayout(), logx=False, logy=False, save_to_pdf=False, xtitle=None, ytitle=None):
-        super(PlotlyFigure, self).__init__(title=title, layout=layout, logx=logx, xtitle=xtitle, logy=logy, ytitle=ytitle)
+    def __init__(self, title=None, layout=PlottingLayout(), logx=False, logy=False, save_to_pdf=False, xlabel=None, ylabel=None):
+        super(PlotlyFigure, self).__init__(title=title, layout=layout, logx=logx, xlabel=xlabel, logy=logy, ylabel=ylabel)
 
     def getArgsForDataset(self, dataset):
         kwargs = {}
@@ -110,19 +110,19 @@ class PlotlyFigure(PlottingFigure):
                 'type': 'log',
                 'autorange': True,
             }
-        if self.xtitle:
+        if self.xlabel:
             if not 'xaxis' in kwargs:
                 kwargs['xaxis'] = {}
-            kwargs['xaxis']['title'] = self.xtitle
+            kwargs['xaxis']['title'] = self.xlabel
         if self.logy:
             kwargs['yaxis'] = {
                 'type': 'log',
                 'autorange': True,
             }
-        if self.ytitle:
+        if self.ylabel:
             if not 'yaxis' in kwargs:
                 kwargs['yaxis'] = {}
-            kwargs['yaxis']['title'] = self.ytitle
+            kwargs['yaxis']['title'] = self.ylabel
         if not self.grid_enabled:
             kwargs['xaxis']['showgrid'] = False
             kwargs['xaxis']['showline'] = False
