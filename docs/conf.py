@@ -19,7 +19,7 @@ extensions = [
     "sphinx_rtd_theme",
 ]
 
-import sphinx_rtd_theme
+#import sphinx_rtd_theme
 from mock import Mock as MagicMock
 
 # Mock things for readthedoc build
