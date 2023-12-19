@@ -53,6 +53,20 @@ other contexts as well. Its main features include:
 Change Log
 ----------
 
+The 2.14.0 release added the ability to encode algebraic rules, and added
+ways to add annotations and notes to objects and the model.
+
+The 2.13.4 release changed the default SBML output to L3v2, and added basic
+unit names as reserved words for better import.
+
+The 2.13.3 release removed the '@' for parsing events, and fixed '-o'
+interaction parsing.
+
+The 2.13.2 release changed some maintenance features.
+
+The 2.13.1 release added named stoichiometries, the 'rateOf' function, and
+instituted case senstitivity for predefined elements.
+
 The 2.12 release added the ability to save extra ‘annotation-like’
 elements from the ‘distributions’ SBML package, and fixed numerous bugs
 in cvterm/SBOterm setting.
@@ -341,6 +355,21 @@ boundary species.
      S3 -> S4; k3*S3
    end
 
+Substance-only Species
+~~~~~~~~~~~~~~~~~~~~~~
+
+When a species ID shows up in math, it usually means 'the concentration of
+the species'.  If instead it should be 'the amount of the species', you can
+indicate this by using the 'substanceOnly' keyword:
+
+::
+
+  substanceOnly species S1 in C
+  S1 -> S2; k1*S1/C
+
+In the produced SBML, these species will be flagged 
+hasOnlySubstanceUnits="true"
+
 Compartments
 ~~~~~~~~~~~~
 
@@ -510,7 +539,7 @@ Annotation
 ~~~~~~~~~~
 
 Antimony elements can be annotated with URNs using annotation keywords
-You can see the `full list <#sbo-and-cvterms>`__ below, but in general,
+You can see the `full list <#annotation-keywords>`__ below, but in general,
 you annotate in the following way:
 
 ::
@@ -526,7 +555,36 @@ you annotate in the following way:
               "http://identifiers.org/chebi/CHEBI:15422"
 
 Any Antimony element with an id may be annotated in this way, including
-the model itself.
+the model itself.  Inside a model definition, the model itself may be 
+annotated using the 'model' keyword:
+
+::
+  model foo()
+    model model_entity_is "http://identifiers.org/biomodels.db/BIOMD0000000004"
+    model description "http://identifiers.org/pubmed/1833774"
+    model origin "http://identifiers.org/biomodels.db/BIOMD0000000003"
+    model taxon "http://identifiers.org/taxonomy/8292"
+    model created "2005-02-08T17:34:02Z"
+    model modified "2012-12-11T15:30:15Z"
+  end
+
+You can also define an element's 'notes', using the 'notes' keyword.  If
+the notes take more than one line, you can group them together using three
+tick marks '\`\`\`':
+
+::
+
+  model notes \`\`\`
+      <p>This model represents the inactive forms of CDC-2 Kinase and Cyclin 
+      Protease as separate species, unlike the ODEs in the published paper, in 
+      which the equations for the inactive forms are substituted into the 
+      equations for the active forms using a mass conservation rule 
+      M+MI=1,X+XI=1. Mass is still conserved in this model through the 
+      explicit reactions M&lt;-&gt;MI and X&lt;-&gt;XI. The terms in the 
+      kinetic laws are identical to the corresponding terms in the kinetic 
+      laws in the published paper.</p>
+  \`\`\`
+
 
 Modular Models
 ~~~~~~~~~~~~~~
@@ -1731,6 +1789,25 @@ rules may be self-referential, either directly or indirectly.
 Any symbol may have only one rate rule or assignment rule associated
 with it. Should it find more than one, only the last will be saved.
 
+Algebraic Rules
+~~~~~~~~~~~~~~~
+
+Algebraic rules are defined as equations that are always true, but do
+not declare which variable or variables should be adjusted to ensure that
+they are true.  Algebraic rules have somewhat limited support in some 
+simulators, and are not supported by Tellurium, so they are provide by
+Antimony solely for users who wish to export the model and use it in
+other systems.
+
+To declare an algebraic rule, optionally give it a name, and then declare
+"0 = [formula]":
+
+::
+
+   0 =  S1*k1 - 10
+   alg2: 0 = S2*k2 - 20
+
+
 Display Names
 ~~~~~~~~~~~~~
 
@@ -2096,11 +2173,11 @@ Where ``A`` may be any symbol in Antimony with mathematical meaning;
 ``function()`` may be any mathematical formula; and ``"http://uri"`` is
 a URI that defines the given distribution or externalParameter.
 
-SBO and cvterms
-~~~~~~~~~~~~~~~
+Annotation keywords
+~~~~~~~~~~~~~~~~~~~
 
-Antimony model elements may also be annotated with their SBO terms and
-cvterms, using the following syntax:
+Antimony model elements may also be annotated with their SBO terms, cvterms, 
+or other keywords using the following syntax:
 
 ::
 
@@ -2118,9 +2195,40 @@ cvterms, using the following syntax:
    A hasProperty "cvterm" or A property "cvterm"
    A isPropertyOf "cvterm" or A propertyBearer "cvterm"
    A hasTaxon "cvterm" or A taxon "cvterm"
+   A created "YYYY-MM-DDThh:mm:ssTZD" where TZD is either Z or +/- HH:MM
+   A modified "YYYY-MM-DDThh:mm:ssTZD" where TZD is either Z or +/- HH:MM
+   A creator "creator"
+   A creator.name "full name"
+   A creator.givenName "given name"
+   A creator.familyName "family name"
+   A creator.organization "organization"
+   A creator.email "email address"
+   A notes "notes"
+   
+Where ``A`` is any model ID or the word 'model' for the model itself, and
+``cvterm`` is a URI like ``"http://identifiers.org/uniprot/P12999"``.  If 
+there are multiple creators, or multiple modification times, you can 
+distinguish between them by adding a number:
 
-Where ``A`` is any model element, model name, or function name, and
-``cvterm`` is a URI like ``"http://identifiers.org/uniprot/P12999"``.
+::
+
+   A creator1.name "Hugh Barrett"
+   A creator2.name "Nancy Smalls"
+   A modified1 "2012-12-11T15:30:15Z"
+   A modified2 "2013-01-15T12:25:55Z"
+
+You can also set the individual components of the 'created' and 'modified'
+date by keyword:
+
+::
+
+  A created.year "YYYY"
+  A created.month "MM"
+  A created.day "DD"
+  A created.hour "hh"
+  A created.minute "mm"
+  A created.second "ss"
+  A created.time "hh:mm:ss"
 
 Flux Balance Constraints
 ~~~~~~~~~~~~~~~~~~~~~~~~
