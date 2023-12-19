@@ -15,6 +15,10 @@
 import sys
 import os
 
+extensions = [
+    "sphinx_rtd_theme",
+]
+
 import sphinx_rtd_theme
 from mock import Mock as MagicMock
 
