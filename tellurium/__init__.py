@@ -136,13 +136,6 @@ from .tellurium import (
     executeInlineOmexFromFile,
 )
 
-# Package utilities
-from tellurium.utils.package import (
-    searchPackage,
-    installPackage,
-    upgradePackage,
-    uninstallPackage,
-)
 from tellurium.utils.misc import(
     saveToFile,
     readFromFile,

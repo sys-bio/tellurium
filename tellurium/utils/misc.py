@@ -85,7 +85,7 @@ def runTool (toolFileName):
         root, waste = os.path.split(p)
         toolFileName[0] = root + '\\telluriumTools\\' + toolFileName[0] + '\\' + toolFileName[0] + '.exe'
         return subprocess.check_output(toolFileName)
-    except subprocess.CalledProcessError as e:
+    except subprocess.CalledProcessError:
         raise Exception('Tool failed to run correctly or could not be found')
         
 # ---------------------------------------------------------------------
@@ -98,7 +98,7 @@ def getODEsFromSBMLFile (fileName):
     
     >>> te.getODEsFromSBMLFile ('mymodel.xml')
     """
-    sbmlStr = te.readFromFile (fileName)
+    sbmlStr = readFromFile (fileName)
     extractor = ODEExtractor (sbmlStr)
     return extractor.toString()
     
@@ -197,7 +197,6 @@ class ODEExtractor:
         self.use_species_names = False
         self.use_ids = True
 
-        from collections import defaultdict
         self.accumulators = {}
         self.accumulator_list = []
       
