@@ -169,12 +169,12 @@ conditions resulting in different steady states reached.
     print(r.selections)
     
     initValue = 0.05
-    m = r.simulate (0, 4, 100, selections=["time", "S1"])
+    m = r.simulate (0, 4, 100, selections=["time", "[S1]"])
     
     for i in range (0,12):
         r.reset()
         r['[S1]'] = initValue
-        res = r.simulate (0, 4, 100, selections=["S1"])
+        res = r.simulate (0, 4, 100, selections=["[S1]"])
         m = np.concatenate([m, res], axis=1)
         initValue += 1
     
