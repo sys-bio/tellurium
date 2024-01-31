@@ -8,7 +8,6 @@ import tellurium as te
 te.setDefaultPlottingEngine("matplotlib")
 import numpy as np 
 import random
-import roadrunner
 import matplotlib
 import matplotlib.pyplot as plt
 import matplotlib.gridspec as gs 
