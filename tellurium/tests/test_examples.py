@@ -6,8 +6,8 @@ from __future__ import print_function, absolute_import, division
 import unittest
 
 import os
-import imp
 from tellurium.tests.helpers import filesInDirectory
+from importlib.machinery import SourceFileLoader
 
 # ----------------------------------------------------------------
 # List of python files to test
@@ -44,7 +44,7 @@ def ftest_generator(filePath):
         """ Test failes if Exception in execution of f. """
         if self is not None:
             print(filePath)
-            imp.load_source(os.path.basename(filePath)[:-3], filePath)
+            SourceFileLoader(os.path.basename(filePath)[:-3], filePath).load_module()
     return test
 
 

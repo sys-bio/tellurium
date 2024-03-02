@@ -57,9 +57,9 @@ class Entry(object):
 
     def __str__(self):
         if self.master:
-            return '<*master* Entry {} | {}>'.format(self.master, self.location, self.format)
+            return '<*master* Entry {} | {}>'.format(self.location, self.format)
         else:
-            return '<Entry {} | {}>'.format(self.master, self.location, self.format)
+            return '<Entry {} | {}>'.format(self.location, self.format)
 
 
 class Creator(object):
@@ -90,7 +90,7 @@ def combineArchiveFromDirectory(directory, omexPath, creators=None, creators_for
 
     print(manifest_path)
     if os.path.exists(manifest_path):
-        warnings.warn("Manifest file exists in directory, but not used in COMBINE archive creation: %s".format(manifest_path))
+        warnings.warn("Manifest file exists in directory {}, but not used in COMBINE archive creation: %s".format(manifest_path))
 
     # add the base entry
     entries = [

@@ -9,7 +9,6 @@ import json
 import getpass
 
 
-import imp  # reloads because numl is overwriting symbols
 try:
     import libcombine
 except ImportError:
