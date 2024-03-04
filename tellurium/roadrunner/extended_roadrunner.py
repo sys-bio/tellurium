@@ -382,7 +382,7 @@ class ExtendedRoadRunner(roadrunner.RoadRunner):
                 "the integrator option is now ignored for this function, which returns the seed used\
                 for the existing model and for the global configuration option",
                 Warning, stacklevel=2)
-        return self.getSeed()
+        return super().getSeed()
 
     @property
     def seed(self):
@@ -404,7 +404,7 @@ class ExtendedRoadRunner(roadrunner.RoadRunner):
                 Warning, stacklevel=2)
         # there are some issues converting big Python (greater than 4,294,967,295) integers
         # to C integers on 64 bit machines. If its converted to float before, works around the issue.
-        self.setSeed(seed)
+        super().setSeed(seed)
 
     @seed.setter
     def seed(self, value):
