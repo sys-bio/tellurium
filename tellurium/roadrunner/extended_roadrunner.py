@@ -369,40 +369,46 @@ class ExtendedRoadRunner(roadrunner.RoadRunner):
     # ---------------------------------------------------------------------
     # Stochastic Simulation Methods
     # ---------------------------------------------------------------------
-    def getSeed(self, integratorName="gillespie"):
-        """ Current seed used by the integrator with integratorName.
-        Defaults to the seed of the gillespie integrator.
+    def getSeed(self, integratorName=None):
+        """ Current seed used by the model and global Configuration option.
 
-        :param integratorName: name of the integrator for which the seed should be retured
+        :param integratorName: name of the integrator for which the seed should be returned (ignored but kept for compatibility)
         :type integratorName: str
         :returns: current seed
         :rtype: float
         """
-        integrator = self.getIntegratorByName(integratorName)
-        return integrator.getValue('seed')
+        if integratorName is not None:
+            warnings.warn(
+                "the integrator option is now ignored for this function, which returns the seed used\
+                for the existing model and for the global configuration option",
+                Warning, stacklevel=2)
+        return self.getSeed()
 
     @property
     def seed(self):
-        """ Getter for Gillespie seed. """
+        """ Getter for global Configuration seed. """
         return self.getSeed()
 
-    def setSeed(self, seed, integratorName="gillespie"):
-        """ Set seed in integrator with integratorName.
-        Defaults to the seed of the gillespie integrator.
-
-        Raises Error if integrator does not have key 'seed'.
+    def setSeed(self, seed, integratorName=None, reset_model=True):
+        """ Set seed for the model and global Configuration option.
 
         :param seed: seed to set
-        :param integratorName: name of the integrator for which the seed should be retured
+        :param integratorName: name of the integrator for which the seed should be returned (ignored)
         :type integratorName: str
+        :param reset_model: reset the model after setting the seed
         """
+        if integratorName is not None:
+            warnings.warn(
+                "the integrator option is now ignored for this function, which sets the seed for\
+                the existing model and for the global configuration option",
+                Warning, stacklevel=2)
         # there are some issues converting big Python (greater than 4,294,967,295) integers
         # to C integers on 64 bit machines. If its converted to float before, works around the issue.
-        self.setIntegratorSetting(integratorName=integratorName, settingName="seed", value=float(seed))
+        self.setSeed(seed)
 
     @seed.setter
     def seed(self, value):
-        """ Setter for Gillespie seed. """
+        """ Setter for model and global Configuration option seed. """
         return self.setSeed(value)
 
     def gillespie(self, *args, **kwargs):
