@@ -369,40 +369,15 @@ class ExtendedRoadRunner(roadrunner.RoadRunner):
     # ---------------------------------------------------------------------
     # Stochastic Simulation Methods
     # ---------------------------------------------------------------------
-    def getSeed(self, integratorName="gillespie"):
-        """ Current seed used by the integrator with integratorName.
-        Defaults to the seed of the gillespie integrator.
-
-        :param integratorName: name of the integrator for which the seed should be retured
-        :type integratorName: str
-        :returns: current seed
-        :rtype: float
-        """
-        integrator = self.getIntegratorByName(integratorName)
-        return integrator.getValue('seed')
 
     @property
     def seed(self):
-        """ Getter for Gillespie seed. """
+        """ Getter for global Configuration seed. """
         return self.getSeed()
-
-    def setSeed(self, seed, integratorName="gillespie"):
-        """ Set seed in integrator with integratorName.
-        Defaults to the seed of the gillespie integrator.
-
-        Raises Error if integrator does not have key 'seed'.
-
-        :param seed: seed to set
-        :param integratorName: name of the integrator for which the seed should be retured
-        :type integratorName: str
-        """
-        # there are some issues converting big Python (greater than 4,294,967,295) integers
-        # to C integers on 64 bit machines. If its converted to float before, works around the issue.
-        self.setIntegratorSetting(integratorName=integratorName, settingName="seed", value=float(seed))
 
     @seed.setter
     def seed(self, value):
-        """ Setter for Gillespie seed. """
+        """ Setter for model and global Configuration option seed. """
         return self.setSeed(value)
 
     def gillespie(self, *args, **kwargs):
