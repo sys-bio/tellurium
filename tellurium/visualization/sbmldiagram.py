@@ -134,19 +134,25 @@ class SBMLDiagram(object):
                 g.add_edge(s.getSpecies(), r.getId(), **modifiers)
         return g
 
-    def draw(self, layout='neato', **kwargs):
+    def draw(self, layout='neato', savefig=None, **kwargs):
         """ Draw the graph.
         Optional layout=['neato'|'dot'|'twopi'|'circo'|'fdp'|'nop']
         will use specified graphviz layout method.
 
         :param layout: pygraphviz layout algorithm (default: 'neato')
+        :param savefig: .png file in which to save the figure (displays to the front-end without saving by default)
         :type layout: str
         """
-        f, filePath = tempfile.mkstemp(suffix='.png')
-        self.g.layout(prog=layout)
-        self.g.draw(filePath)
-        
-        i = Image(filename=filePath)
-        display(i)
-        os.close(f)
-        os.remove(filePath)
+        if not savefig:
+            f, temp_file_path = tempfile.mkstemp(suffix='.png')
+            self.g.layout(prog=layout)
+            self.g.draw(temp_file_path)
+
+            i = Image(filename=temp_file_path)
+            display(i)
+            os.close(f)
+            os.remove(temp_file_path)
+        else:
+            self.g.layout(prog=layout)
+            self.g.draw(savefig)
+

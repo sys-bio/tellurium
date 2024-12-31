@@ -13,6 +13,7 @@ import os
 import numpy as np
 import matplotlib
 import antimony
+from matplotlib.pyplot import savefig
 
 CELLML_SUPPORT = hasattr(antimony, "loadCellMLString")
 
@@ -353,6 +354,20 @@ class TelluriumTestCase(unittest.TestCase):
         try:
             import pygraphviz
             r.draw()
+        except ImportError:
+            pass
+
+    def test_draw2file(self):
+        r = te.loada("""
+            S1 -> S2; k1*S1;
+            k1 = 0.1; S1 = 40; S2 = 0.0;
+        """)
+        try:
+            import pygraphviz
+            f, temp_file_path = tempfile.mkstemp(suffix='.png')
+            r.draw(savefig=temp_file_path)
+            os.close(f)
+            os.remove(temp_file_path)
         except ImportError:
             pass
 
