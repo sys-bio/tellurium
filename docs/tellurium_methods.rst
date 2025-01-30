@@ -47,7 +47,7 @@ There are a variety of methods to load models into libRoadrunner.
 ----------------------------------------
 Interconversion Utilities
 ----------------------------------------
-Use these routines interconvert verious standard formats
+Use these routines to interconvert verious standard formats
 
 .. autofunction:: tellurium.antimonyToSBML
 .. autofunction:: tellurium.antimonyToCellML
