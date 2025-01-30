@@ -106,19 +106,20 @@ class ExtendedRoadRunner(roadrunner.RoadRunner):
         else:
             return self.getSBML()
 
-    def getAntimony(self, current=False):
+    def getAntimony(self, current=False, removeFunctionDefinitions=None):
         """ Antimony string of the original model loaded into roadrunner.
 
         :param current: return current model state
+        :param removeFunctionDefinitions: remove function definitions
         :type current: bool
         :return: Antimony
         :rtype: str
         """
         sbml = self.__getSBML(current)
         from .. import sbmlToAntimony
-        return sbmlToAntimony(sbml)
+        return sbmlToAntimony(sbml, removeFunctionDefinitions)
 
-    def getCurrentAntimony(self):
+    def getCurrentAntimony(self, removeFunctionDefinitions=None):
         """ Antimony string of the current model state.
 
         See also: :func:`getAntimony`

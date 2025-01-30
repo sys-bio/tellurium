@@ -627,7 +627,7 @@ def antimonyToCellML(ant):
     return antimony.getCellMLString(mid)
 
 
-def sbmlToAntimony(sbml):
+def sbmlToAntimony(sbml, removeFunctionDefinitions=None):
     """ Convert SBML to antimony string.
 
     :param sbml: SBML string or file
@@ -637,6 +637,9 @@ def sbmlToAntimony(sbml):
     """
     antimony.clearPreviousLoads()
     antimony.freeAll()
+    if removeFunctionDefinitions is not None:
+        prev = antimony.getRemoveFunctionDefinitions()
+        antimony.setRemoveFunctionDefinitions(removeFunctionDefinitions)
     isfile = False
     try:
         isfile = os.path.isfile(sbml)
@@ -647,6 +650,10 @@ def sbmlToAntimony(sbml):
     else:
         code = antimony.loadSBMLString(str(sbml))
     _checkAntimonyReturnCode(code)
+
+    if removeFunctionDefinitions is not None:
+        antimony.setRemoveFunctionDefinitions(prev)
+
     return antimony.getAntimonyString(None)
 
 
