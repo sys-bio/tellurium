@@ -149,7 +149,7 @@ class Accumulator:
     def getFormula(self, reaction):
         return reaction.getKineticLaw().getFormula()
 
-    def toString(self, use_ids=False):
+    def getStrings(self, use_ids=False):
         lhs = 'd{}/dt'.format(self.species_id)
         terms = []
         for rid in self.reactions:
@@ -177,7 +177,7 @@ class Accumulator:
             terms.append(op + stoich + expr)
 
         rhs = ''.join(terms)
-        return lhs + ' = ' + rhs
+        return (lhs, rhs)
 
 class ODEExtractor:
     def __init__(self, sbmlStr):
@@ -247,19 +247,27 @@ class ODEExtractor:
         return r
     
     def getRateOfChange (self, index):
-        return self.accumulator_list[index].toString(use_ids=self.use_ids) + '\n'
+        return self.accumulator_list[index].getStrings(use_ids=self.use_ids)
         
     def getRatesOfChange (self):
         r = '\n'
         for a in self.accumulator_list:
-            r += a.toString(use_ids=self.use_ids) + '\n'
+            (lhs, rhs) = a.getStrings(use_ids=self.use_ids)
+            r += lhs + " = " + rhs + '\n'
         return r
        
     def toString(self):
         r = self.getRules()  
         r = r + self.getKineticLaws() + '\n'
         for index in range (self.model.getNumSpecies()):
-            if not self.model.getSpecies (index).getBoundaryCondition():
-               r = r + self.getRateOfChange (index)     
+            species = self.model.getSpecies(index)
+            if not species.getBoundaryCondition():
+                (d_id, rate) = self.getRateOfChange (index)
+                r = r + d_id + " = "
+                compartment = self.model.getCompartment(species.getCompartment())
+                if not species.getHasOnlySubstanceUnits() and (compartment.getId() != "default_compartment" or compartment.getVolume() != 1):
+                    r = r + "(" + rate + ") / " + species.getCompartment() + "\n"
+                else:
+                    r = r + rate + "\n"
 
         return r
