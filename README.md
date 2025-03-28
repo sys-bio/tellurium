@@ -57,7 +57,7 @@ The Tellurium (and libroadrunner project) project is funded from the NIH/NIGMS (
 ```{python}
 import tellurium as te
 
-rr = te.loada('''
+r = te.loada('''
     model example0
       S1 -> S2; k1*S1
       S1 = 10
@@ -66,8 +66,8 @@ rr = te.loada('''
     end
 ''')
 
-result = rr.simulate(0, 40, 500) 
-te.plotArray(result)
+result = r.simulate(0, 40, 500) 
+r.plot()
 ```
 
 ![Tellurium front page demo](./docs/images/tellurium-front-page-image.png)
