@@ -81,7 +81,7 @@ r.plot()
 
 Tellurium can be installed as a Python package, with a front-end (Notebook, IDE), or in a cloud environment (Google Colab):
 
-[Python Pip](#starquickly-download-multiple-extensions)
+[Python Pip](#Install-via-pip)
 
 A. [Python package (pip)](#Install-via-pip)  
 B. [IDE front-end](#front-end-1-spyder-for-tellurium-ide) based on [Spyder](https://www.spyder-ide.org/)  
