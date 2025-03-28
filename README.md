@@ -31,6 +31,8 @@ Kiri Choi, J Kyle Medley, Matthias König, Kaylene Stocking, Caroline Cannistra,
 
 ## Introduction
 
+For installation instructions scroll down to the next section.
+
 Tellurium is a python environment for reproducible dynamical modeling of biological networks. 
 Tellurium provides the interfacial code to convert between standard formats and utilize powerful 
 libraries without requiring technical expertise, allowing you to focus on what’s important: 
