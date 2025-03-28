@@ -3,7 +3,7 @@
 <!-- These badges come from shield.io, zenodo or travis -->
 
 <table style="width:100%">
-  <tr>
+  <tr>7
     <!--<td><img alt="Github version", src="https://travis-ci.com/sys-bio/tellurium.svg?branch=master"></td> -->
     <td><img alt="Read the Docs" src="https://img.shields.io/readthedocs/tellurium"></td>
     <td><a href="https://badge.fury.io/gh/sys-bio%2Ftellurium"><img src="https://badge.fury.io/gh/sys-bio%2Ftellurium.svg" alt="GitHub version" height="18"></a></td>
@@ -129,6 +129,7 @@ pip install git+https://github.com/sys-bio/tellurium.git
 <img align="left" width="32px" id="windows" src="https://raw.githubusercontent.com/wiki/sys-bio/tellurium/img/windows.png">
 <h4>Windows</h4>
 <br style="clear:both"/>
+
 #### Approach 1: Spyder for Tellurium IDE
 The Tellurium Spyder installers are tested with Windows 10 and 11, and come with a choice of Python versions.
 
