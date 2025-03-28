@@ -83,8 +83,11 @@ Tellurium can be installed as a Python package, with a front-end (Notebook, IDE)
 
 
 A. [Python Pip](#Install-via-pip)
+
 B. [IDE front-end](#Front-end-installation) based on [Spyder](https://www.spyder-ide.org/)  
+
 C. [Notebook front-end](#front-end-2-tellurium-notebook)  
+
 D. [Google Colab](#google-colab)  
 
 We recommend first-time users choose one of the front-ends, while developers looking to integrate Tellurium use the pip package. All python desktop IDE graphical front-ends should work. We know for certain that telluirum will work from Spyder, pyCharm and Visual Studio Code.
