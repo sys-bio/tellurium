@@ -159,13 +159,6 @@ Tellurium can be used with [Thonny](https://en.wikipedia.org/wiki/Thonny), a fre
 6. Type `tellurium` in the search box and press the "Search on PyPI" button
 7. Once the `tellurium` package is found in "Search results", click on it, and then press the "Install" button. Wait until the installation process is completed.
 
-#### Approach 3: Tellurium Notebook
-The Tellurium notebook is no longer being updated, but is still available.  It was tested with Windows 10. The notebook viewer comes with Python 3.6 (64-bit).
-
-1. [Download Tellurium Notebook for Windows](https://sourceforge.net/projects/pytellurium/files/notebook/Tellurium%20Setup%202.1.1.exe/download)
-2. Double-click the installer `*.exe` to start the installation
-3. Follow the instructions
-
 &nbsp;
 
 <img align="left" width="32px" id="mac-osx" src="https://raw.githubusercontent.com/wiki/sys-bio/tellurium/img/macos.png">
