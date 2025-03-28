@@ -73,8 +73,6 @@ r.plot()
 
 <img src="./docs/images/tellurium-front-page-image.png" width=50% height=50%>
 
-![Tellurium front page demo](./docs/images/tellurium-front-page-image.png)
-
 ## Installation Instructions
 
 :exclamation:**Attention to those using Python 2.7 :**
