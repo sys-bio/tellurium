@@ -29,23 +29,25 @@
 Copyright 2014-2023
 Kiri Choi, J Kyle Medley, Matthias König, Kaylene Stocking, Caroline Cannistra, Michal Galdzicki, Ciaran Welsh, Lucian Smith, Adel Heydarabadipour, and Herbert Sauro
 
+## What is it?
+
+Tellurium is a comprehensive Python accessible SBML-compliant modeling platform for biochemical reaction systems. 
+
 ## Introduction
 
-For installation instructions scroll down to the next section.
+For installation instructions scroll down a few sections.
 
 Tellurium is a python environment for reproducible dynamical modeling of biological networks. 
-Tellurium provides the interfacial code to convert between standard formats and utilize powerful 
-libraries without requiring technical expertise, allowing you to focus on what’s important: 
+Tellurium provides the interface code to convert between standard formats and uses powerful 
+libraries without requiring technical expertise, allowing teh user to focus on what’s important: 
 building better models. Tellurium also provides first-class support for exchangeability via 
-[COMBINE archives](http://co.mbine.org/documents/archive), allowing you to share your models 
-and simulations with other tools.
+[COMBINE archives](http://co.mbine.org/documents/archive) and SBML, allowing you to share your models 
+and simulations with many other tools.
 
 Tellurium combines state-of-the-art scientific Python libraries, such 
 as [NumPy](http://www.numpy.org/) and [SciPy](http://www.scipy.org/), 
 and includes special-purpose systems biology Python tools. Out of the box, 
-Tellurium includes [libroadrunner](https://github.com/sys-bio/roadrunner), 
-[antimony](http://antimony.sourceforge.net/), [phrasedml](http://phrasedml.sf.net/), 
-[libsbml](http://sbml.org/Software/libSBML), and [libsedml](https://github.com/fbergmann/libSEDML).
+Tellurium includes the high performance simulation engine [libroadrunner](https://github.com/sys-bio/roadrunner), the model descrption language [antimony](http://antimony.sourceforge.net/), [phrasedml](http://phrasedml.sf.net/), [libsbml](http://sbml.org/Software/libSBML), and [libsedml](https://github.com/fbergmann/libSEDML).
 
 The Tellurium (and libroadrunner project) project is funded from the NIH/NIGMS (GM081070) and NIH/NIBIB U24EB028887.
 
