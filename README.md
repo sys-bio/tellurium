@@ -109,7 +109,7 @@ If you have a version of Python in an environment you're comfortable with, you c
 pip install tellurium
 ```	
 
-Tellurium itself is Python-only, and is available for any version of Python 3.  Its main binary dependency, roadrunner, should be installed with Tellurium, and should be available for the latest three or four versions of Python (currently 3.8, 3.9, 3.10, and 3.11), for Windows, Mac (both Intel and ARM), and Linux. 
+This will install on all platforms. For Colab see the end of this screen. 
 
 For those using Anaconda, we currently do not have a separate Anaconda version of Tellurium, so you'll need to install it via pip, as above.
 
