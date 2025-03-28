@@ -229,10 +229,12 @@ following the instructions on [this page](https://github.com/sys-bio/tellurium/w
 ### Google Colab
 Tellurium can be used entirely in a browser using [Google Colab](https://colab.research.google.com/).  Ideally, it will work with the following steps (updated May 2023)
   
-1. run a cell with ```!apt-get install libncurses5```
-2. run a cell with ```!pip install -q tellurium==2.2.8```
-3. (Very important) Restart the runtime (From the menu: 'Runtime / Restart runtime')
-4. Test by typing ```import tellurium as te```
+1. run a cell with ```!pip install -q tellurium```
+2. (Very important) Restart the runtime (From the menu: 'Runtime / Restart session')
+3. Test by typing ```import tellurium as te```
+4. te.getVersionInfo()  # Check for versions if you want to 
+   Try a model
+5. r = te.loada ('S1 -> S2; k1*S1; k1 = 0.1; S1 = 10'); r.simulate(); r.plot()
   
 The Python version behind Colab changes periodically, so what worked one day may stop working the next, but the following Colab notebook worked when used at ICSB 2022:  https://colab.research.google.com/drive/1wddLftHNhetbozZY29r2HRkzQLl1F_fs#scrollTo=l1bCgW46-adR and will hopefully be instructive.
 
