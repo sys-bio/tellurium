@@ -129,7 +129,6 @@ pip install git+https://github.com/sys-bio/tellurium.git
 <img align="left" width="32px" id="windows" src="https://raw.githubusercontent.com/wiki/sys-bio/tellurium/img/windows.png">
 <h4>Windows</h4>
 <br style="clear:both"/>
-
 #### Approach 1: Spyder for Tellurium IDE
 The Tellurium Spyder installers are tested with Windows 10 and 11, and come with a choice of Python versions.
 
