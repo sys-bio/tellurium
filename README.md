@@ -83,6 +83,7 @@ Tellurium can be installed as a Python package, with a front-end (Notebook, IDE)
 
 
 A. [Python Pip](#Install-via-pip)
+
 B. [IDE front-end](#Front-end-installation) based on [Spyder](https://www.spyder-ide.org/)  
 C. [Notebook front-end](#front-end-2-tellurium-notebook)  
 D. [Google Colab](#google-colab)  
