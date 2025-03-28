@@ -71,6 +71,8 @@ result = r.simulate(0, 40, 500)
 r.plot()
 ```
 
+<img src="./docs/images/tellurium-front-page-image.png" width=50% height=50%>
+
 ![Tellurium front page demo](./docs/images/tellurium-front-page-image.png)
 
 ## Installation Instructions
