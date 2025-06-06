@@ -29,21 +29,25 @@
 Copyright 2014-2023
 Kiri Choi, J Kyle Medley, Matthias König, Kaylene Stocking, Caroline Cannistra, Michal Galdzicki, Ciaran Welsh, Lucian Smith, Adel Heydarabadipour, and Herbert Sauro
 
+## What is it?
+
+Tellurium is a comprehensive Python accessible SBML-compliant modeling platform for biochemical reaction systems. 
+
 ## Introduction
 
+For installation instructions scroll down a few sections.
+
 Tellurium is a python environment for reproducible dynamical modeling of biological networks. 
-Tellurium provides the interfacial code to convert between standard formats and utilize powerful 
-libraries without requiring technical expertise, allowing you to focus on what’s important: 
+Tellurium provides the interface code to convert between standard formats and uses powerful 
+libraries without requiring technical expertise, allowing teh user to focus on what’s important: 
 building better models. Tellurium also provides first-class support for exchangeability via 
-[COMBINE archives](http://co.mbine.org/documents/archive), allowing you to share your models 
-and simulations with other tools.
+[COMBINE archives](http://co.mbine.org/documents/archive) and SBML, allowing you to share your models 
+and simulations with many other tools.
 
 Tellurium combines state-of-the-art scientific Python libraries, such 
 as [NumPy](http://www.numpy.org/) and [SciPy](http://www.scipy.org/), 
 and includes special-purpose systems biology Python tools. Out of the box, 
-Tellurium includes [libroadrunner](https://github.com/sys-bio/roadrunner), 
-[antimony](http://antimony.sourceforge.net/), [phrasedml](http://phrasedml.sf.net/), 
-[libsbml](http://sbml.org/Software/libSBML), and [libsedml](https://github.com/fbergmann/libSEDML).
+Tellurium includes the high performance simulation engine [libroadrunner](https://github.com/sys-bio/roadrunner), the model descrption language [antimony](http://antimony.sourceforge.net/), [phrasedml](http://phrasedml.sf.net/), [libsbml](http://sbml.org/Software/libSBML), and [libsedml](https://github.com/fbergmann/libSEDML).
 
 The Tellurium (and libroadrunner project) project is funded from the NIH/NIGMS (GM081070) and NIH/NIBIB U24EB028887.
 
@@ -57,20 +61,17 @@ The Tellurium (and libroadrunner project) project is funded from the NIH/NIGMS (
 ```{python}
 import tellurium as te
 
-rr = te.loada('''
-    model example0
+r = te.loada('''
       S1 -> S2; k1*S1
-      S1 = 10
-      S2 = 0
+      S1 = 10; S2 = 0
       k1 = 0.1
-    end
 ''')
 
-result = rr.simulate(0, 40, 500) 
-te.plotArray(result)
+result = r.simulate(0, 40, 500) 
+r.plot()
 ```
 
-![Tellurium front page demo](./docs/images/tellurium-front-page-image.png)
+<img src="./docs/images/tellurium-front-page-image.png" width=50% height=50%>
 
 ## Installation Instructions
 
@@ -79,9 +80,13 @@ te.plotArray(result)
 
 Tellurium can be installed as a Python package, with a front-end (Notebook, IDE), or in a cloud environment (Google Colab):
 
-A. [Python package (pip)](#install-via-pip-no-front-end)  
-B. [IDE front-end](#front-end-1-spyder-for-tellurium-ide) based on [Spyder](https://www.spyder-ide.org/)  
+
+A. [Python Pip](#Install-via-pip)
+
+B. [IDE front-end](#Front-end-installation) based on [Spyder](https://www.spyder-ide.org/)  
+
 C. [Notebook front-end](#front-end-2-tellurium-notebook)  
+
 D. [Google Colab](#google-colab)  
 
 We recommend first-time users choose one of the front-ends, while developers looking to integrate Tellurium use the pip package. All python desktop IDE graphical front-ends should work. We know for certain that telluirum will work from Spyder, pyCharm and Visual Studio Code.
@@ -103,7 +108,7 @@ If you have a version of Python in an environment you're comfortable with, you c
 pip install tellurium
 ```	
 
-Tellurium itself is Python-only, and is available for any version of Python 3.  Its main binary dependency, roadrunner, should be installed with Tellurium, and should be available for the latest three or four versions of Python (currently 3.8, 3.9, 3.10, and 3.11), for Windows, Mac (both Intel and ARM), and Linux. 
+This will install on all platforms. For Colab see the end of this screen. 
 
 For those using Anaconda, we currently do not have a separate Anaconda version of Tellurium, so you'll need to install it via pip, as above.
 
@@ -153,13 +158,6 @@ Tellurium can be used with [Thonny](https://en.wikipedia.org/wiki/Thonny), a fre
 6. Type `tellurium` in the search box and press the "Search on PyPI" button
 7. Once the `tellurium` package is found in "Search results", click on it, and then press the "Install" button. Wait until the installation process is completed.
 
-#### Approach 3: Tellurium Notebook
-The Tellurium notebook is no longer being updated, but is still available.  It was tested with Windows 10. The notebook viewer comes with Python 3.6 (64-bit).
-
-1. [Download Tellurium Notebook for Windows](https://sourceforge.net/projects/pytellurium/files/notebook/Tellurium%20Setup%202.1.1.exe/download)
-2. Double-click the installer `*.exe` to start the installation
-3. Follow the instructions
-
 &nbsp;
 
 <img align="left" width="32px" id="mac-osx" src="https://raw.githubusercontent.com/wiki/sys-bio/tellurium/img/macos.png">
@@ -201,20 +199,12 @@ If this fails, try using the default absolute path to Anaconda, which will proba
 
 #### Approach 3: Spyder for Tellurium IDE (only for Mac OS X Legacy)
 
-Currently, only a Legacy version of the Mac Spyder IDE is available. We recommend using the Notebook front-end on Mac.
+Currently, only a Legacy version of the Mac Spyder IDE is available. 
 
 1. [Download Tellurium IDE for Mac OS X 10.10 or later](https://github.com/sys-bio/tellurium/releases/download/1.3.5-rc3/Tellurium-1.3.5-Spyder-2.3.8-OSX.dmg)
 2. Double-click the .dmg file to open a new window
 3. Double-click the Spyder icon
 
-#### Approach 4: Tellurium Notebook
-The Tellurium notebook is no longer being updated, but is still available.  It was tested with Mac OS X 10.10+. The notebook viewer comes with Python 3.6 (64-bit).
-
-1. [Download Tellurium Notebook for Mac OS X 10.10 or later](https://sourceforge.net/projects/pytellurium/files/notebook/Tellurium-2.1.1.dmg/download)
-2. You may need to [disable Gatekeeper](https://github.com/sys-bio/tellurium/wiki/FAQ#on-mac-after-downloading-tellurium-i-cant-open-it-because-it-is-from-an-unidentified-developer)
-3. Double-click the `*.dmg` file to open a new window
-4. Drag the Tellurium icon to your Applications
-5. You can now launch Tellurium from Spotlight or directly from your applications folder
 
 **For those who wish to use Tellurium with Spyder IDE on Mac OS X, we also suggest that you install through [Anaconda](https://www.anaconda.com/) by 
 following the instructions on [this page](https://github.com/sys-bio/tellurium/wiki/FAQ#i-would-like-to-use-tellurium-on-anaconda-what-should-i-do).**
@@ -225,26 +215,9 @@ following the instructions on [this page](https://github.com/sys-bio/tellurium/w
 <h4>Linux (RedHat)</h3>
 <br style="clear:both"/>
 
-#### Tellurium Notebook
-The Tellurium notebook is no longer being updated, but is still available.  It was tested with Fedora 22+. The notebook viewer comes with Python 3.6 (64-bit).
-
-1. [Download Tellurium Notebook (.rpm)](https://sourceforge.net/projects/pytellurium/files/notebook/Tellurium-2.1.1.rpm/download)
-2. Install the package using `dnf install Tellurium-2.1.1.rpm`
-3. You should be able to launch Tellurium from your activities pane. If not, log out and in again or run `tellurium` from the terminal.
-
-&nbsp;
-
 <img align="left" width="32px" id="debian" src="https://raw.githubusercontent.com/wiki/sys-bio/tellurium/img/debian.png">
 <h4>Linux (Debian)</h4>
 <br style="clear:both"/>
-
-#### Tellurium Notebook
-The Tellurium notebook is no longer being updated, but is still available.  It was tested with Debian 8+. The notebook viewer comes with Python 3.6 (64-bit).
-
-1. [Download Tellurium Notebook (.deb)](https://sourceforge.net/projects/pytellurium/files/notebook/Tellurium_2.1.1_amd64.deb/download)
-2. Install the package using `dpkg -i Tellurium_2.1.1_amd64.deb`
-3. You should be able to launch Tellurium from your activities pane. If not, log out and in again or run `/opt/Tellurium/tellurium` from the terminal.
-
 
 **For those who wish to use Tellurium with Spyder IDE on Linux, we also suggest that you install through [Anaconda](https://www.anaconda.com/) by 
 following the instructions on [this page](https://github.com/sys-bio/tellurium/wiki/FAQ#i-would-like-to-use-tellurium-on-anaconda-what-should-i-do).**
@@ -256,10 +229,12 @@ following the instructions on [this page](https://github.com/sys-bio/tellurium/w
 ### Google Colab
 Tellurium can be used entirely in a browser using [Google Colab](https://colab.research.google.com/).  Ideally, it will work with the following steps (updated May 2023)
   
-1. run a cell with ```!apt-get install libncurses5```
-2. run a cell with ```!pip install -q tellurium==2.2.8```
-3. (Very important) Restart the runtime (From the menu: 'Runtime / Restart runtime')
-4. Test by typing ```import tellurium as te```
+1. run a cell with ```!pip install -q tellurium```
+2. (Very important) Restart the runtime (From the menu: 'Runtime / Restart session')
+3. Test by typing ```import tellurium as te```
+4. te.getVersionInfo()  # Check for versions if you want to 
+   Try a model
+5. r = te.loada ('S1 -> S2; k1*S1; k1 = 0.1; S1 = 10'); r.simulate(); r.plot()
   
 The Python version behind Colab changes periodically, so what worked one day may stop working the next, but the following Colab notebook worked when used at ICSB 2022:  https://colab.research.google.com/drive/1wddLftHNhetbozZY29r2HRkzQLl1F_fs#scrollTo=l1bCgW46-adR and will hopefully be instructive.
 
