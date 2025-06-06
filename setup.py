@@ -2,8 +2,8 @@
 ###################################
 # tellurium setup script
 #
-# develop install via
-# pip install -e .
+# build with 
+# python -m build --wheel
 ###################################
 
 from setuptools import setup
@@ -47,12 +47,12 @@ setup(name='tellurium',
           'numpy>=1.23',
           'scipy>=1.5.1',
           'matplotlib>=2.0.2',
-          'pandas>=0.20.2',
+          'pandas>=2.0',
           # SBW-derived
-          'libroadrunner>=2.1',
-          'antimony>=2.12.0',
+          'libroadrunner>=2.8',
+          'antimony>=3.0.0',
           # standards
-          'python-libsbml>=5.18.0',
+          'python-libsbml>=5.20',
           'python-libnuml>=1.0.0',
           'python-libsedml>=2.0.17',
           'python-libcombine>=0.2.2',
