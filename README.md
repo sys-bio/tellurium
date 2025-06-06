@@ -75,9 +75,6 @@ r.plot()
 
 ## Installation Instructions
 
-:exclamation:**Attention to those using Python 2.7 :**
-**[Python 2.7 reached EOL on January 1st, 2020](https://www.python.org/doc/sunset-python-2/). Support for Python 2.7 has been dropped, though previous releases will continue to be available.**
-
 Tellurium can be installed as a Python package, with a front-end (Notebook, IDE), or in a cloud environment (Google Colab):
 
 

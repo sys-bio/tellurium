@@ -2456,23 +2456,23 @@ Reaction arcs
 
 A 'reaction arc' is a line going from a reaction centroid (usually a square) to a species that participates in that reaction.  Lines between a reaction and a reactant have no arrowheads; a line from a reaction to a product have an arrowhead at the product side.
 
-Each arc is defined by three points:  the start, the end, and two 'base points' or 'control points' that define how the line arcs between the start and the end.  Because one end is usually 'the reaction centroid', that end doesn't need to be defined, so Antimony lets you define a reaction arc with the position of the reaction, plus three points:  'species_pos', 'b1' and 'b2':
+Each arc is defined by three points:  the start, the end, and two 'base points' or 'control points' that define how the line arcs between the start and the end.  Because one end is usually 'the reaction centroid', that end doesn't need to be defined, so Antimony lets you define a reaction arc with the position of the reaction, plus three points:  'species_end', 'b1' and 'b2':
 
 ::
 
    J0.position = {80.54, 153.07}
-   J0.S1.species_pos = {50.89, 74.02}
+   J0.S1.species_end = {50.89, 74.02}
    J0.S1.b1 = {71.04, 129.94}
    J0.S1.b2 = {47.91, 124.31}
 
-The arc is specified by the reaction and the species it goes to, hence 'J0.S1'.  'species_pos' in this case means 'the position of the species end of the line'.
+The arc is specified by the reaction and the species it goes to, hence 'J0.S1'.  'species_end' in this case means 'the position of the species end of the line'.
 
-If the reaction side of the line does not end at the reaction itself (for example, when a species suppresses or activates a reaction), the reaction end point is defined with the keyword 'rxn_pos':
+If the reaction side of the line does not end at the reaction itself (for example, when a species suppresses or activates a reaction), the reaction end point is defined with the keyword 'rxn_end':
 
 ::
 
-   J0.S3.species_pos = {61.17, 259.07}
-   J0.S3.rxn_pos = {72.09, 165.65}
+   J0.S3.species_end = {61.17, 259.07}
+   J0.S3.rxn_end = {72.09, 165.65}
    J0.S3.b1 = {62.93, 215.94}
    J0.S3.b2 = {71.6, 170.62}
 
@@ -2480,14 +2480,14 @@ When a species has a non-unit stoichiometry, there are two or more lines that go
 
 ::
 
-   J0.S1.arc1.species_pos = {183.1, 295.73}
+   J0.S1.arc1.species_end = {183.1, 295.73}
    J0.S1.arc1.b1 = {84.54, 173.18}
    J0.S1.arc1.b2 = {177.02, 245.98}
-   J0.S1.arc2.species_pos = {162.46, 300.81}
+   J0.S1.arc2.species_end = {162.46, 300.81}
    J0.S1.arc2.b1 = {84.54, 173.18}
    J0.S1.arc2.b2 = {144.73, 253.94}
 
-The 'arc1' isn't required, as an id like "J0.S1.species_pos" is assumed to be 'the first arc from J0 to S1'.
+The 'arc1' isn't required, as an id like "J0.S1.species_end" is assumed to be 'the first arc from J0 to S1'.
 
 Here is a fully-defined Antimony layout that illustrates all of the above.  It was generated with the input:
 
@@ -2511,17 +2511,17 @@ Translated to SBML with the use of the autolayout algorithm, then translated bac
    S2.position = {286.19, 30}
    S3.position = {30, 318.49}
    J0.position = {245.06, 262.71}
-   J0.S1.species_pos = {373.71, 391.49}
+   J0.S1.species_end = {373.71, 391.49}
    J0.S1.b1 = {262.59, 280.54}
    J0.S1.b2 = {311.8, 369.76}
-   J0.S1.arc2.species_pos = {367.84, 418.65}
+   J0.S1.arc2.species_end = {367.84, 418.65}
    J0.S1.arc2.b1 = {262.59, 280.54}
    J0.S1.arc2.b2 = {302.49, 412.92}
-   J0.S2.species_pos = {311.57, 74.96}
+   J0.S2.species_end = {311.57, 74.96}
    J0.S2.b1 = {227.53, 244.88}
    J0.S2.b2 = {304.63, 115.41}
-   J0.S3.species_pos = {99.01, 331.65}
-   J0.S3.rxn_pos = {231.12, 268.26}
+   J0.S3.species_end = {99.01, 331.65}
+   J0.S3.rxn_end = {231.12, 268.26}
    J0.S3.b1 = {157.51, 324.39}
    J0.S3.b2 = {226.48, 270.12}
 
@@ -2529,25 +2529,25 @@ For layouts not generated with the autolayout algorithm, it is possible for a li
 
 ::
 
-   J0.S1.seg1.species_pos = {740, 992.6}
-   J0.S1.seg1.rxn_pos = {685, 1008}
+   J0.S1.seg1.species_end = {740, 992.6}
+   J0.S1.seg1.rxn_end = {685, 1008}
    J0.S1.seg1.b1 = {740, 992.6}
    J0.S1.seg1.b2 = {685, 1008}
-   J0.S1.seg2.species_pos = {685, 1008}
-   J0.S1.seg2.rxn_pos = {685, 1092}
+   J0.S1.seg2.species_end = {685, 1008}
+   J0.S1.seg2.rxn_end = {685, 1092}
    J0.S1.seg2.b1 = {685, 1008}
    J0.S1.seg2.b2 = {685, 1092}
-   J0.S1.seg3.species_pos = {685, 1092}
+   J0.S1.seg3.species_end = {685, 1092}
    J0.S1.seg3.b1 = {685, 1092}
    J0.S1.seg3.b2 = {685, 1118}
 
-Note that to preserve continuity, the 'species_pos' side of each segment is the same as the 'rxn_pos' side of the next segment.
+Note that to preserve continuity, the 'species_end' side of each segment is the same as the 'rxn_end' side of the next segment.
 
 If multiple arcs and segments exist, they can be combined:
 
 ::
 
-   J0.S1.arc2.seg3.species_pos = {740, 992}
+   J0.S1.arc2.seg3.species_end = {740, 992}
 
 
 Reaction source/sinks
@@ -2564,7 +2564,7 @@ There will be a reaction arc going to that null glyph as well, which also uses t
 
 ::
 
-   J0.--.species_pos = {373.71, 391.49}
+   J0.--.species_end = {373.71, 391.49}
    J0.--.b1 = {262.59, 280.54}
    J0.--.b2 = {311.8, 369.76}
 

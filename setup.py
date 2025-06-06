@@ -21,6 +21,8 @@ setup(name='tellurium',
       author='J. Kyle Medley, Kiri Choi, Matthias König, Lucian Smith, Herbert M. Sauro',
       description='Tellurium: An biological modeling environment for Python',
       url='http://tellurium.analogmachine.org/',
+      long_description=open('README.md', "r").read(),
+      long_description_content_type='text/markdown',
       packages=[
           'tellurium',
           'tellurium.analysis',
