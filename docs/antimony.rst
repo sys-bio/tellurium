@@ -53,6 +53,12 @@ other contexts as well. Its main features include:
 Change Log
 ----------
 
+The 3.0 release allows import and export of the SBML packages
+'Layout' and 'Render', using the SBMLNetwork library to do so.
+
+The 2.15 release changed SBML import so that function definitions are (by
+default) now dropped and automatically incorporated into the model instead.
+
 The 2.14.0 release added the ability to encode algebraic rules, and added
 ways to add annotations and notes to objects and the model.
 
@@ -1793,6 +1799,14 @@ To declare an algebraic rule, optionally give it a name, and then declare
    0 =  S1*k1 - 10
    alg2: 0 = S2*k2 - 20
 
+If (in the first example) k1 is set to be constant, the solver will vary S1 to keep the equation 
+true, and if S1 is set to be constant, the solver will vary k1 to keep the 
+equation true.  If neither is constant (and neither appears in another 
+context such as an assignment rule that would dictate its value over the 
+course of the simulation), the solver may choose which one to vary.
+
+If all the variables in an algebraic rule equation are determined 
+elsewhere, the model is overdetermined, and will not be translatable to SBML.
 
 Display Names
 ~~~~~~~~~~~~~
@@ -2350,22 +2364,293 @@ SBML ‘comp’ package constructs).
 
 Examples:
 
-``sourceCode bash sbtranslate model1.txt model2.txt -o sbml``
+``sbtranslate model1.txt model2.txt -o sbml``
 
 will create one flattened SBML file for the main model in the two
 Antimony files in the working directory. Each file will be of the format
 ‘[prefix].xml’, where [prefix] is the original filename with ‘.txt’
 removed (if present).
 
-``sourceCode bash sbtranslate oscli.xml ffn.xml -o antimony``
+``sbtranslate oscli.xml ffn.xml -o antimony``
 
 will output two files in the working directory: ‘oscli.txt’ and
 ‘ffn.txt’ (in the antimony format).
 
-``sourceCode bash sbtranslate model1.txt -o sbml-comp``
+``sbtranslate model1.txt -o sbml-comp``
 
 will output ‘model1.xml’ in the working directory, containing all models
 in the ‘model1.txt’ file, using the SBML ‘comp’ package.
+
+Layout and Render
+-----------------
+
+LibAntimony uses the SBMLNetwork library to allow import and export of most essential constructs from the 'layout' and 'render' packages that define the visualization of an SBML model.  The 'layout' package defines how the reactions, species, and compartments are positioned and connect to one another, while the 'render' package defines the style of the display:  the lines, colors, fonts, etc.  Antimony allows the modeler to define whatever they like, and uses the autorender and autolayout functions of SBMLNetwork to define the rest.  It is also possible to import an SBML model with Layout and/or Render information to Antimony for inspection or modification.
+
+Basic layout information
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+Antimony supports a single Layout, which can be turned on with the directive:
+
+::
+
+   model.layout = on
+
+This will call the autolayout function and apply all default colors and styles.  The line is not necessary if any other visualization options are set; it is only needed when using nothing but defaults.  Setting this value to 'off' is an error; if you don't want layout or render, simply avoid adding those elements.
+
+There is a single option for the autolayout function: setting the maximum number of connected edges for a single species.  Whatever value this is set at, the autolayout function will create alias nodes for connections more than this number.  It can be set:
+
+::
+
+   model.autolayout.maxNumConnectedEdges = [n]
+
+The default value is 3.
+
+Positioning model elements
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The position of model elements can be set with the 'position' or 'pos' keywords, or with 'x' and 'y':
+
+::
+
+   S1.pos = {28, 35} 
+   S1.x = 28
+   S1.y = 35
+
+ If neither the X nor Y values are set, the position will be set by the autolayout algorithm.  If only one is set, the value of the other will be zero.  So, the position of S1 would be {28, 0} if the only line was S1.x = 28.
+
+ Only species, reactions, and compartments can be given a position; all other elements (such as parameters or events) do not appear.
+
+Sizing model elements
+~~~~~~~~~~~~~~~~~~~~~
+
+The size of model elements can be set with the 'size' keyword, or with 'width' and 'height':
+
+::
+
+   S1.size = {55, 66}
+   S1.width = 55
+   S1.height = 66
+
+By default, the size of a species is {60, 36}, and the size of a reaction is {20, 20}, meaning that the centroid of the reaction arc is a square of that size.  A compartment has no default size; it will be large enough to contain the species and reactions within.
+
+One can also resize all species or reactions at once:
+
+::
+
+   species.size = {40, 50}
+   reaction.size = {3, 3}
+
+Compartments do not get a default size; each one must be large enough to encompass the elements inside it.
+
+If an element defines a size, this takes precedence over the general size of its type.  The Antimony source:
+
+::
+
+   species.size = {40, 50}
+   S1.size = {80, 100}
+
+means that species S1 will have twice the width and height of all other species in the display.
+
+Reaction arcs
+~~~~~~~~~~~~~
+
+A 'reaction arc' is a line going from a reaction centroid (usually a square) to a species that participates in that reaction.  Lines between a reaction and a reactant have no arrowheads; a line from a reaction to a product have an arrowhead at the product side.
+
+Each arc is defined by three points:  the start, the end, and two 'base points' or 'control points' that define how the line arcs between the start and the end.  Because one end is usually 'the reaction centroid', that end doesn't need to be defined, so Antimony lets you define a reaction arc with the position of the reaction, plus three points:  'species_pos', 'b1' and 'b2':
+
+::
+
+   J0.position = {80.54, 153.07}
+   J0.S1.species_pos = {50.89, 74.02}
+   J0.S1.b1 = {71.04, 129.94}
+   J0.S1.b2 = {47.91, 124.31}
+
+The arc is specified by the reaction and the species it goes to, hence 'J0.S1'.  'species_pos' in this case means 'the position of the species end of the line'.
+
+If the reaction side of the line does not end at the reaction itself (for example, when a species suppresses or activates a reaction), the reaction end point is defined with the keyword 'rxn_pos':
+
+::
+
+   J0.S3.species_pos = {61.17, 259.07}
+   J0.S3.rxn_pos = {72.09, 165.65}
+   J0.S3.b1 = {62.93, 215.94}
+   J0.S3.b2 = {71.6, 170.62}
+
+When a species has a non-unit stoichiometry, there are two or more lines that go from the reaction to that species.  These can be defined by adding 'arc#' to the ID:
+
+::
+
+   J0.S1.arc1.species_pos = {183.1, 295.73}
+   J0.S1.arc1.b1 = {84.54, 173.18}
+   J0.S1.arc1.b2 = {177.02, 245.98}
+   J0.S1.arc2.species_pos = {162.46, 300.81}
+   J0.S1.arc2.b1 = {84.54, 173.18}
+   J0.S1.arc2.b2 = {144.73, 253.94}
+
+The 'arc1' isn't required, as an id like "J0.S1.species_pos" is assumed to be 'the first arc from J0 to S1'.
+
+Here is a fully-defined Antimony layout that illustrates all of the above.  It was generated with the input:
+
+::
+
+   J0: 2 S1 -> S2; ;
+   S3 -| J0; ;
+   model.layout = on
+
+Translated to SBML with the use of the autolayout algorithm, then translated back to Antimony for viewing:
+
+::
+
+   J0: 2 S1 -> S2; ;
+   S3 -| J0; ;
+   model.layout = on
+   model.layout.size = {464.48, 460.35}
+
+   // Individual element layout information
+   S1.position = {374.48, 394.35}
+   S2.position = {286.19, 30}
+   S3.position = {30, 318.49}
+   J0.position = {245.06, 262.71}
+   J0.S1.species_pos = {373.71, 391.49}
+   J0.S1.b1 = {262.59, 280.54}
+   J0.S1.b2 = {311.8, 369.76}
+   J0.S1.arc2.species_pos = {367.84, 418.65}
+   J0.S1.arc2.b1 = {262.59, 280.54}
+   J0.S1.arc2.b2 = {302.49, 412.92}
+   J0.S2.species_pos = {311.57, 74.96}
+   J0.S2.b1 = {227.53, 244.88}
+   J0.S2.b2 = {304.63, 115.41}
+   J0.S3.species_pos = {99.01, 331.65}
+   J0.S3.rxn_pos = {231.12, 268.26}
+   J0.S3.b1 = {157.51, 324.39}
+   J0.S3.b2 = {226.48, 270.12}
+
+For layouts not generated with the autolayout algorithm, it is possible for a line between a reaction and a species to be defined with multiple segments, one after the next.  For these, we introduce the keyword 'seg#'.  As with the 'arc#' keyword, the first segment does not need to be defined with a 'seg1', but a second must be defined with 'seg2'.  Here we define a line between J0 and S1 with three straight lines:
+
+::
+
+   J0.S1.seg1.species_pos = {740, 992.6}
+   J0.S1.seg1.rxn_pos = {685, 1008}
+   J0.S1.seg1.b1 = {740, 992.6}
+   J0.S1.seg1.b2 = {685, 1008}
+   J0.S1.seg2.species_pos = {685, 1008}
+   J0.S1.seg2.rxn_pos = {685, 1092}
+   J0.S1.seg2.b1 = {685, 1008}
+   J0.S1.seg2.b2 = {685, 1092}
+   J0.S1.seg3.species_pos = {685, 1092}
+   J0.S1.seg3.b1 = {685, 1092}
+   J0.S1.seg3.b2 = {685, 1118}
+
+Note that to preserve continuity, the 'species_pos' side of each segment is the same as the 'rxn_pos' side of the next segment.
+
+If multiple arcs and segments exist, they can be combined:
+
+::
+
+   J0.S1.arc2.seg3.species_pos = {740, 992}
+
+
+Reaction source/sinks
+~~~~~~~~~~~~~~~~~~~~~
+
+If a reaction has no reactants or if it has no products, SBMLNetwork will add a 'null' species glyph for that reaction.  This is translated to Antimony as the reaction ID followed by the string '.--', and you can set its position and other features with that ID:
+
+::
+
+   J0.--.position = {520, 483}
+   J0.--.size = {30, 30}
+
+There will be a reaction arc going to that null glyph as well, which also uses the same ID:
+
+::
+
+   J0.--.species_pos = {373.71, 391.49}
+   J0.--.b1 = {262.59, 280.54}
+   J0.--.b2 = {311.8, 369.76}
+
+
+Species alias nodes
+~~~~~~~~~~~~~~~~~~~
+
+If a species participates in more than three reactions, it will be divided into multiple glyphs on the page by the autolayout algorithm.  To set species aliases explicitly, you must list what reactions should be attached to the duplicate glyph.
+
+::
+   S1.position.J3.J4 = {349.69, 1024.82}
+   S1.size.J3.J4 = {80, 50}
+
+
+General styles
+~~~~~~~~~~~~~~
+
+General predefined styles that define a suite of colors and lines are available as defined in the SBMLNetwork library, and can be set via:
+
+::
+
+   model.layout.style = [name of style]
+
+The full list of possible styles is:
+
+default, blue ombre, green ombre, gray ombre, red ombre, orange ombre, brown ombre, purple ombre, purple ombre 2, black and white, orange and blue, purple and yellow, green and red, power, calm, sunset, electric, midnight, vibrance, ocean, forest, warm tone, cool tone, and escher
+
+Style settings
+~~~~~~~~~~~~~~
+
+Specific settings for the visualization as a whole can be set with
+
+::
+
+   model.layout.[setting] = [value]
+
+It's also possible to set all species, reactions, or compartments:
+
+::
+
+   species.[setting] = [value]
+   reaction.[setting] = [value]
+   compartment.[setting] = [value]
+
+Values can be:
+-   [number]: a number
+-   [color]: Any 'web color' name (standard names like 'red', 'blue', etc. up to somewhat obscure names like 'palegoldenrod' or 'papayawhip'), or an RGB color in quotation marks, like "#FF0000" (red), or "#C77434" (ochre).  Transparency can be set with an eight-digit RGB color, like "#C7743455" (somewhat transparent ochre).
+-   [font]: Either one of three predefined fonts ('serif', 'sans_serif', or 'monospace') or the name of any font ('arial').
+-   [font style]: 'normal', 'bold', 'italic', or 'bolditalic'.
+-   [shape]: One of rectangle, square, ellipse, circle, triangle, diamond, pentagon, hexagon, or octagon.
+
+
+The background color can only be applied to the overall layout:
+
+::
+
+   model.layout.background = [color]
+
+All other settings can be applied to the layout or to species, reactions, or compartments:
+
+::
+
+   [category].color = [color]           # The fill color
+   [category].linecolor = [color]       # The line(/stroke) color
+   [category].linewidth = [number]      # The line(/stroke) width
+   [category].fontcolor = [color]       # The font color (default 'black')
+   [category].font = [font]             # The font (default 'serif')
+   [category].fontsize = [number]       # The font size (default 10)
+   [category].fontstyle = [font style]  # The font style (default 'normal')
+   [category].shape = [shape]           # The shape of the element (default varies by type)
+
+Individual elements can also have all of these settings, which will override any category setting:
+
+::
+
+   model.layout.color = red
+   species.color = azure
+   S1.color = "#268F49CC"
+
+will set the fill color of species S1 to that particular semi-transparent color, all other species fill colors to azure, and all reactions and compartment fill colors to red.
+
+Note that 'shape' cannot be set for 'model.layout', only for species, reactions, compartments, or individual elements.
+
+The 'shape' of a reaction refers to the shape at the centroid of the arc between the reactants and the products.  By default, this is a square of size {20, 20}.
+
+
 
 Appendix: Converting between SBML and Antimony
 ----------------------------------------------
