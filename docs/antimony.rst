@@ -1686,7 +1686,7 @@ events may be given priorities, using the priority keyword:
 
 ::
 
-   E1: at ((x>5) && (z>4)), priority=1: y=3, x=r+2;
+   E1: at ((x>5) && (z>4)), priority=1: y=3, x=r+5;
    E2: at ((x>5) && (q>7)), priority=0: y=5, x=r+6;
 
 In situations where z>4, q>7, and x>5, and then x increases, both E1 and
