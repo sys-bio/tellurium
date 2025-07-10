@@ -386,13 +386,17 @@ particular compartments with the ``in`` keyword:
      var S3 in cytoplasm
      const S4 in cytoplasm
 
-     S1 -> S2; k1*S1
-     S2 -> S3; k2*S2
-     S3 -> S4; k3*S3
+     S1 -> S2; k1*S1*mitochondria
+     S2 -> S3; k2*S2*cytoplasm
+     S3 -> S4; k3*S3*cytoplasm
 
      k1 = 0.1; k2 = 0.3; k3 = 0.15
      S1 = 10
    end
+
+Note that reaction rates must be in units of amount/time, so since
+species are expressed in terms of concentration by default, they should
+be multiplied by their compartment volumes to make the units work out.
 
 Assignments
 ~~~~~~~~~~~
