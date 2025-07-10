@@ -127,20 +127,17 @@ pip install git+https://github.com/sys-bio/tellurium.git
 <br style="clear:both"/>
 
 #### Approach 1: Spyder for Tellurium IDE
-The Tellurium Spyder installers are tested with Windows 10 and 11, and come with a choice of Python versions.
+The Tellurium Spyder installers are tested with Windows 10 and 11, and come with Python 3.12.
 
 :exclamation:**Attention to those upgrading to Tellurium Spyder IDE from an older version :** 
 We strongly suggest you to completely remove the older version of Tellurium Spyder IDE prior to installing the latest version.
 
 1. Download Tellurium Spyder for Windows:
-    * [Python 3.7](https://sourceforge.net/projects/pytellurium/files/Tellurium-2.3/2.3.5/Tellurium-2.3.5-Python-3.7-win64-setup.exe/download)
-    * [Python 3.8](https://sourceforge.net/projects/pytellurium/files/Tellurium-2.3/2.3.5/Tellurium-2.3.5-Python-3.8-win64-setup.exe/download)
-    * [Python 3.10](https://sourceforge.net/projects/pytellurium/files/Tellurium-2.4/2.4.0/Tellurium-2.4.0-Python-3.10-win64-setup.exe/download)
-    * [Python 3.11](https://sourceforge.net/projects/pytellurium/files/Tellurium-2.4/2.4.0/Tellurium-2.4.0-Python-3.11-win64-setup.exe/download)
+    * [Python 3.12](https://sourceforge.net/projects/pytellurium/files/Tellurium-2.4/2.4.2/Tellurium-2.4.2-Python-3.12-win64-setup.exe/download)
 2. Double-click the installer to start the installation
 3. Follow the instructions
 
-If you wish to use a different version of Python, you'll need to install Tellurium from the windows command line by using the command: pip install tellurium
+If you wish to use a different version of Python, you'll need to install Tellurium from the windows command line by using the command: `pip install tellurium`
 
 NOTE: Installation requires administrative rights. It is recommended to accept the default settings.
 
