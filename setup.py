@@ -50,7 +50,7 @@ setup(name='tellurium',
           'pandas>=2.0',
           # SBW-derived
           'libroadrunner>=2.8',
-          'antimony>=3.0.0',
+          'antimony>=3.1.0',
           # standards
           'python-libsbml>=5.20',
           'python-libnuml>=1.0.0',

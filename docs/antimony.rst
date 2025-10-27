@@ -54,6 +54,15 @@ other contexts as well. Its main features include:
 Change Log
 ----------
 
+The 3.1 release changed FBC support to version 3 of that package,
+changing how FBC constraints were translated to SBML (but not changing
+how they were declared in Antimony), and adding support for gene
+products, gene product associations, species charges, and species
+chemical formulas.
+
+In addition, ‘substanceOnly’ species are now initialized to their SBML
+‘initialAmount’, so as to always have substance units.
+
 The 3.0 release allows import and export of the SBML packages ‘Layout’
 and ‘Render’, using the SBMLNetwork library to do so.
 
@@ -1070,9 +1079,18 @@ substanceOnly species S1;
 
 Now, whenever ‘S1’ is used in the model, it is a reference to the
 species amount, and not its concentration. Defining an initial amount is
-still accomplished with the same syntax:
+also changed:
 
-S1 = 2.5/C1;
+S1 = 2.5;
+
+This will set the initial amount to 2.5, not the initial concentration.
+If you wish to set the initial concentration instead, use the
+compartment:
+
+S1 = 3.1*C
+
+Because a concentration times the compartment volume yields an amount,
+in this formulation, ‘3.1’ is set as the initial concentration.
 
 Modules
 ~~~~~~~
@@ -2227,6 +2245,9 @@ You can also set the individual components of the ‘created’ and
 Flux Balance Constraints
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
+Constraints
+^^^^^^^^^^^
+
 In some models, reaction rates are not known specifically, but one can
 place certain constraints on those reactions, and then apply an
 objective function (such as ‘maximize growth’) to try to discern a
@@ -2245,8 +2266,27 @@ constraints:
    -10 <= J2 <= 10
 
 Constraints that do not involve the ID of a reaction by itself will be
-translated as core SBML constraints. (Flux Balance constraints are also
-translated as core constraints, for consistency.)
+translated as core SBML constraints. (Any constraint is treated as
+either an FBC constraint *or* a core SBML constraint, not both.)
+
+As of Antimony v3.1, these flux balance constraints are translated to
+the SBML FBC package version 3, instead of version 1. Because all FBC v3
+constraints are stored as parameters, a translation of FBC constraints
+to Antimony will result in constaints like the following:
+
+::
+
+   constraint J001_fluxBounds: FB2N0 <= J001 <= FB3N1
+   constraint J002_fluxBounds: FB2N0 <= J002 <= FB3N1
+
+   FB2N0 = 0;
+   FB3N1 = 1;
+
+Also note that since FBC v2 and v3 dropped ‘<’ in favor of ‘<=’, all FBC
+constraints will be converted to ‘<=’ and ‘>=’.
+
+Objectives
+^^^^^^^^^^
 
 The objective function is defined using either the keyword ``maximize``
 or ``minimize``. It may be named by prepending the statement with that
@@ -2256,6 +2296,72 @@ name, followed by a colon:
 
    maximize J1
    obj1: minimize J2
+
+Objectives may be fairly complicated, but must be strict additive
+combinations of multiples of reaction rates, with those reaction rates
+optionally being squared or multiplied by other reaction rates:
+
+::
+
+   obj3: maximize J1 + 3*J2 + 4*J3^2 + 5*J4*J5
+
+Gene Products and Gene Product Associations
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+The SBML FBC package also allows the definition of gene products, which
+may optionally reference a species, and gene product associations, which
+are additional information about reactions. A gene product association
+may be defined by appending ‘.geneProductAssociation’ or ‘.gpa’ to a
+reaction ID, and defined by combining any number of gene product IDs in
+‘and’ and ‘or’ combinations:
+
+::
+
+   J0.geneProductAssociation = G_kasB
+   J1.gpa                    = G_kasB && G_kasA;
+   J2.gpa                    = (G_kasB && G_kasA) || G_kasC
+
+Any ID used in a gene product association will be automatically defined
+as a gene product, but you may also define them explicitly:
+
+::
+
+   geneProduct G_kasA, G_kasB, G_kasC
+
+Commonly-used gene product names sometimes to not conform to the
+Antimony or SBML-style syntax for IDs. As a result, the FBC package adds
+a ‘label’ to gene products which may be any syntax. In Antimony, the
+‘display name’ is used for this purpose:
+
+::
+
+   G_kasA is "Gene-kasA"
+
+To declare an ‘associated species’ for a gene product, simply use ‘=’:
+
+::
+
+   G_kasA = S1
+
+Species charge and chemical formula
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+The SBML FBC package additionally allows the charge and chemical
+formulas of species to be stored. The charge must be a number, and the
+chemical formula must conform to the syntax defined in the FBC
+specification, with (essentially) numbers and atom names, in
+alphabetical order after carbon, though some variation is allowed. The
+charge is defined with ‘[speciesID].charge’, and the chemical formula
+may be defined with ‘[id].formula’ or ‘[id].chemicalFormula’.
+Alternatively, ‘is’ may be used, but either way, the formula must be in
+quotes:
+
+::
+
+   S1.charge = 3.2
+   S2.chemicalFormula = "C10H12N5O13P3"
+   S3.formula = "C2H4O2(CH2)n"
+   S4.formula is "CH2NO"
 
 Other files
 ~~~~~~~~~~~
@@ -2595,8 +2701,8 @@ If multiple arcs and segments exist, they can be combined:
 
    J0.S1.arc2.seg3.species_end = {740, 992}
 
-Reaction source and sinks
-~~~~~~~~~~~~~~~~~~~~~~~~~
+Reaction source or sinks
+~~~~~~~~~~~~~~~~~~~~~~~~
 
 If a reaction has no reactants or if it has no products, SBMLNetwork
 will add a ‘null’ species glyph for that reaction. This is translated to
