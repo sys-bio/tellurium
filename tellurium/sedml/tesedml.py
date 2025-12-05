@@ -657,7 +657,7 @@ class SEDMLCodeFactory(object):
             elif source[0] == "#":
                 lines.append("{} = te.loadSBMLModel({}.getCurrentSBML())".format(mid, source[1:]))
             else:
-                lines.append("{} = te.loadSBMLModel(os.path.join(workingDir, '{}'))".format(mid, source))
+                lines.append("{} = te.loadSBMLModel(os.path.join(workingDir, r'{}'))".format(mid, source))
         # read CellML
         elif 'cellml' in language:
             warnings.warn("CellML model encountered. Tellurium CellML support is very limited.".format(language))
