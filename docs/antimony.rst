@@ -2824,6 +2824,84 @@ The ‘shape’ of a reaction refers to the shape at the centroid of the arc
 between the reactants and the products. By default, this is a square of
 size {20, 20}.
 
+A full example
+~~~~~~~~~~~~~~
+
+Here’s a fairly complete model that exercises most of the elements of a
+typical Antimony layout:
+
+::
+
+       J0: S1->S2;
+       # If you just want layout on:
+       model.layout = on                   # Only need to turn on if don't define anything else; doesn't work to turn it off.
+
+       //Autolayout options:
+       model.autolayout.maxNumConnectedEdges = 5  # If a single species is involved in more than this number of reactions, it gets aliased.  Default 3.
+
+       # General layout defaults:
+       model.layout.style = calm           # Set the overall style to one of Adel's predefined styles.
+       model.layout.align_top = {S1}       # Align these nodes in the same row at the top of the layout.  
+                                           # (Also available: align_ - bottom, right, left, hCenter, vCenter, and circular)
+       model.layout.size = {505, 404}      # {width, height}  The size of the entire layout. 
+       model.layout.width = 505            # alt for 'size'   The width of the entire layout.
+       model.layout.height = 404           # alt for 'size'   The height of the entire layout.
+
+       model.layout.background = fuchsia   # The background color
+       model.layout.color = khaki          # (or 'fillcolor')  The fill color for all elements in the layout
+       model.layout.linecolor = azure      # (or 'strokecolor')  The default line color for all elements in the layout
+       model.layout.linewidth = 32         # (or 'strokewidth')  The default linewidth for all elements in the layout
+       model.layout.fontcolor = coral      # The default font color for all text in the layout
+       model.layout.font = monospace       # The default font for all text in the layout (predefined options are 'serif' (default), 'sans_serif', and 'monospace', but arbitrary font names are also legal.)
+       model.layout.fontsize = 4           # The default font size for all text in the layout (default 10)
+       model.layout.fontstyle = italic     # (or 'fontweight')  The default font style for all text in the layout (options are 'normal' (default), 'bold', 'italic', and 'bold_italic').
+
+       # Group type defaults (species, compartments, reactions)
+       species.size = {68, 101}            # The default size (width, height) for all species in the layout
+       species.width = 68                  # The default height for all species in the layout
+       species.height = 101                # The default height for all species in the layout
+       species.color = blue                # (or 'fillcolor')  The default fill color for all species in the layout
+       species.linecolor = orange          # (or 'strokecolor')  The default line color for all species in the layout
+       species.linewidth = 11              # (or 'strokewidth')  The default linewidth for all species in the layout
+       species.fontcolor = green           # The default font color for all species in the layout
+       species.font = sans_serif           # The default font for all species in the layout (predefined options are 'serif' (default), 'sans_serif', and 'monospace', but arbitrary font names are also legal.)
+       species.fontsize = 8                # The default font size for all species in the layout (default 10)
+       species.fontstyle = bold_italic     # (or 'fontweight')  The default font style for all species in the layout (options are 'normal' (default), 'bold', 'italic', and 'bold_italic').
+       species.shape = ellipse             # The default shape for all species in the layout (options are 'rectangle' (default), 'square', 'ellipse', 'circle', 'triangle', 'diamond', 'pentagon', 'hexagon', and 'octagon').
+
+       # Individual species options:
+       S1.pos = {28, 35}                   # The position (x, y) of S1 in the layout.  By default, determined by autolayout.
+       S1.x = 28                           # (alt for pos) The x position of S1.
+       S1.y = 35                           # (alt for pos) The y position of S1.
+
+       # Species options that override general species options:
+       S1.size = {55, 66}      # The size (width, height) of S1.  
+       S1.width = 55           # (alt for size). The width of S1.
+       S1.height = 66          # (alt for size). The height of S1.
+       S1.color = magenta      # (or 'fillcolor')  The fill color for S1
+       S1.linecolor = yellow   # (or 'strokecolor')  The line color for S1
+       S1.linewidth = 18       # (or 'strokewidth')  The linewidth for S1
+       S1.fontcolor = gray     # The font color for S1
+       S1.font = serif         # The font for S1 (predefined options are 'serif' (default), 'sans_serif', and 'monospace', but arbitrary font names are also legal.)
+       S1.fontsize = 19        # The font size for S1 (default 10)
+       S1.fontstyle = bold     # (or 'fontweight')  The font style for S1 (options are 'normal' (default), 'bold', 'italic', and 'bold_italic').
+       S1.shape = ellipse      # The shape for S1 (options are 'rectangle' (default), 'square', 'ellipse', 'circle', 'triangle', 'diamond', 'pentagon', 'hexagon', and 'octagon').
+
+       J0.S1.species_end = {28, 34} # The position of the outer (species-side) end of the line between 'S1' and 'J0' (where J0 is the central point of the reaction)
+       J0.S1.b1  = {55, 31}         # The first control point for the line between S1 and J0.
+       J0.S1.b2  = {58, 25}         # The second control point for the line between S1 and J0.
+       J0.S1.rxn_end = {60, 24}     # The inner (reaction-side) end of the line between S1 and J0.  Usually not needed; the position is by default the position of the reaction itself.
+
+
+       #Align example:
+       S1->S2;
+       S2->S3;
+       S3->S4;
+       S4->S5; 
+
+       model.layout.align_top = {S1, S2, S3}
+       model.layout.align_right = {S3, S4, S5}
+
 Appendix: Converting between SBML and Antimony
 ----------------------------------------------
 

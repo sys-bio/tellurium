@@ -123,12 +123,14 @@ def evaluableMathML(astnode, variables={}, array=False):
 
     """
     # replace variables with provided values
+    mod = sys.modules[type(astnode).__module__]
     for key, value in variables.items():
-        astnode.replaceArgument(key, libsbml.parseFormula(str(value)))
+        newast = mod.parseFormula(str(value))
+        astnode.replaceArgument(key, newast)
     if array:
         renameNPFuncs(astnode)
     # get formula
-    formula = libsbml.formulaToL3String(astnode)
+    formula = mod.formulaToL3String(astnode)
 
     # <replacements>
     # FIXME: these are not exhaustive, but are improved with examples
