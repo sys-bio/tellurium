@@ -1733,21 +1733,28 @@ In this situation, the value at t0 is considered to be false, meaning it
 can immediately transition to true if x is greater than 5, triggering
 the event. You may explicitly state the default by using ‘t0 = true’.
 
-Finally, a different class of events is often modeled in some situations
-where the trigger condition must persist in being true from the entire
-time between when the event is triggered to when it is executed. By
-default, this is not the case for Antimony events, and, once triggered,
-all events will execute. To change the class of your event, use the
-keyword ‘persistent’:
+Finally, by default, once a trigger changes from false to true, the
+event assignments will always be executed, perhaps after a delay, or
+perhaps after waiting for other simultaneously-triggered events to be
+executed. This is a ‘persistent’ event: the event remains in the ‘queue’
+regardless of whether the trigger condition later changed from ‘true’
+back to ‘false’.
+
+However, the opposite is also possible: some events’ assignments will
+only be executed if the trigger remains ‘true’ up until the moment of
+assignment execution. These events are flagged as being
+‘non-persistent’, indicating that their triggers must be continually
+checked until execution. In Antimony, you can set this directly by
+setting ‘persistent=false’:
 
 ::
 
-   E1: at 3 after (x>5), persistent=true: y=3, x=r+2;
+   E1: at 3 after (x>5), persistent=false: y=3, x=r+2;
 
 For this model, x must be greater than 5 for three seconds before
 executing its event assignments: if x dips below 5 during that time, the
 event will not fire. To explicitly declare the default situation, use
-‘persistent=false’.
+‘persistent=true’.
 
 The ability to change the default priority, t0, and persistent
 characteristics of events was introduced in SBML Level 3, so if you
@@ -2241,6 +2248,15 @@ You can also set the individual components of the ‘created’ and
    A created.minute "mm"
    A created.second "ss"
    A created.time "hh:mm:ss"
+
+An SBML reaction’s kinetic law can be annotated separately from the
+reaction itself. We can also do this in Antimony by appending
+‘.kineticLaw’ to a reaction ID and setting the annotation there:
+
+::
+
+   J0.kineticLaw.sboTerm = 42
+   J0.kineticLaw identity "cvterm"
 
 Flux Balance Constraints
 ~~~~~~~~~~~~~~~~~~~~~~~~
