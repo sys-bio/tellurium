@@ -54,6 +54,8 @@ other contexts as well. Its main features include:
 Change Log
 ----------
 
+The 3.2 release cleaned up the build system, increased efficiency, and fixed numerous bugs, mostly discovered through converting SBML Test Suite models and BioModels to Antimony and back to SBML, and ensuring that a simulation of the round-tripped model matched a simulation of the original model. The entirety of the SBML Test Suite (with the exception of 'fast' reactions, now deprecated in SBML) now successfully round-trips through Antimony without loss of information (though some things may change structurally for hierarchical models), as do most BioModels.
+
 The 3.1 release changed FBC support to version 3 of that package,
 changing how FBC constraints were translated to SBML (but not changing
 how they were declared in Antimony), and adding support for gene
@@ -1091,6 +1093,64 @@ S1 = 3.1*C
 
 Because a concentration times the compartment volume yields an amount,
 in this formulation, ‘3.1’ is set as the initial concentration.
+
+
+Named stoichiometries
+~~~~~~~~~~~~~~~~~~~~~
+
+A stoichiometry in a reaction may be given an ID instead of a number,
+and that ID may be set later:
+
+::
+
+   J0: n A -> B; k1*A^n
+   n = 3
+
+The id of the stoichiometry may now be changed by other model
+constructs: events, rate rules, and assignment rules may all use the
+value as a target:
+
+::
+
+   J0: n A -> m B; k1*A^n
+   n := time/3
+   m = 1
+   at A < 3: m = 2
+
+This also gives the stoichiometry an ID that can be given a value
+directly (or be tracked) by some simulators (such as roadrunner).
+
+If you want to use the same ID for multiple stoichiometries, this can be
+done straightforwardly:
+
+::
+
+   J0: n A -> n B; k1*A^n
+   n = 3
+
+However! When translated to SBML, every stoichiometry must have a unique
+ID. Therefore, an assignment rule will be created to set the value of
+B’s stoichiometry to ‘n’. Effectively, the model will become:
+
+::
+
+   J0: n A -> J0_B_stoich B; k1*A^n
+   n = 3
+   J0_B_stoich := n
+
+This is mathematically identical, but some simulators may balk at an
+assignment rule to a stoichiometry, as this is a feature of SBML that
+not everyone supports. If this happens, just name all your
+stoichiometries uniquely:
+
+::
+
+   J0: n A -> m B; k1*A^n
+   n = 3
+   m = 3
+
+and remember to change them both at the same time.
+
 
 Modules
 ~~~~~~~

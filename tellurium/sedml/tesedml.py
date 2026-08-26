@@ -1111,7 +1111,7 @@ class SEDMLCodeFactory(object):
                 if simType is libsedml.SEDML_SIMULATION_STEADYSTATE:
                     lines.append("{}.steadyStateSolver.setValue('{}', {})".format(mid, pkey.key, value))
                 elif pkey.key == "conserved_moiety_analysis":
-                    if pkey.value.isdigit():
+                    if isinstance(pkey.value, str) and pkey.value.isdigit():
                         lines.append("{}.conservedMoietyAnalysis = {}".format(mid, bool(int(pkey.value))))
                     else:
                         lines.append("{}.conservedMoietyAnalysis = {}".format(mid, pkey.value))
