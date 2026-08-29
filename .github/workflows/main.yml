@@ -1,0 +1,51 @@
+name: Python Tests and Wheel
+
+on:
+  pull_request:
+    branches:
+      - '*'
+  push:
+    branches:
+      - develop
+
+jobs:
+  test-and-build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.11
+
+    - name: Install libncurses.so.5
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y libncurses5
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+
+    - name: Run Python Tests
+      run: |
+        pytest tellurium/tests
+
+    - name: Build Wheel if Tests Pass
+      if: success()
+      run: |
+        python setup.py bdist_wheel
+
+    - name: Upload to PyPI
+      if: success() && github.event_name == 'push' && github.ref == 'refs/heads/develop'
+      run: |
+        python -m pip install --upgrade pip
+        pip install twine
+        twine upload dist/*
+      env:
+        TWINE_USERNAME: __token__
+        TWINE_PASSWORD: ${{ secrets.PYPI_TOKEN }}
