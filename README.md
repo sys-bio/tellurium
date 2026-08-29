@@ -26,7 +26,7 @@
   </tr>
 </table>
 
-Copyright 2014-2023
+Copyright 2014-2026
 Kiri Choi, J Kyle Medley, Matthias König, Kaylene Stocking, Caroline Cannistra, Michal Galdzicki, Ciaran Welsh, Lucian Smith, Adel Heydarabadipour, and Herbert Sauro
 
 ## What is it?
