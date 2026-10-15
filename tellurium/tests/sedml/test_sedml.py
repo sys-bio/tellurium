@@ -11,8 +11,9 @@ import unittest
 
 import os
 import matplotlib
+import numpy as np
 import tellurium.sedml.tesedml as tesedml
-from tellurium.tests.testdata import SEDML_TEST_DIR
+from tellurium.tests.testdata import SEDML_TEST_DIR, FEEDBACK_SBML
 
 from tellurium.tests.helpers import filesInDirectory
 
@@ -134,7 +135,173 @@ class SEDMLTestCase(unittest.TestCase):
         python_str = tesedml.sedmlToPython(sedml_string)
         self.assertIsNotNone(python_str)
 
+    def test_change_attribute_reordering_issue_604(self):
+        """Regression test for Issue #604: reordering <changeAttribute> of
+        parameters vs. species must not reset parameter changes."""
+        working_dir = os.path.dirname(FEEDBACK_SBML)
+        sedml_template = """<?xml version="1.0" encoding="UTF-8"?>
+        <sedML xmlns="http://sed-ml.org/sed-ml/level1/version4" level="1" version="4">
+          <listOfModels>
+            <model id="model" language="urn:sedml:language:sbml" source="feedback.xml">
+              <listOfChanges>
+                {changes}
+              </listOfChanges>
+            </model>
+          </listOfModels>
+          <listOfSimulations>
+            <uniformTimeCourse id="sim1" initialTime="0" outputStartTime="0" outputEndTime="10" numberOfSteps="20">
+              <algorithm kisaoID="KISAO:0000019"/>
+            </uniformTimeCourse>
+          </listOfSimulations>
+          <listOfTasks>
+            <task id="task1" modelReference="model" simulationReference="sim1"/>
+          </listOfTasks>
+          <listOfDataGenerators>
+            <dataGenerator id="dg_s1">
+              <listOfVariables>
+                <variable id="S1" target="/sbml:sbml/sbml:model/sbml:listOfSpecies/sbml:species[@id='S1']" taskReference="task1" modelReference="model"/>
+              </listOfVariables>
+              <math xmlns="http://www.w3.org/1998/Math/MathML"><ci> S1 </ci></math>
+            </dataGenerator>
+          </listOfDataGenerators>
+        </sedML>
+        """
+        c_s1 = '<changeAttribute target="/sbml:sbml/sbml:model/sbml:listOfSpecies/sbml:species[@id=\'S1\']/@initialConcentration" newValue="1.0"/>'
+        c_s2 = '<changeAttribute target="/sbml:sbml/sbml:model/sbml:listOfSpecies/sbml:species[@id=\'S2\']/@initialConcentration" newValue="2.0"/>'
+        c_vm1 = '<changeAttribute target="/sbml:sbml/sbml:model/sbml:listOfParameters/sbml:parameter[@id=\'J0_VM1\']/@value" newValue="2.5"/>'
 
+        sedml_param_last = sedml_template.format(changes="\n".join([c_s1, c_s2, c_vm1]))
+        sedml_param_middle = sedml_template.format(changes="\n".join([c_s1, c_vm1, c_s2]))
+
+        results = []
+        for sedml_str in (sedml_param_last, sedml_param_middle):
+            factory = tesedml.SEDMLCodeFactory(
+                sedml_str, workingDir=working_dir, createOutputs=False, saveOutputs=False
+            )
+            py_code = factory.toPython()
+            self.assertIn("model['init(J0_VM1)'] = 2.5", py_code)
+            ns = {}
+            exec(compile(py_code, "<sedml_604>", "exec"), ns)
+            self.assertAlmostEqual(ns["model"]["J0_VM1"], 2.5)
+            results.append(ns["task1"][0])
+
+        self.assertTrue(np.allclose(results[0], results[1]))
+
+    def test_compute_change_and_repeated_task_issue_604(self):
+        """Ensure <computeChange> uses init(...) so subsequent species changes do not
+        reset it, while <repeatedTask resetModel="false"> <setValue> uses runtime
+        assignment and preserves continuous state across steps."""
+        working_dir = os.path.dirname(FEEDBACK_SBML)
+        sedml_compute_template = """<?xml version="1.0" encoding="UTF-8"?>
+        <sedML xmlns="http://sed-ml.org/sed-ml/level1/version4" level="1" version="4">
+          <listOfModels>
+            <model id="model" language="urn:sedml:language:sbml" source="feedback.xml">
+              <listOfChanges>
+                {changes}
+              </listOfChanges>
+            </model>
+          </listOfModels>
+          <listOfSimulations>
+            <uniformTimeCourse id="sim1" initialTime="0" outputStartTime="0" outputEndTime="10" numberOfSteps="20">
+              <algorithm kisaoID="KISAO:0000019"/>
+            </uniformTimeCourse>
+          </listOfSimulations>
+          <listOfTasks>
+            <task id="task1" modelReference="model" simulationReference="sim1"/>
+          </listOfTasks>
+          <listOfDataGenerators>
+            <dataGenerator id="dg_s1">
+              <listOfVariables>
+                <variable id="S1" target="/sbml:sbml/sbml:model/sbml:listOfSpecies/sbml:species[@id='S1']" taskReference="task1" modelReference="model"/>
+              </listOfVariables>
+              <math xmlns="http://www.w3.org/1998/Math/MathML"><ci> S1 </ci></math>
+            </dataGenerator>
+          </listOfDataGenerators>
+        </sedML>
+        """
+        comp_vm1 = """
+        <computeChange target="/sbml:sbml/sbml:model/sbml:listOfParameters/sbml:parameter[@id='J0_VM1']/@value">
+          <listOfVariables>
+            <variable id="v_vm1" target="/sbml:sbml/sbml:model/sbml:listOfParameters/sbml:parameter[@id='J0_VM1']/@value" modelReference="model"/>
+          </listOfVariables>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply><times/><cn> 0.25 </cn><ci> v_vm1 </ci></apply>
+          </math>
+        </computeChange>
+        """
+        c_s2 = '<changeAttribute target="/sbml:sbml/sbml:model/sbml:listOfSpecies/sbml:species[@id=\'S2\']/@initialConcentration" newValue="2.0"/>'
+
+        comp_results = []
+        for changes_str in (comp_vm1 + "\n" + c_s2, c_s2 + "\n" + comp_vm1):
+            factory = tesedml.SEDMLCodeFactory(
+                sedml_compute_template.format(changes=changes_str),
+                workingDir=working_dir,
+                createOutputs=False,
+                saveOutputs=False,
+            )
+            py_code = factory.toPython()
+            self.assertIn("model['init(J0_VM1)'] =", py_code)
+            ns = {}
+            exec(compile(py_code, "<sedml_604_comp>", "exec"), ns)
+            self.assertAlmostEqual(ns["model"]["J0_VM1"], 2.5)
+            comp_results.append(ns["task1"][0])
+
+        self.assertTrue(np.allclose(comp_results[0], comp_results[1]))
+
+        sedml_repeated = """<?xml version="1.0" encoding="UTF-8"?>
+        <sedML xmlns="http://sed-ml.org/sed-ml/level1/version4" level="1" version="4">
+          <listOfModels>
+            <model id="model" language="urn:sedml:language:sbml" source="feedback.xml"/>
+          </listOfModels>
+          <listOfSimulations>
+            <uniformTimeCourse id="sim1" initialTime="0" outputStartTime="0" outputEndTime="2" numberOfSteps="5">
+              <algorithm kisaoID="KISAO:0000019"/>
+            </uniformTimeCourse>
+          </listOfSimulations>
+          <listOfTasks>
+            <task id="task1" modelReference="model" simulationReference="sim1"/>
+            <repeatedTask id="rt1" range="r1" resetModel="false">
+              <listOfRanges>
+                <vectorRange id="r1">
+                  <value> 5.0 </value>
+                  <value> 2.5 </value>
+                </vectorRange>
+              </listOfRanges>
+              <listOfChanges>
+                <setValue modelReference="model" target="/sbml:sbml/sbml:model/sbml:listOfParameters/sbml:parameter[@id='J0_VM1']/@value" range="r1">
+                  <math xmlns="http://www.w3.org/1998/Math/MathML">
+                    <ci> r1 </ci>
+                  </math>
+                </setValue>
+              </listOfChanges>
+              <listOfSubTasks>
+                <subTask order="1" task="task1"/>
+              </listOfSubTasks>
+            </repeatedTask>
+          </listOfTasks>
+          <listOfDataGenerators>
+            <dataGenerator id="dg_rt_s1">
+              <listOfVariables>
+                <variable id="S1" target="/sbml:sbml/sbml:model/sbml:listOfSpecies/sbml:species[@id='S1']" taskReference="rt1" modelReference="model"/>
+              </listOfVariables>
+              <math xmlns="http://www.w3.org/1998/Math/MathML"><ci> S1 </ci></math>
+            </dataGenerator>
+          </listOfDataGenerators>
+        </sedML>
+        """
+        rt_factory = tesedml.SEDMLCodeFactory(
+            sedml_repeated, workingDir=working_dir, createOutputs=False, saveOutputs=False
+        )
+        rt_code = rt_factory.toPython()
+        self.assertIn("model['J0_VM1'] =", rt_code)
+        self.assertNotIn("model['init(J0_VM1)'] =", rt_code)
+        rt_ns = {}
+        exec(compile(rt_code, "<sedml_604_rt>", "exec"), rt_ns)
+        step0, step1 = rt_ns["rt1"][0], rt_ns["rt1"][1]
+        self.assertEqual(step0.colnames, ["[S1]"])
+        self.assertEqual(step1.colnames, ["[S1]"])
+        self.assertGreater(np.ptp(step0["[S1]"]), 0.0)
+        self.assertTrue(np.allclose(step0["[S1]"][-1], step1["[S1]"][0]))
 
 
 if __name__ == "__main__":
