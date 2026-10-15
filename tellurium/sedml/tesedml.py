@@ -709,7 +709,7 @@ class SEDMLCodeFactory(object):
             # resolve target change
             value = change.getNewValue()
             lines.append("# {} {}".format(xpath, value))
-            lines.append(SEDMLCodeFactory.targetToPython(xpath, value, modelId=mid))
+            lines.append(SEDMLCodeFactory.targetToPython(xpath, value, modelId=mid, init=True))
             expr = SEDMLCodeFactory.targetToExpr(xpath, modelId=mid)
             if expr:
                 lines.append("if '" + expr + "' in " + mid + ".getInitialAssignmentIds():")
@@ -731,7 +731,7 @@ class SEDMLCodeFactory(object):
 
             # value is calculated with the current state of model
             value = evaluableMathML(change.getMath(), variables=variables)
-            lines.append(SEDMLCodeFactory.targetToPython(xpath, value, modelId=mid))
+            lines.append(SEDMLCodeFactory.targetToPython(xpath, value, modelId=mid, init=True))
 
         elif change.getTypeCode() in [libsedml.SEDML_CHANGE_REMOVEXML,
                                       libsedml.SEDML_CHANGE_ADDXML,
@@ -1616,10 +1616,12 @@ class SEDMLCodeFactory(object):
             return None
 
     @staticmethod
-    def targetToExpr(xpath, modelId):
+    def targetToExpr(xpath, modelId, init=False):
         """ Creates python line for given xpath target and value.
         :param xpath:
         :type xpath:
+        :param init:
+        :type init: bool
         :type value:
         :return:
         :rtype:
@@ -1630,7 +1632,7 @@ class SEDMLCodeFactory(object):
             if target.type == "concentration":
                 expr = 'init([{}])'.format(target.id)
             # initial amount
-            elif target.type == "amount":
+            elif target.type == "amount" or init:
                 expr = 'init({})'.format(target.id)
             # other (parameter, flux, ...)
             else:
@@ -1640,16 +1642,18 @@ class SEDMLCodeFactory(object):
             return None
 
     @staticmethod
-    def targetToPython(xpath, value, modelId):
+    def targetToPython(xpath, value, modelId, init=False):
         """ Creates python line for given xpath target and value.
         :param xpath:
         :type xpath:
         :param value:
         :type value:
+        :param init:
+        :type init: bool
         :return:
         :rtype:
         """
-        expr = SEDMLCodeFactory.targetToExpr(xpath, modelId)
+        expr = SEDMLCodeFactory.targetToExpr(xpath, modelId, init=init)
         if expr:
             line = ("{}['{}'] = {}".format(modelId, expr, value))
         else:
