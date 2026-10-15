@@ -898,6 +898,35 @@ class SEDMLCodeFactory(object):
         return subtasks
 
     @staticmethod
+    def taskNodeResultVar(node):
+        if node.parent is None:
+            return node.task.getId()
+        if hasattr(node, '_result_var'):
+            return node._result_var
+        root = node
+        while root.parent is not None:
+            root = root.parent
+        doc = node.task.getSedDocument()
+        existing = {n.task.getId() for n in root}
+        if doc is not None:
+            for getter in ('getListOfTasks', 'getListOfModels', 'getListOfDataGenerators', 'getListOfOutputs', 'getListOfDataDescriptions'):
+                existing.update(el.getId() for el in getattr(doc, getter, lambda: ())())
+            for dd in getattr(doc, 'getListOfDataDescriptions', lambda: ())():
+                existing.update(ds.getId() for ds in dd.getListOfDataSources())
+        prefix, idx = "__subtask__", 1
+        while any(eid.startswith(prefix) for eid in existing if eid):
+            prefix, idx = "__subtask_{}__".format(idx), idx + 1
+        used = set(existing)
+        for n in root:
+            var = n.task.getId() if n.parent is None else "{}{}".format(prefix, n.task.getId())
+            occ = 2
+            while n.parent is not None and var in used:
+                var, occ = "{}{}__{}".format(prefix, occ, n.task.getId()), occ + 1
+            n._result_var = var
+            used.add(var)
+        return node._result_var
+
+    @staticmethod
     def taskTreeToPython(doc, tree):
         """ Python code generation from task tree. """
 
@@ -988,20 +1017,22 @@ class SEDMLCodeFactory(object):
                         # if taskType == libsedml.SEDML_TASK_REPEATEDTASK:
                         # print('task {}'.format(node.task.getId()))
                         # print('  peek {}'.format(peek.task.getId()))
+                        nodeVar = SEDMLCodeFactory.taskNodeResultVar(node)
+                        peekVar = SEDMLCodeFactory.taskNodeResultVar(peek)
                         if node.task.getTypeCode() == libsedml.SEDML_TASK_REPEATEDTASK:
                         # if peek.task.getTypeCode() == libsedml.SEDML_TASK_REPEATEDTASK:
                             # sid = task.getSimulationReference()
                             # simulation = doc.getSimulation(sid)
                             # simType = simulation.getTypeCode()
                             # if simType is libsedml.SEDML_SIMULATION_STEADYSTATE:
-                            terminator = 'terminate_trace({})'.format(node.task.getId())
+                            terminator = 'terminate_trace({})'.format(nodeVar)
                         else:
-                            terminator = '{}'.format(node.task.getId())
+                            terminator = '{}'.format(nodeVar)
 
                         lines.extend([
                             "",
-                            # "    "*node.depth + "{}.extend({})".format(peek.task.getId(), terminator),
-                            "    " * node.depth + "{}.extend({})".format(peek.task.getId(), node.task.getId()),
+                            # "    "*node.depth + "{}.extend({})".format(peekVar, terminator),
+                            "    " * node.depth + "{}.extend({})".format(peekVar, nodeVar),
                         ])
                         node = nodeStack.pop()
 
@@ -1050,7 +1081,7 @@ class SEDMLCodeFactory(object):
         lines = []
         task = node.task
         lines.append("# Task: <{}>".format(task.getId()))
-        lines.append("{} = [None]".format(task.getId()))
+        lines.append("{} = [None]".format(SEDMLCodeFactory.taskNodeResultVar(node)))
 
         mid = task.getModelReference()
         sid = task.getSimulationReference()
@@ -1241,7 +1272,7 @@ class SEDMLCodeFactory(object):
             selections.update(SEDMLCodeFactory.selectionsForTask(doc=doc, task=p.task))
 
         # handle result variable
-        resultVariable = "{}[0]".format(task.getId())
+        resultVariable = "{}[0]".format(SEDMLCodeFactory.taskNodeResultVar(node))
 
         # -------------------------------------------------------------------------
         # <UNIFORM TIMECOURSE>
@@ -1312,7 +1343,7 @@ class SEDMLCodeFactory(object):
         """
         # storage of results
         task = node.task
-        lines = ["", "{} = []".format(task.getId())]
+        lines = ["", "{} = []".format(SEDMLCodeFactory.taskNodeResultVar(node))]
 
 
         # Set up the integrator outside the loop.  This is mostly so that
@@ -1388,7 +1419,7 @@ class SEDMLCodeFactory(object):
             t = child.task
             if t.getTypeCode() == libsedml.SEDML_TASK and child.depth - node.depth <= 1:
                 sim = doc.getSimulation(t.getSimulationReference())
-                tid = t.getId()
+                tid = SEDMLCodeFactory.taskNodeResultVar(child)
                 indent = ""
                 if sim.getTypeCode() == libsedml.SEDML_SIMULATION_STEADYSTATE:
                     #Set up try/catch block for child steady state
